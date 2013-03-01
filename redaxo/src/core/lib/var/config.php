@@ -9,9 +9,8 @@
  *
  * @author gharlan
  *
- * @package redaxo5
+ * @package redaxo\core
  */
-
 class rex_var_config extends rex_var
 {
     protected function getOutput()

@@ -2,6 +2,8 @@
 
 /**
  * Class for internationalization
+ *
+ * @package redaxo\core
  */
 class rex_i18n
 {

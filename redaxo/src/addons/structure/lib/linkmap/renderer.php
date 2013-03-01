@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 abstract class rex_linkmap_tree_renderer
 {
     public function getTree($category_id)
@@ -106,7 +109,9 @@ abstract class rex_linkmap_tree_renderer
     }
 }
 
-
+/**
+ * @package redaxo\structure
+ */
 abstract class rex_linkmap_article_list_renderer
 {
     public function getList($category_id)

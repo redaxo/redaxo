@@ -4,9 +4,8 @@
  * Template Objekt.
  * Zuständig für die Verarbeitung eines Templates
  *
- * @package redaxo5
+ * @package redaxo\structure\content
  */
-
 class rex_template
 {
     private $id;

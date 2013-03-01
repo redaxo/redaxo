@@ -6,9 +6,8 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo5
+ * @package redaxo\be-dashboard\version-checker
  */
-
 class rex_version_checker_notification extends rex_dashboard_notification
 {
     public function __construct()

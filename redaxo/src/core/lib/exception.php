@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_exception extends Exception
 {
     /**
@@ -12,15 +15,22 @@ class rex_exception extends Exception
     }
 }
 
+/**
+ * @package redaxo\core
+ */
 class rex_sql_exception extends rex_exception {}
 
 /**
  * Exception class for user-friendly error messages
+ *
+ * @package redaxo\core
  */
 class rex_functional_exception extends rex_exception {}
 
 /**
  * Exception class for http-status code handling
+ *
+ * @package redaxo\core
  */
 class rex_http_exception extends rex_exception
 {

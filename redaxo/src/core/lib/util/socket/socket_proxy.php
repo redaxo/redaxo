@@ -4,6 +4,7 @@
  * Class for sockets over a proxy
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_socket_proxy extends rex_socket
 {

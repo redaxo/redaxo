@@ -3,7 +3,7 @@
 /**
  * URL-Rewrite Addon
  * @author markus.staab[at]redaxo[dot]de Markus Staab
- * @package redaxo5.2
+ * @package redaxo\url-rewrite
  */
 
 abstract class rex_url_rewriter

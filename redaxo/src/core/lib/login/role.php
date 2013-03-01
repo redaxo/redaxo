@@ -4,6 +4,7 @@
  * Interface for user roles
  *
  * @author gharlan
+ * @package redaxo\core
  */
 interface rex_user_role_interface
 {

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\tests
+ */
 class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
 {
     protected $backtrace;

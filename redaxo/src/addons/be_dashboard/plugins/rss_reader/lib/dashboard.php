@@ -6,9 +6,8 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo5
+ * @package redaxo\be-dashboard\rss-reader
  */
-
 class rex_rss_reader_component extends rex_dashboard_component
 {
     public function __construct()

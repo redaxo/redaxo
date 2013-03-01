@@ -5,9 +5,14 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
- * @package redaxo5
+ * @package redaxo\structure
  */
 
+/**
+ * @param rex_context $context
+ * @return string
+ * @package redaxo\structure
+ */
 function rex_structure_searchbar(rex_context $context)
 {
     $message = '';
@@ -183,9 +188,11 @@ function rex_structure_searchbar(rex_context $context)
 }
 
 
-
-
-
+/**
+ * @param rex_context $context
+ * @return string
+ * @package redaxo\structure
+ */
 function rex_structure_contentbar(rex_context $context)
 {
     $message = '';

@@ -2,9 +2,14 @@
 
 /**
  * URL Funktionen
- * @package redaxo5
+ * @package redaxo\structure
  */
 
+/**
+ * @param string $name
+ * @return string
+ * @package redaxo\structure
+ */
 function rex_parse_article_name($name)
 {
     static $firstCall = true;
@@ -37,6 +42,8 @@ function rex_parse_article_name($name)
 
 /**
  * Baut einen Parameter String anhand des array $params
+ *
+ * @package redaxo\structure
  */
 function rex_param_string($params, $divider = '&amp;')
 {
@@ -61,6 +68,7 @@ function rex_param_string($params, $divider = '&amp;')
  * @param array|string $_params  Array von Parametern
  * @param string       $_divider Trennzeichen für Parameter (z.B. &amp; für HTML, & für Javascript)
  * @return string
+ * @package redaxo\structure
  */
 function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 {
@@ -104,6 +112,8 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
 
 /**
  * Leitet auf einen anderen Artikel weiter
+ *
+ * @package redaxo\structure
  */
 function rex_redirect($article_id, $clang = '', $params = array())
 {

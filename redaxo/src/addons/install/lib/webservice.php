@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\install
+ */
 class rex_install_webservice
 {
     const

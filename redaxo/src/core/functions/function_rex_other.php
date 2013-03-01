@@ -7,6 +7,8 @@
 
 /**
  * Deletes the cache
+ *
+ * @package redaxo\core
  */
 function rex_delete_cache()
 {
@@ -26,6 +28,11 @@ function rex_delete_cache()
     return rex_extension::registerPoint('CACHE_DELETED', rex_i18n::msg('delete_cache_message'));
 }
 
+/**
+ * @param string $val
+ * @return mixed
+ * @package redaxo\core
+ */
 function rex_ini_get($val)
 {
     $val = trim(ini_get($val));

@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo5
+ * @package redaxo\cronjob
  */
 
 abstract class rex_cronjob

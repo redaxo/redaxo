@@ -6,6 +6,7 @@ rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
  * Class to monitor extension points via FirePHP
  *
  * @author staabm
+ * @package redaxo\debug
  */
 class rex_extension_debug extends rex_extension
 {

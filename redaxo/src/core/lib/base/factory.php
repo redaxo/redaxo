@@ -7,20 +7,21 @@
  * <code>
  * class example extends rex_factory_base
  * {
- *   private function __construct($param)
- *   {
- *     // ...
- *   }
+ *     private function __construct($param)
+ *     {
+ *         // ...
+ *     }
  *
- *   static public function factory($param)
- *   {
- *      $class = self::getFactoryClass();
- *     return new $class($param);
- *   }
+ *     public static function factory($param)
+ *     {
+ *         $class = self::getFactoryClass();
+ *         return new $class($param);
+ *     }
  * }
  * </code>
  *
  * @author gharlan
+ * @package redaxo\core
  */
 abstract class rex_factory_base
 {

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\media-manager
+ */
 class rex_managed_media
 {
     private

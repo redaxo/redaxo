@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\metainfo
+ */
 class rex_input_time extends rex_input
 {
     private

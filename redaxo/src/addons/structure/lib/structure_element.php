@@ -2,9 +2,9 @@
 
 /**
  * Object Oriented Framework: Basisklasse für die Strukturkomponenten
- * @package redaxo5
+ *
+ * @package redaxo\structure
  */
-
 abstract class rex_structure_element
 {
     /*

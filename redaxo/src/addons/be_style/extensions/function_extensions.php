@@ -5,6 +5,7 @@
  * via BE_STYLE_PAGE_CONTENT inhalt auszugeben
  *
  * @param array $params Extension-Point Parameter
+ * @package redaxo\be-style
  */
 function rex_be_add_page($params)
 {

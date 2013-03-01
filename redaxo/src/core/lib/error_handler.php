@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 abstract class rex_error_handler
 {
     private static $registered;

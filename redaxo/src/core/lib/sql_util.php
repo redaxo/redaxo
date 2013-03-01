@@ -3,7 +3,7 @@
 /**
  * Class to execute a sql dump
  *
- * @package redaxo5
+ * @package redaxo\core
  */
 class rex_sql_util
 {

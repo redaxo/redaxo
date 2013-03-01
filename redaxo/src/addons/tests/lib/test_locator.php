@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\tests
+ */
 class rex_test_locator implements IteratorAggregate
 {
     const TESTS_FOLDER = 'tests';

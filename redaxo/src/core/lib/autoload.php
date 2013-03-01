@@ -8,7 +8,7 @@
  *
  * Adjusted in very many places
  *
- * @package redaxo5
+ * @package redaxo\core
  */
 class rex_autoload
 {

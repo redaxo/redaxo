@@ -6,9 +6,8 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo5
+ * @package redaxo\be-dashboard
  */
-
 abstract class rex_dashboard_component_config
 {
     protected

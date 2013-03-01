@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_select
 {
     private

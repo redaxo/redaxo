@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 class rex_form_widget_linklist_element extends rex_form_element
 {
     private $category_id = 0;

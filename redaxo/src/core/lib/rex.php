@@ -4,6 +4,7 @@
  * REX base class for core properties etc.
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex
 {

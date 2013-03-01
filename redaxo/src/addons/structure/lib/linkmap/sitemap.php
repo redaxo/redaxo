@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
 {
     private $context;

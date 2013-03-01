@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_addon_manager extends rex_package_manager
 {
     /**

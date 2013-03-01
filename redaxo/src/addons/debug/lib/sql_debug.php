@@ -6,6 +6,7 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
  * Class to monitor sql queries
  *
  * @author staabm
+ * @package redaxo\debug
  */
 class rex_sql_debug extends rex_sql
 {

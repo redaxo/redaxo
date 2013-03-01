@@ -5,10 +5,11 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
- *
- * @package redaxo5
  */
 
+/**
+ * @package redaxo\be-dashboard\rss-reader
+ */
 function rex_a656_rss_teaser($feedUrl, $numItems = 5)
 {
     $feed = new rex_rss_reader($feedUrl);
@@ -38,6 +39,9 @@ function rex_a656_rss_teaser($feedUrl, $numItems = 5)
     return $s;
 }
 
+/**
+ * @package redaxo\be-dashboard\rss-reader
+ */
 function rex_a656_convert($string, $sourceEncoding)
 {
     static $transTables = array();

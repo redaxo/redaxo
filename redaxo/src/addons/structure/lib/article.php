@@ -2,9 +2,9 @@
 
 /**
  * Object Oriented Framework: Bildet einen Artikel der Struktur ab
- * @package redaxo5
+ *
+ * @package redaxo\structure
  */
-
 class rex_article extends rex_structure_element
 {
     public function __construct($params = false, $clang = false)

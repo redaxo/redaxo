@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure\version
+ */
 class rex_article_revision
 {
     const

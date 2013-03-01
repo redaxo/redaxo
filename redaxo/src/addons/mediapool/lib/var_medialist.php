@@ -8,7 +8,7 @@
  *   - types     => Filter für Dateiendungen die im Medienpool zur Auswahl stehen sollen
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  *
- * @package redaxo5
+ * @package redaxo\mediapool
  */
 class rex_var_medialist extends rex_var
 {

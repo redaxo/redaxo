@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 class rex_structure_perm extends rex_complex_perm
 {
     public function hasCategoryPerm($category_id)

@@ -4,6 +4,7 @@
  * Class for users
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_user
 {

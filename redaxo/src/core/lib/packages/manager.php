@@ -2,6 +2,8 @@
 
 /**
  * Manager class for packages
+ *
+ * @package redaxo\core
  */
 abstract class rex_package_manager extends rex_factory_base
 {

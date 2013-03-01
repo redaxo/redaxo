@@ -2,6 +2,8 @@
 
 /**
  * Class for getting the superglobals
+ *
+ * @package redaxo\core
  */
 class rex_request
 {

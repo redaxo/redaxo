@@ -6,6 +6,8 @@
 
 /**
  * Klasse zur Formatierung von Strings
+ *
+ * @package redaxo\core
  */
 abstract class rex_formatter
 {

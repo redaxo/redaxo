@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_article_add extends rex_api_function
 {
     public function execute()
@@ -22,6 +25,9 @@ class rex_api_article_add extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_article_edit extends rex_api_function
 {
     public function execute()
@@ -46,6 +52,9 @@ class rex_api_article_edit extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_article_delete extends rex_api_function
 {
     public function execute()
@@ -63,6 +72,9 @@ class rex_api_article_delete extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_article_status extends rex_api_function
 {
     public function execute()
@@ -90,6 +102,9 @@ class rex_api_article_status extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_article2category extends rex_api_function
 {
     public function execute()
@@ -119,6 +134,9 @@ class rex_api_article2category extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_category2article extends rex_api_function
 {
     public function execute()
@@ -148,6 +166,9 @@ class rex_api_category2article extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_article2startpage extends rex_api_function
 {
     public function execute()

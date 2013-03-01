@@ -4,12 +4,6 @@
 define('REX_LIST_OPT_SORT', 0);
 define('REX_LIST_OPT_SORT_DIRECTION', 1);
 
-/**
- * Klasse zum erstellen von Listen
- *
- * @package redaxo5
- */
-
 /*
 EXAMPLE:
 
@@ -49,6 +43,11 @@ $list->setColumnFormat('id',                                     // field name
                                              );
 */
 
+/**
+ * Klasse zum erstellen von Listen
+ *
+ * @package redaxo\core
+ */
 class rex_list extends rex_factory_base implements rex_url_provider
 {
     private $query;

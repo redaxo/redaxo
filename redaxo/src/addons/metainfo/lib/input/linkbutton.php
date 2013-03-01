@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\metainfo
+ */
 class rex_input_linkbutton extends rex_input
 {
     private

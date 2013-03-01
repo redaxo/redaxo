@@ -9,9 +9,8 @@
  *   - preview   => Bei Bildertypen ein Vorschaubild einblenden
  *   - output    => "mimetype": Mimetype des Bildes ausgeben
  *
- * @package redaxo5
+ * @package redaxo\mediapool
  */
-
 class rex_var_media extends rex_var
 {
     protected function getOutput()

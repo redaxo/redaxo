@@ -4,6 +4,7 @@
  * Class for permissions
  *
  * @author gharlan
+ * @package redaxo\core
  */
 abstract class rex_perm
 {

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\install
+ */
 class rex_api_install_package_upload extends rex_api_function
 {
     public function execute()

@@ -6,10 +6,8 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo5
+ * @package redaxo\be-dashboard\userinfo
  */
-
-
 function rex_a659_statistics()
 {
     $stats = array();

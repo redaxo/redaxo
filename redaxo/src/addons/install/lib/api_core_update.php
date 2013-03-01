@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\install
+ */
 class rex_api_install_core_update extends rex_api_function
 {
     public static function getVersions()

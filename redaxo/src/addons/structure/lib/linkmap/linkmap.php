@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 {
     private $context;
@@ -30,6 +33,9 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
 {
     private $context;

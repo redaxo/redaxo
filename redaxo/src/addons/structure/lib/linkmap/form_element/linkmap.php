@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure
+ */
 class rex_form_widget_linkmap_element extends rex_form_element
 {
     private $category_id = 0;

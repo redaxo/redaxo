@@ -4,7 +4,7 @@
  * Class for sockets
  *
  * Example:
- *
+ * <code>
  *     try {
  *         $socket = rex_socket::factory('www.example.com');
  *         $socket->setPath('/path/index.php?param=1');
@@ -15,9 +15,10 @@
  *     } catch(rex_socket_exception $e) {
  *         // error message: $e->getMessage()
  *     }
- *
+ * </code>
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_socket
 {
@@ -331,5 +332,6 @@ class rex_socket
  * Socket exception
  *
  * @see rex_socket
+ * @package redaxo\core
  */
 class rex_socket_exception extends rex_exception {}

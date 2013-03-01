@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\import-export
+ */
 
 /**
  * Returns the content of the given folder

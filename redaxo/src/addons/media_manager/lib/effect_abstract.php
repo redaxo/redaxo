@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\media-manager
+ */
 abstract class rex_effect_abstract
 {
     /**

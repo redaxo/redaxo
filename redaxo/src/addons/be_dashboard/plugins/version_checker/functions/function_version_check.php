@@ -5,10 +5,11 @@
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
- *
- * @package redaxo5
  */
 
+/**
+ * @package redaxo\be-dashboard\version-checker
+ */
 function rex_a657_get_latest_version()
 {
     $updateUrl = 'http://www.redaxo.org/de/latestversion';
@@ -21,6 +22,9 @@ function rex_a657_get_latest_version()
     return false;
 }
 
+/**
+ * @package redaxo\be-dashboard\version-checker
+ */
 function rex_a657_check_version()
 {
     $latestVersion = rex_a657_get_latest_version();
@@ -41,6 +45,9 @@ function rex_a657_check_version()
     return $notice;
 }
 
+/**
+ * @package redaxo\be-dashboard\version-checker
+ */
 function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
 {
     $buf = '';
@@ -104,6 +111,9 @@ function rex_a657_open_http_socket($url, &$errno, &$errstr, $timeout)
     return $buf;
 }
 
+/**
+ * @package redaxo\be-dashboard\version-checker
+ */
 function unchunkHttp11($data)
 {
         $fp = 0;

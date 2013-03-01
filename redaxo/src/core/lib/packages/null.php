@@ -4,6 +4,7 @@
  * Represents a null package
  *
  * @author gharlan
+ * @package redaxo\core
  */
 abstract class rex_null_package extends rex_singleton_base implements rex_package_interface
 {

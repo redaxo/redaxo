@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_api_package extends rex_api_function
 {
     public function execute()

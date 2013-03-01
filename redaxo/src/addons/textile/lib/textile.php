@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\textile
+ */
 class rex_textile
 {
     private static $instances = array();

@@ -15,9 +15,8 @@
  *   - ctype     => Spalte des Artikels festlegen
  *   - field     => Nur dieses Feld des Artikels ausgeben
  *
- * @package redaxo5
+ * @package redaxo\structure
  */
-
 class rex_var_article extends rex_var
 {
     /**

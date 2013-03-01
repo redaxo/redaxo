@@ -26,6 +26,8 @@
  * @param string $feed_url       This is the URL you want to parse.
  * @param string $cache_location This is where you want the cache to be stored.
  * @param int    $cache_duration This is the number of seconds that you want to store the cache file for.
+ *
+ * @package redaxo\be-dashboard\rss-reader
  */
 class rex_rss_reader extends SimplePie
 {

@@ -16,6 +16,7 @@
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
  * @author staabm
+ * @package redaxo\core
  */
 abstract class rex_api_function extends rex_factory_base
 {
@@ -182,6 +183,7 @@ abstract class rex_api_function extends rex_factory_base
  * @author staabm
  *
  * @see rex_api_function
+ * @package redaxo\core
  */
 class rex_api_result
 {
@@ -277,6 +279,7 @@ class rex_api_result
  * @author staabm
  *
  * @see rex_api_function
+ * @package redaxo\core
  */
 class rex_api_exception extends rex_exception
 {

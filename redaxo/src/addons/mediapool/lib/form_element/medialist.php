@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\mediapool
+ */
 class rex_form_widget_medialist_element extends rex_form_element
 {
     private $args = array();

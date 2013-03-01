@@ -11,9 +11,8 @@
  *   - clang    => ClangId der Kategorie
  *
  *
- * @package redaxo5
+ * @package redaxo\structure
  */
-
 class rex_var_category extends rex_var
 {
     /**

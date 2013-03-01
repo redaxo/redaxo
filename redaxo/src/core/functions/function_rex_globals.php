@@ -7,6 +7,7 @@
 
 /**
  * @see rex_request::get()
+ * @package redaxo\core
  */
 function rex_get($varname, $vartype = '', $default = '')
 {
@@ -15,6 +16,7 @@ function rex_get($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::post()
+ * @package redaxo\core
  */
 function rex_post($varname, $vartype = '', $default = '')
 {
@@ -23,6 +25,7 @@ function rex_post($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::request()
+ * @package redaxo\core
  */
 function rex_request($varname, $vartype = '', $default = '')
 {
@@ -31,6 +34,7 @@ function rex_request($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::server()
+ * @package redaxo\core
  */
 function rex_server($varname, $vartype = '', $default = '')
 {
@@ -39,6 +43,7 @@ function rex_server($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::session()
+ * @package redaxo\core
  */
 function rex_session($varname, $vartype = '', $default = '')
 {
@@ -47,6 +52,7 @@ function rex_session($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::setSession()
+ * @package redaxo\core
  */
 function rex_set_session($varname, $value)
 {
@@ -55,6 +61,7 @@ function rex_set_session($varname, $value)
 
 /**
  * @see rex_request::unsetSession()
+ * @package redaxo\core
  */
 function rex_unset_session($varname)
 {
@@ -63,6 +70,7 @@ function rex_unset_session($varname)
 
 /**
  * @see rex_request::cookie()
+ * @package redaxo\core
  */
 function rex_cookie($varname, $vartype = '', $default = '')
 {
@@ -71,6 +79,7 @@ function rex_cookie($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::files()
+ * @package redaxo\core
  */
 function rex_files($varname, $vartype = '', $default = '')
 {
@@ -79,6 +88,7 @@ function rex_files($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::env()
+ * @package redaxo\core
  */
 function rex_env($varname, $vartype = '', $default = '')
 {
@@ -87,6 +97,7 @@ function rex_env($varname, $vartype = '', $default = '')
 
 /**
  * @see rex_request::requestMethod()
+ * @package redaxo\core
  */
 function rex_request_method()
 {

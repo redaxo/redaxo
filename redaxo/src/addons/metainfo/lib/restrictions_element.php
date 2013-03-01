@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\metainfo
+ */
 class rex_form_restrictons_element extends rex_form_select_element
 {
     private $chkbox_element;

@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo5
+ * @package redaxo\cronjob\article-status
  */
 
 class rex_cronjob_article_status extends rex_cronjob

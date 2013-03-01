@@ -4,9 +4,8 @@
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * Alle benötigten Daten werden von der DB bezogen.
  *
- * @package redaxo5
+ * @package redaxo\structure\content
  */
-
 class rex_article_content_base
 {
     public

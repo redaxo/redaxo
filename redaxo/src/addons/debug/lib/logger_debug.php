@@ -4,6 +4,7 @@
  * Class to monitor extension points
  *
  * @author staabm
+ * @package redaxo\debug
  */
 class rex_logger_debug extends rex_logger
 {

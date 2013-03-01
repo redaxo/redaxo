@@ -4,6 +4,7 @@
  * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaetet bietet.
  *
  * @author Markus Staab
+ * @package redaxo\core
  */
 abstract class rex_extension extends rex_factory_base
 {

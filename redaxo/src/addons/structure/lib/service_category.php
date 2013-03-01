@@ -3,7 +3,7 @@
 /**
  * Funktionensammlung für die Strukturverwaltung
  *
- * @package redaxo5
+ * @package redaxo\structure
  */
 class rex_category_service
 {

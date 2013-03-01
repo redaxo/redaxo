@@ -2,8 +2,9 @@
 
 /**
  * Branded ein Bild mit einem Wasserzeichen
+ *
+ * @package redaxo\media-manager
  */
-
 class rex_effect_insert_image extends rex_effect_abstract
 {
 

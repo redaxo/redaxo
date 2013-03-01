@@ -4,6 +4,9 @@
 // - Vergrößern erlauben oder nicht. aber eher als Modul einsetzen, also
 // fit
 
+/**
+ * @package redaxo\media-manager
+ */
 class rex_effect_resize extends rex_effect_abstract
 {
     private

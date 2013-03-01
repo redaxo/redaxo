@@ -3,9 +3,8 @@
 /**
  * Erweiterung eines Artikels um slicemanagement.
  *
- * @package redaxo5
+ * @package redaxo\structure\content
  */
-
 class rex_article_content_editor extends rex_article_content
 {
     private $MODULESELECT;

@@ -6,6 +6,7 @@
  * All permission check methods ("hasPerm()" etc.) in child classes should return "true" for admins
  *
  * @author gharlan
+ * @package redaxo\core
  */
 abstract class rex_complex_perm
 {

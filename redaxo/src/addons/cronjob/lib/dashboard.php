@@ -8,7 +8,7 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo5
+ * @package redaxo\cronjob
  */
 
 class rex_cronjob_component extends rex_dashboard_component

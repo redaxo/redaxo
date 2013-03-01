@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_form_radio_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,

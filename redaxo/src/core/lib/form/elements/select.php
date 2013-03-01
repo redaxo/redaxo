@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_form_select_element extends rex_form_element
 {
     protected $select;

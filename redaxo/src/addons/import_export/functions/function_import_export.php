@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package redaxo\import-export
+ */
+
 define('REX_A1_IMPORT_ARCHIVE', 1);
 define('REX_A1_IMPORT_DB', 2);
 define('REX_A1_IMPORT_EVENT_PRE', 3);

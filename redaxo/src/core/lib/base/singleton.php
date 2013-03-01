@@ -4,6 +4,7 @@
  * Base class for singletons
  *
  * @author gharlan
+ * @package redaxo\core
  */
 abstract class rex_singleton_base
 {

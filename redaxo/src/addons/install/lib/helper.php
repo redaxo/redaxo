@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\install
+ */
 class rex_install_helper
 {
     public static function copyDirToArchive($dir, $archive, $basename = null, $excludeDirs = null)

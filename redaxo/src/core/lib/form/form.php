@@ -15,6 +15,8 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  * Dies geschieht Mittels der add*Field(...) Methoden.
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
+ *
+ * @package redaxo\core
  */
 class rex_form extends rex_factory_base
 {

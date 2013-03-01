@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\tests
+ */
 class rex_test_runner
 {
     public function setUp()

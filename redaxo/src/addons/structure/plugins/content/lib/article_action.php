@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure\content
+ */
 class rex_article_action
 {
     const

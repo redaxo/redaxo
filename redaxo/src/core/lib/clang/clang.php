@@ -4,6 +4,7 @@
  * Clang class
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_clang
 {

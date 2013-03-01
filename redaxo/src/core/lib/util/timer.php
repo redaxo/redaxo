@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo5
+ * @package redaxo\core
  */
 class rex_timer
 {

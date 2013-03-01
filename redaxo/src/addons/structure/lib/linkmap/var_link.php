@@ -6,9 +6,8 @@
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
  *
- * @package redaxo5
+ * @package redaxo\structure
  */
-
 class rex_var_link extends rex_var
 {
     protected function getOutput()

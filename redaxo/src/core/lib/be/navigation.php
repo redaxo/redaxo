@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_be_navigation extends rex_factory_base
 {
     private

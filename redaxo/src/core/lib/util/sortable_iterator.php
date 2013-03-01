@@ -4,6 +4,7 @@
  * Sortable iterator
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_sortable_iterator implements IteratorAggregate
 {

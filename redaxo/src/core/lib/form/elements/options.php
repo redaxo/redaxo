@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 abstract class rex_form_options_element extends rex_form_element
 {
     private $options;

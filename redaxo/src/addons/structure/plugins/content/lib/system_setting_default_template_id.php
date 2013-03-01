@@ -4,6 +4,7 @@
  * Class for the default_template_id setting
  *
  * @author gharlan
+ * @package redaxo\structure\content
  */
 class rex_system_setting_default_template_id extends rex_system_setting
 {

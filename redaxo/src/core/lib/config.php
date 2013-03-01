@@ -5,6 +5,7 @@
  * The configuration is persisted between requests.
  *
  * @author staabm
+ * @package redaxo\core
  */
 class rex_config
 {

@@ -11,7 +11,7 @@
  * </code>
  *
  * @author gharlan
- *
+ * @package redaxo\core
  * @link http://www.php.net/manual/en/class.streamwrapper.php
  */
 class rex_stream

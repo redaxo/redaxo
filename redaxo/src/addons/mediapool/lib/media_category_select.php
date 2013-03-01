@@ -1,6 +1,10 @@
 <?php
 
-################ Class MediaKategorie Select
+/**
+ * Class MediaKategorie Select
+ *
+ * @package redaxo\mediapool
+ */
 class rex_media_category_select extends rex_select
 {
     private $check_perms;

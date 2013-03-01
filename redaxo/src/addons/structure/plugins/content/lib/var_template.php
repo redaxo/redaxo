@@ -3,9 +3,8 @@
 /**
  * REX_TEMPLATE[2]
  *
- * @package redaxo5
+ * @package redaxo\structure\content
  */
-
 class rex_var_template extends rex_var
 {
     protected function getOutput()

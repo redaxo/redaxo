@@ -4,9 +4,8 @@
  * Klasse regelt den Zugriff auf Artikelinhalte.
  * DB Anfragen werden vermieden, caching läuft über generated Dateien.
  *
- * @package redaxo5
+ * @package redaxo\structure\content
  */
-
 class rex_article_content extends rex_article_content_base
 {
     // bc schalter

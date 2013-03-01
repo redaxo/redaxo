@@ -4,6 +4,7 @@
  * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert.
  *
  * @author staabm
+ * @package redaxo\media-manager
  */
 
 class rex_effect_crop extends rex_effect_abstract

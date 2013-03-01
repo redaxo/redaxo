@@ -1,11 +1,9 @@
 <?php
 
-
 /**
  * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab
- * @package redaxo5
+ * @package redaxo\mediapool
  */
-
 class rex_media_category
 {
     // id

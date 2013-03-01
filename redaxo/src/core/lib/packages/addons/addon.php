@@ -4,6 +4,7 @@
  * Class for addons
  *
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_addon extends rex_package implements rex_addon_interface
 {

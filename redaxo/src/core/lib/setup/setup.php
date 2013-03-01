@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_setup
 {
     const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;

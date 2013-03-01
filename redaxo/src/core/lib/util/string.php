@@ -3,7 +3,7 @@
 /**
  * String utility class
  *
- * @package redaxo5
+ * @package redaxo\core
  */
 class rex_string
 {

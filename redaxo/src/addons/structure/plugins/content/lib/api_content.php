@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\structure\content
+ */
 class rex_api_content_move_slice extends rex_api_function
 {
     public function execute()

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\metainfo
+ */
 class rex_metainfo_article_handler extends rex_metainfo_handler
 {
     const PREFIX = 'art_';

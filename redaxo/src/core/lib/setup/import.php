@@ -5,6 +5,9 @@ require_once $export_addon_dir . '/functions/function_folder.php';
 require_once $export_addon_dir . '/functions/function_import_folder.php';
 require_once $export_addon_dir . '/functions/function_import_export.php';
 
+/**
+ * @package redaxo\core
+ */
 class rex_setup_importer
 {
     public static function updateFromPrevious()

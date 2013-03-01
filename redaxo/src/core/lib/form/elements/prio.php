@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\core
+ */
 class rex_form_prio_element extends rex_form_select_element
 {
     private

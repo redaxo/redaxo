@@ -1,11 +1,9 @@
 <?php
 
-
 /**
  * Object Oriented Framework: Bildet ein Medium des Medienpools ab
- * @package redaxo5
+ * @package redaxo\mediapool
  */
-
 class rex_media
 {
     // id

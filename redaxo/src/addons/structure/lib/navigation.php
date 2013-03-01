@@ -3,7 +3,7 @@
 /**
  * Klasse zum Erstellen von Navigationen, v0.1
  *
- * @package redaxo5
+ * @package redaxo\structure
  */
 
 /*

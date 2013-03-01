@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\install
+ */
 abstract class rex_api_install_package_download extends rex_api_function
 {
     protected

@@ -13,6 +13,9 @@
 // $img is an image that is already created within php using
 // imgcreatetruecolor. No url! $img must be a truecolor image.
 
+/**
+ * @package redaxo\media-manager
+ */
 class rex_effect_filter_sharpen extends rex_effect_abstract
 {
 

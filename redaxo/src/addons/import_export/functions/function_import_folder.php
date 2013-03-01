@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @package redaxo\import-export
+ */
+
 // Import Folder Functions
 function getImportDir()
 {

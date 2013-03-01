@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\media-manager
+ */
 class rex_effect_mirror extends rex_effect_abstract
 {
 

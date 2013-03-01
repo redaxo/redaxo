@@ -3,7 +3,7 @@
 /**
  * HTTP1.1 Client Cache Features
  *
- * @package redaxo5
+ * @package redaxo\core
  */
 class rex_response
 {

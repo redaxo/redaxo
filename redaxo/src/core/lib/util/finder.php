@@ -5,6 +5,7 @@
  *
  * @author staabm
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_finder extends rex_factory_base implements IteratorAggregate, Countable
 {
@@ -215,6 +216,7 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
  *
  * @author staabm
  * @author gharlan
+ * @package redaxo\core
  */
 class rex_finder_filter extends RecursiveFilterIterator
 {

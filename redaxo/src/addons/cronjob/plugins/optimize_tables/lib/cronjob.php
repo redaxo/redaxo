@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @package redaxo5
+ * @package redaxo\cronjob\optimize-tables
  */
 
 class rex_cronjob_optimize_tables extends rex_cronjob
