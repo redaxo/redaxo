@@ -103,8 +103,7 @@ if ($func == '') {
         $formLabel = rex_i18n::msg('media_manager_type_create');
     }
 
-    function rex_media_manager_handle_form_control_fields($params)
-    {
+    rex_extension::register('REX_FORM_CONTROL_FIELDS', function ($params) {
         $controlFields = $params['subject'];
         $form = $params['form'];
         $sql  = $form->getSql();
@@ -114,9 +113,8 @@ if ($func == '') {
             $controlFields['delete'] = '';
         }
         return $controlFields;
-    }
+    });
 
-    rex_extension::register('REX_FORM_CONTROL_FIELDS', 'rex_media_manager_handle_form_control_fields');
     $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_types', $formLabel, 'id=' . $type_id);
 
     $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));

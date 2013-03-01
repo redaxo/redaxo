@@ -13,9 +13,7 @@ $mypage = 'version';
 rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
 // ***** an EPs andocken
-rex_extension::register('ART_INIT', 'rex_version_initArticle');
-function rex_version_initArticle($params)
-{
+rex_extension::register('ART_INIT', function ($params) {
     $version = rex_request('rex_version', 'int');
     if ($version != 1)
         return;
@@ -32,12 +30,9 @@ function rex_version_initArticle($params)
         $params['article']->getContentAsQuery();
     }
     $params['article']->setEval(true);
-}
+});
 
-rex_extension::register('PAGE_CONTENT_HEADER', 'rex_version_header');
-function rex_version_header($params)
-{
-
+rex_extension::register('PAGE_CONTENT_HEADER', function ($params) {
     $return = '';
 
     $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
@@ -168,4 +163,4 @@ function rex_version_header($params)
     $params['slice_revision'] = $rex_version_article[$params['article_id']];
 
     return $return;
-}
+});
