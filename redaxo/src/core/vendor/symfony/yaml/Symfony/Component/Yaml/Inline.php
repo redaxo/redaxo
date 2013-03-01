@@ -33,6 +33,8 @@ class Inline
      * @param Boolean $objectSupport          true if object support is enabled, false otherwise
      *
      * @return array A PHP array representing the YAML string
+     *
+     * @throws ParseException
      */
     public static function parse($value, $exceptionOnInvalidType = false, $objectSupport = false)
     {
@@ -50,21 +52,23 @@ class Inline
             mb_internal_encoding('ASCII');
         }
 
+        $i = 0;
         switch ($value[0]) {
             case '[':
-                $result = self::parseSequence($value);
+                $result = self::parseSequence($value, $i);
+                ++$i;
                 break;
             case '{':
-                $result = self::parseMapping($value);
+                $result = self::parseMapping($value, $i);
+                ++$i;
                 break;
             default:
-                $i = 0;
                 $result = self::parseScalar($value, null, array('"', "'"), $i);
+        }
 
-                // some comment can end the scalar
-                if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
-                    throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)));
-                }
+        // some comments are allowed at the end
+        if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
+            throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)));
         }
 
         if (isset($mbEncoding)) {
@@ -411,6 +415,11 @@ class Inline
                 $cast = intval($scalar);
 
                 return '0' == $scalar[0] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
+            case '-' === $scalar[0] && ctype_digit(substr($scalar, 1)):
+                $raw = $scalar;
+                $cast = intval($scalar);
+
+                return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw == (string) $cast) ? $cast : $raw);
             case 'true' === strtolower($scalar):
                 return true;
             case 'false' === strtolower($scalar):
@@ -432,9 +441,11 @@ class Inline
     }
 
     /**
-     * Gets a regex that matches an unix timestamp
+     * Gets a regex that matches a YAML date.
      *
      * @return string The regular expression
+     *
+     * @see http://www.yaml.org/spec/1.2/spec.html#id2761573
      */
     private static function getTimestampRegex()
     {
