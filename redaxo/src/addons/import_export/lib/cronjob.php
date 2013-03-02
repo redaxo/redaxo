@@ -6,7 +6,7 @@
 class rex_cronjob_export extends rex_cronjob
 {
     const
-        DEFAULT_FILENAME = '%HTTP_HOST_rex%REX_VERSION_%Y%m%d';
+        DEFAULT_FILENAME = '%REX_SERVER_rex%REX_VERSION_%Y%m%d_%H%M';
 
     public function execute()
     {
@@ -14,8 +14,9 @@ class rex_cronjob_export extends rex_cronjob
         include_once rex_path::addon('import_export', 'functions/function_import_folder.php');
 
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $filename = str_replace('%HTTP_HOST', $_SERVER['HTTP_HOST'], $filename);
-        $filename = str_replace('%REX_VERSION', rex::getVersion(''), $filename);
+        $server = preg_replace('@^https?://|/.*|[^\w.-]@', '', rex::getProperty('server'));
+        $filename = str_replace('%REX_SERVER', $server, $filename);
+        $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
         $filename = strftime($filename);
         $file = $filename;
         $dir = getImportDir() . '/';
