@@ -207,12 +207,11 @@ class rex
     /**
      * Returns the redaxo version
      *
-     * @param string $separator Separator between version, subversion and minorversion
      * @return string
      */
-    public static function getVersion($separator = '.')
+    public static function getVersion()
     {
-        return self::getProperty('version') . $separator . self::getProperty('subversion') . $separator . self::getProperty('minorversion');
+        return self::getProperty('version');
     }
 
     /**

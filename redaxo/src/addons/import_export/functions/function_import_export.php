@@ -45,13 +45,14 @@ function rex_a1_import_db($filename)
 
     // Versionsstempel prüfen
     // ## Redaxo Database Dump Version x.x
-    $version = strpos($conts, '## Redaxo Database Dump Version ' . rex::getProperty('version'));
+    $mainVersion = substr(rex::getVersion(), 0, strpos(rex::getVersion(), '.'));
+    $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
     if ($version === false) {
-        $return['message'] = rex_i18n::msg('im_export_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . rex::getProperty('version') . '] is missing';
+        $return['message'] = rex_i18n::msg('im_export_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
         return $return;
     }
     // Versionsstempel entfernen
-    $conts = trim(str_replace('## Redaxo Database Dump Version ' . rex::getProperty('version'), '', $conts));
+    $conts = trim(str_replace('## Redaxo Database Dump Version ' . $mainVersion, '', $conts));
 
     // Prefix prüfen
     // ## Prefix xxx_
@@ -288,7 +289,7 @@ function rex_a1_export_db($filename)
     rex_extension::registerPoint('A1_BEFORE_DB_EXPORT');
 
     // Versionsstempel hinzufügen
-    fwrite($fp, '## Redaxo Database Dump Version ' . rex::getProperty('version') . $nl);
+    fwrite($fp, '## Redaxo Database Dump Version ' . substr(rex::getVersion(), 0, strpos(rex::getVersion(), '.')) . $nl);
     fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
     //fwrite($fp, '## charset '.rex_i18n::msg('htmlcharset').$nl.$nl);
     fwrite($fp, '## charset utf-8' . $nl . $nl);

@@ -93,9 +93,5 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
         $vers = rex::getVersion();
         $versParts = explode('.', $vers);
         $this->assertTrue($versParts[0] == 5, 'the major version is 5');
-
-        $vers = rex::getVersion('_');
-        $versParts = explode('_', $vers);
-        $this->assertTrue($versParts[0] == 5, 'the major version with different separator is 5');
     }
 }
