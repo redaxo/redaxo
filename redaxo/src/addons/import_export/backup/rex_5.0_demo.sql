@@ -469,7 +469,6 @@ DROP TABLE IF EXISTS `rex_module`;
 CREATE TABLE `rex_module` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
-    `category_id` int(11) NOT NULL,
     `output` text NOT NULL,
     `input` text NOT NULL,
     `createuser` varchar(255) NOT NULL,
@@ -478,8 +477,7 @@ CREATE TABLE `rex_module` (
     `updatedate` int(11) NOT NULL,
     `attributes` text,
     `revision` int(11) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `category_id` (`category_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_module` WRITE;
