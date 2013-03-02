@@ -21,7 +21,6 @@ abstract class rex_structure_element
         $_prior = '',
         $_startarticle = '',
         $_status = '',
-        $_attributes = '',
         $_updatedate = '',
         $_createdate = '',
         $_updateuser = '',

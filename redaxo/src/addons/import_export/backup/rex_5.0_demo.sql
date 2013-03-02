@@ -27,7 +27,6 @@ CREATE TABLE `rex_article` (
     `name` varchar(255) NOT NULL,
     `catname` varchar(255) NOT NULL,
     `catprior` int(11) NOT NULL,
-    `attributes` text NOT NULL,
     `startarticle` tinyint(1) NOT NULL,
     `prior` int(11) NOT NULL,
     `path` varchar(255) NOT NULL,

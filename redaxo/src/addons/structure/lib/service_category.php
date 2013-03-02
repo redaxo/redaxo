@@ -94,7 +94,6 @@ class rex_category_service
             $AART->setValue('template_id', $template_id);
             $AART->setValue('name', $data['name']);
             $AART->setValue('catname', $data['catname']);
-            $AART->setValue('attributes', '');
             $AART->setValue('catprior', $data['catprior']);
             $AART->setValue('re_id', $category_id);
             $AART->setValue('prior', 1);
