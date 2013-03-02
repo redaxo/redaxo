@@ -23,7 +23,7 @@ function rex_a659_statistics()
         $stats['total_categories'] = 0;
     }
 
-    $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM ' . rex::getTablePrefix() . 'article WHERE clang=0 AND startarticle=0 GROUP BY clang ORDER BY updatedate DESC');
+    $result = $sql->getArray('SELECT COUNT(*) as count, updatedate FROM ' . rex::getTablePrefix() . 'article WHERE clang=0 GROUP BY clang ORDER BY updatedate DESC');
     if (count($result) > 0) {
         $stats['total_articles'] = $result[0]['count'];
         $stats['last_update'] = $result[0]['updatedate'] > $stats['last_update'] ? $result[0]['updatedate'] : $stats['last_update'];
