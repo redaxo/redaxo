@@ -11,7 +11,6 @@ $warning = '';
 // ------------------------------ Requestvars
 $function       = rex_request('function', 'string');
 $impname        = rex_request('impname', 'string');
-$exportfilename = rex_post('exportfilename', 'string');
 $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
@@ -26,9 +25,6 @@ if ($impname != '') {
     elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz')
         $impname = '';
 }
-
-if ($exportfilename == '')
-    $exportfilename = 'rex_' . rex::getProperty('version') . '_' . date('Ymd');
 
 if ($function == 'delete') {
     // ------------------------------ FUNC DELETE
