@@ -74,10 +74,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         }
         $media = '';
         if (!empty($where['media'])) {
-            $sql->setQuery('SELECT media_id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
+            $sql->setQuery('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
             if ($sql->getRows() > 0) {
                 foreach ($sql->getArray() as $med_arr) {
-                    $id = $med_arr['media_id'];
+                    $id = $med_arr['id'];
                     $filename = $med_arr['filename'];
                     $cat_id = $med_arr['category_id'];
                     $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', array('file_id' => $id, 'rex_file_category' => $cat_id)) . '">' . $filename . '</a></li>';
@@ -124,12 +124,12 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post' || !isset($params['media_id'])) return $params;
+        if (rex_request_method() != 'post' || !isset($params['id'])) return $params;
 
         $media = rex_sql::factory();
     //  $media->setDebug();
         $media->setTable(rex::getTablePrefix() . 'media');
-        $media->setWhere('media_id=:mediaid', array('mediaid' => $params['media_id']));
+        $media->setWhere('id=:mediaid', array('mediaid' => $params['id']));
 
         parent::fetchRequestValues($params, $media, $sqlFields);
 
@@ -174,10 +174,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             // $params['activeItem']->setValue('category_id', 0);
         } elseif ($params['extension_point'] == 'MEDIA_ADDED') {
             $sql = rex_sql::factory();
-            $qry = 'SELECT media_id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
+            $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
             $sql->setQuery($qry);
             if ($sql->getRows() == 1) {
-                $params['media_id'] = $sql->getValue('media_id');
+                $params['id'] = $sql->getValue('id');
             } else {
                 throw new rex_exception('Error occured during file upload!');
             }

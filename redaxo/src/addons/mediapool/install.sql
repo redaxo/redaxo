@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media` (
-    `media_id` int(11) NOT NULL AUTO_INCREMENT,
-    `re_media_id` int(11) NOT NULL,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `category_id` int(11) NOT NULL,
     `attributes` text,
     `filetype` varchar(255) DEFAULT NULL,
@@ -15,8 +14,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media` (
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `revision` int(11) NOT NULL,
-    PRIMARY KEY (`media_id`),
-    KEY `re_media_id` (`re_media_id`),
+    PRIMARY KEY (`id`),
     KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 

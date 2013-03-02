@@ -251,8 +251,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rex_media`;
 CREATE TABLE `rex_media` (
-    `media_id` int(11) NOT NULL AUTO_INCREMENT,
-    `re_media_id` int(11) NOT NULL,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `category_id` int(11) NOT NULL,
     `attributes` text,
     `filetype` varchar(255) DEFAULT NULL,
@@ -269,8 +268,7 @@ CREATE TABLE `rex_media` (
     `revision` int(11) NOT NULL,
     `med_description` text,
     `med_copyright` text,
-    PRIMARY KEY (`media_id`),
-    KEY `re_media_id` (`re_media_id`),
+    PRIMARY KEY (`id`),
     KEY `category_id` (`category_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 

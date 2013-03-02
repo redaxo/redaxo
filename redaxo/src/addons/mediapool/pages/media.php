@@ -130,7 +130,7 @@ if ($file_id && rex_post('btn_delete', 'string')) {
 if ($file_id && rex_post('btn_update', 'string')) {
 
     $gf = rex_sql::factory();
-    $gf->setQuery('select * from ' . rex::getTablePrefix() . "media where media_id='$file_id'");
+    $gf->setQuery('select * from ' . rex::getTablePrefix() . "media where id='$file_id'");
     if ($gf->getRows() == 1) {
         if ($PERMALL || (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category))) {
 
@@ -162,7 +162,7 @@ if ($file_id && rex_post('btn_update', 'string')) {
 
 if ($file_id) {
     $gf = rex_sql::factory();
-    $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE media_id = "' . $file_id . '"');
+    $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = "' . $file_id . '"');
     if ($gf->getRows() == 1) {
         $TPERM = false;
         if ($PERMALL || rex::getUser()->hasPerm('media[' . $gf->getValue('category_id') . ']')) $TPERM = true;
@@ -297,7 +297,7 @@ if ($file_id) {
                                 <div class="rex-clearer"></div>';
 
     // ----- EXTENSION POINT
-    echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', array('file_id' => $file_id, 'media' => $gf));
+    echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', array('id' => $file_id, 'media' => $gf));
 
     echo '
                                             ' . $add_ext_info . '
@@ -588,7 +588,7 @@ if (!$file_id) {
                 $where = str_replace('f.category_id=0', '1=1', $where);
         }
     }
-        $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.media_id desc';
+        $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
 
     // ----- EXTENSION POINT
     $qry = rex_extension::registerPoint('MEDIA_LIST_QUERY', $qry,
@@ -603,7 +603,7 @@ if (!$file_id) {
 
     print '<tbody>';
     for ($i = 0; $i < $files->getRows(); $i++) {
-        $file_id =   $files->getValue('media_id');
+        $file_id =   $files->getValue('id');
         $file_name = $files->getValue('filename');
         $file_oname = $files->getValue('originalname');
         $file_title = $files->getValue('title');
@@ -703,7 +703,7 @@ if (!$file_id) {
 
         echo rex_extension::registerPoint('MEDIA_LIST_FUNCTIONS', $opener_link,
             array(
-                'file_id' => $files->getValue('media_id'),
+                'file_id' => $files->getValue('id'),
                 'file_name' => $files->getValue('filename'),
                 'file_oname' => $files->getValue('originalname'),
                 'file_title' => $files->getValue('title'),

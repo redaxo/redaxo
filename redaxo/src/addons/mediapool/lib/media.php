@@ -8,8 +8,6 @@ class rex_media
 {
     // id
     private $_id = '';
-    // parent (FOR FUTURE USE!)
-    private $_parent_id = '';
     // categoryid
     private $_cat_id = '';
 
@@ -103,8 +101,6 @@ class rex_media
         if (file_exists($media_path)) {
             $cache = rex_file::getCache($media_path);
             $aliasMap = array(
-                'media_id' => 'id',
-                're_media_id' => 'parent_id',
                 'category_id' => 'cat_id',
                 'filename' => 'name',
                 'originalname' => 'orgname',
@@ -169,22 +165,6 @@ class rex_media
     public function getCategoryId()
     {
         return $this->_cat_id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getParentId()
-    {
-        return $this->_parent_id;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasParent()
-    {
-        return $this->getParentId() != 0;
     }
 
     /**
@@ -504,7 +484,6 @@ class rex_media
     {
         $sql = rex_sql::factory();
         $sql->setTable($this->_getTableName());
-        $sql->setValue('re_media_id', $this->getParentId());
         $sql->setValue('category_id', $this->getCategoryId());
         $sql->setValue('filetype', $this->getType());
         $sql->setValue('filename', $this->getFileName());
@@ -516,7 +495,7 @@ class rex_media
 
         if ($this->getId() !== null) {
             $sql->addGlobalUpdateFields();
-            $sql->setWhere(array('media_id' => $this->getId()));
+            $sql->setWhere(array('id' => $this->getId()));
             $success = $sql->update();
             if ($success)
                 rex_media_cache::delete($this->getFileName());
@@ -543,7 +522,7 @@ class rex_media
                 return true;
             }
         } else {
-            $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE media_id = ' . $this->getId() . ' LIMIT 1';
+            $qry = 'DELETE FROM ' . $this->_getTableName() . ' WHERE id = ' . $this->getId() . ' LIMIT 1';
             $sql = rex_sql::factory();
             $sql->setQuery($qry);
 
@@ -641,7 +620,7 @@ class rex_media
 
         $sql = rex_sql::factory();
         // $sql->setDebug();
-        $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE media_id=' . $id);
+        $sql->setQuery('SELECT filename FROM ' . self :: _getTableName() . ' WHERE id=' . $id);
         if ($sql->getRows() == 1) {
             return self :: getMediaByFileName($sql->getValue('filename'));
         }
