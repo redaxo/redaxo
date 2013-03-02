@@ -12,11 +12,11 @@ CREATE TABLE `rex_clang` (
 INSERT INTO `rex_clang` VALUES ('0', 'de', 'deutsch', 0);
 
 CREATE TABLE `rex_config` (
-    `cid` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `namespace` varchar(75) NOT NULL,
     `key` varchar(255) NOT NULL,
     `value` text NOT NULL,
-    PRIMARY KEY (`cid`),
+    PRIMARY KEY (`id`),
     UNIQUE KEY `unique_key` (`namespace`,`key`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 

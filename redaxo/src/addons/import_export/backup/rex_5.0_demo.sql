@@ -233,11 +233,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rex_config`;
 CREATE TABLE `rex_config` (
-    `cid` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `namespace` varchar(75) NOT NULL,
     `key` varchar(255) NOT NULL,
     `value` text NOT NULL,
-    PRIMARY KEY (`cid`),
+    PRIMARY KEY (`id`),
     UNIQUE KEY `unique_key` (`namespace`,`key`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
