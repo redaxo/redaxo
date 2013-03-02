@@ -23,9 +23,8 @@ class rex_backend_login extends rex_login
         $this->setSqlDb(1);
         $this->setSystemId(rex::getProperty('instname'));
         $this->setSessionDuration(rex::getProperty('session_duration'));
-        $this->setIdColumn('user_id');
         $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
-        $this->setUserQuery($qry . ' AND user_id = :id');
+        $this->setUserQuery($qry . ' AND id = :id');
         $this->setLoginQuery($qry . '
             AND login = :login
             AND (login_tries < ' . self::LOGIN_TRIES_1 . '
@@ -49,9 +48,9 @@ class rex_backend_login extends rex_login
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
-                $sql->setQuery('SELECT user_id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', array($cookiekey));
+                $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', array($cookiekey));
                 if ($sql->getRows() == 1) {
-                    $this->setSessionVar('UID', $sql->getValue('user_id'));
+                    $this->setSessionVar('UID', $sql->getValue('id'));
                     setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
                 } else {
                     setcookie($cookiename, '', time() - 3600);
@@ -102,7 +101,7 @@ class rex_backend_login extends rex_login
         }
 
         if ($this->isLoggedOut() && $userId != '') {
-            $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE user_id=? LIMIT 1', array($userId));
+            $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE id=? LIMIT 1', array($userId));
             setcookie($cookiename, '', time() - 3600);
         }
 

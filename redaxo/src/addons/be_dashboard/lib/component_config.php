@@ -61,7 +61,7 @@ abstract class rex_dashboard_component_config
 
     private function getCacheKey()
     {
-        return get_class($this) . '_uid' . rex::getUser()->getValue('user_id');
+        return get_class($this) . '_uid' . rex::getUser()->getId();
     }
 
     /**

@@ -7,7 +7,7 @@
 $error = '';
 $success = '';
 $user = rex::getUser();
-$user_id = $user->getValue('user_id');
+$user_id = $user->getId();
 
 // Allgemeine Infos
 $userpsw       = rex_request('userpsw', 'string');
@@ -46,7 +46,7 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 if (rex_post('upd_profile_button', 'bool')) {
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
-    $updateuser->setWhere(array('user_id' => $user_id));
+    $updateuser->setWhere(array('id' => $user_id));
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('language', $userperm_be_sprache);
@@ -73,7 +73,7 @@ if (rex_post('upd_psw_button', 'bool')) {
 
         $updateuser = rex_sql::factory();
         $updateuser->setTable(rex::getTablePrefix() . 'user');
-        $updateuser->setWhere(array('user_id' => $user_id));
+        $updateuser->setWhere(array('id' => $user_id));
         $updateuser->setValue('password', $userpsw_new_1);
         $updateuser->addGlobalUpdateFields();
 

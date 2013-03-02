@@ -466,8 +466,8 @@ class rex_article_content_base
         // UserId gibts nur im Backend
         if ($user_id === null) {
             if (rex::getUser()) {
-                $user_id = rex::getUser()->getValue('user_id');
-                $user_login = rex::getUser()->getValue('login');
+                $user_id = rex::getUser()->getId();
+                $user_login = rex::getUser()->getLogin();
             } else {
                 $user_id = '';
                 $user_login = '';

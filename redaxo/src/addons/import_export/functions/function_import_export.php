@@ -134,7 +134,7 @@ function rex_a1_import_db($filename)
          $create_user_table = '
          CREATE TABLE ' . rex::getTablePrefix() . 'user
          (
-             user_id int(11) NOT NULL auto_increment,
+             id int(11) NOT NULL auto_increment,
              name varchar(255) NOT NULL,
              description text NOT NULL,
              login varchar(50) NOT NULL,
@@ -149,7 +149,7 @@ function rex_a1_import_db($filename)
              updatedate int(11) NOT NULL DEFAULT 0,
              lasttrydate int(11) NOT NULL DEFAULT 0,
              session_id varchar(255) NOT NULL,
-             PRIMARY KEY(user_id)
+             PRIMARY KEY(id)
          ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;';
         $db = rex_sql::factory();
         try {

@@ -51,6 +51,16 @@ class rex_user
     }
 
     /**
+     * Returns the ID
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->sql->getValue('id');
+    }
+
+    /**
      * Returns the user login
      *
      * @return string Login

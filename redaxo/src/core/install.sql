@@ -21,7 +21,7 @@ CREATE TABLE `rex_config` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rex_user` (
-    `user_id` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) DEFAULT NULL,
     `description` text,
     `login` varchar(50) NOT NULL,
@@ -40,6 +40,6 @@ CREATE TABLE `rex_user` (
     `session_id` varchar(255) DEFAULT NULL,
     `cookiekey` varchar(255) DEFAULT NULL,
     `revision` int(11) NOT NULL,
-    PRIMARY KEY (`user_id`),
+    PRIMARY KEY (`id`),
     UNIQUE KEY `login` (`login`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
