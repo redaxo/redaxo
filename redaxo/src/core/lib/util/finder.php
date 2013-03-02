@@ -174,8 +174,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
         return $this;
     }
 
-    /* (non-PHPdoc)
-     * @see IteratorAggregate::getIterator()
+    /**
+     * {@inheritdoc}
      */
     public function getIterator()
     {
@@ -202,8 +202,8 @@ class rex_finder extends rex_factory_base implements IteratorAggregate, Countabl
         return $iterator;
     }
 
-    /* (non-PHPdoc)
-     * @see Countable::count()
+    /**
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -241,8 +241,8 @@ class rex_finder_filter extends RecursiveFilterIterator
         parent::__construct($iterator);
     }
 
-    /* (non-PHPdoc)
-     * @see RecursiveFilterIterator::getChildren()
+    /**
+     * {@inheritdoc}
      */
     public function getChildren()
     {
@@ -257,8 +257,8 @@ class rex_finder_filter extends RecursiveFilterIterator
         return $iterator;
     }
 
-    /* (non-PHPdoc)
-     * @see RecursiveFilterIterator::accept()
+    /**
+     * {@inheritdoc}
      */
     public function accept()
     {

@@ -15,8 +15,7 @@ class rex_article_content_editor extends rex_article_content
     }
 
     /**
-     * (non-PHPdoc)
-     * @see rex_article_content_base::outputSlice()
+     * {@inheritdoc}
      */
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
     {
@@ -248,8 +247,7 @@ class rex_article_content_editor extends rex_article_content
     }
 
     /**
-     * (non-PHPdoc)
-     * @see rex_article_content_base::preArticle()
+     * {@inheritdoc}
      */
     protected function preArticle($articleContent, $module_id)
     {
@@ -286,8 +284,7 @@ class rex_article_content_editor extends rex_article_content
     }
 
     /**
-     * (non-PHPdoc)
-     * @see rex_article_content_base::postArticle()
+     * {@inheritdoc}
      */
     protected function postArticle($articleContent, $moduleIdToAdd)
     {

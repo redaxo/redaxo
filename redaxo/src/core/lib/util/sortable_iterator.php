@@ -28,8 +28,8 @@ class rex_sortable_iterator implements IteratorAggregate
         $this->sort = $sort;
     }
 
-    /* (non-PHPdoc)
-     * @see IteratorAggregate::getIterator()
+    /**
+     * {@inheritdoc}
      */
     public function getIterator()
     {

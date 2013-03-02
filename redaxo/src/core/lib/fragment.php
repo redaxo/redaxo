@@ -216,7 +216,7 @@ class rex_fragment
     /**
      * Add a path to the fragment search path
      *
-     * @param string $path A path to a directory where fragments can be found
+     * @param string $dir A path to a directory where fragments can be found
      */
     public static function addDirectory($dir)
     {

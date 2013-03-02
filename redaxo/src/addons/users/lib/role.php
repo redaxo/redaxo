@@ -44,17 +44,17 @@ class rex_user_role implements rex_user_role_interface
         $this->complexPermParams = $params;
     }
 
-    /* (non-PHPdoc)
-     * @see rex_user_role_interface::hasPerm()
+    /**
+     * {@inheritdoc}
      */
     public function hasPerm($perm)
     {
         return in_array($perm, $this->perms);
     }
 
-    /* (non-PHPdoc)
-    * @see rex_user_role_interface::getComplexPerm()
-    */
+    /**
+     * {@inheritdoc}
+     */
     public function getComplexPerm(rex_user $user, $key)
     {
         if (isset($this->complexPerms[$key])) {
@@ -68,8 +68,8 @@ class rex_user_role implements rex_user_role_interface
         return $this->complexPerms[$key];
     }
 
-    /* (non-PHPdoc)
-     * @see rex_user_role_interface::get()
+    /**
+     * {@inheritdoc}
      */
     public static function get($id)
     {
