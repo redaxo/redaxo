@@ -109,7 +109,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
     // replace LIKE wildcards
     $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
 
-    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_params', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate', 'field_id');
+    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_params', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate', 'id');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
@@ -119,7 +119,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
 {
     // Löschen anhand der FieldId
     if (is_int($fieldIdOrName)) {
-        $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE field_id=:idOrName LIMIT 2';
+        $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE id=:idOrName LIMIT 2';
         $invalidField = rex_i18n::msg('minfo_field_error_invalid_fieldid');
     }
     // Löschen anhand des Feldnames
@@ -137,7 +137,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         return $invalidField;
 
     $name = $sql->getValue('name');
-    $field_id = $sql->getValue('field_id');
+    $field_id = $sql->getValue('id');
 
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -148,7 +148,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         return rex_i18n::msg('minfo_field_error_invalid_name');
 
     $sql->setTable(rex::getTablePrefix() . 'metainfo_params');
-    $sql->setWhere(array('field_id' => $field_id));
+    $sql->setWhere(array('id' => $field_id));
 
     $sql->delete();
 

@@ -403,7 +403,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rex_metainfo_params`;
 CREATE TABLE `rex_metainfo_params` (
-    `field_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `title` varchar(255) DEFAULT NULL,
     `name` varchar(255) DEFAULT NULL,
     `prior` int(10) unsigned NOT NULL,
@@ -418,7 +418,7 @@ CREATE TABLE `rex_metainfo_params` (
     `createdate` int(11) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `updatedate` int(11) NOT NULL,
-    PRIMARY KEY (`field_id`),
+    PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_params` (
-    `field_id` int(10) unsigned NOT NULL auto_increment,
+    `id` int(10) unsigned NOT NULL auto_increment,
     `title` varchar(255) default NULL,
     `name` varchar(255) default NULL,
     `prior` int(10) unsigned NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_params` (
     `createdate` int(11) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `updatedate` int(11) NOT NULL,
-    PRIMARY KEY  (`field_id`),
+    PRIMARY KEY  (`id`),
     UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 

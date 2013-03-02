@@ -42,7 +42,7 @@ class rex_metainfo_table_expander extends rex_form
         // Im Edit Mode das Feld selbst nicht als Position einf�gen
         $qry = 'SELECT name,prior FROM ' . $this->tableName . ' WHERE `name` LIKE "' . $this->metaPrefix . '%"';
         if ($this->isEditMode()) {
-            $qry .= ' AND field_id != ' . $this->getParam('field_id');
+            $qry .= ' AND id != ' . $this->getParam('field_id');
         }
         $qry .= ' ORDER BY prior';
         $sql = rex_sql::factory();
@@ -287,7 +287,7 @@ class rex_metainfo_table_expander extends rex_form
             'prior',
             'name LIKE "' . $metaPrefix . '%"',
             'prior, updatedate desc',
-            'field_id'
+            'id'
         );
     }
 }
