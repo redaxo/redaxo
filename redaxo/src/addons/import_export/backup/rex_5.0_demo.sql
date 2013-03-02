@@ -144,8 +144,6 @@ CREATE TABLE `rex_article_slice` (
     `linklist8` text,
     `linklist9` text,
     `linklist10` text,
-    `php` text,
-    `html` text,
     `article_id` int(11) NOT NULL,
     `module_id` int(11) NOT NULL,
     `createdate` int(11) NOT NULL,
