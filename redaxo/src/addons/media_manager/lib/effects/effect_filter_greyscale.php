@@ -17,16 +17,9 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
         $src_y = ceil($h);
         $dst_x = $src_x;
         $dst_y = $src_y;
-
-        // http://php.about.com/od/gdlibrary/ss/grayscale_gd.htm
-        function yiq($r, $g, $b)
-        {
-            return ($r * 0.299) + ($g * 0.587) + ($b * 0.114);
-        }
-
         $dst_im = ImageCreateTrueColor($dst_x, $dst_y);
 
-        ImageCopyResampled( $dst_im, $gdimage, 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y );
+        ImageCopyResampled($dst_im, $gdimage, 0, 0, 0, 0, $dst_x, $dst_y, $src_x, $src_y);
 
         for ($c = 0; $c < 256; $c++) {
             $palette[$c] = imagecolorallocate($dst_im, $c, $c, $c);
@@ -38,7 +31,7 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
                 $r = ($rgb >> 16) & 0xFF;
                 $g = ($rgb >> 8) & 0xFF;
                 $b = $rgb & 0xFF;
-                $gs = yiq($r, $g, $b);
+                $gs = $r * 0.299 + $g * 0.587 + $b * 0.114;
                 imagesetpixel($dst_im, $x, $y, $palette[$gs]);
             }
         }
@@ -49,9 +42,7 @@ class rex_effect_filter_greyscale extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-        );
-
+        return array();
     }
 
 }
