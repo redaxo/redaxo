@@ -155,7 +155,7 @@ class rex_article_content_base
     protected function correctValue($value)
     {
         if ($value == 'category_id') {
-            if ($this->getValue('startpage') != 1)
+            if ($this->getValue('startarticle') != 1)
                 $value = 're_id';
             else
                 $value = 'id';

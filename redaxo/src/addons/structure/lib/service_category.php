@@ -54,7 +54,7 @@ class rex_category_service
                 // TemplateId vom Startartikel der jeweiligen Sprache vererben
                 $sql = rex_sql::factory();
                 // $sql->setDebug();
-                $sql->setQuery('select clang,template_id from ' . rex::getTablePrefix() . "article where id=$category_id and startpage=1");
+                $sql->setQuery('select clang,template_id from ' . rex::getTablePrefix() . "article where id=$category_id and startarticle=1");
                 for ($i = 0; $i < $sql->getRows(); $i++, $sql->next()) {
                     $startpageTemplates[$sql->getValue('clang')] = $sql->getValue('template_id');
                 }
@@ -99,7 +99,7 @@ class rex_category_service
             $AART->setValue('re_id', $category_id);
             $AART->setValue('prior', 1);
             $AART->setValue('path', $path);
-            $AART->setValue('startpage', 1);
+            $AART->setValue('startarticle', 1);
             $AART->setValue('status', $data['status']);
             $AART->addGlobalUpdateFields();
             $AART->addGlobalCreateFields();
@@ -157,12 +157,12 @@ class rex_category_service
 
         // --- Kategorie mit alten Daten selektieren
         $thisCat = rex_sql::factory();
-        $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE startpage=1 and id=' . $category_id . ' and clang=' . $clang);
+        $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE startarticle=1 and id=' . $category_id . ' and clang=' . $clang);
 
         // --- Kategorie selbst updaten
         $EKAT = rex_sql::factory();
         $EKAT->setTable(rex::getTablePrefix() . 'article');
-        $EKAT->setWhere(array('id' => $category_id, 'startpage' => 1, 'clang' => $clang));
+        $EKAT->setWhere(array('id' => $category_id, 'startarticle' => 1, 'clang' => $clang));
 
         if (isset($data['catname'])) {
             $EKAT->setValue('catname', $data['catname']);
@@ -179,12 +179,12 @@ class rex_category_service
             // --- Kategorie Kindelemente updaten
             if (isset($data['catname'])) {
                 $ArtSql = rex_sql::factory();
-                $ArtSql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startpage=0 AND clang=' . $clang);
+                $ArtSql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startarticle=0 AND clang=' . $clang);
 
                 $EART = rex_sql::factory();
                 for ($i = 0; $i < $ArtSql->getRows(); $i++) {
                     $EART->setTable(rex::getTablePrefix() . 'article');
-                    $EART->setWhere(array( 'id' => $ArtSql->getValue('id'), 'startpage' => '0', 'clang' => $clang));
+                    $EART->setWhere(array( 'id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang' => $clang));
                     $EART->setValue('catname', $data['catname']);
                     $EART->addGlobalUpdateFields();
 
@@ -263,10 +263,10 @@ class rex_category_service
         // Prüfen ob die Kategorie existiert
         if ($thisCat->getRows() == 1) {
             $KAT = rex_sql::factory();
-            $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where re_id='$category_id' and clang='$clang' and startpage=1");
+            $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where re_id='$category_id' and clang='$clang' and startarticle=1");
             // Prüfen ob die Kategorie noch Unterkategorien besitzt
             if ($KAT->getRows() == 0) {
-                $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where re_id='$category_id' and clang='$clang' and startpage=0");
+                $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where re_id='$category_id' and clang='$clang' and startarticle=0");
                 // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
                 if ($KAT->getRows() == 0) {
                     $thisCat = rex_sql::factory();
@@ -323,7 +323,7 @@ class rex_category_service
         $catStatusTypes = self::statusTypes();
 
         $KAT = rex_sql::factory();
-        $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where id='$category_id' and clang=$clang and startpage=1");
+        $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where id='$category_id' and clang=$clang and startarticle=1");
         if ($KAT->getRows() == 1) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
@@ -334,7 +334,7 @@ class rex_category_service
 
             $EKAT = rex_sql::factory();
             $EKAT->setTable(rex::getTablePrefix() . 'article');
-            $EKAT->setWhere(array('id' => $category_id,  'clang' => $clang, 'startpage' => 1));
+            $EKAT->setWhere(array('id' => $category_id,  'clang' => $clang, 'startarticle' => 1));
             $EKAT->setValue('status', $newstatus);
             $EKAT->addGlobalCreateFields();
 
@@ -428,7 +428,7 @@ class rex_category_service
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),
                 'catprior',
-                'clang=' . $clang . ' AND re_id=' . $re_id . ' AND startpage=1',
+                'clang=' . $clang . ' AND re_id=' . $re_id . ' AND startarticle=1',
                 'catprior,updatedate ' . $addsql,
                 'pid'
             );
@@ -457,10 +457,10 @@ class rex_category_service
             // kategorien vorhanden ?
             // ist die zielkategorie im pfad der quellkategeorie ?
             $fcat = rex_sql::factory();
-            $fcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startpage=1 and id=$from_cat and clang=0");
+            $fcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startarticle=1 and id=$from_cat and clang=0");
 
             $tcat = rex_sql::factory();
-            $tcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startpage=1 and id=$to_cat and clang=0");
+            $tcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startarticle=1 and id=$to_cat and clang=0");
 
             if ($fcat->getRows() != 1 or ($tcat->getRows() != 1 && $to_cat != 0)) {
                 // eine der kategorien existiert nicht

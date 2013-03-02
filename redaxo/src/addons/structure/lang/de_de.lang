@@ -56,7 +56,7 @@ be_search_quick_navi = Schnellnavigation
 be_search_no_results = Kein Artikel entspricht dem Suchkriterium
 
 perm_options_article2category[] = Artikel in Kategorien umwandeln
-perm_options_article2startpage[] = Artikel in Startartikel umwandeln
+perm_options_article2startarticle[] = Artikel in Startartikel umwandeln
 perm_options_copyArticle[] = Artikel kopieren
 perm_options_copyContent[] = Artikelinhalte kopieren
 perm_options_moveArticle[] = Artikel verschieben

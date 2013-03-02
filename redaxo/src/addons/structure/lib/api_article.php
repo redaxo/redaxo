@@ -169,7 +169,7 @@ class rex_api_category2article extends rex_api_function
 /**
  * @package redaxo\structure
  */
-class rex_api_article2startpage extends rex_api_function
+class rex_api_article2startarticle extends rex_api_function
 {
     public function execute()
     {
@@ -184,8 +184,8 @@ class rex_api_article2startpage extends rex_api_function
         $user = rex::getUser();
 
         // article2category und category2article verwenden das gleiche Recht: article2category
-        if ($user->hasPerm('article2startpage[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            if (rex_article_service::article2startpage($article_id)) {
+        if ($user->hasPerm('article2startarticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+            if (rex_article_service::article2startarticle($article_id)) {
                 $result = new rex_api_result(true, rex_i18n::msg('content_tostartarticle_ok'));
             } else {
                 $result = new rex_api_result(false, rex_i18n::msg('content_tostartarticle_failed'));

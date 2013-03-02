@@ -66,7 +66,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             $extensionPoints = array(
                 'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
                 'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
-                'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTPAGE',
+                'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTARTICLE',
                 'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
                 'CACHE_DELETED', 'ART_META_UPDATED'
             );
@@ -286,7 +286,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             case 'CLANG_ADDED':
             case 'CLANG_UPDATED':
             case 'CLANG_DELETED':
-            case 'ART_TO_STARTPAGE':
+            case 'ART_TO_STARTARTICLE':
             case 'CACHE_DELETED':
             default:
                 $REXPATH = array();
@@ -297,7 +297,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         if ($where != '') {
             $db = rex_sql::factory();
             // $db->setDebug();
-            $db->setQuery('SELECT id,clang,path,startpage FROM ' . rex::getTablePrefix() . 'article WHERE ' . $where . ' and revision=0');
+            $db->setQuery('SELECT id,clang,path,startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . $where . ' and revision=0');
 
             foreach ($db as $art) {
                 $clang = $art->getValue('clang');

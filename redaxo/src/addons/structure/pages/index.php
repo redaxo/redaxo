@@ -137,9 +137,9 @@ $KAT = rex_sql::factory();
 // $KAT->setDebug();
 if (count($mountpoints) > 0 && $category_id == 0) {
     $re_id = implode(',', $mountpoints);
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startpage=1 AND clang=' . $clang . ' ORDER BY catname');
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startarticle=1 AND clang=' . $clang . ' ORDER BY catname');
 } else {
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startpage=1 AND clang=' . $clang . ' ORDER BY catprior');
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startarticle=1 AND clang=' . $clang . ' ORDER BY catprior');
 }
 
 // --------------------- ADD PAGINATION
@@ -156,9 +156,9 @@ echo $catFragment->parse('pagination.tpl');
 
 if (count($mountpoints) > 0 && $category_id == 0) {
     $re_id = implode(',', $mountpoints);
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startpage=1 AND clang=' . $clang . ' ORDER BY catname LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startarticle=1 AND clang=' . $clang . ' ORDER BY catname LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 } else {
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startpage=1 AND clang=' . $clang . ' ORDER BY catprior LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startarticle=1 AND clang=' . $clang . ' ORDER BY catprior LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 }
 
 
@@ -419,7 +419,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 FROM
                     ' . rex::getTablePrefix() . 'article
                 WHERE
-                    ((re_id=' . $category_id . ' AND startpage=0) OR (id=' . $category_id . ' AND startpage=1))
+                    ((re_id=' . $category_id . ' AND startarticle=0) OR (id=' . $category_id . ' AND startarticle=1))
                     AND clang=' . $clang . '
                 ORDER BY
                     prior, name');
@@ -438,7 +438,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 FROM
                     ' . rex::getTablePrefix() . 'article
                 WHERE
-                    ((re_id=' . $category_id . ' AND startpage=0) OR (id=' . $category_id . ' AND startpage=1))
+                    ((re_id=' . $category_id . ' AND startarticle=0) OR (id=' . $category_id . ' AND startarticle=1))
                     AND clang=' . $clang . '
                 ORDER BY
                     prior, name
@@ -494,7 +494,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             } else {
                 // template_id vom Startartikel erben
                 $sql2 = rex_sql::factory();
-                $sql2->setQuery('SELECT template_id FROM ' . rex::getTablePrefix() . 'article WHERE id=' . $category_id . ' AND clang=' . $clang . ' AND startpage=1');
+                $sql2->setQuery('SELECT template_id FROM ' . rex::getTablePrefix() . 'article WHERE id=' . $category_id . ' AND clang=' . $clang . ' AND startarticle=1');
                 if ($sql2->getRows() == 1)
                     $template_select->setSelected($sql2->getValue('template_id'));
             }
@@ -524,13 +524,13 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
         if ($sql->getValue('id') == rex::getProperty('start_article_id'))
             $class = ' rex-icon-sitestartarticle';
-        elseif ($sql->getValue('startpage') == 1)
+        elseif ($sql->getValue('startarticle') == 1)
             $class = ' rex-icon-startarticle';
         else
             $class = ' rex-icon-article';
 
         $class_highlight = '';
-        if ($sql->getValue('startpage') == 1)
+        if ($sql->getValue('startarticle') == 1)
             $class_highlight = ' rex-highlight';
 
         // --------------------- ARTIKEL EDIT FORM
@@ -569,7 +569,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             $article_class = $artStatusTypes[$sql->getValue('status')][1];
 
             $add_extra = '';
-            if ($sql->getValue('startpage') == 1) {
+            if ($sql->getValue('startarticle') == 1) {
                 $add_extra = '<td class="rex-delete"><span class="rex-delete rex-disabled">' . rex_i18n::msg('delete') . '</span></td>
                                             <td class="rex-status"><span class="' . $article_class . ' rex-disabled">' . $article_status . '</span></td>';
             } else {

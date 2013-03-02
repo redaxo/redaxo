@@ -51,14 +51,14 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $articles = '';
         $categories = '';
         if (!empty($where['articles'])) {
-            $sql->setQuery('SELECT id, clang, re_id, name, catname, startpage FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
+            $sql->setQuery('SELECT id, clang, re_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
             if ($sql->getRows() > 0) {
                 foreach ($sql->getArray() as $art_arr) {
                     $aid = $art_arr['id'];
                     $clang = $art_arr['clang'];
                     $re_id = $art_arr['re_id'];
-                    $name = $art_arr['startpage'] ? $art_arr['catname'] : $art_arr['name'];
-                    if ($art_arr['startpage']) {
+                    $name = $art_arr['startarticle'] ? $art_arr['catname'] : $art_arr['name'];
+                    if ($art_arr['startarticle']) {
                         $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', array('edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $re_id, 'clang' => $clang)) . '\')">' . $art_arr['catname'] . '</a></li>';
                     } else {
                         $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', array('article_id' => $aid, 'mode' => 'meta', 'clang' => $clang)) . '\')">' . $art_arr['name'] . '</a></li>';

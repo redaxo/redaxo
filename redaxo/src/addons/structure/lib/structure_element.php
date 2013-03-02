@@ -19,7 +19,7 @@ abstract class rex_structure_element
         $_template_id = '',
         $_path = '',
         $_prior = '',
-        $_startpage = '',
+        $_startarticle = '',
         $_status = '',
         $_attributes = '',
         $_updatedate = '',
@@ -473,7 +473,7 @@ abstract class rex_structure_element
      */
     public function isStartArticle()
     {
-        return $this->_startpage;
+        return $this->_startarticle;
     }
 
     /**

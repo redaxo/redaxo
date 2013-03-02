@@ -87,7 +87,7 @@ if ($article->getRows() == 1) {
 
     if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
 
-        $term = ($article->getValue('startpage') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
+        $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
         $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
         // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
 

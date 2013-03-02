@@ -9,11 +9,11 @@ $content .= '
                                 ';
 
 
-$isStartpage = $article->getValue('startpage') == 1;
+$isStartpage = $article->getValue('startarticle') == 1;
 $out = '';
 
 // --------------------------------------------------- ZUM STARTARTICLE MACHEN START
-if (rex::getUser()->hasPerm('article2startpage[]')) {
+if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $out .= '
                         <fieldset>
                             <h2>' . rex_i18n::msg('content_startarticle') . '</h2>';
@@ -26,7 +26,7 @@ if (rex::getUser()->hasPerm('article2startpage[]')) {
     elseif ($isStartpage)
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
     else
-        $n['field'] = '<button class="rex-button" type="submit" name="article2startpage" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startpage\');">' . rex_i18n::msg('content_tostartarticle') . '</button>';
+        $n['field'] = '<button class="rex-button" type="submit" name="article2startarticle" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startarticle\');">' . rex_i18n::msg('content_tostartarticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
