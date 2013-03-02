@@ -79,7 +79,6 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
     `id` int(11) NOT NULL  auto_increment,
-    `label` varchar(255) NULL,
     `name` varchar(255) NULL,
     `content` text NULL,
     `active` tinyint(1) NULL,

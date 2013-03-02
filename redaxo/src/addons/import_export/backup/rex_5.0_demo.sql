@@ -506,7 +506,6 @@ CREATE TABLE `rex_module_action` (
 DROP TABLE IF EXISTS `rex_template`;
 CREATE TABLE `rex_template` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `label` varchar(255) DEFAULT NULL,
     `name` varchar(255) DEFAULT NULL,
     `content` text,
     `active` tinyint(1) DEFAULT NULL,
