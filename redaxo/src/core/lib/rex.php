@@ -8,7 +8,7 @@
  */
 class rex
 {
-    const CONFIG_NAMESPACE = 'rex-core';
+    const CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties
