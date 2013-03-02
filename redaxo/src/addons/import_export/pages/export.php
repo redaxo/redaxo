@@ -22,8 +22,10 @@ $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
-if ($exportfilename == '')
-    $exportfilename = strtolower($_SERVER['HTTP_HOST']) . '_rex' . rex::getVersion('') . '_' . date('Ymd');
+if ($exportfilename == '') {
+    $server = preg_replace('@^https?://|/.*|[^\w.-]@', '', rex::getProperty('server'));
+    $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
+}
 
 if (rex_post('export', 'bool')) {
     // ------------------------------ FUNC EXPORT
