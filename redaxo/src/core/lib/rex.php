@@ -69,7 +69,7 @@ class rex
                 }
                 break;
             case 'error_email':
-                if (!preg_match('/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/i', $value)) {
+                if (!preg_match('/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/ui', $value)) {
                     throw new InvalidArgumentException('"error_email" property: expecting $value to be an email address!');
                 }
                 break;
