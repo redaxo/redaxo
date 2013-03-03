@@ -27,7 +27,25 @@ class rex_string_test extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, rex_string::size('aä'));
     }
 
-    public function compareVersionsProvider()
+    public function versionSplitProvider()
+    {
+        return array(
+            array('1.1.2',      array('1', '1', '2')),
+            array('1.2alpha1',  array('1', '2', 'alpha', '1')),
+            array('1_2 beta 2', array('1', '2', 'beta', '2')),
+            array('2.2.3-dev',  array('2', '2', '3', 'dev'))
+        );
+    }
+
+    /**
+     * @dataProvider versionSplitProvider
+     */
+    public function testVersionSplit($version, $expected)
+    {
+        $this->assertEquals($expected, rex_string::versionSplit($version));
+    }
+
+    public function versionCompareProvider()
     {
         return array(
             array('1',      '1',      '='),
@@ -57,11 +75,11 @@ class rex_string_test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider compareVersionsProvider
+     * @dataProvider versionCompareProvider
      */
-    public function testCompareVersions($version1, $version2, $comparator)
+    public function testVersionCompare($version1, $version2, $comparator)
     {
-        $this->assertTrue(rex_string::compareVersions($version1, $version2, $comparator));
+        $this->assertTrue(rex_string::versionCompare($version1, $version2, $comparator));
     }
 
     public function buildQueryProvider()

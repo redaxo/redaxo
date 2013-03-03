@@ -63,6 +63,17 @@ class rex_string
     }
 
     /**
+     * Splits a version string
+     *
+     * @param string $version Version
+     * @return array Version parts
+     */
+    public static function versionSplit($version)
+    {
+        return preg_split('/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ ._-]+/i', $version);
+    }
+
+    /**
      * Compares two version number strings
      *
      * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal
@@ -74,11 +85,10 @@ class rex_string
      * @param string $comparator Optional comparator
      * @return integer|boolean
      */
-    public static function compareVersions($version1, $version2, $comparator = null)
+    public static function versionCompare($version1, $version2, $comparator = null)
     {
-        $pattern = '/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)|[ .-]+/i';
-        $version1 = preg_split($pattern, $version1);
-        $version2 = preg_split($pattern, $version2);
+        $version1 = self::versionSplit($version1);
+        $version2 = self::versionSplit($version2);
         $max = max(count($version1), count($version2));
         $version1 = implode('.', array_pad($version1, $max, '0'));
         $version2 = implode('.', array_pad($version2, $max, '0'));

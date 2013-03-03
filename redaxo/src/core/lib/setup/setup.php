@@ -112,7 +112,7 @@ class rex_setup
         }
 
         $serverVersion = rex_sql::getServerVersion();
-        if (rex_string::compareVersions($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1) {
+        if (rex_string::versionCompare($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1) {
             return rex_i18n::msg('setup_404', $serverVersion, self::MIN_MYSQL_VERSION);
         }
         return '';

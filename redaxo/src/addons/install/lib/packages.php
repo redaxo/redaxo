@@ -35,7 +35,7 @@ class rex_install_packages
     private static function unsetOlderVersions($package, $version)
     {
         foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
-            if (empty($version) || empty($file['version']) || rex_string::compareVersions($file['version'], $version, '<=')) {
+            if (empty($version) || empty($file['version']) || rex_string::versionCompare($file['version'], $version, '<=')) {
                 unset(self::$updatePackages[$package]['files'][$fileId]);
             }
         }

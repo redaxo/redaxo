@@ -684,7 +684,7 @@ abstract class rex_package_manager extends rex_factory_base
         }
 
         foreach ($constraints as $constraint) {
-            if (!rex_string::compareVersions($version, $constraint[1], $constraint[0])) {
+            if (!rex_string::versionCompare($version, $constraint[1], $constraint[0])) {
                 return false;
             }
         }
