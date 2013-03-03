@@ -24,6 +24,8 @@ $REX['REDAXO'] = true;
 $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
+file_put_contents('data/config.yml', "error_email: info@redaxo.org\n");
+
 // bootstrap core
 require 'src/core/boot.php';
 
@@ -33,8 +35,10 @@ if (rex::isSetup()) {
 
     // read initial config
     $configFile = rex_path::data('config.yml');
-    rex_file::copy(rex_path::core('default.config.yml'), $configFile);
-    $config = rex_file::getConfig($configFile);
+    $config = array_merge(
+        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig($configFile)
+    );
 
     // init db
     $err .= rex_setup::checkDb($config, false);
