@@ -74,7 +74,7 @@ abstract class rex_dashboard_component_base
 
             $cachestamp = $cacheBackend->getLastModified($cachekey);
             if (!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
-            $cachetime = rex_formatter::format($cachestamp, 'strftime', 'datetime');
+            $cachetime = rex_formatter::strftime($cachestamp, 'datetime');
 
             $content = strtr($content, array('%%actionbar%%' => $this->getActionBar()));
             $content = strtr($content, array('%%cachetime%%' => $cachetime));

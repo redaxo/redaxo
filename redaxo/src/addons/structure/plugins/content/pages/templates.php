@@ -233,7 +233,7 @@ if ($function == 'add' or $function == 'edit') {
                 $formElements = array();
                 $n = array();
                 $n['id']    = 'rex-js-modules' . $i;
-                $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . rex_string::widont( rex_i18n::msg('modules_available') ) . '</label>';
+                $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . rex_formatter::widont(rex_i18n::msg('modules_available')) . '</label>';
                 $n['field'] = $modul_select->get();
                 $n['note'] = rex_i18n::msg('ctrl');
                 $formElements[] = $n;
@@ -372,7 +372,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements = array();
         $n = array();
         $n['id']    = 'rex-id-categories';
-        $n['label'] = '<label for="rex-id-categories-select">' . rex_string::widont( rex_i18n::msg('template_categories_custom') ) . '</label>';
+        $n['label'] = '<label for="rex-id-categories-select">' . rex_formatter::widont(rex_i18n::msg('template_categories_custom')) . '</label>';
         $n['field'] = $cat_select->get();
         $n['note'] = rex_i18n::msg('ctrl');
         $formElements[] = $n;

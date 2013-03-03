@@ -55,7 +55,7 @@ class rex_cronjob_log
     public static function getListOfMonth($month, $year)
     {
         $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
-        $monthName = rex_formatter::format(mktime(0, 0, 0, $month, 1, 1), 'strftime', '%B');
+        $monthName = rex_formatter::strftime(mktime(0, 0, 0, $month, 1, 1), '%B');
         $caption = rex_i18n::msg('cronjob_log_caption_1', $monthName, $year);
         $summary = rex_i18n::msg('cronjob_log_summary_1', $monthName, $year);
         return self::_getList($lines, $caption, $summary);
@@ -159,7 +159,7 @@ class rex_cronjob_log
                     if (!isset($data[$i]))
                         $data[$i] = '';
                 }
-                $data[0] = rex_formatter :: format(strtotime($data[0]), 'strftime', 'datetime');
+                $data[0] = rex_formatter::strftime(strtotime($data[0]), 'datetime');
                 $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';
                 $data[4] = str_replace(' | ', '<br />', htmlspecialchars($data[4]));
                 if ($data[2] == '--') {

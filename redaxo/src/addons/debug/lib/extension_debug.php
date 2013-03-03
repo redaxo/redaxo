@@ -44,7 +44,7 @@ class rex_extension_debug extends rex_extension
         $res    = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
         $epDur  = $timer->getFormattedDelta();
 
-        $memory = rex_formatter :: format(memory_get_usage(true), 'bytes', array(3));
+        $memory = rex_formatter::bytes(memory_get_usage(true), array(3));
 
         self::$log[] = array(
             'type'      => 'EP',

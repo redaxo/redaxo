@@ -1,111 +1,42 @@
 <?php
 
 /**
- * @package redaxo5
- */
-
-/**
- * Klasse zur Formatierung von Strings
+ * String formatter class
  *
  * @package redaxo\core
  */
 abstract class rex_formatter
 {
+    /**
+     * It's not allowed to create instances of this class
+     */
     private function __construct()
     {
-        // it's not allowed to create instances of this class
     }
 
     /**
-     * Formatiert den String <code>$value</code>
+     * Formats a string by the given format type
      *
-     * @param string $value       zu formatierender String
-     * @param string $format_type Formatierungstype
-     * @param mixed  $format      Format
+     * @param string $value      Value
+     * @param string $formatType Format type (any method name of this class)
+     * @param mixed  $format     For possible values look at the other methods of this class
      * @return string
-     *
-     * Unterstützte Formatierugen:
-     *
-     * - <Formatierungstype>
-     *    + <Format>
-     *
-     * - sprintf
-     *    + siehe www.php.net/sprintf
-     * - date
-     *    + siehe www.php.net/date
-     * - strftime
-     *    + dateformat
-     *    + datetime
-     *    + siehe www.php.net/strftime
-     * - number
-     *    + siehe www.php.net/number_format
-     *    + array( <Kommastelle>, <Dezimal Trennzeichen>, <Tausender Trennzeichen>)
-     * - email
-     *    + array( 'attr' => <Linkattribute>, 'params' => <Linkparameter>,
-     * - url
-     *    + array( 'attr' => <Linkattribute>, 'params' => <Linkparameter>,
-     * - truncate
-     *    + array( 'length' => <String-Laenge>, 'etc' => <ETC Zeichen>, 'break_words' => <true/false>,
-     * - nl2br
-     *    + siehe www.php.net/nl2br
-     * - custom
-     *    + formatiert den Wert anhand einer Benutzer definierten Callback Funktion
-     * - bytes
-     *    + formatiert einen Zahlenwert und gibt ihn als Bytegröße aus
      */
-    public static function format($value, $format_type, $format)
+    public static function format($value, $formatType, $format)
     {
-        // Stringformatierung mit sprintf()
-        if ($format_type == 'sprintf') {
-            $value = self::_formatSprintf($value, $format);
-        }
-        // Datumsformatierung mit date()
-        elseif ($format_type == 'date') {
-            $value = self::_formatDate($value, $format);
-        }
-        // Datumsformatierung mit strftime()
-        elseif ($format_type == 'strftime') {
-            $value = self::_formatStrftime($value, $format);
-        }
-        // Zahlenformatierung mit number_format()
-        elseif ($format_type == 'number') {
-            $value = self::_formatNumber($value, $format);
-        }
-        // Email-Mailto Linkformatierung
-        elseif ($format_type == 'email') {
-            $value = self::_formatEmail($value, $format);
-        }
-        // URL-Formatierung
-        elseif ($format_type == 'url') {
-            $value = self::_formatUrl($value, $format);
-        }
-        // String auf eine eine Länge abschneiden
-        elseif ($format_type == 'truncate') {
-            $value = self::_formatTruncate($value, $format);
-        }
-        // Newlines zu <br />
-        elseif ($format_type == 'nl2br') {
-            $value = self::_formatNl2br($value, $format);
-        }
-        // Benutzerdefinierte Callback-Funktion
-        elseif ($format_type == 'custom') {
-            $value = self::_formatCustom($value, $format);
-        } elseif ($format_type == 'bytes') {
-            $value = self::_formatBytes($value, $format);
-        }
-
-        return $value;
+        return self::$formatType($value, $format);
     }
 
-    private static function _formatSprintf($value, $format)
-    {
-        if ($format == '') {
-            $format = '%s';
-        }
-        return sprintf($format, $value);
-    }
-
-    private static function _formatDate($value, $format)
+    /**
+     * Formats a string by `date()`
+     *
+     * @link http://www.php.net/manual/en/function.date.php
+     *
+     * @param string $value  Value
+     * @param string $format Default format is `d.m.Y`
+     * @return string
+     */
+    public static function date($value, $format = '')
     {
         if ($format == '') {
             $format = 'd.m.Y';
@@ -114,9 +45,18 @@ abstract class rex_formatter
         return date($format, $value);
     }
 
-    private static function _formatStrftime($value, $format)
+    /**
+     * Formats a string by `strftime()`
+     *
+     * @link http://www.php.net/manual/en/function.strftime.php
+     *
+     * @param string $value  Value
+     * @param string $format Possible values are format strings like in `strftime` or "date" oder "datetime", default is "date"
+     * @return string
+     */
+    public static function strftime($value, $format = '')
     {
-        if (empty ($value)) {
+        if (empty($value)) {
             return '';
         }
 
@@ -130,7 +70,16 @@ abstract class rex_formatter
         return strftime($format, $value);
     }
 
-    private static function _formatNumber($value, $format)
+    /**
+     * Formats a string by `number_format()`
+     *
+     * @link http://www.php.net/manual/en/function.number-format.php
+     *
+     * @param string $value  Value
+     * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
+     * @return string
+     */
+    public static function number($value, $format = array())
     {
         if (!is_array($format)) {
             $format = array();
@@ -151,29 +100,127 @@ abstract class rex_formatter
         return number_format($value, $format[0], $format[1], $format[2]);
     }
 
-    private static function _formatEmail($value, $format)
+    /**
+     * Formats a string as bytes
+     *
+     * @param string $value  Value
+     * @param array  $format Same as {@link rex_formatter::number()}
+     * @return string
+     */
+    public static function bytes($value, $format = array())
     {
-        if (!is_array($format)) {
-            $format = array();
+        $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+        $unit_index = 0;
+        while (($value / 1024) >= 1) {
+            $value /= 1024;
+            $unit_index++;
         }
 
-        // Linkattribute
-        if (empty ($format['attr'])) {
-            $format['attr'] = '';
-        }
-        // Linkparameter (z.b. subject=Hallo Sir)
-        if (empty ($format['params'])) {
-            $format['params'] = '';
-        } else {
-            if (strstr($format['params'], '?') != $format['params']) {
-                $format['params'] = '?' . $format['params'];
+        if (isset($format[0])) {
+            $z = intval($value * pow(10, $precision = intval($format[0])));
+            for ($i = 0; $i < intval($precision); $i++) {
+                if (($z % 10) == 0) {
+                    $format[0] = intval($format[0]) - 1;
+                    $z = intval($z / 10);
+                } else {
+                    break;
+                }
             }
         }
-        // Url formatierung
-        return '<a href="mailto:' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
+
+        return self::number($value, $format) . ' ' . $units[$unit_index];
     }
 
-    private static function _formatUrl($value, $format)
+    /**
+     * Formats a string by `sprintf()`
+     *
+     * @link http://www.php.net/manual/en/function.sprintf.php
+     *
+     * @param string $value  Value
+     * @param string $format
+     * @return string
+     */
+    public static function sprintf($value, $format = '')
+    {
+        if ($format == '') {
+            $format = '%s';
+        }
+        return sprintf($format, $value);
+    }
+
+    /**
+     * Formats a string by `nl2br`
+     *
+     * @link http://www.php.net/manual/en/function.nl2br.php
+     *
+     * @param string $value Value
+     * @return string
+     */
+    public static function nl2br($value)
+    {
+        return nl2br($value);
+    }
+
+    /**
+     * Truncates a string
+     *
+     * @param string $value  Value
+     * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
+     * @return string
+     */
+    public static function truncate($value, $format = array())
+    {
+        if (!is_array($format))
+            $format = array();
+
+        // Max-String-laenge
+        if (empty($format['length']))
+            $format['length'] = 80;
+
+        // ETC
+        if (empty($format['etc']))
+            $format['etc'] = '...';
+
+        // Break-Words?
+        if (empty($format['break_words']))
+            $format['break_words'] = false;
+
+        if (mb_strlen($value) > $format['length']) {
+            $format['length'] -= mb_strlen($format['etc']);
+            if (!$format['break_words'])
+                $value = preg_replace('/\s+?(\S+)?$/', '', substr($value, 0, $format['length'] + 1));
+
+            return substr($value, 0, $format['length']) . $format['etc'];
+        }
+
+        return $value;
+    }
+
+    /**
+     * Avoid widows in a string
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function widont($value)
+    {
+        // Sollte ein Wort allein auf einer Zeile vorkommen, wird dies unterbunden
+        $value = rtrim($value);
+        $space = strrpos($value, ' ');
+        if ($space !== false) {
+            $value = substr($value, 0, $space) . '&#160;' . substr($value, $space + 1);
+        }
+        return $value;
+    }
+
+    /**
+     * Formats a string as link
+     *
+     * @param string $value  URL
+     * @param array  $format Array with link attributes and params
+     * @return string Link
+     */
+    public static function url($value, $format = array())
     {
         if (empty($value))
             return '';
@@ -201,32 +248,44 @@ abstract class rex_formatter
         return '<a href="' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
     }
 
-    private static function _formatTruncate($value, $format)
+    /**
+     * Formats a string as email link
+     *
+     * @param string $value  Email
+     * @param array  $format Array with link attributes and params
+     * @return string Email link
+     */
+    public static function email($value, $format = array())
     {
-        if (!is_array($format))
+        if (!is_array($format)) {
             $format = array();
+        }
 
-        // Max-String-laenge
-        if (empty ($format['length']))
-            $format['length'] = 80;
-
-        // ETC
-        if (empty ($format['etc']))
-            $format['etc'] = '...';
-
-        // Break-Words?
-        if (empty ($format['break_words']))
-            $format['break_words'] = false;
-
-        return self::truncate($value, $format['length'], $format['etc'], $format['break_words']);
+        // Linkattribute
+        if (empty ($format['attr'])) {
+            $format['attr'] = '';
+        }
+        // Linkparameter (z.b. subject=Hallo Sir)
+        if (empty ($format['params'])) {
+            $format['params'] = '';
+        } else {
+            if (strstr($format['params'], '?') != $format['params']) {
+                $format['params'] = '?' . $format['params'];
+            }
+        }
+        // Url formatierung
+        return '<a href="mailto:' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
     }
 
-    private static function _formatNl2br($value, $format)
-    {
-        return nl2br($value);
-    }
-
-    private static function _formatCustom($value, $format)
+    /**
+     * Formats a string by a custom callable
+     *
+     * @param string         $value  Value
+     * @param callable|array $format A callable or an array of a callable and additional params
+     * @return string
+     * @throws rex_exception
+     */
+    public static function custom($value, $format)
     {
         if (!is_callable($format)) {
             if (!is_callable($format[0])) {
@@ -246,53 +305,5 @@ abstract class rex_formatter
         }
 
         return call_user_func($format, $value);
-    }
-
-    private static function _formatBytes($value, $format)
-    {
-        $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
-        $unit_index = 0;
-        while (($value / 1024) >= 1) {
-            $value /= 1024;
-            $unit_index++;
-        }
-
-        if (isset($format[0])) {
-            $z = intval($value * pow(10, $precision = intval($format[0])));
-            for ($i = 0; $i < intval($precision); $i++) {
-                if (($z % 10) == 0) {
-                    $format[0] = intval($format[0]) - 1;
-                    $z = intval($z / 10);
-                } else {
-                    break;
-                }
-            }
-        }
-
-        return self::_formatNumber($value, $format) . ' ' . $units[$unit_index];
-    }
-
-    /**
-     * Returns the truncated $string
-     *
-     * @param string $string      Searchstring
-     * @param int    $length
-     * @param string $etc
-     * @param bool   $break_words
-     * @return string
-     */
-    public static function truncate($string, $length = 80, $etc = '...', $break_words = false)
-    {
-        if ($length == 0)
-            return '';
-
-        if (strlen($string) > $length) {
-            $length -= strlen($etc);
-            if (!$break_words)
-                $string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length + 1));
-
-            return substr($string, 0, $length) . $etc;
-        } else
-            return $string;
     }
 }

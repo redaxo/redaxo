@@ -161,22 +161,4 @@ class rex_string
     {
         return '<p class="rex-code">' . highlight_string($string, true) . '</p>';
     }
-
-
-    /**
-     * Avoid widows in a string
-     *
-     * @param string $string
-     * @return string
-     */
-    public static function widont($string)
-    {
-        // Sollte ein Wort allein auf einer Zeile vorkommen, wird dies unterbunden
-        $string = rtrim($string);
-        $space = strrpos($string, ' ');
-        if ($space !== false) {
-            $string = substr($string, 0, $space) . '&#160;' . substr($string, $space + 1);
-        }
-        return $string;
-    }
 }

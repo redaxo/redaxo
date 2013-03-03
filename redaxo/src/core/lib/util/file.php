@@ -151,7 +151,7 @@ class rex_file
      */
     public static function formattedSize($fileOrSize, $format = array())
     {
-        return rex_formatter::format(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, 'bytes', $format);
+        return rex_formatter::bytes(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, $format);
     }
 
     /**

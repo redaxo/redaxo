@@ -512,7 +512,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                                 <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" /></td>
                                 <td class="rex-prior"><input class="rex-number" type="text" id="rex-form-field-prior" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
                                 ' . $tmpl_td . '
-                                <td class="rex-date">' . rex_formatter :: format(time(), 'strftime', 'date') . '</td>
+                                <td class="rex-date">' . rex_formatter::strftime(time(), 'date') . '</td>
                                 <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_add" /><button class="rex-button" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                             </tr>
                             ';
@@ -553,7 +553,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                                     <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" /></td>
                                     <td class="rex-prior"><input class="rex-number" type="text" id="rex-form-field-prior" name="article-position" value="' . htmlspecialchars($sql->getValue('prior')) . '" /></td>
                                     ' . $tmpl_td . '
-                                    <td class="rex-date">' . rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') . '</td>
+                                    <td class="rex-date">' . rex_formatter::strftime($sql->getValue('createdate'), 'date') . '</td>
                                     <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_edit" /><button class="rex-button" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                                 </tr>
                                 ';
@@ -598,7 +598,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                                     <td class="rex-name' . $class_highlight . '"><a href="' . $editModeUrl . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
                                     <td class="rex-prior">' . htmlspecialchars($sql->getValue('prior')) . '</td>
                                     ' . $tmpl_td . '
-                                    <td class="rex-date">' . rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') . '</td>
+                                    <td class="rex-date">' . rex_formatter::strftime($sql->getValue('createdate'), 'date') . '</td>
                                     <td><a class="rex-link rex-edit" href="' . $context->getUrl(array('article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $artstart)) . '">' . rex_i18n::msg('change') . '</a></td>
                                     ' . $add_extra . '
                                 </tr>
@@ -626,7 +626,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                                     <td class="rex-name">' . htmlspecialchars($sql->getValue('name')) . '</td>
                                     <td class="rex-prior">' . htmlspecialchars($sql->getValue('prior')) . '</td>
                                     ' . $tmpl_td . '
-                                    <td class="rex-date">' . rex_formatter :: format($sql->getValue('createdate'), 'strftime', 'date') . '</td>
+                                    <td class="rex-date">' . rex_formatter::strftime($sql->getValue('createdate'), 'date') . '</td>
                                     <td class="rex-edit"><span class="rex-edit rex-disabled">' . rex_i18n::msg('change') . '</span></td>
                                     <td class="rex-delete"><span class="rex-delete rex-disabled">' . rex_i18n::msg('delete') . '</span></td>
                                     <td class="rex-status"><span class="' . $art_status_class . ' rex-disabled">' . $art_status . '</span></td>
