@@ -207,11 +207,16 @@ class rex
     /**
      * Returns the redaxo version
      *
+     * @param string $format See {@link rex_formatter::version()}
      * @return string
      */
-    public static function getVersion()
+    public static function getVersion($format = null)
     {
-        return self::getProperty('version');
+        $version = self::getProperty('version');
+        if ($format) {
+            return rex_formatter::version($version, $format);
+        }
+        return $version;
     }
 
     /**

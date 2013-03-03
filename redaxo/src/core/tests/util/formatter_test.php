@@ -146,6 +146,21 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testVersion()
+    {
+        $value = '5.1.2-alpha1';
+
+        $this->assertEquals(
+            '5_1',
+            rex_formatter::version($value, '%s_%s')
+        );
+
+        $this->assertEquals(
+            '2-1-5',
+            rex_formatter::version($value, '%3$s-%2$s-%1$s')
+        );
+    }
+
     public function testUrl()
     {
         $value = 'http://example.org';

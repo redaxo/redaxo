@@ -162,10 +162,10 @@ interface rex_package_interface
     /**
      * Returns the version
      *
-     * @param mixed $default Default value, will be returned if the property isn't set
+     * @param string $format See {@link rex_formatter::version()}
      * @return mixed
      */
-    public function getVersion($default = null);
+    public function getVersion($format = null);
 
     /**
      * Returns the supportpage

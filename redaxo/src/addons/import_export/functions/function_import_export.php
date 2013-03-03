@@ -45,7 +45,7 @@ function rex_a1_import_db($filename)
 
     // Versionsstempel prüfen
     // ## Redaxo Database Dump Version x.x
-    $mainVersion = substr(rex::getVersion(), 0, strpos(rex::getVersion(), '.'));
+    $mainVersion = rex::getVersion('%s');
     $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
     if ($version === false) {
         $return['message'] = rex_i18n::msg('im_export_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
@@ -289,7 +289,7 @@ function rex_a1_export_db($filename)
     rex_extension::registerPoint('A1_BEFORE_DB_EXPORT');
 
     // Versionsstempel hinzufügen
-    fwrite($fp, '## Redaxo Database Dump Version ' . substr(rex::getVersion(), 0, strpos(rex::getVersion(), '.')) . $nl);
+    fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
     fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
     //fwrite($fp, '## charset '.rex_i18n::msg('htmlcharset').$nl.$nl);
     fwrite($fp, '## charset utf-8' . $nl . $nl);

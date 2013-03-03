@@ -177,7 +177,7 @@ abstract class rex_null_package extends rex_singleton_base implements rex_packag
     /**
      * {@inheritDoc}
      */
-    public function getVersion($default = null)
+    public function getVersion($format = null)
     {
         return $default;
     }

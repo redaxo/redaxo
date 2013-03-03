@@ -205,9 +205,13 @@ abstract class rex_package implements rex_package_interface
     /**
      * {@inheritDoc}
      */
-    public function getVersion($default = null)
+    public function getVersion($format = null)
     {
-        return $this->getProperty('version', $default);
+        $version = $this->getProperty('version');
+        if ($format) {
+            return rex_formatter::version($version, $format);
+        }
+        return $version;
     }
 
     /**

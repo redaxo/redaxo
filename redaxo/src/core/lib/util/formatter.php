@@ -214,6 +214,20 @@ abstract class rex_formatter
     }
 
     /**
+     * Formats a version string by `sprintf()`
+     *
+     * @link http://www.php.net/manual/en/function.sprintf.php
+     *
+     * @param string $value  Version
+     * @param string $format Version format, e.g. "%s.%s"
+     * @return string
+     */
+    public static function version($value, $format)
+    {
+        return vsprintf($format, rex_string::versionSplit($value));
+    }
+
+    /**
      * Formats a string as link
      *
      * @param string $value  URL
