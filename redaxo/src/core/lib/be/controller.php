@@ -112,7 +112,7 @@ class rex_be_controller
         $activePageObj = self::getCurrentPageObject();
 
         $page_name = $activePageObj->getTitle();
-        $page_title = rex::getProperty('servername');
+        $page_title = rex::getServerName();
 
         if ($page_name != '') {
             if ($page_title != '') {

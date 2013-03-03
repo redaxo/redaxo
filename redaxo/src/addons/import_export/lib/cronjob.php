@@ -14,8 +14,7 @@ class rex_cronjob_export extends rex_cronjob
         include_once rex_path::addon('import_export', 'functions/function_import_folder.php');
 
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $server = preg_replace('@^https?://|/.*|[^\w.-]@', '', rex::getProperty('server'));
-        $filename = str_replace('%REX_SERVER', $server, $filename);
+        $filename = str_replace('%REX_SERVER', rex::getServer(), $filename);
         $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
         $filename = strftime($filename);
         $file = $filename;
@@ -38,7 +37,7 @@ class rex_cronjob_export extends rex_cronjob
                 $mail = new rex_mailer;
                 $mail->AddAddress($this->mailaddress);
                 $mail->Subject = rex_i18n::msg('im_export_mail_subject');
-                $mail->Body = rex_i18n::msg('im_export_mail_body', rex::getProperty('servername'));
+                $mail->Body = rex_i18n::msg('im_export_mail_body', rex::getServerName());
                 $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');

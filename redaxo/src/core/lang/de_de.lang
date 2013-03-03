@@ -100,7 +100,12 @@ syslog_delete_error = Fehler beim löschen des Systemlogs!
 server = URL der Website
 servername = Name der Website
 error_email = E-Mail-Adresse bei Fehlern
-error_email_required = Es wird eine Fehler E-Mailadresse benötigt!
+error_email_required = Es wird eine E-Mail-Adresse für Fehler benötigt!
+error_email_invalid = Die E-Mail-Adresse für Fehler ist keine gültige E-Mail-Adresse!
+server_required = Es wird eine URL für die Website benötigt!
+server_invalid = Die Website-URL ist ungültig, sie muss ohne http:// angegeben werden!
+servername_required = Es wird ein Servername benötigt!
+lang_required = Es wird eine Sprache benötigt!
 debug_mode = Debug-Modus
 
 # redaxo\include\pages\medienpool.php\setup.php
@@ -140,8 +145,6 @@ setup_402 = Allgemeine Redaxo-Einstellungen
 setup_403 = Datenbankinformationen
 setup_404 = Die angegebene Datenbank existiert bereits!
 setup_405 = Schreiben der 'data/config.yml'
-setup_406 = Serverdomain [optional]
-setup_407 = Serverbezeichnung [optional]
 setup_408 = Name der Datenbank
 setup_409 = Passwort
 setup_410 = Weiter zu Schritt 5

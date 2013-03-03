@@ -6,8 +6,7 @@
  */
 
 $info = '';
-$warning = '';
-$error = '';
+$error = array();
 $success = '';
 
 if ($func == 'setup') {
@@ -24,7 +23,7 @@ if ($func == 'setup') {
         exit;
 
     } else {
-        $warning = rex_i18n::msg('setup_error2');
+        $error[] = rex_i18n::msg('setup_error2');
     }
 } elseif ($func == 'generate') {
     // generate all articles,cats,templates,caches
@@ -42,9 +41,15 @@ if ($func == 'setup') {
     $settings = rex_post('settings', 'array', array());
 
     foreach (array('server', 'servername', 'error_email', 'lang') as $key) {
-        if (isset($settings[$key])) {
-            $config[$key] = $settings[$key];
+        if (!isset($settings[$key]) || !$settings[$key]) {
+            $error[] = rex_i18n::msg($key . '_required');
+            continue;
+        }
+        $config[$key] = $settings[$key];
+        try {
             rex::setProperty($key, $settings[$key]);
+        } catch (InvalidArgumentException $e) {
+            $error[] = rex_i18n::msg($key . '_invalid');
         }
     }
 
@@ -55,8 +60,8 @@ if ($func == 'setup') {
         $key = $setting->getKey();
         if (isset($settings[$key])) {
             $value = $setting->cast($settings[$key]);
-            if (($error = $setting->isValid($value)) !== true) {
-                $warning .= $error . '<br />';
+            if (($msg = $setting->isValid($value)) !== true) {
+                $error[] = $msg;
             } else {
                 $config[$key] = $value;
                 rex::setProperty($key, $value);
@@ -64,11 +69,7 @@ if ($func == 'setup') {
         }
     }
 
-    if (empty($config['error_email'])) {
-        $warning = rex_i18n::msg('error_email_required');
-    }
-
-    if ($warning == '') {
+    if (empty($error)) {
         if (rex_file::putConfig($configFile, $config) > 0) {
             $success = rex_i18n::msg('info_updated');
         }
@@ -86,8 +87,8 @@ foreach (rex_i18n::getLocales() as $l) {
     $sel_lang->addOption($l, $l);
 }
 
-if ($warning != '')
-    echo rex_view::warning($warning);
+if (!empty($error))
+    echo rex_view::error(implode('<br />', $error));
 
 if ($info != '')
     echo rex_view::info($info);
@@ -137,17 +138,17 @@ $formElements = array();
 
 $n = array();
 $n['label'] = '<label for="rex-id-server">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input type="text" id="rex-id-server" name="settings[server]" value="' . htmlspecialchars(rex::getProperty('server')) . '" />';
+$n['field'] = '<input type="text" id="rex-id-server" name="settings[server]" value="' . htmlspecialchars(rex::getServer()) . '" />';
 $formElements[] = $n;
 
 $n = array();
 $n['label'] = '<label for="rex-id-servername">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input type="text" id="rex-id-servername" name="settings[servername]" value="' . htmlspecialchars(rex::getProperty('servername')) . '" />';
+$n['field'] = '<input type="text" id="rex-id-servername" name="settings[servername]" value="' . htmlspecialchars(rex::getServerName()) . '" />';
 $formElements[] = $n;
 
 $n = array();
 $n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getProperty('error_email')) . '" />';
+$n['field'] = '<input type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 
 $n = array();

@@ -54,15 +54,25 @@ class rex
      *
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
-     *
      * @return boolean TRUE when an existing value was overridden, otherwise FALSE
-     *
-     * @throws rex_exception on invalid parameters
+     * @throws InvalidArgumentException on invalid parameters
      */
     public static function setProperty($key, $value)
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
+        }
+        switch ($key) {
+            case 'server':
+                if (!preg_match('/^(?:[\w-]+\.)*[\w-]+(?:\:\d+)?$/u', $value)) {
+                    throw new InvalidArgumentException('"server" property: expecting $value to be a server hostname (without "http://")!');
+                }
+                break;
+            case 'error_email':
+                if (!preg_match('/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/i', $value)) {
+                    throw new InvalidArgumentException('"error_email" property: expecting $value to be an email address!');
+                }
+                break;
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -74,10 +84,8 @@ class rex
      *
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
-     *
      * @return mixed The value for $key or $default if $key cannot be found
-     *
-     * @throws rex_exception on invalid parameters
+     * @throws InvalidArgumentException on invalid parameters
      */
     public static function getProperty($key, $default = null)
     {
@@ -94,10 +102,7 @@ class rex
      * Returns if a property is set
      *
      * @param string $key Key of the property
-     *
      * @return boolean TRUE if the key is set, otherwise FALSE
-     *
-     * @throws rex_exception on invalid parameters
      */
     public static function hasProperty($key)
     {
@@ -108,10 +113,8 @@ class rex
      * Removes a property
      *
      * @param string $key Key of the property
-     *
      * @return boolean TRUE if the value was found and removed, otherwise FALSE
-     *
-     * @throws rex_exception on invalid parameters
+     * @throws InvalidArgumentException on invalid parameters
      */
     public static function removeProperty($key)
     {
@@ -202,6 +205,47 @@ class rex
     public static function getUser()
     {
         return self::getProperty('user');
+    }
+
+    /**
+     * Returns the server host
+     *
+     * @return string
+     */
+    public static function getServer()
+    {
+        return self::getProperty('server');
+    }
+
+    /**
+     * Returns the server URL
+     *
+     * @param string $protocol
+     * @return string
+     */
+    public static function getServerUrl($protocol = 'http')
+    {
+        return $protocol . '://' . self::getServer();
+    }
+
+    /**
+     * Returns the server name
+     *
+     * @return string
+     */
+    public static function getServerName()
+    {
+        return self::getProperty('servername');
+    }
+
+    /**
+     * Returns the error email
+     *
+     * @return string
+     */
+    public static function getErrorEmail()
+    {
+        return self::getProperty('error_email');
     }
 
     /**

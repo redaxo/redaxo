@@ -189,11 +189,23 @@ if ($step > 4) {
         $error_array[] = rex_view::error(rex_i18n::msg('setup_413'));
     }
 
-    if (empty($config['error_email'])) {
-        $error_array[] = rex_view::error(rex_i18n::msg('error_email_required'));
+    $check = array('server', 'servername', 'error_email', 'lang');
+    foreach ($check as $key) {
+        if (!isset($config[$key]) || !$config[$key]) {
+            $error_array[] = rex_view::error(rex_i18n::msg($key . '_required'));
+            continue;
+        }
+        try {
+            rex::setProperty($key, $config[$key]);
+        } catch (InvalidArgumentException $e) {
+            $error_array[] = rex_view::error(rex_i18n::msg($key . '_invalid'));
+        }
     }
 
     foreach ($config as $key => $value) {
+        if (in_array($key, $check)) {
+            continue;
+        }
         if (in_array($key, array('fileperm', 'dirperm'))) {
             $value = octdec($value);
         }
@@ -250,12 +262,12 @@ if ($step == 4) {
     $formElements = array();
 
         $n = array();
-        $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('setup_406') . '</label>';
+        $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" />';
         $formElements[] = $n;
 
         $n = array();
-        $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('setup_407') . '</label>';
+        $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
         $formElements[] = $n;
 
