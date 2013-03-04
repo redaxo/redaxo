@@ -7,8 +7,10 @@
  *
  * @package redaxo\core
  */
-class rex_sql extends rex_factory_base implements Iterator
+class rex_sql implements Iterator
 {
+    use rex_factory;
+
     protected
         $debug, // debug schalter
         $values, // Werte von setValue

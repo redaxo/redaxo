@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Base class for singletons
+ * Trait for singletons
  *
  * @author gharlan
  * @package redaxo\core
  */
-abstract class rex_singleton_base
+trait rex_singleton
 {
     /**
      * Singleton instances
      *
-     * @var rex_singleton_base[]
+     * @var static[]
      */
     private static $instances = array();
 

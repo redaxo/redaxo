@@ -6,8 +6,10 @@
  * @author staabm
  * @package redaxo\core
  */
-abstract class rex_logger extends rex_factory_base
+abstract class rex_logger
 {
+    use rex_factory;
+
     private static $handle;
 
     /**

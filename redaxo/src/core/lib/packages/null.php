@@ -6,8 +6,10 @@
  * @author gharlan
  * @package redaxo\core
  */
-abstract class rex_null_package extends rex_singleton_base implements rex_package_interface
+abstract class rex_null_package implements rex_package_interface
 {
+    use rex_singleton;
+
     /**
      * {@inheritDoc}
      */

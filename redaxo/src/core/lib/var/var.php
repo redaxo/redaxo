@@ -44,7 +44,7 @@ abstract class rex_var
                     $stripslashes = null;
                     switch ($token[0]) {
                         case T_INLINE_HTML:
-                            $format = '<?php echo %s; ?>';
+                            $format = '<?= %s ?>';
                             break;
                         case T_CONSTANT_ENCAPSED_STRING:
                             $format = $token[1][0] == '"' ? '" . %s . "' : "' . %s . '";

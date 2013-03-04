@@ -1,12 +1,14 @@
 <?php
 
 /**
- * Factory base class
+ * Factory trait
  *
  * Example child class:
  * <code>
- * class example extends rex_factory_base
+ * class rex_example
  * {
+ *     use rex_factory;
+ *
  *     private function __construct($param)
  *     {
  *         // ...
@@ -23,18 +25,18 @@
  * @author gharlan
  * @package redaxo\core
  */
-abstract class rex_factory_base
+trait rex_factory
 {
     /**
      * @var array
      */
-    private static $classes = array();
+    private static $factoryClasses = array();
 
     /**
      * Sets the class for the factory
      *
      * @param string $subclass Classname
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      */
     public static function setFactoryClass($subclass)
     {
@@ -45,7 +47,7 @@ abstract class rex_factory_base
         if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
-        self::$classes[$calledClass] = $subclass;
+        self::$factoryClasses[$calledClass] = $subclass;
     }
 
     /**
@@ -56,7 +58,7 @@ abstract class rex_factory_base
     public static function getFactoryClass()
     {
         $calledClass = get_called_class();
-        return isset(self::$classes[$calledClass]) ? self::$classes[$calledClass] : $calledClass;
+        return isset(self::$factoryClasses[$calledClass]) ? self::$factoryClasses[$calledClass] : $calledClass;
     }
 
     /**
@@ -67,7 +69,7 @@ abstract class rex_factory_base
     public static function hasFactoryClass()
     {
         $calledClass = get_called_class();
-        return isset(self::$classes[$calledClass]) && self::$classes[$calledClass] != $calledClass;
+        return isset(self::$factoryClasses[$calledClass]) && self::$factoryClasses[$calledClass] != $calledClass;
     }
 
     /**

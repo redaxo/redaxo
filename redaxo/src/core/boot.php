@@ -15,7 +15,7 @@ foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
     }
 }
 
-define('REX_MIN_PHP_VERSION', '5.3.7');
+define('REX_MIN_PHP_VERSION', '5.4.0');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
@@ -56,7 +56,6 @@ rex_fragment::addDirectory(rex_path::core('fragments/'));
 
 // ----------------- FUNCTIONS
 require_once rex_path::core('functions/function_rex_globals.php');
-require_once rex_path::core('functions/function_rex_mquotes.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION

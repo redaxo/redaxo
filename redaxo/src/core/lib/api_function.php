@@ -18,8 +18,10 @@
  * @author staabm
  * @package redaxo\core
  */
-abstract class rex_api_function extends rex_factory_base
+abstract class rex_api_function
 {
+    use rex_factory;
+
     const REQ_CALL_PARAM = 'rex-api-call', REQ_RESULT_PARAM = 'rex-api-result';
 
     /**

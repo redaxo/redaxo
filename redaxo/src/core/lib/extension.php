@@ -6,8 +6,10 @@
  * @author Markus Staab
  * @package redaxo\core
  */
-abstract class rex_extension extends rex_factory_base
+abstract class rex_extension
 {
+    use rex_factory;
+
     const
         EARLY = -1,
         NORMAL = 0,
@@ -74,7 +76,7 @@ abstract class rex_extension extends rex_factory_base
         return $result;
     }
 
-    protected static function invokeExtension($function, $params)
+    protected static function invokeExtension(callable $function, $params)
     {
         return call_user_func($function, $params);
     }
@@ -87,7 +89,7 @@ abstract class rex_extension extends rex_factory_base
      * @param int      $level          Ausführungslevel (EARLY, NORMAL oder LATE)
      * @param array    $params         Array von zusätzlichen Parametern
      */
-    public static function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
+    public static function register($extensionPoint, callable $callable, $level = self::NORMAL, array $params = array())
     {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());

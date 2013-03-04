@@ -173,10 +173,10 @@ class rex_i18n
      * @param string   $text                 The text for translation.
      * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
      * @param callable $i18nFunction         Function that returns the translation for the i18n key
-     *
+     * @throws InvalidArgumentException
      * @return string Translated text
      */
-    public static function translate($text, $use_htmlspecialchars = true, $i18nFunction = null)
+    public static function translate($text, $use_htmlspecialchars = true, callable $i18nFunction = null)
     {
         if (!is_string($text)) {
             throw new InvalidArgumentException('Expecting $text to be a String, "' . gettype($text) . '" given!');
@@ -204,7 +204,7 @@ class rex_i18n
      * @throws InvalidArgumentException
      * @return mixed
      */
-    public static function translateArray($array, $use_htmlspecialchars = true, $i18nFunction = null)
+    public static function translateArray($array, $use_htmlspecialchars = true, callable $i18nFunction = null)
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {

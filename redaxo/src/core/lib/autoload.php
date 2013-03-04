@@ -96,7 +96,7 @@ class rex_autoload
 
     private static function classExists($class)
     {
-        return class_exists($class, false) || interface_exists($class, false) || function_exists('trait_exists') && trait_exists($class, false);
+        return class_exists($class, false) || interface_exists($class, false) || trait_exists($class, false);
     }
 
     /**

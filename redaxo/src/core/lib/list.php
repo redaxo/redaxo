@@ -48,8 +48,10 @@ $list->setColumnFormat('id',                                     // field name
  *
  * @package redaxo\core
  */
-class rex_list extends rex_factory_base implements rex_url_provider
+class rex_list implements rex_url_provider
 {
+    use rex_factory;
+
     private $query;
     private $sql;
     private $debug;

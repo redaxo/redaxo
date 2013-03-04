@@ -1,9 +1,11 @@
 <?php
 
-class rex_test_singleton extends rex_singleton_base
-{}
+class rex_test_singleton
+{
+    use rex_singleton;
+}
 
-class rex_singleton_base_test extends PHPUnit_Framework_TestCase
+class rex_singleton_test extends PHPUnit_Framework_TestCase
 {
     public function testGetInstance()
     {

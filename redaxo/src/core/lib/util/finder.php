@@ -7,8 +7,10 @@
  * @author gharlan
  * @package redaxo\core
  */
-class rex_finder extends rex_factory_base implements IteratorAggregate, Countable
+class rex_finder implements IteratorAggregate, Countable
 {
+    use rex_factory;
+
     const ALL = '__ALL__';
 
     private

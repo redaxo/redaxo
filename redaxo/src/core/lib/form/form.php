@@ -18,8 +18,10 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  *
  * @package redaxo\core
  */
-class rex_form extends rex_factory_base
+class rex_form
 {
+    use rex_factory;
+
     protected
         $name,
         $tableName,

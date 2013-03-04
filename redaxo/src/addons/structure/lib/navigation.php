@@ -31,8 +31,10 @@
  * $nav->showBreadcrumb(true);
  */
 
-class rex_navigation extends rex_factory_base
+class rex_navigation
 {
+    use rex_factory;
+
     private
         $depth, // Wieviele Ebene tief, ab der Startebene
         $open, // alles aufgeklappt, z.b. Sitemap

@@ -26,8 +26,8 @@ if (rex::isBackend()) {
 define('REX_CRONJOB_LOG_FOLDER', $this->getDataPath());
 define('REX_CRONJOB_TABLE'     , rex::getTable('cronjob'));
 
-rex_extension::register('PACKAGES_INCLUDED', function ($params) {
-    foreach (rex_addon::get('cronjob')->getAvailablePlugins() as $plugin) {
+rex_extension::register('PACKAGES_INCLUDED', function () {
+    foreach ($this->getAvailablePlugins() as $plugin) {
         if (($type = $plugin->getProperty('cronjob_type')) != '') {
             rex_cronjob_manager::registerType($type);
         }

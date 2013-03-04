@@ -3,8 +3,10 @@
 /**
  * @package redaxo\core
  */
-class rex_be_navigation extends rex_factory_base
+class rex_be_navigation
 {
+    use rex_factory;
+
     private
         $headlines = array(),
         $pages = array();

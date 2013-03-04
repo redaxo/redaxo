@@ -5,8 +5,10 @@
  *
  * @package redaxo\core
  */
-abstract class rex_package_manager extends rex_factory_base
+abstract class rex_package_manager
 {
+    use rex_factory;
+
     /**
      * @var rex_package
      */
