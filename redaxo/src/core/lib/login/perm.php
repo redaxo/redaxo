@@ -18,7 +18,7 @@ abstract class rex_perm
      *
      * @var array
      */
-    private static $perms = array();
+    private static $perms = [];
 
     /**
      * Registers a new permission
@@ -57,6 +57,6 @@ abstract class rex_perm
      */
     public static function getAll($group = self::GENERAL)
     {
-        return isset(self::$perms[$group]) ? self::$perms[$group] : array();
+        return isset(self::$perms[$group]) ? self::$perms[$group] : [];
     }
 }

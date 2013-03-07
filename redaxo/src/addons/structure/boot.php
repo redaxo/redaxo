@@ -45,13 +45,13 @@ if (rex::isBackend() && rex::getUser()) {
         $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
         // TODO - CHECK PERM
-        $context = new rex_context(array(
+        $context = new rex_context([
             'page' => 'structure',
             'category_id' => $category_id,
             'article_id' => $article_id,
             'clang' => $clang,
             'ctype' => $ctype,
-        ));
+        ]);
 
         // check if a new category was folded
         $category_id = rex_request('toggle_category_id', 'int', -1);

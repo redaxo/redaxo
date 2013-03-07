@@ -8,11 +8,11 @@
 class rex_i18n
 {
     private static
-        $locales = array(),
-        $directories = array(),
+        $locales = [],
+        $directories = [],
         $loaded = false,
         $locale = null,
-        $msg = array();
+        $msg = [];
 
     /**
      * Switches the current locale
@@ -30,7 +30,7 @@ class rex_i18n
         self::loadAll();
 
         if ($phpSetLocale) {
-            $locales = array();
+            $locales = [];
             foreach (explode(',', trim(self::msg('setlocale'))) as $locale) {
                 $locales[] = $locale . '.UTF-8';
                 $locales[] = $locale . '.UTF8';
@@ -110,8 +110,8 @@ class rex_i18n
             $msg = preg_replace('@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i', '<$1>', $msg);
         }
 
-        $patterns = array();
-        $replacements = array();
+        $patterns = [];
+        $replacements = [];
         $argNum = count($args);
         if ($argNum > 1) {
             for ($i = 1; $i < $argNum; $i++) {
@@ -155,7 +155,7 @@ class rex_i18n
     public static function getLocales()
     {
         if (empty(self::$locales) && isset(self::$directories[0]) && is_readable(self::$directories[0])) {
-            self::$locales = array();
+            self::$locales = [];
 
             foreach (rex_finder::factory(self::$directories[0])->filesOnly() as $file) {
                 if (preg_match("/^(\w+)\.lang$/", $file->getFilename(), $matches)) {
@@ -251,7 +251,7 @@ class rex_i18n
      */
     private static function loadAll()
     {
-        self::$msg = array();
+        self::$msg = [];
         if (!self::$locale) {
             self::$locale = rex::getProperty('lang');
         }

@@ -7,25 +7,25 @@
  */
 
 $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
-$KAToutARR = array(); // Variable definiert und vorbelegt wenn nicht existent
+$KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
 
-$navigation = array();
+$navigation = [];
 
 $ooCat = rex_category::getCategoryById($category_id, $clang);
 if ($ooCat) {
     foreach ($ooCat->getParentTree() as $parent) {
         $catid = $parent->getId();
         if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid)) {
-            $n = array();
+            $n = [];
             $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-            $n['href'] = rex_url::backendPage('structure', array('category_id' => $catid, 'clang' => $clang));
+            $n['href'] = rex_url::backendPage('structure', ['category_id' => $catid, 'clang' => $clang]);
             $navigation[] = $n;
         }
     }
 }
 
-$title = '<a class="rex-icon rex-icon-sitestartarticle" href="' . rex_url::backendPage('structure', array('category_id' => 0, 'clang' => $clang)) . '">' . rex_i18n::msg('homepage') . '</a>';
+$title = '<a class="rex-icon rex-icon-sitestartarticle" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '">' . rex_i18n::msg('homepage') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);

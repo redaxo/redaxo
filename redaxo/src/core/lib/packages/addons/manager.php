@@ -56,7 +56,7 @@ class rex_addon_manager extends rex_package_manager
         }
         // mark all plugins whose requirements are not met
         // to consider dependencies among each other, iterate over all plugins until no plugin was marked in a round
-        $deactivate = array();
+        $deactivate = [];
         $finished = false;
         while (!$finished && count($plugins) > 0) {
             $finished = true;

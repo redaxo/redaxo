@@ -37,7 +37,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
      */
     public function getRegisteredPlugins()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -45,7 +45,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
      */
     public function getInstalledPlugins()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -53,7 +53,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
      */
     public function getAvailablePlugins()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -61,6 +61,6 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
      */
     public function getSystemPlugins()
     {
-        return array();
+        return [];
     }
 }

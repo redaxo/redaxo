@@ -5,8 +5,8 @@
 $core = rex_request('core', 'boolean');
 $addonkey = rex_request('addonkey', 'string');
 
-$coreVersions = array();
-$addons = array();
+$coreVersions = [];
+$addons = [];
 
 $content = rex_api_function::getMessage();
 
@@ -38,7 +38,7 @@ if ($core && !empty($coreVersions)) {
                     <td class="rex-icon"><span class="rex-ic-addon">' . $version['version'] . '</span></td>
                     <td>' . $version['version'] . '</td>
                     <td>' . nl2br($version['description']) . '</td>
-                    <td><a href="' . rex_url::currentBackendPage(array('core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id)) . '">' . $this->i18n('update') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id]) . '">' . $this->i18n('update') . '</a></td>
                 </tr>';
     }
 
@@ -89,7 +89,7 @@ if ($core && !empty($coreVersions)) {
                 <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
                 <td class="rex-version">' . $file['version'] . '</td>
                 <td class="rex-description">' . nl2br($file['description']) . '</td>
-                <td class="rex-update"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId)) . '">' . $this->i18n('update') . '</a></td>
+                <td class="rex-update"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId]) . '">' . $this->i18n('update') . '</a></td>
             </tr>';
     }
 
@@ -112,11 +112,11 @@ if ($core && !empty($coreVersions)) {
             <tbody>';
 
     if (!empty($coreVersions)) {
-        $availableVersions = array();
+        $availableVersions = [];
         foreach ($coreVersions as $file) {
             $availableVersions[] = $file['version'];
         }
-        $url = rex_url::currentBackendPage(array('core' => 1));
+        $url = rex_url::currentBackendPage(['core' => 1]);
 
         $content .= '
             <tr>
@@ -129,11 +129,11 @@ if ($core && !empty($coreVersions)) {
     }
 
     foreach ($addons as $key => $addon) {
-        $availableVersions = array();
+        $availableVersions = [];
         foreach ($addon['files'] as $file) {
             $availableVersions[] = $file['version'];
         }
-        $url = rex_url::currentBackendPage(array('addonkey' => $key));
+        $url = rex_url::currentBackendPage(['addonkey' => $key]);
 
         $content .= '
             <tr>

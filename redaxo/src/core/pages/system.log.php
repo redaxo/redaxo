@@ -65,7 +65,7 @@ if ($success != '')
 if ($error != '')
     $content .= rex_view::error($error);
 
-$content .= '<iframe src="' . rex_url::currentBackendPage(array('func' => 'readlog')) . '" class="rex-log" width="100%" height="500px"></iframe>';
+$content .= '<iframe src="' . rex_url::currentBackendPage(['func' => 'readlog']) . '" class="rex-log" width="100%" height="500px"></iframe>';
 
 
 
@@ -74,9 +74,9 @@ $content .= '
         <input type="hidden" name="func" value="delLog" />';
 
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['field'] = '<button class="rex-button" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 

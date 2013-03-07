@@ -3,7 +3,7 @@
 $content = isset($this->content) ? $this->content : '';
 $flush   = isset($this->flush) ? $this->flush : false;
 
-$classes = array('rex-toolbar');
+$classes = ['rex-toolbar'];
 if ($flush) {
     $classes[] = 'rex-form-flush';
 }

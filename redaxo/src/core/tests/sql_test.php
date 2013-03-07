@@ -87,14 +87,14 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
     public function testSetGetArrayValue()
     {
         $sql = rex_sql::factory();
-        $sql->setArrayValue('col_empty_array', array());
-        $sql->setArrayValue('col_array', array(1, 2, 3));
+        $sql->setArrayValue('col_empty_array', []);
+        $sql->setArrayValue('col_array', [1, 2, 3]);
 
         $this->assertTrue($sql->hasValue('col_empty_array'), 'set value exists');
         $this->assertTrue($sql->hasValue('col_array'), 'set value exists');
 
-        $this->assertEquals(array(), $sql->getArrayValue('col_empty_array'), 'get a previous set empty array');
-        $this->assertEquals(array(1, 2, 3), $sql->getArrayValue('col_array'), 'get a previous set array');
+        $this->assertEquals([], $sql->getArrayValue('col_empty_array'), 'get a previous set empty array');
+        $this->assertEquals([1, 2, 3], $sql->getArrayValue('col_array'), 'get a previous set array');
     }
 
     public function testInsertRow()
@@ -130,7 +130,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'def');
-        $sql->setWhere(array('col_int' => 5));
+        $sql->setWhere(['col_int' => 5]);
 
         $sql->update();
         $this->assertEquals(1, $sql->getRows());
@@ -144,7 +144,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'def');
-        $sql->setWhere('col_int = :myint', array('myint' => 5));
+        $sql->setWhere('col_int = :myint', ['myint' => 5]);
 
         $sql->update();
         $this->assertEquals(1, $sql->getRows());
@@ -171,7 +171,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
-        $sql->setWhere(array('col_int' => 5));
+        $sql->setWhere(['col_int' => 5]);
 
         $sql->delete();
         $this->assertEquals(1, $sql->getRows());

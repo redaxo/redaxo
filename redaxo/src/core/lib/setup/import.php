@@ -95,7 +95,7 @@ class rex_setup_importer
         $err_msg = '';
 
         // Prüfen, welche Tabellen bereits vorhanden sind
-        $existingTables = array();
+        $existingTables = [];
         foreach (rex_sql::showTables() as $tblname) {
             if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix()) {
                 $existingTables[] = $tblname;
@@ -110,11 +110,11 @@ class rex_setup_importer
 
     private static function getRequiredTables()
     {
-        return array(
+        return [
             rex::getTablePrefix() . 'clang',
             rex::getTablePrefix() . 'user',
             rex::getTablePrefix() . 'config'
-        );
+        ];
     }
 
     private static function import($import_sql, $import_archiv = null)

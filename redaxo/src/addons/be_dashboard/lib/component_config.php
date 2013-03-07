@@ -24,9 +24,9 @@ abstract class rex_dashboard_component_config
 
         $dir = rex_path::addonData('be_dashboard', 'settings');
         rex_dir::create($dir);
-        $options = array(
+        $options = [
             'cache_dir' => $dir,
-        );
+        ];
 
         $this->id = $counter;
         $this->settingsCache = new rex_dashboard_file_cache($options);

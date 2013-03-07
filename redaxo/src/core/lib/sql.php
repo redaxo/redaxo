@@ -36,7 +36,7 @@ class rex_sql implements Iterator
     /**
      * @var PDO[]
      */
-    private static $pdo = array();
+    private static $pdo = [];
 
     protected function __construct($DBID = 1)
     {
@@ -79,12 +79,12 @@ class rex_sql implements Iterator
     protected static function createConnection($host, $database, $login, $password, $persistent = false)
     {
         $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
-        $options = array(
+        $options = [
             PDO::ATTR_PERSISTENT => (boolean) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
 //      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
 //      PDO::ATTR_EMULATE_PREPARES => true,
-        );
+        ];
 
         $dbh = @new PDO($dsn, $login, $password, $options);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -160,7 +160,7 @@ class rex_sql implements Iterator
      * @return bool
      * @throws rex_sql_exception on errors
      */
-    public function setDBQuery($query, $params = array())
+    public function setDBQuery($query, $params = [])
     {
         // save origin connection-id
         $oldDBID = $this->DBID;
@@ -212,7 +212,7 @@ class rex_sql implements Iterator
      * Executes the prepared statement with the given input parameters
      * @param array $params Array of input parameters
      */
-    public function execute(array $params = array())
+    public function execute(array $params = [])
     {
         if (!$this->stmt) {
             throw new rex_sql_exception('you need to prepare a query before calling execute()');
@@ -244,7 +244,7 @@ class rex_sql implements Iterator
      * @return bool
      * @throws rex_sql_exception on errors
      */
-    public function setQuery($query, array $params = array())
+    public function setQuery($query, array $params = [])
     {
         // Alle Werte zuruecksetzen
         $this->flush();
@@ -398,7 +398,7 @@ class rex_sql implements Iterator
 //       trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
             $this->wherevar = 'WHERE ' . $where;
-            $this->whereParams = array();
+            $this->whereParams = [];
         } else {
             throw new rex_sql_exception('expecting $where to be an array, "' . gettype($where) . '" given!');
         }
@@ -762,10 +762,10 @@ class rex_sql implements Iterator
      */
     private function flush()
     {
-        $this->values = array();
-        $this->rawValues = array();
-        $this->whereParams = array();
-        $this->lastRow = array();
+        $this->values = [];
+        $this->rawValues = [];
+        $this->whereParams = [];
+        $this->lastRow = [];
         $this->fieldnames = null;
         $this->rawFieldnames = null;
         $this->tablenames = null;
@@ -786,8 +786,8 @@ class rex_sql implements Iterator
      */
     public function flushValues()
     {
-        $this->values = array();
-        $this->rawValues = array();
+        $this->values = [];
+        $this->rawValues = [];
 
         return $this;
     }
@@ -834,7 +834,7 @@ class rex_sql implements Iterator
      * @return array
      * @throws rex_sql_exception on errors
      */
-    public function getDBArray($query = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
+    public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
         if (!$query) {
             $query = $this->query;
@@ -857,7 +857,7 @@ class rex_sql implements Iterator
      * @return array
      * @throws rex_sql_exception on errors
      */
-    public function getArray($query = null, array $params = array(), $fetchType = PDO::FETCH_ASSOC)
+    public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
         if (!$query) {
             $query = $this->query;
@@ -961,9 +961,9 @@ class rex_sql implements Iterator
     private function fetchMeta()
     {
         if ($this->fieldnames === null) {
-            $this->rawFieldnames = array();
-            $this->fieldnames = array();
-            $this->tablenames = array();
+            $this->rawFieldnames = [];
+            $this->fieldnames = [];
+            $this->tablenames = [];
 
             for ($i = 0; $i < $this->getFields(); $i++) {
                 $metadata = $this->stmt->getColumnMeta($i);
@@ -1095,7 +1095,7 @@ class rex_sql implements Iterator
         $qry = 'SHOW TABLES';
         if ($tablePrefix != null) {
             // replace LIKE wildcards
-            $tablePrefix = str_replace(array('_', '%'), array('\_', '\%'), $tablePrefix);
+            $tablePrefix = str_replace(['_', '%'], ['\_', '\%'], $tablePrefix);
             $qry .= ' LIKE "' . $tablePrefix . '%"';
         }
 
@@ -1139,16 +1139,16 @@ class rex_sql implements Iterator
         $sql = self::factory($DBID);
         $sql->setQuery('SHOW COLUMNS FROM `' . $table . '`');
 
-        $columns = array();
+        $columns = [];
         foreach ($sql as $col) {
-            $columns [] = array(
+            $columns [] = [
                 'name' => $col->getValue('Field'),
                 'type' => $col->getValue('Type'),
                 'null' => $col->getValue('Null'),
                 'key' => $col->getValue('Key'),
                 'default' => $col->getValue('Default'),
                 'extra' => $col->getValue('Extra')
-            );
+            ];
         }
 
         return $columns;

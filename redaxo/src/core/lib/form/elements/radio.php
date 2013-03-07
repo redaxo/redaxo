@@ -7,7 +7,7 @@ class rex_form_radio_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = array())
+    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
         // Jedes radio bekommt eingenes Label

@@ -19,7 +19,7 @@ abstract class rex_extension
      * Array aller ExtensionsPoints und deren Extensions
      * @var array
      */
-    private static $extensions = array();
+    private static $extensions = [];
 
     private function __construct()
     {
@@ -35,7 +35,7 @@ abstract class rex_extension
      * @param bool   $read_only
      * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
      */
-    public static function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
+    public static function registerPoint($extensionPoint, $subject = '', array $params = [], $read_only = false)
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -48,7 +48,7 @@ abstract class rex_extension
 
         if (isset (self::$extensions[$extensionPoint]) && is_array(self::$extensions[$extensionPoint])) {
             $params['subject'] = $subject;
-            foreach (array(self::EARLY, self::NORMAL, self::LATE) as $level) {
+            foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
                 if (isset(self::$extensions[$extensionPoint][$level]) && is_array(self::$extensions[$extensionPoint][$level])) {
                     if ($read_only) {
                         foreach (self::$extensions[$extensionPoint][$level] as $ext) {
@@ -89,13 +89,13 @@ abstract class rex_extension
      * @param int      $level          Ausführungslevel (EARLY, NORMAL oder LATE)
      * @param array    $params         Array von zusätzlichen Parametern
      */
-    public static function register($extensionPoint, callable $callable, $level = self::NORMAL, array $params = array())
+    public static function register($extensionPoint, callable $callable, $level = self::NORMAL, array $params = [])
     {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
             return;
         }
-        self::$extensions[$extensionPoint][(int) $level][] = array($callable, $params);
+        self::$extensions[$extensionPoint][(int) $level][] = [$callable, $params];
     }
 
     /**

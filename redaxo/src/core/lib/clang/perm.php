@@ -26,10 +26,10 @@ class rex_clang_perm extends rex_complex_perm
             return $clang->getName();
         }, rex_clang::getAll());
 
-        return array(
+        return [
             'label' => rex_i18n::msg('clangs'),
             'all_label' => rex_i18n::msg('all_clangs'),
             'options' => $options
-        );
+        ];
     }
 }

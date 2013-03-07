@@ -18,7 +18,7 @@ if (!function_exists('readFolder')) {
                 throw new rex_exception('Folder "' . $dir . '" is not available or not a directory');
             }
             $hdl = opendir($dir);
-            $folder = array();
+            $folder = [];
             while (false !== ($file = readdir($hdl))) {
                  $folder[] = $file;
             }
@@ -40,7 +40,7 @@ if (!function_exists('readFolder')) {
 if (!function_exists('readFilteredFolder')) {
      function readFilteredFolder($dir, $fileprefix)
      {
-            $filtered = array();
+            $filtered = [];
             $folder = readFolder($dir);
 
             if (!$folder) {
@@ -68,7 +68,7 @@ if (!function_exists('readFolderFiles')) {
      function readFolderFiles($dir)
      {
             $folder = readFolder($dir);
-            $files = array();
+            $files = [];
 
             if (!$folder) {
                  return false;
@@ -96,7 +96,7 @@ if (!function_exists('readSubFolders')) {
      function readSubFolders($dir, $ignore_dots = true)
      {
             $folder = readFolder($dir);
-            $folders = array();
+            $folders = [];
 
             if (!$folder) {
                  return false;

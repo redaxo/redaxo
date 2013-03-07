@@ -34,7 +34,7 @@ class rex_input_linklistbutton extends rex_input
         $value = htmlspecialchars($this->value);
         $name = $this->attributes['name'];
 
-        $field = rex_var_linklist::getWidget($buttonId, $name, $value, array('category' => $category));
+        $field = rex_var_linklist::getWidget($buttonId, $name, $value, ['category' => $category]);
 
         return $field;
     }

@@ -29,7 +29,7 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
  */
 function rex_a1_import_db($filename)
 {
-    $return = array();
+    $return = [];
     $return['state'] = false;
     $return['message'] = '';
 
@@ -96,18 +96,18 @@ function rex_a1_import_db($filename)
     // ----- EXTENSION POINT
     $filesize = filesize($filename);
     $msg = rex_extension::registerPoint('A1_BEFORE_DB_IMPORT', $msg,
-     array(
+     [
          'content' => $conts,
          'filename' => $filename,
          'filesize' => $filesize
-     )
+     ]
     );
 
     // require import skript to do some userside-magic
     rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_PRE);
 
     // Datei aufteilen
-    $lines = array();
+    $lines = [];
     rex_sql_util::splitSqlFile($lines, $conts, 0);
 
     $sql   = rex_sql::factory();
@@ -191,11 +191,11 @@ function rex_a1_import_db($filename)
     if ($error == '') {
         // ----- EXTENSION POINT
         $msg = rex_extension::registerPoint('A1_AFTER_DB_IMPORT', $msg,
-         array(
+         [
              'content' => $conts,
              'filename' => $filename,
              'filesize' => $filesize
-         )
+         ]
         );
 
         // require import skript to do some userside-magic
@@ -221,7 +221,7 @@ function rex_a1_import_db($filename)
  */
 function rex_a1_import_files($filename)
 {
-    $return = array();
+    $return = [];
     $return['state'] = false;
 
     if ($filename == '' || substr($filename, -7, 7) != '.tar.gz') {
@@ -296,7 +296,7 @@ function rex_a1_export_db($filename)
 //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
     foreach ($tables as $table) {
-        if (!in_array($table, array(rex::getTablePrefix() . 'user', rex::getTablePrefix() . 'user_role')) // User Tabellen nicht exportieren
+        if (!in_array($table, [rex::getTablePrefix() . 'user', rex::getTablePrefix() . 'user_role']) // User Tabellen nicht exportieren
                 && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
         ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
             //---- export metadata
@@ -323,7 +323,7 @@ function rex_a1_export_db($filename)
             $max   = $insertSize;
 
             do {
-                $array = $sql->getArray('SELECT * FROM `' . $table . '` LIMIT ' . $start . ',' . $max, array(), PDO::FETCH_NUM);
+                $array = $sql->getArray('SELECT * FROM `' . $table . '` LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
                 $count = $sql->getRows();
 
                 if ($count > 0 && $start == 0) {
@@ -334,10 +334,10 @@ function rex_a1_export_db($filename)
                 }
 
                 $start += $max;
-                $values = array();
+                $values = [];
 
                 foreach ($array as $row) {
-                    $record = array();
+                    $record = [];
 
                     foreach ($fields as $idx => $type) {
                         $column = $row[$idx];

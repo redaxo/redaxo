@@ -15,7 +15,7 @@ interface rex_url_provider
      *
      * @return string The generated Url
      */
-    public function getUrl(array $params = array());
+    public function getUrl(array $params = []);
 }
 
 /**
@@ -33,7 +33,7 @@ interface rex_context_provider extends rex_url_provider
      *
      * @return string The generated html source containing the hidden input fields
      */
-    public function getHiddenInputFields(array $params = array());
+    public function getHiddenInputFields(array $params = []);
 }
 
 /**
@@ -50,7 +50,7 @@ class rex_context implements rex_context_provider
      *
      * @param array $globalParams A array containing only scalar values for key/value
      */
-    public function __construct(array $globalParams = array())
+    public function __construct(array $globalParams = [])
     {
         $this->globalParams = $globalParams;
     }
@@ -58,7 +58,7 @@ class rex_context implements rex_context_provider
     /**
      * @see rex_url_provider::getUrl()
      */
-    public function getUrl(array $params = array())
+    public function getUrl(array $params = [])
     {
         // combine global params with local
         $_params = array_merge($this->globalParams, $params);
@@ -93,7 +93,7 @@ class rex_context implements rex_context_provider
     /**
      * @see rex_context_provider::getHiddenInputFields()
      */
-    public function getHiddenInputFields(array $params = array())
+    public function getHiddenInputFields(array $params = [])
     {
         // combine global params with local
         $_params = array_merge($this->globalParams, $params);

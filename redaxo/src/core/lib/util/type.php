@@ -63,7 +63,7 @@ class rex_type
                     break;
                 case 'array'  :
                     if (empty($var))
-                        $var = array();
+                        $var = [];
                     else
                         $var = (array) $var;
                     break;
@@ -75,12 +75,12 @@ class rex_type
                     // check for array with generic type
                     if (strpos($vartype, 'array[') === 0) {
                         if (empty($var))
-                            $var = array();
+                            $var = [];
                         else
                             $var = (array) $var;
 
                         // check if every element in the array is from the generic type
-                        $matches = array();
+                        $matches = [];
                         if (preg_match('@array\[([^\]]*)\]@', $vartype, $matches)) {
                             foreach ($var as $key => $value) {
                                 try {
@@ -106,7 +106,7 @@ class rex_type
             $var = call_user_func($vartype, $var);
         } elseif (is_array($vartype)) {
             $var = self::cast($var, 'array');
-            $newVar = array();
+            $newVar = [];
             foreach ($vartype as $cast) {
                 if (!is_array($cast) || !isset($cast[0])) {
                     throw new InvalidArgumentException('Unexpected vartype in cast()!');

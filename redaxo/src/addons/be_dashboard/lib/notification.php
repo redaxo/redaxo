@@ -12,7 +12,7 @@ abstract class rex_dashboard_notification extends rex_dashboard_component_base
 {
     private $message;
 
-    public function __construct($id, array $cache_options = array())
+    public function __construct($id, array $cache_options = [])
     {
         if (!isset($cache_options['lifetime'])) {
             // default cache lifetime in seconds

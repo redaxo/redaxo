@@ -50,7 +50,7 @@ function rex_metainfo_cleanup($params)
 
 
     // evtl reste aufräumen
-    $tablePrefixes = array('article' => array('art_', 'cat_'), 'media' => array('med_'));
+    $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_']];
     foreach ($tablePrefixes as $table => $prefixes) {
         $table = rex::getTablePrefix() . $table;
         $tableManager = new rex_metainfo_table_manager($table);

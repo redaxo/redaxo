@@ -13,7 +13,7 @@ class rex_var_link extends rex_var
     protected function getOutput()
     {
         $id = $this->getArg('id', 0, true);
-        if (!in_array($this->getContext(), array('module', 'action')) || !is_numeric($id) || $id < 1 || $id > 10) {
+        if (!in_array($this->getContext(), ['module', 'action']) || !is_numeric($id) || $id < 1 || $id > 10) {
             return false;
         }
 
@@ -27,8 +27,8 @@ class rex_var_link extends rex_var
             if (!$this->environmentIs(self::ENV_INPUT)) {
                 return false;
             }
-            $args = array();
-            foreach (array('category') as $key) {
+            $args = [];
+            foreach (['category'] as $key) {
                 if ($this->hasArg($key)) {
                     $args[$key] = $this->getArg($key);
                 }
@@ -43,7 +43,7 @@ class rex_var_link extends rex_var
         return self::quote($value);
     }
 
-    public static function getWidget($id, $name, $value, array $args = array())
+    public static function getWidget($id, $name, $value, array $args = [])
     {
         $art_name = '';
         $clang = '';

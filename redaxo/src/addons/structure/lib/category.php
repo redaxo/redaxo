@@ -28,7 +28,7 @@ class rex_category extends rex_structure_element
      * children of categories, keyed by category_id (parent ids)
      * @var array
      */
-    private static $childIds = array();
+    private static $childIds = [];
 
     /**
      * Return all Children by id
@@ -43,7 +43,7 @@ class rex_category extends rex_structure_element
         $cat_parent_id = (int) $cat_parent_id;
 
         if ($cat_parent_id < 0)
-            return array();
+            return [];
 
         if ($clang === false) {
             $clang = rex_clang::getCurrentId();
@@ -51,7 +51,7 @@ class rex_category extends rex_structure_element
 
         $categorylist = rex_path::addonCache('structure', $cat_parent_id . '.' . $clang . '.clist');
 
-        $catlist = array();
+        $catlist = [];
 
         if (!file_exists($categorylist)) {
             rex_article_cache::generateLists($cat_parent_id);
@@ -230,7 +230,7 @@ class rex_category extends rex_structure_element
         } elseif (is_int($category)) {
             return self :: getCategoryById($category, $clang);
         } elseif (is_array($category)) {
-            $catlist = array();
+            $catlist = [];
             foreach ($category as $cat) {
                 $catobj = self :: _getCategoryObject($cat, $clang);
                 if (is_object($catobj)) {
@@ -250,6 +250,6 @@ class rex_category extends rex_structure_element
      */
     public static function hasValue($value)
     {
-        return parent::_hasValue($value, array('cat_'));
+        return parent::_hasValue($value, ['cat_']);
     }
 }

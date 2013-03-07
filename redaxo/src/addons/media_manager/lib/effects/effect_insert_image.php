@@ -82,40 +82,40 @@ class rex_effect_insert_image extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_image'),
                 'name' => 'brandimage',
                 'type'  => 'media',
                 'default' => ''
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
                 'type'  => 'select',
-                'options'  => array('left', 'center', 'right'),
+                'options'  => ['left', 'center', 'right'],
                 'default' => 'left'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
                 'type'  => 'select',
-                'options'  => array('top', 'middle', 'bottom'),
+                'options'  => ['top', 'middle', 'bottom'],
                 'default' => 'top'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
                 'name' => 'padding_x',
                 'type'  => 'int',
                 'default' => '-10'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
                 'name' => 'padding_y',
                 'type'  => 'int',
                 'default' => '-10'
-            ),
-        );
+            ],
+        ];
     }
 
 }

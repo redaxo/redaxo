@@ -22,9 +22,9 @@ class rex_autoload
         $cacheFile    = null,
         $cacheChanged = false,
         $reloaded     = false,
-        $dirs         = array(),
-        $addedDirs    = array(),
-        $classes      = array();
+        $dirs         = [],
+        $addedDirs    = [],
+        $classes      = [];
 
     /**
      * Register rex_autoload in spl autoloader.
@@ -43,13 +43,13 @@ class rex_autoload
             self::$composerLoader->unregister();
         }
 
-        if (false === spl_autoload_register(array(__CLASS__, 'autoload'))) {
+        if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
         }
 
         self::$cacheFile = rex_path::cache('autoload.cache');
         self::loadCache();
-        register_shutdown_function(array(__CLASS__, 'saveCache'));
+        register_shutdown_function([__CLASS__, 'saveCache']);
 
         self::$registered = true;
     }
@@ -59,7 +59,7 @@ class rex_autoload
      */
     public static function unregister()
     {
-        spl_autoload_unregister(array(__CLASS__, 'autoload'));
+        spl_autoload_unregister([__CLASS__, 'autoload']);
         self::$registered = false;
     }
 
@@ -118,7 +118,7 @@ class rex_autoload
     {
         if (self::$cacheChanged) {
             if (is_writable(dirname(self::$cacheFile))) {
-                file_put_contents(self::$cacheFile, json_encode(array(self::$classes, self::$dirs)));
+                file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$dirs]));
                 self::$cacheChanged = false;
             } else {
                 throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
@@ -131,8 +131,8 @@ class rex_autoload
      */
     public static function reload()
     {
-        self::$classes = array();
-        self::$dirs = array();
+        self::$classes = [];
+        self::$dirs = [];
 
         foreach (self::$addedDirs as $dir) {
             self::_addDirectory($dir);

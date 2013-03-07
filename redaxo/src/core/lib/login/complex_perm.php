@@ -24,14 +24,14 @@ abstract class rex_complex_perm
      *
      * @var array
      */
-    protected $perms = array();
+    protected $perms = [];
 
     /**
      * Array of class names
      *
      * @var array
      */
-    private static $classes = array();
+    private static $classes = [];
 
     /**
      * Constructor
@@ -62,7 +62,7 @@ abstract class rex_complex_perm
      */
     public static function getFieldParams()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class rex_complex_perm
      * @param mixed    $perms Permissions
      * @return self
      */
-    public static function get(rex_user $user, $key, $perms = array())
+    public static function get(rex_user $user, $key, $perms = [])
     {
         if (!isset(self::$classes[$key])) {
             return null;
@@ -115,7 +115,7 @@ abstract class rex_complex_perm
      */
     public static function removeItem($key, $item)
     {
-        rex_extension::registerPoint('COMPLEX_PERM_REMOVE_ITEM', '', array('key' => $key, 'item' => $item), true);
+        rex_extension::registerPoint('COMPLEX_PERM_REMOVE_ITEM', '', ['key' => $key, 'item' => $item], true);
     }
 
 
@@ -129,6 +129,6 @@ abstract class rex_complex_perm
      */
     public static function replaceItem($key, $item, $new)
     {
-        rex_extension::registerPoint('COMPLEX_PERM_REPLACE_ITEM', '', array('key' => $key, 'item' => $item, 'new' => $new), true);
+        rex_extension::registerPoint('COMPLEX_PERM_REPLACE_ITEM', '', ['key' => $key, 'item' => $item, 'new' => $new], true);
     }
 }

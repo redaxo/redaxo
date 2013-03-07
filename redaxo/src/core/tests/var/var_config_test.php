@@ -16,10 +16,10 @@ class rex_var_config_test extends rex_var_base_test
 
     public function configReplaceProvider()
     {
-        return array(
-            array('REX_CONFIG[key=myCoreConfig]', 'myCoreConfigValue'),
-            array('REX_CONFIG[namespace=tests key=myPackageConfig]', 'myPackageConfigValue')
-        );
+        return [
+            ['REX_CONFIG[key=myCoreConfig]', 'myCoreConfigValue'],
+            ['REX_CONFIG[namespace=tests key=myPackageConfig]', 'myPackageConfigValue']
+        ];
     }
 
     /**

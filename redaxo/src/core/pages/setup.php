@@ -20,11 +20,11 @@ if ($step == 1) {
     rex_setup::init();
 
     $saveLocale = rex_i18n::getLocale();
-    $langs = array();
+    $langs = [];
     foreach (rex_i18n::getLocales() as $locale) {
         rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
         $label = rex_i18n::msg('lang');
-        $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendPage('setup', array('step' => 2, 'lang' => $locale)) . '">' . $label . '</a></li>';
+        $langs[$locale] = '<li><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a></li>';
     }
     rex_i18n::setLocale($saveLocale, false);
 
@@ -50,7 +50,7 @@ if ($step == 2) {
     $license_file = rex_path::base('_license.txt');
     $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
     $content .= '<div class="rex-content-scroll">' . $license . '</div>';
-    $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', array('step' => 3, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+    $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
 
     echo $headline . rex_view::contentBlock($content);
 
@@ -58,8 +58,8 @@ if ($step == 2) {
 
 // ---------------------------------- Step 3 . Perms, Evirement
 
-$error_array = array();
-$success_array = array();
+$error_array = [];
+$success_array = [];
 
 $errors = rex_setup::checkEnvironment();
 if (count($errors) > 0) {
@@ -75,7 +75,7 @@ if (count($res) > 0) {
     $base = rex_path::base();
     foreach ($res as $key => $messages) {
         if (count($messages) > 0) {
-            $li = array();
+            $li = [];
             foreach ($messages as $message) {
                 $li[] = '<li>' . str_replace($base, '', $message) . '</li>';
             }
@@ -140,10 +140,10 @@ if ($step == 3) {
         $content .= implode('', $error_array);
 
         $content .= rex_view::error(rex_i18n::msg('setup_311'));
-        $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
+        $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
 
     } else {
-        $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', array('step' => 4, 'lang' => $lang)) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
+        $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
     }
 
     echo $headline . rex_view::contentBlock($content);
@@ -153,7 +153,7 @@ if ($step == 3) {
 
 // ---------------------------------- step 4 . Config
 
-$error_array = array();
+$error_array = [];
 
 if ($step >= 4) {
     $configFile = rex_path::data('config.yml');
@@ -189,7 +189,7 @@ if ($step > 4) {
         $error_array[] = rex_view::error(rex_i18n::msg('setup_413'));
     }
 
-    $check = array('server', 'servername', 'error_email', 'lang');
+    $check = ['server', 'servername', 'error_email', 'lang'];
     foreach ($check as $key) {
         if (!isset($config[$key]) || !$config[$key]) {
             $error_array[] = rex_view::error(rex_i18n::msg($key . '_required'));
@@ -206,7 +206,7 @@ if ($step > 4) {
         if (in_array($key, $check)) {
             continue;
         }
-        if (in_array($key, array('fileperm', 'dirperm'))) {
+        if (in_array($key, ['fileperm', 'dirperm'])) {
             $value = octdec($value);
         }
         rex::setProperty($key, $value);
@@ -259,24 +259,24 @@ if ($step == 4) {
 
     $content .= '<h2>' . rex_i18n::msg('setup_402') . '</h2>';
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-timezone">' . rex_i18n::msg('setup_412') . '</label>';
         $n['field'] = $timezone_sel->get();
         $formElements[] = $n;
@@ -290,29 +290,29 @@ if ($step == 4) {
 
 
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-db-user-login">Login</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-db-create">' . rex_i18n::msg('setup_411') . '</label>';
         $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-db-create" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
         $formElements[] = $n;
@@ -324,9 +324,9 @@ if ($step == 4) {
     $content .= '</fieldset><fieldset class="rex-form-action">';
 
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['field'] = '<input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('system_update') . '" />';
         $formElements[] = $n;
 
@@ -354,7 +354,7 @@ if ($step == 4) {
 
 // ---------------------------------- step 5 . create db / demo
 
-$errors = array();
+$errors = [];
 
 $createdb = rex_post('createdb', 'int', -1);
 
@@ -450,8 +450,8 @@ if ($step == 5) {
 
     if (is_dir($export_dir)) {
         if ($handle = opendir($export_dir)) {
-            $export_archives = array();
-            $export_sqls = array();
+            $export_archives = [];
+            $export_sqls = [];
 
             while (($file = readdir($handle)) !== false) {
                 if ($file == '.' || $file == '..') {
@@ -483,28 +483,28 @@ if ($step == 5) {
 
 
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['reverse'] = true;
         $n['label'] = '<label for="rex-form-createdb-0">' . rex_i18n::msg('setup_504') . '</label>';
         $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-0" name="createdb" value="0"' . $dbchecked[0] . ' />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['reverse'] = true;
         $n['label'] = '<label for="rex-form-createdb-1">' . rex_i18n::msg('setup_505') . '</label>';
         $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-1" name="createdb" value="1"' . $dbchecked[1] . ' />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['reverse'] = true;
         $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_506') . '</label>';
         $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-2" name="createdb" value="2"' . $dbchecked[2] . ' />';
         $formElements[] = $n;
 
     if ($exports_found) {
-        $n = array();
+        $n = [];
         $n['reverse'] = true;
         $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_507') . '</label>';
         $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-3" name="createdb" value="3"' . $dbchecked[3] . ' />';
@@ -519,9 +519,9 @@ if ($step == 5) {
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['field'] = '<input class="rex-form-submit" type="submit" value="' . $submit_message . '" />';
         $formElements[] = $n;
 
@@ -552,7 +552,7 @@ if ($step == 5) {
 
 // ---------------------------------- Step 7 . Create User
 
-$errors = array();
+$errors = [];
 
 if ($step == 7) {
     $noadmin           = rex_post('noadmin', 'int');
@@ -570,7 +570,7 @@ if ($step == 7) {
 
         if (count($errors) == 0) {
             $ga = rex_sql::factory();
-            $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', array($redaxo_user_login));
+            $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxo_user_login]);
 
             if ($ga->getRows() > 0) {
                 $errors[] = rex_view::error(rex_i18n::msg('setup_603'));
@@ -638,20 +638,20 @@ if ($step == 6) {
 
 
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" />';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
         $n['field'] = '<input class="rex-form-text" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
         $formElements[] = $n;
 
     if ($user_sql->getRows() > 0) {
-        $n = array();
+        $n = [];
         $n['reverse'] = true;
         $n['label'] = '<label for="rex-form-noadmin">' . rex_i18n::msg('setup_609') . '</label>';
         $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" />';
@@ -666,9 +666,9 @@ if ($step == 6) {
     $content .= '</fieldset><fieldset class="rex-form-action">';
 
 
-    $formElements = array();
+    $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['field'] = '<input class="rex-form-submit" type="submit" value="' . $submit_message . '" />';
         $formElements[] = $n;
 

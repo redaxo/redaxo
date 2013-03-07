@@ -144,10 +144,10 @@ class rex_article_cache
             $_clang = $row->getValue('clang');
 
             // --------------------------------------------------- Artikelparameter speichern
-            $params = array(
+            $params = [
                 'article_id' => $article_id,
                 'last_update_stamp' => time()
-            );
+            ];
 
             $class_vars = rex_structure_element::getClassVars();
             unset($class_vars[array_search('id', $class_vars)]);
@@ -157,7 +157,7 @@ class rex_article_cache
                 $params[$field] = $row->getValue($field);
             }
 
-            $cacheArray = array();
+            $cacheArray = [];
             foreach ($params as $name => $value) {
                 $cacheArray[$name][$_clang] = $value;
             }
@@ -204,7 +204,7 @@ class rex_article_cache
             // $GC->setDebug();
             $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where (re_id=$re_id and clang=$_clang and startarticle=0) OR (id=$re_id and clang=$_clang and startarticle=1) order by prior,name");
 
-            $cacheArray = array();
+            $cacheArray = [];
             for ($i = 0; $i < $GC->getRows(); $i ++) {
                 $cacheArray[$i] = $GC->getValue('id');
                 $GC->next();
@@ -220,7 +220,7 @@ class rex_article_cache
             $GC = rex_sql::factory();
             $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where re_id=$re_id and clang=$_clang and startarticle=1 order by catprior,name");
 
-            $cacheArray = array();
+            $cacheArray = [];
             for ($i = 0; $i < $GC->getRows(); $i ++) {
                 $cacheArray[$i] = $GC->getValue('id');
                 $GC->next();

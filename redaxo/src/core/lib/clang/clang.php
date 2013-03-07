@@ -10,7 +10,7 @@ class rex_clang
 {
     private static
         $cacheLoaded = false,
-        $clangs = array(),
+        $clangs = [],
         $currentId = 0;
 
     private
@@ -179,6 +179,6 @@ class rex_clang
     public static function reset()
     {
         self::$cacheLoaded = false;
-        self::$clangs = array();
+        self::$clangs = [];
     }
 }

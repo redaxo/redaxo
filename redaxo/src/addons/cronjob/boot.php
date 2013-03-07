@@ -16,7 +16,7 @@ if (rex::isBackend()) {
     if (rex::getUser() && rex_request('page', 'string') == 'be_dashboard') {
         rex_extension::register(
             'DASHBOARD_COMPONENT',
-            array(new rex_cronjob_component(), 'registerAsExtension')
+            [new rex_cronjob_component(), 'registerAsExtension']
         );
     }
 } else {
@@ -38,7 +38,7 @@ $nexttime = $this->getConfig('nexttime', 0);
 
 if ($nexttime != 0 && time() >= $nexttime) {
     rex_extension::register($EP, function ($params) {
-        if (!rex::isBackend() || !in_array(rex_be_controller::getCurrentPagePart(1), array('setup', 'login', 'cronjob'))) {
+        if (!rex::isBackend() || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'])) {
             rex_cronjob_manager_sql::factory()->check();
         }
     });

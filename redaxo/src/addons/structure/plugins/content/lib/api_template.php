@@ -106,7 +106,7 @@ class rex_template
     {
         $ignore_inactive = $ignore_inactive ? 1 : 0;
 
-        $templates = array();
+        $templates = [];
         $t_sql = rex_sql::factory();
         $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template where active=' . $ignore_inactive . ' order by name');
 
@@ -114,7 +114,7 @@ class rex_template
             // Alle globalen Templates
             foreach ($t_sql as $row) {
                 $attributes = $row->getArrayValue('attributes');
-                $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
+                $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
                 if (!is_array($categories) || $categories['all'] == 1)
                     $templates[$row->getValue('id')] = $row->getValue('name');
             }
@@ -124,7 +124,7 @@ class rex_template
                 $path[] = $category_id;
                 foreach ($t_sql as $row) {
                     $attributes = $row->getArrayValue('attributes');
-                    $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
+                    $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
                     // template ist nicht kategoriespezifisch -> includen
                     if (!is_array($categories) || $categories['all'] == 1) {
                         $templates[$row->getValue('id')] = $row->getValue('name');
@@ -146,7 +146,7 @@ class rex_template
 
     public static function hasModule(array $template_attributes, $ctype, $module_id)
     {
-        $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : array();
+        $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : [];
         if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
             return true;
 

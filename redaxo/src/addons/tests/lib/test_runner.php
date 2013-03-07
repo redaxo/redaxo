@@ -27,7 +27,7 @@ class rex_test_runner
         $runner = new PHPUnit_TextUI_TestRunner;
 
         $backtrace = debug_backtrace(false);
-        array_unshift($backtrace, array('file' => __FILE__, 'line' => __LINE__ + 3));
+        array_unshift($backtrace, ['file' => __FILE__, 'line' => __LINE__ + 3]);
         $runner->setPrinter(new rex_tests_result_printer($backtrace, $colors));
 
         $result = $runner->doRun($suite);

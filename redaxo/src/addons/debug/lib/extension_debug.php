@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
+rex_extension::register('OUTPUT_FILTER', ['rex_extension_debug', 'doLog']);
 
 /**
  * Class to monitor extension points via FirePHP
@@ -10,31 +10,31 @@ rex_extension::register('OUTPUT_FILTER', array('rex_extension_debug', 'doLog'));
  */
 class rex_extension_debug extends rex_extension
 {
-    private static $log = array();
+    private static $log = [];
 
     /**
      * Extends rex_extension::register() with FirePHP logging
      */
-    public static function register($extensionPoint, $callable, $level = self::NORMAL, array $params = array())
+    public static function register($extensionPoint, $callable, $level = self::NORMAL, array $params = [])
     {
         $timer  = new rex_timer();
         parent::register($extensionPoint, $callable, $level, $params);
 
-        self::$log[] = array(
+        self::$log[] = [
             'type'     => 'EXT',
             'ep'       => $extensionPoint,
             'callable' => $callable,
             'level'    => $level,
             'params'   => $params,
             'timer'    => $timer->getFormattedDelta(),
-        );
+        ];
     }
 
 
     /**
      * Extends rex_extension::registerPoint() with FirePHP logging
      */
-    public static function registerPoint($extensionPoint, $subject = '', array $params = array(), $read_only = false)
+    public static function registerPoint($extensionPoint, $subject = '', array $params = [], $read_only = false)
     {
         $coreTimer = rex::getProperty('timer');
         $absDur    = $coreTimer->getFormattedDelta();
@@ -44,9 +44,9 @@ class rex_extension_debug extends rex_extension
         $res    = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
         $epDur  = $timer->getFormattedDelta();
 
-        $memory = rex_formatter::bytes(memory_get_usage(true), array(3));
+        $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
 
-        self::$log[] = array(
+        self::$log[] = [
             'type'      => 'EP',
             'ep'        => $extensionPoint,
             'started'   => $absDur,
@@ -57,7 +57,7 @@ class rex_extension_debug extends rex_extension
             'read_only' => $read_only,
             'result'    => $res,
             'timer'     => $epDur
-        );
+        ];
 
         return $res;
     }
@@ -72,12 +72,12 @@ class rex_extension_debug extends rex_extension
     {
         $firephp = FirePHP::getInstance(true);
 
-        $registered_eps = $log_table = array();
-        $counter        = array(
+        $registered_eps = $log_table = [];
+        $counter        = [
             'ep'       => 0,
             'ext'      => 0,
-        );
-        $log_table[]    = array(
+        ];
+        $log_table[]    = [
             'Type',
             'ExtensionPoint',
             'Callable',
@@ -86,14 +86,14 @@ class rex_extension_debug extends rex_extension
             'subject',
             'params',
             'result',
-        );
+        ];
 
         foreach (self::$log as $count => $entry) {
             switch ($entry['type']) {
                 case 'EP':
                     $counter['ep']++;
                     $registered_eps[] = $entry['ep'];
-                    $log_table[] = array(
+                    $log_table[] = [
                         $entry['type'],      // Type
                         $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
                         '–',                 // Callable
@@ -102,7 +102,7 @@ class rex_extension_debug extends rex_extension
                         $entry['subject'],   // subject
                         $entry['params'],    // params
                         $entry['result'],    // result
-                    );
+                    ];
                     break;
 
                 case 'EXT':
@@ -112,7 +112,7 @@ class rex_extension_debug extends rex_extension
                         $firephp->error('EP Timing: Extension "' . $entry['callable'] . '" registered after ExtensionPoint "' . $entry['ep'] . '" !');
                     }
 
-                    $log_table[] = array(
+                    $log_table[] = [
                         $entry['type'],     // Type
                         $entry['ep'],       // ExtensionPoint / readonly
                         $entry['callable'], // Callable
@@ -121,7 +121,7 @@ class rex_extension_debug extends rex_extension
                         '–',                // subject
                         $entry['params'],   // params
                         $entry['result'],   // result
-                    );
+                    ];
                     break;
 
                 default:

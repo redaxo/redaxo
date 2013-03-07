@@ -6,7 +6,7 @@ class rex_config_test extends PHPUnit_Framework_TestCase
         $this->assertFalse(rex_config::has('test-ns'), 'has() returns false for non-existing namespace');
         $this->assertFalse(rex_config::has('test-ns', 'mykey'), 'has() returns false for non-existing key');
         $this->assertFalse(rex_config::remove('test-ns', 'mykey'), 'remove() returns false when deleting non-existing key');
-        $this->assertSame(array(), rex_config::get('test-ns'), 'get() returns empty array when getting empty namespace');
+        $this->assertSame([], rex_config::get('test-ns'), 'get() returns empty array when getting empty namespace');
         $this->assertNull(rex_config::get('test-ns', 'mykey'), 'get() returns null when getting non-existing key');
         $this->assertEquals('defaultReturn', rex_config::get('test-ns', 'mykey', 'defaultReturn'), 'get returns the given default');
     }
@@ -15,16 +15,16 @@ class rex_config_test extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse(rex_config::remove('test-ns', 'mykey1'), 'remove() returns false, when deleting an non-existing key');
         $this->assertFalse(rex_config::set('test-ns', 'mykey1', 'myvalA'), 'set() returns false, when config not yet exists');
-        $this->assertFalse(rex_config::set('test-ns', array('mykey2' => 'myvalB', 'mykey3' => 'myvalC')), 'set() returns false, when config not yet exists');
+        $this->assertFalse(rex_config::set('test-ns', ['mykey2' => 'myvalB', 'mykey3' => 'myvalC']), 'set() returns false, when config not yet exists');
 
         $this->assertTrue(rex_config::has('test-ns'), 'namespace exists after setting a value');
         $this->assertTrue(rex_config::has('test-ns', 'mykey1'), 'the key itself exists');
 
-        $this->assertEquals(array('mykey1' => 'myvalA', 'mykey2' => 'myvalB', 'mykey3' => 'myvalC'), rex_config::get('test-ns'), 'get() returns array of stored values');
+        $this->assertEquals(['mykey1' => 'myvalA', 'mykey2' => 'myvalB', 'mykey3' => 'myvalC'], rex_config::get('test-ns'), 'get() returns array of stored values');
         $this->assertEquals('myvalA', rex_config::get('test-ns', 'mykey1'), 'get() returns the stored value');
 
         $this->assertTrue(rex_config::set('test-ns', 'mykey1', 'myval1'), 'set() returns true, when config already exists');
-        $this->assertTrue(rex_config::set('test-ns', array('mykey4' => 'myval4', 'mykey2' => 'myval2', 'mykey5' => 'myval5')), 'set() returns true, when config already exists');
+        $this->assertTrue(rex_config::set('test-ns', ['mykey4' => 'myval4', 'mykey2' => 'myval2', 'mykey5' => 'myval5']), 'set() returns true, when config already exists');
 
         $arr = rex_config::get('test-ns');
         rex_config::set('test-ns', $arr);

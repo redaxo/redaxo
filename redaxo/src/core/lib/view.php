@@ -6,9 +6,9 @@
 class rex_view
 {
     private static
-        $cssFiles = array(),
-        $jsFiles = array(),
-        $jsProperties = array(),
+        $cssFiles = [],
+        $jsFiles = [],
+        $jsProperties = [],
         $favicon;
 
     public static function addCssFile($file, $media = 'all')
@@ -177,7 +177,7 @@ class rex_view
                 $nav->addPage($pageObj);
             }
             $blocks = $nav->getNavigation();
-            $navigation = array();
+            $navigation = [];
             if (count($blocks) == 1) {
                 $navigation = current($blocks);
                 $navigation = $navigation['navigation'];
@@ -195,16 +195,16 @@ class rex_view
             $subtitle = '';
         }
 
-        $title = rex_extension::registerPoint('PAGE_TITLE', $head, array('category_id' => $category_id, 'article_id' => $article_id, 'page' => $page));
+        $title = rex_extension::registerPoint('PAGE_TITLE', $head, ['category_id' => $category_id, 'article_id' => $article_id, 'page' => $page]);
 
         $return = '<h1>' . $title . '</h1>' . $subtitle;
 
         echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', '',
-            array(
+            [
                 'category_id' => $category_id,
                 'article_id' => $article_id,
                 'page' => $page
-            )
+            ]
         );
 
         return $return;
@@ -217,12 +217,12 @@ class rex_view
         }
 
         $button = '';
-        $items  = array();
+        $items  = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
-                $item = array();
+                $item = [];
                 $item['title'] = rex_i18n::translate($clang->getName());
-                $item['href']  = $context->getUrl(array('clang' => $id));
+                $item['href']  = $context->getUrl(['clang' => $id]);
                 if ($id == rex_request('clang', 'int')) {
                     $item['active'] = true;
                     $button = rex_i18n::translate($clang->getName());

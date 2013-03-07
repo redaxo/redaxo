@@ -26,7 +26,7 @@ class rex_metainfo_table_expander extends rex_form
     {
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-        $typeFields = rex_extension::registerPoint( 'METAINFO_TYPE_FIELDS', array(REX_METAINFO_FIELD_SELECT, REX_METAINFO_FIELD_RADIO, REX_METAINFO_FIELD_CHECKBOX, REX_METAINFO_FIELD_REX_MEDIA_BUTTON, REX_METAINFO_FIELD_REX_MEDIALIST_BUTTON, REX_METAINFO_FIELD_REX_LINK_BUTTON, REX_METAINFO_FIELD_REX_LINKLIST_BUTTON));
+        $typeFields = rex_extension::registerPoint( 'METAINFO_TYPE_FIELDS', [REX_METAINFO_FIELD_SELECT, REX_METAINFO_FIELD_RADIO, REX_METAINFO_FIELD_CHECKBOX, REX_METAINFO_FIELD_REX_MEDIA_BUTTON, REX_METAINFO_FIELD_REX_MEDIALIST_BUTTON, REX_METAINFO_FIELD_REX_LINK_BUTTON, REX_METAINFO_FIELD_REX_LINKLIST_BUTTON]);
 
         $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
         $field->setLabel(rex_i18n::msg('minfo_field_label_prefix'));
@@ -61,7 +61,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $gq = rex_sql::factory();
         $gq->setQuery('SELECT dbtype,id FROM ' . rex::getTablePrefix() . 'metainfo_type');
-        $textFields = array();
+        $textFields = [];
         foreach ($gq->getArray() as $f) {
             if ($f['dbtype'] == 'text') {
             $textFields[$f['id']] = $f['id'];
@@ -111,7 +111,7 @@ class rex_metainfo_table_expander extends rex_form
         $field = $this->addTextField('default');
         $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
 
-        $attributes = array();
+        $attributes = [];
         $attributes['internal::fieldClass'] = 'rex_form_restrictons_element';
         $field = $this->addField('', 'restrictions', null, $attributes);
         $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
@@ -256,7 +256,7 @@ class rex_metainfo_table_expander extends rex_form
                     $upd = rex_sql::factory();
                     $upd->setDebug($this->debug);
                     $upd->setTable($this->tableManager->getTableName());
-                    $upd->setWhere(array($fieldName => $fieldOldDefault));
+                    $upd->setWhere([$fieldName => $fieldOldDefault]);
                     $upd->setValue($fieldName, $fieldDefault);
                     return $upd->update();
                 }
@@ -280,7 +280,7 @@ class rex_metainfo_table_expander extends rex_form
             return;
 
         // replace LIKE wildcards
-        $metaPrefix = str_replace(array('_', '%'), array('\_', '\%'), $this->metaPrefix);
+        $metaPrefix = str_replace(['_', '%'], ['\_', '\%'], $this->metaPrefix);
 
         rex_sql_util::organizePriorities(
             $this->tableName,

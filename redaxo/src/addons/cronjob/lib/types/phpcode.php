@@ -20,7 +20,7 @@ class rex_cronjob_phpcode extends rex_cronjob
         ob_end_clean();
         ini_set('display_errors', $is);
         if ($output) {
-            $output = str_replace(array("\r\n\r\n", "\n\n"), "\n", trim(strip_tags($output)));
+            $output = str_replace(["\r\n\r\n", "\n\n"], "\n", trim(strip_tags($output)));
             $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
             $this->setMessage($output);
         }
@@ -36,13 +36,13 @@ class rex_cronjob_phpcode extends rex_cronjob
 
     public function getParamFields()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('cronjob_type_phpcode'),
                 'name'  => 'code',
                 'type'  => 'textarea',
-                'attributes' => array('rows' => 20)
-            )
-        );
+                'attributes' => ['rows' => 20]
+            ]
+        ];
     }
 }

@@ -10,7 +10,7 @@
  */
 function rex_a659_statistics()
 {
-    $stats = array();
+    $stats = [];
     $stats['last_update'] = 0;
 
     $sql = rex_sql::factory();

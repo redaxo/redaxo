@@ -41,7 +41,7 @@ class rex_dashboard_function_cache
      *
      * @return mixed The result of the function/method
      */
-    public function call($callable, array $arguments = array())
+    public function call($callable, array $arguments = [])
     {
         // Generate a cache id
         $key = $this->computeCacheKey($callable, $arguments);
@@ -50,7 +50,7 @@ class rex_dashboard_function_cache
         if ($serialized !== null) {
             $data = unserialize($serialized);
         } else {
-            $data = array();
+            $data = [];
 
             if (!is_callable($callable)) {
                 throw new InvalidArgumentException('The first argument to call() must be a valid callable.');
@@ -88,7 +88,7 @@ class rex_dashboard_function_cache
      *
      * @return string The associated cache key
      */
-    public function computeCacheKey($callable, array $arguments = array())
+    public function computeCacheKey($callable, array $arguments = [])
     {
         return md5(serialize($callable) . serialize($arguments));
     }

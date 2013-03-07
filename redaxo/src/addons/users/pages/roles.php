@@ -4,7 +4,7 @@ $content = '';
 
 if ($func == 'delete') {
     $sql = rex_sql::factory();
-    $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', array($id));
+    $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
     $content .= rex_view::info(rex_i18n::msg('user_role_deleted'));
     $func = '';
 }
@@ -17,21 +17,21 @@ if ($func == '') {
     $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 
     $tdIcon = '<span class="rex-icon rex-icon-userrole"></span>';
-    $thIcon = '<a href="' . $list->getUrl(array('func' => 'add', 'default_value' => 1)) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><span class="rex-icon rex-icon-add-userrole"></span></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>'));
-    $list->setColumnParams($thIcon, array('func' => 'edit', 'id' => '###id###'));
+    $thIcon = '<a href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><span class="rex-icon rex-icon-add-userrole"></span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>']);
+    $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
     $list->setColumnLabel('id', 'ID');
-    $list->setColumnLayout('id', array('<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>'));
+    $list->setColumnLayout('id', ['<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
-    $list->setColumnLayout('name', array('<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>'));
-    $list->setColumnParams('name', array('func' => 'edit', 'id' => '###id###'));
+    $list->setColumnLayout('name', ['<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>']);
+    $list->setColumnParams('name', ['func' => 'edit', 'id' => '###id###']);
 
     $list->addColumn('funcs', rex_i18n::msg('user_role_delete'));
     $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
-    $list->setColumnLayout('funcs', array('<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>'));
-    $list->setColumnParams('funcs', array('func' => 'delete', 'id' => '###id###'));
+    $list->setColumnLayout('funcs', ['<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>']);
+    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###']);
     $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->addLinkAttribute('funcs', 'class', 'rex-delete');
 
@@ -60,7 +60,7 @@ if ($func == '') {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, array('isAdmin', 'admin', 'admin[]')) && strpos($perm, '/') === false && !rex_perm::has($perm)) {
+                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && strpos($perm, '/') === false && !rex_perm::has($perm)) {
                     rex_perm::register($perm);
                 }
             }
@@ -69,7 +69,7 @@ if ($func == '') {
     };
     $registerImplicitePagePermissions(rex_be_controller::getPages());
 
-    foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $permgroup) {
+    foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(rex_i18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
@@ -83,7 +83,7 @@ if ($func == '') {
         return $params['inputType'] == 'perm_select' ? 'rex_form_perm_select_element' : null;
     });
 
-    $fieldIds = array();
+    $fieldIds = [];
     foreach (rex_complex_perm::getAll() as $key => $class) {
         $params = $class::getFieldParams();
         if (!empty($params)) {

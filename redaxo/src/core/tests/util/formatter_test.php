@@ -45,13 +45,13 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     {
         $value = 1336811080.23;
 
-        $format = array();
+        $format = [];
         $this->assertEquals(
             '1 336 811 080,23',
             rex_formatter::number($value, $format)
         );
 
-        $format = array(5, ':', '`');
+        $format = [5, ':', '`'];
         $this->assertEquals(
             '1`336`811`080:23000',
             rex_formatter::number($value, $format)
@@ -92,7 +92,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
             rex_formatter::bytes($value * 1000 * 1000 * 1000 * 1000 * 1000)
         );
 
-        $format = array(5); // number of signs behind comma
+        $format = [5]; // number of signs behind comma
         $this->assertEquals(
             '953,67432 MiB',
             rex_formatter::bytes($value * 1000 * 1000, $format)
@@ -124,22 +124,22 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     {
         $value = 'very loooooong text lala';
 
-        $format = array(
+        $format = [
             'length'      => 10,
             'etc'         => ' usw.',
             'break_words' => true,
-        );
+        ];
         $this->assertEquals(
             'very  usw.',
             rex_formatter::truncate($value, $format)
         );
 
         // XXX hmm seems not to be correct
-        $format = array(
+        $format = [
             'length'      => 10,
             'etc'         => ' usw.',
             'break_words' => false,
-        );
+        ];
         $this->assertEquals(
             'very usw.',
             rex_formatter::truncate($value, $format)
@@ -165,10 +165,10 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     {
         $value = 'http://example.org';
 
-        $format = array(
+        $format = [
             'attr'   => ' data-haha="foo"',
             'params' => 'ilike=+1',
-        );
+        ];
         $this->assertEquals(
             '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
             rex_formatter::url($value, $format)
@@ -179,10 +179,10 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
     {
         $value = 'dude@example.org';
 
-        $format = array(
+        $format = [
             'attr'   => ' data-haha="foo"',
             'params' => 'ilike=+1',
-        );
+        ];
         $this->assertEquals(
             '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
             rex_formatter::email($value, $format)
@@ -199,12 +199,12 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
             rex_formatter::custom($value, $format)
         );
 
-        $format = array(
+        $format = [
             function ($params) {
                 return $params['subject'] . ' ' . $params['some'];
             },
-            array('some' => 'more params'),
-        );
+            ['some' => 'more params'],
+        ];
 
         $this->assertEquals(
             '77 more params',

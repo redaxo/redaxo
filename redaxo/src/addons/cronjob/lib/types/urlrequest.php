@@ -25,7 +25,7 @@ class rex_cronjob_urlrequest extends rex_cronjob
             $statusCode = $response->getStatusCode();
             $success = $response->isSuccessful();
             $message = $statusCode . ' ' . $response->getStatusMessage();
-            if (in_array($statusCode, array(301, 302, 303, 307))
+            if (in_array($statusCode, [301, 302, 303, 307])
                 && $this->getParam('redirect', true)
                 && ($location = $response->getHeader('Location'))
             ) {
@@ -54,35 +54,35 @@ class rex_cronjob_urlrequest extends rex_cronjob
 
     public function getParamFields()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
                 'name'  => 'url',
                 'type'  => 'text',
                 'default' => 'http://'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_post'),
                 'name'  => 'post',
                 'type'  => 'text'
-            ),
-            array(
+            ],
+            [
                 'name'  => 'http-auth',
                 'type'  => 'checkbox',
-                'options' => array(1 => rex_i18n::msg('cronjob_type_urlrequest_httpauth'))
-            ),
-            array(
+                'options' => [1 => rex_i18n::msg('cronjob_type_urlrequest_httpauth')]
+            ],
+            [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_user'),
                 'name'  => 'user',
                 'type'  => 'text',
-                'visible_if' => array('http-auth' => 1)
-            ),
-            array(
+                'visible_if' => ['http-auth' => 1]
+            ],
+            [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_password'),
                 'name'  => 'password',
                 'type'  => 'text',
-                'visible_if' => array('http-auth' => 1)
-            )
-        );
+                'visible_if' => ['http-auth' => 1]
+            ]
+        ];
     }
 }

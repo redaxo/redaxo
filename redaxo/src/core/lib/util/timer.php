@@ -55,6 +55,6 @@ class rex_timer
     public function getFormattedDelta($precision = self::MILLISEC, $decimals = 3)
     {
         $time = $this->getDelta($precision);
-        return rex_formatter::number($time, array($decimals));
+        return rex_formatter::number($time, [$decimals]);
     }
 }

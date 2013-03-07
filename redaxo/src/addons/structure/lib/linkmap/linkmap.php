@@ -25,7 +25,7 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 
         $li = '';
         $li .= '            <li' . $liClasses . '>';
-        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(array('category_id' => $cat->getId())) . '">' . htmlspecialchars($label) . '</a>';
+        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . htmlspecialchars($label) . '</a>';
         $li .= $subHtml;
         $li .= '</li>' . "\n";
 

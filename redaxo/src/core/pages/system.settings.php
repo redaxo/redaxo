@@ -6,7 +6,7 @@
  */
 
 $info = '';
-$error = array();
+$error = [];
 $success = '';
 
 if ($func == 'setup') {
@@ -38,9 +38,9 @@ if ($func == 'setup') {
         rex_file::getConfig($configFile)
     );
 
-    $settings = rex_post('settings', 'array', array());
+    $settings = rex_post('settings', 'array', []);
 
-    foreach (array('server', 'servername', 'error_email', 'lang') as $key) {
+    foreach (['server', 'servername', 'error_email', 'lang'] as $key) {
         if (!isset($settings[$key]) || !$settings[$key]) {
             $error[] = rex_i18n::msg($key . '_required');
             continue;
@@ -107,11 +107,11 @@ if (strlen($version) > 21)
 $content_1 = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
                         <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-                        <p><a class="rex-button" href="' . rex_url::currentBackendPage(array('func' => 'generate')) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+                        <p><a class="rex-button" href="' . rex_url::currentBackendPage(['func' => 'generate']) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
                         <h3>' . rex_i18n::msg('setup') . '</h3>
                         <p>' . rex_i18n::msg('setup_text') . '</p>
-                        <p><a class="rex-button rex-danger" href="' . rex_url::currentBackendPage(array('func' => 'setup')) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+                        <p><a class="rex-button rex-danger" href="' . rex_url::currentBackendPage(['func' => 'setup']) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $content_2 = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
@@ -134,24 +134,24 @@ $content = '
                             <h2>' . rex_i18n::msg('system_settings') . '</h2>
                             <h3>' . rex_i18n::msg('general_info_header') . '</h3>';
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-server">' . rex_i18n::msg('server') . '</label>';
 $n['field'] = '<input type="text" id="rex-id-server" name="settings[server]" value="' . htmlspecialchars(rex::getServer()) . '" />';
 $formElements[] = $n;
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-servername">' . rex_i18n::msg('servername') . '</label>';
 $n['field'] = '<input type="text" id="rex-id-servername" name="settings[servername]" value="' . htmlspecialchars(rex::getServerName()) . '" />';
 $formElements[] = $n;
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
 $n['field'] = '<input type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
 $n['field'] = $sel_lang->get();
 $formElements[] = $n;
@@ -162,9 +162,9 @@ $content .= $fragment->parse('core/form/form.tpl');
 
 
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-debug">' . rex_i18n::msg('debug_mode') . '</label>';
 $n['field'] = '<input type="checkbox" id="rex-id-debug" name="settings[debug]" value="1" ' . (rex::isDebugMode() ? 'checked="checked" ' : '') . '/>';
 $formElements[] = $n;
@@ -186,9 +186,9 @@ foreach (rex_system_setting::getAll() as $setting) {
 
 $content .= '</fieldset>';
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['field'] = '<button class="rex-button" type="submit" name="sendit"' . rex::getAccesskey(rex_i18n::msg('system_update'), 'save') . '>' . rex_i18n::msg('system_update') . '</button>';
 $formElements[] = $n;
 

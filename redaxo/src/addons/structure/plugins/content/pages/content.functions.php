@@ -18,9 +18,9 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
                         <fieldset>
                             <h2>' . rex_i18n::msg('content_startarticle') . '</h2>';
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     if (!$isStartpage && $article->getValue('re_id') == 0)
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
     elseif ($isStartpage)
@@ -52,9 +52,9 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
                             <h2>' . rex_i18n::msg('content_category') . '</h2>';
 
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['field'] = '<button class="rex-button" type="submit" name="article2category" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');">' . rex_i18n::msg('content_tocategory') . '</button>';
     $formElements[] = $n;
 
@@ -81,9 +81,9 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
                             <h2>' . rex_i18n::msg('content_article') . '</h2>';
 
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     if (!$emptyCategory)
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottoarticle') . '</span>';
     else
@@ -131,14 +131,14 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
                             <fieldset>
                                 <h2>' . rex_i18n::msg('content_submitcopycontent') . '</h2>';
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="clang_a">' . rex_i18n::msg('content_contentoflang') . '</label>';
     $n['field'] = $lang_a->get();
     $formElements[] = $n;
 
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="clang_b">' . rex_i18n::msg('content_to') . '</label>';
     $n['field'] = $lang_b->get();
     $formElements[] = $n;
@@ -149,9 +149,9 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $out .= $fragment->parse('core/form/form.tpl');
 
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['field'] = '<button class="rex-button" type="submit" name="copycontent" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?">' . rex_i18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 
@@ -183,14 +183,14 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
                                 <h2>' . rex_i18n::msg('content_submitmovearticle') . '</h2>';
 
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_article') . '</label>';
     $n['field'] = $move_a->get();
     $formElements[] = $n;
 
-    $n = array();
+    $n = [];
     $n['field'] = '<button class="rex-button" type="submit" name="movearticle" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?">' . rex_i18n::msg('content_submitmovearticle') . '</button>';
     $formElements[] = $n;
 
@@ -219,14 +219,14 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
                                 <h2>' . rex_i18n::msg('content_submitcopyarticle') . '</h2>';
 
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="category_copy_id_new">' . rex_i18n::msg('copy_article') . '</label>';
     $n['field'] = $move_a->get();
     $formElements[] = $n;
 
-    $n = array();
+    $n = [];
     $n['field'] = '<button class="rex-button" type="submit" name="copyarticle" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?">' . rex_i18n::msg('content_submitcopyarticle') . '</button>';
     $formElements[] = $n;
 
@@ -255,14 +255,14 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
                                 <h2>' . rex_i18n::msg('content_submitmovecategory') . '</h2>';
 
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="category_id_new">' . rex_i18n::msg('move_category') . '</label>';
     $n['field'] = $move_a->get();
     $formElements[] = $n;
 
-    $n = array();
+    $n = [];
     $n['field'] = '<button class="rex-button" type="submit" name="movecategory" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?">' . rex_i18n::msg('content_submitmovecategory') . '</button>';
     $formElements[] = $n;
 

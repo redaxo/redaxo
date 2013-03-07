@@ -12,7 +12,7 @@ abstract class rex_input
     public function __construct()
     {
         $this->value = '';
-        $this->attributes = array();
+        $this->attributes = [];
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class rex_input
      */
     public function setAttributes($attributes)
     {
-        $this->attributes = array();
+        $this->attributes = [];
 
         foreach ($attributes as $name => $value) {
             $this->setAttribute($name, $value);

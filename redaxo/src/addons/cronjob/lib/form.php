@@ -18,7 +18,7 @@ class rex_cronjob_form extends rex_form
         $this->mainFieldset = $fieldset;
     }
 
-    public function addIntervalField($name, $value = null, $attributes = array())
+    public function addIntervalField($name, $value = null, $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_cronjob_form_interval_element';
         $attributes['class'] = 'rex-form-text rex-form-select';
@@ -58,7 +58,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $name = $this->getAttribute('name') . '[]';
         $value = explode('|', htmlspecialchars($this->getValue()));
         if (count($value) != 4)
-            $value = array(null, 1, 'd');
+            $value = [null, 1, 'd'];
 
         $select = new rex_select();
         $select->setAttribute('class', 'rex-form-select rex-a630-interval');

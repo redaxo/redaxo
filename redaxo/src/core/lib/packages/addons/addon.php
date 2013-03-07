@@ -13,14 +13,14 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @var rex_addon[]
      */
-    private static $addons = array();
+    private static $addons = [];
 
     /**
      * Array of all child plugins
      *
      * @var rex_plugin[]
      */
-    private $plugins = array();
+    private $plugins = [];
 
     /**
      * Returns the addon by the given name
@@ -191,11 +191,11 @@ class rex_addon extends rex_package implements rex_addon_interface
             // in setup and safemode this method is called before the package .lang files are added to rex_i18n
             // so don't use getProperty(), to avoid loading all properties without translations
             $properties = rex_file::getConfig($this->getPath(parent::FILE_PACKAGE));
-            $systemPlugins = isset($properties['system_plugins']) ? (array) $properties['system_plugins'] : array();
+            $systemPlugins = isset($properties['system_plugins']) ? (array) $properties['system_plugins'] : [];
         } else {
-            $systemPlugins = (array) $this->getProperty('system_plugins', array());
+            $systemPlugins = (array) $this->getProperty('system_plugins', []);
         }
-        $plugins = array();
+        $plugins = [];
         foreach ($systemPlugins as $plugin) {
             if ($this->pluginExists($plugin)) {
                 $plugins[$plugin] = $this->getPlugin($plugin);
@@ -241,8 +241,8 @@ class rex_addon extends rex_package implements rex_addon_interface
      */
     public static function getSetupAddons()
     {
-        $addons = array();
-        foreach ((array) rex::getProperty('setup_addons', array()) as $addon) {
+        $addons = [];
+        foreach ((array) rex::getProperty('setup_addons', []) as $addon) {
             if (self::exists($addon)) {
                 $addons[$addon] = self::get($addon);
             }
@@ -257,8 +257,8 @@ class rex_addon extends rex_package implements rex_addon_interface
      */
     public static function getSystemAddons()
     {
-        $addons = array();
-        foreach ((array) rex::getProperty('system_addons', array()) as $addon) {
+        $addons = [];
+        foreach ((array) rex::getProperty('system_addons', []) as $addon) {
             if (self::exists($addon)) {
                 $addons[$addon] = self::get($addon);
             }
@@ -272,15 +272,15 @@ class rex_addon extends rex_package implements rex_addon_interface
     public static function initialize($dbExists = true)
     {
         if ($dbExists) {
-            $config = rex::getConfig('package-config', array());
+            $config = rex::getConfig('package-config', []);
         } else {
-            $config = array();
+            $config = [];
             foreach (rex::getProperty('setup_addons') as $addon) {
                 $config[$addon]['install'] = false;
             }
         }
         $addons = self::$addons;
-        self::$addons = array();
+        self::$addons = [];
         foreach ($config as $addonName => $addonConfig) {
             $addon = isset($addons[$addonName]) ? $addons[$addonName] : new self($addonName);
             $addon->setProperty('install', isset($addonConfig['install']) ? $addonConfig['install'] : false);
@@ -293,7 +293,7 @@ class rex_addon extends rex_package implements rex_addon_interface
             }
             if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
                 $plugins = $addon->plugins;
-                $addon->plugins = array();
+                $addon->plugins = [];
                 foreach ($config[$addonName]['plugins'] as $pluginName => $pluginConfig) {
                     $plugin = isset($plugins[$pluginName]) ? $plugins[$pluginName] : new rex_plugin($pluginName, $addon);
                     $plugin->setProperty('install', isset($pluginConfig['install']) ? $pluginConfig['install'] : false);

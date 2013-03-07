@@ -4,11 +4,11 @@
 
 $content = '';
 
-$settings = rex_post('settings', array(
-    array('backups', 'bool', false),
-    array('api_login', 'string'),
-    array('api_key', 'string')
-), null);
+$settings = rex_post('settings', [
+    ['backups', 'bool', false],
+    ['api_login', 'string'],
+    ['api_key', 'string']
+], null);
 
 if (is_array($settings)) {
     foreach ($settings as $key => $value) {
@@ -25,9 +25,9 @@ $content .= '
                 <h2>' . $this->i18n('settings_general') . '</h2>';
 
 
-            $formElements = array();
+            $formElements = [];
 
-                $n = array();
+                $n = [];
                 $n['reverse'] = true;
                 $n['label'] = '<label for="install-settings-backups">' . $this->i18n('settings_backups') . '</label>';
                 $n['field'] = '<input id="install-settings-backups" type="checkbox" class="rex-form-checkbox" name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
@@ -44,14 +44,14 @@ $content .= '
                 <h2>' . $this->i18n('settings_myredaxo_account') . '</h2>';
 
 
-            $formElements = array();
+            $formElements = [];
 
-                $n = array();
+                $n = [];
                 $n['label'] = '<label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>';
                 $n['field'] = '<input id="install-settings-api-login" class="rex-form-text" type="text" name="settings[api_login]" value="' . $this->getConfig('api_login') . '" />';
                 $formElements[] = $n;
 
-                $n = array();
+                $n = [];
                 $n['label'] = '<label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>';
                 $n['field'] = '<input id="install-settings-api-key" class="rex-form-text" type="text" name="settings[api_key]" value="' . $this->getConfig('api_key') . '" />';
                 $formElements[] = $n;
@@ -66,9 +66,9 @@ $content .= '
                 <fieldset class="rex-form-action">';
 
 
-            $formElements = array();
+            $formElements = [];
 
-                $n = array();
+                $n = [];
                 $n['field'] = '<input id="install-settings-save" type="submit" name="settings[save]" class="rex-form-submit" value="' . rex_i18n::msg('form_save') . '" />';
                 $formElements[] = $n;
 

@@ -22,7 +22,7 @@ class rex_media_manager
 
         if (!$this->isCached($type)) {
             $set = $this->effectsFromType($type);
-            $set = rex_extension::registerPoint('MEDIA_MANAGER_FILTERSET', $set, array('rex_media_type' => $type));
+            $set = rex_extension::registerPoint('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]);
 
             if (count($set) == 0) {
                 return $this->media;
@@ -52,11 +52,11 @@ class rex_media_manager
         // $sql->setDebug();
         $sql->setQuery($qry);
 
-        $effects = array();
+        $effects = [];
         foreach ($sql as $row) {
             $effname = $row->getValue('effect');
             $params = json_decode($row->getValue('parameters'), true);
-            $effparams = array();
+            $effparams = [];
 
             // extract parameter out of array
             if (isset($params['rex_effect_' . $effname])) {
@@ -66,10 +66,10 @@ class rex_media_manager
                 }
             }
 
-            $effect = array(
+            $effect = [
                 'effect' => $effname,
                 'params' => $effparams,
-            );
+            ];
 
             $effects[] = $effect;
         }
@@ -157,7 +157,7 @@ class rex_media_manager
             $cacheParams = '*';
         }
 
-        $folders = array();
+        $folders = [];
         $folders[] = rex_path::addonCache('media_manager');
         $folders[] = rex_path::media();
 
@@ -200,7 +200,7 @@ class rex_media_manager
 
     public static function getSupportedEffectNames()
     {
-        $effectNames = array();
+        $effectNames = [];
         foreach (self::getSupportedEffects() as $effectClass => $effectFile) {
             $effectNames[] = self::getEffectName($effectFile);
         }
@@ -209,11 +209,11 @@ class rex_media_manager
 
     public static function getSupportedEffects()
     {
-        $dirs = array(
+        $dirs = [
             __DIR__ . '/effects/'
-        );
+        ];
 
-        $effects = array();
+        $effects = [];
         foreach ($dirs as $dir) {
             $files = glob($dir . 'effect_*.php');
             if ($files) {
@@ -228,7 +228,7 @@ class rex_media_manager
     private static function getEffectName($effectFile)
     {
         return str_replace(
-            array('effect_', '.php'),
+            ['effect_', '.php'],
             '',
             basename($effectFile)
         );

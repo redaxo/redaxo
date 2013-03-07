@@ -12,10 +12,10 @@ class rex_module_perm extends rex_complex_perm
 
     public static function getFieldParams()
     {
-        return array(
+        return [
             'label' => rex_i18n::msg('modules'),
             'all_label' => rex_i18n::msg('all_modules'),
             'sql_options' => 'select name, id from ' . rex::getTablePrefix() . 'module order by name'
-        );
+        ];
     }
 }

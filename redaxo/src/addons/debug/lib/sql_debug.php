@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
+rex_extension::register('OUTPUT_FILTER', ['rex_sql_debug', 'doLog']);
 
 /**
  * Class to monitor sql queries
@@ -10,10 +10,10 @@ rex_extension::register('OUTPUT_FILTER', array('rex_sql_debug', 'doLog'));
  */
 class rex_sql_debug extends rex_sql
 {
-    private static $queries = array();
+    private static $queries = [];
     private static $errors  = 0;
 
-    public function setQuery($qry, array $params = array())
+    public function setQuery($qry, array $params = [])
     {
         try {
             $ret = parent::setQuery($qry, $params);
@@ -34,7 +34,7 @@ class rex_sql_debug extends rex_sql
     }
 
     // TODO queries using setQuery() are not logged yet!
-    public function execute(array $params = array())
+    public function execute(array $params = [])
     {
         $qry   = $this->stmt->queryString;
 
@@ -48,13 +48,13 @@ class rex_sql_debug extends rex_sql
             $errno = parent::getErrno();
         }
 
-        self::$queries[] = array(
+        self::$queries[] = [
             'rows'  => $this->getRows(),
             'time'  => $timer->getFormattedDelta(),
             'query' => $qry,
             'error' => $err,
             'errno' => $errno
-        );
+        ];
 
         return $res;
     }
@@ -62,16 +62,16 @@ class rex_sql_debug extends rex_sql
     public static function doLog($params)
     {
         if (!empty(self::$queries)) {
-            $tbl = array();
-            $tbl[] = array('#', 'rows', 'ms', 'query');
+            $tbl = [];
+            $tbl[] = ['#', 'rows', 'ms', 'query'];
             $i = 0;
 
             foreach (self::$queries as $qry) {
                 // when a extension takes longer than 5ms, send a warning
                 if (strtr($qry['time'], ',', '.') > 5) {
-                    $tbl[] = array($i, $qry['rows'], '! SLOW: ' . $qry['time'], $qry['query']);
+                    $tbl[] = [$i, $qry['rows'], '! SLOW: ' . $qry['time'], $qry['query']];
                 } else {
-                    $tbl[] = array($i, $qry['rows'], $qry['time'], $qry['query']);
+                    $tbl[] = [$i, $qry['rows'], $qry['time'], $qry['query']];
                 }
                 $i++;
             }

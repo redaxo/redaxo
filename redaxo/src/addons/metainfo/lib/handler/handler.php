@@ -46,7 +46,7 @@ abstract class rex_metainfo_handler
                 unset($attrArray['perm']);
             }
 
-            $dbvalues = array($sqlFields->getValue('default'));
+            $dbvalues = [$sqlFields->getValue('default')];
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
@@ -89,10 +89,10 @@ abstract class rex_metainfo_handler
                     $name .= '[]';
                 case 'radio':
                 {
-                    $values = array();
+                    $values = [];
                     if (rex_sql::getQueryType($params) == 'SELECT') {
                         $sql = rex_sql::factory();
-                        $value_groups = $sql->getDBArray($params, array(), PDO::FETCH_NUM);
+                        $value_groups = $sql->getDBArray($params, [], PDO::FETCH_NUM);
                         foreach ($value_groups as $value_group) {
                             if (isset($value_group[1]))
                                 $values[$value_group[1]] = $value_group[0];
@@ -196,7 +196,7 @@ abstract class rex_metainfo_handler
                     } else {
                         // Optionen mit | separiert
                         // eine einzelne Option kann mit key:value separiert werden
-                        $values = array();
+                        $values = [];
                         $value_groups = explode('|', $params);
                         foreach ($value_groups as $value_group) {
                             // check ob key:value paar
@@ -226,7 +226,7 @@ abstract class rex_metainfo_handler
                     if ($dbvalues[0] == '')
                         $dbvalues[0] = time();
 
-                    $inputValue = array();
+                    $inputValue = [];
                     $inputValue['year'] = date('Y', $dbvalues[0]);
                     $inputValue['month'] = date('m', $dbvalues[0]);
                     $inputValue['day'] = date('j', $dbvalues[0]);
@@ -378,7 +378,7 @@ abstract class rex_metainfo_handler
                     list($field, $tag, $tag_attr, $id, $label, $labelIt) =
                         rex_extension::registerPoint(
                             'METAINFO_CUSTOM_FIELD',
-                            array(
+                            [
                                 $field,
                                 $tag,
                                 $tag_attr,
@@ -389,7 +389,7 @@ abstract class rex_metainfo_handler
                                 'rawvalues' => $dbvalues,
                                 'type' => $typeLabel,
                                 'sql' => $sqlFields
-                            )
+                            ]
                         );
                 }
             }
@@ -500,7 +500,7 @@ abstract class rex_metainfo_handler
     protected static function getSqlFields($prefix, $filterCondition)
     {
         // replace LIKE wildcards
-        $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
+        $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
         $qry = 'SELECT
                             *

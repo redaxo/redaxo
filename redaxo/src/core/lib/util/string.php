@@ -33,15 +33,15 @@ class rex_string
     {
         $string = trim($string);
         if (empty($string)) {
-            return array();
+            return [];
         }
-        $result = array();
+        $result = [];
         $spacer = '@@@REX_SPACER@@@';
-        $quoted = array();
+        $quoted = [];
 
         $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
         $callback = function ($match) use ($spacer, &$quoted) {
-            $quoted[] = str_replace(array('\\' . $match[1], '\\\\'), array($match[1], '\\'), $match[2]);
+            $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
         };
         $string = preg_replace_callback($pattern, $callback, $string);
@@ -127,7 +127,7 @@ class rex_string
      */
     public static function buildQuery(array $params, $argSeparator = '&')
     {
-        $query = array();
+        $query = [];
         $func = function (array $params, $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
                 $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);

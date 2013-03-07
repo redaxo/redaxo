@@ -66,7 +66,7 @@ $content .= '
         foreach (rex_package::getRegisteredPackages() as $package) {
             $content .= '
             <tr class="rex-' . $package->getType() . ' rex-' . ($package->isAvailable() ? 'active' : 'inactive') . '">
-                <td class="rex-name">' . $package->getName() . ' <a href="' . rex_url::backendPage('packages', array('subpage' => 'help', 'package' => $package->getPackageId())) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '">?</a></td>
+                <td class="rex-name">' . $package->getName() . ' <a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '">?</a></td>
                 <td class="rex-version">' . $package->getVersion() . '</td>
                 <td class="rex-author">' . $package->getAuthor() . '</td>
                 <td class="rex-support">';

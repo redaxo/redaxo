@@ -17,7 +17,7 @@ if ($PERMALL) {
             $cat_name = rex_request('cat_name', 'string');
             $db = rex_sql::factory();
             $db->setTable(rex::getTablePrefix() . 'media_category');
-            $db->setWhere(array('id' => $edit_id));
+            $db->setWhere(['id' => $edit_id]);
             $db->setValue('name', $cat_name);
             $db->addGlobalUpdateFields();
 
@@ -55,7 +55,7 @@ if ($PERMALL) {
         $warning = $e->getMessage();
     }
 
-    $link = rex_url::currentBackendPage(array_merge($arg_url, array('cat_id' => '')));
+    $link = rex_url::currentBackendPage(array_merge($arg_url, ['cat_id' => '']));
 
     $textpath = '<li> : <a href="' . $link . '0">Start</a></li>';
     $cat_id = rex_request('cat_id', 'int');

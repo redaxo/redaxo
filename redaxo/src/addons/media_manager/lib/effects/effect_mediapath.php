@@ -21,12 +21,12 @@ class rex_effect_mediapath extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mediapath'),
                 'name' => 'mediapath',
                 'type' => 'string',
-            ),
-        );
+            ],
+        ];
     }
 }

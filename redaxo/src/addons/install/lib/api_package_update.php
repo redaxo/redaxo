@@ -133,7 +133,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
         }
 
         // ---- check requirements
-        $messages = array();
+        $messages = [];
         $manager = rex_addon_manager::factory($this->addon);
         if (!$manager->checkRequirements()) {
             $messages[] = $manager->getMessage();

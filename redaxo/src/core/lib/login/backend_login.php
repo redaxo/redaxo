@@ -48,7 +48,7 @@ class rex_backend_login extends rex_login
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
-                $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', array($cookiekey));
+                $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if ($sql->getRows() == 1) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
                     setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
@@ -65,7 +65,7 @@ class rex_backend_login extends rex_login
             // gelungenen versuch speichern | login_tries = 0
             if ($this->userLogin != '' || !$userId) {
                 $this->regenerateSessionId();
-                $params = array();
+                $params = [];
                 $add = '';
                 if ($this->stayLoggedIn || $cookiekey) {
                     $cookiekey = sha1($this->systemId . time() . $this->userLogin);
@@ -84,10 +84,10 @@ class rex_backend_login extends rex_login
         } else {
             // fehlversuch speichern | login_tries++
             if ($this->userLogin != '') {
-                $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', array($this->userLogin));
+                $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
                     $login_tries = $sql->getValue('login_tries');
-                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', array(time(), $this->userLogin));
+                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', [time(), $this->userLogin]);
                     if ($login_tries >= self::LOGIN_TRIES_1 - 1) {
                         $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
                         $hours = floor($time / 3600);
@@ -101,7 +101,7 @@ class rex_backend_login extends rex_login
         }
 
         if ($this->isLoggedOut() && $userId != '') {
-            $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE id=? LIMIT 1', array($userId));
+            $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE id=? LIMIT 1', [$userId]);
             setcookie($cookiename, '', time() - 3600);
         }
 

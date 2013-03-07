@@ -44,7 +44,7 @@ function rex_a656_rss_teaser($feedUrl, $numItems = 5)
  */
 function rex_a656_convert($string, $sourceEncoding)
 {
-    static $transTables = array();
+    static $transTables = [];
 
     if (!isset($transTables[$sourceEncoding])) {
         // trans-table damit unabhaengig von feed/backend encoding sonderzeichen richtig dargestellt werden

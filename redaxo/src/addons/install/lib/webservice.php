@@ -71,7 +71,7 @@ class rex_install_webservice
         try {
             $socket = rex_socket::factory(self::HOST, self::PORT, self::SSL);
             $socket->setPath($fullpath);
-            $files = array();
+            $files = [];
             if ($archive) {
                 $files['archive']['path'] = $archive;
                 $files['archive']['type'] = 'application/zip';
@@ -137,7 +137,7 @@ class rex_install_webservice
                     unset(self::$cache[$path]);
             }
         } else {
-            self::$cache = array();
+            self::$cache = [];
         }
         rex_file::putCache(rex_path::addonCache('install', 'webservice.cache'), self::$cache);
     }

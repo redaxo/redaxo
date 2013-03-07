@@ -15,7 +15,7 @@ class rex
      *
      * @var array
      */
-    protected static $properties = array();
+    protected static $properties = [];
 
     /**
      * @see rex_config::set()
@@ -273,7 +273,7 @@ class rex
     public static function getAccesskey($title, $key)
     {
         if (self::getProperty('use_accesskeys')) {
-            $accesskeys = (array) self::getProperty('accesskeys', array());
+            $accesskeys = (array) self::getProperty('accesskeys', []);
             if (isset($accesskeys[$key]))
                 return ' accesskey="' . $accesskeys[$key] . '" title="' . $title . ' [' . $accesskeys[$key] . ']"';
         }

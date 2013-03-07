@@ -150,17 +150,17 @@ class rex_articles_component extends rex_dashboard_component
         $list = rex_list::factory($qry);
         $list->setCaption(rex_i18n::msg('userinfo_component_articles_caption'));
         $list->addTableAttribute('summary', rex_i18n::msg('userinfo_component_articles_summary'));
-        $list->addTableColumnGroup(array(40, '*', 120, 150));
+        $list->addTableColumnGroup([40, '*', 120, 150]);
 
         $list->removeColumn('id');
         $list->removeColumn('re_id');
         $list->removeColumn('clang');
         $list->removeColumn('startarticle');
-        $editParams = array('page' => 'content', 'mode' => 'edit', 'article_id' => '###id###', 'clang' => '###clang###');
+        $editParams = ['page' => 'content', 'mode' => 'edit', 'article_id' => '###id###', 'clang' => '###clang###'];
 
         $thIcon = '';
         $tdIcon = '<span class="rex-i-element rex-i-article"><span class="rex-i-element-text">###name###</span></span>';
-        $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+        $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
         $list->setColumnParams($thIcon, $editParams);
 
         $list->setColumnLabel('name', rex_i18n::msg('header_article_name'));
@@ -196,15 +196,15 @@ class rex_media_component extends rex_dashboard_component
         $list = rex_list::factory('SELECT category_id, id, filename, updateuser, updatedate FROM ' . rex::getTablePrefix() . 'media ORDER BY updatedate DESC LIMIT ' . $limit);
         $list->setCaption(rex_i18n::msg('pool_file_caption'));
         $list->addTableAttribute('summary', rex_i18n::msg('pool_file_summary'));
-        $list->addTableColumnGroup(array(40, '*', 120, 150));
+        $list->addTableColumnGroup([40, '*', 120, 150]);
 
         $list->removeColumn('category_id');
         $list->removeColumn('id');
-        $editParams = array('page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###id###');
+        $editParams = ['page' => 'mediapool', 'subpage' => 'detail', 'rex_file_category' => '###category_id###', 'file_id' => '###id###'];
 
         $thIcon = '';
         $tdIcon = '<span class="rex-i-element rex-i-media"><span class="rex-i-element-text">###filename###</span></span>';
-        $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
+        $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
         $list->setColumnParams($thIcon, $editParams);
         $list->addLinkAttribute($thIcon, 'onclick', 'newPoolWindow(this.href); return false;');
 

@@ -15,7 +15,7 @@ class rex_article_action
         $event,
         $mode,
         $save = true,
-        $messages = array(),
+        $messages = [],
         $sql,
         $vars;
 
@@ -30,19 +30,19 @@ class rex_article_action
         else
             $this->mode = 1;
         $this->sql = $sql;
-        $this->vars['search'] = array('REX_ARTICLE_ID', 'REX_CLANG_ID', 'REX_CTYPE_ID', 'REX_MODULE_ID', 'REX_SLICE_ID');
-        $this->vars['replace'] = array(
+        $this->vars['search'] = ['REX_ARTICLE_ID', 'REX_CLANG_ID', 'REX_CTYPE_ID', 'REX_MODULE_ID', 'REX_SLICE_ID'];
+        $this->vars['replace'] = [
             rex_request('article_id', 'int'),
             rex_request('clang', 'int'),
             rex_request('ctype', 'int'),
             rex_request('module_id', 'int'),
             $this->mode == 1 ? 0 : rex_request('slice_id', 'int')
-        );
+        ];
     }
 
     public function setRequestValues()
     {
-        $request = array('value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10);
+        $request = ['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10];
         foreach ($request as $key => $max) {
             $values = rex_request('REX_INPUT_' . strtoupper($key), 'array');
             for ($i = 1; $i <= $max; ++$i) {
@@ -58,15 +58,15 @@ class rex_article_action
 
     public function exec($type)
     {
-        if (!in_array($type, array(self::PREVIEW, self::PRESAVE, self::POSTSAVE))) {
+        if (!in_array($type, [self::PREVIEW, self::PRESAVE, self::POSTSAVE])) {
             throw new InvalidArgumentException('$type musst be rex_article_action::PREVIEW, ::PRESAVE or ::POSTSAVE');
         }
 
-        $this->messages = array();
+        $this->messages = [];
         $this->save = true;
 
         $ga = rex_sql::factory();
-        $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . rex::getTable('module_action') . ' ma,' . rex::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', array($this->moduleId, $this->mode));
+        $ga->setQuery('SELECT a.id, `' . $type . '` as code FROM ' . rex::getTable('module_action') . ' ma,' . rex::getTable('action') . ' a WHERE `' . $type . '` != "" AND ma.action_id=a.id AND module_id=? AND (a.' . $type . 'mode & ?)', [$this->moduleId, $this->mode]);
 
         foreach ($ga as $row) {
             $action = $row->getValue('code');

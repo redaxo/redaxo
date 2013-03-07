@@ -8,8 +8,8 @@ class rex_be_navigation
     use rex_factory;
 
     private
-        $headlines = array(),
-        $pages = array();
+        $headlines = [],
+        $pages = [];
 
     /**
      * @return rex_be_navigation
@@ -31,7 +31,7 @@ class rex_be_navigation
         }
 
         if (!isset($this->pages[$blockName])) {
-            $this->pages[$blockName] = array();
+            $this->pages[$blockName] = [];
         }
 
         $this->pages[$blockName][] = $page;
@@ -43,7 +43,7 @@ class rex_be_navigation
     public function getNavigation()
     {
         $this->setActiveElements();
-        $return = array();
+        $return = [];
         foreach ($this->pages as $block => $blockPages) {
             if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
                 uasort($blockPages, function (rex_be_page_main $a, rex_be_page_main $b) {
@@ -67,10 +67,10 @@ class rex_be_navigation
                 $fragment = new rex_fragment();
                 $fragment->setVar('navigation', $n, false);
 
-                $return[] = array(
+                $return[] = [
                     'navigation' => $n,
-                    'headline' => array('title' => $this->getHeadline($block))
-                );
+                    'headline' => ['title' => $this->getHeadline($block)]
+                ];
             }
         }
         return $return;
@@ -83,17 +83,17 @@ class rex_be_navigation
      */
     private function _getNavigation(array $blockPages)
     {
-        $navigation = array();
+        $navigation = [];
 
         foreach ($blockPages as $page) {
             if ($page->isHidden() || !$page->checkPermission(rex::getUser())) {
                 continue;
             }
-            $n = array();
-            $n['linkClasses'] = array();
-            $n['itemClasses'] = array();
-            $n['linkAttr'] = array();
-            $n['itemAttr'] = array();
+            $n = [];
+            $n['linkClasses'] = [];
+            $n['itemClasses'] = [];
+            $n['linkAttr'] = [];
+            $n['itemAttr'] = [];
 
             $n['itemClasses'][] = $page->getItemAttr('class');
             $n['linkClasses'][] = $page->getItemAttr('class');

@@ -3,7 +3,7 @@
 /** @var rex_addon $this */
 
 $addonkey = rex_request('addonkey', 'string');
-$addons = array();
+$addons = [];
 
 $content = rex_api_function::getMessage();
 
@@ -60,7 +60,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
                 <td class="rex-version">' . $file['version'] . '</td>
                 <td class="rex-description">' . nl2br($file['description']) . '</td>
-                <td class="rex-function"><a href="' . rex_url::currentBackendPage(array('addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId)) . '">' . $this->i18n('download') . '</a></td>
+                <td class="rex-function"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId]) . '">' . $this->i18n('download') . '</a></td>
             </tr>';
     }
 
@@ -82,7 +82,7 @@ if ($addonkey && isset($addons[$addonkey])) {
          <tbody>';
 
     foreach ($addons as $key => $addon) {
-        $url = rex_url::currentBackendPage(array('addonkey' => $key));
+        $url = rex_url::currentBackendPage(['addonkey' => $key]);
         $content .= '
             <tr>
                 <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $key . '</a></td>

@@ -28,7 +28,7 @@ class rex_socket
         $ssl,
         $path = '/',
         $timeout = 15,
-        $headers = array(),
+        $headers = [],
         $stream;
 
     /**
@@ -157,7 +157,7 @@ class rex_socket
      * @return rex_socket_response Response
      * @throws rex_socket_exception
      */
-    public function doPost($data = '', array $files = array())
+    public function doPost($data = '', array $files = [])
     {
         if (is_array($data) && !empty($files)) {
             $data = function ($stream) use ($data, $files) {
@@ -169,7 +169,7 @@ class rex_socket
                 $end = '--' . $boundary . '--' . $eol;
                 $length = 0;
                 $temp = explode('&', rex_string::buildQuery($data));
-                $data = array();
+                $data = [];
                 $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
                     list($key, $value) = array_map('urldecode', explode('=', $t, 2));
@@ -258,16 +258,16 @@ class rex_socket
      * @throws rex_socket_exception
      * @return rex_socket_response Response
      */
-    protected function writeRequest($method, $path, array $headers = array(), $data = '')
+    protected function writeRequest($method, $path, array $headers = [], $data = '')
     {
         $eol = "\r\n";
-        $headerStrings = array();
+        $headerStrings = [];
         $headerStrings[] = strtoupper($method) . ' ' . $path . ' HTTP/1.1';
         foreach ($headers as $key => $value) {
             $headerStrings[] = $key . ': ' . $value;
         }
         foreach ($headerStrings as $header) {
-            fwrite($this->stream, str_replace(array("\r", "\n"), '', $header) . $eol);
+            fwrite($this->stream, str_replace(["\r", "\n"], '', $header) . $eol);
         }
         if (!is_callable($data)) {
             fwrite($this->stream, 'Content-Length: ' . rex_string::size($data) . $eol);
@@ -304,7 +304,7 @@ class rex_socket
         $port = 80;
         $ssl = false;
         if (isset($parts['scheme'])) {
-            $supportedProtocols = array('http', 'https');
+            $supportedProtocols = ['http', 'https'];
             if (!in_array($parts['scheme'], $supportedProtocols)) {
                 throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
             }
@@ -319,12 +319,12 @@ class rex_socket
             . (isset($parts['query'])    ? '?' . $parts['query']    : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 
-        return array(
+        return [
             'host' => $parts['host'],
             'port' => $port,
             'ssl' => $ssl,
             'path' => $path
-        );
+        ];
     }
 }
 

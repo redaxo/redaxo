@@ -12,10 +12,10 @@ class rex_form_container_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = array())
+    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
-        $this->fields = array();
+        $this->fields = [];
         $this->multiple = true;
     }
 
@@ -29,17 +29,17 @@ class rex_form_container_element extends rex_form_element
         $this->active = $group;
     }
 
-    public function addField($type, $name, $value = null, array $attributes = array())
+    public function addField($type, $name, $value = null, array $attributes = [])
     {
         return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
     }
 
-    public function addGroupedField($group, $type, $name, $value = null, array $attributes = array())
+    public function addGroupedField($group, $type, $name, $value = null, array $attributes = [])
     {
         $field = $this->table->createInput($type, $name, $value, $attributes);
 
         if (!isset($this->fields[$group])) {
-            $this->fields[$group] = array();
+            $this->fields[$group] = [];
         }
 
         $this->fields[$group][] = $field;
@@ -79,7 +79,7 @@ class rex_form_container_element extends rex_form_element
         // Folgende attribute filtern:
         // - name: der container selbst ist kein feld, daher hat er keinen namen
         // - id:   eine id vergeben wir automatisiert pro gruppe
-        $attributeFilter = array('id', 'name');
+        $attributeFilter = ['id', 'name'];
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
             if (in_array($attributeName, $attributeFilter)) continue;
 
@@ -109,7 +109,7 @@ class rex_form_container_element extends rex_form_element
 
     public function getSaveValue()
     {
-        $value = array();
+        $value = [];
         if ($this->multiple) {
             foreach ($this->fields as $group => $groupFields) {
                 foreach ($groupFields as $field) {

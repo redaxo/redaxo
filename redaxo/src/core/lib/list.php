@@ -110,31 +110,31 @@ class rex_list implements rex_url_provider
         $this->name = $listName;
         $this->caption = '';
         $this->rows = 0;
-        $this->params = array();
-        $this->tableAttributes = array();
+        $this->params = [];
+        $this->tableAttributes = [];
         $this->noRowsMessage = rex_i18n::msg('list_no_rows');
 
         // --------- Form Attributes
-        $this->formAttributes = array();
+        $this->formAttributes = [];
 
         // --------- Column Attributes
-        $this->columnLabels = array();
-        $this->columnFormates = array();
-        $this->columnParams = array();
-        $this->columnOptions = array();
-        $this->columnAttributes = array();
-        $this->columnLayouts = array();
-        $this->columnDisabled = array();
+        $this->columnLabels = [];
+        $this->columnFormates = [];
+        $this->columnParams = [];
+        $this->columnOptions = [];
+        $this->columnAttributes = [];
+        $this->columnLayouts = [];
+        $this->columnDisabled = [];
 
         // --------- Default
-        $this->defaultColumnLayout = array('<th>###VALUE###</th>', '<td>###VALUE###</td>');
+        $this->defaultColumnLayout = ['<th>###VALUE###</th>', '<td>###VALUE###</td>'];
 
         // --------- Table Attributes
-        $this->tableAttributes = array();
-        $this->tableColumnGroups = array();
+        $this->tableAttributes = [];
+        $this->tableColumnGroups = [];
 
         // --------- Link Attributes
-        $this->linkAttributes = array();
+        $this->linkAttributes = [];
 
         // --------- Pagination Attributes
         $this->pager = new rex_pager($rowsPerPage);
@@ -298,7 +298,7 @@ class rex_list implements rex_url_provider
         if ($columnIndex < 0)
             $columnIndex = count($this->columnNames);
 
-        array_splice($this->columnNames, $columnIndex, 0, array(array($columnHead)));
+        array_splice($this->columnNames, $columnIndex, 0, [[$columnHead]]);
         $this->setColumnFormat($columnHead, $columnBody);
         $this->setColumnLayout($columnHead, $columnLayout);
     }
@@ -410,9 +410,9 @@ class rex_list implements rex_url_provider
      * @param mixed  $format      Zu verwendentes Format
      * @param array  $params      Custom params für callback func bei format_type 'custom'
      */
-    public function setColumnFormat($columnName, $format_type, $format = '', array $params = array())
+    public function setColumnFormat($columnName, $format_type, $format = '', array $params = [])
     {
-        $this->columnFormates[$columnName] = array($format_type, $format, $params);
+        $this->columnFormates[$columnName] = [$format_type, $format, $params];
     }
 
     /**
@@ -492,7 +492,7 @@ class rex_list implements rex_url_provider
      * @param string $columnName Name der Spalte
      * @param array  $params     Array von Parametern
      */
-    public function setColumnParams($columnName, array $params = array())
+    public function setColumnParams($columnName, array $params = [])
     {
         $this->columnParams[$columnName] = $params;
     }
@@ -509,7 +509,7 @@ class rex_list implements rex_url_provider
         if (isset($this->columnParams[$columnName]) && is_array($this->columnParams[$columnName])) {
             return $this->columnParams[$columnName];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -551,7 +551,7 @@ class rex_list implements rex_url_provider
         if (!is_array($columns))
             throw new InvalidArgumentException('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!');
 
-        $tableColumnGroup = array('columns' => array());
+        $tableColumnGroup = ['columns' => []];
         if ($columnGroupSpan) $tableColumnGroup['span'] = $columnGroupSpan;
         $this->_addTableColumnGroup($tableColumnGroup);
 
@@ -584,7 +584,7 @@ class rex_list implements rex_url_provider
      */
     public function addTableColumn($width, $span = null)
     {
-        $attributes = array('width' => $width);
+        $attributes = ['width' => $width];
         if ($span) $attributes['span'] = $span;
 
         $this->_addTableColumn($attributes);
@@ -599,7 +599,7 @@ class rex_list implements rex_url_provider
 
         if ($lastIndex < 0) {
             // Falls noch keine TableColumnGroup vorhanden, eine leere anlegen!
-            $this->addTableColumnGroup(array());
+            $this->addTableColumnGroup([]);
             $lastIndex++;
         }
 
@@ -617,7 +617,7 @@ class rex_list implements rex_url_provider
      * @param array $params
      * @return string
      */
-    public function getUrl(array $params = array())
+    public function getUrl(array $params = [])
     {
         $params = array_merge($this->getParams(), $params);
 
@@ -631,7 +631,7 @@ class rex_list implements rex_url_provider
             }
         }
 
-        $_params = array();
+        $_params = [];
         foreach ($params as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
@@ -655,7 +655,7 @@ class rex_list implements rex_url_provider
      * @param array $params
      * @return string
      */
-    public function getParsedUrl($params = array())
+    public function getParsedUrl($params = [])
     {
         $params = array_merge($this->getParams(), $params);
 
@@ -669,7 +669,7 @@ class rex_list implements rex_url_provider
             }
         }
 
-        $_params = array();
+        $_params = [];
         foreach ($params as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
@@ -759,7 +759,7 @@ class rex_list implements rex_url_provider
         if (rex_request('list', 'string') == $this->getName()) {
             $sortType = strtolower(rex_request('sorttype', 'string'));
 
-            if (in_array($sortType, array('asc', 'desc')))
+            if (in_array($sortType, ['asc', 'desc']))
                 return $sortType;
         }
         return $default;
@@ -858,8 +858,8 @@ class rex_list implements rex_url_provider
         if (is_array($format)) {
             // Callbackfunktion -> Parameterliste aufbauen
             if ($this->isCustomFormat($format)) {
-                $format[2] = isset($format[2]) ? $format[2] : array();
-                $format[1] = array($format[1], array('list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]));
+                $format[2] = isset($format[2]) ? $format[2] : [];
+                $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
             $value = rex_formatter::format($value, $format[0], $format[1]);
@@ -887,9 +887,9 @@ class rex_list implements rex_url_provider
         return $s;
     }
 
-    public function getColumnLink($columnName, $columnValue, $params = array())
+    public function getColumnLink($columnName, $columnValue, $params = [])
     {
-        return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, array())) . '>' . $columnValue . '</a>';
+        return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
     }
 
     public function getValue($colname)
@@ -920,8 +920,8 @@ class rex_list implements rex_url_provider
         $this->addTableAttribute('class', $class);
 
         // Columns vars
-        $columnFormates = array();
-        $columnNames = array();
+        $columnFormates = [];
+        $columnNames = [];
         foreach ($this->getColumnNames() as $columnName) {
             if (is_array($columnName) || !in_array($columnName, $this->columnDisabled)) {
                 $columnNames[] = $columnName;
@@ -984,7 +984,7 @@ class rex_list implements rex_url_provider
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a href="' . $this->getUrl(array('start' => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType)) . '">' . $columnHead . '</a>';
+                $columnHead = '<a href="' . $this->getUrl(['start' => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);

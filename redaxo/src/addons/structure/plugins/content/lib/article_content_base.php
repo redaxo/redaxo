@@ -55,11 +55,11 @@ class rex_article_content_base
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint('ART_INIT', '',
-            array(
+            [
                 'article' => &$this,
                 'article_id' => $article_id,
                 'clang' => $this->clang
-            )
+            ]
         );
 
         if ($article_id !== null)
@@ -178,7 +178,7 @@ class rex_article_content_base
         // damit alte rex_article felder wie teaser, online_from etc
         // noch funktionieren
         // gleicher BC code nochmals in rex_structure_element::getValue
-        foreach (array('', 'art_', 'cat_') as $prefix) {
+        foreach (['', 'art_', 'cat_'] as $prefix) {
             $val = $prefix . $value;
             if ($this->hasValue($val)) {
                 return $this->_getValue($val);
@@ -307,7 +307,7 @@ class rex_article_content_base
             $slice_content = rex_extension::registerPoint(
                 'SLICE_SHOW',
                 $slice_content,
-                array(
+                [
                     'article_id' => $this->article_id,
                     'clang' => $this->clang,
                     'ctype' => $sliceCtypeId,
@@ -315,7 +315,7 @@ class rex_article_content_base
                     'slice_id' => $sliceId,
                     'function' => $this->function,
                     'function_slice_id' => $this->slice_id
-                )
+                ]
             );
 
             // ---------- slice in ausgabe speichern wenn ctype richtig
@@ -423,16 +423,16 @@ class rex_article_content_base
         $content = $this->replaceObjectVars($sql, $content);
         $content = $this->replaceCommonVars($content);
         $content = str_replace(
-            array(
+            [
                 'REX_MODULE_ID',
                 'REX_SLICE_ID',
                 'REX_CTYPE_ID'
-            ),
-            array(
+            ],
+            [
                 (int) $sql->getValue('module_id'),
                 (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
                 (int) $sql->getValue('ctype')
-            ),
+            ],
             $content
         );
         return $content;
@@ -477,23 +477,23 @@ class rex_article_content_base
         if (!$template_id)
             $template_id = $this->getTemplateId();
 
-        static $search = array(
+        static $search = [
             'REX_ARTICLE_ID',
             'REX_CATEGORY_ID',
             'REX_CLANG_ID',
             'REX_TEMPLATE_ID',
             'REX_USER_ID',
             'REX_USER_LOGIN'
-        );
+        ];
 
-        $replace = array(
+        $replace = [
             $this->article_id,
             $this->category_id,
             $this->clang,
             $template_id,
             $user_id,
             $user_login
-        );
+        ];
 
         return str_replace($search, $replace, $content);
     }

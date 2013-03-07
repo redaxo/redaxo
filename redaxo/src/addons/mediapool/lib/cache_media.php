@@ -105,7 +105,7 @@ class rex_media_cache
             return false;
         }
 
-        $cacheArray = array();
+        $cacheArray = [];
         foreach ($sql->getFieldNames() as $fieldName) {
             $cacheArray[$fieldName] = $sql->getValue($fieldName);
         }
@@ -141,7 +141,7 @@ class rex_media_cache
             return false;
         }
 
-        $cacheArray = array();
+        $cacheArray = [];
         foreach ($sql->getFieldNames() as $fieldName) {
             $cacheArray[$fieldName] = $sql->getValue($fieldName);
         }
@@ -171,7 +171,7 @@ class rex_media_cache
         $sql = rex_sql::factory();
         $sql->setQuery($query);
 
-        $cacheArray = array();
+        $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); $i++) {
             $cacheArray[] = $sql->getValue('filename');
             $sql->next();
@@ -204,7 +204,7 @@ class rex_media_cache
         //$sql->setDebug();
         $sql->setQuery($query);
 
-        $cacheArray = array();
+        $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); $i++) {
             $cacheArray[] = $sql->getValue('id');
             $sql->next();
@@ -231,7 +231,7 @@ class rex_media_cache
         $sql = rex_sql::factory();
         $sql->setQuery($query);
 
-        $cacheArray = array();
+        $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); $i++) {
             $cacheArray[] = $sql->getValue('filename');
             $sql->next();

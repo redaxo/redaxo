@@ -12,19 +12,19 @@ class rex_be_page
 
         $popup = false,
         $href,
-        $itemAttr = array(),
-        $linkAttr = array(),
+        $itemAttr = [],
+        $linkAttr = [],
         $path,
         $subPath,
 
         $parent,
-        $subpages = array(),
+        $subpages = [],
 
         $isActive = null,
         $hidden = false,
         $hasLayout = true,
         $hasNavigation = true,
-        $requiredPermissions = array();
+        $requiredPermissions = [];
 
     public function __construct($key, $title)
     {
@@ -274,8 +274,8 @@ class rex_be_page
      */
     public function setSubpages(array $subpages)
     {
-        $this->subpages = array();
-        array_walk($subpages, array($this, 'addSubpage'));
+        $this->subpages = [];
+        array_walk($subpages, [$this, 'addSubpage']);
     }
 
     /**

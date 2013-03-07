@@ -23,7 +23,7 @@ class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
     {
         $stacktrace = PHPUnit_Util_Filter::getFilteredStacktrace($defect->thrownException());
 
-        $stacktrace = str_replace(array($this->backtrace, rex_path::base()), '', $stacktrace);
+        $stacktrace = str_replace([$this->backtrace, rex_path::base()], '', $stacktrace);
 
         $this->write($defect->getExceptionAsString() . "\n" . $stacktrace);
     }

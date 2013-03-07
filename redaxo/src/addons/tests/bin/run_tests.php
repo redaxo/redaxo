@@ -19,7 +19,7 @@ if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
 
 // ---- bootstrap REX
 
-$REX = array();
+$REX = [];
 $REX['REDAXO'] = true;
 $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';

@@ -98,26 +98,26 @@ class rex_effect_filter_blur extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_blur_amount'),
                 'name' => 'amount',
                 'type'  => 'int',
                 'default' => '80'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_blur_radius'),
                 'name' => 'radius',
                 'type'  => 'int',
                 'default' => '8'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_blur_threshold'),
                 'name' => 'threshold',
                 'type'  => 'int',
                 'default' => '3'
-            )
-        );
+            ]
+        ];
 
     }
 

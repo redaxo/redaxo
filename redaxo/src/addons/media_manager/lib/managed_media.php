@@ -10,7 +10,7 @@ class rex_managed_media
         $media,
         $asImage = false,
         $image,
-        $header = array();
+        $header = [];
 
     public function __construct($media_path)
     {
@@ -56,7 +56,7 @@ class rex_managed_media
 
         $this->asImage = true;
 
-        $this->image = array();
+        $this->image = [];
         $this->image['format'] = strtoupper(rex_file::extension($this->getMediapath()));
         $this->image['src'] = false;
 

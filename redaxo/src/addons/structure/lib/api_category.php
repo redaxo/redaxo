@@ -15,7 +15,7 @@ class rex_api_category_add extends rex_api_function
         }
 
         // prepare and validate parameters
-        $data = array();
+        $data = [];
         $data['catprior'] = rex_post('category-position', 'int');
         $data['catname']  = rex_post('category-name', 'string');
 
@@ -45,7 +45,7 @@ class rex_api_category_edit extends rex_api_function
         }
 
         // prepare and validate parameters
-        $data = array();
+        $data = [];
         $data['catprior'] = rex_post('category-position', 'int');
         $data['catname']  = rex_post('category-name', 'string');
 

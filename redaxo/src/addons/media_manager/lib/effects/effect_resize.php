@@ -16,7 +16,7 @@ class rex_effect_resize extends rex_effect_abstract
     public function __construct()
     {
 
-        $this->options = array('maximum', 'minimum', 'exact');
+        $this->options = ['maximum', 'minimum', 'exact'];
 
         $this->script = '
 <script type="text/javascript">
@@ -171,32 +171,32 @@ class rex_effect_resize extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_style'),
                 'name' => 'style',
                 'type'  => 'select',
                 'options' => $this->options,
                 'default' => 'fit',
                 'suffix' => $this->script
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_imgtosmall'),
                 'name' => 'allow_enlarge',
                 'type' => 'select',
-                'options' => array('enlarge', 'not_enlarge'),
+                'options' => ['enlarge', 'not_enlarge'],
                 'default' => 'enlarge',
-            ),
-        );
+            ],
+        ];
     }
 }

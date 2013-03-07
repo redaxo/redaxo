@@ -26,7 +26,7 @@ if ($func == 'delete' && $type_id > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_types');
-    $sql->setWhere(array('id' => $type_id));
+    $sql->setWhere(['id' => $type_id]);
 
     if ($sql->delete()) {
         $info = rex_i18n::msg('media_manager_type_deleted') ;
@@ -59,32 +59,32 @@ if ($func == '') {
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
     $list->setCaption(rex_i18n::msg('media_manager_type_caption'));
     $list->addTableAttribute('summary', rex_i18n::msg('media_manager_type_summary'));
-    $list->addTableColumnGroup(array(40, 100, '*', 120, 120, 120));
+    $list->addTableColumnGroup([40, 100, '*', 120, 120, 120]);
 
     $list->removeColumn('id');
     $list->removeColumn('status');
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnParams('name', array('func' => 'edit', 'type_id' => '###id###'));
+    $list->setColumnParams('name', ['func' => 'edit', 'type_id' => '###id###']);
     $list->setColumnLabel('description', rex_i18n::msg('media_manager_type_description'));
 
     // icon column
-    $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(array('func' => 'add')) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_type_create') . '</span></a>';
+    $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(['func' => 'add']) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_type_create') . '</span></a>';
     $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###name###</span></span>';
-    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
-    $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => '###id###'));
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
+    $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => '###id###']);
 
     // functions column spans 2 data-columns
     $funcs = rex_i18n::msg('media_manager_type_functions');
-    $list->addColumn($funcs, rex_i18n::msg('media_manager_type_effekts_edit'), -1, array('<th colspan="3">###VALUE###</th>', '<td>###VALUE###</td>'));
-    $list->setColumnParams($funcs, array('type_id' => '###id###', 'effects' => 1));
+    $list->addColumn($funcs, rex_i18n::msg('media_manager_type_effekts_edit'), -1, ['<th colspan="3">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnParams($funcs, ['type_id' => '###id###', 'effects' => 1]);
 
-    $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, array('', '<td>###VALUE###</td>'));
-    $list->setColumnParams('deleteCache', array('type_id' => '###id###', 'func' => 'delete_cache'));
+    $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, ['', '<td>###VALUE###</td>']);
+    $list->setColumnParams('deleteCache', ['type_id' => '###id###', 'func' => 'delete_cache']);
     $list->addLinkAttribute('deleteCache', 'data-confirm', rex_i18n::msg('media_manager_type_cache_delete') . ' ?');
 
     // remove delete link on internal types (status == 1)
-    $list->addColumn('deleteType', '', -1, array('', '<td>###VALUE###</td>'));
-    $list->setColumnParams('deleteType', array('type_id' => '###id###', 'func' => 'delete'));
+    $list->addColumn('deleteType', '', -1, ['', '<td>###VALUE###</td>']);
+    $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->setColumnFormat('deleteType', 'custom', function ($params) {
         $list = $params['list'];

@@ -25,7 +25,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
     $sql = rex_sql::factory();
-    $sql->setQuery($qry, array(':label' => $label));
+    $sql->setQuery($qry, [':label' => $label]);
     if ($sql->getRows() != 0)
         return rex_i18n::msg('minfo_field_error_unique_type');
 
@@ -50,7 +50,7 @@ function rex_metainfo_delete_field_type($field_type_id)
 
     $sql = rex_sql::factory();
     $sql->setTable(rex::getTablePrefix() . 'metainfo_type');
-    $sql->setWhere(array('id' => $field_type_id));
+    $sql->setWhere(['id' => $field_type_id]);
 
     $sql->delete();
     return $sql->getRows() == 1;
@@ -87,7 +87,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
     // Spalte extiert laut metainfo_params?
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE name=:name LIMIT 1';
     $sql = rex_sql::factory();
-    $sql->setQuery($qry, array(':name' => $name));
+    $sql->setQuery($qry, [':name' => $name]);
     if ($sql->getRows() != 0)
         return rex_i18n::msg('minfo_field_error_unique_name');
 
@@ -107,7 +107,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
     $sql->insert();
 
     // replace LIKE wildcards
-    $prefix = str_replace(array('_', '%'), array('\_', '\%'), $prefix);
+    $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
     rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_params', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate', 'id');
 
@@ -131,7 +131,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     }
     // Feld existiert?
     $sql = rex_sql::factory();
-    $sql->setQuery($fieldQry, array(':idOrName' => $fieldIdOrName));
+    $sql->setQuery($fieldQry, [':idOrName' => $fieldIdOrName]);
 
     if ($sql->getRows() != 1)
         return $invalidField;
@@ -148,7 +148,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         return rex_i18n::msg('minfo_field_error_invalid_name');
 
     $sql->setTable(rex::getTablePrefix() . 'metainfo_params');
-    $sql->setWhere(array('id' => $field_id));
+    $sql->setWhere(['id' => $field_id]);
 
     $sql->delete();
 
@@ -174,7 +174,7 @@ function rex_metainfo_meta_prefix($name)
  */
 function rex_metainfo_meta_table($prefix)
 {
-    $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', array());
+    $metaTables = rex_addon::get('metainfo')->getProperty('metaTables', []);
 
     if (isset($metaTables[$prefix]))
         return $metaTables[$prefix];

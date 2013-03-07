@@ -17,9 +17,9 @@ abstract class rex_error_handler
 
         self::$registered = true;
 
-        set_error_handler(array(__CLASS__, 'handleError'));
-        set_exception_handler(array(__CLASS__, 'handleException'));
-        register_shutdown_function(array(__CLASS__, 'shutdown'));
+        set_error_handler([__CLASS__, 'handleError']);
+        set_exception_handler([__CLASS__, 'handleException']);
+        register_shutdown_function([__CLASS__, 'shutdown']);
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class rex_error_handler
 
             if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
                 $buf .= "\n\n";
-                $buf .= '<a href="' . rex_url::backendPage('packages', array('safemode' => 1)) . '">activate safe mode</a>';
+                $buf .= '<a href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
             }
 
             $buf .= '</pre>';
@@ -107,7 +107,7 @@ abstract class rex_error_handler
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
-        if (in_array($errno, array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
+        if (in_array($errno, [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
 
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 
@@ -128,7 +128,7 @@ abstract class rex_error_handler
     {
         if (self::$registered) {
             $error = error_get_last();
-            if (is_array($error) && in_array($error['type'], array(E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE))) {
+            if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
                 self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']), false);
             }
         }

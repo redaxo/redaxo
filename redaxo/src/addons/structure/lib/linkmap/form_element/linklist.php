@@ -9,7 +9,7 @@ class rex_form_widget_linklist_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = array())
+    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
     }
@@ -23,7 +23,7 @@ class rex_form_widget_linklist_element extends rex_form_element
     {
         static $widget_counter = 1;
 
-        $html = rex_var_linklist::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), array('category' => $this->category_id));
+        $html = rex_var_linklist::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->category_id]);
 
         $widget_counter++;
         return $html;

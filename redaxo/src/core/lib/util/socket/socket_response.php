@@ -15,7 +15,7 @@ class rex_socket_response
     private $statusCode;
     private $statusMessage;
     private $header = '';
-    private $headers = array();
+    private $headers = [];
     private $body;
 
     /**

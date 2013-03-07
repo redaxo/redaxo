@@ -32,13 +32,13 @@ abstract class rex_dashboard_cache
      *
      * * lifetime (optional): The default life time (default value: 86400)
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
-        $this->options = array_merge(array(
+        $this->options = array_merge([
             'automatic_cleaning_factor' => 1000,
             'lifetime'                  => 86400,
             'prefix'                    => md5(__DIR__),
-        ), $options);
+        ], $options);
 
         $this->options['prefix'] .= REX_DASHBOARD_CACHE_SEPARATOR;
     }
@@ -143,7 +143,7 @@ abstract class rex_dashboard_cache
      */
     public function getMany($keys)
     {
-        $data = array();
+        $data = [];
         foreach ($keys as $key) {
             $data[$key] = $this->get($key);
         }
@@ -166,8 +166,8 @@ abstract class rex_dashboard_cache
     protected function patternToRegexp($pattern)
     {
         $regexp = str_replace(
-            array('\\*\\*', '\\*'),
-            array('.+?',    '[^' . preg_quote(REX_DASHBOARD_CACHE_SEPARATOR, '#') . ']+'),
+            ['\\*\\*', '\\*'],
+            ['.+?',    '[^' . preg_quote(REX_DASHBOARD_CACHE_SEPARATOR, '#') . ']+'],
             preg_quote($pattern, '#')
         );
 

@@ -7,7 +7,7 @@ class rex_input_medialistbutton extends rex_input
 {
     private
         $buttonId,
-        $args = array();
+        $args = [];
 
     public function __construct()
     {

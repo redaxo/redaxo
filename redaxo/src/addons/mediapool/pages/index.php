@@ -21,7 +21,7 @@ $args         = rex_request('args', 'array');
 
 
 // -------------- Additional Args
-$arg_url = array('args' => $args);
+$arg_url = ['args' => $args];
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
     $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";

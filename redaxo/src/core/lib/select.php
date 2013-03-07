@@ -20,7 +20,7 @@ class rex_select
     ################ init
     public function init()
     {
-        $this->attributes = array();
+        $this->attributes = [];
         $this->resetSelected();
         $this->setName('standard');
         $this->setSize('5');
@@ -125,7 +125,7 @@ class rex_select
 
     public function resetSelected()
     {
-        $this->option_selected = array();
+        $this->option_selected = [];
     }
 
     public function useOptgroups($optgroups = true)
@@ -135,15 +135,15 @@ class rex_select
 
     public function addOptgroup($name, $id)
     {
-        $this->options[0][] = array($name, null, $id, array());
+        $this->options[0][] = [$name, null, $id, []];
     }
 
     /**
      * Fügt eine Option hinzu
      */
-    public function addOption($name, $value, $id = 0, $re_id = 0, array $attributes = array())
+    public function addOption($name, $value, $id = 0, $re_id = 0, array $attributes = [])
     {
-        $this->options[$re_id][] = array($name, $value, $id, $attributes);
+        $this->options[$re_id][] = [$name, $value, $id, $attributes];
     }
 
     /**
@@ -165,7 +165,7 @@ class rex_select
             $grouped = isset($options[0]) && is_array($options[0]) && isset ($options[0][2]) && isset ($options[0][3]);
             foreach ($options as $key => $option) {
                 $option = (array) $option;
-                $attributes = array();
+                $attributes = [];
                 if (isset($option[5]) && is_array($option[5]))
                     $attributes = $option[5];
                 if ($grouped) {
@@ -212,7 +212,7 @@ class rex_select
     public function addSqlOptions($qry)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getArray($qry, array(), PDO::FETCH_NUM));
+        $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
     }
 
     /**
@@ -221,7 +221,7 @@ class rex_select
     public function addDBSqlOptions($qry)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getDBArray($qry, array(), PDO::FETCH_NUM));
+        $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
     ############### show select
@@ -267,7 +267,7 @@ class rex_select
             if ($optgroups) {
                 $ausgabe .= '    <optgroup label="' . $name . '">' . "\n";
             } else {
-                $attributes = array();
+                $attributes = [];
                 if (isset($option[3]) && is_array($option[3]))
                     $attributes = $option[3];
                 $ausgabe .= $this->outOption($name, $value, $level, $attributes);
@@ -285,7 +285,7 @@ class rex_select
         return $ausgabe;
     }
 
-    protected function outOption($name, $value, $level = 0, array $attributes = array())
+    protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
         $name = htmlspecialchars($name);
         $value = htmlspecialchars($value);

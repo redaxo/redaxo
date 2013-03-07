@@ -9,4 +9,4 @@
 $rewriter = new rex_url_rewriter_fullnames();
 $rewriter->prepare();
 
-rex_extension::register('URL_REWRITE', array($rewriter, 'rewrite'));
+rex_extension::register('URL_REWRITE', [$rewriter, 'rewrite']);

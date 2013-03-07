@@ -56,7 +56,7 @@ if ($function == 'delete') {
     $template = '';
     $active = '';
     $template_id = '';
-    $attributes = array();
+    $attributes = [];
     $legend = rex_i18n::msg('create_template');
 
 }
@@ -116,7 +116,7 @@ if ($function == 'add' or $function == 'edit') {
                 $error = $e->getMessage();
             }
         } else {
-            $TPL->setWhere(array('id' => $template_id));
+            $TPL->setWhere(['id' => $template_id]);
             $TPL->addGlobalUpdateFields();
 
             try {
@@ -140,15 +140,15 @@ if ($function == 'add' or $function == 'edit') {
     if (!isset ($save) or $save != 'ja') {
 
         // Ctype Handling
-        $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : array();
-        $modules = isset($attributes['modules']) ? $attributes['modules'] : array();
-        $categories = isset($attributes['categories']) ? $attributes['categories'] : array();
+        $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
+        $modules = isset($attributes['modules']) ? $attributes['modules'] : [];
+        $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
 
         if (!is_array($modules))
-            $modules = array();
+            $modules = [];
 
         if (!is_array($categories))
-            $categories = array();
+            $categories = [];
 
         // modules[ctype_id][module_id];
         // modules[ctype_id]['all'];
@@ -200,8 +200,8 @@ if ($function == 'add' or $function == 'edit') {
                 }
 
 
-                $formElements = array();
-                $n = array();
+                $formElements = [];
+                $n = [];
                 $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('id') . ' = ' . $i . '</label>';
                 $n['field'] = '<input id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
                 $formElements[] = $n;
@@ -218,8 +218,8 @@ if ($function == 'add' or $function == 'edit') {
                     $field .= ' checked="checked" ';
                 $field .= ' value="1" />';
 
-                $formElements = array();
-                $n = array();
+                $formElements = [];
+                $n = [];
                 $n['label'] = '<label>' . rex_i18n::msg('modules_available_all') . '</label>';
                 $n['field'] = $field;
                 $formElements[] = $n;
@@ -230,8 +230,8 @@ if ($function == 'add' or $function == 'edit') {
                 $ctypes_out .= $fragment->parse('core/form/checkbox.tpl');
 
 
-                $formElements = array();
-                $n = array();
+                $formElements = [];
+                $n = [];
                 $n['id']    = 'rex-js-modules' . $i;
                 $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . rex_formatter::widont(rex_i18n::msg('modules_available')) . '</label>';
                 $n['field'] = $modul_select->get();
@@ -296,8 +296,8 @@ if ($function == 'add' or $function == 'edit') {
                             <input type="hidden" name="save" value="ja" />
                             <input type="hidden" name="template_id" value="' . $template_id . '" />';
 
-        $formElements = array();
-        $n = array();
+        $formElements = [];
+        $n = [];
         $n['label'] = '<label for="rex-id-templatename">' . rex_i18n::msg('template_name') . '</label>';
         $n['field'] = '<input type="text" id="rex-id-templatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
         $formElements[] = $n;
@@ -308,8 +308,8 @@ if ($function == 'add' or $function == 'edit') {
         $content .= $fragment->parse('core/form/form.tpl');
 
 
-        $formElements = array();
-        $n = array();
+        $formElements = [];
+        $n = [];
         $n['label'] = '<label>' . rex_i18n::msg('checkbox_template_active') . '</label>';
         $n['field'] = '<input type="checkbox" id="rex-js-active" name="active" value="1"' . $tmpl_active_checked . '/>';
         $n['note']  = rex_i18n::msg('checkbox_template_active_info');
@@ -321,8 +321,8 @@ if ($function == 'add' or $function == 'edit') {
         $content .= $fragment->parse('core/form/checkbox.tpl');
 
 
-        $formElements = array();
-        $n = array();
+        $formElements = [];
+        $n = [];
         $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
         $n['field'] = '<textarea class="rex-very-long rex-code" name="content" id="rex-id-content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
         $formElements[] = $n;
@@ -356,8 +356,8 @@ if ($function == 'add' or $function == 'edit') {
             $field .= ' checked="checked" ';
         $field .= ' value="1" />';
 
-        $formElements = array();
-        $n = array();
+        $formElements = [];
+        $n = [];
         $n['reverse'] = true;
         $n['label'] = '<label>' . rex_i18n::msg('template_categories_all') . '</label>';
         $n['field'] = $field;
@@ -369,8 +369,8 @@ if ($function == 'add' or $function == 'edit') {
         $content .= $fragment->parse('core/form/checkbox.tpl');
 
 
-        $formElements = array();
-        $n = array();
+        $formElements = [];
+        $n = [];
         $n['id']    = 'rex-id-categories';
         $n['label'] = '<label for="rex-id-categories-select">' . rex_formatter::widont(rex_i18n::msg('template_categories_custom')) . '</label>';
         $n['field'] = $cat_select->get();
@@ -387,17 +387,17 @@ if ($function == 'add' or $function == 'edit') {
                 </div>';
 
 
-        $formElements = array();
+        $formElements = [];
 
-        $n = array();
+        $n = [];
         $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['field'] = '<button class="rex-button" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
         $formElements[] = $n;
 
-        $n = array();
+        $n = [];
         $n['field'] = '<button class="rex-button" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
         $formElements[] = $n;
 
@@ -456,32 +456,32 @@ if ($OUT) {
     $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 
     $tdIcon = '<span class="rex-icon rex-icon-template"></span>';
-    $thIcon = '<a href="' . $list->getUrl(array('function' => 'add')) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><span class="rex-icon rex-icon-add-template"></span></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>'));
-    $list->setColumnParams($thIcon, array('function' => 'edit', 'template_id' => '###id###'));
+    $thIcon = '<a href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><span class="rex-icon rex-icon-add-template"></span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>']);
+    $list->setColumnParams($thIcon, ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
-    $list->setColumnLayout('id',  array('<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>'));
+    $list->setColumnLayout('id',  ['<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
-    $list->setColumnLayout('name',  array('<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>'));
-    $list->setColumnParams('name', array('function' => 'edit', 'template_id' => '###id###'));
+    $list->setColumnLayout('name',  ['<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>']);
+    $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-    $list->setColumnLayout('active',  array('<th>###VALUE###</th>', '<td>###VALUE###</td>'));
+    $list->setColumnLayout('active',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnFormat('active', 'custom', function ($params) {
         $list = $params['list'];
         return $list->getValue('active') == 1 ? '<span class="rex-icon rex-icon-active-true"></span>' . rex_i18n::msg('yes') : '<span class="rex-icon rex-icon-active-false"></span>' . rex_i18n::msg('no');
     });
 
     $list->addColumn(rex_i18n::msg('header_template_functions'), rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('header_template_functions'),  array('<th class="rex-function" colspan="2">###VALUE###</th>', '<td class="rex-edit">###VALUE###</td>'));
-    $list->setColumnParams(rex_i18n::msg('header_template_functions'), array('function' => 'edit', 'template_id' => '###id###'));
+    $list->setColumnLayout(rex_i18n::msg('header_template_functions'),  ['<th class="rex-function" colspan="2">###VALUE###</th>', '<td class="rex-edit">###VALUE###</td>']);
+    $list->setColumnParams(rex_i18n::msg('header_template_functions'), ['function' => 'edit', 'template_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'class', 'rex-edit');
 
     $list->addColumn(rex_i18n::msg('template_delete'), rex_i18n::msg('delete'));
-    $list->setColumnLayout(rex_i18n::msg('template_delete'),  array('', '<td class="rex-delete">###VALUE###</td>'));
-    $list->setColumnParams(rex_i18n::msg('template_delete'), array('function' => 'delete', 'template_id' => '###id###'));
+    $list->setColumnLayout(rex_i18n::msg('template_delete'),  ['', '<td class="rex-delete">###VALUE###</td>']);
+    $list->setColumnParams(rex_i18n::msg('template_delete'), ['function' => 'delete', 'template_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
     $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'class', 'rex-delete');
 

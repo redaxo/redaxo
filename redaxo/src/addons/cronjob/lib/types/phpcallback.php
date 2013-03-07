@@ -15,7 +15,7 @@ class rex_cronjob_phpcallback extends rex_cronjob
         if (preg_match('/^\s*(?:(\w*?)\:\:)?(\w*?)(?:\((.*?)\))?\;?\s*$/', $this->getParam('callback'), $matches)) {
             $callback = $matches[2];
             if ($matches[1] != '') {
-                $callback = array($matches[1], $callback);
+                $callback = [$matches[1], $callback];
             }
             if (!is_callable($callback)) {
                 if (is_array($callback))
@@ -23,7 +23,7 @@ class rex_cronjob_phpcallback extends rex_cronjob
                 $this->setMessage($callback . '() not callable');
                 return false;
             }
-            $params = array();
+            $params = [];
             if ($matches[3] != '') {
                 $params = explode(',', $matches[3]);
                 foreach ($params as $i => $param) {
@@ -51,13 +51,13 @@ class rex_cronjob_phpcallback extends rex_cronjob
 
     public function getParamFields()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('cronjob_type_phpcallback'),
                 'name'  => 'callback',
                 'type'  => 'text',
                 'notice' => rex_i18n::msg('cronjob_examples') . ': foo(), foo(1, \'string\'), foo::bar()'
-            )
-        );
+            ]
+        ];
     }
 }

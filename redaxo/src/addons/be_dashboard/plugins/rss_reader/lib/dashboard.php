@@ -46,9 +46,9 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
 {
     public function __construct()
     {
-        $defaultSettings = array(
-            'urls' => array('http://www.redaxo.org/de/rss/news'),
-        );
+        $defaultSettings = [
+            'urls' => ['http://www.redaxo.org/de/rss/news'],
+        ];
         parent::__construct($defaultSettings);
     }
 
@@ -59,9 +59,9 @@ class rex_rss_reader_component_config extends rex_dashboard_component_config
 
     protected function getFormValues()
     {
-        $settings = array(
+        $settings = [
             'urls' => explode("\n", rex_post($this->getInputName('feedUrls'), 'string')),
-        );
+        ];
 
         return $settings;
     }

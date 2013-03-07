@@ -30,12 +30,12 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     define('REX_METAINFO_FIELD_COUNT',                13);
 }
 
-$this->setProperty('prefixes', array('art_', 'cat_', 'med_'));
-$this->setProperty('metaTables', array(
+$this->setProperty('prefixes', ['art_', 'cat_', 'med_']);
+$this->setProperty('metaTables', [
     'art_' => rex::getTablePrefix() . 'article',
     'cat_' => rex::getTablePrefix() . 'article',
     'med_' => rex::getTablePrefix() . 'media',
-));
+]);
 
 if (rex::isBackend()) {
     $curDir = __DIR__;

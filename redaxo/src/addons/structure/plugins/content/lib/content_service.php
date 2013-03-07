@@ -30,9 +30,9 @@ class rex_content_service
             // prepare sql for later saving
             $upd = rex_sql::factory();
             $upd->setTable(rex::getTablePrefix() . 'article_slice');
-            $upd->setWhere(array(
+            $upd->setWhere([
                 'id' => $slice_id
-            ));
+            ]);
 
             // some vars for later use
             $article_id = $CM->getValue('article_id');
@@ -129,7 +129,7 @@ class rex_content_service
         if ($gc->getRows() > 0) {
             $ins = rex_sql::factory();
             $ins->setTable(rex::getTablePrefix() . 'article_slice');
-            $ctypes = array();
+            $ctypes = [];
 
             $cols = rex_sql::factory();
             // $cols->setDebug();
@@ -197,11 +197,11 @@ class rex_content_service
 
             // ----- EXTENSION POINT
             $article_content = rex_extension::registerPoint('GENERATE_FILTER', $article_content,
-            array(
+            [
                 'id' => $article_id,
                 'clang' => $_clang,
                 'article' => $CONT
-            )
+            ]
             );
 
             if (rex_file::put($article_content_file, $article_content) === false) {

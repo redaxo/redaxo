@@ -46,14 +46,14 @@ class rex_form
     {
 //    $debug = true;
 
-        if (!in_array($method, array('post', 'get')))
+        if (!in_array($method, ['post', 'get']))
             throw new InvalidArgumentException("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
 
         $this->name = md5($tableName . $whereCondition . $method);
         $this->method = $method;
         $this->tableName = $tableName;
-        $this->elements = array();
-        $this->params = array();
+        $this->elements = [];
+        $this->params = [];
         $this->addFieldset($fieldset);
         $this->whereCondition = $whereCondition;
         $this->divId = 'rex-addon-editmode';
@@ -116,7 +116,7 @@ class rex_form
         $this->addParam('func', $func);
         $this->addParam('list', rex_request('list', 'string'));
 
-        $controlFields = array();
+        $controlFields = [];
         $controlFields['save'] = rex_i18n::msg('form_save');
         $controlFields['apply']  = $func == 'edit' ? rex_i18n::msg('form_apply') : '';
         $controlFields['delete'] = $func == 'edit' ? rex_i18n::msg('form_delete') : '';
@@ -124,16 +124,16 @@ class rex_form
         $controlFields['abort'] = rex_i18n::msg('form_abort');
 
         // ----- EXTENSION POINT
-        $controlFields = rex_extension::registerPoint('REX_FORM_CONTROL_FIElDS', $controlFields, array('form' => $this));
+        $controlFields = rex_extension::registerPoint('REX_FORM_CONTROL_FIElDS', $controlFields, ['form' => $this]);
 
-        $controlElements = array();
+        $controlElements = [];
         foreach ($controlFields as $name => $label) {
             if ($label) {
                 $controlElements[$name] = $this->addInputField(
                     'submit',
                     $name,
                     $label,
-                    array('internal::useArraySyntax' => false),
+                    ['internal::useArraySyntax' => false],
                     false
                 );
             } else {
@@ -157,7 +157,7 @@ class rex_form
      * @param bool  $escape
      * @return string
      */
-    public function getUrl(array $params = array(), $escape = true)
+    public function getUrl(array $params = [], $escape = true)
     {
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
@@ -193,7 +193,7 @@ class rex_form
      * @param bool   $addElement
      * @return rex_form_element
      */
-    public function addField($tag, $name, $value = null, array $attributes = array(), $addElement = true)
+    public function addField($tag, $name, $value = null, array $attributes = [], $addElement = true)
     {
         $element = $this->createElement($tag, $name, $value, $attributes);
 
@@ -215,7 +215,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_container_element
      */
-    public function addContainerField($name, $value = null, array $attributes = array())
+    public function addContainerField($name, $value = null, array $attributes = [])
     {
         if (!isset($attributes['class']))
             $attributes['class'] = 'rex-form-container';
@@ -235,7 +235,7 @@ class rex_form
      * @param bool   $addElement
      * @return rex_form_element
      */
-    public function addInputField($type, $name, $value = null, array $attributes = array(), $addElement = true)
+    public function addInputField($type, $name, $value = null, array $attributes = [], $addElement = true)
     {
         $attributes['type'] = $type;
         $field = $this->addField('input', $name, $value, $attributes, $addElement);
@@ -250,7 +250,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    public function addTextField($name, $value = null, array $attributes = array())
+    public function addTextField($name, $value = null, array $attributes = [])
     {
         $field = $this->addInputField('text', $name, $value, $attributes);
         return $field;
@@ -265,7 +265,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    public function addReadOnlyTextField($name, $value = null, array $attributes = array())
+    public function addReadOnlyTextField($name, $value = null, array $attributes = [])
     {
         $attributes['readonly'] = 'readonly';
         $field = $this->addInputField('text', $name, $value, $attributes);
@@ -281,7 +281,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    public function addReadOnlyField($name, $value = null, array $attributes = array())
+    public function addReadOnlyField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldSeparateEnding'] = true;
         $attributes['internal::noNameAttribute'] = true;
@@ -299,7 +299,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    public function addHiddenField($name, $value = null, array $attributes = array())
+    public function addHiddenField($name, $value = null, array $attributes = [])
     {
         $field = $this->addInputField('hidden', $name, $value, $attributes, true);
         return $field;
@@ -314,7 +314,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_checkbox_element
      */
-    public function addCheckboxField($name, $value = null, array $attributes = array())
+    public function addCheckboxField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
         if (!isset($attributes['class']))
@@ -332,7 +332,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_radio_element
      */
-    public function addRadioField($name, $value = null, array $attributes = array())
+    public function addRadioField($name, $value = null, array $attributes = [])
     {
         if (!isset($attributes['class']))
             $attributes['class'] = 'rex-form-radio';
@@ -349,7 +349,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    public function addTextAreaField($name, $value = null, array $attributes = array())
+    public function addTextAreaField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldSeparateEnding'] = true;
         if (!isset($attributes['cols']))
@@ -369,7 +369,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_select_element
      */
-    public function addSelectField($name, $value = null, array $attributes = array())
+    public function addSelectField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_select_element';
         $field = $this->addField('', $name, $value, $attributes, true);
@@ -384,7 +384,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_prio_element
      */
-    public function addPrioField($name, $value = null, array $attributes = array())
+    public function addPrioField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_prio_element';
         $field = $this->addField('', $name, $value, $attributes, true);
@@ -401,7 +401,7 @@ class rex_form
      * @throws rex_exception
      * @return rex_form_widget_media_element
      */
-    public function addMediaField($name, $value = null, array $attributes = array())
+    public function addMediaField($name, $value = null, array $attributes = [])
     {
         if (!rex_addon::get('mediapool')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
@@ -421,7 +421,7 @@ class rex_form
      * @throws rex_exception
      * @return rex_form_widget_medialist_element
      */
-    public function addMedialistField($name, $value = null, array $attributes = array())
+    public function addMedialistField($name, $value = null, array $attributes = [])
     {
         if (!rex_addon::get('mediapool')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "mediapool" addon!');
@@ -441,7 +441,7 @@ class rex_form
      * @throws rex_exception
      * @return rex_form_widget_linkmap_element
      */
-    public function addLinkmapField($name, $value = null, array $attributes = array())
+    public function addLinkmapField($name, $value = null, array $attributes = [])
     {
         if (!rex_addon::get('structure')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
@@ -461,7 +461,7 @@ class rex_form
      * @throws rex_exception
      * @return rex_form_widget_linklist_element
      */
-    public function addLinklistField($name, $value = null, array $attributes = array())
+    public function addLinklistField($name, $value = null, array $attributes = [])
     {
         if (!rex_addon::get('structure')->isAvailable()) {
             throw new rex_exception(__METHOD__ . '() needs "structure" addon!');
@@ -571,7 +571,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    public function createInput($inputType, $name, $value = null, array $attributes = array())
+    public function createInput($inputType, $name, $value = null, array $attributes = [])
     {
         $tag        = self::getInputTagName($inputType);
         $className  = self::getInputClassName($inputType);
@@ -592,7 +592,7 @@ class rex_form
      * @param array  $attributes
      * @return rex_form_element
      */
-    protected function createElement($tag, $name, $value, array $attributes = array())
+    protected function createElement($tag, $name, $value, array $attributes = [])
     {
         $id = $this->tableName . '_' . $this->fieldset . '_' . $name;
 
@@ -636,16 +636,16 @@ class rex_form
             unset($attributes['internal::fieldSeparateEnding']);
         }
 
-        $internal_attr = array('name' => $name);
+        $internal_attr = ['name' => $name];
         if (isset($attributes['internal::noNameAttribute'])) {
-            $internal_attr = array();
+            $internal_attr = [];
             unset($attributes['internal::noNameAttribute']);
         }
 
         // 1. Array: Eigenschaften, die via Parameter Überschrieben werden können/dürfen
         // 2. Array: Eigenschaften, via Parameter
         // 3. Array: Eigenschaften, die hier fest definiert sind / nicht veränderbar via Parameter
-        $attributes = array_merge(array('id' => $id), $attributes, $internal_attr);
+        $attributes = array_merge(['id' => $id], $attributes, $internal_attr);
         $element = new $class($tag, $this, $attributes, $separateEnding);
         $element->setFieldName($fieldName);
         $element->setValue($value);
@@ -695,7 +695,7 @@ class rex_form
     public static function getInputClassName($inputType)
     {
         // ----- EXTENSION POINT
-        $className = rex_extension::registerPoint('REX_FORM_INPUT_CLASS', '', array('inputType' => $inputType));
+        $className = rex_extension::registerPoint('REX_FORM_INPUT_CLASS', '', ['inputType' => $inputType]);
 
         if ($className) {
             return $className;
@@ -728,7 +728,7 @@ class rex_form
     public static function getInputTagName($inputType)
     {
         // ----- EXTENSION POINT
-        $inputTag = rex_extension::registerPoint('REX_FORM_INPUT_TAG', '', array('inputType' => $inputType));
+        $inputTag = rex_extension::registerPoint('REX_FORM_INPUT_TAG', '', ['inputType' => $inputType]);
 
         if ($inputTag) {
             return $inputTag;
@@ -756,7 +756,7 @@ class rex_form
     public static function getInputAttributes($inputType)
     {
         // ----- EXTENSION POINT
-        $inputAttr = rex_extension::registerPoint('REX_FORM_INPUT_ATTRIBUTES', array(), array('inputType' => $inputType));
+        $inputAttr = rex_extension::registerPoint('REX_FORM_INPUT_ATTRIBUTES', [], ['inputType' => $inputType]);
 
         if ($inputAttr) {
             return $inputAttr;
@@ -767,30 +767,30 @@ class rex_form
             case 'hidden'    :
             case 'radio'     :
             case 'text'      :
-                return array(
+                return [
                     'type' => $inputType,
                     'class' => 'rex-form-' . $inputType
-                );
+                ];
             case 'textarea'  :
-                return array(
+                return [
                     'internal::fieldSeparateEnding' => true,
                     'class' => 'rex-form-textarea',
                     'cols' => 50,
                     'rows' => 6
-                );
+                ];
             case 'readonly'  :
-                return array(
+                return [
                     'internal::fieldSeparateEnding' => true,
                     'internal::noNameAttribute' => true,
                     'class' => 'rex-form-read'
-                );
+                ];
             case 'readonlytext'  :
-                return array(
+                return [
                     'type' => 'text',
                     'readonly' => 'readonly',
                     'class' => 'rex-form-read'
-                );
-            default          : $inputAttr = array(); break;
+                ];
+            default          : $inputAttr = []; break;
         }
         return $inputAttr;
     }
@@ -843,7 +843,7 @@ class rex_form
      */
     protected function getHeaderElements()
     {
-        $headerElements = array();
+        $headerElements = [];
         foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
             foreach ($fieldsetElementsArray as $element) {
                 if ($this->isHeaderElement($element)) {
@@ -859,7 +859,7 @@ class rex_form
      */
     protected function getFooterElements()
     {
-        $footerElements = array();
+        $footerElements = [];
         foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
             foreach ($fieldsetElementsArray as $element) {
                 if ($this->isFooterElement($element)) {
@@ -883,7 +883,7 @@ class rex_form
      */
     protected function getFieldsets()
     {
-        $fieldsets = array();
+        $fieldsets = [];
         foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
             $fieldsets[] = $fieldsetName;
         }
@@ -895,9 +895,9 @@ class rex_form
      */
     protected function getFieldsetElements()
     {
-        $fieldsetElements = array();
+        $fieldsetElements = [];
         foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
-            $fieldsetElements[$fieldsetName] = array();
+            $fieldsetElements[$fieldsetName] = [];
 
             foreach ($fieldsetElementsArray as $element) {
                 if ($this->isHeaderElement($element)) continue;
@@ -914,9 +914,9 @@ class rex_form
      */
     protected function getSaveElements()
     {
-        $fieldsetElements = array();
+        $fieldsetElements = [];
         foreach ($this->elements as $fieldsetName => $fieldsetElementsArray) {
-            $fieldsetElements[$fieldsetName] = array();
+            $fieldsetElements[$fieldsetName] = [];
 
             foreach ($fieldsetElementsArray as $key => $element) {
                 if ($this->isFooterElement($element)) continue;
@@ -1200,7 +1200,7 @@ class rex_form
 
         // ----- EXTENSION POINT
         if ($saved)
-            $saved = rex_extension::registerPoint('REX_FORM_SAVED', $saved, array('form' => $this, 'sql' => $sql));
+            $saved = rex_extension::registerPoint('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]);
         else
             $saved = $sql->getErrno();
 
@@ -1221,14 +1221,14 @@ class rex_form
 
         // ----- EXTENSION POINT
         if ($deleted)
-            $deleted = rex_extension::registerPoint('REX_FORM_DELETED', $deleted, array('form' => $this, 'sql' => $deleteSql));
+            $deleted = rex_extension::registerPoint('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]);
         else
             $deleted = $deleteSql->getErrno();
 
         return $deleted;
     }
 
-    protected function redirect($listMessage = '', $listWarning = '', array $params = array())
+    protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
         if ($listMessage != '') {
             $listName = rex_request('list', 'string');
@@ -1261,7 +1261,7 @@ class rex_form
     {
         $this->init();
 
-        $this->setApplyUrl($this->getUrl(array('func' => ''), false));
+        $this->setApplyUrl($this->getUrl(['func' => ''], false));
 
         if (($controlElement = $this->getControlElement()) !== null) {
             if ($controlElement->saved()) {
@@ -1318,7 +1318,7 @@ class rex_form
 
         // Parameter dem Formular hinzufügen
         foreach ($this->getParams() as $name => $value) {
-            $this->addHiddenField($name, $value, array('internal::useArraySyntax' => 'none'));
+            $this->addHiddenField($name, $value, ['internal::useArraySyntax' => 'none']);
         }
 
         $s = "\n";

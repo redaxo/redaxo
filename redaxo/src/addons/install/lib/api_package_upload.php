@@ -11,16 +11,16 @@ class rex_api_install_package_upload extends rex_api_function
             throw new rex_api_exception('You do not have the permission!');
         }
         $addonkey = rex_request('addonkey', 'string');
-        $upload = rex_request('upload', array(
-            array('upload_file', 'bool'),
-            array('oldversion', 'string'),
-            array('redaxo', 'array[string]'),
-            array('description', 'string'),
-            array('status', 'int'),
-            array('replace_assets', 'bool'),
-            array('ignore_tests', 'bool')
-        ));
-        $file = array();
+        $upload = rex_request('upload', [
+            ['upload_file', 'bool'],
+            ['oldversion', 'string'],
+            ['redaxo', 'array[string]'],
+            ['description', 'string'],
+            ['status', 'int'],
+            ['replace_assets', 'bool'],
+            ['ignore_tests', 'bool']
+        ]);
+        $file = [];
         $archive = null;
         $file['version'] = $upload['upload_file'] ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
         $file['redaxo_versions'] = $upload['redaxo'];
@@ -29,7 +29,7 @@ class rex_api_install_package_upload extends rex_api_function
         try {
             if ($upload['upload_file']) {
                 $archive = rex_path::addonCache('install', md5($addonkey . time()) . '.zip');
-                $exclude = array();
+                $exclude = [];
                 if ($upload['replace_assets']) {
                     $exclude[] = 'assets';
                 }
@@ -42,7 +42,7 @@ class rex_api_install_package_upload extends rex_api_function
                 }
                 $file['checksum'] = md5_file($archive);
             }
-            rex_install_webservice::post(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)), array('file' => $file), $archive);
+            rex_install_webservice::post(rex_install_packages::getPath('?package=' . $addonkey . '&file_id=' . rex_request('file', 'int', 0)), ['file' => $file], $archive);
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
         }

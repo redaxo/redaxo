@@ -26,7 +26,7 @@ $month_sel->setAttribute('class', 'rex-form-select');
 $month_sel->setAttribute('onchange', 'this.form.submit();');
 $month_sel->setStyle('width: 100px');
 
-$log = rex_request('log', 'array', array());
+$log = rex_request('log', 'array', []);
 if (!isset($log['year']) || !$log['year'])
     $log['year'] = date('Y');
 if (!isset($log['month']) || !$log['month'])

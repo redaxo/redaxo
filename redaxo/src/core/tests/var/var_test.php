@@ -18,20 +18,20 @@ class rex_var_test extends rex_var_base_test
 {
     public function parseTokensProvider()
     {
-        return array(
-            array('aREX_TEST_VAR[content=b]c', 'abc'),
-            array('a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'),
-            array('a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'),
-            array('a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'),
-            array('a<?php echo <<<EOT
+        return [
+            ['aREX_TEST_VAR[content=b]c', 'abc'],
+            ['a<?php echo \'bREX_TEST_VAR[content=c]d\'; ?>e', 'abcde'],
+            ['a<?php echo "bREX_TEST_VAR[content=c]d"; ?>e', 'abcde'],
+            ['a<?php echo REX_TEST_VAR[content=b]; ?>c', 'abc'],
+            ['a<?php echo <<<EOT
 bREX_TEST_VAR[content=c]d
 EOT;
-?>e', 'abcde'),
-            array('a<?php echo <<<\'EOT\'
+?>e', 'abcde'],
+            ['a<?php echo <<<\'EOT\'
 bREX_TEST_VAR[content=c]d
 EOT;
-?>e', 'abcde')
-        );
+?>e', 'abcde']
+        ];
     }
 
     /**
@@ -44,53 +44,53 @@ EOT;
 
     public function parseArgsSyntaxProvider()
     {
-        return array(
-            array('REX_TEST_VAR[]', 'default'),
-            array('REX_TEST_VAR[""]', ''),
-            array('REX_TEST_VAR[ab]', 'ab'),
-            array('REX_TEST_VAR["ab c"]', 'ab c'),
-            array('REX_TEST_VAR[REX_TEST_VAR[ab]]', 'ab'),
-            array('REX_TEST_VAR[content=ab]', 'ab'),
+        return [
+            ['REX_TEST_VAR[]', 'default'],
+            ['REX_TEST_VAR[""]', ''],
+            ['REX_TEST_VAR[ab]', 'ab'],
+            ['REX_TEST_VAR["ab c"]', 'ab c'],
+            ['REX_TEST_VAR[REX_TEST_VAR[ab]]', 'ab'],
+            ['REX_TEST_VAR[content=ab]', 'ab'],
 
-            array(<<<'EOT'
+            [<<<'EOT'
 REX_TEST_VAR[content="a 'b' \"c\" \ \\ \\\[d\]"]
 EOT
-                , 'a \'b\' "c" \ \ \[d]'),
+                , 'a \'b\' "c" \ \ \[d]'],
 
-            array(<<<'EOT'
+            [<<<'EOT'
 REX_TEST_VAR[content="a REX_TEST_VAR[content=\"b 'c' \\\"d\\\" \ \\ \\\[e\]\"] f"]
 EOT
-                , 'a b \'c\' "d" \ \ \[e] f'),
+                , 'a b \'c\' "d" \ \ \[e] f'],
 
-            array(<<<'EOT'
+            [<<<'EOT'
 REX_TEST_VAR[content="REX_TEST_VAR[content='\'a\' \"b\"']"]
 EOT
-                , '\'a\' "b"'),
+                , '\'a\' "b"'],
 
-            array(<<<'EOT'
+            [<<<'EOT'
 <?php echo "REX_TEST_VAR[content=\"a 'b' \\\"c\\\" \ \\ \\\[d\]\"]";
 EOT
-                , 'a \'b\' "c" \ \ \[d]'),
-            array(<<<'EOT'
+                , 'a \'b\' "c" \ \ \[d]'],
+            [<<<'EOT'
 <?php echo 'REX_TEST_VAR[content="a \'b\' \"c\" \ \\ \\\[d\]"]';
 EOT
-            , 'a \'b\' "c" \ \ \[d]'),
+            , 'a \'b\' "c" \ \ \[d]'],
 
-            array(<<<'EOT'
+            [<<<'EOT'
 <?php echo 'REX_TEST_VAR[content=\'REX_TEST_VAR[content="a \\\'b\\\' \"c\" \ \\ \\\[d\]"]\']';
 EOT
-                , 'a \'b\' "c" \ \ \[d]'),
+                , 'a \'b\' "c" \ \ \[d]'],
 
-            array(<<<'EOT'
+            [<<<'EOT'
 REX_TEST_VAR[
     content="ab
 cd ef"
 ]
 EOT
-                , "ab\ncd ef"),
-            array('REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'),
-            array('REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]')
-        );
+                , "ab\ncd ef"],
+            ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'],
+            ['REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]']
+        ];
     }
 
     /**
@@ -103,25 +103,25 @@ EOT
 
     public function parseGlobalArgsProvider()
     {
-        return array(
-            array('REX_TEST_VAR[content=ab instead=cd]', 'cd'),
-            array('REX_TEST_VAR[content="" instead=cd]', ''),
-            array('REX_TEST_VAR[content=ab ifempty=cd]', 'ab'),
-            array('REX_TEST_VAR[content="" ifempty=cd]', 'cd'),
-            array('REX_TEST_VAR[content="" ifempty="REX_TEST_VAR[cd]"]', 'cd'),
-            array('REX_TEST_VAR[content=ab instead=cd ifempty=ef]', 'cd'),
-            array('REX_TEST_VAR[content="" instead=cd ifempty=ef]', 'ef'),
-            array('REX_TEST_VAR[content=cd prefix=ab]', 'abcd'),
-            array('REX_TEST_VAR[content="" prefix=ab]', ''),
-            array('REX_TEST_VAR[content=cd suffix=ef]', 'cdef'),
-            array('REX_TEST_VAR[content="" suffix=ef]', ''),
-            array('REX_TEST_VAR[content=cd prefix=ab suffix=ef]', 'abcdef'),
-            array('REX_TEST_VAR[content="" prefix=ab suffix=ef]', ''),
-            array('REX_TEST_VAR[content=cd prefix=ab suffix=ef instead=gh ifempty=ij]', 'abghef'),
-            array('REX_TEST_VAR[content="" prefix=ab suffix=ef instead=gh ifempty=ij]', 'abijef'),
-            array('REX_TEST_VAR[content=ab callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd'),
-            array('REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd')
-        );
+        return [
+            ['REX_TEST_VAR[content=ab instead=cd]', 'cd'],
+            ['REX_TEST_VAR[content="" instead=cd]', ''],
+            ['REX_TEST_VAR[content=ab ifempty=cd]', 'ab'],
+            ['REX_TEST_VAR[content="" ifempty=cd]', 'cd'],
+            ['REX_TEST_VAR[content="" ifempty="REX_TEST_VAR[cd]"]', 'cd'],
+            ['REX_TEST_VAR[content=ab instead=cd ifempty=ef]', 'cd'],
+            ['REX_TEST_VAR[content="" instead=cd ifempty=ef]', 'ef'],
+            ['REX_TEST_VAR[content=cd prefix=ab]', 'abcd'],
+            ['REX_TEST_VAR[content="" prefix=ab]', ''],
+            ['REX_TEST_VAR[content=cd suffix=ef]', 'cdef'],
+            ['REX_TEST_VAR[content="" suffix=ef]', ''],
+            ['REX_TEST_VAR[content=cd prefix=ab suffix=ef]', 'abcdef'],
+            ['REX_TEST_VAR[content="" prefix=ab suffix=ef]', ''],
+            ['REX_TEST_VAR[content=cd prefix=ab suffix=ef instead=gh ifempty=ij]', 'abghef'],
+            ['REX_TEST_VAR[content="" prefix=ab suffix=ef instead=gh ifempty=ij]', 'abijef'],
+            ['REX_TEST_VAR[content=ab callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd'],
+            ['REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd']
+        ];
     }
 
     public static function callback($params)
@@ -142,7 +142,7 @@ EOT
         $content = '<?php echo rex_var::toArray("REX_TEST_VAR[content=\'test\']") === null ? "null" : "";';
         $this->assertParseOutputEquals('null', $content, 'toArray() returns null for non-arrays');
 
-        $array = array('1', '3', 'test');
+        $array = ['1', '3', 'test'];
 
         $content = '<?php print_r(rex_var::toArray("REX_TEST_VAR[content=\'' . addcslashes(json_encode($array), '[]"')  . '\']"));';
         $this->assertParseOutputEquals(print_r($array, true), $content, 'toArray() works with non-htmlspecialchar\'ed data');

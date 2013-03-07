@@ -79,10 +79,10 @@ abstract class rex_formatter
      * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      * @return string
      */
-    public static function number($value, $format = array())
+    public static function number($value, $format = [])
     {
         if (!is_array($format)) {
-            $format = array();
+            $format = [];
         }
 
         // Kommastellen
@@ -107,9 +107,9 @@ abstract class rex_formatter
      * @param array  $format Same as {@link rex_formatter::number()}
      * @return string
      */
-    public static function bytes($value, $format = array())
+    public static function bytes($value, $format = [])
     {
-        $units = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+        $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
         $unit_index = 0;
         while (($value / 1024) >= 1) {
             $value /= 1024;
@@ -168,10 +168,10 @@ abstract class rex_formatter
      * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
      * @return string
      */
-    public static function truncate($value, $format = array())
+    public static function truncate($value, $format = [])
     {
         if (!is_array($format))
-            $format = array();
+            $format = [];
 
         // Max-String-laenge
         if (empty($format['length']))
@@ -234,13 +234,13 @@ abstract class rex_formatter
      * @param array  $format Array with link attributes and params
      * @return string Link
      */
-    public static function url($value, $format = array())
+    public static function url($value, $format = [])
     {
         if (empty($value))
             return '';
 
         if (!is_array($format))
-            $format = array();
+            $format = [];
 
         // Linkattribute
         if (empty ($format['attr'])) {
@@ -269,10 +269,10 @@ abstract class rex_formatter
      * @param array  $format Array with link attributes and params
      * @return string Email link
      */
-    public static function email($value, $format = array())
+    public static function email($value, $format = [])
     {
         if (!is_array($format)) {
-            $format = array();
+            $format = [];
         }
 
         // Linkattribute
@@ -306,7 +306,7 @@ abstract class rex_formatter
                 throw new rex_exception('Unable to find callable ' . $format[0] . ' for custom format!');
             }
 
-            $params = array();
+            $params = [];
             $params['subject'] = $value;
             if (is_array($format[1])) {
                 $params = array_merge($format[1], $params);

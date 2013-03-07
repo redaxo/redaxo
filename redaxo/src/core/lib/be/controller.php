@@ -13,7 +13,7 @@ class rex_be_controller
     /**
      * @var array
      */
-    private static $pageParts = array();
+    private static $pageParts = [];
 
     /**
      * @var rex_be_page
@@ -23,7 +23,7 @@ class rex_be_controller
     /**
      * @var rex_be_page[]
      */
-    private static $pages = array();
+    private static $pages = [];
 
     /**
      * @param string $page
@@ -285,14 +285,14 @@ class rex_be_controller
                     }
                     // fall through, don't break
                 default:
-                    $setter = array($page, 'add' . ucfirst($key));
+                    $setter = [$page, 'add' . ucfirst($key)];
                     if (is_callable($setter)) {
                         foreach ((array) $value as $v) {
                             call_user_func($setter, $v);
                         }
                         break;
                     }
-                    $setter = array($page, 'set' . ucfirst($key));
+                    $setter = [$page, 'set' . ucfirst($key)];
                     if (is_callable($setter)) {
                         call_user_func($setter, $value);
                     }

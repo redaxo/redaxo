@@ -18,10 +18,10 @@ class rex_finder implements IteratorAggregate, Countable
         $recursive = false,
         $recursiveMode = RecursiveIteratorIterator::SELF_FIRST,
         $dirsOnly = false,
-        $ignoreFiles = array(),
-        $ignoreFilesRecursive = array(),
-        $ignoreDirs = array(),
-        $ignoreDirsRecursive = array(),
+        $ignoreFiles = [],
+        $ignoreFilesRecursive = [],
+        $ignoreDirs = [],
+        $ignoreDirsRecursive = [],
         $ignoreSystemStuff = true,
         $sort = false;
 
@@ -224,14 +224,14 @@ class rex_finder_filter extends RecursiveFilterIterator
 {
     public
         $dirsOnly = false,
-        $ignoreFiles = array(),
-        $ignoreFilesRecursive = array(),
-        $ignoreDirs = array(),
-        $ignoreDirsRecursive = array(),
+        $ignoreFiles = [],
+        $ignoreFilesRecursive = [],
+        $ignoreDirs = [],
+        $ignoreDirsRecursive = [],
         $ignoreSystemStuff = true;
 
     private static
-        $systemStuff = array('.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg');
+        $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
 
     /**
      * Constructor

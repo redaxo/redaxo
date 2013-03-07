@@ -14,7 +14,7 @@ class rex_form_prio_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = array())
+    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
 
@@ -25,7 +25,7 @@ class rex_form_prio_element extends rex_form_select_element
         $this->optionMsg = 'form_field_after_prior';
         $this->select->setSize(1);
 
-        rex_extension::register('REX_FORM_SAVED', array($this, 'organizePriorities'));
+        rex_extension::register('REX_FORM_SAVED', [$this, 'organizePriorities']);
     }
 
     /**

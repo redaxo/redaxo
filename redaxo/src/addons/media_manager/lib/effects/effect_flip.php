@@ -11,9 +11,9 @@ class rex_effect_flip extends rex_effect_abstract
 
     public function __construct()
     {
-        $this->options = array(
+        $this->options = [
             'X', 'Y'
-        );
+        ];
     }
 
     public function execute()
@@ -61,14 +61,14 @@ class rex_effect_flip extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_flip'),
                 'name' => 'flip',
                 'type'  => 'select',
                 'options' => $this->options,
                 'default' => 'X'
-            ),
-        );
+            ],
+        ];
     }
 }

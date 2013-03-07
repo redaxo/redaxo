@@ -7,7 +7,7 @@
 
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
-$pages = array();
+$pages = [];
 $page = '';
 
 // ----------------- SETUP
@@ -125,7 +125,7 @@ if ($user = rex::getUser()) {
 
 // ----- EXTENSION POINT
 // page variable validated
-rex_extension::registerPoint('PAGE_CHECKED', $page, array('pages' => $pages));
+rex_extension::registerPoint('PAGE_CHECKED', $page, ['pages' => $pages]);
 
 // trigger api functions
 // If the backend session is timed out, rex_api_function would throw an exception

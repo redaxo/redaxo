@@ -37,7 +37,7 @@ class rex_url
     /**
      * Returns the url to the frontend-controller (index.php from frontend)
      */
-    public static function frontendController(array $params = array())
+    public static function frontendController(array $params = [])
     {
         $query = rex_string::buildQuery($params);
         $query = $query ? '?' . $query : '';
@@ -55,7 +55,7 @@ class rex_url
     /**
      * Returns the url to the backend-controller (index.php from backend)
      */
-    public static function backendController(array $params = array())
+    public static function backendController(array $params = [])
     {
         $query = rex_string::buildQuery($params);
         $query = $query ? '?' . $query : '';
@@ -65,15 +65,15 @@ class rex_url
     /**
      * Returns the url to a backend page
      */
-    public static function backendPage($page, array $params = array())
+    public static function backendPage($page, array $params = [])
     {
-        return self::backendController(array_merge(array('page' => $page), $params));
+        return self::backendController(array_merge(['page' => $page], $params));
     }
 
     /**
      * Returns the url to the current backend page
      */
-    public static function currentBackendPage(array $params = array())
+    public static function currentBackendPage(array $params = [])
     {
         return self::backendPage(rex_be_controller::getCurrentPage(), $params);
     }

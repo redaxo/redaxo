@@ -25,19 +25,19 @@ class rex_config
      * data read from database
      * @var array
      */
-    private static $data = array();
+    private static $data = [];
 
     /**
      * data which is modified during this request
      * @var array
      */
-    private static $changedData = array();
+    private static $changedData = [];
 
     /**
      * data which was deleted during this request
      * @var array
      */
-    private static $deletedData = array();
+    private static $deletedData = [];
 
     /**
      * Method which saves an arbitary value associated to the given namespace and key.
@@ -74,7 +74,7 @@ class rex_config
         }
 
         if (!isset(self::$data[$namespace]))
-            self::$data[$namespace] = array();
+            self::$data[$namespace] = [];
 
         $existed = isset(self::$data[$namespace][$key]);
         if (!$existed || $existed && self::$data[$namespace][$key] !== $value) {
@@ -113,7 +113,7 @@ class rex_config
         }
 
         if ($key === null) {
-            return isset(self::$data[$namespace]) ? self::$data[$namespace] : array();
+            return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
         }
 
         if (!is_string($key)) {
@@ -239,7 +239,7 @@ class rex_config
         }
 
         // save cache on shutdown
-        register_shutdown_function(array(__CLASS__, 'save'));
+        register_shutdown_function([__CLASS__, 'save']);
 
         self::load();
         self::$initialized = true;
@@ -282,7 +282,7 @@ class rex_config
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'config');
 
-        self::$data = array();
+        self::$data = [];
         foreach ($sql as $cfg) {
             self::$data[$cfg->getValue('namespace')][$cfg->getValue('key')] = json_decode($cfg->getValue('value'), true);
         }
@@ -331,10 +331,10 @@ class rex_config
         foreach (self::$deletedData as $namespace => $nsData) {
             foreach ($nsData as $key => $value) {
                 $sql->setTable(rex::getTablePrefix() . 'config');
-                $sql->setWhere(array(
+                $sql->setWhere([
                     'namespace' => $namespace,
                     'key' => $key
-                ));
+                ]);
                 $sql->delete();
             }
         }

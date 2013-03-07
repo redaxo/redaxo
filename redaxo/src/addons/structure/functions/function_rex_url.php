@@ -96,7 +96,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     }
 
     // ----- EXTENSION POINT
-    $url = rex_extension::registerPoint('URL_REWRITE', '', array('id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider));
+    $url = rex_extension::registerPoint('URL_REWRITE', '', ['id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider]);
 
     if ($url == '') {
         $_clang = '';
@@ -115,7 +115,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
  *
  * @package redaxo\structure
  */
-function rex_redirect($article_id, $clang = '', $params = array())
+function rex_redirect($article_id, $clang = '', $params = [])
 {
     // Alle OBs schließen
     while (@ob_end_clean());

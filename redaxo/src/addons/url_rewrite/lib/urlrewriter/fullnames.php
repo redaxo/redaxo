@@ -62,14 +62,14 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
 
         if (rex::isBackend()) {
             // Die Pathnames bei folgenden Extension Points aktualisieren
-            $extension = array($this, 'generatePathnames');
-            $extensionPoints = array(
+            $extension = [$this, 'generatePathnames'];
+            $extensionPoints = [
                 'CAT_ADDED',   'CAT_UPDATED',   'CAT_DELETED',
                 'ART_ADDED',   'ART_UPDATED',   'ART_DELETED',
                 'ART_TO_CAT',  'CAT_TO_ART',    'ART_TO_STARTARTICLE',
                 'CLANG_ADDED', 'CLANG_UPDATED', 'CLANG_DELETED',
                 'CACHE_DELETED', 'ART_META_UPDATED'
-            );
+            ];
 
             foreach ($extensionPoints as $extensionPoint) {
                 rex_extension::register($extensionPoint, $extension);
@@ -86,7 +86,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         $clang = rex_clang::getCurrentId();
 
         if (!file_exists($this->PATHLIST))
-             $this->generatePathnames(array());
+             $this->generatePathnames([]);
 
         // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
         require_once $this->PATHLIST;
@@ -261,7 +261,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         }
 
         if (!isset($REXPATH))
-            $REXPATH = array();
+            $REXPATH = [];
 
         if (!isset($params['extension_point']))
             $params['extension_point'] = '';
@@ -289,7 +289,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             case 'ART_TO_STARTARTICLE':
             case 'CACHE_DELETED':
             default:
-                $REXPATH = array();
+                $REXPATH = [];
                 $where = '1=1';
                 break;
         }

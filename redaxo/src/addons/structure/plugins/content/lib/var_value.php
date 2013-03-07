@@ -10,7 +10,7 @@ class rex_var_value extends rex_var
     protected function getOutput()
     {
         $id = $this->getArg('id', 0, true);
-        if (!in_array($this->getContext(), array('module', 'action')) || !is_numeric($id) || $id < 1 || $id > 20) {
+        if (!in_array($this->getContext(), ['module', 'action']) || !is_numeric($id) || $id < 1 || $id > 20) {
             return false;
         }
 
@@ -28,7 +28,7 @@ class rex_var_value extends rex_var
                 return 'rex_var::nothing(require rex_stream::factory(substr(__FILE__, 6) . \'/REX_VALUE/' . $id . '\', ' . self::quote($value) . '))';
             }
         } elseif ($output == 'html') {
-            $value = str_replace(array('<?', '?>'), array('&lt;?', '?&gt;'), $value);
+            $value = str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $value);
         } else {
             $value = htmlspecialchars($value);
             if (!$this->environmentIs(self::ENV_INPUT)) {

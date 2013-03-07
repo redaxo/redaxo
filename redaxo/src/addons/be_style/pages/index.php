@@ -1,9 +1,9 @@
 <?php
 
-$subpages = array();
+$subpages = [];
 echo rex_view::title('be_style', $subpages);
 
-$pluginContent = rex_extension::registerPoint('BE_STYLE_PAGE_CONTENT', '', array());
+$pluginContent = rex_extension::registerPoint('BE_STYLE_PAGE_CONTENT', '', []);
 
 echo '
 <div class="rex-addon-output">

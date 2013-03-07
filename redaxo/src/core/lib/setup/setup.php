@@ -8,7 +8,7 @@ class rex_setup
     const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
     const MIN_MYSQL_VERSION = '5.0';
 
-    private static $MIN_PHP_EXTENSIONS = array('session', 'pdo', 'pdo_mysql', 'pcre');
+    private static $MIN_PHP_EXTENSIONS = ['session', 'pdo', 'pdo_mysql', 'pcre'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -38,7 +38,7 @@ class rex_setup
      */
     public static function checkEnvironment()
     {
-        $errors = array();
+        $errors = [];
 
         // -------------------------- VERSIONSCHECK
         if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1) {
@@ -62,19 +62,19 @@ class rex_setup
     public static function checkFilesystem()
     {
         // -------------------------- SCHREIBRECHTE
-        $writables = array(
+        $writables = [
             rex_path::media(),
             rex_path::assets(),
             rex_path::cache(),
             rex_path::data(),
             rex_path::src()
-        );
+        ];
 
         $func = function ($dir) use (&$func) {
             if (!rex_dir::isWritable($dir)) {
-                return array('setup_304' => array($dir));
+                return ['setup_304' => [$dir]];
             }
-            $res = array();
+            $res = [];
             foreach (rex_finder::factory($dir) as $path => $file) {
                 if ($file->isDir()) {
                     $res = array_merge_recursive($res, $func($path));
@@ -85,7 +85,7 @@ class rex_setup
             return $res;
         };
 
-        $res = array();
+        $res = [];
         foreach ($writables as $dir) {
             if (@is_dir($dir)) {
                 $res = array_merge_recursive($res, $func($dir));

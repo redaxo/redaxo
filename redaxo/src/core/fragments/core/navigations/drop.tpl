@@ -27,7 +27,7 @@
 
 */
 
-$drop  = (isset($this->drop) && in_array($this->drop, array('down', 'left', 'right', 'up'))) ? 'rex-drop' . $this->drop : 'rex-dropdown';
+$drop  = (isset($this->drop) && in_array($this->drop, ['down', 'left', 'right', 'up'])) ? 'rex-drop' . $this->drop : 'rex-dropdown';
 
 $button = $this->button;
 $button_title = (isset($this->button_title) && $this->button_title != '') ? '<i>' . $this->button_title . '</i>' : '';
@@ -43,7 +43,7 @@ $footer = isset($this->footer) ? $this->footer : '';
 $items  = $this->items;
 
 // --------------------- List Items
-$list_items = array();
+$list_items = [];
 foreach ($items as $item) {
 
     $list_item = '';
@@ -86,7 +86,7 @@ foreach ($items as $item) {
 
 
 // --------------------- List Header
-$list_header = array();
+$list_header = [];
 
 if ($header != '') {
     $list_header[] = $header;

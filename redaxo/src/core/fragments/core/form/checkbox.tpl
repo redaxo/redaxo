@@ -35,7 +35,7 @@ foreach ($this->elements as $element) {
 $group = isset($this->group) ? $this->group : false;
 $flush = isset($this->flush) ? $this->flush : false;
 if ($group || $flush) {
-    $classes = array();
+    $classes = [];
     $classes[] = $group ? 'rex-form-group' : '';
     $classes[] = $flush ? 'rex-form-flush' : '';
 

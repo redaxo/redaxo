@@ -24,10 +24,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         if ($rows == 0)
             return $warning;
 
-        $where = array(
-            'articles' => array(),
-            'media' => array()
-        );
+        $where = [
+            'articles' => [],
+            'media' => []
+        ];
         $filename = addslashes($params['filename']);
         for ($i = 0; $i < $rows; $i++) {
             $name = $sql->getValue('name');
@@ -59,9 +59,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                     $re_id = $art_arr['re_id'];
                     $name = $art_arr['startarticle'] ? $art_arr['catname'] : $art_arr['name'];
                     if ($art_arr['startarticle']) {
-                        $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', array('edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $re_id, 'clang' => $clang)) . '\')">' . $art_arr['catname'] . '</a></li>';
+                        $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $re_id, 'clang' => $clang]) . '\')">' . $art_arr['catname'] . '</a></li>';
                     } else {
-                        $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', array('article_id' => $aid, 'mode' => 'meta', 'clang' => $clang)) . '\')">' . $art_arr['name'] . '</a></li>';
+                        $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . $art_arr['name'] . '</a></li>';
                     }
                 }
                 if ($articles != '') {
@@ -80,7 +80,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                     $id = $med_arr['id'];
                     $filename = $med_arr['filename'];
                     $cat_id = $med_arr['category_id'];
-                    $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', array('file_id' => $id, 'rex_file_category' => $cat_id)) . '">' . $filename . '</a></li>';
+                    $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $cat_id]) . '">' . $filename . '</a></li>';
                 }
                 if ($media != '') {
                     $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
@@ -129,7 +129,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $media = rex_sql::factory();
     //  $media->setDebug();
         $media->setTable(rex::getTablePrefix() . 'media');
-        $media->setWhere('id=:mediaid', array('mediaid' => $params['id']));
+        $media->setWhere('id=:mediaid', ['mediaid' => $params['id']]);
 
         parent::fetchRequestValues($params, $media, $sqlFields);
 
@@ -189,10 +189,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
 $mediaHandler = new rex_metainfo_media_handler();
 
-rex_extension::register('MEDIA_FORM_EDIT', array($mediaHandler, 'extendForm'));
-rex_extension::register('MEDIA_FORM_ADD', array($mediaHandler, 'extendForm'));
+rex_extension::register('MEDIA_FORM_EDIT', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_FORM_ADD', [$mediaHandler, 'extendForm']);
 
-rex_extension::register('MEDIA_ADDED', array($mediaHandler, 'extendForm'));
-rex_extension::register('MEDIA_UPDATED', array($mediaHandler, 'extendForm'));
+rex_extension::register('MEDIA_ADDED', [$mediaHandler, 'extendForm']);
+rex_extension::register('MEDIA_UPDATED', [$mediaHandler, 'extendForm']);
 
-rex_extension::register('MEDIA_IS_IN_USE', array('rex_metainfo_media_handler', 'isMediaInUse'));
+rex_extension::register('MEDIA_IS_IN_USE', ['rex_metainfo_media_handler', 'isMediaInUse']);

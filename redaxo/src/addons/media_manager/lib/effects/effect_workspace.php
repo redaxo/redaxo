@@ -12,7 +12,7 @@ class rex_effect_workspace extends rex_effect_abstract
 
     public function __construct()
     {
-        $this->options = array(
+        $this->options = [
             'top',
             'topleft',
             'left',
@@ -22,7 +22,7 @@ class rex_effect_workspace extends rex_effect_abstract
             'right',
             'topright',
             'center'
-        );
+        ];
 
         $this->script = '
 <script type="text/javascript">
@@ -171,54 +171,54 @@ class rex_effect_workspace extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_width'),
                 'name' => 'width',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
                 'type' => 'int'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
                 'type'  => 'select',
-                'options'  => array('left', 'center', 'right'),
+                'options'  => ['left', 'center', 'right'],
                 'default' => 'left'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
                 'type'  => 'select',
-                'options'  => array('top', 'middle', 'bottom'),
+                'options'  => ['top', 'middle', 'bottom'],
                 'default' => 'top'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
                 'name' => 'set_transparent',
                 'type' => 'select',
-                'options' => array('colored', 'transparent'),
+                'options' => ['colored', 'transparent'],
                 'default' => 'colored',
                 'suffix' => $this->script
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
                 'name' => 'bg_r',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
                 'name' => 'bg_g',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
                 'name' => 'bg_b',
                 'type' => 'int',
-            ),
-        );
+            ],
+        ];
     }
 }

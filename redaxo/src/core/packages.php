@@ -10,7 +10,7 @@ rex_addon::initialize(!rex::isSetup());
 if (rex::isSetup() || rex::isSafeMode()) {
     $packageOrder = array_keys(rex_package::getSetupPackages());
 } else {
-    $packageOrder = rex::getConfig('package-order', array());
+    $packageOrder = rex::getConfig('package-order', []);
 }
 
 // in the first run, we register all folders for class- and fragment-loading,

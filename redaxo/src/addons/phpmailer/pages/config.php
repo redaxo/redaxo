@@ -11,21 +11,21 @@
 $message = '';
 
 if (rex_post('btn_save', 'string') != '') {
-    $this->setConfig(rex_post('settings', array(
-        array('fromname', 'string'),
-        array('from', 'string'),
-        array('confirmto', 'string'),
-        array('bcc', 'string'),
-        array('mailer', 'string'),
-        array('host', 'string'),
-        array('charset', 'string'),
-        array('wordwrap', 'int'),
-        array('encoding', 'string'),
-        array('username', 'string'),
-        array('password', 'string'),
-        array('smtpauth', 'boolean'),
-        array('priority', 'int')
-    )));
+    $this->setConfig(rex_post('settings', [
+        ['fromname', 'string'],
+        ['from', 'string'],
+        ['confirmto', 'string'],
+        ['bcc', 'string'],
+        ['mailer', 'string'],
+        ['host', 'string'],
+        ['charset', 'string'],
+        ['wordwrap', 'int'],
+        ['encoding', 'string'],
+        ['username', 'string'],
+        ['password', 'string'],
+        ['smtpauth', 'boolean'],
+        ['priority', 'int']
+    ]));
 
     $message = $this->i18n('config_saved_successful');
 }
@@ -35,7 +35,7 @@ $sel_mailer->setId('mailer');
 $sel_mailer->setName('settings[mailer]');
 $sel_mailer->setSize(1);
 $sel_mailer->setSelected($this->getConfig('mailer'));
-foreach (array('mail', 'sendmail', 'smtp') as $type)
+foreach (['mail', 'sendmail', 'smtp'] as $type)
     $sel_mailer->addOption($type, $type);
 
 $sel_smtpauth = new rex_select();
@@ -43,7 +43,7 @@ $sel_smtpauth->setId('smtpauth');
 $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
-foreach (array(0 => 'false', 1 => 'true') as $i => $type)
+foreach ([0 => 'false', 1 => 'true'] as $i => $type)
 $sel_smtpauth->addOption($type, $i);
 
 $sel_encoding = new rex_select();
@@ -51,7 +51,7 @@ $sel_encoding->setId('encoding');
 $sel_encoding->setName('settings[encoding]');
 $sel_encoding->setSize(1);
 $sel_encoding->setSelected($this->getConfig('encoding'));
-foreach (array('7bit', '8bit', 'binary', 'base64', 'quoted-printable') as $enc)
+foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc)
     $sel_encoding->addOption($enc, $enc);
 
 $sel_priority = new rex_select();
@@ -59,7 +59,7 @@ $sel_priority->setid('priority');
 $sel_priority->setName('settings[priority]');
 $sel_priority->setSize(1);
 $sel_priority->setSelected($this->getConfig('priority'));
-foreach (array(1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')) as $no => $name)
+foreach ([1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name)
     $sel_priority->addOption($name, $no);
 
 

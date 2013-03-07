@@ -18,7 +18,7 @@ if (rex::isBackend() && rex::getUser()) {
 
         rex_extension::register(
             'DASHBOARD_COMPONENT',
-            array(new rex_rss_reader_component(), 'registerAsExtension')
+            [new rex_rss_reader_component(), 'registerAsExtension']
         );
     }
 }

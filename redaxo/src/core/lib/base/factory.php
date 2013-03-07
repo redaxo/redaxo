@@ -30,7 +30,7 @@ trait rex_factory
     /**
      * @var array
      */
-    private static $factoryClasses = array();
+    private static $factoryClasses = [];
 
     /**
      * Sets the class for the factory
@@ -82,6 +82,6 @@ trait rex_factory
     protected static function callFactoryClass($method, array $arguments)
     {
         $class = static::getFactoryClass();
-        return call_user_func_array(array($class, $method), $arguments);
+        return call_user_func_array([$class, $method], $arguments);
     }
 }

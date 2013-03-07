@@ -184,7 +184,7 @@ class rex_path
      */
     public static function absolute($relPath)
     {
-        $stack = array();
+        $stack = [];
 
         // pfadtrenner vereinheitlichen
         $relPath = str_replace('\\', '/', $relPath);

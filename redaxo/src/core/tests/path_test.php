@@ -12,6 +12,6 @@ class rex_path_test extends PHPUnit_Framework_TestCase
 
     private function path($path)
     {
-        return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
     }
 }

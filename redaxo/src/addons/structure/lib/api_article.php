@@ -14,7 +14,7 @@ class rex_api_article_add extends rex_api_function
             throw new rex_api_exception('user has no permission for this category!');
         }
 
-        $data = array();
+        $data = [];
         $data['name']        = rex_post('article-name', 'string');
         $data['prior']       = rex_post('article-position', 'int');
         $data['template_id'] = rex_post('template_id', 'int');
@@ -42,7 +42,7 @@ class rex_api_article_edit extends rex_api_function
         }
 
         // --------------------- ARTIKEL EDIT
-        $data = array();
+        $data = [];
         $data['prior']       = rex_post('article-position', 'int');
         $data['name']        = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');

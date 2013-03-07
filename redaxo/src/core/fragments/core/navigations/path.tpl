@@ -9,7 +9,7 @@ $title = (isset($this->title) && $this->title != '') ? '<dt>' . $this->title . '
 $items  = $this->items;
 
 // --------------------- List Items
-$list_items = array();
+$list_items = [];
 foreach ($items as $item) {
 
     $list_item = '';

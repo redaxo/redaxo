@@ -105,7 +105,7 @@ class rex_response
         self::sendContent($content, null, $lastModified);
 
         // ----- EXTENSION POINT - (read only)
-        rex_extension::registerPoint('RESPONSE_SHUTDOWN', $content, array(), true);
+        rex_extension::registerPoint('RESPONSE_SHUTDOWN', $content, [], true);
     }
 
     /**
@@ -257,7 +257,7 @@ class rex_response
     protected static function sendGzip($content)
     {
         $enc = '';
-        $encodings = array();
+        $encodings = [];
         $supportsGzip = false;
 
         // Check if it supports gzip

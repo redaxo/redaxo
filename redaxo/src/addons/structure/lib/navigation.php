@@ -39,9 +39,9 @@ class rex_navigation
         $depth, // Wieviele Ebene tief, ab der Startebene
         $open, // alles aufgeklappt, z.b. Sitemap
         $ignore_offlines,
-        $path = array(),
-        $classes = array(),
-        $linkclasses = array(),
+        $path = [],
+        $classes = [],
+        $linkclasses = [],
 
         $current_article_id = -1, // Aktueller Artikel
         $current_category_id = -1; // Aktuelle Katgorie
@@ -155,7 +155,7 @@ class rex_navigation
         if ($OOArt = rex_article::getArticleById($article_id)) {
             $path = trim($OOArt->getPath(), '|');
 
-            $this->path = array();
+            $this->path = [];
             if ($path != '')
                 $this->path = explode('|', $path);
 

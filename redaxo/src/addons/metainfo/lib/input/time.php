@@ -30,7 +30,7 @@ class rex_input_time extends rex_input
             throw new InvalidArgumentException('Expecting $value to be an array!');
         }
 
-        foreach (array('hour', 'minute') as $reqIndex) {
+        foreach (['hour', 'minute'] as $reqIndex) {
             if (!isset($value[$reqIndex])) {
                 throw new rex_exception('Missing index "' . $reqIndex . '" in $value!');
             }

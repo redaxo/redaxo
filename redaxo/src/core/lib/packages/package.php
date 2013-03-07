@@ -29,7 +29,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @var array
      */
-    private $properties = array();
+    private $properties = [];
 
     /**
      * Flag whether the properties of package.yml are loaded
@@ -238,7 +238,7 @@ abstract class rex_package implements rex_package_interface
         $properties = rex_file::getConfig($this->getPath(self::FILE_PACKAGE));
         foreach ($properties as $key => $value) {
             if (!isset($this->properties[$key]))
-                $this->properties[$key] = rex_i18n::translateArray($value, false, array($this, 'i18n'));
+                $this->properties[$key] = rex_i18n::translateArray($value, false, [$this, 'i18n']);
         }
         $this->propertiesLoaded = true;
     }
@@ -302,7 +302,7 @@ abstract class rex_package implements rex_package_interface
      */
     private static function getPackages($method, $pluginMethod = null)
     {
-        $packages = array();
+        $packages = [];
         $addonMethod = 'get' . $method . 'Addons';
         $pluginMethod = 'get' . ($pluginMethod ?: $method) . 'Plugins';
         foreach (rex_addon::$addonMethod() as $addon) {

@@ -16,62 +16,62 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
 
             // Beispiel Fields
-            $items = array();
+            $items = [];
 
-            $f = array();
+            $f = [];
             $f['label'] = '<label>REX_MEDIA</label>';
             $f['field'] = rex_var_media::getWidget('id', 'name', 'value');
 
             $fragment = new rex_fragment();
-            $fragment->setVar('elements', array($f), false);
-            $item = array();
+            $fragment->setVar('elements', [$f], false);
+            $item = [];
             $item['html']  = $fragment->parse('core/form/form.tpl');
             $items[] = $item;
 
-            $f = array();
+            $f = [];
             $f['label'] = '<label>REX_MEDIALIST</label>';
             $f['field'] = rex_var_medialist::getWidget('id', 'name', 'value');
 
             $fragment = new rex_fragment();
-            $fragment->setVar('elements', array($f), false);
-            $item = array();
+            $fragment->setVar('elements', [$f], false);
+            $item = [];
             $item['html']  = $fragment->parse('core/form/form.tpl');
             $items[] = $item;
 
-            $f = array();
+            $f = [];
             $f['label'] = '<label>REX_LINK</label>';
             $f['field'] = rex_var_link::getWidget('id', 'name', 'value');
 
             $fragment = new rex_fragment();
-            $fragment->setVar('elements', array($f), false);
-            $item = array();
+            $fragment->setVar('elements', [$f], false);
+            $item = [];
             $item['html']  = $fragment->parse('core/form/form.tpl');
             $items[] = $item;
 
-            $f = array();
+            $f = [];
             $f['label'] = '<label>REX_LINKLIST</label>';
             $f['field'] = rex_var_linklist::getWidget('id', 'name', 'value');
 
             $fragment = new rex_fragment();
-            $fragment->setVar('elements', array($f), false);
-            $item = array();
+            $fragment->setVar('elements', [$f], false);
+            $item = [];
             $item['html']  = $fragment->parse('core/form/form.tpl');
             $items[] = $item;
 
 
 
 
-            $formElements = array();
+            $formElements = [];
 
-            $n = array();
+            $n = [];
             $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
             $formElements[] = $n;
 
-            $n = array();
+            $n = [];
             $n['field'] = '<button class="rex-button" type="submit">Kategorie speichern</button>';
             $formElements[] = $n;
 
-            $n = array();
+            $n = [];
             $n['field'] = '<button class="rex-button" type="submit">Kategorie übernehmen</button>';
             $formElements[] = $n;
 
@@ -100,7 +100,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $article = rex_sql::factory();
         // $article->setDebug();
         $article->setTable(rex::getTablePrefix() . 'article');
-        $article->setWhere('id=:id AND clang=:clang', array('id' => $params['id'], 'clang' => $params['clang']));
+        $article->setWhere('id=:id AND clang=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);
 
         parent::fetchRequestValues($params, $article, $sqlFields);
 
@@ -195,10 +195,10 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
 $catHandler = new rex_metainfo_category_handler();
 
-rex_extension::register('CAT_FORM_ADD', array($catHandler, 'extendForm'));
-rex_extension::register('CAT_FORM_EDIT', array($catHandler, 'extendForm'));
+rex_extension::register('CAT_FORM_ADD', [$catHandler, 'extendForm']);
+rex_extension::register('CAT_FORM_EDIT', [$catHandler, 'extendForm']);
 
-rex_extension::register('CAT_ADDED', array($catHandler, 'extendForm'));
-rex_extension::register('CAT_UPDATED', array($catHandler, 'extendForm'));
+rex_extension::register('CAT_ADDED', [$catHandler, 'extendForm']);
+rex_extension::register('CAT_UPDATED', [$catHandler, 'extendForm']);
 
-rex_extension::register('CAT_FORM_BUTTONS', array($catHandler, 'renderToggleButton'));
+rex_extension::register('CAT_FORM_BUTTONS', [$catHandler, 'renderToggleButton']);

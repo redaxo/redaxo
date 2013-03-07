@@ -61,7 +61,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
         });
 
         $subject = 'test';
-        rex_extension::registerPoint($EP, $subject, array(), true);
+        rex_extension::registerPoint($EP, $subject, [], true);
 
         $this->assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
     }
@@ -76,7 +76,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
         });
 
         $myparam = 'myparam';
-        rex_extension::registerPoint($EP, null, array('myparam' => $myparam));
+        rex_extension::registerPoint($EP, null, ['myparam' => $myparam]);
 
         $this->assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
     }

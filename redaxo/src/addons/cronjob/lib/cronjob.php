@@ -11,7 +11,7 @@
 abstract class rex_cronjob
 {
     private
-        $params = array(),
+        $params = [],
         $message = '';
 
     final public static function factory($class)
@@ -86,12 +86,12 @@ abstract class rex_cronjob
     public function getEnvironments()
     {
         // returns an array of environments in which the cronjob is available
-        return array('frontend', 'backend');
+        return ['frontend', 'backend'];
     }
 
     public function getParamFields()
     {
         // returns an array of parameters which are required for the cronjob
-        return array();
+        return [];
     }
 }

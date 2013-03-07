@@ -70,7 +70,7 @@ class rex_media
             rex_media_cache::generateExtensionList($extension);
         }
 
-        $media = array();
+        $media = [];
 
         if (file_exists($extlist_path)) {
             $cache = rex_file::getCache($extlist_path);
@@ -100,13 +100,13 @@ class rex_media
 
         if (file_exists($media_path)) {
             $cache = rex_file::getCache($media_path);
-            $aliasMap = array(
+            $aliasMap = [
                 'category_id' => 'cat_id',
                 'filename' => 'name',
                 'originalname' => 'orgname',
                 'filetype' => 'type',
                 'filesize' => 'size'
-            );
+            ];
 
             $media = new self();
             foreach ($cache as $key => $value) {
@@ -304,10 +304,10 @@ class rex_media
      * @param array $params
      * @return string
      */
-    public function toImage(array $params = array())
+    public function toImage(array $params = [])
     {
         if (!is_array($params)) {
-            $params = array();
+            $params = [];
         }
 
         if (!$this->isImage()) {
@@ -329,7 +329,7 @@ class rex_media
             }
         }
 
-        rex_extension::registerPoint('MEDIA_TOIMAGE', '', array('filename' => &$filename, 'params' => &$params));
+        rex_extension::registerPoint('MEDIA_TOIMAGE', '', ['filename' => &$filename, 'params' => &$params]);
 
         $additional = '';
         foreach ($params as $name => $value) {
@@ -373,13 +373,13 @@ class rex_media
         $sql = rex_sql::factory();
         $filename = addslashes($this->getFileName());
 
-        $values = array();
+        $values = [];
         for ($i = 1; $i < 21; $i++) {
             $values[] = 'value' . $i . ' REGEXP "(^|[^[:alnum:]+_-])' . $filename . '"';
         }
 
-        $files = array();
-        $filelists = array();
+        $files = [];
+        $filelists = [];
         for ($i = 1; $i < 11; $i++) {
             $files[] = 'media' . $i . '="' . $filename . '"';
             $filelists[] = 'FIND_IN_SET("' . $filename . '",medialist' . $i . ')';
@@ -391,7 +391,7 @@ class rex_media
         $where .= implode(' OR ', $values);
         $query = 'SELECT DISTINCT article_id, clang FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
 
-        $warning = array();
+        $warning = [];
         $res = $sql->getArray($query);
         if ($sql->getRows() > 0) {
             $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
@@ -400,17 +400,17 @@ class rex_media
                 $clang = $art_arr['clang'];
                 $ooa = rex_article::getArticleById($aid, $clang);
                 $name = $ooa->getName();
-                $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', array('article_id' => $aid, 'mode' => 'edit', 'clang' => $clang)) . '\')">' . $name . '</a></li>';
+                $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }
             $warning[0] .= '</ul>';
         }
 
         // ----- EXTENSION POINT
         $warning = rex_extension::registerPoint('MEDIA_IS_IN_USE', $warning,
-            array(
+            [
                 'filename' => $this->getFileName(),
                 'media' => $this,
-            )
+            ]
         );
 
         if (!empty($warning))
@@ -495,7 +495,7 @@ class rex_media
 
         if ($this->getId() !== null) {
             $sql->addGlobalUpdateFields();
-            $sql->setWhere(array('id' => $this->getId()));
+            $sql->setWhere(['id' => $this->getId()]);
             $success = $sql->update();
             if ($success)
                 rex_media_cache::delete($this->getFileName());
@@ -570,11 +570,11 @@ class rex_media
 
     public static function compareImageTypes($type1, $type2)
     {
-        static $jpg = array(
+        static $jpg = [
             'image/jpg',
             'image/jpeg',
             'image/pjpeg'
-        );
+        ];
 
         return in_array($type1, $jpg) && in_array($type2, $jpg);
     }

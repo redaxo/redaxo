@@ -8,7 +8,7 @@ class rex_api_package extends rex_api_function
     public function execute()
     {
         $function = rex_request('function', 'string');
-        if (!in_array($function, array('install', 'uninstall', 'activate', 'deactivate', 'delete'))) {
+        if (!in_array($function, ['install', 'uninstall', 'activate', 'deactivate', 'delete'])) {
             throw new rex_api_exception('Unknown package function "' . $function . '"!');
         }
         $packageId = rex_request('package', 'string');

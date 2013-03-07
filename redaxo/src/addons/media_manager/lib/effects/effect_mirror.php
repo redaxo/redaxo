@@ -82,7 +82,7 @@ class rex_effect_mirror extends rex_effect_abstract
             $trans = true;
         }
 
-        $gdimage = $this->imagereflection( $gdimage, $this->params['height'], $trans, array($this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']) );
+        $gdimage = $this->imagereflection( $gdimage, $this->params['height'], $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']] );
         $this->media->setImage($gdimage);
         $this->media->refreshImageDimensions();
 
@@ -90,37 +90,37 @@ class rex_effect_mirror extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_height'),    // Length in Pixel or Prozent
                 'name' => 'height',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
                 'name' => 'set_transparent',
                 'type' => 'select',
-                'options' => array('colored', 'transparent / png24'),
+                'options' => ['colored', 'transparent / png24'],
                 'default' => 'colored',
                 'suffix' => $this->script
-            ),
+            ],
 
-            array(
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),
                 'name' => 'bg_r',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_g'),
                 'name' => 'bg_g',
                 'type' => 'int',
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_b'),
                 'name' => 'bg_b',
                 'type' => 'int',
-            ),
-        );
+            ],
+        ];
     }
 
     private function imagereflection(&$src_img, $reflection_height = 50, $trans = false, $bgcolor)

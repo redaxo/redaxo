@@ -53,10 +53,10 @@ class rex_socket_proxy extends rex_socket
         parent::openConnection();
 
         if ($this->destinationSsl) {
-            $headers = array(
+            $headers = [
                 'Host' => $this->destinationHost . ':' . $this->destinationPort,
                 'Proxy-Connection' => 'Keep-Alive'
-            );
+            ];
             $response = $this->writeRequest('CONNECT', $this->destinationHost . ':' . $this->destinationPort, $headers);
             if (!$response->isOk()) {
                 throw new rex_socket_exception(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s"'), $response->getStatusCode(), $response->getStatusMessage());

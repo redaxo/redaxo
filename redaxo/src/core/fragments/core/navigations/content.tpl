@@ -10,7 +10,7 @@
 
 */
 
-$navigations = array();
+$navigations = [];
 
 if (isset($this->navigation_left)) {
     $navigations['left'] = $this->navigation_left;
@@ -34,13 +34,13 @@ foreach ($navigations as $nav_key => $navigation) {
 
 foreach ($navigations as $nav_key => $navigation) {
 
-    $li = array();
+    $li = [];
     foreach ($navigation as $navi) {
 
         $li_a = '';
 
 
-        $attributes = array();
+        $attributes = [];
 
         if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
             $attributes['class'] = implode(' ', $navi['itemClasses']);
@@ -59,7 +59,7 @@ foreach ($navigations as $nav_key => $navigation) {
 
         if (isset($navi['href']) && $navi['href'] != '') {
 
-            $attributes = array();
+            $attributes = [];
             $attributes['href'] = $navi['href'];
 
             if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['linkClasses'][0]) && $navi['linkClasses'][0] != '') {

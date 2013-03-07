@@ -67,7 +67,7 @@ abstract class rex_structure_element
         // damit alte rex_article felder wie teaser, online_from etc
         // noch funktionieren
         // gleicher BC code nochmals in article::getValue
-        foreach (array('_', 'art_', 'cat_') as $prefix) {
+        foreach (['_', 'art_', 'cat_'] as $prefix) {
             $val = $prefix . $value;
             if (isset($this->$val)) {
                 return $this->$val;
@@ -81,7 +81,7 @@ abstract class rex_structure_element
      * @param array  $prefixes
      * @return boolean
      */
-    protected static function _hasValue($value, array $prefixes = array())
+    protected static function _hasValue($value, array $prefixes = [])
     {
         static $values = null;
 
@@ -109,10 +109,10 @@ abstract class rex_structure_element
      */
     public static function getClassVars()
     {
-        static $vars = array();
+        static $vars = [];
 
         if (empty($vars)) {
-            $vars = array();
+            $vars = [];
 
             $startId = rex::getProperty('start_article_id');
             $file = rex_path::addonCache('structure',  $startId . '.0.article');
@@ -159,7 +159,7 @@ abstract class rex_structure_element
      * Array of rex_structure_element instances, keyed by classname, id and clang
      * @var self[][][]
      */
-    private static $instanceCache = array();
+    private static $instanceCache = [];
 
     /**
      * Return an rex_structure_element object based on an id.
@@ -428,7 +428,7 @@ abstract class rex_structure_element
      */
     public function getParentTree()
     {
-        $return = array();
+        $return = [];
 
         if ($this->_path) {
             if ($this->isStartArticle())

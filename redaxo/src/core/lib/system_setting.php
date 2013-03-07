@@ -13,7 +13,7 @@ abstract class rex_system_setting
      *
      * @var self[]
      */
-    private static $settings = array();
+    private static $settings = [];
 
     /**
      * Returns the key for the rex property

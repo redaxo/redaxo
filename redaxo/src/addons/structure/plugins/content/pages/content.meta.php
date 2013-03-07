@@ -10,9 +10,9 @@ $content .= '
                                 <input type="hidden" name="ctype" value="' . $ctype . '" />
                                 ';
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-meta-article-name">' . rex_i18n::msg('name_description') . '</label>';
 $n['field'] = '<input type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . htmlspecialchars($article->getValue('name')) . '" />';
 $formElements[] = $n;
@@ -23,17 +23,17 @@ $content .= $fragment->parse('core/form/form.tpl');
 
 
 // ----- EXTENSION POINT
-$content .= rex_extension::registerPoint('ART_META_FORM', '', array(
+$content .= rex_extension::registerPoint('ART_META_FORM', '', [
     'id' => $article_id,
     'clang' => $clang,
     'article' => $article
-));
+]);
 
 $content .= '</fieldset>';
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['field'] = '<button class="rex-button" type="submit" name="savemeta"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . '>' . rex_i18n::msg('update_metadata') . '</button>';
 $formElements[] = $n;
 
@@ -43,10 +43,10 @@ $content .= $fragment->parse('core/form/submit.tpl');
 
 
 // ----- EXTENSION POINT
-$content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', array(
+$content .= rex_extension::registerPoint('ART_META_FORM_SECTION', '', [
     'id' => $article_id,
     'clang' => $clang
-));
+]);
 
 $content .= '
                                     </form>

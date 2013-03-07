@@ -38,7 +38,7 @@ class rex_api_install_core_update extends rex_api_function
         } elseif (!file_exists($archive)) {
             $message = $addon->i18n('warning_zip_wrong_format');
         } else {
-            $messages = array();
+            $messages = [];
             foreach (rex_package::getAvailablePackages() as $package) {
                 $manager = rex_package_manager::factory($package);
                 if (!$manager->checkRedaxoRequirement($version['version'])) {

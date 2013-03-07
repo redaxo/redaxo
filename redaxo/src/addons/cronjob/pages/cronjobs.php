@@ -56,23 +56,23 @@ if ($func == '') {
     $list->setCaption($this->i18n('caption'));
     $list->addTableAttribute('summary', $this->i18n('summary'));
 
-    $list->addTableColumnGroup(array(40, '*', 80, 120, 80, 60, 60, 60));
+    $list->addTableColumnGroup([40, '*', 80, 120, 80, 60, 60, 60]);
 
-    $imgHeader = '<a class="rex-ic-cronjob rex-ic-add" href="' . $list->getUrl(array('func' => 'add')) . '">' . $this->i18n('add') . '</a>';
-    $list->addColumn($imgHeader, '<span class="rex-ic-cronjob">' . $this->i18n('edit') . '</span>', 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
-    $list->setColumnParams($imgHeader, array('func' => 'edit', 'oid' => '###id###'));
+    $imgHeader = '<a class="rex-ic-cronjob rex-ic-add" href="' . $list->getUrl(['func' => 'add']) . '">' . $this->i18n('add') . '</a>';
+    $list->addColumn($imgHeader, '<span class="rex-ic-cronjob">' . $this->i18n('edit') . '</span>', 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
+    $list->setColumnParams($imgHeader, ['func' => 'edit', 'oid' => '###id###']);
 
     $list->removeColumn('id');
     $list->removeColumn('type');
 
     $list->setColumnLabel('name', $this->i18n('name'));
-    $list->setColumnParams('name', array('func' => 'edit', 'oid' => '###id###'));
+    $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
     $list->setColumnLabel('interval', $this->i18n('interval'));
     $list->setColumnFormat('interval', 'custom', function ($params) {
         $value = explode('|', $params['list']->getValue('interval'));
         $str = $value[1] . ' ';
-        $array = array('i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year');
+        $array = ['i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year'];
         $str .= rex_i18n::msg('cronjob_interval_' . $array[$value[2]]);
         return $str;
     });
@@ -80,7 +80,7 @@ if ($func == '') {
     $list->setColumnLabel('environment', $this->i18n('environment'));
     $list->setColumnFormat('environment', 'custom', function ($params) {
         $value = $params['list']->getValue('environment');
-        $env = array();
+        $env = [];
         if (strpos($value, '|0|') !== false)
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         if (strpos($value, '|1|') !== false)
@@ -96,8 +96,8 @@ if ($func == '') {
     });
 
     $list->setColumnLabel('status', $this->i18n('status_function'));
-    $list->setColumnParams('status', array('func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'));
-    $list->setColumnLayout('status', array('<th colspan="3">###VALUE###</th>', '<td style="text-align:center;">###VALUE###</td>'));
+    $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
+    $list->setColumnLayout('status', ['<th colspan="3">###VALUE###</th>', '<td style="text-align:center;">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', function ($params) {
         $list = $params['list'];
         if (!class_exists($list->getValue('type')))
@@ -109,12 +109,12 @@ if ($func == '') {
         return $str;
     });
 
-    $list->addColumn('delete', $this->i18n('delete'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
-    $list->setColumnParams('delete', array('func' => 'delete', 'oid' => '###id###'));
+    $list->addColumn('delete', $this->i18n('delete'), -1, ['', '<td style="text-align:center;">###VALUE###</td>']);
+    $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###']);
     $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
 
-    $list->addColumn('execute', $this->i18n('execute'), -1, array('', '<td style="text-align:center;">###VALUE###</td>'));
-    $list->setColumnParams('execute', array('func' => 'execute', 'oid' => '###id###'));
+    $list->addColumn('execute', $this->i18n('execute'), -1, ['', '<td style="text-align:center;">###VALUE###</td>']);
+    $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###']);
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
         if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
@@ -147,7 +147,7 @@ if ($func == '') {
     $select->setSize(1);
     $typeFieldId = $field->getAttribute('id');
     $types = rex_cronjob_manager::getTypes();
-    $cronjobs = array();
+    $cronjobs = [];
     foreach ($types as $class) {
         $cronjob = rex_cronjob::factory($class);
         if ($cronjob instanceof rex_cronjob) {
@@ -164,7 +164,7 @@ if ($func == '') {
             $warning = $this->i18n('not_found');
         else
             $warning = $this->i18n('type_not_found', $field->getValue(), $activeType);
-        rex_response::sendRedirect(htmlspecialchars_decode(rex_url::currentBackendPage(array(rex_request('list', 'string') . '_warning' => $warning))));
+        rex_response::sendRedirect(htmlspecialchars_decode(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning])));
     }
 
     $field = $form->addIntervalField('interval');
@@ -179,7 +179,7 @@ if ($func == '') {
     $select->addOption($this->i18n('environment_frontend'), 0);
     $select->addOption($this->i18n('environment_backend'), 1);
     if ($func == 'add')
-        $select->setSelected(array(0, 1));
+        $select->setSelected([0, 1]);
 
     $field = $form->addSelectField('execution_moment');
     $field->setLabel($this->i18n('execution'));
@@ -207,9 +207,9 @@ if ($func == '') {
     $fieldContainer->setActive($activeType);
 
     $env_js = '';
-    $visible = array();
+    $visible = [];
     foreach ($cronjobs as $group => $cronjob) {
-        $disabled = array();
+        $disabled = [];
         $envs = (array) $cronjob->getEnvironments();
         if (!in_array('frontend', $envs))
             $disabled[] = 0;
@@ -233,7 +233,7 @@ if ($func == '') {
                 $label = !empty($param['label']) ? $param['label'] : '&nbsp;';
                 $value = isset($param['default']) ? $param['default'] : null;
                 $value = isset($param['value']) ? $param['value'] : $value;
-                $attributes = isset($param['attributes']) ? $param['attributes'] : array();
+                $attributes = isset($param['attributes']) ? $param['attributes'] : [];
                 switch ($param['type']) {
                     case 'text' :
                     case 'textarea' :
@@ -275,9 +275,9 @@ if ($func == '') {
                     foreach ($param['visible_if'] as $key => $value) {
                         $key = $group . '_' . $key;
                         if (!isset($visible[$key]))
-                            $visible[$key] = array();
+                            $visible[$key] = [];
                         if (!isset($visible[$key][$value]))
-                            $visible[$key][$value] = array();
+                            $visible[$key][$value] = [];
                         $visible[$key][$value][] = $field->getAttribute('id');
                     }
                 }

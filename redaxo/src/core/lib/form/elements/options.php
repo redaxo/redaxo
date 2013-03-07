@@ -9,10 +9,10 @@ abstract class rex_form_options_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = array())
+    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
     {
         parent::__construct($tag, $table, $attributes);
-        $this->options = array();
+        $this->options = [];
     }
 
     public function addOption($name, $value)
@@ -50,13 +50,13 @@ abstract class rex_form_options_element extends rex_form_element
     public function addSqlOptions($qry)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getArray($qry, array(), PDO::FETCH_NUM));
+        $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
     }
 
     public function addDBSqlOptions($qry)
     {
         $sql = rex_sql::factory();
-        $this->addOptions($sql->getDBArray($qry, array(), PDO::FETCH_NUM));
+        $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
     public function getOptions()

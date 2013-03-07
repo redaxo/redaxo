@@ -7,7 +7,7 @@ abstract class rex_linkmap_tree_renderer
 {
     public function getTree($category_id)
     {
-        $tree = array();
+        $tree = [];
         $category = rex_category::getCategoryById($category_id);
 
         if ($category) {
@@ -18,7 +18,7 @@ abstract class rex_linkmap_tree_renderer
 
         $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
         if (count($mountpoints) > 0) {
-            $roots = array();
+            $roots = [];
             foreach ($mountpoints as $mp) {
                 if (rex_category::getCategoryById($mp)) {
                     $roots[] = rex_category::getCategoryById($mp);
@@ -101,7 +101,7 @@ abstract class rex_linkmap_tree_renderer
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offine') . '"';
 
         if (strpos($linkAttr, ' href=') === false)
-        $linkAttr .= ' href="' . $context->getUrl(array('category_id' => $OOobject->getId())) . '"';
+        $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
 
         $label = self::formatLabel($OOobject);
 

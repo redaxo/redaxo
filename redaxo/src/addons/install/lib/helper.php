@@ -11,7 +11,7 @@ class rex_install_helper
         $basename = $basename ?: basename($dir);
         rex_dir::create(dirname($archive));
         $phar = new PharData($archive, 0, null, Phar::ZIP);
-        $files = array();
+        $files = [];
         $iterator = rex_finder::factory($dir)->recursive()->filesOnly();
         if ($excludeDirs) {
             $iterator->ignoreDirs($excludeDirs, false);

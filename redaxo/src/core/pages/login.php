@@ -48,14 +48,14 @@ $content .= '
         <h2>' . rex_i18n::msg('login_welcome') . '</h2>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
 
-$formElements = array();
+$formElements = [];
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
 $n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" />';
 $formElements[] = $n;
 
-$n = array();
+$n = [];
 $n['label'] = '<label for="rex-id-login-password">' . rex_i18n::msg('password') . ':</label>';
 $n['field'] = '<input type="password" name="rex_user_psw" id="rex-id-login-password" />';
 $formElements[] = $n;
@@ -64,8 +64,8 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.tpl');
 
-$formElements = array();
-$n = array();
+$formElements = [];
+$n = [];
 $n['label'] = '<label for="rex-id-login-stay-logged-in">' . rex_i18n::msg('stay_logged_in') . '</label>';
 $n['field'] = '<input type="checkbox" name="rex_user_stay_logged_in" id="rex-id-login-stay-logged-in" value="1" />';
 $formElements[] = $n;
@@ -77,8 +77,8 @@ $content .= $fragment->parse('core/form/checkbox.tpl');
 $content .= '<fieldset>';
 
 
-$formElements = array();
-$n = array();
+$formElements = [];
+$n = [];
 $n['field'] = '<button class="rex-button" type="submit">' . rex_i18n::msg('login') . '</button>';
 $formElements[] = $n;
 

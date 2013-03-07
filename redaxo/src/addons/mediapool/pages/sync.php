@@ -6,9 +6,9 @@
 // ----- SYNC DB WITH FILES DIR
 if ($PERMALL) {
     // ---- Dateien aus dem Ordner lesen
-    $folder_files = array();
+    $folder_files = [];
     $path = rex_path::media();
-    $iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(array('.*', rex::getTempPrefix() . '*'))->sort();
+    $iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(['.*', rex::getTempPrefix() . '*'])->sort();
     foreach ($iterator as $file) {
         $folder_files[] = $file->getFilename();
     }
@@ -16,7 +16,7 @@ if ($PERMALL) {
     // ---- Dateien aus der DB lesen
     $db = rex_sql::factory();
     $db->setQuery('SELECT filename FROM ' . rex::getTablePrefix() . 'media');
-    $db_files = array();
+    $db_files = [];
 
     for ($i = 0; $i < $db->getRows(); $i++) {
         $db_files[] = $db->getValue('filename');
@@ -26,13 +26,13 @@ if ($PERMALL) {
     $diff_files = array_diff($folder_files, $db_files);
     $diff_count = count($diff_files);
 
-    $warning = array();
+    $warning = [];
     if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
         $sync_files = rex_post('sync_files', 'array');
         $ftitle     = rex_post('ftitle', 'string');
 
         if ($diff_count > 0) {
-            $info = array();
+            $info = [];
             $first = true;
             foreach ($sync_files as $file) {
                 // hier mit is_int, wg kompatibilität zu PHP < 4.2.0

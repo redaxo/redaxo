@@ -102,7 +102,7 @@ $content .= '
             <caption>' . rex_i18n::msg('clang_caption') . '</caption>
             <thead>
                 <tr>
-                    <th class="rex-slim"><a href="' . rex_url::currentBackendPage(array('func' => 'addclang')) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><span class="rex-icon rex-icon-add-language"></span></a></th>
+                    <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><span class="rex-icon rex-icon-add-language"></span></a></th>
                     <th class="rex-id">ID</th>
                     <th class="rex-code">' . rex_i18n::msg('clang_code') . '</th>
                     <th class="rex-name">' . rex_i18n::msg('clang_name') . '</th>
@@ -134,7 +134,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
     if ($lang_id == 0)
      $delLink = '<span class="rex-delete rex-disabled">' . $delLink . '</span>';
     else
-        $delLink = '<a class="rex-delete" href="' . rex_url::currentBackendPage(array('func' => 'deleteclang', 'clang_id' => $lang_id)) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . $delLink . '</a>';
+        $delLink = '<a class="rex-delete" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . $delLink . '</a>';
 
     // Edit form
     if ($func == 'editclang' && $clang_id == $lang_id) {
@@ -148,7 +148,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                     </tr>';
 
     } else {
-        $editLink = rex_url::currentBackendPage(array('func' => 'editclang', 'clang_id' => $lang_id)) . '#clang';
+        $editLink = rex_url::currentBackendPage(['func' => 'editclang', 'clang_id' => $lang_id]) . '#clang';
 
         $content .= '
                     <tr>

@@ -28,7 +28,7 @@ class rex_fragment
      *
      * @param array $vars A array of key-value pairs to pass as local parameters
      */
-    public function __construct(array $vars = array())
+    public function __construct(array $vars = [])
     {
         $this->vars = $vars;
     }
@@ -146,7 +146,7 @@ class rex_fragment
      * @param string $filename The filename of the fragment to use
      * @param array  $params   A array of key-value pairs to pass as local parameters
      */
-    protected function subfragment($filename, array $params = array())
+    protected function subfragment($filename, array $params = [])
     {
         $fragment = new self(array_merge($this->vars, $params));
         echo $fragment->parse($filename);
@@ -171,7 +171,7 @@ class rex_fragment
         if ($argNum > 1) {
             // pass along all given parameters
             $args = func_get_args();
-            return call_user_func_array(array('rex_i18n', 'msg'), $args);
+            return call_user_func_array(['rex_i18n', 'msg'], $args);
         }
 
         return rex_i18n::msg($key);
@@ -211,7 +211,7 @@ class rex_fragment
      * array which contains all folders in which fragments will be searched for at runtime
      * @var array
      */
-    private static $fragmentDirs = array();
+    private static $fragmentDirs = [];
 
     /**
      * Add a path to the fragment search path

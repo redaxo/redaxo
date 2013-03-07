@@ -77,11 +77,11 @@ if ($subpage == '') {
             $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
         }
         $text = rex_i18n::msg('package_' . ($key ?: $function));
-        $url = rex_url::currentBackendPage(array(
+        $url = rex_url::currentBackendPage([
             'package' => $package->getPackageId(),
             'rex-api-call' => 'package',
             'function' => $function
-        ));
+        ]);
         $class = ($key ?: $function);
         return '<a class="rex-' . $class . '" href="' . $url . '"' . $onclick . '>' . $text . '</a>';
     };
@@ -136,7 +136,7 @@ if ($subpage == '') {
         return $message . '
                     <tr class="rex-' . $type . $class . '">
                         <td class="rex-slim"><span class="rex-icon rex-icon-' . $type . '"></span></td>
-                        <td class="rex-package-name"><a href="' . rex_url::currentBackendPage(array('subpage' => 'help', 'package' => $packageId)) . '">' . $name . ' <span class="rex-icon rex-icon-help"></span></a></td>
+                        <td class="rex-package-name"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '">' . $name . ' <span class="rex-icon rex-icon-help"></span></a></td>
                         <td class="rex-install">' . $install . '</td>
                         <td class="rex-active" data-pjax-container="#rex-page">' . $status . '</td>
                         <td class="rex-uninstall" data-pjax-container="#rex-page">' . $uninstall . '</td>

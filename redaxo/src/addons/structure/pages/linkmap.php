@@ -11,14 +11,14 @@ $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 
-$context = new rex_context(array(
+$context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
     'HTMLArea' => $HTMLArea,
     'opener_input_field' => $opener_input_field,
     'opener_input_field_name' => $opener_input_field_name,
     'category_id' => $category_id,
     'clang' => $clang
-));
+]);
 
 // ------- Build JS Functions
 
@@ -74,18 +74,18 @@ $navi_path = '<ul id="rex-navi-path">';
 
 $isRoot = $category_id === 0;
 $category = rex_category::getCategoryById($category_id);
-$link = $context->getUrl(array('category_id' => 0));
+$link = $context->getUrl(['category_id' => 0]);
 
 $navi_path .= '<li>' . rex_i18n::msg('path') . ' </li>';
 $navi_path .= '<li class="rex-navi-first">: <a href="' . $link . '">Homepage</a> </li>';
 
-$tree = array();
+$tree = [];
 
 if ($category) {
     foreach ($category->getParentTree() as $cat) {
         $tree[] = $cat->getId();
 
-        $link = $context->getUrl(array('category_id' => $cat->getId()));
+        $link = $context->getUrl(['category_id' => $cat->getId()]);
         $navi_path .= '<li> : <a href="' . $link . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
     }
 }

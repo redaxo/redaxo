@@ -104,41 +104,41 @@ class rex_effect_crop extends rex_effect_abstract
 
     public function getParams()
     {
-        return array(
-            array(
+        return [
+            [
                 'label' => rex_i18n::msg('media_manager_effect_crop_width'),
                 'name' => 'width',
                 'type' => 'int'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_crop_height'),
                 'name' => 'height',
                 'type' => 'int'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_crop_offset_width'),
                 'name' => 'offset_width',
                 'type' => 'int'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_crop_offset_height'),
                 'name' => 'offset_height',
                 'type' => 'int'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
                 'type'  => 'select',
-                'options'  => array('left', 'center', 'right'),
+                'options'  => ['left', 'center', 'right'],
                 'default' => 'center'
-            ),
-            array(
+            ],
+            [
                 'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
                 'type'  => 'select',
-                'options'  => array('top', 'middle', 'bottom'),
+                'options'  => ['top', 'middle', 'bottom'],
                 'default' => 'middle'
-            ),
-        );
+            ],
+        ];
     }
 }

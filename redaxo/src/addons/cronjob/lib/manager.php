@@ -11,11 +11,11 @@
 class rex_cronjob_manager
 {
     private static
-        $types = array(
+        $types = [
             'rex_cronjob_phpcode',
             'rex_cronjob_phpcallback',
             'rex_cronjob_urlrequest'
-        );
+        ];
 
     private
         $message = '',
@@ -43,7 +43,7 @@ class rex_cronjob_manager
         return !empty($this->message);
     }
 
-    public function tryExecute($cronjob, $name = '', $params = array(), $log = true, $id = null)
+    public function tryExecute($cronjob, $name = '', $params = [], $log = true, $id = null)
     {
         $message = '';
         $success = $cronjob instanceof rex_cronjob;

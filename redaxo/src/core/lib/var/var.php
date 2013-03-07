@@ -14,13 +14,13 @@ abstract class rex_var
         ENV_OUTPUT = 8;
 
     private static
-        $vars = array(),
+        $vars = [],
         $env = null,
         $context = null,
         $contextData = null;
 
     private
-        $args = array();
+        $args = [];
 
     public static function parse($content, $env = null, $context = null, $contextData = null)
     {
@@ -39,7 +39,7 @@ abstract class rex_var
                 $add = $token;
             } else {
                 $add = $token[1];
-                if (in_array($token[0], array(T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_START_HEREDOC))) {
+                if (in_array($token[0], [T_INLINE_HTML, T_CONSTANT_ENCAPSED_STRING, T_STRING, T_START_HEREDOC])) {
                     $useVariables = false;
                     $stripslashes = null;
                     switch ($token[0]) {
@@ -52,8 +52,8 @@ abstract class rex_var
                             break;
                         case T_STRING:
                             while (isset($tokens[++$i])
-                                    && (is_string($tokens[$i]) && in_array($tokens[$i], array('=', '[', ']'))
-                                            || in_array($tokens[$i][0], array(T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER, T_ISSET)))
+                                    && (is_string($tokens[$i]) && in_array($tokens[$i], ['=', '[', ']'])
+                                            || in_array($tokens[$i][0], [T_WHITESPACE, T_STRING, T_CONSTANT_ENCAPSED_STRING, T_LNUMBER, T_ISSET]))
                             ) {
                                 $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
                             }
@@ -115,15 +115,15 @@ abstract class rex_var
         }
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
-        $variables = array();
+        $variables = [];
         $i = 0;
         foreach ($iterator as $match) {
             $var = self::getVar($match[1]);
             $replaced = false;
             if ($var !== false) {
-                $args = str_replace(array('\[', '\]'), array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), $match[2]);
+                $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
                 if ($stripslashes) {
-                    $args = str_replace(array('\\' . $stripslashes, '\\' . $stripslashes), $stripslashes, $args);
+                    $args = str_replace(['\\' . $stripslashes, '\\' . $stripslashes], $stripslashes, $args);
                 }
                 $var->setArgs($args);
                 if (($output = $var->getGlobalArgsOutput()) !== false) {
@@ -182,7 +182,7 @@ abstract class rex_var
         $arg = preg_replace_callback("@$begin(.*)$end@Us", function ($match) {
             return addcslashes($match[1], "\'");
         }, $arg);
-        $arg = str_replace(array('@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'), array('[', ']'), $arg);
+        $arg = str_replace(['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], ['[', ']'], $arg);
         return is_numeric($arg) ? $arg : "'$arg'";
     }
 
@@ -217,11 +217,11 @@ abstract class rex_var
             return false;
 
         if ($this->hasArg('callback')) {
-            $args = array("'subject' => " . $content);
+            $args = ["'subject' => " . $content];
             foreach ($this->args as $key => $value) {
                 $args[] = "'$key' => " . $this->getParsedArg($key);
             }
-            $args = 'array(' . implode(', ', $args) . ')';
+            $args = '[' . implode(', ', $args) . ']';
             return 'call_user_func(' . $this->getParsedArg('callback') . ', ' . $args . ')';
         }
 

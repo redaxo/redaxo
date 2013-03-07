@@ -18,7 +18,7 @@ class rex_stream
 {
     private static
         $registered = false,
-        $nextContent = array();
+        $nextContent = [];
 
     private
         $position,

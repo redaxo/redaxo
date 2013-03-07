@@ -24,18 +24,18 @@ if (isset($this->type)) {
 
 
 if (isset($this->navigation)) {
-    $this->blocks = array();
-    $this->blocks[] = array('navigation' => $this->navigation);
+    $this->blocks = [];
+    $this->blocks[] = ['navigation' => $this->navigation];
 }
 
 foreach ($this->blocks as $block) {
 
-    $navigation = array();
+    $navigation = [];
     if (isset($block['navigation'])) {
         $navigation = $block['navigation'];
     }
 
-    $headline = array();
+    $headline = [];
     if (isset($block['headline'])) {
         $headline = $block['headline'];
     }

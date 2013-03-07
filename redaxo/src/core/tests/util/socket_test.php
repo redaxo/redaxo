@@ -56,7 +56,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
 
         $stream = fopen('php://temp', 'r+');
         $property->setValue($socket, $stream);
-        $response = $method->invoke($socket, 'GET', '/a/path', array('Host' => 'www.example.com', 'Connection' => 'Close'), "body1\r\nbody2");
+        $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 
         $this->assertInstanceOf('rex_socket_response', $response);
 
@@ -75,18 +75,18 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
 
     public function parseUrlProvider()
     {
-        return array(
-            array('example.com',                             'example.com', 80,  false, '/'),
-            array('example.com:81',                          'example.com', 81,  false, '/'),
-            array('example.com/a/path/?key=value',           'example.com', 80,  false, '/a/path/?key=value'),
-            array('example.com:81/a/path/?key=value',        'example.com', 81,  false, '/a/path/?key=value'),
-            array('http://example.com',                      'example.com', 80,  false, '/'),
-            array('https://example.com',                     'example.com', 443, true,  '/'),
-            array('http://example.com:81',                   'example.com', 81,  false, '/'),
-            array('https://example.com:444',                 'example.com', 444, true,  '/'),
-            array('http://example.com/a/path/?key=value',    'example.com', 80,  false, '/a/path/?key=value'),
-            array('http://example.com:81/a/path/?key=value', 'example.com', 81,  false, '/a/path/?key=value'),
-        );
+        return [
+            ['example.com',                             'example.com', 80,  false, '/'],
+            ['example.com:81',                          'example.com', 81,  false, '/'],
+            ['example.com/a/path/?key=value',           'example.com', 80,  false, '/a/path/?key=value'],
+            ['example.com:81/a/path/?key=value',        'example.com', 81,  false, '/a/path/?key=value'],
+            ['http://example.com',                      'example.com', 80,  false, '/'],
+            ['https://example.com',                     'example.com', 443, true,  '/'],
+            ['http://example.com:81',                   'example.com', 81,  false, '/'],
+            ['https://example.com:444',                 'example.com', 444, true,  '/'],
+            ['http://example.com/a/path/?key=value',    'example.com', 80,  false, '/a/path/?key=value'],
+            ['http://example.com:81/a/path/?key=value', 'example.com', 81,  false, '/a/path/?key=value'],
+        ];
     }
 
     /**
@@ -97,22 +97,22 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
         $method = new ReflectionMethod('rex_socket', 'parseUrl');
         $method->setAccessible(true);
         $result = $method->invoke(null, $url);
-        $expected = array(
+        $expected = [
             'host' => $expectedHost,
             'port' => $expectedPort,
             'ssl' => $expectedSsl,
             'path' => $expectedPath
-        );
+        ];
         $this->assertEquals($expected, $result);
     }
 
     public function parseUrlExceptionProvider()
     {
-        return array(
-            array(''),
-            array('http://'),
-            array('abc://example.com')
-        );
+        return [
+            [''],
+            ['http://'],
+            ['abc://example.com']
+        ];
     }
 
     /**

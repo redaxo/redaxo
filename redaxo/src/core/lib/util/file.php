@@ -26,7 +26,7 @@ class rex_file
      * @param mixed  $default Default value
      * @return mixed Content of the file or default value if the file isn't readable
      */
-    public static function getConfig($file, $default = array())
+    public static function getConfig($file, $default = [])
     {
         $content = self::get($file);
         return $content === null ? $default : rex_string::yamlDecode($content);
@@ -39,7 +39,7 @@ class rex_file
      * @param mixed  $default Default value
      * @return mixed Content of the file or default value if the file isn't readable
      */
-    public static function getCache($file, $default = array())
+    public static function getCache($file, $default = [])
     {
         $content = self::get($file);
         return $content === null ? $default : json_decode($content, true);
@@ -149,7 +149,7 @@ class rex_file
      * @param array      $format
      * @return string Formatted filesize
      */
-    public static function formattedSize($fileOrSize, $format = array())
+    public static function formattedSize($fileOrSize, $format = [])
     {
         return rex_formatter::bytes(is_file($fileOrSize) ? filesize($fileOrSize) : $fileOrSize, $format);
     }

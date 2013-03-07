@@ -43,7 +43,7 @@ if ($media_method == 'add_file') {
                     } elseif ($opener_input_field != '') {
                         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                             $js = "selectMedialist('" . $file_name . "');";
-                            $js .= 'location.href = "' . htmlspecialchars_decode(rex_url::backendPage('mediapool', array('info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field))) . '";';
+                            $js .= 'location.href = "' . htmlspecialchars_decode(rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field])) . '";';
                         } else {
                             $js = "selectMedia('" . $file_name . "');";
                         }
@@ -55,7 +55,7 @@ if ($media_method == 'add_file') {
                     echo '</script>';
                     exit;
                 } elseif ($return['ok'] == 1) {
-                    rex_response::sendRedirect(htmlspecialchars_decode(rex_url::backendPage('mediapool', array('info' => $info, 'opener_input_field' => $opener_input_field))));
+                    rex_response::sendRedirect(htmlspecialchars_decode(rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $opener_input_field])));
                 } else {
                     $warning = rex_i18n::msg('pool_file_movefailed');
                 }

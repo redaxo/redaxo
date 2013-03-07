@@ -5,7 +5,7 @@
  */
 class rex_textile
 {
-    private static $instances = array();
+    private static $instances = [];
 
     public static function parse($code, $restricted = false, $doctype = 'xhtml')
     {
@@ -85,126 +85,126 @@ class rex_textile
 
     private static function getHelpOverviewFormats()
     {
-        return array(
+        return [
             self::getHelpHeadlines(),
             self::getHelpFormats(),
             self::getHelpLinks(),
             self::getHelpFootnotes(),
             self::getHelpLists(),
             self::getHelpTables(),
-        );
+        ];
     }
 
     private static function getHelpHeadlines()
     {
-        return array(
+        return [
             rex_i18n::msg('textile_headlines'),
-            array(
-                'headlines1-3' => array(
-                    array('h1. ' . rex_i18n::msg('textile_headline') . ' 1'),
-                    array('h2. ' . rex_i18n::msg('textile_headline') . ' 2'),
-                    array('h3. ' . rex_i18n::msg('textile_headline') . ' 3'),
-                ),
-                'headlines4-6' => array(
-                    array('h4. ' . rex_i18n::msg('textile_headline') . ' 4'),
-                    array('h5. ' . rex_i18n::msg('textile_headline') . ' 5'),
-                    array('h6. ' . rex_i18n::msg('textile_headline') . ' 6'),
-                ),
-            )
-        );
+            [
+                'headlines1-3' => [
+                    ['h1. ' . rex_i18n::msg('textile_headline') . ' 1'],
+                    ['h2. ' . rex_i18n::msg('textile_headline') . ' 2'],
+                    ['h3. ' . rex_i18n::msg('textile_headline') . ' 3'],
+                ],
+                'headlines4-6' => [
+                    ['h4. ' . rex_i18n::msg('textile_headline') . ' 4'],
+                    ['h5. ' . rex_i18n::msg('textile_headline') . ' 5'],
+                    ['h6. ' . rex_i18n::msg('textile_headline') . ' 6'],
+                ],
+            ]
+        ];
     }
 
     private static function getHelpFormats()
     {
-        return array(
+        return [
             rex_i18n::msg('textile_text_formatting'),
-            array(
-                'text_xhtml' => array(
-                    array('_' . rex_i18n::msg('textile_text_italic') . '_'),
-                    array('*' . rex_i18n::msg('textile_text_bold') . '*'),
-                ),
-                'text_html' => array(
-                    array('__' . rex_i18n::msg('textile_text_italic') . '__'),
-                    array('**' . rex_i18n::msg('textile_text_bold') . '**'),
-                ),
-                'cite' => array(
-                    array('bq. ' . rex_i18n::msg('textile_text_cite')),
-                    array('??' . rex_i18n::msg('textile_text_source_author') . '??'),
-                ),
-                'overwork' => array(
-                    array('-' . rex_i18n::msg('textile_text_strike') . '-'),
-                    array('+' . rex_i18n::msg('textile_text_insert') . '+'),
-                    array('^' . rex_i18n::msg('textile_text_sup') . '^'),
-                    array('~' . rex_i18n::msg('textile_text_sub') . '~'),
-                ),
-                'code' => array(
-                    array('@<?php echo "Hi"; ?>@'),
-                ),
-            )
-        );
+            [
+                'text_xhtml' => [
+                    ['_' . rex_i18n::msg('textile_text_italic') . '_'],
+                    ['*' . rex_i18n::msg('textile_text_bold') . '*'],
+                ],
+                'text_html' => [
+                    ['__' . rex_i18n::msg('textile_text_italic') . '__'],
+                    ['**' . rex_i18n::msg('textile_text_bold') . '**'],
+                ],
+                'cite' => [
+                    ['bq. ' . rex_i18n::msg('textile_text_cite')],
+                    ['??' . rex_i18n::msg('textile_text_source_author') . '??'],
+                ],
+                'overwork' => [
+                    ['-' . rex_i18n::msg('textile_text_strike') . '-'],
+                    ['+' . rex_i18n::msg('textile_text_insert') . '+'],
+                    ['^' . rex_i18n::msg('textile_text_sup') . '^'],
+                    ['~' . rex_i18n::msg('textile_text_sub') . '~'],
+                ],
+                'code' => [
+                    ['@<?php echo "Hi"; ?>@'],
+                ],
+            ]
+        ];
     }
 
     private static function getHelpLinks()
     {
-        return array(
+        return [
             rex_i18n::msg('textile_links'),
-            array(
-                'links_intern' => array(
-                    array(rex_i18n::msg('textile_link_internal') . ':redaxo://5'),
-                    array(rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'),
-                ),
-                'links_extern' => array(
-                    array(rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'),
-                    array(rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'),
-                ),
-                'links_attributes' => array(
-                    array(rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'),
-                    array(rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'),
-                    array(rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'),
-                ),
-                'anchor' => array(
-                    array(rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')),
-                ),
-            )
-        );
+            [
+                'links_intern' => [
+                    [rex_i18n::msg('textile_link_internal') . ':redaxo://5'],
+                    [rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'],
+                ],
+                'links_extern' => [
+                    [rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'],
+                    [rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'],
+                ],
+                'links_attributes' => [
+                    [rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'],
+                    [rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'],
+                    [rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'],
+                ],
+                'anchor' => [
+                    [rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')],
+                ],
+            ]
+        ];
     }
 
     private static function getHelpFootnotes()
     {
-        return array(
+        return [
             rex_i18n::msg('textile_footnotes'),
-            array(
-                'footnotes' => array(
-                    array(rex_i18n::msg('textile_footnote_text') . '[1] ..'),
-                    array('fn1. ' . rex_i18n::msg('textile_footnote_note')),
-                ),
-            )
-        );
+            [
+                'footnotes' => [
+                    [rex_i18n::msg('textile_footnote_text') . '[1] ..'],
+                    ['fn1. ' . rex_i18n::msg('textile_footnote_note')],
+                ],
+            ]
+        ];
     }
 
     private static function getHelpLists()
     {
-        return array(
+        return [
             rex_i18n::msg('textile_lists'),
-            array(
-                'lists' => array(
-                    array(rex_i18n::msg('textile_numeric_list') . ":\n# redaxo.org\n# www.redaxo.org/de/forum/"),
-                    array(rex_i18n::msg('textile_enum_list') . ":\n* redaxo.org\n* www.redaxo.org/de/forum/"),
-                )
-            )
-        );
+            [
+                'lists' => [
+                    [rex_i18n::msg('textile_numeric_list') . ":\n# redaxo.org\n# www.redaxo.org/de/forum/"],
+                    [rex_i18n::msg('textile_enum_list') . ":\n* redaxo.org\n* www.redaxo.org/de/forum/"],
+                ]
+            ]
+        ];
     }
 
     private static function getHelpTables()
     {
-        return array(
+        return [
             rex_i18n::msg('textile_tables'),
-            array(
-                'tables' => array(
-                    array("|_. Id|_. Name|\n|1|Peter|"),
-                    array("|www.redaxo.org|35|\n|doku.redaxo.org|32|\n|wiki.redaxo.org|12|"),
-                )
-            )
-        );
+            [
+                'tables' => [
+                    ["|_. Id|_. Name|\n|1|Peter|"],
+                    ["|www.redaxo.org|35|\n|doku.redaxo.org|32|\n|wiki.redaxo.org|12|"],
+                ]
+            ]
+        ];
     }
 }

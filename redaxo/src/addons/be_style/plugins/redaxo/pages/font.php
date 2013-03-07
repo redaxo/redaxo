@@ -3,15 +3,15 @@
 $font = rex_request('be_style_' . $mypage . '_font', 'string');
 
 
-$fonts = array(
-    'entypo' => array(
+$fonts = [
+    'entypo' => [
         'family' => 'entypo',
         'filename' => 'entypo',
         'svgID' => 'entypo',
         'weight' => 'normal',
         'style' => 'normal',
-    )
-);
+    ]
+];
 
 
 if ($font != '' && isset($fonts[$font])) {

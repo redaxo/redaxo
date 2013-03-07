@@ -20,16 +20,16 @@ if (rex::isBackend() && rex::getUser()) {
 
         require_once __DIR__ . '/functions/function_userinfo.php';
 
-        $components = array(
+        $components = [
             'rex_articles_component',
             'rex_media_component',
             'rex_stats_component',
-        );
+        ];
 
         foreach ($components as $compClass) {
             rex_extension::register(
                 'DASHBOARD_COMPONENT',
-                array(new $compClass(), 'registerAsExtension')
+                [new $compClass(), 'registerAsExtension']
             );
         }
     }

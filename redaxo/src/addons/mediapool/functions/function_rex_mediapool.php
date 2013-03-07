@@ -17,7 +17,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 {
     // ----- neuer filename und extension holen
     $NFILENAME = strtolower($FILENAME);
-    $NFILENAME = str_replace(array('ä', 'ö', 'ü', 'ß'), array('ae', 'oe', 'ue', 'ss'), $NFILENAME);
+    $NFILENAME = str_replace(['ä', 'ö', 'ü', 'ß'], ['ae', 'oe', 'ue', 'ss'], $NFILENAME);
     $NFILENAME = preg_replace('/[^a-zA-Z0-9.\-\+]/', '_', $NFILENAME);
     if (strrpos($NFILENAME, '.') != '') {
         $NFILE_NAME = substr($NFILENAME, 0, strlen($NFILENAME) - (strlen($NFILENAME) - strrpos($NFILENAME, '.')));
@@ -79,7 +79,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $FILESIZE = $FILE['size'];
     $FILETYPE = $FILE['type'];
     $NFILENAME = rex_mediapool_filename($FILENAME, $doSubindexing);
-    $message = array();
+    $message = [];
 
     // ----- alter/neuer filename
     $srcFile = rex_path::media($FILENAME);
@@ -170,12 +170,12 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 {
 
-    $RETURN = array();
+    $RETURN = [];
 
     $FILESQL = rex_sql::factory();
     // $FILESQL->setDebug();
     $FILESQL->setTable(rex::getTablePrefix() . 'media');
-    $FILESQL->setWhere(array('id' => $FILEINFOS['file_id']));
+    $FILESQL->setWhere(['id' => $FILEINFOS['file_id']]);
     $FILESQL->setValue('title', $FILEINFOS['title']);
     $FILESQL->setValue('category_id', $FILEINFOS['rex_file_category']);
 
@@ -280,12 +280,12 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
         $filetype = finfo_file($finfo, $abs_file);
     }
 
-    $FILE = array();
+    $FILE = [];
     $FILE['name'] = $physical_filename;
     $FILE['size'] = $filesize;
     $FILE['type'] = $filetype;
 
-    $FILEINFOS = array();
+    $FILEINFOS = [];
     $FILEINFOS['title'] = $title;
 
     $RETURN = rex_mediapool_saveMedia($FILE, $category_id, $FILEINFOS, null, false);
@@ -441,7 +441,7 @@ function rex_mediapool_Syncform($rex_file_category)
  * @param array  $args
  * @return  bool
  */
-function rex_mediapool_isAllowedMediaType($filename, array $args = array())
+function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
     $file_ext = rex_file::extension($filename);
 
@@ -467,11 +467,11 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = array())
  * @param array $args widget params
  * @return  array         whitelisted extensions
  */
-function rex_mediapool_getMediaTypeWhitelist($args = array())
+function rex_mediapool_getMediaTypeWhitelist($args = [])
 {
     $blacklist = rex_mediapool_getMediaTypeBlacklist();
 
-    $whitelist = array();
+    $whitelist = [];
     if (isset($args['types'])) {
         foreach (explode(',', $args['types']) as $ext) {
             $ext = ltrim($ext, '.');

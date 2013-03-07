@@ -156,8 +156,8 @@ if ($warning != '') {
                         <td>' . $file . '</td>
                         <td>' . $filesize . '</td>
                         <td>' . $filec . '</td>
-                        <td><a href="' . rex_url::currentBackendPage(array('function' => 'dbimport', 'impname' =>  $file)) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
-                        <td><a href="' . rex_url::currentBackendPage(array('function' => 'delete', 'impname' => $file)) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
+                        <td><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' =>  $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
+                        <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
                     </tr>
     ';
     }
@@ -218,8 +218,8 @@ if ($warning != '') {
                         <td>' . $file . '</td>
                         <td>' . $filesize . '</td>
                         <td>' . $filec . '</td>
-                        <td><a href="' . rex_url::currentBackendPage(array('function' => 'fileimport', 'impname' => $file)) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
-                        <td><a href="' . rex_url::currentBackendPage(array('function' => 'delete', 'impname' => $file)) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
+                        <td><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
+                        <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
                     </tr>';
     }
 ?>

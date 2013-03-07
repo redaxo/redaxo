@@ -18,7 +18,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
         $format,
         $block;
 
-    public function __construct($id, array $cache_options = array())
+    public function __construct($id, array $cache_options = [])
     {
         if (!isset($cache_options['lifetime'])) {
             // default cache lifetime in seconds
@@ -79,7 +79,7 @@ abstract class rex_dashboard_component extends rex_dashboard_component_base
      */
     public function setFormat($format)
     {
-        $formats = array('full', 'half');
+        $formats = ['full', 'half'];
         if (!in_array($format, $formats)) {
             throw new InvalidArgumentException('Unexpected format "' . $format . '"!');
         }

@@ -42,25 +42,25 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
     public function testDefault()
     {
         $iterator = rex_finder::factory($this->getPath());
-        $this->assertIteratorContains($iterator, array('file1.txt', 'file2.yml', 'dir1', 'dir2', 'dir'));
+        $this->assertIteratorContains($iterator, ['file1.txt', 'file2.yml', 'dir1', 'dir2', 'dir']);
     }
 
     public function testRecursive()
     {
         $iterator = rex_finder::factory($this->getPath())->recursive();
-        $this->assertIteratorContains($iterator, array('file1.txt', 'file2.yml', 'dir1', 'dir1/file3.txt', 'dir1/dir', 'dir2', 'dir2/file4.yml', 'dir2/dir', 'dir2/dir/file5.yml', 'dir2/dir1', 'dir'));
+        $this->assertIteratorContains($iterator, ['file1.txt', 'file2.yml', 'dir1', 'dir1/file3.txt', 'dir1/dir', 'dir2', 'dir2/file4.yml', 'dir2/dir', 'dir2/dir/file5.yml', 'dir2/dir1', 'dir']);
     }
 
     public function testFilesOnly()
     {
         $iterator = rex_finder::factory($this->getPath())->recursive()->filesOnly();
-        $this->assertIteratorContains($iterator, array('file1.txt', 'file2.yml', 'dir1/file3.txt', 'dir2/file4.yml', 'dir2/dir/file5.yml'));
+        $this->assertIteratorContains($iterator, ['file1.txt', 'file2.yml', 'dir1/file3.txt', 'dir2/file4.yml', 'dir2/dir/file5.yml']);
     }
 
     public function testDirsOnly()
     {
         $iterator = rex_finder::factory($this->getPath())->recursive()->dirsOnly();
-        $this->assertIteratorContains($iterator, array('dir1', 'dir1/dir', 'dir2', 'dir2/dir', 'dir2/dir1', 'dir'));
+        $this->assertIteratorContains($iterator, ['dir1', 'dir1/dir', 'dir2', 'dir2/dir', 'dir2/dir1', 'dir']);
     }
 
     public function testIgnoreFiles()
@@ -68,8 +68,8 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
         $iterator = rex_finder::factory($this->getPath())
             ->recursive()
             ->ignoreFiles('*.txt', false)
-            ->ignoreFiles(array('file2.yml', 'file4*'));
-        $this->assertIteratorContains($iterator, array('dir1', 'dir1/file3.txt', 'dir1/dir', 'dir2', 'dir2/dir', 'dir2/dir/file5.yml', 'dir2/dir1', 'dir'));
+            ->ignoreFiles(['file2.yml', 'file4*']);
+        $this->assertIteratorContains($iterator, ['dir1', 'dir1/file3.txt', 'dir1/dir', 'dir2', 'dir2/dir', 'dir2/dir/file5.yml', 'dir2/dir1', 'dir']);
     }
 
     public function testIgnoreDirs()
@@ -78,12 +78,12 @@ class rex_finder_test extends PHPUnit_Framework_TestCase
             ->recursive()
             ->ignoreDirs('dir', false)
             ->ignoreDirs('dir1');
-        $this->assertIteratorContains($iterator, array('file1.txt', 'file2.yml', 'dir2', 'dir2/file4.yml', 'dir2/dir', 'dir2/dir/file5.yml'));
+        $this->assertIteratorContains($iterator, ['file1.txt', 'file2.yml', 'dir2', 'dir2/file4.yml', 'dir2/dir', 'dir2/dir/file5.yml']);
     }
 
     public function testIgnoreSystemStuff()
     {
         $iterator = rex_finder::factory($this->getPath())->recursive()->ignoreSystemStuff(false);
-        $this->assertIteratorContains($iterator, array('file1.txt', 'file2.yml', 'dir1', 'dir1/file3.txt', 'dir1/dir', 'dir2', 'dir2/file4.yml', 'dir2/dir', 'dir2/dir/file5.yml', 'dir2/dir1', 'dir', '.DS_Store', 'dir1/Thumbs.db'));
+        $this->assertIteratorContains($iterator, ['file1.txt', 'file2.yml', 'dir1', 'dir1/file3.txt', 'dir1/dir', 'dir2', 'dir2/file4.yml', 'dir2/dir', 'dir2/dir/file5.yml', 'dir2/dir1', 'dir', '.DS_Store', 'dir1/Thumbs.db']);
     }
 }

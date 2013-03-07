@@ -37,7 +37,7 @@ $footer = isset($this->footer) ? $this->footer : '';
 $items  = $this->items;
 
 // --------------------- List Items
-$list_items = array();
+$list_items = [];
 foreach ($items as $item) {
 
     $list_item = '';
@@ -80,7 +80,7 @@ foreach ($items as $item) {
 
 
 // --------------------- List Header
-$list_header = array();
+$list_header = [];
 
 if ($header != '') {
     $list_header[] = $header;

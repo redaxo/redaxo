@@ -17,7 +17,7 @@ abstract class rex_dashboard_component_base
         $id,
         $funcCache;
 
-    public function __construct($id, array $cache_options = array())
+    public function __construct($id, array $cache_options = [])
     {
         $this->id = $id;
         $this->funcCache = new rex_dashboard_function_cache(new rex_dashboard_file_cache($cache_options));
@@ -43,8 +43,8 @@ abstract class rex_dashboard_component_base
     public function get()
     {
         if ($this->checkPermission()) {
-            $callable = array($this, '_get');
-            $cachekey = $this->funcCache->computeCacheKey($callable, array(rex::getUser()->getLogin()));
+            $callable = [$this, '_get'];
+            $cachekey = $this->funcCache->computeCacheKey($callable, [rex::getUser()->getLogin()]);
             $cacheBackend = $this->funcCache->getCache();
 
             $configForm = '';
@@ -63,22 +63,22 @@ abstract class rex_dashboard_component_base
             }
 
             // prueft ob inhalte des callables gecacht vorliegen
-            $content = $this->funcCache->call($callable, array(rex::getUser()->getLogin()));
+            $content = $this->funcCache->call($callable, [rex::getUser()->getLogin()]);
 
             // wenn gecachter inhalt leer ist, vom cache entfernen und nochmals checken
             // damit leere komponenten sofort angezeigt werden, wenn neue inhalte verfuegbar sind
             if ($content == '') {
                 $cacheBackend->remove($cachekey);
-                $content = $this->funcCache->call($callable, array(rex::getUser()->getLogin()));
+                $content = $this->funcCache->call($callable, [rex::getUser()->getLogin()]);
             }
 
             $cachestamp = $cacheBackend->getLastModified($cachekey);
             if (!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
             $cachetime = rex_formatter::strftime($cachestamp, 'datetime');
 
-            $content = strtr($content, array('%%actionbar%%' => $this->getActionBar()));
-            $content = strtr($content, array('%%cachetime%%' => $cachetime));
-            $content = strtr($content, array('%%config%%' => $configForm));
+            $content = strtr($content, ['%%actionbar%%' => $this->getActionBar()]);
+            $content = strtr($content, ['%%cachetime%%' => $cachetime]);
+            $content = strtr($content, ['%%config%%' => $configForm]);
 
             // refresh clicked in actionbar
             if (rex_get('ajax-get', 'string') == $this->getId()) {
@@ -98,13 +98,13 @@ abstract class rex_dashboard_component_base
 
     protected function getActions()
     {
-        $actions = array();
-        $actions[] = array('name' => 'refresh', 'class' => 'rex-i-refresh');
+        $actions = [];
+        $actions[] = ['name' => 'refresh', 'class' => 'rex-i-refresh'];
 
         if ($this->config)
-            $actions[] = array('name' => 'toggleSettings', 'class' => 'rex-i-togglesettings');
+            $actions[] = ['name' => 'toggleSettings', 'class' => 'rex-i-togglesettings'];
 
-        $actions[] = array('name' => 'toggleView', 'class' => 'rex-i-toggleview-off');
+        $actions[] = ['name' => 'toggleView', 'class' => 'rex-i-toggleview-off'];
 
         // ----- EXTENSION POINT
         $actions = rex_extension::registerPoint('DASHBOARD_COMPONENT_ACTIONS', $actions);

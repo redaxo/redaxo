@@ -28,7 +28,7 @@ function rex_structure_searchbar(rex_context $context)
     if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
         $OOArt = rex_article::getArticleById($matches[0], $clang);
         if ($OOArt instanceof rex_article) {
-            rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $OOArt->getId()))));
+            rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId()])));
         }
     }
 
@@ -43,7 +43,7 @@ function rex_structure_searchbar(rex_context $context)
     // ------------ Suche via ArtikelName
     if (rex_get('search_start', 'bool')) {
         // replace LIKE wildcards
-        $search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $search_article_name);
+        $search_article_name_like = str_replace(['_', '%'], ['\_', '\%'], $search_article_name);
 
         $qry = '
         SELECT id
@@ -70,7 +70,7 @@ function rex_structure_searchbar(rex_context $context)
         if ($foundRows == 1) {
             $OOArt = rex_article::getArticleById($search->getValue('id'), $clang);
             if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $search->getValue('id')))));
+                rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $search->getValue('id')])));
             }
         }
         // Mehrere Suchtreffer, Liste anzeigen
@@ -110,7 +110,7 @@ function rex_structure_searchbar(rex_context $context)
                         $treeLabel = htmlspecialchars($treeLabel);
                         $treeLabel = $highlightHit($treeLabel, $needle);
 
-                        $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(array('page' => 'structure', 'category_id' => $treeItem->getId())) . '">' . $treeLabel . ' </a></li>';
+                        $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'structure', 'category_id' => $treeItem->getId()]) . '">' . $treeLabel . ' </a></li>';
                     }
 
                     $prefix = ': ';
@@ -122,7 +122,7 @@ function rex_structure_searchbar(rex_context $context)
                     $label = htmlspecialchars($label);
                     $label = $highlightHit($label, $needle);
 
-                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(array('page' => 'content', 'article_id' => $treeItem->getId())) . '">' . $label . ' </a></li>';
+                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'content', 'article_id' => $treeItem->getId()]) . '">' . $label . ' </a></li>';
 
                     $search_result .= '<li><ul class="be_search-search-hit">' . $s . '</ul></li>';
                 }
@@ -155,16 +155,16 @@ function rex_structure_searchbar(rex_context $context)
 
     $form .= $context->getHiddenInputFields();
 
-    $formElements = array();
+    $formElements = [];
 
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="rex-id-search-article-name">' . rex_i18n::msg('be_search_article_name') . '</label>';
     $n['field'] = '<input type="text" name="search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name')) . '" />
                                  <input class="rex-button" type="submit" name="search_start" value="' . rex_i18n::msg('be_search_start') . '" />';
     $formElements[] = $n;
 
     //$formElements = array();
-    $n = array();
+    $n = [];
     $n['label'] = '<label for="rex-id-search-category-id">' . rex_i18n::msg('be_search_quick_navi') . '</label>';
     $n['field'] = $category_select->get();
     $n['after'] = '<noscript><input class="rex-button" type="submit" name="search_start_jump" value="' . rex_i18n::msg('be_search_jump_to_category') . '" /></noscript>';
@@ -208,7 +208,7 @@ function rex_structure_contentbar(rex_context $context)
     if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
         $OOArt = rex_article::getArticleById($matches[0], $clang);
         if ($OOArt instanceof rex_article) {
-            rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $OOArt->getId()))));
+            rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId()])));
         }
     }
 
@@ -223,7 +223,7 @@ function rex_structure_contentbar(rex_context $context)
     // ------------ Suche via ArtikelName
     if (rex_get('search_start', 'bool')) {
         // replace LIKE wildcards
-        $search_article_name_like = str_replace(array('_', '%'), array('\_', '\%'), $search_article_name);
+        $search_article_name_like = str_replace(['_', '%'], ['\_', '\%'], $search_article_name);
 
         $qry = '
         SELECT id
@@ -250,7 +250,7 @@ function rex_structure_contentbar(rex_context $context)
         if ($foundRows == 1) {
             $OOArt = rex_article::getArticleById($search->getValue('id'), $clang);
             if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(array('page' => 'content', 'article_id' => $search->getValue('id')))));
+                rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $search->getValue('id')])));
             }
         }
         // Mehrere Suchtreffer, Liste anzeigen
@@ -290,7 +290,7 @@ function rex_structure_contentbar(rex_context $context)
                         $treeLabel = htmlspecialchars($treeLabel);
                         $treeLabel = $highlightHit($treeLabel, $needle);
 
-                        $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(array('page' => 'structure', 'category_id' => $treeItem->getId())) . '">' . $treeLabel . ' </a></li>';
+                        $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'structure', 'category_id' => $treeItem->getId()]) . '">' . $treeLabel . ' </a></li>';
                     }
 
                     $prefix = ': ';
@@ -302,7 +302,7 @@ function rex_structure_contentbar(rex_context $context)
                     $label = htmlspecialchars($label);
                     $label = $highlightHit($label, $needle);
 
-                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(array('page' => 'content', 'article_id' => $treeItem->getId())) . '">' . $label . ' </a></li>';
+                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'content', 'article_id' => $treeItem->getId()]) . '">' . $label . ' </a></li>';
 
                     $search_result .= '<li><ul class="be_search-search-hit">' . $s . '</ul></li>';
                 }

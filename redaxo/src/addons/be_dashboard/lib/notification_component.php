@@ -20,7 +20,7 @@ class rex_notification_component extends rex_dashboard_component
     protected function prepare()
     {
         // ----- EXTENSION POINT
-        $dashboard_notifications = array();
+        $dashboard_notifications = [];
         $dashboard_notifications = rex_extension::registerPoint('DASHBOARD_NOTIFICATION', $dashboard_notifications);
 
         $content = '';

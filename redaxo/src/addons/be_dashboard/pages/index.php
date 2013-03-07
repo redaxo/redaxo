@@ -28,11 +28,11 @@ if ($content != '') {
 }
 
 // ----- EXTENSION POINT
-$dashboard_components = array();
+$dashboard_components = [];
 $dashboard_components = rex_extension::registerPoint('DASHBOARD_COMPONENT', $dashboard_components);
 
 // ------------ sort components by block and format
-$components = array();
+$components = [];
 foreach ($dashboard_components as $index => $component) {
     if ($component instanceof rex_dashboard_component && $component->checkPermission()) {
         $block  = $component->getBlock();
@@ -43,10 +43,10 @@ foreach ($dashboard_components as $index => $component) {
         }
 
         if (!isset($components[$format])) {
-            $components[$format] = array();
+            $components[$format] = [];
         }
         if (!isset($components[$format][$block])) {
-            $components[$format][$block] = array();
+            $components[$format][$block] = [];
         }
 
         $components[$format][$block][] = $component;

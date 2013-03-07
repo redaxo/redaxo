@@ -165,7 +165,7 @@ class rex_login
 
                 $this->user = rex_sql::factory($this->DB);
 
-                $this->user->setQuery($this->loginQuery, array(':login' => $this->userLogin));
+                $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
                 if ($this->user->getRows() == 1 && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
@@ -180,7 +180,7 @@ class rex_login
 
                 $this->user = rex_sql::factory($this->DB);
 
-                $this->user->setQuery($this->userQuery, array(':id' => $this->getSessionVar('UID')));
+                $this->user->setQuery($this->userQuery, [':id' => $this->getSessionVar('UID')]);
                 if ($this->user->getRows() == 1) {
                     if (($this->getSessionVar('STAMP') + $this->sessionDuration) > time()) {
                         $ok = true;

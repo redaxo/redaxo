@@ -15,14 +15,14 @@ if (!$curPage->hasLayout()) {
     return;
 }
 
-$body_attr = array();
+$body_attr = [];
 $body_id = str_replace('_', '-', rex_be_controller::getCurrentPage());
 
 if ($curPage->isPopup())
-    $body_attr['class'] = array('rex-popup');
+    $body_attr['class'] = ['rex-popup'];
 
-$body_attr['id'] = array('rex-page-' . $body_id);
-$body_attr['onunload'] = array('closeAll();');
+$body_attr['id'] = ['rex-page-' . $body_id];
+$body_attr['onunload'] = ['closeAll();'];
 
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint('PAGE_BODY_ATTR', $body_attr );
@@ -37,13 +37,13 @@ foreach ($body_attr as $k => $v) {
 
 $hasNavigation = $curPage->hasNavigation();
 
-$meta_items = array();
+$meta_items = [];
 if (rex::getUser() && $hasNavigation) {
 
     if (rex::isSafeMode()) {
-        $item = array();
+        $item = [];
         $item['title']  = rex_i18n::msg('safemode_deactivate');
-        $item['href']   = rex_url::backendController(array('safemode' => 0));
+        $item['href']   = rex_url::backendController(['safemode' => 0]);
         $meta_items[] = $item;
         unset($item);
     }
@@ -51,20 +51,20 @@ if (rex::getUser() && $hasNavigation) {
 
     $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
 
-    $item = array();
+    $item = [];
     $item['title']  = rex_i18n::msg('logged_in_as') . ' <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '">' . htmlspecialchars($user_name) . '</a>';
     $meta_items[] = $item;
     unset($item);
 
-    $item = array();
+    $item = [];
     $item['title']      = '<span class="rex-icon rex-icon-logout"></span>' . rex_i18n::msg('logout');
-    $item['href']       = rex_url::backendController(array('rex_logout' => 1));
+    $item['href']       = rex_url::backendController(['rex_logout' => 1]);
     $item['attributes'] = 'class="rex-logout"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
     $meta_items[] = $item;
     unset($item);
 
 } elseif ($hasNavigation) {
-    $item = array();
+    $item = [];
     $item['title']  = rex_i18n::msg('logged_out');
     $meta_items[] = $item;
     unset($item);
@@ -108,16 +108,16 @@ if (rex::getUser() && $hasNavigation) {
 if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
-    $navi = array();
+    $navi = [];
     for ($i = 1; $i <= 7; $i++) {
-        $n = array();
-        $n['itemClasses'] = array();
+        $n = [];
+        $n['itemClasses'] = [];
         if ($i == $step)
             $n['itemClasses'][] = 'rex-active';
 
         if ($i < $step) {
             $n['linkClasses'][] = 'rex-success';
-            $n['href'] = rex_url::backendPage('setup', array('step' => $i, 'lang' => $lang));
+            $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
             if ($step == 7)
                 $n['href'] = 'javascript:void(0)';
         }
@@ -133,8 +133,8 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
 
         $navi[] = $n;
     }
-    $block = array();
-    $block['headline'] = array('title' => 'Setup');
+    $block = [];
+    $block['headline'] = ['title' => 'Setup'];
     $block['navigation'] = $navi;
     $blocks[] = $block;
 

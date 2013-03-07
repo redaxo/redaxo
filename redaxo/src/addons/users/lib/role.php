@@ -13,21 +13,21 @@ class rex_user_role implements rex_user_role_interface
      *
      * @var array
      */
-    private $perms = array();
+    private $perms = [];
 
     /**
      * Complex perm params
      *
      * @var array
      */
-    private $complexPermParams = array();
+    private $complexPermParams = [];
 
     /**
      * Cache for complex perm instances
      *
      * @var array
      */
-    private $complexPerms = array();
+    private $complexPerms = [];
 
     /**
      * Constructor
@@ -36,8 +36,8 @@ class rex_user_role implements rex_user_role_interface
      */
     private function __construct(array $params)
     {
-        foreach (array(rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS) as $key) {
-            $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : array();
+        foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
+            $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : [];
             $this->perms = array_merge($this->perms, $perms);
             unset($params[$key]);
         }
@@ -60,7 +60,7 @@ class rex_user_role implements rex_user_role_interface
         if (isset($this->complexPerms[$key])) {
             return $this->complexPerms[$key];
         }
-        $perms = array();
+        $perms = [];
         if (isset($this->complexPermParams[$key])) {
             $perms = $this->complexPermParams[$key] == rex_complex_perm::ALL ? rex_complex_perm::ALL : explode('|', trim($this->complexPermParams[$key], '|'));
         }
@@ -74,7 +74,7 @@ class rex_user_role implements rex_user_role_interface
     public static function get($id)
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE id = ?', array($id));
+        $sql->setQuery('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE id = ?', [$id]);
         if ($sql->getRows() == 0) {
             return null;
         }
@@ -94,7 +94,7 @@ class rex_user_role implements rex_user_role_interface
             $perms = json_decode($row->getValue('perms'), true);
             if (isset($perms[$key]) && strpos($perms[$key], $item) !== false) {
                 $perms[$key] = str_replace($item, $new, $perms[$key]);
-                $update->execute(array(json_encode($perms), $row->getValue('id')));
+                $update->execute([json_encode($perms), $row->getValue('id')]);
             }
         }
     }

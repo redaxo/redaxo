@@ -4,14 +4,14 @@ class rex_string_test extends PHPUnit_Framework_TestCase
 {
     public function splitProvider()
     {
-        return array(
-            array('',                                          array()),
-            array('a b c',                                     array('a', 'b', 'c')),
-            array('"a b" cdef \'ghi kl\'',                     array('a b', 'cdef', 'ghi kl')),
-            array('a=1 b=xyz c="hu hu" 123=\'he he\'',         array('a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he')),
-            array('a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', array('a' => 'a "b" c', 'b' => "a 'b'", 'c' => "a\\")),
-            array("\n a=1\n b='aa\nbb'\n c='a'\n ",            array('a' => '1', 'b' => "aa\nbb", 'c' => 'a'))
-        );
+        return [
+            ['',                                          []],
+            ['a b c',                                     ['a', 'b', 'c']],
+            ['"a b" cdef \'ghi kl\'',                     ['a b', 'cdef', 'ghi kl']],
+            ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
+            ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => "a\\"]],
+            ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']]
+        ];
     }
 
     /**
@@ -29,12 +29,12 @@ class rex_string_test extends PHPUnit_Framework_TestCase
 
     public function versionSplitProvider()
     {
-        return array(
-            array('1.1.2',      array('1', '1', '2')),
-            array('1.2alpha1',  array('1', '2', 'alpha', '1')),
-            array('1_2 beta 2', array('1', '2', 'beta', '2')),
-            array('2.2.3-dev',  array('2', '2', '3', 'dev'))
-        );
+        return [
+            ['1.1.2',      ['1', '1', '2']],
+            ['1.2alpha1',  ['1', '2', 'alpha', '1']],
+            ['1_2 beta 2', ['1', '2', 'beta', '2']],
+            ['2.2.3-dev',  ['2', '2', '3', 'dev']]
+        ];
     }
 
     /**
@@ -47,31 +47,31 @@ class rex_string_test extends PHPUnit_Framework_TestCase
 
     public function versionCompareProvider()
     {
-        return array(
-            array('1',      '1',      '='),
-            array('1.0',    '1.0',    '='),
-            array('1',      '1.0',    '='),
-            array('1.0 a1', '1.0.a1', '='),
-            array('1.0a1',  '1.0.a1', '='),
-            array('1.0 alpha 1', '1.0.a1', '='),
+        return [
+            ['1',      '1',      '='],
+            ['1.0',    '1.0',    '='],
+            ['1',      '1.0',    '='],
+            ['1.0 a1', '1.0.a1', '='],
+            ['1.0a1',  '1.0.a1', '='],
+            ['1.0 alpha 1', '1.0.a1', '='],
 
-            array('1',      '2',        '<'),
-            array('1',      '1.1',      '<'),
-            array('1.0',    '1.1',      '<'),
-            array('1.1',    '1.2',      '<'),
-            array('1.2',    '1.10',     '<'),
-            array('1.a1',   '1',        '<'),
-            array('1.a1',   '1.0',      '<'),
-            array('1.a1',   '1.a2',     '<'),
-            array('1.a1',   '1.b1',     '<'),
-            array('1.0.a1', '1',        '<'),
-            array('1.0.a1', '1.0.0.0.', '<'),
-            array('1.0a1',  '1.0',      '<'),
-            array('1.0a1',  '1.0.1',    '<'),
-            array('1.0a1',  '1.0a2',    '<'),
-            array('1.0',    '1.1a1',    '<'),
-            array('1.0.1',  '1.1a1',    '<')
-        );
+            ['1',      '2',        '<'],
+            ['1',      '1.1',      '<'],
+            ['1.0',    '1.1',      '<'],
+            ['1.1',    '1.2',      '<'],
+            ['1.2',    '1.10',     '<'],
+            ['1.a1',   '1',        '<'],
+            ['1.a1',   '1.0',      '<'],
+            ['1.a1',   '1.a2',     '<'],
+            ['1.a1',   '1.b1',     '<'],
+            ['1.0.a1', '1',        '<'],
+            ['1.0.a1', '1.0.0.0.', '<'],
+            ['1.0a1',  '1.0',      '<'],
+            ['1.0a1',  '1.0.1',    '<'],
+            ['1.0a1',  '1.0a2',    '<'],
+            ['1.0',    '1.1a1',    '<'],
+            ['1.0.1',  '1.1a1',    '<']
+        ];
     }
 
     /**
@@ -84,12 +84,12 @@ class rex_string_test extends PHPUnit_Framework_TestCase
 
     public function buildQueryProvider()
     {
-        return array(
-            array('', array()),
-            array('page=system/settings&a%2Bb=test+test', array('page' => 'system/settings', 'a+b' => 'test test')),
-            array('arr[0]=a&arr[1]=b&arr[key]=c', array('arr' => array('a', 'b', 'key' => 'c'))),
-            array('a=1&amp;b=2', array('a' => 1, 'b' => 2), '&amp;')
-        );
+        return [
+            ['', []],
+            ['page=system/settings&a%2Bb=test+test', ['page' => 'system/settings', 'a+b' => 'test test']],
+            ['arr[0]=a&arr[1]=b&arr[key]=c', ['arr' => ['a', 'b', 'key' => 'c']]],
+            ['a=1&amp;b=2', ['a' => 1, 'b' => 2], '&amp;']
+        ];
     }
 
     /**

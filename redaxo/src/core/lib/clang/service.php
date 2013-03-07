@@ -30,11 +30,11 @@ class rex_clang_service
 
         // ----- EXTENSION POINT
         $clang = rex_clang::get($id);
-        rex_extension::registerPoint('CLANG_ADDED', '', array(
+        rex_extension::registerPoint('CLANG_ADDED', '', [
             'id'    => $clang->getId(),
             'name'  => $clang->getName(),
             'clang' => $clang
-        ));
+        ]);
     }
 
     /**
@@ -53,7 +53,7 @@ class rex_clang_service
 
         $editLang = rex_sql::factory();
         $editLang->setTable(rex::getTablePrefix() . 'clang');
-        $editLang->setWhere(array('id' => $id));
+        $editLang->setWhere(['id' => $id]);
         $editLang->setValue('code', $code);
         $editLang->setValue('name', $name);
         $editLang->update();
@@ -62,11 +62,11 @@ class rex_clang_service
 
         // ----- EXTENSION POINT
         $clang = rex_clang::get($id);
-        rex_extension::registerPoint('CLANG_UPDATED', '', array(
+        rex_extension::registerPoint('CLANG_UPDATED', '', [
             'id'    => $clang->getId(),
             'name'  => $clang->getName(),
             'clang' => $clang
-        ));
+        ]);
 
         return true;
     }
@@ -93,11 +93,11 @@ class rex_clang_service
         rex_delete_cache();
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint('CLANG_DELETED', '', array(
+        rex_extension::registerPoint('CLANG_DELETED', '', [
             'id'    => $clang->getId(),
             'name'  => $clang->getName(),
             'clang' => $clang
-        ));
+        ]);
     }
 
     /**
@@ -110,7 +110,7 @@ class rex_clang_service
         $lg = rex_sql::factory();
         $lg->setQuery('select * from ' . rex::getTablePrefix() . 'clang order by id');
 
-        $clangs = array();
+        $clangs = [];
         foreach ($lg as $lang) {
             $id = $lang->getValue('id');
             foreach ($lg->getFieldnames() as $field) {

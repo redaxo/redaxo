@@ -37,7 +37,7 @@ rex_extension::register('PAGE_CONTENT_HEADER', function ($params) {
 
     $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
     if (!is_array($rex_version_article))
-        $rex_version_article = array();
+        $rex_version_article = [];
 
     $working_version_empty = true;
     $gw = rex_sql::factory();
@@ -45,7 +45,7 @@ rex_extension::register('PAGE_CONTENT_HEADER', function ($params) {
     if ($gw->getRows() > 0)
         $working_version_empty = false;
 
-    $revisions = array();
+    $revisions = [];
     $revisions[0] = rex_i18n::msg('version_liveversion');
     $revisions[1] = rex_i18n::msg('version_workingversion');
 
@@ -82,12 +82,12 @@ rex_extension::register('PAGE_CONTENT_HEADER', function ($params) {
 
     rex::getProperty('login')->setSessionVar('rex_version_article', $rex_version_article);
 
-    $context = new rex_context(array(
+    $context = new rex_context([
         'page' => $params['page'],
         'article_id' => $params['article_id'],
         'clang' => $params['clang'],
         'ctype' => $params['ctype']
-    ));
+    ]);
 
     $return .= '
         <div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form rex-version-revision-' . $rex_version_article[$params['article_id']] . '">
@@ -115,16 +115,16 @@ rex_extension::register('PAGE_CONTENT_HEADER', function ($params) {
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
         if ($rex_version_article[$params['article_id']] > 0) {
-            $return .= '<li><a href="' . $context->getUrl(array('rex_version_func' => 'copy_live_to_work')) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
-            $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], array('rex_version' => 1)) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
+            $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         }
     } else {
         if ($rex_version_article[$params['article_id']] > 0) {
             if (!$working_version_empty)
-                $return .= '<li><a href="' . $context->getUrl(array('rex_version_func' => 'copy_work_to_live')) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
-            $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], array('rex_version' => 1)) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+                $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
+            $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         } else {
-            $return .= '<li><a href="' . $context->getUrl(array('rex_version_func' => 'copy_live_to_work')) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
+            $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
         }
     }
     $return .= '</ul>';

@@ -31,7 +31,7 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
      *
      * @see rex_dashboard_cache
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
 
@@ -101,7 +101,7 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
             $pattern = str_replace(REX_DASHBOARD_CACHE_SEPARATOR, DIRECTORY_SEPARATOR, $pattern) . REX_DASHBOARD_CACHE_FILE_EXTENSION;
 
             $regexp = self::patternToRegexp($pattern);
-            $paths = array();
+            $paths = [];
             foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $path) {
                 if (preg_match($regexp, str_replace($this->getOption('cache_dir') . DIRECTORY_SEPARATOR, '', $path))) {
                     $paths[] = $path;

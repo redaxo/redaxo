@@ -36,7 +36,7 @@ class rex_input_date extends rex_input
             throw new InvalidArgumentException('Expecting $value to be an array!');
         }
 
-        foreach (array('year', 'month', 'day') as $reqIndex) {
+        foreach (['year', 'month', 'day'] as $reqIndex) {
             if (!isset($value[$reqIndex])) {
                 throw new rex_exception('Missing index "' . $reqIndex . '" in $value!');
             }

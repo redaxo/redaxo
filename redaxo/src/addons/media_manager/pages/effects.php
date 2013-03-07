@@ -31,7 +31,7 @@ if ($func == 'delete' && $effect_id > 0) {
     $sql = rex_sql::factory();
 //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effects');
-    $sql->setWhere(array('id' => $effect_id));
+    $sql->setWhere(['id' => $effect_id]);
 
     if ($sql->delete()) {
          $info = rex_i18n::msg('media_manager_effect_deleted') ;
@@ -60,7 +60,7 @@ if ($func == '' && $type_id > 0) {
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
     $list->setCaption(rex_i18n::msg('media_manager_effect_caption', $typeName));
     $list->addTableAttribute('summary', rex_i18n::msg('media_manager_effect_summary', $typeName));
-    $list->addTableColumnGroup(array(40, '*', 40, 130, 130));
+    $list->addTableColumnGroup([40, '*', 40, 130, 130]);
 
     $list->removeColumn('id');
     $list->removeColumn('type_id');
@@ -73,19 +73,19 @@ if ($func == '' && $type_id > 0) {
     $list->setColumnLabel('prior', rex_i18n::msg('media_manager_type_prior'));
 
     // icon column
-    $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(array('type_id' => $type_id, 'func' => 'add')) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_effect_create') . '</span></a>';
+    $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_effect_create') . '</span></a>';
     $tdIcon = '<span class="rex-i-element rex-i-generic"><span class="rex-i-element-text">###id###</span></span>';
-    $list->addColumn($thIcon, $tdIcon, 0, array('<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>'));
-    $list->setColumnParams($thIcon, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
+    $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);
 
     // functions column spans 2 data-columns
     $funcs = rex_i18n::msg('media_manager_effect_functions');
-    $list->addColumn($funcs, rex_i18n::msg('media_manager_effect_edit'), -1, array('<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>'));
-    $list->setColumnParams($funcs, array('func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###'));
+    $list->addColumn($funcs, rex_i18n::msg('media_manager_effect_edit'), -1, ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnParams($funcs, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);
 
     $delete = 'deleteCol';
-    $list->addColumn($delete, rex_i18n::msg('media_manager_effect_delete'), -1, array('', '<td>###VALUE###</td>'));
-    $list->setColumnParams($delete, array('type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete'));
+    $list->addColumn($delete, rex_i18n::msg('media_manager_effect_delete'), -1, ['', '<td>###VALUE###</td>']);
+    $list->setColumnParams($delete, ['type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute($delete, 'data-confirm', rex_i18n::msg('delete') . ' ?');
 
     $list->show();
@@ -153,7 +153,7 @@ if ($func == '' && $type_id > 0) {
         foreach ($effectParams as $param) {
             $name = $effectClass . '_' . $param['name'];
             $value = isset($param['default']) ? $param['default'] : null;
-            $attributes = array();
+            $attributes = [];
             if (isset($param['attributes']))
                 $attributes = $param['attributes'];
 

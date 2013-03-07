@@ -20,7 +20,7 @@ class rex_form_element
         $suffix,
         $notice;
 
-    public function __construct($tag, rex_form $table = null, array $attributes = array(), $separateEnding = false)
+    public function __construct($tag, rex_form $table = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;
         $this->label = '';
@@ -170,7 +170,7 @@ class rex_form_element
 
     public function setAttributes(array $attributes)
     {
-        $this->attributes = array();
+        $this->attributes = [];
 
         foreach ($attributes as $name => $value) {
             $this->setAttribute($name, $value);
@@ -248,8 +248,8 @@ class rex_form_element
         $class = $this->formatClass();
         $class = $class == '' ? '' : ' ' . $class;
 
-        $formElements = array();
-        $n = array();
+        $formElements = [];
+        $n = [];
         $n['header']    = $this->getHeader();
         $n['id']        = '';
         $n['class']     = $class;

@@ -32,16 +32,16 @@ class rex_file_test extends PHPUnit_Framework_TestCase
     public function testGetConfigDefault()
     {
         $file = $this->getPath('non_existing.txt');
-        $this->assertEquals(array(), rex_file::getConfig($file), 'getConfig() returns empty array for non-existing files');
-        $myDefault = array('myDefault');
+        $this->assertEquals([], rex_file::getConfig($file), 'getConfig() returns empty array for non-existing files');
+        $myDefault = ['myDefault'];
         $this->assertEquals($myDefault, rex_file::getConfig($file, $myDefault), 'getConfig() returns given default value for non-existing files');
     }
 
     public function testGetCacheDefault()
     {
         $file = $this->getPath('non_existing.txt');
-        $this->assertEquals(array(), rex_file::getCache($file), 'getCache() returns empty array for non-existing files');
-        $myDefault = array('myDefault');
+        $this->assertEquals([], rex_file::getCache($file), 'getCache() returns empty array for non-existing files');
+        $myDefault = ['myDefault'];
         $this->assertEquals($myDefault, rex_file::getCache($file, $myDefault), 'getCache() returns given default value for non-existing files');
     }
 
@@ -56,7 +56,7 @@ class rex_file_test extends PHPUnit_Framework_TestCase
     public function testPutGetConfig()
     {
         $file = $this->getPath('putgetcache.txt');
-        $content = array('test', 'key' => 'value');
+        $content = ['test', 'key' => 'value'];
         $this->assertTrue(rex_file::putConfig($file, $content), 'putConfig() returns true on success');
         $this->assertEquals($content, rex_file::getConfig($file), 'getConfig() returns content of file');
     }
@@ -64,7 +64,7 @@ class rex_file_test extends PHPUnit_Framework_TestCase
     public function testPutGetCache()
     {
         $file = $this->getPath('putgetcache.txt');
-        $content = array('test', 'key' => 'value');
+        $content = ['test', 'key' => 'value'];
         $this->assertTrue(rex_file::putCache($file, $content), 'putCache() returns true on success');
         $this->assertEquals($content, rex_file::getCache($file), 'getCache() returns content of file');
     }

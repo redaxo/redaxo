@@ -13,18 +13,18 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
 
     public function getStatusProvider()
     {
-        return array(
-            array('',                              null, null,                'isInvalid'),
-            array('abc',                           null, null,                'isInvalid'),
-            array('200 OK',                        null, null,                'isInvalid'),
-            array('HTTP/1.1 99 Message',             99, 'Message',           'isInvalid'),
-            array('HTTP/1.1 600 Message',           600, 'Message',           'isInvalid'),
-            array('HTTP/1.1 100 Continue',          100, 'Continue',          'isInformational'),
-            array('HTTP/1.1 200 OK',                200, 'OK',                'isSuccessful'),
-            array('HTTP/1.1 301 Moved Permanently', 301, 'Moved Permanently', 'isRedirection'),
-            array('HTTP/1.1 404 Not Found',         404, 'Not Found',         'isClientError'),
-            array('HTTP/1.1 501 Not Implemented',   501, 'Not Implemented',   'isServerError')
-        );
+        return [
+            ['',                              null, null,                'isInvalid'],
+            ['abc',                           null, null,                'isInvalid'],
+            ['200 OK',                        null, null,                'isInvalid'],
+            ['HTTP/1.1 99 Message',             99, 'Message',           'isInvalid'],
+            ['HTTP/1.1 600 Message',           600, 'Message',           'isInvalid'],
+            ['HTTP/1.1 100 Continue',          100, 'Continue',          'isInformational'],
+            ['HTTP/1.1 200 OK',                200, 'OK',                'isSuccessful'],
+            ['HTTP/1.1 301 Moved Permanently', 301, 'Moved Permanently', 'isRedirection'],
+            ['HTTP/1.1 404 Not Found',         404, 'Not Found',         'isClientError'],
+            ['HTTP/1.1 501 Not Implemented',   501, 'Not Implemented',   'isServerError']
+        ];
     }
 
     /**
@@ -38,7 +38,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $this->assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
         $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
 
-        $methods = array('isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid');
+        $methods = ['isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid'];
         foreach ($methods as $method) {
             $this->assertSame($positiveMethod == $method, $response->$method(), $method . '()');
         }

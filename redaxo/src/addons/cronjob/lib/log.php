@@ -13,7 +13,7 @@ class rex_cronjob_log
     public static function getYears()
     {
         $folder = REX_CRONJOB_LOG_FOLDER;
-        $years = array();
+        $years = [];
 
         if (is_dir($folder)) {
             foreach (rex_finder::factory($folder)->dirsOnly()->sort() as $file) {
@@ -27,7 +27,7 @@ class rex_cronjob_log
     public static function getMonths($year)
     {
         $folder = REX_CRONJOB_LOG_FOLDER;
-        $months = array();
+        $months = [];
         foreach (glob($folder . $year . '/' . $year . '-*.log') as $file) {
             $month = substr($file, -6, 2);
             $months[] = $month;
@@ -37,7 +37,7 @@ class rex_cronjob_log
 
     public static function getYearMonthArray()
     {
-        $array = array();
+        $array = [];
         foreach (self::getYears() as $year) {
             $months = self::getMonths($year);
             if (!empty($months))
@@ -64,7 +64,7 @@ class rex_cronjob_log
     public static function getListOfNewestMessages($limit = 10)
     {
         $array = array_reverse(self::getYearMonthArray(), true);
-        $messages = array();
+        $messages = [];
         foreach ($array as $year => $months) {
             $months = array_reverse($months, true);
             foreach ($months as $month) {
@@ -106,7 +106,7 @@ class rex_cronjob_log
         $newline .= $id . ' | ' . $name;
 
         if ($message)
-            $newline .= ' | ' . str_replace(array("\r\n", "\n"), ' | ', trim(strip_tags($message)));
+            $newline .= ' | ' . str_replace(["\r\n", "\n"], ' | ', trim(strip_tags($message)));
 
         $dir = REX_CRONJOB_LOG_FOLDER . $year;
         if (!is_dir($dir)) {
@@ -165,7 +165,7 @@ class rex_cronjob_log
                 if ($data[2] == '--') {
                     $icon = '<span class="rex-i-element rex-i-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_not_editable') . '</span></span>';
                 } else {
-                    $icon = '<a href="' . rex_url::backendPage('cronjob', array('list' => 'cronjobs', 'func' => 'edit', 'oid' => trim($data[2]))) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_edit') . '</span></span></a>';
+                    $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => trim($data[2])]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><span class="rex-i-element rex-i-cronjob"><span class="rex-i-element-text">' . rex_i18n::msg('cronjob_edit') . '</span></span></a>';
                 }
 
                 $list .= '

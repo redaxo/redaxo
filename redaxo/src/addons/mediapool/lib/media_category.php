@@ -93,9 +93,9 @@ class rex_media_category
         $id = (int) $id;
 
         if (!is_int($id))
-            return array();
+            return [];
 
-        $catlist = array();
+        $catlist = [];
 
         $catlist_path = rex_path::addonCache('mediapool', $id . '.mclist');
         if (!file_exists($catlist_path)) {
@@ -220,7 +220,7 @@ class rex_media_category
      */
     public function getParentTree()
     {
-        $tree = array();
+        $tree = [];
         if ($this->_path) {
             $explode = explode('|', $this->_path);
             if (is_array($explode)) {
@@ -277,7 +277,7 @@ class rex_media_category
     public function getMedia()
     {
         if ($this->_files === null) {
-            $this->_files = array();
+            $this->_files = [];
             $id = $this->getId();
 
             $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
@@ -382,7 +382,7 @@ class rex_media_category
 
         if ($this->getId() !== null) {
             $sql->addGlobalUpdateFields();
-            $sql->setWhere(array('id' => $this->getId()));
+            $sql->setWhere(['id' => $this->getId()]);
             $success = $sql->update();
             if ($success)
                 rex_media_cache::deleteCategory($this->getId());

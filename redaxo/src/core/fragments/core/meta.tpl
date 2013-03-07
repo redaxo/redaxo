@@ -5,7 +5,7 @@ $items = $this->items;
 
 
 // --------------------- List Items
-$list_items = array();
+$list_items = [];
 
 if (count($items) > 0) {
     foreach ($items as $item) {

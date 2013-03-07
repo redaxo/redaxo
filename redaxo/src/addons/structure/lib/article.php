@@ -51,7 +51,7 @@ class rex_article extends rex_structure_element
      * Articles of categories, keyed by category_id
      * @var array
      */
-    private static $articleIds = array();
+    private static $articleIds = [];
 
     /**
      * Return a list of articles for a certain category
@@ -72,7 +72,7 @@ class rex_article extends rex_structure_element
             rex_article_cache::generateLists($a_category_id, $clang);
         }
 
-        $artlist = array();
+        $artlist = [];
         if (file_exists($articlelist)) {
             if (!isset(self::$articleIds[$a_category_id])) {
                 self::$articleIds[$a_category_id] = rex_file::getCache($articlelist);
@@ -162,7 +162,7 @@ class rex_article extends rex_structure_element
     public function getValue($value)
     {
         // alias für re_id -> category_id
-        if (in_array($value, array('re_id', '_re_id', 'category_id', '_category_id'))) {
+        if (in_array($value, ['re_id', '_re_id', 'category_id', '_category_id'])) {
             // für die CatId hier den Getter verwenden,
             // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
             return $this->getCategoryId();
@@ -176,6 +176,6 @@ class rex_article extends rex_structure_element
      */
     public static function hasValue($value)
     {
-        return parent::_hasValue($value, array('art_'));
+        return parent::_hasValue($value, ['art_']);
     }
 }
