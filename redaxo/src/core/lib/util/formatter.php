@@ -21,9 +21,13 @@ abstract class rex_formatter
      * @param string $formatType Format type (any method name of this class)
      * @param mixed  $format     For possible values look at the other methods of this class
      * @return string
+     * @throws InvalidArgumentException
      */
     public static function format($value, $formatType, $format)
     {
+        if (!is_callable([__CLASS__, $formatType])) {
+            throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
+        }
         return self::$formatType($value, $format);
     }
 
