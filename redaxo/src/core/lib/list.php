@@ -1013,7 +1013,7 @@ class rex_list implements rex_url_provider
                     if (is_array($columnName)) {
                         // Nur hier sind Variablen erlaubt
                         $columnName = $columnName[0];
-                        $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
+                        $columnValue = $this->formatValue($columnFormates[$columnName][0], null, false, $columnName);
                     }
                     // Spalten aus dem ResultSet
                     else {
