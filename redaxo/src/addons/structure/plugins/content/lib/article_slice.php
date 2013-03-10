@@ -88,7 +88,10 @@ class rex_article_slice
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::getSliceWhere('id=' . $an_id . ' AND clang=' . $clang . ' and revision=' . $revision);
+        return self::getSliceWhere(
+            'id=? AND clang=? and revision=?',
+            [$an_id, $clang, $revision]
+        );
     }
 
     /**
@@ -131,7 +134,10 @@ class rex_article_slice
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::getSliceWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND prior=1 AND revision=' . $revision);
+        return self::getSliceWhere(
+            'article_id=? AND clang=? AND ctype=? AND prior=1 AND revision=?',
+            [$an_article_id, $clang, $ctype, $revision]
+        );
     }
 
     /**
@@ -148,7 +154,10 @@ class rex_article_slice
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::getSlicesWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND revision=' . $revision);
+        return self::getSlicesWhere(
+            'article_id=? AND clang=? AND revision=?',
+            [$an_article_id, $clang, $revision]
+        );
     }
 
     /**
@@ -166,7 +175,10 @@ class rex_article_slice
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::getSlicesWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND module_id=' . $a_moduletype_id . ' AND revision=' . $revision);
+        return self::getSlicesWhere(
+            'article_id=? AND clang=? AND module_id=? AND revision=?',
+            [$an_article_id, $clang, $a_moduletype_id, $revision]
+        );
     }
 
     /**
@@ -176,7 +188,10 @@ class rex_article_slice
      */
     public function getNextSlice()
     {
-        return self::getSliceWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
+        return self::getSliceWhere(
+            'prior = ? AND article_id=? AND clang = ? AND ctype = ? AND revision=?',
+            [$this->_prior + 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+        );
     }
 
     /**
@@ -184,7 +199,10 @@ class rex_article_slice
      */
     public function getPreviousSlice()
     {
-        return self::getSliceWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
+        return self::getSliceWhere(
+            'prior = ? AND article_id=? AND clang = ? AND ctype = ? AND revision=?',
+            [$this->_prior - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+        );
     }
 
     /**
@@ -207,19 +225,21 @@ class rex_article_slice
 
     /**
      * @param string $where
+     * @param array  $params
      * @return self
      */
-    protected static function getSliceWhere($where)
+    protected static function getSliceWhere($where, array $params = [])
     {
-        $slices = self::getSlicesWhere($where);
+        $slices = self::getSlicesWhere($where, $params);
         return isset($slices[0]) ? $slices[0] : null;
     }
 
     /**
      * @param string $where
+     * @param array  $params
      * @return self[]
      */
-    protected static function getSlicesWhere($where)
+    protected static function getSlicesWhere($where, array $params = [])
     {
         $sql = rex_sql::factory();
         // $sql->setDebug();
@@ -229,7 +249,7 @@ class rex_article_slice
             WHERE ' . $where . '
             ORDER BY ctype, prior';
 
-        $sql->setQuery($query);
+        $sql->setQuery($query, $params);
         $rows = $sql->getRows();
         $slices = [];
         for ($i = 0; $i < $rows; $i++) {
