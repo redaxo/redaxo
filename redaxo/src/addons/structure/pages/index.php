@@ -59,7 +59,7 @@ if (rex_clang::count() > 1) {
         }
     }
 } else {
-    $clang = 0;
+    $clang = rex::getProperty('start_clang_id');
 }
 
 
