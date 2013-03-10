@@ -193,15 +193,13 @@ function rex_metainfo_extensions_handler($params)
     $mypage = 'metainfo';
 
     // additional javascripts
-    if ($page == 'metainfo' || $page == 'content/meta') {
+    if ($page == 'metainfo' || $page == 'content/metainfo') {
         rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
     }
 
     // include extensions
     $curDir = __DIR__ . '/..';
-    if ($page == 'content/meta') {
-        require_once $curDir . '/lib/handler/article_handler.php';
-    } elseif ($page == 'structure') {
+    if ($page == 'structure') {
         require_once $curDir . '/lib/handler/category_handler.php';
     } elseif ($page == 'mediapool') {
         require_once $curDir . '/lib/handler/media_handler.php';

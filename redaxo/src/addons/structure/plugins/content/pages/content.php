@@ -415,37 +415,6 @@ if ($article->getRows() == 1) {
         }
         // ------------------------------------------ END: MOVE CATEGORY
 
-        // ------------------------------------------ START: SAVE METADATA
-        if (rex_post('savemeta', 'boolean')) {
-            $meta_article_name = rex_post('meta_article_name', 'string');
-
-            $meta_sql = rex_sql::factory();
-            $meta_sql->setTable(rex::getTablePrefix() . 'article');
-            // $meta_sql->setDebug();
-            $meta_sql->setWhere(['id' => $article_id, 'clang' => $clang]);
-            $meta_sql->setValue('name', $meta_article_name);
-            $meta_sql->addGlobalUpdateFields();
-
-            try {
-                $meta_sql->update();
-
-                $article->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "article WHERE id='$article_id' AND clang='$clang'");
-                $info = rex_i18n::msg('metadata_updated');
-
-                rex_article_cache::delete($article_id, $clang);
-
-                // ----- EXTENSION POINT
-                $info = rex_extension::registerPoint('ART_META_UPDATED', $info, [
-                    'id' => $article_id,
-                    'clang' => $clang,
-                    'name' => $meta_article_name,
-                ]);
-            } catch (rex_sql_exception $e) {
-                $warning = $e->getMessage();
-            }
-        }
-        // ------------------------------------------ END: SAVE METADATA
-
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');

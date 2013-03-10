@@ -14,7 +14,6 @@ module_not_found = FEHLER! Modul wurde nicht gefunden!
 block_deleted = Block wurde gelöscht!
 block_not_deleted = Block wurde nicht gelöscht
 edit_mode = Editiermodus
-metadata = Metadaten
 metafuncs = Funktionen
 metadata_updated = Metadaten wurden aktualisiert
 name_description = Name/Bezeichnung

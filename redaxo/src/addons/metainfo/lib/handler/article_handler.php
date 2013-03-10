@@ -11,7 +11,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     {
         // Nur speichern wenn auch das MetaForm ausgefüllt wurde
         // z.b. nicht speichern wenn über be_search select navigiert wurde
-        if (rex_post('meta_article_name', 'string', null) === null) return $params;
+        if (!rex_post('savemeta', 'boolean')) {
+            return $params;
+        }
 
         $article = rex_sql::factory();
         // $article->setDebug();
@@ -26,6 +28,8 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 
         // Artikel nochmal mit den zusätzlichen Werten neu generieren
         rex_article_cache::generateMeta($params['id'], $params['clang']);
+
+        rex_extension::registerPoint('ART_META_UPDATED', '', $params);
 
         return $params;
     }
@@ -82,10 +86,6 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         // Hier die category_id setzen, damit beim klick auf den REX_LINK_BUTTON der Medienpool in der aktuellen Kategorie startet
         $params['activeItem']->setValue('category_id', $OOArt->getCategoryId());
 
-        return $params['subject'] . parent::renderFormAndSave(self::PREFIX, $params);
+        return parent::renderFormAndSave(self::PREFIX, $params);
     }
 }
-
-$artHandler = new rex_metainfo_article_handler();
-
-rex_extension::register('ART_META_FORM', [$artHandler, 'extendForm']);
