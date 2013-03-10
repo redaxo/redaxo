@@ -68,7 +68,7 @@ $sel->setId('rex-form-clang-id');
 $sel->setSize(1);
 $remaingClangs = array_diff(range(0, rex::getProperty('maxclangs') - 1), rex_clang::getAllIds());
 $clangIds = rex_clang::getAllIds();
-for ($i = 0, $count = 0; $count < 10; ++$i) {
+for ($i = 1, $count = 0; $count < 10; ++$i) {
     if (!in_array($i, $clangIds)) {
         ++$count;
         $sel->addOption($i, $i);

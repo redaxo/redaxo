@@ -224,7 +224,7 @@ CREATE TABLE `rex_clang` (
 LOCK TABLES `rex_clang` WRITE;
 /*!40000 ALTER TABLE `rex_clang` DISABLE KEYS */;
 INSERT INTO `rex_clang` VALUES
-    (0,'de','deutsch',0);
+    (1,'de','deutsch',0);
 /*!40000 ALTER TABLE `rex_clang` ENABLE KEYS */;
 UNLOCK TABLES;
 

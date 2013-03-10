@@ -11,7 +11,7 @@ class rex_clang
     private static
         $cacheLoaded = false,
         $clangs = [],
-        $currentId = 0;
+        $currentId = 1;
 
     private
         $id,

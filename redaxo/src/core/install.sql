@@ -9,7 +9,7 @@ CREATE TABLE `rex_clang` (
     PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `rex_clang` VALUES ('0', 'de', 'deutsch', 0);
+INSERT INTO `rex_clang` VALUES (1, 'de', 'deutsch', 0);
 
 CREATE TABLE `rex_config` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
