@@ -1,13 +1,17 @@
+License
+=======
+
 Folgenden Informationen dürfen beim Einsatz von REDAXO im Impressum oder auf
 der Kontaktseite aufgenommen werden.
 
 If you use REDAXO you may add these informations in your imprint or contact page
 
 CMS: REDAXO - Open Source Content Management System
-LINK: www.redaxo.org
+LINK: http://www.redaxo.org
 
 
-Lizenz:
+Lizenz
+------
 
 Copyright © 2012 REDAXO, www.redaxo.org
 
@@ -18,7 +22,8 @@ Der obige Urheberrechtsvermerk und dieser Erlaubnisvermerk sind in allen Kopien 
 DIE SOFTWARE WIRD OHNE JEDE AUSDRÜCKLICHE ODER IMPLIZIERTE GARANTIE BEREITGESTELLT, EINSCHLIESSLICH DER GARANTIE ZUR BENUTZUNG FÜR DEN VORGESEHENEN ODER EINEM BESTIMMTEN ZWECK SOWIE JEGLICHER RECHTSVERLETZUNG, JEDOCH NICHT DARAUF BESCHRÄNKT. IN KEINEM FALL SIND DIE AUTOREN ODER COPYRIGHTINHABER FÜR JEGLICHEN SCHADEN ODER SONSTIGE ANSPRÜCHE HAFTBAR ZU MACHEN, OB INFOLGE DER ERFÜLLUNG EINES VERTRAGES, EINES DELIKTES ODER ANDERS IM ZUSAMMENHANG MIT DER SOFTWARE ODER SONSTIGER VERWENDUNG DER SOFTWARE ENTSTANDEN.
 
 
-License:
+License
+-------
 
 Copyright © 2012 REDAXO, www.redaxo.org
 
@@ -31,9 +36,10 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 
 Other licenses
+--------------
 
 
-_____ PHPMailer - PHP email class
+### PHPMailer - PHP email class
 Class for sending email using either
 sendmail, PHP mail(), or SMTP.  Methods are
 based upon the standard AspEmail(tm) classes.
@@ -42,7 +48,7 @@ License: LGPL, see LICENSE
 mehr zu dieser Lizenz in class.phpmailer.inc.php
 
 
-_____ SMTP - PHP SMTP class
+### SMTP - PHP SMTP class
 Version 1.02
 Define an SMTP class that can be used to connect
 and communicate with any SMTP server. It implements
@@ -52,7 +58,7 @@ License: LGPL, see LICENSE
 mehr zu dieser Lizenz in class.smtp.inc.php
 
 
-_____ T E X T I L E
+### T E X T I L E
 A Humane Web Text Generator
 Version 2.0
 Copyright (c) 2003-2004, Dean Allen <dean@textism.com>
@@ -62,13 +68,13 @@ Textile's procedural code into a class framework
 Additions and fixes Copyright (c) 2006 Alex Shiels http://thresholdstate.com/
 
 
-_____ Symfony Classes
+### Symfony Classes
 http://symfony.com/license
 (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
 sfYaml* offers convenience methods to load and dump YAML.
 
 
-_____ TinyMCE
+### TinyMCE
 Moxiecode
 copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
 License: LGPL, see LICENSE
