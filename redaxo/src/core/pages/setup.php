@@ -47,7 +47,7 @@ if ($step == 2) {
     $content = '<h2>' . rex_i18n::msg('setup_201') . '</h2>';
     $content .= rex_i18n::rawMsg('setup_202');
 
-    $license_file = rex_path::base('_license.txt');
+    $license_file = rex_path::base('LICENSE.md');
     $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
     $content .= '<div class="rex-content-scroll">' . $license . '</div>';
     $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
