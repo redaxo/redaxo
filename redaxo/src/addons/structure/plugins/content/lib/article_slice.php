@@ -191,9 +191,8 @@ class rex_article_slice
 
     /**
      * Gibt den Slice formatiert zurück
-     * @since 4.1 - 29.05.2008
      *
-     * @deprecated 5.0
+     * @since 4.1 - 29.05.2008
      *
      * @see rex_article_content::getSlice()
      *
