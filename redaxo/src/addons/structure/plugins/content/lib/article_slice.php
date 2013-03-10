@@ -88,7 +88,7 @@ class rex_article_slice
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::getSlicesWhere('id=' . $an_id . ' AND clang=' . $clang . ' and revision=' . $revision)[0];
+        return self::getSliceWhere('id=' . $an_id . ' AND clang=' . $clang . ' and revision=' . $revision);
     }
 
     /**
@@ -131,9 +131,7 @@ class rex_article_slice
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::getSlicesWhere(
-             'article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND prior=1 AND revision=' . $revision
-        )[0];
+        return self::getSliceWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND prior=1 AND revision=' . $revision);
     }
 
     /**
@@ -178,7 +176,7 @@ class rex_article_slice
      */
     public function getNextSlice()
     {
-        return self::getSlicesWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision)[0];
+        return self::getSliceWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
     }
 
     /**
@@ -186,7 +184,7 @@ class rex_article_slice
      */
     public function getPreviousSlice()
     {
-        return self::getSlicesWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision)[0];
+        return self::getSliceWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
     }
 
     /**
@@ -209,23 +207,25 @@ class rex_article_slice
 
     /**
      * @param string $where
-     * @param string $table
-     * @param string $fields
+     * @return self
+     */
+    protected static function getSliceWhere($where)
+    {
+        $slices = self::getSlicesWhere($where);
+        return isset($slices[0]) ? $slices[0] : null;
+    }
+
+    /**
+     * @param string $where
      * @return self[]
      */
-    protected static function getSlicesWhere($where, $table = null, $fields = null)
+    protected static function getSlicesWhere($where)
     {
-        if (!$table)
-            $table = rex::getTablePrefix() . 'article_slice';
-
-        if (!$fields)
-            $fields = '*';
-
         $sql = rex_sql::factory();
         // $sql->setDebug();
         $query = '
-            SELECT ' . $fields . '
-            FROM ' . $table . '
+            SELECT *
+            FROM ' . rex::getTable('article_slice') . '
             WHERE ' . $where . '
             ORDER BY ctype, prior';
 
@@ -234,13 +234,87 @@ class rex_article_slice
         $slices = [];
         for ($i = 0; $i < $rows; $i++) {
             $slices[] = new self(
-                $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('module_id'), $sql->getValue('prior'),
-                $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
-                [$sql->getValue('value1'), $sql->getValue('value2'), $sql->getValue('value3'), $sql->getValue('value4'), $sql->getValue('value5'), $sql->getValue('value6'), $sql->getValue('value7'), $sql->getValue('value8'), $sql->getValue('value9'), $sql->getValue('value10'), $sql->getValue('value11'), $sql->getValue('value12'), $sql->getValue('value13'), $sql->getValue('value14'), $sql->getValue('value15'), $sql->getValue('value16'), $sql->getValue('value17'), $sql->getValue('value18'), $sql->getValue('value19'), $sql->getValue('value20')],
-                [$sql->getValue('media1'), $sql->getValue('media2'), $sql->getValue('media3'), $sql->getValue('media4'), $sql->getValue('media5'), $sql->getValue('media6'), $sql->getValue('media7'), $sql->getValue('media8'), $sql->getValue('media9'), $sql->getValue('media10')],
-                [$sql->getValue('medialist1'), $sql->getValue('medialist2'), $sql->getValue('medialist3'), $sql->getValue('medialist4'), $sql->getValue('medialist5'), $sql->getValue('medialist6'), $sql->getValue('medialist7'), $sql->getValue('medialist8'), $sql->getValue('medialist9'), $sql->getValue('medialist10')],
-                [$sql->getValue('link1'), $sql->getValue('link2'), $sql->getValue('link3'), $sql->getValue('link4'), $sql->getValue('link5'), $sql->getValue('link6'), $sql->getValue('link7'), $sql->getValue('link8'), $sql->getValue('link9'), $sql->getValue('link10')],
-                [$sql->getValue('linklist1'), $sql->getValue('linklist2'), $sql->getValue('linklist3'), $sql->getValue('linklist4'), $sql->getValue('linklist5'), $sql->getValue('linklist6'), $sql->getValue('linklist7'), $sql->getValue('linklist8'), $sql->getValue('linklist9'), $sql->getValue('linklist10')]
+                $sql->getValue('id'),
+                $sql->getValue('article_id'),
+                $sql->getValue('clang'),
+                $sql->getValue('ctype'),
+                $sql->getValue('module_id'),
+                $sql->getValue('prior'),
+                $sql->getValue('createdate'),
+                $sql->getValue('updatedate'),
+                $sql->getValue('createuser'),
+                $sql->getValue('updateuser'),
+                $sql->getValue('revision'),
+                [
+                    $sql->getValue('value1'),
+                    $sql->getValue('value2'),
+                    $sql->getValue('value3'),
+                    $sql->getValue('value4'),
+                    $sql->getValue('value5'),
+                    $sql->getValue('value6'),
+                    $sql->getValue('value7'),
+                    $sql->getValue('value8'),
+                    $sql->getValue('value9'),
+                    $sql->getValue('value10'),
+                    $sql->getValue('value11'),
+                    $sql->getValue('value12'),
+                    $sql->getValue('value13'),
+                    $sql->getValue('value14'),
+                    $sql->getValue('value15'),
+                    $sql->getValue('value16'),
+                    $sql->getValue('value17'),
+                    $sql->getValue('value18'),
+                    $sql->getValue('value19'),
+                    $sql->getValue('value20')
+                ],
+                [
+                    $sql->getValue('media1'),
+                    $sql->getValue('media2'),
+                    $sql->getValue('media3'),
+                    $sql->getValue('media4'),
+                    $sql->getValue('media5'),
+                    $sql->getValue('media6'),
+                    $sql->getValue('media7'),
+                    $sql->getValue('media8'),
+                    $sql->getValue('media9'),
+                    $sql->getValue('media10')
+                ],
+                [
+                    $sql->getValue('medialist1'),
+                    $sql->getValue('medialist2'),
+                    $sql->getValue('medialist3'),
+                    $sql->getValue('medialist4'),
+                    $sql->getValue('medialist5'),
+                    $sql->getValue('medialist6'),
+                    $sql->getValue('medialist7'),
+                    $sql->getValue('medialist8'),
+                    $sql->getValue('medialist9'),
+                    $sql->getValue('medialist10')
+                ],
+                [
+                    $sql->getValue('link1'),
+                    $sql->getValue('link2'),
+                    $sql->getValue('link3'),
+                    $sql->getValue('link4'),
+                    $sql->getValue('link5'),
+                    $sql->getValue('link6'),
+                    $sql->getValue('link7'),
+                    $sql->getValue('link8'),
+                    $sql->getValue('link9'),
+                    $sql->getValue('link10')
+                ],
+                [
+                    $sql->getValue('linklist1'),
+                    $sql->getValue('linklist2'),
+                    $sql->getValue('linklist3'),
+                    $sql->getValue('linklist4'),
+                    $sql->getValue('linklist5'),
+                    $sql->getValue('linklist6'),
+                    $sql->getValue('linklist7'),
+                    $sql->getValue('linklist8'),
+                    $sql->getValue('linklist9'),
+                    $sql->getValue('linklist10')
+                ]
             );
 
             $sql->next();
