@@ -95,36 +95,20 @@ if ($step == 3) {
     $headline = rex_view::title(rex_i18n::msg('setup_300'));
 
     $content = '<h2>' . rex_i18n::msg('setup_307') . '</h2>';
-    $content .= rex_view::error(rex_i18n::msg('setup_security_msg'), 'rex-hidden rex-setup-security-message');
+    $content .= '<div id="rex-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg')) . '</div>';
     $content .= '<noscript>' . rex_view::warning(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
     $content .= '<script>
 
     jQuery(function($){
 
-        $.ajax({
-            url: "' . rex_url::backend('data/.redaxo') . '",
-            success: function(data) {
-                $(".rex-setup-security-message").removeClass("rex-hidden");
-            },
-            error: function(data) {
-                $.ajax({
-                    url: "' . rex_url::backend('src/core/boot.php') . '",
-                    success: function(data) {
-                        $(".rex-setup-security-message").removeClass("rex-hidden");
-                    },
-                    error: function(data) {
-                        $.ajax({
-                            url: "' . rex_url::backend('cache/.redaxo') . '",
-                            success: function(data) {
-                                $(".rex-setup-security-message").removeClass("rex-hidden");
-                            },
-                            error: function(data) {
-                                $(".rex-content .rex-button").removeClass("rex-hidden");
-                            }
-                        });
-                    }
-                });
-            }
+        $.each(["' . rex_url::backend('data/.redaxo') . '", "' . rex_url::backend('src/core/boot.php') . '", "' . rex_url::backend('cache/.redaxo') . '"], function (i, url) {
+            $.ajax({
+                url: url,
+                success: function(data) {
+                    $("#rex-setup-security-message").show();
+                    $(".rex-content .rex-button").hide();
+                }
+            });
         });
 
     })
@@ -140,10 +124,10 @@ if ($step == 3) {
         $content .= implode('', $error_array);
 
         $content .= rex_view::error(rex_i18n::msg('setup_311'));
-        $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
+        $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
 
     } else {
-        $content .= '<p><a class="rex-button rex-hidden" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
+        $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
     }
 
     echo $headline . rex_view::contentBlock($content);
