@@ -32,6 +32,23 @@ class rex_article_slice
 
     /**
      * Constructor
+     *
+     * @param int    $id
+     * @param int    $article_id
+     * @param int    $clang
+     * @param int    $ctype
+     * @param int    $module_id
+     * @param int    $prior
+     * @param int    $createdate
+     * @param int    $updatedate
+     * @param string $createuser
+     * @param string $updateuser
+     * @param int    $revision
+     * @param array  $values
+     * @param array  $media
+     * @param array  $medialists
+     * @param array  $links
+     * @param array  $linklists
      */
     protected function __construct(
         $id, $article_id, $clang, $ctype, $module_id, $prior,
@@ -61,7 +78,10 @@ class rex_article_slice
     /**
      * Return an ArticleSlice by its id
      *
-     * @returns self
+     * @param int      $an_id
+     * @param bool|int $clang
+     * @param int      $revision
+     * @return self
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
     {
@@ -77,7 +97,10 @@ class rex_article_slice
      * slices in the order as they appear using the
      * getNextSlice() function.
      *
-     * @returns self
+     * @param int      $an_article_id
+     * @param bool|int $clang
+     * @param int      $revision
+     * @return self
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
     {
@@ -97,7 +120,11 @@ class rex_article_slice
     /**
      * Returns the first slice of the given ctype of an article
      *
-     * @returns self
+     * @param int      $ctype
+     * @param int      $an_article_id
+     * @param bool|int $clang
+     * @param int      $revision
+     * @return self
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
     {
@@ -113,7 +140,10 @@ class rex_article_slice
      * Return all slices for an article that have a certain
      * clang or revision.
      *
-     * @returns self[]
+     * @param int      $an_article_id
+     * @param bool|int $clang
+     * @param int      $revision
+     * @return self[]
      */
     public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
     {
@@ -127,7 +157,11 @@ class rex_article_slice
      * Return all slices for an article that have a certain
      * module type.
      *
-     * @returns self[]
+     * @param int      $an_article_id
+     * @param int      $a_moduletype_id
+     * @param bool|int $clang
+     * @param int      $revision
+     * @return self[]
      */
     public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
     {
@@ -140,7 +174,7 @@ class rex_article_slice
     /**
      * Return the next slice for this article
      *
-     * @returns self
+     * @return self
      */
     public function getNextSlice()
     {
@@ -148,7 +182,7 @@ class rex_article_slice
     }
 
     /**
-     * @returns self
+     * @return self
      */
     public function getPreviousSlice()
     {
@@ -162,6 +196,8 @@ class rex_article_slice
      * @deprecated 5.0
      *
      * @see rex_article_content::getSlice()
+     *
+     * @return string
      */
     public function getSlice()
     {
