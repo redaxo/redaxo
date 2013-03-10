@@ -30,7 +30,7 @@ class rex_article_slice
         $_links,
         $_linklists;
 
-    /*
+    /**
      * Constructor
      */
     protected function __construct(
@@ -58,26 +58,26 @@ class rex_article_slice
         $this->_linklists = $linklists;
     }
 
-    /*
-     * CLASS Function:
+    /**
      * Return an ArticleSlice by its id
-     * Returns an rex_article_slice object
+     *
+     * @returns self
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
     {
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::_getSliceWhere('id=' . $an_id . ' AND clang=' . $clang . ' and revision=' . $revision);
+        return self::getSlicesWhere('id=' . $an_id . ' AND clang=' . $clang . ' and revision=' . $revision)[0];
     }
 
-    /*
-     * CLASS Function:
+    /**
      * Return the first slice for an article.
      * This can then be used to iterate over all the
      * slices in the order as they appear using the
      * getNextSlice() function.
-     * Returns an rex_article_slice object
+     *
+     * @returns self
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
     {
@@ -94,66 +94,65 @@ class rex_article_slice
         return null;
     }
 
-    /*
-     * CLASS Function:
+    /**
      * Returns the first slice of the given ctype of an article
+     *
+     * @returns self
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
     {
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        return self::_getSliceWhere(
+        return self::getSlicesWhere(
              'article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND prior=1 AND revision=' . $revision
-        );
+        )[0];
     }
 
-    /*
-     * CLASS Function:
+    /**
      * Return all slices for an article that have a certain
      * clang or revision.
-     * Returns an array of rex_article_slice objects
+     *
+     * @returns self[]
      */
     public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
     {
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        // TODO check parameters
-        return self::_getSliceWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND revision=' . $revision, []);
+        return self::getSlicesWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND revision=' . $revision);
     }
 
-     /*
-     * CLASS Function:
+    /**
      * Return all slices for an article that have a certain
      * module type.
-     * Returns an array of rex_article_slice objects
+     *
+     * @returns self[]
      */
     public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
     {
         if ($clang === false)
             $clang = rex_clang::getCurrentId();
 
-        // TODO check parameters
-        return self::_getSliceWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND module_id=' . $a_moduletype_id . ' AND revision=' . $revision, []);
+        return self::getSlicesWhere('article_id=' . $an_article_id . ' AND clang=' . $clang . ' AND module_id=' . $a_moduletype_id . ' AND revision=' . $revision);
     }
 
-    /*
-     * Object Function:
+    /**
      * Return the next slice for this article
-     * Returns an rex_article_slice object.
+     *
+     * @returns self
      */
     public function getNextSlice()
     {
-        return self::_getSliceWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
+        return self::getSlicesWhere('prior = ' . ($this->_prior+1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision)[0];
     }
 
-    /*
-     * Object Function:
+    /**
+     * @returns self
      */
     public function getPreviousSlice()
     {
-        return self::_getSliceWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision);
+        return self::getSlicesWhere('prior = ' . ($this->_prior-1) . ' AND article_id=' . $this->_article_id . ' AND clang = ' . $this->_clang . ' AND ctype = ' . $this->_ctype . ' AND revision=' . $this->_revision)[0];
     }
 
     /**
@@ -173,7 +172,13 @@ class rex_article_slice
         return $art->getSlice($this->getId());
     }
 
-    protected static function _getSliceWhere($where, $table = null, $fields = null, $default = null)
+    /**
+     * @param string $where
+     * @param string $table
+     * @param string $fields
+     * @return self[]
+     */
+    protected static function getSlicesWhere($where, $table = null, $fields = null)
     {
         if (!$table)
             $table = rex::getTablePrefix() . 'article_slice';
@@ -191,8 +196,9 @@ class rex_article_slice
 
         $sql->setQuery($query);
         $rows = $sql->getRows();
-        if ($rows == 1) {
-            return new self(
+        $slices = [];
+        for ($i = 0; $i < $rows; $i++) {
+            $slices[] = new self(
                 $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('module_id'), $sql->getValue('prior'),
                 $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
                 [$sql->getValue('value1'), $sql->getValue('value2'), $sql->getValue('value3'), $sql->getValue('value4'), $sql->getValue('value5'), $sql->getValue('value6'), $sql->getValue('value7'), $sql->getValue('value8'), $sql->getValue('value9'), $sql->getValue('value10'), $sql->getValue('value11'), $sql->getValue('value12'), $sql->getValue('value13'), $sql->getValue('value14'), $sql->getValue('value15'), $sql->getValue('value16'), $sql->getValue('value17'), $sql->getValue('value18'), $sql->getValue('value19'), $sql->getValue('value20')],
@@ -201,30 +207,18 @@ class rex_article_slice
                 [$sql->getValue('link1'), $sql->getValue('link2'), $sql->getValue('link3'), $sql->getValue('link4'), $sql->getValue('link5'), $sql->getValue('link6'), $sql->getValue('link7'), $sql->getValue('link8'), $sql->getValue('link9'), $sql->getValue('link10')],
                 [$sql->getValue('linklist1'), $sql->getValue('linklist2'), $sql->getValue('linklist3'), $sql->getValue('linklist4'), $sql->getValue('linklist5'), $sql->getValue('linklist6'), $sql->getValue('linklist7'), $sql->getValue('linklist8'), $sql->getValue('linklist9'), $sql->getValue('linklist10')]
             );
-        } elseif ($rows > 1) {
-            $slices = [];
-            for ($i = 0; $i < $rows; $i++) {
-                $slices[] = new self(
-                    $sql->getValue('id'), $sql->getValue('article_id'), $sql->getValue('clang'), $sql->getValue('ctype'), $sql->getValue('module_id'), $sql->getValue('prior'),
-                    $sql->getValue('createdate'), $sql->getValue('updatedate'), $sql->getValue('createuser'), $sql->getValue('updateuser'), $sql->getValue('revision'),
-                    [$sql->getValue('value1'), $sql->getValue('value2'), $sql->getValue('value3'), $sql->getValue('value4'), $sql->getValue('value5'), $sql->getValue('value6'), $sql->getValue('value7'), $sql->getValue('value8'), $sql->getValue('value9'), $sql->getValue('value10'), $sql->getValue('value11'), $sql->getValue('value12'), $sql->getValue('value13'), $sql->getValue('value14'), $sql->getValue('value15'), $sql->getValue('value16'), $sql->getValue('value17'), $sql->getValue('value18'), $sql->getValue('value19'), $sql->getValue('value20')],
-                    [$sql->getValue('media1'), $sql->getValue('media2'), $sql->getValue('media3'), $sql->getValue('media4'), $sql->getValue('media5'), $sql->getValue('media6'), $sql->getValue('media7'), $sql->getValue('media8'), $sql->getValue('media9'), $sql->getValue('media10')],
-                    [$sql->getValue('medialist1'), $sql->getValue('medialist2'), $sql->getValue('medialist3'), $sql->getValue('medialist4'), $sql->getValue('medialist5'), $sql->getValue('medialist6'), $sql->getValue('medialist7'), $sql->getValue('medialist8'), $sql->getValue('medialist9'), $sql->getValue('medialist10')],
-                    [$sql->getValue('link1'), $sql->getValue('link2'), $sql->getValue('link3'), $sql->getValue('link4'), $sql->getValue('link5'), $sql->getValue('link6'), $sql->getValue('link7'), $sql->getValue('link8'), $sql->getValue('link9'), $sql->getValue('link10')],
-                    [$sql->getValue('linklist1'), $sql->getValue('linklist2'), $sql->getValue('linklist3'), $sql->getValue('linklist4'), $sql->getValue('linklist5'), $sql->getValue('linklist6'), $sql->getValue('linklist7'), $sql->getValue('linklist8'), $sql->getValue('linklist9'), $sql->getValue('linklist10')]
-                );
 
-                $sql->next();
-            }
-            return $slices;
+            $sql->next();
         }
-
-        return $default;
+        return $slices;
     }
 
+    /**
+     * @return rex_article
+     */
     public function getArticle()
     {
-        return rex_article :: getArticleById($this->getArticleId());
+        return rex_article::getArticleById($this->getArticleId());
     }
 
     public function getArticleId()
