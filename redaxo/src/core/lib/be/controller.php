@@ -171,13 +171,18 @@ class rex_be_controller
 
     public static function appendPackagePages()
     {
+        $insertPages = [];
         $addons = rex::isSafeMode() ? rex_addon::getSetupAddons() : rex_addon::getAvailableAddons();
         foreach ($addons as $addon) {
             $mainPage = self::pageCreate($addon->getProperty('page'), $addon, true);
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    self::pageCreate($page, $addon, false, $mainPage, $key, true);
+                    if (strpos($key, '/') !== false) {
+                        $insertPages[$key] = [$addon, $page];
+                    } else {
+                        self::pageCreate($page, $addon, false, $mainPage, $key, true);
+                    }
                 }
             }
 
@@ -188,23 +193,41 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        self::pageCreate($page, $plugin, false, $mainPage, $key, true);
+                        if (strpos($key, '/') !== false) {
+                            $insertPages[$key] = [$plugin, $page];
+                        } else {
+                            self::pageCreate($page, $plugin, false, $mainPage, $key, true);
+                        }
                     }
                 }
+            }
+        }
+        foreach ($insertPages as $key => $packagePage) {
+            list($package, $page) = $packagePage;
+            $key = explode('/', $key);
+            if (!isset(self::$pages[$key[0]])) {
+                continue;
+            }
+            $parentPage = self::$pages[$key[0]];
+            for ($i = 1, $count = count($key) - 1; $i < $count && $parentPage; ++$i) {
+                $parentPage = $parentPage->getSubpage($key[$i]);
+            }
+            if ($parentPage) {
+                self::pageCreate($page, $package, false, $parentPage, $key[$i], strtr($parentPage->getFullKey(), '/', '.') . '.' . $key[$i] . '.');
             }
         }
     }
 
     /**
-     * @param rex_be_page|array     $page
-     * @param rex_package           $package
-     * @param boolean               $createMainPage
-     * @param rex_be_page_main|null $mainPage
-     * @param string                $pageKey
-     * @param boolean               $prefix
+     * @param rex_be_page|array $page
+     * @param rex_package       $package
+     * @param boolean           $createMainPage
+     * @param rex_be_page|null  $parentPage
+     * @param string            $pageKey
+     * @param boolean           $prefix
      * @return null|rex_be_page
      */
-    private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page_main $mainPage = null, $pageKey = null, $prefix = false)
+    private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page $parentPage = null, $pageKey = null, $prefix = false)
     {
         if (is_array($page) && isset($page['title'])) {
             $pageArray = $page;
@@ -218,7 +241,9 @@ class rex_be_controller
         }
 
         if ($page instanceof rex_be_page) {
-            $prefix = $prefix ? $page->getKey() . '.' : '';
+            if (!is_string($prefix)) {
+                $prefix = $prefix ? $page->getKey() . '.' : '';
+            }
             if ($page instanceof rex_be_page_main) {
                 if (!$page->hasPath()) {
                     $page->setPath($package->getPath('pages/' . ($prefix ?: 'index.') . 'php'));
@@ -228,8 +253,8 @@ class rex_be_controller
                 if (!$page->hasSubPath()) {
                     $page->setSubPath($package->getPath('pages/' . ($prefix ?: 'index.') . 'php'));
                 }
-                if ($mainPage) {
-                    $mainPage->addSubpage($page);
+                if ($parentPage) {
+                    $parentPage->addSubpage($page);
                 }
             }
             self::pageSetSubPaths($page, $package, $prefix);
