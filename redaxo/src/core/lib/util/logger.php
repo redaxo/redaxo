@@ -93,7 +93,7 @@ class rex_logger extends AbstractLogger
             error_log($message, 0);
         }
     }
-    
+
     /**
      * Prepares the logifle for later use
      */
@@ -132,6 +132,11 @@ class rex_logger extends AbstractLogger
     public static function getLogLevel($errno)
     {
         switch ($errno) {
+            case E_STRICT:
+
+            case E_USER_DEPRECATED:
+            case E_DEPRECATED:
+
             case E_USER_WARNING:
             case E_WARNING:
             case E_COMPILE_WARNING:
