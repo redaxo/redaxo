@@ -412,7 +412,7 @@ jQuery(function($){
     {
         $.get(dir +'/'+ file,
             function(data) {
-                $('#rex-wrapper2').prepend('<div class="rex-message"><p class="rex-warning"><span>The folder redaxo/'+ dir +' is insecure. Please protect this folder.</span></p></div>');
+                $('#rex-page-main').prepend('<div class="rex-message rex-warning"><div class="rex-message-inner">The folder <b>redaxo/'+ dir +'</b> is insecure. Please protect this folder.</div></div>');
                 setCookie('htaccess_check', '');
             }
         );
