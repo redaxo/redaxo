@@ -142,6 +142,12 @@ abstract class rex_api_function
                     $apiFunc->result = $result;
                 }
             }
+            
+            // requests for json will get api-result immediately
+            if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
+            	  rex_response::sendContent($apiFunc->result->toJSONData(), 'application/json');
+            	  exit();
+            }
         }
     }
 
@@ -258,6 +264,18 @@ class rex_api_result
         return $this->succeeded;
     }
 
+    public function toJSONData()
+    {	
+        $json = [];
+        foreach ($this as $key => $value) {
+        	      // filter all internal class data
+        				if (in_array($key, ['message', 'succeeded', 'requiresReboot'])) continue;
+        				
+                $json = array_merge($json, (array) $value);
+        }
+        return json_encode($json);
+    }
+    
     public function toJSON()
     {
         $json = new stdClass;
