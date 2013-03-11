@@ -25,7 +25,7 @@ class rex_logger extends AbstractLogger
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
         } else {
-	    			$logger = self::factory();
+                    $logger = self::factory();
             $logger->error('<div><b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b></div>');
         }
     }
@@ -60,13 +60,14 @@ class rex_logger extends AbstractLogger
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed $level
+     * @param mixed  $level
      * @param string $message
-     * @param array $context
-     * 
+     * @param array  $context
+     *
      * @throws rex_exception
      */
-    public function log($level, $message, array $context = array()) {
+    public function log($level, $message, array $context = [])
+    {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
             return;
@@ -79,14 +80,14 @@ class rex_logger extends AbstractLogger
         self::open();
         if (is_resource(self::$handle)) {
             // build a replacement array with braces around the context keys
-            $replace = array();
+            $replace = [];
             foreach ($context as $key => $val) {
                 $replace['{' . $key . '}'] = $val;
             }
-                    
+
             // interpolate replacement values into the message and return
             $message = strtr($message, $replace);
-                      
+
             fwrite(self::$handle, '<div>' . date('r') . '</div>' . $message . "\n");
 
             // forward the error into phps' error log
@@ -122,7 +123,7 @@ class rex_logger extends AbstractLogger
             fclose(self::$handle);
         }
     }
-    
+
     /**
      * Map php error codes to PSR3 error levels
      *
@@ -150,7 +151,7 @@ class rex_logger extends AbstractLogger
                 return LogLevel::ERROR;
         }
     }
-    
+
     public static function factory()
     {
         $class = self::getFactoryClass();
