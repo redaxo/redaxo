@@ -111,9 +111,9 @@ jQuery(function($){
     });
     
     $('#rex-id-search-article-name').typeahead({
-    	name: 'article-search',
-    	remote: rex['backend-url'] + '?page=structure&rex-api-call=structure_remote_typeahead&search_article_name=%QUERY',
-    	prefetch: rex['backend-url'] + '?page=structure&rex-api-call=structure_prefetch_typeahead',
+    	name: 'structure-search',
+    	remote: rex.backendUrl + '?page=structure&rex-api-call=structure_remote_typeahead&search_article_name=%QUERY',
+    	prefetch: rex.backendUrl + '?page=structure&rex-api-call=structure_prefetch_typeahead',
     	limit: 10
     });
 });
