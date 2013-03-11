@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media_manager_type` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `status` int(11) NOT NULL,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `status` int(10) unsigned NOT NULL,
     `name` varchar(255) NOT NULL,
     `description` varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
@@ -16,11 +16,11 @@ INSERT INTO `%TABLE_PREFIX%media_manager_type` VALUES
 ON DUPLICATE KEY UPDATE `status` = VALUES(`status`), `name` = VALUES(`name`), `description` = VALUES(`description`);
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media_manager_type_effect` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `type_id` int(11) NOT NULL,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `type_id` int(10) unsigned NOT NULL,
     `effect` varchar(255) NOT NULL,
     `parameters` text NOT NULL,
-    `priority` int(11) NOT NULL,
+    `priority` int(10) unsigned NOT NULL,
     `updatedate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `createdate` datetime NOT NULL,

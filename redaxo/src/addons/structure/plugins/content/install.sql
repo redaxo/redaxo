@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%action` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `preview` text,
     `presave` text,
@@ -104,12 +104,12 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%action` (
     `createdate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `updatedate` datetime NOT NULL,
-    `revision` int(11) NOT NULL,
+    `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `output` text NOT NULL,
     `input` text NOT NULL,
@@ -118,14 +118,14 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `attributes` text,
-    `revision` int(11) NOT NULL,
+    `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module_action` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `module_id` int(11) NOT NULL,
-    `action_id` int(11) NOT NULL,
-    `revision` int(11) NOT NULL,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `module_id` int(10) unsigned NOT NULL,
+    `action_id` int(10) unsigned NOT NULL,
+    `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
