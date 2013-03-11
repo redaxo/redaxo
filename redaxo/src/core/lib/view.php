@@ -223,7 +223,7 @@ class rex_view
                 $item = [];
                 $item['title'] = rex_i18n::translate($clang->getName());
                 $item['href']  = $context->getUrl(['clang' => $id]);
-                if ($id == rex_request('clang', 'int')) {
+                if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
                     $button = rex_i18n::translate($clang->getName());
                 }

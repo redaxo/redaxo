@@ -80,7 +80,7 @@ if (rex::isBackend() && rex::getUser()) {
 
 rex_extension::register('CLANG_ADDED', function ($params) {
     $firstLang = rex_sql::factory();
-    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . "article where clang='0'");
+    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang=?', [rex::getProperty('start_clang_id')]);
     $fields = $firstLang->getFieldnames();
 
     $newLang = rex_sql::factory();

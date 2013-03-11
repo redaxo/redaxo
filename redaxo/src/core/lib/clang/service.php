@@ -79,8 +79,9 @@ class rex_clang_service
      */
     public static function deleteCLang($id)
     {
-        if ($id == 0)
-            throw new rex_exception('clang with id "0" can not be deleted');
+        $startClang = rex::getProperty('start_clang_id', 1);
+        if ($id == $startClang)
+            throw new rex_exception('clang with id "' . $startClang . '" can not be deleted');
 
         if (!rex_clang::exists($id))
             throw new rex_exception('clang with id "' . $id . '" does not exist');
