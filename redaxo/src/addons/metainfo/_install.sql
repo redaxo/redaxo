@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_field` (
     `updatedate` datetime NOT NULL,
     PRIMARY KEY  (`id`),
     UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_type` (
     `id` int(10) unsigned NOT NULL auto_increment,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_type` (
     `dbtype` varchar(255) NOT NULL,
     `dblength` int(11) NOT NULL,
     PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 INSERT INTO %TABLE_PREFIX%metainfo_type VALUES
     (1,  'text', 'text', 0),

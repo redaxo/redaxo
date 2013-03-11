@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%user_role` (
     `updatedate` datetime NOT NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

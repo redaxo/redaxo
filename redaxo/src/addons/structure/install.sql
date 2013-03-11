@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article` (
     KEY `id` (`id`),
     KEY `clang` (`clang`),
     KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

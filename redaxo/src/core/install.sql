@@ -7,7 +7,7 @@ CREATE TABLE `rex_clang` (
     `name` varchar(255) NOT NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `rex_clang` VALUES (1, 'de', 'deutsch', 0);
 
@@ -18,7 +18,7 @@ CREATE TABLE `rex_config` (
     `value` text NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `unique_key` (`namespace`,`key`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rex_user` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -42,4 +42,4 @@ CREATE TABLE `rex_user` (
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `login` (`login`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

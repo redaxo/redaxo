@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%cronjob` (
     `updatedate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

@@ -18,7 +18,7 @@ CREATE TABLE `rex_action` (
     `updatedate` datetime NOT NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 DROP TABLE IF EXISTS `rex_article`;
 CREATE TABLE `rex_article` (
     `pid` int(11) NOT NULL AUTO_INCREMENT,
@@ -50,7 +50,7 @@ CREATE TABLE `rex_article` (
     KEY `id` (`id`),
     KEY `clang` (`clang`),
     KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_article` WRITE;
 /*!40000 ALTER TABLE `rex_article` DISABLE KEYS */;
@@ -156,7 +156,7 @@ CREATE TABLE `rex_article_slice` (
     KEY `clang` (`clang`),
     KEY `article_id` (`article_id`),
     KEY `find_slices` (`clang`,`article_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_article_slice` WRITE;
 /*!40000 ALTER TABLE `rex_article_slice` DISABLE KEYS */;
@@ -219,7 +219,7 @@ CREATE TABLE `rex_clang` (
     `name` varchar(255) NOT NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_clang` WRITE;
 /*!40000 ALTER TABLE `rex_clang` DISABLE KEYS */;
@@ -236,7 +236,7 @@ CREATE TABLE `rex_config` (
     `value` text NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `unique_key` (`namespace`,`key`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_config` WRITE;
 /*!40000 ALTER TABLE `rex_config` DISABLE KEYS */;
@@ -267,7 +267,7 @@ CREATE TABLE `rex_media` (
     `med_copyright` text,
     PRIMARY KEY (`id`),
     KEY `category_id` (`category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_media` WRITE;
 /*!40000 ALTER TABLE `rex_media` DISABLE KEYS */;
@@ -333,7 +333,7 @@ CREATE TABLE `rex_media_category` (
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_media_category` WRITE;
 /*!40000 ALTER TABLE `rex_media_category` DISABLE KEYS */;
@@ -360,7 +360,7 @@ CREATE TABLE `rex_media_manager_type_effect` (
     `createdate` datetime NOT NULL,
     `createuser` varchar(255) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_media_manager_type_effect` WRITE;
 /*!40000 ALTER TABLE `rex_media_manager_type_effect` DISABLE KEYS */;
@@ -382,7 +382,7 @@ CREATE TABLE `rex_media_manager_type` (
     `description` varchar(255) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_media_manager_type` WRITE;
 /*!40000 ALTER TABLE `rex_media_manager_type` DISABLE KEYS */;
@@ -415,7 +415,7 @@ CREATE TABLE `rex_metainfo_field` (
     `updatedate` datetime NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_metainfo_field` WRITE;
 /*!40000 ALTER TABLE `rex_metainfo_field` DISABLE KEYS */;
@@ -439,7 +439,7 @@ CREATE TABLE `rex_metainfo_type` (
     `dbtype` varchar(255) NOT NULL,
     `dblength` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_metainfo_type` WRITE;
 /*!40000 ALTER TABLE `rex_metainfo_type` DISABLE KEYS */;
@@ -473,7 +473,7 @@ CREATE TABLE `rex_module` (
     `attributes` text,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_module` WRITE;
 /*!40000 ALTER TABLE `rex_module` DISABLE KEYS */;
@@ -495,7 +495,7 @@ CREATE TABLE `rex_module_action` (
     `action_id` int(11) NOT NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 DROP TABLE IF EXISTS `rex_template`;
 CREATE TABLE `rex_template` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -509,7 +509,7 @@ CREATE TABLE `rex_template` (
     `attributes` text,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_template` WRITE;
 /*!40000 ALTER TABLE `rex_template` DISABLE KEYS */;
