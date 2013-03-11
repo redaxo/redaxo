@@ -89,7 +89,7 @@ class rex_clang_service
         $clang = rex_clang::get($id);
 
         $del = rex_sql::factory();
-        $del->setQuery('delete from ' . rex::getTablePrefix() . "clang where id='$id'");
+        $del->setQuery('delete from ' . rex::getTablePrefix() . 'clang where id=?', [$id]);
 
         rex_delete_cache();
 
