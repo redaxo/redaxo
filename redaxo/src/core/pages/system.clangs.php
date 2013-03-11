@@ -168,7 +168,7 @@ if ($func == 'addclang' || $func == 'editclang') {
                     <script type="text/javascript">
                         <!--
                         jQuery(function($){
-                            $("#rex-form-clang-name").focus();
+                            $("#rex-form-clang-code").focus();
                         });
                         //-->
                     </script>
