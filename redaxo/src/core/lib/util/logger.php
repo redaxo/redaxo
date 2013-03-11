@@ -1,19 +1,22 @@
 <?php
 
+use Psr\Log\AbstractLogger;
+use Psr\Log\LogLevel;
+
 /**
  * Simple Logger class
  *
  * @author staabm
  * @package redaxo\core
  */
-abstract class rex_logger
+class rex_logger extends AbstractLogger
 {
     use rex_factory;
 
     private static $handle;
 
     /**
-     * Logs the given Exception
+     * Shorthand: Logs the given Exception
      *
      * @param Exception $exception The Exception to log
      */
@@ -22,12 +25,13 @@ abstract class rex_logger
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
         } else {
-            self::log('<div><b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b></div>', E_USER_ERROR);
+	    			$logger = self::factory();
+            $logger->error('<div><b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b></div>');
         }
     }
 
     /**
-     * Logs a error message
+     * Shorthand: Logs a error message
      *
      * @param integer $errno   The error code to log
      * @param string  $errstr  The error message
@@ -49,18 +53,20 @@ abstract class rex_logger
             throw new InvalidArgumentException('Expecting $errline to be integer, but ' . gettype($errline) . ' given!');
         }
 
-        self::log('<div><b>' . rex_error_handler::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b></div>", $errno);
+        $logger = self::factory();
+        $logger->log(self::getLogLevel($errno), '<div><b>' . rex_error_handler::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b></div>");
     }
 
     /**
-     * Logs the given message
+     * Logs with an arbitrary level.
      *
-     * @param string $message the message to log
-     * @param int    $errno
+     * @param mixed $level
+     * @param string $message
+     * @param array $context
+     * 
      * @throws rex_exception
      */
-    public static function log($message, $errno = E_USER_ERROR)
-    {
+    public function log($level, $message, array $context = array()) {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
             return;
@@ -72,6 +78,15 @@ abstract class rex_logger
 
         self::open();
         if (is_resource(self::$handle)) {
+            // build a replacement array with braces around the context keys
+            $replace = array();
+            foreach ($context as $key => $val) {
+                $replace['{' . $key . '}'] = $val;
+            }
+                    
+            // interpolate replacement values into the message and return
+            $message = strtr($message, $replace);
+                      
             fwrite(self::$handle, '<div>' . date('r') . '</div>' . $message . "\n");
 
             // forward the error into phps' error log
@@ -106,5 +121,39 @@ abstract class rex_logger
         if (is_resource(self::$handle)) {
             fclose(self::$handle);
         }
+    }
+    
+    /**
+     * Map php error codes to PSR3 error levels
+     *
+     * @param int $errno a php error code, e.g. E_ERROR
+     * @return string
+     */
+    public static function getLogLevel($errno)
+    {
+        switch ($errno) {
+            case E_STRICT:
+
+            case E_USER_DEPRECATED:
+            case E_DEPRECATED:
+
+            case E_USER_WARNING:
+            case E_WARNING:
+            case E_COMPILE_WARNING:
+                return LogLevel::WARNING;
+
+            case E_USER_NOTICE:
+            case E_NOTICE:
+                return LogLevel::NOTICE;
+
+            default:
+                return LogLevel::ERROR;
+        }
+    }
+    
+    public static function factory()
+    {
+        $class = self::getFactoryClass();
+        return new $class();
     }
 }
