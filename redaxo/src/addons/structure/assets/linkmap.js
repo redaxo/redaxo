@@ -109,4 +109,11 @@ jQuery(function($){
             triggered = false;
         }
     });
+    
+    $('#rex-id-search-article-name').typeahead({
+    	name: 'article-search',
+    	remote: REX['backend-url'] + '?page=structure&rex-api-call=structure_remote_typeahead&search_article_name=%QUERY',
+    	prefetch: REX['backend-url'] + '?page=structure&rex-api-call=structure_prefetch_typeahead',
+    	limit: 10
+    });
 });

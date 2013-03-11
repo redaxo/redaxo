@@ -93,10 +93,13 @@ if (rex::getUser()) {
 rex_view::addJsFile(rex_url::assets('jquery.min.js'));
 rex_view::addJsFile(rex_url::assets('jquery-ui.custom.min.js'));
 rex_view::addJsFile(rex_url::assets('jquery-pjax.min.js'));
+rex_view::addJsFile(rex_url::assets('typeahead.min.js'));
 rex_view::addJsFile(rex_url::assets('standard.js'));
 rex_view::addJsFile(rex_url::assets('sha1.js'));
 
 rex_view::setJsProperty('backend', true);
+// XXX check x-server
+rex_view::setJsProperty('backend-url', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
 
 // ----- INCLUDE ADDONS

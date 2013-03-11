@@ -21,7 +21,7 @@
 
     <script type="text/javascript">
     <!--
-    var rex = <?php echo $this->jsProperties ?>;
+    var REX = <?php echo $this->jsProperties ?>;
     //-->
     </script>
 
