@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Component\\Yaml\\' => $vendorDir . '/symfony/yaml/',
+    'Psr\\Log\\' => $vendorDir . '/psr/log/',
 );

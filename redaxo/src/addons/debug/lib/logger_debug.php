@@ -1,5 +1,6 @@
 <?php
 
+use Psr\Log\LogLevel;
 /**
  * Class to monitor extension points
  *
@@ -9,34 +10,26 @@
 class rex_logger_debug extends rex_logger
 {
     /**
-     * Logs the given message
+     * Logs with an arbitrary level.
      *
-     * @param string  $message the message to log
-     * @param integer $errno
+     * @param mixed  $level
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws rex_exception
      */
-    public static function log($message, $errno = E_USER_ERROR)
+    public function log($level, $message, array $context = [])
     {
-        if (!empty($message)) {
-            $firephp = FirePHP::getInstance(true);
+        $firephp = FirePHP::getInstance(true);
 
-            switch ($errno) {
-                case E_USER_NOTICE:
-                case E_NOTICE:
-                    $firephp->log($message);
-                    break;
+                if (in_array($level, [LogLevel::NOTICE, LogLevel::INFO])) {
+            $firephp->log($message);
+                } elseif (in_array($level, [LogLevel::WARNING])) {
+            $firephp->warn($message);
+                } else {
+            $firephp->error($message);
+                }
 
-                case E_USER_WARNING:
-                case E_WARNING:
-                case E_COMPILE_WARNING:
-                    $firephp->warn($message);
-                    break;
-
-                default:
-                    $firephp->error($message);
-                    break;
-            }
-        }
-
-        parent::log($message, $errno);
+                parent::log($level, $message, $context);
     }
 }
