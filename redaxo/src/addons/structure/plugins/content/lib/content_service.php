@@ -99,8 +99,7 @@ class rex_content_service
         rex_sql_util::organizePriorities(
             rex::getTable('article_slice'),
             'prior',
-            'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') . ' AND ctype=' . $curr->getValue('ctype') . ' AND revision=' . $curr->getValue('revision'),
-            'prior'
+            'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') . ' AND ctype=' . $curr->getValue('ctype') . ' AND revision=' . $curr->getValue('revision')
         );
 
         // check if delete was successfull
@@ -110,15 +109,14 @@ class rex_content_service
     /**
      * Kopiert die Inhalte eines Artikels in einen anderen Artikel
      *
-     * @param int $from_id         ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
-     * @param int $to_id           ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
-     * @param int $from_clang      ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
-     * @param int $to_clang        ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
-     * @param int $from_re_sliceid Id des Slices, bei dem begonnen werden soll
+     * @param int $from_id    ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
+     * @param int $to_id      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
+     * @param int $from_clang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
+     * @param int $to_clang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
      * @param int $revision
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    public static function copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $from_re_sliceid = 0, $revision = 0)
+    public static function copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $revision = 0)
     {
         if ($from_id == $to_id && $from_clang == $to_clang)
         return false;

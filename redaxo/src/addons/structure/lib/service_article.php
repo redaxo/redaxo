@@ -430,8 +430,7 @@ class rex_article_service
                 rex::getTable('article'),
                 'prior',
                 'clang=' . $clang . ' AND ((startarticle<>1 AND re_id=' . $re_id . ') OR (startarticle=1 AND id=' . $re_id . '))',
-                'prior,updatedate ' . $addsql,
-                'pid'
+                'prior,updatedate ' . $addsql
             );
 
             rex_article_cache::deleteLists($re_id, $clang);
@@ -745,7 +744,7 @@ class rex_article_service
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren
-                        rex_content_service::copyContent($id, $new_id, $clang, $clang, 0, $rev->getValue('revision'));
+                        rex_content_service::copyContent($id, $new_id, $clang, $clang, $rev->getValue('revision'));
                     }
 
                     // Prios neu berechnen

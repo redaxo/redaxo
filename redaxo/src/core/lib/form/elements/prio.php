@@ -86,8 +86,7 @@ class rex_form_prio_element extends rex_form_select_element
                 $this->table->getTableName(),
                 $name,
                 $this->whereCondition,
-                $name . ', updatedate desc',
-                $this->primaryKey
+                $name . ', updatedate desc'
             );
         }
     }

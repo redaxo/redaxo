@@ -286,8 +286,7 @@ class rex_metainfo_table_expander extends rex_form
             $this->tableName,
             'prior',
             'name LIKE "' . $metaPrefix . '%"',
-            'prior, updatedate desc',
-            'id'
+            'prior, updatedate desc'
         );
     }
 }

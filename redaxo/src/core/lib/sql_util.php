@@ -15,10 +15,9 @@ class rex_sql_util
      * @param string $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
      * @param string $whereCondition  Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy         Sortierung des ResultSets
-     * @param string $id_field        Name des Primaerschluessels der Tabelle
      * @param int    $startBy         Startpriorität
      */
-    public static function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $id_field = 'id', $startBy = 1)
+    public static function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {
         // Datenbankvariable initialisieren
         $qry = 'SET @count=' . ($startBy - 1);

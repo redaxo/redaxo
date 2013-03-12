@@ -344,7 +344,7 @@ if ($article->getRows() == 1) {
             $clang_b = rex_post('clang_b', 'int');
             $user = rex::getUser();
             if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)) {
-                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, 0, $slice_revision))
+                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, $slice_revision))
                     $info = rex_i18n::msg('content_contentcopy');
                 else
                     $warning = rex_i18n::msg('content_errorcopy');

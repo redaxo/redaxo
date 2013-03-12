@@ -425,8 +425,7 @@ class rex_category_service
                 rex::getTable('article'),
                 'catprior',
                 'clang=' . $clang . ' AND re_id=' . $re_id . ' AND startarticle=1',
-                'catprior,updatedate ' . $addsql,
-                'pid'
+                'catprior,updatedate ' . $addsql
             );
 
             rex_article_cache::deleteLists($re_id, $clang);
