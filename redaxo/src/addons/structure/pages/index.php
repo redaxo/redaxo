@@ -140,7 +140,6 @@ if (count($mountpoints) > 0 && $category_id == 0) {
 
 // --------------------- ADD PAGINATION
 
-// FIXME add a realsitic rowsPerPage value
 $catPager = new rex_pager(30, 'catstart');
 $catPager->setRowCount($KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();

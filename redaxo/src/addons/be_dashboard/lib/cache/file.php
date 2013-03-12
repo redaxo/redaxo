@@ -131,7 +131,6 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
         }
 
         $result = true;
-        // TODO PHP4 Compat!
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getOption('cache_dir'))) as $file) {
             if ((REX_DASHBOARD_CACHE_CLEAN_ALL == $mode || !$this->isValid($file)) && file_exists($file)) {
                 $result = @unlink($file) && $result;

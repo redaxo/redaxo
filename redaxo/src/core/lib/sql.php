@@ -930,7 +930,6 @@ class rex_sql implements Iterator
     {
         // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
         $sql = self::factory();
-        // TODO use prepared statement
         $sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
         if ($sql->getRows() == 0) {
             $id = $start_id;

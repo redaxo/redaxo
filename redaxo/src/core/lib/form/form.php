@@ -922,8 +922,7 @@ class rex_form
                 if ($this->isFooterElement($element)) continue;
                 if ($this->isRawElement($element)) continue;
 
-                // PHP4 compat notation
-                $fieldsetElements[$fieldsetName][] = $this->elements[$fieldsetName][$key];
+                $fieldsetElements[$fieldsetName][] = $element;
             }
         }
         return $fieldsetElements;
@@ -1138,8 +1137,7 @@ class rex_form
                 if (is_array($fieldValue))
                     $fieldValue = '|' . implode('|', $fieldValue) . '|';
 
-                // PHP4 compat notation
-                $saveElements[$fieldsetName][$key]->setValue($fieldValue);
+                $element->setValue($fieldValue);
             }
         }
     }

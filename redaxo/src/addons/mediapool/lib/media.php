@@ -255,9 +255,7 @@ class rex_media
     {
         if ($format !== null) {
             if ($format == '') {
-                // TODO Im Frontend gibts kein I18N
-                //$format = rex_i18n::msg('dateformat');
-                $format = '%a %d. %B %Y';
+                $format = rex_i18n::msg('dateformat');
             }
             return strftime($format, $date);
         }
