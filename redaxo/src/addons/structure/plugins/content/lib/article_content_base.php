@@ -55,7 +55,7 @@ class rex_article_content_base
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('ART_INIT', '', [
-            'article' => &$this,
+            'article' => $this,
             'article_id' => $article_id,
             'clang' => $this->clang
         ]));
