@@ -25,7 +25,7 @@
  * @author gharlan
  * @package redaxo\core
  */
-trait rex_factory
+trait rex_factory_trait
 {
     /**
      * @var array

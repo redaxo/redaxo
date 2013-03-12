@@ -20,7 +20,7 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  */
 class rex_form
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     protected
         $name,

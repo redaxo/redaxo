@@ -7,7 +7,7 @@
  */
 abstract class rex_package_manager
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     /**
      * @var rex_package

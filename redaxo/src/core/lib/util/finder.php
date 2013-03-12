@@ -9,7 +9,7 @@
  */
 class rex_finder implements IteratorAggregate, Countable
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     const ALL = '__ALL__';
 

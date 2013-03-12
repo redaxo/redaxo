@@ -8,7 +8,7 @@
  */
 abstract class rex_extension
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     const
         EARLY = -1,

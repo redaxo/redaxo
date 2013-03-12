@@ -6,7 +6,7 @@
  * @author gharlan
  * @package redaxo\core
  */
-trait rex_singleton
+trait rex_singleton_trait
 {
     /**
      * Singleton instances

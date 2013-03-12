@@ -2,10 +2,10 @@
 
 class rex_test_singleton
 {
-    use rex_singleton;
+    use rex_singleton_trait;
 }
 
-class rex_singleton_test extends PHPUnit_Framework_TestCase
+class rex_singleton_trait_test extends PHPUnit_Framework_TestCase
 {
     public function testGetInstance()
     {

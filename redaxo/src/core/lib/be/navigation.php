@@ -5,7 +5,7 @@
  */
 class rex_be_navigation
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     private
         $headlines = [],

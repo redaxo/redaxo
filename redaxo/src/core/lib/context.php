@@ -6,7 +6,7 @@
  * @author staabm
  * @package redaxo\core
  */
-interface rex_url_provider
+interface rex_url_provider_interface
 {
     /**
      * Returns a Url which contains the given parameters.
@@ -24,7 +24,7 @@ interface rex_url_provider
  * @author staabm
  * @package redaxo\core
  */
-interface rex_context_provider extends rex_url_provider
+interface rex_context_provider_interface extends rex_url_provider_interface
 {
     /**
      * Returns a html string containg hidden input fields for the given parameters.
@@ -41,7 +41,7 @@ interface rex_context_provider extends rex_url_provider
  * @author staabm
  * @package redaxo\core
  */
-class rex_context implements rex_context_provider
+class rex_context implements rex_context_provider_interface
 {
     private $globalParams;
 

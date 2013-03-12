@@ -20,7 +20,7 @@
  */
 abstract class rex_api_function
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     const REQ_CALL_PARAM = 'rex-api-call', REQ_RESULT_PARAM = 'rex-api-result';
 

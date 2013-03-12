@@ -11,7 +11,7 @@ use Psr\Log\LogLevel;
  */
 class rex_logger extends AbstractLogger
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     private static $handle;
 

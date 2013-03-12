@@ -2,7 +2,7 @@
 
 class rex_test_factory
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     public static function factory()
     {
@@ -36,7 +36,7 @@ class rex_alternative_test_factory extends rex_test_factory
     }
 }
 
-class rex_factory_test extends PHPUnit_Framework_TestCase
+class rex_factory_trait_test extends PHPUnit_Framework_TestCase
 {
     public function testFactoryCreation()
     {

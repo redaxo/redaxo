@@ -8,7 +8,7 @@
  */
 abstract class rex_null_package implements rex_package_interface
 {
-    use rex_singleton;
+    use rex_singleton_trait;
 
     /**
      * {@inheritDoc}

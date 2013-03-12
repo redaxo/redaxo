@@ -33,7 +33,7 @@
 
 class rex_navigation
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     private
         $depth, // Wieviele Ebene tief, ab der Startebene

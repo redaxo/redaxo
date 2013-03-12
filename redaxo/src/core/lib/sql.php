@@ -9,7 +9,7 @@
  */
 class rex_sql implements Iterator
 {
-    use rex_factory;
+    use rex_factory_trait;
 
     protected
         $debug, // debug schalter
