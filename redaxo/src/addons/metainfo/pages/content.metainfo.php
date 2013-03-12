@@ -11,7 +11,7 @@ $content .= '
                                 ';
 
 $metainfoHandler = new rex_metainfo_article_handler();
-$content .= $metainfoHandler->extendForm([
+$content .= $metainfoHandler->getForm([
     'id' => $article_id,
     'clang' => $clang,
     'article' => $article

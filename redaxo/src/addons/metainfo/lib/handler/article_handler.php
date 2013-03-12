@@ -78,7 +78,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return $s;
     }
 
-    public function extendForm(array $params)
+    public function getForm(array $params)
     {
         $OOArt = rex_article::getArticleById($params['id'], $params['clang']);
 
