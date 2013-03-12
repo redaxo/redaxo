@@ -115,7 +115,7 @@ abstract class rex_complex_perm
      */
     public static function removeItem($key, $item)
     {
-        rex_extension::registerPoint('COMPLEX_PERM_REMOVE_ITEM', '', ['key' => $key, 'item' => $item], true);
+        rex_extension::registerPoint(new rex_extension_point('COMPLEX_PERM_REMOVE_ITEM', '', ['key' => $key, 'item' => $item], true));
     }
 
 
@@ -129,6 +129,6 @@ abstract class rex_complex_perm
      */
     public static function replaceItem($key, $item, $new)
     {
-        rex_extension::registerPoint('COMPLEX_PERM_REPLACE_ITEM', '', ['key' => $key, 'item' => $item, 'new' => $new], true);
+        rex_extension::registerPoint(new rex_extension_point('COMPLEX_PERM_REPLACE_ITEM', '', ['key' => $key, 'item' => $item, 'new' => $new], true));
     }
 }

@@ -73,11 +73,9 @@ $context = new rex_context([
 
 
 // --------------------- Extension Point
-echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER_PRE', '',
-    [
-        'context' => $context
-    ]
-);
+echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER_PRE', '', [
+    'context' => $context
+]));
 
 
 
@@ -120,12 +118,10 @@ if (rex::getUser()->hasPerm('advancedMode[]')) {
 }
 
 // --------------------- Extension Point
-echo rex_extension::registerPoint('PAGE_STRUCTURE_HEADER', '',
-    [
-        'category_id' => $category_id,
-        'clang' => $clang
-    ]
-);
+echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER', '', [
+    'category_id' => $category_id,
+    'clang' => $clang
+]));
 
 // --------------------- SEARCH BAR
 require_once $this->getPath('functions/function_rex_searchbar.php');
@@ -213,10 +209,10 @@ if ($function == 'add_cat' && $KATPERM) {
         $add_td = '<td class="rex-id">-</td>';
     }
 
-    $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '', [
+    $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
         'id' => $category_id,
         'clang' => $clang
-    ]);
+    ]));
     $add_buttons = '
         <input type="hidden" name="rex-api-call" value="category_add" />
         <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
@@ -235,11 +231,11 @@ if ($function == 'add_cat' && $KATPERM) {
                 </tr>';
 
     // ----- EXTENSION POINT
-    $echo .= rex_extension::registerPoint('CAT_FORM_ADD', '', [
+    $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_ADD', '', [
         'id' => $category_id,
         'clang' => $clang,
         'data_colspan' => ($data_colspan + 1),
-    ]);
+    ]));
 }
 
 
@@ -272,10 +268,10 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
             }
 
             // ----- EXTENSION POINT
-            $meta_buttons = rex_extension::registerPoint('CAT_FORM_BUTTONS', '', [
+            $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
                 'id' => $edit_id,
                 'clang' => $clang,
-            ]);
+            ]));
 
             $add_buttons = '
             <input type="hidden" name="rex-api-call" value="category_edit" />
@@ -297,14 +293,14 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
                 </tr>';
 
             // ----- EXTENSION POINT
-            $echo .= rex_extension::registerPoint('CAT_FORM_EDIT', '', [
+            $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_EDIT', '', [
                 'id' => $edit_id,
                 'clang' => $clang,
                 'category' => $KAT,
                 'catname' => $KAT->getValue('catname'),
                 'catprior' => $KAT->getValue('catprior'),
                 'data_colspan' => ($data_colspan + 1),
-            ]);
+            ]));
 
         } else {
             // --------------------- KATEGORIE WITH WRITE

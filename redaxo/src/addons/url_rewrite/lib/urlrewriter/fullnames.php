@@ -173,7 +173,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
 
             } elseif ($article_id == -1) {
                 // ----- EXTENSION POINT
-                $article_info = rex_extension::registerPoint('URL_REWRITE_ARTICLE_ID_NOT_FOUND', '' );
+                $article_info = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE_ARTICLE_ID_NOT_FOUND', ''));
                 if (isset($article_info['article_id']) && $article_info['article_id'] > -1) {
                     $article_id = $article_info['article_id'];
 
@@ -205,14 +205,15 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
     }
 
     // Url neu schreiben
-    public function rewrite(array $params)
+    public function rewrite(rex_extension_point $ep)
     {
         // Url wurde von einer anderen Extension bereits gesetzt
-        if ($params['subject'] != '')
-            return $params['subject'];
+        if ($ep->getSubject() != '')
+            return;
 
         global $REX, $REXPATH;
 
+        $params = $ep->getParams();
         $id         = $params['id'];
         $name       = $params['name'];
         $clang      = $params['clang'];
@@ -252,7 +253,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
      * @author markus.staab[at]redaxo[dot]de Markus Staab
      * @package redaxo5.2
      */
-    public function generatePathnames($params)
+    public function generatePathnames(rex_extension_point $ep)
     {
         global $REX, $REXPATH;
 
@@ -263,11 +264,9 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         if (!isset($REXPATH))
             $REXPATH = [];
 
-        if (!isset($params['extension_point']))
-            $params['extension_point'] = '';
-
         $where = '';
-        switch ($params['extension_point']) {
+        $params = $ep->getParams();
+        switch ($ep->getName()) {
             // ------- sprachabhängig, einen artikel aktualisieren
             case 'CAT_DELETED':
             case 'ART_DELETED':

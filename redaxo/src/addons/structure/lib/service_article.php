@@ -90,8 +90,7 @@ class rex_article_service
             }
 
             // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint('ART_ADDED', $message,
-            [
+            $message = rex_extension::registerPoint(new rex_extension_point('ART_ADDED', $message, [
                 'id' => $id,
                 'clang' => $key,
                 'status' => 0,
@@ -101,8 +100,7 @@ class rex_article_service
                 'path' => $path,
                 'template_id' => $data['template_id'],
                 'data' => $data,
-            ]
-            );
+            ]));
         }
 
         return $message;
@@ -190,21 +188,19 @@ class rex_article_service
             rex_article_cache::delete($article_id);
 
             // ----- EXTENSION POINT
-            $message = rex_extension::registerPoint('ART_UPDATED', $message,
-                [
-                    'id' => $article_id,
-                    'article' => clone $EA,
-                    'article_old' => clone $thisArt,
-                    'status' => $thisArt->getValue('status'),
-                    'name' => $data['name'],
-                    'clang' => $clang,
-                    're_id' => $data['category_id'],
-                    'prior' => $data['prior'],
-                    'path' => $data['path'],
-                    'template_id' => $data['template_id'],
-                    'data' => $data,
-                ]
-            );
+            $message = rex_extension::registerPoint(new rex_extension_point('ART_UPDATED', $message, [
+                'id' => $article_id,
+                'article' => clone $EA,
+                'article_old' => clone $thisArt,
+                'status' => $thisArt->getValue('status'),
+                'name' => $data['name'],
+                'clang' => $clang,
+                're_id' => $data['category_id'],
+                'prior' => $data['prior'],
+                'path' => $data['path'],
+                'template_id' => $data['template_id'],
+                'data' => $data,
+            ]));
         } catch (rex_sql_exception $e) {
             throw new rex_api_exception($e);
         }
@@ -234,8 +230,7 @@ class rex_article_service
                 self::newArtPrio($Art->getValue('re_id'), $clang, 0, 1);
 
                 // ----- EXTENSION POINT
-                $message = rex_extension::registerPoint('ART_DELETED', $message,
-                [
+                $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
                     'id'          => $article_id,
                     'clang'       => $clang,
                     're_id'       => $re_id,
@@ -244,8 +239,7 @@ class rex_article_service
                     'prior'       => $Art->getValue('prior'),
                     'path'        => $Art->getValue('path'),
                     'template_id' => $Art->getValue('template_id'),
-                ]
-                );
+                ]));
 
                 $Art->next();
             }
@@ -291,7 +285,7 @@ class rex_article_service
         $message = '';
         if ($ART->getRows() > 0) {
             $re_id = $ART->getValue('re_id');
-            $message = rex_extension::registerPoint('ART_PRE_DELETED', $message, [
+            $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
                 'id'          => $id,
                 're_id'       => $re_id,
                 'name'        => $ART->getValue('name'),
@@ -299,8 +293,7 @@ class rex_article_service
                 'prior'       => $ART->getValue('prior'),
                 'path'        => $ART->getValue('path'),
                 'template_id' => $ART->getValue('template_id')
-            ]
-            );
+            ]));
 
             if ($ART->getValue('startarticle') == 1) {
                 $message = rex_i18n::msg('category_deleted');
@@ -363,11 +356,11 @@ class rex_article_service
                 rex_article_cache::delete($article_id, $clang);
 
                 // ----- EXTENSION POINT
-                rex_extension::registerPoint('ART_STATUS', null, [
+                rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
                     'id' => $article_id,
                     'clang' => $clang,
                     'status' => $newstatus
-                ]);
+                ]));
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
             }
@@ -395,7 +388,7 @@ class rex_article_service
             ];
 
             // ----- EXTENSION POINT
-            $artStatusTypes = rex_extension::registerPoint('ART_STATUS_TYPES', $artStatusTypes);
+            $artStatusTypes = rex_extension::registerPoint(new rex_extension_point('ART_STATUS_TYPES', $artStatusTypes));
         }
 
         return $artStatusTypes;
@@ -479,10 +472,10 @@ class rex_article_service
         rex_article_cache::delete($art_id);
 
         foreach (rex_clang::getAllIds() as $clang) {
-            rex_extension::registerPoint('ART_TO_CAT', '', [
+            rex_extension::registerPoint(new rex_extension_point('ART_TO_CAT', '', [
                 'id' => $art_id,
                 'clang' => $clang,
-            ]);
+            ]));
         }
 
         return true;
@@ -526,10 +519,10 @@ class rex_article_service
         rex_article_cache::delete($art_id);
 
         foreach (rex_clang::getAllIds() as $clang) {
-            rex_extension::registerPoint('CAT_TO_ART', '', [
+            rex_extension::registerPoint(new rex_extension_point('CAT_TO_ART', '', [
                 'id' => $art_id,
                 'clang' => $clang,
-            ]);
+            ]));
         }
 
         return true;
@@ -630,11 +623,11 @@ class rex_article_service
         rex_complex_perm::replaceItem('structure', $alt_id, $neu_id);
 
         foreach (rex_clang::getAllIds() as $clang) {
-            rex_extension::registerPoint('ART_TO_STARTARTICLE', '', [
+            rex_extension::registerPoint(new rex_extension_point('ART_TO_STARTARTICLE', '', [
                 'id' => $neu_id,
                 'id_old' => $alt_id,
                 'clang' => $clang,
-            ]);
+            ]));
         }
 
         return true;

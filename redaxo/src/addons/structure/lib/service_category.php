@@ -115,8 +115,7 @@ class rex_category_service
 
                 // ----- EXTENSION POINT
                 // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-                $message = rex_extension::registerPoint('CAT_ADDED', $message,
-                [
+                $message = rex_extension::registerPoint(new rex_extension_point('CAT_ADDED', $message, [
                     'category' => clone $AART,
                     'id' => $id,
                     're_id' => $category_id,
@@ -127,7 +126,7 @@ class rex_category_service
                     'status' => $data['status'],
                     'article' => clone $AART,
                     'data' => $data,
-                ]);
+                ]));
 
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
@@ -220,24 +219,22 @@ class rex_category_service
 
             // ----- EXTENSION POINT
             // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
-            $message = rex_extension::registerPoint('CAT_UPDATED', $message,
-                [
-                    'id' => $category_id,
+            $message = rex_extension::registerPoint(new rex_extension_point('CAT_UPDATED', $message, [
+                'id' => $category_id,
 
-                    'category' => clone $EKAT,
-                    'category_old' => clone $thisCat,
-                    'article' => clone $EKAT,
+                'category' => clone $EKAT,
+                'category_old' => clone $thisCat,
+                'article' => clone $EKAT,
 
-                    're_id' => $thisCat->getValue('re_id'),
-                    'clang' => $clang,
-                    'name' => $thisCat->getValue('catname'),
-                    'prior' => $thisCat->getValue('catprior'),
-                    'path' => $thisCat->getValue('path'),
-                    'status' => $thisCat->getValue('status'),
+                're_id' => $thisCat->getValue('re_id'),
+                'clang' => $clang,
+                'name' => $thisCat->getValue('catname'),
+                'prior' => $thisCat->getValue('catprior'),
+                'path' => $thisCat->getValue('path'),
+                'status' => $thisCat->getValue('status'),
 
-                    'data' => $data,
-                ]
-            );
+                'data' => $data,
+            ]));
         } catch (rex_sql_exception $e) {
             throw new rex_api_exception($e);
         }
@@ -281,7 +278,7 @@ class rex_category_service
                         self::newCatPrio($re_id, $_clang, 0, 1);
 
                         // ----- EXTENSION POINT
-                        $message = rex_extension::registerPoint('CAT_DELETED', $message, [
+                        $message = rex_extension::registerPoint(new rex_extension_point('CAT_DELETED', $message, [
                             'id'     => $category_id,
                             're_id'  => $re_id,
                             'clang'  => $_clang,
@@ -289,7 +286,7 @@ class rex_category_service
                             'prior'  => $row->getValue('catprior'),
                             'path'   => $row->getValue('path'),
                             'status' => $row->getValue('status'),
-                        ]);
+                        ]));
                     }
 
                     rex_complex_perm::removeItem('structure', $category_id);
@@ -343,11 +340,11 @@ class rex_category_service
                 rex_article_cache::delete($category_id, $clang);
 
                 // ----- EXTENSION POINT
-                rex_extension::registerPoint('CAT_STATUS', null, [
+                rex_extension::registerPoint(new rex_extension_point('CAT_STATUS', null, [
                     'id' => $category_id,
                     'clang' => $clang,
                     'status' => $newstatus
-                ]);
+                ]));
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
             }
@@ -375,7 +372,7 @@ class rex_category_service
             ];
 
             // ----- EXTENSION POINT
-            $catStatusTypes = rex_extension::registerPoint('CAT_STATUS_TYPES', $catStatusTypes);
+            $catStatusTypes = rex_extension::registerPoint(new rex_extension_point('CAT_STATUS_TYPES', $catStatusTypes));
         }
 
         return $catStatusTypes;

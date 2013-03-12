@@ -29,7 +29,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         // Artikel nochmal mit den zusätzlichen Werten neu generieren
         rex_article_cache::generateMeta($params['id'], $params['clang']);
 
-        rex_extension::registerPoint('ART_META_UPDATED', '', $params);
+        rex_extension::registerPoint(new rex_extension_point('ART_META_UPDATED', '', $params));
 
         return $params;
     }

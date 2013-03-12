@@ -175,7 +175,7 @@ class rex_article_content_editor extends rex_article_content
         }
 
         // ----- EXTENSION POINT
-        $listElements = rex_extension::registerPoint(
+        $listElements = rex_extension::registerPoint(new rex_extension_point(
             'ART_SLICE_MENU',
             $listElements,
             [
@@ -186,7 +186,7 @@ class rex_article_content_editor extends rex_article_content
                 'slice_id' => $sliceId,
                 'perm' => rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
             ]
-        );
+        ));
 
         $blocks = [];
         $blocks[] = [

@@ -107,7 +107,7 @@ abstract class rex_dashboard_component_base
         $actions[] = ['name' => 'toggleView', 'class' => 'rex-i-toggleview-off'];
 
         // ----- EXTENSION POINT
-        $actions = rex_extension::registerPoint('DASHBOARD_COMPONENT_ACTIONS', $actions);
+        $actions = rex_extension::registerPoint(new rex_extension_point('DASHBOARD_COMPONENT_ACTIONS', $actions));
 
         return $actions;
     }
@@ -141,9 +141,10 @@ abstract class rex_dashboard_component_base
 
     abstract public function _get();
 
-    public function registerAsExtension($params)
+    public function registerAsExtension(rex_extension_point $ep)
     {
-        $params['subject'][] = $this;
-        return $params['subject'];
+        $subject = $ep->getSubject();
+        $subject[] = $this;
+        return $subject;
     }
 }

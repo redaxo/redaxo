@@ -21,7 +21,7 @@ class rex_notification_component extends rex_dashboard_component
     {
         // ----- EXTENSION POINT
         $dashboard_notifications = [];
-        $dashboard_notifications = rex_extension::registerPoint('DASHBOARD_NOTIFICATION', $dashboard_notifications);
+        $dashboard_notifications = rex_extension::registerPoint(new rex_extension_point('DASHBOARD_NOTIFICATION', $dashboard_notifications));
 
         $content = '';
         if (count($dashboard_notifications) > 0) {

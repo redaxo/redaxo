@@ -27,8 +27,9 @@ if (rex::isBackend()) {
     rex_view::addJsFile($this->getAssetsUrl('js.js'));
     rex_view::setFavicon($this->getAssetsUrl('favicon.ico'));
 
-    rex_extension::register('PAGE_BODY_ATTR', function ($params) {
-        $params['subject']['class'][] = 'redaxo';
-        return $params['subject'];
+    rex_extension::register('PAGE_BODY_ATTR', function (rex_extension_point $ep) {
+        $subject = $ep->getSubject();
+        $subject['class'][] = 'redaxo';
+        return $subject;
     });
 }

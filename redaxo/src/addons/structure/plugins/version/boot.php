@@ -13,7 +13,7 @@ $mypage = 'version';
 rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
 // ***** an EPs andocken
-rex_extension::register('ART_INIT', function ($params) {
+rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
     $version = rex_request('rex_version', 'int');
     if ($version != 1)
         return;
@@ -32,7 +32,8 @@ rex_extension::register('ART_INIT', function ($params) {
     $params['article']->setEval(true);
 });
 
-rex_extension::register('PAGE_CONTENT_HEADER', function ($params) {
+rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep) {
+    $params = $ep->getParams();
     $return = '';
 
     $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');

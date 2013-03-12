@@ -196,13 +196,11 @@ class rex_content_service
             $article_content = $CONT->getArticle();
 
             // ----- EXTENSION POINT
-            $article_content = rex_extension::registerPoint('GENERATE_FILTER', $article_content,
-            [
+            $article_content = rex_extension::registerPoint(new rex_extension_point('GENERATE_FILTER', $article_content, [
                 'id' => $article_id,
                 'clang' => $_clang,
                 'article' => $CONT
-            ]
-            );
+            ]));
 
             if (rex_file::put($article_content_file, $article_content) === false) {
                 return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');

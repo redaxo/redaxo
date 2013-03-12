@@ -103,9 +103,9 @@ if ($func == '') {
         $formLabel = rex_i18n::msg('media_manager_type_create');
     }
 
-    rex_extension::register('REX_FORM_CONTROL_FIELDS', function ($params) {
-        $controlFields = $params['subject'];
-        $form = $params['form'];
+    rex_extension::register('REX_FORM_CONTROL_FIELDS', function (rex_extension_point $ep) {
+        $controlFields = $ep->getSubject();
+        $form = $ep->getParam('form');
         $sql  = $form->getSql();
 
         // remove delete button on internal types (status == 1)

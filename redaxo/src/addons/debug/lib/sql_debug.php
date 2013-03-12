@@ -59,7 +59,7 @@ class rex_sql_debug extends rex_sql
         return $res;
     }
 
-    public static function doLog($params)
+    public static function doLog()
     {
         if (!empty(self::$queries)) {
             $tbl = [];

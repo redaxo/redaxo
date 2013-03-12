@@ -14,8 +14,9 @@ rex_extension::register('A1_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
  * noch Datensätze zu Feldern stehen, welche nicht als Spalten in der
  * rex_article angelegt wurden!
  */
-function rex_metainfo_cleanup($params)
+function rex_metainfo_cleanup($epOrParams)
 {
+    $params = $epOrParams instanceof rex_extension_point ? $epOrParams->getParams() : $epOrParams;
     // Cleanup nur durchführen, wenn auch die rex_article Tabelle neu angelegt wird
     if (isset($params['force']) && $params['force'] != true &&
          strpos($params['content'], 'CREATE TABLE `' . rex::getTablePrefix() . 'article`') === false &&

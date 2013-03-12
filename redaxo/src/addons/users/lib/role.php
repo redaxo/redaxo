@@ -81,8 +81,9 @@ class rex_user_role implements rex_user_role_interface
         return new self($sql->getArrayValue('perms'));
     }
 
-    public static function removeOrReplaceItem($params)
+    public static function removeOrReplaceItem(rex_extension_point $ep)
     {
+        $params = $ep->getParams();
         $key = $params['key'];
         $item = '|' . $params['item'] . '|';
         $new = isset($params['new']) ? '|' . $params['new'] . '|' : '|';

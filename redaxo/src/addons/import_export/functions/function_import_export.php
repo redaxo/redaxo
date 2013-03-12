@@ -95,13 +95,11 @@ function rex_a1_import_db($filename)
 
     // ----- EXTENSION POINT
     $filesize = filesize($filename);
-    $msg = rex_extension::registerPoint('A1_BEFORE_DB_IMPORT', $msg,
-     [
-         'content' => $conts,
-         'filename' => $filename,
-         'filesize' => $filesize
-     ]
-    );
+    $msg = rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_DB_IMPORT', $msg, [
+        'content' => $conts,
+        'filename' => $filename,
+        'filesize' => $filesize
+    ]));
 
     // require import skript to do some userside-magic
     rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_PRE);
@@ -190,13 +188,11 @@ function rex_a1_import_db($filename)
     // generated neu erstellen, wenn kein Fehler aufgetreten ist
     if ($error == '') {
         // ----- EXTENSION POINT
-        $msg = rex_extension::registerPoint('A1_AFTER_DB_IMPORT', $msg,
-         [
-             'content' => $conts,
-             'filename' => $filename,
-             'filesize' => $filesize
-         ]
-        );
+        $msg = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_DB_IMPORT', $msg, [
+            'content' => $conts,
+            'filename' => $filename,
+            'filesize' => $filesize
+        ]));
 
         // require import skript to do some userside-magic
     rex_a1_import_skript(str_replace('.sql', '.php', $filename), REX_A1_IMPORT_DB, REX_A1_IMPORT_EVENT_POST);
@@ -235,7 +231,7 @@ function rex_a1_import_files($filename)
     $tar = new rex_tar;
 
     // ----- EXTENSION POINT
-    $tar = rex_extension::registerPoint('A1_BEFORE_FILE_IMPORT', $tar);
+    $tar = rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_FILE_IMPORT', $tar));
 
     // require import skript to do some userside-magic
     rex_a1_import_skript(str_replace('.tar.gz', '.php', $filename), REX_A1_IMPORT_ARCHIVE, REX_A1_IMPORT_EVENT_PRE);
@@ -254,7 +250,7 @@ function rex_a1_import_files($filename)
     }
 
     // ----- EXTENSION POINT
-    $tar = rex_extension::registerPoint('A1_AFTER_FILE_IMPORT', $tar);
+    $tar = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_FILE_IMPORT', $tar));
 
     // require import skript to do some userside-magic
     rex_a1_import_skript(str_replace('.tar.gz', '.php', $filename), REX_A1_IMPORT_ARCHIVE, REX_A1_IMPORT_EVENT_POST);
@@ -286,7 +282,7 @@ function rex_a1_export_db($filename)
     $insertSize = 5000;
 
     // ----- EXTENSION POINT
-    rex_extension::registerPoint('A1_BEFORE_DB_EXPORT');
+    rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_DB_EXPORT'));
 
     // Versionsstempel hinzufügen
     fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
@@ -382,7 +378,7 @@ function rex_a1_export_db($filename)
         $content    = rex_file::get($filename);
         $hashBefore = md5($content);
         // ----- EXTENSION POINT
-        $content    = rex_extension::registerPoint('A1_AFTER_DB_EXPORT', $content);
+        $content    = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_DB_EXPORT', $content));
         $hashAfter  = md5($content);
 
         if ($hashAfter != $hashBefore) {
@@ -406,14 +402,14 @@ function rex_a1_export_files($folders)
     $tar = new rex_tar;
 
     // ----- EXTENSION POINT
-    $tar = rex_extension::registerPoint('A1_BEFORE_FILE_EXPORT', $tar);
+    $tar = rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_FILE_EXPORT', $tar));
 
     foreach ($folders as $key => $item) {
         _rex_a1_add_folder_to_tar($tar, rex_path::frontend(), $key);
     }
 
     // ----- EXTENSION POINT
-    $tar = rex_extension::registerPoint('A1_AFTER_FILE_EXPORT', $tar);
+    $tar = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_FILE_EXPORT', $tar));
 
     return $tar->toTar(null, true);
 }

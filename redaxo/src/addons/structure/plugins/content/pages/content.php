@@ -108,19 +108,17 @@ if ($article->getRows() == 1) {
 
 
     // ----- EXTENSION POINT
-    echo rex_extension::registerPoint('PAGE_CONTENT_HEADER', '',
-        [
-            'article_id' => $article_id,
-            'clang' => $clang,
-            'function' => $function,
-            'slice_id' => $slice_id,
-            'page' => rex_be_controller::getCurrentPage(),
-            'ctype' => $ctype,
-            'category_id' => $category_id,
-            'article_revision' => &$article_revision,
-            'slice_revision' => &$slice_revision,
-        ]
-    );
+    echo rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_HEADER', '', [
+        'article_id' => $article_id,
+        'clang' => $clang,
+        'function' => $function,
+        'slice_id' => $slice_id,
+        'page' => rex_be_controller::getCurrentPage(),
+        'ctype' => $ctype,
+        'category_id' => $category_id,
+        'article_revision' => &$article_revision,
+        'slice_revision' => &$slice_revision,
+    ]));
 
     // --------------------- SEARCH BAR
 
@@ -233,20 +231,18 @@ if ($article->getRows() == 1) {
                                     $info = $action_message . rex_i18n::msg('block_updated');
 
                                     // ----- EXTENSION POINT
-                                    $info = rex_extension::registerPoint('SLICE_UPDATED', $info,
-                                        [
-                                            'article_id' => $article_id,
-                                            'clang' => $clang,
-                                            'function' => $function,
-                                            'slice_id' => $slice_id,
-                                            'page' => rex_be_controller::getCurrentPage(),
-                                            'ctype' => $ctype,
-                                            'category_id' => $category_id,
-                                            'module_id' => $module_id,
-                                            'article_revision' => &$article_revision,
-                                            'slice_revision' => &$slice_revision,
-                                        ]
-                                    );
+                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, [
+                                        'article_id' => $article_id,
+                                        'clang' => $clang,
+                                        'function' => $function,
+                                        'slice_id' => $slice_id,
+                                        'page' => rex_be_controller::getCurrentPage(),
+                                        'ctype' => $ctype,
+                                        'category_id' => $category_id,
+                                        'module_id' => $module_id,
+                                        'article_revision' => &$article_revision,
+                                        'slice_revision' => &$slice_revision,
+                                    ]));
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -270,32 +266,7 @@ if ($article->getRows() == 1) {
                                     $function = '';
 
                                     // ----- EXTENSION POINT
-                                    $info = rex_extension::registerPoint('SLICE_ADDED', $info,
-                                        [
-                                            'article_id' => $article_id,
-                                            'clang' => $clang,
-                                            'function' => $function,
-                                            'slice_id' => $slice_id,
-                                            'page' => rex_be_controller::getCurrentPage(),
-                                            'ctype' => $ctype,
-                                            'category_id' => $category_id,
-                                            'module_id' => $module_id,
-                                            'article_revision' => &$article_revision,
-                                            'slice_revision' => &$slice_revision,
-                                        ]
-                                    );
-                                } catch (rex_sql_exception $e) {
-                                    $warning = $action_message . $e->getMessage();
-                                }
-                            }
-                        } else {
-                            // make delete
-                            if (rex_content_service::deleteSlice($slice_id)) {
-                                $global_info = rex_i18n::msg('block_deleted');
-
-                                // ----- EXTENSION POINT
-                                $global_info = rex_extension::registerPoint('SLICE_DELETED', $global_info,
-                                    [
+                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, [
                                         'article_id' => $article_id,
                                         'clang' => $clang,
                                         'function' => $function,
@@ -306,8 +277,29 @@ if ($article->getRows() == 1) {
                                         'module_id' => $module_id,
                                         'article_revision' => &$article_revision,
                                         'slice_revision' => &$slice_revision,
-                                    ]
-                                );
+                                    ]));
+                                } catch (rex_sql_exception $e) {
+                                    $warning = $action_message . $e->getMessage();
+                                }
+                            }
+                        } else {
+                            // make delete
+                            if (rex_content_service::deleteSlice($slice_id)) {
+                                $global_info = rex_i18n::msg('block_deleted');
+
+                                // ----- EXTENSION POINT
+                                $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, [
+                                    'article_id' => $article_id,
+                                    'clang' => $clang,
+                                    'function' => $function,
+                                    'slice_id' => $slice_id,
+                                    'page' => rex_be_controller::getCurrentPage(),
+                                    'ctype' => $ctype,
+                                    'category_id' => $category_id,
+                                    'module_id' => $module_id,
+                                    'article_revision' => &$article_revision,
+                                    'slice_revision' => &$slice_revision,
+                                ]));
                             } else {
                                 $global_warning = rex_i18n::msg('block_not_deleted');
                             }
@@ -322,12 +314,10 @@ if ($article->getRows() == 1) {
                         $EA->update();
                         rex_article_cache::delete($article_id, $clang);
 
-                        rex_extension::registerPoint('ART_CONTENT_UPDATED', '',
-                            [
-                                'id' => $article_id,
-                                'clang' => $clang
-                            ]
-                        );
+                        rex_extension::registerPoint(new rex_extension_point('ART_CONTENT_UPDATED', '', [
+                            'id' => $article_id,
+                            'clang' => $clang
+                        ]));
 
                         // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
                         $action->exec(rex_article_action::POSTSAVE);
