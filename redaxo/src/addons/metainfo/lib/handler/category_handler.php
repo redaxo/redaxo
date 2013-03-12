@@ -187,7 +187,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $result = parent::renderFormAndSave(self::PREFIX, $params);
 
         // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
-        if ($ep->getName() == 'CAT_UPDATED' || $ep->getName() == 'CAT_ADDED')
+        if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName())
             return $ep->getSubject();
         else
             return $ep->getSubject() . $result;
