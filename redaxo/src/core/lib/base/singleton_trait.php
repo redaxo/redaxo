@@ -28,4 +28,14 @@ trait rex_singleton_trait
         }
         return self::$instances[$class];
     }
+
+    /**
+     * Cloning a singleton is not allowed
+     *
+     * @throws BadMethodCallException
+     */
+    final public function __clone()
+    {
+        throw new BadMethodCallException('Cloning "' . get_class($this) . '" is not allowed!');
+    }
 }
