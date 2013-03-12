@@ -48,7 +48,7 @@ class rex_extension_debug extends rex_extension
 
         self::$log[] = [
             'type'      => 'EP',
-            'ep'        => $extensionPoint,
+            'ep'        => $extensionPoint->getName(),
             'started'   => $absDur,
             'duration'  => $epDur,
             'memory'    => $memory,
