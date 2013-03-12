@@ -25,11 +25,12 @@ rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
         throw new rex_exception('no permission for the working version');
     }
 
-    $params['article']->setSliceRevision($version);
-    if (is_a($params['article'], 'rex_article_content')) {
-        $params['article']->getContentAsQuery();
+    $article = $ep->getParam('article');
+    $article->setSliceRevision($version);
+    if ($article instanceof rex_article_content) {
+        $article->getContentAsQuery();
     }
-    $params['article']->setEval(true);
+    $article->setEval(true);
 });
 
 rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep) {
