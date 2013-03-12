@@ -25,7 +25,7 @@ $body_attr['id'] = ['rex-page-' . $body_id];
 $body_attr['onunload'] = ['closeAll();'];
 
 // ----- EXTENSION POINT
-$body_attr = rex_extension::registerPoint('PAGE_BODY_ATTR', $body_attr );
+$body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 
 $body = '';
 foreach ($body_attr as $k => $v) {
@@ -176,7 +176,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
     $fragment->setVar('jsFiles', rex_view::getJsFiles());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
     $fragment->setVar('favicon', rex_view::getFavicon());
-    $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', ''), false);
+    $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
     $fragment->setVar('bodyAttr', $body, false);
     echo $fragment->parse('core/top.tpl');
 } elseif (rex_request::isPJAXRequest()) {
@@ -185,7 +185,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
 }
 
 $fragment = new rex_fragment();
-// $fragment->setVar('pageHeader', rex_extension::registerPoint('PAGE_HEADER', '' ), false);
+// $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
 echo $fragment->parse('core/header.tpl');
 
 $fragment = new rex_fragment();

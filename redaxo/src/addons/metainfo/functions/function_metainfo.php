@@ -185,11 +185,11 @@ function rex_metainfo_meta_table($prefix)
 /**
  * Bindet ggf extensions ein
  *
- * @param array $params
+ * @param rex_extension_point $ep
  */
-function rex_metainfo_extensions_handler($params)
+function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
-    $page = $params['subject'];
+    $page = $ep->getSubject();
     $mypage = 'metainfo';
 
     // additional javascripts

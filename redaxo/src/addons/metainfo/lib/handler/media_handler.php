@@ -10,12 +10,14 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     /**
      * Extension to check whether the given media is still in use.
      *
-     * @param array $params EP Params
+     * @param rex_extension_point $ep
+     * @throws rex_exception
      * @return string
      */
-    public static function isMediaInUse(array $params)
+    public static function isMediaInUse(rex_extension_point $ep)
     {
-        $warning = $params['subject'];
+        $params = $ep->getParams();
+        $warning = $ep->getSubject();
 
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT `name`, `type` FROM `' . rex::getTablePrefix() . 'metainfo_params` WHERE `type` IN(6,7)');
@@ -164,15 +166,16 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         return $s;
     }
 
-    public function extendForm(array $params)
+    public function extendForm(rex_extension_point $ep)
     {
+        $params = $ep->getParams();
         // Nur beim EDIT gibts auch ein Medium zum bearbeiten
-        if ($params['extension_point'] == 'MEDIA_FORM_EDIT') {
+        if ($ep->getName() == 'MEDIA_FORM_EDIT') {
             $params['activeItem'] = $params['media'];
             unset($params['media']);
             // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
             // $params['activeItem']->setValue('category_id', 0);
-        } elseif ($params['extension_point'] == 'MEDIA_ADDED') {
+        } elseif ($ep->getName() == 'MEDIA_ADDED') {
             $sql = rex_sql::factory();
             $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
             $sql->setQuery($qry);

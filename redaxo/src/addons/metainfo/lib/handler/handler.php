@@ -376,7 +376,7 @@ abstract class rex_metainfo_handler
                 {
                     // ----- EXTENSION POINT
                     list($field, $tag, $tag_attr, $id, $label, $labelIt) =
-                        rex_extension::registerPoint(
+                        rex_extension::registerPoint(new rex_extension_point(
                             'METAINFO_CUSTOM_FIELD',
                             [
                                 $field,
@@ -390,7 +390,7 @@ abstract class rex_metainfo_handler
                                 'type' => $typeLabel,
                                 'sql' => $sqlFields
                             ]
-                        );
+                        ));
                 }
             }
 
@@ -593,9 +593,10 @@ abstract class rex_metainfo_handler
      * Retrieves the activeItem from the current context.
      * Afterwards the actual metaForm extension will be rendered.
      *
-     * @param array $params EP Params
+     * @param rex_extension_point $ep
+     * @return string
      */
-    abstract public function extendForm(array $params);
+    abstract public function extendForm(rex_extension_point $ep);
 
     /**
      * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table

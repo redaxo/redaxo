@@ -7,9 +7,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 {
     const PREFIX = 'cat_';
 
-    public function renderToggleButton(array $params)
+    public function renderToggleButton(rex_extension_point $ep)
     {
-        $restrictionsCondition = $this->buildFilterCondition($params);
+        $restrictionsCondition = $this->buildFilterCondition($ep->getParams());
 
         $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
         if ($fields->getRows() >= 1) {
@@ -87,10 +87,10 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $return = $fragment->parse('core/navigations/context.tpl');
 
 
-            return $params['subject'] . $return;
+            return $ep->getSubject() . $return;
         }
 
-        return $params['subject'];
+        return $ep->getSubject();
     }
 
     public function handleSave(array $params, rex_sql $sqlFields)
@@ -174,8 +174,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $s;
     }
 
-    public function extendForm(array $params)
+    public function extendForm(rex_extension_point $ep)
     {
+        $params = $ep->getParams();
         if (isset($params['category'])) {
             $params['activeItem'] = $params['category'];
 
@@ -186,10 +187,10 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $result = parent::renderFormAndSave(self::PREFIX, $params);
 
         // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
-        if ($params['extension_point'] == 'CAT_UPDATED' || $params['extension_point'] == 'CAT_ADDED')
-            return $params['subject'];
+        if ($ep->getName() == 'CAT_UPDATED' || $ep->getName() == 'CAT_ADDED')
+            return $ep->getSubject();
         else
-            return $params['subject'] . $result;
+            return $ep->getSubject() . $result;
     }
 }
 

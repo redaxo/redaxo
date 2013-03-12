@@ -17,13 +17,13 @@
 class rex_url_rewriter_mod_rewrite extends rex_url_rewriter
 {
     // Url neu schreiben
-    public function rewrite(array $params)
+    public function rewrite(rex_extension_point $ep)
     {
         // Url wurde von einer anderen Extension bereits gesetzt
-        if ($params['subject'] != '') {
-            return $params['subject'];
+        if ($ep->getSubject() != '') {
+            return;
         }
-
+        $params = $ep->getParams();
         $params['params'] = $params['params'] == '' ? '' : '?' . $params['params'];
         return $params['id'] . '-' . $params['clang'] . '-' . $params['name'] . '.htm' . $params['params'];
     }

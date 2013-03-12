@@ -120,10 +120,9 @@ class rex_cronjob_manager_sql
             } else {
                 rex_extension::register(
                     'RESPONSE_SHUTDOWN',
-                    function ($params) {
-                        $params['manager']->tryExecuteSql($params['sql'], true, true);
-                    },
-                    ['manager' => $this, 'sql' => $sql]
+                    function () use ($sql) {
+                        $this->tryExecuteSql($sql, true, true);
+                    }
                 );
             }
         } else {

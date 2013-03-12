@@ -34,7 +34,7 @@ else {
 if (rex::isBackend() && rex::getUser()) {
     rex_view::addJsFile($this->getAssetsUrl('linkmap.js'));
 
-    rex_extension::register('PAGE_SIDEBAR', function ($params) {
+    rex_extension::register('PAGE_SIDEBAR', function () {
         $category_id = rex_request('category_id', 'int');
         $article_id  = rex_request('article_id',  'int');
         $clang       = rex_request('clang',       'int');
@@ -67,9 +67,7 @@ if (rex::isBackend() && rex::getUser()) {
         $tree .= '</div>';
         $tree .= '</div>';
 
-        $params['subject'] = $tree;
-
-        return $params['subject'];
+        return $tree;
     });
 
     if (rex_be_controller::getCurrentPagePart(1) == 'system') {
@@ -78,7 +76,7 @@ if (rex::isBackend() && rex::getUser()) {
     }
 }
 
-rex_extension::register('CLANG_ADDED', function ($params) {
+rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
     $firstLang = rex_sql::factory();
     $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang=?', [rex::getProperty('start_clang_id')]);
     $fields = $firstLang->getFieldnames();
@@ -92,7 +90,7 @@ rex_extension::register('CLANG_ADDED', function ($params) {
             if ($value == 'pid')
                 echo ''; // nix passiert
             elseif ($value == 'clang')
-                $newLang->setValue('clang', $params['clang']->getId());
+                $newLang->setValue('clang', $ep->getParam('clang')->getId());
             elseif ($value == 'status')
                 $newLang->setValue('status', '0'); // Alle neuen Artikel offline
             else
@@ -103,7 +101,7 @@ rex_extension::register('CLANG_ADDED', function ($params) {
     }
 });
 
-rex_extension::register('CLANG_DELETED', function ($params) {
+rex_extension::register('CLANG_DELETED', function (rex_extension_point $ep) {
     $del = rex_sql::factory();
-    $del->setQuery('delete from ' . rex::getTablePrefix() . "article where clang='" . $params['clang']->getId() . "'");
+    $del->setQuery('delete from ' . rex::getTablePrefix() . "article where clang='" . $ep->getParam('clang')->getId() . "'");
 });

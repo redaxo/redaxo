@@ -100,12 +100,12 @@ class rex_response
     public static function sendPage($content, $lastModified = null)
     {
         // ----- EXTENSION POINT
-        $content = rex_extension::registerPoint('OUTPUT_FILTER', $content);
+        $content = rex_extension::registerPoint(new rex_extension_point('OUTPUT_FILTER', $content));
 
         self::sendContent($content, null, $lastModified);
 
         // ----- EXTENSION POINT - (read only)
-        rex_extension::registerPoint('RESPONSE_SHUTDOWN', $content, [], true);
+        rex_extension::registerPoint(new rex_extension_point('RESPONSE_SHUTDOWN', $content, [], true));
     }
 
     /**

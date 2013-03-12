@@ -31,7 +31,7 @@ if (count($items) > 0) {
 
     }
 
-    $list_items = rex_extension::registerPoint('META_NAVI', $list_items);
+    $list_items = rex_extension::registerPoint(new rex_extension_point('META_NAVI', $list_items));
 
     if (count($list_items) > 0) {
         echo '

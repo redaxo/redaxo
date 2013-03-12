@@ -30,12 +30,10 @@ $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
 
 // ----- EXTENSION POINT
-echo rex_extension::registerPoint('PAGE_MEDIAPOOL_HEADER', '',
-    [
-        'subpage' => $subpage,
-        'category_id' => $rex_file_category
-    ]
-);
+echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER', '', [
+    'subpage' => $subpage,
+    'category_id' => $rex_file_category
+]));
 
 
 // ***** formular
@@ -84,12 +82,10 @@ $cat_out .= '     </div>
 ';
 
 // ----- EXTENSION POINT
-$cat_out = rex_extension::registerPoint('MEDIA_LIST_TOOLBAR', $cat_out,
-    [
-        'subpage' => $subpage,
-        'category_id' => $rex_file_category
-    ]
-);
+$cat_out = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $cat_out, [
+    'subpage' => $subpage,
+    'category_id' => $rex_file_category
+]));
 
 // *************************************** Subpage: Media
 
@@ -146,8 +142,8 @@ if ($file_id && rex_post('btn_update', 'string')) {
             if ($return['ok'] == 1) {
                 $info = $return['msg'];
                 // ----- EXTENSION POINT
-                 // rex_extension::registerPoint('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] ));
-                 rex_extension::registerPoint('MEDIA_UPDATED', '', $return);
+                 // rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED','',array('id' => $file_id, 'type' => $FILEINFOS["filetype"], 'filename' => $FILEINFOS["filename"] )));
+                 rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
             } else {
                 $warning = $return['msg'];
             }
@@ -297,7 +293,7 @@ if ($file_id) {
                                 <div class="rex-clearer"></div>';
 
     // ----- EXTENSION POINT
-    echo rex_extension::registerPoint('MEDIA_FORM_EDIT', '', ['id' => $file_id, 'media' => $gf]);
+    echo rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_EDIT', '', ['id' => $file_id, 'media' => $gf]));
 
     echo '
                                             ' . $add_ext_info . '
@@ -591,11 +587,9 @@ if (!$file_id) {
         $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
 
     // ----- EXTENSION POINT
-    $qry = rex_extension::registerPoint('MEDIA_LIST_QUERY', $qry,
-        [
-            'category_id' => $rex_file_category
-        ]
-    );
+    $qry = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $qry, [
+        'category_id' => $rex_file_category
+    ]));
     $files = rex_sql::factory();
 //   $files->setDebug();
     $files->setQuery($qry);
@@ -701,18 +695,16 @@ if (!$file_id) {
                         </td>
                         <td>';
 
-        echo rex_extension::registerPoint('MEDIA_LIST_FUNCTIONS', $opener_link,
-            [
-                'file_id' => $files->getValue('id'),
-                'file_name' => $files->getValue('filename'),
-                'file_oname' => $files->getValue('originalname'),
-                'file_title' => $files->getValue('title'),
-                'file_type' => $files->getValue('filetype'),
-                'file_size' => $files->getValue('filesize'),
-                'file_stamp' => $files->getValue('updatedate'),
-                'file_updateuser' => $files->getValue('updateuser')
-            ]
-        );
+        echo rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_FUNCTIONS', $opener_link, [
+            'file_id' => $files->getValue('id'),
+            'file_name' => $files->getValue('filename'),
+            'file_oname' => $files->getValue('originalname'),
+            'file_title' => $files->getValue('title'),
+            'file_type' => $files->getValue('filetype'),
+            'file_size' => $files->getValue('filesize'),
+            'file_stamp' => $files->getValue('updatedate'),
+            'file_updateuser' => $files->getValue('updateuser')
+        ]));
 
         echo '</td>
                  </tr>';

@@ -15,7 +15,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('navigation', $navigation, false);
 echo $fragment->parse('core/navigation.tpl');
 
-$sidebar = rex_extension::registerPoint('PAGE_SIDEBAR', '');
+$sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
 if ($sidebar != '') {
     $sidebarfragment = new rex_fragment();
     $sidebarfragment->content = $sidebar;

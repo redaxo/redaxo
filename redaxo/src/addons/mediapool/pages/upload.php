@@ -27,7 +27,7 @@ if ($media_method == 'add_file') {
 
                 // ----- EXTENSION POINT
                 if ($return['ok'] == 1)
-                    rex_extension::registerPoint('MEDIA_ADDED', '', $return);
+                    rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $return));
 
                 if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1) {
                     $file_name = $return['filename'];

@@ -79,8 +79,8 @@ if ($func == '') {
         $select->addArrayOptions($perms);
     }
 
-    rex_extension::register('REX_FORM_INPUT_CLASS', function ($params) {
-        return $params['inputType'] == 'perm_select' ? 'rex_form_perm_select_element' : null;
+    rex_extension::register('REX_FORM_INPUT_CLASS', function (rex_extension_point $ep) {
+        return $ep->getParam('inputType') == 'perm_select' ? 'rex_form_perm_select_element' : null;
     });
 
     $fieldIds = [];

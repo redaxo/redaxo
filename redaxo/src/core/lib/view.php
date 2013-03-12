@@ -195,17 +195,15 @@ class rex_view
             $subtitle = '';
         }
 
-        $title = rex_extension::registerPoint('PAGE_TITLE', $head, ['category_id' => $category_id, 'article_id' => $article_id, 'page' => $page]);
+        $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head, ['category_id' => $category_id, 'article_id' => $article_id, 'page' => $page]));
 
         $return = '<h1>' . $title . '</h1>' . $subtitle;
 
-        echo rex_extension::registerPoint('PAGE_TITLE_SHOWN', '',
-            [
-                'category_id' => $category_id,
-                'article_id' => $article_id,
-                'page' => $page
-            ]
-        );
+        echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', '', [
+            'category_id' => $category_id,
+            'article_id' => $article_id,
+            'page' => $page
+        ]));
 
         return $return;
     }

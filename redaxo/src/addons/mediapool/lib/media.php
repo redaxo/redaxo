@@ -329,7 +329,7 @@ class rex_media
             }
         }
 
-        rex_extension::registerPoint('MEDIA_TOIMAGE', '', ['filename' => &$filename, 'params' => &$params]);
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_TOIMAGE', '', ['filename' => &$filename, 'params' => &$params]));
 
         $additional = '';
         foreach ($params as $name => $value) {
@@ -406,12 +406,10 @@ class rex_media
         }
 
         // ----- EXTENSION POINT
-        $warning = rex_extension::registerPoint('MEDIA_IS_IN_USE', $warning,
-            [
-                'filename' => $this->getFileName(),
-                'media' => $this,
-            ]
-        );
+        $warning = rex_extension::registerPoint(new rex_extension_point('MEDIA_IS_IN_USE', $warning, [
+            'filename' => $this->getFileName(),
+            'media' => $this,
+        ]));
 
         if (!empty($warning))
             return $warning;

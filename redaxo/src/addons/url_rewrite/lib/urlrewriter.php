@@ -21,5 +21,5 @@ abstract class rex_url_rewriter
     }
 
     // Url neu schreiben
-    abstract public function rewrite(array $params);
+    abstract public function rewrite(rex_extension_point $ep);
 }
