@@ -42,9 +42,7 @@ abstract class rex_extension
                     list($extension, $params) = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);
                     $subject = call_user_func($extension, $extensionPoint);
-                    // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-                    // damit $params['subject'] nicht verfälscht wird
-                    // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
+                    // Update subject only if the EP is not readonly and the extension has returned something
                     if (!$extensionPoint->isReadonly() && null !== $subject) {
                         $extensionPoint->setSubject($subject);
                     }
