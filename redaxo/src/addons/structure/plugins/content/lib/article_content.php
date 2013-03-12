@@ -78,8 +78,6 @@ class rex_article_content extends rex_article_content_base
             return parent::getArticle($curctype);
         }
 
-        global $REX;
-
         $this->ctype = $curctype;
 
         if (!$this->getSlice && $this->article_id != 0) {

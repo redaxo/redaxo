@@ -211,7 +211,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         if ($ep->getSubject() != '')
             return;
 
-        global $REX, $REXPATH;
+        global $REXPATH;
 
         $params = $ep->getParams();
         $id         = $params['id'];
@@ -255,7 +255,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
      */
     public function generatePathnames(rex_extension_point $ep)
     {
-        global $REX, $REXPATH;
+        global $REXPATH;
 
         if (file_exists($this->PATHLIST)) {
             require_once $this->PATHLIST;

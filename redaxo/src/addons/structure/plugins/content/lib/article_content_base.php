@@ -233,8 +233,6 @@ class rex_article_content_base
      */
     public function getArticle($curctype = -1)
     {
-        global $REX;
-
         $this->ctype = $curctype;
 
         if ($this->article_id == 0 && $this->getSlice == 0) {
@@ -378,9 +376,6 @@ class rex_article_content_base
     // ----- Template inklusive Artikel zurückgeben
     public function getArticleTemplate()
     {
-        // global $REX hier wichtig, damit in den Artikeln die Variable vorhanden ist!
-        global $REX;
-
         if ($this->template_id != 0 && $this->article_id != 0) {
             ob_start();
             ob_implicit_flush(0);
@@ -400,8 +395,6 @@ class rex_article_content_base
 
     protected function getStreamOutput($path, $content)
     {
-        global $REX;
-
         if (!$this->eval) {
             return "require rex_stream::factory('$path', \n<<<'STREAM_CONTENT'\n" . $content . "\nSTREAM_CONTENT\n);\n";
         }

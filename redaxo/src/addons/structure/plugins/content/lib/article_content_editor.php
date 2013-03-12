@@ -19,8 +19,6 @@ class rex_article_content_editor extends rex_article_content
      */
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
     {
-        global $REX;
-
         if ($this->mode != 'edit') {
             // ----- wenn mode nicht edit
             $slice_content = parent::outputSlice(

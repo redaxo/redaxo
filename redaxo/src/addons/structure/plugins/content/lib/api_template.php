@@ -69,7 +69,6 @@ class rex_template
         $sql->setQuery($qry);
 
         if ($sql->getRows() == 1) {
-            $templatesDir = self::getTemplatesDir();
             $templateFile = self::getFilePath($template_id);
 
             $content = $sql->getValue('content');
