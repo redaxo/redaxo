@@ -109,14 +109,11 @@ class rex_extension_point
      */
     public function getParam($key, $default = null)
     {
-        if (!$this->isReadonly() && isset($this->extensionParams[$key])) {
+        if (isset($this->extensionParams[$key])) {
             return $this->extensionParams[$key];
         }
         if (isset($this->params[$key])) {
             return $this->params[$key];
-        }
-        if ($this->isReadonly() && isset($this->extensionParams[$key])) {
-            return $this->extensionParams[$key];
         }
         return $default;
     }
@@ -128,9 +125,6 @@ class rex_extension_point
      */
     public function getParams()
     {
-        if ($this->isReadonly()) {
-            return array_merge($this->extensionParams, $this->params);
-        }
         return array_merge($this->params, $this->extensionParams);
     }
 
