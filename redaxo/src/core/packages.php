@@ -56,4 +56,4 @@ foreach ($packageOrder as $packageId) {
 }
 
 // ----- all addons configs included
-rex_extension::registerPoint('PACKAGES_INCLUDED');
+rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));

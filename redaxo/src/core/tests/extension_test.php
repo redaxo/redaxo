@@ -29,19 +29,19 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
         $EP = 'TEST_EP';
 
         $EPParam = null;
-        rex_extension::register($EP, function ($params) use (&$EPParam) {
-            $EPParam = $params['extension_point'];
-            return $params['subject'] . ' test2';
+        rex_extension::register($EP, function (rex_extension_point $ep) use (&$EPParam) {
+            $EPParam = $ep->getName();
+            return $ep->getSubject() . ' test2';
         });
 
-        rex_extension::register($EP, function ($params) {
+        rex_extension::register($EP, function () {
         });
 
-        rex_extension::register($EP, function ($params) {
-            return $params['subject'] . ' test3';
+        rex_extension::register($EP, function (rex_extension_point $ep) {
+            return $ep->getSubject() . ' test3';
         });
 
-        $result = rex_extension::registerPoint($EP, 'test');
+        $result = rex_extension::registerPoint(new rex_extension_point($EP, 'test'));
 
         $this->assertEquals($EP, $EPParam, '$params["extension_point"] contains the extension point name');
         $this->assertEquals('test test2 test3', $result, 'registerPoint() returns the returned value of last extension');
@@ -51,17 +51,17 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
     {
         $EP = 'TEST_EP_READ_ONLY';
 
-        rex_extension::register($EP, function ($params) {
+        rex_extension::register($EP, function () {
             return 'test2';
         });
 
         $subjectActual = null;
-        rex_extension::register($EP, function ($params) use (&$subjectActual) {
-            $subjectActual = $params['subject'];
+        rex_extension::register($EP, function (rex_extension_point $ep) use (&$subjectActual) {
+            $subjectActual = $ep->getSubject();
         });
 
         $subject = 'test';
-        rex_extension::registerPoint($EP, $subject, [], true);
+        rex_extension::registerPoint(new rex_extension_point($EP, $subject, [], true));
 
         $this->assertEquals($subject, $subjectActual, 'read-only extention points don\'t change subject param');
     }
@@ -71,12 +71,12 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
         $EP = 'TEST_EP_WITH_PARAMS';
 
         $myparamActual = null;
-        rex_extension::register($EP, function ($params) use (&$myparamActual) {
-            $myparamActual = $params['myparam'];
+        rex_extension::register($EP, function (rex_extension_point $ep) use (&$myparamActual) {
+            $myparamActual = $ep->getParam('myparam');
         });
 
         $myparam = 'myparam';
-        rex_extension::registerPoint($EP, null, ['myparam' => $myparam]);
+        rex_extension::registerPoint(new rex_extension_point($EP, null, ['myparam' => $myparam]));
 
         $this->assertEquals($myparam, $myparamActual, 'additional params will be available in extentions');
     }
@@ -86,8 +86,8 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
         $EP = 'TEST_EP_LEVELS';
 
         $callback = function ($str) {
-            return function ($params) use ($str) {
-                return $params['subject'] . $str . ' ';
+            return function (rex_extension_point $ep) use ($str) {
+                return $ep->getSubject() . $str . ' ';
             };
         };
 
@@ -99,7 +99,7 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
         rex_extension::register($EP, $callback('early2'),  rex_extension::EARLY);
 
         $expected = 'early1 early2 normal1 normal2 late1 late2 ';
-        $actual = rex_extension::registerPoint($EP, '');
+        $actual = rex_extension::registerPoint(new rex_extension_point($EP, ''));
 
         $this->assertEquals($expected, $actual);
     }

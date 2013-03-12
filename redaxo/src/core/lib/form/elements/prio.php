@@ -77,9 +77,9 @@ class rex_form_prio_element extends rex_form_select_element
         return parent::formatElement();
     }
 
-    public function organizePriorities($params)
+    public function organizePriorities(rex_extension_point $ep)
     {
-        if ($this->table->equals($params['form'])) {
+        if ($this->table->equals($ep->getParam('form'))) {
             $name = $this->getFieldName();
 
             rex_sql_util::organizePriorities(

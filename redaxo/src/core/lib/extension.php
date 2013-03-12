@@ -16,100 +16,71 @@ abstract class rex_extension
         LATE = 1;
 
     /**
-     * Array aller ExtensionsPoints und deren Extensions
+     * Array of registered extensions
+     *
      * @var array
      */
     private static $extensions = [];
 
-    private function __construct()
-    {
-        // subclassing not allowed
-    }
-
     /**
-     * Definiert einen Extension Point
+     * Registers an extension point
      *
-     * @param string $extensionPoint Name des ExtensionPoints
-     * @param mixed  $subject        Objekt/Variable die beeinflusst werden soll
-     * @param array  $params         Parameter für die Callback-Funktion
-     * @param bool   $read_only
-     * @return mixed $subject, ggf. manipuliert durch registrierte Extensions.
+     * @param rex_extension_point $extensionPoint Extension point
+     * @return mixed Subject, maybe adjusted by the extensions
      */
-    public static function registerPoint($extensionPoint, $subject = '', array $params = [], $read_only = false)
+    public static function registerPoint(rex_extension_point $extensionPoint)
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
         }
 
-        $result = $subject;
+        $name = $extensionPoint->getName();
 
-        // Name des EP als Parameter mit übergeben
-        $params['extension_point'] = $extensionPoint;
-
-        if (isset (self::$extensions[$extensionPoint]) && is_array(self::$extensions[$extensionPoint])) {
-            $params['subject'] = $subject;
-            foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
-                if (isset(self::$extensions[$extensionPoint][$level]) && is_array(self::$extensions[$extensionPoint][$level])) {
-                    if ($read_only) {
-                        foreach (self::$extensions[$extensionPoint][$level] as $ext) {
-                            $func = $ext[0];
-                            $local_params = array_merge($params, $ext[1]);
-                            static::invokeExtension($func, $local_params);
-                        }
-                    } else {
-                        foreach (self::$extensions[$extensionPoint][$level] as $ext) {
-                            $func = $ext[0];
-                            $local_params = array_merge($params, $ext[1]);
-                            $temp = static::invokeExtension($func, $local_params);
-                            // Rückgabewert nur auswerten wenn auch einer vorhanden ist
-                            // damit $params['subject'] nicht verfälscht wird
-                            // null ist default Rückgabewert, falls kein RETURN in einer Funktion ist
-                            if ($temp !== null) {
-                                $result = $temp;
-                                $params['subject'] = $result;
-                            }
-                        }
+        foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
+            if (isset(self::$extensions[$name][$level]) && is_array(self::$extensions[$name][$level])) {
+                foreach (self::$extensions[$name][$level] as $extensionAndParams) {
+                    list($extension, $params) = $extensionAndParams;
+                    $extensionPoint->setExtensionParams($params);
+                    $subject = call_user_func($extension, $extensionPoint);
+                    // Update subject only if the EP is not readonly and the extension has returned something
+                    if (!$extensionPoint->isReadonly() && null !== $subject) {
+                        $extensionPoint->setSubject($subject);
                     }
                 }
             }
         }
-        return $result;
-    }
 
-    protected static function invokeExtension(callable $function, $params)
-    {
-        return call_user_func($function, $params);
+        return $extensionPoint->getSubject();
     }
 
     /**
-     * Definiert eine Callback-Funktion, die an dem Extension Point $extension aufgerufen wird
+     * Registers an extension for an extension point
      *
-     * @param string   $extensionPoint
-     * @param callable $callable       Name der Callback-Funktion
-     * @param int      $level          Ausführungslevel (EARLY, NORMAL oder LATE)
-     * @param array    $params         Array von zusätzlichen Parametern
+     * @param string   $extensionPoint Name of extension point
+     * @param callable $extension      Callback extension
+     * @param int      $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
+     * @param array    $params         Additional params
      */
-    public static function register($extensionPoint, callable $callable, $level = self::NORMAL, array $params = [])
+    public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
             return;
         }
-        self::$extensions[$extensionPoint][(int) $level][] = [$callable, $params];
+        self::$extensions[$extensionPoint][(int) $level][] = [$extension, $params];
     }
 
     /**
-     * Prüft ob eine extension für den angegebenen Extension Point definiert ist
+     * Checks whether an extension is registered for the given extension point
      *
-     * @param string $extensionPoint Name des ExtensionPoints
-     *
-     * @return boolean True, wenn eine Extension für den uebergeben ExtensionPoint definiert ist, sonst False
+     * @param string $extensionPoint Name of extension point
+     * @return boolean
      */
     public static function isRegistered($extensionPoint)
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
         }
-        return !empty (self::$extensions[$extensionPoint]);
+        return !empty(self::$extensions[$extensionPoint]);
     }
 }

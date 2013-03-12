@@ -29,7 +29,7 @@ if ($content != '') {
 
 // ----- EXTENSION POINT
 $dashboard_components = [];
-$dashboard_components = rex_extension::registerPoint('DASHBOARD_COMPONENT', $dashboard_components);
+$dashboard_components = rex_extension::registerPoint(new rex_extension_point('DASHBOARD_COMPONENT', $dashboard_components));
 
 // ------------ sort components by block and format
 $components = [];

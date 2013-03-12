@@ -54,13 +54,11 @@ class rex_article_content_base
             $this->setClang(rex_clang::getCurrentId());
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint('ART_INIT', '',
-            [
-                'article' => &$this,
-                'article_id' => $article_id,
-                'clang' => $this->clang
-            ]
-        );
+        rex_extension::registerPoint(new rex_extension_point('ART_INIT', '', [
+            'article' => $this,
+            'article_id' => $article_id,
+            'clang' => $this->clang
+        ]));
 
         if ($article_id !== null)
             $this->setArticleId($article_id);
@@ -304,7 +302,7 @@ class rex_article_content_base
             // --------------- ENDE EINZELNER SLICE
 
             // --------------- EP: SLICE_SHOW
-            $slice_content = rex_extension::registerPoint(
+            $slice_content = rex_extension::registerPoint(new rex_extension_point(
                 'SLICE_SHOW',
                 $slice_content,
                 [
@@ -316,7 +314,7 @@ class rex_article_content_base
                     'function' => $this->function,
                     'function_slice_id' => $this->slice_id
                 ]
-            );
+            ));
 
             // ---------- slice in ausgabe speichern wenn ctype richtig
             if ($this->ctype == -1 || $this->ctype == $sliceCtypeId) {

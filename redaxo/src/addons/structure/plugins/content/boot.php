@@ -12,7 +12,7 @@ rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 rex_complex_perm::register('modules', 'rex_module_perm');
 
 if (rex::isBackend()) {
-    rex_extension::register('PAGE_CHECKED', function ($params) {
+    rex_extension::register('PAGE_CHECKED', function () {
         if (rex_be_controller::getCurrentPagePart(1) == 'content') {
             rex_be_controller::getPageObject('structure')->setIsActive(true);
         }
@@ -22,13 +22,13 @@ if (rex::isBackend()) {
         rex_system_setting::register(new rex_system_setting_default_template_id());
     }
 
-    rex_extension::register('CLANG_DELETED', function ($params) {
+    rex_extension::register('CLANG_DELETED', function (rex_extension_point $ep) {
         $del = rex_sql::factory();
-        $del->setQuery('delete from ' . rex::getTablePrefix() . "article_slice where clang='" . $params['clang']->getId() . "'");
+        $del->setQuery('delete from ' . rex::getTablePrefix() . "article_slice where clang='" . $ep->getParam('clang')->getId() . "'");
     });
 } else {
-    rex_extension::register('FE_OUTPUT', function ($params) {
-        $content = $params['subject'];
+    rex_extension::register('FE_OUTPUT', function (rex_extension_point $ep) {
+        $content = $ep->getSubject();
 
         $article = new rex_article_content;
         $article->setCLang(rex_clang::getCurrentId());

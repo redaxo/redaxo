@@ -22,7 +22,7 @@ class rex_media_manager
 
         if (!$this->isCached($type)) {
             $set = $this->effectsFromType($type);
-            $set = rex_extension::registerPoint('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]);
+            $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
             if (count($set) == 0) {
                 return $this->media;
@@ -246,9 +246,9 @@ class rex_media_manager
     /*
      * For ExtensionPoints.
      */
-    public static function mediaUpdated($params)
+    public static function mediaUpdated(rex_extension_point $ep)
     {
-        self::deleteCache($params['filename']);
+        self::deleteCache($ep->getParam('filename'));
     }
 
     public static function init()

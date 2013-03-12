@@ -104,7 +104,7 @@ if (rex::getUser()) {
     rex_be_controller::appendPackagePages();
 }
 
-$pages = rex_extension::registerPoint('PAGES_PREPARED', rex_be_controller::getPages());
+$pages = rex_extension::registerPoint(new rex_extension_point('PAGES_PREPARED', rex_be_controller::getPages()));
 rex_be_controller::setPages($pages);
 
 // Set current page recursively to first subpage
@@ -125,7 +125,7 @@ if ($user = rex::getUser()) {
 
 // ----- EXTENSION POINT
 // page variable validated
-rex_extension::registerPoint('PAGE_CHECKED', $page, ['pages' => $pages]);
+rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pages' => $pages], true));
 
 // trigger api functions
 // If the backend session is timed out, rex_api_function would throw an exception

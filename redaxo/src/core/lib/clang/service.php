@@ -30,11 +30,11 @@ class rex_clang_service
 
         // ----- EXTENSION POINT
         $clang = rex_clang::get($id);
-        rex_extension::registerPoint('CLANG_ADDED', '', [
+        rex_extension::registerPoint(new rex_extension_point('CLANG_ADDED', '', [
             'id'    => $clang->getId(),
             'name'  => $clang->getName(),
             'clang' => $clang
-        ]);
+        ]));
     }
 
     /**
@@ -62,11 +62,11 @@ class rex_clang_service
 
         // ----- EXTENSION POINT
         $clang = rex_clang::get($id);
-        rex_extension::registerPoint('CLANG_UPDATED', '', [
+        rex_extension::registerPoint(new rex_extension_point('CLANG_UPDATED', '', [
             'id'    => $clang->getId(),
             'name'  => $clang->getName(),
             'clang' => $clang
-        ]);
+        ]));
 
         return true;
     }
@@ -94,11 +94,11 @@ class rex_clang_service
         rex_delete_cache();
 
         // ----- EXTENSION POINT
-        rex_extension::registerPoint('CLANG_DELETED', '', [
+        rex_extension::registerPoint(new rex_extension_point('CLANG_DELETED', '', [
             'id'    => $clang->getId(),
             'name'  => $clang->getName(),
             'clang' => $clang
-        ]);
+        ]));
     }
 
     /**

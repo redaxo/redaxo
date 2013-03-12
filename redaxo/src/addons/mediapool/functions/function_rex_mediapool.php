@@ -151,7 +151,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     // ----- EXTENSION POINT
     if ($success)
-        rex_extension::registerPoint('MEDIA_ADDED', '', $RETURN);
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $RETURN));
 
     return $RETURN;
 }
@@ -396,7 +396,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
                             <div class="rex-clearer"></div>';
 
     // ----- EXTENSION POINT
-    $s .= rex_extension::registerPoint('MEDIA_FORM_ADD', '');
+    $s .= rex_extension::registerPoint(new rex_extension_point('MEDIA_FORM_ADD', ''));
 
     $s .=        $add_file . '
                             <div class="rex-form-row">
