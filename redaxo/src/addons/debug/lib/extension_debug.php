@@ -15,15 +15,15 @@ class rex_extension_debug extends rex_extension
     /**
      * Extends rex_extension::register() with FirePHP logging
      */
-    public static function register($extensionPoint, $callable, $level = self::NORMAL, array $params = [])
+    public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
         $timer  = new rex_timer();
-        parent::register($extensionPoint, $callable, $level, $params);
+        parent::register($extensionPoint, $extension, $level, $params);
 
         self::$log[] = [
             'type'     => 'EXT',
             'ep'       => $extensionPoint,
-            'callable' => $callable,
+            'callable' => $extension,
             'level'    => $level,
             'params'   => $params,
             'timer'    => $timer->getFormattedDelta(),
@@ -34,14 +34,14 @@ class rex_extension_debug extends rex_extension
     /**
      * Extends rex_extension::registerPoint() with FirePHP logging
      */
-    public static function registerPoint($extensionPoint, $subject = '', array $params = [], $read_only = false)
+    public static function registerPoint(rex_extension_point $extensionPoint)
     {
         $coreTimer = rex::getProperty('timer');
         $absDur    = $coreTimer->getFormattedDelta();
 
         // start timer for this extensionPoint
         $timer  = new rex_timer();
-        $res    = parent::registerPoint($extensionPoint, $subject, $params, $read_only);
+        $res    = parent::registerPoint($extensionPoint);
         $epDur  = $timer->getFormattedDelta();
 
         $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
@@ -52,9 +52,9 @@ class rex_extension_debug extends rex_extension
             'started'   => $absDur,
             'duration'  => $epDur,
             'memory'    => $memory,
-            'subject'   => $subject,
-            'params'    => $params,
-            'read_only' => $read_only,
+            'subject'   => $extensionPoint->getSubject(),
+            'params'    => $extensionPoint->getParams(),
+            'read_only' => $extensionPoint->isReadonly(),
             'result'    => $res,
             'timer'     => $epDur
         ];
@@ -65,10 +65,8 @@ class rex_extension_debug extends rex_extension
 
     /**
      * process log & send as FirePHP table
-     * @param array $params EP Params
-     * @return void
      */
-    public static function doLog($params)
+    public static function doLog()
     {
         $firephp = FirePHP::getInstance(true);
 
