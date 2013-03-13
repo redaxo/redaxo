@@ -86,7 +86,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         $clang = rex_clang::getCurrentId();
 
         if (!file_exists($this->PATHLIST))
-             $this->generatePathnames([]);
+             $this->generatePathnames();
 
         // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
         require_once $this->PATHLIST;
@@ -253,7 +253,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
      * @author markus.staab[at]redaxo[dot]de Markus Staab
      * @package redaxo5.2
      */
-    public function generatePathnames(rex_extension_point $ep)
+    public function generatePathnames(rex_extension_point $ep = null)
     {
         global $REXPATH;
 
@@ -265,8 +265,13 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             $REXPATH = [];
 
         $where = '';
-        $params = $ep->getParams();
-        switch ($ep->getName()) {
+        $name = '';
+        $params = [];
+        if ($ep) {
+            $name = $ep->getName();
+            $params = $ep->getParams();
+        }
+        switch ($name) {
             // ------- sprachabhängig, einen artikel aktualisieren
             case 'CAT_DELETED':
             case 'ART_DELETED':
