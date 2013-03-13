@@ -30,6 +30,7 @@ class rex_stream
      * @param string $path    Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
      * @param string $content Content which will be included
      *
+     * @throws InvalidArgumentException
      * @return string Full path with protocol (e.g. "rex://template/1")
      */
     public static function factory($path, $content)

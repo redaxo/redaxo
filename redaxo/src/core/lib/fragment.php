@@ -39,6 +39,7 @@ class rex_fragment
      * @param string $name   The name of the variable.
      * @param mixed  $value  The value for the variable
      * @param bool   $escape Flag which indicates if the value should be escaped or not.
+     * @throws InvalidArgumentException
      */
     public function setVar($name, $value, $escape = true)
     {
@@ -58,6 +59,7 @@ class rex_fragment
      *
      * @param string $filename           the filename of the fragment to parse.
      * @param bool   $delete_whitespaces
+     * @throws InvalidArgumentException
      * @throws rex_exception
      * @return string
      */
@@ -156,7 +158,7 @@ class rex_fragment
      * Translate the given key $key.
      *
      * @param string $key The key to translate
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      * @return string
      */
     protected function i18n($key)

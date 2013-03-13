@@ -195,6 +195,7 @@ class rex_sql implements Iterator
      *
      * @param string $qry A query string with placeholders
      *
+     * @throws rex_sql_exception
      * @return PDOStatement The prepared statement
      */
     public function prepareQuery($qry)
@@ -210,7 +211,9 @@ class rex_sql implements Iterator
 
     /**
      * Executes the prepared statement with the given input parameters
+     *
      * @param array $params Array of input parameters
+     * @throws rex_sql_exception
      */
     public function execute(array $params = [])
     {
@@ -444,6 +447,7 @@ class rex_sql implements Iterator
      * Returns the value of a column
      *
      * @param string $colName Name of the column
+     * @throws rex_sql_exception
      * @return mixed
      */
     public function getValue($colName)

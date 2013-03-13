@@ -52,7 +52,7 @@ abstract class rex_package implements rex_package_interface
      * Returns the package (addon or plugin) by the given package id
      *
      * @param string $packageId Package ID
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      * @return rex_package
      */
     public static function get($packageId)

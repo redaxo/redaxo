@@ -13,6 +13,7 @@ class rex_category_service
      * @param int   $category_id KategorieId in der die neue Kategorie erstellt werden soll
      * @param array $data        Array mit den Daten der Kategorie
      *
+     * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
     public static function addCategory($category_id, array $data)
@@ -143,6 +144,7 @@ class rex_category_service
      * @param int   $clang       Id der Sprache
      * @param array $data        Array mit den Daten der Kategorie
      *
+     * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
     public static function editCategory($category_id, $clang, array $data)
@@ -247,6 +249,7 @@ class rex_category_service
      *
      * @param int $category_id Id der Kategorie die gelöscht werden soll
      *
+     * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
     public static function deleteCategory($category_id)
@@ -311,6 +314,7 @@ class rex_category_service
      * @param int      $clang       Id der Sprache
      * @param int|null $status      Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
+     * @throws rex_api_exception
      * @return int Der neue Status der Kategorie
      */
     public static function categoryStatus($category_id, $clang, $status = null)
@@ -543,6 +547,7 @@ class rex_category_service
      *
      * @param array  $array   The array
      * @param string $keyName The key
+     * @throws rex_api_exception
      */
     protected static function reqKey(array $array, $keyName)
     {

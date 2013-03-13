@@ -26,7 +26,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      * Returns the addon by the given name
      *
      * @param string $addon Name of the addon
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      * @return rex_addon
      */
     public static function get($addon)

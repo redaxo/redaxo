@@ -37,6 +37,7 @@ class rex_logger extends AbstractLogger
      * @param string  $errstr  The error message
      * @param string  $errfile The file in which the error occured
      * @param integer $errline The line of the file in which the error occured
+     * @throws InvalidArgumentException
      */
     public static function logError($errno, $errstr, $errfile, $errline)
     {
@@ -63,8 +64,8 @@ class rex_logger extends AbstractLogger
      * @param mixed  $level
      * @param string $message
      * @param array  $context
-     *
-     * @throws rex_exception
+     * @throws InvalidArgumentException
+     * @return null
      */
     public function log($level, $message, array $context = [])
     {

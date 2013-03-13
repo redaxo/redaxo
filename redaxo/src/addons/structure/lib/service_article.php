@@ -10,6 +10,7 @@ class rex_article_service
      *
      * @param array $data Array mit den Daten des Artikels
      *
+     * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
     public static function addArticle($data)
@@ -17,7 +18,7 @@ class rex_article_service
         $message = '';
 
         if (!is_array($data)) {
-            throw  new rex_api_exception('Expecting $data to be an array!');
+            throw new rex_api_exception('Expecting $data to be an array!');
         }
 
         self::reqKey($data, 'category_id');
@@ -113,6 +114,7 @@ class rex_article_service
      * @param int   $clang      Id der Sprache
      * @param array $data       Array mit den Daten des Artikels
      *
+     * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
     public static function editArticle($article_id, $clang, $data)
@@ -328,6 +330,7 @@ class rex_article_service
      * @param int      $clang      Id der Sprache
      * @param int|null $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
+     * @throws rex_api_exception
      * @return int Der neue Status des Artikels
      */
     public static function articleStatus($article_id, $clang, $status = null)
@@ -849,6 +852,7 @@ class rex_article_service
      *
      * @param array  $array   The array
      * @param string $keyName The key
+     * @throws rex_api_exception
      */
     protected static function reqKey($array, $keyName)
     {

@@ -15,8 +15,8 @@ class rex_logger_debug extends rex_logger
      * @param mixed  $level
      * @param string $message
      * @param array  $context
-     *
-     * @throws rex_exception
+     * @throws InvalidArgumentException
+     * @return null
      */
     public function log($level, $message, array $context = [])
     {

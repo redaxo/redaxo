@@ -49,9 +49,8 @@ class rex_config
      * @param string|array $key       The associated key or an associative array of key/value pairs
      * @param mixed        $value     The value to save
      *
+     * @throws InvalidArgumentException
      * @return boolean TRUE when an existing value was overridden, otherwise FALSE
-     *
-     * @throws rex_exception on invalid parameters
      */
     public static function set($namespace, $key, $value = null)
     {
@@ -101,8 +100,8 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param string $key       The associated key
      * @param mixed  $default   Default return value if no associated-value can be found
+     * @throws InvalidArgumentException
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
-     * @throws rex_exception on invalid parameters
      */
     public static function get($namespace, $key = null, $default = null)
     {
@@ -132,9 +131,8 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param string $key       The associated key
      *
+     * @throws InvalidArgumentException
      * @return boolean TRUE if the key is set, otherwise FALSE
-     *
-     * @throws rex_exception on invalid parameters
      */
     public static function has($namespace, $key = null)
     {
@@ -161,9 +159,8 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param string $key       The associated key
      *
+     * @throws InvalidArgumentException
      * @return boolean TRUE if the value was found and removed, otherwise FALSE
-     *
-     * @throws rex_exception on invalid parameters
      */
     public static function remove($namespace, $key)
     {
@@ -198,9 +195,8 @@ class rex_config
      *
      * @param string $namespace The namespace e.g. an addon name
      *
+     * @throws InvalidArgumentException
      * @return bool TRUE if the namespace was found and removed, otherwise FALSE
-     *
-     * @throws rex_exception
      */
     public static function removeNamespace($namespace)
     {

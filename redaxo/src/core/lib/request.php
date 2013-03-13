@@ -154,7 +154,7 @@ class rex_request
      * @param string|int $needle   Value to search
      * @param string     $vartype  Variable type
      * @param mixed      $default  Default value
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      * @return mixed
      */
     private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')

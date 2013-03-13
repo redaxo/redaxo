@@ -12,6 +12,8 @@ class rex_content_service
      * @param int    $clang     Id der Sprache
      * @param string $direction Richtung in die verschoben werden soll
      *
+     * @throws rex_exception
+     * @throws rex_api_exception
      * @return string Eine Statusmeldung
      */
     public static function moveSlice($slice_id, $clang, $direction)

@@ -32,6 +32,7 @@ class rex_type
      * @param mixed $var     Variable to cast
      * @param mixed $vartype Variable type
      *
+     * @throws InvalidArgumentException
      * @return mixed Castet value
      */
     public static function cast($var, $vartype)

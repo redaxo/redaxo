@@ -39,6 +39,7 @@ class rex_dashboard_function_cache
      * @param mixed $callable  A PHP callable
      * @param array $arguments An array of arguments to pass to the callable
      *
+     * @throws InvalidArgumentException
      * @return mixed The result of the function/method
      */
     public function call($callable, array $arguments = [])

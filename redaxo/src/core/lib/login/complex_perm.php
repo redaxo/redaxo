@@ -70,7 +70,7 @@ abstract class rex_complex_perm
      *
      * @param string $key   Key for the complex perm
      * @param string $class Class name
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      */
     public static function register($key, $class)
     {

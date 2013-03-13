@@ -39,6 +39,7 @@ class rex_finder implements IteratorAggregate, Countable
      * Returns a new finder object
      *
      * @param string $dir Path to a directory
+     * @throws InvalidArgumentException
      * @return self
      */
     public static function factory($dir)

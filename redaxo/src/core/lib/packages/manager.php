@@ -63,6 +63,7 @@ abstract class rex_package_manager
      *
      * @param boolean $installDump When TRUE, the sql dump will be importet
      *
+     * @throws rex_functional_exception
      * @return boolean TRUE on success, FALSE on error
      */
     public function install($installDump = true)
@@ -155,6 +156,7 @@ abstract class rex_package_manager
      *
      * @param boolean $installDump When TRUE, the sql dump will be importet
      *
+     * @throws rex_functional_exception
      * @return boolean TRUE on success, FALSE on error
      */
     public function uninstall($installDump = true)

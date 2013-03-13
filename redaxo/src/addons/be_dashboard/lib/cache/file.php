@@ -202,6 +202,7 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
      *                     REX_DASHBOARD_CACHE_FILE_READ_TIMEOUT: The timeout
      *                     REX_DASHBOARD_CACHE_FILE_READ_LAST_MODIFIED: The last modification timestamp
      *
+     * @throws rex_exception
      * @return array the (meta)data of the cache file. E.g. $data[sfFileCache::READ_DATA]
      */
     protected function read($path, $type = REX_DASHBOARD_CACHE_FILE_READ_DATA)
@@ -241,6 +242,7 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
      * @param string  $data    The data to put in cache
      * @param integer $timeout The timeout timestamp
      *
+     * @throws rex_exception
      * @return boolean true if ok, otherwise false
      */
     protected function write($path, $data, $timeout)

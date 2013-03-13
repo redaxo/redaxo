@@ -545,6 +545,7 @@ class rex_list implements rex_url_provider_interface
      *
      * @param array   $columns         Array von Spalten
      * @param integer $columnGroupSpan Span der Columngroup
+     * @throws InvalidArgumentException
      */
     public function addTableColumnGroup($columns, $columnGroupSpan = null)
     {

@@ -82,6 +82,7 @@ class rex_clang
      * Sets the current clang id
      *
      * @param integer $id Clang id
+     * @throws rex_exception
      */
     public static function setCurrentId($id)
     {

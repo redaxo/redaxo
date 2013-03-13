@@ -40,7 +40,7 @@ class rex_response
      * Redirects to a URL
      *
      * @param string $url URL
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      */
     public static function sendRedirect($url)
     {
