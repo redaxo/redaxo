@@ -39,7 +39,7 @@ class rex_sql_debug extends rex_sql
         $qry   = $this->stmt->queryString;
 
         $timer = new rex_timer();
-        $res   = parent::execute($params);
+        parent::execute($params);
 
         $err = $errno = '';
         if ($this->hasError()) {
@@ -55,8 +55,6 @@ class rex_sql_debug extends rex_sql
             'error' => $err,
             'errno' => $errno
         ];
-
-        return $res;
     }
 
     public static function doLog()
