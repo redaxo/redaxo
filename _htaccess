@@ -13,7 +13,7 @@ RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule ^([0-9]*)-([0-9]*)- index.php?article_id=$1&clang=$2&%{QUERY_STRING}
 RewriteRule ^([0-9]*)- index.php?article_id=$1&%{QUERY_STRING}
 
-### Remove Comments when you user Fullname "url_rewrite" AddOn 
+### Remove Comments when you user Fullname "url_rewrite" AddOn
 #RewriteCond %{REQUEST_URI} !^redaxo/.*
 #RewriteCond %{REQUEST_URI} !^media/.*
 #RewriteCond %{REQUEST_URI} !^assets/.*
