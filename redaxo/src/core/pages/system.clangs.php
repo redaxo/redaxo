@@ -41,15 +41,10 @@ if ($add_clang_save || $edit_clang_save) {
         $warning = rex_i18n::msg('enter_name');
         $func = $add_clang_save ? 'addclang' : 'editclang';
     } elseif ($add_clang_save) {
-        if (!rex_clang::exists($clang_id)) {
-            $info = rex_i18n::msg('clang_created');
-            rex_clang_service::addCLang($clang_id, $clang_code, $clang_name);
-            unset ($clang_id);
-            $func = '';
-        } else {
-            $warning = rex_i18n::msg('id_exists');
-            $func = 'addclang';
-        }
+        $info = rex_i18n::msg('clang_created');
+        rex_clang_service::addCLang($clang_code, $clang_name);
+        unset($clang_id);
+        $func = '';
     } else {
         if (rex_clang::exists($clang_id)) {
             rex_clang_service::editCLang($clang_id, $clang_code, $clang_name);
@@ -57,20 +52,6 @@ if ($add_clang_save || $edit_clang_save) {
             $func = '';
             unset ($clang_id);
         }
-    }
-}
-
-// seltype
-$sel = new rex_select;
-$sel->setName('clang_id');
-$sel->setStyle('class="rex-form-select"');
-$sel->setId('rex-form-clang-id');
-$sel->setSize(1);
-$clangIds = rex_clang::getAllIds();
-for ($i = 1, $count = 0; $count < 10; ++$i) {
-    if (!in_array($i, $clangIds)) {
-        ++$count;
-        $sel->addOption($i, $i);
     }
 }
 
@@ -116,7 +97,7 @@ if ($func == 'addclang') {
     $content .= '
                 <tr class="rex-active">
                     <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
-                    <td class="rex-id">' . $sel->get() . '</td>
+                    <td class="rex-id">–</td>
                     <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" /></td>
                     <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($clang_name) . '" /></td>
                     <td class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>

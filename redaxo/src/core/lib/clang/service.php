@@ -8,23 +8,20 @@ class rex_clang_service
     /**
      * Erstellt eine Clang
      *
-     * @param integer $id   Id der Clang
-     * @param string  $code Clang Code
-     * @param string  $name Name der Clang
+     * @param string $code Clang Code
+     * @param string $name Name der Clang
      *
      * @throws rex_exception
      */
-    public static function addCLang($id, $code, $name)
+    public static function addCLang($code, $name)
     {
-        if (rex_clang::exists($id))
-            throw new rex_exception('clang with id "' . $id . '" already exists');
-
-        $newLang = rex_sql::factory();
-        $newLang->setTable(rex::getTablePrefix() . 'clang');
-        $newLang->setValue('id', $id);
-        $newLang->setValue('code', $code);
-        $newLang->setValue('name', $name);
-        $newLang->insert();
+        $sql = rex_sql::factory();
+        $sql->setTable(rex::getTablePrefix() . 'clang');
+        $sql->setNewId('id');
+        $sql->setValue('code', $code);
+        $sql->setValue('name', $name);
+        $sql->insert();
+        $id = $sql->getLastId();
 
         rex_delete_cache();
 

@@ -214,7 +214,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rex_clang`;
 CREATE TABLE `rex_clang` (
-    `id` int(11) NOT NULL,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
     `code` varchar(255) NOT NULL,
     `name` varchar(255) NOT NULL,
     `revision` int(11) NOT NULL,
