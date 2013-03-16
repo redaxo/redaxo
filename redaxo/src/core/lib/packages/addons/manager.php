@@ -21,15 +21,17 @@ class rex_addon_manager extends rex_package_manager
     public function install($installDump = true)
     {
         $installed = $this->package->isInstalled();
+        $this->generatePackageOrder = false;
         $return = parent::install($installDump);
+        $this->generatePackageOrder = true;
 
         if (!$installed && $return === true) {
             foreach ($this->package->getSystemPlugins() as $plugin) {
                 $manager = rex_plugin_manager::factory($plugin);
-                if ($manager->install() === true) {
-                    $manager->activate();
-                }
+                $manager->generatePackageOrder = true;
+                $manager->install();
             }
+            self::generatePackageOrder();
         }
 
         return $return;

@@ -103,6 +103,7 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($message);
             }
 
+            $activate = !$this->package->getProperty('install');
             $this->package->setProperty('install', true);
 
             // include install.php
@@ -125,7 +126,13 @@ abstract class rex_package_manager
                 rex_sql_util::importDump($installSql);
             }
 
+            if ($activate) {
+                $this->package->setProperty('status', true);
+            }
             $this->saveConfig();
+            if ($activate && $this->generatePackageOrder) {
+                self::generatePackageOrder();
+            }
 
             // copy assets
             $assets = $this->package->getPath('assets');
