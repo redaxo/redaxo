@@ -157,7 +157,7 @@ class rex_sql implements Iterator
      *
      * @param string $query  The sql-query
      * @param array  $params An optional array of statement parameter
-     * @return bool
+     * @return self
      * @throws rex_sql_exception on errors
      */
     public function setDBQuery($query, $params = [])
@@ -169,12 +169,12 @@ class rex_sql implements Iterator
         if (($qryDBID = self::stripQueryDBID($query)) !== false)
             $this->selectDB($qryDBID);
 
-        $result = $this->setQuery($query, $params);
+        $this->setQuery($query, $params);
 
         // restore connection-id
         $this->DBID = $oldDBID;
 
-        return $result;
+        return $this;
     }
 
     /**
@@ -213,6 +213,7 @@ class rex_sql implements Iterator
      * Executes the prepared statement with the given input parameters
      *
      * @param array $params Array of input parameters
+     * @return self
      * @throws rex_sql_exception
      */
     public function execute(array $params = [])
@@ -230,6 +231,8 @@ class rex_sql implements Iterator
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage());
         }
+
+        return $this;
     }
 
     /**
@@ -244,7 +247,7 @@ class rex_sql implements Iterator
      *
      * @param string $query  The sql-query
      * @param array  $params An optional array of statement parameter
-     * @return bool
+     * @return self
      * @throws rex_sql_exception on errors
      */
     public function setQuery($query, array $params = [])
@@ -270,8 +273,7 @@ class rex_sql implements Iterator
             $this->printError($query, $params);
         }
 
-        // Compat
-        return true;
+        return $this;
     }
 
     /**
@@ -619,39 +621,41 @@ class rex_sql implements Iterator
      * Setzt eine Select-Anweisung auf die angegebene Tabelle
      * mit den WHERE Parametern ab
      *
-     * @see setTable()
-     * @see setWhere()
+     * @param string $fields
+     * @return self
+     * @throws rex_sql_exception
      */
     public function select($fields = '*')
     {
-        return $this->setQuery(
+        $this->setQuery(
             'SELECT ' . $fields . ' FROM `' . $this->table . '` ' . $this->getWhere(),
             $this->whereParams
         );
+        return $this;
     }
 
     /**
      * Setzt eine Update-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten und WHERE Parametern ab
      *
-     * @see setTable()
-     * @see setValue()
-     * @see setWhere()
+     * @return self
+     * @throws rex_sql_exception
      */
     public function update()
     {
-        return $this->setQuery(
+        $this->setQuery(
             'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
         );
+        return $this;
     }
 
     /**
      * Setzt eine Insert-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab
      *
-     * @see setTable()
-     * @see setValue()
+     * @return self
+     * @throws rex_sql_exception
      */
     public function insert()
     {
@@ -659,49 +663,49 @@ class rex_sql implements Iterator
         $tableName = $this->table;
         $values = $this->values;
 
-        $res = $this->setQuery(
+        $this->setQuery(
             'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
             $this->values
         );
 
         // provide debug infos, if insert is considered successfull, but no rows were inserted.
         // this happens when you violate against a NOTNULL constraint
-        if ($res && $this->getRows() == 0) {
+        if ($this->getRows() == 0) {
             throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!');
         }
-
-        return $res;
+        return $this;
     }
 
     /**
      * Setzt eine Replace-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab
      *
-     * @see setTable()
-     * @see setValue()
-     * @see setWhere()
+     * @return self
+     * @throws rex_sql_exception
      */
     public function replace()
     {
-        return $this->setQuery(
+        $this->setQuery(
             'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
         );
+        return $this;
     }
 
     /**
      * Setzt eine Delete-Anweisung auf die angegebene Tabelle
      * mit den angegebenen WHERE Parametern ab
      *
-     * @see setTable()
-     * @see setWhere()
+     * @return self
+     * @throws rex_sql_exception
      */
     public function delete()
     {
-        return $this->setQuery(
+        $this->setQuery(
             'DELETE FROM `' . $this->table . '` ' . $this->getWhere(),
             $this->whereParams
         );
+        return $this;
     }
 
 //   /**

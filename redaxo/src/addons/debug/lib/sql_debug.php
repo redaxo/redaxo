@@ -16,7 +16,7 @@ class rex_sql_debug extends rex_sql
     public function setQuery($qry, array $params = [])
     {
         try {
-            $ret = parent::setQuery($qry, $params);
+            parent::setQuery($qry, $params);
         } catch (rex_exception $e) {
             $trace = debug_backtrace();
             for ( $i = 0 ; $trace && $i < sizeof($trace) ; $i++ ) {
@@ -30,7 +30,8 @@ class rex_sql_debug extends rex_sql
             $firephp->error($e->getMessage() . ' in ' . $file . ' on line ' . $line);
             throw $e; // re-throw exception after logging
         }
-        return $ret;
+
+        return $this;
     }
 
     // TODO queries using setQuery() are not logged yet!
@@ -55,6 +56,8 @@ class rex_sql_debug extends rex_sql
             'error' => $err,
             'errno' => $errno
         ];
+
+        return $this;
     }
 
     public static function doLog()
