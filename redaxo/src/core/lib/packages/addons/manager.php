@@ -40,6 +40,26 @@ class rex_addon_manager extends rex_package_manager
     /**
      * {@inheritDoc}
      */
+    public function uninstall($installDump = true)
+    {
+        $isActivated = $this->package->isActivated();
+        if ($isActivated && !$this->deactivate()) {
+            return false;
+        }
+        foreach ($this->package->getInstalledPlugins() as $plugin) {
+            $plugin->setProperty('status', false);
+            $manager = rex_plugin_manager::factory($plugin);
+            if (!$manager->uninstall($installDump)) {
+                $this->message = $manager->getMessage();
+                return false;
+            }
+        }
+        return parent::uninstall($installDump);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function activate()
     {
         $this->generatePackageOrder = false;

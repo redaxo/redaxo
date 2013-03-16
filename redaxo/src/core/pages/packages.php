@@ -95,12 +95,7 @@ if ($subpage == '') {
         $uninstall = '';
         if ($package->isInstalled()) {
             $install = '<span class="rex-icon rex-icon-active-true"></span> ' . $getLink($package, 'install', false, 'reinstall');
-            if ($type == 'addon' && count($package->getInstalledPlugins()) > 0) {
-                $uninstall = '<span class="rex-muted rex-small">' . rex_i18n::msg('plugin_plugins_installed') . '</span>';
-                $delete = '<span class="rex-muted rex-small">' . rex_i18n::msg('plugin_plugins_installed') . '</span>';
-            } else {
-                $uninstall = '<span class="rex-icon rex-icon-uninstall"></span> ' . $getLink($package, 'uninstall', true);
-            }
+            $uninstall = '<span class="rex-icon rex-icon-uninstall"></span> ' . $getLink($package, 'uninstall', true);
         } else {
             $install = '<span class="rex-icon rex-icon-install"></span> ' . $getLink($package, 'install');
             //$uninstall = rex_i18n::msg('package_notinstalled');
