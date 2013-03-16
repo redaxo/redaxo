@@ -31,10 +31,11 @@ if ($add_action != '') {
     $action->setValue('module_id', $module_id);
     $action->setValue('action_id', $action_id);
 
-    if ($action->insert()) {
+    try {
+        $action->insert();
         $success = rex_i18n::msg('action_taken');
         $goon = '1';
-    } else {
+    } catch (rex_sql_exception $e) {
         $error = $action->getError();
     }
 } elseif ($function_action == 'delete') {

@@ -572,7 +572,9 @@ if ($step == 7) {
                 $user->setValue('admin', 1);
                 $user->addGlobalCreateFields('setup');
                 $user->setValue('status', '1');
-                if (!$user->insert()) {
+                try {
+                    $user->insert();
+                } catch (rex_sql_exception $e) {
                     $errors[] = rex_view::error(rex_i18n::msg('setup_604'));
                 }
             }

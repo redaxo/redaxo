@@ -478,30 +478,32 @@ class rex_media
      */
     public function save()
     {
-        $sql = rex_sql::factory();
-        $sql->setTable($this->_getTableName());
-        $sql->setValue('category_id', $this->getCategoryId());
-        $sql->setValue('filetype', $this->getType());
-        $sql->setValue('filename', $this->getFileName());
-        $sql->setValue('originalname', $this->getOrgFileName());
-        $sql->setValue('filesize', $this->getSize());
-        $sql->setValue('width', $this->getWidth());
-        $sql->setValue('height', $this->getHeight());
-        $sql->setValue('title', $this->getTitle());
+        try {
+            $sql = rex_sql::factory();
+            $sql->setTable($this->_getTableName());
+            $sql->setValue('category_id', $this->getCategoryId());
+            $sql->setValue('filetype', $this->getType());
+            $sql->setValue('filename', $this->getFileName());
+            $sql->setValue('originalname', $this->getOrgFileName());
+            $sql->setValue('filesize', $this->getSize());
+            $sql->setValue('width', $this->getWidth());
+            $sql->setValue('height', $this->getHeight());
+            $sql->setValue('title', $this->getTitle());
 
-        if ($this->getId() !== null) {
-            $sql->addGlobalUpdateFields();
-            $sql->setWhere(['id' => $this->getId()]);
-            $success = $sql->update();
-            if ($success)
+            if ($this->getId() !== null) {
+                $sql->addGlobalUpdateFields();
+                $sql->setWhere(['id' => $this->getId()]);
+                $sql->update();
                 rex_media_cache::delete($this->getFileName());
-            return $success;
-        } else {
-            $sql->addGlobalCreateFields();
-            $success = $sql->insert();
-            if ($success)
+                return true;
+            } else {
+                $sql->addGlobalCreateFields();
+                $sql->insert();
                 rex_media_cache::deleteList($this->getCategoryId());
-            return $success;
+                return true;
+            }
+        } catch (rex_sql_exception $e) {
+            return false;
         }
     }
 

@@ -381,18 +381,24 @@ class rex_media_category
         $sql->setValue('hide', $this->isHidden());
 
         if ($this->getId() !== null) {
-            $sql->addGlobalUpdateFields();
-            $sql->setWhere(['id' => $this->getId()]);
-            $success = $sql->update();
-            if ($success)
+            try {
+                $sql->addGlobalUpdateFields();
+                $sql->setWhere(['id' => $this->getId()]);
+                $sql->update();
                 rex_media_cache::deleteCategory($this->getId());
-            return $success;
+                return true;
+            } catch (rex_sql_exception $e) {
+                return false;
+            }
         } else {
-            $sql->addGlobalCreateFields();
-            $success = $sql->insert();
-            if ($success)
+            try {
+                $sql->addGlobalCreateFields();
+                $sql->insert();
                 rex_media_cache::deleteCategoryList($this->getParentId());
-            return $success;
+                return true;
+            } catch (rex_sql_exception $e) {
+                return false;
+            }
         }
     }
 

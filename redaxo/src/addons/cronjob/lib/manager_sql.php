@@ -73,7 +73,12 @@ class rex_cronjob_manager_sql
         $this->sql->setWhere(['id' => $id]);
         $this->sql->setValue('status', $status);
         $this->sql->addGlobalUpdateFields();
-        $success = $this->sql->update();
+        try {
+            $this->sql->update();
+            $success = true;
+        } catch (rex_sql_exception $e) {
+            $success = false;
+        }
         $this->saveNextTime();
         return $success;
     }
@@ -84,15 +89,24 @@ class rex_cronjob_manager_sql
         $this->sql->setTable(REX_CRONJOB_TABLE);
         $this->sql->setWhere(['id' => $id]);
         $this->sql->setValue('execution_start', $time);
-        $success = $this->sql->update();
-        return $success;
+        try {
+            $this->sql->update();
+            return true;
+        } catch (rex_sql_exception $e) {
+            return false;
+        }
     }
 
     public function delete($id)
     {
         $this->sql->setTable(REX_CRONJOB_TABLE);
         $this->sql->setWhere(['id' => $id]);
-        $success = $this->sql->delete();
+        try {
+            $this->sql->delete();
+            $success = true;
+        } catch (rex_sql_exception $e) {
+            $success = false;
+        }
         $this->saveNextTime();
         return $success;
     }
@@ -182,11 +196,16 @@ class rex_cronjob_manager_sql
     {
         $nexttime = self::calculateNextTime($interval);
         $add = $resetExecutionStart ? ', execution_start = 0' : '';
-        $success = $this->sql->setQuery('
-            UPDATE  ' . REX_CRONJOB_TABLE . '
-            SET     nexttime = ?
-            WHERE   id = ?
-        ', [$nexttime . $add, $id]);
+        try {
+            $this->sql->setQuery('
+                UPDATE  ' . REX_CRONJOB_TABLE . '
+                SET     nexttime = ?
+                WHERE   id = ?
+            ', [$nexttime . $add, $id]);
+            $success = true;
+        } catch (rex_sql_exception $e) {
+            $success = false;
+        }
         $this->saveNextTime();
         return $success;
     }

@@ -39,7 +39,12 @@ class rex_metainfo_table_manager
         if ($nullable !== true)
             $qry .= ' NOT NULL';
 
-        return $this->setQuery($qry);
+        try {
+            $this->setQuery($qry);
+            return true;
+        } catch (rex_sql_exception $e) {
+            return false;
+        }
     }
 
     public function editColumn($oldname, $name, $type, $length, $default = null, $nullable = true)
@@ -56,7 +61,12 @@ class rex_metainfo_table_manager
         if ($nullable !== true)
             $qry .= ' NOT NULL';
 
-        return $this->setQuery($qry);
+        try {
+            $this->setQuery($qry);
+            return true;
+        } catch (rex_sql_exception $e) {
+            return false;
+        }
     }
 
     public function deleteColumn($name)
@@ -64,7 +74,12 @@ class rex_metainfo_table_manager
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` DROP ';
         $qry .= '`' . $name . '`';
 
-        return $this->setQuery($qry);
+        try {
+            $this->setQuery($qry);
+            return true;
+        } catch (rex_sql_exception $e) {
+            return false;
+        }
     }
 
     public function hasColumn($name)
@@ -79,9 +94,15 @@ class rex_metainfo_table_manager
         return false;
     }
 
+
     protected function setQuery($qry)
     {
-        $sql = rex_sql::factory($this->DBID);
-        return $sql->setQuery($qry);
+        try {
+            $sql = rex_sql::factory($this->DBID);
+            $sql->setQuery($qry);
+            return true;
+        } catch (rex_sql_exception $e) {
+            return false;
+        }
     }
 }

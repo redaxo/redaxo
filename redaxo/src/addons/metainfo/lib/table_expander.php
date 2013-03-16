@@ -253,12 +253,17 @@ class rex_metainfo_table_expander extends rex_form
             if ($tmRes) {
                 // DefaultWerte setzen
                 if ($fieldDefault != $fieldOldDefault) {
-                    $upd = rex_sql::factory();
-                    $upd->setDebug($this->debug);
-                    $upd->setTable($this->tableManager->getTableName());
-                    $upd->setWhere([$fieldName => $fieldOldDefault]);
-                    $upd->setValue($fieldName, $fieldDefault);
-                    return $upd->update();
+                    try {
+                        $upd = rex_sql::factory();
+                        $upd->setDebug($this->debug);
+                        $upd->setTable($this->tableManager->getTableName());
+                        $upd->setWhere([$fieldName => $fieldOldDefault]);
+                        $upd->setValue($fieldName, $fieldDefault);
+                        $upd->update();
+                        return true;
+                    } catch (rex_sql_exception $e) {
+                        return false;
+                    }
                 }
 
                 // Default werte haben schon zuvor gepasst, daher true zur�ckgeben

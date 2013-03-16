@@ -1188,11 +1188,16 @@ class rex_form
             }
         }
 
-        if ($this->isEditMode()) {
-            $sql->setWhere($this->whereCondition);
-            $saved = $sql->update();
-        } else {
-            $saved = $sql->insert();
+        try {
+            if ($this->isEditMode()) {
+                $sql->setWhere($this->whereCondition);
+                $sql->update();
+            } else {
+                $sql->insert();
+            }
+            $saved = true;
+        } catch (rex_sql_exception $e) {
+            $saved = false;
         }
 
 
@@ -1215,7 +1220,12 @@ class rex_form
         $deleteSql->setTable($this->tableName);
         $deleteSql->setWhere($this->whereCondition);
 
-        $deleted = $deleteSql->delete();
+        try {
+            $deleteSql->delete();
+            $deleted = true;
+        } catch (rex_sql_exception $e) {
+            $deleted = false;
+        }
 
         // ----- EXTENSION POINT
         if ($deleted)

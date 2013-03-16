@@ -28,9 +28,10 @@ if ($func == 'delete' && $type_id > 0) {
     $sql->setTable(rex::getTablePrefix() . 'media_manager_types');
     $sql->setWhere(['id' => $type_id]);
 
-    if ($sql->delete()) {
+    try {
+        $sql->delete();
         $info = rex_i18n::msg('media_manager_type_deleted') ;
-    } else {
+    } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
     }
     $func = '';

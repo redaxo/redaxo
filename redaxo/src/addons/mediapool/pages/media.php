@@ -414,10 +414,11 @@ if ($PERMALL && $media_method == 'updatecat_selectedmedia') {
             $db->setWhere(['filename' => $file_name]);
             $db->setValue('category_id', $rex_file_category);
             $db->addGlobalUpdateFields();
-            if ($db->update()) {
+            try {
+                $db->update();
                 $info = rex_i18n::msg('pool_selectedmedia_moved');
                 rex_media_cache::delete($file_name);
-            } else {
+            } catch (rex_sql_exception $e) {
                 $warning = rex_i18n::msg('pool_selectedmedia_error');
             }
         }

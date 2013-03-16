@@ -33,9 +33,10 @@ if ($func == 'delete' && $effect_id > 0) {
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effects');
     $sql->setWhere(['id' => $effect_id]);
 
-    if ($sql->delete()) {
-         $info = rex_i18n::msg('media_manager_effect_deleted') ;
-    } else {
+    try {
+        $sql->delete();
+        $info = rex_i18n::msg('media_manager_effect_deleted') ;
+    } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
     }
     $func = '';
