@@ -16,9 +16,9 @@ abstract class rex_package_manager
 
     protected $generatePackageOrder = true;
 
-    private $i18nPrefix;
+    protected $message;
 
-    private $message;
+    private $i18nPrefix;
 
     /**
      * Constructor

@@ -85,6 +85,29 @@ class rex_addon_manager extends rex_package_manager
     /**
      * {@inheritDoc}
      */
+    public function checkDependencies()
+    {
+        $check = $addonCheck = parent::checkDependencies();
+        $dependencies = [];
+        foreach ($this->package->getAvailablePlugins() as $plugin) {
+            $manager = rex_plugin_manager::factory($plugin);
+            if (!$manager->checkDependencies()) {
+                $dependencies[] = $manager->getMessage();
+                $check = false;
+            }
+        }
+        if (!empty($dependencies)) {
+            if (!$addonCheck) {
+                $this->message .= '<br />';
+            }
+            $this->message .= implode('<br />', $dependencies);
+        }
+        return $check;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function wrongPackageId($addonName, $pluginName = null)
     {
         if ($pluginName !== null) {
