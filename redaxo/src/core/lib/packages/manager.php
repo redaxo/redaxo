@@ -235,13 +235,6 @@ abstract class rex_package_manager
 
             if ($state === true) {
                 $this->package->setProperty('status', true);
-                if (!rex::isSetup()) {
-                    if (is_readable($this->package->getPath(rex_package::FILE_BOOT))) {
-                        rex_autoload::addDirectory($this->package->getPath('lib'));
-                        rex_autoload::addDirectory($this->package->getPath('vendor'));
-                        $this->package->includeFile(rex_package::FILE_BOOT);
-                    }
-                }
                 $this->saveConfig();
             }
             if ($state === true && $this->generatePackageOrder) {
