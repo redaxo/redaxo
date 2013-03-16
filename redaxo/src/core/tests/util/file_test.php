@@ -110,10 +110,22 @@ class rex_file_test extends PHPUnit_Framework_TestCase
         $this->assertTrue(rex_file::delete($file), 'delete() returns true when the file is already deleted');
     }
 
-    public function testExtension()
+    public function dataTestExtension()
     {
-        $this->assertEquals('txt', rex_file::extension('test.txt'), 'extension() returns file extension');
-        $this->assertEquals('txt', rex_file::extension('test.file.txt'), 'extension() returns file extension');
+        return [
+            ['test.txt',      'txt'],
+            ['test.file.txt', 'txt'],
+            ['noextension',   ''],
+            ['.hiddenfile',   'hiddenfile']
+        ];
+    }
+
+    /**
+     * @dataProvider dataTestExtension
+     */
+    public function testExtension($file, $expectedExtension)
+    {
+        $this->assertEquals($expectedExtension, rex_file::extension($file), 'extension() returns file extension');
     }
 
     public function testGetOutput()

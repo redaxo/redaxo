@@ -139,7 +139,7 @@ class rex_file
      */
     public static function extension($filename)
     {
-        return substr(strrchr($filename, '.'), 1);
+        return pathinfo($filename, PATHINFO_EXTENSION);
     }
 
     /**
