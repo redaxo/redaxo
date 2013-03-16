@@ -1,5 +1,5 @@
 {
-    "hash": "47fa98403bb46a74a4e6a1dcc18ccf0f",
+    "hash": "39e46ec1137463f23907560e04164a16",
     "packages": [
         {
             "name": "netcarver/textile",
@@ -29,7 +29,7 @@
                     "Netcarver\\Textile": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
