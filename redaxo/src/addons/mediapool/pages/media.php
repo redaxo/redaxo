@@ -169,7 +169,7 @@ if ($file_id) {
         $fname = $gf->getValue('filename');
         $ffiletype = $gf->getValue('filetype');
         $ffile_size = $gf->getValue('filesize');
-        $ffile_size = rex_file::formattedSize($ffile_size);
+        $ffile_size = rex_formatter::bytes($ffile_size);
         $rex_file_category = $gf->getValue('category_id');
 
 
@@ -649,7 +649,7 @@ if (!$file_id) {
 
         // ----- get file size
         $size = $file_size;
-        $file_size = rex_file::formattedSize($size);
+        $file_size = rex_formatter::bytes($size);
 
         if ($file_title == '') $file_title = '[' . rex_i18n::msg('pool_file_notitle') . ']';
         if (rex::getUser()->hasPerm('advancedMode[]')) $file_title .= ' [' . $file_id . ']';

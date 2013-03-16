@@ -236,7 +236,7 @@ class rex_media
      */
     public function getFormattedSize()
     {
-        return rex_file::formattedSize($this->getSize());
+        return rex_formatter::bytes($this->getSize());
     }
 
     /**
