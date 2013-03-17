@@ -223,6 +223,7 @@ class rex_api_result
     {
         $this->succeeded = $succeeded;
         $this->message = $message;
+        $this->requiresReboot = false;
     }
 
     public function setRequiresReboot($requiresReboot)
@@ -278,7 +279,7 @@ class rex_api_result
         				    continue;
         				}
         				
-                $data = array_merge($data, (array) $value);
+                $data[$key] = $value;
         }
         return json_encode($data);
     }
