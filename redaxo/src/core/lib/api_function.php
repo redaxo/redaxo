@@ -300,7 +300,7 @@ class rex_api_result
     /**
      * Creates a rex_api_result object from the given JSON string
      * 
-     *  @param $json string
+     *  @param string $json
      */
     public static function fromJson($json)
     {
