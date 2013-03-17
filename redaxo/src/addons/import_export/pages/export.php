@@ -44,7 +44,9 @@ if (rex_post('export', 'bool')) {
 
         if (file_exists($export_path . $filename . $ext)) {
             $i = 1;
-            while (file_exists($export_path . $filename . '_' . $i . $ext)) $i++;
+            while (file_exists($export_path . $filename . '_' . $i . $ext)) {
+                $i++;
+            }
             $filename = $filename . '_' . $i;
         }
 

@@ -40,8 +40,9 @@ class rex_category_select extends rex_select
 
     protected function addCatOptions()
     {
-        if ($this->add_homepage)
+        if ($this->add_homepage) {
             $this->addOption('Homepage', 0);
+        }
 
         if ($this->rootId !== null) {
             if (is_array($this->rootId)) {
@@ -66,8 +67,9 @@ class rex_category_select extends rex_select
                 $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
                 foreach ($mountpoints as $id) {
                     $cat = rex_category::getCategoryById($id, $this->clang);
-                    if ($cat && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getParentId()))
+                    if ($cat && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getParentId())) {
                         $this->addCatOption($cat, 0);
+                    }
                 }
             }
         }
@@ -81,11 +83,13 @@ class rex_category_select extends rex_select
             $cid = $cat->getId();
             $cname = $cat->getName();
 
-            if (rex::getUser()->hasPerm('advancedMode[]'))
+            if (rex::getUser()->hasPerm('advancedMode[]')) {
                 $cname .= ' [' . $cid . ']';
+            }
 
-            if ($group === null)
+            if ($group === null) {
                 $group = $cat->getParentId();
+            }
 
             $this->addOption($cname, $cid, $cid, $group);
             $childs = $cat->getChildren($this->ignore_offlines, $this->clang);

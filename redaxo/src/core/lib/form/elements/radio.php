@@ -28,7 +28,9 @@ class rex_form_radio_element extends rex_form_options_element
 
         $attr = '';
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            if ($attributeName == 'id') continue;
+            if ($attributeName == 'id') {
+                continue;
+            }
             $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
         }
 

@@ -221,8 +221,9 @@ if ($step == 4) {
     $content .= implode('', $error_array);
 
     $submit_message = rex_i18n::msg('setup_410');
-    if (count($error_array) > 0)
+    if (count($error_array) > 0) {
         $submit_message = rex_i18n::msg('setup_414');
+    }
 
     $content .= '
             <div class="rex-form" id="rex-form-setup-step-4">
@@ -346,34 +347,40 @@ if ($step > 5 && $createdb > -1) {
 
     if ($createdb == 4) {
         $error = rex_setup_importer::updateFromPrevious();
-        if ($error != '')
+        if ($error != '') {
             $errors[] = rex_view::error($error);
+        }
     } elseif ($createdb == 3) {
         $import_name = rex_post('import_name', 'string');
         $error = rex_setup_importer::loadExistingImport($import_name);
-        if ($error != '')
+        if ($error != '') {
             $errors[] = rex_view::error($error);
+        }
 
     } elseif ($createdb == 2) {
         $error = rex_setup_importer::databaseAlreadyExists();
-        if ($error != '')
+        if ($error != '') {
             $errors[] = rex_view::error($error);
+        }
 
     } elseif ($createdb == 1) {
         $error = rex_setup_importer::overrideExisting();
-        if ($error != '')
+        if ($error != '') {
             $errors[] = rex_view::error($error);
+        }
 
     } elseif ($createdb == 0) {
         $error = rex_setup_importer::prepareEmptyDb();
-        if ($error != '')
+        if ($error != '') {
             $errors[] = rex_view::error($error);
+        }
     }
 
     if (count($errors) == 0 && $createdb !== '') {
         $error = rex_setup_importer::verifyDbSchema();
-        if ($error != '')
+        if ($error != '') {
             $errors[] = $error;
+        }
     }
 
     if (count($errors) == 0) {
@@ -582,8 +589,9 @@ if ($step == 7) {
     } else {
         $gu = rex_sql::factory();
         $gu->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
-        if ($gu->getRows() == 0)
+        if ($gu->getRows() == 0) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_605'));
+        }
     }
 
     if (count($errors) == 0) {

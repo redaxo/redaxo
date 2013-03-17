@@ -47,7 +47,9 @@ $warning = '';
 if ($user_id != 0) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
-    if ($sql->getRows() != 1) $user_id = 0;
+    if ($sql->getRows() != 1) {
+        $user_id = 0;
+    }
 }
 
 // Allgemeine Infos
@@ -141,9 +143,14 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
     $updateuser->setValue('startpage', $userperm_startpage);
     $updateuser->addGlobalUpdateFields();
     $updateuser->setValue('description', $userdesc);
-    if ($loginReset == 1) $updateuser->setValue('login_tries', '0');
-    if ($userstatus == 1) $updateuser->setValue('status', 1);
-    else $updateuser->setValue('status', 0);
+    if ($loginReset == 1) {
+        $updateuser->setValue('login_tries', '0');
+    }
+    if ($userstatus == 1) {
+        $updateuser->setValue('status', 1);
+    } else {
+        $updateuser->setValue('status', 0);
+    }
 
     if ($userpsw != '') {
         // the server side encryption of pw is only required
@@ -193,8 +200,11 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
         $adduser->setValue('startpage', $userperm_startpage);
         $adduser->setValue('role', $userrole);
         $adduser->addGlobalCreateFields();
-        if (isset($userstatus) and $userstatus == 1) $adduser->setValue('status', 1);
-        else $adduser->setValue('status', 0);
+        if (isset($userstatus) and $userstatus == 1) {
+            $adduser->setValue('status', 1);
+        } else {
+            $adduser->setValue('status', 0);
+        }
 
         $adduser->insert();
         $user_id = 0;
@@ -202,17 +212,23 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
         $info = rex_i18n::msg('user_added');
     } else {
 
-        if ($useradmin == 1) $adminchecked = 'checked="checked"';
+        if ($useradmin == 1) {
+            $adminchecked = 'checked="checked"';
+        }
 
         // userrole
         $sel_role->setSelected($userrole);
 
         // userperm_be_sprache
-        if ($userperm_be_sprache == '') $userperm_be_sprache = 'default';
+        if ($userperm_be_sprache == '') {
+            $userperm_be_sprache = 'default';
+        }
         $sel_be_sprache->setSelected($userperm_be_sprache);
 
         // userperm_startpage
-        if ($userperm_startpage == '') $userperm_startpage = 'default';
+        if ($userperm_startpage == '') {
+            $userperm_startpage = 'default';
+        }
         $sel_startpage->setSelected($userperm_startpage);
 
         $warning = rex_i18n::msg('user_login_exists');
@@ -222,11 +238,13 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
 
 // ---------------------------------- ERR MSG
 
-if ($info != '')
+if ($info != '') {
     $message .= rex_view::info($info);
+}
 
-if ($warning != '')
+if ($warning != '') {
     $message .= rex_view::warning($warning);
+}
 
 // --------------------------------- FORMS
 
@@ -235,7 +253,9 @@ $SHOW = true;
 if ($FUNC_ADD != '' || $user_id > 0) {
     $SHOW = false;
 
-    if ($FUNC_ADD != '') $statuschecked = 'checked="checked"';
+    if ($FUNC_ADD != '') {
+        $statuschecked = 'checked="checked"';
+    }
 
     if ($user_id > 0) {
         // User Edit
@@ -269,11 +289,17 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         if ($sql->getRows() == 1) {
             // ----- EINLESEN DER PERMS
-            if ($sql->getValue('admin')) $adminchecked = 'checked="checked"';
-            else $adminchecked = '';
+            if ($sql->getValue('admin')) {
+                $adminchecked = 'checked="checked"';
+            } else {
+                $adminchecked = '';
+            }
 
-            if ($sql->getValue(rex::getTablePrefix() . 'user.status') == 1) $statuschecked = 'checked="checked"';
-            else $statuschecked = '';
+            if ($sql->getValue(rex::getTablePrefix() . 'user.status') == 1) {
+                $statuschecked = 'checked="checked"';
+            } else {
+                $statuschecked = '';
+            }
 
             $userrole = $sql->getValue(rex::getTablePrefix() . 'user.role');
             $sel_role->setSelected($userrole);
@@ -291,10 +317,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
             if (!rex::getUser()->isAdmin()) {
                 $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" disabled="disabled" />';
-            } else
-            // Der Benutzer kann sich selbst die Rechte nicht entziehen
-            if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
+            } else {
+                if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
                 $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
+            }
             } else {
                 $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' />';
             }
@@ -351,8 +377,9 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $n['label'] = '<label for="userpsw">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input type="password" id="userpsw" name="userpsw" autocomplete="off" />';
 
-    if (rex::getProperty('pswfunc') != '')
+    if (rex::getProperty('pswfunc') != '') {
         $n['note'] = rex_i18n::msg('psw_encrypted');
+    }
 
     $formElements[] = $n;
 
@@ -508,8 +535,9 @@ if (isset($SHOW) and $SHOW) {
             $list = $params['list'];
 
             $login = $list->getValue('login');
-            if (!$list->getValue('status'))
+            if (!$list->getValue('status')) {
                 $login = '<span class="rex-muted">' . $login . '</span>';
+            }
             return $login;
         });
 

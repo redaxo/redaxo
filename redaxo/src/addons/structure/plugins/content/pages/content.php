@@ -48,14 +48,16 @@ if ($article->getRows() == 1) {
     $template_attributes = $article->getArrayValue('template_attributes');
 
     // Für Artikel ohne Template
-    if (!is_array($template_attributes))
+    if (!is_array($template_attributes)) {
         $template_attributes = [];
+    }
 
     $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : []; // ctypes - aus dem template
 
     $ctype = rex_request('ctype', 'int', 1);
-    if (!array_key_exists($ctype, $ctypes))
-        $ctype = 1; // default = 1
+    if (!array_key_exists($ctype, $ctypes)) {
+        $ctype = 1;
+    } // default = 1
 
     // ----- Artikel wurde gefunden - Kategorie holen
     $OOArt = rex_article::getArticleById($article_id, $clang);
@@ -140,8 +142,9 @@ if ($article->getRows() == 1) {
             if ($function == 'edit' || $function == 'delete') {
                 // edit/ delete
                 $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang=$clang");
-                if ($CM->getRows() == 1)
+                if ($CM->getRows() == 1) {
                     $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
+                }
             } else {
                 // add
                 $module_id = rex_post('module_id', 'int');
@@ -186,16 +189,18 @@ if ($article->getRows() == 1) {
                     // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
                     if (!$action->getSave()) {
                         // ----- DONT SAVE/UPDATE SLICE
-                        if ($action_message != '')
+                        if ($action_message != '') {
                             $warning = $action_message;
-                        elseif ($function == 'delete')
+                        } elseif ($function == 'delete') {
                             $warning = rex_i18n::msg('slice_deleted_error');
-                        else
+                        } else {
                             $warning = rex_i18n::msg('slice_saved_error');
+                        }
 
                     } else {
-                        if ($action_message)
+                        if ($action_message) {
                             $action_message .= '<br />';
+                        }
 
                         // ----- SAVE/UPDATE SLICE
                         if ($function == 'add' || $function == 'edit') {
@@ -209,10 +214,11 @@ if ($article->getRows() == 1) {
                                 // determine prior value to get the new slice into the right order
                                 $prevSlice = rex_sql::factory();
                                 // $prevSlice->setDebug();
-                                if ($slice_id == -1) // -1 is used when adding after the last article-slice
+                                if ($slice_id == -1) {
                                     $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision);
-                                else
+                                } else {
                                     $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=' . $slice_id);
+                                }
 
                                 $prior = $prevSlice->getValue('prior');
 
@@ -344,10 +350,11 @@ if ($article->getRows() == 1) {
             $clang_b = rex_post('clang_b', 'int');
             $user = rex::getUser();
             if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)) {
-                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, $slice_revision))
+                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, $slice_revision)) {
                     $info = rex_i18n::msg('content_contentcopy');
-                else
+                } else {
                     $warning = rex_i18n::msg('content_errorcopy');
+                }
             } else {
                 $warning = rex_i18n::msg('no_rights_to_this_function');
             }

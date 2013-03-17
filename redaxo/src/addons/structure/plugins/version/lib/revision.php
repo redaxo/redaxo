@@ -10,8 +10,9 @@ class rex_article_revision
 
     public static function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
     {
-        if ($from_revision_id == $to_revision_id)
+        if ($from_revision_id == $to_revision_id) {
             return false;
+        }
 
         // clear the revision to which we will later copy all slices
         $dc = rex_sql::factory();

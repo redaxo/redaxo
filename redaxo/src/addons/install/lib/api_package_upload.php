@@ -46,8 +46,9 @@ class rex_api_install_package_upload extends rex_api_function
         } catch (rex_functional_exception $e) {
             throw new rex_api_exception($e->getMessage());
         }
-        if ($archive)
+        if ($archive) {
             rex_file::delete($archive);
+        }
         unset($_REQUEST['addonkey']);
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();

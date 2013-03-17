@@ -236,8 +236,9 @@ abstract class rex_package implements rex_package_interface
     {
         $properties = rex_file::getConfig($this->getPath(self::FILE_PACKAGE));
         foreach ($properties as $key => $value) {
-            if (!isset($this->properties[$key]))
+            if (!isset($this->properties[$key])) {
                 $this->properties[$key] = rex_i18n::translateArray($value, false, [$this, 'i18n']);
+            }
         }
         $this->propertiesLoaded = true;
     }

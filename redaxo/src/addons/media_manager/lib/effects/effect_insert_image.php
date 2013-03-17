@@ -16,27 +16,32 @@ class rex_effect_insert_image extends rex_effect_abstract
 
         // -------------------------------------- CONFIG
         $brandimage = rex_path::media($this->params['brandimage']);
-        if (!file_exists($brandimage) || !is_file($brandimage))
+        if (!file_exists($brandimage) || !is_file($brandimage)) {
             return;
+        }
 
         // Abstand vom Rand
         $padding_x = -10;
-        if (isset($this->params['padding_x']))
+        if (isset($this->params['padding_x'])) {
             $padding_x = (int) $this->params['padding_x'];
+        }
 
         $padding_y = -10;
-        if (isset($this->params['padding_y']))
+        if (isset($this->params['padding_y'])) {
             $padding_y = (int) $this->params['padding_y'];
+        }
 
         // horizontale ausrichtung: left/center/right
         $hpos = 'right';
-        if (isset($this->params['hpos']))
+        if (isset($this->params['hpos'])) {
             $hpos = (string) $this->params['hpos'];
+        }
 
         // vertikale ausrichtung:   top/center/bottom
         $vpos = 'bottom';
-        if (isset($this->params['vpos']))
+        if (isset($this->params['vpos'])) {
             $vpos = (string) $this->params['vpos'];
+        }
 
         // -------------------------------------- /CONFIG
         $brand = new rex_managed_media($brandimage);

@@ -27,11 +27,13 @@ class rex_sql_util
         // Spalte updaten
         $qry = 'UPDATE ' . $tableName . ' SET ' . $priorColumnName . ' = ( SELECT @count := @count +1 )';
 
-        if ($whereCondition != '')
+        if ($whereCondition != '') {
             $qry .= ' WHERE ' . $whereCondition;
+        }
 
-        if ($orderBy != '')
+        if ($orderBy != '') {
             $qry .= ' ORDER BY ' . $orderBy;
+        }
 
         $sql->setQuery($qry);
     }
@@ -67,8 +69,9 @@ class rex_sql_util
     private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
-        if (rex::getUser())
+        if (rex::getUser()) {
             $qry = str_replace('%USER%', rex::getUser()->getValue('login'), $qry);
+        }
 
         $qry = str_replace('%TIME%', time(), $qry);
         $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
@@ -182,8 +185,9 @@ class rex_sql_util
                     if ($i === false) {
                         break;
                     }
-                    if ($char == '/')
+                    if ($char == '/') {
                         $i ++;
+                    }
                 }
 
             // We are not in a string, first check for delimiter...

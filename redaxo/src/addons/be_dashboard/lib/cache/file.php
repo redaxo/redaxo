@@ -87,8 +87,9 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
      */
     public function remove($key)
     {
-        if (file_exists($this->getFilePath($key)))
+        if (file_exists($this->getFilePath($key))) {
             return unlink($this->getFilePath($key));
+        }
         return true;
     }
 
@@ -115,8 +116,9 @@ class rex_dashboard_file_cache extends rex_dashboard_cache
             if (is_dir($path)) {
                 sfToolkit::clearDirectory($path);
             } else {
-                if (file_exists($path))
+                if (file_exists($path)) {
                     unlink($path);
+                }
             }
         }
     }

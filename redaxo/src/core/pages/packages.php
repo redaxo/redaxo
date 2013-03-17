@@ -24,9 +24,15 @@ if ($subpage == 'help') {
     $credits .= '<dl class="rex-credits-info rex-formatted">';
     $credits .= '<dt>' . rex_i18n::msg('credits_name') . '</dt><dd>' . htmlspecialchars($name) . '</dd>';
 
-    if ($version)     $credits .= '<dt>' . rex_i18n::msg('credits_version') . '</dt><dd>' . $version . '</dd>';
-    if ($author)      $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . htmlspecialchars($author) . '</dd>';
-    if ($supportPage) $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="http://' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
+    if ($version) {
+        $credits .= '<dt>' . rex_i18n::msg('credits_version') . '</dt><dd>' . $version . '</dd>';
+    }
+    if ($author) {
+        $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . htmlspecialchars($author) . '</dd>';
+    }
+    if ($supportPage) {
+        $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="http://' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
+    }
 
     $credits .= '</dl>';
 

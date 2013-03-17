@@ -23,8 +23,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $sql->setQuery('SELECT `name`, `type` FROM `' . rex::getTablePrefix() . 'metainfo_params` WHERE `type` IN(6,7)');
 
         $rows = $sql->getRows();
-        if ($rows == 0)
+        if ($rows == 0) {
             return $warning;
+        }
 
         $where = [
             'articles' => [],
@@ -33,10 +34,11 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $filename = addslashes($params['filename']);
         for ($i = 0; $i < $rows; $i++) {
             $name = $sql->getValue('name');
-            if (rex_metainfo_meta_prefix($name) == self::PREFIX)
+            if (rex_metainfo_meta_prefix($name) == self::PREFIX) {
                 $key = 'media';
-            else
+            } else {
                 $key = 'articles';
+            }
             switch ($sql->getValue('type')) {
                 case '6':
                     $where[$key][] = $name . '="' . $filename . '"';
@@ -126,7 +128,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post' || !isset($params['id'])) return $params;
+        if (rex_request_method() != 'post' || !isset($params['id'])) {
+            return $params;
+        }
 
         $media = rex_sql::factory();
     //  $media->setDebug();
@@ -136,8 +140,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         parent::fetchRequestValues($params, $media, $sqlFields);
 
         // do the save only when metafields are defined
-        if ($media->hasValues())
+        if ($media->hasValues()) {
             $media->update();
+        }
 
         return $params;
     }
@@ -146,22 +151,27 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     {
         $s = '';
 
-        if ($typeLabel != 'legend')
+        if ($typeLabel != 'legend') {
             $s .= '<div class="rex-form-row">';
+        }
 
-        if ($tag != '')
+        if ($tag != '') {
             $s .= '<' . $tag . $tag_attr  . '>' . "\n";
+        }
 
-        if ($labelIt)
+        if ($labelIt) {
             $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
+        }
 
         $s .= $field . "\n";
 
-        if ($tag != '')
+        if ($tag != '') {
             $s .= '</' . $tag . '>' . "\n";
+        }
 
-        if ($typeLabel != 'legend')
+        if ($typeLabel != 'legend') {
             $s .= '</div>';
+        }
 
         return $s;
     }

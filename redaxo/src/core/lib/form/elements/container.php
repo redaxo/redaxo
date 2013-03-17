@@ -80,7 +80,9 @@ class rex_form_container_element extends rex_form_element
         // - id:   eine id vergeben wir automatisiert pro gruppe
         $attributeFilter = ['id', 'name'];
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            if (in_array($attributeName, $attributeFilter)) continue;
+            if (in_array($attributeName, $attributeFilter)) {
+                continue;
+            }
 
             $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
         }

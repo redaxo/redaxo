@@ -492,8 +492,9 @@ abstract class rex_package_manager
         $state = [];
 
         foreach (rex_package::getAvailablePackages() as $package) {
-            if ($package === $this->package || $package->getAddon() === $this->package)
+            if ($package === $this->package || $package->getAddon() === $this->package) {
                 continue;
+            }
 
             $requirements = $package->getProperty('requires', []);
             if (isset($requirements['packages'][$this->package->getPackageId()])) {
@@ -632,8 +633,9 @@ abstract class rex_package_manager
                 $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
                 $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
             }
-            if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins']))
+            if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
                 ksort($config[$addonName]['plugins']);
+            }
         }
         ksort($config);
 

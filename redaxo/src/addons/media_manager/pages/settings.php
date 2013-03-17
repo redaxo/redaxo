@@ -19,10 +19,11 @@ $func = rex_request('func', 'string');
 $jpg_quality = rex_request('jpg_quality', 'int');
 
 if ($func == 'update') {
-    if ($jpg_quality > 100)
+    if ($jpg_quality > 100) {
         $jpg_quality = 100;
-    elseif ($jpg_quality < 0)
+    } elseif ($jpg_quality < 0) {
         $jpg_quality = 0;
+    }
 
     $this->setConfig('jpg_quality', $jpg_quality);
     $content = rex_view::info($this->i18n('config_saved'));

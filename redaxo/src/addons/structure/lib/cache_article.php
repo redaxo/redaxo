@@ -22,8 +22,9 @@ class rex_article_cache
         }
 
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang)
+            if ($clang !== null && $clang != $_clang) {
             continue;
+            }
 
             self::deleteMeta($id, $clang);
             self::deleteContent($id, $clang);
@@ -52,8 +53,9 @@ class rex_article_cache
         $cachePath = rex_path::addonCache('structure');
 
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang)
+            if ($clang !== null && $clang != $_clang) {
             continue;
+            }
 
             rex_file::delete($cachePath . $id . '.' . $_clang . '.article');
         }
@@ -80,8 +82,9 @@ class rex_article_cache
         $cachePath = rex_path::addonCache('structure');
 
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang)
+            if ($clang !== null && $clang != $_clang) {
             continue;
+            }
 
             rex_file::delete($cachePath . $id . '.' . $_clang . '.content');
         }
@@ -108,8 +111,9 @@ class rex_article_cache
         $cachePath = rex_path::addonCache('structure');
 
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang)
+            if ($clang !== null && $clang != $_clang) {
             continue;
+            }
 
             rex_file::delete($cachePath . $id . '.' . $_clang . '.alist');
             rex_file::delete($cachePath . $id . '.' . $_clang . '.clist');
@@ -195,8 +199,9 @@ class rex_article_cache
         //
 
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang)
+            if ($clang !== null && $clang != $_clang) {
             continue;
+            }
 
             // --------------------------------------- ARTICLE LIST
 

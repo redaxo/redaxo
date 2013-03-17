@@ -64,7 +64,9 @@ abstract class rex_api_function
      */
     public static function factory()
     {
-        if (self::$instance) return self::$instance;
+        if (self::$instance) {
+            return self::$instance;
+        }
 
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
 

@@ -101,8 +101,9 @@ class rex_sql implements Iterator
     {
         $qry = trim($qry);
 
-        if (preg_match('/\(DB([1-9]){1}\)/i', $qry, $matches))
+        if (preg_match('/\(DB([1-9]){1}\)/i', $qry, $matches)) {
             return $matches[1];
+        }
 
         return false;
     }
@@ -118,8 +119,9 @@ class rex_sql implements Iterator
     {
         $qry = trim($qry);
 
-        if (($qryDBID = self::getQueryDBID($qry)) !== false)
+        if (($qryDBID = self::getQueryDBID($qry)) !== false) {
             $qry = substr($qry, 6);
+        }
 
         return $qryDBID;
     }
@@ -145,8 +147,9 @@ class rex_sql implements Iterator
         // DBID aus dem Query herausschneiden, falls vorhanden
         self::stripQueryDBID($qry);
 
-        if (preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE)/i', $qry, $matches))
+        if (preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE)/i', $qry, $matches)) {
             return strtoupper($matches[1]);
+        }
 
         return false;
     }
@@ -165,8 +168,9 @@ class rex_sql implements Iterator
         $oldDBID = $this->DBID;
 
         // change connection-id but only for this one query
-        if (($qryDBID = self::stripQueryDBID($query)) !== false)
+        if (($qryDBID = self::stripQueryDBID($query)) !== false) {
             $this->selectDB($qryDBID);
+        }
 
         $this->setQuery($query, $params);
 
@@ -458,8 +462,9 @@ class rex_sql implements Iterator
         }
 
         // fast fail,... value already set manually?
-        if (isset($this->values[$colName]))
+        if (isset($this->values[$colName])) {
             return $this->values[$colName];
+        }
 
         // check if there is an table alias defined
         // if not, try to guess the tablename
@@ -488,8 +493,9 @@ class rex_sql implements Iterator
 
     protected function fetchValue($feldname)
     {
-        if (isset($this->values[$feldname]))
+        if (isset($this->values[$feldname])) {
             return $this->values[$feldname];
+        }
 
         if (empty($this->lastRow)) {
             // no row fetched, but also no query was executed before
@@ -530,8 +536,9 @@ class rex_sql implements Iterator
     public function hasValue($feldname)
     {
         // fast fail,... value already set manually?
-        if (isset($this->values[$feldname]))
+        if (isset($this->values[$feldname])) {
             return true;
+        }
 
         if (strpos($feldname, '.') !== false) {
             $parts = explode('.', $feldname);
@@ -548,8 +555,9 @@ class rex_sql implements Iterator
      */
     public function isNull($feldname)
     {
-        if ($this->hasValue($feldname))
+        if ($this->hasValue($feldname)) {
             return $this->getValue($feldname) === null;
+        }
 
         return null;
     }
@@ -914,8 +922,9 @@ class rex_sql implements Iterator
         echo '<hr />' . "\n";
         echo 'Query: ' . nl2br(htmlspecialchars($qry)) . "<br />\n";
 
-        if (!empty($params))
+        if (!empty($params)) {
             echo 'Params: ' . htmlspecialchars(print_r($params, true)) . "<br />\n";
+        }
 
         if (strlen($this->getRows()) > 0) {
             echo 'Affected Rows: ' . $this->getRows() . "<br />\n";
@@ -1003,7 +1012,9 @@ class rex_sql implements Iterator
      */
     public function addGlobalUpdateFields($user = null)
     {
-        if (!$user) $user = rex::getUser()->getValue('login');
+        if (!$user) {
+            $user = rex::getUser()->getValue('login');
+        }
 
         $this->setValue('updatedate', time());
         $this->setValue('updateuser', $user);
@@ -1018,7 +1029,9 @@ class rex_sql implements Iterator
      */
     public function addGlobalCreateFields($user = null)
     {
-        if (!$user) $user = rex::getUser()->getValue('login');
+        if (!$user) {
+            $user = rex::getUser()->getValue('login');
+        }
 
         $this->setValue('createdate', time());
         $this->setValue('createuser', $user);

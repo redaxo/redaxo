@@ -161,7 +161,9 @@ if ($file_id) {
     $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = "' . $file_id . '"');
     if ($gf->getRows() == 1) {
         $TPERM = false;
-        if ($PERMALL || rex::getUser()->hasPerm('media[' . $gf->getValue('category_id') . ']')) $TPERM = true;
+        if ($PERMALL || rex::getUser()->hasPerm('media[' . $gf->getValue('category_id') . ']')) {
+            $TPERM = true;
+        }
 
         echo $cat_out;
 
@@ -182,8 +184,11 @@ if ($file_id) {
                 $fheight = $size[1];
             }
 
-            if ($fwidth > 199) $rfwidth = 200;
-            else $rfwidth = $fwidth;
+            if ($fwidth > 199) {
+                $rfwidth = 200;
+            } else {
+                $rfwidth = $fwidth;
+            }
         }
 
         $add_image = '';
@@ -342,7 +347,9 @@ if ($file_id) {
         } else {
             $catname = rex_i18n::msg('pool_kats_no');
             $Cat = rex_media_category::getCategoryById($rex_file_category);
-            if ($Cat) $catname = $Cat->getName();
+            if ($Cat) {
+                $catname = $Cat->getName();
+            }
 
             if (rex::getUser()->hasPerm('advancedMode[]')) {
                 $ftitle .= ' [' . $file_id . ']';
@@ -480,8 +487,9 @@ if (!$file_id) {
     echo $cat_out;
 
     if (is_array($warning)) {
-        if (count($warning) > 0)
+        if (count($warning) > 0) {
             echo rex_view::warning(implode('<br />', $warning));
+        }
         $warning = '';
     } elseif ($warning != '') {
         echo rex_view::warning($warning);
@@ -489,16 +497,18 @@ if (!$file_id) {
     }
 
     if (is_array($info)) {
-        if (count($info) > 0)
+        if (count($info) > 0) {
             echo rex_view::info(implode('<br />', $info));
+        }
         $info = '';
     } elseif ($info != '') {
         echo rex_view::info($info);
         $info = '';
     }
 
-    if (!empty($args['types']))
+    if (!empty($args['types'])) {
         echo rex_view::info(rex_i18n::msg('pool_file_filter') . ' <code>' . $args['types'] . '</code>');
+    }
 
     //deletefilelist und cat change
     echo '<div class="rex-form" id="rex-form-mediapool-media">
@@ -579,10 +589,11 @@ if (!$file_id) {
         $where .= " AND f.category_id = c.id AND (f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
         if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global') {
             // Suche auf aktuellen Kontext eingrenzen
-            if ($rex_file_category != 0)
+            if ($rex_file_category != 0) {
                 $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
-            else
+            } else {
                 $where = str_replace('f.category_id=0', '1=1', $where);
+            }
         }
     }
         $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
@@ -626,8 +637,9 @@ if (!$file_id) {
                 break;
             }
         }
-        if ($desc != '')
+        if ($desc != '') {
             $desc .= '<br />';
+        }
 
         // wenn datei fehlt
         if (!file_exists(rex_path::media($file_name))) {
@@ -652,8 +664,12 @@ if (!$file_id) {
         $size = $file_size;
         $file_size = rex_formatter::bytes($size);
 
-        if ($file_title == '') $file_title = '[' . rex_i18n::msg('pool_file_notitle') . ']';
-        if (rex::getUser()->hasPerm('advancedMode[]')) $file_title .= ' [' . $file_id . ']';
+        if ($file_title == '') {
+            $file_title = '[' . rex_i18n::msg('pool_file_notitle') . ']';
+        }
+        if (rex::getUser()->hasPerm('advancedMode[]')) {
+            $file_title .= ' [' . $file_id . ']';
+        }
 
         // ----- opener
         $opener_link = '';
@@ -674,7 +690,9 @@ if (!$file_id) {
         $ilink = rex_url::currentBackendPage(array_merge(['file_id' => $file_id, 'rex_file_category' => $rex_file_category], $arg_url));
 
         $add_td = '<td></td>';
-        if ($PERMALL) $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="' . $file_name . '" /></td>';
+        if ($PERMALL) {
+            $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="' . $file_name . '" /></td>';
+        }
 
         $thumbnail = str_replace('src="', 'longdesc="', $thumbnail);
         $thumbnail = str_replace('<img', '<img class="img-ondemand" src="data:image/gif;base64,R0lGODlhAQABAIAAAPj8/wAAACwAAAAAAQABAAACAkQBADs"', $thumbnail);

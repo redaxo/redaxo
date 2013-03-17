@@ -75,10 +75,11 @@ foreach ($navigations as $nav_key => $navigation) {
             }
 
             if ($nav_key != 'children') {
-                if (isset($attributes['class']))
+                if (isset($attributes['class'])) {
                     $attributes['class'] = trim('rex-navi-content-item ' . $attributes['class']);
-                else
+                } else {
                     $attributes['class'] = 'rex-navi-content-item';
+                }
             }
 
             $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';

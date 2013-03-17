@@ -6,7 +6,9 @@
  * @package redaxo5.2
  */
 
-if ( !isset( $mode)) $mode = '';
+if ( !isset( $mode)) {
+    $mode = '';
+}
 switch ( $mode) {
    case 'changelog': $file = '_changelog.txt'; break;
    default: $file = '_readme.txt';

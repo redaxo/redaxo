@@ -63,10 +63,11 @@ class rex_type
                     $var = (object)  $var;
                     break;
                 case 'array'  :
-                    if (empty($var))
+                    if (empty($var)) {
                         $var = [];
-                    else
+                    } else {
                         $var = (array) $var;
+                    }
                     break;
 
                     // kein Cast, nichts tun
@@ -75,10 +76,11 @@ class rex_type
                 default:
                     // check for array with generic type
                     if (strpos($vartype, 'array[') === 0) {
-                        if (empty($var))
+                        if (empty($var)) {
                             $var = [];
-                        else
+                        } else {
                             $var = (array) $var;
+                        }
 
                         // check if every element in the array is from the generic type
                         $matches = [];

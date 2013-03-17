@@ -46,18 +46,20 @@ class rex_cronjob_manager
         $message = '';
         $success = $cronjob instanceof rex_cronjob;
         if (!$success) {
-            if (is_object($cronjob))
+            if (is_object($cronjob)) {
                 $message = 'Invalid cronjob class "' . get_class($cronjob) . '"';
-            else
+            } else {
                 $message = 'Class "' . $cronjob . '" not found';
+            }
         } else {
             $this->name = $name;
             $this->id = $id;
             $this->cronjob = $cronjob;
             $type = $cronjob->getType();
             if (is_array($params)) {
-                foreach ($params as $key => $value)
+                foreach ($params as $key => $value) {
                     $cronjob->setParam(str_replace($type . '_', '', $key), $value);
+                }
             }
             $success = $cronjob->execute();
             $message = $cronjob->getMessage();
@@ -81,10 +83,11 @@ class rex_cronjob_manager
     {
         $name = $this->name;
         if (!$name) {
-            if ($this->cronjob instanceof rex_cronjob)
+            if ($this->cronjob instanceof rex_cronjob) {
                 $name = rex::isBackend() ? $this->cronjob->getTypeName() : $this->cronjob->getType();
-            else
+            } else {
                 $name = '[no name]';
+            }
         }
         rex_cronjob_log::save($name, $success, $message, $this->id);
     }

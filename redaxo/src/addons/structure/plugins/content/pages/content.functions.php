@@ -21,12 +21,13 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $formElements = [];
 
     $n = [];
-    if (!$isStartpage && $article->getValue('re_id') == 0)
+    if (!$isStartpage && $article->getValue('re_id') == 0) {
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
-    elseif ($isStartpage)
+    } elseif ($isStartpage) {
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
-    else
+    } else {
         $n['field'] = '<button class="rex-button" type="submit" name="article2startarticle" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startarticle\');">' . rex_i18n::msg('content_tostartarticle') . '</button>';
+    }
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -84,10 +85,11 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
     $formElements = [];
 
     $n = [];
-    if (!$emptyCategory)
+    if (!$emptyCategory) {
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottoarticle') . '</span>';
-    else
+    } else {
         $n['field'] = '<button class="rex-button" type="submit" name="category2article" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');">' . rex_i18n::msg('content_toarticle') . '</button>';
+    }
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

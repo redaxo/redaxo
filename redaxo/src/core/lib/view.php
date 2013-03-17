@@ -53,8 +53,9 @@ class rex_view
     public static function info($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-info';
-        if ($cssClass != '')
+        if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
+        }
 
         return self::message($message, $cssClassMessage);
     }
@@ -62,8 +63,9 @@ class rex_view
     public static function success($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-success';
-        if ($cssClass != '')
+        if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
+        }
 
         return self::message($message, $cssClassMessage);
     }
@@ -71,8 +73,9 @@ class rex_view
     public static function warning($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-warning';
-        if ($cssClass != '')
+        if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
+        }
 
         return self::message($message, $cssClassMessage);
     }
@@ -80,8 +83,9 @@ class rex_view
     public static function error($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-error';
-        if ($cssClass != '')
+        if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
+        }
 
         return self::message($message, $cssClassMessage);
     }
@@ -91,8 +95,9 @@ class rex_view
         $return = '';
 
         $cssClassMessage = 'rex-message';
-        if ($cssClass != '')
+        if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
+        }
 
         $return = '<div class="' . $cssClassMessage . '"><div class="rex-message-inner">' . $message . '</div></div>';
 
@@ -133,8 +138,9 @@ class rex_view
         $return .= '<section class="rex-content' . $class_1 . '">';
         $return .= '<div class="rex-content-inner' . $class_2 . '">';
 
-        if ($title != '')
+        if ($title != '') {
              $return .= '<h2>' . $title . '</h2>';
+        }
 
         if ($content_2 != '') {
             $return .= '
@@ -236,8 +242,9 @@ class rex_view
         $fragment->setVar('items', $items, false);
         $fragment->setVar('check', true);
 
-        if (rex::getUser()->isAdmin())
+        if (rex::getUser()->isAdmin()) {
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span>' . rex_i18n::msg('languages_edit') . '</a>', false);
+        }
 
         return $fragment->parse('core/navigations/drop.tpl');
     }

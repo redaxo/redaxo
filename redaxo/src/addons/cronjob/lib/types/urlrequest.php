@@ -34,10 +34,11 @@ class rex_cronjob_urlrequest extends rex_cronjob
                 $this->setParam('url', $location);
                 // rekursiv erneut ausfuehren
                 $success = $this->execute();
-                if ($this->hasMessage())
+                if ($this->hasMessage()) {
                     $message .= ' -> ' . $this->getMessage();
-                else
+                } else {
                     $message .= ' -> Unknown error';
+                }
             }
             $this->setMessage($message);
             return $success;

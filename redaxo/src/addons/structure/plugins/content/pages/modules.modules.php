@@ -70,8 +70,9 @@ if ($function == 'delete') {
             $OOArt = rex_article::getArticleById($aid, $clang_id);
 
             $label = $OOArt->getName() . ' [' . $aid . ']';
-            if (rex_clang::count() > 1)
+            if (rex_clang::count() > 1) {
                 $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
+            }
 
             $module_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id, 'ctype' => $ctype]) . '">' . htmlspecialchars($label) . '</a></li>';
             $del->next();
@@ -174,13 +175,17 @@ if ($function == 'add' or $function == 'edit') {
         }
 
         $btn_update = '';
-        if ($function != 'add') $btn_update = '<button class="rex-button" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
+        if ($function != 'add') {
+            $btn_update = '<button class="rex-button" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
+        }
 
-        if ($success != '')
+        if ($success != '') {
             $message .= rex_view::success($success);
+        }
 
-        if ($error != '')
+        if ($error != '') {
             $message .= rex_view::error($error);
+        }
 
         $echo    = '';
         $content = '';
@@ -356,11 +361,13 @@ if ($function == 'add' or $function == 'edit') {
 }
 
 if ($OUT) {
-    if ($success != '')
+    if ($success != '') {
         $message .= rex_view::success($success);
+    }
 
-    if ($error != '')
+    if ($error != '') {
         $message .= rex_view::error($error);
+    }
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
     $list->setCaption(rex_i18n::msg('module_caption'));

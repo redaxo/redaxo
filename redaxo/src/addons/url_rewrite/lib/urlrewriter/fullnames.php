@@ -84,8 +84,9 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         $article_id = -1;
         $clang = rex_clang::getCurrentId();
 
-        if (!file_exists($this->PATHLIST))
+        if (!file_exists($this->PATHLIST)) {
              $this->generatePathnames();
+        }
 
         // REXPATH wird auch im Backend benötigt, z.B. beim bearbeiten von Artikeln
         require_once $this->PATHLIST;
@@ -105,16 +106,19 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             $path = substr($_SERVER['REQUEST_URI'], $length);
 
             // Serverdifferenzen angleichen
-            if ($path{0} == '/')
+            if ($path{0} == '/') {
                 $path = substr($path, 1);
+            }
 
             // Parameter zählen nicht zum Pfad -> abschneiden
-            if (($pos = strpos($path, '?')) !== false)
+            if (($pos = strpos($path, '?')) !== false) {
                 $path = substr($path, 0, $pos);
+            }
 
             // Anker zählen nicht zum Pfad -> abschneiden
-            if (($pos = strpos($path, '#')) !== false)
+            if (($pos = strpos($path, '#')) !== false) {
                 $path = substr($path, 0, $pos);
+            }
 
             if (($path == '') || (rex_url::frontend($path) == rex_url::frontendController())) {
                 $this->setArticleId(rex::getProperty('start_article_id'));
@@ -184,10 +188,11 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
                 // Nochmals abfragen wegen EP
                 if ($article_id == -1) {
                     // Damit auch die "index.php?article_id=xxx" Aufrufe funktionieren
-                    if (rex_request('article_id', 'int', 0) > 0)
+                    if (rex_request('article_id', 'int', 0) > 0) {
                         $article_id = rex::getProperty('article_id');
-                    else
+                    } else {
                         $article_id = rex::getProperty('notfound_article_id');
+                    }
                 }
             }
 
@@ -199,16 +204,18 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
     private function setArticleId($art_id, $clang_id = -1)
     {
         rex::setProperty('article_id', $art_id);
-        if ($clang_id > -1)
+        if ($clang_id > -1) {
             rex_clang::setCurrentId($clang_id);
+        }
     }
 
     // Url neu schreiben
     public function rewrite(rex_extension_point $ep)
     {
         // Url wurde von einer anderen Extension bereits gesetzt
-        if ($ep->getSubject() != '')
+        if ($ep->getSubject() != '') {
             return;
+        }
 
         global $REXPATH;
 
@@ -234,8 +241,9 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         $baseDir = str_replace(' ', '%20', dirname($_SERVER['PHP_SELF']));
         // ANDERE DIR_SEP ALS "/" ERSETZEN (WIN BACKSLASHES)
         $baseDir = str_replace(DIRECTORY_SEPARATOR, '/', $baseDir);
-        if (substr($baseDir, -1) != '/' )
+        if (substr($baseDir, -1) != '/' ) {
             $baseDir .= '/';
+        }
 
         if (rex::isBackend()) {
             $baseDir = '';
@@ -260,8 +268,9 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             require_once $this->PATHLIST;
         }
 
-        if (!isset($REXPATH))
+        if (!isset($REXPATH)) {
             $REXPATH = [];
+        }
 
         $where = '';
         $name = '';

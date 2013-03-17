@@ -23,13 +23,17 @@ class rex_effect_filter_blur extends rex_effect_abstract
     public function execute()
     {
         // Attempt to calibrate the parameters to Photoshop:
-        if ($this->params['amount'] > 500)
+        if ($this->params['amount'] > 500) {
             $this->params['amount'] = 500;
+        }
         $this->params['amount'] = $this->params['amount'] * 0.016;
-        if ($this->params['radius'] > 50)
+        if ($this->params['radius'] > 50) {
             $this->params['radius'] = 50;
+        }
         $this->params['radius'] = $this->params['radius'] * 2;
-        if ($this->params['threshold'] > 255) $this->params['threshold'] = 255;
+        if ($this->params['threshold'] > 255) {
+            $this->params['threshold'] = 255;
+        }
         $this->params['radius'] = abs(round($this->params['radius'])); // Only integers make sense.
         if ($this->params['radius'] == 0) {
             return;

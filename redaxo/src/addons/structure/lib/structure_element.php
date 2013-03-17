@@ -430,10 +430,11 @@ abstract class rex_structure_element
         $return = [];
 
         if ($this->_path) {
-            if ($this->isStartArticle())
+            if ($this->isStartArticle()) {
             $explode = explode('|', $this->_path . $this->_id . '|');
-            else
+            } else {
             $explode = explode('|', $this->_path);
+            }
 
             if (is_array($explode)) {
                 foreach ($explode as $var) {

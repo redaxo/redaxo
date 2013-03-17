@@ -145,8 +145,9 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     } else {
         $icon = '';
-        if (rex_addon::exists($addonkey))
+        if (rex_addon::exists($addonkey)) {
             $icon = '<a class="rex-ic-generic rex-ic-add" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $this->i18n('file_add') . '">' . $this->i18n('file_add') . '</a>';
+        }
 
         $content .= '
         <h2>' . $addonkey . '</h2>

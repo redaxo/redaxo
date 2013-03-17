@@ -46,10 +46,11 @@ class rex_article_content_base
 
         $this->debug = false;
 
-        if ($clang !== null)
+        if ($clang !== null) {
             $this->setCLang($clang);
-        else
+        } else {
             $this->setClang(rex_clang::getCurrentId());
+        }
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('ART_INIT', '', [
@@ -58,16 +59,18 @@ class rex_article_content_base
             'clang' => $this->clang
         ]));
 
-        if ($article_id !== null)
+        if ($article_id !== null) {
             $this->setArticleId($article_id);
+        }
     }
 
     protected function getSqlInstance()
     {
         if (!is_object($this->ARTICLE)) {
             $this->ARTICLE = rex_sql::factory();
-            if ($this->debug)
+            if ($this->debug) {
                 $this->ARTICLE->setDebug();
+            }
         }
         return $this->ARTICLE;
     }
@@ -85,8 +88,9 @@ class rex_article_content_base
 
     public function setClang($value)
     {
-        if (!rex_clang::exists($value))
+        if (!rex_clang::exists($value)) {
             $value = rex_clang::getCurrentId();
+        }
         $this->clang = $value;
     }
 
@@ -144,17 +148,21 @@ class rex_article_content_base
 
     public function setEval($value)
     {
-        if ($value) $this->eval = true;
-        else $this->eval = false;
+        if ($value) {
+            $this->eval = true;
+        } else {
+            $this->eval = false;
+        }
     }
 
     protected function correctValue($value)
     {
         if ($value == 'category_id') {
-            if ($this->getValue('startarticle') != 1)
+            if ($this->getValue('startarticle') != 1) {
                 $value = 're_id';
-            else
+            } else {
                 $value = 'id';
+            }
         } elseif ($value == 'article_id') {
             $value = 'id';
         }
@@ -267,8 +275,9 @@ class rex_article_content_base
                             ORDER BY ' . rex::getTablePrefix() . 'article_slice.prior';
 
         $artDataSql = rex_sql::factory();
-        if ($this->debug)
+        if ($this->debug) {
             $artDataSql->setDebug();
+        }
 
         $artDataSql->setQuery($sql);
 
@@ -287,8 +296,9 @@ class rex_article_content_base
             $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             // ----- ctype unterscheidung
-            if ($this->mode != 'edit' && !$this->eval && $i == 0)
+            if ($this->mode != 'edit' && !$this->eval && $i == 0) {
                 $articleContent = "<?php if (\$this->ctype == '" . $sliceCtypeId . "' || (\$this->ctype == '-1')) { \n";
+            }
 
             // ------------- EINZELNER SLICE - AUSGABE
             $slice_content = $this->outputSlice(
@@ -329,7 +339,9 @@ class rex_article_content_base
         }
 
         // ----- end: ctype unterscheidung
-        if ($this->mode != 'edit' && !$this->eval && $i > 0) $articleContent .= "\n } ?>";
+        if ($this->mode != 'edit' && !$this->eval && $i > 0) {
+            $articleContent .= "\n } ?>";
+        }
 
 
         // ----- post hook
@@ -463,8 +475,9 @@ class rex_article_content_base
             }
         }
 
-        if (!$template_id)
+        if (!$template_id) {
             $template_id = $this->getTemplateId();
+        }
 
         static $search = [
             'REX_ARTICLE_ID',
@@ -497,7 +510,9 @@ class rex_article_content_base
         // -- preg match redaxo://[ARTICLEID]-[CLANG] --
         preg_match_all('@redaxo://([0-9]*)\-([0-9]*)(.){1}/?@im', $content, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
-            if (empty($match)) continue;
+            if (empty($match)) {
+                continue;
+            }
 
             $url = rex_getURL($match[1], $match[2]);
             $content = str_replace($match[0], $url . $match[3], $content);
@@ -506,7 +521,9 @@ class rex_article_content_base
         // -- preg match redaxo://[ARTICLEID] --
         preg_match_all('@redaxo://([0-9]*)(.){1}/?@im', $content, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
-            if (empty($match)) continue;
+            if (empty($match)) {
+                continue;
+            }
 
             $url = rex_getURL($match[1], $this->clang);
             $content = str_replace($match[0], $url . $match[2], $content);

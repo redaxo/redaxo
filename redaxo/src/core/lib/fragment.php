@@ -75,10 +75,11 @@ class rex_fragment
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
                 ob_start();
-                if ($delete_whitespaces)
+                if ($delete_whitespaces) {
                     preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', require $fragment);
-                else
+                } else {
                     require $fragment;
+                }
 
                 $content =  ob_get_clean();
 

@@ -45,11 +45,13 @@ if ($func == 'delete_cache' && $type_id > 0) {
 }
 
 //-------------- output messages
-if ($info != '')
+if ($info != '') {
     $content .= rex_view::info($info);
+}
 
-if ($warning != '')
+if ($warning != '') {
     $content .= rex_view::warning($warning);
+}
 
 if ($func == '') {
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen

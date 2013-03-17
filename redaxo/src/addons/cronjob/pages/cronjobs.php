@@ -15,20 +15,22 @@ if ($func == 'setstatus') {
     $name = $manager->getName($oid);
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
     $msg = $status == 1 ? 'status_activate' : 'status_deactivate';
-    if ($manager->setStatus($oid, $status))
+    if ($manager->setStatus($oid, $status)) {
         echo rex_view::info($this->i18n($msg . '_success', $name));
-    else
+    } else {
         echo rex_view::warning($this->i18n($msg . '_error', $name));
+    }
     $func = '';
 }
 
 if ($func == 'delete') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
-    if ($manager->delete($oid))
+    if ($manager->delete($oid)) {
         echo rex_view::info($this->i18n('delete_success', $name));
-    else
+    } else {
         echo rex_view::warning($this->i18n('delete_error', $name));
+    }
     $func = '';
 }
 
@@ -37,12 +39,14 @@ if ($func == 'execute') {
     $name = $manager->getName($oid);
     $success = $manager->tryExecute($oid);
     $msg = '';
-    if ($manager->hasMessage())
+    if ($manager->hasMessage()) {
         $msg = '<br /><br />' . $this->i18n('log_message') . ': <br />' . nl2br($manager->getMessage());
-    if ($success)
+    }
+    if ($success) {
         echo rex_view::info($this->i18n('execute_success', $name) . $msg);
-    else
+    } else {
         echo rex_view::warning($this->i18n('execute_error', $name) . $msg);
+    }
     $func = '';
 }
 
@@ -81,17 +85,20 @@ if ($func == '') {
     $list->setColumnFormat('environment', 'custom', function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (strpos($value, '|0|') !== false)
+        if (strpos($value, '|0|') !== false) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
-        if (strpos($value, '|1|') !== false)
+        }
+        if (strpos($value, '|1|') !== false) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
+        }
         return implode(', ', $env);
     });
 
     $list->setColumnLabel('execution_moment', $this->i18n('execution'));
     $list->setColumnFormat('execution_moment', 'custom', function ($params) {
-        if ($params['list']->getValue('execution_moment'))
+        if ($params['list']->getValue('execution_moment')) {
             return rex_i18n::msg('cronjob_execution_beginning');
+        }
         return rex_i18n::msg('cronjob_execution_ending');
     });
 
@@ -100,12 +107,13 @@ if ($func == '') {
     $list->setColumnLayout('status', ['<th colspan="3">###VALUE###</th>', '<td style="text-align:center;">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', function ($params) {
         $list = $params['list'];
-        if (!class_exists($list->getValue('type')))
+        if (!class_exists($list->getValue('type'))) {
             $str = rex_i18n::msg('cronjob_status_invalid');
-        elseif ($list->getValue('status') == 1)
+        } elseif ($list->getValue('status') == 1) {
             $str = $list->getColumnLink('status', '<span class="rex-online">' . rex_i18n::msg('cronjob_status_activated') . '</span>');
-        else
+        } else {
             $str = $list->getColumnLink('status', '<span class="rex-offline">' . rex_i18n::msg('cronjob_status_deactivated') . '</span>');
+        }
         return $str;
     });
 
@@ -117,8 +125,9 @@ if ($func == '') {
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###']);
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
-        if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type')))
+        if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', rex_i18n::msg('cronjob_execute'));
+        }
         return '<span class="rex-strike">' . rex_i18n::msg('cronjob_execute') . '</span>';
     });
 
@@ -155,15 +164,17 @@ if ($func == '') {
             $select->addOption($cronjob->getTypeName(), $class);
         }
     }
-    if ($func == 'add')
+    if ($func == 'add') {
         $select->setSelected('rex_cronjob_phpcode');
+    }
     $activeType = $field->getValue();
 
     if ($func != 'add' && !in_array($activeType, $types)) {
-        if (!$activeType && !$field->getValue())
+        if (!$activeType && !$field->getValue()) {
             $warning = $this->i18n('not_found');
-        else
+        } else {
             $warning = $this->i18n('type_not_found', $field->getValue(), $activeType);
+        }
         rex_response::sendRedirect(htmlspecialchars_decode(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning])));
     }
 
@@ -178,8 +189,9 @@ if ($func == '') {
     $select->setSize(2);
     $select->addOption($this->i18n('environment_frontend'), 0);
     $select->addOption($this->i18n('environment_backend'), 1);
-    if ($func == 'add')
+    if ($func == 'add') {
         $select->setSelected([0, 1]);
+    }
 
     $field = $form->addSelectField('execution_moment');
     $field->setLabel($this->i18n('execution'));
@@ -187,8 +199,9 @@ if ($func == '') {
     $select->setSize(1);
     $select->addOption($this->i18n('execution_beginning'), 1);
     $select->addOption($this->i18n('execution_ending'), 0);
-    if ($func == 'add')
+    if ($func == 'add') {
         $select->setSelected(0);
+    }
 
     $field = $form->addSelectField('status');
     $field->setLabel($this->i18n('status'));
@@ -196,8 +209,9 @@ if ($func == '') {
     $select->setSize(1);
     $select->addOption($this->i18n('status_activated'), 1);
     $select->addOption($this->i18n('status_deactivated'), 0);
-    if ($func == 'add')
+    if ($func == 'add') {
         $select->setSelected(1);
+    }
 
     $form->addFieldset($this->i18n('type_parameters'));
 
@@ -211,15 +225,18 @@ if ($func == '') {
     foreach ($cronjobs as $group => $cronjob) {
         $disabled = [];
         $envs = (array) $cronjob->getEnvironments();
-        if (!in_array('frontend', $envs))
+        if (!in_array('frontend', $envs)) {
             $disabled[] = 0;
-        if (!in_array('backend', $envs))
+        }
+        if (!in_array('backend', $envs)) {
             $disabled[] = 1;
-        if (count($disabled) > 0)
+        }
+        if (count($disabled) > 0) {
             $env_js .= '
                 if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")
                     $("#' . $envFieldId . ' option[value=\'' . implode('\'], #' . $envFieldId . ' option[value=\'', $disabled) . '\']").prop("disabled","disabled").prop("selected","");
 ';
+        }
 
         $params = $cronjob->getParamFields();
 
@@ -246,8 +263,9 @@ if ($func == '') {
                         {
                             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                             $field->setLabel($label);
-                            if (isset($param['notice']))
+                            if (isset($param['notice'])) {
                                 $field->setNotice($param['notice']);
+                            }
                             break;
                         }
                     case 'select' :
@@ -256,8 +274,9 @@ if ($func == '') {
                             $field->setLabel($label);
                             $select = $field->getSelect();
                             $select->addArrayOptions($param['options']);
-                            if (isset($param['notice']))
+                            if (isset($param['notice'])) {
                                 $field->setNotice($param['notice']);
+                            }
                             break;
                         }
                     case 'checkbox' :
@@ -265,8 +284,9 @@ if ($func == '') {
                         {
                             $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                             $field->addArrayOptions($param['options']);
-                            if (isset($param['notice']))
+                            if (isset($param['notice'])) {
                                 $field->setNotice($param['notice']);
+                            }
                             break;
                         }
                     default:var_dump($param);
@@ -274,10 +294,12 @@ if ($func == '') {
                 if (isset($param['visible_if']) && is_array($param['visible_if'])) {
                     foreach ($param['visible_if'] as $key => $value) {
                         $key = $group . '_' . $key;
-                        if (!isset($visible[$key]))
+                        if (!isset($visible[$key])) {
                             $visible[$key] = [];
-                        if (!isset($visible[$key][$value]))
+                        }
+                        if (!isset($visible[$key][$value])) {
                             $visible[$key][$value] = [];
+                        }
                         $visible[$key][$value][] = $field->getAttribute('id');
                     }
                 }

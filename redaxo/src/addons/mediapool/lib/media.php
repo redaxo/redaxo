@@ -76,8 +76,9 @@ class rex_media
             $cache = rex_file::getCache($extlist_path);
 
             if (is_array($cache)) {
-                foreach ($cache as $filename)
+                foreach ($cache as $filename) {
                     $media[] = self :: getMediaByFileName($filename);
+                }
             }
         }
 
@@ -90,8 +91,9 @@ class rex_media
      */
     public static function getMediaByFileName($name)
     {
-        if ($name == '')
+        if ($name == '') {
             return null;
+        }
 
         $media_path = rex_path::addonCache('mediapool', $name . '.media');
         if (!file_exists($media_path)) {
@@ -110,10 +112,11 @@ class rex_media
 
             $media = new self();
             foreach ($cache as $key => $value) {
-                if (in_array($key, array_keys($aliasMap)))
+                if (in_array($key, array_keys($aliasMap))) {
                     $var_name = '_' . $aliasMap[$key];
-                else
+                } else {
                     $var_name = '_' . $key;
+                }
 
                 $media->$var_name = $value;
             }
@@ -153,8 +156,9 @@ class rex_media
         if ($this->_cat_name === null) {
             $this->_cat_name = '';
             $category = $this->getCategory();
-            if (is_object($category))
+            if (is_object($category)) {
                 $this->_cat_name = $category->getName();
+            }
         }
         return $this->_cat_name;
     }
@@ -409,8 +413,9 @@ class rex_media
             'media' => $this,
         ]));
 
-        if (!empty($warning))
+        if (!empty($warning)) {
             return $warning;
+        }
 
         return false;
     }
@@ -613,8 +618,9 @@ class rex_media
     public static function getMediaById($id)
     {
         $id = (int) $id;
-        if ($id == 0)
+        if ($id == 0) {
             return null;
+        }
 
         $sql = rex_sql::factory();
         // $sql->setDebug();

@@ -72,8 +72,9 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $key to be a string, ' . gettype($key) . ' given!');
         }
 
-        if (!isset(self::$data[$namespace]))
+        if (!isset(self::$data[$namespace])) {
             self::$data[$namespace] = [];
+        }
 
         $existed = isset(self::$data[$namespace][$key]);
         if (!$existed || $existed && self::$data[$namespace][$key] !== $value) {
@@ -182,8 +183,9 @@ class rex_config
 
             // delete the data from the container
             unset(self::$data[$namespace][$key]);
-            if (empty(self::$data[$namespace]))
+            if (empty(self::$data[$namespace])) {
                 unset(self::$data[$namespace]);
+            }
             self::$changed = true;
             return true;
         }
@@ -223,8 +225,9 @@ class rex_config
      */
     protected static function init()
     {
-        if (self::$initialized)
+        if (self::$initialized) {
             return;
+        }
 
         define('REX_CONFIG_FILE_CACHE', rex_path::cache('config.cache'));
 
@@ -300,12 +303,14 @@ class rex_config
     public static function save()
     {
         // save cache only if changes happened
-        if (!self::$changed)
+        if (!self::$changed) {
             return;
+        }
 
         // after all no data needs to be deleted or update, so skip save
-        if (empty(self::$deletedData) && empty(self::$changedData))
+        if (empty(self::$deletedData) && empty(self::$changedData)) {
             return;
+        }
 
         // delete cache-file; will be regenerated on next request
         rex_file::delete(REX_CONFIG_FILE_CACHE);

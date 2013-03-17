@@ -21,7 +21,9 @@ class rex_cronjob_export extends rex_cronjob
         $ext = '.sql';
         if (file_exists($dir . $file . $ext)) {
             $i = 1;
-            while (file_exists($dir . $file . '_' . $i . $ext)) $i++;
+            while (file_exists($dir . $file . '_' . $i . $ext)) {
+                $i++;
+            }
             $file = $file . '_' . $i;
         }
 

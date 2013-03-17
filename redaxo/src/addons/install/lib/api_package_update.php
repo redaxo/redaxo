@@ -152,8 +152,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
                 }
             }
             foreach (rex_package::getAvailablePackages() as $package) {
-                if ($package->getAddon() === $this->addon)
+                if ($package->getAddon() === $this->addon) {
                     continue;
+                }
                 $manager = rex_package_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();

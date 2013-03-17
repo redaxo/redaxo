@@ -76,14 +76,16 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     $clang = (int) $_clang;
 
     // ----- get id
-    if ($id == 0)
+    if ($id == 0) {
         $id = rex::getProperty('article_id');
+    }
 
     // ----- get clang
     // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
     // Die rexExtension muss selbst entscheiden was sie damit macht
-    if ($_clang === '' && (rex_clang::count() > 1 || rex_extension::isRegistered( 'URL_REWRITE')))
+    if ($_clang === '' && (rex_clang::count() > 1 || rex_extension::isRegistered( 'URL_REWRITE'))) {
         $clang = rex_clang::getCurrentId();
+    }
 
     // ----- get params
     $param_string = rex_param_string($_params, $_divider);
@@ -91,8 +93,9 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     $name = 'NoName';
     if ($id != 0) {
         $ooa = rex_article :: getArticleById($id, $clang);
-        if ($ooa)
+        if ($ooa) {
             $name = rex_parse_article_name($ooa->getName());
+        }
     }
 
     // ----- EXTENSION POINT

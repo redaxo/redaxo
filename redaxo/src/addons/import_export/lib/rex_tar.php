@@ -36,8 +36,9 @@ class rex_tar extends tar
         unset($this->directories);
 
         // If the tar file doesn't exist...
-        if (!file_exists($filename))
+        if (!file_exists($filename)) {
             return false;
+        }
 
         $this->filename = $filename;
 
@@ -51,12 +52,14 @@ class rex_tar extends tar
     public function addFile($filename)
     {
         // Make sure the file we are adding exists!
-        if (!file_exists($filename))
+        if (!file_exists($filename)) {
             return false;
+        }
 
         // Make sure there are no other files in the archive that have this same filename
-        if ($this->containsFile($filename))
+        if ($this->containsFile($filename)) {
             return false;
+        }
 
         // Get file information
         $file_information = stat($filename);
@@ -89,8 +92,9 @@ class rex_tar extends tar
     // Add a directory to this tar archive
     public function addDirectory($dirname)
     {
-        if (!file_exists($dirname))
+        if (!file_exists($dirname)) {
             return false;
+        }
 
         // Get directory information
         $file_information = stat($dirname);
@@ -114,8 +118,9 @@ class rex_tar extends tar
     protected function __readTar($filename = '')
     {
         // Set the filename to load
-        if (!$filename)
+        if (!$filename) {
             $filename = $this->filename;
+        }
 
         // Read in the TAR file
 //    $fp = fopen($filename,"rb");
@@ -125,8 +130,9 @@ class rex_tar extends tar
         $this->tar_file = rex_file::get($filename);
 
         if ($this->tar_file[0] == chr(31) && $this->tar_file[1] == chr(139) && $this->tar_file[2] == chr(8)) {
-            if (!function_exists('gzinflate'))
+            if (!function_exists('gzinflate')) {
                 return false;
+            }
 
             $this->isGzipped = true;
 
@@ -149,8 +155,9 @@ class rex_tar extends tar
         // GZ Compress the data if we need to
         if ($useGzip) {
             // Make sure we have gzip support
-            if (!function_exists('gzencode'))
+            if (!function_exists('gzencode')) {
                 return false;
+            }
 
             $file = gzencode($this->tar_file);
         } else {
@@ -163,8 +170,9 @@ class rex_tar extends tar
 //    fclose($fp);
 
         // kein Filename gegeben => Inhalt zurueckgeben
-        if (!$filename)
+        if (!$filename) {
             return $file;
+        }
 
         // STM: hier mit put_file_contents ist viel schneller
         return rex_file::put($filename, $file) !== false;
@@ -288,10 +296,11 @@ class rex_tar extends tar
                 }
             }
         }
-        if (count($this->message) > 0)
+        if (count($this->message) > 0) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     public function getMessages()

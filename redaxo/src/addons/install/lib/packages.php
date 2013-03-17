@@ -11,8 +11,9 @@ class rex_install_packages
 
     public static function getUpdatePackages()
     {
-        if (is_array(self::$updatePackages))
+        if (is_array(self::$updatePackages)) {
             return self::$updatePackages;
+        }
 
         self::$updatePackages = self::getPackages();
 
@@ -45,13 +46,15 @@ class rex_install_packages
 
     public static function getAddPackages()
     {
-        if (is_array(self::$addPackages))
+        if (is_array(self::$addPackages)) {
             return self::$addPackages;
+        }
 
         self::$addPackages = self::getPackages();
         foreach (self::$addPackages as $key => $addon) {
-            if (rex_addon::exists($key))
+            if (rex_addon::exists($key)) {
                 unset(self::$addPackages[$key]);
+            }
         }
         return self::$addPackages;
     }
@@ -63,8 +66,9 @@ class rex_install_packages
 
     public static function getMyPackages()
     {
-        if (is_array(self::$myPackages))
+        if (is_array(self::$myPackages)) {
             return self::$myPackages;
+        }
 
         self::$myPackages = self::getPackages('?only_my=1');
         return self::$myPackages;

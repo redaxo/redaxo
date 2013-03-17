@@ -12,8 +12,9 @@ abstract class rex_error_handler
      */
     public static function register()
     {
-        if (self::$registered)
+        if (self::$registered) {
             return;
+        }
 
         self::$registered = true;
 
@@ -27,8 +28,9 @@ abstract class rex_error_handler
      */
     public static function unregister()
     {
-        if (!self::$registered)
+        if (!self::$registered) {
             return;
+        }
 
         self::$registered = false;
 

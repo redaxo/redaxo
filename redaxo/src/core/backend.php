@@ -14,8 +14,9 @@ $page = '';
 if (rex::isSetup()) {
     // ----------------- SET SETUP LANG
     $requestLang = rex_request('lang', 'string');
-    if (in_array($requestLang, rex_i18n::getLocales()))
+    if (in_array($requestLang, rex_i18n::getLocales())) {
         rex::setProperty('lang', $requestLang);
+    }
 
     rex_i18n::setLocale(rex::getProperty('lang'));
 
@@ -35,8 +36,9 @@ if (rex::isSetup()) {
     $rex_user_psw = rex_post('rex_user_psw', 'string');
     $rex_user_stay_logged_in = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean'))
+    if (rex_get('rex_logout', 'boolean')) {
         $login->setLogout(true);
+    }
 
     // the server side encryption of pw is only required
     // when not already encrypted by client using javascript
@@ -52,8 +54,9 @@ if (rex::isSetup()) {
         $rex_user_loginmessage = $login->getMessage();
 
         // Fehlermeldung von der Datenbank
-        if (is_string($loginCheck))
+        if (is_string($loginCheck)) {
             $rex_user_loginmessage = $loginCheck;
+        }
 
         $pages['login'] = rex_be_controller::getLoginPage();
         $page = 'login';

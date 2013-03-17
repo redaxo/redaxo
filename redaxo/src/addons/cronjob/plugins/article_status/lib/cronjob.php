@@ -58,10 +58,11 @@ class rex_cronjob_article_status extends rex_cronjob
         include_once rex_path::addon('structure', 'functions/function_rex_structure.php');
 
         for ($i = 0; $i < $rows; $i++) {
-            if (in_array($sql->getValue('status'), $from['before']))
+            if (in_array($sql->getValue('status'), $from['before'])) {
                 $status = $from['after'];
-            else
+            } else {
                 $status = $to['after'];
+            }
 
             rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
             $sql->next();

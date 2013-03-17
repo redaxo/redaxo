@@ -91,16 +91,20 @@ if ($func == '') {
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
             $fieldIds[] = $field->getAttribute('id');
-            if (rex_request('default_value', 'boolean'))
+            if (rex_request('default_value', 'boolean')) {
                 $field->setValue(rex_complex_perm::ALL);
-            if (isset($params['select']))
+            }
+            if (isset($params['select'])) {
                 $field->setSelect($params['select']);
+            }
             $select = $field->getSelect();
             $select->setMultiple(true);
-            if (isset($params['options']))
+            if (isset($params['options'])) {
                 $select->addArrayOptions($params['options']);
-            if (isset($params['sql_options']))
+            }
+            if (isset($params['sql_options'])) {
                 $select->addSqlOptions($params['sql_options']);
+            }
             $select->get();
             $select->setSize(min(10, max(3, $select->countOptions())));
         }

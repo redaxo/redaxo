@@ -197,8 +197,9 @@ class rex_response
      */
     public static function sendLastModified($lastModified = null)
     {
-        if (!$lastModified)
+        if (!$lastModified) {
             $lastModified = time();
+        }
 
         $lastModified = date('r', (float) $lastModified);
 

@@ -48,14 +48,17 @@ class rex_be_navigation
                 uasort($blockPages, function (rex_be_page_main $a, rex_be_page_main $b) {
                     $a_prio = (int) $a->getPrio();
                     $b_prio = (int) $b->getPrio();
-                    if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0))
+                    if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0)) {
                         return strcmp($a->getTitle(), $b->getTitle());
+                    }
 
-                    if ($a_prio <= 0)
+                    if ($a_prio <= 0) {
                         return 1;
+                    }
 
-                    if ($b_prio <= 0)
+                    if ($b_prio <= 0) {
                         return -1;
+                    }
 
                     return $a_prio > $b_prio ? 1 : -1;
                 });
@@ -154,11 +157,13 @@ class rex_be_navigation
      */
     public function getHeadline($block)
     {
-        if (isset($this->headlines[$block]))
+        if (isset($this->headlines[$block])) {
             return $this->headlines[$block];
+        }
 
-        if ($block != 'default')
+        if ($block != 'default') {
             return rex_i18n::msg('navigation_' . $block);
+        }
 
         return '';
     }

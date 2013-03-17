@@ -196,8 +196,9 @@ class rex_socket
                 fwrite($stream, $end);
             };
         } elseif (!is_callable($data)) {
-            if (is_array($data))
+            if (is_array($data)) {
                 $data = rex_string::buildQuery($data);
+            }
             $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
         return $this->doRequest('POST', $data);

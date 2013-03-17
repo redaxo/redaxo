@@ -40,8 +40,9 @@ class rex_cronjob_log
         $array = [];
         foreach (self::getYears() as $year) {
             $months = self::getMonths($year);
-            if (!empty($months))
+            if (!empty($months)) {
                 $array[$year] = $months;
+            }
         }
         return $array;
     }
@@ -71,11 +72,13 @@ class rex_cronjob_log
                 $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
 
                 $end = min($limit - count($messages), count($lines));
-                for ($i = 0; $i < $end; $i++)
+                for ($i = 0; $i < $end; $i++) {
                     $messages[] = $lines[$i];
+                }
 
-                if (count($messages) >= $limit)
+                if (count($messages) >= $limit) {
                     break 2;
+                }
             }
         }
         $caption = rex_i18n::msg('cronjob_log_caption_2');
@@ -93,20 +96,23 @@ class rex_cronjob_log
         // rex_formatter nicht verwenden, da im Frontend nicht verfuegbar
         $newline = date('Y-m-d H:i');
 
-        if ($success)
+        if ($success) {
             $newline .= ' | SUCCESS | ';
-        else
+        } else {
             $newline .= ' |  ERROR  | ';
+        }
 
-        if (!$id)
+        if (!$id) {
             $id = '--';
-        else
+        } else {
             $id = str_pad($id, 2, ' ', STR_PAD_LEFT);
+        }
 
         $newline .= $id . ' | ' . $name;
 
-        if ($message)
+        if ($message) {
             $newline .= ' | ' . str_replace(["\r\n", "\n"], ' | ', trim(strip_tags($message)));
+        }
 
         $dir = REX_CRONJOB_LOG_FOLDER . $year;
         if (!is_dir($dir)) {
@@ -115,8 +121,9 @@ class rex_cronjob_log
 
         $content = '';
         $file = $dir . '/' . $year . '-' . $month . '.log';
-        if (file_exists($file))
+        if (file_exists($file)) {
             $content = rex_file::get($file);
+        }
 
         $content = $newline . "\n" . $content;
 
@@ -126,11 +133,13 @@ class rex_cronjob_log
     private static function _getList($lines, $caption = '', $summary = '')
     {
         $table_attr = '';
-        if (!empty($summary))
+        if (!empty($summary)) {
             $table_attr .= ' summary="' . $summary . '"';
+        }
         $table_head = '';
-        if (!empty($caption))
+        if (!empty($caption)) {
             $table_head .= '<caption>' . $caption . '</caption>';
+        }
         $list = '
             <table class="rex-table"' . $table_attr . '>
                 ' . $table_head . '
@@ -156,8 +165,9 @@ class rex_cronjob_log
             foreach ($lines as $line) {
                 $data = explode(' | ', $line, 5);
                 for ($i = 0; $i < 5; $i++) {
-                    if (!isset($data[$i]))
+                    if (!isset($data[$i])) {
                         $data[$i] = '';
+                    }
                 }
                 $data[0] = rex_formatter::strftime(strtotime($data[0]), 'datetime');
                 $class = trim($data[1]) == 'ERROR' ? 'rex-warning' : 'rex-info';

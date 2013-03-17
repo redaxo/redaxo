@@ -47,8 +47,9 @@ class rex_setup
 
         // -------------------------- EXTENSION CHECK
         foreach (self::$MIN_PHP_EXTENSIONS as $extension) {
-            if (!extension_loaded($extension))
+            if (!extension_loaded($extension)) {
                 $errors[] = rex_i18n::msg('setup_302', $extension);
+            }
         }
 
         return $errors;

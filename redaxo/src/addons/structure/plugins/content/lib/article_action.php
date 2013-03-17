@@ -21,12 +21,13 @@ class rex_article_action
     {
         $this->moduleId = $moduleId;
         $this->event = $function;
-        if ($function == 'edit')
+        if ($function == 'edit') {
             $this->mode = 2;
-        elseif ($function == 'delete')
+        } elseif ($function == 'delete') {
             $this->mode = 4;
-        else
+        } else {
             $this->mode = 1;
+        }
         $this->sql = $sql;
         $this->vars['search'] = ['REX_ARTICLE_ID', 'REX_CLANG_ID', 'REX_CTYPE_ID', 'REX_MODULE_ID', 'REX_SLICE_ID'];
         $this->vars['replace'] = [
@@ -101,36 +102,41 @@ class rex_article_action
 
     protected function setValue($id, $value)
     {
-        if ($id < 1 || $id > 20)
+        if ($id < 1 || $id > 20) {
             throw new InvalidArgumentException('ID for REX_VALUE out of range (1..20)');
+        }
         $this->sql->setValue('value' . $id, $value);
     }
 
     protected function setMedia($id, $value)
     {
-        if ($id < 1 || $id > 10)
+        if ($id < 1 || $id > 10) {
             throw new InvalidArgumentException('ID for REX_MEDIA out of range (1..10)');
+        }
         $this->sql->setValue('media' . $id, $value);
     }
 
     protected function setMediaList($id, $value)
     {
-        if ($id < 1 || $id > 10)
+        if ($id < 1 || $id > 10) {
             throw new InvalidArgumentException('ID for REX_MEDIALIST out of range (1..10)');
+        }
         $this->sql->setValue('medialist' . $id, $value);
     }
 
     protected function setLink($id, $value)
     {
-        if ($id < 1 || $id > 10)
+        if ($id < 1 || $id > 10) {
             throw new InvalidArgumentException('ID for REX_LINK out of range (1..10)');
+        }
         $this->sql->setValue('link' . $id, $value);
     }
 
     protected function setLinkList($id, $value)
     {
-        if ($id < 1 || $id > 10)
+        if ($id < 1 || $id > 10) {
             throw new InvalidArgumentException('ID for REX_LINKLIST out of range (1..10)');
+        }
         $this->sql->setValue('linklist' . $id, $value);
     }
 

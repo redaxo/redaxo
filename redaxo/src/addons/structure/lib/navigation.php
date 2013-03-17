@@ -67,7 +67,9 @@ class rex_navigation
      */
     public function get($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
     {
-        if (!$this->_setActivePath()) return false;
+        if (!$this->_setActivePath()) {
+            return false;
+        }
 
         $this->depth = $depth;
         $this->open = $open;
@@ -94,7 +96,9 @@ class rex_navigation
      */
     public function getBreadcrumb($startPageLabel, $includeCurrent = false, $category_id = 0)
     {
-        if (!$this->_setActivePath()) return false;
+        if (!$this->_setActivePath()) {
+            return false;
+        }
 
         $path = $this->path;
 
@@ -118,9 +122,10 @@ class rex_navigation
         }
 
         if ($includeCurrent) {
-            if ($art = rex_article::getArticleById($this->current_article_id))
+            if ($art = rex_article::getArticleById($this->current_article_id)) {
                 if (!$art->isStartArticle()) {
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
+            }
                 } else {
                     $cat = rex_category::getCategoryById($this->current_article_id);
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
@@ -155,8 +160,9 @@ class rex_navigation
             $path = trim($OOArt->getPath(), '|');
 
             $this->path = [];
-            if ($path != '')
+            if ($path != '') {
                 $this->path = explode('|', $path);
+            }
 
             $this->current_article_id = $article_id;
             $this->current_category_id = $OOArt->getCategoryId();
@@ -170,15 +176,17 @@ class rex_navigation
     {
         static $depth = 0;
 
-        if ($category_id < 1)
+        if ($category_id < 1) {
             $nav_obj = rex_category::getRootCategories($ignore_offlines);
-        else
+        } else {
             $nav_obj = rex_category::getChildrenById($category_id, $ignore_offlines);
+        }
 
         $return = '';
 
-        if (count($nav_obj) > 0)
+        if (count($nav_obj) > 0) {
             $return .= '<ul class="rex-navi' . ($depth + 1) . '">';
+        }
 
         foreach ($nav_obj as $nav) {
             $liClass = '';
@@ -196,11 +204,13 @@ class rex_navigation
             }
 
             // classes abhaengig vom level
-            if (isset($this->classes[$depth]))
+            if (isset($this->classes[$depth])) {
                 $liClass .= ' ' . $this->classes[$depth];
+            }
 
-            if (isset($this->linkclasses[$depth]))
+            if (isset($this->linkclasses[$depth])) {
                 $linkClass .= ' ' . $this->linkclasses[$depth];
+            }
 
 
 
@@ -222,8 +232,9 @@ class rex_navigation
             $return .= '</li>';
         }
 
-        if (count($nav_obj) > 0)
+        if (count($nav_obj) > 0) {
             $return .= '</ul>';
+        }
 
         return $return;
     }

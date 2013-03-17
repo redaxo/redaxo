@@ -45,8 +45,9 @@ class rex_form
     {
 //    $debug = true;
 
-        if (!in_array($method, ['post', 'get']))
+        if (!in_array($method, ['post', 'get'])) {
             throw new InvalidArgumentException("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
+        }
 
         $this->name = md5($tableName . $whereCondition . $method);
         $this->method = $method;
@@ -76,8 +77,9 @@ class rex_form
         }
 
         // --------- Load Env
-        if (rex::isBackend())
+        if (rex::isBackend()) {
             $this->loadBackendConfig();
+        }
     }
 
     /**
@@ -216,8 +218,9 @@ class rex_form
      */
     public function addContainerField($name, $value = null, array $attributes = [])
     {
-        if (!isset($attributes['class']))
+        if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-container';
+        }
         $attributes['internal::fieldClass'] = 'rex_form_container_element';
 
         $field = $this->addField('', $name, $value, $attributes, true);
@@ -284,8 +287,9 @@ class rex_form
     {
         $attributes['internal::fieldSeparateEnding'] = true;
         $attributes['internal::noNameAttribute'] = true;
-        if (!isset($attributes['class']))
+        if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-read';
+        }
         $field = $this->addField('span', $name, $value, $attributes, true);
         return $field;
     }
@@ -316,8 +320,9 @@ class rex_form
     public function addCheckboxField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
-        if (!isset($attributes['class']))
+        if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-checkbox rex-form-label-right';
+        }
         $field = $this->addField('', $name, $value, $attributes);
         return $field;
     }
@@ -333,8 +338,9 @@ class rex_form
      */
     public function addRadioField($name, $value = null, array $attributes = [])
     {
-        if (!isset($attributes['class']))
+        if (!isset($attributes['class'])) {
             $attributes['class'] = 'rex-form-radio';
+        }
         $attributes['internal::fieldClass'] = 'rex_form_radio_element';
         $field = $this->addField('radio', $name, $value, $attributes);
         return $field;
@@ -351,10 +357,12 @@ class rex_form
     public function addTextAreaField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldSeparateEnding'] = true;
-        if (!isset($attributes['cols']))
+        if (!isset($attributes['cols'])) {
             $attributes['cols'] = 50;
-        if (!isset($attributes['rows']))
+        }
+        if (!isset($attributes['rows'])) {
             $attributes['rows'] = 6;
+        }
 
         $field = $this->addField('textarea', $name, $value, $attributes);
         return $field;
@@ -656,10 +664,11 @@ class rex_form
      */
     public function setEditMode($isEditMode)
     {
-        if ($isEditMode)
+        if ($isEditMode) {
             $this->mode = 'edit';
-        else
+        } else {
             $this->mode = 'add';
+        }
     }
 
     /**
@@ -677,8 +686,9 @@ class rex_form
      */
     public function setApplyUrl($url)
     {
-        if (is_array($url))
+        if (is_array($url)) {
             $url = $this->getUrl($url, false);
+        }
 
         $this->applyUrl = $url;
     }
@@ -899,8 +909,12 @@ class rex_form
             $fieldsetElements[$fieldsetName] = [];
 
             foreach ($fieldsetElementsArray as $element) {
-                if ($this->isHeaderElement($element)) continue;
-                if ($this->isFooterElement($element)) continue;
+                if ($this->isHeaderElement($element)) {
+                    continue;
+                }
+                if ($this->isFooterElement($element)) {
+                    continue;
+                }
 
                 $fieldsetElements[$fieldsetName][] = $element;
             }
@@ -918,8 +932,12 @@ class rex_form
             $fieldsetElements[$fieldsetName] = [];
 
             foreach ($fieldsetElementsArray as $key => $element) {
-                if ($this->isFooterElement($element)) continue;
-                if ($this->isRawElement($element)) continue;
+                if ($this->isFooterElement($element)) {
+                    continue;
+                }
+                if ($this->isRawElement($element)) {
+                    continue;
+                }
 
                 $fieldsetElements[$fieldsetName][] = $element;
             }
@@ -1044,18 +1062,22 @@ class rex_form
         if (!$setOnce) {
             $fieldnames = $this->sql->getFieldnames();
 
-            if (in_array('updateuser', $fieldnames))
+            if (in_array('updateuser', $fieldnames)) {
                 $saveSql->setValue('updateuser', rex::getUser()->getValue('login'));
+            }
 
-            if (in_array('updatedate', $fieldnames))
+            if (in_array('updatedate', $fieldnames)) {
                 $saveSql->setValue('updatedate', time());
+            }
 
             if (!$this->isEditMode()) {
-                if (in_array('createuser', $fieldnames))
+                if (in_array('createuser', $fieldnames)) {
                     $saveSql->setValue('createuser', rex::getUser()->getValue('login'));
+                }
 
-                if (in_array('createdate', $fieldnames))
+                if (in_array('createdate', $fieldnames)) {
                     $saveSql->setValue('createdate', time());
+                }
             }
             $setOnce = true;
         }
@@ -1094,8 +1116,9 @@ class rex_form
     {
         $fields = $this->fieldsetPostValues($fieldsetName);
 
-        if (isset($fields[$fieldName]))
+        if (isset($fields[$fieldName])) {
             return $fields[$fieldName];
+        }
 
         return $default;
     }
@@ -1133,8 +1156,9 @@ class rex_form
                 $fieldName = $element->getFieldName();
                 $fieldValue = $this->elementPostValue($fieldsetName, $fieldName);
 
-                if (is_array($fieldValue))
+                if (is_array($fieldValue)) {
                     $fieldValue = '|' . implode('|', $fieldValue) . '|';
+                }
 
                 $element->setValue($fieldValue);
             }
@@ -1201,10 +1225,11 @@ class rex_form
 
 
         // ----- EXTENSION POINT
-        if ($saved)
+        if ($saved) {
             $saved = rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
-        else
+        } else {
             $saved = $sql->getErrno();
+        }
 
         return $saved;
     }
@@ -1227,10 +1252,11 @@ class rex_form
         }
 
         // ----- EXTENSION POINT
-        if ($deleted)
+        if ($deleted) {
             $deleted = rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
-        else
+        } else {
             $deleted = $deleteSql->getErrno();
+        }
 
         return $deleted;
     }
@@ -1276,42 +1302,39 @@ class rex_form
 
                 // speichern und umleiten
                 // Nachricht in der Liste anzeigen
-                if (($result = $this->validate()) === true && ($result = $this->save()) === true)
+                if (($result = $this->validate()) === true && ($result = $this->save()) === true) {
                     $this->redirect(rex_i18n::msg('form_saved'));
-                elseif (is_int($result) && isset($this->errorMessages[$result]))
-                    // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes)
+                } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
-                elseif (is_string($result) && $result != '')
-                    // Falls ein Fehler auftritt, das Formular wieder anzeigen mit der Meldung
+                } elseif (is_string($result) && $result != '') {
                     $this->setWarning($result);
-                else
-                     // Allgemeine Fehlermeldung
-                $this->setWarning(rex_i18n::msg('form_save_error'));
+                } else {
+                    $this->setWarning(rex_i18n::msg('form_save_error'));
+                }
             } elseif ($controlElement->applied()) {
                 $this->processPostValues();
 
                 // speichern und wiederanzeigen
                 // Nachricht im Formular anzeigen
-                if (($result = $this->validate()) === true && ($result = $this->save()) === true)
+                if (($result = $this->validate()) === true && ($result = $this->save()) === true) {
                     $this->setMessage(rex_i18n::msg('form_applied'));
-                elseif (is_int($result) && isset($this->errorMessages[$result]))
-                    // Fehler aufgetreten fuer den eine errorMessage hinterlegt wurde (error codes)
+                } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
-                elseif (is_string($result) && $result != '')
-                    // Fehlermeldung wurde direkt zurückgegeben -> anzeigen
+                } elseif (is_string($result) && $result != '') {
                     $this->setWarning($result);
-                else
-                     // Allgemeine Fehlermeldung
+                } else {
                     $this->setWarning(rex_i18n::msg('form_save_error'));
+                }
             } elseif ($controlElement->deleted()) {
                 // speichern und wiederanzeigen
                 // Nachricht in der Liste anzeigen
-                if (($result = $this->delete()) === true)
+                if (($result = $this->delete()) === true) {
                     $this->redirect(rex_i18n::msg('form_deleted'));
-                elseif (is_string($result) && $result != '')
+                } elseif (is_string($result) && $result != '') {
                     $this->setWarning($result);
-                else
+                } else {
                     $this->setWarning(rex_i18n::msg('form_delete_error'));
+                }
             } elseif ($controlElement->resetted()) {
                 // verwerfen und wiederanzeigen
                 // Nachricht im Formular anzeigen

@@ -16,11 +16,13 @@ class rex_setup_importer
         $err_msg = '';
 
         $import_sql = rex_path::core('install/update4_x_to_5_0.sql');
-        if ($err_msg == '')
+        if ($err_msg == '') {
             $err_msg .= self::import($import_sql);
+        }
 
-        if ($err_msg == '')
+        if ($err_msg == '') {
             $err_msg .= self::installAddons();
+        }
 
         return $err_msg;
     }
@@ -41,10 +43,12 @@ class rex_setup_importer
             // Überschrieben würden
             // Da für das Installieren der Addons die rex_config benötigt wird,
             // mit overrideExisting() eine saubere, komplette Basis schaffen
-            if ($err_msg == '')
+            if ($err_msg == '') {
                 $err_msg .= self::overrideExisting();
-            if ($err_msg == '')
+            }
+            if ($err_msg == '') {
                 $err_msg .= self::import($import_sql, $import_archiv);
+            }
         }
 
         return $err_msg;
@@ -64,14 +68,17 @@ class rex_setup_importer
         $import_sql = rex_path::core('install.sql');
 
         $db = rex_sql::factory();
-        foreach (self::getRequiredTables() as $table)
+        foreach (self::getRequiredTables() as $table) {
             $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
+        }
 
-        if ($err_msg == '')
+        if ($err_msg == '') {
             $err_msg .= self::import($import_sql);
+        }
 
-        if ($err_msg == '')
+        if ($err_msg == '') {
             $err_msg .= self::installAddons(true);
+        }
 
         return $err_msg;
     }
@@ -82,8 +89,9 @@ class rex_setup_importer
         $err_msg = '';
         $import_sql = rex_path::core('install.sql');
 
-        if ($err_msg == '')
+        if ($err_msg == '') {
             $err_msg .= self::import($import_sql);
+        }
 
         $err_msg .= self::installAddons();
 
@@ -160,8 +168,9 @@ class rex_setup_importer
                 $manager = rex_package_manager::factory($package);
                 $state = $manager->uninstall($installDump);
 
-                if ($state !== true)
+                if ($state !== true) {
                     $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                }
             }
         }
         foreach (rex::getProperty('system_addons') as $packageRepresentation) {
@@ -173,14 +182,16 @@ class rex_setup_importer
                 $state = $manager->install($installDump);
             }
 
-            if ($state !== true)
+            if ($state !== true) {
                 $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+            }
 
             if ($state === true && !$package->isActivated()) {
                 $state = $manager->activate();
 
-                if ($state !== true)
+                if ($state !== true) {
                     $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                }
             }
         }
 

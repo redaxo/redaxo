@@ -27,10 +27,11 @@ class rex_system_setting_default_template_id extends rex_system_setting
         $select->setSelected(rex::getProperty('default_template_id'));
 
         $templates = rex_template::getTemplatesForCategory(0);
-        if (empty($templates))
+        if (empty($templates)) {
             $select->addOption(rex_i18n::msg('option_no_template'), 0);
-        else
+        } else {
             $select->addArrayOptions($templates);
+        }
         return $field;
     }
 

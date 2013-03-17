@@ -17,12 +17,14 @@ class rex_dir
      */
     public static function create($dir, $recursive = true)
     {
-        if (is_dir($dir))
+        if (is_dir($dir)) {
             return true;
+        }
 
         $parent = dirname($dir);
-        if (!is_dir($parent) && (!$recursive || !self::create($parent)))
+        if (!is_dir($parent) && (!$recursive || !self::create($parent))) {
             return false;
+        }
 
         if (self::isWritable($parent) && mkdir($dir, rex::getDirPerm())) {
             @chmod($dir, rex::getDirPerm());

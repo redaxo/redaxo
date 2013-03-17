@@ -87,22 +87,26 @@ foreach (rex_i18n::getLocales() as $l) {
     $sel_lang->addOption($l, $l);
 }
 
-if (!empty($error))
+if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
+}
 
-if ($info != '')
+if ($info != '') {
     echo rex_view::info($info);
+}
 
-if ($success != '')
+if ($success != '') {
     echo rex_view::success($success);
+}
 
 $dbconfig = rex::getProperty('db');
 
 
 
 $version = rex_path::src();
-if (strlen($version) > 21)
+if (strlen($version) > 21) {
     $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
+}
 
 $content_1 = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>

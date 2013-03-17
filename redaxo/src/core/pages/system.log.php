@@ -25,7 +25,9 @@ if ($func == 'delLog') {
 
 } elseif ($func == 'readlog') {
     // clear output-buffer
-    while (ob_get_level()) ob_end_clean();
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
 
     echo '<html><head><style type="text/css">div:nth-child(even) {margin-bottom: 1em;}</style></head><body><code>';
 
@@ -59,11 +61,13 @@ if ($func == 'delLog') {
 
 $content = '';
 
-if ($success != '')
+if ($success != '') {
     $content .= rex_view::success($success);
+}
 
-if ($error != '')
+if ($error != '') {
     $content .= rex_view::error($error);
+}
 
 $content .= '<iframe src="' . rex_url::currentBackendPage(['func' => 'readlog']) . '" class="rex-log" width="100%" height="500px"></iframe>';
 

@@ -39,10 +39,11 @@ function rex_metainfo_cleanup($epOrParams)
     $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_params');
 
     for ($i = 0; $i < $sql->getRows(); $i++) {
-        if (substr($sql->getValue('name'), 0, 4) == 'med_')
+        if (substr($sql->getValue('name'), 0, 4) == 'med_') {
             $tableManager = new rex_metainfo_table_manager(rex::getTablePrefix() . 'media');
-        else
+        } else {
             $tableManager = new rex_metainfo_table_manager(rex::getTablePrefix() . 'article');
+        }
 
         $tableManager->deleteColumn($sql->getValue('name'));
 

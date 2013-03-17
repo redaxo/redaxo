@@ -100,7 +100,9 @@ class rex_list implements rex_url_provider_interface
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
     {
         // --------- Validation
-        if (!$listName) $listName = md5($query);
+        if (!$listName) {
+            $listName = md5($query);
+        }
 
         // --------- List Attributes
         $this->query = $query;
@@ -146,12 +148,14 @@ class rex_list implements rex_url_provider_interface
         $this->rows = $sql->getValue('rows');
         $this->pager->setRowCount($this->rows);
 
-        foreach ($this->sql->getFieldnames() as $columnName)
+        foreach ($this->sql->getFieldnames() as $columnName) {
             $this->columnNames[] = $columnName;
+        }
 
         // --------- Load Env
-        if (rex::isBackend())
+        if (rex::isBackend()) {
             $this->loadBackendConfig();
+        }
 
         $this->init();
     }
@@ -295,8 +299,9 @@ class rex_list implements rex_url_provider_interface
     public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
     {
         // Bei negativem columnIndex, das Element am Ende anfügen
-        if ($columnIndex < 0)
+        if ($columnIndex < 0) {
             $columnIndex = count($this->columnNames);
+        }
 
         array_splice($this->columnNames, $columnIndex, 0, [[$columnHead]]);
         $this->setColumnFormat($columnHead, $columnBody);
@@ -332,8 +337,9 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLayout($columnName)
     {
-        if (isset($this->columnLayouts[$columnName]) && is_array($this->columnLayouts[$columnName]))
+        if (isset($this->columnLayouts[$columnName]) && is_array($this->columnLayouts[$columnName])) {
             return $this->columnLayouts[$columnName];
+        }
 
         return $this->defaultColumnLayout;
     }
@@ -356,8 +362,9 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnName($columnIndex, $default = null)
     {
-        if (isset($this->columnNames[$columnIndex]))
+        if (isset($this->columnNames[$columnIndex])) {
             return $this->columnNames[$columnIndex];
+        }
 
         return $default;
     }
@@ -396,8 +403,9 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnLabel($columnName, $default = null)
     {
-        if (isset($this->columnLabels[$columnName]))
+        if (isset($this->columnLabels[$columnName])) {
             return $this->columnLabels[$columnName];
+        }
 
         return $default === null ? $columnName : $default;
     }
@@ -425,8 +433,9 @@ class rex_list implements rex_url_provider_interface
      */
     public function getColumnFormat($columnName, $default = null)
     {
-        if (isset($this->columnFormates[$columnName]))
+        if (isset($this->columnFormates[$columnName])) {
             return $this->columnFormates[$columnName];
+        }
 
         return $default;
     }
@@ -549,21 +558,26 @@ class rex_list implements rex_url_provider_interface
      */
     public function addTableColumnGroup($columns, $columnGroupSpan = null)
     {
-        if (!is_array($columns))
+        if (!is_array($columns)) {
             throw new InvalidArgumentException('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!');
+        }
 
         $tableColumnGroup = ['columns' => []];
-        if ($columnGroupSpan) $tableColumnGroup['span'] = $columnGroupSpan;
+        if ($columnGroupSpan) {
+            $tableColumnGroup['span'] = $columnGroupSpan;
+        }
         $this->_addTableColumnGroup($tableColumnGroup);
 
         if (isset($columns[0]) && is_scalar($columns[0])) {
             // array(10,50,100,150) notation
-            foreach ($columns as $column)
+            foreach ($columns as $column) {
                 $this->addTableColumn($column);
+            }
         } else {
             // array(array('width'=>100,'span'=>2), array(...), array(...)) notation
-            foreach ($columns as $column)
+            foreach ($columns as $column) {
                 $this->_addTableColumn($column);
+            }
         }
     }
 
@@ -586,15 +600,18 @@ class rex_list implements rex_url_provider_interface
     public function addTableColumn($width, $span = null)
     {
         $attributes = ['width' => $width];
-        if ($span) $attributes['span'] = $span;
+        if ($span) {
+            $attributes['span'] = $span;
+        }
 
         $this->_addTableColumn($attributes);
     }
 
     private function _addTableColumn(array $tableColumn)
     {
-        if (!isset($tableColumn['width']))
+        if (!isset($tableColumn['width'])) {
             throw new rex_exception('rex_list->_addTableColumn: Erwarte index width!');
+        }
 
         $lastIndex = count($this->tableColumnGroups) - 1;
 
@@ -703,14 +720,16 @@ class rex_list implements rex_url_provider_interface
         if ($sortColumn != '') {
             $sortType = $this->getSortType();
 
-            if (stripos($query, ' ORDER BY ') === false)
+            if (stripos($query, ' ORDER BY ') === false) {
                 $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
-            else
+            } else {
                 $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
+            }
         }
 
-        if (stripos($query, ' LIMIT ') === false)
+        if (stripos($query, ' LIMIT ') === false) {
             $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
+        }
 
         return $query;
     }
@@ -760,8 +779,9 @@ class rex_list implements rex_url_provider_interface
         if (rex_request('list', 'string') == $this->getName()) {
             $sortType = strtolower(rex_request('sorttype', 'string'));
 
-            if (in_array($sortType, ['asc', 'desc']))
+            if (in_array($sortType, ['asc', 'desc'])) {
                 return $sortType;
+            }
         }
         return $default;
     }
@@ -823,16 +843,18 @@ class rex_list implements rex_url_provider_interface
      */
     public function replaceVariables($value)
     {
-        if (strpos($value, '###') === false)
+        if (strpos($value, '###') === false) {
             return $value;
+        }
 
         $columnNames = $this->getColumnNames();
 
         if (is_array($columnNames)) {
             foreach ($columnNames as $columnName) {
                 // Spalten, die mit addColumn eingefügt wurden
-                if (is_array($columnName))
+                if (is_array($columnName)) {
                     continue;
+                }
 
                 $value = $this->replaceVariable($value, $columnName);
             }
@@ -882,8 +904,9 @@ class rex_list implements rex_url_provider_interface
     {
         $s = '';
 
-        foreach ($array as $name => $value)
+        foreach ($array as $name => $value) {
             $s .= ' ' . htmlspecialchars($name) . '="' . htmlspecialchars($value) . '"';
+        }
 
         return $s;
     }
@@ -975,8 +998,9 @@ class rex_list implements rex_url_provider_interface
         $s .= '            <tr>' . "\n";
         foreach ($columnNames as $columnName) {
             // Spalten, die mit addColumn eingefügt wurden
-            if (is_array($columnName))
+            if (is_array($columnName)) {
                 $columnName = $columnName[0];
+            }
 
             $columnHead = $this->getColumnLabel($columnName);
             if ($this->hasColumnOption($columnName, REX_LIST_OPT_SORT)) {

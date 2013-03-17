@@ -18,8 +18,9 @@ class rex_cronjob_phpcallback extends rex_cronjob
                 $callback = [$matches[1], $callback];
             }
             if (!is_callable($callback)) {
-                if (is_array($callback))
+                if (is_array($callback)) {
                     $callback = $callback[0] . '::' . $callback[1];
+                }
                 $this->setMessage($callback . '() not callable');
                 return false;
             }
@@ -33,8 +34,9 @@ class rex_cronjob_phpcallback extends rex_cronjob
             }
             $return = call_user_func_array($callback, $params);
             if ($return !== false) {
-                if (is_string($return))
+                if (is_string($return)) {
                     $this->setMessage($return);
+                }
                 return true;
             }
             $this->setMessage('Error in callback');

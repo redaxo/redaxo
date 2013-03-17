@@ -21,8 +21,9 @@ class rex_var_category extends rex_var
     protected function getOutput()
     {
         $field = $this->getParsedArg('field');
-        if (!$field)
+        if (!$field) {
             return false;
+        }
 
         $category_id = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
         $clang = $this->getParsedArg('clang', 'null');

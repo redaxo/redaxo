@@ -183,11 +183,13 @@ class rex_metainfo_table_expander extends rex_form
     protected function validate()
     {
         $fieldName = $this->elementPostValue($this->getFieldsetName(), 'name');
-        if ($fieldName == '')
+        if ($fieldName == '') {
             return rex_i18n::msg('minfo_field_error_name');
+        }
 
-        if (preg_match('/[^a-zA-Z0-9\_]/', $fieldName))
+        if (preg_match('/[^a-zA-Z0-9\_]/', $fieldName)) {
             return rex_i18n::msg('minfo_field_error_chars_name');
+        }
 
         // Pruefen ob schon eine Spalte mit dem Namen existiert (nur beim add noetig)
         if (!$this->isEditMode()) {
@@ -238,8 +240,9 @@ class rex_metainfo_table_expander extends rex_form
             $fieldDbLength = $result[0]['dblength'];
 
             // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
-            if ($fieldDbType == 'text')
+            if ($fieldDbType == 'text') {
                 $fieldDefault = null;
+            }
 
             if ($this->isEditMode()) {
                 // Spalte in der Tabelle ver�ndern
@@ -280,8 +283,9 @@ class rex_metainfo_table_expander extends rex_form
 
     protected function organizePriorities($newPrio, $oldPrio)
     {
-        if ($newPrio == $oldPrio)
+        if ($newPrio == $oldPrio) {
             return;
+        }
 
         // replace LIKE wildcards
         $metaPrefix = str_replace(['_', '%'], ['\_', '\%'], $this->metaPrefix);

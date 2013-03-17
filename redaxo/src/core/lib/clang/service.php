@@ -45,8 +45,9 @@ class rex_clang_service
      */
     public static function editCLang($id, $code, $name)
     {
-        if (!rex_clang::exists($id))
+        if (!rex_clang::exists($id)) {
             throw new rex_exception('clang with id "' . $id . '" does not exist');
+        }
 
         $editLang = rex_sql::factory();
         $editLang->setTable(rex::getTablePrefix() . 'clang');
@@ -77,11 +78,13 @@ class rex_clang_service
     public static function deleteCLang($id)
     {
         $startClang = rex::getProperty('start_clang_id', 1);
-        if ($id == $startClang)
+        if ($id == $startClang) {
             throw new rex_exception('clang with id "' . $startClang . '" can not be deleted');
+        }
 
-        if (!rex_clang::exists($id))
+        if (!rex_clang::exists($id)) {
             throw new rex_exception('clang with id "' . $id . '" does not exist');
+        }
 
         $clang = rex_clang::get($id);
 

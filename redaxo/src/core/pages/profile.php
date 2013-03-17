@@ -92,11 +92,13 @@ if (rex_post('upd_psw_button', 'bool')) {
 
 // ---------------------------------- ERR MSG
 
-if ($success != '')
+if ($success != '') {
     echo rex_view::success($success);
+}
 
-if ($error != '')
+if ($error != '') {
     echo rex_view::error($error);
+}
 
 // --------------------------------- FORMS
 

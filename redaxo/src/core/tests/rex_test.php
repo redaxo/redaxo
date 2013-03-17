@@ -81,7 +81,9 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
     public function testGetUser()
     {
         // there is no user, when tests are run from CLI
-        if (PHP_SAPI === 'cli') return;
+        if (PHP_SAPI === 'cli') {
+            return;
+        }
 
         $this->assertNotNull(rex::getUser(), 'user is not null');
         $this->assertInstanceOf('rex_user', rex::getUser(), 'returns a user of correct class');

@@ -84,8 +84,9 @@ class rex_article_slice
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
     {
-        if ($clang === false)
+        if ($clang === false) {
             $clang = rex_clang::getCurrentId();
+        }
 
         return self::getSliceWhere(
             'id=? AND clang=? and revision=?',
@@ -106,8 +107,9 @@ class rex_article_slice
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false)
+        if ($clang === false) {
             $clang = rex_clang::getCurrentId();
+        }
 
         foreach (range(1, 20) as $ctype) {
             $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision);
@@ -130,8 +132,9 @@ class rex_article_slice
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false)
+        if ($clang === false) {
             $clang = rex_clang::getCurrentId();
+        }
 
         return self::getSliceWhere(
             'article_id=? AND clang=? AND ctype=? AND prior=1 AND revision=?',
@@ -150,8 +153,9 @@ class rex_article_slice
      */
     public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false)
+        if ($clang === false) {
             $clang = rex_clang::getCurrentId();
+        }
 
         return self::getSlicesWhere(
             'article_id=? AND clang=? AND revision=?',
@@ -171,8 +175,9 @@ class rex_article_slice
      */
     public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
     {
-        if ($clang === false)
+        if ($clang === false) {
             $clang = rex_clang::getCurrentId();
+        }
 
         return self::getSlicesWhere(
             'article_id=? AND clang=? AND module_id=? AND revision=?',
@@ -381,12 +386,14 @@ class rex_article_slice
 
     public function getValue($index)
     {
-        if (is_int($index))
+        if (is_int($index)) {
             return $this->_values[$index - 1];
+        }
 
         $attrName = '_' . $index;
-        if (isset($this->$attrName))
+        if (isset($this->$attrName)) {
             return $this->$attrName;
+        }
 
         return null;
     }

@@ -61,11 +61,13 @@ class rex_textile
                     $desc = $_format[0];
 
                     $code = '';
-                    if (isset($_format[1]))
+                    if (isset($_format[1])) {
                         $code = $_format[1];
+                    }
 
-                    if ($code == '')
+                    if ($code == '') {
                         $code = $desc;
+                    }
 
                     $code = trim(self::parse($code));
 

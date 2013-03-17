@@ -55,11 +55,13 @@ if ($add_clang_save || $edit_clang_save) {
     }
 }
 
-if ($info != '')
+if ($info != '') {
     $message .= rex_view::info($info);
+}
 
-if ($warning != '')
+if ($warning != '') {
     $message .= rex_view::warning($warning);
+}
 
 
 $content .= '
@@ -110,10 +112,11 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
     $add_td = '<td class="rex-id">' . $lang_id . '</td>';
 
     $delLink = rex_i18n::msg('clang_delete');
-    if ($lang_id == 0)
+    if ($lang_id == 0) {
      $delLink = '<span class="rex-delete rex-disabled">' . $delLink . '</span>';
-    else
+    } else {
         $delLink = '<a class="rex-delete" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . $delLink . '</a>';
+    }
 
     // Edit form
     if ($func == 'editclang' && $clang_id == $lang_id) {

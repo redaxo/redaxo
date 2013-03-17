@@ -174,25 +174,30 @@ abstract class rex_formatter
      */
     public static function truncate($value, $format = [])
     {
-        if (!is_array($format))
+        if (!is_array($format)) {
             $format = [];
+        }
 
         // Max-String-laenge
-        if (empty($format['length']))
+        if (empty($format['length'])) {
             $format['length'] = 80;
+        }
 
         // ETC
-        if (empty($format['etc']))
+        if (empty($format['etc'])) {
             $format['etc'] = '...';
+        }
 
         // Break-Words?
-        if (empty($format['break_words']))
+        if (empty($format['break_words'])) {
             $format['break_words'] = false;
+        }
 
         if (mb_strlen($value) > $format['length']) {
             $format['length'] -= mb_strlen($format['etc']);
-            if (!$format['break_words'])
+            if (!$format['break_words']) {
                 $value = preg_replace('/\s+?(\S+)?$/', '', substr($value, 0, $format['length'] + 1));
+            }
 
             return substr($value, 0, $format['length']) . $format['etc'];
         }
@@ -240,11 +245,13 @@ abstract class rex_formatter
      */
     public static function url($value, $format = [])
     {
-        if (empty($value))
+        if (empty($value)) {
             return '';
+        }
 
-        if (!is_array($format))
+        if (!is_array($format)) {
             $format = [];
+        }
 
         // Linkattribute
         if (empty ($format['attr'])) {

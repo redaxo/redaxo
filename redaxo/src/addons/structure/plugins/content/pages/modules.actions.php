@@ -19,8 +19,9 @@ class rex_event_select extends rex_select
 
         $this->setMultiple(1);
 
-        foreach ($options as $key => $value)
+        foreach ($options as $key => $value) {
             $this->addOption($value, $key);
+        }
 
         $this->setSize(count($options));
     }
@@ -92,16 +93,19 @@ if ($function == 'add' || $function == 'edit') {
         $postsavestatus = rex_post('postsavestatus', 'array');
 
         $previewmode = 0;
-        foreach ($previewstatus as $status)
+        foreach ($previewstatus as $status) {
             $previewmode |= $status;
+        }
 
         $presavemode = 0;
-        foreach ($presavestatus as $status)
+        foreach ($presavestatus as $status) {
             $presavemode |= $status;
+        }
 
         $postsavemode = 0;
-        foreach ($postsavestatus as $status)
+        foreach ($postsavestatus as $status) {
             $postsavemode |= $status;
+        }
 
         $faction->setTable(rex::getTablePrefix() . 'action');
         $faction->setValue('name', $name);
@@ -181,31 +185,37 @@ if ($function == 'add' || $function == 'edit') {
 
         $allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
-            if (($previewstatus & $var) == $var)
+            if (($previewstatus & $var) == $var) {
                 $sel_preview_status->setSelected($var);
+            }
         }
 
         $allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
-            if (($presavestatus & $var) == $var)
+            if (($presavestatus & $var) == $var) {
                 $sel_presave_status->setSelected($var);
+            }
         }
 
         $allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
-            if (($postsavestatus & $var) == $var)
+            if (($postsavestatus & $var) == $var) {
                 $sel_postsave_status->setSelected($var);
+            }
         }
 
         $btn_update = '';
-        if ($function != 'add')
+        if ($function != 'add') {
             $btn_update = '<button class="rex-button" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
+        }
 
-        if ($success != '')
+        if ($success != '') {
             $message .= rex_view::success($success);
+        }
 
-        if ($error != '')
+        if ($error != '') {
             $message .= rex_view::error($error);
+        }
 
         $content .= '
             <div class="rex-form" id="rex-form-action">
@@ -422,11 +432,13 @@ if ($function == 'add' || $function == 'edit') {
 }
 
 if ($OUT) {
-    if ($success != '')
+    if ($success != '') {
         $message .= rex_view::success($success);
+    }
 
-    if ($error != '')
+    if ($error != '') {
         $message .= rex_view::error($error);
+    }
 
     // ausgabe actionsliste !
     $content .= '
@@ -457,17 +469,20 @@ if ($OUT) {
             $presavemode = [];
             $postsavemode = [];
 
-            foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value)
-                if (($sql->getValue('previewmode') & $var) == $var)
+            foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value) {
+                if (($sql->getValue('previewmode') & $var) == $var) {
                     $previewmode[] = $value;
+            }
 
-            foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value)
-                if (($sql->getValue('presavemode') & $var) == $var)
+            foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value) {
+                if (($sql->getValue('presavemode') & $var) == $var) {
                     $presavemode[] = $value;
+            }
 
-            foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value)
-                if (($sql->getValue('postsavemode') & $var) == $var)
+            foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value) {
+                if (($sql->getValue('postsavemode') & $var) == $var) {
                     $postsavemode[] = $value;
+            }
 
             $content .= '
                         <tr>
@@ -480,11 +495,14 @@ if ($OUT) {
                             <td class="delete"><a class="rex-delete" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete']) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
                         </tr>
                     ';
+            }
 
             $sql->next();
+            }
         }
 
         $content .= '</tbody>' . "\n";
+            }
     }
 
     $content .= '

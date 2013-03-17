@@ -18,8 +18,9 @@ if (!$curPage->hasLayout()) {
 $body_attr = [];
 $body_id = str_replace('_', '-', rex_be_controller::getCurrentPage());
 
-if ($curPage->isPopup())
+if ($curPage->isPopup()) {
     $body_attr['class'] = ['rex-popup'];
+}
 
 $body_attr['id'] = ['rex-page-' . $body_id];
 $body_attr['onunload'] = ['closeAll();'];
@@ -30,8 +31,9 @@ $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATT
 $body = '';
 foreach ($body_attr as $k => $v) {
     $body .= ' ' . $k . '="';
-    if (is_array($v))
+    if (is_array($v)) {
         $body .= implode(' ', $v);
+    }
     $body .= '"';
 }
 
@@ -79,11 +81,13 @@ if (rex::getUser() && $hasNavigation) {
         if ($pageObj instanceof rex_be_page_main) {
             $pageObj->setItemAttr('id', 'rex-navi-page-' . strtolower(preg_replace('/[^a-zA-Z0-9\-]*/', '', str_replace('_', '-', $p))));
 
-            if (!$pageObj->getBlock())
+            if (!$pageObj->getBlock()) {
                 $pageObj->setBlock('addons');
+            }
 
-            if (!$pageObj->getHref())
+            if (!$pageObj->getHref()) {
                 $pageObj->setHref(rex_url::backendPage($p));
+            }
             /*
              if(isset ($REX['ACKEY']['ADDON'][$page]))
                 $item['extra'] = rex_accesskey($name, $REX['ACKEY']['ADDON'][$page]);
@@ -112,22 +116,25 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
     for ($i = 1; $i <= 7; $i++) {
         $n = [];
         $n['itemClasses'] = [];
-        if ($i == $step)
+        if ($i == $step) {
             $n['itemClasses'][] = 'rex-active';
+        }
 
         if ($i < $step) {
             $n['linkClasses'][] = 'rex-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
-            if ($step == 7)
+            if ($step == 7) {
                 $n['href'] = 'javascript:void(0)';
+            }
         }
         $name = '';
-        if (isset($n['href']) && $lang != '')
+        if (isset($n['href']) && $lang != '') {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        elseif ($lang != '')
+        } elseif ($lang != '') {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        elseif ($i == 1)
+        } elseif ($i == 1) {
             $name = '<span>Step 1 / Language</span>';
+        }
 
         $n['title'] = $name;
 

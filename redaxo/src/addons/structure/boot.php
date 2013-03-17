@@ -23,9 +23,9 @@ rex_complex_perm::register('structure', 'rex_structure_perm');
 
 require_once __DIR__ . '/functions/function_rex_url.php';
 
-if (rex_request('article_id', 'int') == 0)
+if (rex_request('article_id', 'int') == 0) {
     rex::setProperty('article_id', rex::getProperty('start_article_id'));
-else {
+} else {
     $article_id = rex_request('article_id', 'int');
     $article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : rex::getProperty('notfound_article_id');
     rex::setProperty('article_id', $article_id);
@@ -87,14 +87,17 @@ rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
         $newLang->setTable(rex::getTablePrefix() . 'article');
 
         foreach ($fields as $key => $value) {
-            if ($value == 'pid')
-                echo ''; // nix passiert
-            elseif ($value == 'clang')
+            if ($value == 'pid') {
+                echo '';
+            } // nix passiert
+            elseif ($value == 'clang') {
                 $newLang->setValue('clang', $ep->getParam('clang')->getId());
-            elseif ($value == 'status')
-                $newLang->setValue('status', '0'); // Alle neuen Artikel offline
-            else
+            } elseif ($value == 'status') {
+                $newLang->setValue('status', '0');
+            } // Alle neuen Artikel offline
+            else {
                 $newLang->setValue($value, $firstLangArt->getValue($value));
+            }
         }
 
         $newLang->insert();

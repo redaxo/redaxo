@@ -71,7 +71,9 @@ abstract class rex_dashboard_component_base
             }
 
             $cachestamp = $cacheBackend->getLastModified($cachekey);
-            if (!$cachestamp) $cachestamp = time(); // falls kein gueltiger cache vorhanden
+            if (!$cachestamp) {
+                $cachestamp = time();
+            } // falls kein gueltiger cache vorhanden
             $cachetime = rex_formatter::strftime($cachestamp, 'datetime');
 
             $content = strtr($content, ['%%actionbar%%' => $this->getActionBar()]);
@@ -99,8 +101,9 @@ abstract class rex_dashboard_component_base
         $actions = [];
         $actions[] = ['name' => 'refresh', 'class' => 'rex-i-refresh'];
 
-        if ($this->config)
+        if ($this->config) {
             $actions[] = ['name' => 'toggleSettings', 'class' => 'rex-i-togglesettings'];
+        }
 
         $actions[] = ['name' => 'toggleView', 'class' => 'rex-i-toggleview-off'];
 

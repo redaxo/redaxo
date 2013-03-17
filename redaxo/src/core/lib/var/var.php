@@ -21,8 +21,9 @@ abstract class rex_var
 
     public static function parse($content, $env = null, $context = null, $contextData = null)
     {
-        if (($env & self::ENV_INPUT) != self::ENV_INPUT)
+        if (($env & self::ENV_INPUT) != self::ENV_INPUT) {
             $env = $env | self::ENV_OUTPUT;
+        }
         self::$env = $env;
         self::$context = $context;
         self::$contextData = $contextData;
@@ -96,8 +97,9 @@ abstract class rex_var
     {
         if (!isset(self::$vars[$var])) {
             $class = 'rex_var_' . strtolower(substr($var, 4));
-            if (!class_exists($class) || !is_subclass_of($class, __CLASS__))
+            if (!class_exists($class) || !is_subclass_of($class, __CLASS__)) {
                 return false;
+            }
             self::$vars[$var] = $class;
         }
         $class = self::$vars[$var];
@@ -163,15 +165,17 @@ abstract class rex_var
 
     protected function getArg($key, $default = null, $defaultArg = false)
     {
-        if (!$this->hasArg($key, $defaultArg))
+        if (!$this->hasArg($key, $defaultArg)) {
             return $default;
+        }
         return isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
     }
 
     protected function getParsedArg($key, $default = null, $defaultArg = false)
     {
-        if (!$this->hasArg($key, $defaultArg))
+        if (!$this->hasArg($key, $defaultArg)) {
             return $default;
+        }
         $arg = isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
@@ -210,8 +214,9 @@ abstract class rex_var
 
     private function getGlobalArgsOutput()
     {
-        if (($content = $this->getOutput()) === false)
+        if (($content = $this->getOutput()) === false) {
             return false;
+        }
 
         if ($this->hasArg('callback')) {
             $args = ["'subject' => " . $content];

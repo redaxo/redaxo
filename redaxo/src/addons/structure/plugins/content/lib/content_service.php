@@ -120,8 +120,9 @@ class rex_content_service
      */
     public static function copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $revision = 0)
     {
-        if ($from_id == $to_id && $from_clang == $to_clang)
+        if ($from_id == $to_id && $from_clang == $to_clang) {
         return false;
+        }
 
         $gc = rex_sql::factory();
         $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang='$from_clang' and revision='$revision'");
@@ -137,17 +138,22 @@ class rex_content_service
             foreach ($gc as $slice) {
                 foreach ($cols as $col) {
                     $colname = $col->getValue('Field');
-                    if ($colname == 'clang') $value = $to_clang;
-                    elseif ($colname == 'article_id') $value = $to_id;
-                    else
+                    if ($colname == 'clang') {
+                        $value = $to_clang;
+                    } elseif ($colname == 'article_id') {
+                        $value = $to_id;
+                    } else {
                     $value = $slice->getValue($colname);
+                    }
 
                     // collect all affected ctypes
-                    if ($colname == 'ctype')
+                    if ($colname == 'ctype') {
                     $ctypes[$value] = $value;
+                    }
 
-                    if ($colname != 'id')
+                    if ($colname != 'id') {
                     $ins->setValue($colname, $value);
+                    }
                 }
 
                 $ins->addGlobalUpdateFields();
@@ -183,13 +189,16 @@ class rex_content_service
     public static function generateArticleContent($article_id, $clang = null)
     {
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang)
+            if ($clang !== null && $clang != $_clang) {
             continue;
+            }
 
             $CONT = new rex_article_content_base;
             $CONT->setCLang($_clang);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
-            if (!$CONT->setArticleId($article_id)) return false;
+            if (!$CONT->setArticleId($article_id)) {
+                return false;
+            }
 
             // --------------------------------------------------- Artikelcontent speichern
             $article_content_file = rex_path::addonCache('structure', "$article_id.$_clang.content");

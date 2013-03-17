@@ -97,7 +97,9 @@ foreach ($components as $format => $componentBlocks) {
                 unset($componentBlock[$index]);
 
                 $i++;
-                if ($i == $componentsPerCol) break;
+                if ($i == $componentsPerCol) {
+                    break;
+                }
             }
             echo '</div>';
             // /show first column

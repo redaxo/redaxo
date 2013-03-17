@@ -46,7 +46,9 @@ abstract class rex_linkmap_tree_renderer
         if (is_array($children)) {
             $li = '';
             $ulclasses = '';
-            if (count($children) == 1) $ulclasses .= 'rex-children-one ';
+            if (count($children) == 1) {
+                $ulclasses .= 'rex-children-one ';
+            }
             foreach ($children as $cat) {
                 $cat_children = $cat->getChildren();
                 $cat_id = $cat->getId();
@@ -58,7 +60,9 @@ abstract class rex_linkmap_tree_renderer
                     $linkclasses .= 'rex-linkmap-is-not-empty ';
                 }
 
-                if (next($children) == null ) $liclasses .= 'rex-children-last ';
+                if (next($children) == null ) {
+                    $liclasses .= 'rex-children-last ';
+                }
                 $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
                 if (is_array($activeTreeIds) && in_array($cat_id, $activeTreeIds)) {
                     $sub_li = $this->renderTree($cat_children, $activeTreeIds);
@@ -69,10 +73,13 @@ abstract class rex_linkmap_tree_renderer
                 $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li);
             }
 
-            if ($ulclasses != '')
+            if ($ulclasses != '') {
                 $ulclasses = ' class="' . rtrim($ulclasses) . '"';
+            }
 
-            if ($li != '') $ul = '<ul' . $ulclasses . ' data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
+            if ($li != '') {
+                $ul = '<ul' . $ulclasses . ' data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
+            }
         }
         return $ul;
     }
@@ -83,14 +90,17 @@ abstract class rex_linkmap_tree_renderer
     {
         $label = $OOobject->getName();
 
-        if (trim($label) == '')
+        if (trim($label) == '') {
         $label = '&nbsp;';
+        }
 
-        if (rex::getUser()->hasPerm('advancedMode[]'))
+        if (rex::getUser()->hasPerm('advancedMode[]')) {
         $label .= ' [' . $OOobject->getId() . ']';
+        }
 
-        if ($OOobject instanceof rex_article && !$OOobject->hasTemplate())
+        if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
         $label .= ' [' . rex_i18n::msg('lmap_has_no_template') . ']';
+        }
 
         return $label;
     }
@@ -100,8 +110,9 @@ abstract class rex_linkmap_tree_renderer
         $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offine') . '"';
 
-        if (strpos($linkAttr, ' href=') === false)
+        if (strpos($linkAttr, ' href=') === false) {
         $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
+        }
 
         $label = self::formatLabel($OOobject);
 

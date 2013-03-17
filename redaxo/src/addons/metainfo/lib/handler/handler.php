@@ -59,10 +59,11 @@ abstract class rex_metainfo_handler
                 }
             }
 
-            if ($title != '')
+            if ($title != '') {
                 $label = rex_i18n::translate($title);
-            else
+            } else {
                 $label = htmlspecialchars($name);
+            }
 
             $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
             $labelIt = true;
@@ -78,10 +79,12 @@ abstract class rex_metainfo_handler
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
-                    if ($dblength > 0)
+                    if ($dblength > 0) {
                         $rexInput->setAttribute('maxlength', $dblength);
-                    if ($activeItem)
+                    }
+                    if ($activeItem) {
                         $rexInput->setValue($activeItem->getValue($name));
+                    }
                     $field = $rexInput->getHtml();
                     break;
                 }
@@ -94,10 +97,11 @@ abstract class rex_metainfo_handler
                         $sql = rex_sql::factory();
                         $value_groups = $sql->getDBArray($params, [], PDO::FETCH_NUM);
                         foreach ($value_groups as $value_group) {
-                            if (isset($value_group[1]))
+                            if (isset($value_group[1])) {
                                 $values[$value_group[1]] = $value_group[0];
-                            else
+                            } else {
                                 $values[$value_group[0]] = $value_group[0];
+                            }
                         }
                     } else {
                         $value_groups = explode('|', $params);
@@ -129,10 +133,11 @@ abstract class rex_metainfo_handler
                     $attrStr = '';
                     $classAdd = '';
                     foreach ($attrArray as $key => $value) {
-                        if ($key == 'class')
+                        if ($key == 'class') {
                             $classAdd = ' ' . $value;
-                        else
+                        } else {
                             $attrStr = ' ' . $key . '="' . $value . '"';
+                        }
                     }
 
                     foreach ($values as $key => $value) {
@@ -140,12 +145,14 @@ abstract class rex_metainfo_handler
 
                         // wenn man keine Werte angibt (Boolean Chkbox/Radio)
                         // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
-                        if ($oneValue && $key == '')
+                        if ($oneValue && $key == '') {
                             $key = 'true';
+                        }
 
                         $selected = '';
-                        if (in_array($key, $dbvalues))
+                        if (in_array($key, $dbvalues)) {
                             $selected = ' checked="checked"';
+                        }
 
                         if ($oneValue) {
                             $tag_attr = ' class="rex-form-col-a rex-form-' . $class_s . $classAdd . '"';
@@ -177,7 +184,9 @@ abstract class rex_metainfo_handler
 
                     $multiple = false;
                     foreach ($attrArray as $attr_name => $attr_value) {
-                        if (empty($attr_name)) continue;
+                        if (empty($attr_name)) {
+                            continue;
+                        }
 
                         $select->setAttribute($attr_name, $attr_value);
 
@@ -187,8 +196,9 @@ abstract class rex_metainfo_handler
                         }
                     }
 
-                    if (!$multiple)
+                    if (!$multiple) {
                         $select->setSize(1);
+                    }
 
                     if (rex_sql::getQueryType($params) == 'SELECT') {
                         // Werte via SQL Laden
@@ -223,8 +233,9 @@ abstract class rex_metainfo_handler
                     $tag_attr = ' class="rex-form-select-date"';
 
                     $active = $dbvalues[0] != 0;
-                    if ($dbvalues[0] == '')
+                    if ($dbvalues[0] == '') {
                         $dbvalues[0] = time();
+                    }
 
                     $inputValue = [];
                     $inputValue['year'] = date('Y', $dbvalues[0]);
@@ -252,8 +263,9 @@ abstract class rex_metainfo_handler
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
-                    if ($activeItem)
+                    if ($activeItem) {
                         $rexInput->setValue($activeItem->getValue($name));
+                    }
                     $field = $rexInput->getHtml();
 
                     break;
@@ -283,12 +295,15 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($dbvalues[0]);
 
-                    if (isset($paramArray['category']))
+                    if (isset($paramArray['category'])) {
                         $rexInput->setCategoryId($paramArray['category']);
-                    if (isset($paramArray['types']))
+                    }
+                    if (isset($paramArray['types'])) {
                         $rexInput->setTypes($paramArray['types']);
-                    if (isset($paramArray['preview']))
+                    }
+                    if (isset($paramArray['preview'])) {
                         $rexInput->setPreview($paramArray['preview']);
+                    }
 
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
@@ -310,12 +325,15 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($dbvalues[0]);
 
-                    if (isset($paramArray['category']))
+                    if (isset($paramArray['category'])) {
                         $rexInput->setCategoryId($paramArray['category']);
-                    if (isset($paramArray['types']))
+                    }
+                    if (isset($paramArray['types'])) {
                         $rexInput->setTypes($paramArray['types']);
-                    if (isset($paramArray['preview']))
+                    }
+                    if (isset($paramArray['preview'])) {
                         $rexInput->setPreview($paramArray['preview']);
+                    }
 
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
@@ -330,10 +348,11 @@ abstract class rex_metainfo_handler
 
                     $paramArray = rex_string::split($params);
                     $category = '';
-                    if (isset($paramArray['category']))
+                    if (isset($paramArray['category'])) {
                         $category = $paramArray['category'];
-                    elseif ($activeItem)
+                    } elseif ($activeItem) {
                         $category = $activeItem->getValue('category_id');
+                    }
 
                     $rexInput = rex_input::factory('linkbutton');
                     $rexInput->addAttributes($attrArray);
@@ -354,10 +373,11 @@ abstract class rex_metainfo_handler
 
                     $paramArray = rex_string::split($params);
                     $category = '';
-                    if (isset($paramArray['category']))
+                    if (isset($paramArray['category'])) {
                         $category = $paramArray['category'];
-                    elseif ($activeItem)
+                    } elseif ($activeItem) {
                         $category = $activeItem->getValue('category_id');
+                    }
 
                     $name .= '[]';
                     $rexInput = rex_input::factory('linklistbutton');
@@ -409,7 +429,9 @@ abstract class rex_metainfo_handler
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
-        if (rex_request_method() != 'post') return;
+        if (rex_request_method() != 'post') {
+            return;
+        }
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
             $fieldName = $sqlFields->getValue('name');
@@ -430,8 +452,9 @@ abstract class rex_metainfo_handler
             $sqlSave->setValue($fieldName, $saveValue);
 
             // Werte im aktuellen Objekt speichern, dass zur Anzeige verwendet wird
-            if (isset($params['activeItem']))
+            if (isset($params['activeItem'])) {
                 $params['activeItem']->setValue($fieldName, $saveValue);
+            }
         }
     }
 
@@ -445,30 +468,35 @@ abstract class rex_metainfo_handler
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {
-        if (rex_request_method() != 'post') return null;
+        if (rex_request_method() != 'post') {
+            return null;
+        }
 
         $postValue = rex_post($fieldName, 'array');
 
         // handle date types with timestamps
         if (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day']) && isset($postValue['hour']) && isset($postValue['minute'])) {
-            if (isset($postValue['active']))
+            if (isset($postValue['active'])) {
                 $saveValue = mktime((int) $postValue['hour'], (int) $postValue['minute'], 0, (int) $postValue['month'], (int) $postValue['day'], (int) $postValue['year']);
-            else
+            } else {
                 $saveValue = 0;
+            }
         }
         // handle date types without timestamps
         elseif (isset($postValue['year']) && isset($postValue['month']) && isset($postValue['day'])) {
-            if (isset($postValue['active']))
+            if (isset($postValue['active'])) {
                 $saveValue = mktime(0, 0, 0, (int) $postValue['month'], (int) $postValue['day'], (int) $postValue['year']);
-            else
+            } else {
                 $saveValue = 0;
+            }
         }
         // handle time types
         elseif (isset($postValue['hour']) && isset($postValue['minute'])) {
-            if (isset($postValue['active']))
+            if (isset($postValue['active'])) {
                 $saveValue = mktime((int) $postValue['hour'], (int) $postValue['minute'], 0, 0, 0, 0);
-            else
+            } else {
                 $saveValue = 0;
+            }
         } else {
             if (count($postValue) > 1) {
                 // Mehrwertige Felder
@@ -532,8 +560,9 @@ abstract class rex_metainfo_handler
     {
         // Beim ADD gibts noch kein activeItem
         $activeItem = null;
-        if (isset($params['activeItem']))
+        if (isset($params['activeItem'])) {
             $activeItem = $params['activeItem'];
+        }
 
         $filterCondition = $this->buildFilterCondition($params);
         $sqlFields = $this->getSqlFields($prefix, $filterCondition);

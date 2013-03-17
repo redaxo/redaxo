@@ -57,19 +57,21 @@ class rex_select
     ############### multiple felder ?
     public function setMultiple($multiple = true)
     {
-        if ($multiple)
+        if ($multiple) {
             $this->setAttribute('multiple', 'multiple');
-        else
+        } else {
             $this->delAttribute('multiple');
+        }
     }
 
     ############### disabled ?
     public function setDisabled($disabled = true)
     {
-        if ($disabled)
+        if ($disabled) {
             $this->setAttribute('disabled', 'disabled');
-        else
+        } else {
             $this->delAttribute('disabled');
+        }
     }
 
     ################ select name
@@ -165,8 +167,9 @@ class rex_select
             foreach ($options as $key => $option) {
                 $option = (array) $option;
                 $attributes = [];
-                if (isset($option[5]) && is_array($option[5]))
+                if (isset($option[5]) && is_array($option[5])) {
                     $attributes = $option[5];
+                }
                 if ($grouped) {
                     $this->addOption($option[0], $option[1], $option[2], $option[3], $attributes);
                     if (isset($option[4]) && $option[4]) {
@@ -176,8 +179,9 @@ class rex_select
                     if ($useOnlyValues) {
                         $this->addOption($option[0], $option[0]);
                     } else {
-                        if (!isset($option[1]))
+                        if (!isset($option[1])) {
                             $option[1] = $key;
+                        }
 
                         $this->addOption($option[0], $option[1]);
                     }
@@ -193,8 +197,9 @@ class rex_select
     public function addArrayOptions(array $options, $use_keys = true)
     {
         foreach ($options as $key => $value) {
-            if (!$use_keys)
+            if (!$use_keys) {
                 $key = $value;
+            }
 
             $this->addOption($value, $key);
         }
@@ -234,8 +239,9 @@ class rex_select
         $ausgabe = "\n";
         $ausgabe .= '<select' . $attr . '>' . "\n";
 
-        if (is_array($this->options))
+        if (is_array($this->options)) {
             $ausgabe .= $this->outGroup(0, $this->optgroups ? -1 : 0, $this->optgroups);
+        }
 
         $ausgabe .= '</select>' . "\n";
         return $ausgabe;
@@ -267,8 +273,9 @@ class rex_select
                 $ausgabe .= '    <optgroup label="' . $name . '">' . "\n";
             } else {
                 $attributes = [];
-                if (isset($option[3]) && is_array($option[3]))
+                if (isset($option[3]) && is_array($option[3])) {
                     $attributes = $option[3];
+                }
                 $ausgabe .= $this->outOption($name, $value, $level, $attributes);
             }
 
@@ -290,11 +297,13 @@ class rex_select
         $value = htmlspecialchars($value);
 
         $bsps = '';
-        if ($level > 0)
+        if ($level > 0) {
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
+        }
 
-        if ($this->option_selected !== null && in_array($value, $this->option_selected, true))
+        if ($this->option_selected !== null && in_array($value, $this->option_selected, true)) {
             $attributes['selected'] = 'selected';
+        }
 
         $attr = '';
         foreach ($attributes as $n => $v) {

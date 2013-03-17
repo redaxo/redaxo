@@ -42,11 +42,13 @@ if ($func == 'delete' && $effect_id > 0) {
     $func = '';
 }
 
-if ($info != '')
+if ($info != '') {
     echo rex_view::info($info);
+}
 
-if ($warning != '')
+if ($warning != '') {
     echo rex_view::warning($warning);
+}
 
 
 echo '<div class="rex-addon-output-v2">';
@@ -149,14 +151,17 @@ if ($func == '' && $type_id > 0) {
         $effectParams = $effectObj->getParams();
         $group = $effectClass;
 
-        if (empty($effectParams)) continue;
+        if (empty($effectParams)) {
+            continue;
+        }
 
         foreach ($effectParams as $param) {
             $name = $effectClass . '_' . $param['name'];
             $value = isset($param['default']) ? $param['default'] : null;
             $attributes = [];
-            if (isset($param['attributes']))
+            if (isset($param['attributes'])) {
                 $attributes = $param['attributes'];
+            }
 
             switch ($param['type']) {
                 case 'int' :
@@ -167,9 +172,15 @@ if ($func == '' && $type_id > 0) {
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($param['label']);
                         $field->setAttribute('id', "media_manager $name $type");
-                        if (!empty($param['notice'])) $field->setNotice($param['notice']);
-                        if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
-                        if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+                        if (!empty($param['notice'])) {
+                            $field->setNotice($param['notice']);
+                        }
+                        if (!empty($param['prefix'])) {
+                            $field->setPrefix($param['prefix']);
+                        }
+                        if (!empty($param['suffix'])) {
+                            $field->setSuffix($param['suffix']);
+                        }
                         break;
                     }
                 case 'select' :
@@ -178,13 +189,20 @@ if ($func == '' && $type_id > 0) {
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($param['label']);
                         $field->setAttribute('id', "media_manager $name $type");
-                        if (!empty($param['notice'])) $field->setNotice($param['notice']);
-                        if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
-                        if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+                        if (!empty($param['notice'])) {
+                            $field->setNotice($param['notice']);
+                        }
+                        if (!empty($param['prefix'])) {
+                            $field->setPrefix($param['prefix']);
+                        }
+                        if (!empty($param['suffix'])) {
+                            $field->setSuffix($param['suffix']);
+                        }
 
                         $select = $field->getSelect();
-                        if (!isset($attributes['multiple']))
+                        if (!isset($attributes['multiple'])) {
                             $select->setSize(1);
+                        }
                         $select->addOptions($param['options'], true);
                         break;
                     }
@@ -194,9 +212,15 @@ if ($func == '' && $type_id > 0) {
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($param['label']);
                         $field->setAttribute('id', "media_manager $name $type");
-                        if (!empty($param['notice'])) $field->setNotice($param['notice']);
-                        if (!empty($param['prefix'])) $field->setPrefix($param['prefix']);
-                        if (!empty($param['suffix'])) $field->setSuffix($param['suffix']);
+                        if (!empty($param['notice'])) {
+                            $field->setNotice($param['notice']);
+                        }
+                        if (!empty($param['prefix'])) {
+                            $field->setPrefix($param['prefix']);
+                        }
+                        if (!empty($param['suffix'])) {
+                            $field->setSuffix($param['suffix']);
+                        }
                         break;
                     }
                 default:

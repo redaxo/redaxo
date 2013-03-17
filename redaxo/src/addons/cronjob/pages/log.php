@@ -27,14 +27,16 @@ $month_sel->setAttribute('onchange', 'this.form.submit();');
 $month_sel->setStyle('width: 100px');
 
 $log = rex_request('log', 'array', []);
-if (!isset($log['year']) || !$log['year'])
+if (!isset($log['year']) || !$log['year']) {
     $log['year'] = date('Y');
-if (!isset($log['month']) || !$log['month'])
+}
+if (!isset($log['month']) || !$log['month']) {
     $log['month'] = date('m');
+}
 
 $array = rex_cronjob_log::getYearMonthArray();
 
-if (empty($array))
+if (empty($array)) {
     echo '
         <div class="rex-toolbar">
             <div class="rex-toolbar-content">
@@ -42,7 +44,7 @@ if (empty($array))
                 <div class="rex-clearer"></div>
             </div>
         </div>';
-else {
+} else {
     $countYears = count($array);
     $i = 0;
     $yearSelected = false;

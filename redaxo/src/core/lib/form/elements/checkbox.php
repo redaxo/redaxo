@@ -37,7 +37,9 @@ class rex_form_checkbox_element extends rex_form_options_element
 
         $attr = '';
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            if ($attributeName == 'name' || $attributeName == 'id') continue;
+            if ($attributeName == 'name' || $attributeName == 'id') {
+                continue;
+            }
             $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
         }
 

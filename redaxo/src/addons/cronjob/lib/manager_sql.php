@@ -61,8 +61,9 @@ class rex_cronjob_manager_sql
             WHERE   id = ?
             LIMIT   1
         ', [$id]);
-        if ($this->sql->getRows() == 1)
+        if ($this->sql->getRows() == 1) {
             return $this->sql->getValue('name');
+        }
         return null;
     }
 
@@ -216,8 +217,9 @@ class rex_cronjob_manager_sql
             FROM    ' . REX_CRONJOB_TABLE . '
             WHERE   status = 1
         ');
-        if ($this->sql->getRows() == 1)
+        if ($this->sql->getRows() == 1) {
             return $this->sql->getValue('nexttime');
+        }
         return null;
     }
 
@@ -226,10 +228,11 @@ class rex_cronjob_manager_sql
         if ($nexttime === null) {
             $nexttime = $this->getMinNextTime();
         }
-        if ($nexttime === null)
+        if ($nexttime === null) {
             $nexttime = 0;
-        else
+        } else {
             $nexttime = max(1, $nexttime);
+        }
 
         rex_config::set('cronjob', 'nexttime', $nexttime);
         return true;

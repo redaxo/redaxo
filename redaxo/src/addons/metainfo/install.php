@@ -33,15 +33,17 @@ $managers = [
 ];
 for ($i = 0; $i < $sql->getRows(); $i++) {
     $column = $sql->getValue('name');
-    if (substr($column, 0, 4) == 'med_')
+    if (substr($column, 0, 4) == 'med_') {
         $table = 'media';
-    else
+    } else {
         $table = 'article';
+    }
 
-    if (isset($columns[$table][$column]))
+    if (isset($columns[$table][$column])) {
         $managers[$table]->editColumn($column, $column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
-    else
+    } else {
         $managers[$table]->addColumn($column, $sql->getValue('dbtype'), $sql->getValue('dblength'), $sql->getValue('default'));
+    }
 
     unset($columns[$table][$column]);
     $sql->next();

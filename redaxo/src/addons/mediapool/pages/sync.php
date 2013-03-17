@@ -36,7 +36,9 @@ if ($PERMALL) {
             $first = true;
             foreach ($sync_files as $file) {
                 // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
-                if (!is_int($key = array_search($file, $diff_files))) continue;
+                if (!is_int($key = array_search($file, $diff_files))) {
+                    continue;
+                }
 
                 $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
                 if ($syncResult['ok']) {

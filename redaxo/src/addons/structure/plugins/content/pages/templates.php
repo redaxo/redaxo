@@ -144,11 +144,13 @@ if ($function == 'add' or $function == 'edit') {
         $modules = isset($attributes['modules']) ? $attributes['modules'] : [];
         $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
 
-        if (!is_array($modules))
+        if (!is_array($modules)) {
             $modules = [];
+        }
 
-        if (!is_array($categories))
+        if (!is_array($categories)) {
             $categories = [];
+        }
 
         // modules[ctype_id][module_id];
         // modules[ctype_id]['all'];
@@ -158,8 +160,9 @@ if ($function == 'add' or $function == 'edit') {
         $modul_select->setMultiple(true);
         $modul_select->setSize(10);
         $m_sql = rex_sql::factory();
-        foreach ($m_sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name') as $m)
+        foreach ($m_sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name') as $m) {
             $modul_select->addOption($m['name'], $m['id']);
+        }
 
         // Kategorien
         $cat_select = new rex_category_select(false, false, false, false);
@@ -214,8 +217,9 @@ if ($function == 'add' or $function == 'edit') {
 
                 $field = '';
                 $field .= '<input id="rex-js-allmodules' . $i . '" type="checkbox" name="modules[' . $i . '][all]" ';
-                if (!isset($modules[$i]['all']) || $modules[$i]['all'] == 1)
+                if (!isset($modules[$i]['all']) || $modules[$i]['all'] == 1) {
                     $field .= ' checked="checked" ';
+                }
                 $field .= ' value="1" />';
 
                 $formElements = [];
@@ -276,11 +280,13 @@ if ($function == 'add' or $function == 'edit') {
 
         $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
-        if ($success != '')
+        if ($success != '') {
             $message .= rex_view::success($success);
+        }
 
-        if ($error != '')
+        if ($error != '') {
             $message .= rex_view::error($error);
+        }
 
 
 
@@ -352,8 +358,9 @@ if ($function == 'add' or $function == 'edit') {
 
         $field = '';
         $field .= '<input id="rex-js-allcategories" type="checkbox" name="categories[all]" ';
-        if (!isset($categories['all']) || $categories['all'] == 1)
+        if (!isset($categories['all']) || $categories['all'] == 1) {
             $field .= ' checked="checked" ';
+        }
         $field .= ' value="1" />';
 
         $formElements = [];
@@ -443,11 +450,13 @@ if ($function == 'add' or $function == 'edit') {
 }
 
 if ($OUT) {
-    if ($success != '')
+    if ($success != '') {
         $message .= rex_view::success($success);
+    }
 
-    if ($error != '')
+    if ($error != '') {
         $message .= rex_view::error($error);
+    }
 
     $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
     $list->setCaption(rex_i18n::msg('header_template_caption'));

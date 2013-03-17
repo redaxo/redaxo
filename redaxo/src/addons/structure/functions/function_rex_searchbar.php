@@ -36,8 +36,9 @@ function rex_structure_searchbar(rex_context $context)
     if ($article_id != 0) {
         $OOArt = rex_article::getArticleById($article_id, $clang);
         // Falls Artikel gerade geloescht wird, gibts keinen rex_article
-        if ($OOArt)
+        if ($OOArt) {
             $category_id = $OOArt->getCategoryId();
+        }
     }
 
     // ------------ Suche via ArtikelName
@@ -57,8 +58,9 @@ function rex_structure_searchbar(rex_context $context)
 
         if (rex_addon::get('structure')->getConfig('searchmode', 'local') != 'global') {
             // Suche auf aktuellen Kontext eingrenzen
-            if ($category_id != 0)
+            if ($category_id != 0) {
                 $qry .= ' AND path LIKE "%|' . $category_id . '|%"';
+            }
         }
 
         $search = rex_sql::factory();
@@ -82,8 +84,9 @@ function rex_structure_searchbar(rex_context $context)
                 $label = $OOArt->getName();
 
                 if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                    if (rex::getUser()->hasPerm('advancedMode[]'))
+                    if (rex::getUser()->hasPerm('advancedMode[]')) {
                         $label .= ' [' . $search->getValue('id') . ']';
+                    }
 
                     $highlightHit = function ($string, $needle) {
                         return preg_replace(
@@ -98,8 +101,9 @@ function rex_structure_searchbar(rex_context $context)
                     foreach ($OOArt->getParentTree() as $treeItem) {
                         $treeLabel = $treeItem->getName();
 
-                        if (rex::getUser()->hasPerm('advancedMode[]'))
+                        if (rex::getUser()->hasPerm('advancedMode[]')) {
                             $treeLabel .= ' [' . $treeItem->getId() . ']';
+                        }
 
                         $prefix = ': ';
                         if ($first) {
@@ -216,8 +220,9 @@ function rex_structure_contentbar(rex_context $context)
     if ($article_id != 0) {
         $OOArt = rex_article::getArticleById($article_id, $clang);
         // Falls Artikel gerade geloescht wird, gibts keinen rex_article
-        if ($OOArt)
+        if ($OOArt) {
             $category_id = $OOArt->getCategoryId();
+        }
     }
 
     // ------------ Suche via ArtikelName
@@ -237,8 +242,9 @@ function rex_structure_contentbar(rex_context $context)
 
         if (rex_addon::get('structure')->getConfig('searchmode', 'local') != 'global') {
             // Suche auf aktuellen Kontext eingrenzen
-            if ($category_id != 0)
+            if ($category_id != 0) {
                 $qry .= ' AND path LIKE "%|' . $category_id . '|%"';
+            }
         }
 
         $search = rex_sql::factory();
@@ -262,8 +268,9 @@ function rex_structure_contentbar(rex_context $context)
                 $label = $OOArt->getName();
 
                 if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                    if (rex::getUser()->hasPerm('advancedMode[]'))
+                    if (rex::getUser()->hasPerm('advancedMode[]')) {
                         $label .= ' [' . $search->getValue('id') . ']';
+                    }
 
                     $highlightHit = function ($string, $needle) {
                         return preg_replace(
@@ -278,8 +285,9 @@ function rex_structure_contentbar(rex_context $context)
                     foreach ($OOArt->getParentTree() as $treeItem) {
                         $treeLabel = $treeItem->getName();
 
-                        if (rex::getUser()->hasPerm('advancedMode[]'))
+                        if (rex::getUser()->hasPerm('advancedMode[]')) {
                             $treeLabel .= ' [' . $treeItem->getId() . ']';
+                        }
 
                         $prefix = ': ';
                         if ($first) {
@@ -347,8 +355,9 @@ function rex_structure_contentbar(rex_context $context)
                 if ($attribute->name == 'value') {
                     $droplist .= $attribute->value;
 
-                    if ($attribute->value == $category_id)
+                    if ($attribute->value == $category_id) {
                         $js_button = $option->nodeValue;
+                    }
                 }
             }
         }

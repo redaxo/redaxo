@@ -42,8 +42,9 @@ class rex_category extends rex_structure_element
     {
         $cat_parent_id = (int) $cat_parent_id;
 
-        if ($cat_parent_id < 0)
+        if ($cat_parent_id < 0) {
             return [];
+        }
 
         if ($clang === false) {
             $clang = rex_clang::getCurrentId();

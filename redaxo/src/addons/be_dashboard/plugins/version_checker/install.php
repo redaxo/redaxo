@@ -26,7 +26,8 @@ if ($error == '') {
     }
 }
 
-if ($error != '')
+if ($error != '') {
     $this->setProperty('installmsg', $error);
-else
+} else {
     $this->setProperty('install', true);
+}

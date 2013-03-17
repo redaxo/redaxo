@@ -24,10 +24,11 @@ $field_id = rex_request('field_id', 'int');
 if ($func == 'delete') {
     $field_id = rex_request('field_id', 'int', 0);
     if ($field_id != 0) {
-        if (rex_metainfo_delete_field($field_id))
+        if (rex_metainfo_delete_field($field_id)) {
             echo rex_view::info(rex_i18n::msg('minfo_field_successfull_deleted'));
-        else
+        } else {
             echo rex_view::warning(rex_i18n::msg('minfo_field_error_deleted'));
+        }
     }
     $func = '';
 }
@@ -65,8 +66,9 @@ if ($func == '') {
 elseif ($func == 'edit' || $func == 'add') {
     $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix() . 'metainfo_params', rex_i18n::msg('minfo_field_fieldset'), 'id=' . $field_id);
 
-    if ($func == 'edit')
+    if ($func == 'edit') {
         $form->addParam('field_id', $field_id);
+    }
 
     $form->show();
 }

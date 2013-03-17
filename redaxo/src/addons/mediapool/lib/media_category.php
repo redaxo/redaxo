@@ -42,8 +42,9 @@ class rex_media_category
     public static function getCategoryById($id)
     {
         $id = (int) $id;
-        if (!is_numeric($id))
+        if (!is_numeric($id)) {
             return null;
+        }
 
         $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
         if (!file_exists($cat_path)) {
@@ -92,8 +93,9 @@ class rex_media_category
     {
         $id = (int) $id;
 
-        if (!is_int($id))
+        if (!is_int($id)) {
             return [];
+        }
 
         $catlist = [];
 
@@ -106,8 +108,9 @@ class rex_media_category
             $cache = rex_file::getCache($catlist_path);
 
             if (is_array($cache)) {
-                foreach ($cache as $cat_id)
+                foreach ($cache as $cat_id) {
                     $catlist[] = self :: getCategoryById($cat_id);
+                }
             }
         }
 
@@ -155,10 +158,11 @@ class rex_media_category
     {
         $p = explode('|', $this->_path);
         foreach ($p as $k => $v) {
-            if ($v == '')
+            if ($v == '') {
                 unset($p[$k]);
-            else
+            } else {
                 $p[$k] = (int) $v;
+            }
         }
 
         return array_values($p);
@@ -289,8 +293,9 @@ class rex_media_category
                 $cache = rex_file::getCache($list_path);
 
                 if (is_array($cache)) {
-                    foreach ($cache as $filename)
+                    foreach ($cache as $filename) {
                         $this->_files[] = rex_media :: getMediaByFileName($filename);
+                    }
                 }
             }
         }
@@ -416,7 +421,9 @@ class rex_media_category
         if ($recurse) {
             $childs = $this->getChildren();
             foreach ($childs as $child) {
-                if (!$child->delete($recurse)) return false;
+                if (!$child->delete($recurse)) {
+                    return false;
+                }
             }
         }
 
@@ -424,7 +431,9 @@ class rex_media_category
         if ($this->hasMedia()) {
             $files = $this->getMedia();
             foreach ($files as $file) {
-                if (!$file->delete()) return false;
+                if (!$file->delete()) {
+                    return false;
+                }
             }
         }
 

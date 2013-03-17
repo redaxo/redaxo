@@ -22,10 +22,14 @@ class rex_template
 
     public function getFile()
     {
-        if ($this->getId() < 1) return false;
+        if ($this->getId() < 1) {
+            return false;
+        }
 
         $file = $this->getFilePath($this->getId());
-        if (!$file) return false;
+        if (!$file) {
+            return false;
+        }
 
         if (!file_exists($file)) {
             // Generated Datei erzeugen
@@ -39,7 +43,9 @@ class rex_template
 
     public static function getFilePath($template_id)
     {
-        if ($template_id < 1) return false;
+        if ($template_id < 1) {
+            return false;
+        }
 
         return self::getTemplatesDir() . '/' . $template_id . '.template';
     }
@@ -52,7 +58,9 @@ class rex_template
     public function getTemplate()
     {
         $file = $this->getFile();
-        if (!$file) return false;
+        if (!$file) {
+            return false;
+        }
 
         return rex_file::get($file);
     }
@@ -61,8 +69,9 @@ class rex_template
     {
         $template_id = $this->getId();
 
-        if ($template_id < 1)
+        if ($template_id < 1) {
             return false;
+        }
 
         $sql = rex_sql::factory();
         $qry = 'SELECT * FROM ' . rex::getTablePrefix()  . 'template WHERE id = ' . $template_id;
@@ -85,7 +94,9 @@ class rex_template
 
     public function deleteCache()
     {
-        if ($this->id < 1) return false;
+        if ($this->id < 1) {
+            return false;
+        }
 
         $file = $this->getFilePath($this->getId());
         rex_file::delete($file);
@@ -114,8 +125,9 @@ class rex_template
             foreach ($t_sql as $row) {
                 $attributes = $row->getArrayValue('attributes');
                 $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
-                if (!is_array($categories) || $categories['all'] == 1)
+                if (!is_array($categories) || $categories['all'] == 1) {
                     $templates[$row->getValue('id')] = $row->getValue('name');
+                }
             }
         } else {
             if ($c = rex_category::getCategoryById($category_id)) {
@@ -146,11 +158,13 @@ class rex_template
     public static function hasModule(array $template_attributes, $ctype, $module_id)
     {
         $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : [];
-        if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1)
+        if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1) {
             return true;
+        }
 
-        if (is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype]))
+        if (is_array($template_modules[$ctype]) && in_array($module_id, $template_modules[$ctype])) {
             return true;
+        }
 
         return false;
     }

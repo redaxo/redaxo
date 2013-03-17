@@ -23,8 +23,9 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         parent::fetchRequestValues($params, $article, $sqlFields);
 
         // do the save only when metafields are defined
-        if ($article->hasValues())
+        if ($article->hasValues()) {
             $article->update();
+        }
 
         // Artikel nochmal mit den zusätzlichen Werten neu generieren
         rex_article_cache::generateMeta($params['id'], $params['clang']);
@@ -58,22 +59,27 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
     protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
     {
         $s = '';
-        if ($typeLabel != 'legend')
+        if ($typeLabel != 'legend') {
             $s .= '<div class="rex-form-row">';
+        }
 
-        if ($tag != '')
+        if ($tag != '') {
             $s .= '<' . $tag . $tag_attr  . '>' . "\n";
+        }
 
-        if ($labelIt)
+        if ($labelIt) {
             $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
+        }
 
         $s .= $field . "\n";
 
-        if ($tag != '')
+        if ($tag != '') {
             $s .= '</' . $tag . '>' . "\n";
+        }
 
-        if ($typeLabel != 'legend')
+        if ($typeLabel != 'legend') {
             $s .= '</div>';
+        }
 
         return $s;
     }

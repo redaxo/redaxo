@@ -274,8 +274,9 @@ class rex
     {
         if (self::getProperty('use_accesskeys')) {
             $accesskeys = (array) self::getProperty('accesskeys', []);
-            if (isset($accesskeys[$key]))
+            if (isset($accesskeys[$key])) {
                 return ' accesskey="' . $accesskeys[$key] . '" title="' . $title . ' [' . $accesskeys[$key] . ']"';
+            }
         }
 
         return ' title="' . $title . '"';

@@ -342,10 +342,11 @@ class rex_article_service
         if ($GA->getRows() == 1) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
-            if (!$status)
+            if (!$status) {
             $newstatus = self::nextStatus($GA->getValue('status'));
-            else
+            } else {
             $newstatus = $status;
+            }
 
             $EA = rex_sql::factory();
             $EA->setTable(rex::getTablePrefix() . 'article');
@@ -406,7 +407,9 @@ class rex_article_service
     public static function prevStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
-        if (($currentStatus - 1) < 0 ) return count($artStatusTypes) - 1;
+        if (($currentStatus - 1) < 0 ) {
+            return count($artStatusTypes) - 1;
+        }
 
         return ($currentStatus - 1) % count($artStatusTypes);
     }
@@ -424,10 +427,11 @@ class rex_article_service
     public static function newArtPrio($re_id, $clang, $new_prio, $old_prio)
     {
         if ($new_prio != $old_prio) {
-            if ($new_prio < $old_prio)
+            if ($new_prio < $old_prio) {
                 $addsql = 'desc';
-            else
+            } else {
                 $addsql = 'asc';
+            }
 
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),
@@ -456,8 +460,9 @@ class rex_article_service
             // artikel
             $sql->setQuery('select re_id, name from ' . rex::getTablePrefix() . "article where id=$art_id and startarticle=0 and clang=$clang");
 
-            if (!isset($re_id))
+            if (!isset($re_id)) {
                 $re_id = $sql->getValue('re_id');
+            }
 
             // artikel updaten
             $sql->setTable(rex::getTablePrefix() . 'article');
@@ -496,16 +501,18 @@ class rex_article_service
 
         // Kategorie muss leer sein
         $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $art_id . ' LIMIT 1');
-        if ($sql->getRows() != 0)
+        if ($sql->getRows() != 0) {
             return false;
+        }
 
         // LANG SCHLEIFE
         foreach (rex_clang::getAllIds() as $clang) {
             // artikel
             $sql->setQuery('select re_id, name from ' . rex::getTablePrefix() . "article where id=$art_id and startarticle=1 and clang=$clang");
 
-            if (!isset($re_id))
+            if (!isset($re_id)) {
             $re_id = $sql->getValue('re_id');
+            }
 
             // artikel updaten
             $sql->setTable(rex::getTablePrefix() . 'article');
@@ -544,17 +551,23 @@ class rex_article_service
         // neuen startartikel holen und schauen ob da
         $neu = rex_sql::factory();
         $neu->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_id and startarticle=0 and clang=0");
-        if ($neu->getRows() != 1) return false;
+        if ($neu->getRows() != 1) {
+            return false;
+        }
         $neu_path = $neu->getValue('path');
         $neu_cat_id = $neu->getValue('re_id');
 
         // in oberster kategorie dann return
-        if ($neu_cat_id == 0) return false;
+        if ($neu_cat_id == 0) {
+            return false;
+        }
 
         // alten startartikel
         $alt = rex_sql::factory();
         $alt->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_cat_id and startarticle=1 and clang=0");
-        if ($alt->getRows() != 1) return false;
+        if ($alt->getRows() != 1) {
+            return false;
+        }
         $alt_path = $alt->getValue('path');
         $alt_id = $alt->getValue('id');
         $parent_id = $alt->getValue('re_id');
@@ -563,7 +576,9 @@ class rex_article_service
         $params = ['path', 'prior', 'catname', 'startarticle', 'catprior', 'status'];
         $db_fields = rex_structure_element::getClassVars();
         foreach ($db_fields as $field) {
-            if (substr($field, 0, 4) == 'cat_') $params[] = $field;
+            if (substr($field, 0, 4) == 'cat_') {
+                $params[] = $field;
+            }
         }
 
         // LANG SCHLEIFE
@@ -608,7 +623,9 @@ class rex_article_service
             $ia->setTable(rex::getTablePrefix() . 'article');
             $ia->setWhere(['id' => $iid]);
             $ia->setValue('path', $ipath);
-            if ($articles->getValue('re_id') == $alt_id) $ia->setValue('re_id', $neu_id);
+            if ($articles->getValue('re_id') == $alt_id) {
+                $ia->setValue('re_id', $neu_id);
+            }
             $ia->update();
             $GAID[$iid] = $iid;
             $articles->next();
@@ -652,11 +669,13 @@ class rex_article_service
         $to_clang = (int) $to_clang;
         $from_id = (int) $from_id;
         $to_id = (int) $to_id;
-        if (!is_array($params))
+        if (!is_array($params)) {
         $params = [];
+        }
 
-        if ($from_id == $to_id && $from_clang == $to_clang)
+        if ($from_id == $to_id && $from_clang == $to_clang) {
         return false;
+        }
 
         $gc = rex_sql::factory();
         $gc->setQuery('select * from ' . rex::getTablePrefix() . "article where clang='$from_clang' and id='$from_id'");
@@ -719,7 +738,9 @@ class rex_article_service
 
                     $art_sql = rex_sql::factory();
                     $art_sql->setTable(rex::getTablePrefix() . 'article');
-                    if ($new_id == '') $new_id = $art_sql->setNewId('id');
+                    if ($new_id == '') {
+                        $new_id = $art_sql->setNewId('id');
+                    }
                     $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
                     $art_sql->setValue('re_id', $to_cat_id);
                     $art_sql->setValue('catname', $catname);
@@ -784,8 +805,9 @@ class rex_article_service
         $to_cat_id = (int) $to_cat_id;
         $from_cat_id = (int) $from_cat_id;
 
-        if ($from_cat_id == $to_cat_id)
+        if ($from_cat_id == $to_cat_id) {
         return false;
+        }
 
         // Artikel in jeder Sprache verschieben
         foreach (rex_clang::getAllIds() as $clang) {

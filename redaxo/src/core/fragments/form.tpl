@@ -55,8 +55,9 @@ foreach ($this->elements as $element) {
 
 }
 
-if ($columns_flag && $columns_grid_open)
+if ($columns_flag && $columns_grid_open) {
     $out .= '</div>';
+}
 
 echo $out;
 ?>

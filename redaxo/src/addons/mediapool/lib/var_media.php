@@ -63,8 +63,9 @@ class rex_var_media extends rex_var
         $wdgtClass = ' rex-widget-media';
         if (isset($args['preview']) && $args['preview']) {
             $wdgtClass .= ' rex-widget-preview';
-            if (rex_addon::get('media_manager')->isAvailable())
+            if (rex_addon::get('media_manager')->isAvailable()) {
                 $wdgtClass .= ' rex-widget-preview-media-manager';
+            }
         }
 
         $class        = ' rex-disabled';

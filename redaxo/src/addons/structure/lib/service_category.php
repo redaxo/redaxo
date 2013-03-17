@@ -200,8 +200,9 @@ class rex_category_service
                 $re_id = $thisCat->getValue('re_id');
                 $old_prio = $thisCat->getValue('catprior');
 
-                if ($data['catprior'] <= 0)
+                if ($data['catprior'] <= 0) {
                     $data['catprior'] = 1;
+                }
 
                 rex_sql::factory()
                     ->setTable(rex::getTable('article'))
@@ -327,10 +328,11 @@ class rex_category_service
         if ($KAT->getRows() == 1) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
-            if (!$status)
+            if (!$status) {
             $newstatus = self::nextStatus($KAT->getValue('status'));
-            else
+            } else {
             $newstatus = $status;
+            }
 
             $EKAT = rex_sql::factory();
             $EKAT->setTable(rex::getTablePrefix() . 'article');
@@ -391,7 +393,9 @@ class rex_category_service
     public static function prevStatus($currentStatus)
     {
         $catStatusTypes = self::statusTypes();
-        if (($currentStatus - 1) < 0 ) return count($catStatusTypes) - 1;
+        if (($currentStatus - 1) < 0 ) {
+            return count($catStatusTypes) - 1;
+        }
 
         return ($currentStatus - 1) % count($catStatusTypes);
     }
@@ -420,10 +424,11 @@ class rex_category_service
     public static function newCatPrio($re_id, $clang, $new_prio, $old_prio)
     {
         if ($new_prio != $old_prio) {
-            if ($new_prio < $old_prio)
+            if ($new_prio < $old_prio) {
                 $addsql = 'desc';
-            else
+            } else {
                 $addsql = 'asc';
+            }
 
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),

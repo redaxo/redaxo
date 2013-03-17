@@ -17,8 +17,9 @@ if ($media_method == 'add_file') {
             } else {
                 $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
-                if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category))
+                if (!$PERMALL && !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
                     $rex_file_category = 0;
+                }
 
                 // function in function.rex_mediapool.php
                 $return = rex_mediapool_saveMedia($_FILES['file_new'], $rex_file_category, $FILEINFOS, rex::getUser()->getValue('login'));
@@ -26,8 +27,9 @@ if ($media_method == 'add_file') {
                 $subpage = '';
 
                 // ----- EXTENSION POINT
-                if ($return['ok'] == 1)
+                if ($return['ok'] == 1) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $return));
+                }
 
                 if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1) {
                     $file_name = $return['filename'];

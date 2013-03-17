@@ -15,11 +15,13 @@ rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 // ***** an EPs andocken
 rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
     $version = rex_request('rex_version', 'int');
-    if ($version != 1)
+    if ($version != 1) {
         return;
+    }
 
-    if (!isset($_SESSION))
+    if (!isset($_SESSION)) {
         session_start();
+    }
 
     if (!rex_backend_login::hasSession()) {
         throw new rex_exception('no permission for the working version');
@@ -38,14 +40,16 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
     $return = '';
 
     $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
-    if (!is_array($rex_version_article))
+    if (!is_array($rex_version_article)) {
         $rex_version_article = [];
+    }
 
     $working_version_empty = true;
     $gw = rex_sql::factory();
     $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $params['article_id'] . ' and clang=' . $params['clang'] . ' and revision=1 LIMIT 1');
-    if ($gw->getRows() > 0)
+    if ($gw->getRows() > 0) {
         $working_version_empty = false;
+    }
 
     $revisions = [];
     $revisions[0] = rex_i18n::msg('version_liveversion');
@@ -100,8 +104,9 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
     ';
 
     $s = new rex_select();
-    foreach ($revisions as $k => $r)
+    foreach ($revisions as $k => $r) {
         $s->addOption($r, $k);
+    }
     $s->setSelected($rex_version_article[$params['article_id']]);
     $s->setName('rex_set_version');
     $s->setId('rex-select-version-id');
@@ -122,8 +127,9 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
         }
     } else {
         if ($rex_version_article[$params['article_id']] > 0) {
-            if (!$working_version_empty)
+            if (!$working_version_empty) {
                 $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
+            }
             $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         } else {
             $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';

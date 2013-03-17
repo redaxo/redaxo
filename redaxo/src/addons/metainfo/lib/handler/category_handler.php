@@ -95,7 +95,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
     public function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post') return $params;
+        if (rex_request_method() != 'post') {
+            return $params;
+        }
 
         $article = rex_sql::factory();
         // $article->setDebug();
@@ -105,8 +107,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         parent::fetchRequestValues($params, $article, $sqlFields);
 
         // do the save only when metafields are defined
-        if ($article->hasValues())
+        if ($article->hasValues()) {
             $article->update();
+        }
 
         // Artikel nochmal mit den zusätzlichen Werten neu generieren
         rex_article_cache::generateMeta($params['id'], $params['clang']);
@@ -142,8 +145,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $add_td = '';
         $class_td = '';
         $class_tr = '';
-        if (rex::getUser()->hasPerm('advancedMode[]'))
+        if (rex::getUser()->hasPerm('advancedMode[]')) {
             $add_td = '<td></td>';
+        }
 
         $element = $field;
         if ($labelIt) {
@@ -187,10 +191,11 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $result = parent::renderFormAndSave(self::PREFIX, $params);
 
         // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
-        if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName())
+        if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName()) {
             return $ep->getSubject();
-        else
+        } else {
             return $ep->getSubject() . $result;
+        }
     }
 }
 

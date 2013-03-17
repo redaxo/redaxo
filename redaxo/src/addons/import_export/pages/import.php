@@ -20,10 +20,11 @@ $EXPDIR         = rex_post('EXPDIR', 'array');
 if ($impname != '') {
     $impname = str_replace('/', '', $impname);
 
-    if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql')
+    if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql') {
         $impname = '';
-    elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz')
+    } elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz') {
         $impname = '';
+    }
 }
 
 if ($function == 'delete') {

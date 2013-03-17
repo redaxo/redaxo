@@ -428,14 +428,17 @@ function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
         // - svn infos
         // - tmp prefix Dateien
 
-        if ($file == '.' || $file == '..' || $file == '.svn')
+        if ($file == '.' || $file == '..' || $file == '.svn') {
             continue;
+        }
 
-        if (substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix())
+        if (substr($file, 0, strlen(rex::getTempPrefix())) == rex::getTempPrefix()) {
             continue;
+        }
 
-        if ($isMediafolder && $file == 'addons')
+        if ($isMediafolder && $file == 'addons') {
             continue;
+        }
 
         if (is_dir($path . $dir . '/' . $file)) {
             _rex_a1_add_folder_to_tar($tar, $path . $dir . '/', $file);

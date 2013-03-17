@@ -22,8 +22,9 @@ class rex_login
 
     public function __construct()
     {
-        if (session_id() == '')
+        if (session_id() == '') {
             session_start();
+        }
     }
 
     /**
@@ -151,10 +152,11 @@ class rex_login
 
             // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
             if ($this->cache) {
-                if ($this->loginStatus > 0)
+                if ($this->loginStatus > 0) {
                     return true;
-                elseif ($this->loginStatus < 0)
+                } elseif ($this->loginStatus < 0) {
                     return false;
+                }
             }
 
 
@@ -207,10 +209,11 @@ class rex_login
             $this->setSessionVar('UID', '');
         }
 
-        if ($ok)
+        if ($ok) {
             $this->loginStatus = 1;
-        else
+        } else {
             $this->loginStatus = -1;
+        }
 
         return $ok;
     }
@@ -225,8 +228,9 @@ class rex_login
      */
     public function getValue($value, $default = null)
     {
-        if ($this->user)
+        if ($this->user) {
             return $this->user->getValue($value);
+        }
 
         return $default;
     }
@@ -244,8 +248,9 @@ class rex_login
      */
     public function getSessionVar($varname, $default = '')
     {
-        if (isset ($_SESSION[$this->systemId][$varname]))
+        if (isset ($_SESSION[$this->systemId][$varname])) {
             return $_SESSION[$this->systemId][$varname];
+        }
 
         return $default;
     }

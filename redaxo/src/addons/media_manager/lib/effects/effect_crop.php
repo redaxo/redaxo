@@ -32,8 +32,12 @@ class rex_effect_crop extends rex_effect_abstract
 
         $offset_width = 0;
         $offset_height = 0;
-        if (empty($this->params['offset_width'])) $this->params['offset_width'] = 0;
-        if (empty($this->params['offset_height'])) $this->params['offset_height'] = 0;
+        if (empty($this->params['offset_width'])) {
+            $this->params['offset_width'] = 0;
+        }
+        if (empty($this->params['offset_height'])) {
+            $this->params['offset_height'] = 0;
+        }
 
         switch ($this->params['vpos']) {
             case 'top':

@@ -28,7 +28,9 @@ function rex_a657_get_latest_version()
 function rex_a657_check_version()
 {
     $latestVersion = rex_a657_get_latest_version();
-    if (!$latestVersion) return false;
+    if (!$latestVersion) {
+        return false;
+    }
 
     $rexVersion = rex::getVersion();
     if (version_compare($rexVersion, $latestVersion, '>')) {

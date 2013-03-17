@@ -39,8 +39,9 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
         // ----- datei schon vorhanden -> namen aendern -> _1 ..
         if (file_exists(rex_path::media($NFILENAME))) {
             $cnt = 1;
-            while (file_exists(rex_path::media($NFILE_NAME . '_' . $cnt . $NFILE_EXT)))
+            while (file_exists(rex_path::media($NFILE_NAME . '_' . $cnt . $NFILE_EXT))) {
                 $cnt++;
+            }
 
             $NFILENAME = $NFILE_NAME . '_' . $cnt . $NFILE_EXT;
         }
@@ -73,7 +74,9 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     }
 
     $isFileUpload = isset($FILE['tmp_name']);
-    if ($isFileUpload) $doSubindexing = true;
+    if ($isFileUpload) {
+        $doSubindexing = true;
+    }
 
     $FILENAME = $FILE['name'];
     $FILESIZE = $FILE['size'];
@@ -104,8 +107,9 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
         // get widht height
         $size = @getimagesize($dstFile);
 
-        if ($FILETYPE == '' && isset($size['mime']))
+        if ($FILETYPE == '' && isset($size['mime'])) {
             $FILETYPE = $size['mime'];
+        }
 
         $FILESQL = rex_sql::factory();
         $FILESQL->setTable(rex::getTablePrefix() . 'media');
@@ -150,8 +154,9 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     }
 
     // ----- EXTENSION POINT
-    if ($success)
+    if ($success) {
         rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $RETURN));
+    }
 
     return $RETURN;
 }
@@ -312,8 +317,9 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     if (isset($warning)) {
         if (is_array($warning)) {
-            if (count($warning) > 0)
+            if (count($warning) > 0) {
                 $s .= rex_view::error(implode('<br />', $warning));
+            }
         } elseif ($warning != '') {
             $s .= rex_view::error($warning);
         }
@@ -322,15 +328,18 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     if (isset($info)) {
         if (is_array($info)) {
-            if (count($info) > 0)
+            if (count($info) > 0) {
                 $s .= rex_view::success(implode('<br />', $info));
+            }
         } elseif ($info != '') {
             $s .= rex_view::success($info);
         }
         $info = '';
     }
 
-    if (!isset($ftitle)) $ftitle = '';
+    if (!isset($ftitle)) {
+        $ftitle = '';
+    }
 
     $add_file = '';
     if ($file_chooser) {
