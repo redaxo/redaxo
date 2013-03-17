@@ -117,7 +117,7 @@ abstract class rex_api_function
             $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
                 // take over result from url and do not execute the apiFunc
-                $result = rex_api_result::fromJSON($urlResult);
+                $result = rex_api_result::fromJson($urlResult);
                 $apiFunc->result = $result;
             } else {
                 try {
@@ -132,7 +132,7 @@ abstract class rex_api_function
                     if ($result->requiresReboot()) {
                         $context = rex_context::restore();
                         // add api call result to url
-                        $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
+                        $context->setParam(self::REQ_RESULT_PARAM, $result->toJson());
                         // and redirect to SELF for reboot
                         rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl()));
                     }
@@ -145,7 +145,7 @@ abstract class rex_api_function
             
             // requests for json will get api-result immediately
             if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
-            	  rex_response::sendContent($apiFunc->result->toJSONData(), 'application/json');
+            	  rex_response::sendContent($apiFunc->result->toJsonData(), 'application/json');
             	  exit();
             }
         }
@@ -264,7 +264,7 @@ class rex_api_result
         return $this->succeeded;
     }
 
-    public function toJSONData()
+    public function toJsonData()
     {	
         $json = [];
         foreach ($this as $key => $value) {
@@ -276,7 +276,7 @@ class rex_api_result
         return json_encode($json);
     }
     
-    public function toJSON()
+    public function toJson()
     {
         $json = new stdClass;
         foreach ($this as $key => $value) {
@@ -285,7 +285,7 @@ class rex_api_result
         return json_encode($json);
     }
 
-    public static function fromJSON($json)
+    public static function fromJson($json)
     {
         $result = new self(true);
         $json = json_decode($json, true);
