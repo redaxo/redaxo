@@ -151,12 +151,20 @@ abstract class rex_api_function
         }
     }
 
+    /**
+     * @return boolean
+     */
     public static function hasMessage()
     {
         $apiFunc = self::factory();
         return (boolean) $apiFunc->getResult();
     }
 
+    /**
+     * @param boolean $formatted
+     * 
+     * @return string
+     */
     public static function getMessage($formatted = true)
     {
         $apiFunc = self::factory();
@@ -219,6 +227,10 @@ class rex_api_result
      */
     private $requiresReboot;
 
+    /**
+     * @param boolean $succeeded
+     * @param string $message
+     */
     public function __construct($succeeded, $message = null)
     {
         $this->succeeded = $succeeded;
@@ -226,16 +238,29 @@ class rex_api_result
         $this->requiresReboot = false;
     }
 
+    /**
+     * @param boolean $requiresReboot
+     */
     public function setRequiresReboot($requiresReboot)
     {
         $this->requiresReboot = $requiresReboot;
     }
 
+    /**
+     * Returns whether the result of api function requires a full reboot to take effect.
+     * 
+     * @return boolean
+     */
     public function requiresReboot()
     {
         return $this->requiresReboot;
     }
 
+    /**
+     * Returns the message formatted as error or success, depending on the success-property
+     * 
+     * @return string
+     */
     public function getFormattedMessage()
     {
         if ($this->isSuccessfull()) {
@@ -302,6 +327,7 @@ class rex_api_result
      * Creates a rex_api_result object from the given JSON string
      * 
      *  @param string $json
+     *  @return self
      */
     public static function fromJson($json)
     {
