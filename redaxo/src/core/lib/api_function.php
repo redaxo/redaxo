@@ -274,7 +274,9 @@ class rex_api_result
         $data = [];
         foreach ($this as $key => $value) {
         	      // filter all internal class data
-        				if (in_array($key, ['message', 'succeeded', 'requiresReboot'])) continue;
+        				if (in_array($key, ['message', 'succeeded', 'requiresReboot'])) {
+        				    continue;
+        				}
         				
                 $data = array_merge($data, (array) $value);
         }
