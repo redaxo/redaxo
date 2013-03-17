@@ -264,27 +264,42 @@ class rex_api_result
         return $this->succeeded;
     }
 
+    /**
+     * Returns a json representation of all payload data, but not values of internal properties. 
+     * 
+     * @return string
+     */
     public function toJsonData()
     {	
-        $json = [];
+        $data = [];
         foreach ($this as $key => $value) {
         	      // filter all internal class data
         				if (in_array($key, ['message', 'succeeded', 'requiresReboot'])) continue;
         				
-                $json = array_merge($json, (array) $value);
+                $data = array_merge($data, (array) $value);
         }
-        return json_encode($json);
+        return json_encode($data);
     }
     
+    /**
+     * Returns a json representation of the result object
+     *  
+     * @return string
+     */
     public function toJson()
     {
-        $json = new stdClass;
+        $data = [];
         foreach ($this as $key => $value) {
-                $json->$key = $value;
+                $data[$key] = $value;
         }
-        return json_encode($json);
+        return json_encode($data);
     }
 
+    /**
+     * Creates a rex_api_result object from the given JSON string
+     * 
+     *  @param $json string
+     */
     public static function fromJson($json)
     {
         $result = new self(true);
