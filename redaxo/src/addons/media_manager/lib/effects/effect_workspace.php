@@ -6,9 +6,8 @@
 class rex_effect_workspace extends rex_effect_abstract
 {
 
-    private
-        $options,
-        $script;
+    private $options;
+    private $script;
 
     public function __construct()
     {

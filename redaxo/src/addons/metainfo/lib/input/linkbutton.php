@@ -5,9 +5,8 @@
  */
 class rex_input_linkbutton extends rex_input
 {
-    private
-        $buttonId,
-        $categoryId;
+    private $buttonId;
+    private $categoryId;
 
     public function __construct()
     {

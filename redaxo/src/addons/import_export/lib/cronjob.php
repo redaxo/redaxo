@@ -5,8 +5,7 @@
  */
 class rex_cronjob_export extends rex_cronjob
 {
-    const
-        DEFAULT_FILENAME = '%REX_SERVER_rex%REX_VERSION_%Y%m%d_%H%M';
+    const DEFAULT_FILENAME = '%REX_SERVER_rex%REX_VERSION_%Y%m%d_%H%M';
 
     public function execute()
     {

@@ -5,19 +5,17 @@
  */
 class rex_article_action
 {
-    const
-        PREVIEW = 'preview',
-        PRESAVE = 'presave',
-        POSTSAVE = 'postsave';
+    const PREVIEW = 'preview';
+    const PRESAVE = 'presave';
+    const POSTSAVE = 'postsave';
 
-    private
-        $moduleId,
-        $event,
-        $mode,
-        $save = true,
-        $messages = [],
-        $sql,
-        $vars;
+    private $moduleId;
+    private $event;
+    private $mode;
+    private $save = true;
+    private $messages = [];
+    private $sql;
+    private $vars;
 
     public function __construct($moduleId, $function, rex_sql $sql)
     {

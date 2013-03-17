@@ -5,9 +5,8 @@
  */
 class rex_input_time extends rex_input
 {
-    private
-        $hourSelect,
-        $minuteSelect;
+    private $hourSelect;
+    private $minuteSelect;
 
     public function __construct()
     {

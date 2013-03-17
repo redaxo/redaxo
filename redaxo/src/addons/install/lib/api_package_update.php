@@ -5,10 +5,9 @@
  */
 class rex_api_install_package_update extends rex_api_install_package_download
 {
-    const
-        GET_PACKAGES_FUNCTION = 'getUpdatePackages',
-        VERB = 'updated',
-        SHOW_LINK = false;
+    const GET_PACKAGES_FUNCTION = 'getUpdatePackages';
+    const VERB = 'updated';
+    const SHOW_LINK = false;
 
     /**
      * @var rex_addon

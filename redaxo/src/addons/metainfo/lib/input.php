@@ -5,9 +5,8 @@
  */
 abstract class rex_input
 {
-    protected
-        $value,
-        $attributes;
+    protected $value;
+    protected $attributes;
 
     public function __construct()
     {

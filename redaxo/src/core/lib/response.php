@@ -7,20 +7,18 @@
  */
 class rex_response
 {
-    const
-        HTTP_OK = '200 OK',
-        HTTP_MOVED_PERMANENTLY = '301 Moved Permanently',
-        HTTP_NOT_MODIFIED = '304 Not Modified',
-        HTTP_NOT_FOUND = '404 Not Found',
-        HTTP_FORBIDDEN = '403 Forbidden',
-        HTTP_UNAUTHORIZED = '401 Unauthorized',
-        HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    const HTTP_OK = '200 OK';
+    const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
+    const HTTP_NOT_MODIFIED = '304 Not Modified';
+    const HTTP_NOT_FOUND = '404 Not Found';
+    const HTTP_FORBIDDEN = '403 Forbidden';
+    const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
 
-    private static
-        $httpStatus = self::HTTP_OK,
-        $sentLastModified = false,
-        $sentEtag = false,
-        $sentContentType = false;
+    private static $httpStatus = self::HTTP_OK;
+    private static $sentLastModified = false;
+    private static $sentEtag = false;
+    private static $sentContentType = false;
 
     public static function setStatus($httpStatus)
     {

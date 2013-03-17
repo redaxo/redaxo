@@ -10,21 +10,20 @@ abstract class rex_structure_element
     /*
      * these vars get read out
      */
-    protected
-        $_id = '',
-        $_re_id = '',
-        $_clang = '',
-        $_name = '',
-        $_catname = '',
-        $_template_id = '',
-        $_path = '',
-        $_prior = '',
-        $_startarticle = '',
-        $_status = '',
-        $_updatedate = '',
-        $_createdate = '',
-        $_updateuser = '',
-        $_createuser = '';
+    protected $_id = '';
+    protected $_re_id = '';
+    protected $_clang = '';
+    protected $_name = '';
+    protected $_catname = '';
+    protected $_template_id = '';
+    protected $_path = '';
+    protected $_prior = '';
+    protected $_startarticle = '';
+    protected $_status = '';
+    protected $_updatedate = '';
+    protected $_createdate = '';
+    protected $_updateuser = '';
+    protected $_createuser = '';
 
     /**
      * Constructor

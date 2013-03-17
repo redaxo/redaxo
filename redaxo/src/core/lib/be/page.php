@@ -5,26 +5,25 @@
  */
 class rex_be_page
 {
-    private
-        $key,
-        $fullKey,
-        $title,
+    private $key;
+    private $fullKey;
+    private $title;
 
-        $popup = false,
-        $href,
-        $itemAttr = [],
-        $linkAttr = [],
-        $path,
-        $subPath,
+    private $popup = false;
+    private $href;
+    private $itemAttr = [];
+    private $linkAttr = [];
+    private $path;
+    private $subPath;
 
-        $parent,
-        $subpages = [],
+    private $parent;
+    private $subpages = [];
 
-        $isActive = null,
-        $hidden = false,
-        $hasLayout = true,
-        $hasNavigation = true,
-        $requiredPermissions = [];
+    private $isActive = null;
+    private $hidden = false;
+    private $hasLayout = true;
+    private $hasNavigation = true;
+    private $requiredPermissions = [];
 
     public function __construct($key, $title)
     {

@@ -10,9 +10,8 @@
 
 class rex_cronjob_manager_sql
 {
-    private
-        $sql,
-        $manager;
+    private $sql;
+    private $manager;
 
     private function __construct(rex_cronjob_manager $manager = null)
     {

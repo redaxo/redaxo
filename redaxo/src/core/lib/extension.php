@@ -10,10 +10,9 @@ abstract class rex_extension
 {
     use rex_factory_trait;
 
-    const
-        EARLY = -1,
-        NORMAL = 0,
-        LATE = 1;
+    const EARLY = -1;
+    const NORMAL = 0;
+    const LATE = 1;
 
     /**
      * Array of registered extensions

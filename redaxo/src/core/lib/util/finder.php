@@ -13,17 +13,16 @@ class rex_finder implements IteratorAggregate, Countable
 
     const ALL = '__ALL__';
 
-    private
-        $dir,
-        $recursive = false,
-        $recursiveMode = RecursiveIteratorIterator::SELF_FIRST,
-        $dirsOnly = false,
-        $ignoreFiles = [],
-        $ignoreFilesRecursive = [],
-        $ignoreDirs = [],
-        $ignoreDirsRecursive = [],
-        $ignoreSystemStuff = true,
-        $sort = false;
+    private $dir;
+    private $recursive = false;
+    private $recursiveMode = RecursiveIteratorIterator::SELF_FIRST;
+    private $dirsOnly = false;
+    private $ignoreFiles = [];
+    private $ignoreFilesRecursive = [];
+    private $ignoreDirs = [];
+    private $ignoreDirsRecursive = [];
+    private $ignoreSystemStuff = true;
+    private $sort = false;
 
     /**
      * Contructor
@@ -223,16 +222,14 @@ class rex_finder implements IteratorAggregate, Countable
  */
 class rex_finder_filter extends RecursiveFilterIterator
 {
-    public
-        $dirsOnly = false,
-        $ignoreFiles = [],
-        $ignoreFilesRecursive = [],
-        $ignoreDirs = [],
-        $ignoreDirsRecursive = [],
-        $ignoreSystemStuff = true;
+    public $dirsOnly = false;
+    public $ignoreFiles = [];
+    public $ignoreFilesRecursive = [];
+    public $ignoreDirs = [];
+    public $ignoreDirsRecursive = [];
+    public $ignoreSystemStuff = true;
 
-    private static
-        $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
+    private static $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
 
     /**
      * Constructor

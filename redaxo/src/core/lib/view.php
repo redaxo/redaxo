@@ -5,11 +5,10 @@
  */
 class rex_view
 {
-    private static
-        $cssFiles = [],
-        $jsFiles = [],
-        $jsProperties = [],
-        $favicon;
+    private static $cssFiles = [];
+    private static $jsFiles = [];
+    private static $jsProperties = [];
+    private static $favicon;
 
     public static function addCssFile($file, $media = 'all')
     {

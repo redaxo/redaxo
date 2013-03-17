@@ -8,13 +8,11 @@
  */
 class rex_sortable_iterator implements IteratorAggregate
 {
-    const
-        VALUES = 1,
-        KEYS = 2;
+    const VALUES = 1;
+    const KEYS = 2;
 
-    private
-        $iterator,
-        $sort;
+    private $iterator;
+    private $sort;
 
     /**
      * Constructor

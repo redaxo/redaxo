@@ -5,21 +5,20 @@
  */
 class rex_login
 {
-    protected
-        $DB = 1,
-        $sessionDuration,
-        $loginQuery,
-        $userQuery,
-        $systemId = 'default',
-        $userLogin,
-        $userPassword,
-        $logout = false,
-        $idColumn = 'id',
-        $passwordColumn = 'password',
-        $cache = false,
-        $loginStatus = 0, // 0 = noch checken, 1 = ok, -1 = not ok
-        $message = '',
-        $user;
+    protected $DB = 1;
+    protected $sessionDuration;
+    protected $loginQuery;
+    protected $userQuery;
+    protected $systemId = 'default';
+    protected $userLogin;
+    protected $userPassword;
+    protected $logout = false;
+    protected $idColumn = 'id';
+    protected $passwordColumn = 'password';
+    protected $cache = false;
+    protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
+    protected $message = '';
+    protected $user;
 
     public function __construct()
     {

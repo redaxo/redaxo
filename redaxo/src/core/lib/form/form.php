@@ -22,22 +22,21 @@ class rex_form
 {
     use rex_factory_trait;
 
-    protected
-        $name,
-        $tableName,
-        $method,
-        $fieldset,
-        $whereCondition,
-        $elements,
-        $params,
-        $mode,
-        $sql,
-        $debug,
-        $applyUrl,
-        $message,
-        $errorMessages,
-        $warning,
-        $divId;
+    protected $name;
+    protected $tableName;
+    protected $method;
+    protected $fieldset;
+    protected $whereCondition;
+    protected $elements;
+    protected $params;
+    protected $mode;
+    protected $sql;
+    protected $debug;
+    protected $applyUrl;
+    protected $message;
+    protected $errorMessages;
+    protected $warning;
+    protected $divId;
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!

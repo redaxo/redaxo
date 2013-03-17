@@ -5,9 +5,8 @@
  */
 class rex_article_revision
 {
-    const
-        LIVE = 0, // live revision
-        WORK = 1; // working copy
+    const LIVE = 0; // live revision
+    const WORK = 1; // working copy
 
     public static function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
     {

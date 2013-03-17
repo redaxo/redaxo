@@ -9,9 +9,8 @@
  */
 class rex_path
 {
-    protected static
-        $base,
-        $backend;
+    protected static $base;
+    protected static $backend;
 
     public static function init($htdocs, $backend)
     {

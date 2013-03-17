@@ -10,9 +10,8 @@
 
 class rex_metainfo_table_manager
 {
-    private
-        $tableName,
-        $DBID;
+    private $tableName;
+    private $DBID;
 
     public function __construct($tableName, $DBID = 1)
     {

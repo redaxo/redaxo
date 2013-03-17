@@ -5,12 +5,11 @@
  */
 class rex_managed_media
 {
-    private
-        $media_path = '',
-        $media,
-        $asImage = false,
-        $image,
-        $header = [];
+    private $media_path = '';
+    private $media;
+    private $asImage = false;
+    private $image;
+    private $header = [];
 
     public function __construct($media_path)
     {

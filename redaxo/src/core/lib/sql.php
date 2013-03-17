@@ -11,22 +11,21 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
-    protected
-        $debug, // debug schalter
-        $values, // Werte von setValue
-        $rawValues, // Werte von setRawValue
-        $fieldnames, // Spalten im ResultSet
-        $rawFieldnames,
-        $tablenames, // Tabelle im ResultSet
-        $lastRow, // Wert der zuletzt gefetchten zeile
-        $table, // Tabelle setzen
-        $wherevar, // WHERE Bediengung
-        $whereParams, // WHERE parameter array
-        $rows, // anzahl der treffer
-        $counter, // pointer
-        $query, // Die Abfrage
-        $params, // Die Abfrage-Parameter
-        $DBID; // ID der Verbindung
+    protected $debug; // debug schalter
+    protected $values; // Werte von setValue
+    protected $rawValues; // Werte von setRawValue
+    protected $fieldnames; // Spalten im ResultSet
+    protected $rawFieldnames;
+    protected $tablenames; // Tabelle im ResultSet
+    protected $lastRow; // Wert der zuletzt gefetchten zeile
+    protected $table; // Tabelle setzen
+    protected $wherevar; // WHERE Bediengung
+    protected $whereParams; // WHERE parameter array
+    protected $rows; // anzahl der treffer
+    protected $counter; // pointer
+    protected $query; // Die Abfrage
+    protected $params; // Die Abfrage-Parameter
+    protected $DBID; // ID der Verbindung
 
     /**
      * @var PDOStatement

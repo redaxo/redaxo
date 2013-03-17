@@ -7,9 +7,8 @@ class rex_be_navigation
 {
     use rex_factory_trait;
 
-    private
-        $headlines = [],
-        $pages = [];
+    private $headlines = [];
+    private $pages = [];
 
     /**
      * @return rex_be_navigation

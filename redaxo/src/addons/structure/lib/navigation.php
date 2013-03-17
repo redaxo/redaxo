@@ -35,16 +35,15 @@ class rex_navigation
 {
     use rex_factory_trait;
 
-    private
-        $depth, // Wieviele Ebene tief, ab der Startebene
-        $open, // alles aufgeklappt, z.b. Sitemap
-        $ignore_offlines,
-        $path = [],
-        $classes = [],
-        $linkclasses = [],
+    private $depth; // Wieviele Ebene tief, ab der Startebene
+    private $open; // alles aufgeklappt, z.b. Sitemap
+    private $ignore_offlines;
+    private $path = [];
+    private $classes = [];
+    private $linkclasses = [];
 
-        $current_article_id = -1, // Aktueller Artikel
-        $current_category_id = -1; // Aktuelle Katgorie
+    private $current_article_id = -1; // Aktueller Artikel
+    private $current_category_id = -1; // Aktuelle Katgorie
 
     private function __construct()
     {

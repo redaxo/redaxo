@@ -43,11 +43,10 @@
 
 class rex_url_rewriter_fullnames extends rex_url_rewriter
 {
-    private
-        $PATHLIST,
+    private $PATHLIST;
 
-        $use_levenshtein,
-        $use_params_rewrite;
+    private $use_levenshtein;
+    private $use_params_rewrite;
 
     // Konstruktor
     public function __construct($use_levenshtein = false, $use_params_rewrite = false)

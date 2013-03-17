@@ -10,25 +10,24 @@
  */
 class rex_article_slice
 {
-    private
-        $_id,
-        $_article_id,
-        $_clang,
-        $_ctype,
-        $_prior,
-        $_module_id,
+    private $_id;
+    private $_article_id;
+    private $_clang;
+    private $_ctype;
+    private $_prior;
+    private $_module_id;
 
-        $_createdate,
-        $_updatedate,
-        $_createuser,
-        $_updateuser,
-        $_revision,
+    private $_createdate;
+    private $_updatedate;
+    private $_createuser;
+    private $_updateuser;
+    private $_revision;
 
-        $_values,
-        $_media,
-        $_medialists,
-        $_links,
-        $_linklists;
+    private $_values;
+    private $_media;
+    private $_medialists;
+    private $_links;
+    private $_linklists;
 
     /**
      * Constructor

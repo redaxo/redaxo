@@ -5,15 +5,13 @@
  */
 class rex_backend_login extends rex_login
 {
-    const
-        LOGIN_TRIES_1   = 3,
-        RELOGIN_DELAY_1 = 5,    // relogin delay after LOGIN_TRIES_1 tries
-        LOGIN_TRIES_2   = 50,
-        RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
+    const LOGIN_TRIES_1   = 3;
+    const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
+    const LOGIN_TRIES_2   = 50;
+    const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
 
-    private
-        $tableName,
-        $stayLoggedIn;
+    private $tableName;
+    private $stayLoggedIn;
 
     public function __construct()
     {

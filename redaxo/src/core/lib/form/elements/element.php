@@ -5,20 +5,19 @@
  */
 class rex_form_element
 {
-    protected
-        $value,
-        $defaultSaveValue = '',
-        $label,
-        $tag,
-        $table,
-        $attributes,
-        $separateEnding,
-        $fieldName,
-        $header,
-        $footer,
-        $prefix,
-        $suffix,
-        $notice;
+    protected $value;
+    protected $defaultSaveValue = '';
+    protected $label;
+    protected $tag;
+    protected $table;
+    protected $attributes;
+    protected $separateEnding;
+    protected $fieldName;
+    protected $header;
+    protected $footer;
+    protected $prefix;
+    protected $suffix;
+    protected $notice;
 
     public function __construct($tag, rex_form $table = null, array $attributes = [], $separateEnding = false)
     {

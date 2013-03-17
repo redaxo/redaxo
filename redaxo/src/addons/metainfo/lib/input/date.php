@@ -5,10 +5,9 @@
  */
 class rex_input_date extends rex_input
 {
-    private
-        $yearSelect,
-        $monthSelect,
-        $daySelect;
+    private $yearSelect;
+    private $monthSelect;
+    private $daySelect;
 
     public function __construct()
     {

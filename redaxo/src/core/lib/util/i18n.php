@@ -7,12 +7,11 @@
  */
 class rex_i18n
 {
-    private static
-        $locales = [],
-        $directories = [],
-        $loaded = false,
-        $locale = null,
-        $msg = [];
+    private static $locales = [];
+    private static $directories = [];
+    private static $loaded = false;
+    private static $locale = null;
+    private static $msg = [];
 
     /**
      * Switches the current locale

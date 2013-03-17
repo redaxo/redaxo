@@ -5,9 +5,8 @@
  */
 class rex_be_page_main extends rex_be_page
 {
-    private
-        $block,
-        $prio = 0;
+    private $block;
+    private $prio = 0;
 
     public function __construct($block, $key, $title)
     {

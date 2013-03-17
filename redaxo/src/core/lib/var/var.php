@@ -7,20 +7,17 @@
  */
 abstract class rex_var
 {
-    const
-        ENV_FRONTEND = 1,
-        ENV_BACKEND = 2,
-        ENV_INPUT = 4,
-        ENV_OUTPUT = 8;
+    const ENV_FRONTEND = 1;
+    const ENV_BACKEND = 2;
+    const ENV_INPUT = 4;
+    const ENV_OUTPUT = 8;
 
-    private static
-        $vars = [],
-        $env = null,
-        $context = null,
-        $contextData = null;
+    private static $vars = [];
+    private static $env = null;
+    private static $context = null;
+    private static $contextData = null;
 
-    private
-        $args = [];
+    private $args = [];
 
     public static function parse($content, $env = null, $context = null, $contextData = null)
     {

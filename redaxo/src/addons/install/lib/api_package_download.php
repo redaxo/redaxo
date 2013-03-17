@@ -5,11 +5,10 @@
  */
 abstract class rex_api_install_package_download extends rex_api_function
 {
-    protected
-        $addonkey,
-        $fileId,
-        $file,
-        $archive;
+    protected $addonkey;
+    protected $fileId;
+    protected $file;
+    protected $archive;
 
     public function execute()
     {

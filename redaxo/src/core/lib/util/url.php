@@ -9,9 +9,8 @@
  */
 class rex_url
 {
-    protected static
-        $base,
-        $backend;
+    protected static $base;
+    protected static $backend;
 
     public static function init($htdocs, $backend)
     {

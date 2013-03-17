@@ -17,14 +17,13 @@ class rex_autoload
      */
     protected static $composerLoader;
 
-    protected static
-        $registered   = false,
-        $cacheFile    = null,
-        $cacheChanged = false,
-        $reloaded     = false,
-        $dirs         = [],
-        $addedDirs    = [],
-        $classes      = [];
+    protected static $registered   = false;
+    protected static $cacheFile    = null;
+    protected static $cacheChanged = false;
+    protected static $reloaded     = false;
+    protected static $dirs         = [];
+    protected static $addedDirs    = [];
+    protected static $classes      = [];
 
     /**
      * Register rex_autoload in spl autoloader.

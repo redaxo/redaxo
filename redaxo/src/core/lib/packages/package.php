@@ -8,14 +8,13 @@
  */
 abstract class rex_package implements rex_package_interface
 {
-    const
-        FILE_PACKAGE       = 'package.yml',
-        FILE_BOOT          = 'boot.php',
-        FILE_INSTALL       = 'install.php',
-        FILE_INSTALL_SQL   = 'install.sql',
-        FILE_UNINSTALL     = 'uninstall.php',
-        FILE_UNINSTALL_SQL = 'uninstall.sql',
-        FILE_UPDATE        = 'update.php';
+    const FILE_PACKAGE       = 'package.yml';
+    const FILE_BOOT          = 'boot.php';
+    const FILE_INSTALL       = 'install.php';
+    const FILE_INSTALL_SQL   = 'install.sql';
+    const FILE_UNINSTALL     = 'uninstall.php';
+    const FILE_UNINSTALL_SQL = 'uninstall.sql';
+    const FILE_UPDATE        = 'update.php';
 
     /**
      * Name of the package

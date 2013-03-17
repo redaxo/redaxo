@@ -5,10 +5,9 @@
  */
 class rex_form_container_element extends rex_form_element
 {
-    private
-        $fields,
-        $multiple,
-        $active;
+    private $fields;
+    private $multiple;
+    private $active;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter

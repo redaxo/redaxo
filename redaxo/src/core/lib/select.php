@@ -5,11 +5,10 @@
  */
 class rex_select
 {
-    private
-        $attributes,
-        $optgroups = false,
-        $options,
-        $option_selected;
+    private $attributes;
+    private $optgroups = false;
+    private $options;
+    private $option_selected;
 
     ################ Konstruktor
     public function __construct()

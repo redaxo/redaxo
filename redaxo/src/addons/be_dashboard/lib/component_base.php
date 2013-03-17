@@ -10,12 +10,10 @@
  */
 abstract class rex_dashboard_component_base
 {
-    protected
-        $config;
+    protected $config;
 
-    private
-        $id,
-        $funcCache;
+    private $id;
+    private $funcCache;
 
     public function __construct($id, array $cache_options = [])
     {

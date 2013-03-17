@@ -5,10 +5,9 @@
  */
 class rex_install_packages
 {
-    private static
-        $updatePackages,
-        $addPackages,
-        $myPackages;
+    private static $updatePackages;
+    private static $addPackages;
+    private static $myPackages;
 
     public static function getUpdatePackages()
     {

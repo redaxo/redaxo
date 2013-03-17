@@ -22,14 +22,13 @@
  */
 class rex_socket
 {
-    protected
-        $host,
-        $port,
-        $ssl,
-        $path = '/',
-        $timeout = 15,
-        $headers = [],
-        $stream;
+    protected $host;
+    protected $port;
+    protected $ssl;
+    protected $path = '/';
+    protected $timeout = 15;
+    protected $headers = [];
+    protected $stream;
 
     /**
      * Constructor

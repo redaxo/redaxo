@@ -8,10 +8,9 @@
  */
 class rex_socket_proxy extends rex_socket
 {
-    protected
-        $destinationHost,
-        $destinationPort,
-        $destinationSsl;
+    protected $destinationHost;
+    protected $destinationPort;
+    protected $destinationSsl;
 
     /**
      * Sets the destination

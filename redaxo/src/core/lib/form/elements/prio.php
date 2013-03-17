@@ -5,12 +5,11 @@
  */
 class rex_form_prio_element extends rex_form_select_element
 {
-    private
-        $labelField,
-        $whereCondition,
-        $primaryKey,
-        $firstOptionMsg,
-        $optionMsg;
+    private $labelField;
+    private $whereCondition;
+    private $primaryKey;
+    private $firstOptionMsg;
+    private $optionMsg;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter

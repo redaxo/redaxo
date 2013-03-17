@@ -8,15 +8,13 @@
  */
 class rex_clang
 {
-    private static
-        $cacheLoaded = false,
-        $clangs = [],
-        $currentId = 1;
+    private static $cacheLoaded = false;
+    private static $clangs = [];
+    private static $currentId = 1;
 
-    private
-        $id,
-        $code,
-        $name;
+    private $id;
+    private $code;
+    private $name;
 
     /**
      * Constructor

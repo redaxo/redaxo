@@ -10,9 +10,8 @@
 
 class rex_metainfo_table_expander extends rex_form
 {
-    private
-        $metaPrefix,
-        $tableManager;
+    private $metaPrefix;
+    private $tableManager;
 
     public function __construct($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
     {

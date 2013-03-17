@@ -9,10 +9,9 @@
  */
 class rex_timer
 {
-    const
-        SEC = 1,
-        MILLISEC = 1000,
-        MICROSEC = 1000000;
+    const SEC = 1;
+    const MILLISEC = 1000;
+    const MICROSEC = 1000000;
 
     private $start;
 

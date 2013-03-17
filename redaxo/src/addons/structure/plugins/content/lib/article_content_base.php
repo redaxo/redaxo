@@ -8,30 +8,28 @@
  */
 class rex_article_content_base
 {
-    public
-        $warning,
-        $info,
-        $debug,
+    public $warning;
+    public $info;
+    public $debug;
 
-        $template_id,
-        $template_attributes;
+    public $template_id;
+    public $template_attributes;
 
-    protected
-        $category_id,
-        $article_id,
-        $slice_id,
-        $getSlice,
-        $mode,
-        $function,
+    protected $category_id;
+    protected $article_id;
+    protected $slice_id;
+    protected $getSlice;
+    protected $mode;
+    protected $function;
 
-        $ctype,
-        $clang,
+    protected $ctype;
+    protected $clang;
 
-        $eval,
+    protected $eval;
 
-        $slice_revision,
+    protected $slice_revision;
 
-        $ARTICLE;
+    protected $ARTICLE;
 
     public function __construct($article_id = null, $clang = null)
     {

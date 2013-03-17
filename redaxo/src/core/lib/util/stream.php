@@ -16,13 +16,11 @@
  */
 class rex_stream
 {
-    private static
-        $registered = false,
-        $nextContent = [];
+    private static $registered = false;
+    private static $nextContent = [];
 
-    private
-        $position,
-        $content;
+    private $position;
+    private $content;
 
     /**
      * Prepares a new stream

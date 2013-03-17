@@ -8,10 +8,9 @@
  */
 abstract class rex_perm
 {
-    const
-        GENERAL = 'general',
-        OPTIONS = 'options',
-        EXTRAS = 'extras';
+    const GENERAL = 'general';
+    const OPTIONS = 'options';
+    const EXTRAS = 'extras';
 
     /**
      * Array of permissions

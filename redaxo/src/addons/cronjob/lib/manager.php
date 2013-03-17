@@ -10,18 +10,16 @@
 
 class rex_cronjob_manager
 {
-    private static
-        $types = [
-            'rex_cronjob_phpcode',
-            'rex_cronjob_phpcallback',
-            'rex_cronjob_urlrequest'
-        ];
+    private static $types = [
+        'rex_cronjob_phpcode',
+        'rex_cronjob_phpcallback',
+        'rex_cronjob_urlrequest'
+    ];
 
-    private
-        $message = '',
-        $cronjob,
-        $name,
-        $id;
+    private $message = '';
+    private $cronjob;
+    private $name;
+    private $id;
 
     public static function factory()
     {

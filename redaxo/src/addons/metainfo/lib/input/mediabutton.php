@@ -5,9 +5,8 @@
  */
 class rex_input_mediabutton extends rex_input
 {
-    private
-        $buttonId,
-        $args = [];
+    private $buttonId;
+    private $args = [];
 
     public function __construct()
     {

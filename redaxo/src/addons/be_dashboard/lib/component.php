@@ -10,13 +10,12 @@
  */
 abstract class rex_dashboard_component extends rex_dashboard_component_base
 {
-    private
-        $title,
-        $titleUrl,
-        $content,
+    private $title;
+    private $titleUrl;
+    private $content;
 
-        $format,
-        $block;
+    private $format;
+    private $block;
 
     public function __construct($id, array $cache_options = [])
     {
