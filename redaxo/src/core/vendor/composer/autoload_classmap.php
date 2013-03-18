@@ -6,4 +6,22 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Psr\\Log\\AbstractLogger' => $baseDir . '/vendor/psr/log/Psr/Log/AbstractLogger.php',
+    'Psr\\Log\\InvalidArgumentException' => $baseDir . '/vendor/psr/log/Psr/Log/InvalidArgumentException.php',
+    'Psr\\Log\\LogLevel' => $baseDir . '/vendor/psr/log/Psr/Log/LogLevel.php',
+    'Psr\\Log\\LoggerAwareInterface' => $baseDir . '/vendor/psr/log/Psr/Log/LoggerAwareInterface.php',
+    'Psr\\Log\\LoggerAwareTrait' => $baseDir . '/vendor/psr/log/Psr/Log/LoggerAwareTrait.php',
+    'Psr\\Log\\LoggerInterface' => $baseDir . '/vendor/psr/log/Psr/Log/LoggerInterface.php',
+    'Psr\\Log\\LoggerTrait' => $baseDir . '/vendor/psr/log/Psr/Log/LoggerTrait.php',
+    'Psr\\Log\\NullLogger' => $baseDir . '/vendor/psr/log/Psr/Log/NullLogger.php',
+    'Symfony\\Component\\Yaml\\Dumper' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
+    'Symfony\\Component\\Yaml\\Escaper' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
+    'Symfony\\Component\\Yaml\\Exception\\DumpException' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/DumpException.php',
+    'Symfony\\Component\\Yaml\\Exception\\ExceptionInterface' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
+    'Symfony\\Component\\Yaml\\Exception\\ParseException' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
+    'Symfony\\Component\\Yaml\\Exception\\RuntimeException' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
+    'Symfony\\Component\\Yaml\\Inline' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php',
+    'Symfony\\Component\\Yaml\\Parser' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Parser.php',
+    'Symfony\\Component\\Yaml\\Unescaper' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Unescaper.php',
+    'Symfony\\Component\\Yaml\\Yaml' => $baseDir . '/vendor/symfony/yaml/Symfony/Component/Yaml/Yaml.php',
 );
