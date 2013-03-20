@@ -129,7 +129,7 @@ if ($warning != '') {
                 </form>
             </div>
 
-            <table class="rex-table" summary="<?php echo rex_i18n::msg('im_export_export_db_summary'); ?>">
+            <table class="rex-table">
                 <caption><?php echo rex_i18n::msg('im_export_export_db_caption'); ?></caption>
                 <colgroup>
                     <col width="*" />
@@ -191,7 +191,7 @@ if ($warning != '') {
                 </form>
             </div>
 
-            <table class="rex-table" summary="<?php echo rex_i18n::msg('im_export_export_file_summary'); ?>">
+            <table class="rex-table">
                 <caption><?php echo rex_i18n::msg('im_export_export_file_caption'); ?></caption>
                 <colgroup>
                     <col width="*" />

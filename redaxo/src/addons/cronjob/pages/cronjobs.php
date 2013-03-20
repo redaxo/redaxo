@@ -58,7 +58,6 @@ if ($func == '') {
 
     $list->setNoRowsMessage($this->i18n('no_cronjobs'));
     $list->setCaption($this->i18n('caption'));
-    $list->addTableAttribute('summary', $this->i18n('summary'));
 
     $list->addTableColumnGroup([40, '*', 80, 120, 80, 60, 60, 60]);
 

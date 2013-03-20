@@ -287,7 +287,7 @@ if ($function == 'add' or $function == 'edit') {
 
                 if ($actions != '') {
                     $actions = '
-                        <table id="rex-table-module-action" class="rex-table rex-table-middle rex-table-striped" summary="' . rex_i18n::msg('actions_added_summary') . '">
+                        <table id="rex-table-module-action" class="rex-table rex-table-middle rex-table-striped">
                             <caption>' . rex_i18n::msg('actions_added_caption') . '</caption>
                             <thead>
                                 <tr>
@@ -371,7 +371,6 @@ if ($OUT) {
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
     $list->setCaption(rex_i18n::msg('module_caption'));
-    $list->addTableAttribute('summary', rex_i18n::msg('module_summary'));
     $list->addTableAttribute('id', 'rex-table-module');
     $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 

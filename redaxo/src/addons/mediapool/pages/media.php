@@ -520,7 +520,7 @@ if (!$file_id) {
                             <input type="hidden" id="media_method" name="media_method" value="" />
                             ' . $arg_fields . '
 
-                            <table class="rex-table" summary="' . rex_i18n::msg('pool_file_summary', $rex_file_category_name) . '">
+                            <table class="rex-table">
                                 <caption>' . rex_i18n::msg('pool_file_caption', $rex_file_category_name) . '</caption>
                                 <colgroup>
                                     <col width="40" />

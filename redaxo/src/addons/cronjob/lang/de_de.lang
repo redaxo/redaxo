@@ -5,7 +5,6 @@ cronjob_title = Cronjobs
 cronjob_add = Cronjob hinzufügen
 cronjob_edit = Cronjob editieren
 
-cronjob_summary = Auflistung aller angelegten Cronjobs
 cronjob_caption = Liste der angelegten Cronjobs
 cronjob_no_cronjobs = Keine Cronjobs vorhanden
 
@@ -73,8 +72,6 @@ cronjob_log_month = Monat
 cronjob_log_ok = OK
 cronjob_no_log_files = Keine Log-Dateien vorhanden.
 cronjob_log_no_data = Keine Daten vorhanden.
-cronjob_log_summary_1 = Auflistung der ausgeführten Cronjobs im {0} {1}
-cronjob_log_summary_2 = Auflistung der zuletzt ausgeführten Cronjobs
 cronjob_log_caption_1 = Liste der ausgeführten Cronjobs im {0} {1}
 cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
 cronjob_log_message = Meldung

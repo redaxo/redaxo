@@ -109,7 +109,7 @@ if ($PERMALL) {
         ';
     }
 
-    echo '<table class="rex-table" summary="' . rex_i18n::msg('pool_kat_summary') . '">
+    echo '<table class="rex-table">
                     <caption class="rex-hide">' . rex_i18n::msg('pool_kat_caption') . '</caption>
                     <colgroup>
                         <col width="40" />

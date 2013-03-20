@@ -64,7 +64,7 @@ if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
-            <table class="rex-table rex-table-middle" id="rex-table-addons" summary="' . rex_i18n::msg('package_summary') . '">
+            <table class="rex-table rex-table-middle" id="rex-table-addons">
             <caption>' . rex_i18n::msg('package_caption') . '</caption>
             <thead>
                 <tr>

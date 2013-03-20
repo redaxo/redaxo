@@ -50,7 +50,7 @@ $content = '';
 
 $content .= '
 
-    <table id="rex-table-credits-addons" class="rex-table" summary="' . rex_i18n::msg('credits_summary') . '">
+    <table id="rex-table-credits-addons" class="rex-table">
         <caption>' . rex_i18n::msg('credits_caption') . '</caption>
         <thead>
         <tr>

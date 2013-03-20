@@ -460,7 +460,6 @@ if ($OUT) {
 
     $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
     $list->setCaption(rex_i18n::msg('header_template_caption'));
-    $list->addTableAttribute('summary', rex_i18n::msg('header_template_summary'));
     $list->addTableAttribute('id', 'rex-table-template');
     $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 

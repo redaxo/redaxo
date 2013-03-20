@@ -25,7 +25,6 @@ last_login = Letzter Login
 login = Login
 psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues Passwort eingeben
 user_caption = Liste der angelegten Benutzer
-user_summary = Auflistung aller angelegten Benutzer
 user_status = User ist aktiv
 startpage = Startseite
 
@@ -40,5 +39,4 @@ user_role_save = Rolle speichern
 user_role_apply = Rolle übernehmen
 user_role_delete = Rolle löschen
 user_role_caption = Liste der angelegten Rollen
-user_role_summary = Auflistung aller angelegten Rollen
 user_no_role = keine Rolle

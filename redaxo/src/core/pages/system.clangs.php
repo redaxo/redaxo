@@ -79,7 +79,7 @@ if ($func == 'addclang' || $func == 'editclang') {
 
 
 $content .= '
-        <table class="rex-table rex-table-middle rex-table-striped" summary="' . rex_i18n::msg('clang_summary') . '">
+        <table class="rex-table rex-table-middle rex-table-striped">
             <caption>' . rex_i18n::msg('clang_caption') . '</caption>
             <thead>
                 <tr>

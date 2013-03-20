@@ -442,7 +442,7 @@ if ($OUT) {
 
     // ausgabe actionsliste !
     $content .= '
-        <table class="rex-table rex-table-middle rex-table-striped" id="rex-table-action" summary="' . rex_i18n::msg('action_summary') . '">
+        <table class="rex-table rex-table-middle rex-table-striped" id="rex-table-action">
             <caption>' . rex_i18n::msg('action_caption') . '</caption>
             <thead>
                 <tr>

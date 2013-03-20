@@ -61,7 +61,6 @@ if ($func == '') {
     $list = rex_list::factory($query);
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
     $list->setCaption(rex_i18n::msg('media_manager_type_caption'));
-    $list->addTableAttribute('summary', rex_i18n::msg('media_manager_type_summary'));
     $list->addTableColumnGroup([40, 100, '*', 120, 120, 120]);
 
     $list->removeColumn('id');

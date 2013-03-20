@@ -27,7 +27,6 @@ media_manager_error_name = please enter a namen.
 media_manager_error_settings = please check the settings.
 
 media_manager_type_caption = list of imagetypes
-media_manager_type_summary = list of imagetypes
 media_manager_type_no_types = no imagetypes found
 media_manager_type_create = create imagetype
 media_manager_type_edit = edit imagetype
@@ -44,7 +43,6 @@ media_manager_effect_list_header = effect of imagetype "{0}"
 media_manager_effect_edit_header = imagetype "{0}": edit effect
 media_manager_effect_create_header = imagetype "{0}": create effect
 media_manager_effect_caption = list of effects of imagetype "{0}"
-media_manager_effect_summary = list of effects of imagetype "{0}"
 media_manager_effect_no_effects = no effect found
 media_manager_effect_create = create effect
 media_manager_effect_edit = edit effect

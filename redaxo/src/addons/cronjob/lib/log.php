@@ -58,8 +58,7 @@ class rex_cronjob_log
         $lines = explode("\n", trim(self::getLogOfMonth($month, $year)));
         $monthName = rex_formatter::strftime(mktime(0, 0, 0, $month, 1, 1), '%B');
         $caption = rex_i18n::msg('cronjob_log_caption_1', $monthName, $year);
-        $summary = rex_i18n::msg('cronjob_log_summary_1', $monthName, $year);
-        return self::_getList($lines, $caption, $summary);
+        return self::_getList($lines, $caption);
     }
 
     public static function getListOfNewestMessages($limit = 10)
@@ -82,8 +81,7 @@ class rex_cronjob_log
             }
         }
         $caption = rex_i18n::msg('cronjob_log_caption_2');
-        $summary = rex_i18n::msg('cronjob_log_summary_2');
-        return self::_getList($messages, $caption, $summary);
+        return self::_getList($messages, $caption);
     }
 
     public static function save($name, $success, $message = '', $id = null)
@@ -130,18 +128,14 @@ class rex_cronjob_log
         return rex_file::put($file, $content);
     }
 
-    private static function _getList($lines, $caption = '', $summary = '')
+    private static function _getList($lines, $caption = '')
     {
-        $table_attr = '';
-        if (!empty($summary)) {
-            $table_attr .= ' summary="' . $summary . '"';
-        }
         $table_head = '';
         if (!empty($caption)) {
             $table_head .= '<caption>' . $caption . '</caption>';
         }
         $list = '
-            <table class="rex-table"' . $table_attr . '>
+            <table class="rex-table">
                 ' . $table_head . '
                 <colgroup>
                     <col width="40" />

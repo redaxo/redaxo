@@ -62,7 +62,6 @@ if ($func == '' && $type_id > 0) {
 
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
     $list->setCaption(rex_i18n::msg('media_manager_effect_caption', $typeName));
-    $list->addTableAttribute('summary', rex_i18n::msg('media_manager_effect_summary', $typeName));
     $list->addTableColumnGroup([40, '*', 40, 130, 130]);
 
     $list->removeColumn('id');

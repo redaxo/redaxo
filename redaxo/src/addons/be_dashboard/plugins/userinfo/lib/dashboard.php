@@ -149,7 +149,6 @@ class rex_articles_component extends rex_dashboard_component
                         LIMIT ' . $limit;
         $list = rex_list::factory($qry);
         $list->setCaption(rex_i18n::msg('userinfo_component_articles_caption'));
-        $list->addTableAttribute('summary', rex_i18n::msg('userinfo_component_articles_summary'));
         $list->addTableColumnGroup([40, '*', 120, 150]);
 
         $list->removeColumn('id');
@@ -195,7 +194,6 @@ class rex_media_component extends rex_dashboard_component
 
         $list = rex_list::factory('SELECT category_id, id, filename, updateuser, updatedate FROM ' . rex::getTablePrefix() . 'media ORDER BY updatedate DESC LIMIT ' . $limit);
         $list->setCaption(rex_i18n::msg('pool_file_caption'));
-        $list->addTableAttribute('summary', rex_i18n::msg('pool_file_summary'));
         $list->addTableColumnGroup([40, '*', 120, 150]);
 
         $list->removeColumn('category_id');
