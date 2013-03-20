@@ -885,7 +885,10 @@ class rex_list implements rex_url_provider_interface
                 $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
-            $value = rex_formatter::format($value, $format[0], $format[1]);
+            try {
+                $value = rex_formatter::format($value, $format[0], $format[1]);
+            } catch (InvalidArgumentException $e) {
+            }
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
@@ -1038,7 +1041,7 @@ class rex_list implements rex_url_provider_interface
                     if (is_array($columnName)) {
                         // Nur hier sind Variablen erlaubt
                         $columnName = $columnName[0];
-                        $columnValue = $this->formatValue($columnFormates[$columnName][0], null, false, $columnName);
+                        $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
                     }
                     // Spalten aus dem ResultSet
                     else {
