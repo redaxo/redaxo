@@ -317,10 +317,8 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
             if (!rex::getUser()->isAdmin()) {
                 $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" disabled="disabled" />';
-            } else {
-                if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
+            } elseif (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
                 $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
-            }
             } else {
                 $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' />';
             }
