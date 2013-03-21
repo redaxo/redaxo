@@ -66,6 +66,7 @@ class rex_list implements rex_url_provider_interface
     private $formAttributes;
 
     // --------- Column Attributes
+    private $customColumns;
     private $columnNames;
     private $columnLabels;
     private $columnFormates;
@@ -120,6 +121,7 @@ class rex_list implements rex_url_provider_interface
         $this->formAttributes = [];
 
         // --------- Column Attributes
+        $this->customColumns = [];
         $this->columnLabels = [];
         $this->columnFormates = [];
         $this->columnParams = [];
@@ -303,8 +305,8 @@ class rex_list implements rex_url_provider_interface
             $columnIndex = count($this->columnNames);
         }
 
-        array_splice($this->columnNames, $columnIndex, 0, [[$columnHead]]);
-        $this->setColumnFormat($columnHead, $columnBody);
+        array_splice($this->columnNames, $columnIndex, 0, [$columnHead]);
+        $this->customColumns[$columnHead] = $columnBody;
         $this->setColumnLayout($columnHead, $columnLayout);
     }
 
@@ -852,7 +854,7 @@ class rex_list implements rex_url_provider_interface
         if (is_array($columnNames)) {
             foreach ($columnNames as $columnName) {
                 // Spalten, die mit addColumn eingefügt wurden
-                if (is_array($columnName)) {
+                if (isset($this->customColumns[$columnName])) {
                     continue;
                 }
 
@@ -885,10 +887,7 @@ class rex_list implements rex_url_provider_interface
                 $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
-            try {
-                $value = rex_formatter::format($value, $format[0], $format[1]);
-            } catch (InvalidArgumentException $e) {
-            }
+            $value = rex_formatter::format($value, $format[0], $format[1]);
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
@@ -921,7 +920,7 @@ class rex_list implements rex_url_provider_interface
 
     public function getValue($colname)
     {
-        return $this->sql->getValue($colname);
+        return isset($this->customColumns[$colname]) ? $this->customColumns[$colname] : $this->sql->getValue($colname);
     }
 
     /**
@@ -950,7 +949,7 @@ class rex_list implements rex_url_provider_interface
         $columnFormates = [];
         $columnNames = [];
         foreach ($this->getColumnNames() as $columnName) {
-            if (is_array($columnName) || !in_array($columnName, $this->columnDisabled)) {
+            if (!in_array($columnName, $this->columnDisabled)) {
                 $columnNames[] = $columnName;
             }
         }
@@ -1000,11 +999,6 @@ class rex_list implements rex_url_provider_interface
         $s .= '        <thead>' . "\n";
         $s .= '            <tr>' . "\n";
         foreach ($columnNames as $columnName) {
-            // Spalten, die mit addColumn eingefügt wurden
-            if (is_array($columnName)) {
-                $columnName = $columnName[0];
-            }
-
             $columnHead = $this->getColumnLabel($columnName);
             if ($this->hasColumnOption($columnName, REX_LIST_OPT_SORT)) {
                 if ($columnName == $sortColumn) {
@@ -1037,16 +1031,7 @@ class rex_list implements rex_url_provider_interface
             for ($i = 0; $i < $this->pager->getRowsPerPage() && $i < $maxRows; $i++) {
                 $s .= '            <tr>' . "\n";
                 foreach ($columnNames as $columnName) {
-                    // Spalten, die mit addColumn eingefügt wurden
-                    if (is_array($columnName)) {
-                        // Nur hier sind Variablen erlaubt
-                        $columnName = $columnName[0];
-                        $columnValue = $this->formatValue($columnFormates[$columnName][0], $columnFormates[$columnName], false, $columnName);
-                    }
-                    // Spalten aus dem ResultSet
-                    else {
-                        $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], true, $columnName);
-                    }
+                    $columnValue = $this->formatValue($this->getValue($columnName), $columnFormates[$columnName], !isset($this->customColumns[$columnName]), $columnName);
 
                     if (!$this->isCustomFormat($columnFormates[$columnName]) && $this->hasColumnParams($columnName)) {
                         $columnValue = $this->getColumnLink($columnName, $columnValue);
