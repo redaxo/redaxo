@@ -7,9 +7,11 @@
  * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
  * @global boolean $REX['REDAXO']         [Required] Backend/Frontend flag
  * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
+ *
+ * @codingStandardsPhp53
  */
 
-foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
+foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -66,7 +68,7 @@ $config = array_merge(
     rex_file::getConfig(rex_path::data('config.yml'))
 );
 foreach ($config as $key => $value) {
-    if (in_array($key, ['fileperm', 'dirperm'])) {
+    if (in_array($key, array('fileperm', 'dirperm'))) {
         $value = octdec($value);
     }
     rex::setProperty($key, $value);

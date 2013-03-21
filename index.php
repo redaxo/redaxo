@@ -1,6 +1,6 @@
 <?php
 
-$REX = [];
+unset($REX);
 $REX['REDAXO'] = false;
 $REX['HTDOCS_PATH'] = './';
 $REX['BACKEND_FOLDER'] = 'redaxo';
