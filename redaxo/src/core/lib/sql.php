@@ -335,6 +335,18 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Sets the datetime value of a column
+     *
+     * @param string   $colName  The name of the column
+     * @param DateTime $datetime The value
+     * @return rex_sql the current rex_sql object
+     */
+    public function setDateTimeValue($colName, DateTime $datetime)
+    {
+        return $this->setValue($colName, $datetime->format('Y-m-d H:i:s'));
+    }
+
+    /**
      * Setzt ein Array von Werten zugleich
      *
      * @param array $valueArray Ein Array von Werten
@@ -489,6 +501,17 @@ class rex_sql implements Iterator
     public function getArrayValue($colName)
     {
         return json_decode($this->getValue($colName), true);
+    }
+
+    /**
+     * Returns the datetime value of a column
+     *
+     * @param string $colName Name of the column
+     * @return DateTime
+     */
+    public function getDateTimeValue($colName)
+    {
+        return new DateTime($this->getValue($colName));
     }
 
     protected function fetchValue($feldname)
