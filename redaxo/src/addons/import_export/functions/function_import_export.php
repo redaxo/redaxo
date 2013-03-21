@@ -144,8 +144,8 @@ function rex_a1_import_db($filename)
              login_tries tinyint(4) NOT NULL DEFAULT 0,
              createuser varchar(255) NOT NULL,
              updateuser varchar(255) NOT NULL,
-             createdate int(11) NOT NULL DEFAULT 0,
-             updatedate int(11) NOT NULL DEFAULT 0,
+             createdate datetime NOT NULL,
+             updatedate datetime NOT NULL,
              lasttrydate int(11) NOT NULL DEFAULT 0,
              session_id varchar(255) NOT NULL,
              PRIMARY KEY(id)
@@ -171,8 +171,8 @@ function rex_a1_import_db($filename)
              rights text NOT NULL,
              createuser varchar(255) NOT NULL,
              updateuser varchar(255) NOT NULL,
-             createdate int(11) NOT NULL DEFAULT 0,
-             updatedate int(11) NOT NULL DEFAULT 0
+             createdate datetime NOT NULL DEFAULT 0,
+             updatedate datetime NOT NULL DEFAULT 0
              PRIMARY KEY(id)
          ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;';
         $db = rex_sql::factory();

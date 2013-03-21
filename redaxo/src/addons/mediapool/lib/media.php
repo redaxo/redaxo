@@ -244,29 +244,6 @@ class rex_media
     }
 
     /**
-     * Formats a datestamp with the given format.
-     *
-     * If format is <code>null</code> the datestamp is returned.
-     *
-     * If format is <code>''</code> the datestamp is formated
-     * with the default <code>dateformat</code> (lang-files).
-     *
-     * @param int    $date
-     * @param string $format
-     * @return string|int
-     */
-    protected static function _getDate($date, $format = null)
-    {
-        if ($format !== null) {
-            if ($format == '') {
-                $format = rex_i18n::msg('dateformat');
-            }
-            return strftime($format, $date);
-        }
-        return $date;
-    }
-
-    /**
      * @return string
      */
     public function getUpdateUser()
@@ -275,13 +252,11 @@ class rex_media
     }
 
     /**
-     * @see self::_getDate
-     * @param string $format
-     * @return string|int
+     * @return DateTime
      */
-    public function getUpdateDate($format = null)
+    public function getUpdateDate()
     {
-        return $this->_getDate($this->_updatedate, $format);
+        return new DateTime($this->_updatedate);
     }
 
     /**
@@ -293,13 +268,11 @@ class rex_media
     }
 
     /**
-     * @see self::_getDate
-     * @param string $format
-     * @return string|int
+     * @return DateTime
      */
-    public function getCreateDate($format = null)
+    public function getCreateDate()
     {
-        return $this->_getDate($this->_createdate, $format);
+        return new DateTime($this->_createdate);
     }
 
     /**

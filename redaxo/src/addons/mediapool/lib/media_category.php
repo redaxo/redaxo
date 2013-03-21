@@ -177,11 +177,11 @@ class rex_media_category
     }
 
     /**
-     * @return int
+     * @return DateTime
      */
     public function getUpdateDate()
     {
-        return $this->_updatedate;
+        return new DateTime($this->_updatedate);
     }
 
     /**
@@ -193,11 +193,11 @@ class rex_media_category
     }
 
     /**
-     * @return int
+     * @return DateTime
      */
     public function getCreateDate()
     {
-        return $this->_createdate;
+        return new DateTime($this->_createdate);
     }
 
     /**

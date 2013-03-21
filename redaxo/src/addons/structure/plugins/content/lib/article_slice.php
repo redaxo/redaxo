@@ -32,26 +32,26 @@ class rex_article_slice
     /**
      * Constructor
      *
-     * @param int    $id
-     * @param int    $article_id
-     * @param int    $clang
-     * @param int    $ctype
-     * @param int    $module_id
-     * @param int    $priority
-     * @param int    $createdate
-     * @param int    $updatedate
-     * @param string $createuser
-     * @param string $updateuser
-     * @param int    $revision
-     * @param array  $values
-     * @param array  $media
-     * @param array  $medialists
-     * @param array  $links
-     * @param array  $linklists
+     * @param int      $id
+     * @param int      $article_id
+     * @param int      $clang
+     * @param int      $ctype
+     * @param int      $module_id
+     * @param int      $priority
+     * @param DateTime $createdate
+     * @param DateTime $updatedate
+     * @param string   $createuser
+     * @param string   $updateuser
+     * @param int      $revision
+     * @param array    $values
+     * @param array    $media
+     * @param array    $medialists
+     * @param array    $links
+     * @param array    $linklists
      */
     protected function __construct(
         $id, $article_id, $clang, $ctype, $module_id, $priority,
-        $createdate, $updatedate, $createuser, $updateuser, $revision,
+        DateTime $createdate, DateTime $updatedate, $createuser, $updateuser, $revision,
         $values, $media, $medialists, $links, $linklists)
     {
         $this->_id = $id;
@@ -264,8 +264,8 @@ class rex_article_slice
                 $sql->getValue('ctype'),
                 $sql->getValue('module_id'),
                 $sql->getValue('priority'),
-                $sql->getValue('createdate'),
-                $sql->getValue('updatedate'),
+                $sql->getDateTimeValue('createdate'),
+                $sql->getDateTimeValue('updatedate'),
                 $sql->getValue('createuser'),
                 $sql->getValue('updateuser'),
                 $sql->getValue('revision'),

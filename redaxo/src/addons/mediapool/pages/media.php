@@ -312,14 +312,14 @@ if ($file_id) {
                                     <div class="rex-form-row">
                                         <p class="rex-form-read">
                                             <label for="fupdate">' . rex_i18n::msg('pool_last_update') . '</label>
-                                            <span class="rex-form-read" id="fupdate">' . strftime(rex_i18n::msg('datetimeformat'), $gf->getValue('updatedate')) . ' [' . $gf->getValue('updateuser') . ']</span>
+                                            <span class="rex-form-read" id="fupdate">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' [' . $gf->getValue('updateuser') . ']</span>
                                         </p>
                                     </div>
 
                                     <div class="rex-form-row">
                                         <p class="rex-form-read">
                                             <label for="fcreate">' . rex_i18n::msg('pool_created') . '</label>
-                                            <span class="rex-form-read" id="fcreate">' . strftime(rex_i18n::msg('datetimeformat'), $gf->getValue('createdate')) . ' [' . $gf->getValue('createuser') . ']</span>
+                                            <span class="rex-form-read" id="fcreate">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' [' . $gf->getValue('createuser') . ']</span>
                                         </p>
                                     </div>
 
@@ -382,13 +382,13 @@ if ($file_id) {
                                     <div class="rex-form-row">
                                         <p class="rex-form-read">
                                                 <label for="fupdate">' . rex_i18n::msg('pool_last_update') . '</label>
-                                                <span class="rex-form-read" id="fupdate">' . strftime(rex_i18n::msg('datetimeformat'), $gf->getValue('updatedate')) . ' [' . $gf->getValue('updateuser') . ']</span>
+                                                <span class="rex-form-read" id="fupdate">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' [' . $gf->getValue('updateuser') . ']</span>
                                         </p>
                                     </div>
                                     <div class="rex-form-row">
                                         <p class="rex-form-read">
                                                 <label for="fcreate">' . rex_i18n::msg('pool_last_update') . '</label>
-                                                <span class="rex-form-read" id="fcreate">' . strftime(rex_i18n::msg('datetimeformat'), $gf->getValue('createdate')) . ' [' . $gf->getValue('createuser') . ']</span>
+                                                <span class="rex-form-read" id="fcreate">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' [' . $gf->getValue('createuser') . ']</span>
                                         </p>
                                     </div>
 
@@ -615,7 +615,7 @@ if (!$file_id) {
         $file_title = $files->getValue('title');
         $file_type = $files->getValue('filetype');
         $file_size = $files->getValue('filesize');
-        $file_stamp = rex_formatter::strftime($files->getValue('updatedate'), 'datetime');
+        $file_stamp = rex_formatter::strftime(strtotime($files->getValue('updatedate')), 'datetime');
         $file_updateuser = $files->getValue('updateuser');
 
         $encoded_file_name = urlencode($file_name);
@@ -721,7 +721,7 @@ if (!$file_id) {
             'file_title' => $files->getValue('title'),
             'file_type' => $files->getValue('filetype'),
             'file_size' => $files->getValue('filesize'),
-            'file_stamp' => $files->getValue('updatedate'),
+            'file_stamp' => $files->getDateTimeValue('updatedate'),
             'file_updateuser' => $files->getValue('updateuser')
         ]));
 

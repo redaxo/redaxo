@@ -1039,7 +1039,7 @@ class rex_sql implements Iterator
             $user = rex::getUser()->getValue('login');
         }
 
-        $this->setValue('updatedate', time());
+        $this->setRawValue('updatedate', 'NOW()');
         $this->setValue('updateuser', $user);
 
         return $this;
@@ -1056,7 +1056,7 @@ class rex_sql implements Iterator
             $user = rex::getUser()->getValue('login');
         }
 
-        $this->setValue('createdate', time());
+        $this->setRawValue('createdate', 'NOW()');
         $this->setValue('createuser', $user);
 
         return $this;

@@ -312,12 +312,11 @@ abstract class rex_structure_element
     /**
      * Returns the last update date
      *
-     * @param array $format
-     * @return integer
+     * @return DateTime
      */
-    public function getUpdateDate($format = null)
+    public function getUpdateDate()
     {
-        return self :: _getDate($this->_updatedate, $format);
+        return new DateTime($this->_updatedate);
     }
 
     /**
@@ -333,12 +332,11 @@ abstract class rex_structure_element
     /**
      * Returns the creation date
      *
-     * @param array $format
-     * @return integer
+     * @return DateTime
      */
-    public function getCreateDate($format = null)
+    public function getCreateDate()
     {
-        return self :: _getDate($this->_createdate, $format);
+        return new DateTime($this->_createdate);
     }
 
     /**
@@ -504,24 +502,5 @@ abstract class rex_structure_element
     public function toString()
     {
         return $this->_id . ', ' . $this->_name . ', ' . ($this->isOnline() ? 'online' : 'offline');
-    }
-
-    /**
-     * Formats a datestamp with the given format.
-     *
-     * If format is <code>null</code> the datestamp is returned.
-     *
-     * If format is <code>''</code> the datestamp is formated
-     * with the default <code>dateformat</code> (lang-files).
-     */
-    protected static function _getDate($date, $format = null)
-    {
-        if ($format !== null) {
-            if ($format == '') {
-                $format = rex_i18n::msg('dateformat');
-            }
-            return strftime($format, $date);
-        }
-        return $date;
     }
 }
