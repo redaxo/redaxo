@@ -461,10 +461,10 @@ class rex_category_service
             // kategorien vorhanden ?
             // ist die zielkategorie im pfad der quellkategeorie ?
             $fcat = rex_sql::factory();
-            $fcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startarticle=1 and id=$from_cat and clang=0");
+            $fcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startarticle=1 and id=$from_cat and clang=1");
 
             $tcat = rex_sql::factory();
-            $tcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startarticle=1 and id=$to_cat and clang=0");
+            $tcat->setQuery('select * from ' . rex::getTablePrefix() . "article where startarticle=1 and id=$to_cat and clang=1");
 
             if ($fcat->getRows() != 1 or ($tcat->getRows() != 1 && $to_cat != 0)) {
                 // eine der kategorien existiert nicht
@@ -496,7 +496,7 @@ class rex_category_service
 
                 $gcats = rex_sql::factory();
                 // $gcats->setDebug();
-                $gcats->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '" . $from_path . "%' and clang=0");
+                $gcats->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '" . $from_path . "%' and clang=1");
 
                 $up = rex_sql::factory();
                 // $up->setDebug();
