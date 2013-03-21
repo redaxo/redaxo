@@ -24,11 +24,12 @@ class rex_api_package extends rex_api_function
         if ($package instanceof rex_null_package) {
             throw new rex_api_exception('Package "' . $packageId . '" doesn\'t exists!');
         }
+        $reinstall = 'install' === $function && $package->isInstalled();
         $manager = rex_package_manager::factory($package);
         $success = $manager->$function();
         $message = $manager->getMessage();
         $result = new rex_api_result($success, $message);
-        if ($success) {
+        if ($success && !$reinstall) {
             $result->setRequiresReboot(true);
         }
         return $result;
