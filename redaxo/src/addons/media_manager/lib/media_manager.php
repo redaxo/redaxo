@@ -44,7 +44,7 @@ class rex_media_manager
     {
         $qry = '
             SELECT e.*
-            FROM ' . rex::getTablePrefix() . 'media_manager_types t, ' . rex::getTablePrefix() . 'media_manager_type_effects e
+            FROM ' . rex::getTablePrefix() . 'media_manager_type t, ' . rex::getTablePrefix() . 'media_manager_type_effect e
             WHERE e.type_id = t.id AND t.name="' . $type . '" order by e.prior';
 
         $sql = rex_sql::factory();
@@ -135,7 +135,7 @@ class rex_media_manager
 
     public static function deleteCacheByType($type_id)
     {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_types' . ' WHERE id=' . $type_id;
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=' . $type_id;
         $sql = rex_sql::factory();
         //  $sql->setDebug();
         $sql->setQuery($qry);

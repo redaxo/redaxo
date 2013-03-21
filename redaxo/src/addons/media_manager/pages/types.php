@@ -25,7 +25,7 @@ if ((rex_post('func') == 'edit' || $func == 'delete') && $type_id > 0) {
 if ($func == 'delete' && $type_id > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
-    $sql->setTable(rex::getTablePrefix() . 'media_manager_types');
+    $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
     $sql->setWhere(['id' => $type_id]);
 
     try {
@@ -56,7 +56,7 @@ if ($warning != '') {
 if ($func == '') {
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
     // (werden am seltesten bearbeitet)
-    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_types ORDER BY status, name';
+    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
@@ -117,7 +117,7 @@ if ($func == '') {
         return $controlFields;
     });
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_types', $formLabel, 'id=' . $type_id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', $formLabel, 'id=' . $type_id);
 
     $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 
