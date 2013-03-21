@@ -25,7 +25,7 @@ foreach ($tablePrefixes as $table => $prefixes) {
 }
 
 $sql = rex_sql::factory();
-$sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . rex::getTable('metainfo_params') . ' p, ' . rex::getTable('metainfo_type') . ' t WHERE p.type = t.id');
+$sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . rex::getTable('metainfo_field') . ' p, ' . rex::getTable('metainfo_type') . ' t WHERE p.type = t.id');
 $rows = $sql->getRows();
 $managers = [
     'article' => new rex_metainfo_table_manager(rex::getTable('article')),

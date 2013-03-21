@@ -20,7 +20,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $warning = $ep->getSubject();
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT `name`, `type` FROM `' . rex::getTablePrefix() . 'metainfo_params` WHERE `type` IN(6,7)');
+        $sql->setQuery('SELECT `name`, `type` FROM `' . rex::getTablePrefix() . 'metainfo_field` WHERE `type` IN(6,7)');
 
         $rows = $sql->getRows();
         if ($rows == 0) {

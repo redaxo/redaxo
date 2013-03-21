@@ -36,9 +36,9 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
 
     jQuery(function($) {
         if (show == 1) {
-            $("#rex_metainfo_params_Feld_bearbeiten_erstellen_default").parent().show();
+            $("#rex_metainfo_field_Feld_bearbeiten_erstellen_default").parent().show();
         }else {
-            $("#rex_metainfo_params_Feld_bearbeiten_erstellen_default").parent().hide();
+            $("#rex_metainfo_field_Feld_bearbeiten_erstellen_default").parent().hide();
         }
     });
 

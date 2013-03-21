@@ -22,7 +22,7 @@ class rex_cronjob_article_status extends rex_cronjob
         // $sql->setDebug();
         $sql->setQuery('
             SELECT  name
-            FROM    ' . rex::getTablePrefix() . 'metainfo_params
+            FROM    ' . rex::getTablePrefix() . 'metainfo_field
             WHERE   name="' . $from['field'] . '" OR name="' . $to['field'] . '"
         ');
         $rows = $sql->getRows();

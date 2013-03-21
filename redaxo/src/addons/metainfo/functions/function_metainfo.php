@@ -92,15 +92,15 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
         return rex_i18n::msg('minfo_field_error_unique_name');
     }
 
-    // Spalte extiert laut metainfo_params?
-    $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE name=:name LIMIT 1';
+    // Spalte extiert laut metainfo_field?
+    $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE name=:name LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':name' => $name]);
     if ($sql->getRows() != 0) {
         return rex_i18n::msg('minfo_field_error_unique_name');
     }
 
-    $sql->setTable(rex::getTablePrefix() . 'metainfo_params');
+    $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
     $sql->setValue('title', $title);
     $sql->setValue('name', $name);
     $sql->setValue('prior', $prior);
@@ -118,7 +118,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
     // replace LIKE wildcards
     $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
-    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_params', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate');
+    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);
@@ -128,12 +128,12 @@ function rex_metainfo_delete_field($fieldIdOrName)
 {
     // Löschen anhand der FieldId
     if (is_int($fieldIdOrName)) {
-        $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE id=:idOrName LIMIT 2';
+        $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE id=:idOrName LIMIT 2';
         $invalidField = rex_i18n::msg('minfo_field_error_invalid_fieldid');
     }
     // Löschen anhand des Feldnames
     elseif (is_string($fieldIdOrName)) {
-        $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_params WHERE name=:idOrName LIMIT 2';
+        $fieldQry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE name=:idOrName LIMIT 2';
         $invalidField = rex_i18n::msg('minfo_field_error_invalid_name');
     } else {
         throw new InvalidArgumentException('MetaInfos: Unexpected type for $fieldIdOrName!');
@@ -158,7 +158,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
         return rex_i18n::msg('minfo_field_error_invalid_name');
     }
 
-    $sql->setTable(rex::getTablePrefix() . 'metainfo_params');
+    $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
     $sql->setWhere(['id' => $field_id]);
 
     $sql->delete();

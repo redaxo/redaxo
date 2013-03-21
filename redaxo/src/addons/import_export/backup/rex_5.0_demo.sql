@@ -396,8 +396,8 @@ INSERT INTO `rex_media_manager_types` VALUES
 /*!40000 ALTER TABLE `rex_media_manager_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
-DROP TABLE IF EXISTS `rex_metainfo_params`;
-CREATE TABLE `rex_metainfo_params` (
+DROP TABLE IF EXISTS `rex_metainfo_field`;
+CREATE TABLE `rex_metainfo_field` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `title` varchar(255) DEFAULT NULL,
     `name` varchar(255) DEFAULT NULL,
@@ -417,9 +417,9 @@ CREATE TABLE `rex_metainfo_params` (
     UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
-LOCK TABLES `rex_metainfo_params` WRITE;
-/*!40000 ALTER TABLE `rex_metainfo_params` DISABLE KEYS */;
-INSERT INTO `rex_metainfo_params` VALUES
+LOCK TABLES `rex_metainfo_field` WRITE;
+/*!40000 ALTER TABLE `rex_metainfo_field` DISABLE KEYS */;
+INSERT INTO `rex_metainfo_field` VALUES
     (1,'translate:pool_file_description','med_description',1,'',2,'','','','','','admin',1189343866,'admin',1189344596),
     (2,'translate:pool_file_copyright','med_copyright',2,'',1,'','','','','','admin',1189343877,'admin',1189344617),
     (3,'translate:online_from','art_online_from',1,'',10,'','','','','','admin',1189344934,'admin',1189344934),
@@ -429,7 +429,7 @@ INSERT INTO `rex_metainfo_params` VALUES
     (7,'translate:metadata_image','art_file',5,'',6,'','','','','','admin',1189345109,'admin',1189345109),
     (8,'translate:teaser','art_teaser',6,'',5,'','','','','','admin',1189345182,'admin',1189345182),
     (9,'translate:header_article_type','art_type_id',7,'size=1',3,'','Standard|Zugriff fuer alle','','','','admin',1191963797,'admin',1191964038);
-/*!40000 ALTER TABLE `rex_metainfo_params` ENABLE KEYS */;
+/*!40000 ALTER TABLE `rex_metainfo_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `rex_metainfo_type`;

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_params` (
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_field` (
     `id` int(10) unsigned NOT NULL auto_increment,
     `title` varchar(255) default NULL,
     `name` varchar(255) default NULL,
@@ -42,7 +42,7 @@ INSERT INTO %TABLE_PREFIX%metainfo_type VALUES
     (9,  'REX_LINKLIST_BUTTON', 'text', 0)
 ON DUPLICATE KEY UPDATE `label` = VALUES(`label`), `dbtype` = VALUES(`dbtype`), `dblength` = VALUES(`dblength`);
 
-INSERT INTO `%TABLE_PREFIX%metainfo_params` (`title`, `name`, `prior`, `attributes`, `type`, `default`, `params`, `validate`, `restrictions`, `createuser`, `createdate`, `updateuser`, `updatedate`) VALUES
+INSERT INTO `%TABLE_PREFIX%metainfo_field` (`title`, `name`, `prior`, `attributes`, `type`, `default`, `params`, `validate`, `restrictions`, `createuser`, `createdate`, `updateuser`, `updatedate`) VALUES
     ('translate:pool_file_description','med_description','1','','2','','','','','%USER%','%TIME%','%USER%','%TIME%'),
     ('translate:pool_file_copyright','med_copyright','2','','1','','','','','%USER%','%TIME%','%USER%','%TIME%'),
     ('translate:online_from','art_online_from','1','','10','','','','','%USER%','%TIME%','%USER%','%TIME%'),

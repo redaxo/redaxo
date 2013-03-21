@@ -27,7 +27,7 @@ function rex_metainfo_cleanup($epOrParams)
 
     // check wheter tables exists
     $tables = rex_sql::showTables();
-    if (!isset($tables[rex::getTablePrefix() . 'metainfo_params'])) {
+    if (!isset($tables[rex::getTablePrefix() . 'metainfo_field'])) {
         return false;
     }
 
@@ -36,7 +36,7 @@ function rex_metainfo_cleanup($epOrParams)
     require_once __DIR__ . '/../lib/table_manager.php';
 
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_params');
+    $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_field');
 
     for ($i = 0; $i < $sql->getRows(); $i++) {
         if (substr($sql->getValue('name'), 0, 4) == 'med_') {
@@ -66,5 +66,5 @@ function rex_metainfo_cleanup($epOrParams)
     }
 
     $sql = rex_sql::factory();
-    $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'metainfo_params');
+    $sql->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'metainfo_field');
 }

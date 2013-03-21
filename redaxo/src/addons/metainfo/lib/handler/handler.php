@@ -533,7 +533,7 @@ abstract class rex_metainfo_handler
         $qry = 'SELECT
                             *
                         FROM
-                            ' . rex::getTablePrefix() . 'metainfo_params p,
+                            ' . rex::getTablePrefix() . 'metainfo_field p,
                             ' . rex::getTablePrefix() . 'metainfo_type t
                         WHERE
                             `p`.`type` = `t`.`id` AND
