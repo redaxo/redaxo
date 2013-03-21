@@ -11,16 +11,16 @@
  * @codingStandardsPhp53
  */
 
-foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
-    if (!isset($REX[$key])) {
-        throw new Exception('Missing required global variable $REX[\'' . $key . "']");
-    }
-}
-
 define('REX_MIN_PHP_VERSION', '5.4.0');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
+}
+
+foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+    if (!isset($REX[$key])) {
+        throw new Exception('Missing required global variable $REX[\'' . $key . "']");
+    }
 }
 
 // start output buffering as early as possible, so we can be sure
