@@ -105,7 +105,7 @@ if (rex::getUser() && $hasNavigation) {
     // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
     $fragment->setVar('type', 'main', false);
     $fragment->setVar('blocks', $blocks, false);
-    $navigation = $fragment->parse('core/navigations/navigation.tpl');
+    $navigation = $fragment->parse('core/navigations/navigation.php');
 }
 
 /* Setup Navigation ***********************************************************/
@@ -149,7 +149,7 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
     // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
     $fragment->setVar('type', 'main', false);
     $fragment->setVar('blocks', $blocks, false);
-    $navigation = $fragment->parse('navigation.tpl');
+    $navigation = $fragment->parse('navigation.php');
 }
 
 /* Login Navigation ***********************************************************/
@@ -172,7 +172,7 @@ if (!rex::getUser() && !rex::isSetup()) {
     // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
     $fragment->setVar('type', 'main', false);
     $fragment->setVar('blocks', $blocks, false);
-    $navigation = $fragment->parse('navigation.tpl');
+    $navigation = $fragment->parse('navigation.php');
 }
 */
 /* PJAX Footer Header ***********************************************************/
@@ -185,7 +185,7 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
     $fragment->setVar('favicon', rex_view::getFavicon());
     $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
     $fragment->setVar('bodyAttr', $body, false);
-    echo $fragment->parse('core/top.tpl');
+    echo $fragment->parse('core/top.php');
 } elseif (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
     echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
@@ -193,11 +193,11 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
 
 $fragment = new rex_fragment();
 // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
-echo $fragment->parse('core/header.tpl');
+echo $fragment->parse('core/header.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('items', $meta_items, false);
-echo $fragment->parse('core/meta.tpl');
+echo $fragment->parse('core/meta.php');
 
 
 ?><section id="rex-page-main-container"><div id="rex-page-main" data-pjax-container="#rex-page-main">

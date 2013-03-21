@@ -262,7 +262,7 @@ class rex_form_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        return  $fragment->parse('core/rex_form/form.tpl');
+        return  $fragment->parse('core/rex_form/form.php');
     }
 
     public function get()

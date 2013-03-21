@@ -268,7 +268,7 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
 
      $content .= '</fieldset><fieldset><h2>' . rex_i18n::msg('setup_403') . '</h2>';
@@ -304,7 +304,7 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
 
@@ -317,7 +317,7 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
 
      $content .= '</fieldset>
@@ -505,7 +505,7 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
@@ -518,7 +518,7 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
     $content .= '</fieldset></form></div>
     ';
@@ -654,7 +654,7 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
@@ -668,7 +668,7 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('form.tpl');
+    $content .= $fragment->parse('form.php');
 
     $content .= '</fieldset></form></div>
 

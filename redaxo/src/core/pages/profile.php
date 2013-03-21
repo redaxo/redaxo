@@ -137,7 +137,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.tpl');
+$content .= $fragment->parse('core/form/form.php');
 
 $content .= '
         </fieldset>';
@@ -150,7 +150,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.tpl');
+$content .= $fragment->parse('core/form/submit.php');
 
 $content .= '
     </form>
@@ -179,7 +179,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.tpl');
+$content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 
@@ -197,7 +197,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.tpl');
+$content .= $fragment->parse('core/form/form.php');
 
 $content .= '
         </fieldset>';
@@ -210,7 +210,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.tpl');
+$content .= $fragment->parse('core/form/submit.php');
 
 $content .= '
     </form>

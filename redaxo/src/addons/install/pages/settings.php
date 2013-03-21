@@ -35,7 +35,7 @@ $content .= '
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form.tpl');
+                $content .= $fragment->parse('form.php');
 
 
 $content .= '
@@ -58,7 +58,7 @@ $content .= '
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form.tpl');
+                $content .= $fragment->parse('form.php');
 
 
 $content .= '
@@ -74,7 +74,7 @@ $content .= '
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('form.tpl');
+                $content .= $fragment->parse('form.php');
 
 $content .= '
             </fieldset>

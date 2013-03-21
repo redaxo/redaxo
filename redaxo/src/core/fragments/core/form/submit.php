@@ -15,4 +15,3 @@ echo '<div class="rex-form-action-inner">';
 echo $out;
 echo '</div>';
 echo '</fieldset>';
-?>

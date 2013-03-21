@@ -102,7 +102,7 @@ if ($article->getRows() == 1) {
         $fragment = new rex_fragment();
         $fragment->setVar('title', $term);
         $fragment->setVar('items', $navigation, false);
-        echo $fragment->parse('core/navigations/path.tpl');
+        echo $fragment->parse('core/navigations/path.php');
         unset($fragment);
 
     }
@@ -447,7 +447,7 @@ if ($article->getRows() == 1) {
         $fragment->setVar('navigation_left', $content_navi_left, false);
         $fragment->setVar('navigation_right', $content_navi_right, false);
         $fragment->setVar('text_right', $content_navi_text_right, false);
-        echo $fragment->parse('core/navigations/content.tpl');
+        echo $fragment->parse('core/navigations/content.php');
 
 
         // ------------------------------------------ END: CONTENT HEAD MENUE

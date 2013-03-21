@@ -86,7 +86,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.tpl');
+$content .= $fragment->parse('core/form/submit.php');
 
 
 $content .= '

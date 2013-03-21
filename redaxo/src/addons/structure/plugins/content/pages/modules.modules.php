@@ -218,7 +218,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.tpl');
+        $content .= $fragment->parse('core/form/form.php');
 
 
         $content .= '</fieldset>';
@@ -243,7 +243,7 @@ if ($function == 'add' or $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/submit.tpl');
+        $content .= $fragment->parse('core/form/submit.php');
 
         $echo .= rex_view::contentBlock($content);
 
@@ -329,7 +329,7 @@ if ($function == 'add' or $function == 'edit') {
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/form.tpl');
+                $content .= $fragment->parse('core/form/form.php');
 
                 $content .= '</fieldset>';
 
@@ -342,7 +342,7 @@ if ($function == 'add' or $function == 'edit') {
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/submit.tpl');
+                $content .= $fragment->parse('core/form/submit.php');
 
                 $echo .= rex_view::contentBlock($content);
             }

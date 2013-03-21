@@ -93,7 +93,7 @@ class rex_form_control_element extends rex_form_element
         if (count($elements) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $elements, false);
-            $s = $fragment->parse('core/rex_form/submit.tpl');
+            $s = $fragment->parse('core/rex_form/submit.php');
         }
 
         return $s;

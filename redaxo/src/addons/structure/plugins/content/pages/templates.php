@@ -212,7 +212,7 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment = new rex_fragment();
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
-                $ctypes_out .= $fragment->parse('core/form/form.tpl');
+                $ctypes_out .= $fragment->parse('core/form/form.php');
 
 
                 $field = '';
@@ -231,7 +231,7 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment = new rex_fragment();
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
-                $ctypes_out .= $fragment->parse('core/form/checkbox.tpl');
+                $ctypes_out .= $fragment->parse('core/form/checkbox.php');
 
 
                 $formElements = [];
@@ -245,7 +245,7 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment = new rex_fragment();
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
-                $ctypes_out .= $fragment->parse('core/form/form.tpl');
+                $ctypes_out .= $fragment->parse('core/form/form.php');
 
 
                 $i++;
@@ -311,7 +311,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.tpl');
+        $content .= $fragment->parse('core/form/form.php');
 
 
         $formElements = [];
@@ -324,7 +324,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.tpl');
+        $content .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
@@ -336,7 +336,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.tpl');
+        $content .= $fragment->parse('core/form/form.php');
 
         $content .= '
                 </fieldset>
@@ -373,7 +373,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.tpl');
+        $content .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
@@ -387,7 +387,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.tpl');
+        $content .= $fragment->parse('core/form/form.php');
 
         $content .= '
                     </fieldset>
@@ -410,7 +410,7 @@ if ($function == 'add' or $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/submit.tpl');
+        $content .= $fragment->parse('core/form/submit.php');
 
         $content .= '
 

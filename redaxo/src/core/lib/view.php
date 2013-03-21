@@ -105,7 +105,7 @@ class rex_view
         $fragment = new rex_fragment();
         $fragment->setVar('class', $cssClass);
         $fragment->setVar('message', $content, false);
-        $return = $fragment->parse('message.tpl');
+        $return = $fragment->parse('message.php');
         */
         return $return;
     }
@@ -116,7 +116,7 @@ class rex_view
         $fragment = new rex_fragment();
         $fragment->setVar('class', $cssClass);
         $fragment->setVar('content', $content, false);
-        $return = $fragment->parse('toolbar.tpl');
+        $return = $fragment->parse('toolbar.php');
 
         return $return;
     }
@@ -191,7 +191,7 @@ class rex_view
             if (!empty($navigation)) {
                 $fragment = new rex_fragment();
                 $fragment->setVar('navigation_left', $navigation, false);
-                $subtitle = $fragment->parse('core/navigations/content.tpl');
+                $subtitle = $fragment->parse('core/navigations/content.php');
             } else {
                 $subtitle = '';
             }
@@ -246,6 +246,6 @@ class rex_view
             $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span>' . rex_i18n::msg('languages_edit') . '</a>', false);
         }
 
-        return $fragment->parse('core/navigations/drop.tpl');
+        return $fragment->parse('core/navigations/drop.php');
     }
 }

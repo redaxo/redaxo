@@ -32,7 +32,7 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
 
 
@@ -61,7 +61,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
 
     $out .= '</fieldset>';
@@ -94,7 +94,7 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
     $out .= '</fieldset>';
 
@@ -148,7 +148,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $fragment = new rex_fragment();
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
 
     $formElements = [];
@@ -159,7 +159,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
 
     $out .= '</fieldset>';
@@ -198,7 +198,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
     $out .= '</fieldset>';
 
@@ -234,7 +234,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
     $out .= '</fieldset>';
 
@@ -270,7 +270,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $out .= $fragment->parse('core/form/form.tpl');
+    $out .= $fragment->parse('core/form/form.php');
 
     $out .= '</fieldset>';
 

@@ -162,7 +162,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.tpl');
+$content .= $fragment->parse('core/form/form.php');
 
 
 
@@ -175,7 +175,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.tpl');
+$content .= $fragment->parse('core/form/checkbox.php');
 
 
 foreach (rex_system_setting::getAll() as $setting) {
@@ -198,7 +198,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.tpl');
+$content .= $fragment->parse('core/form/submit.php');
 
 
 $content = '

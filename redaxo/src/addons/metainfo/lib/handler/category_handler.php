@@ -25,7 +25,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $fragment = new rex_fragment();
             $fragment->setVar('elements', [$f], false);
             $item = [];
-            $item['html']  = $fragment->parse('core/form/form.tpl');
+            $item['html']  = $fragment->parse('core/form/form.php');
             $items[] = $item;
 
             $f = [];
@@ -35,7 +35,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $fragment = new rex_fragment();
             $fragment->setVar('elements', [$f], false);
             $item = [];
-            $item['html']  = $fragment->parse('core/form/form.tpl');
+            $item['html']  = $fragment->parse('core/form/form.php');
             $items[] = $item;
 
             $f = [];
@@ -45,7 +45,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $fragment = new rex_fragment();
             $fragment->setVar('elements', [$f], false);
             $item = [];
-            $item['html']  = $fragment->parse('core/form/form.tpl');
+            $item['html']  = $fragment->parse('core/form/form.php');
             $items[] = $item;
 
             $f = [];
@@ -55,7 +55,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $fragment = new rex_fragment();
             $fragment->setVar('elements', [$f], false);
             $item = [];
-            $item['html']  = $fragment->parse('core/form/form.tpl');
+            $item['html']  = $fragment->parse('core/form/form.php');
             $items[] = $item;
 
 
@@ -77,14 +77,14 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
-            $footer = $fragment->parse('core/form/submit.tpl');
+            $footer = $fragment->parse('core/form/submit.php');
 
             $fragment = new rex_fragment();
             $fragment->setVar('header', rex_i18n::msg('minfo_edit_metadata'));
             $fragment->setVar('items', $items, false);
             $fragment->setVar('class', 'rex-large');
             $fragment->setVar('footer', $footer, false);
-            $return = $fragment->parse('core/navigations/context.tpl');
+            $return = $fragment->parse('core/navigations/context.php');
 
 
             return $ep->getSubject() . $return;

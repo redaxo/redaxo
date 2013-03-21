@@ -146,7 +146,7 @@ $catPager->setRowCount($KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $context);
 $catFragment->setVar('pager', $catPager);
-echo $catFragment->parse('pagination.tpl');
+echo $catFragment->parse('pagination.php');
 
 // --------------------- GET THE DATA
 
@@ -429,7 +429,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $context);
     $artFragment->setVar('pager', $artPager);
-    echo $artFragment->parse('pagination.tpl');
+    echo $artFragment->parse('pagination.php');
 
     // ---------- READ DATA
     $sql->setQuery('SELECT *

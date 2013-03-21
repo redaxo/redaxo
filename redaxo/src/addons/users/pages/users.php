@@ -281,7 +281,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $add_submit = $fragment->parse('core/form/submit.tpl');
+        $add_submit = $fragment->parse('core/form/submit.php');
         unset($formElements);
 
         $sql = rex_sql::factory();
@@ -350,7 +350,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
-            $add_submit = $fragment->parse('core/form/submit.tpl');
+            $add_submit = $fragment->parse('core/form/submit.php');
         unset($formElements);
     }
 
@@ -399,7 +399,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $fragment->setVar('flush', true);
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.tpl');
+    $content .= $fragment->parse('core/form/form.php');
 
 
 
@@ -421,7 +421,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $fragment->setVar('group', true);
     $fragment->setVar('flush', true);
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/checkbox.tpl');
+    $content .= $fragment->parse('core/form/checkbox.php');
 
 
 
@@ -447,7 +447,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $fragment->setVar('group', true);
     $fragment->setVar('flush', true);
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.tpl');
+    $content .= $fragment->parse('core/form/form.php');
 
         $content .= '
             </fieldset>

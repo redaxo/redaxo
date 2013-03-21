@@ -6,4 +6,3 @@
             ' . $this->navigation . '
         </nav>';
     }
-    ?>

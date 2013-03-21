@@ -60,4 +60,3 @@ if ($columns_flag && $columns_grid_open) {
 }
 
 echo $out;
-?>

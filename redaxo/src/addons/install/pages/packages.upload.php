@@ -100,7 +100,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', $formElements, false);
-                    $content .= $fragment->parse('form.tpl');
+                    $content .= $fragment->parse('form.php');
 
                     $formElements = [];
                         $n = [];
@@ -114,7 +114,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                     $fragment = new rex_fragment();
                     $fragment->setVar('columns', 2, false);
                     $fragment->setVar('elements', $formElements, false);
-                    $content .= $fragment->parse('form.tpl');
+                    $content .= $fragment->parse('form.php');
 
     $content .= '
             </fieldset>

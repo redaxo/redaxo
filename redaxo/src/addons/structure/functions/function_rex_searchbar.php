@@ -178,7 +178,7 @@ function rex_structure_searchbar(rex_context $context)
     $fragment->setVar('inline', true);
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
-    $form .= $fragment->parse('core/form/form.tpl');
+    $form .= $fragment->parse('core/form/form.php');
 
     $form .= '
                 </fieldset>
@@ -188,7 +188,7 @@ function rex_structure_searchbar(rex_context $context)
 
     $fragment = new rex_fragment();
     $fragment->setVar('content', $form . $search_result, false);
-    return $message . $fragment->parse('core/toolbar.tpl');
+    return $message . $fragment->parse('core/toolbar.php');
 }
 
 
@@ -395,7 +395,7 @@ function rex_structure_contentbar(rex_context $context)
     $fragment = new rex_fragment();
     $fragment->setVar('text_left', $form, false);
     $fragment->setVar('text_right', $droplist, false);
-    $navi = $fragment->parse('core/navigations/content.tpl');
+    $navi = $fragment->parse('core/navigations/content.php');
 
     return $navi . $search_result;
 }

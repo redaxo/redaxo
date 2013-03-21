@@ -62,7 +62,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.tpl');
+$content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
@@ -72,7 +72,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.tpl');
+$content .= $fragment->parse('core/form/checkbox.php');
 
 $content .= '<fieldset>';
 
@@ -84,7 +84,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.tpl');
+$content .= $fragment->parse('core/form/submit.php');
 $content .= '
 </form>
 </div>

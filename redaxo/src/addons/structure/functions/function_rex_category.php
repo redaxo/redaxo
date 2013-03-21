@@ -30,7 +30,7 @@ $title = '<a class="rex-icon rex-icon-sitestartarticle" href="' . rex_url::backe
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);
 $fragment->setVar('items', $navigation, false);
-echo $fragment->parse('core/navigations/path.tpl');
+echo $fragment->parse('core/navigations/path.php');
 
 unset($fragment);
 unset($navigation);

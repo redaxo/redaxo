@@ -8,4 +8,4 @@
                 <?php endfor; ?>
                 <li class="rex-notice"><?php echo $this->i18n('list_rows_found', $this->pager->getRowCount()) ?></li>
             </ul>
-        <?php endif; ?>
+        <?php endif;

@@ -13,13 +13,13 @@ if (!$curPage->hasLayout()) {
 
 $fragment = new rex_fragment();
 $fragment->setVar('navigation', $navigation, false);
-echo $fragment->parse('core/navigation.tpl');
+echo $fragment->parse('core/navigation.php');
 
 $sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
 if ($sidebar != '') {
     $sidebarfragment = new rex_fragment();
     $sidebarfragment->content = $sidebar;
-    echo $sidebarfragment->parse('core/sidebar.tpl');
+    echo $sidebarfragment->parse('core/sidebar.php');
     unset($sidebarfragment);
 }
 
@@ -29,11 +29,11 @@ unset($fragment);
 
 $footerfragment = new rex_fragment();
 $footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
-echo $footerfragment->parse('core/footer.tpl');
+echo $footerfragment->parse('core/footer.php');
 unset($footerfragment);
 
 if (!rex_request::isPJAXContainer('#rex-page')) {
     $bottomfragment = new rex_fragment();
-    echo $bottomfragment->parse('core/bottom.tpl');
+    echo $bottomfragment->parse('core/bottom.php');
     unset($bottomfragment);
 }

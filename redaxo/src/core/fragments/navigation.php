@@ -68,47 +68,37 @@ foreach ($this->blocks as $block) {
     }
 
     foreach ($navigation as $navi) {
-
-        $attributes = [];
+        echo '<li ';
         if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
-            $attributes['class'] = implode(' ', $navi['itemClasses']);
+            echo ' class="' . implode(' ', $navi['itemClasses']) . '"';
         }
 
         if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
             foreach ($navi['itemAttr'] as $n => $v) {
-                if ($n == 'class' && $v != '' && isset($attributes['class'])) {
-                    $attributes['class'] = $attributes['class'] . ' ' . $v;
-                } elseif ($v != '') {
-                    $attributes[$n] = $v;
+                if ($v != '') {
+                    echo ' ' . $n . '="' . $v . '"';
                 }
             }
         }
-        echo '<li' . rex_string::buildAttributes($attributes) . '>';
-        unset($attributes);
 
+        echo '>';
 
         if (isset($navi['href']) && $navi['href'] != '') {
-
-            $attributes = [];
-            $attributes['href'] = $navi['href'];
-
+            echo '<a href="' . $navi['href'] . '"';
 
             if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
-                $attributes['class'] = implode(' ', $navi['linkClasses']);
+                echo ' class="' . implode(' ', $navi['linkClasses']) . '"';
             }
 
             if (isset($navi['linkAttr']) && is_array($navi['linkAttr']) && count($navi['linkAttr']) > 0) {
                 foreach ($navi['linkAttr'] as $n => $v) {
-                    if ($n == 'class' && $v != '' && isset($attributes['class'])) {
-                        $attributes['class'] = $attributes['class'] . ' ' . $v;
-                    } elseif ($v != '') {
-                        $attributes[$n] = $v;
+                    if ($v != '') {
+                        echo ' ' . $n . '="' . $v . '"';
                     }
                 }
             }
 
-            echo '<a' . rex_string::buildAttributes($attributes) . '>';
-            unset($attributes);
+            echo '>';
         }
 
         echo $navi['title'];
@@ -177,5 +167,3 @@ foreach ($this->blocks as $block) {
     }
 
 }
-
-?>
