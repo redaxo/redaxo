@@ -36,7 +36,7 @@ CREATE TABLE `rex_user` (
     `updateuser` varchar(255) NOT NULL,
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
-    `lasttrydate` int(11) DEFAULT '0',
+    `lasttrydate` datetime NOT NULL,
     `session_id` varchar(255) DEFAULT NULL,
     `cookiekey` varchar(255) DEFAULT NULL,
     `revision` int(11) NOT NULL,

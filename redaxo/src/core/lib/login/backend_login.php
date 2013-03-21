@@ -26,8 +26,8 @@ class rex_backend_login extends rex_login
         $this->setLoginQuery($qry . '
             AND login = :login
             AND (login_tries < ' . self::LOGIN_TRIES_1 . '
-                OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND lasttrydate < ' . (time() - self::RELOGIN_DELAY_1) . '
-                OR lasttrydate < ' . (time() - self::RELOGIN_DELAY_2) . '
+                OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND UNIX_TIMESTAMP() - UNIX_TIMESTAMP(lasttrydate) > ' . self::RELOGIN_DELAY_1 . '
+                OR UNIX_TIMESTAMP() - UNIX_TIMESTAMP(lasttrydate) > ' . self::RELOGIN_DELAY_2 . '
             )'
         );
         $this->tableName = $tableName;
@@ -75,8 +75,8 @@ class rex_backend_login extends rex_login
                     $add .= 'password = ?, ';
                     $params[] = self::passwordHash($this->userPassword, true);
                 }
-                array_push($params, time(), session_id(), $this->userLogin);
-                $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, session_id=? WHERE login=? LIMIT 1', $params);
+                array_push($params, session_id(), $this->userLogin);
+                $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=NOW(), session_id=? WHERE login=? LIMIT 1', $params);
             }
             $this->user = new rex_user($this->user);
         } else {
@@ -85,7 +85,7 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
                     $login_tries = $sql->getValue('login_tries');
-                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', [time(), $this->userLogin]);
+                    $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=NOW() WHERE login=? LIMIT 1', [$this->userLogin]);
                     if ($login_tries >= self::LOGIN_TRIES_1 - 1) {
                         $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
                         $hours = floor($time / 3600);

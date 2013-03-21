@@ -146,7 +146,7 @@ function rex_a1_import_db($filename)
              updateuser varchar(255) NOT NULL,
              createdate datetime NOT NULL,
              updatedate datetime NOT NULL,
-             lasttrydate int(11) NOT NULL DEFAULT 0,
+             lasttrydate datetime NOT NULL,
              session_id varchar(255) NOT NULL,
              PRIMARY KEY(id)
          ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;';
