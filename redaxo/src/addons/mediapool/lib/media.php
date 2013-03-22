@@ -252,11 +252,11 @@ class rex_media
     }
 
     /**
-     * @return DateTime
+     * @return int
      */
     public function getUpdateDate()
     {
-        return new DateTime($this->_updatedate);
+        return $this->_updatedate;
     }
 
     /**
@@ -268,11 +268,11 @@ class rex_media
     }
 
     /**
-     * @return DateTime
+     * @return int
      */
     public function getCreateDate()
     {
-        return new DateTime($this->_createdate);
+        return $this->_createdate;
     }
 
     /**

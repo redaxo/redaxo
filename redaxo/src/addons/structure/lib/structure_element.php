@@ -312,11 +312,11 @@ abstract class rex_structure_element
     /**
      * Returns the last update date
      *
-     * @return DateTime
+     * @return int
      */
     public function getUpdateDate()
     {
-        return new DateTime($this->_updatedate);
+        return $this->_updatedate;
     }
 
     /**
@@ -332,11 +332,11 @@ abstract class rex_structure_element
     /**
      * Returns the creation date
      *
-     * @return DateTime
+     * @return int
      */
     public function getCreateDate()
     {
-        return new DateTime($this->_createdate);
+        return $this->_createdate;
     }
 
     /**
