@@ -1067,7 +1067,7 @@ class rex_form
             }
 
             if (in_array('updatedate', $fieldnames)) {
-                $saveSql->setRawValue('updatedate', 'NOW()');
+                $saveSql->setDateTimeValue('updatedate', time());
             }
 
             if (!$this->isEditMode()) {
@@ -1076,7 +1076,7 @@ class rex_form
                 }
 
                 if (in_array('createdate', $fieldnames)) {
-                    $saveSql->setRawValue('createdate', 'NOW()');
+                    $saveSql->setDateTimeValue('createdate', time());
                 }
             }
             $setOnce = true;
