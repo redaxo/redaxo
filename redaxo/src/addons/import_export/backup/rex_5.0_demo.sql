@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `rex_article`;
 CREATE TABLE `rex_article` (
     `pid` int(11) NOT NULL AUTO_INCREMENT,
     `id` int(11) NOT NULL,
-    `re_id` int(11) NOT NULL,
+    `parent_id` int(11) NOT NULL,
     `name` varchar(255) NOT NULL,
     `catname` varchar(255) NOT NULL,
     `catprior` int(11) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE `rex_article` (
     UNIQUE KEY `find_articles` (`id`,`clang`),
     KEY `id` (`id`),
     KEY `clang` (`clang`),
-    KEY `re_id` (`re_id`)
+    KEY `parent_id` (`parent_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_article` WRITE;
@@ -323,7 +323,7 @@ DROP TABLE IF EXISTS `rex_media_category`;
 CREATE TABLE `rex_media_category` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
-    `re_id` int(11) NOT NULL,
+    `parent_id` int(11) NOT NULL,
     `path` varchar(255) NOT NULL,
     `createdate` int(11) NOT NULL,
     `updatedate` int(11) NOT NULL,
@@ -332,7 +332,7 @@ CREATE TABLE `rex_media_category` (
     `attributes` text,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`),
-    KEY `re_id` (`re_id`)
+    KEY `parent_id` (`parent_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_media_category` WRITE;

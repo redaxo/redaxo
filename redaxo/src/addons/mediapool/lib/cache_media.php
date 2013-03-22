@@ -199,7 +199,7 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_media_category :: _getTableName() . ' WHERE re_id = ' . $category_id . ' ORDER BY sort, name';
+        $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_media_category :: _getTableName() . ' WHERE parent_id = ' . $category_id . ' ORDER BY sort, name';
         $sql = rex_sql::factory();
         //$sql->setDebug();
         $sql->setQuery($query);

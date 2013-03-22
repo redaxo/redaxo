@@ -8,7 +8,7 @@ class rex_media_category
 {
     // id
     private $_id = '';
-    // re_id
+    // parent_id
     private $_parent_id = '';
 
     // name
@@ -57,7 +57,7 @@ class rex_media_category
             $cat = new self();
 
             $cat->_id = $cache['id'];
-            $cat->_parent_id = $cache['re_id'];
+            $cat->_parent_id = $cache['parent_id'];
 
             $cat->_name = $cache['name'];
             $cat->_path = $cache['path'];
@@ -380,7 +380,7 @@ class rex_media_category
     {
         $sql = rex_sql::factory();
         $sql->setTable($this->_getTableName());
-        $sql->setValue('re_id', $this->getParentId());
+        $sql->setValue('parent_id', $this->getParentId());
         $sql->setValue('name', $this->getName());
         $sql->setValue('path', $this->getPath());
         $sql->setValue('hide', $this->isHidden());

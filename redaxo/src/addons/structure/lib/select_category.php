@@ -111,7 +111,7 @@ class rex_category_select extends rex_select
         return parent::get();
     }
 
-    protected function outGroup($re_id, $level = 0, $optgroups = false)
+    protected function outGroup($parent_id, $level = 0, $optgroups = false)
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
@@ -119,7 +119,7 @@ class rex_category_select extends rex_select
         }
 
         $ausgabe = '';
-        $group = $this->getGroup($re_id);
+        $group = $this->getGroup($parent_id);
         if (!is_array($group)) {
             return '';
         }

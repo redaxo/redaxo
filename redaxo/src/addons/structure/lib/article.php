@@ -139,7 +139,7 @@ class rex_article extends rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        return self::getArticleById($this->_re_id, $clang);
+        return self::getArticleById($this->_parent_id, $clang);
     }
 
     /**
@@ -161,8 +161,8 @@ class rex_article extends rex_structure_element
      */
     public function getValue($value)
     {
-        // alias für re_id -> category_id
-        if (in_array($value, ['re_id', '_re_id', 'category_id', '_category_id'])) {
+        // alias für parent_id -> category_id
+        if (in_array($value, ['parent_id', '_parent_id', 'category_id', '_category_id'])) {
             // für die CatId hier den Getter verwenden,
             // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
             return $this->getCategoryId();

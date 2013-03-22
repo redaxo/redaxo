@@ -21,7 +21,7 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $formElements = [];
 
     $n = [];
-    if (!$isStartpage && $article->getValue('re_id') == 0) {
+    if (!$isStartpage && $article->getValue('parent_id') == 0) {
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
     } elseif ($isStartpage) {
         $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
@@ -72,9 +72,9 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 
 // --------------------------------------------------- IN ARTIKEL UMWANDELN START
 $out = '';
-if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id'))) {
+if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
-    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $article_id . ' LIMIT 1');
+    $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $article_id . ' LIMIT 1');
     $emptyCategory = $sql->getRows() == 0;
 
     $out .= '
@@ -245,7 +245,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
 
 // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
 $out = '';
-if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('re_id'))) {
+if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
     $move_a->setId('category_id_new');
     $move_a->setName('category_id_new');

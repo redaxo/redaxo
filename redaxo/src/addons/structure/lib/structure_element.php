@@ -11,7 +11,7 @@ abstract class rex_structure_element
      * these vars get read out
      */
     protected $_id = '';
-    protected $_re_id = '';
+    protected $_parent_id = '';
     protected $_clang = '';
     protected $_name = '';
     protected $_catname = '';
@@ -250,7 +250,7 @@ abstract class rex_structure_element
      */
     public function getParentId()
     {
-        return $this->_re_id;
+        return $this->_parent_id;
     }
 
     /**

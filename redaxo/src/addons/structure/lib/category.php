@@ -143,7 +143,7 @@ class rex_category extends rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        return self :: getCategoryById($this->_re_id, $clang);
+        return self :: getCategoryById($this->_parent_id, $clang);
     }
 
     /**

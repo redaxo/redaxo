@@ -142,9 +142,9 @@ class rex_select
     /**
      * Fügt eine Option hinzu
      */
-    public function addOption($name, $value, $id = 0, $re_id = 0, array $attributes = [])
+    public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
-        $this->options[$re_id][] = [$name, $value, $id, $attributes];
+        $this->options[$parent_id][] = [$name, $value, $id, $attributes];
     }
 
     /**
@@ -154,7 +154,7 @@ class rex_select
      * 0.    Name
      * 1.    Value
      * 2.    Id
-     * 3.    Re_Id
+     * 3.    parent_id
      * 4.    Selected
      * 5.    Attributes
      */
@@ -253,7 +253,7 @@ class rex_select
         echo $this->get();
     }
 
-    protected function outGroup($re_id, $level = 0, $optgroups = false)
+    protected function outGroup($parent_id, $level = 0, $optgroups = false)
     {
         if ($level > 100) {
             // nur mal so zu sicherheit .. man weiss nie ;)
@@ -261,7 +261,7 @@ class rex_select
         }
 
         $ausgabe = '';
-        $group = $this->getGroup($re_id);
+        $group = $this->getGroup($parent_id);
         if (!is_array($group)) {
             return '';
         }
@@ -313,14 +313,14 @@ class rex_select
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
     }
 
-    protected function getGroup($re_id, $ignore_main_group = false)
+    protected function getGroup($parent_id, $ignore_main_group = false)
     {
-        if ($ignore_main_group && $re_id == 0) {
+        if ($ignore_main_group && $parent_id == 0) {
             return false;
         }
 
         foreach ($this->options as $gname => $group) {
-            if ($gname == $re_id) {
+            if ($gname == $parent_id) {
                 return $group;
             }
         }

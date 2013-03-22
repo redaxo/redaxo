@@ -159,7 +159,7 @@ class rex_article_content_base
     {
         if ($value == 'category_id') {
             if ($this->getValue('startarticle') != 1) {
-                $value = 're_id';
+                $value = 'parent_id';
             } else {
                 $value = 'id';
             }
@@ -261,7 +261,7 @@ class rex_article_content_base
         $module_id = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
-        $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.re_id
+        $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                         FROM
                             ' . rex::getTablePrefix() . 'article_slice
                         LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id

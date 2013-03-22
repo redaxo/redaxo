@@ -29,7 +29,7 @@ if ($PERMALL) {
             $gf = rex_sql::factory();
             $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=' . $edit_id);
             $gd = rex_sql::factory();
-            $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE re_id=' . $edit_id);
+            $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=' . $edit_id);
             if ($gf->getRows() == 0 && $gd->getRows() == 0) {
                 $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $edit_id);
                 rex_media_cache::deleteCategory($edit_id);
@@ -42,7 +42,7 @@ if ($PERMALL) {
             $db = rex_sql::factory();
             $db->setTable(rex::getTablePrefix() . 'media_category');
             $db->setValue('name', rex_request('catname', 'string'));
-            $db->setValue('re_id', rex_request('cat_id', 'int'));
+            $db->setValue('parent_id', rex_request('cat_id', 'int'));
             $db->setValue('path', rex_request('catpath', 'string'));
             $db->addGlobalCreateFields();
             $db->addGlobalUpdateFields();

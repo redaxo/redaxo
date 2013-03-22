@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article` (
     `pid` int(11) NOT NULL AUTO_INCREMENT,
     `id` int(11) NOT NULL,
-    `re_id` int(11) NOT NULL,
+    `parent_id` int(11) NOT NULL,
     `name` varchar(255) NOT NULL,
     `catname` varchar(255) NOT NULL,
     `catprior` int(11) NOT NULL,
@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article` (
     UNIQUE KEY `find_articles` (`id`,`clang`),
     KEY `id` (`id`),
     KEY `clang` (`clang`),
-    KEY `re_id` (`re_id`)
+    KEY `parent_id` (`parent_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;

@@ -133,10 +133,10 @@ echo rex_structure_contentbar($context);
 $KAT = rex_sql::factory();
 // $KAT->setDebug();
 if (count($mountpoints) > 0 && $category_id == 0) {
-    $re_id = implode(',', $mountpoints);
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startarticle=1 AND clang=' . $clang . ' ORDER BY catname');
+    $parent_id = implode(',', $mountpoints);
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang=' . $clang . ' ORDER BY catname');
 } else {
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startarticle=1 AND clang=' . $clang . ' ORDER BY catprior');
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $category_id . ' AND startarticle=1 AND clang=' . $clang . ' ORDER BY catprior');
 }
 
 // --------------------- ADD PAGINATION
@@ -151,10 +151,10 @@ echo $catFragment->parse('pagination.php');
 // --------------------- GET THE DATA
 
 if (count($mountpoints) > 0 && $category_id == 0) {
-    $re_id = implode(',', $mountpoints);
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $re_id . ') AND startarticle=1 AND clang=' . $clang . ' ORDER BY catname LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $parent_id = implode(',', $mountpoints);
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang=' . $clang . ' ORDER BY catname LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 } else {
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE re_id=' . $category_id . ' AND startarticle=1 AND clang=' . $clang . ' ORDER BY catprior LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $category_id . ' AND startarticle=1 AND clang=' . $clang . ' ORDER BY catprior LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 }
 
 
@@ -417,7 +417,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 FROM
                     ' . rex::getTablePrefix() . 'article
                 WHERE
-                    ((re_id=' . $category_id . ' AND startarticle=0) OR (id=' . $category_id . ' AND startarticle=1))
+                    ((parent_id=' . $category_id . ' AND startarticle=0) OR (id=' . $category_id . ' AND startarticle=1))
                     AND clang=' . $clang . '
                 ORDER BY
                     prior, name');
@@ -436,7 +436,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 FROM
                     ' . rex::getTablePrefix() . 'article
                 WHERE
-                    ((re_id=' . $category_id . ' AND startarticle=0) OR (id=' . $category_id . ' AND startarticle=1))
+                    ((parent_id=' . $category_id . ' AND startarticle=0) OR (id=' . $category_id . ' AND startarticle=1))
                     AND clang=' . $clang . '
                 ORDER BY
                     prior, name
