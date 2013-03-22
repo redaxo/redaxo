@@ -51,6 +51,6 @@ if (rex::isBackend()) {
         }
 
         // ----- inhalt ausgeben
-        rex_response::sendPage($content, strtotime($article->getValue('updatedate')));
+        rex_response::sendPage($content, $article->getValue('updatedate'));
     });
 }
