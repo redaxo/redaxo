@@ -11,6 +11,8 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
+    const FORMAT_DATETIME = 'Y-m-d H:i:s';
+
     protected $debug; // debug schalter
     protected $values; // Werte von setValue
     protected $rawValues; // Werte von setRawValue
@@ -152,6 +154,17 @@ class rex_sql implements Iterator
         }
 
         return false;
+    }
+
+    /**
+     * Returns a datetime string in sql datetime format (Y-m-d H:i:s)
+     *
+     * @param int|null $timestamp
+     * @return string
+     */
+    public static function datetime($timestamp = null)
+    {
+        return date(self::FORMAT_DATETIME, is_null($timestamp) ? time() : $timestamp);
     }
 
     /**
@@ -337,13 +350,13 @@ class rex_sql implements Iterator
     /**
      * Sets the datetime value of a column
      *
-     * @param string   $colName  The name of the column
-     * @param DateTime $datetime The value
+     * @param string $colName   Name of the column
+     * @param int    $timestamp Unix timestamp
      * @return rex_sql the current rex_sql object
      */
-    public function setDateTimeValue($colName, DateTime $datetime)
+    public function setDateTimeValue($colName, $timestamp)
     {
-        return $this->setValue($colName, $datetime->format('Y-m-d H:i:s'));
+        return $this->setValue($colName, self::datetime($timestamp));
     }
 
     /**
@@ -504,14 +517,15 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Returns the datetime value of a column
+     * Returns the unix timestamp of a datetime column
      *
      * @param string $colName Name of the column
-     * @return DateTime
+     * @return int
      */
     public function getDateTimeValue($colName)
     {
-        return new DateTime($this->getValue($colName));
+        $value = $this->getValue($colName);
+        return $value ? strtotime($value) : null;
     }
 
     protected function fetchValue($feldname)

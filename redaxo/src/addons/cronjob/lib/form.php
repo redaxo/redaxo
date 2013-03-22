@@ -41,7 +41,7 @@ class rex_cronjob_form extends rex_form
             $nexttime = $this->getElement($this->mainFieldset, 'nexttime');
             if (strtotime($nexttime->getValue()) > 0) {
                 $interval = $this->getElement($this->mainFieldset, 'interval');
-                $nexttime->setValue(date('Y-m-d H:i:s', rex_cronjob_manager_sql::calculateNextTime($interval->getValue())));
+                $nexttime->setValue(rex_sql::datetime(rex_cronjob_manager_sql::calculateNextTime($interval->getValue())));
             }
         }
         $return = parent::save();

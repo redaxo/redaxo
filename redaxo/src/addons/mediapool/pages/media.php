@@ -615,7 +615,7 @@ if (!$file_id) {
         $file_title = $files->getValue('title');
         $file_type = $files->getValue('filetype');
         $file_size = $files->getValue('filesize');
-        $file_stamp = rex_formatter::strftime(strtotime($files->getValue('updatedate')), 'datetime');
+        $file_stamp = rex_formatter::strftime($files->getDateTimeValue('updatedate'), 'datetime');
         $file_updateuser = $files->getValue('updateuser');
 
         $encoded_file_name = urlencode($file_name);

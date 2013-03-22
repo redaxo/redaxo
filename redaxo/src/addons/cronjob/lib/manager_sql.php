@@ -204,7 +204,7 @@ class rex_cronjob_manager_sql
                 UPDATE  ' . REX_CRONJOB_TABLE . '
                 SET     nexttime = ?' . $add . '
                 WHERE   id = ?
-            ', [date('Y-m-d H:i:s', $nexttime), $id]);
+            ', [rex_sql::datetime($nexttime), $id]);
             $success = true;
         } catch (rex_sql_exception $e) {
             $success = false;
