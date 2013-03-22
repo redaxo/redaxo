@@ -118,10 +118,10 @@ class rex_content_service
      * @param int $revision
      * @return boolean TRUE bei Erfolg, sonst FALSE
      */
-    public static function copyContent($from_id, $to_id, $from_clang = 0, $to_clang = 0, $revision = 0)
+    public static function copyContent($from_id, $to_id, $from_clang = 1, $to_clang = 1, $revision = 0)
     {
         if ($from_id == $to_id && $from_clang == $to_clang) {
-        return false;
+            return false;
         }
 
         $gc = rex_sql::factory();
