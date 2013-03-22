@@ -118,12 +118,12 @@ class rex_cronjob_manager_sql
             SELECT    id, name, type, parameters, `interval`, execution_moment
             FROM      ' . REX_CRONJOB_TABLE . '
             WHERE     status = 1
-                AND   UNIX_TIMESTAMP(execution_start) < ?
+                AND   execution_start < ?
                 AND   environment LIKE ?
                 AND   nexttime <= ?
             ORDER BY  nexttime ASC, execution_moment DESC, name ASC
             LIMIT     1
-        ', [time() - 2 * ini_get('max_execution_time'), '%|' . (int) rex::isBackend() . '|%', rex_sql::datetime()]);
+        ', [rex_sql::datetime(time() - 2 * ini_get('max_execution_time')), '%|' . (int) rex::isBackend() . '|%', rex_sql::datetime()]);
         if ($sql->getRows() != 0) {
             ignore_user_abort(true);
             register_shutdown_function([$this, 'timeout'], $sql);
