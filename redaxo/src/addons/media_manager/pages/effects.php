@@ -55,7 +55,7 @@ echo '<div class="rex-addon-output-v2">';
 if ($func == '' && $type_id > 0) {
     echo rex_view::contentBlock(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
 
-    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY prior';
+    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
 
     $list = rex_list::factory($query);
     $list->addParam('effects', 1);
@@ -72,7 +72,7 @@ if ($func == '' && $type_id > 0) {
     $list->removeColumn('createdate');
     $list->removeColumn('createuser');
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnLabel('prior', rex_i18n::msg('media_manager_type_prior'));
+    $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
 
     // icon column
     $thIcon = '<a class="rex-i-element rex-i-generic-add" href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '"><span class="rex-i-element-text">' . rex_i18n::msg('media_manager_effect_create') . '</span></a>';
@@ -132,8 +132,8 @@ if ($func == '' && $type_id > 0) {
     //--></script>';
 
     // effect prio
-    $field = $form->addPrioField('prior');
-    $field->setLabel(rex_i18n::msg('media_manager_effect_prior'));
+    $field = $form->addPrioField('priority');
+    $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
     $field->setLabelField('effect');
     $field->setWhereCondition('type_id = ' . $type_id);
 

@@ -18,12 +18,12 @@ minfo_field_label_attributes = fieldattribute
 minfo_field_label_default = default value
 minfo_field_label_nullable = mandatory field
 minfo_field_label_params = parameter
-minfo_field_label_prior = field position
+minfo_field_label_priority = field position
 
 minfo_field_notice_title = prefix "translate:" translates the value via I18N
 
-minfo_field_first_prior = at the beginning
-minfo_field_after_prior = after the field "{0}"
+minfo_field_first_priority = at the beginning
+minfo_field_after_priority = after the field "{0}"
 
 minfo_field_params_notice_3 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_4 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4

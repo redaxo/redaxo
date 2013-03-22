@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `clang` int(11) NOT NULL,
     `ctype` int(11) NOT NULL,
-    `prior` int(11) NOT NULL,
+    `priority` int(11) NOT NULL,
     `value1` text,
     `value2` text,
     `value3` text,
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `updateuser` varchar(255) NOT NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`),
-    KEY `slice_prior` (`article_id`,`prior`,`module_id`),
+    KEY `slice_priority` (`article_id`,`priority`,`module_id`),
     KEY `clang` (`clang`),
     KEY `article_id` (`article_id`),
     KEY `find_slices` (`clang`,`article_id`)

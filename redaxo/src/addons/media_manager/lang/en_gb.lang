@@ -33,7 +33,7 @@ media_manager_type_edit = edit imagetype
 media_manager_type_effekts_edit = edit effect
 media_manager_type_delete = delete imagetype
 media_manager_type_name = name
-media_manager_type_prior = prio
+media_manager_type_priority = prio
 media_manager_type_description = description
 media_manager_type_functions = function
 media_manager_type_cache_delete = delete cache
@@ -48,7 +48,7 @@ media_manager_effect_create = create effect
 media_manager_effect_edit = edit effect
 media_manager_effect_delete = delete effect
 media_manager_effect_name = effect
-media_manager_effect_prior = order
+media_manager_effect_priority = order
 media_manager_effect_parameters = parameter
 media_manager_effect_functions = functions
 media_manager_effect_deleted = delete effect
@@ -90,5 +90,5 @@ im_fx_mirror_background_b = background B (0-255)
 
 im_fx_workspace_pos = Position
 
-form_field_first_prior = first position
-form_field_after_prior = after "{0}"
+form_field_first_priority = first position
+form_field_after_priority = after "{0}"

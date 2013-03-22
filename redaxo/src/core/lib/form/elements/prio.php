@@ -20,8 +20,8 @@ class rex_form_prio_element extends rex_form_select_element
         $this->labelField = '';
         $this->whereCondition = '';
         $this->primaryKey = 'id';
-        $this->firstOptionMsg = 'form_field_first_prior';
-        $this->optionMsg = 'form_field_after_prior';
+        $this->firstOptionMsg = 'form_field_first_priority';
+        $this->optionMsg = 'form_field_after_priority';
         $this->select->setSize(1);
 
         rex_extension::register('REX_FORM_SAVED', [$this, 'organizePriorities']);

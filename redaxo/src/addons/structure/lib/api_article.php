@@ -16,7 +16,7 @@ class rex_api_article_add extends rex_api_function
 
         $data = [];
         $data['name']        = rex_post('article-name', 'string');
-        $data['prior']       = rex_post('article-position', 'int');
+        $data['priority']    = rex_post('article-position', 'int');
         $data['template_id'] = rex_post('template_id', 'int');
         $data['category_id'] = $category_id;
 
@@ -43,7 +43,7 @@ class rex_api_article_edit extends rex_api_function
 
         // --------------------- ARTIKEL EDIT
         $data = [];
-        $data['prior']       = rex_post('article-position', 'int');
+        $data['priority']    = rex_post('article-position', 'int');
         $data['name']        = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');
 

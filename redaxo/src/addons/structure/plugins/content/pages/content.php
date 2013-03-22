@@ -211,23 +211,23 @@ if ($article->getRows() == 1) {
                             if ($function == 'edit') {
                                 $newsql->setWhere(['id' => $slice_id]);
                             } elseif ($function == 'add') {
-                                // determine prior value to get the new slice into the right order
+                                // determine priority value to get the new slice into the right order
                                 $prevSlice = rex_sql::factory();
                                 // $prevSlice->setDebug();
                                 if ($slice_id == -1) {
-                                    $prevSlice->setQuery('SELECT IFNULL(MAX(prior),0)+1 as prior FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision);
+                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision);
                                 } else {
                                     $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=' . $slice_id);
                                 }
 
-                                $prior = $prevSlice->getValue('prior');
+                                $priority = $prevSlice->getValue('priority');
 
                                 $newsql->setValue('article_id', $article_id);
                                 $newsql->setValue('module_id', $module_id);
                                 $newsql->setValue('clang', $clang);
                                 $newsql->setValue('ctype', $ctype);
                                 $newsql->setValue('revision', $slice_revision);
-                                $newsql->setValue('prior', $prior);
+                                $newsql->setValue('priority', $priority);
                             }
 
                             if ($function == 'edit') {
@@ -262,9 +262,9 @@ if ($article->getRows() == 1) {
 
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
-                                        'prior',
+                                        'priority',
                                         'article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
-                                        'prior, updatedate DESC'
+                                        'priority, updatedate DESC'
                                     );
 
                                     $info = $action_message . rex_i18n::msg('block_added');

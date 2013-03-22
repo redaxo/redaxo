@@ -272,7 +272,7 @@ class rex_article_content_base
                             " . rex::getTablePrefix() . "article_slice.revision='" . $this->slice_revision . "'
                             " . $articleLimit . '
                             ' . $sliceLimit . '
-                            ORDER BY ' . rex::getTablePrefix() . 'article_slice.prior';
+                            ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
 
         $artDataSql = rex_sql::factory();
         if ($this->debug) {

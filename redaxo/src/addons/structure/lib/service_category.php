@@ -24,7 +24,7 @@ class rex_category_service
             throw  new rex_api_exception('Expecting $data to be an array!');
         }
 
-        self::reqKey($data, 'catprior');
+        self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
 
         // parent may be null, when adding in the root cat
@@ -36,8 +36,8 @@ class rex_category_service
             $path = '|';
         }
 
-        if ($data['catprior'] <= 0) {
-            $data['catprior'] = 1;
+        if ($data['catpriority'] <= 0) {
+            $data['catpriority'] = 1;
         }
 
         if (!isset($data['name'])) {
@@ -95,9 +95,9 @@ class rex_category_service
             $AART->setValue('template_id', $template_id);
             $AART->setValue('name', $data['name']);
             $AART->setValue('catname', $data['catname']);
-            $AART->setValue('catprior', $data['catprior']);
+            $AART->setValue('catpriority', $data['catpriority']);
             $AART->setValue('parent_id', $category_id);
-            $AART->setValue('prior', 1);
+            $AART->setValue('priority', 1);
             $AART->setValue('path', $path);
             $AART->setValue('startarticle', 1);
             $AART->setValue('status', $data['status']);
@@ -108,8 +108,8 @@ class rex_category_service
                 $AART->insert();
 
                 // ----- PRIOR
-                if (isset($data['catprior'])) {
-                    self::newCatPrio($category_id, $key, 0, $data['catprior']);
+                if (isset($data['catpriority'])) {
+                    self::newCatPrio($category_id, $key, 0, $data['catpriority']);
                 }
 
                 $message = rex_i18n::msg('category_added_and_startarticle_created');
@@ -122,7 +122,7 @@ class rex_category_service
                     'parent_id' => $category_id,
                     'clang' => $key,
                     'name' => $data['catname'],
-                    'prior' => $data['catprior'],
+                    'priority' => $data['catpriority'],
                     'path' => $path,
                     'status' => $data['status'],
                     'article' => clone $AART,
@@ -167,8 +167,8 @@ class rex_category_service
         if (isset($data['catname'])) {
             $EKAT->setValue('catname', $data['catname']);
         }
-        if (isset($data['catprior'])) {
-            $EKAT->setValue('catprior', $data['catprior']);
+        if (isset($data['catpriority'])) {
+            $EKAT->setValue('catpriority', $data['catpriority']);
         }
 
         $EKAT->addGlobalUpdateFields();
@@ -196,23 +196,23 @@ class rex_category_service
             }
 
             // ----- PRIOR
-            if (isset($data['catprior'])) {
+            if (isset($data['catpriority'])) {
                 $parent_id = $thisCat->getValue('parent_id');
-                $old_prio = $thisCat->getValue('catprior');
+                $old_prio = $thisCat->getValue('catpriority');
 
-                if ($data['catprior'] <= 0) {
-                    $data['catprior'] = 1;
+                if ($data['catpriority'] <= 0) {
+                    $data['catpriority'] = 1;
                 }
 
                 rex_sql::factory()
                     ->setTable(rex::getTable('article'))
                     ->setWhere('id = :id AND clang != :clang', ['id' => $category_id, 'clang' => $clang])
-                    ->setValue('catprior', $data['catprior'])
+                    ->setValue('catpriority', $data['catpriority'])
                     ->addGlobalUpdateFields()
                     ->update();
 
                 foreach (rex_clang::getAllIds() as $clangId) {
-                    self::newCatPrio($parent_id, $clangId, $data['catprior'], $old_prio);
+                    self::newCatPrio($parent_id, $clangId, $data['catpriority'], $old_prio);
                 }
             }
 
@@ -232,7 +232,7 @@ class rex_category_service
                 'parent_id' => $thisCat->getValue('parent_id'),
                 'clang' => $clang,
                 'name' => $thisCat->getValue('catname'),
-                'prior' => $thisCat->getValue('catprior'),
+                'priority' => $thisCat->getValue('catpriority'),
                 'path' => $thisCat->getValue('path'),
                 'status' => $thisCat->getValue('status'),
 
@@ -287,7 +287,7 @@ class rex_category_service
                             'parent_id' => $parent_id,
                             'clang'     => $_clang,
                             'name'      => $row->getValue('catname'),
-                            'prior'     => $row->getValue('catprior'),
+                            'priority'  => $row->getValue('catpriority'),
                             'path'      => $row->getValue('path'),
                             'status'    => $row->getValue('status'),
                         ]));
@@ -432,9 +432,9 @@ class rex_category_service
 
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),
-                'catprior',
+                'catpriority',
                 'clang=' . $clang . ' AND parent_id=' . $parent_id . ' AND startarticle=1',
-                'catprior,updatedate ' . $addsql
+                'catpriority,updatedate ' . $addsql
             );
 
             rex_article_cache::deleteLists($parent_id, $clang);
@@ -523,13 +523,13 @@ class rex_category_service
                 $up = rex_sql::factory();
                 // $up->setDebug();
                 foreach (rex_clang::getAllIds() as $clang) {
-                    $gmax->setQuery('select max(catprior) from ' . rex::getTablePrefix() . "article where parent_id=$to_cat and clang=" . $clang);
-                    $catprior = (int) $gmax->getValue('max(catprior)');
+                    $gmax->setQuery('select max(catpriority) from ' . rex::getTablePrefix() . "article where parent_id=$to_cat and clang=" . $clang);
+                    $catpriority = (int) $gmax->getValue('max(catpriority)');
                     $up->setTable(rex::getTablePrefix() . 'article');
                     $up->setWhere("id=$from_cat and clang=$clang ");
                     $up->setValue('path', $to_path);
                     $up->setValue('parent_id', $to_cat);
-                    $up->setValue('catprior', ($catprior + 1));
+                    $up->setValue('catpriority', ($catpriority + 1));
                     $up->update();
                 }
 

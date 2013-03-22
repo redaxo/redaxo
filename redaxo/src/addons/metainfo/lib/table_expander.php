@@ -33,23 +33,23 @@ class rex_metainfo_table_expander extends rex_form
         $field = $this->addTextField('name');
         $field->setLabel(rex_i18n::msg('minfo_field_label_name'));
 
-        $field = $this->addSelectField('prior');
-        $field->setLabel(rex_i18n::msg('minfo_field_label_prior'));
+        $field = $this->addSelectField('priority');
+        $field->setLabel(rex_i18n::msg('minfo_field_label_priority'));
         $select = $field->getSelect();
         $select->setSize(1);
-        $select->addOption(rex_i18n::msg('minfo_field_first_prior'), 1);
+        $select->addOption(rex_i18n::msg('minfo_field_first_priority'), 1);
         // Im Edit Mode das Feld selbst nicht als Position einf�gen
-        $qry = 'SELECT name,prior FROM ' . $this->tableName . ' WHERE `name` LIKE "' . $this->metaPrefix . '%"';
+        $qry = 'SELECT name,priority FROM ' . $this->tableName . ' WHERE `name` LIKE "' . $this->metaPrefix . '%"';
         if ($this->isEditMode()) {
             $qry .= ' AND id != ' . $this->getParam('field_id');
         }
-        $qry .= ' ORDER BY prior';
+        $qry .= ' ORDER BY priority';
         $sql = rex_sql::factory();
         $sql->setQuery($qry);
         for ($i = 0; $i < $sql->getRows(); $i++) {
             $select->addOption(
-                rex_i18n::msg('minfo_field_after_prior', $sql->getValue('name')),
-                $sql->getValue('prior') + 1
+                rex_i18n::msg('minfo_field_after_priority', $sql->getValue('name')),
+                $sql->getValue('priority') + 1
             );
             $sql->next();
         }
@@ -217,16 +217,16 @@ class rex_metainfo_table_expander extends rex_form
         // Dies muss hier geschehen, da in parent::save() die Werte fuer die DB mit den
         // POST werten ueberschrieben werden!
         $fieldOldName = '';
-        $fieldOldPrior = 9999999999999; // dirty, damit die prio richtig l�uft...
+        $fieldOldPriority = 9999999999999; // dirty, damit die prio richtig l�uft...
         $fieldOldDefault = '';
         if ($this->sql->getRows() == 1) {
             $fieldOldName = $this->sql->getValue('name');
-            $fieldOldPrior = $this->sql->getValue('prior');
+            $fieldOldPriority = $this->sql->getValue('priority');
             $fieldOldDefault = $this->sql->getValue('default');
         }
 
         if (parent::save()) {
-            $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'prior'), $fieldOldPrior);
+            $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'priority'), $fieldOldPriority);
             rex_delete_cache();
 
             $fieldName = $this->addPrefix($fieldName);
@@ -292,9 +292,9 @@ class rex_metainfo_table_expander extends rex_form
 
         rex_sql_util::organizePriorities(
             $this->tableName,
-            'prior',
+            'priority',
             'name LIKE "' . $metaPrefix . '%"',
-            'prior, updatedate desc'
+            'priority, updatedate desc'
         );
     }
 }

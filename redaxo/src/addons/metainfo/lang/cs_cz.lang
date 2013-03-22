@@ -18,12 +18,12 @@ minfo_field_label_attributes = Atributy pole
 minfo_field_label_default = Standartní hodnota
 minfo_field_label_nullable = Povinné pole
 minfo_field_label_params = Parametr
-minfo_field_label_prior = Pozice pole
+minfo_field_label_priority = Pozice pole
 
 minfo_field_notice_title = Prefix "translate:" Pøelo¾ pøes hodnotu I18N
 
-minfo_field_first_prior = Na zaèátek
-minfo_field_after_prior = Po polo¾ce "{0}"
+minfo_field_first_priority = Na zaèátek
+minfo_field_after_priority = Po polo¾ce "{0}"
 
 minfo_field_params_notice_3 = Pøíklady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_4 = Pøíklady:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4

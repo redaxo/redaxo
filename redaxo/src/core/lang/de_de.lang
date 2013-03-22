@@ -55,8 +55,8 @@ logged_in_as  =  Angemeldet als
 safemode_deactivate = Safe mode deaktivieren
 
 # redaxo/include/classes/class.form.php
-form_field_first_prior = Am Anfang
-form_field_after_prior = Nach dem Feld "{0}"
+form_field_first_priority = Am Anfang
+form_field_after_priority = Nach dem Feld "{0}"
 
 # redaxo\include\pages\system.php
 info_updated = Informationen wurden aktualisiert!

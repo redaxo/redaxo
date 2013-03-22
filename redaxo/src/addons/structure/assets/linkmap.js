@@ -89,9 +89,9 @@ jQuery(function($){
             var draggedId = dragedItem.attr('data-cat-id');
             var newCatId = dragedItem.closest('ul').attr('data-cat-id');
 
-            // update the prior to bring the cat into position
-            var prevPrior = dragedItem.prev('li').attr('data-prior');
-            var newPrior = prevPrior ? (parseInt(prevPrior, 10) + 1) : 0;
+            // update the priority to bring the cat into position
+            var prevPriority = dragedItem.prev('li').attr('data-priority');
+            var newPriority = prevPriority ? (parseInt(prevPriority, 10) + 1) : 0;
 
             $.ajax({
                         async: false,
@@ -101,7 +101,7 @@ jQuery(function($){
                     'rex-api-call' : 'category-move',
                     'category-id' : draggedId,
                     'new-category-id' : newCatId,
-                    'new-prior' : newPrior
+                    'new-priority' : newPriority
                 }
             });
         },

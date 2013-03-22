@@ -22,11 +22,11 @@ class rex_article_service
         }
 
         self::reqKey($data, 'category_id');
-        self::reqKey($data, 'prior');
+        self::reqKey($data, 'priority');
         self::reqKey($data, 'name');
 
-        if ($data['prior'] <= 0) {
-            $data['prior'] = 1;
+        if ($data['priority'] <= 0) {
+            $data['priority'] = 1;
         }
 
         // parent may be null, when adding in the root cat
@@ -74,7 +74,7 @@ class rex_article_service
             $AART->setValue('catname', $categoryName);
             $AART->setValue('clang', $key);
             $AART->setValue('parent_id', $data['category_id']);
-            $AART->setValue('prior', $data['prior']);
+            $AART->setValue('priority', $data['priority']);
             $AART->setValue('path', $path);
             $AART->setValue('startarticle', 0);
             $AART->setValue('status', 0);
@@ -85,7 +85,7 @@ class rex_article_service
             try {
                 $AART->insert();
                 // ----- PRIOR
-                self::newArtPrio($data['category_id'], $key, 0, $data['prior']);
+                self::newArtPrio($data['category_id'], $key, 0, $data['priority']);
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
             }
@@ -97,7 +97,7 @@ class rex_article_service
                 'status' => 0,
                 'name' => $data['name'],
                 'parent_id' => $data['category_id'],
-                'prior' => $data['prior'],
+                'priority' => $data['priority'],
                 'path' => $path,
                 'template_id' => $data['template_id'],
                 'data' => $data,
@@ -151,14 +151,14 @@ class rex_article_service
             }
         }
 
-        if (isset($data['prior'])) {
-            if ($data['prior'] <= 0) {
-                $data['prior'] = 1;
+        if (isset($data['priority'])) {
+            if ($data['priority'] <= 0) {
+                $data['priority'] = 1;
             }
         }
 
         // complete remaining optional aprams
-        foreach (['path', 'prior'] as $optionalData) {
+        foreach (['path', 'priority'] as $optionalData) {
             if (!isset($data[$optionalData])) {
                 $data[$optionalData] = $thisArt->getValue($optionalData);
             }
@@ -169,7 +169,7 @@ class rex_article_service
         $EA->setWhere(['id' => $article_id, 'clang' => $clang]);
         $EA->setValue('name', $data['name']);
         $EA->setValue('template_id', $data['template_id']);
-        $EA->setValue('prior', $data['prior']);
+        $EA->setValue('priority', $data['priority']);
         $EA->addGlobalUpdateFields();
 
         try {
@@ -180,12 +180,12 @@ class rex_article_service
             rex_sql::factory()
                 ->setTable(rex::getTable('article'))
                 ->setWhere('id = :id AND clang != :clang', ['id' => $article_id, 'clang' => $clang])
-                ->setValue('prior', $data['prior'])
+                ->setValue('priority', $data['priority'])
                 ->addGlobalUpdateFields()
                 ->update();
 
             foreach (rex_clang::getAllIds() as $clangId) {
-                self::newArtPrio($data['category_id'], $clangId, $data['prior'], $thisArt->getValue('prior'));
+                self::newArtPrio($data['category_id'], $clangId, $data['priority'], $thisArt->getValue('priority'));
             }
             rex_article_cache::delete($article_id);
 
@@ -198,7 +198,7 @@ class rex_article_service
                 'name' => $data['name'],
                 'clang' => $clang,
                 'parent_id' => $data['category_id'],
-                'prior' => $data['prior'],
+                'priority' => $data['priority'],
                 'path' => $data['path'],
                 'template_id' => $data['template_id'],
                 'data' => $data,
@@ -238,7 +238,7 @@ class rex_article_service
                     'parent_id'   => $parent_id,
                     'name'        => $Art->getValue('name'),
                     'status'      => $Art->getValue('status'),
-                    'prior'       => $Art->getValue('prior'),
+                    'priority'    => $Art->getValue('priority'),
                     'path'        => $Art->getValue('path'),
                     'template_id' => $Art->getValue('template_id'),
                 ]));
@@ -292,7 +292,7 @@ class rex_article_service
                 'parent_id'   => $parent_id,
                 'name'        => $ART->getValue('name'),
                 'status'      => $ART->getValue('status'),
-                'prior'       => $ART->getValue('prior'),
+                'priority'    => $ART->getValue('priority'),
                 'path'        => $ART->getValue('path'),
                 'template_id' => $ART->getValue('template_id')
             ]));
@@ -435,9 +435,9 @@ class rex_article_service
 
             rex_sql_util::organizePriorities(
                 rex::getTable('article'),
-                'prior',
+                'priority',
                 'clang=' . $clang . ' AND ((startarticle<>1 AND parent_id=' . $parent_id . ') OR (startarticle=1 AND id=' . $parent_id . '))',
-                'prior,updatedate ' . $addsql
+                'priority,updatedate ' . $addsql
             );
 
             rex_article_cache::deleteLists($parent_id, $clang);
@@ -469,7 +469,7 @@ class rex_article_service
             $sql->setWhere(['id' => $art_id, 'clang' => $clang]);
             $sql->setValue('startarticle', 1);
             $sql->setValue('catname', $sql->getValue('name'));
-            $sql->setValue('catprior', 100);
+            $sql->setValue('catpriority', 100);
             $sql->update();
 
             rex_category_service::newCatPrio($parent_id, $clang, 0, 100);
@@ -518,7 +518,7 @@ class rex_article_service
             $sql->setTable(rex::getTablePrefix() . 'article');
             $sql->setWhere(['id' => $art_id, 'clang' => $clang]);
             $sql->setValue('startarticle', 0);
-            $sql->setValue('prior', 100);
+            $sql->setValue('priority', 100);
             $sql->update();
 
             self::newArtPrio($parent_id, $clang, 0, 100);
@@ -573,7 +573,7 @@ class rex_article_service
         $parent_id = $alt->getValue('parent_id');
 
         // cat felder sammeln. +
-        $params = ['path', 'prior', 'catname', 'startarticle', 'catprior', 'status'];
+        $params = ['path', 'priority', 'catname', 'startarticle', 'catpriority', 'status'];
         $db_fields = rex_structure_element::getClassVars();
         foreach ($db_fields as $field) {
             if (substr($field, 0, 4) == 'cat_') {
@@ -744,16 +744,16 @@ class rex_article_service
                     $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
                     $art_sql->setValue('parent_id', $to_cat_id);
                     $art_sql->setValue('catname', $catname);
-                    $art_sql->setValue('catprior', 0);
+                    $art_sql->setValue('catpriority', 0);
                     $art_sql->setValue('path', $path);
-                    $art_sql->setValue('prior', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
+                    $art_sql->setValue('priority', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
                     $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
                     $art_sql->setValue('startarticle', 0);
                     $art_sql->addGlobalUpdateFields();
                     $art_sql->addGlobalCreateFields();
 
                     // schon gesetzte Felder nicht wieder überschreiben
-                    $dont_copy = ['id', 'pid', 'parent_id', 'catname', 'catprior', 'path', 'prior', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startarticle'];
+                    $dont_copy = ['id', 'pid', 'parent_id', 'catname', 'catpriority', 'path', 'priority', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startarticle'];
 
                     foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name) {
                         $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
@@ -764,7 +764,7 @@ class rex_article_service
 
                     // TODO Doublecheck... is this really correct?
                     $revisions = rex_sql::factory();
-                    $revisions->setQuery('select revision from ' . rex::getTablePrefix() . "article_slice where prior=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
+                    $revisions->setQuery('select revision from ' . rex::getTablePrefix() . "article_slice where priority=1 AND ctype=1 AND article_id='$id' AND clang='$clang'");
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren
@@ -840,7 +840,7 @@ class rex_article_service
                     $art_sql->setValue('path', $path);
                     $art_sql->setValue('catname', $catname);
                     // Artikel als letzten Artikel in die neue Kat einfügen
-                    $art_sql->setValue('prior', '99999');
+                    $art_sql->setValue('priority', '99999');
                     // Kopierter Artikel offline setzen
                     $art_sql->setValue('status', '0');
                     $art_sql->addGlobalUpdateFields();

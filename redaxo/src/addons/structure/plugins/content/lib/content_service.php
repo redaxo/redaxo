@@ -27,7 +27,7 @@ class rex_content_service
         $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
         if ($CM->getRows() == 1) {
             // origin value for later success-check
-            $oldPrior = $CM->getValue('prior');
+            $oldPriority = $CM->getValue('priority');
 
             // prepare sql for later saving
             $upd = rex_sql::factory();
@@ -43,10 +43,10 @@ class rex_content_service
 
             if ($direction == 'moveup' || $direction == 'movedown') {
                 if ($direction == 'moveup') {
-                    $upd->setValue('prior', $CM->getValue('prior') - 1);
+                    $upd->setValue('priority', $CM->getValue('priority') - 1);
                     $updSort = 'DESC';
                 } elseif ($direction == 'movedown') {
-                    $upd->setValue('prior', $CM->getValue('prior') + 1);
+                    $upd->setValue('priority', $CM->getValue('priority') + 1);
                     $updSort = 'ASC';
                 }
                 $upd->addGlobalUpdateFields();
@@ -54,15 +54,15 @@ class rex_content_service
 
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
-                    'prior',
+                    'priority',
                     'article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
-                    'prior, updatedate ' . $updSort
+                    'priority, updatedate ' . $updSort
                 );
 
                 // check if the slice moved at all (first cannot be moved up, last not down)
                 $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
-                $newPrior = $CM->getValue('prior');
-                if ($oldPrior == $newPrior) {
+                $newPriority = $CM->getValue('priority');
+                if ($oldPriority == $newPriority) {
                     throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
                 }
 
@@ -100,7 +100,7 @@ class rex_content_service
         // reorg remaining slices
         rex_sql_util::organizePriorities(
             rex::getTable('article_slice'),
-            'prior',
+            'priority',
             'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') . ' AND ctype=' . $curr->getValue('ctype') . ' AND revision=' . $curr->getValue('revision')
         );
 
@@ -165,9 +165,9 @@ class rex_content_service
                 // reorg slices
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
-                    'prior',
+                    'priority',
                     'article_id=' . $to_id . ' AND clang=' . $to_clang . ' AND ctype=' . $ctype . ' AND revision=' . $revision,
-                    'prior, updatedate'
+                    'priority, updatedate'
                 );
             }
 

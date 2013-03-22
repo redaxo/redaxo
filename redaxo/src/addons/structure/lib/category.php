@@ -85,13 +85,13 @@ class rex_category extends rex_structure_element
      */
     public function getPriority()
     {
-        return $this->_catprior;
+        return $this->_catpriority;
     }
 
     /**
      * Return a list of top level categories, ie.
      * categories that have no parent.
-     * Returns an array of rex_category objects sorted by $prior.
+     * Returns an array of rex_category objects sorted by $priority.
      *
      * If $ignore_offlines is set to TRUE,
      * all categories with status 0 will be
@@ -112,7 +112,7 @@ class rex_category extends rex_structure_element
 
     /**
      * Return a list of all subcategories.
-     * Returns an array of rex_category objects sorted by $prior.
+     * Returns an array of rex_category objects sorted by $priority.
      *
      * If $ignore_offlines is set to TRUE,
      * all categories with status 0 will be
@@ -175,7 +175,7 @@ class rex_category extends rex_structure_element
 
     /**
      * Return a list of articles in this category
-     * Returns an array of rex_article objects sorted by $prior.
+     * Returns an array of rex_article objects sorted by $priority.
      *
      * If $ignore_offlines is set to TRUE,
      * all articles with status 0 will be

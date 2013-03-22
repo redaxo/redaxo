@@ -64,7 +64,7 @@ function rex_metainfo_delete_field_type($field_type_id)
 /**
  * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an
  */
-function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
+function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
 {
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -103,7 +103,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
     $sql->setTable(rex::getTablePrefix() . 'metainfo_field');
     $sql->setValue('title', $title);
     $sql->setValue('name', $name);
-    $sql->setValue('prior', $prior);
+    $sql->setValue('priority', $priority);
     $sql->setValue('attributes', $attributes);
     $sql->setValue('type', $type);
     $sql->setValue('default', $default);
@@ -118,7 +118,7 @@ function rex_metainfo_add_field($title, $name, $prior, $attributes, $type, $defa
     // replace LIKE wildcards
     $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
-    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'prior', 'name LIKE "' . $prefix . '%"', 'prior, updatedate');
+    rex_sql_util::organizePriorities(rex::getTablePrefix() . 'metainfo_field', 'priority', 'name LIKE "' . $prefix . '%"', 'priority, updatedate');
 
     $tableManager = new rex_metainfo_table_manager($metaTable);
     return $tableManager->addColumn($name, $fieldDbType, $fieldDbLength, $default);

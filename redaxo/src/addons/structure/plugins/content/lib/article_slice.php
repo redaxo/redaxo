@@ -14,7 +14,7 @@ class rex_article_slice
     private $_article_id;
     private $_clang;
     private $_ctype;
-    private $_prior;
+    private $_priority;
     private $_module_id;
 
     private $_createdate;
@@ -37,7 +37,7 @@ class rex_article_slice
      * @param int    $clang
      * @param int    $ctype
      * @param int    $module_id
-     * @param int    $prior
+     * @param int    $priority
      * @param int    $createdate
      * @param int    $updatedate
      * @param string $createuser
@@ -50,7 +50,7 @@ class rex_article_slice
      * @param array  $linklists
      */
     protected function __construct(
-        $id, $article_id, $clang, $ctype, $module_id, $prior,
+        $id, $article_id, $clang, $ctype, $module_id, $priority,
         $createdate, $updatedate, $createuser, $updateuser, $revision,
         $values, $media, $medialists, $links, $linklists)
     {
@@ -58,7 +58,7 @@ class rex_article_slice
         $this->_article_id = $article_id;
         $this->_clang = $clang;
         $this->_ctype = $ctype;
-        $this->_prior = $prior;
+        $this->_priority = $priority;
         $this->_module_id = $module_id;
 
         $this->_createdate = $createdate;
@@ -137,7 +137,7 @@ class rex_article_slice
         }
 
         return self::getSliceWhere(
-            'article_id=? AND clang=? AND ctype=? AND prior=1 AND revision=?',
+            'article_id=? AND clang=? AND ctype=? AND priority=1 AND revision=?',
             [$an_article_id, $clang, $ctype, $revision]
         );
     }
@@ -193,8 +193,8 @@ class rex_article_slice
     public function getNextSlice()
     {
         return self::getSliceWhere(
-            'prior = ? AND article_id=? AND clang = ? AND ctype = ? AND revision=?',
-            [$this->_prior + 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+            'priority = ? AND article_id=? AND clang = ? AND ctype = ? AND revision=?',
+            [$this->_priority + 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
         );
     }
 
@@ -204,8 +204,8 @@ class rex_article_slice
     public function getPreviousSlice()
     {
         return self::getSliceWhere(
-            'prior = ? AND article_id=? AND clang = ? AND ctype = ? AND revision=?',
-            [$this->_prior - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
+            'priority = ? AND article_id=? AND clang = ? AND ctype = ? AND revision=?',
+            [$this->_priority - 1, $this->_article_id, $this->_clang, $this->_ctype, $this->_revision]
         );
     }
 
@@ -251,7 +251,7 @@ class rex_article_slice
             SELECT *
             FROM ' . rex::getTable('article_slice') . '
             WHERE ' . $where . '
-            ORDER BY ctype, prior';
+            ORDER BY ctype, priority';
 
         $sql->setQuery($query, $params);
         $rows = $sql->getRows();
@@ -263,7 +263,7 @@ class rex_article_slice
                 $sql->getValue('clang'),
                 $sql->getValue('ctype'),
                 $sql->getValue('module_id'),
-                $sql->getValue('prior'),
+                $sql->getValue('priority'),
                 $sql->getValue('createdate'),
                 $sql->getValue('updatedate'),
                 $sql->getValue('createuser'),

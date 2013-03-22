@@ -21,14 +21,14 @@ minfo_field_label_callback_templates = Callback-Vorlagen
 minfo_field_label_default = Standardwert
 minfo_field_label_nullable = Pflichtfeld
 minfo_field_label_params = Parameter
-minfo_field_label_prior = Feldposition
+minfo_field_label_priority = Feldposition
 minfo_field_label_restrictions = Nur in folgenden Kategorien verfügbar
 minfo_field_label_no_restrictions = In allen Kategorien verfügbar
 
 minfo_field_notice_title = Prefix "translate:" übersetzt den Wert via I18N
 
-minfo_field_first_prior = Am Anfang
-minfo_field_after_prior = Nach dem Feld "{0}"
+minfo_field_first_priority = Am Anfang
+minfo_field_after_priority = Nach dem Feld "{0}"
 
 minfo_field_params_notice_3 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_4 = Beispiele:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4

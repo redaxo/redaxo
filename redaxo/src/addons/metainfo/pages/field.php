@@ -38,7 +38,7 @@ if ($func == '') {
     // replace LIKE wildcards
     $likePrefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY prior');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
 
     $list->setCaption(rex_i18n::msg('minfo_field_list_caption'));
     $imgHeader = '<a class="rex-ic-metainfo rex-ic-add" href="' . $list->getUrl(['func' => 'add']) . '">' . rex_i18n::msg('add') . '</a>';

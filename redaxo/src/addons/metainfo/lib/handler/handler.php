@@ -540,7 +540,7 @@ abstract class rex_metainfo_handler
                             `p`.`name` LIKE "' . $prefix . '%"
                             ' . $filterCondition . '
                             ORDER BY
-                            prior';
+                            priority';
 
         $sqlFields = rex_sql::factory();
         //$sqlFields->setDebug();

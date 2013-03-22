@@ -17,7 +17,7 @@ abstract class rex_structure_element
     protected $_catname = '';
     protected $_template_id = '';
     protected $_path = '';
-    protected $_prior = '';
+    protected $_priority = '';
     protected $_startarticle = '';
     protected $_status = '';
     protected $_updatedate = '';
@@ -296,7 +296,7 @@ abstract class rex_structure_element
      */
     public function getPriority()
     {
-        return $this->_prior;
+        return $this->_priority;
     }
 
     /**
