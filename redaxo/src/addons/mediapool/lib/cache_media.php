@@ -110,7 +110,7 @@ class rex_media_cache
             switch ($fieldName) {
                 case 'createdate':
                 case 'updatedate':
-                $cacheArray[$fieldName] = $sql->getDateTimeValue($fieldName);
+                    $cacheArray[$fieldName] = $sql->getDateTimeValue($fieldName);
                     break;
                 default:
                     $cacheArray[$fieldName] = $sql->getValue($fieldName);

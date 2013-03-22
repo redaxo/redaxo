@@ -11,6 +11,9 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
+    /**
+     * Default SQL datetime format
+     */
     const FORMAT_DATETIME = 'Y-m-d H:i:s';
 
     protected $debug; // debug schalter
@@ -350,8 +353,8 @@ class rex_sql implements Iterator
     /**
      * Sets the datetime value of a column
      *
-     * @param string $colName   Name of the column
-     * @param int    $timestamp Unix timestamp
+     * @param string   $colName   Name of the column
+     * @param int|null $timestamp Unix timestamp
      * @return rex_sql the current rex_sql object
      */
     public function setDateTimeValue($colName, $timestamp)
@@ -520,7 +523,7 @@ class rex_sql implements Iterator
      * Returns the unix timestamp of a datetime column
      *
      * @param string $colName Name of the column
-     * @return int
+     * @return int|null
      */
     public function getDateTimeValue($colName)
     {
