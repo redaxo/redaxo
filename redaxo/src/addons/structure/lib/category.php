@@ -87,19 +87,6 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * Returns TRUE if this category is an ancestor
-     * (parent, grandparent, greatgrandparent, etc)
-     * of the other category.
-     *
-     * @param self $otherCat
-     * @return boolean
-     */
-    public function isAncestor(self $otherCat)
-    {
-        return in_array($this->id, explode('|', $otherCat->getPath()));
-    }
-
-    /**
      * Return a list of articles in this category
      * Returns an array of rex_article objects sorted by $priority.
      *
