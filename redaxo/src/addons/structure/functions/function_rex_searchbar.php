@@ -153,8 +153,8 @@ function rex_structure_searchbar(rex_context $context)
     $category_select->setSelected($category_id);
 
     $form =
-        '<div class="rex-form">
-            <form action="' . rex_url::backendController() . '" method="get">
+    '<div class="rex-form">
+        <form action="' . rex_url::backendController() . '" method="get">
             <fieldset>';
 
     $form .= $context->getHiddenInputFields();
@@ -164,7 +164,7 @@ function rex_structure_searchbar(rex_context $context)
     $n = [];
     $n['label'] = '<label for="rex-id-search-article-name">' . rex_i18n::msg('be_search_article_name') . '</label>';
     $n['field'] = '<input type="text" name="search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name')) . '" />
-                                 <input class="rex-button" type="submit" name="search_start" value="' . rex_i18n::msg('be_search_start') . '" />';
+                   <button class="rex-button" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>';
     $formElements[] = $n;
 
     //$formElements = array();
@@ -380,16 +380,16 @@ function rex_structure_contentbar(rex_context $context)
 
 
     $form =
-        '<div class="rex-form">
-            <form action="' . rex_url::backendController() . '" method="get">
+    '<div class="rex-form">
+        <form action="' . rex_url::backendController() . '" method="get">
             <fieldset>';
 
     $form .= $context->getHiddenInputFields();
     $form .= '<input type="text" name="search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name') . '/' . rex_i18n::msg('be_search_article_id')) . '" />
-                        <input class="rex-button" type="submit" name="search_start" value="' . rex_i18n::msg('be_search_start') . '" />
-                </fieldset>
-            </form>
-        </div>';
+              <button class="rex-button" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>
+            </fieldset>
+        </form>
+    </div>';
 
 
     $fragment = new rex_fragment();
