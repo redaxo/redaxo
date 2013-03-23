@@ -39,7 +39,7 @@ class rex_var_media extends rex_var
             $value = self::getWidget($id, 'REX_INPUT_MEDIA[' . $id . ']', $value, $args);
         } else {
             if ($this->hasArg('output') && $this->getArg('output') == 'mimetype') {
-                $media = rex_media::getMediaByName($value);
+                $media = rex_media::get($value);
                 if ($media) {
                     $value = $media->getType();
                 }

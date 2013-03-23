@@ -294,7 +294,7 @@ class rex_media_category
 
                 if (is_array($cache)) {
                     foreach ($cache as $filename) {
-                        $this->_files[] = rex_media :: getMediaByFileName($filename);
+                        $this->_files[] = rex_media::get($filename);
                     }
                 }
             }
