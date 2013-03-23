@@ -74,14 +74,14 @@ class rex_var_linklist extends rex_var
                     ' . $options . '
             </select>
             <span class="rex-button-vgroup">
-                <a href="#" class="rex-button rex-icon rex-icon-top" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"></a>
-                <a href="#" class="rex-button rex-icon rex-icon-up" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"></a>
-                <a href="#" class="rex-button rex-icon rex-icon-down" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"></a>
-                <a href="#" class="rex-button rex-icon rex-icon-bottom" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"></a>
+                <a href="#" class="rex-button" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"><span class="rex-icon rex-icon-top"></span></a>
+                <a href="#" class="rex-button" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"><span class="rex-icon rex-icon-up"></span></a>
+                <a href="#" class="rex-button" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"><span class="rex-icon rex-icon-down"></span></a>
+                <a href="#" class="rex-button" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"><span class="rex-icon rex-icon-bottom"></span></a>
             </span>
             <span class="rex-button-group">
-                <a href="#" class="rex-button rex-icon rex-icon-open-linkmap' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"></a>
-                <a href="#" class="rex-button rex-icon rex-icon-delete-link' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"></a>
+                <a href="#" class="rex-button' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><span class="rex-icon rex-icon-open-linkmap"></span></a>
+                <a href="#" class="rex-button' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><span class="rex-icon rex-icon-delete-link"></span></a>
             </span>
         </div>';
 

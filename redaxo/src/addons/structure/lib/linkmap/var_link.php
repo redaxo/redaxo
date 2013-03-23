@@ -76,8 +76,8 @@ class rex_var_link extends rex_var
                 <input type="text" name="REX_LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" />
 
                 <span class="rex-button-group">
-                    <a href="#" class="rex-button rex-icon rex-icon-open-linkmap' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"></a>
-                    <a href="#" class="rex-button rex-icon rex-icon-delete-link' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"></a>
+                    <a href="#" class="rex-button' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><span class="rex-icon rex-icon-open-linkmap"></span></a>
+                    <a href="#" class="rex-button' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><span class="rex-icon rex-icon-delete-link"></span></a>
                 </span>
 
              </div>';
