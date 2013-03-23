@@ -166,7 +166,6 @@ if ($function == 'add' or $function == 'edit') {
 
             $hole = rex_sql::factory();
             $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
-            $category_id  = $hole->getValue('category_id');
             $mname    = $hole->getValue('name');
             $ausgabe  = $hole->getValue('output');
             $eingabe  = $hole->getValue('input');
