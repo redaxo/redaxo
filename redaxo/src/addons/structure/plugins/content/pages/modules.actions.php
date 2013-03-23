@@ -472,16 +472,19 @@ if ($OUT) {
             foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value) {
                 if (($sql->getValue('previewmode') & $var) == $var) {
                     $previewmode[] = $value;
+                }
             }
 
             foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value) {
                 if (($sql->getValue('presavemode') & $var) == $var) {
                     $presavemode[] = $value;
+                }
             }
 
             foreach ([1 => 'ADD', 2 => 'EDIT', 4 => 'DELETE'] as $var => $value) {
                 if (($sql->getValue('postsavemode') & $var) == $var) {
                     $postsavemode[] = $value;
+                }
             }
 
             $content .= '
@@ -495,14 +498,11 @@ if ($OUT) {
                             <td class="delete"><a class="rex-delete" href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete']) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?">' . rex_i18n::msg('action_delete') . '</a></td>
                         </tr>
                     ';
-            }
 
             $sql->next();
-            }
         }
 
         $content .= '</tbody>' . "\n";
-            }
     }
 
     $content .= '
