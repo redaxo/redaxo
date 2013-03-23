@@ -272,8 +272,12 @@
 }
 .rex-button .rex-icon {
     margin-right: 5px;
+    vertical-align: -2px;
 }
-.rex-widget .rex-button-group .rex-icon {
+.rex-icon-alone .rex-icon,
+.rex-widget .rex-button-group .rex-icon,
+.rex-widget .rex-button-vgroup .rex-icon,
+.rex-slice .rex-icon {
     margin-right: 0;
 }
 th > a > .rex-icon,
@@ -455,6 +459,9 @@ tr.rex-plugin .rex-icon-plugin {
 .rex-icon-check:before { content: "\2713"; }
 
 .rex-icon-close:before { content: "\2716"; }
+
+.rex-icon-delete:before { content: "\2716"; }
+.rex-icon-edit:before { content: "\270e"; }
 
 .rex-icon-context-menu:before { content: "\2699"; }
 

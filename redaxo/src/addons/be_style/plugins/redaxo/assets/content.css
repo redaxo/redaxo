@@ -329,6 +329,15 @@ pre, code, tt, .rex-code {
 .rex-nowrap {
     white-space: nowrap;
 }
+.rex-hidden {
+    display: none;
+    visibility: hidden;
+}
+.rex-visuallyhidden {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+}
 
 
 
@@ -563,6 +572,68 @@ h2 {
 
 
 
+/*  ----------------------------------- Slices ------------------------------ */
+.rex-slices {
+    margin: 0;
+    list-style: none;
+}
+.rex-slice,
+.rex-slice-select {
+    padding: 3px;
+    background-color: #dfe8e8;
+}
+.rex-slice + .rex-slice-select,
+.rex-slice-select + .rex-slice {
+    margin-top: -3px;
+}
+.rex-slice-inner,
+.rex-slice-select-inner {
+    position: relative;
+    padding: 10px;
+    background-color: #f2f5f6;
+    border: 1px solid #d9dfe3;
+}
+.rex-slice-select-inner {
+    background-color: #dfe8e8;
+}
+.rex-slice-select legend {
+    display: none;
+}
+.rex-slice-select select {
+    width: 100%;
+}
+.rex-slice-header {
+    display: block;
+    padding: 8px 10px 7px 10px;
+    background-color: #dfe8e8;
+    background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
+    background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
+    background-image: linear-gradient(#f2f5f6, #dfe8e8);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #d9dfe3;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    margin: -10px -10px 0 -10px;
+    font-size: 14px;
+    overflow: hidden;
+}
+.rex-slice-header .rex-modulename,
+.rex-slice-header .rex-slice-action {
+    display: none;
+    visibility: hidden;
+}
+.rex-slice-header .rex-slice-modulename {
+    display: inline-block;
+    font-weight: bold;
+    line-height: 26px;
+}
+.rex-slice-header .rex-header-right {
+    float: right;
+}
+
+
+
 /*  ----------------------------------- Toolbar ----------------------------- */
 .rex-toolbar {
     margin: 20px 0;
@@ -722,16 +793,4 @@ h2 {
 .rex-plugin-version {
     opacity: .5;
     font-size: 11px;
-}
-
-.rex-addon .rex-icon-help:before,
-.rex-plugin .rex-icon-help:before {
-    opacity: .5;
-    width: 20px;
-    font-size: 20px;
-}
-.rex-addon a:hover .rex-icon-help:before,
-.rex-plugin a:hover .rex-icon-help:before {
-    opacity: 1;
-    font-size: 32px;
 }

@@ -304,6 +304,7 @@
     background-image: linear-gradient(#cc7f7f, #a31919);
     border-color: #900;
     color: #fff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 .rex-button.rex-danger:active {
     background-color: #900;
@@ -312,6 +313,7 @@
     background-image: linear-gradient(#a31919, #900);
     border-color: #900;
     color: #fff;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 
 .rex-button.rex-primary,
