@@ -130,7 +130,7 @@ class rex_template
                 }
             }
         } else {
-            if ($c = rex_category::getCategoryById($category_id)) {
+            if ($c = rex_category::get($category_id)) {
                 $path = $c->getPathAsArray();
                 $path[] = $category_id;
                 foreach ($t_sql as $row) {

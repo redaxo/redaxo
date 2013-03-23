@@ -323,7 +323,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
                 if ($path != '') {
                     $path = explode('|', $path);
                     foreach ($path as $p) {
-                        $ooc = rex_category::getCategoryById($p, $clang);
+                        $ooc = rex_category::get($p, $clang);
                         $name = $ooc->getName();
                         unset($ooc); // speicher freigeben
 
@@ -331,7 +331,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
                     }
                 }
 
-                $ooa = rex_article::getArticleById($art->getValue('id'), $clang);
+                $ooa = rex_article::get($art->getValue('id'), $clang);
                 if ($ooa->isStartArticle()) {
                     $ooc = $ooa->getCategory();
                     $catname = $ooc->getName();

@@ -6,7 +6,7 @@ $HTMLArea = rex_request('HTMLArea', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string');
 $opener_input_field_name = rex_request('opener_input_field_name', 'string');
 $category_id = rex_request('category_id', 'int');
-$category_id = rex_category::getCategoryById($category_id) instanceof rex_category ? $category_id : 0;
+$category_id = rex_category::get($category_id) instanceof rex_category ? $category_id : 0;
 $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
@@ -73,7 +73,7 @@ $navi_path = '<ul id="rex-navi-path">';
 
 
 $isRoot = $category_id === 0;
-$category = rex_category::getCategoryById($category_id);
+$category = rex_category::get($category_id);
 $link = $context->getUrl(['category_id' => 0]);
 
 $navi_path .= '<li>' . rex_i18n::msg('path') . ' </li>';

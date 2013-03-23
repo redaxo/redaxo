@@ -18,7 +18,7 @@ $clang       = rex_request('clang',       'int');
 $slice_id    = rex_request('slice_id',    'int', '');
 $function    = rex_request('function',    'string');
 
-$article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
+$article_id = rex_article::get($article_id) instanceof rex_article ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 $article_revision = 0;
@@ -60,7 +60,7 @@ if ($article->getRows() == 1) {
     } // default = 1
 
     // ----- Artikel wurde gefunden - Kategorie holen
-    $OOArt = rex_article::getArticleById($article_id, $clang);
+    $OOArt = rex_article::get($article_id, $clang);
     $category_id = $OOArt->getCategoryId();
 
 

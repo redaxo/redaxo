@@ -20,8 +20,8 @@ $function    = rex_request('function',    'string');
 $info = '';
 $warning = '';
 
-$category_id = rex_category::getCategoryById($category_id) instanceof rex_category ? $category_id : 0;
-$article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
+$category_id = rex_category::get($category_id) instanceof rex_category ? $category_id : 0;
+$article_id = rex_article::get($article_id) instanceof rex_article ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
 
@@ -101,7 +101,7 @@ echo rex_api_function::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
 $cat_name = 'Homepage';
-$category = rex_category::getCategoryById($category_id, $clang);
+$category = rex_category::get($category_id, $clang);
 if ($category) {
     $cat_name = $category->getName();
 }
@@ -186,7 +186,7 @@ $echo .= '
                     </tr>
                 </thead>
                 <tbody>';
-if ($category_id != 0 && ($category = rex_category::getCategoryById($category_id))) {
+if ($category_id != 0 && ($category = rex_category::get($category_id))) {
     $echo .= '<tr>
                     <td class="rex-slim"><span class="rex-icon rex-icon-open-category"></span></td>';
     if (rex::getUser()->hasPerm('advancedMode[]')) {

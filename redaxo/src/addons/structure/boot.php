@@ -27,7 +27,7 @@ if (rex_request('article_id', 'int') == 0) {
     rex::setProperty('article_id', rex::getProperty('start_article_id'));
 } else {
     $article_id = rex_request('article_id', 'int');
-    $article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : rex::getProperty('notfound_article_id');
+    $article_id = rex_article::get($article_id) instanceof rex_article ? $article_id : rex::getProperty('notfound_article_id');
     rex::setProperty('article_id', $article_id);
 }
 
@@ -40,8 +40,8 @@ if (rex::isBackend() && rex::getUser()) {
         $clang       = rex_request('clang',       'int');
         $ctype       = rex_request('ctype',       'int');
 
-        $category_id = rex_category::getCategoryById($category_id) instanceof rex_category ? $category_id : 0;
-        $article_id = rex_article::getArticleById($article_id) instanceof rex_article ? $article_id : 0;
+        $category_id = rex_category::get($category_id) instanceof rex_category ? $category_id : 0;
+        $article_id = rex_article::get($article_id) instanceof rex_article ? $article_id : 0;
         $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
 
         // TODO - CHECK PERM
@@ -55,7 +55,7 @@ if (rex::isBackend() && rex::getUser()) {
 
         // check if a new category was folded
         $category_id = rex_request('toggle_category_id', 'int', -1);
-        $category_id = rex_category::getCategoryById($category_id) instanceof rex_category ? $category_id : -1;
+        $category_id = rex_category::get($category_id) instanceof rex_category ? $category_id : -1;
 
         $tree = '';
         $tree .= '<div id="rex-sitemap">';

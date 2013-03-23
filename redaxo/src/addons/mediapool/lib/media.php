@@ -373,7 +373,7 @@ class rex_media
             foreach ($res as $art_arr) {
                 $aid = $art_arr['article_id'];
                 $clang = $art_arr['clang'];
-                $ooa = rex_article::getArticleById($aid, $clang);
+                $ooa = rex_article::get($aid, $clang);
                 $name = $ooa->getName();
                 $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
             }

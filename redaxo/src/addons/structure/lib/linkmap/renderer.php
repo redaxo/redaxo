@@ -8,7 +8,7 @@ abstract class rex_linkmap_tree_renderer
     public function getTree($category_id)
     {
         $tree = [];
-        $category = rex_category::getCategoryById($category_id);
+        $category = rex_category::get($category_id);
 
         if ($category) {
             foreach ($category->getParentTree() as $cat) {
@@ -20,8 +20,8 @@ abstract class rex_linkmap_tree_renderer
         if (count($mountpoints) > 0) {
             $roots = [];
             foreach ($mountpoints as $mp) {
-                if (rex_category::getCategoryById($mp)) {
-                    $roots[] = rex_category::getCategoryById($mp);
+                if (rex_category::get($mp)) {
+                    $roots[] = rex_category::get($mp);
                 }
             }
         } else {
@@ -133,7 +133,7 @@ abstract class rex_linkmap_article_list_renderer
         if ($isRoot && count($mountpoints) == 0) {
             $articles = rex_article::getRootArticles();
         } else {
-            $articles = rex_article::getArticlesOfCategory($category_id);
+            $articles = rex_category::get($category_id)->getArticles();
         }
         return self::renderList($articles, $category_id);
     }
