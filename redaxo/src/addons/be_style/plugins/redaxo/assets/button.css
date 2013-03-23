@@ -190,7 +190,6 @@
     position: relative;
     display: inline-block;
     padding: 0 10px;
-    white-space: nowrap;
     background-color: #dfe8e8;
     background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
     background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
@@ -199,21 +198,23 @@
     border-radius: 3px;
     border: 1px solid #d9dfe3;
     box-sizing: border-box;
-    vertical-align: middle;
-    cursor: pointer;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
 
     color: #607890;
     font-size: 13px;
     font-weight: bold;
     line-height: 24px;
     text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .rex-button:hover {

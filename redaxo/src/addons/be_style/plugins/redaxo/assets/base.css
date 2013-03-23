@@ -16,15 +16,17 @@ time, mark, audio, video {
     padding: 0;
     border: 0;
     outline: 0;
+/*
     font-size: 100%;
     vertical-align: baseline;
+*/
     background: transparent;
 }
-
+/*
 body {
     line-height: 1;
 }
-
+*/
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
@@ -219,12 +221,12 @@ input:invalid, textarea:invalid {
 
 
 
-
+/*
 body, input, select, textarea, button {
     font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
     color: #333;
 }
-
+*/
 pre {
     white-space: pre;
 }

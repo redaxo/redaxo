@@ -4,10 +4,12 @@ body {
 }
 body {
     background: #3c4f58;
-    font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
     color: #333;
 }
 
+body, select, input, textarea, button {
+    font: 13px/1.4 Helvetica, Arial, freesans, clean, sans-serif;
+}
 
 
 /*  ----------------------------------- Page -------------------------------- */

@@ -253,21 +253,28 @@
 
 
 /*  ----------------------------------- Icon -------------------------------- */
+
 [class*="rex-icon-"]:before {
-    display: inline-block;
-    position: relative;
-    top: -1px;
-    font-family: 'entypo', sans-serif;
-    font-size: 32px;
-    font-weight: normal;
-    line-height: 0;
-    vertical-align: middle;
 }
+
 .rex-icon {
     display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-family: 'entypo', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
 }
 .rex-button .rex-icon {
     margin-right: 5px;
+}
+.rex-widget .rex-button-group .rex-icon {
+    margin-right: 0;
 }
 th > a > .rex-icon,
 td > a > .rex-icon {
@@ -285,7 +292,10 @@ td.rex-slim > .rex-icon,*/
     margin-right: 0;
 }
 
-
+.rex-icons li {
+    display: block;
+    margin-bottom: 5px;
+}
 
 /*  ----------------------------------- Packages ---------------------------- */
 tr.rex-plugin .rex-icon-plugin {
@@ -293,21 +303,30 @@ tr.rex-plugin .rex-icon-plugin {
     opacity: .5;
 }
 
+.rex-addon .rex-icon-help:before,
+.rex-plugin .rex-icon-help:before {
+    opacity: .5;
+}
+.rex-addon a:hover .rex-icon-help:before,
+.rex-plugin a:hover .rex-icon-help:before {
+    opacity: 1;
+}
 
 
 /*  ----------------------------------- Path -------------------------------- */
+
 .rex-navi-path dt a.rex-icon-sitestartarticle {
-    margin-left: 0px;
     text-indent: -1000em;
 }
 .rex-navi-path dt a.rex-icon-sitestartarticle:before {
     display: block;
     position: absolute;
-    top: 18px;
-    left: 8px;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -5px;
     text-indent: 0;
 }
-
 
 
 /*  ----------------------------------- Drop - Context Menu ----------------- */
@@ -366,10 +385,10 @@ tr.rex-plugin .rex-icon-plugin {
 .rex-icon-action:before { content: "\E75E"; }
 .rex-icon-add-action:before { content: "\2795"; }
 
-.rex-icon-addon:before { content: "\1F56A"; }
+.rex-icon-addon:before { content: "\E792"; }
 .rex-icon-add-addon:before { content: "\2795"; }
 
-.rex-icon-plugin:before { content: "\1F568"; }
+.rex-icon-plugin:before { content: "\E790"; }
 .rex-icon-add-plugin:before { content: "\2795"; }
 
 .rex-icon-article:before { content: "\1F4C4"; }
@@ -379,14 +398,14 @@ tr.rex-plugin .rex-icon-plugin {
 
 .rex-icon-category:before { content: "\1F4C1"; }
 .rex-icon-add-category:before { content: "\2795"; }
-.rex-icon-open-category:before { content: "\E800"; }
+.rex-icon-open-category:before { content: "\E738"; }
 
 .rex-icon-language:before { content: "\2691"; }
 .rex-icon-add-language:before { content: "\2795"; }
 
 .rex-icon-media:before { content: "\1F304"; }
 
-.rex-icon-module:before { content: "\1F4F8"; }
+.rex-icon-module:before { content: "\E754"; }
 .rex-icon-add-module:before { content: "\2795"; }
 
 .rex-icon-template:before { content: "\1F4F0"; }
@@ -447,7 +466,7 @@ tr.rex-plugin .rex-icon-plugin {
 .rex-icon-deactivate:before { content: "\1F4E5"; }
 
 .rex-icon-active-true:before { content: "\2713"; }
-.rex-icon-active-false:before { content: "\274C"; }
+.rex-icon-active-false:before { content: "\2715"; }
 
 .rex-icon-info:before { content: "\2139"; }
 .rex-icon-info-circled:before { content: "\E705"; }

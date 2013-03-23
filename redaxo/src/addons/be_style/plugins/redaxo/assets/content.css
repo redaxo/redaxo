@@ -504,13 +504,6 @@ h2 {
 .rex-table tr.rex-plugin td {
     background-color: #fff;
 }
-.rex-table-middle td {
-    vertical-align: middle;
-}
-.rex-table-striped tr:nth-child(odd) td {
-    background-color: #fff;
-}
-
 .rex-table .rex-function,
 .rex-table .rex-id,
 .rex-table .rex-slim,
@@ -539,8 +532,14 @@ h2 {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
 }
 
-.rex-table tr:hover td {
+.rex-table-focus tr:hover td {
     background-color: #fffedf;
+}
+.rex-table-middle td {
+    vertical-align: middle;
+}
+.rex-table-striped tr:nth-child(odd) td {
+    background-color: #fff;
 }
 
 
@@ -724,6 +723,7 @@ h2 {
     opacity: .5;
     font-size: 11px;
 }
+
 .rex-addon .rex-icon-help:before,
 .rex-plugin .rex-icon-help:before {
     opacity: .5;
