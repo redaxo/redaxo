@@ -160,7 +160,8 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Returns a datetime string in sql datetime format (Y-m-d H:i:s)
+     * Returns a datetime string in sql datetime format (Y-m-d H:i:s) using the given timestamp or the current time
+     * if no timestamp (or `null`) is given
      *
      * @param int|null $timestamp
      * @return string
@@ -354,7 +355,7 @@ class rex_sql implements Iterator
      * Sets the datetime value of a column
      *
      * @param string   $colName   Name of the column
-     * @param int|null $timestamp Unix timestamp
+     * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
      * @return rex_sql the current rex_sql object
      */
     public function setDateTimeValue($colName, $timestamp)
@@ -523,7 +524,7 @@ class rex_sql implements Iterator
      * Returns the unix timestamp of a datetime column
      *
      * @param string $colName Name of the column
-     * @return int|null
+     * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
      */
     public function getDateTimeValue($colName)
     {
