@@ -7,30 +7,37 @@
 class rex_media_category
 {
     // id
-    private $_id = '';
+    private $id = '';
     // parent_id
-    private $_parent_id = '';
+    private $parent_id = '';
 
     // name
-    private $_name = '';
+    private $name = '';
     // path
-    private $_path = '';
+    private $path = '';
 
     // createdate
-    private $_createdate = '';
+    private $createdate = '';
     // updatedate
-    private $_updatedate = '';
+    private $updatedate = '';
 
     // createuser
-    private $_createuser = '';
+    private $createuser = '';
     // updateuser
-    private $_updateuser = '';
+    private $updateuser = '';
 
     // child categories
-    private $_children = '';
+    private $children = '';
     // files (media)
-    private $_files = '';
+    private $files = '';
 
+    private static $instances = [];
+
+    /**
+     * Constructor
+     *
+     * @see rex_media_category::get()
+     */
     protected function __construct()
     {
     }
@@ -39,11 +46,16 @@ class rex_media_category
      * @param int $id
      * @return self
      */
-    public static function getCategoryById($id)
+    public static function get($id)
     {
         $id = (int) $id;
-        if (!is_numeric($id)) {
+
+        if (0 === $id) {
             return null;
+        }
+
+        if (isset(self::$instances[$id])) {
+            return self::$instances[$id];
         }
 
         $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
@@ -56,22 +68,22 @@ class rex_media_category
 
             $cat = new self();
 
-            $cat->_id = $cache['id'];
-            $cat->_parent_id = $cache['parent_id'];
+            $cat->id = $cache['id'];
+            $cat->parent_id = $cache['parent_id'];
 
-            $cat->_name = $cache['name'];
-            $cat->_path = $cache['path'];
+            $cat->name = $cache['name'];
+            $cat->path = $cache['path'];
 
-            $cat->_createdate = $cache['createdate'];
-            $cat->_updatedate = $cache['updatedate'];
+            $cat->createdate = $cache['createdate'];
+            $cat->updatedate = $cache['updatedate'];
 
-            $cat->_createuser = $cache['createuser'];
-            $cat->_updateuser = $cache['updateuser'];
+            $cat->createuser = $cache['createuser'];
+            $cat->updateuser = $cache['updateuser'];
 
-            $cat->_children = null;
-            $cat->_files = null;
+            $cat->children = null;
+            $cat->files = null;
 
-            return $cat;
+            return self::$instances[$id] = $cat;
         }
 
         return null;
@@ -82,26 +94,22 @@ class rex_media_category
      */
     public static function getRootCategories()
     {
-        return self :: getChildrenById(0);
+        return self::getChildCategories(0);
     }
 
     /**
-     * @param int $id
+     * @param int $parentId
      * @return self[]
      */
-    public static function getChildrenById($id)
+    protected static function getChildCategories($parentId)
     {
-        $id = (int) $id;
-
-        if (!is_int($id)) {
-            return [];
-        }
+        $parentId = (int) $parentId;
 
         $catlist = [];
 
-        $catlist_path = rex_path::addonCache('mediapool', $id . '.mclist');
+        $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
         if (!file_exists($catlist_path)) {
-            rex_media_cache::generateCategoryList($id);
+            rex_media_cache::generateCategoryList($parentId);
         }
 
         if (file_exists($catlist_path)) {
@@ -109,7 +117,7 @@ class rex_media_category
 
             if (is_array($cache)) {
                 foreach ($cache as $cat_id) {
-                    $catlist[] = self :: getCategoryById($cat_id);
+                    $catlist[] = self::get($cat_id);
                 }
             }
         }
@@ -118,19 +126,11 @@ class rex_media_category
     }
 
     /**
-     * @return string
-     */
-    public function toString()
-    {
-        return __CLASS__ . ', "' . $this->getId() . '", "' . $this->getName() . '"' . "<br/>\n";
-    }
-
-    /**
      * @return int
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -138,7 +138,7 @@ class rex_media_category
      */
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     /**
@@ -146,7 +146,7 @@ class rex_media_category
      */
     public function getPath()
     {
-        return $this->_path;
+        return $this->path;
     }
 
     /**
@@ -156,7 +156,7 @@ class rex_media_category
      */
     public function getPathAsArray()
     {
-        $p = explode('|', $this->_path);
+        $p = explode('|', $this->path);
         foreach ($p as $k => $v) {
             if ($v == '') {
                 unset($p[$k]);
@@ -173,7 +173,7 @@ class rex_media_category
      */
     public function getUpdateUser()
     {
-        return $this->_updateuser;
+        return $this->updateuser;
     }
 
     /**
@@ -181,7 +181,7 @@ class rex_media_category
      */
     public function getUpdateDate()
     {
-        return $this->_updatedate;
+        return $this->updatedate;
     }
 
     /**
@@ -189,7 +189,7 @@ class rex_media_category
      */
     public function getCreateUser()
     {
-        return $this->_createuser;
+        return $this->createuser;
     }
 
     /**
@@ -197,7 +197,7 @@ class rex_media_category
      */
     public function getCreateDate()
     {
-        return $this->_createdate;
+        return $this->createdate;
     }
 
     /**
@@ -205,7 +205,7 @@ class rex_media_category
      */
     public function getParentId()
     {
-        return $this->_parent_id;
+        return $this->parent_id;
     }
 
     /**
@@ -213,7 +213,7 @@ class rex_media_category
      */
     public function getParent()
     {
-        return self :: getCategoryById($this->getParentId());
+        return self::get($this->getParentId());
     }
 
     /**
@@ -225,12 +225,12 @@ class rex_media_category
     public function getParentTree()
     {
         $tree = [];
-        if ($this->_path) {
-            $explode = explode('|', $this->_path);
+        if ($this->path) {
+            $explode = explode('|', $this->path);
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ($var != '') {
-                        $tree[] = self :: getCategoryById($var);
+                        $tree[] = self::get($var);
                     }
                 }
             }
@@ -260,19 +260,11 @@ class rex_media_category
      */
     public function getChildren()
     {
-        if ($this->_children === null) {
-            $this->_children = self :: getChildrenById($this->getId());
+        if ($this->children === null) {
+            $this->children = self::getChildCategories($this->getId());
         }
 
-        return $this->_children;
-    }
-
-    /**
-     * @return int
-     */
-    public function countChildren()
-    {
-        return count($this->getChildren());
+        return $this->children;
     }
 
     /**
@@ -280,8 +272,8 @@ class rex_media_category
      */
     public function getMedia()
     {
-        if ($this->_files === null) {
-            $this->_files = [];
+        if ($this->files === null) {
+            $this->files = [];
             $id = $this->getId();
 
             $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
@@ -294,75 +286,22 @@ class rex_media_category
 
                 if (is_array($cache)) {
                     foreach ($cache as $filename) {
-                        $this->_files[] = rex_media::get($filename);
+                        $this->files[] = rex_media::get($filename);
                     }
                 }
             }
         }
 
-        return $this->_files;
+        return $this->files;
     }
 
     /**
-     * @return int
-     */
-    public function countMedia()
-    {
-        return count($this->getMedia());
-    }
-
-    /**
+     * @param self $mediaCat
      * @return bool
      */
-    public function isHidden()
+    public function isParent(self $mediaCat)
     {
-        return $this->_hide;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRootCategory()
-    {
-        return $this->hasParent() === false;
-    }
-
-    /**
-     * @param self|int $mediaCat
-     * @return bool
-     */
-    public function isParent($mediaCat)
-    {
-        if (is_int($mediaCat)) {
-            return $mediaCat == $this->getParentId();
-        } elseif ($mediaCat instanceof self) {
-            return $this->getParentId() == $mediaCat->getId();
-        }
-        return null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasParent()
-    {
-        return $this->getParentId() != 0;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasChildren()
-    {
-        return count($this->getChildren()) > 0;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasMedia()
-    {
-        return count($this->getMedia()) > 0;
+        return $this->getParentId() == $mediaCat->getId();
     }
 
     /**
@@ -418,9 +357,8 @@ class rex_media_category
             return false;
         }
 
-        if ($recurse) {
-            $childs = $this->getChildren();
-            foreach ($childs as $child) {
+        if ($children = $this->getChildren()) {
+            foreach ($children as $child) {
                 if (!$child->delete($recurse)) {
                     return false;
                 }
@@ -428,8 +366,7 @@ class rex_media_category
         }
 
         // Alle Dateien l�schen
-        if ($this->hasMedia()) {
-            $files = $this->getMedia();
+        if ($files = $this->getMedia()) {
             foreach ($files as $file) {
                 if (!$file->delete()) {
                     return false;

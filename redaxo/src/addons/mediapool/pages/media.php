@@ -349,7 +349,7 @@ if ($file_id) {
                 </div>';
         } else {
             $catname = rex_i18n::msg('pool_kats_no');
-            $Cat = rex_media_category::getCategoryById($rex_file_category);
+            $Cat = rex_media_category::get($rex_file_category);
             if ($Cat) {
                 $catname = $Cat->getName();
             }

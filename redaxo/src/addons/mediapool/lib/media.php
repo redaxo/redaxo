@@ -107,7 +107,7 @@ class rex_media
      */
     public function getCategory()
     {
-        return rex_media_category::getCategoryById($this->getCategoryId());
+        return rex_media_category::get($this->getCategoryId());
     }
 
     /**
