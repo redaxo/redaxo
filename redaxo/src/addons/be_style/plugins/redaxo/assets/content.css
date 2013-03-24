@@ -590,7 +590,7 @@ h2 {
 .rex-slice-select-inner {
     position: relative;
     padding: 10px;
-    background-color: #f2f5f6;
+    background-color: #f6fafb;
     border: 1px solid #d9dfe3;
 }
 .rex-slice-select-inner {
@@ -606,9 +606,9 @@ h2 {
     display: block;
     padding: 8px 10px 7px 10px;
     background-color: #dfe8e8;
-    background-image: -moz-linear-gradient(#f2f5f6, #dfe8e8);
-    background-image: -webkit-linear-gradient(#f2f5f6, #dfe8e8);
-    background-image: linear-gradient(#f2f5f6, #dfe8e8);
+    background-image: -moz-linear-gradient(#f6fafb, #e7f0f0);
+    background-image: -webkit-linear-gradient(#f6fafb, #e7f0f0);
+    background-image: linear-gradient(#f6fafb, #e7f0f0);
     background-repeat: repeat-x;
     border-bottom: 1px solid #d9dfe3;
     vertical-align: middle;
@@ -630,6 +630,9 @@ h2 {
 }
 .rex-slice-header .rex-header-right {
     float: right;
+}
+.rex-slice-content {
+    padding: 10px 0;
 }
 
 

@@ -176,6 +176,7 @@
     overflow: hidden;
 
     margin-top: 6px;
+    width: 100%;
     min-width: 200px;
     background: #fff;
     border: 1px solid #d9dfe3;
@@ -198,6 +199,8 @@
 
 .rex-drop-list {
     margin-left: 0;
+    max-height: 400px;
+    overflow: auto;
 }
 .rex-drop-item {
     padding: 5px 10px;
