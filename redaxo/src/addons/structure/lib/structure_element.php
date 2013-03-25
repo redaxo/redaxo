@@ -148,7 +148,7 @@ abstract class rex_structure_element
         }
 
         $class = get_called_class();
-        return static::getInstanceLazy(function ($id, $clang) use ($class) {
+        return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
             // generate cache if not exists
             if (!file_exists($article_path)) {
@@ -164,7 +164,7 @@ abstract class rex_structure_element
             }
 
             return null;
-        }, $id, $clang);
+        });
     }
 
     /**

@@ -49,7 +49,7 @@ class rex_media
         if (!$name) {
             return null;
         }
-        return self::getInstanceLazy(function ($name) {
+        return self::getInstance($name, function ($name) {
             $media_path = rex_path::addonCache('mediapool', $name . '.media');
             if (!file_exists($media_path)) {
                 rex_media_cache::generate($name);
@@ -79,7 +79,7 @@ class rex_media
             }
 
             return null;
-        }, $name);
+        });
     }
 
     /**

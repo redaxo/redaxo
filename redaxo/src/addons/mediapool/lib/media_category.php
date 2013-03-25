@@ -45,7 +45,7 @@ class rex_media_category
             return null;
         }
 
-        return self::getInstanceLazy(function ($id) {
+        return self::getInstance($id, function ($id) {
             $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
             if (!file_exists($cat_path)) {
                 rex_media_cache::generateCategory($id);
@@ -75,7 +75,7 @@ class rex_media_category
             }
 
             return null;
-        }, $id);
+        });
     }
 
     /**
