@@ -285,6 +285,11 @@
 }
 
 
+
+.rex-button.rex-mini {
+    padding: 0 5px;
+    line-height: 12px;
+}
 .rex-button.rex-large,
 .rex-form-action .rex-button[type="submit"] {
     padding: 5px 15px;
@@ -359,7 +364,9 @@
     content: ":";
 }
 
-.rex-button ~ .rex-button {
+.rex-button ~ .rex-button,
+.rex-button-group ~ .rex-button-vgroup,
+.rex-button-vgroup ~ .rex-button-group {
     margin-left: 10px;
 }
 

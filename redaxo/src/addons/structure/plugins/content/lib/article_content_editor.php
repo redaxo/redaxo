@@ -124,6 +124,7 @@ class rex_article_content_editor extends rex_article_content
         ]);
         $fragment = '#slice' . $sliceId;
         $listElements = [];
+        $listElements2 = [];
 
         $header_right = '';
 
@@ -140,10 +141,10 @@ class rex_article_content_editor extends rex_article_content
 
             if (rex::getUser()->hasPerm('moveSlice[]')) {
                 // moveup
-                $listElements[] = '<a class="rex-button" href="' . $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment . '" title="' . rex_i18n::msg('move_slice_up') . '"><span class="rex-icon rex-icon-up"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('move_slice_up') . '</span></a>';
+                $listElements2[] = '<a class="rex-button rex-mini" href="' . $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment . '" title="' . rex_i18n::msg('move_slice_up') . '"><span class="rex-icon rex-icon-up"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('move_slice_up') . '</span></a>';
 
                 // movedown
-                $listElements[] = '<a class="rex-button" href="' . $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment . '" title="' . rex_i18n::msg('move_slice_down') . '"><span class="rex-icon rex-icon-down"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('move_slice_down') . '</span></a>';
+                $listElements2[] = '<a class="rex-button rex-mini" href="' . $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment . '" title="' . rex_i18n::msg('move_slice_down') . '"><span class="rex-icon rex-icon-down"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('move_slice_down') . '</span></a>';
             }
 
         } else {
@@ -166,6 +167,10 @@ class rex_article_content_editor extends rex_article_content
 
         if (count($listElements) > 0) {
             $header_right .= '<span class="rex-button-group">' . implode('', $listElements) . '</span>';
+        }
+
+        if (count($listElements2) > 0) {
+            $header_right .= '<span class="rex-button-vgroup">' . implode('', $listElements2) . '</span>';
         }
 
         $header_right = $header_right != '' ? '<span class="rex-header-right">' . $header_right . '</span>' : '';
