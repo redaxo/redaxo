@@ -54,10 +54,12 @@ class rex_article_cache
 
         foreach (rex_clang::getAllIds() as $_clang) {
             if ($clang !== null && $clang != $_clang) {
-            continue;
+                continue;
             }
 
             rex_file::delete($cachePath . $id . '.' . $_clang . '.article');
+            rex_article::removeInstance($id, $_clang);
+            rex_category::removeInstance($id, $_clang);
         }
 
         return true;

@@ -13,6 +13,7 @@ class rex_media_cache
     public static function delete($filename)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $filename . '.media'));
+        rex_media::removeInstance($filename);
         self::deleteLists();
     }
 
@@ -24,6 +25,7 @@ class rex_media_cache
     public static function deleteCategory($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mcat'));
+        rex_media_category::removeInstance($category_id);
         self::deleteCategoryLists();
     }
 

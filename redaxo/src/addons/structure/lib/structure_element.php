@@ -7,6 +7,8 @@
  */
 abstract class rex_structure_element
 {
+    use rex_instance_pool_trait;
+
     /*
      * these vars get read out
      */
@@ -25,12 +27,6 @@ abstract class rex_structure_element
     protected $createdate = '';
     protected $updateuser = '';
     protected $createuser = '';
-
-    /**
-     * Array of rex_structure_element instances, keyed by classname, id and clang
-     * @var self[][][]
-     */
-    private static $instanceCache = [];
 
     /**
      * @var array
@@ -156,10 +152,9 @@ abstract class rex_structure_element
      *
      * @param int $id    the article id
      * @param int $clang the clang id
-     * @throws rex_exception
      * @return static A rex_structure_element instance typed to the late-static binding type of the caller
      */
-    protected static function get($id, $clang = null)
+    public static function get($id, $clang = null)
     {
         $id = (int) $id;
 
@@ -171,34 +166,24 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        // save cache per subclass
-        $subclass = get_called_class();
+        $class = get_called_class();
+        return static::getInstanceLazy(function ($id, $clang) use ($class) {
+            $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+            // generate cache if not exists
+            if (!file_exists($article_path)) {
+                rex_article_cache::generateMeta($id, $clang);
+            }
 
-        // check if the class was already stored in the instanceCache
-        if (isset(self::$instanceCache[$subclass][$id][$clang])) {
-            return self::$instanceCache[$subclass][$id][$clang];
-        }
+            // article is valid, if cache exists after generation
+            if (file_exists($article_path)) {
+                // load metadata from cache
+                $metadata = rex_file::getCache($article_path);
+                // create object with the loaded metadata
+                return new $class(self::convertGeneratedArray($metadata, $clang));
+            }
 
-        $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
-        // generate cache if not exists
-        if (!file_exists($article_path)) {
-            rex_article_cache::generateMeta($id, $clang);
-        }
-
-        // article is valid, if cache exists after generation
-        if (file_exists($article_path)) {
-            // load metadata from cache
-            $metadata = rex_file::getCache($article_path);
-
-            // create object with the loaded metadata
-            $impl = new $subclass(self::convertGeneratedArray($metadata, $clang));
-
-            // put the constructed object into the instance-cache for faster re-use
-            self::$instanceCache[$subclass][$id][$clang] = $impl;
-            return $impl;
-        }
-
-        return null;
+            return null;
+        }, $id, $clang);
     }
 
     /**

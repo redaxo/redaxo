@@ -6,6 +6,8 @@
  */
 class rex_media_category
 {
+    use rex_instance_pool_trait;
+
     // id
     private $id = '';
     // parent_id
@@ -31,17 +33,6 @@ class rex_media_category
     // files (media)
     private $files = '';
 
-    private static $instances = [];
-
-    /**
-     * Constructor
-     *
-     * @see rex_media_category::get()
-     */
-    protected function __construct()
-    {
-    }
-
     /**
      * @param int $id
      * @return self
@@ -54,39 +45,37 @@ class rex_media_category
             return null;
         }
 
-        if (isset(self::$instances[$id])) {
-            return self::$instances[$id];
-        }
+        return self::getInstanceLazy(function ($id) {
+            $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
+            if (!file_exists($cat_path)) {
+                rex_media_cache::generateCategory($id);
+            }
 
-        $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
-        if (!file_exists($cat_path)) {
-            rex_media_cache::generateCategory($id);
-        }
+            if (file_exists($cat_path)) {
+                $cache = rex_file::getCache($cat_path);
 
-        if (file_exists($cat_path)) {
-            $cache = rex_file::getCache($cat_path);
+                $cat = new self();
 
-            $cat = new self();
+                $cat->id = $cache['id'];
+                $cat->parent_id = $cache['parent_id'];
 
-            $cat->id = $cache['id'];
-            $cat->parent_id = $cache['parent_id'];
+                $cat->name = $cache['name'];
+                $cat->path = $cache['path'];
 
-            $cat->name = $cache['name'];
-            $cat->path = $cache['path'];
+                $cat->createdate = $cache['createdate'];
+                $cat->updatedate = $cache['updatedate'];
 
-            $cat->createdate = $cache['createdate'];
-            $cat->updatedate = $cache['updatedate'];
+                $cat->createuser = $cache['createuser'];
+                $cat->updateuser = $cache['updateuser'];
 
-            $cat->createuser = $cache['createuser'];
-            $cat->updateuser = $cache['updateuser'];
+                $cat->children = null;
+                $cat->files = null;
 
-            $cat->children = null;
-            $cat->files = null;
+                return $cat;
+            }
 
-            return self::$instances[$id] = $cat;
-        }
-
-        return null;
+            return null;
+        }, $id);
     }
 
     /**

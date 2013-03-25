@@ -6,6 +6,8 @@
  */
 class rex_media
 {
+    use rex_instance_pool_trait;
+
     // id
     private $id = '';
     // categoryid
@@ -38,60 +40,46 @@ class rex_media
     // createuser
     private $createuser = '';
 
-    private static $instances = [];
-
-    /**
-     * Constructor
-     *
-     * @see rex_media::get()
-     */
-    protected function __construct()
-    {
-    }
-
     /**
      * @param string $name
-     * @return self
+     * @return null|self
      */
     public static function get($name)
     {
         if (!$name) {
             return null;
         }
-
-        if (isset(self::$instances[$name])) {
-            return self::$instances[$name];
-        }
-
-        $media_path = rex_path::addonCache('mediapool', $name . '.media');
-        if (!file_exists($media_path)) {
-            rex_media_cache::generate($name);
-        }
-
-        if (file_exists($media_path)) {
-            $cache = rex_file::getCache($media_path);
-            $aliasMap = [
-                'filename' => 'name',
-                'filetype' => 'type',
-                'filesize' => 'size'
-            ];
-
-            $media = new self();
-            foreach ($cache as $key => $value) {
-                if (in_array($key, array_keys($aliasMap))) {
-                    $var_name = $aliasMap[$key];
-                } else {
-                    $var_name = $key;
-                }
-
-                $media->$var_name = $value;
+        return self::getInstanceLazy(function ($name) {
+            $media_path = rex_path::addonCache('mediapool', $name . '.media');
+            if (!file_exists($media_path)) {
+                rex_media_cache::generate($name);
             }
-            $media->category = null;
 
-            return self::$instances[$name] = $media;
-        }
+            if (file_exists($media_path)) {
+                $cache = rex_file::getCache($media_path);
+                $aliasMap = [
+                    'filename' => 'name',
+                    'filetype' => 'type',
+                    'filesize' => 'size'
+                ];
 
-        return null;
+                $media = new self();
+                foreach ($cache as $key => $value) {
+                    if (in_array($key, array_keys($aliasMap))) {
+                        $var_name = $aliasMap[$key];
+                    } else {
+                        $var_name = $key;
+                    }
+
+                    $media->$var_name = $value;
+                }
+                $media->category = null;
+
+                return $media;
+            }
+
+            return null;
+        }, $name);
     }
 
     /**

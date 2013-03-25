@@ -8,18 +8,6 @@
 class rex_article extends rex_structure_element
 {
     /**
-     * Return an rex_article object based on an id
-     *
-     * @param int $articleId
-     * @param int $clang
-     * @return self
-     */
-    public static function get($articleId, $clang = null)
-    {
-        return parent::get($articleId, $clang);
-    }
-
-    /**
      * Return the site wide start article
      *
      * @param int $clang

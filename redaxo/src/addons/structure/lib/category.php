@@ -8,18 +8,6 @@
 class rex_category extends rex_structure_element
 {
     /**
-     * Return an rex_category object based on an id
-     *
-     * @param int $categoryId
-     * @param int $clang
-     * @return self
-     */
-    public static function get($categoryId, $clang = null)
-    {
-        return parent::get($categoryId, $clang);
-    }
-
-    /**
      * Return a list of top level categories, ie.
      * categories that have no parent.
      * Returns an array of rex_category objects sorted by $priority.
