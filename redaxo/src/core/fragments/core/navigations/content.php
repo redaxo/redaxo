@@ -113,17 +113,30 @@ $right = '';
 if (isset($navigations['right'])) {
     $right .= '<ul class="rex-navi-content-items">' . $navigations['right'] . '</ul>';
 }
+
+$gizmo = '';
 if (isset($this->text_right) && $this->text_right != '') {
-    $right .= '<span class="rex-navi-content-text">' . $this->text_right . '</span>';
+    $gizmo .= '<span class="rex-navi-content-text">' . $this->text_right . '</span>';
 }
+if (isset($this->right) && $this->right != '') {
+    $gizmo = '<span class="rex-navi-content-gizmo">' . $this->right . $gizmo . '</span>';
+}
+
+$right .= $gizmo;
 
 echo $right != '' ? '<div class="rex-navi-content-right">' . $right . '</div>' : '';
 
 
 // left text
+$gizmo = '';
 if (isset($this->text_left) && $this->text_left != '') {
-    echo '<span class="rex-navi-content-text">' . $this->text_left . '</span>';
+    $gizmo .= '<span class="rex-navi-content-text">' . $this->text_left . '</span>';
 }
+if (isset($this->left) && $this->left != '') {
+    $gizmo = '<span class="rex-navi-content-gizmo">' . $gizmo . $this->left . '</span>';
+}
+
+echo $gizmo;
 
 // left navi
 if (isset($navigations['left'])) {
