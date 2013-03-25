@@ -8,6 +8,7 @@
 abstract class rex_structure_element
 {
     use rex_instance_pool_trait;
+    use rex_instance_list_pool_trait;
 
     /*
      * these vars get read out
@@ -177,39 +178,30 @@ abstract class rex_structure_element
     protected static function getChildElements($parentId, $listType, $ignoreOfflines = false, $clang = null)
     {
         $parentId = (int) $parentId;
-
         if ($parentId < 0) {
             return [];
         }
-
         if (!$clang) {
             $clang = rex_clang::getCurrentId();
         }
 
-        $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
-
-        $list = [];
-
-        if (!file_exists($listFile)) {
-            rex_article_cache::generateLists($parentId);
-        }
-
-        if (file_exists($listFile)) {
-            if (!isset(self::$childIds[$listType][$parentId])) {
-                self::$childIds[$listType][$parentId] = rex_file::getCache($listFile);
-            }
-
-            if (is_array(self::$childIds[$listType][$parentId])) {
-                foreach (self::$childIds[$listType][$parentId] as $var) {
-                    $element = static::get($var, $clang);
-                    if ($element && (!$ignoreOfflines || $element->isOnline())) {
-                        $list[] = $element;
-                    }
+        $class = get_called_class();
+        return static::getInstanceList(
+            [$parentId, $listType],
+            function ($id) use ($class, $ignoreOfflines, $clang) {
+                if ($instance = $class::get($id, $clang)) {
+                    return !$ignoreOfflines || $instance->isOnline() ? $instance : null;
                 }
+                return null;
+            },
+            function ($parentId, $listType) {
+                $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
+                if (!file_exists($listFile)) {
+                    rex_article_cache::generateLists($parentId);
+                }
+                return rex_file::getCache($listFile);
             }
-        }
-
-        return $list;
+        );
     }
 
     /**

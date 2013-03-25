@@ -113,6 +113,8 @@ class rex_article_cache
 
         rex_file::delete($cachePath . $id . '.alist');
         rex_file::delete($cachePath . $id . '.clist');
+        rex_structure_element::removeInstanceList([$id, 'alist']);
+        rex_structure_element::removeInstanceList([$id, 'clist']);
 
         return true;
     }

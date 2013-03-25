@@ -9,7 +9,7 @@
 trait rex_instance_pool_trait
 {
     /**
-     * @var static[]
+     * @var static[][]
      */
     private static $instances = [];
 
@@ -29,7 +29,7 @@ trait rex_instance_pool_trait
      */
     protected static function addInstance($key, self $instance)
     {
-        $key = self::getKey($key);
+        $key = self::getInstancePoolKey($key);
         $class = get_called_class();
         self::$instances[$class][$key] = $instance;
     }
@@ -42,7 +42,7 @@ trait rex_instance_pool_trait
      */
     protected static function hasInstance($key)
     {
-        $key = self::getKey($key);
+        $key = self::getInstancePoolKey($key);
         $class = get_called_class();
         return isset(self::$instances[$class][$key]);
     }
@@ -59,7 +59,7 @@ trait rex_instance_pool_trait
     protected static function getInstance($key, callable $createCallback = null)
     {
         $args = (array) $key;
-        $key = self::getKey($args);
+        $key = self::getInstancePoolKey($args);
         $class = get_called_class();
         if (!isset(self::$instances[$class][$key]) && $createCallback) {
             $instance = call_user_func_array($createCallback, $args);
@@ -78,7 +78,7 @@ trait rex_instance_pool_trait
      */
     public static function removeInstance($key)
     {
-        $key = self::getKey($key);
+        $key = self::getInstancePoolKey($key);
         $class = get_called_class();
         unset(self::$instances[$class][$key]);
     }
@@ -105,7 +105,7 @@ trait rex_instance_pool_trait
      * @param mixed $key Key
      * @return string
      */
-    private static function getKey($key)
+    private static function getInstancePoolKey($key)
     {
         return implode('###', (array) $key);
     }

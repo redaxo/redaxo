@@ -7,6 +7,7 @@
 class rex_media_category
 {
     use rex_instance_pool_trait;
+    use rex_instance_list_pool_trait;
 
     // id
     private $id = '';
@@ -27,11 +28,6 @@ class rex_media_category
     private $createuser = '';
     // updateuser
     private $updateuser = '';
-
-    // child categories
-    private $children = '';
-    // files (media)
-    private $files = '';
 
     /**
      * @param int $id
@@ -93,25 +89,13 @@ class rex_media_category
     protected static function getChildCategories($parentId)
     {
         $parentId = (int) $parentId;
-
-        $catlist = [];
-
-        $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
-        if (!file_exists($catlist_path)) {
-            rex_media_cache::generateCategoryList($parentId);
-        }
-
-        if (file_exists($catlist_path)) {
-            $cache = rex_file::getCache($catlist_path);
-
-            if (is_array($cache)) {
-                foreach ($cache as $cat_id) {
-                    $catlist[] = self::get($cat_id);
-                }
+        return self::getInstanceList([$parentId, 'children'], 'self::get', function ($parentId) {
+            $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
+            if (!file_exists($catlist_path)) {
+                rex_media_cache::generateCategoryList($parentId);
             }
-        }
-
-        return $catlist;
+            return rex_file::getCache($catlist_path);
+        });
     }
 
     /**
@@ -249,11 +233,7 @@ class rex_media_category
      */
     public function getChildren()
     {
-        if ($this->children === null) {
-            $this->children = self::getChildCategories($this->getId());
-        }
-
-        return $this->children;
+        return self::getChildCategories($this->getId());
     }
 
     /**
@@ -261,27 +241,13 @@ class rex_media_category
      */
     public function getMedia()
     {
-        if ($this->files === null) {
-            $this->files = [];
-            $id = $this->getId();
-
+        return self::getInstanceList([$this->getId(), 'media'], 'rex_media::get', function ($id) {
             $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
             if (!file_exists($list_path)) {
                 rex_media_cache::generateList($id);
             }
-
-            if (file_exists($list_path)) {
-                $cache = rex_file::getCache($list_path);
-
-                if (is_array($cache)) {
-                    foreach ($cache as $filename) {
-                        $this->files[] = rex_media::get($filename);
-                    }
-                }
-            }
-        }
-
-        return $this->files;
+            return rex_file::getCache($list_path);
+        });
     }
 
     /**

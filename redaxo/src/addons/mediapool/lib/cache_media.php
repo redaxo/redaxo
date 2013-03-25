@@ -44,6 +44,7 @@ class rex_media_cache
                 rex_file::delete($file);
             }
         }
+        rex_media_category::clearInstanceListPool();
     }
 
     /**
@@ -54,6 +55,7 @@ class rex_media_cache
     public static function deleteList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mlist'));
+        rex_media_category::removeInstanceList([$category_id, 'media']);
     }
 
     /**
@@ -71,6 +73,7 @@ class rex_media_cache
                 rex_file::delete($file);
             }
         }
+        rex_media_category::clearInstanceListPool();
     }
 
     /**
@@ -81,6 +84,7 @@ class rex_media_cache
     public static function deleteCategoryList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mclist'));
+        rex_media_category::removeInstanceList([$category_id, 'children']);
     }
 
     /**
