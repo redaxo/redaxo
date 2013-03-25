@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_field` (
     `callback` text NULL,
     `restrictions` text NULL,
     `createuser` varchar(255) NOT NULL,
-    `createdate` int(11) NOT NULL,
+    `createdate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,
-    `updatedate` int(11) NOT NULL,
+    `updatedate` datetime NOT NULL,
     PRIMARY KEY  (`id`),
     UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;

@@ -158,7 +158,14 @@ class rex_article_cache
             $db_fields = $class_vars;
 
             foreach ($db_fields as $field) {
-                $params[$field] = $row->getValue($field);
+                switch ($field) {
+                    case 'createdate':
+                    case 'updatedate':
+                        $params[$field] = $row->getDateTimeValue($field);
+                        break;
+                    default:
+                        $params[$field] = $row->getValue($field);
+                }
             }
 
             $cacheArray = [];

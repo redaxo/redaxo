@@ -496,7 +496,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 // ---------------------------------- Userliste
 
 if (isset($SHOW) and $SHOW) {
-    $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
+    $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, UNIX_TIMESTAMP(lasttrydate) as lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
     $list->setCaption(rex_i18n::msg('user_caption'));
     $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
 
