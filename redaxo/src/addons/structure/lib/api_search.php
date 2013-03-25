@@ -23,7 +23,6 @@ class rex_api_structure_search_content extends rex_api_function
 }
 
 /**
- *
  * @package redaxo\structure
  */
 class rex_api_structure_search_structure extends rex_api_function
@@ -45,6 +44,9 @@ class rex_api_structure_search_structure extends rex_api_function
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_typeahead_datum
 {
 
@@ -108,6 +110,9 @@ class rex_typeahead_datum
     }
 }
 
+/**
+ * @package redaxo\structure
+ */
 class rex_api_typeahead_result extends rex_api_result_abstract
 {
 
