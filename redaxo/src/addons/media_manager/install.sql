@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%media_manager_type_effect` (
     `effect` varchar(255) NOT NULL,
     `parameters` text NOT NULL,
     `priority` int(11) NOT NULL,
-    `updatedate` int(11) NOT NULL,
+    `updatedate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,
-    `createdate` int(11) NOT NULL,
+    `createdate` datetime NOT NULL,
     `createuser` varchar(255) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

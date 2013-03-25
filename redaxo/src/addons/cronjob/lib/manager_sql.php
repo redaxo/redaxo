@@ -83,12 +83,11 @@ class rex_cronjob_manager_sql
         return $success;
     }
 
-    public function setExecutionStart($id, $time = null)
+    public function setExecutionStart($id, $reset = false)
     {
-        $time = $time === null ? time() : $time;
         $this->sql->setTable(REX_CRONJOB_TABLE);
         $this->sql->setWhere(['id' => $id]);
-        $this->sql->setValue('execution_start', $time);
+        $this->sql->setDateTimeValue('execution_start', $reset ? 0 : time());
         try {
             $this->sql->update();
             return true;
@@ -119,12 +118,12 @@ class rex_cronjob_manager_sql
             SELECT    id, name, type, parameters, `interval`, execution_moment
             FROM      ' . REX_CRONJOB_TABLE . '
             WHERE     status = 1
-                AND     execution_start < ?
-                AND     environment LIKE ?
-                AND     nexttime <= ?
+                AND   execution_start < ?
+                AND   environment LIKE ?
+                AND   nexttime <= ?
             ORDER BY  nexttime ASC, execution_moment DESC, name ASC
             LIMIT     1
-        ', [time() - 2 * ini_get('max_execution_time'), '%|' . (int) rex::isBackend() . '|%', time()]);
+        ', [rex_sql::datetime(time() - 2 * ini_get('max_execution_time')), '%|' . (int) rex::isBackend() . '|%', rex_sql::datetime()]);
         if ($sql->getRows() != 0) {
             ignore_user_abort(true);
             register_shutdown_function([$this, 'timeout'], $sql);
@@ -150,7 +149,7 @@ class rex_cronjob_manager_sql
             if ($this->hasManager() && $this->getManager()->timeout()) {
                 $this->setNextTime($sql->getValue('id'), $sql->getValue('interval'), true);
             } else {
-                $this->setExecutionStart($sql->getValue('id'), 0);
+                $this->setExecutionStart($sql->getValue('id'), true);
                 $this->saveNextTime();
             }
         }
@@ -199,9 +198,9 @@ class rex_cronjob_manager_sql
         try {
             $this->sql->setQuery('
                 UPDATE  ' . REX_CRONJOB_TABLE . '
-                SET     nexttime = ?
+                SET     nexttime = ?' . $add . '
                 WHERE   id = ?
-            ', [$nexttime . $add, $id]);
+            ', [rex_sql::datetime($nexttime), $id]);
             $success = true;
         } catch (rex_sql_exception $e) {
             $success = false;
@@ -213,7 +212,7 @@ class rex_cronjob_manager_sql
     public function getMinNextTime()
     {
         $this->sql->setQuery('
-            SELECT  MIN(nexttime) AS nexttime
+            SELECT  UNIX_TIMESTAMP(MIN(nexttime)) AS nexttime
             FROM    ' . REX_CRONJOB_TABLE . '
             WHERE   status = 1
         ');

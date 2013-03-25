@@ -11,6 +11,11 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
+    /**
+     * Default SQL datetime format
+     */
+    const FORMAT_DATETIME = 'Y-m-d H:i:s';
+
     protected $debug; // debug schalter
     protected $values; // Werte von setValue
     protected $rawValues; // Werte von setRawValue
@@ -152,6 +157,18 @@ class rex_sql implements Iterator
         }
 
         return false;
+    }
+
+    /**
+     * Returns a datetime string in sql datetime format (Y-m-d H:i:s) using the given timestamp or the current time
+     * if no timestamp (or `null`) is given
+     *
+     * @param int|null $timestamp
+     * @return string
+     */
+    public static function datetime($timestamp = null)
+    {
+        return date(self::FORMAT_DATETIME, is_null($timestamp) ? time() : $timestamp);
     }
 
     /**
@@ -335,6 +352,18 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Sets the datetime value of a column
+     *
+     * @param string   $colName   Name of the column
+     * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
+     * @return rex_sql the current rex_sql object
+     */
+    public function setDateTimeValue($colName, $timestamp)
+    {
+        return $this->setValue($colName, self::datetime($timestamp));
+    }
+
+    /**
      * Setzt ein Array von Werten zugleich
      *
      * @param array $valueArray Ein Array von Werten
@@ -489,6 +518,18 @@ class rex_sql implements Iterator
     public function getArrayValue($colName)
     {
         return json_decode($this->getValue($colName), true);
+    }
+
+    /**
+     * Returns the unix timestamp of a datetime column
+     *
+     * @param string $colName Name of the column
+     * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
+     */
+    public function getDateTimeValue($colName)
+    {
+        $value = $this->getValue($colName);
+        return $value ? strtotime($value) : null;
     }
 
     protected function fetchValue($feldname)
@@ -1016,7 +1057,7 @@ class rex_sql implements Iterator
             $user = rex::getUser()->getValue('login');
         }
 
-        $this->setValue('updatedate', time());
+        $this->setDateTimeValue('updatedate', time());
         $this->setValue('updateuser', $user);
 
         return $this;
@@ -1033,7 +1074,7 @@ class rex_sql implements Iterator
             $user = rex::getUser()->getValue('login');
         }
 
-        $this->setValue('createdate', time());
+        $this->setDateTimeValue('createdate', time());
         $this->setValue('createuser', $user);
 
         return $this;
