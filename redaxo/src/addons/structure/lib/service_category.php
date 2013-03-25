@@ -437,7 +437,7 @@ class rex_category_service
                 'catpriority,updatedate ' . $addsql
             );
 
-            rex_article_cache::deleteLists($parent_id, $clang);
+            rex_article_cache::deleteLists($parent_id);
         }
     }
 

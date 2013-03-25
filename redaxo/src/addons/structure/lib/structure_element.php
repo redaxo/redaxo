@@ -109,8 +109,7 @@ abstract class rex_structure_element
             $file = rex_path::addonCache('structure',  $startId . '.1.article');
             if (!rex::isBackend() && file_exists($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
-                $genVars = self::convertGeneratedArray(rex_file::getCache($file), 1);
-                unset($genVars['article_id']);
+                $genVars = rex_file::getCache($file);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
                     $vars[] = $name;
@@ -126,24 +125,6 @@ abstract class rex_structure_element
         }
 
         return $vars;
-    }
-
-    /**
-     * Converts Genernated Array to OOBase Format Array
-     *
-     * @param array $generatedArray
-     * @param int   $clang
-     * @return array
-     */
-    private static function convertGeneratedArray(array $generatedArray, $clang)
-    {
-        $rex_structure_elementArray['id'] = $generatedArray['article_id'][$clang];
-        $rex_structure_elementArray['clang'] = $clang;
-        foreach ($generatedArray as $key => $var) {
-            $rex_structure_elementArray[$key] = $var[$clang];
-        }
-        unset($rex_structure_elementArray['article_id']);
-        return $rex_structure_elementArray;
     }
 
     /**
@@ -179,7 +160,7 @@ abstract class rex_structure_element
                 // load metadata from cache
                 $metadata = rex_file::getCache($article_path);
                 // create object with the loaded metadata
-                return new $class(self::convertGeneratedArray($metadata, $clang));
+                return new $class($metadata);
             }
 
             return null;
@@ -205,7 +186,7 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $listFile = rex_path::addonCache('structure', $parentId . '.' . $clang . '.' . $listType);
+        $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
 
         $list = [];
 

@@ -314,7 +314,7 @@ class rex_article_service
             $ART->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $id);
 
             // --------------------------------------------------- Listen generieren
-            rex_article_cache::generateLists($parent_id);
+            rex_article_cache::deleteLists($parent_id);
 
             return $message;
         } else {
@@ -440,7 +440,7 @@ class rex_article_service
                 'priority,updatedate ' . $addsql
             );
 
-            rex_article_cache::deleteLists($parent_id, $clang);
+            rex_article_cache::deleteLists($parent_id);
         }
     }
 

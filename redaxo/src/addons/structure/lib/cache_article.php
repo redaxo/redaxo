@@ -28,8 +28,8 @@ class rex_article_cache
 
             self::deleteMeta($id, $clang);
             self::deleteContent($id, $clang);
-            self::deleteLists($id, $clang);
         }
+        self::deleteLists($id);
 
         return true;
     }
@@ -98,12 +98,11 @@ class rex_article_cache
      * Löscht die gecachten List-Dateien eines Artikels. Wenn keine clang angegeben, wird
      * der Artikel in allen Sprachen gelöscht.
      *
-     * @param int $id    ArtikelId des Artikels
-     * @param int $clang ClangId des Artikels
+     * @param int $id ArtikelId des Artikels
      *
      * @return boolean True on success, False on errro
      */
-    public static function deleteLists($id, $clang = null)
+    public static function deleteLists($id)
     {
         // sanity check
         if ($id < 0) {
@@ -112,14 +111,8 @@ class rex_article_cache
 
         $cachePath = rex_path::addonCache('structure');
 
-        foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang) {
-            continue;
-            }
-
-            rex_file::delete($cachePath . $id . '.' . $_clang . '.alist');
-            rex_file::delete($cachePath . $id . '.' . $_clang . '.clist');
-        }
+        rex_file::delete($cachePath . $id . '.alist');
+        rex_file::delete($cachePath . $id . '.clist');
 
         return true;
     }
@@ -146,20 +139,13 @@ class rex_article_cache
 
         $sql = rex_sql::factory();
         $sql->setQuery($qry);
+        $fieldnames = $sql->getFieldnames();
         foreach ($sql as $row) {
             $_clang = $row->getValue('clang');
 
             // --------------------------------------------------- Artikelparameter speichern
-            $params = [
-                'article_id' => $article_id,
-                'last_update_stamp' => time()
-            ];
-
-            $class_vars = rex_structure_element::getClassVars();
-            unset($class_vars[array_search('id', $class_vars)]);
-            $db_fields = $class_vars;
-
-            foreach ($db_fields as $field) {
+            $params = ['last_update_stamp' => time()];
+            foreach ($fieldnames as $field) {
                 switch ($field) {
                     case 'createdate':
                     case 'updatedate':
@@ -170,13 +156,8 @@ class rex_article_cache
                 }
             }
 
-            $cacheArray = [];
-            foreach ($params as $name => $value) {
-                $cacheArray[$name][$_clang] = $value;
-            }
-
             $article_file = rex_path::addonCache('structure', "$article_id.$_clang.article");
-            if (rex_file::putCache($article_file, $cacheArray) === false) {
+            if (rex_file::putCache($article_file, $params) === false) {
                 return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
             }
         }
@@ -188,62 +169,46 @@ class rex_article_cache
      * Generiert alle *.alist u. *.clist Dateien einer Kategorie/eines Artikels
      *
      * @param integer $parent_id KategorieId oder ArtikelId, die erneuert werden soll
-     * @param int     $clang
      * @return bool TRUE wenn der Artikel gelöscht wurde, sonst eine Fehlermeldung
      */
-    public static function generateLists($parent_id, $clang = null)
+    public static function generateLists($parent_id)
     {
         // sanity check
         if ($parent_id < 0) {
             return false;
         }
 
+        // --------------------------------------- ARTICLE LIST
 
-        // generiere listen
-        //
-        //
-        // -> je nach clang
-        // --> artikel listen
-        // --> catgorie listen
-        //
+        $GC = rex_sql::factory();
+        // $GC->setDebug();
+        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang=1 AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parent_id]);
 
-        foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang) {
-            continue;
-            }
+        $cacheArray = [];
+        for ($i = 0; $i < $GC->getRows(); $i ++) {
+            $cacheArray[$i] = (int) $GC->getValue('id');
+            $GC->next();
+        }
 
-            // --------------------------------------- ARTICLE LIST
+        $article_list_file = rex_path::addonCache('structure', $parent_id . '.alist');
+        if (rex_file::putCache($article_list_file, $cacheArray) === false) {
+            return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
+        }
 
-            $GC = rex_sql::factory();
-            // $GC->setDebug();
-            $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where (parent_id=$parent_id and clang=$_clang and startarticle=0) OR (id=$parent_id and clang=$_clang and startarticle=1) order by priority,name");
+        // --------------------------------------- CAT LIST
 
-            $cacheArray = [];
-            for ($i = 0; $i < $GC->getRows(); $i ++) {
-                $cacheArray[$i] = $GC->getValue('id');
-                $GC->next();
-            }
+        $GC = rex_sql::factory();
+        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=:id and clang=1 and startarticle=1 order by catpriority,name', ['id' => $parent_id]);
 
-            $article_list_file = rex_path::addonCache('structure', "$parent_id.$_clang.alist");
-            if (rex_file::putCache($article_list_file, $cacheArray) === false) {
-                return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
-            }
+        $cacheArray = [];
+        for ($i = 0; $i < $GC->getRows(); $i ++) {
+            $cacheArray[$i] = (int) $GC->getValue('id');
+            $GC->next();
+        }
 
-            // --------------------------------------- CAT LIST
-
-            $GC = rex_sql::factory();
-            $GC->setQuery('select * from ' . rex::getTablePrefix() . "article where parent_id=$parent_id and clang=$_clang and startarticle=1 order by catpriority,name");
-
-            $cacheArray = [];
-            for ($i = 0; $i < $GC->getRows(); $i ++) {
-                $cacheArray[$i] = $GC->getValue('id');
-                $GC->next();
-            }
-
-            $article_categories_file = rex_path::addonCache('structure', "$parent_id.$_clang.clist");
-            if (rex_file::putCache($article_categories_file, $cacheArray) === false) {
-                return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
-            }
+        $article_categories_file = rex_path::addonCache('structure', $parent_id . '.clist');
+        if (rex_file::putCache($article_categories_file, $cacheArray) === false) {
+            return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
         }
 
         return true;
