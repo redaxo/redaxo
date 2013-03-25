@@ -170,7 +170,7 @@
 
             </div>
 
-            <div class="rex-navi-content-left">
+            <div class="rex-navi-content-gizmo">
                 <div class="rex-form">
                     <form action="#" method="get">
                         <fieldset>
@@ -689,6 +689,7 @@ h2 {
     padding: 8px 10px;
     border: 1px solid transparent;
     border-bottom: 0;
+    border-radius: 3px 3px 0 0;
     color: #666;
     font-size: 14px;
     text-decoration: none;
@@ -701,24 +702,35 @@ h2 {
     font-weight: bold;
 }
 
+
 .rex-navi-content-text {
     font-size: 11px;
 }
 .rex-navi-content-text .rex-active {
     font-weight: bold;
 }
-.rex-navi-content-left {
+.rex-navi-content-gizmo {
+    margin-top: 4px;
+    vertical-align: top;
+}
+.rex-navi-content-gizmo,
+.rex-navi-content-text {
     display: inline-block;
 }
-.rex-navi-content-left + .rex-navi-content-items,
-.rex-navi-content-items + .rex-navi-content-left {
+.rex-navi-content-gizmo,
+.rex-navi-content-text {
+    margin-right: 10px;
+}
+.rex-navi-content-right .rex-navi-content-gizmo,
+.rex-navi-content-right .rex-navi-content-text {
+    margin-right: 0;
     margin-left: 10px;
 }
 
 .rex-navi-content-head {
     position: relative;
     overflow: hidden;
-    margin-top: -10px;
+    margin: -10px 0 10px 0;
     padding: 10px;
     border: 1px solid #d9dfe3;
     border-width: 0 1px 2px 1px;

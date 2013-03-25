@@ -176,7 +176,7 @@
     overflow: hidden;
 
     margin-top: 6px;
-    width: 100%;
+    width: 300px;
     min-width: 200px;
     background: #fff;
     border: 1px solid #d9dfe3;
@@ -186,6 +186,9 @@
     font-size: 13px;
 
     display: none;
+}
+.rex-drop-right .rex-drop-container {
+    right: 0;
 }
 .rex-open .rex-drop-container {
     display: block;
@@ -230,6 +233,7 @@
     padding: 0 0 0 5px;
 }
 
+/*  ----------------------------------- Header ------------------------------ */
 .rex-drop-header {
     overflow: hidden;
     padding: 5px 10px;
@@ -237,10 +241,51 @@
     font-weight: bold;
 }
 
+/*  ----------------------------------- Footer ------------------------------ */
 .rex-drop-footer {
     padding: 5px 10px;
     background-color: #f2f5f6;
     border-top: 1px solid #dfe8e8;
+    font-weight: bold;
+}
+/*  ----------------------------------- Filter ------------------------------ */
+.rex-drop-filter {
+    padding: 10px;
+    background: #f2f5f6;
+}
+.rex-drop-filter input[type="text"] {
+    width: 100%;
+}
+/*  ----------------------------------- Navigations ------------------------- */
+.rex-drop-navigation {
+    height: 28px;
+    background: #f2f5f6;
+    border-bottom: 1px solid #d9dfe3;
+    font-size: 11px;
+}
+.rex-drop-navigation-items {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 10px;
+}
+.rex-drop-navigation-items > li {
+    display: inline-block;
+}
+.rex-drop-navigation-item {
+    display: inline-block;
+    margin-bottom: -1px;
+    padding: 4px 5px;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+    color: #666;
+    text-decoration: none;
+}
+.rex-drop-navigation-item.rex-active {
+    background-color: #fff;
+    border-color: #d9dfe3;
+    border-radius: 3px 3px 0 0;
+    color: #333;
     font-weight: bold;
 }
 
