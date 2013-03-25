@@ -443,10 +443,38 @@ if ($article->getRows() == 1) {
 
         $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;" data-pjax="false">' . rex_i18n::msg('show') . '</a>';
 
+        $left = '<div class="rex-js-drop rex-dropdown rex-drop-right">
+                    <span class="rex-button rex-drop-button rex-js-drop-button">
+                        <i>Imes</i>
+                        <span class="rex-js-button">Home [1]</span>
+                        <span class="rex-drop"></span>
+                    </span>
+                    <div class="rex-drop-container">
+                        <div class="rex-drop-header">Suchen<span class="rex-icon rex-icon-close rex-js-close"></span></div>
+                        <div class="rex-drop-filter rex-form">
+                            <form action="index.php" method="get">
+                                <fieldset>
+                                    <input type="text" name="rex-name" id="rex-id" value="" placeholder="Artikelname/Artikel Id">
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="rex-drop-navigation">
+                            <ul class="rex-drop-navigation-items">
+                                <li><a class="rex-drop-navigation-item rex-active" href="#">www.domain1.de</a></li>
+                                <li><a class="rex-drop-navigation-item" href="#">www.domain2.com</a></li>
+                            </ul>
+                        </div>
+                        <ul class="rex-drop-list rex-nowrap"><li class="rex-drop-item rex-drop-active"><a href="index.php?page=structure&amp;category_id=1"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">Home [1]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=2"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">Team [2]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=3"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">System [3]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=7"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Was ist REDAXO [7]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=8"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Für wen ist REDAXO [8]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=9"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Features [9]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=10"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Screenshots [10]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=4"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">Erste Schritte [4]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=11"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;REDAXO [11]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=12"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Doku [12]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=13"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Wiki [13]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=14"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;Forum [14]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=15"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">&nbsp;&nbsp;&nbsp;GitHub [15]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=5"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">FAQ [5]</div></a></li><li class="rex-drop-item"><a href="index.php?page=structure&amp;category_id=6"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">Kontakt / Impressum [6]</div></a></li></ul>
+                        <div class="rex-drop-footer"><a href="index.php?page=system/lang"><span class="rex-icon rex-icon-language"></span>Sprachen bearbeiten</a></div>
+                    </div>
+                </div>';
+
+
         $fragment = new rex_fragment();
-        $fragment->setVar('navigation_left', $content_navi_left, false);
-        $fragment->setVar('navigation_right', $content_navi_right, false);
-        $fragment->setVar('text_right', $content_navi_text_right, false);
+        $fragment->setVar('navigation_left', array_merge($content_navi_left, $content_navi_right), false);
+        //$fragment->setVar('navigation_right', $content_navi_right, false);
+        $fragment->setVar('text_left', $content_navi_text_right, false);
+        $fragment->setVar('right', $left, false);
         echo $fragment->parse('core/navigations/content.php');
 
 
