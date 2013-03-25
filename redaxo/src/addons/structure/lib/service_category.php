@@ -114,6 +114,8 @@ class rex_category_service
 
                 $message = rex_i18n::msg('category_added_and_startarticle_created');
 
+                rex_article_cache::delete($id, $key);
+
                 // ----- EXTENSION POINT
                 // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
                 $message = rex_extension::registerPoint(new rex_extension_point('CAT_ADDED', $message, [

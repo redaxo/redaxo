@@ -90,6 +90,8 @@ class rex_article_service
                 throw new rex_api_exception($e);
             }
 
+            rex_article_cache::delete($id, $key);
+
             // ----- EXTENSION POINT
             $message = rex_extension::registerPoint(new rex_extension_point('ART_ADDED', $message, [
                 'id' => $id,

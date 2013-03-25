@@ -63,9 +63,7 @@ trait rex_instance_pool_trait
         $class = get_called_class();
         if (!isset(self::$instances[$class][$key]) && $createCallback) {
             $instance = call_user_func_array($createCallback, $args);
-            if ($instance) {
-                self::$instances[$class][$key] = $instance;
-            }
+            self::$instances[$class][$key] = $instance instanceof static ? $instance : null;
         }
         if (isset(self::$instances[$class][$key])) {
             return self::$instances[$class][$key];
