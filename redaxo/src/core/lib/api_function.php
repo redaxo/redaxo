@@ -29,14 +29,14 @@ abstract class rex_api_function
     /**
      * Flag, indicating if this api function may be called from the frontend.
      * False by default
-     * 
+     *
      * @var boolean
      */
     protected $published = false;
 
     /**
      * The result of the function call
-     * 
+     *
      * @var rex_api_result
      */
     protected $result = null;
@@ -54,7 +54,7 @@ abstract class rex_api_function
      *
      * @return rex_api_result The result of the api-function
      */
-    abstract public function execute ();
+    abstract public function execute();
 
     /**
      * The api function which is bound to the current request.
@@ -70,14 +70,14 @@ abstract class rex_api_function
      * @throws rex_exception
      * @return rex_api_function
      */
-    public static function factory ()
+    public static function factory()
     {
         if (self::$instance) {
             return self::$instance;
         }
-        
+
         $api = rex_request(self::REQ_CALL_PARAM, 'string');
-        
+
         if ($api) {
             $apiClass = 'rex_api_' . $api;
             if (class_exists($apiClass)) {
@@ -92,7 +92,7 @@ abstract class rex_api_function
                 throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
             }
         }
-        
+
         return null;
     }
 
@@ -100,25 +100,25 @@ abstract class rex_api_function
      * checks whether an api function is bound to the current requests.
      * If so, so the api function will be executed.
      */
-    public static function handleCall ()
+    public static function handleCall()
     {
         if (static::hasFactoryClass()) {
             return static::callFactoryClass(__FUNCTION__, func_get_args());
         }
-        
+
         $apiFunc = self::factory();
-        
+
         if ($apiFunc != null) {
             if ($apiFunc->published !== true) {
                 if (rex::isBackend() !== true) {
                     throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
-                
+
                 if (! rex::getUser()) {
                     throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
-            
+
             $urlResult = rex_get(self::REQ_RESULT_PARAM, 'string');
             if ($urlResult) {
                 // take over result from url and do not execute the apiFunc
@@ -126,13 +126,13 @@ abstract class rex_api_function
                 $apiFunc->result = $result;
             } else {
                 try {
-                    
+
                     $result = $apiFunc->execute();
-                    
+
                     if (! ($result instanceof rex_api_result_abstract)) {
                         throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM));
                     }
-                    
+
                     $apiFunc->result = $result;
                     if ($result->requiresReboot()) {
                         $context = rex_context::restore();
@@ -141,7 +141,7 @@ abstract class rex_api_function
                         // and redirect to SELF for reboot
                         rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl()));
                     }
-                    
+
                     // requests for json will get api-result immediately
                     if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
                         rex_response::sendContent($result->toJson(), 'application/json');
@@ -151,7 +151,7 @@ abstract class rex_api_function
                     $message = $e->getMessage();
                     $result = new rex_api_result(false, $message);
                     $apiFunc->result = $result;
-                    
+
                     // requests for json will get api-result immediately
                     if (strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
                         rex_response::setStatus(rex_response::HTTP_INTERNAL_ERROR);
@@ -167,7 +167,7 @@ abstract class rex_api_function
      *
      * @return boolean
      */
-    public static function hasMessage ()
+    public static function hasMessage()
     {
         $apiFunc = self::factory();
         return (boolean) $apiFunc->getResult();
@@ -175,11 +175,11 @@ abstract class rex_api_function
 
     /**
      *
-     * @param boolean $formatted            
+     * @param boolean $formatted
      *
      * @return string
      */
-    public static function getMessage ($formatted = true)
+    public static function getMessage($formatted = true)
     {
         $apiFunc = self::factory();
         $message = '';
@@ -198,7 +198,7 @@ abstract class rex_api_function
         return '<div id="rex-message-container">' . $message . '</div>';
     }
 
-    protected function __construct ()
+    protected function __construct()
     {
         // NOOP
     }
@@ -207,7 +207,7 @@ abstract class rex_api_function
      *
      * @return rex_api_result
      */
-    public function getResult ()
+    public function getResult()
     {
         return $this->result;
     }
@@ -217,7 +217,7 @@ abstract class rex_api_function
  * Class representing the result of a api function call.
  *
  * @author staabm
- *        
+ *
  * @see rex_api_function
  * @package redaxo\core
  */
@@ -226,10 +226,10 @@ class rex_api_result extends rex_api_result_abstract
 
     /**
      *
-     * @param boolean $succeeded            
-     * @param string $message            
+     * @param boolean $succeeded
+     * @param string  $message
      */
-    public function __construct ($succeeded, $message = null)
+    public function __construct($succeeded, $message = null)
     {
         parent::__construct($succeeded, $message);
     }
@@ -239,7 +239,7 @@ class rex_api_result extends rex_api_result_abstract
      *
      * @return string
      */
-    public function toJson ()
+    public function toJson()
     {
         $data = [];
         foreach ($this as $key => $value) {
@@ -251,10 +251,10 @@ class rex_api_result extends rex_api_result_abstract
     /**
      * Creates a rex_api_result object from the given JSON string
      *
-     * @param string $json            
+     * @param string $json
      * @return self
      */
-    public static function fromJson ($json)
+    public static function fromJson($json)
     {
         $result = new self(true);
         $json = json_decode($json, true);
@@ -269,7 +269,7 @@ class rex_api_result extends rex_api_result_abstract
  * Abstract baseclass of a api result.
  *
  * @author staabm
- *        
+ *
  * @see rex_api_function
  * @package redaxo\core
  */
@@ -278,14 +278,14 @@ abstract class rex_api_result_abstract
 
     /**
      * Flag indicating if the api function was executed successfully
-     * 
+     *
      * @var boolean
      */
     private $succeeded = false;
 
     /**
      * Optional message which will be visible to the end-user
-     * 
+     *
      * @var string
      */
     private $message;
@@ -302,10 +302,10 @@ abstract class rex_api_result_abstract
 
     /**
      *
-     * @param boolean $succeeded            
-     * @param string $message            
+     * @param boolean $succeeded
+     * @param string  $message
      */
-    public function __construct ($succeeded, $message = null)
+    public function __construct($succeeded, $message = null)
     {
         $this->succeeded = $succeeded;
         $this->message = $message;
@@ -314,9 +314,9 @@ abstract class rex_api_result_abstract
 
     /**
      *
-     * @param boolean $requiresReboot            
+     * @param boolean $requiresReboot
      */
-    public function setRequiresReboot ($requiresReboot)
+    public function setRequiresReboot($requiresReboot)
     {
         $this->requiresReboot = $requiresReboot;
     }
@@ -327,7 +327,7 @@ abstract class rex_api_result_abstract
      *
      * @return boolean
      */
-    public function requiresReboot ()
+    public function requiresReboot()
     {
         return $this->requiresReboot;
     }
@@ -338,7 +338,7 @@ abstract class rex_api_result_abstract
      *
      * @return string
      */
-    public function getFormattedMessage ()
+    public function getFormattedMessage()
     {
         if ($this->isSuccessfull()) {
             return rex_view::success($this->message);
@@ -352,7 +352,7 @@ abstract class rex_api_result_abstract
      *
      * @return string a statusmessage
      */
-    public function getMessage ()
+    public function getMessage()
     {
         return $this->message;
     }
@@ -362,7 +362,7 @@ abstract class rex_api_result_abstract
      *
      * @return boolean true on success, false on error
      */
-    public function isSuccessfull ()
+    public function isSuccessfull()
     {
         return $this->succeeded;
     }
@@ -372,7 +372,7 @@ abstract class rex_api_result_abstract
      *
      * @return string
      */
-    public abstract function toJson ();
+    abstract public function toJson();
 }
 
 /**
@@ -380,14 +380,14 @@ abstract class rex_api_result_abstract
  * The messages of this exception will be displayed to the end-user.
  *
  * @author staabm
- *        
+ *
  * @see rex_api_function
  * @package redaxo\core
  */
 class rex_api_exception extends rex_exception
 {
 
-    public function __construct ($message, Exception $previous = null)
+    public function __construct($message, Exception $previous = null)
     {
         parent::__construct($message, $previous);
     }

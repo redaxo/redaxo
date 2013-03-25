@@ -6,7 +6,7 @@
 class rex_api_structure_search_content extends rex_api_function
 {
 
-    public function execute ()
+    public function execute()
     {
         $result = new rex_api_typeahead_result(true);
         for ($i = 0; $i < 10; $i ++) {
@@ -17,7 +17,7 @@ class rex_api_structure_search_content extends rex_api_function
             ]);
             $result->addDatum($datum);
         }
-        
+
         return $result;
     }
 }
@@ -29,10 +29,10 @@ class rex_api_structure_search_content extends rex_api_function
 class rex_api_structure_search_structure extends rex_api_function
 {
 
-    public function execute ()
+    public function execute()
     {
         $result = new rex_api_typeahead_result(true);
-        
+
         $entry = new rex_typeahead_datum('hallo structure', [
             'ha',
             'lo',
@@ -40,7 +40,7 @@ class rex_api_structure_search_structure extends rex_api_function
             'off'
         ]);
         $result->addDatum($entry);
-        
+
         return $result;
     }
 }
@@ -71,16 +71,16 @@ class rex_typeahead_datum
 
     /**
      *
-     * @param string $value            
-     * @param string|string[] $tokens            
+     * @param string          $value
+     * @param string|string[] $tokens
      */
-    public function __construct ($value, $tokens)
+    public function __construct($value, $tokens)
     {
         $this->value = $value;
         $this->tokens = (array) $tokens;
     }
 
-    public function __set ($key, $value)
+    public function __set($key, $value)
     {
         $this->data[$key] = $value;
     }
@@ -93,17 +93,17 @@ class rex_typeahead_datum
 //         return null;
 //     }
 
-    public function toArray ()
+    public function toArray()
     {
         $data = [];
-        
+
         $data['value'] = $this->value;
         $data['tokens'] = $this->tokens;
-        
+
         foreach ($this->data as $key => $value) {
             $data[$key] = $value;
         }
-        
+
         return $data;
     }
 }
@@ -114,21 +114,21 @@ class rex_api_typeahead_result extends rex_api_result_abstract
     /**
      * @var rex_typeahead_datum[]
      */
-    private $datum = array();
+    private $datum = [];
 
-    public function addDatum (rex_typeahead_datum $datum)
+    public function addDatum(rex_typeahead_datum $datum)
     {
         $this->datum[] = $datum;
     }
 
-    public function toJson ()
+    public function toJson()
     {
         $result = [];
-        
+
         foreach ($this->datum as $datum) {
             $result[] = $datum->toArray();
         }
-        
+
         return json_encode($result);
     }
 }
