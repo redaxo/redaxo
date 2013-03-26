@@ -506,7 +506,8 @@ h2 {
 .rex-table th:first-child {
     text-align: center;
 }
-.rex-table td.rex-highlight {
+.rex-table tr.rex-startarticle .rex-id,
+.rex-table tr.rex-startarticle .rex-name {
     font-weight: bold;
 }
 
