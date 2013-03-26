@@ -224,7 +224,7 @@ if ($function == 'add_cat' && $KATPERM) {
                 <tr class="' . $class . '">
                     <td class="rex-slim"><span class="rex-icon rex-icon-category"></span></td>
                     ' . $add_td . '
-                    <td class="rex-name"><input type="text" id="rex-form-field-name" name="category-name" /></td>
+                    <td class="rex-name"><input type="text" id="rex-form-field-name" name="category-name" autofocus /></td>
                     <td class="rex-priority"><input class="rex-number" type="text" id="rex-form-field-priority" name="category-position" value="' . ($KAT->getRows() + 1) . '" /></td>
                     <td>' . $meta_buttons . '</td>
                     <td colspan="2">' . $add_buttons . '</td>
@@ -287,7 +287,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
                 <tr id="rex-structure-category-' . $i_category_id . '" class="' . $class . '">
                     ' . $kat_icon_td . '
                     ' . $add_td . '
-                    <td class="rex-name"><input type="text" id="rex-form-field-name" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" /></td>
+                    <td class="rex-name"><input type="text" id="rex-form-field-name" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" autofocus /></td>
                     <td class="rex-priority"><input class="rex-number" type="text" id="rex-form-field-priority" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
                     <td>' . $meta_buttons . '</td>
                     <td colspan="2">' . $add_buttons . '</td>
@@ -353,13 +353,6 @@ $echo .= '
 
 if ($function == 'add_cat' || $function == 'edit_cat') {
     $echo .= '
-        <script type="text/javascript">
-            <!--
-            jQuery(function($){
-                $("#rex-form-field-name").focus();
-            });
-            //-->
-        </script>
     </fieldset>
 </form>
 </div>';
@@ -510,7 +503,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         $echo .= '<tr class="rex-active">
                                 <td class="rex-slim"><span class="rex-icon rex-icon-article"></span></td>
                                 ' . $add_td . '
-                                <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" /></td>
+                                <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" autofocus /></td>
                                 <td class="rex-priority"><input class="rex-number" type="text" id="rex-form-field-priority" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
                                 ' . $tmpl_td . '
                                 <td class="rex-date">' . rex_formatter::strftime(time(), 'date') . '</td>
@@ -554,7 +547,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             $echo .= '<tr id="rex-structure-article-' . $article_id . '" class="rex-active">
                                     <td class="rex-slim"><a href="' . $context->getUrl(['page' => 'content', 'article_id' => $sql->getValue('id')]) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><span class="rex-icon' . $class . '"></span></a></td>
                                     ' . $add_td . '
-                                    <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" /></td>
+                                    <td class="rex-name"><input type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" autofocus /></td>
                                     <td class="rex-priority"><input class="rex-number" type="text" id="rex-form-field-priority" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
                                     ' . $tmpl_td . '
                                     <td class="rex-date">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
@@ -655,13 +648,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
     if ($function == 'add_art' || $function == 'edit_art') {
         $echo .= '
-            <script type="text/javascript">
-                <!--
-                jQuery(function($){
-                    $("#rex-form-field-name").focus();
-                });
-                //-->
-            </script>
         </fieldset>
     </form>
     </div>';

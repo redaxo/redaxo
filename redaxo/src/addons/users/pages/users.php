@@ -384,7 +384,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="username">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" />';
+    $n['field'] = '<input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
     $formElements[] = $n;
 
     $n = [];
@@ -460,8 +460,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     <script type="text/javascript">
      <!--
     jQuery(function($) {
-        $("#username").focus();
-
         $("#userform")
             .submit(function(){
                 var pwInp = $("#userpsw");

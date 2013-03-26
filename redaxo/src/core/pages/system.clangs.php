@@ -100,7 +100,7 @@ if ($func == 'addclang') {
                 <tr class="rex-active">
                     <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
                     <td class="rex-id">–</td>
-                    <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" /></td>
+                    <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" autofocus /></td>
                     <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($clang_name) . '" /></td>
                     <td class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
                 </tr>
@@ -124,7 +124,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                     <tr class="rex-active">
                         <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
                         ' . $add_td . '
-                        <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" /></td>
+                        <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" autofocus /></td>
                         <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($lang->getName()) . '" /></td>
                         <td class="rex-save"><button class="rex-button" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
                     </tr>';
@@ -149,13 +149,6 @@ $content .= '
 
 if ($func == 'addclang' || $func == 'editclang') {
     $content .= '
-                    <script type="text/javascript">
-                        <!--
-                        jQuery(function($){
-                            $("#rex-form-clang-code").focus();
-                        });
-                        //-->
-                    </script>
                 </fieldset>';
 }
 

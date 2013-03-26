@@ -248,7 +248,7 @@ if ($step == 4) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" />';
+        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
         $formElements[] = $n;
 
         $n = [];
@@ -322,14 +322,7 @@ if ($step == 4) {
 
      $content .= '</fieldset>
             </form>
-            </div>
-            <script type="text/javascript">
-                 <!--
-                jQuery(function($) {
-                    $("#serveraddress").focus();
-                });
-                 //-->
-            </script>';
+            </div>';
 
     echo $headline . rex_view::contentBlock($content, '', 'block');
 }
@@ -636,7 +629,7 @@ if ($step == 6) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" />';
+        $n['field'] = '<input class="rex-form-text" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
         $formElements[] = $n;
 
         $n = [];
@@ -675,7 +668,6 @@ if ($step == 6) {
     <script type="text/javascript">
          <!--
         jQuery(function($) {
-            $("#rex-form-redaxo-user-login").focus();
             $("#createadminform")
                 .submit(function(){
                     var pwInp = $("#rex-form-redaxo-user-pass");

@@ -52,7 +52,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
-$n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" />';
+$n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
 $formElements[] = $n;
 
 $n = [];
@@ -91,8 +91,6 @@ $content .= '
 <script type="text/javascript">
      <!--
     jQuery(function($) {
-        $("#rex-id-login-user").focus();
-
         $("#rex-form-login form")
             .submit(function(){
                 var pwInp = $("#rex-id-login-password");
