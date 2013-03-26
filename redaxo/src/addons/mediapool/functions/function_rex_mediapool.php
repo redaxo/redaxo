@@ -343,7 +343,7 @@ function rex_mediapool_mediaIsInUse($filename)
     $where .= implode(' OR ', $files) . ' OR ';
     $where .= implode(' OR ', $filelists) . ' OR ';
     $where .= implode(' OR ', $values);
-    $query = 'SELECT DISTINCT article_id, clang FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
+    $query = 'SELECT DISTINCT article_id, clang_id FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
 
     $warning = [];
     $res = $sql->getArray($query);
@@ -351,7 +351,7 @@ function rex_mediapool_mediaIsInUse($filename)
         $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
         foreach ($res as $art_arr) {
             $aid = $art_arr['article_id'];
-            $clang = $art_arr['clang'];
+            $clang = $art_arr['clang_id'];
             $ooa = rex_article::get($aid, $clang);
             $name = $ooa->getName();
             $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';

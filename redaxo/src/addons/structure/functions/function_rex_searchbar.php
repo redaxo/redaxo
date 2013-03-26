@@ -49,7 +49,7 @@ function rex_structure_searchbar(rex_context $context)
         SELECT id
         FROM ' . rex::getTablePrefix() . 'article
         WHERE
-            clang = ' . $clang . ' AND
+            clang_id = ' . $clang . ' AND
             (
                 name LIKE "%' . $search_article_name_like . '%" OR
                 catname LIKE "%' . $search_article_name_like . '%"

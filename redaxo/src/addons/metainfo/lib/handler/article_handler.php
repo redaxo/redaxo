@@ -18,7 +18,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         $article = rex_sql::factory();
         // $article->setDebug();
         $article->setTable(rex::getTablePrefix() . 'article');
-        $article->setWhere('id=:id AND clang=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);
+        $article->setWhere('id=:id AND clang_id=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);
 
         parent::fetchRequestValues($params, $article, $sqlFields);
 

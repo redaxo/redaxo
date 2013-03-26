@@ -55,11 +55,11 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $articles = '';
         $categories = '';
         if (!empty($where['articles'])) {
-            $sql->setQuery('SELECT id, clang, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
+            $sql->setQuery('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
             if ($sql->getRows() > 0) {
                 foreach ($sql->getArray() as $art_arr) {
                     $aid = $art_arr['id'];
-                    $clang = $art_arr['clang'];
+                    $clang = $art_arr['clang_id'];
                     $parent_id = $art_arr['parent_id'];
                     $name = $art_arr['startarticle'] ? $art_arr['catname'] : $art_arr['name'];
                     if ($art_arr['startarticle']) {

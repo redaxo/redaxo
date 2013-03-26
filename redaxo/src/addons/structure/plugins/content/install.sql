@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `clang` int(11) NOT NULL,
+    `clang_id` int(11) NOT NULL,
     `ctype` int(11) NOT NULL,
     `priority` int(11) NOT NULL,
     `value1` text,
@@ -72,9 +72,9 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `slice_priority` (`article_id`,`priority`,`module_id`),
-    KEY `clang` (`clang`),
+    KEY `clang_id` (`clang_id`),
     KEY `article_id` (`article_id`),
-    KEY `find_slices` (`clang`,`article_id`)
+    KEY `find_slices` (`clang_id`,`article_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (

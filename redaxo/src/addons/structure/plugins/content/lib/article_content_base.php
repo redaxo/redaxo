@@ -110,7 +110,7 @@ class rex_article_content_base
         $this->article_id = $article_id;
 
         // ---------- select article
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . "article.id='$article_id' AND clang='" . $this->clang . "'";
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . "article.id='$article_id' AND clang_id='" . $this->clang . "'";
         $sql = $this->getSqlInstance();
         $sql->setQuery($qry);
 
@@ -267,8 +267,8 @@ class rex_article_content_base
                         LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
                         LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
                         WHERE
-                            ' . rex::getTablePrefix() . "article_slice.clang='" . $this->clang . "' AND
-                            " . rex::getTablePrefix() . "article.clang='" . $this->clang . "' AND
+                            ' . rex::getTablePrefix() . "article_slice.clang_id='" . $this->clang . "' AND
+                            " . rex::getTablePrefix() . "article.clang_id='" . $this->clang . "' AND
                             " . rex::getTablePrefix() . "article_slice.revision='" . $this->slice_revision . "'
                             " . $articleLimit . '
                             ' . $sliceLimit . '

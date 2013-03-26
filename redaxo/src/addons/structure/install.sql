@@ -12,13 +12,13 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article` (
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `template_id` int(10) unsigned NOT NULL,
-    `clang` int(10) unsigned NOT NULL,
+    `clang_id` int(10) unsigned NOT NULL,
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`pid`),
-    UNIQUE KEY `find_articles` (`id`,`clang`),
+    UNIQUE KEY `find_articles` (`id`,`clang_id`),
     KEY `id` (`id`),
-    KEY `clang` (`clang`),
+    KEY `clang_id` (`clang_id`),
     KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

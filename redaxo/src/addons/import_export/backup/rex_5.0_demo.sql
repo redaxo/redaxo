@@ -34,7 +34,7 @@ CREATE TABLE `rex_article` (
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `template_id` int(10) unsigned NOT NULL,
-    `clang` int(10) unsigned NOT NULL,
+    `clang_id` int(10) unsigned NOT NULL,
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `revision` int(10) unsigned NOT NULL,
@@ -46,9 +46,9 @@ CREATE TABLE `rex_article` (
     `art_teaser` varchar(255) DEFAULT '',
     `art_type_id` varchar(255) DEFAULT '',
     PRIMARY KEY (`pid`),
-    UNIQUE KEY `find_articles` (`id`,`clang`),
+    UNIQUE KEY `find_articles` (`id`,`clang_id`),
     KEY `id` (`id`),
-    KEY `clang` (`clang`),
+    KEY `clang_id` (`clang_id`),
     KEY `parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
@@ -81,7 +81,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `rex_article_slice`;
 CREATE TABLE `rex_article_slice` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `clang` int(10) unsigned NOT NULL,
+    `clang_id` int(10) unsigned NOT NULL,
     `ctype` int(10) unsigned NOT NULL,
     `priority` int(10) unsigned NOT NULL,
     `value1` text,
@@ -153,9 +153,9 @@ CREATE TABLE `rex_article_slice` (
     `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`),
     KEY `slice_priority` (`article_id`,`priority`,`module_id`),
-    KEY `clang` (`clang`),
+    KEY `clang_id` (`clang_id`),
     KEY `article_id` (`article_id`),
-    KEY `find_slices` (`clang`,`article_id`)
+    KEY `find_slices` (`clang_id`,`article_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `rex_article_slice` WRITE;
