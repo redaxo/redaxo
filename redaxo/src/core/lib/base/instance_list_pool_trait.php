@@ -16,13 +16,13 @@ trait rex_instance_list_pool_trait
     /**
      * Adds an instance list
      *
-     * @param mixed $key      Key
-     * @param self  $instance Instance
+     * @param mixed $key             Key
+     * @param array $instanceKeyList Array of instance keys
      */
-    protected static function addInstanceList($key, self $instance)
+    protected static function addInstanceList($key, array $instanceKeyList)
     {
         $key = self::getInstanceListPoolKey($key);
-        self::$instanceLists[$key] = $instance;
+        self::$instanceLists[$key] = $instanceKeyList;
     }
 
     /**
@@ -47,7 +47,7 @@ trait rex_instance_list_pool_trait
      * @param callable $createListCallback  Callback, will be called to create the list of instance keys
      * @return static[]
      */
-    public static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
+    protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
     {
         $args = (array) $key;
         $key = self::getInstanceListPoolKey($args);
