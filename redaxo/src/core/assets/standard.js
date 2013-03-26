@@ -453,6 +453,9 @@ function getCookie(cookieName) {
 
 jQuery(document).ready(function($) {
 
+    if (!("autofocus" in document.createElement("input"))) {
+        $(".rex-js-autofocus").focus();
+    }
 
     confDialog = function(event) {
         if(!confirm($(this).attr('data-confirm')))
