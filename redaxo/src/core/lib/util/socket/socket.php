@@ -54,7 +54,7 @@ class rex_socket
      * @param string  $host Host name
      * @param integer $port Port number
      * @param boolean $ssl  SSL flag
-     * @return self Socket instance
+     * @return static Socket instance
      *
      * @see rex_socket::factoryUrl()
      */
@@ -72,7 +72,7 @@ class rex_socket
      *
      * @param string $url URL
      * @throws rex_socket_exception
-     * @return self Socket instance
+     * @return static Socket instance
      *
      * @see rex_socket::factory()
      */
