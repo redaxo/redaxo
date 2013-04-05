@@ -76,7 +76,8 @@ class rex_string
     /**
      * Compares two version number strings
      *
-     * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal
+     * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal and it supports a space as separator for
+     * the version parts, e.g. "1.0 beta1"
      *
      * @link http://www.php.net/manual/en/function.version-compare.php
      *
