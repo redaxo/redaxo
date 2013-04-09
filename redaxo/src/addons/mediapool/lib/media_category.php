@@ -37,7 +37,7 @@ class rex_media_category
     {
         $id = (int) $id;
 
-        if (0 === $id) {
+        if (0 >= $id) {
             return null;
         }
 
