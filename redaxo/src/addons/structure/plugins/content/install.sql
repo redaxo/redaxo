@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `clang_id` int(11) NOT NULL,
-    `ctype` int(11) NOT NULL,
+    `ctype_id` int(11) NOT NULL,
     `priority` int(11) NOT NULL,
     `value1` text,
     `value2` text,

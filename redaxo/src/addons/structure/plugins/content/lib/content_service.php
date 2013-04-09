@@ -38,7 +38,7 @@ class rex_content_service
 
             // some vars for later use
             $article_id = $CM->getValue('article_id');
-            $ctype = $CM->getValue('ctype');
+            $ctype = $CM->getValue('ctype_id');
             $slice_revision = $CM->getValue('revision');
 
             if ($direction == 'moveup' || $direction == 'movedown') {
@@ -55,7 +55,7 @@ class rex_content_service
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
                     'priority',
-                    'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
+                    'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision,
                     'priority, updatedate ' . $updSort
                 );
 
@@ -101,7 +101,7 @@ class rex_content_service
         rex_sql_util::organizePriorities(
             rex::getTable('article_slice'),
             'priority',
-            'article_id=' . $curr->getValue('article_id') . ' AND clang_id=' . $curr->getValue('clang_id') . ' AND ctype=' . $curr->getValue('ctype') . ' AND revision=' . $curr->getValue('revision')
+            'article_id=' . $curr->getValue('article_id') . ' AND clang_id=' . $curr->getValue('clang_id') . ' AND ctype_id=' . $curr->getValue('ctype_id') . ' AND revision=' . $curr->getValue('revision')
         );
 
         // check if delete was successfull
@@ -147,7 +147,7 @@ class rex_content_service
                     }
 
                     // collect all affected ctypes
-                    if ($colname == 'ctype') {
+                    if ($colname == 'ctype_id') {
                     $ctypes[$value] = $value;
                     }
 
@@ -166,7 +166,7 @@ class rex_content_service
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
                     'priority',
-                    'article_id=' . $to_id . ' AND clang_id=' . $to_clang . ' AND ctype=' . $ctype . ' AND revision=' . $revision,
+                    'article_id=' . $to_id . ' AND clang_id=' . $to_clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $revision,
                     'priority, updatedate'
                 );
             }

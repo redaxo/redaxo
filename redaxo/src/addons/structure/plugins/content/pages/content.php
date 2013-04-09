@@ -215,7 +215,7 @@ if ($article->getRows() == 1) {
                                 $prevSlice = rex_sql::factory();
                                 // $prevSlice->setDebug();
                                 if ($slice_id == -1) {
-                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision);
+                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision);
                                 } else {
                                     $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=' . $slice_id);
                                 }
@@ -225,7 +225,7 @@ if ($article->getRows() == 1) {
                                 $newsql->setValue('article_id', $article_id);
                                 $newsql->setValue('module_id', $module_id);
                                 $newsql->setValue('clang_id', $clang);
-                                $newsql->setValue('ctype', $ctype);
+                                $newsql->setValue('ctype_id', $ctype);
                                 $newsql->setValue('revision', $slice_revision);
                                 $newsql->setValue('priority', $priority);
                             }
@@ -263,7 +263,7 @@ if ($article->getRows() == 1) {
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
                                         'priority',
-                                        'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
+                                        'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision,
                                         'priority, updatedate DESC'
                                     );
 

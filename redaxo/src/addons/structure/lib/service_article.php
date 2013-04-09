@@ -766,7 +766,7 @@ class rex_article_service
 
                     // TODO Doublecheck... is this really correct?
                     $revisions = rex_sql::factory();
-                    $revisions->setQuery('select revision from ' . rex::getTablePrefix() . "article_slice where priority=1 AND ctype=1 AND article_id='$id' AND clang_id='$clang'");
+                    $revisions->setQuery('select revision from ' . rex::getTablePrefix() . "article_slice where priority=1 AND ctype_id=1 AND article_id='$id' AND clang_id='$clang'");
                     foreach ($revisions as $rev) {
                         // FIXME this dependency is very ugly!
                         // ArticleSlices kopieren

@@ -56,7 +56,7 @@ if ($add_action != '') {
 
 if ($function == 'delete') {
     $del = rex_sql::factory();
-    $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
+    $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype_id, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
             LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
             WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$module_id' GROUP BY " . rex::getTablePrefix() . 'article_slice.article_id');
 
@@ -66,7 +66,7 @@ if ($function == 'delete') {
         for ($i = 0; $i < $del->getRows(); $i++) {
             $aid = $del->getValue(rex::getTablePrefix() . 'article_slice.article_id');
             $clang_id = $del->getValue(rex::getTablePrefix() . 'article_slice.clang_id');
-            $ctype = $del->getValue(rex::getTablePrefix() . 'article_slice.ctype');
+            $ctype = $del->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
             $OOArt = rex_article::get($aid, $clang_id);
 
             $label = $OOArt->getName() . ' [' . $aid . ']';

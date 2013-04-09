@@ -292,7 +292,7 @@ class rex_article_content_base
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
             $sliceId       = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtypeId  = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype');
+            $sliceCtypeId  = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
             $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             // ----- ctype unterscheidung
@@ -434,7 +434,7 @@ class rex_article_content_base
             [
                 (int) $sql->getValue('module_id'),
                 (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
-                (int) $sql->getValue('ctype')
+                (int) $sql->getValue('ctype_id')
             ],
             $content
         );

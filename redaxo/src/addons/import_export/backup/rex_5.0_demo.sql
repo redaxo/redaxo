@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `rex_article_slice`;
 CREATE TABLE `rex_article_slice` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `clang_id` int(10) unsigned NOT NULL,
-    `ctype` int(10) unsigned NOT NULL,
+    `ctype_id` int(10) unsigned NOT NULL,
     `priority` int(10) unsigned NOT NULL,
     `value1` text,
     `value2` text,
