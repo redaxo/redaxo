@@ -46,9 +46,10 @@ class rex_media
      */
     public static function get($name)
     {
-        if (!$name) {
+        if (!$name || !preg_match('/^[\w.]+$/', $name)) {
             return null;
         }
+
         return self::getInstance($name, function ($name) {
             $media_path = rex_path::addonCache('mediapool', $name . '.media');
             if (!file_exists($media_path)) {
