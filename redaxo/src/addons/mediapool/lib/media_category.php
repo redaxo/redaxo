@@ -89,6 +89,10 @@ class rex_media_category
     protected static function getChildCategories($parentId)
     {
         $parentId = (int) $parentId;
+        if (0 > $parentId) {
+            return [];
+        }
+
         return self::getInstanceList([$parentId, 'children'], 'self::get', function ($parentId) {
             $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
             if (!file_exists($catlist_path)) {
