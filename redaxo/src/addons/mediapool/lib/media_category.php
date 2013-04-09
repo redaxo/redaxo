@@ -311,7 +311,7 @@ class rex_media_category
      */
     public function delete($recurse = false)
     {
-        // Rekursiv l�schen?
+        // delete recursive?
         if (!$recurse && $this->hasChildren()) {
             return false;
         }
@@ -324,7 +324,7 @@ class rex_media_category
             }
         }
 
-        // Alle Dateien l�schen
+        // delete all media
         if ($files = $this->getMedia()) {
             foreach ($files as $file) {
                 if (!$file->delete()) {
