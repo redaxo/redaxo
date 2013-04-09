@@ -240,7 +240,7 @@ class rex_login
      */
     public function setSessionVar($varname, $value)
     {
-        $_SESSION[$this->systemId][$varname] = $value;
+        $_SESSION[rex::getProperty('instname')][$this->systemId][$varname] = $value;
     }
 
     /**
@@ -248,8 +248,8 @@ class rex_login
      */
     public function getSessionVar($varname, $default = '')
     {
-        if (isset ($_SESSION[$this->systemId][$varname])) {
-            return $_SESSION[$this->systemId][$varname];
+        if (isset($_SESSION[rex::getProperty('instname')][$this->systemId][$varname])) {
+            return $_SESSION[rex::getProperty('instname')][$this->systemId][$varname];
         }
 
         return $default;

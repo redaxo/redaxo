@@ -5,6 +5,7 @@
  */
 class rex_backend_login extends rex_login
 {
+    const SYSTEM_ID = 'backend_login';
     const LOGIN_TRIES_1   = 3;
     const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
     const LOGIN_TRIES_2   = 50;
@@ -19,7 +20,7 @@ class rex_backend_login extends rex_login
 
         $tableName = rex::getTablePrefix() . 'user';
         $this->setSqlDb(1);
-        $this->setSystemId(rex::getProperty('instname'));
+        $this->setSystemId(self::SYSTEM_ID);
         $this->setSessionDuration(rex::getProperty('session_duration'));
         $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
         $this->setUserQuery($qry . ' AND id = :id');
@@ -112,7 +113,7 @@ class rex_backend_login extends rex_login
             session_start();
         }
 
-        unset($_SESSION[rex::getProperty('instname')]);
+        unset($_SESSION[rex::getProperty('instname')][self::SYSTEM_ID]);
         setcookie('rex_user_' . sha1(rex::getProperty('instname')), '', time() - 3600);
     }
 
@@ -124,7 +125,7 @@ class rex_backend_login extends rex_login
 
         $instname = rex::getProperty('instname');
 
-        return isset($_SESSION[$instname]['UID']) && $_SESSION[$instname]['UID'] > 0;
+        return isset($_SESSION[$instname][self::SYSTEM_ID]['UID']) && $_SESSION[$instname][self::SYSTEM_ID]['UID'] > 0;
     }
 
     /**
