@@ -26,8 +26,7 @@ function rex_structure_searchbar(rex_context $context)
 
     // ------------ Suche via ArtikelId
     if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
-        $OOArt = rex_article::get($matches[0], $clang);
-        if ($OOArt instanceof rex_article) {
+        if ($OOArt = rex_article::get($matches[0], $clang)) {
             rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId()])));
         }
     }
