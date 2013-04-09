@@ -28,7 +28,7 @@ interface rex_user_role_interface
      * Returns the role for the given ID
      *
      * @param integer $id ID
-     * @return rex_user_role_interface Role instance
+     * @return static Role instance
      */
     public static function get($id);
 }

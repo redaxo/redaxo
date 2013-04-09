@@ -27,7 +27,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @param string $addon Name of the addon
      * @throws InvalidArgumentException
-     * @return rex_addon
+     * @return self
      */
     public static function get($addon)
     {
@@ -207,7 +207,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the registered addons
      *
-     * @return rex_addon[]
+     * @return self[]
      */
     public static function getRegisteredAddons()
     {
@@ -217,7 +217,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the installed addons
      *
-     * @return rex_addon[]
+     * @return self[]
      */
     public static function getInstalledAddons()
     {
@@ -227,7 +227,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the available addons
      *
-     * @return rex_addon[]
+     * @return self[]
      */
     public static function getAvailableAddons()
     {
@@ -237,7 +237,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the setup addons
      *
-     * @return rex_addon[]
+     * @return self[]
      */
     public static function getSetupAddons()
     {
@@ -253,7 +253,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     /**
      * Returns the system addons
      *
-     * @return rex_addon[]
+     * @return self[]
      */
     public static function getSystemAddons()
     {

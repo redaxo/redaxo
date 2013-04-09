@@ -167,7 +167,7 @@ class rex_list implements rex_url_provider_interface
      * @param int    $rowsPerPage
      * @param null   $listName
      * @param bool   $debug
-     * @return self
+     * @return static
      */
     public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
     {

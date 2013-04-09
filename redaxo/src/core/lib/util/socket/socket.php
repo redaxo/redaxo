@@ -87,7 +87,7 @@ class rex_socket
      * Sets the path
      *
      * @param string $path
-     * @return self Current socket
+     * @return $this Current socket
      */
     public function setPath($path)
     {
@@ -101,7 +101,7 @@ class rex_socket
      *
      * @param string $key
      * @param string $value
-     * @return self Current socket
+     * @return $this Current socket
      */
     public function addHeader($key, $value)
     {
@@ -115,7 +115,7 @@ class rex_socket
      *
      * @param string $user
      * @param string $password
-     * @return self Current socket
+     * @return $this Current socket
      */
     public function addBasicAuthorization($user, $password)
     {
@@ -128,7 +128,7 @@ class rex_socket
      * Sets the timeout for the connection
      *
      * @param int $timeout Timeout
-     * @return self Current socket
+     * @return $this Current socket
      */
     public function setTimeout($timeout)
     {

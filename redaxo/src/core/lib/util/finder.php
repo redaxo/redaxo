@@ -39,7 +39,7 @@ class rex_finder implements IteratorAggregate, Countable
      *
      * @param string $dir Path to a directory
      * @throws InvalidArgumentException
-     * @return self
+     * @return static
      */
     public static function factory($dir)
     {
@@ -55,7 +55,7 @@ class rex_finder implements IteratorAggregate, Countable
      * Activate/Deactivate recursive directory scanning
      *
      * @param boolean $recursive
-     * @return self
+     * @return $this
      */
     public function recursive($recursive = true)
     {
@@ -67,7 +67,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Fetch directory contents before recurse its subdirectories.
      *
-     * @return self
+     * @return $this
      */
     public function selfFirst()
     {
@@ -79,7 +79,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Fetch child directories before their parent directory.
      *
-     * @return self
+     * @return $this
      */
     public function childFirst()
     {
@@ -91,7 +91,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Fetch files only
      *
-     * @return self
+     * @return $this
      */
     public function filesOnly()
     {
@@ -103,7 +103,7 @@ class rex_finder implements IteratorAggregate, Countable
     /**
      * Fetch dirs only
      *
-     * @return self
+     * @return $this
      */
     public function dirsOnly()
     {
@@ -117,7 +117,7 @@ class rex_finder implements IteratorAggregate, Countable
      *
      * @param string|array $glob      Glob pattern or an array of glob patterns
      * @param boolean      $recursive When FALSE the patterns won't be checked in child directories
-     * @return self
+     * @return $this
      */
     public function ignoreFiles($glob, $recursive = true)
     {
@@ -136,7 +136,7 @@ class rex_finder implements IteratorAggregate, Countable
      *
      * @param string|array $glob      Glob pattern or an array of glob patterns
      * @param boolean      $recursive When FALSE the patterns won't be checked in child directories
-     * @return self
+     * @return $this
      */
     public function ignoreDirs($glob, $recursive = true)
     {
@@ -154,7 +154,7 @@ class rex_finder implements IteratorAggregate, Countable
      * Ignores system stuff (like .DS_Store, .svn, .git etc.)
      *
      * @param boolean $ignoreSystemStuff
-     * @return self
+     * @return $this
      */
     public function ignoreSystemStuff($ignoreSystemStuff = true)
     {
@@ -167,7 +167,7 @@ class rex_finder implements IteratorAggregate, Countable
      * Sorts the elements
      *
      * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
-     * @return self
+     * @return $this
      */
     public function sort($sort = rex_sortable_iterator::KEYS)
     {

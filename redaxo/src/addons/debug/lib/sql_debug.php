@@ -13,6 +13,9 @@ class rex_sql_debug extends rex_sql
     private static $queries = [];
     private static $errors  = 0;
 
+    /**
+     * {@inheritdocs}
+     */
     public function setQuery($qry, array $params = [])
     {
         try {
@@ -34,6 +37,9 @@ class rex_sql_debug extends rex_sql
         return $this;
     }
 
+    /**
+     * {@inheritdocs}
+     */
     // TODO queries using setQuery() are not logged yet!
     public function execute(array $params = [])
     {

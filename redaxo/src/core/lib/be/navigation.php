@@ -11,11 +11,11 @@ class rex_be_navigation
     private $pages = [];
 
     /**
-     * @return rex_be_navigation
+     * @return static
      */
     public static function factory()
     {
-        $class = self::getFactoryClass();
+        $class = static::getFactoryClass();
         return new $class;
     }
 

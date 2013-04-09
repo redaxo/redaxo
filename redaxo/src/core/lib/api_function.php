@@ -60,7 +60,7 @@ abstract class rex_api_function
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
      *
      * @throws rex_exception
-     * @return rex_api_function
+     * @return self
      */
     public static function factory()
     {

@@ -104,7 +104,7 @@ class rex_context implements rex_context_provider_interface
     /**
      * returns a rex_context instance containing all GET and POST parameters
      *
-     * @return rex_context
+     * @return self
      */
     public static function restore()
     {

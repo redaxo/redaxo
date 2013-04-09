@@ -98,7 +98,7 @@ class rex_form
      * @param string $whereCondition
      * @param string $method
      * @param bool   $debug
-     * @return rex_form a rex_form instance
+     * @return static a rex_form instance
      */
     public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
     {

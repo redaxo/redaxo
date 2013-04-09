@@ -69,7 +69,7 @@ class rex_request
      * @param string $varname Variable name
      * @param string $vartype Variable type
      * @param mixed  $default Default value
-     *
+     * @throws rex_exception
      * @return mixed
      */
     public static function session($varname, $vartype = '', $default = '')
@@ -93,6 +93,7 @@ class rex_request
      *
      * @param string $varname Variable name
      * @param mixed  $value   Value
+     * @throws rex_exception
      */
     public static function setSession($varname, $value)
     {
@@ -107,6 +108,7 @@ class rex_request
      * Deletes a session variable
      *
      * @param string $varname Variable name
+     * @throws rex_exception
      */
     public static function unsetSession($varname)
     {

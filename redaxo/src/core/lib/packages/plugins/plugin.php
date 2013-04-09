@@ -32,8 +32,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      *
      * @param string $addon  Name of the addon
      * @param string $plugin Name of the plugin
-     * @return rex_plugin
-     * @throws rex_exception
+     * @return self
      * @throws InvalidArgumentException
      */
     public static function get($addon, $plugin = null)
@@ -160,7 +159,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * Returns the registered plugins of the given addon
      *
      * @param string $addon Addon name
-     * @return rex_plugin[]
+     * @return self[]
      */
     public static function getRegisteredPlugins($addon)
     {
@@ -171,7 +170,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * Returns the installed plugins of the given addons
      *
      * @param string $addon Addon name
-     * @return rex_plugin[]
+     * @return self[]
      */
     public static function getInstalledPlugins($addon)
     {
@@ -182,7 +181,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * Returns the available plugins of the given addons
      *
      * @param string $addon Addon name
-     * @return rex_plugin[]
+     * @return self[]
      */
     public static function getAvailablePlugins($addon)
     {
@@ -193,7 +192,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * Returns the system plugins of the given addons
      *
      * @param string $addon Addon name
-     * @return rex_plugin[]
+     * @return self[]
      */
     public static function getSystemPlugins($addon)
     {

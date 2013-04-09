@@ -52,7 +52,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @param string $packageId Package ID
      * @throws InvalidArgumentException
-     * @return rex_package
+     * @return self
      */
     public static function get($packageId)
     {
@@ -246,7 +246,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the registered packages
      *
-     * @return rex_package[]
+     * @return self[]
      */
     public static function getRegisteredPackages()
     {
@@ -256,7 +256,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the installed packages
      *
-     * @return rex_package[]
+     * @return self[]
      */
     public static function getInstalledPackages()
     {
@@ -266,7 +266,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the available packages
      *
-     * @return rex_package[]
+     * @return self[]
      */
     public static function getAvailablePackages()
     {
@@ -276,7 +276,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the setup packages
      *
-     * @return rex_package[]
+     * @return self[]
      */
     public static function getSetupPackages()
     {
@@ -286,7 +286,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Returns the system packages
      *
-     * @return rex_package[]
+     * @return self[]
      */
     public static function getSystemPackages()
     {
@@ -298,7 +298,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @param string $method       Method
      * @param string $pluginMethod Optional other method for plugins
-     * @return rex_package[]
+     * @return self[]
      */
     private static function getPackages($method, $pluginMethod = null)
     {

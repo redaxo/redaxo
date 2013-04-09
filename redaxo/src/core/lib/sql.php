@@ -176,7 +176,7 @@ class rex_sql implements Iterator
      *
      * @param string $query  The sql-query
      * @param array  $params An optional array of statement parameter
-     * @return self
+     * @return $this
      * @throws rex_sql_exception on errors
      */
     public function setDBQuery($query, $params = [])
@@ -201,7 +201,7 @@ class rex_sql implements Iterator
      * Setzt Debugmodus an/aus
      *
      * @param bool $debug Debug TRUE/FALSE
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setDebug($debug = true)
     {
@@ -233,7 +233,7 @@ class rex_sql implements Iterator
      * Executes the prepared statement with the given input parameters
      *
      * @param array $params Array of input parameters
-     * @return self
+     * @return $this
      * @throws rex_sql_exception
      */
     public function execute(array $params = [])
@@ -267,7 +267,7 @@ class rex_sql implements Iterator
      *
      * @param string $query  The sql-query
      * @param array  $params An optional array of statement parameter
-     * @return self
+     * @return $this
      * @throws rex_sql_exception on errors
      */
     public function setQuery($query, array $params = [])
@@ -300,7 +300,7 @@ class rex_sql implements Iterator
      * Setzt den Tabellennamen
      *
      * @param string $table Tabellenname
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setTable($table)
     {
@@ -314,7 +314,7 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      * @param string $value   The raw value
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setRawValue($colName, $value)
     {
@@ -329,7 +329,7 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      * @param mixed  $value   The value
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setValue($colName, $value)
     {
@@ -344,7 +344,7 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      * @param array  $value   The value
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setArrayValue($colName, array $value)
     {
@@ -356,7 +356,7 @@ class rex_sql implements Iterator
      *
      * @param string   $colName   Name of the column
      * @param int|null $timestamp Unix timestamp (if `null` is given, the current time is used)
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setDateTimeValue($colName, $timestamp)
     {
@@ -367,7 +367,7 @@ class rex_sql implements Iterator
      * Setzt ein Array von Werten zugleich
      *
      * @param array $valueArray Ein Array von Werten
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setValues(array $valueArray)
     {
@@ -419,7 +419,7 @@ class rex_sql implements Iterator
      * @param string $where
      * @param array  $whereParams
      * @throws rex_sql_exception
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function setWhere($where, $whereParams = null)
     {
@@ -670,7 +670,7 @@ class rex_sql implements Iterator
      * mit den WHERE Parametern ab
      *
      * @param string $fields
-     * @return self
+     * @return $this
      * @throws rex_sql_exception
      */
     public function select($fields = '*')
@@ -686,7 +686,7 @@ class rex_sql implements Iterator
      * Setzt eine Update-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten und WHERE Parametern ab
      *
-     * @return self
+     * @return $this
      * @throws rex_sql_exception
      */
     public function update()
@@ -702,7 +702,7 @@ class rex_sql implements Iterator
      * Setzt eine Insert-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab
      *
-     * @return self
+     * @return $this
      * @throws rex_sql_exception
      */
     public function insert()
@@ -728,7 +728,7 @@ class rex_sql implements Iterator
      * Setzt eine Replace-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab
      *
-     * @return self
+     * @return $this
      * @throws rex_sql_exception
      */
     public function replace()
@@ -744,7 +744,7 @@ class rex_sql implements Iterator
      * Setzt eine Delete-Anweisung auf die angegebene Tabelle
      * mit den angegebenen WHERE Parametern ab
      *
-     * @return self
+     * @return $this
      * @throws rex_sql_exception
      */
     public function delete()
@@ -814,7 +814,7 @@ class rex_sql implements Iterator
     /**
      * Stellt alle Werte auf den Ursprungszustand zurueck
      *
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     private function flush()
     {
@@ -838,7 +838,7 @@ class rex_sql implements Iterator
      * Stellt alle Values, die mit setValue() gesetzt wurden, zurueck
      *
      * @see setValue(), #getValue()
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function flushValues()
     {
@@ -859,7 +859,7 @@ class rex_sql implements Iterator
     /**
      * Setzt den Cursor des Resultsets zurueck zum Anfang
      *
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function reset()
     {
@@ -1049,7 +1049,7 @@ class rex_sql implements Iterator
     /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user.
      *
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function addGlobalUpdateFields($user = null)
     {
@@ -1066,7 +1066,7 @@ class rex_sql implements Iterator
     /**
      * @param string $user the name of the user who updated the dataset. Defaults to the current user.
      *
-     * @return rex_sql the current rex_sql object
+     * @return $this the current rex_sql object
      */
     public function addGlobalCreateFields($user = null)
     {
@@ -1094,7 +1094,7 @@ class rex_sql implements Iterator
     /**
      * @see http://www.php.net/manual/en/iterator.current.php
      *
-     * @return self
+     * @return $this
      */
     public function current()
     {
@@ -1233,11 +1233,11 @@ class rex_sql implements Iterator
      * Creates a rex_sql instance
      *
      * @param integer $DBID
-     * @return rex_sql Returns a rex_sql instance
+     * @return static Returns a rex_sql instance
      */
     public static function factory($DBID = 1)
     {
-        $class = self::getFactoryClass();
+        $class = static::getFactoryClass();
         return new $class($DBID);
     }
 
