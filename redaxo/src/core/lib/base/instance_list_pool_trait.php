@@ -69,11 +69,11 @@ trait rex_instance_list_pool_trait
     }
 
     /**
-     * Removes the instance list of the given key
+     * Clears the instance list of the given key
      *
      * @param mixed $key Key
      */
-    public static function removeInstanceList($key)
+    public static function clearInstanceList($key)
     {
         $key = self::getInstanceListPoolKey($key);
         unset(self::$instanceLists[$key]);

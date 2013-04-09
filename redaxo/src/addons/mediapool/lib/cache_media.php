@@ -13,7 +13,7 @@ class rex_media_cache
     public static function delete($filename)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $filename . '.media'));
-        rex_media::removeInstance($filename);
+        rex_media::clearInstance($filename);
         self::deleteLists();
     }
 
@@ -25,7 +25,7 @@ class rex_media_cache
     public static function deleteCategory($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mcat'));
-        rex_media_category::removeInstance($category_id);
+        rex_media_category::clearInstance($category_id);
         self::deleteCategoryLists();
     }
 
@@ -55,7 +55,7 @@ class rex_media_cache
     public static function deleteList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mlist'));
-        rex_media_category::removeInstanceList([$category_id, 'media']);
+        rex_media_category::clearInstanceList([$category_id, 'media']);
     }
 
     /**
@@ -84,7 +84,7 @@ class rex_media_cache
     public static function deleteCategoryList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mclist'));
-        rex_media_category::removeInstanceList([$category_id, 'children']);
+        rex_media_category::clearInstanceList([$category_id, 'children']);
     }
 
     /**

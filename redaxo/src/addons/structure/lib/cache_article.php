@@ -58,8 +58,8 @@ class rex_article_cache
             }
 
             rex_file::delete($cachePath . $id . '.' . $_clang . '.article');
-            rex_article::removeInstance([$id, $_clang]);
-            rex_category::removeInstance([$id, $_clang]);
+            rex_article::clearInstance([$id, $_clang]);
+            rex_category::clearInstance([$id, $_clang]);
         }
 
         return true;
@@ -113,8 +113,8 @@ class rex_article_cache
 
         rex_file::delete($cachePath . $id . '.alist');
         rex_file::delete($cachePath . $id . '.clist');
-        rex_structure_element::removeInstanceList([$id, 'alist']);
-        rex_structure_element::removeInstanceList([$id, 'clist']);
+        rex_structure_element::clearInstanceList([$id, 'alist']);
+        rex_structure_element::clearInstanceList([$id, 'clist']);
 
         return true;
     }

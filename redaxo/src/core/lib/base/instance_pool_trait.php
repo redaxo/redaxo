@@ -76,7 +76,7 @@ trait rex_instance_pool_trait
      *
      * @param mixed $key Key
      */
-    public static function removeInstance($key)
+    public static function clearInstance($key)
     {
         $key = self::getInstancePoolKey($key);
         $class = get_called_class();
