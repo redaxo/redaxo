@@ -42,23 +42,21 @@ class rex_category extends rex_structure_element
      * excempt from this list!
      *
      * @param bool $ignoreOfflines
-     * @param int  $clang
      * @return self[]
      */
-    public function getChildren($ignoreOfflines = false, $clang = null)
+    public function getChildren($ignoreOfflines = false)
     {
-        return self::getChildElements($this->id, 'clist', $ignoreOfflines, $clang ?: $this->clang);
+        return self::getChildElements($this->id, 'clist', $ignoreOfflines, $this->clang);
     }
 
     /**
      * Returns the parent category
      *
-     * @param int $clang
      * @return self
      */
-    public function getParent($clang = null)
+    public function getParent()
     {
-        return self::get($this->parent_id, $clang ?: $this->clang);
+        return self::get($this->parent_id, $this->clang);
     }
 
     /**

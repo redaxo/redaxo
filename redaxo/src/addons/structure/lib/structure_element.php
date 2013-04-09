@@ -270,10 +270,9 @@ abstract class rex_structure_element
     /**
      * Returns the parent category
      *
-     * @param int $clang
      * @return self
      */
-    abstract public function getParent($clang = null);
+    abstract public function getParent();
 
     /**
      * Returns the name of the article
