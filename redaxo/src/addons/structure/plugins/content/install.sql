@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `clang_id` int(11) NOT NULL,
-    `ctype_id` int(11) NOT NULL,
-    `priority` int(11) NOT NULL,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `clang_id` int(10) unsigned NOT NULL,
+    `ctype_id` int(10) unsigned NOT NULL,
+    `priority` int(10) unsigned NOT NULL,
     `value1` text,
     `value2` text,
     `value3` text,
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `linklist8` text,
     `linklist9` text,
     `linklist10` text,
-    `article_id` int(11) NOT NULL,
-    `module_id` int(11) NOT NULL,
+    `article_id` int(10) unsigned NOT NULL,
+    `module_id` int(10) unsigned NOT NULL,
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `createuser` varchar(255) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
-    `id` int(11) NOT NULL  auto_increment,
+    `id` int(10) unsigned NOT NULL  auto_increment,
     `name` varchar(255) NULL,
     `content` text NULL,
     `active` tinyint(1) NULL,
