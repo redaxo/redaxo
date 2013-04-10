@@ -542,52 +542,39 @@ class rex_list implements rex_url_provider_interface
      *
      * Beispiel 1:
      *
-     * $list->addTableColumnGroup(array(40, 240, 140));
+     * $list->addTableColumnGroup([40, '*', 240, 140]);
      *
      * Beispiel 2:
      *
-     * $list->addTableColumnGroup(
-     *   array(
-     *     array('width' => 40),
-     *     array('width' => 140, 'span' => 2),
-     *     array('width' => 240),
-     *   )
-     * );
+     * $list->addTableColumnGroup([
+     *     ['width' => 40],
+     *     ['width' => 140, 'span' => 2],
+     *     ['width' => 240]
+     * ]);
      *
      * @param array   $columns         Array von Spalten
      * @param integer $columnGroupSpan Span der Columngroup
-     * @throws InvalidArgumentException
      */
-    public function addTableColumnGroup($columns, $columnGroupSpan = null)
+    public function addTableColumnGroup(array $columns, $columnGroupSpan = null)
     {
-        if (!is_array($columns)) {
-            throw new InvalidArgumentException('rex_list->addTableColumnGroup: Erwarte 1. Parameter als Array!');
-        }
-
         $tableColumnGroup = ['columns' => []];
         if ($columnGroupSpan) {
             $tableColumnGroup['span'] = $columnGroupSpan;
         }
-        $this->_addTableColumnGroup($tableColumnGroup);
+        $this->tableColumnGroups[] = $tableColumnGroup;
 
-        if (isset($columns[0]) && is_scalar($columns[0])) {
-            // array(10,50,100,150) notation
-            foreach ($columns as $column) {
+        foreach ($columns as $column) {
+            if (is_array($column)) {
+                $this->addTableColumn($column['width'], isset($column['span']) ? $column['span'] : null);
+            } else {
                 $this->addTableColumn($column);
-            }
-        } else {
-            // array(array('width'=>100,'span'=>2), array(...), array(...)) notation
-            foreach ($columns as $column) {
-                $this->_addTableColumn($column);
             }
         }
     }
 
-    private function _addTableColumnGroup(array $tableColumnGroup)
-    {
-        $this->tableColumnGroups[] = $tableColumnGroup;
-    }
-
+    /**
+     * @return array
+     */
     public function getTableColumnGroups()
     {
         return $this->tableColumnGroups;
@@ -601,18 +588,15 @@ class rex_list implements rex_url_provider_interface
      */
     public function addTableColumn($width, $span = null)
     {
-        $attributes = ['width' => $width];
-        if ($span) {
-            $attributes['span'] = $span;
+        $tableColumn = [];
+        if (is_numeric($width)) {
+            $width = $width . 'px';
         }
-
-        $this->_addTableColumn($attributes);
-    }
-
-    private function _addTableColumn(array $tableColumn)
-    {
-        if (!isset($tableColumn['width'])) {
-            throw new rex_exception('rex_list->_addTableColumn: Erwarte index width!');
+        if ($width && '*' != $width) {
+            $tableColumn['style'] = 'width:' . $width;
+        }
+        if ($span) {
+            $tableColumn['span'] = $span;
         }
 
         $lastIndex = count($this->tableColumnGroups) - 1;
