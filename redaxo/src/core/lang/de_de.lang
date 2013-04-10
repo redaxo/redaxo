@@ -11,10 +11,6 @@ phpini_settings = PHP.ini Einstellungen
 datetimeformat = %d. %b. %Y - %H:%Mh
 ctrl = Mehrfachauswahl mit STRG
 
-# Sprachspezifische Sonderzeichen für Url-Umschreibung
-special_chars = ä|ö|ü|Ä|Ö|Ü|ß|&
-special_chars_rewrite = ae|oe|ue|Ae|Oe|Ue|ss|und
-
 # Allgemein
 update = aktualisieren
 add = hinzufügen

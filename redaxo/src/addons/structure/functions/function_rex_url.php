@@ -12,31 +12,17 @@
  */
 function rex_parse_article_name($name)
 {
-    static $firstCall = true;
-    static $search, $replace;
-
-    if ($firstCall) {
-        // Sprachspezifische Sonderzeichen Filtern
-        $search = explode('|', rex_i18n::msg('special_chars'));
-        $replace = explode('|', rex_i18n::msg('special_chars_rewrite'));
-
-        $firstCall = false;
-    }
-
     return
         // + durch - ersetzen
         str_replace('+', '-',
-                // ggf uebrige zeichen url-codieren
-                urlencode(
-                    // mehrfach hintereinander auftretende spaces auf eines reduzieren
-                    preg_replace('/ {2,}/', ' ',
-                        // alle sonderzeichen raus
-                        preg_replace('/[^a-zA-Z_\-0-9 ]/', '',
-                            // sprachspezifische zeichen umschreiben
-                            str_replace($search, $replace, $name)
-                        )
-                    )
+            // ggf uebrige zeichen url-codieren
+            urlencode(
+                // mehrfach hintereinander auftretende spaces auf eines reduzieren
+                preg_replace('/ {2,}/', ' ',
+                    // alle sonderzeichen raus
+                    rex_string::normalize($name, '', ' _')
                 )
+            )
         );
 }
 

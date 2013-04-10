@@ -46,7 +46,7 @@ class rex_form_checkbox_element extends rex_form_options_element
         foreach ($options as $opt_name => $opt_value) {
             $opt_id = $id;
             if ($opt_value != '') {
-             $opt_id .= '_' . $this->_normalizeId($opt_value);
+                $opt_id .= '-' . rex_string::normalize($opt_value, '-');
             }
             $opt_attr = $attr . ' id="' . htmlspecialchars($opt_id) . '"';
             $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';

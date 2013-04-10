@@ -969,7 +969,7 @@ class rex_form
      */
     protected function getElement($fieldsetName, $elementName)
     {
-        $normalizedName = rex_form_element::_normalizeName($fieldsetName . '[' . $elementName . ']');
+        $normalizedName = rex_string::normalize($fieldsetName . '[' . $elementName . ']', '_', '[]');
         $result = $this->_getElement($fieldsetName, $normalizedName);
         return $result;
     }
@@ -1101,7 +1101,7 @@ class rex_form
     public function fieldsetPostValues($fieldsetName)
     {
         // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
-        $normalizedFieldsetName = rex_form_element::_normalizeName($fieldsetName);
+        $normalizedFieldsetName = rex_string::normalize($fieldsetName, '_', '[]');;
 
         return rex_post($normalizedFieldsetName, 'array');
     }

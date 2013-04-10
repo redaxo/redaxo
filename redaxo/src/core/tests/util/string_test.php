@@ -2,6 +2,32 @@
 
 class rex_string_test extends PHPUnit_Framework_TestCase
 {
+    public function testSize()
+    {
+        $this->assertEquals(3, rex_string::size('aä'));
+    }
+
+    public function normalizeProvider()
+    {
+        return [
+            [
+                'ae_oe_ue_ae_oe_ue_ss_ae_oe_ue_ae_oe_ue',
+                "Ä Ö Ü ä ö ü ß A\xec\x88 O\xec\x88 U\xec\x88 a\xec\x88 o\xec\x88 u\xec\x88"
+            ],
+            ['test-12-3-4-a', 'Test. 12+3+-4 [a]', '-'],
+            ['test123', '"test" 123', ''],
+            ['[€_1]', '[€ 1]', '_', '[]€']
+        ];
+    }
+
+    /**
+     * @dataProvider normalizeProvider
+     */
+    public function testNormalize($expected, $string, $replaceChar = '_', $allowedChars = '')
+    {
+        $this->assertEquals($expected, rex_string::normalize($string, $replaceChar, $allowedChars));
+    }
+
     public function splitProvider()
     {
         return [
@@ -20,11 +46,6 @@ class rex_string_test extends PHPUnit_Framework_TestCase
     public function testSplit($string, $expectedArray)
     {
         $this->assertEquals($expectedArray, rex_string::split($string));
-    }
-
-    public function testSize()
-    {
-        $this->assertEquals(3, rex_string::size('aä'));
     }
 
     public function versionSplitProvider()

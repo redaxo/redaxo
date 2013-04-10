@@ -131,25 +131,15 @@ class rex_form_element
         return $this->footer;
     }
 
-    public static function _normalizeId($id)
-    {
-        return preg_replace('/[^a-zA-Z\-0-9_]/i', '_', $id);
-    }
-
-    public static function _normalizeName($name)
-    {
-        return preg_replace('/[^\[\]a-zA-Z\-0-9_]/i', '_', $name);
-    }
-
     public function setAttribute($name, $value)
     {
         if ($name == 'value') {
             $this->setValue($value);
         } else {
             if ($name == 'id') {
-                $value = $this->_normalizeId($value);
+                $value = rex_string::normalize($value, '-');
             } elseif ($name == 'name') {
-                $value = $this->_normalizeName($value);
+                $value = rex_string::normalize($value, '_', '[]');
             }
 
             $this->attributes[$name] = $value;

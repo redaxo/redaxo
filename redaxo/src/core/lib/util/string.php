@@ -19,6 +19,31 @@ class rex_string
     }
 
     /**
+     * Normalizes a string
+     *
+     * Makes the string lowercase, replaces umlauts by their ascii representation (ä -> ae etc.), and replaces all
+     * other chars that do not match a-z, 0-9 or $allowedChars by $replaceChar.
+     *
+     * @param string $string       Input string
+     * @param string $replaceChar  Character that is used to replace not allowed chars
+     * @param string $allowedChars Character whitelist
+     * @return string
+     */
+    public static function normalize($string, $replaceChar = '_', $allowedChars = '')
+    {
+        // replace UTF-8 NFD umlauts
+        $string = preg_replace("/(?<=[aou])\xec\x88/i", 'e', $string);
+
+        $string = mb_strtolower($string);
+
+        // replace UTF-8 NFC umlauts
+        $string = str_replace(['ä', 'ö', 'ü', 'ß'], ['ae', 'oe', 'ue', 'ss'], $string);
+
+        $string = preg_replace('/[^a-z\d' . preg_quote($allowedChars, '/') . ']+/ui', $replaceChar, $string);
+        return trim($string, $replaceChar);
+    }
+
+    /**
      * Splits a string by spaces
      * (Strings with quotes will be regarded)
      *
