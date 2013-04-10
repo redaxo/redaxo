@@ -31,7 +31,7 @@ class rex_article_revision
 
             foreach ($cols as $col) {
                 $colname = $col->getValue('Field');
-                $ins->setValue($colname, $col->getValue($colname));
+                $ins->setValue($colname, $slice->getValue($colname));
             }
 
             $ins->setValue('id', 0); // trigger auto increment
