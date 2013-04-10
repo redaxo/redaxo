@@ -9,7 +9,7 @@
  * @package redaxo5
  */
 
-rex_extension::register('PACKAGES_INCLUDED', 'rex_media_manager::init');
+rex_extension::register('PACKAGES_INCLUDED', 'rex_media_manager::init', rex_extension::EARLY);
 
 if (rex::isBackend()) {
     // delete thumbnails on mediapool changes
