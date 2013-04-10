@@ -178,7 +178,8 @@ abstract class rex_structure_element
     protected static function getChildElements($parentId, $listType, $ignoreOfflines = false, $clang = null)
     {
         $parentId = (int) $parentId;
-        if ($parentId < 0) {
+        // for $parentId=0 root elements will be returned, so abort here for $parentId<0 only
+        if (0 > $parentId) {
             return [];
         }
         if (!$clang) {

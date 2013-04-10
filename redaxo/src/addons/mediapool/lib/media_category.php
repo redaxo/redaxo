@@ -89,6 +89,7 @@ class rex_media_category
     protected static function getChildCategories($parentId)
     {
         $parentId = (int) $parentId;
+        // for $parentId=0 root categories will be returned, so abort here for $parentId<0 only
         if (0 > $parentId) {
             return [];
         }

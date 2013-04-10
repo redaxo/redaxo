@@ -23,7 +23,7 @@ class rex_article_cache
 
         foreach (rex_clang::getAllIds() as $_clang) {
             if ($clang !== null && $clang != $_clang) {
-            continue;
+                continue;
             }
 
             self::deleteMeta($id, $clang);
@@ -85,7 +85,7 @@ class rex_article_cache
 
         foreach (rex_clang::getAllIds() as $_clang) {
             if ($clang !== null && $clang != $_clang) {
-            continue;
+                continue;
             }
 
             rex_file::delete($cachePath . $id . '.' . $_clang . '.content');
@@ -111,10 +111,10 @@ class rex_article_cache
 
         $cachePath = rex_path::addonCache('structure');
 
-        rex_file::delete($cachePath . $id . '.alist');
-        rex_file::delete($cachePath . $id . '.clist');
-        rex_structure_element::clearInstanceList([$id, 'alist']);
-        rex_structure_element::clearInstanceList([$id, 'clist']);
+        foreach (['alist', 'clist'] as $list) {
+            rex_file::delete($cachePath . $id . '.' . $list);
+            rex_structure_element::clearInstanceList([$id, $list]);
+        }
 
         return true;
     }
@@ -187,9 +187,8 @@ class rex_article_cache
         $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang=1 AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parent_id]);
 
         $cacheArray = [];
-        for ($i = 0; $i < $GC->getRows(); $i ++) {
-            $cacheArray[$i] = (int) $GC->getValue('id');
-            $GC->next();
+        foreach ($GC as $row) {
+            $cacheArray[] = (int) $row->getValue('id');
         }
 
         $article_list_file = rex_path::addonCache('structure', $parent_id . '.alist');
@@ -203,9 +202,8 @@ class rex_article_cache
         $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=:id and clang=1 and startarticle=1 order by catpriority,name', ['id' => $parent_id]);
 
         $cacheArray = [];
-        for ($i = 0; $i < $GC->getRows(); $i ++) {
-            $cacheArray[$i] = (int) $GC->getValue('id');
-            $GC->next();
+        foreach ($GC as $row) {
+            $cacheArray[] = (int) $row->getValue('id');
         }
 
         $article_categories_file = rex_path::addonCache('structure', $parent_id . '.clist');
