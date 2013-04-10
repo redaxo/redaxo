@@ -41,6 +41,10 @@ class rex_instance_list_pool_trait_test extends PHPUnit_Framework_TestCase
             return [1, 2];
         }), 'getInstance returns array of instances');
 
+        rex_test_instance_list_pool::getInstanceList(2, 'rex_test_instance_list_pool::get', function () {
+            $this->fail('getInstanceList does not call $createListCallback if list alreays exists');
+        });
+
         rex_test_instance_list_pool::getInstanceList([3, 'test'], 'rex_test_instance_list_pool::get', function ($key1, $key2) {
             $this->assertEquals(3, $key1, 'getInstanceList passes key array as arguments to callback');
             $this->assertEquals('test', $key2, 'getInstanceList passes key array as arguments to callback');
