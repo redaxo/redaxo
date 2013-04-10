@@ -348,7 +348,7 @@ class rex_article_content_base
         $articleContent = $this->postArticle($articleContent, $module_id);
 
         // -------------------------- schreibe content
-        echo $this->replaceLinks($articleContent);
+        echo $articleContent;
 
         // ----- end: article caching
         $CONTENT = ob_get_contents();
@@ -396,6 +396,8 @@ class rex_article_content_base
 
             $CONTENT = ob_get_contents();
             ob_end_clean();
+
+            $CONTENT = $this->replaceLinks($CONTENT);
         } else {
             $CONTENT = 'no template';
         }
@@ -502,33 +504,12 @@ class rex_article_content_base
 
     protected function replaceLinks($content)
     {
-        // Hier beachten, dass man auch ein Zeichen nach dem jeweiligen Link mitmatched,
-        // damit beim ersetzen von z.b. redaxo://11 nicht auch innerhalb von redaxo://112
-        // ersetzt wird
-        // siehe dazu: http://forum.redaxo.de/ftopic7563.html
-
-        // -- preg match redaxo://[ARTICLEID]-[CLANG] --
-        preg_match_all('@redaxo://([0-9]*)\-([0-9]*)(.){1}/?@im', $content, $matches, PREG_SET_ORDER);
-        foreach ($matches as $match) {
-            if (empty($match)) {
-                continue;
-            }
-
-            $url = rex_getURL($match[1], $match[2]);
-            $content = str_replace($match[0], $url . $match[3], $content);
-        }
-
-        // -- preg match redaxo://[ARTICLEID] --
-        preg_match_all('@redaxo://([0-9]*)(.){1}/?@im', $content, $matches, PREG_SET_ORDER);
-        foreach ($matches as $match) {
-            if (empty($match)) {
-                continue;
-            }
-
-            $url = rex_getURL($match[1], $this->clang);
-            $content = str_replace($match[0], $url . $match[2], $content);
-        }
-
-        return $content;
+        return preg_replace_callback(
+            '@redaxo://(\d+)(?:-(\d+))?/?@i',
+            function ($matches) {
+                return rex_getUrl($matches[1], isset($matches[2]) ? $matches[2] : (integer) $this->clang);
+            },
+            $content
+        );
     }
 }
