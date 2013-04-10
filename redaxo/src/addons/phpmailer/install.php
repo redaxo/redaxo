@@ -15,7 +15,7 @@ if (!$this->hasConfig()) {
     $this->setConfig('fromname', 'Mailer');
     $this->setConfig('confirmto', '');
     $this->setConfig('bcc',       '');
-    $this->setConfig('mailer',   'sendmail');
+    $this->setConfig('mailer',   'mail');
     $this->setConfig('host',     'localhost');
     $this->setConfig('charset',  'utf-8');
     $this->setConfig('wordwrap', 120);
