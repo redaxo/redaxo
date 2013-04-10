@@ -432,22 +432,26 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
         $warning = [];
         $info = [];
 
+        $countDeleted = 0;
         foreach ($selectedmedia as $file_name) {
             $media = rex_media::get($file_name);
             if ($media) {
-             if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-                 $return = rex_mediapool_deleteMedia($file_name);
-                 if ($return['ok']) {
-                     $info[] = $return['msg'];
-                 } else {
-                     $warning[] = $return['msg'];
-                 }
-             } else {
-                 $warning[] = rex_i18n::msg('no_permission');
-             }
+                if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+                    $return = rex_mediapool_deleteMedia($file_name);
+                    if ($return['ok']) {
+                        $countDeleted++;
+                    } else {
+                        $warning[] = $return['msg'];
+                    }
+                } else {
+                    $warning[] = rex_i18n::msg('no_permission');
+                }
             } else {
-             $warning[] = rex_i18n::msg('pool_file_not_found');
+                $warning[] = rex_i18n::msg('pool_file_not_found');
             }
+        }
+        if ($countDeleted) {
+            $info[] = rex_i18n::msg('pool_files_deleted', $countDeleted);
         }
     } else {
         $warning = rex_i18n::msg('pool_selectedmedia_error');

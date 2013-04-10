@@ -55,6 +55,7 @@ pool_file_caption = Liste der Medien der Medienkategorie "{0}"
 pool_file_category = Medienkategorie
 pool_file_description = Beschreibung
 pool_file_deleted = Datei wurde gelöscht
+pool_files_deleted = {0} Dateien wurden gelöscht.
 pool_file_delete_error_1 = Die Datei "{0}" kann nicht gelöscht werden!
 pool_file_delete_error_2 = Sie wird derzeit von folgenden Objekten verwendet:
 pool_file_in_use_articles = Artikel (Inhalt)
