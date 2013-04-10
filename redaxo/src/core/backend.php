@@ -5,6 +5,8 @@
  * @package redaxo5
  */
 
+header('X-Robots-Tag: noindex, nofollow, noarchive');
+
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
 $pages = [];
