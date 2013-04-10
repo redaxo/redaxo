@@ -296,6 +296,82 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
 }
 
 /**
+ * @param string $filename
+ * @return bool
+ */
+function rex_mediapool_deleteMedia($filename)
+{
+    if ($uses = rex_mediapool_mediaIsInUse($filename)) {
+        $msg = '<strong>' . rex_i18n::msg('pool_file_delete_error_1', $filename) . ' '
+            . rex_i18n::msg('pool_file_delete_error_2') . '</strong><br />' . $uses;
+        return ['ok' => false, 'msg' => $msg];
+    }
+
+    $sql = rex_sql::factory();
+    $sql->setQuery('DELETE FROM ' . rex::getTable('media') . ' WHERE filename = ? LIMIT 1', [$filename]);
+
+    rex_file::delete(rex_path::media($filename));
+
+    rex_media_cache::delete($this->getFileName());
+
+    return ['ok' => true, 'msg' => rex_i18n::msg('pool_file_deleted')];
+}
+
+/**
+ * @param $filename
+ * @return bool|string
+ */
+function rex_mediapool_mediaIsInUse($filename)
+{
+    $sql = rex_sql::factory();
+    $filename = addslashes($filename);
+
+    // FIXME move structure stuff into structure addon
+    $values = [];
+    for ($i = 1; $i < 21; $i++) {
+        $values[] = 'value' . $i . ' REGEXP "(^|[^[:alnum:]+_-])' . $filename . '"';
+    }
+
+    $files = [];
+    $filelists = [];
+    for ($i = 1; $i < 11; $i++) {
+        $files[] = 'media' . $i . '="' . $filename . '"';
+        $filelists[] = 'FIND_IN_SET("' . $filename . '",medialist' . $i . ')';
+    }
+
+    $where = '';
+    $where .= implode(' OR ', $files) . ' OR ';
+    $where .= implode(' OR ', $filelists) . ' OR ';
+    $where .= implode(' OR ', $values);
+    $query = 'SELECT DISTINCT article_id, clang FROM ' . rex::getTablePrefix() . 'article_slice WHERE ' . $where;
+
+    $warning = [];
+    $res = $sql->getArray($query);
+    if ($sql->getRows() > 0) {
+        $warning[0] = rex_i18n::msg('pool_file_in_use_articles') . '<br /><ul>';
+        foreach ($res as $art_arr) {
+            $aid = $art_arr['article_id'];
+            $clang = $art_arr['clang'];
+            $ooa = rex_article::get($aid, $clang);
+            $name = $ooa->getName();
+            $warning[0] .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'clang' => $clang]) . '\')">' . $name . '</a></li>';
+        }
+        $warning[0] .= '</ul>';
+    }
+
+    // ----- EXTENSION POINT
+    $warning = rex_extension::registerPoint(new rex_extension_point('MEDIA_IS_IN_USE', $warning, [
+        'filename' => $filename
+    ]));
+
+    if (!empty($warning)) {
+        return implode('<br />', $warning);
+    }
+
+    return false;
+}
+
+/**
  * Ausgabe des Medienpool Formulars
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)

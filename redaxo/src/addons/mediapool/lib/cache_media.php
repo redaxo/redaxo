@@ -95,7 +95,7 @@ class rex_media_cache
      */
     public static function generate($filename)
     {
-        $query = 'SELECT * FROM ' . rex_media :: _getTableName() . ' WHERE filename = "' . $filename . '"';
+        $query = 'SELECT * FROM ' . rex::getTable('media') . ' WHERE filename = "' . $filename . '"';
         $sql = rex_sql::factory();
         //$sql->setDebug();
         $sql->setQuery($query);
@@ -138,7 +138,7 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT * FROM ' . rex_media_category :: _getTableName() . ' WHERE id = ' . $category_id;
+        $query = 'SELECT * FROM ' . rex::getTable('media_category') . ' WHERE id = ' . $category_id;
         $sql = rex_sql::factory();
         //$sql->setDebug();
         $sql->setQuery($query);
@@ -180,7 +180,7 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT filename FROM ' . rex_media :: _getTableName() . ' WHERE category_id = ' . $category_id;
+        $query = 'SELECT filename FROM ' . rex::getTable('media') . ' WHERE category_id = ' . $category_id;
         $sql = rex_sql::factory();
         $sql->setQuery($query);
 
@@ -212,7 +212,7 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex_media_category :: _getTableName() . ' WHERE parent_id = ' . $category_id . ' ORDER BY sort, name';
+        $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex::getTable('media_category') . ' WHERE parent_id = ' . $category_id . ' ORDER BY sort, name';
         $sql = rex_sql::factory();
         //$sql->setDebug();
         $sql->setQuery($query);

@@ -97,26 +97,15 @@ if ($file_id && rex_post('btn_delete', 'string')) {
     }
 
     if ($media) {
-        $file_name = $media->getFileName();
+        $filename = $media->getFileName();
         if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-            $uses = $media->isInUse();
-            if ($uses === false) {
-                if ($media->delete() !== false) {
-                    $info = rex_i18n::msg('pool_file_deleted');
-                } else {
-                    $warning = rex_i18n::msg('pool_file_delete_error_1', $file_name);
-                }
-                $file_id = 0;
+            $return = rex_mediapool_deleteMedia($filename);
+            if ($return['ok']) {
+                $info = $return['msg'];
             } else {
-                $warning = [];
-                $warning[] = '<strong>' . rex_i18n::msg('pool_file_delete_error_1', $file_name) . ' ' .
-                                         rex_i18n::msg('pool_file_delete_error_2') . '</strong><br />';
-                foreach ($uses as $use) {
-                    $warning[] = $use;
-                }
-                $file_id = 0;
-
+                $warning = $return['msg'];
             }
+            $file_id = 0;
         } else {
             $warning = rex_i18n::msg('no_permission');
         }
@@ -447,21 +436,11 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
             $media = rex_media::get($file_name);
             if ($media) {
              if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-                 $uses = $media->isInUse();
-                 if ($uses === false) {
-                     if ($media->delete() !== false) {
-                         $info[] = rex_i18n::msg('pool_file_deleted');
-                     } else {
-                         $warning[] = rex_i18n::msg('pool_file_delete_error_1', $file_name);
-                     }
-                     $file_id = 0;
+                 $return = rex_mediapool_deleteMedia($file_name);
+                 if ($return['ok']) {
+                     $info[] = $return['msg'];
                  } else {
-                        $tmp = '<strong>' . rex_i18n::msg('pool_file_delete_error_1', $file_name) . ' ' .
-                                     rex_i18n::msg('pool_file_delete_error_2') . '</strong><br />';
-                        foreach ($uses as $use) {
-                         $tmp .= '<br />' . $use;
-                     }
-                     $warning[] = $tmp;
+                     $warning[] = $return['msg'];
                  }
              } else {
                  $warning[] = rex_i18n::msg('no_permission');
