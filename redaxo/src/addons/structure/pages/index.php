@@ -479,18 +479,22 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     if ($function == 'add_art' && $KATPERM) {
         $tmpl_td = '';
         if ($withTemplates) {
-            $defaultTemplateId = rex::getProperty('default_template_id');
-            if ($defaultTemplateId > 0 && isset($TEMPLATE_NAME[$defaultTemplateId])) {
-                $template_select->setSelected($defaultTemplateId);
-
-            } else {
+            $selectedTemplate = 0;
+            if ($category_id) {
                 // template_id vom Startartikel erben
                 $sql2 = rex_sql::factory();
                 $sql2->setQuery('SELECT template_id FROM ' . rex::getTablePrefix() . 'article WHERE id=' . $category_id . ' AND clang=' . $clang . ' AND startarticle=1');
                 if ($sql2->getRows() == 1) {
-                    $template_select->setSelected($sql2->getValue('template_id'));
+                    $selectedTemplate = $sql2->getValue('template_id');
                 }
             }
+            if (!$selectedTemplate || !isset($TEMPLATE_NAME[$selectedTemplate])) {
+                $selectedTemplate = rex::getProperty('default_template_id');
+            }
+            if ($selectedTemplate && isset($TEMPLATE_NAME[$selectedTemplate])) {
+                $template_select->setSelected($selectedTemplate);
+            }
+
             $tmpl_td = '<td class="rex-template">' . $template_select->get() . '</td>';
         }
 
