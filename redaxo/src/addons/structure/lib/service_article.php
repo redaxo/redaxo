@@ -30,7 +30,7 @@ class rex_article_service
         }
 
         // parent may be null, when adding in the root cat
-        $parent = rex_category::getCategoryById($data['category_id']);
+        $parent = rex_category::get($data['category_id']);
         if ($parent) {
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
@@ -57,7 +57,7 @@ class rex_article_service
         unset($id);
         foreach (rex_clang::getAllIds() as $key) {
             // ------- Kategorienamen holen
-            $category = rex_category::getCategoryById($data['category_id'], $key);
+            $category = rex_category::get($data['category_id'], $key);
 
             $categoryName = '';
             if ($category) {
@@ -89,6 +89,8 @@ class rex_article_service
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
             }
+
+            rex_article_cache::delete($id, $key);
 
             // ----- EXTENSION POINT
             $message = rex_extension::registerPoint(new rex_extension_point('ART_ADDED', $message, [
@@ -135,7 +137,7 @@ class rex_article_service
             throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
         }
 
-        $ooArt = rex_article::getArticleById($article_id, $clang);
+        $ooArt = rex_article::get($article_id, $clang);
         $data['category_id'] = $ooArt->getCategoryId();
 
         if (rex_plugin::get('structure', 'content')->isAvailable()) {
@@ -314,7 +316,7 @@ class rex_article_service
             $ART->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $id);
 
             // --------------------------------------------------- Listen generieren
-            rex_article_cache::generateLists($parent_id);
+            rex_article_cache::deleteLists($parent_id);
 
             return $message;
         } else {
@@ -440,7 +442,7 @@ class rex_article_service
                 'priority,updatedate ' . $addsql
             );
 
-            rex_article_cache::deleteLists($parent_id, $clang);
+            rex_article_cache::deleteLists($parent_id);
         }
     }
 

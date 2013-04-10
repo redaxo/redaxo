@@ -116,18 +116,18 @@ class rex_navigation
         }
 
         foreach ($path as $pathItem) {
-            $cat = rex_category::getCategoryById($pathItem);
+            $cat = rex_category::get($pathItem);
             $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
             $i++;
         }
 
         if ($includeCurrent) {
-            if ($art = rex_article::getArticleById($this->current_article_id)) {
+            if ($art = rex_article::get($this->current_article_id)) {
                 if (!$art->isStartArticle()) {
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
             }
                 } else {
-                    $cat = rex_category::getCategoryById($this->current_article_id);
+                    $cat = rex_category::get($this->current_article_id);
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
                 }
         }
@@ -156,7 +156,7 @@ class rex_navigation
     private function _setActivePath()
     {
         $article_id = rex::getProperty('article_id');
-        if ($OOArt = rex_article::getArticleById($article_id)) {
+        if ($OOArt = rex_article::get($article_id)) {
             $path = trim($OOArt->getPath(), '|');
 
             $this->path = [];
@@ -179,7 +179,7 @@ class rex_navigation
         if ($category_id < 1) {
             $nav_obj = rex_category::getRootCategories($ignore_offlines);
         } else {
-            $nav_obj = rex_category::getChildrenById($category_id, $ignore_offlines);
+            $nav_obj = rex_category::get($category_id)->getChildren($ignore_offlines);
         }
 
         $return = '';

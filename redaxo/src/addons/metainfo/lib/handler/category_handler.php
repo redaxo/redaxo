@@ -122,7 +122,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $s = '';
 
         if (!empty($params['id'])) {
-            $OOCat = rex_category::getCategoryById($params['id'], $params['clang']);
+            $OOCat = rex_category::get($params['id'], $params['clang']);
 
             // Alle Metafelder des Pfades sind erlaubt
             foreach ($OOCat->getPathAsArray() as $pathElement) {

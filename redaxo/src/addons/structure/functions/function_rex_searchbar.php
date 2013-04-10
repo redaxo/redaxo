@@ -26,15 +26,14 @@ function rex_structure_searchbar(rex_context $context)
 
     // ------------ Suche via ArtikelId
     if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
-        $OOArt = rex_article::getArticleById($matches[0], $clang);
-        if ($OOArt instanceof rex_article) {
+        if ($OOArt = rex_article::get($matches[0], $clang)) {
             rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId()])));
         }
     }
 
     // Auswahl eines normalen Artikels => category holen
     if ($article_id != 0) {
-        $OOArt = rex_article::getArticleById($article_id, $clang);
+        $OOArt = rex_article::get($article_id, $clang);
         // Falls Artikel gerade geloescht wird, gibts keinen rex_article
         if ($OOArt) {
             $category_id = $OOArt->getCategoryId();
@@ -70,7 +69,7 @@ function rex_structure_searchbar(rex_context $context)
 
         // Suche ergab nur einen Treffer => Direkt auf den Treffer weiterleiten
         if ($foundRows == 1) {
-            $OOArt = rex_article::getArticleById($search->getValue('id'), $clang);
+            $OOArt = rex_article::get($search->getValue('id'), $clang);
             if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
                 rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $search->getValue('id')])));
             }
@@ -80,7 +79,7 @@ function rex_structure_searchbar(rex_context $context)
             $needle = htmlspecialchars($search_article_name);
             $search_result .= '<ul class="be_search-search-result">';
             for ($i = 0; $i < $foundRows; $i++) {
-                $OOArt = rex_article::getArticleById($search->getValue('id'), $clang);
+                $OOArt = rex_article::get($search->getValue('id'), $clang);
                 $label = $OOArt->getName();
 
                 if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {

@@ -351,7 +351,7 @@ class rex_article_slice
      */
     public function getArticle()
     {
-        return rex_article::getArticleById($this->getArticleId());
+        return rex_article::get($this->getArticleId());
     }
 
     public function getArticleId()

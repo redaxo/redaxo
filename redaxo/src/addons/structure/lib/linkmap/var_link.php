@@ -47,7 +47,7 @@ class rex_var_link extends rex_var
     {
         $art_name = '';
         $clang = '';
-        $art = rex_article::getArticleById($value);
+        $art = rex_article::get($value);
         $category = 0;
 
         // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen

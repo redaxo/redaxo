@@ -111,7 +111,7 @@ class rex_api_article2category extends rex_api_function
     {
         $article_id  = rex_request('article_id',  'int');
 
-        $ooArticle = rex_article::getArticleById($article_id);
+        $ooArticle = rex_article::get($article_id);
         $category_id = $ooArticle->getCategoryId();
 
         /**
@@ -143,7 +143,7 @@ class rex_api_category2article extends rex_api_function
     {
         $article_id  = rex_request('article_id',  'int');
 
-        $ooArticle = rex_article::getArticleById($article_id);
+        $ooArticle = rex_article::get($article_id);
         $category_id = $ooArticle->getCategoryId();
 
         /**
@@ -175,7 +175,7 @@ class rex_api_article2startarticle extends rex_api_function
     {
         $article_id  = rex_request('article_id',  'int');
 
-        $ooArticle = rex_article::getArticleById($article_id);
+        $ooArticle = rex_article::get($article_id);
         $category_id = $ooArticle->getCategoryId();
 
         /**

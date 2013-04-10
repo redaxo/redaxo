@@ -12,7 +12,7 @@ $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
 $navigation = [];
 
-$ooCat = rex_category::getCategoryById($category_id, $clang);
+$ooCat = rex_category::get($category_id, $clang);
 if ($ooCat) {
     foreach ($ooCat->getParentTree() as $parent) {
         $catid = $parent->getId();
