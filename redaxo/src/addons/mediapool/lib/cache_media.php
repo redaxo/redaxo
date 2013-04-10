@@ -13,6 +13,7 @@ class rex_media_cache
     public static function delete($filename)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $filename . '.media'));
+        rex_media::clearInstance($filename);
         self::deleteLists();
     }
 
@@ -24,6 +25,7 @@ class rex_media_cache
     public static function deleteCategory($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mcat'));
+        rex_media_category::clearInstance($category_id);
         self::deleteCategoryLists();
     }
 
@@ -42,13 +44,7 @@ class rex_media_cache
                 rex_file::delete($file);
             }
         }
-
-        $glob = glob($cachePath . '*.mextlist');
-        if (is_array($glob)) {
-            foreach ($glob as $file) {
-                rex_file::delete($file);
-            }
-        }
+        rex_media_category::clearInstanceListPool();
     }
 
     /**
@@ -59,6 +55,7 @@ class rex_media_cache
     public static function deleteList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mlist'));
+        rex_media_category::clearInstanceList([$category_id, 'media']);
     }
 
     /**
@@ -76,6 +73,7 @@ class rex_media_cache
                 rex_file::delete($file);
             }
         }
+        rex_media_category::clearInstanceListPool();
     }
 
     /**
@@ -86,6 +84,7 @@ class rex_media_cache
     public static function deleteCategoryList($category_id)
     {
         rex_file::delete(rex_path::addonCache('mediapool', $category_id . '.mclist'));
+        rex_media_category::clearInstanceList([$category_id, 'children']);
     }
 
     /**
@@ -225,33 +224,6 @@ class rex_media_cache
         }
 
         $list_file = rex_path::addonCache('mediapool', $category_id . '.mclist');
-        if (rex_file::putCache($list_file, $cacheArray)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Generiert eine Liste mit allen Media einer Dateiendung
-     *
-     * @param string $extension Dateiendung der zu generierenden Liste
-     *
-     * @return bool TRUE bei Erfolg, sonst FALSE
-     */
-    public static function generateExtensionList($extension)
-    {
-        $query = 'SELECT filename FROM ' . rex_media :: _getTableName() . ' WHERE LOWER(RIGHT(filename, LOCATE(".", REVERSE(filename))-1)) = "' . strtolower($extension) . '"';
-        $sql = rex_sql::factory();
-        $sql->setQuery($query);
-
-        $cacheArray = [];
-        for ($i = 0; $i < $sql->getRows(); $i++) {
-            $cacheArray[] = $sql->getValue('filename');
-            $sql->next();
-        }
-
-        $list_file = rex_path::addonCache('mediapool', $extension . '.mextlist');
         if (rex_file::putCache($list_file, $cacheArray)) {
             return true;
         }

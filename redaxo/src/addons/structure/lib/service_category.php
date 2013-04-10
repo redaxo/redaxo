@@ -28,7 +28,7 @@ class rex_category_service
         self::reqKey($data, 'catname');
 
         // parent may be null, when adding in the root cat
-        $parent = rex_category::getCategoryById($category_id);
+        $parent = rex_category::get($category_id);
         if ($parent) {
             $path = $parent->getPath();
             $path .= $parent->getId() . '|';
@@ -113,6 +113,8 @@ class rex_category_service
                 }
 
                 $message = rex_i18n::msg('category_added_and_startarticle_created');
+
+                rex_article_cache::delete($id, $key);
 
                 // ----- EXTENSION POINT
                 // Objekte clonen, damit diese nicht von der extension veraendert werden koennen
@@ -437,7 +439,7 @@ class rex_category_service
                 'catpriority,updatedate ' . $addsql
             );
 
-            rex_article_cache::deleteLists($parent_id, $clang);
+            rex_article_cache::deleteLists($parent_id);
         }
     }
 

@@ -1,0 +1,89 @@
+<?php
+
+class rex_test_instance_pool_base
+{
+    use rex_instance_pool_trait {
+        addInstance as public;
+        hasInstance as public;
+        getInstance as public;
+        getInstancePoolKey as public;
+    }
+
+    public function __construct()
+    {
+    }
+}
+
+class rex_test_instance_pool_1 extends rex_test_instance_pool_base
+{
+}
+
+class rex_test_instance_pool_2 extends rex_test_instance_pool_base
+{
+}
+
+class rex_instance_pool_trait_test extends PHPUnit_Framework_TestCase
+{
+    public function testAddHasInstance()
+    {
+        $this->assertFalse(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns false for non-existing instance');
+        rex_test_instance_pool_1::addInstance(1, new rex_test_instance_pool_1);
+        $this->assertTrue(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns true for added instance');
+        $this->assertFalse(rex_test_instance_pool_2::hasInstance(1), 'hasInstance uses LSB, instance is only added for subclass 1');
+    }
+
+    public function testGetInstance()
+    {
+        $this->assertNull(rex_test_instance_pool_1::getInstance(2), 'getInstance returns null for non-existing key');
+        $instance1 = new rex_test_instance_pool_1;
+        $this->assertSame($instance1, rex_test_instance_pool_1::getInstance(2, function ($id) use ($instance1) {
+            $this->assertEquals(2, $id);
+            return $instance1;
+        }), 'getInstance returns the instance that is returned by the callback');
+
+        $instance2 = new rex_test_instance_pool_2;
+        $this->assertSame($instance2, rex_test_instance_pool_2::getInstance(2, function ($id) use ($instance2) {
+            $this->assertEquals(2, $id);
+            return $instance2;
+        }), 'getInstance uses LSB, so other instance is returned for subclass 2');
+
+        $this->assertSame($instance1, rex_test_instance_pool_1::getInstance(2), 'getInstance uses LSB, $instance1 still exists');
+
+        rex_test_instance_pool_1::getInstance(2, function () {
+            $this->fail('getInstance does not call $createCallback if instance alreays exists');
+        });
+
+        rex_test_instance_pool_1::getInstance([3, 'test'], function ($key1, $key2) {
+           $this->assertEquals(3, $key1, 'getInstance passes key array as arguments to callback');
+           $this->assertEquals('test', $key2, 'getInstance passes key array as arguments to callback');
+        });
+    }
+
+    /**
+     * @depends testGetInstance
+     */
+    public function testClearInstance()
+    {
+        rex_test_instance_pool_1::clearInstance(2);
+        $this->assertFalse(rex_test_instance_pool_1::hasInstance(2), 'instance is cleared after clearInstance()');
+        $this->assertTrue(rex_test_instance_pool_2::hasInstance(2), 'clearInstance uses LSB, instance of subclass 2 still exists');
+    }
+
+    /**
+     * @depends testClearInstance
+     */
+    public function testClearInstancePool()
+    {
+        rex_test_instance_pool_2::clearInstancePool();
+        $this->assertFalse(rex_test_instance_pool_2::hasInstance(2), 'instances are cleared after clearInstancePool()');
+        $this->assertTrue(rex_test_instance_pool_1::hasInstance(1), 'clearInstancePool uses LSB, instances of subclass 2 still exist');
+        rex_test_instance_pool_base::clearInstancePool();
+        $this->assertFalse(rex_test_instance_pool_1::hasInstance(1), 'baseClass::clearInstancePool clears all instances');
+    }
+
+    public function testGetInstancePoolKey()
+    {
+        $this->assertEquals('1', rex_test_instance_pool_1::getInstancePoolKey(1));
+        $this->assertEquals('2###test', rex_test_instance_pool_1::getInstancePoolKey([2, 'test']));
+    }
+}

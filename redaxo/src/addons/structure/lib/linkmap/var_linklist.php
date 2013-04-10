@@ -51,7 +51,7 @@ class rex_var_linklist extends rex_var
         if (is_array($linklistarray)) {
             foreach ($linklistarray as $link) {
                 if ($link != '') {
-                    if ($article = rex_article::getArticleById($link)) {
+                    if ($article = rex_article::get($link)) {
                         $options .= '<option value="' . $link . '">' . htmlspecialchars($article->getName()) . '</option>';
                     }
                 }

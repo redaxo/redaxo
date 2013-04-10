@@ -107,7 +107,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         if ($catId !== '') {
             $s = '';
             if ($catId != 0) {
-                $OOCat = rex_media_category::getCategoryById($catId);
+                $OOCat = rex_media_category::get($catId);
 
                 // Alle Metafelder des Pfades sind erlaubt
                 foreach ($OOCat->getPathAsArray() as $pathElement) {

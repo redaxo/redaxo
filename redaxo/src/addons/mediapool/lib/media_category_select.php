@@ -39,12 +39,12 @@ class rex_media_category_select extends rex_select
         if ($this->rootId !== null) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
-                    if ($rootCat = rex_media_category::getCategoryById($rootId)) {
+                    if ($rootCat = rex_media_category::get($rootId)) {
                         $this->addCatOption($rootCat);
                     }
                 }
             } else {
-                if ($rootCat = rex_media_category::getCategoryById($this->rootId)) {
+                if ($rootCat = rex_media_category::get($this->rootId)) {
                     $this->addCatOption($rootCat);
                 }
             }

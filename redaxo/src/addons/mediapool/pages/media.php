@@ -90,8 +90,11 @@ $cat_out = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOL
 // *************************************** Subpage: Media
 
 if ($file_id && rex_post('btn_delete', 'string')) {
-    // TODO: getMediaById() deprecated, daher getMediaByFileName() nutzen
-    $media = rex_media::getMediaById($file_id);
+    $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
+    $media = null;
+    if ($sql->getRows() == 1) {
+        $media = rex_media::get($sql->getValue('filename'));
+    }
 
     if ($media) {
         $file_name = $media->getFileName();
@@ -175,7 +178,7 @@ if ($file_id) {
         $rex_file_category = $gf->getValue('category_id');
 
 
-        $isImage = rex_media::_isImage($fname);
+        $isImage = rex_media::isImageType(rex_file::extension($fname));
         if ($isImage) {
             $fwidth = $gf->getValue('width');
             $fheight = $gf->getValue('height');
@@ -346,7 +349,7 @@ if ($file_id) {
                 </div>';
         } else {
             $catname = rex_i18n::msg('pool_kats_no');
-            $Cat = rex_media_category::getCategoryById($rex_file_category);
+            $Cat = rex_media_category::get($rex_file_category);
             if ($Cat) {
                 $catname = $Cat->getName();
             }
@@ -441,7 +444,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
         $info = [];
 
         foreach ($selectedmedia as $file_name) {
-            $media = rex_media::getMediaByFileName($file_name);
+            $media = rex_media::get($file_name);
             if ($media) {
              if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
                  $uses = $media->isInUse();
@@ -652,7 +655,7 @@ if (!$file_id) {
             }
             $thumbnail = '<span class="rex-mime' . $icon_class . '" title="' . $alt . '">' . $file_name . '</span>';
 
-            if (rex_media::_isImage($file_name) && $thumbs) {
+            if (rex_media::isImageType(rex_file::extension($file_name)) && $thumbs) {
                 $thumbnail = '<img src="' . rex_url::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
                 if ($media_manager) {
                     $thumbnail = '<img src="' . rex_url::frontendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
@@ -674,7 +677,7 @@ if (!$file_id) {
         // ----- opener
         $opener_link = '';
         if ($opener_input_field == 'TINYIMG') {
-            if (rex_media::_isImage($file_name)) {
+            if (rex_media::isImageType(rex_file::extension($file_name))) {
                 $opener_link .= "<a href=\"javascript:insertImage('$file_name','" . $files->getValue('title') . "')\">" . rex_i18n::msg('pool_image_get') . '</a><br>';
             }
 

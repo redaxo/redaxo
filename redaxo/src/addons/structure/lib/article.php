@@ -7,104 +7,27 @@
  */
 class rex_article extends rex_structure_element
 {
-    public function __construct($params = false, $clang = false)
-    {
-        parent :: __construct($params, $clang);
-    }
-
-    /**
-     * Return an rex_article object based on an id
-     *
-     * @param int      $article_id
-     * @param bool|int $clang
-     * @return self
-     */
-    public static function getArticleById($article_id, $clang = false)
-    {
-        return parent :: getById($article_id, $clang);
-    }
-
     /**
      * Return the site wide start article
      *
-     * @param bool|int $clang
+     * @param int $clang
      * @return self
      */
-    public static function getSiteStartArticle($clang = false)
+    public static function getSiteStartArticle($clang = null)
     {
-        return parent :: getById(rex::getProperty('start_article_id'), $clang);
-    }
-
-    /**
-     * Return start article for a certain category
-     *
-     * @param int      $a_category_id
-     * @param bool|int $clang
-     * @return self
-     */
-    public static function getCategoryStartArticle($a_category_id, $clang = false)
-    {
-        return parent :: getById($a_category_id, $clang);
-    }
-
-    /**
-     * Articles of categories, keyed by category_id
-     * @var array
-     */
-    private static $articleIds = [];
-
-    /**
-     * Return a list of articles for a certain category
-     *
-     * @param int      $a_category_id
-     * @param bool     $ignore_offlines
-     * @param bool|int $clang
-     * @return self[]
-     */
-    public static function getArticlesOfCategory($a_category_id, $ignore_offlines = false, $clang = false)
-    {
-        if ($clang === false) {
-            $clang = rex_clang::getCurrentId();
-        }
-
-        $articlelist = rex_path::addonCache('structure', $a_category_id . '.' . $clang . '.alist');
-        if (!file_exists($articlelist)) {
-            rex_article_cache::generateLists($a_category_id, $clang);
-        }
-
-        $artlist = [];
-        if (file_exists($articlelist)) {
-            if (!isset(self::$articleIds[$a_category_id])) {
-                self::$articleIds[$a_category_id] = rex_file::getCache($articlelist);
-            }
-
-            if (self::$articleIds[$a_category_id]) {
-                foreach (self::$articleIds[$a_category_id] as $var) {
-                    $article = self :: getArticleById($var, $clang);
-                    if ($ignore_offlines) {
-                        if ($article->isOnline()) {
-                            $artlist[] = $article;
-                        }
-                    } else {
-                        $artlist[] = $article;
-                    }
-                }
-            }
-        }
-
-        return $artlist;
+        return self::get(rex::getProperty('start_article_id'), $clang);
     }
 
     /**
      * Return a list of top-level articles
      *
-     * @param bool     $ignore_offlines
-     * @param bool|int $clang
+     * @param bool $ignoreOfflines
+     * @param int  $clang
      * @return self[]
      */
-    public static function getRootArticles($ignore_offlines = false, $clang = false)
+    public static function getRootArticles($ignoreOfflines = false, $clang = null)
     {
-        return self :: getArticlesOfCategory(0, $ignore_offlines, $clang);
+        return self::getChildElements(0, 'alist', $ignoreOfflines, $clang);
     }
 
     /**
@@ -124,22 +47,17 @@ class rex_article extends rex_structure_element
      */
     public function getCategory()
     {
-        return rex_category :: getCategoryById($this->getCategoryId(), $this->getClang());
+        return rex_category::get($this->getCategoryId(), $this->getClang());
     }
 
     /**
      * Returns the parent object of the article
      *
-     * @param bool|int $clang
      * @return self
      */
-    public function getParent($clang = false)
+    public function getParent()
     {
-        if ($clang === false) {
-            $clang = rex_clang::getCurrentId();
-        }
-
-        return self::getArticleById($this->_parent_id, $clang);
+        return self::get($this->parent_id, $this->clang);
     }
 
     /**
@@ -150,10 +68,10 @@ class rex_article extends rex_structure_element
     public function getPath()
     {
         if ($this->isStartArticle()) {
-            return $this->_path . $this->_id . '|';
+            return $this->path . $this->id . '|';
         }
 
-        return $this->_path;
+        return $this->path;
     }
 
     /**
@@ -162,7 +80,7 @@ class rex_article extends rex_structure_element
     public function getValue($value)
     {
         // alias für parent_id -> category_id
-        if (in_array($value, ['parent_id', '_parent_id', 'category_id', '_category_id'])) {
+        if (in_array($value, ['parent_id', 'category_id'])) {
             // für die CatId hier den Getter verwenden,
             // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
             return $this->getCategoryId();
