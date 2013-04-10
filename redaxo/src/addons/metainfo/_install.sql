@@ -1,10 +1,18 @@
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_type` (
+    `id` int(10) unsigned NOT NULL auto_increment,
+    `label` varchar(255) default NULL,
+    `dbtype` varchar(255) NOT NULL,
+    `dblength` int(11) NOT NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_field` (
     `id` int(10) unsigned NOT NULL auto_increment,
     `title` varchar(255) default NULL,
     `name` varchar(255) default NULL,
     `priority` int(10) unsigned NOT NULL,
     `attributes` text NOT NULL,
-    `type` int(10) unsigned default NULL,
+    `type_id` int(10) unsigned default NULL,
     `default` varchar(255) NOT NULL,
     `params` text default NULL,
     `validate` text NULL,
@@ -16,14 +24,6 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_field` (
     `updatedate` datetime NOT NULL,
     PRIMARY KEY  (`id`),
     UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
-
-CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_type` (
-    `id` int(10) unsigned NOT NULL auto_increment,
-    `label` varchar(255) default NULL,
-    `dbtype` varchar(255) NOT NULL,
-    `dblength` int(11) NOT NULL,
-    PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 INSERT INTO %TABLE_PREFIX%metainfo_type VALUES
@@ -42,7 +42,7 @@ INSERT INTO %TABLE_PREFIX%metainfo_type VALUES
     (9,  'REX_LINKLIST_BUTTON', 'text', 0)
 ON DUPLICATE KEY UPDATE `label` = VALUES(`label`), `dbtype` = VALUES(`dbtype`), `dblength` = VALUES(`dblength`);
 
-INSERT INTO `%TABLE_PREFIX%metainfo_field` (`title`, `name`, `priority`, `attributes`, `type`, `default`, `params`, `validate`, `restrictions`, `createuser`, `createdate`, `updateuser`, `updatedate`) VALUES
+INSERT INTO `%TABLE_PREFIX%metainfo_field` (`title`, `name`, `priority`, `attributes`, `type_id`, `default`, `params`, `validate`, `restrictions`, `createuser`, `createdate`, `updateuser`, `updatedate`) VALUES
     ('translate:pool_file_description','med_description','1','','2','','','','','%USER%','%TIME%','%USER%','%TIME%'),
     ('translate:pool_file_copyright','med_copyright','2','','1','','','','','%USER%','%TIME%','%USER%','%TIME%'),
     ('translate:online_from','art_online_from','1','','10','','','','','%USER%','%TIME%','%USER%','%TIME%'),
@@ -52,4 +52,4 @@ INSERT INTO `%TABLE_PREFIX%metainfo_field` (`title`, `name`, `priority`, `attrib
     ('translate:metadata_image','art_file','5','','6','','','','','%USER%','%TIME%','%USER%','%TIME%'),
     ('translate:teaser','art_teaser','6','','5','','','','','%USER%','%TIME%','%USER%','%TIME%'),
     ('translate:header_article_type','art_type_id','7','size=1','3','','Standard|Zugriff fuer alle','','','%USER%','%TIME%','%USER%','%TIME%')
-ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `priority` = VALUES(`priority`), `attributes` = VALUES(`attributes`), `type` = VALUES(`type`), `default` = VALUES(`default`), `params` = VALUES(`params`), `validate` = VALUES(`validate`), `restrictions` = VALUES(`restrictions`);
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `priority` = VALUES(`priority`), `attributes` = VALUES(`attributes`), `type_id` = VALUES(`type_id`), `default` = VALUES(`default`), `params` = VALUES(`params`), `validate` = VALUES(`validate`), `restrictions` = VALUES(`restrictions`);

@@ -403,7 +403,7 @@ CREATE TABLE `rex_metainfo_field` (
     `name` varchar(255) DEFAULT NULL,
     `priority` int(10) unsigned NOT NULL,
     `attributes` text NOT NULL,
-    `type` int(10) unsigned DEFAULT NULL,
+    `type_id` int(10) unsigned DEFAULT NULL,
     `default` varchar(255) NOT NULL,
     `params` text,
     `validate` text,

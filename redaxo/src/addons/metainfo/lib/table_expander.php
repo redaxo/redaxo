@@ -67,7 +67,7 @@ class rex_metainfo_table_expander extends rex_form
             }
         }
 
-        $field = $this->addSelectField('type');
+        $field = $this->addSelectField('type_id');
         $field->setLabel(rex_i18n::msg('minfo_field_label_type'));
         $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));');
         $select = $field->getSelect();
