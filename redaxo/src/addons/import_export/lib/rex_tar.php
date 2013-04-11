@@ -284,15 +284,14 @@ class rex_tar extends tar
                 // jan: wenn probleme mit der ordnergenerierung -> ordner manuell einstellen
 
                 if (!file_exists(dirname($item['name']))) {
-                    $this->message[] = dirname($item['name']);
+                    rex_dir::create(dirname($item['name']));
+                }
+                if ($h = @ fopen($item['name'], 'w+')) {
+                    fwrite($h, $item['file'], $item['size']);
+                    fclose($h);
                 } else {
-                    if ($h = @ fopen($item['name'], 'w+')) {
-                        fwrite($h, $item['file'], $item['size']);
-                        fclose($h);
-                    } else {
-                        $this->message[] = dirname($item['name']);
-                        return false;
-                    }
+                    $this->message[] = dirname($item['name']);
+                    return false;
                 }
             }
         }
