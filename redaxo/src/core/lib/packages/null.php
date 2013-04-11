@@ -181,7 +181,7 @@ abstract class rex_null_package implements rex_package_interface
      */
     public function getVersion($format = null)
     {
-        return $default;
+        return null;
     }
 
     /**
