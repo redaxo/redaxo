@@ -30,7 +30,8 @@ ob_implicit_flush(0);
 
 mb_internal_encoding('UTF-8');
 
-session_cache_limiter('private_no_expire');
+// deactivate session cache limiter
+session_cache_limiter(false);
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
