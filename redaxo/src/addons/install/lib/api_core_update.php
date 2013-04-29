@@ -32,7 +32,7 @@ class rex_api_install_core_update extends rex_api_function
         }
         $message = '';
         $archive = "phar://$archivefile/core";
-        $temppath = rex_path::src('_new_core/');
+        $temppath = rex_path::src('.new.core/');
         if ($version['checksum'] != md5_file($archivefile)) {
             $message = $addon->i18n('warning_zip_wrong_checksum');
         } elseif (!file_exists($archive)) {

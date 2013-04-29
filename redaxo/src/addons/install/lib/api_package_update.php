@@ -28,7 +28,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
     public function doAction()
     {
         $path = rex_path::addon($this->addonkey);
-        $temppath = rex_path::addon('_new_' . $this->addonkey);
+        $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         if (($msg = $this->extractArchiveTo($temppath)) !== true) {
             return $msg;
@@ -41,7 +41,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
         // ---- include update.php
         if ($this->addon->isInstalled() && file_exists($temppath . rex_package::FILE_UPDATE)) {
             try {
-                $this->addon->includeFile('../_new_' . $this->addonkey . '/' . rex_package::FILE_UPDATE);
+                $this->addon->includeFile('../.new.' . $this->addonkey . '/' . rex_package::FILE_UPDATE);
             } catch (rex_functional_exception $e) {
                 return $e->getMessage();
             } catch (rex_sql_exception $e) {
@@ -93,7 +93,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
 
     private function checkRequirements()
     {
-        $temppath = rex_path::addon('_new_' . $this->addonkey);
+        $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
         $versions = new SplObjectStorage;
@@ -189,6 +189,6 @@ class rex_api_install_package_update extends rex_api_install_package_download
 
     public function __destruct()
     {
-        rex_dir::delete(rex_path::addon('_new_' . $this->addonkey));
+        rex_dir::delete(rex_path::addon('.new.' . $this->addonkey));
     }
 }
