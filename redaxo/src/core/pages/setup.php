@@ -56,7 +56,7 @@ if ($step == 2) {
 
 }
 
-// ---------------------------------- Step 3 . Perms, Evirement
+// ---------------------------------- Step 3 . Perms, Environment
 
 $error_array = [];
 $success_array = [];
