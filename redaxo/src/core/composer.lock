@@ -1,18 +1,22 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
     "hash": "9af9945db5092276f2516f0ecddac641",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
-            "version": "1.0.0",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ircmaxell/password_compat.git",
-                "reference": "v1.0.0"
+                "reference": "v1.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/ircmaxell/password_compat/archive/v1.0.0.zip",
-                "reference": "v1.0.0",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/v1.0.3",
+                "reference": "v1.0.3",
                 "shasum": ""
             },
             "type": "library",
@@ -28,7 +32,7 @@
             "authors": [
                 {
                     "name": "Anthony Ferrara",
-                    "email": "ircmaxell@php.net",
+                    "email": "ircmaxell@ircmaxell.com",
                     "homepage": "http://blog.ircmaxell.com"
                 }
             ],
@@ -38,7 +42,7 @@
                 "hashing",
                 "password"
             ],
-            "time": "2013-01-14 16:49:31"
+            "time": "2013-04-30 19:58:08"
         },
         {
             "name": "psr/log",
