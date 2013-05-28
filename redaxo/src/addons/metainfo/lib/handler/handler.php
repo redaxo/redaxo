@@ -435,7 +435,7 @@ abstract class rex_metainfo_handler
 
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
             $fieldName = $sqlFields->getValue('name');
-            $fieldType = $sqlFields->getValue('type');
+            $fieldType = $sqlFields->getValue('type_id');
             $fieldAttributes = $sqlFields->getValue('attributes');
 
             // dont save restricted fields
@@ -536,7 +536,7 @@ abstract class rex_metainfo_handler
                             ' . rex::getTablePrefix() . 'metainfo_field p,
                             ' . rex::getTablePrefix() . 'metainfo_type t
                         WHERE
-                            `p`.`type` = `t`.`id` AND
+                            `p`.`type_id` = `t`.`id` AND
                             `p`.`name` LIKE "' . $prefix . '%"
                             ' . $filterCondition . '
                             ORDER BY
@@ -584,7 +584,7 @@ abstract class rex_metainfo_handler
                 $sandboxFunc = function ($field) {
                     // TODO add var to ref the actual table (rex_article,...)
                     $fieldName = $field->getValue('name');
-                    $fieldType = $field->getValue('type');
+                    $fieldType = $field->getValue('type_id');
                     $fieldAttributes = $field->getValue('attributes');
                     $fieldValue = self::getSaveValue($fieldName, $fieldType, $fieldAttributes);
 

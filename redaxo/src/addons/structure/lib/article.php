@@ -57,7 +57,7 @@ class rex_article extends rex_structure_element
      */
     public function getParent()
     {
-        return self::get($this->parent_id, $this->clang);
+        return self::get($this->parent_id, $this->clang_id);
     }
 
     /**

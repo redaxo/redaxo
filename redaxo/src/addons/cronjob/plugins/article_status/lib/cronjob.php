@@ -39,7 +39,7 @@ class rex_cronjob_article_status extends rex_cronjob
 
         $time = time();
         $sql->setQuery('
-            SELECT  id, clang, status
+            SELECT  id, clang_id, status
             FROM    ' . rex::getTablePrefix() . 'article
             WHERE
                 (     ' . $from['field'] . ' > 0
@@ -64,7 +64,7 @@ class rex_cronjob_article_status extends rex_cronjob
                 $status = $to['after'];
             }
 
-            rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang'), $status);
+            rex_article_service::articleStatus($sql->getValue('id'), $sql->getValue('clang_id'), $status);
             $sql->next();
         }
         $this->setMessage('Updated articles: ' . $rows);

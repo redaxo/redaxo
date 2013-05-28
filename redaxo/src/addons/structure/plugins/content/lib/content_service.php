@@ -24,7 +24,7 @@ class rex_content_service
 
         // check if slice id is valid
         $CM = rex_sql::factory();
-        $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
+        $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang_id=$clang");
         if ($CM->getRows() == 1) {
             // origin value for later success-check
             $oldPriority = $CM->getValue('priority');
@@ -38,7 +38,7 @@ class rex_content_service
 
             // some vars for later use
             $article_id = $CM->getValue('article_id');
-            $ctype = $CM->getValue('ctype');
+            $ctype = $CM->getValue('ctype_id');
             $slice_revision = $CM->getValue('revision');
 
             if ($direction == 'moveup' || $direction == 'movedown') {
@@ -55,12 +55,12 @@ class rex_content_service
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
                     'priority',
-                    'article_id=' . $article_id . ' AND clang=' . $clang . ' AND ctype=' . $ctype . ' AND revision=' . $slice_revision,
+                    'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision,
                     'priority, updatedate ' . $updSort
                 );
 
                 // check if the slice moved at all (first cannot be moved up, last not down)
-                $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang=$clang");
+                $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang_id=$clang");
                 $newPriority = $CM->getValue('priority');
                 if ($oldPriority == $newPriority) {
                     throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
@@ -101,7 +101,7 @@ class rex_content_service
         rex_sql_util::organizePriorities(
             rex::getTable('article_slice'),
             'priority',
-            'article_id=' . $curr->getValue('article_id') . ' AND clang=' . $curr->getValue('clang') . ' AND ctype=' . $curr->getValue('ctype') . ' AND revision=' . $curr->getValue('revision')
+            'article_id=' . $curr->getValue('article_id') . ' AND clang_id=' . $curr->getValue('clang_id') . ' AND ctype_id=' . $curr->getValue('ctype_id') . ' AND revision=' . $curr->getValue('revision')
         );
 
         // check if delete was successfull
@@ -125,7 +125,7 @@ class rex_content_service
         }
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang='$from_clang' and revision='$revision'");
+        $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang_id='$from_clang' and revision='$revision'");
 
         if ($gc->getRows() > 0) {
             $ins = rex_sql::factory();
@@ -138,7 +138,7 @@ class rex_content_service
             foreach ($gc as $slice) {
                 foreach ($cols as $col) {
                     $colname = $col->getValue('Field');
-                    if ($colname == 'clang') {
+                    if ($colname == 'clang_id') {
                         $value = $to_clang;
                     } elseif ($colname == 'article_id') {
                         $value = $to_id;
@@ -147,7 +147,7 @@ class rex_content_service
                     }
 
                     // collect all affected ctypes
-                    if ($colname == 'ctype') {
+                    if ($colname == 'ctype_id') {
                     $ctypes[$value] = $value;
                     }
 
@@ -166,7 +166,7 @@ class rex_content_service
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
                     'priority',
-                    'article_id=' . $to_id . ' AND clang=' . $to_clang . ' AND ctype=' . $ctype . ' AND revision=' . $revision,
+                    'article_id=' . $to_id . ' AND clang_id=' . $to_clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $revision,
                     'priority, updatedate'
                 );
             }

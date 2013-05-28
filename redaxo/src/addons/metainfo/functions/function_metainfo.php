@@ -105,7 +105,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql->setValue('name', $name);
     $sql->setValue('priority', $priority);
     $sql->setValue('attributes', $attributes);
-    $sql->setValue('type', $type);
+    $sql->setValue('type_id', $type);
     $sql->setValue('default', $default);
     $sql->setValue('params', $params);
     $sql->setValue('validate', $validate);

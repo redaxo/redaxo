@@ -27,7 +27,7 @@ class rex_article_content_editor extends rex_article_content
             );
         } else {
             $sliceId      = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype');
+            $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
 
             $moduleInput  = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
@@ -109,7 +109,7 @@ class rex_article_content_editor extends rex_article_content
     private function getSliceMenu(rex_sql $artDataSql)
     {
         $sliceId      = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-        $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype');
+        $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
 
         $moduleId     = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
         $moduleName   = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
