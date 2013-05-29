@@ -20,7 +20,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $warning = $ep->getSubject();
 
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT `name`, `type` FROM `' . rex::getTablePrefix() . 'metainfo_field` WHERE `type` IN(6,7)');
+        $sql->setQuery('SELECT `name`, `type_id` FROM `' . rex::getTablePrefix() . 'metainfo_field` WHERE `type_id` IN(6,7)');
 
         $rows = $sql->getRows();
         if ($rows == 0) {
@@ -39,7 +39,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             } else {
                 $key = 'articles';
             }
-            switch ($sql->getValue('type')) {
+            switch ($sql->getValue('type_id')) {
                 case '6':
                     $where[$key][] = $name . '="' . $filename . '"';
                     break;
@@ -47,7 +47,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                     $where[$key][] = 'FIND_IN_SET("' . $filename . '", ' . $name . ')';
                     break;
                 default :
-                    throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type') . '"!');
+                    throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!');
             }
             $sql->next();
         }
@@ -55,11 +55,11 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $articles = '';
         $categories = '';
         if (!empty($where['articles'])) {
-            $sql->setQuery('SELECT id, clang, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
+            $sql->setQuery('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
             if ($sql->getRows() > 0) {
                 foreach ($sql->getArray() as $art_arr) {
                     $aid = $art_arr['id'];
-                    $clang = $art_arr['clang'];
+                    $clang = $art_arr['clang_id'];
                     $parent_id = $art_arr['parent_id'];
                     $name = $art_arr['startarticle'] ? $art_arr['catname'] : $art_arr['name'];
                     if ($art_arr['startarticle']) {

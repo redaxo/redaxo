@@ -292,7 +292,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
             case 'ART_TO_CAT':
             case 'CAT_TO_ART':
             case 'ART_META_UPDATED':
-                $where = '(id=' . $params['id'] . ' AND clang=' . $params['clang'] . ') OR (path LIKE "%|' . $params['id'] . '|%" AND clang=' . $params['clang'] . ')';
+                $where = '(id=' . $params['id'] . ' AND clang_id=' . $params['clang'] . ') OR (path LIKE "%|' . $params['id'] . '|%" AND clang_id=' . $params['clang'] . ')';
                 break;
             // ------- alles aktualisieren
             case 'CLANG_ADDED':
@@ -309,10 +309,10 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
         if ($where != '') {
             $db = rex_sql::factory();
             // $db->setDebug();
-            $db->setQuery('SELECT id,clang,path,startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . $where . ' and revision=0');
+            $db->setQuery('SELECT id,clang_id,path,startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . $where . ' and revision=0');
 
             foreach ($db as $art) {
-                $clang = $art->getValue('clang');
+                $clang = $art->getValue('clang_id');
                 $pathname = '';
                 if (rex_clang::count() > 1) {
                     $pathname = rex_clang::get($clang)->getName() . '/';
@@ -345,7 +345,7 @@ class rex_url_rewriter_fullnames extends rex_url_rewriter
                 $pathname = self::appendToPath($pathname, $name);
 
                 $pathname = substr($pathname, 0, strlen($pathname) - 1) . '.html';
-                $REXPATH[$art->getValue('id')][$art->getValue('clang')] = $pathname;
+                $REXPATH[$art->getValue('id')][$art->getValue('clang_id')] = $pathname;
             }
         }
 

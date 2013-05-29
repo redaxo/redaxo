@@ -15,7 +15,7 @@ abstract class rex_structure_element
      */
     protected $id = '';
     protected $parent_id = '';
-    protected $clang = '';
+    protected $clang_id = '';
     protected $name = '';
     protected $catname = '';
     protected $template_id = '';
@@ -215,7 +215,7 @@ abstract class rex_structure_element
      */
     public function getClang()
     {
-        return $this->clang;
+        return $this->clang_id;
     }
 
     /**
@@ -423,7 +423,7 @@ abstract class rex_structure_element
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ($var != '') {
-                        $return[] = rex_category::get($var, $this->clang);
+                        $return[] = rex_category::get($var, $this->clang_id);
                     }
                 }
             }

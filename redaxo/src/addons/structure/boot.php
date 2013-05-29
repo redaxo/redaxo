@@ -78,7 +78,7 @@ if (rex::isBackend() && rex::getUser()) {
 
 rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
     $firstLang = rex_sql::factory();
-    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang=?', [rex::getProperty('start_clang_id')]);
+    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex::getProperty('start_clang_id')]);
     $fields = $firstLang->getFieldnames();
 
     $newLang = rex_sql::factory();
@@ -90,8 +90,8 @@ rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
             if ($value == 'pid') {
                 echo '';
             } // nix passiert
-            elseif ($value == 'clang') {
-                $newLang->setValue('clang', $ep->getParam('clang')->getId());
+            elseif ($value == 'clang_id') {
+                $newLang->setValue('clang_id', $ep->getParam('clang')->getId());
             } elseif ($value == 'status') {
                 $newLang->setValue('status', '0');
             } // Alle neuen Artikel offline
@@ -106,5 +106,5 @@ rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
 
 rex_extension::register('CLANG_DELETED', function (rex_extension_point $ep) {
     $del = rex_sql::factory();
-    $del->setQuery('delete from ' . rex::getTablePrefix() . "article where clang='" . $ep->getParam('clang')->getId() . "'");
+    $del->setQuery('delete from ' . rex::getTablePrefix() . 'article where clang_id=?', [$ep->getParam('clang')->getId()]);
 });

@@ -18,7 +18,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
                 `col_time` DATETIME NOT NULL ,
                 `col_text` TEXT NOT NULL ,
                 PRIMARY KEY ( `id` )
-                ) ENGINE = MYISAM ;');
+                ) ENGINE = InnoDB ;');
     }
 
     public function tearDown()

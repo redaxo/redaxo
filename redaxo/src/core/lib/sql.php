@@ -1283,7 +1283,7 @@ class rex_sql implements Iterator
                             $login,
                             $pw
                         );
-                        if ($conn->exec('CREATE DATABASE ' . $dbname) !== 1) {
+                        if ($conn->exec('CREATE DATABASE ' . $dbname . ' CHARACTER SET utf8 COLLATE utf8_general_ci') !== 1) {
                             // unable to create db
                             $err_msg = rex_i18n::msg('sql_unable_to_create_database');
                         }

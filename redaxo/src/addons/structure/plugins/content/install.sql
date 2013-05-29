@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `clang` int(11) NOT NULL,
-    `ctype` int(11) NOT NULL,
-    `priority` int(11) NOT NULL,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `clang_id` int(10) unsigned NOT NULL,
+    `ctype_id` int(10) unsigned NOT NULL,
+    `priority` int(10) unsigned NOT NULL,
     `value1` text,
     `value2` text,
     `value3` text,
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `linklist8` text,
     `linklist9` text,
     `linklist10` text,
-    `article_id` int(11) NOT NULL,
-    `module_id` int(11) NOT NULL,
+    `article_id` int(10) unsigned NOT NULL,
+    `module_id` int(10) unsigned NOT NULL,
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `createuser` varchar(255) NOT NULL,
@@ -72,13 +72,13 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `slice_priority` (`article_id`,`priority`,`module_id`),
-    KEY `clang` (`clang`),
+    KEY `clang_id` (`clang_id`),
     KEY `article_id` (`article_id`),
-    KEY `find_slices` (`clang`,`article_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+    KEY `find_slices` (`clang_id`,`article_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
-    `id` int(11) NOT NULL  auto_increment,
+    `id` int(10) unsigned NOT NULL  auto_increment,
     `name` varchar(255) NULL,
     `content` text NULL,
     `active` tinyint(1) NULL,
@@ -89,10 +89,10 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
     `attributes` text NULL,
     `revision` int(11) NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%action` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `preview` text,
     `presave` text,
@@ -104,12 +104,12 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%action` (
     `createdate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `updatedate` datetime NOT NULL,
-    `revision` int(11) NOT NULL,
+    `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `output` text NOT NULL,
     `input` text NOT NULL,
@@ -118,14 +118,14 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `attributes` text,
-    `revision` int(11) NOT NULL,
+    `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module_action` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `module_id` int(11) NOT NULL,
-    `action_id` int(11) NOT NULL,
-    `revision` int(11) NOT NULL,
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `module_id` int(10) unsigned NOT NULL,
+    `action_id` int(10) unsigned NOT NULL,
+    `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

@@ -46,7 +46,7 @@ class rex_category extends rex_structure_element
      */
     public function getChildren($ignoreOfflines = false)
     {
-        return self::getChildElements($this->id, 'clist', $ignoreOfflines, $this->clang);
+        return self::getChildElements($this->id, 'clist', $ignoreOfflines, $this->clang_id);
     }
 
     /**
@@ -56,7 +56,7 @@ class rex_category extends rex_structure_element
      */
     public function getParent()
     {
-        return self::get($this->parent_id, $this->clang);
+        return self::get($this->parent_id, $this->clang_id);
     }
 
     /**
@@ -85,7 +85,7 @@ class rex_category extends rex_structure_element
      */
     public function getArticles($ignoreOfflines = false)
     {
-        return rex_article::getChildElements($this->id, 'alist', $ignoreOfflines, $this->clang);
+        return rex_article::getChildElements($this->id, 'alist', $ignoreOfflines, $this->clang_id);
     }
 
     /**
@@ -95,7 +95,7 @@ class rex_category extends rex_structure_element
      */
     public function getStartArticle()
     {
-        return rex_article::get($this->id, $this->clang);
+        return rex_article::get($this->id, $this->clang_id);
     }
 
     /**

@@ -46,7 +46,7 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
 
     $working_version_empty = true;
     $gw = rex_sql::factory();
-    $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $params['article_id'] . ' and clang=' . $params['clang'] . ' and revision=1 LIMIT 1');
+    $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $params['article_id'] . ' and clang_id=' . $params['clang'] . ' and revision=1 LIMIT 1');
     if ($gw->getRows() > 0) {
         $working_version_empty = false;
     }

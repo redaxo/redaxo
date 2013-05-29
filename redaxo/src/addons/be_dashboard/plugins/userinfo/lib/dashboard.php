@@ -141,7 +141,7 @@ class rex_articles_component extends rex_dashboard_component
             }
         }
 
-        $qry = 'SELECT id, parent_id, clang, startarticle, name, updateuser, updatedate
+        $qry = 'SELECT id, parent_id, clang_id, startarticle, name, updateuser, updatedate
                         FROM ' . rex::getTablePrefix() . 'article
                         WHERE ' . $whereCond . '
                         GROUP BY id
@@ -153,9 +153,9 @@ class rex_articles_component extends rex_dashboard_component
 
         $list->removeColumn('id');
         $list->removeColumn('parent_id');
-        $list->removeColumn('clang');
+        $list->removeColumn('clang_id');
         $list->removeColumn('startarticle');
-        $editParams = ['page' => 'content', 'mode' => 'edit', 'article_id' => '###id###', 'clang' => '###clang###'];
+        $editParams = ['page' => 'content', 'mode' => 'edit', 'article_id' => '###id###', 'clang' => '###clang_id###'];
 
         $thIcon = '';
         $tdIcon = '<span class="rex-i-element rex-i-article"><span class="rex-i-element-text">###name###</span></span>';
