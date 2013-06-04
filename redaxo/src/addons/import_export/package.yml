@@ -1,5 +1,5 @@
 package: import_export
-version: '5.0 a1'
+version: '5.0-alpha7'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 

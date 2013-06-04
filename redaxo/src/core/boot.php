@@ -62,7 +62,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.0.0-alpha3');
+rex::setProperty('version', '5.0.0-alpha7');
 
 $config = array_merge(
     rex_file::getConfig(rex_path::core('default.config.yml')),
