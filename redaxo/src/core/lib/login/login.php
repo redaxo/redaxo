@@ -20,6 +20,9 @@ class rex_login
     protected $message = '';
     protected $user;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         if (session_id() == '') {
@@ -116,6 +119,11 @@ class rex_login
         $this->idColumn = $idColumn;
     }
 
+    /**
+     * Sets the password column
+     *
+     * @param string $passwordColumn
+     */
     public function setPasswordColumn($passwordColumn)
     {
         $this->passwordColumn = $passwordColumn;
@@ -129,6 +137,11 @@ class rex_login
         $this->message = $message;
     }
 
+    /**
+     * Returns the message
+     *
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;

@@ -20,6 +20,12 @@ class rex_response
     private static $sentEtag = false;
     private static $sentContentType = false;
 
+    /**
+     * Sets the HTTP Status code
+     *
+     * @param int $httpStatus
+     * @throws InvalidArgumentException
+     */
     public static function setStatus($httpStatus)
     {
         if (strpos($httpStatus, "\n") !== false) {
@@ -29,6 +35,11 @@ class rex_response
         self::$httpStatus = $httpStatus;
     }
 
+    /**
+     * Returns the HTTP Status code
+     *
+     * @return string
+     */
     public static function getStatus()
     {
         return self::$httpStatus;
@@ -292,6 +303,14 @@ class rex_response
         header('Content-MD5: ' . $md5);
     }
 
+    /**
+     * Creates the md5 checksum for the content
+     *
+     * Dynamic content surrounded by `<!--DYN-->…<!--/DYN-->` is ignored.
+     *
+     * @param string $content
+     * @return string
+     */
     private static function md5($content)
     {
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));

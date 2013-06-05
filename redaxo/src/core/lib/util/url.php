@@ -101,6 +101,7 @@ class rex_url
      * Returns the url to the current backend page
      *
      * @param array $params Params
+     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      * @return string
      */
     public static function currentBackendPage(array $params = [], $escape = true)

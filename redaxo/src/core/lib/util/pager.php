@@ -25,6 +25,11 @@ class rex_pager
         $this->cursorName = $cursorName;
     }
 
+    /**
+     * Sets the row count
+     *
+     * @param int $rowCount
+     */
     public function setRowCount($rowCount)
     {
         $this->rowCount = $rowCount;
@@ -78,6 +83,12 @@ class rex_pager
         return $cursor;
     }
 
+    /**
+     * Validates the cursor
+     *
+     * @param int $cursor
+     * @return int
+     */
     public function validateCursor($cursor)
     {
         // $cursor innerhalb des zulässigen Zahlenbereichs?

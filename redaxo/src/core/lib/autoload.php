@@ -93,6 +93,12 @@ class rex_autoload
         return false;
     }
 
+    /**
+     * Returns whether the given class/interface/trait exists
+     *
+     * @param string $class
+     * @return bool
+     */
     private static function classExists($class)
     {
         return class_exists($class, false) || interface_exists($class, false) || trait_exists($class, false);
@@ -165,6 +171,9 @@ class rex_autoload
         }
     }
 
+    /**
+     * @param string $dir
+     */
     private static function _addDirectory($dir)
     {
         if (!is_dir($dir)) {

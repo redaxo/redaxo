@@ -10,46 +10,95 @@ class rex_view
     private static $jsProperties = [];
     private static $favicon;
 
+    /**
+     * Adds a CSS file
+     *
+     * @param string $file
+     * @param string $media
+     */
     public static function addCssFile($file, $media = 'all')
     {
         self::$cssFiles[$media][] = $file;
     }
 
+    /**
+     * Returns the CSS files
+     *
+     * @return string[]
+     */
     public static function getCssFiles()
     {
         return self::$cssFiles;
     }
 
+    /**
+     * Adds a JS file
+     *
+     * @param string $file
+     */
     public static function addJsFile($file)
     {
         self::$jsFiles[] = $file;
     }
 
+    /**
+     * Returns the JS files
+     *
+     * @return string[]
+     */
     public static function getJsFiles()
     {
         return self::$jsFiles;
     }
 
+    /**
+     * Sets a JS property
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
     public static function setJsProperty($key, $value)
     {
         self::$jsProperties[$key] = $value;
     }
 
+    /**
+     * Returns the JS properties
+     *
+     * @return array
+     */
     public static function getJsProperties()
     {
         return self::$jsProperties;
     }
 
+    /**
+     * Sets the favicon path
+     *
+     * @param string $file
+     */
     public static function setFavicon($file)
     {
         self::$favicon = $file;
     }
 
+    /**
+     * Returns the favicon
+     *
+     * @return string
+     */
     public static function getFavicon()
     {
         return self::$favicon;
     }
 
+    /**
+     * Returns an info message
+     *
+     * @param string $message
+     * @param string $cssClass
+     * @return string
+     */
     public static function info($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-info';
@@ -60,6 +109,13 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
+    /**
+     * Returns a success message
+     *
+     * @param string $message
+     * @param string $cssClass
+     * @return string
+     */
     public static function success($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-success';
@@ -70,6 +126,13 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
+    /**
+     * Returns an warning message
+     *
+     * @param string $message
+     * @param string $cssClass
+     * @return string
+     */
     public static function warning($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-warning';
@@ -80,6 +143,13 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
+    /**
+     * Returns an error message
+     *
+     * @param string $message
+     * @param string $cssClass
+     * @return string
+     */
     public static function error($message, $cssClass = '')
     {
         $cssClassMessage = 'rex-error';
@@ -90,6 +160,13 @@ class rex_view
         return self::message($message, $cssClassMessage);
     }
 
+    /**
+     * Returns a message
+     *
+     * @param string $message
+     * @param string $cssClass
+     * @return string
+     */
     private static function message($message, $cssClass)
     {
         $return = '';
@@ -110,6 +187,13 @@ class rex_view
         return $return;
     }
 
+    /**
+     * Returns a toolbar
+     *
+     * @param string $content
+     * @param string $cssClass
+     * @return string
+     */
     public static function toolbar($content, $cssClass = null)
     {
         $return = '';
@@ -121,6 +205,16 @@ class rex_view
         return $return;
     }
 
+    /**
+     * Returns a content block
+     *
+     * @param string $content_1
+     * @param string $content_2
+     * @param bool   $flush
+     * @param bool   $bucket
+     * @param string $title
+     * @return string
+     */
     public static function contentBlock($content_1, $content_2 = '', $flush = true, $bucket = true, $title = '')
     {
         $return = '';
@@ -159,9 +253,13 @@ class rex_view
     }
 
 
-
     /**
-     * Ausgabe des Seitentitels
+     * Returns the formatted title
+     *
+     * @param string            $head
+     * @param null|string|array $subtitle
+     * @throws InvalidArgumentException
+     * @return string
      */
     public static function title($head, $subtitle = null)
     {
@@ -213,6 +311,12 @@ class rex_view
         return $return;
     }
 
+    /**
+     * Returns a clang switch
+     *
+     * @param rex_context $context
+     * @return string
+     */
     public static function clangSwitch(rex_context $context)
     {
         if (!rex_clang::count()) {

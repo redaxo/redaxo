@@ -80,18 +80,26 @@ class rex_i18n
         return self::getMsg($key, true, func_get_args());
     }
 
-        /**
-         * Returns the translation for the given key
-         *
-         * @param string $key Key
-         *
-         * @return string Translation for the key
-         */
+    /**
+     * Returns the translation for the given key
+     *
+     * @param string $key Key
+     *
+     * @return string Translation for the key
+     */
     public static function rawMsg($key)
     {
         return self::getMsg($key, false, func_get_args());
     }
 
+    /**
+     * Returns the translation for the given key
+     *
+     * @param string $key
+     * @param bool   $htmlspecialchars
+     * @param array  $args
+     * @return mixed
+     */
     private static function getMsg($key, $htmlspecialchars, array $args)
     {
         if (!self::$loaded) {

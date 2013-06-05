@@ -13,6 +13,9 @@
  */
 class rex_var_config extends rex_var
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function getOutput()
     {
         $key = $this->getParsedArg('key', null, true);

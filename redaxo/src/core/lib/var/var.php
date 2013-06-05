@@ -19,6 +19,15 @@ abstract class rex_var
 
     private $args = [];
 
+    /**
+     * Parses all REX_VARs in the given content
+     *
+     * @param string $content     Content
+     * @param int    $env         Environment
+     * @param string $context     Context
+     * @param mixed  $contextData Context data
+     * @return string
+     */
     public static function parse($content, $env = null, $context = null, $contextData = null)
     {
         if (($env & self::ENV_INPUT) != self::ENV_INPUT) {
@@ -90,6 +99,8 @@ abstract class rex_var
     }
 
     /**
+     * Returns a rex_var object for the given var name
+     *
      * @param string $var
      * @return self
      */
@@ -106,6 +117,15 @@ abstract class rex_var
         return new $class;
     }
 
+    /**
+     * Replaces the REX_VARs
+     *
+     * @param string $content
+     * @param string $format
+     * @param bool   $useVariables
+     * @param string $stripslashes
+     * @return mixed|string
+     */
     private static function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
     {
         $matches = self::getMatches($content);
@@ -147,22 +167,48 @@ abstract class rex_var
         return $content;
     }
 
+    /**
+     * Returns the REX_VAR matches
+     *
+     * @param string $content
+     * @return array
+     */
     private static function getMatches($content)
     {
         preg_match_all('/(REX_[A-Z_]+)\[((?:[^\[\]]|\\\\[\[\]]|(?R))*)(?<!\\\\)\]/s', $content, $matches, PREG_SET_ORDER);
         return $matches;
     }
 
+    /**
+     * Sets the arguments
+     *
+     * @param string $arg_string
+     */
     private function setArgs($arg_string)
     {
         $this->args = rex_string::split($arg_string);
     }
 
+    /**
+     * Checks whether the given arguments exists
+     *
+     * @param string $key
+     * @param bool   $defaultArg
+     * @return bool
+     */
     protected function hasArg($key, $defaultArg = false)
     {
         return isset($this->args[$key]) || $defaultArg && isset($this->args[0]);
     }
 
+    /**
+     * Returns the argument
+     *
+     * @param string      $key
+     * @param null|string $default
+     * @param bool        $defaultArg
+     * @return null|string
+     */
     protected function getArg($key, $default = null, $defaultArg = false)
     {
         if (!$this->hasArg($key, $defaultArg)) {
@@ -171,6 +217,14 @@ abstract class rex_var
         return isset($this->args[$key]) ? $this->args[$key] : $this->args[0];
     }
 
+    /**
+     * Returns the (recursive) parsed argument
+     *
+     * @param string      $key
+     * @param null|string $default
+     * @param bool        $defaultArg
+     * @return int|null|string
+     */
     protected function getParsedArg($key, $default = null, $defaultArg = false)
     {
         if (!$this->hasArg($key, $defaultArg)) {
@@ -187,23 +241,50 @@ abstract class rex_var
         return is_numeric($arg) ? $arg : "'$arg'";
     }
 
+    /**
+     * Checks whether the given envirenment is active
+     *
+     * @param int $env Environment
+     * @return bool
+     */
     protected function environmentIs($env)
     {
         return (self::$env & $env) == $env;
     }
 
+    /**
+     * Returns the context
+     *
+     * @return string
+     */
     protected function getContext()
     {
         return self::$context;
     }
 
+    /**
+     * Returns the context data
+     *
+     * @return mixed
+     */
     protected function getContextData()
     {
         return self::$contextData;
     }
 
+    /**
+     * Returns the output
+     *
+     * @return bool|string
+     */
     abstract protected function getOutput();
 
+    /**
+     * Quotes the string for php context
+     *
+     * @param string $string
+     * @return string
+     */
     protected static function quote($string)
     {
         $string = addcslashes($string, "\'");
@@ -212,6 +293,11 @@ abstract class rex_var
         return "'" . $string . "'";
     }
 
+    /**
+     * Returns the output in consideration of the global args
+     *
+     * @return bool|string
+     */
     private function getGlobalArgsOutput()
     {
         if (($content = $this->getOutput()) === false) {
@@ -247,12 +333,23 @@ abstract class rex_var
         return $content;
     }
 
+    /**
+     * Converts a REX_VAR content to a PHP array
+     *
+     * @param string $value
+     * @return array|null
+     */
     public static function toArray($value)
     {
         $value = json_decode(htmlspecialchars_decode($value));
         return is_array($value) ? $value : null;
     }
 
+    /**
+     * Returns empty string
+     *
+     * @return string
+     */
     public static function nothing()
     {
         return '';
