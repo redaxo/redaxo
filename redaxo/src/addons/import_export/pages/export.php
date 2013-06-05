@@ -23,7 +23,8 @@ $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
 if ($exportfilename == '') {
-    $exportfilename = strtolower(rex::getServer()) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
+    $server = parse_url(rex::getServer(), PHP_URL_HOST);
+    $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
 }
 
 if (rex_post('export', 'bool')) {

@@ -13,7 +13,7 @@ class rex_cronjob_export extends rex_cronjob
         include_once rex_path::addon('import_export', 'functions/function_import_folder.php');
 
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $filename = str_replace('%REX_SERVER', rex::getServer(), $filename);
+        $filename = str_replace('%REX_SERVER', parse_url(rex::getServer(), PHP_URL_HOST), $filename);
         $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
         $filename = strftime($filename);
         $file = $filename;

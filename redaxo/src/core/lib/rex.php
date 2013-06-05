@@ -64,9 +64,10 @@ class rex
         }
         switch ($key) {
             case 'server':
-                if (!preg_match('/^(?:[\w-]+\.)*[\w-]+(?:\:\d+)?$/u', $value)) {
-                    throw new InvalidArgumentException('"server" property: expecting $value to be a server hostname (without "http://")!');
+                if (!preg_match('@^\w+://(?:[\w-]+\.)*[\w-]+(?::\d+)?(?:/.*)?$@u', $value)) {
+                    throw new InvalidArgumentException('"server" property: expecting $value to be a full URL!');
                 }
+                $value = rtrim($value, '/') . '/';
                 break;
             case 'error_email':
                 if (null !== $value && !preg_match('/^[\w.-]+@[\w.-]+\.[a-z]{2,}$/ui', $value)) {
@@ -208,24 +209,18 @@ class rex
     }
 
     /**
-     * Returns the server host
-     *
-     * @return string
-     */
-    public static function getServer()
-    {
-        return self::getProperty('server');
-    }
-
-    /**
      * Returns the server URL
      *
-     * @param string $protocol
+     * @param null|string $protocol
      * @return string
      */
-    public static function getServerUrl($protocol = 'http')
+    public static function getServer($protocol = null)
     {
-        return $protocol . '://' . self::getServer();
+        if (is_null($protocol)) {
+            return self::getProperty('server');
+        }
+        list(, $server) = explode('://', self::getProperty('server'), 2);
+        return $protocol ? $protocol . '://' . $server : $server;
     }
 
     /**

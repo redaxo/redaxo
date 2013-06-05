@@ -89,6 +89,18 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('rex_user', rex::getUser(), 'returns a user of correct class');
     }
 
+    public function testGetServer()
+    {
+        $origServer = rex::getProperty('server');
+
+        rex::setProperty('server', 'http://www.redaxo.org');
+        $this->assertEquals('http://www.redaxo.org/', rex::getServer());
+        $this->assertEquals('https://www.redaxo.org/', rex::getServer('https'));
+        $this->assertEquals('www.redaxo.org/', rex::getServer(''));
+
+        rex::setProperty('server', $origServer);
+    }
+
     public function testGetVersion()
     {
         $this->assertTrue(rex::getVersion() != '', 'a version string is returned');
