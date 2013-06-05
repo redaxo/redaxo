@@ -12,6 +12,12 @@ class rex_url
     protected static $base;
     protected static $backend;
 
+    /**
+     * Initializes the class
+     *
+     * @param string $htdocs  Htdocs path
+     * @param string $backend Backend folder name
+     */
     public static function init($htdocs, $backend)
     {
         self::$base = $htdocs;
@@ -19,6 +25,9 @@ class rex_url
     }
     /**
      * Returns a base url
+     *
+     * @param string $file File
+     * @return string
      */
     public static function base($file = '')
     {
@@ -27,6 +36,9 @@ class rex_url
 
     /**
      * Returns the url to the frontend
+     *
+     * @param string $file File
+     * @return string
      */
     public static function frontend($file = '')
     {
@@ -35,6 +47,9 @@ class rex_url
 
     /**
      * Returns the url to the frontend-controller (index.php from frontend)
+     *
+     * @param array $params Params
+     * @return string
      */
     public static function frontendController(array $params = [])
     {
@@ -45,6 +60,9 @@ class rex_url
 
     /**
      * Returns the url to the backend
+     *
+     * @param string $file File
+     * @return string
      */
     public static function backend($file = '')
     {
@@ -53,6 +71,9 @@ class rex_url
 
     /**
      * Returns the url to the backend-controller (index.php from backend)
+     *
+     * @param array $params Params
+     * @return string
      */
     public static function backendController(array $params = [])
     {
@@ -63,6 +84,10 @@ class rex_url
 
     /**
      * Returns the url to a backend page
+     *
+     * @param string $page   Page
+     * @param array  $params Params
+     * @return string
      */
     public static function backendPage($page, array $params = [])
     {
@@ -71,6 +96,9 @@ class rex_url
 
     /**
      * Returns the url to the current backend page
+     *
+     * @param array $params Params
+     * @return string
      */
     public static function currentBackendPage(array $params = [])
     {
@@ -79,6 +107,9 @@ class rex_url
 
     /**
      * Returns the url to the media-folder
+     *
+     * @param string $file File
+     * @return string
      */
     public static function media($file = '')
     {
@@ -87,6 +118,9 @@ class rex_url
 
     /**
      * Returns the url to the assets folder of the core, which contains all assets required by the core to work properly.
+     *
+     * @param string $file File
+     * @return string
      */
     public static function assets($file = '')
     {
@@ -95,6 +129,10 @@ class rex_url
 
     /**
      * Returns the url to the assets folder of the given addon, which contains all assets required by the addon to work properly.
+     *
+     * @param string $addon Addon
+     * @param string $file  File
+     * @return string
      *
      * @see assets()
      */
@@ -105,6 +143,11 @@ class rex_url
 
     /**
      * Returns the url to the assets folder of the given plugin of the given addon
+     *
+     * @param string $addon  Addon
+     * @param string $plugin Plugin
+     * @param string $file   File
+     * @return string
      *
      * @see assets()
      */
