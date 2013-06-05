@@ -12,10 +12,11 @@ interface rex_url_provider_interface
      * Returns a Url which contains the given parameters.
      *
      * @param array $params A scalar array containing key value pairs for the parameter and its value.
+     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
      * @return string The generated Url
      */
-    public function getUrl(array $params = []);
+    public function getUrl(array $params = [], $escape = true);
 }
 
 /**
@@ -56,14 +57,14 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * @see rex_url_provider::getUrl()
+     * {@inheritdoc}
      */
-    public function getUrl(array $params = [])
+    public function getUrl(array $params = [], $escape = true)
     {
         // combine global params with local
         $_params = array_merge($this->globalParams, $params);
 
-        return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
+        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
     }
 
     /**

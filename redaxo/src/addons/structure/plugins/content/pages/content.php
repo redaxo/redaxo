@@ -368,7 +368,7 @@ if ($article->getRows() == 1) {
                 if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
                     $info = rex_i18n::msg('content_articlemoved');
                     ob_end_clean();
-                    rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'info' => $info])));
+                    rex_response::sendRedirect($context->getUrl(['page' => 'content', 'info' => $info], false));
                 } else {
                     $warning = rex_i18n::msg('content_errormovearticle');
                 }
@@ -385,7 +385,7 @@ if ($article->getRows() == 1) {
                 if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
                     $info = rex_i18n::msg('content_articlecopied');
                     ob_end_clean();
-                    rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $new_id, 'info' => $info])));
+                    rex_response::sendRedirect($context->getUrl(['page' => 'content', 'article_id' => $new_id, 'info' => $info], false));
                 } else {
                     $warning = rex_i18n::msg('content_errorcopyarticle');
                 }
@@ -402,7 +402,7 @@ if ($article->getRows() == 1) {
                 if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
                     $info = rex_i18n::msg('category_moved');
                     ob_end_clean();
-                    rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'info' => $info])));
+                    rex_response::sendRedirect($context->getUrl(['page' => 'content', 'info' => $info], false));
                 } else {
                     $warning = rex_i18n::msg('content_error_movecategory');
                 }
@@ -415,11 +415,11 @@ if ($article->getRows() == 1) {
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');
-        $editPage->setHref($context->getUrl(['page' => 'content/edit']));
+        $editPage->setHref($context->getUrl(['page' => 'content/edit'], false));
 
         foreach ($ctypes as $key => $val) {
             $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
-            $subpage->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key]);
+            $subpage->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key], false);
             $subpage->setIsActive($ctype == $key);
          $editPage->addSubpage($subpage);
         }
@@ -433,7 +433,7 @@ if ($article->getRows() == 1) {
         $nav = rex_be_navigation::factory();
         foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
             if ($subpage->getKey() != 'edit') {
-                $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()]));
+                $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
                 $nav->addPage($subpage);
             }
         }

@@ -615,13 +615,9 @@ class rex_list implements rex_url_provider_interface
     // ---------------------- Url generation
 
     /**
-     * Gibt eine Url zurück, die die Parameter $params enthält
-     * Dieser Url werden die Standard rexList Variablen zugefügt
-     *
-     * @param array $params
-     * @return string
+     * {@inheritdoc}
      */
-    public function getUrl(array $params = [])
+    public function getUrl(array $params = [], $escape = true)
     {
         $params = array_merge($this->getParams(), $params);
 
@@ -646,7 +642,7 @@ class rex_list implements rex_url_provider_interface
             }
         }
 
-        return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
+        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
     }
 
     /**
@@ -657,9 +653,10 @@ class rex_list implements rex_url_provider_interface
      *
      * @see #replaceVariable, #replaceVariables
      * @param array $params
+     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      * @return string
      */
-    public function getParsedUrl($params = [])
+    public function getParsedUrl($params = [], $escape = true)
     {
         $params = array_merge($this->getParams(), $params);
 
@@ -683,7 +680,7 @@ class rex_list implements rex_url_provider_interface
                 $_params[$name] = $this->replaceVariables($value);
             }
         }
-        return rex::isBackend() ? rex_url::backendController($_params) : rex_url::frontendController($_params);
+        return rex::isBackend() ? rex_url::backendController($_params, $escape) : rex_url::frontendController($_params, $escape);
     }
 
     // ---------------------- Pagination

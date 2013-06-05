@@ -174,7 +174,7 @@ if ($func == '') {
         } else {
             $warning = $this->i18n('type_not_found', $field->getValue(), $activeType);
         }
-        rex_response::sendRedirect(htmlspecialchars_decode(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning])));
+        rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
 
     $field = $form->addIntervalField('interval');

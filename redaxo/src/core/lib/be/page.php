@@ -100,9 +100,9 @@ class rex_be_page
     public function getHref()
     {
         if ($this->href) {
-            return htmlspecialchars_decode($this->href);
+            return $this->href;
         }
-        return htmlspecialchars_decode(rex_url::backendPage($this->getFullKey()));
+        return rex_url::backendPage($this->getFullKey(), [], false);
     }
 
     public function setItemAttr($name, $value)

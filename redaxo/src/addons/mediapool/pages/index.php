@@ -73,7 +73,7 @@ $PERMALL = rex::getUser()->getComplexPerm('media')->hasCategoryPerm(0);
 $subline = rex_be_controller::getPageObject('mediapool')->getSubpages();
 
 foreach ($subline as $sp) {
-    $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url));
+    $sp->setHref(rex_url::backendPage($sp->getFullKey(), $arg_url, false));
 }
 
 echo rex_view::title(rex_i18n::msg('pool_media'), $subline);

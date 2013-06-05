@@ -86,7 +86,7 @@ if (rex::getUser() && $hasNavigation) {
             }
 
             if (!$pageObj->getHref()) {
-                $pageObj->setHref(rex_url::backendPage($p));
+                $pageObj->setHref(rex_url::backendPage($p, [], false));
             }
             /*
              if(isset ($REX['ACKEY']['ADDON'][$page]))

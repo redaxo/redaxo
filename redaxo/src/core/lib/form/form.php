@@ -163,10 +163,7 @@ class rex_form
         $params = array_merge($this->getParams(), $params);
         $params['form'] = $this->getName();
 
-        $url = rex::isBackend() ? rex_url::backendController($params) : rex_url::frontendController($params);
-        if (!$escape) {
-            $url = htmlspecialchars_decode($url);
-        }
+        $url = rex::isBackend() ? rex_url::backendController($params, $escape) : rex_url::frontendController($params, $escape);
 
         return $url;
     }

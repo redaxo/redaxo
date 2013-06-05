@@ -27,7 +27,7 @@ function rex_structure_searchbar(rex_context $context)
     // ------------ Suche via ArtikelId
     if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
         if ($OOArt = rex_article::get($matches[0], $clang)) {
-            rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId()])));
+            rex_response::sendRedirect($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId(), false]));
         }
     }
 
@@ -71,7 +71,7 @@ function rex_structure_searchbar(rex_context $context)
         if ($foundRows == 1) {
             $OOArt = rex_article::get($search->getValue('id'), $clang);
             if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                rex_response::sendRedirect(htmlspecialchars_decode($context->getUrl(['page' => 'content', 'article_id' => $search->getValue('id')])));
+                rex_response::sendRedirect($context->getUrl(['page' => 'content', 'article_id' => $search->getValue('id')], false));
             }
         }
         // Mehrere Suchtreffer, Liste anzeigen

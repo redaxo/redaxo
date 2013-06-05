@@ -31,7 +31,7 @@ class rex_url
      */
     public static function base($file = '')
     {
-        return htmlspecialchars(self::$base . $file);
+        return self::$base . $file;
     }
 
     /**
@@ -49,11 +49,12 @@ class rex_url
      * Returns the url to the frontend-controller (index.php from frontend)
      *
      * @param array $params Params
+     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      * @return string
      */
-    public static function frontendController(array $params = [])
+    public static function frontendController(array $params = [], $escape = true)
     {
-        $query = rex_string::buildQuery($params);
+        $query = rex_string::buildQuery($params, $escape ? '&amp;' : '&');
         $query = $query ? '?' . $query : '';
         return self::base('index.php' . $query);
     }
@@ -66,18 +67,19 @@ class rex_url
      */
     public static function backend($file = '')
     {
-        return htmlspecialchars(self::$backend . $file);
+        return self::$backend . $file;
     }
 
     /**
      * Returns the url to the backend-controller (index.php from backend)
      *
      * @param array $params Params
+     * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      * @return string
      */
-    public static function backendController(array $params = [])
+    public static function backendController(array $params = [], $escape = true)
     {
-        $query = rex_string::buildQuery($params);
+        $query = rex_string::buildQuery($params, $escape ? '&amp;' : '&');
         $query = $query ? '?' . $query : '';
         return self::backend('index.php' . $query);
     }
@@ -87,11 +89,12 @@ class rex_url
      *
      * @param string $page   Page
      * @param array  $params Params
+     * @param bool   $escape Flag whether the argument separator "&" should be escaped (&amp;)
      * @return string
      */
-    public static function backendPage($page, array $params = [])
+    public static function backendPage($page, array $params = [], $escape = true)
     {
-        return self::backendController(array_merge(['page' => $page], $params));
+        return self::backendController(array_merge(['page' => $page], $params), $escape);
     }
 
     /**
@@ -100,9 +103,9 @@ class rex_url
      * @param array $params Params
      * @return string
      */
-    public static function currentBackendPage(array $params = [])
+    public static function currentBackendPage(array $params = [], $escape = true)
     {
-        return self::backendPage(rex_be_controller::getCurrentPage(), $params);
+        return self::backendPage(rex_be_controller::getCurrentPage(), $params, $escape);
     }
 
     /**

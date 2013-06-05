@@ -50,13 +50,13 @@ function rex_param_string($params, $divider = '&amp;')
  * Gibt eine Url zu einem Artikel zurück
  *
  * @param string       $_id
- * @param int|string   $_clang   SprachId des Artikels
- * @param array|string $_params  Array von Parametern
- * @param string       $_divider Trennzeichen für Parameter (z.B. &amp; für HTML, & für Javascript)
+ * @param int|string   $_clang  SprachId des Artikels
+ * @param array|string $_params Array von Parametern
+ * @param bool         $escape  Flag whether the argument separator "&" should be escaped (&amp;)
  * @return string
  * @package redaxo\structure
  */
-function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
+function rex_getUrl($_id = '', $_clang = '', $_params = '', $escape = true)
 {
     $id = (int) $_id;
     $clang = (int) $_clang;
@@ -74,7 +74,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     }
 
     // ----- get params
-    $param_string = rex_param_string($_params, $_divider);
+    $param_string = rex_param_string($_params, $escape ? '&amp;' : '&');
 
     $name = 'NoName';
     if ($id != 0) {
@@ -85,12 +85,12 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $_divider = '&amp;')
     }
 
     // ----- EXTENSION POINT
-    $url = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE', '', ['id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'divider' => $_divider]));
+    $url = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE', '', ['id' => $id, 'name' => $name, 'clang' => $clang, 'params' => $param_string, 'escape' => $escape]));
 
     if ($url == '') {
         $_clang = '';
         if (rex_clang::count() > 1) {
-            $_clang .= $_divider . 'clang=' . $clang;
+            $_clang .= ($escape ? '&amp;' : '&') . 'clang=' . $clang;
         }
 
         $url = rex_url::frontendController() . '?article_id=' . $id . $_clang . $param_string;
@@ -109,8 +109,6 @@ function rex_redirect($article_id, $clang = '', $params = [])
     // Alle OBs schließen
     while (@ob_end_clean());
 
-    $divider = '&';
-
-    header('Location: ' . rex_getUrl($article_id, $clang, $params, $divider));
+    header('Location: ' . rex_getUrl($article_id, $clang, $params, false));
     exit();
 }
