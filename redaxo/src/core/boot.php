@@ -49,7 +49,7 @@ rex_autoload::addDirectory(rex_path::core('lib'));
 rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
 
 // start timer at the very beginning
-rex::setProperty('timer', new rex_timer);
+rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT']));
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
 // add core lang directory to rex_i18n

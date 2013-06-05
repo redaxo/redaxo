@@ -17,10 +17,16 @@ class rex_timer
 
     /**
      * Constructor
+     *
+     * @param float $start Start time
      */
-    public function __construct()
+    public function __construct($start = null)
     {
-        $this->reset();
+        if ($start) {
+            $this->start = $start;
+        } else {
+            $this->reset();
+        }
     }
 
     /**
