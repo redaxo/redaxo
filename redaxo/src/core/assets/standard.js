@@ -397,6 +397,7 @@ jQuery(function($){
         .on("blur", "input,button,textarea,select,option", function(event) {
             rex.accesskeys = laststate;
         });
+    $("[autofocus]").trigger("focus");
 
     if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
     {
