@@ -129,6 +129,7 @@ abstract class rex_error_handler
      */
     public static function shutdown()
     {
+        // catch fatal/parse errors
         if (self::$registered) {
             $error = error_get_last();
             if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
