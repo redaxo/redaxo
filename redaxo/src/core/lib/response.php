@@ -19,6 +19,7 @@ class rex_response
     private static $sentLastModified = false;
     private static $sentEtag = false;
     private static $sentContentType = false;
+    private static $sentCacheControl = false;
 
     /**
      * Sets the HTTP Status code
@@ -90,12 +91,28 @@ class rex_response
         }
 
         header('HTTP/1.1 ' . self::$httpStatus);
-        self::sendCacheControl();
+        if (!self::$sentCacheControl) {
+            self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
+        }
 
         // content length schicken, damit der browser einen ladebalken anzeigen kann
         header('Content-Length: ' . filesize($file));
 
         readfile($file);
+    }
+
+    /**
+     * Sends a resource to the client
+     *
+     * @param string  $content      Content
+     * @param string  $contentType  Content type
+     * @param integer $lastModified HTTP Last-Modified Timestamp
+     * @param string  $etag         HTTP Cachekey to identify the cache
+     */
+    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null)
+    {
+        self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
+        self::sendContent($content, $contentType, $lastModified, $etag);
     }
 
     /**
@@ -130,6 +147,9 @@ class rex_response
         if (!self::$sentContentType) {
             self::sendContentType($contentType);
         }
+        if (!self::$sentCacheControl) {
+            self::sendCacheControl();
+        }
 
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
@@ -162,7 +182,6 @@ class rex_response
         self::cleanOutputBuffers();
 
         header('HTTP/1.1 ' . self::$httpStatus);
-        self::sendCacheControl();
 
         // content length schicken, damit der browser einen ladebalken anzeigen kann
         header('Content-Length: ' . rex_string::size($content));
@@ -194,9 +213,10 @@ class rex_response
     /**
      * Sends the cache control header
      */
-    public static function sendCacheControl()
+    public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private')
     {
-        header('Cache-Control: must-revalidate, proxy-revalidate, private');
+        header('Cache-Control: ' . $cacheControl);
+        self::$sentCacheControl = true;
     }
 
     /**
@@ -223,7 +243,6 @@ class rex_response
             self::cleanOutputBuffers();
 
             header('HTTP/1.1 ' . self::HTTP_NOT_MODIFIED);
-            self::sendCacheControl();
             exit;
         }
         self::$sentLastModified = true;
@@ -250,7 +269,6 @@ class rex_response
             self::cleanOutputBuffers();
 
             header('HTTP/1.1 ' . self::HTTP_NOT_MODIFIED);
-            self::sendCacheControl();
             exit;
         }
         self::$sentEtag = true;

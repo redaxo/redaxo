@@ -28,6 +28,6 @@ if ($font != '' && isset($fonts[$font])) {
     url("' . rex_url::pluginAssets('be_style', $mypage, $font) . '/' . $fonts[$font]['filename'] . '.svg#' . $fonts[$font]['svgID'] . '") format("svg");
 }';
 
-    rex_response::sendContent($output, 'text/css');
+    rex_response::sendResource($output, 'text/css');
     exit;
 }
