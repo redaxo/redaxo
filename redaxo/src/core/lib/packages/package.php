@@ -234,7 +234,30 @@ abstract class rex_package implements rex_package_interface
      */
     private function loadProperties()
     {
-        $properties = rex_file::getConfig($this->getPath(self::FILE_PACKAGE));
+        static $cache = null;
+        if (is_null($cache)) {
+            $cache = rex_file::getCache(rex_path::cache('packages.cache'));
+        }
+        $id = $this->getPackageId();
+        $file = $this->getPath(self::FILE_PACKAGE);
+        if (
+            isset($cache[$id]) &&
+            (!rex::isBackend() || !($user = rex::getUser()) || !$user->isAdmin() || $cache[$id]['timestamp'] >= filemtime($file))
+        ) {
+            $properties = $cache[$id]['data'];
+        } else {
+            $properties = rex_file::getConfig($file);
+            $cache[$id]['timestamp'] = filemtime($file);
+            $cache[$id]['data'] = $properties;
+
+            static $registeredShutdown = false;
+            if (!$registeredShutdown) {
+                $registeredShutdown = true;
+                register_shutdown_function(function () use (&$cache) {
+                    rex_file::putCache(rex_path::cache('packages.cache'), $cache);
+                });
+            }
+        }
         foreach ($properties as $key => $value) {
             if (!isset($this->properties[$key])) {
                 $this->properties[$key] = rex_i18n::translateArray($value, false, [$this, 'i18n']);
