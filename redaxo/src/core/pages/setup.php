@@ -521,8 +521,8 @@ if ($step == 5) {
                  <!--
                 jQuery(function($) {
                     $("#rex-form-import-name").on("click","",function(){
-                        $("#rex-form-setup-step-5 [name=createdb]").removeAttr("checked");
-                        $("#rex-form-createdb-3").attr("checked","checked");
+                        $("#rex-form-setup-step-5 [name=createdb]").prop("checked", false);
+                        $("#rex-form-createdb-3").prop("checked", true);
                     });
                 });
                  //-->
