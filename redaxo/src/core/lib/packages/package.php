@@ -254,6 +254,11 @@ abstract class rex_package implements rex_package_interface
             if (!$registeredShutdown) {
                 $registeredShutdown = true;
                 register_shutdown_function(function () use (&$cache) {
+                    foreach ($cache as $package => $_) {
+                        if (!rex_package::exists($package)) {
+                            unset($cache[$package]);
+                        }
+                    }
                     rex_file::putCache(rex_path::cache('packages.cache'), $cache);
                 });
             }
