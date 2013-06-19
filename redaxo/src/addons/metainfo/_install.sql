@@ -36,10 +36,10 @@ INSERT INTO %TABLE_PREFIX%metainfo_type VALUES
     (13, 'time', 'text', 0),
     (11, 'datetime', 'text', 0),
     (12, 'legend', 'text', 0),
-    (6,  'REX_MEDIA_BUTTON', 'varchar', 255),
-    (7,  'REX_MEDIALIST_BUTTON', 'text', 0),
-    (8,  'REX_LINK_BUTTON', 'varchar', 255),
-    (9,  'REX_LINKLIST_BUTTON', 'text', 0)
+    (6,  'REX_MEDIA_WIDGET', 'varchar', 255),
+    (7,  'REX_MEDIALIST_WIDGET', 'text', 0),
+    (8,  'REX_LINK_WIDGET', 'varchar', 255),
+    (9,  'REX_LINKLIST_WIDGET', 'text', 0)
 ON DUPLICATE KEY UPDATE `label` = VALUES(`label`), `dbtype` = VALUES(`dbtype`), `dblength` = VALUES(`dblength`);
 
 INSERT INTO `%TABLE_PREFIX%metainfo_field` (`title`, `name`, `priority`, `attributes`, `type_id`, `default`, `params`, `validate`, `restrictions`, `createuser`, `createdate`, `updateuser`, `updatedate`) VALUES

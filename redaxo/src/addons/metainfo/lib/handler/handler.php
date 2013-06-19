@@ -282,7 +282,7 @@ abstract class rex_metainfo_handler
                     $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="' . $id . '"' . $attr . '>' . $label . '</legend><div class="rex-form-wrapper">';
                     break;
                 }
-                case 'REX_MEDIA_BUTTON':
+                case 'REX_MEDIA_WIDGET':
                 {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
@@ -311,7 +311,7 @@ abstract class rex_metainfo_handler
                     $media_id++;
                     break;
                 }
-                case 'REX_MEDIALIST_BUTTON':
+                case 'REX_MEDIALIST_WIDGET':
                 {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
@@ -341,7 +341,7 @@ abstract class rex_metainfo_handler
                     $mlist_id++;
                     break;
                 }
-                case 'REX_LINK_BUTTON':
+                case 'REX_LINK_WIDGET':
                 {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
@@ -366,7 +366,7 @@ abstract class rex_metainfo_handler
                     $link_id++;
                     break;
                 }
-                case 'REX_LINKLIST_BUTTON':
+                case 'REX_LINKLIST_WIDGET':
                 {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
