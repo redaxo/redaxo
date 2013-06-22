@@ -236,21 +236,14 @@ class rex_i18n
      */
     private static function loadFile($file)
     {
-        if (is_readable($file)) {
-            $handle = fopen($file, 'r');
-            if ($handle) {
-                while (!feof($handle)) {
-                    $buffer = fgets($handle, 4096);
-                    if (preg_match("/^([^\s]*)\s*=\s*(.*)$/", $buffer, $matches)) {
-                        self::addMsg($matches[1], trim($matches[2]));
-                    }
-                }
-                fclose($handle);
-                return true;
+        if (
+            ($content = rex_file::get($file)) &&
+            preg_match_all("/^([^\s]*)\s*=\s*(.*\S)?\s*$/m", $content, $matches, PREG_SET_ORDER)
+        ) {
+            foreach ($matches as $match) {
+                self::addMsg($match[1], $match[2]);
             }
         }
-
-        return false;
     }
 
     /**
