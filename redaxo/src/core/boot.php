@@ -68,10 +68,17 @@ require_once rex_path::core('functions/function_rex_other.php');
 // ----------------- VERSION
 rex::setProperty('version', '5.0.0-alpha7');
 
-$config = array_merge(
-    rex_file::getConfig(rex_path::core('default.config.yml')),
-    rex_file::getConfig(rex_path::data('config.yml'))
-);
+$cacheFile  = rex_path::cache('config.yml.cache');
+$configFile = rex_path::data('config.yml');
+if (file_exists($cacheFile) && filemtime($cacheFile) >= filemtime($configFile)) {
+    $config = rex_file::getCache($cacheFile);
+} else {
+    $config = array_merge(
+        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig($configFile)
+    );
+    rex_file::putCache($cacheFile, $config);
+}
 foreach ($config as $key => $value) {
     if (in_array($key, array('fileperm', 'dirperm'))) {
         $value = octdec($value);
