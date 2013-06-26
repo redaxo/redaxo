@@ -698,7 +698,7 @@ abstract class rex_package_manager
                     $constraints[] = ['<', $main . ($sub + 1)];
                 }
             } else {
-                $constraints[] = [$match['op'] ?: '=', $match['version']];
+                $constraints[] = [$match['op'] ?: '=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
             }
         }
 
