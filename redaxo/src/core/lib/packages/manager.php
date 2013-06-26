@@ -423,7 +423,7 @@ abstract class rex_package_manager
         }
         $package = rex_package::get($packageId);
         if (!$package->isAvailable()) {
-            $this->message = $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId());
+            $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
             return false;
         } elseif (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $package->getPackageId(), $package->getVersion(), $requirements['packages'][$packageId]);
