@@ -104,12 +104,16 @@ abstract class rex_package_manager
             }
 
             $activate = !$this->package->getProperty('install');
+            $available = $this->package->isAvailable();
             $this->package->setProperty('install', true);
 
             // include install.php
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
-                rex_autoload::addDirectory($this->package->getPath('lib'));
-                rex_autoload::addDirectory($this->package->getPath('vendor'));
+                if (!$available) {
+                    rex_autoload::addDirectory($this->package->getPath('lib'));
+                    rex_autoload::addDirectory($this->package->getPath('vendor'));
+                    rex_i18n::addDirectory($this->package->getPath('lang'));
+                }
 
                 $this->package->includeFile(rex_package::FILE_INSTALL);
                 if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
@@ -178,6 +182,10 @@ abstract class rex_package_manager
 
             // include uninstall.php
             if (is_readable($this->package->getPath(rex_package::FILE_UNINSTALL))) {
+                if (!$isActivated) {
+                    rex_i18n::addDirectory($this->package->getPath('lang'));
+                }
+
                 $this->package->includeFile(rex_package::FILE_UNINSTALL);
 
                 if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
