@@ -101,11 +101,14 @@ if (rex::getUser() && $hasNavigation) {
 
     $blocks = $n->getNavigation();
 
-    $fragment = new rex_fragment();
-    // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
-    $fragment->setVar('type', 'main', false);
-    $fragment->setVar('blocks', $blocks, false);
-    $navigation = $fragment->parse('core/navigations/navigation.php');
+    $navigation = '';
+    foreach ($blocks as $block) {
+        $fragment = new rex_fragment();
+        $fragment->setVar('headline', $block['headline'], false);
+        $fragment->setVar('items', $block['navigation'], false);
+        $navigation .= $fragment->parse('core/navigations/main.php');
+    }
+    
 }
 
 /* Setup Navigation ***********************************************************/
@@ -140,16 +143,11 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
 
         $navi[] = $n;
     }
-    $block = [];
-    $block['headline'] = ['title' => 'Setup'];
-    $block['navigation'] = $navi;
-    $blocks[] = $block;
 
     $fragment = new rex_fragment();
-    // $fragment->setVar('headline', array("title" => $this->getHeadline($block)), false);
-    $fragment->setVar('type', 'main', false);
-    $fragment->setVar('blocks', $blocks, false);
-    $navigation = $fragment->parse('navigation.php');
+    $fragment->setVar('headline', ['title' => 'Setup'], false);
+    $fragment->setVar('items', $navi, false);
+    $navigation = $fragment->parse('core/navigations/main.php');
 }
 
 /* Login Navigation ***********************************************************/
