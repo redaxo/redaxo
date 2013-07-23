@@ -108,7 +108,7 @@ if (rex::getUser() && $hasNavigation) {
         $fragment->setVar('items', $block['navigation'], false);
         $navigation .= $fragment->parse('core/navigations/main.php');
     }
-    
+
 }
 
 /* Setup Navigation ***********************************************************/
