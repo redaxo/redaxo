@@ -180,7 +180,12 @@ class rex_string
 
         if (is_array($attributes)) {
             foreach ($attributes as $key => $value) {
-                $attr .= ' ' . $key . '="' . $value . '"';
+                if (is_array($value)) {
+                    $value = implode(' ', $value);
+                }
+                if ($value !== '') {
+                    $attr .= ' ' . $key . '="' . $value . '"';
+                }
             }
         }
 
