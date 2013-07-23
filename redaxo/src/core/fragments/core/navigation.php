@@ -1,4 +1,4 @@
-    <?php
+<?php
     if ($this->navigation != '') {
         echo '
         <nav id="rex-page-navigation" class="rex-slide-container" data-pjax-container="#rex-page">
