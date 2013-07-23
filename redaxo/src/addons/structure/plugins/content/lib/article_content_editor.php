@@ -123,28 +123,55 @@ class rex_article_content_editor extends rex_article_content
             'ctype' => $this->ctype
         ]);
         $fragment = '#slice' . $sliceId;
-        $listElements = [];
-        $listElements2 = [];
 
         $header_right = '';
+
+
+        $menu_items_action = [];
+        $menu_items_move   = [];
 
         if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
             && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId)
         ) {
-            $buttons = '';
 
             // edit
-            $listElements[] = '<a class="rex-button" href="' . $context->getUrl(['function' => 'edit']) . $fragment . '" title="' . rex_i18n::msg('edit') . '"><span class="rex-icon rex-icon-edit"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('edit') . '</span></a>';
+            $item = [];
+            $item['hidden_label']         = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
+            $item['url']                  = $context->getUrl(['function' => 'edit']) . $fragment;
+            $item['attributes']['title']  = rex_i18n::msg('edit');
+            $item['icon']                 = 'edit';
+            $menu_items_action[] = $item;
+
 
             // delete
-            $listElements[] = '<a class="rex-button rex-danger" href="' . $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment . '" title="' . rex_i18n::msg('delete') . '"><span class="rex-icon rex-icon-delete"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('delete') . '</span></a>';
+            $item = [];
+            $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('delete');
+            $item['url']                   = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
+            $item['attributes']['class'][] = 'rex-danger';
+            $item['attributes']['title']   = rex_i18n::msg('delete');
+            $item['icon']                  = 'delete';
+            $menu_items_action[] = $item;
 
             if (rex::getUser()->hasPerm('moveSlice[]')) {
+
                 // moveup
-                $listElements2[] = '<a class="rex-button rex-mini" href="' . $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment . '" title="' . rex_i18n::msg('move_slice_up') . '"><span class="rex-icon rex-icon-up"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('move_slice_up') . '</span></a>';
+                $item = [];
+                $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
+                $item['url']                   = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment;
+                $item['attributes']['class'][] = 'rex-mini';
+                $item['attributes']['title']   = rex_i18n::msg('edit');
+                $item['icon']                  = 'up';
+                $menu_items_move[] = $item;
+
 
                 // movedown
-                $listElements2[] = '<a class="rex-button rex-mini" href="' . $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment . '" title="' . rex_i18n::msg('move_slice_down') . '"><span class="rex-icon rex-icon-down"></span><span class="rex-modulename">' . rex_i18n::msg('module') . ' ' . $moduleName . ' </span><span class="rex-slice-action">' . rex_i18n::msg('move_slice_down') . '</span></a>';
+                $item = [];
+                $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
+                $item['url']                   = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment;
+                $item['attributes']['class'][] = 'rex-mini';
+                $item['attributes']['title']   = rex_i18n::msg('delete');
+                $item['icon']                  = 'down';
+                $menu_items_move[] = $item;
             }
 
         } else {
@@ -152,9 +179,10 @@ class rex_article_content_editor extends rex_article_content
         }
 
         // ----- EXTENSION POINT
-        $listElements = rex_extension::registerPoint(new rex_extension_point(
+        $menu_items_ep = [];
+        $menu_items_ep = rex_extension::registerPoint(new rex_extension_point(
             'ART_SLICE_MENU',
-            $listElements,
+                $menu_items_ep,
             [
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
@@ -165,12 +193,23 @@ class rex_article_content_editor extends rex_article_content
             ]
         ));
 
-        if (count($listElements) > 0) {
-            $header_right .= '<span class="rex-button-group">' . implode('', $listElements) . '</span>';
+        if (count($menu_items_action) > 0) {
+
+            $fragment = new rex_fragment();
+            $fragment->setVar('items', $menu_items_action, false);
+            $header_right .= $fragment->parse('slice_menu_action.php');
         }
 
-        if (count($listElements2) > 0) {
-            $header_right .= '<span class="rex-button-vgroup">' . implode('', $listElements2) . '</span>';
+        if (count($menu_items_ep) > 0) {
+            $fragment = new rex_fragment();
+            $fragment->setVar('items', $menu_items_ep, false);
+            $header_right .= $fragment->parse('slice_menu_ep.php');
+        }
+
+        if (count($menu_items_move) > 0) {
+            $fragment = new rex_fragment();
+            $fragment->setVar('items', $menu_items_move, false);
+            $header_right .= $fragment->parse('slice_menu_move.php');
         }
 
         $header_right = $header_right != '' ? '<span class="rex-header-right">' . $header_right . '</span>' : '';
@@ -312,36 +351,14 @@ class rex_article_content_editor extends rex_article_content
                 $msg .= rex_view::success($this->info);
             }
 
-
-            $blocks = [];
-            $blocks[] = [
-                'headline' => ['title' => rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name'))],
-                'navigation' => []
-            ];
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('type', 'slice');
-            $fragment->setVar('blocks', $blocks, false);
-            $slice_header = $fragment->parse('navigation.php');
-
-
-            $listElements = [];
-
+            $formElements = [];
             $n = [];
-            $n['title'] = '<input class="rex-form-submit" type="submit" name="btn_save" value="' . rex_i18n::msg('add_block') . '"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . ' />';
-            $n['itemClasses'] = ['rex-slice-save'];
-            $listElements[] = $n;
-
-
-            $blocks = [];
-            $blocks[] = [
-                'navigation' => $listElements
-            ];
+            $n['field'] = '<button class="rex-button" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
+            $formElements[] = $n;
 
             $fragment = new rex_fragment();
-            $fragment->setVar('type', 'action');
-            $fragment->setVar('blocks', $blocks, false);
-            $slice_footer = $fragment->parse('navigation.php');
+            $fragment->setVar('elements', $formElements, false);
+            $slice_footer = $fragment->parse('core/form/submit.php');
 
 
 
@@ -353,7 +370,7 @@ class rex_article_content_editor extends rex_article_content
                     <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice' . $sliceId . '" method="post" id="REX_FORM" enctype="multipart/form-data">
 
                     <header class="rex-slice-header">
-                        ' . $slice_header . '
+                        <span class="rex-slice-modulename">' . rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name')) . '</span>
                     </header>
 
                     <section class="rex-slice-content">
@@ -394,27 +411,19 @@ class rex_article_content_editor extends rex_article_content
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
     {
 
-        $listElements = [];
+        $formElements = [];
 
         $n = [];
-        $n['title'] = '<input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('save_block') . '" name="btn_save" ' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . ' />';
-        $n['itemClasses'] = ['rex-slice-save'];
-        $listElements[] = $n;
+        $n['field'] = '<button class="rex-button" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
+        $formElements[] = $n;
 
         $n = [];
-        $n['title'] = '<input class="rex-form-submit rex-form-submit-2" type="submit" value="' . rex_i18n::msg('update_block') . '" name="btn_update" ' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . ' />';
-        $n['itemClasses'] = ['rex-slice-save'];
-        $listElements[] = $n;
-
-        $blocks = [];
-        $blocks[] = [
-            'navigation' => $listElements
-        ];
+        $n['field'] = '<button class="rex-button" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
+        $formElements[] = $n;
 
         $fragment = new rex_fragment();
-        $fragment->setVar('type', 'action');
-        $fragment->setVar('blocks', $blocks, false);
-        $slice_footer = $fragment->parse('navigation.php');
+        $fragment->setVar('elements', $formElements, false);
+        $slice_footer = $fragment->parse('core/form/submit.php');
 
         $slice_content = '
             <div class="rex-form">
