@@ -235,20 +235,22 @@ class rex_select
 
         $ausgabe = "\n";
         $ausgabe .= '<select' . $attr . '>' . "\n";
-
-        foreach ($this->options as $optgroup => $options) {
-            $this->currentOptgroup = $optgroup;
-            if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
-                $ausgabe .= '  <optgroup label="' . htmlspecialchars($optgroupLabel) . '">' . "\n";
+        if(!empty($this->options)){
+            foreach ($this->options as $optgroup => $options) {
+                $this->currentOptgroup = $optgroup;
+                if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
+                    $ausgabe .= '  <optgroup label="' . htmlspecialchars($optgroupLabel) . '">' . "\n";
+                }
+                if (is_array($options)) {
+                    $ausgabe .= $this->outGroup(0);
+                }
+                if ($optgroupLabel) {
+                    $ausgabe .= '  </optgroup>' . "\n";
+                }
             }
-            if (is_array($options)) {
-                $ausgabe .= $this->outGroup(0);
-            }
-            if ($optgroupLabel) {
-                $ausgabe .= '  </optgroup>' . "\n";
-            }
+        }else{
+            $ausgabe .= '';
         }
-
         $ausgabe .= '</select>' . "\n";
         return $ausgabe;
     }
