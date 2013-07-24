@@ -312,7 +312,7 @@ function rex_mediapool_deleteMedia($filename)
 
     rex_file::delete(rex_path::media($filename));
 
-    rex_media_cache::delete($this->getFileName());
+    rex_media_cache::delete($filename);
 
     return ['ok' => true, 'msg' => rex_i18n::msg('pool_file_deleted')];
 }
