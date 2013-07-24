@@ -5,10 +5,10 @@
  */
 class rex_select
 {
-    private $attributes;
+    private $attributes = [];
     private $currentOptgroup = 0;
     private $optgroups = [];
-    private $options;
+    private $options = [];
     private $option_selected;
 
     ################ Konstruktor
@@ -20,7 +20,6 @@ class rex_select
     ################ init
     public function init()
     {
-        $this->attributes = [];
         $this->resetSelected();
         $this->setName('standard');
         $this->setSize('5');
