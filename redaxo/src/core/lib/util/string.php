@@ -178,14 +178,14 @@ class rex_string
     {
         $attr = '';
 
-        if (is_array($attributes)) {
-            foreach ($attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
+            if (is_int($key)) {
+                $attr .= ' ' . $value;
+            } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
-                if ($value !== '') {
-                    $attr .= ' ' . $key . '="' . $value . '"';
-                }
+                $attr .= ' ' . $key . '="' . $value . '"';
             }
         }
 

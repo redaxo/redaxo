@@ -120,4 +120,12 @@ class rex_string_test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expected, rex_string::buildQuery($params, $argSeparator));
     }
+
+    public function testBuildAttributes()
+    {
+        $this->assertEquals(
+            ' id="rex-test" class="a b" alt="" checked',
+            rex_string::buildAttributes(['id' => 'rex-test', 'class' => ['a', 'b'], 'alt' => '', 'checked'])
+        );
+    }
 }
