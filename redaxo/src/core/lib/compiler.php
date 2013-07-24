@@ -62,10 +62,7 @@ class rex_compiler
     public function compileString($value)
     {
         foreach ($this->compilers as $compiler) {
-            $value = $this->{
-                "compile{$compiler
-            }"
-        }($value);
+            $value = $this->{"compile{$compiler}"}($value);
         }
 
         return $value;
