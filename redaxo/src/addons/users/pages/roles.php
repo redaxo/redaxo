@@ -125,11 +125,11 @@ if ($func == '') {
                     else
                         $("#"+id).closest(".rex-form").show(duration);
                 }
-                $("#' . implode('_all, #', $fieldIds) . '_all").change(function(){
+                $("#' . implode('-all, #', $fieldIds) . '-all").change(function(){
                     check_perm_field($(this), "slow");
                 });
 
-                $("#' . implode('_all, #', $fieldIds) . '_all").each(function(){
+                $("#' . implode('-all, #', $fieldIds) . '-all").each(function(){
                     check_perm_field($(this), 0);
                 });
 
