@@ -116,15 +116,16 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
     $navi = [];
-    for ($i = 1; $i <= 7; $i++) {
+    $end = $lang ? 7 : 1;
+    for ($i = 1; $i <= $end; $i++) {
         $n = [];
-        $n['itemClasses'] = [];
         if ($i == $step) {
-            $n['itemClasses'][] = 'rex-active';
+            $n['active'] = true;
         }
 
+        $n['href'] = 'javascript:void(0)';
         if ($i < $step) {
-            $n['linkClasses'][] = 'rex-success';
+            $n['itemAttr']['class'][] = 'rex-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
             if ($step == 7) {
                 $n['href'] = 'javascript:void(0)';

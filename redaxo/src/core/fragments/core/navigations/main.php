@@ -7,13 +7,17 @@
 
     <dd>
         <ul>
-            <?php foreach ($this->items as $item): ?>
+            <?php foreach ($this->items as $item):
 
-            <?php if ($item['active']): ?>
-                <?php $item['linkAttr']['class'] = 'rex-active'; ?>
-            <?php endif; ?>
+                if (isset($item['active']) && $item['active']):
+                    $item['linkAttr']['class'][] = 'rex-active';
+                endif;
 
-            <li<?php echo rex_string::buildAttributes($item['itemAttr']); ?>><a href="<?php echo $item['href']; ?>"<?php echo rex_string::buildAttributes($item['linkAttr']); ?>><?php echo $item['title']; ?></a></li>
+                $itemAttr = isset($item['itemAttr']) ? rex_string::buildAttributes($item['itemAttr']) : '';
+                $linkAttr = isset($item['linkAttr']) ? rex_string::buildAttributes($item['linkAttr']) : '';
+            ?>
+
+            <li<?= $itemAttr ?>><a href="<?= $item['href']; ?>"<?= $linkAttr; ?>><?= $item['title']; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </dd>
