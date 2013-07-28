@@ -69,10 +69,9 @@ class rex_sql_util
     private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
-        if (rex::getUser()) {
-            $qry = str_replace('%USER%', rex::getUser()->getValue('login'), $qry);
-        }
+        $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
 
+        $qry = str_replace('%USER%', $user, $qry);
         $qry = str_replace('%TIME%', time(), $qry);
         $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
         $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
