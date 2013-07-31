@@ -304,7 +304,7 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/rex_form/form.php');
+    $content .= $fragment->parse('core/form/form.php');
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
 
@@ -317,7 +317,7 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/rex_form/form.php');
+    $content .= $fragment->parse('core/form/form.php');
 
 
      $content .= '</fieldset>
@@ -498,7 +498,7 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/rex_form/form.php');
+    $content .= $fragment->parse('core/form/form.php');
 
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
@@ -511,7 +511,7 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/rex_form/form.php');
+    $content .= $fragment->parse('core/form/form.php');
 
     $content .= '</fieldset></form></div>
     ';
@@ -647,7 +647,7 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/rex_form/form.php');
+    $content .= $fragment->parse('core/form/form.php');
 
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
@@ -661,7 +661,7 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/rex_form/form.php');
+    $content .= $fragment->parse('core/form/form.php');
 
     $content .= '</fieldset></form></div>
 
