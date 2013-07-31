@@ -142,6 +142,9 @@ class rex_sql implements Iterator
      * - INSERT
      * - DELETE
      * - REPLACE
+     * - CREATE
+     * - CALL
+     * - OPTIMIZE
      *
      * @param string $qry
      * @return bool|string
@@ -152,7 +155,7 @@ class rex_sql implements Iterator
         // DBID aus dem Query herausschneiden, falls vorhanden
         self::stripQueryDBID($qry);
 
-        if (preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE)/i', $qry, $matches)) {
+        if (preg_match('/^(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $qry, $matches)) {
             return strtoupper($matches[1]);
         }
 
