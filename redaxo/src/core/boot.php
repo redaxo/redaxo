@@ -63,7 +63,6 @@ rex_fragment::addDirectory(rex_path::core('fragments/'));
 
 // ----------------- FUNCTIONS
 require_once rex_path::core('functions/function_rex_globals.php');
-require_once rex_path::core('functions/function_rex_helpers.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
