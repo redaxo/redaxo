@@ -166,7 +166,7 @@ class rex_pager
      */
     public function getLastPage()
     {
-        return ceil($this->rowCount / $this->rowsPerPage);
+        return ceil($this->rowCount / $this->rowsPerPage) - 1;
     }
 
     /**
