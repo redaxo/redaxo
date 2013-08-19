@@ -1,5 +1,8 @@
 # addon:media_manager de_de
 
+media_manager = Media Manager
+media_manager_overview_title = Media Manager Addon (Version {0})
+
 media_manager_subpage_desc = Erklärung
 media_manager_subpage_config = Konfiguration
 media_manager_subpage_types = Mediatypen bearbeiten
@@ -40,10 +43,10 @@ media_manager_type_cache_delete = Cache löschen
 media_manager_type_system = System Bildtyp
 media_manager_type_delete = löschen
 
-media_manager_effect_list_header = Effekte des Bildtyps "{0}"
-media_manager_effect_edit_header = Bildtyp "{0}": Effekt bearbeiten
-media_manager_effect_create_header = Bildtyp "{0}": Effekt erstellen
-media_manager_effect_caption = Liste der angelegten Effekte des Bildtyps "{0}"
+media_manager_effect_list_header = Effekte des Bildtyps {0}
+media_manager_effect_edit_header = Bildtyp {0}: Effekt bearbeiten
+media_manager_effect_create_header = Bildtyp {0}: Effekt erstellen
+media_manager_effect_caption = Liste der angelegten Effekte des Bildtyps {0}
 media_manager_effect_no_effects = Keine Effekte vorhanden
 media_manager_effect_create = Effekt erstellen
 media_manager_effect_edit = Effekt bearbeiten

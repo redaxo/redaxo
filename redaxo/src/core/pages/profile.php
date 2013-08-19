@@ -155,7 +155,7 @@ $content .= $fragment->parse('core/form/submit.php');
 $content .= '
     </form>
     </div>';
-echo rex_view::contentBlock($content);
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);
 
 
 
@@ -244,4 +244,4 @@ $content .= '
         });
          //-->
     </script>';
-echo rex_view::contentBlock($content);
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

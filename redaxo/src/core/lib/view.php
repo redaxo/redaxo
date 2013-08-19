@@ -215,43 +215,20 @@ class rex_view
      * @param string $title
      * @return string
      */
-    public static function contentBlock($content_1, $content_2 = '', $flush = true, $bucket = true, $title = '')
+    public static function content($key = 'block', $content, $title = '', $params = array())
     {
-        $return = '';
-
-        $class_1 = '';
-        $class_2 = '';
-        if ($bucket) {
-            $class_1 .= ' rex-bucket';
-            $class_2 .= ' rex-bucket-inner';
-        }
-        if ($flush) {
-            $class_1 .= ' rex-flush';
+    
+        if(!is_array($content)) {
+          $content = array($content);
         }
 
-        $return .= '<section class="rex-content' . $class_1 . '">';
-        $return .= '<div class="rex-content-inner' . $class_2 . '">';
-
-        if ($title != '') {
-             $return .= '<h2>' . $title . '</h2>';
-        }
-
-        if ($content_2 != '') {
-            $return .= '
-                <div class="rex-grid2col">
-                    <div class="rex-column rex-first">' . $content_1 . '</div>
-                    <div class="rex-column rex-last">' . $content_2 . '</div>
-                </div>';
-
-        } else {
-            $return .= $content_1;
-        }
-        $return .= '</div>';
-        $return .= '</section>';
-
-        return $return;
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', $content, false);
+        $fragment->setVar('title', $title, false);
+        $fragment->setVar('params', $params, false);
+        return $fragment->parse('core/content/'.$key.'.php');
     }
-
+    
 
     /**
      * Returns the formatted title

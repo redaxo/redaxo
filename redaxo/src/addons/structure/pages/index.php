@@ -359,7 +359,7 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
 }
 
 
-echo rex_view::contentBlock($echo);
+echo rex_view::content('block', $echo, '', $params = ['flush' => true]);
 
 
 
@@ -656,4 +656,4 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 }
 
 
-echo rex_view::contentBlock($echo);
+echo rex_view::content('block', $echo, '', $params = ['flush' => true]);

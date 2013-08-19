@@ -1,5 +1,8 @@
 # addon:media_manager en_gb
 
+media_manager = Media Manager
+media_manager_overview_title = Media Manager Addon (Version {0})
+
 media_manager_subpage_desc = Description
 media_manager_subpage_config = Configuration
 media_manager_subpage_types = Edit imagetypes

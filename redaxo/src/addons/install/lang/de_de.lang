@@ -21,8 +21,8 @@ install_files = Dateien
 install_version = Version
 install_existing_version = Vorhandene Version
 install_available_versions = Verfügbare Versionen
-install_update = Update
-install_download = Download
+install_update = aktualisieren
+install_download = herunterladen
 install_addons_found = {0} AddOns gefunden
 install_available_updates = {0} Updates verfügbar
 install_my_packages = Meine Packages
@@ -59,3 +59,5 @@ install_settings_myredaxo_account = myREDAXO-Account
 install_settings_api_login = Nutzername
 install_settings_api_key = API-Key
 install_settings_saved = Einstellungen wurden gespeichert!
+
+install_header_function = Funktion

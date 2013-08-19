@@ -86,19 +86,15 @@ if (rex_post('export', 'bool')) {
 }
 
 if ($info != '') {
-    $content .= rex_view::info($info);
+    echo rex_view::info($info);
 }
 if ($warning != '') {
-    $content .= rex_view::warning($warning);
+    echo rex_view::warning($warning);
 }
 
 
 $content .= '
-
-        <h3 class="rex-hl2">' . rex_i18n::msg('im_export_export') . '</h3>
-
-        <div class="rex-area-content">
-            <p class="rex-tx1">' . rex_i18n::msg('im_export_intro_export') . '</p>
+            <p>' . rex_i18n::msg('im_export_intro_export') . '</p>
 
             <div class="rex-form" id="rex-form-export">
             <form action="' . rex_url::currentBackendPage() . '" method="post" >
@@ -153,8 +149,7 @@ $content .= '
     }
 
 $content .= '</div>
-    </div>
-</div>';
+';
 
 $checked0 = '';
 $checked1 = '';
@@ -194,4 +189,4 @@ $content .= '<div class="rex-form-row">
             </div>';
 
 
-echo rex_view::contentBlock($content);
+echo rex_view::content('block',$content);

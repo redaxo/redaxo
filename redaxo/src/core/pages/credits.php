@@ -7,10 +7,9 @@
 
 echo rex_view::title(rex_i18n::msg('credits'), '');
 
-$content_1 = '';
-$content_2 = '';
+$content = [];
 
-$content_1 .= '
+$content[] = '
     <h2>REDAXO</h2>
 
     <h3>Jan Kristinus <span>jan.kristinus@redaxo.org</span></h3>
@@ -29,7 +28,7 @@ $content_1 .= '
         meyerharlan, <a href="http://meyerharlan.de" onclick="window.open(this.href); return false;">www.meyerharlan.de</a>
     </p>';
 
-$content_2 .= '
+$content[] = '
     <h2>' . rex::getVersion() . '</h2>
 
     <h3>Ralph Zumkeller <span>info@redaxo.org</span></h3>
@@ -38,12 +37,10 @@ $content_2 .= '
     </p>
 
     <h3>Thomas Blum <span>thomas.blum@redaxo.org</span></h3>
-    <p>HTML/CSS<br />
-        blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a>
-    </p>';
+    <p>blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a></p>';
 
 
-echo rex_view::contentBlock($content_1, $content_2);
+echo rex_view::content('block', $content);
 
 
 $content = '';
@@ -86,4 +83,4 @@ $content .= '
 
 
 
-echo rex_view::contentBlock($content, '', 'block');
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

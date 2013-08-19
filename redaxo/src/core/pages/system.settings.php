@@ -107,8 +107,8 @@ $version = rex_path::src();
 if (strlen($version) > 21) {
     $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
 }
-
-$content_1 = '
+$content = [];
+$content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
                         <p>' . rex_i18n::msg('delete_cache_description') . '</p>
                         <p><a class="rex-button" href="' . rex_url::currentBackendPage(['func' => 'generate']) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
@@ -117,7 +117,7 @@ $content_1 = '
                         <p>' . rex_i18n::msg('setup_text') . '</p>
                         <p><a class="rex-button rex-danger" href="' . rex_url::currentBackendPage(['func' => 'setup']) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
-$content_2 = '
+$content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
                         <dl class="rex-formatted">
                             <dt>REDAXO</dt><dd>' . rex::getVersion() . '</dd>
@@ -131,7 +131,7 @@ $content_2 = '
                             <dt>' . rex_i18n::msg('host') . '</dt><dd>' . $dbconfig[1]['host'] . '</dd>
                         </dl>';
 
-echo rex_view::contentBlock($content_1, $content_2, false, true, rex_i18n::msg('system_features'));
+echo rex_view::content('block', $content, rex_i18n::msg('system_features'));
 
 $content = '
                         <fieldset>
@@ -209,4 +209,4 @@ $content = '
         '</form>
 </div>';
 
-echo rex_view::contentBlock($content, '', false);
+echo rex_view::content('block', $content);

@@ -14,7 +14,7 @@ if (is_array($settings)) {
     foreach ($settings as $key => $value) {
         $this->setConfig($key, $value);
     }
-    $content .= rex_view::info($this->i18n('settings_saved'));
+    echo rex_view::success($this->i18n('settings_saved'));
     rex_install_webservice::deleteCache();
 }
 
@@ -62,23 +62,21 @@ $content .= '
 
 
 $content .= '
-                </fieldset>
-                <fieldset class="rex-form-action">';
+                </fieldset>';
 
 
             $formElements = [];
 
                 $n = [];
-                $n['field'] = '<input id="install-settings-save" type="submit" name="settings[save]" class="rex-form-submit" value="' . rex_i18n::msg('form_save') . '" />';
+                $n['field'] = '<button class="rex-button" type="submit" name="settings[save]" value="1">' . rex_i18n::msg('form_save') . '</button>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/form.php');
+                $content .= $fragment->parse('core/form/submit.php');
 
 $content .= '
-            </fieldset>
         </form>
     </div>';
 
-echo rex_view::contentBlock($content, '', 'block');
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

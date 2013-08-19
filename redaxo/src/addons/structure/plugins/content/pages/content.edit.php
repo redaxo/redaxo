@@ -15,4 +15,4 @@ $CONT->setFunction($function);
 $content .= $CONT->getArticle($ctype);
 
 $content = $content != '' ? '<ul class="rex-slices">' . $content . '</ul>' : '';
-echo rex_view::contentBlock($content, '', false, false);
+echo rex_view::content('plain', $content);

@@ -12,10 +12,13 @@ datetimeformat = %d. %b. %Y - %H:%Mh
 ctrl = Mehrfachauswahl mit STRG
 
 # Allgemein
-update = aktualisieren
+abort = abbrechen
 add = hinzufügen
-edit  =  editieren
-delete  =  löschen
+back = zurück
+delete = löschen
+edit = editieren
+update = aktualisieren
+view = ansehen
 path = Pfad
 id = Id
 name = Name

@@ -95,139 +95,151 @@ if ($warning != '') {
     echo rex_view::warning($warning);
 }
 
-?>
 
-<div class="rex-area">
-        <h3 class="rex-hl2"><?php echo rex_i18n::msg('im_export_import'); ?></h3>
 
-        <div class="rex-area-content">
-            <p class="rex-tx1"><?php echo rex_i18n::msg('im_export_intro_import') ?></p>
+$content = '
+            <p>'.rex_i18n::msg('im_export_intro_import').'</p>
 
             <div class="rex-form" id="rex-form-import-data">
-                <form action="<?php echo rex_url::currentBackendPage() ?>" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_db_import') ?>">
+                <form action="'.rex_url::currentBackendPage().'" enctype="multipart/form-data" method="post" data-confirm="'.rex_i18n::msg('im_export_proceed_db_import').'">
 
                     <fieldset class="rex-form-col-1">
 
-                        <legend><?php echo rex_i18n::msg('im_export_database'); ?></legend>
+                        <legend>'.rex_i18n::msg('im_export_database').'</legend>
 
                         <div class="rex-form-wrapper">
                             <input type="hidden" name="function" value="dbimport" />
 
                             <div class="rex-form-row">
                                 <p class="rex-form-file">
-                                    <label for="importdbfile"><?php echo rex_i18n::msg('im_export_database'); ?></label>
+                                    <label for="importdbfile">'.rex_i18n::msg('im_export_database').'</label>
                                     <input class="rex-form-file" type="file" id="importdbfile" name="FORM[importfile]" size="18" />
                                 </p>
                             </div>
                             <div class="rex-form-row">
                                 <p class="rex-form-submit">
-                                    <input type="submit" class="rex-form-submit" value="<?php echo rex_i18n::msg('im_export_db_import') ?>" />
+                                    <input type="submit" class="rex-form-submit" value="'.rex_i18n::msg('im_export_db_import').'" />
                                 </p>
                             </div>
                         </div>
                     </fieldset>
                 </form>
-            </div>
+            </div>';
 
+echo rex_view::content('block',$content);
+
+$content = '
             <table class="rex-table">
-                <caption><?php echo rex_i18n::msg('im_export_export_db_caption'); ?></caption>
+                <caption>'.rex_i18n::msg('im_export_export_db_caption').'</caption>
                 <colgroup>
                     <col width="*" />
                     <col width="15%" span="3"/>
                 </colgroup>
                 <thead>
                     <tr>
-                        <th><?php echo rex_i18n::msg('im_export_filename'); ?></th>
-                        <th><?php echo rex_i18n::msg('im_export_filesize'); ?></th>
-                        <th><?php echo rex_i18n::msg('im_export_createdate'); ?></th>
-                        <th colspan="2"><?php echo rex_i18n::msg('im_export_function'); ?></th>
+                        <th>'.rex_i18n::msg('im_export_filename').'</th>
+                        <th>'.rex_i18n::msg('im_export_filesize').'</th>
+                        <th>'.rex_i18n::msg('im_export_createdate').'</th>
+                        <th colspan="2">'.rex_i18n::msg('im_export_function').'</th>
                     </tr>
                 </thead>
-                <tbody>
-<?php
-    $dir = getImportDir();
-    $folder = readImportFolder('.sql');
+                <tbody>';
 
-    foreach ($folder as $file) {
-        $filepath = $dir . '/' . $file;
-        $filec = date('d.m.Y H:i', filemtime($filepath));
-        $filesize = rex_file::formattedSize($filepath);
+$dir = getImportDir();
+$folder = readImportFolder('.sql');
 
-        echo '<tr>
-                        <td>' . $file . '</td>
-                        <td>' . $filesize . '</td>
-                        <td>' . $filec . '</td>
-                        <td><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' =>  $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
-                        <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
-                    </tr>
+foreach ($folder as $file) {
+    $filepath = $dir . '/' . $file;
+    $filec = date('d.m.Y H:i', filemtime($filepath));
+    $filesize = rex_file::formattedSize($filepath);
+
+    $content .= '<tr>
+                    <td>' . $file . '</td>
+                    <td>' . $filesize . '</td>
+                    <td>' . $filec . '</td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' =>  $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
+                </tr>
     ';
-    }
-?>
+}
+
+$content .= '
                 </tbody>
-            </table>
+            </table>';
+
+echo rex_view::content('block',$content,'',array('flush' => 1));
+
+
+$content = '
 
             <!-- FILE IMPORT -->
             <div class="rex-form" id="rex-form-import-files">
-                <form action="<?php echo rex_url::currentBackendPage() ?>" enctype="multipart/form-data" method="post" data-confirm="<?php echo rex_i18n::msg('im_export_proceed_file_import') ?>" >
+                <form action="'.rex_url::currentBackendPage().'" enctype="multipart/form-data" method="post" data-confirm="'.rex_i18n::msg('im_export_proceed_file_import').'" >
                     <fieldset class="rex-form-col-1">
-                        <legend><?php echo rex_i18n::msg('im_export_files'); ?></legend>
+                        <legend>'.rex_i18n::msg('im_export_files').'</legend>
 
                         <div class="rex-form-wrapper">
                             <input type="hidden" name="function" value="fileimport" />
 
                             <div class="rex-form-row">
                                 <p class="rex-form-file">
-                                    <label for="importtarfile"><?php echo rex_i18n::msg('im_export_files'); ?></label>
+                                    <label for="importtarfile">'.rex_i18n::msg('im_export_files').'</label>
                                     <input class="rex-form-file" type="file" id="importtarfile" name="FORM[importfile]" size="18" />
                                 </p>
                             </div>
                             <div class="rex-form-row">
                                 <p class="rex-form-submit">
-                                    <input class="rex-form-submit" type="submit" value="<?php echo rex_i18n::msg('im_export_db_import') ?>" />
+                                    <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('im_export_db_import').'" />
                                 </p>
                             </div>
                         </div>
                     </fieldset>
                 </form>
-            </div>
+            </div>';
 
-            <table class="rex-table">
-                <caption><?php echo rex_i18n::msg('im_export_export_file_caption'); ?></caption>
-                <colgroup>
-                    <col width="*" />
-                    <col width="15%" span="3"/>
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th><?php echo rex_i18n::msg('im_export_filename'); ?></th>
-                        <th><?php echo rex_i18n::msg('im_export_filesize'); ?></th>
-                        <th><?php echo rex_i18n::msg('im_export_createdate'); ?></th>
-                        <th colspan="2"><?php echo rex_i18n::msg('im_export_function'); ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-<?php
-    $dir = getImportDir();
-    $folder = readImportFolder('.tar.gz');
+echo rex_view::content('block',$content);
 
-    foreach ($folder as $file) {
-        $filepath = $dir . '/' . $file;
-        $filec = date('d.m.Y H:i', filemtime($filepath));
-        $filesize = rex_file::formattedSize($filepath);
+$content = '
+        <table class="rex-table">
+            <caption>'.rex_i18n::msg('im_export_export_file_caption').'</caption>
+            <colgroup>
+                <col width="*" />
+                <col width="15%" span="3"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>'.rex_i18n::msg('im_export_filename').'</th>
+                    <th>'.rex_i18n::msg('im_export_filesize').'</th>
+                    <th>'.rex_i18n::msg('im_export_createdate').'</th>
+                    <th colspan="2">'.rex_i18n::msg('im_export_function').'</th>
+                </tr>
+            </thead>
+            <tbody>';
 
-        echo '<tr>
-                        <td>' . $file . '</td>
-                        <td>' . $filesize . '</td>
-                        <td>' . $filec . '</td>
-                        <td><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
-                        <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
-                    </tr>';
-    }
-?>
-                </tbody>
+
+$dir = getImportDir();
+$folder = readImportFolder('.tar.gz');
+
+foreach ($folder as $file) {
+    $filepath = $dir . '/' . $file;
+    $filec = date('d.m.Y H:i', filemtime($filepath));
+    $filesize = rex_file::formattedSize($filepath);
+
+    $content .= '<tr>
+                    <td>' . $file . '</td>
+                    <td>' . $filesize . '</td>
+                    <td>' . $filec . '</td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '">' . rex_i18n::msg('im_export_import') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
+                </tr>';
+}
+
+$content .= '
+               </tbody>
             </table>
-        </div>
+        ';
 
+echo rex_view::content('block',$content, '', array('flush' => 1));
 
-    <div class="rex-clearer"></div>
-</div><!-- END rex-area -->
+?>
+

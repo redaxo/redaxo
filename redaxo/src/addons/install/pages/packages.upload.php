@@ -5,12 +5,12 @@
 $addonkey = rex_request('addonkey', 'string');
 $addons = [];
 
-$content = rex_api_function::getMessage();
+echo rex_api_function::getMessage();
 
 try {
     $addons = rex_install_packages::getMyPackages();
 } catch (rex_functional_exception $e) {
-    $content .= rex_view::warning($e->getMessage());
+    echo rex_view::error($e->getMessage());
     $addonkey = '';
 }
 
@@ -45,11 +45,12 @@ if ($addonkey && isset($addons[$addonkey])) {
             $hiddenField = '<input type="hidden" name="upload[upload_file]" value="' . ((integer) $new) . '" />';
         }
 
-        $content .= '
-        <h2>' . $addonkey . ': ' . $this->i18n($new ? 'file_add' : 'file_edit') . '</h2>
-    <div class="rex-form">
-        <form action="' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_upload', 'addonkey' => $addonkey, 'file' => $file_id]) . '" method="post">
-            <fieldset>';
+        $content = '
+        <h2><b>' . $addonkey . '</b> ' . $this->i18n($new ? 'file_add' : 'file_edit') . '</h2>
+
+        <div class="rex-form">
+            <form action="' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_upload', 'addonkey' => $addonkey, 'file' => $file_id]) . '" method="post">
+                <fieldset>';
 
 
                     $formElements = [];
@@ -57,7 +58,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                         $n = [];
                         $n['label'] = '<label for="install-packages-upload-version">' . $this->i18n('version') . '</label>';
                         $n['field'] = '<span id="install-packages-upload-version" class="rex-form-read">' . ($new ? $newVersion : $file['version']) . '</span>
-                                                     <input type="hidden" name="upload[oldversion]" value="' . $file['version'] . '" />';
+                                       <input type="hidden" name="upload[oldversion]" value="' . $file['version'] . '" />';
                         $formElements[] = $n;
 
                         $n = [];
@@ -69,6 +70,14 @@ if ($addonkey && isset($addons[$addonkey])) {
                         $n['label'] = '<label for="install-packages-upload-description">' . $this->i18n('description') . '</label>';
                         $n['field'] = '<textarea id="install-packages-upload-description" name="upload[description]" cols="50" rows="15">' . $file['description'] . '</textarea>';
                         $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('core/form/form.php');
+
+
+
+        $formElements = [];
 
                         $n = [];
                         $n['reverse'] = true;
@@ -100,26 +109,37 @@ if ($addonkey && isset($addons[$addonkey])) {
 
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', $formElements, false);
-                    $content .= $fragment->parse('core/form/form.php');
+                    $content .= $fragment->parse('core/form/checkbox.php');
 
-                    $formElements = [];
-                        $n = [];
-                        $n['field'] = '<input id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '" />';
-                        $formElements[] = $n;
+        $content .= '</fieldset>';
 
-                        $n = [];
-                        $n['field'] = '<input id="install-packages-delete" type="button" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';" />';
-                        $formElements[] = $n;
 
-                    $fragment = new rex_fragment();
-                    $fragment->setVar('columns', 2, false);
-                    $fragment->setVar('elements', $formElements, false);
-                    $content .= $fragment->parse('core/form/form.php');
+        $formElements = [];
 
-    $content .= '
-            </fieldset>
-        </form>
-    </div>';
+        $n = [];
+        $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
+        $formElements[] = $n;
+
+        $n = [];
+        $n['field'] = '<button class="rex-button" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
+        $formElements[] = $n;
+
+        $n = [];
+        $n['field'] = '<button class="rex-button rex-danger" id="install-packages-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('core/form/submit.php');
+
+        $content .= '
+                </fieldset>
+            </form>
+        </div>';
+
+
+
+        echo rex_view::content('block', $content, '', $params = ['flush' => true]);
 
         if (!$new) {
             echo '
@@ -146,13 +166,12 @@ if ($addonkey && isset($addons[$addonkey])) {
     } else {
         $icon = '';
         if (rex_addon::exists($addonkey)) {
-            $icon = '<a class="rex-ic-generic rex-ic-add" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $this->i18n('file_add') . '">' . $this->i18n('file_add') . '</a>';
+            $icon = '<a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $this->i18n('file_add') . '"><span class="rex-icon rex-icon-add-package"></span></a>';
         }
 
-        $content .= '
-        <h2>' . $addonkey . '</h2>
+        $content = '
+        <h2><b>' . $addonkey . '</b> ' . $this->i18n('information') . '</h2>
 
-        <h3>' . $this->i18n('information') . '</h3>
         <table class="rex-table">
             <tbody>
             <tr>
@@ -172,17 +191,20 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td>' . nl2br($addon['description']) . '</td>
             </tr>
             </tbody>
-        </table>
+        </table>';
 
-        <h3>' . $this->i18n('files') . '</h3>
+        echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+        $content = '
+        <h2>' . $this->i18n('files') . '</h2>
         <table class="rex-table">
             <thead>
             <tr>
-                <th class="rex-icon">' . $icon . '</th>
+                <th class="rex-slim">' . $icon . '</th>
                 <th class="rex-version">' . $this->i18n('version') . '</th>
                 <th>REDAXO</th>
                 <th class="rex-description">' . $this->i18n('description') . '</th>
-                <th class="rex-function">' . $this->i18n('status') . '</th>
+                <th colspan="2" class="rex-function">' . $this->i18n('status') . '</th>
             </tr>
             </thead>
             <tbody>';
@@ -192,29 +214,34 @@ if ($addonkey && isset($addons[$addonkey])) {
             $status = $file['status'] ? 'online' : 'offline';
             $content .= '
             <tr>
-                <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $file['version'] . '</td>
-                <td class="rex-version"><a href="' . $url . '">' . $file['version'] . '</a></td>
+                <td class="rex-slim"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span></a></td>
+                <td class="rex-version">' . $file['version'] . '</td>
                 <td class="rex-version">' . implode(', ', $file['redaxo_versions']) . '</td>
                 <td class="rex-description">' . nl2br($file['description']) . '</td>
-                <td class="rex-status"><span class="rex-' . $status . '">' . $this->i18n($status) . '</span></td>
+                <td class="rex-edit"><a class="rex-link rex-edit" href="' . $url . '">' . $this->i18n('file_edit') . '</a></td>
+                <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $this->i18n($status) . '</span></td>
             </tr>';
         }
 
         $content .= '</tbody></table>';
 
+        echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+        echo '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('back') . '</a>';
+
     }
 
 } else {
 
-    $content .= '
+    $content = '
         <h2>' . $this->i18n('my_packages') . '</h2>
         <table class="rex-table">
          <thead>
             <tr>
-                <th class="rex-icon"></th>
+                <th class="rex-slim"></th>
                 <th class="rex-key">' . $this->i18n('key') . '</th>
                 <th class="rex-name">' . $this->i18n('name') . '</th>
-                <th class="rex-function">' . $this->i18n('status') . '</th>
+                <th colspan="2" class="rex-function">' . $this->i18n('status') . '</th>
             </tr>
          </thead>
          <tbody>';
@@ -224,15 +251,17 @@ if ($addonkey && isset($addons[$addonkey])) {
         $status = $addon['status'] ? 'online' : 'offline';
         $content .= '
             <tr>
-                <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $key . '</a></td>
-                <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
+                <td class="rex-slime"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span></a></td>
+                <td class="rex-key">' . $key . '</td>
                 <td class="rex-name">' . $addon['name'] . '</td>
-                <td class="rex-status"><span class="rex-' . $status . '">' . $this->i18n($status) . '</span></td>
+                <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . rex_i18n::msg('view') . '</a></td>
+                <td class="rex-status"><span class="rex-status rex-' . $status . '">' . $this->i18n($status) . '</span></td>
             </tr>';
     }
 
     $content .= '</tbody></table>';
 
+    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
 }
 
-echo rex_view::contentBlock($content, '', 'block');

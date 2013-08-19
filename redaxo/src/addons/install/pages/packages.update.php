@@ -24,7 +24,7 @@ if ($core && !empty($coreVersions)) {
         <table class="rex-table rex-install-core-versions">
             <thead>
             <tr>
-                <th class="rex-icon"></th>
+                <th class="rex-slim">&nbsp;</th>
                 <th class="rex-version">' . $this->i18n('version') . '</th>
                 <th class="rex-description">' . $this->i18n('description') . '</th>
                 <th class="rex-function"></th>
@@ -35,7 +35,7 @@ if ($core && !empty($coreVersions)) {
     foreach ($coreVersions as $id => $version) {
         $content .= '
                 <tr>
-                    <td class="rex-icon"><span class="rex-ic-addon">' . $version['version'] . '</span></td>
+                    <td class="rex-slim"><span class="rex-icon rex-icon-package"></span></td>
                     <td>' . $version['version'] . '</td>
                     <td>' . nl2br($version['description']) . '</td>
                     <td><a href="' . rex_url::currentBackendPage(['core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id]) . '">' . $this->i18n('update') . '</a></td>
@@ -75,7 +75,7 @@ if ($core && !empty($coreVersions)) {
         <table class="rex-table rex-install-packages-files">
             <thead>
             <tr>
-                <th class="rex-icon"></th>
+                <th class="rex-slim"></th>
                 <th class="rex-version">' . $this->i18n('version') . '</th>
                 <th class="rex-description">' . $this->i18n('description') . '</th>
                 <th class="rex-function"></th>
@@ -86,7 +86,7 @@ if ($core && !empty($coreVersions)) {
     foreach ($addon['files'] as $fileId => $file) {
         $content .= '
             <tr>
-                <td class="rex-icon"><span class="rex-ic-addon">' . $file['version'] . '</span></td>
+                <td class="rex-slim"><span class="rex-icon rex-icon-package"></span>' . $file['version'] . '</td>
                 <td class="rex-version">' . $file['version'] . '</td>
                 <td class="rex-description">' . nl2br($file['description']) . '</td>
                 <td class="rex-update"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId]) . '">' . $this->i18n('update') . '</a></td>
@@ -102,7 +102,7 @@ if ($core && !empty($coreVersions)) {
         <table id="rex-install-packages-addons" class="rex-table">
             <thead>
             <tr>
-                <th class="rex-icon"></th>
+                <th class="rex-slim"></th>
                 <th class="rex-key">' . $this->i18n('key') . '</th>
                 <th class="rex-name">' . $this->i18n('name') . '</th>
                 <th class="rex-version">' . $this->i18n('existing_version') . '</th>
@@ -120,7 +120,7 @@ if ($core && !empty($coreVersions)) {
 
         $content .= '
             <tr>
-                <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">core</a></td>
+                <td class="rex-slim"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span>core</a></td>
                 <td class="rex-key"><a href="' . $url . '">core</a></td>
                 <td class="rex-name">REDAXO Core</td>
                 <td class="rex-version">' . rex::getVersion() . '</td>
@@ -137,7 +137,7 @@ if ($core && !empty($coreVersions)) {
 
         $content .= '
             <tr>
-                <td class="rex-icon"><a class="rex-ic-addon" href="' . $url . '">' . $key . '</a></td>
+                <td class="rex-slim"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span>' . $key . '</a></td>
                 <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
                 <td class="rex-name">' . $addon['name'] . '</td>
                 <td class="rex-version">' . rex_addon::get($key)->getVersion() . '</td>
@@ -149,4 +149,4 @@ if ($core && !empty($coreVersions)) {
 
 }
 
-echo rex_view::contentBlock($content, '', 'block');
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

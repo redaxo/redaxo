@@ -26,6 +26,9 @@ else
 }
 ?>';
 
+echo rex_view::content('block', rex_string::highlight($mdl_input), rex_i18n::msg('textile_code_for_module_input'));
+
+
 
 $mdl_output = '<?php
 if (rex_addon::get(\'textile\')->isAvailable())
@@ -43,22 +46,4 @@ else
 }
 ?>';
 
-?>
-
-<div class="rex-addon-output">
-    <h2 class="rex-hl2"><?php echo rex_i18n::msg('textile_code_for_module_input'); ?></h2>
-
-    <div class="rex-addon-content">
-        <?php echo rex_string::highlight($mdl_input); ?>
-    </div>
-</div>
-
-<div class="rex-addon-output">
-    <h2 class="rex-hl2"><?php echo rex_i18n::msg('textile_code_for_module_output'); ?></h2>
-
-    <div class="rex-addon-content">
-        <?php echo rex_string::highlight($mdl_output); ?>
-    </div>
-</div>
-
-<?php
+echo rex_view::content('block', rex_string::highlight($mdl_output), rex_i18n::msg('textile_code_for_module_output'));

@@ -32,7 +32,7 @@ if ($step == 1) {
     $content = '<h2>please choose a language</h2>';
     $content .= '<ul class="rex-setup-language">' . implode('', $langs) . '</ul>';
 
-    echo $headline . rex_view::contentBlock($content);
+    echo $headline . rex_view::content("block",$content);
 
 }
 
@@ -52,7 +52,7 @@ if ($step == 2) {
     $content .= '<div class="rex-content-scroll">' . $license . '</div>';
     $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
 
-    echo $headline . rex_view::contentBlock($content);
+    echo $headline . rex_view::content("block",$content);
 
 }
 
@@ -130,7 +130,7 @@ if ($step == 3) {
         $content .= '<p><a class="rex-button" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
     }
 
-    echo $headline . rex_view::contentBlock($content);
+    echo $headline . rex_view::content("block",$content);
 
 }
 
@@ -304,7 +304,7 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/rex_form/form.php');
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
 
@@ -317,14 +317,14 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/rex_form/form.php');
 
 
      $content .= '</fieldset>
             </form>
             </div>';
 
-    echo $headline . rex_view::contentBlock($content, '', 'block');
+    echo $headline . rex_view::content("block",$content, '', 'block');
 }
 
 
@@ -498,7 +498,7 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/rex_form/form.php');
 
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
@@ -511,7 +511,7 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/rex_form/form.php');
 
     $content .= '</fieldset></form></div>
     ';
@@ -528,7 +528,7 @@ if ($step == 5) {
                  //-->
             </script>';
 
-    echo $headline . rex_view::contentBlock($content, '', 'block');
+    echo $headline . rex_view::content("block",$content, '', 'block');
 }
 
 
@@ -647,7 +647,7 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/rex_form/form.php');
 
 
     $content .= '</fieldset><fieldset class="rex-form-action">';
@@ -661,7 +661,7 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/rex_form/form.php');
 
     $content .= '</fieldset></form></div>
 
@@ -682,7 +682,7 @@ if ($step == 6) {
      //-->
     </script>';
 
-    echo $headline . rex_view::contentBlock($content, '', 'block');
+    echo $headline . rex_view::content("block",$content, '', 'block');
 
 }
 
@@ -712,6 +712,6 @@ if ($step == 7) {
 
     $content .= '<p><a class="rex-button" href="' . rex_url::backendController() . '" data-pjax="false">' . rex_i18n::msg('setup_706') . '</a></p>';
 
-    echo $headline . rex_view::contentBlock($content);
+    echo $headline . rex_view::content("block",$content);
 
 }

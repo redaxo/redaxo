@@ -71,12 +71,10 @@ if ($message != '') {
     echo rex_view::info($message);
 }
 
-?>
 
-<div class="rex-addon-output">
-<h2 class="rex-hl2"><?php echo $this->i18n('config_settings'); ?></h2>
 
-<div id="rex-addon-editmode" class="rex-form">
+$content = '
+    <div id="rex-addon-editmode" class="rex-form">
     <form action="" method="post">
 
          <fieldset class="rex-form-col-1">
@@ -85,87 +83,87 @@ if ($message != '') {
 
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="fromname"><?php echo $this->i18n('sender_name'); ?></label>
-            <input type="text" name="settings[fromname]" id="fromname" value="<?php echo $this->getConfig('fromname') ?>" />
+            <label for="fromname">'.$this->i18n('sender_name').'</label>
+            <input type="text" name="settings[fromname]" id="fromname" value="'.$this->getConfig('fromname').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="from"><?php echo $this->i18n('sender_email'); ?></label>
-            <input type="text" name="settings[from]" id="from" value="<?php echo $this->getConfig('from') ?>" />
+            <label for="from">'.$this->i18n('sender_email').'</label>
+            <input type="text" name="settings[from]" id="from" value="'.$this->getConfig('from').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="confirmto"><?php echo $this->i18n('confirm'); ?></label>
-            <input type="text" name="settings[confirmto]" id="confirmto" value="<?php echo $this->getConfig('confirmto') ?>" />
+            <label for="confirmto">'.$this->i18n('confirm').'</label>
+            <input type="text" name="settings[confirmto]" id="confirmto" value="'.$this->getConfig('confirmto').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="bcc"><?php echo $this->i18n('bcc'); ?></label>
-            <input type="text" name="settings[bcc]" id="bcc" value="<?php echo $this->getConfig('bcc') ?>" />
+            <label for="bcc">'.$this->i18n('bcc').'</label>
+            <input type="text" name="settings[bcc]" id="bcc" value="'.$this->getConfig('bcc').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-select">
-            <label for="mailer"><?php echo $this->i18n('mailertype'); ?></label>
-            <?php $sel_mailer->show(); ?>
+            <label for="mailer">'.$this->i18n('mailertype').'</label>
+            '.$sel_mailer->get().'
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="host"><?php echo $this->i18n('host'); ?></label>
-            <input type="text" name="settings[host]" id="host" value="<?php echo $this->getConfig('host') ?>" />
+            <label for="host">'.$this->i18n('host').'</label>
+            <input type="text" name="settings[host]" id="host" value="'.$this->getConfig('host').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="charset"><?php echo $this->i18n('charset'); ?></label>
-            <input type="text" name="settings[charset]" id="charset" value="<?php echo $this->getConfig('charset') ?>" />
+            <label for="charset">'.$this->i18n('charset').'</label>
+            <input type="text" name="settings[charset]" id="charset" value="'.$this->getConfig('charset').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="wordwrap"><?php echo $this->i18n('wordwrap'); ?></label>
-            <input type="text" name="settings[wordwrap]" id="wordwrap" value="<?php echo $this->getConfig('wordwrap') ?>" />
+            <label for="wordwrap">'.$this->i18n('wordwrap').'</label>
+            <input type="text" name="settings[wordwrap]" id="wordwrap" value="'.$this->getConfig('wordwrap').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-select">
-            <label for="encoding"><?php echo $this->i18n('encoding'); ?></label>
-            <?php $sel_encoding->show(); ?>
+            <label for="encoding">'.$this->i18n('encoding').'</label>
+            '.$sel_encoding->get().'
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-select">
-            <label for="priority"><?php echo $this->i18n('priority'); ?></label>
-            <?php $sel_priority->show(); ?>
+            <label for="priority">'.$this->i18n('priority').'</label>
+            '.$sel_priority->get().'
         </p>
         </div>
         <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">
-                    <label for="smtpauth"><?php echo $this->i18n('SMTPAuth'); ?></label>
-                    <?php $sel_smtpauth->show(); ?>
+              <label for="smtpauth">'.$this->i18n('SMTPAuth').'</label>
+              '.$sel_smtpauth->get().'
             </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="Username"><?php echo $this->i18n('Username'); ?></label>
-            <input type="text" name="settings[username]" id="Username" value="<?php echo $this->getConfig('username') ?>" />
+            <label for="Username">'.$this->i18n('Username').'</label>
+            <input type="text" name="settings[username]" id="Username" value="'.$this->getConfig('username').'" />
         </p>
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
-            <label for="Password"><?php echo $this->i18n('Password'); ?></label>
-            <input type="text" name="settings[password]" id="Password" value="<?php echo $this->getConfig('password') ?>" />
+            <label for="Password">'.$this->i18n('Password').'</label>
+            <input type="text" name="settings[password]" id="Password" value="'.$this->getConfig('password').'" />
         </p>
         </div>
 
         <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-submit">
-                 <input class="rex-form-submit" type="submit" name="btn_save" value="<?php echo $this->i18n('save'); ?>" />
-                 <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="<?php echo $this->i18n('reset'); ?>" data-confirm="<?php echo $this->i18n('reset_info'); ?>"/>
+                 <input class="rex-form-submit" type="submit" name="btn_save" value="'.$this->i18n('save').'" />
+                 <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="'.$this->i18n('reset').'" data-confirm="'.$this->i18n('reset_info').'"/>
             </p>
         </div>
 
@@ -173,6 +171,7 @@ if ($message != '') {
 
          </fieldset>
     </form>
-</div>
+    </div>';
 
-</div>
+echo rex_view::content('block', $content, $this->i18n('config_settings'));
+

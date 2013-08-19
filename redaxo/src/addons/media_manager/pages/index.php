@@ -14,7 +14,7 @@
 $subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
 
-echo rex_view::title('Media Manager');
+echo rex_view::title(rex_i18n::msg("media_manager"));
 
 if ($func == 'clear_cache') {
     $c = rex_media_manager::deleteCache();

@@ -341,10 +341,8 @@ pre, code, tt, .rex-code {
 
 
 
-a.rex-edit,
-a.rex-delete,
-a.rex-offline,
-a.rex-online {
+a.rex-link,
+span.rex-status {
     font-weight: bold;
 }
 .rex-disabled,
@@ -445,6 +443,11 @@ h2 {
     content: "]";
     opacity: .6;
 }
+.rex-bucket h2 b {
+    float: right;
+    font-size: large;
+    line-height: 1;
+}
 .rex-bucket h3 {
     display: block;
     margin: 10px 0;
@@ -503,7 +506,7 @@ h2 {
     font-size: 14px;
     white-space: nowrap;
 }
-.rex-table th:first-child {
+.rex-table thead th:first-child {
     text-align: center;
 }
 .rex-table tr.rex-startarticle .rex-id,
@@ -523,6 +526,12 @@ h2 {
 }
 .rex-table th.rex-function {
     width: 25%;
+}
+.rex-table th.rex-function.rex-slim {
+    width: 15%;
+}
+.rex-table th.rex-function.rex-large {
+    width: 35%;
 }
 .rex-table .rex-id,
 .rex-table .rex-slim {
@@ -550,6 +559,12 @@ h2 {
 }
 .rex-table-striped tr:nth-child(odd) td {
     background-color: #fff;
+}
+
+.rex-table tbody th {
+    background: none;
+    font-size: inherit;
+    text-align: left;
 }
 
 
@@ -789,10 +804,6 @@ h2 {
 
 
 
-.rex-description {
-    font-size: 12px;
-    opacity: .6;
-}
 .rex-drop-item .rex-description {
     opacity: .8;
 }

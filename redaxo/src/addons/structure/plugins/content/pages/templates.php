@@ -499,4 +499,4 @@ if ($OUT) {
 }
 
 echo $message;
-echo rex_view::contentBlock($content);
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

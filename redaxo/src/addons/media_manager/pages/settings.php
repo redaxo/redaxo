@@ -26,14 +26,12 @@ if ($func == 'update') {
     }
 
     $this->setConfig('jpg_quality', $jpg_quality);
-    $content = rex_view::info($this->i18n('config_saved'));
+    echo rex_view::info($this->i18n('config_saved'));
 
 }
 
 $content .= '
 <div class="rex-form">
-
-    <h2>' . $this->i18n('subpage_config') . '</h2>
 
     <form action="' . rex_url::currentBackendPage() . '" method="post">
     <fieldset class="rex-form-col-1">
@@ -57,4 +55,4 @@ $content .= '
     </form>
 </div>';
 
-echo rex_view::contentBlock($content);
+echo rex_view::content('block', $content, $this->i18n('subpage_config'));

@@ -46,14 +46,14 @@ if ($subpage == 'help') {
         $content .= ob_get_clean();
     }
 
-    echo rex_view::contentBlock($content, '', false);
+    echo rex_view::content('block', $content);
 
 
     $content = '';
     $content .= '<h2>' . rex_i18n::msg('credits') . '</h2>';
     $content .= $credits;
 
-    echo rex_view::contentBlock($content, '', false);
+    echo rex_view::content('block', $content);
 
     echo '<a class="rex-back" href="javascript:history.back();"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('package_back') . '</a>';
 
@@ -159,5 +159,5 @@ if ($subpage == '') {
             </table>';
 
 
-    echo rex_view::contentBlock($content);
+    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
 }

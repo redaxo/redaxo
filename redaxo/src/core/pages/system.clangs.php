@@ -87,7 +87,7 @@ $content .= '
                     <th class="rex-id">ID</th>
                     <th class="rex-code">' . rex_i18n::msg('clang_code') . '</th>
                     <th class="rex-name">' . rex_i18n::msg('clang_name') . '</th>
-                    <th class="rex-function">' . rex_i18n::msg('clang_function') . '</th>
+                    <th colspan="2" class="rex-function">' . rex_i18n::msg('clang_function') . '</th>
                 </tr>
             </thead>
             <tbody>
@@ -102,7 +102,7 @@ if ($func == 'addclang') {
                     <td class="rex-id">–</td>
                     <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" autofocus /></td>
                     <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($clang_name) . '" /></td>
-                    <td class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
+                    <td colspan="2" class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
                 </tr>
             ';
 }
@@ -111,7 +111,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
     $add_td = '';
     $add_td = '<td class="rex-id">' . $lang_id . '</td>';
 
-    $delLink = rex_i18n::msg('clang_delete');
+    $delLink = rex_i18n::msg('delete');
     if ($lang_id == 0) {
      $delLink = '<span class="rex-delete rex-disabled">' . $delLink . '</span>';
     } else {
@@ -126,7 +126,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                         ' . $add_td . '
                         <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" autofocus /></td>
                         <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($lang->getName()) . '" /></td>
-                        <td class="rex-save"><button class="rex-button" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
+                        <td colspan="2" class="rex-save"><button class="rex-button" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
                     </tr>';
 
     } else {
@@ -137,7 +137,8 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                         <td class="rex-slim"><a href="' . $editLink . '" title="' . htmlspecialchars($clang_name) . '"><span class="rex-icon rex-icon-language"></span></a></td>
                         ' . $add_td . '
                         <td class="rex-code">' . htmlspecialchars($lang->getCode()) . '</td>
-                        <td class="rex-name"><a href="' . $editLink . '">' . htmlspecialchars($lang->getName()) . '</a></td>
+                        <td class="rex-name">' . htmlspecialchars($lang->getName()) . '</td>
+                        <td class="rex-edit"><a class="rex-edit" href="' . $editLink . '">' . rex_i18n::msg('edit'). '</a></td>
                         <td class="rex-delete">' . $delLink . '</td>
                     </tr>';
     }
@@ -157,4 +158,4 @@ $content .= '
             </div>';
 
 echo $message;
-echo rex_view::contentBlock($content);
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

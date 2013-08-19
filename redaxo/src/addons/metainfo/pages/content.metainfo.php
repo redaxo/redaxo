@@ -1,6 +1,6 @@
 <?php
 
-$content .= '
+$content = '
                 <div class="rex-form" id="rex-form-content-metamode">
                     <form action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" id="REX_FORM">
                         <fieldset>
@@ -33,4 +33,4 @@ $content .= '
                                     </form>
                                 </div>';
 
-echo rex_view::contentBlock($content);
+echo rex_view::content('block',$content);

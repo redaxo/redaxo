@@ -244,7 +244,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('core/form/submit.php');
 
-        $echo .= rex_view::contentBlock($content);
+        $echo .= rex_view::content('block', $content, '', $params = ['flush' => true]);
 
 
         if ($function == 'edit') {
@@ -343,7 +343,7 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('elements', $formElements, false);
                 $content .= $fragment->parse('core/form/submit.php');
 
-                $echo .= rex_view::contentBlock($content);
+                $echo .= rex_view::content('block', $content, '', $params = ['flush' => true]);
             }
         }
 
@@ -402,5 +402,5 @@ if ($OUT) {
     $content .= $list->get();
 
     echo $message;
-    echo rex_view::contentBlock($content);
+    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
 }
