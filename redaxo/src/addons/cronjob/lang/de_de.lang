@@ -75,6 +75,3 @@ cronjob_log_no_data = Keine Daten vorhanden.
 cronjob_log_caption_1 = Liste der ausgeführten Cronjobs im {0} {1}
 cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
 cronjob_log_message = Meldung
-
-cronjob_dashboard_block = Protokoll
-cronjob_dashboard_component_title = Zuletzt ausgeführte Cronjobs

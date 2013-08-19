@@ -1,8 +1,0 @@
-package: be_dashboard/rss_reader
-version: '5.0-alpha7'
-author: 'Markus Staab'
-supportpage: www.redaxo.org/de/forum/
-
-requires:
-    php:
-        extensions: [xml]

@@ -1,9 +1,0 @@
-package: be_dashboard
-version: '5.0-alpha7'
-author: Markus Staab
-supportpage: www.redaxo.org/de/forum/
-
-page:
-    title: Dashboard
-    perm: be_dashboard[]
-    block: system

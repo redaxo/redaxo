@@ -422,7 +422,6 @@ jQuery(function($){
 
 
 // cookie functions
-// necessary for be_dashboard
 
 function setCookie(name, value, expires, path, domain, secure) {
     if (typeof expires != undefined && expires == "never") {
