@@ -243,4 +243,3 @@ if ($func == '' && $type_id > 0) {
     $content = $form->get();
     echo rex_view::content('block', $content, '', $params = ['flush' => true]);
 }
-

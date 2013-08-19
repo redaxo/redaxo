@@ -215,20 +215,20 @@ class rex_view
      * @param string $title
      * @return string
      */
-    public static function content($key = 'block', $content, $title = '', $params = array())
+    public static function content($key = 'block', $content, $title = '', $params = [])
     {
-    
-        if(!is_array($content)) {
-          $content = array($content);
+
+        if (!is_array($content)) {
+          $content = [$content];
         }
 
         $fragment = new rex_fragment();
         $fragment->setVar('content', $content, false);
         $fragment->setVar('title', $title, false);
         $fragment->setVar('params', $params, false);
-        return $fragment->parse('core/content/'.$key.'.php');
+        return $fragment->parse('core/content/' . $key . '.php');
     }
-    
+
 
     /**
      * Returns the formatted title

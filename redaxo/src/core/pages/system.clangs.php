@@ -138,7 +138,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                         ' . $add_td . '
                         <td class="rex-code">' . htmlspecialchars($lang->getCode()) . '</td>
                         <td class="rex-name">' . htmlspecialchars($lang->getName()) . '</td>
-                        <td class="rex-edit"><a class="rex-edit" href="' . $editLink . '">' . rex_i18n::msg('edit'). '</a></td>
+                        <td class="rex-edit"><a class="rex-edit" href="' . $editLink . '">' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-delete">' . $delLink . '</td>
                     </tr>';
     }

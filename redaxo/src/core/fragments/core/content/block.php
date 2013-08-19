@@ -1,14 +1,14 @@
 <?php
 
-$class_1 = array('rex-content', 'rex-bucket');
-if (isset($this->params["flush"])) {
-    $class_1[] = 'rex-flush'; 
+$class_1 = ['rex-content', 'rex-bucket'];
+if (isset($this->params['flush'])) {
+    $class_1[] = 'rex-flush';
 }
 
-$class_2 = array('rex-content-inner', 'rex-bucket-inner');
+$class_2 = ['rex-content-inner', 'rex-bucket-inner'];
 
-echo '<section class="' . implode(' ',$class_1) . '">
-  <div class="' . implode(' ',$class_2) . '">';
+echo '<section class="' . implode(' ', $class_1) . '">
+  <div class="' . implode(' ', $class_2) . '">';
 
 if ($this->title != '') {
      echo '<h2>' . $this->title . '</h2>';
@@ -22,23 +22,21 @@ if (count($this->content) == 1) {
 
 } else {
 
-    echo '<div class="rex-grid'.count($this->content).'col">';
+    echo '<div class="rex-grid' . count($this->content) . 'col">';
     $counter = 0;
     foreach ($this->content as $content) {
       $counter++;
-      $class = array('rex-column');
-      if($counter == 1) {
+      $class = ['rex-column'];
+      if ($counter == 1) {
           $class[] = 'rex-first';
       }
-      if($counter == count($this->content)) {
+      if ($counter == count($this->content)) {
           $class[] = 'rex-last';
       }
-      echo '<div class="'.implode(' ',$class).'">' . $content . '</div>';
+      echo '<div class="' . implode(' ', $class) . '">' . $content . '</div>';
     }
     echo '</div>';
 }
 
 echo '</div>
       </section>';
-
-?>

@@ -189,4 +189,4 @@ $content .= '<div class="rex-form-row">
             </div>';
 
 
-echo rex_view::content('block',$content);
+echo rex_view::content('block', $content);

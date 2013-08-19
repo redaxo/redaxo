@@ -264,4 +264,3 @@ if ($addonkey && isset($addons[$addonkey])) {
     echo rex_view::content('block', $content, '', $params = ['flush' => true]);
 
 }
-

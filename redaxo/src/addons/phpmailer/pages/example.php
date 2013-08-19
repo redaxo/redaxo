@@ -50,4 +50,3 @@ foreach(\$sql as \$row)
 EOD;
 
 echo rex_view::content('block', rex_string::highlight($mdl_ex), $this->i18n('example_headline'));
-

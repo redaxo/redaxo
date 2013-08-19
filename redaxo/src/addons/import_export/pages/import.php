@@ -98,27 +98,27 @@ if ($warning != '') {
 
 
 $content = '
-            <p>'.rex_i18n::msg('im_export_intro_import').'</p>
+            <p>' . rex_i18n::msg('im_export_intro_import') . '</p>
 
             <div class="rex-form" id="rex-form-import-data">
-                <form action="'.rex_url::currentBackendPage().'" enctype="multipart/form-data" method="post" data-confirm="'.rex_i18n::msg('im_export_proceed_db_import').'">
+                <form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">
 
                     <fieldset class="rex-form-col-1">
 
-                        <legend>'.rex_i18n::msg('im_export_database').'</legend>
+                        <legend>' . rex_i18n::msg('im_export_database') . '</legend>
 
                         <div class="rex-form-wrapper">
                             <input type="hidden" name="function" value="dbimport" />
 
                             <div class="rex-form-row">
                                 <p class="rex-form-file">
-                                    <label for="importdbfile">'.rex_i18n::msg('im_export_database').'</label>
+                                    <label for="importdbfile">' . rex_i18n::msg('im_export_database') . '</label>
                                     <input class="rex-form-file" type="file" id="importdbfile" name="FORM[importfile]" size="18" />
                                 </p>
                             </div>
                             <div class="rex-form-row">
                                 <p class="rex-form-submit">
-                                    <input type="submit" class="rex-form-submit" value="'.rex_i18n::msg('im_export_db_import').'" />
+                                    <input type="submit" class="rex-form-submit" value="' . rex_i18n::msg('im_export_db_import') . '" />
                                 </p>
                             </div>
                         </div>
@@ -126,21 +126,21 @@ $content = '
                 </form>
             </div>';
 
-echo rex_view::content('block',$content);
+echo rex_view::content('block', $content);
 
 $content = '
             <table class="rex-table">
-                <caption>'.rex_i18n::msg('im_export_export_db_caption').'</caption>
+                <caption>' . rex_i18n::msg('im_export_export_db_caption') . '</caption>
                 <colgroup>
                     <col width="*" />
                     <col width="15%" span="3"/>
                 </colgroup>
                 <thead>
                     <tr>
-                        <th>'.rex_i18n::msg('im_export_filename').'</th>
-                        <th>'.rex_i18n::msg('im_export_filesize').'</th>
-                        <th>'.rex_i18n::msg('im_export_createdate').'</th>
-                        <th colspan="2">'.rex_i18n::msg('im_export_function').'</th>
+                        <th>' . rex_i18n::msg('im_export_filename') . '</th>
+                        <th>' . rex_i18n::msg('im_export_filesize') . '</th>
+                        <th>' . rex_i18n::msg('im_export_createdate') . '</th>
+                        <th colspan="2">' . rex_i18n::msg('im_export_function') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -167,29 +167,29 @@ $content .= '
                 </tbody>
             </table>';
 
-echo rex_view::content('block',$content,'',array('flush' => 1));
+echo rex_view::content('block', $content, '', ['flush' => 1]);
 
 
 $content = '
 
             <!-- FILE IMPORT -->
             <div class="rex-form" id="rex-form-import-files">
-                <form action="'.rex_url::currentBackendPage().'" enctype="multipart/form-data" method="post" data-confirm="'.rex_i18n::msg('im_export_proceed_file_import').'" >
+                <form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '" >
                     <fieldset class="rex-form-col-1">
-                        <legend>'.rex_i18n::msg('im_export_files').'</legend>
+                        <legend>' . rex_i18n::msg('im_export_files') . '</legend>
 
                         <div class="rex-form-wrapper">
                             <input type="hidden" name="function" value="fileimport" />
 
                             <div class="rex-form-row">
                                 <p class="rex-form-file">
-                                    <label for="importtarfile">'.rex_i18n::msg('im_export_files').'</label>
+                                    <label for="importtarfile">' . rex_i18n::msg('im_export_files') . '</label>
                                     <input class="rex-form-file" type="file" id="importtarfile" name="FORM[importfile]" size="18" />
                                 </p>
                             </div>
                             <div class="rex-form-row">
                                 <p class="rex-form-submit">
-                                    <input class="rex-form-submit" type="submit" value="'.rex_i18n::msg('im_export_db_import').'" />
+                                    <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('im_export_db_import') . '" />
                                 </p>
                             </div>
                         </div>
@@ -197,21 +197,21 @@ $content = '
                 </form>
             </div>';
 
-echo rex_view::content('block',$content);
+echo rex_view::content('block', $content);
 
 $content = '
         <table class="rex-table">
-            <caption>'.rex_i18n::msg('im_export_export_file_caption').'</caption>
+            <caption>' . rex_i18n::msg('im_export_export_file_caption') . '</caption>
             <colgroup>
                 <col width="*" />
                 <col width="15%" span="3"/>
             </colgroup>
             <thead>
                 <tr>
-                    <th>'.rex_i18n::msg('im_export_filename').'</th>
-                    <th>'.rex_i18n::msg('im_export_filesize').'</th>
-                    <th>'.rex_i18n::msg('im_export_createdate').'</th>
-                    <th colspan="2">'.rex_i18n::msg('im_export_function').'</th>
+                    <th>' . rex_i18n::msg('im_export_filename') . '</th>
+                    <th>' . rex_i18n::msg('im_export_filesize') . '</th>
+                    <th>' . rex_i18n::msg('im_export_createdate') . '</th>
+                    <th colspan="2">' . rex_i18n::msg('im_export_function') . '</th>
                 </tr>
             </thead>
             <tbody>';
@@ -239,7 +239,4 @@ $content .= '
             </table>
         ';
 
-echo rex_view::content('block',$content, '', array('flush' => 1));
-
-?>
-
+echo rex_view::content('block', $content, '', ['flush' => 1]);
