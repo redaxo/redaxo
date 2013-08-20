@@ -8,7 +8,7 @@ $opener_input_field_name = rex_request('opener_input_field_name', 'string');
 $category_id = rex_request('category_id', 'int');
 $category_id = rex_category::get($category_id) ? $category_id : 0;
 $clang = rex_request('clang', 'int');
-$clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
+$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
 
 $context = new rex_context([

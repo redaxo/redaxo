@@ -5,11 +5,12 @@ CREATE TABLE `rex_clang` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `code` varchar(255) NOT NULL,
     `name` varchar(255) NOT NULL,
+    `priority` int(10) unsigned NOT NULL,
     `revision` int(10) unsigned NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `rex_clang` VALUES (1, 'de', 'deutsch', 0);
+INSERT INTO `rex_clang` VALUES (1, 'de', 'deutsch', 1, 0);
 
 CREATE TABLE `rex_config` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

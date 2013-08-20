@@ -42,7 +42,7 @@ if (rex::isBackend() && rex::getUser()) {
 
         $category_id = rex_category::get($category_id) ? $category_id : 0;
         $article_id = rex_article::get($article_id) ? $article_id : 0;
-        $clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
+        $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
         // TODO - CHECK PERM
         $context = new rex_context([
@@ -78,7 +78,7 @@ if (rex::isBackend() && rex::getUser()) {
 
 rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
     $firstLang = rex_sql::factory();
-    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex::getProperty('start_clang_id')]);
+    $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
     $fields = $firstLang->getFieldnames();
 
     $newLang = rex_sql::factory();
