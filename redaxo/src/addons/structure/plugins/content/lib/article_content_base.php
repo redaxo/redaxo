@@ -408,7 +408,8 @@ class rex_article_content_base
     protected function getStreamOutput($path, $content)
     {
         if (!$this->eval) {
-            return "require rex_stream::factory('$path', \n<<<'STREAM_CONTENT'\n" . $content . "\nSTREAM_CONTENT\n);\n";
+            $key = 'EOD_' . strtoupper(sha1(time()));
+            return "require rex_stream::factory('$path', \n<<<'$key'\n$content\n$key\n);\n";
         }
 
         ob_start();
