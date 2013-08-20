@@ -15,19 +15,22 @@ class rex_clang
     private $id;
     private $code;
     private $name;
+    private $priority;
 
     /**
      * Constructor
      *
-     * @param integer $id   Clang id
-     * @param string  $code Clang code
-     * @param string  $name Clang name
+     * @param int    $id       Id
+     * @param string $code     Code
+     * @param string $name     Name
+     * @param int    $priority Priority
      */
-    private function __construct($id, $code, $name)
+    private function __construct($id, $code, $name, $priority)
     {
         $this->id = $id;
         $this->code = $code;
         $this->name = $name;
+        $this->priority = $priority;
     }
 
     /**
@@ -54,6 +57,18 @@ class rex_clang
             return self::$clangs[$id];
         }
         return null;
+    }
+
+    /**
+     * Returns the clang start id
+     *
+     * @return int
+     */
+    public static function getStartId()
+    {
+        foreach (self::getAll() as $id => $clang) {
+            return $id;
+        }
     }
 
     /**
@@ -121,6 +136,16 @@ class rex_clang
     }
 
     /**
+     * Returns the priority
+     *
+     * @return int
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
      * Counts the clangs
      *
      * @return integer
@@ -167,7 +192,7 @@ class rex_clang
             rex_clang_service::generateCache();
         }
         foreach (rex_file::getCache($file) as $id => $clang) {
-            self::$clangs[$id] = new self($id, $clang['code'], $clang['name']);
+            self::$clangs[$id] = new self($id, $clang['code'], $clang['name'], $clang['priority']);
         }
         self::$cacheLoaded = true;
     }
