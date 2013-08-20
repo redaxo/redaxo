@@ -549,15 +549,12 @@ class rex_sql implements Iterator
             $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
         }
 
-        $res = false;
         // isset doesn't work here, because values may also be null
         if (is_array($this->lastRow) && array_key_exists($feldname, $this->lastRow)) {
-            $res = $this->lastRow[$feldname];
-        } else {
-            throw new rex_sql_exception('Field "' . $feldname . '" does not exist in result!');
+            return $this->lastRow[$feldname];
         }
-
-        return $res;
+        trigger_error('Field "' . $feldname . '" does not exist in result!', E_USER_WARNING);
+        return null;
     }
 
     /**
