@@ -136,7 +136,8 @@ class rex_media
      */
     public function getUrl()
     {
-        return rex_url::media($this->getFileName());
+        $url = rex_extension::registerPoint(new rex_extension_point('MEDIA_URL_REWRITE', '', ['media' => $this]));
+        return $url ?: rex_url::media($this->getFileName());
     }
 
     /**
