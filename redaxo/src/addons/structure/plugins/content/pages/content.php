@@ -19,7 +19,7 @@ $slice_id    = rex_request('slice_id',    'int', '');
 $function    = rex_request('function',    'string');
 
 $article_id = rex_article::get($article_id) ? $article_id : 0;
-$clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
+$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
 $article_revision = 0;
 $slice_revision = 0;

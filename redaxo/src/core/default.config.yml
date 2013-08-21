@@ -9,7 +9,6 @@ dirperm: '0775'
 session_duration: 7200
 start_article_id: 1
 notfound_article_id: 1
-start_clang_id: 1
 default_template_id: 1
 lang: de_de
 use_gzip: true

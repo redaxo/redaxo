@@ -22,7 +22,7 @@ $warning = '';
 
 $category_id = rex_category::get($category_id) ? $category_id : 0;
 $article_id = rex_article::get($article_id) ? $article_id : 0;
-$clang = rex_clang::exists($clang) ? $clang : rex::getProperty('start_clang_id');
+$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
 
 
@@ -59,7 +59,7 @@ if (rex_clang::count() > 1) {
         }
     }
 } else {
-    $clang = rex::getProperty('start_clang_id');
+    $clang = rex_clang::getStartId();
 }
 
 

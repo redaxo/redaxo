@@ -83,6 +83,7 @@ clang_edited = Sprache wurde editiert
 clang_deleted = Sprache wurde gelöscht
 clang_code = Code
 clang_name = Name
+clang_priority = Prio
 clang_delete = Sprache löschen
 clang_select = Sprache wählen
 clang_caption = Liste der verfügbaren Sprachen
