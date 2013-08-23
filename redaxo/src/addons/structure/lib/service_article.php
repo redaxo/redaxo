@@ -284,7 +284,7 @@ class rex_article_service
         }
 
         $ART = rex_sql::factory();
-        $ART->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=' . $id . ' and clang_id=1');
+        $ART->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=? and clang_id=?', [$id, rex_clang::getStartId()]);
 
         $message = '';
         if ($ART->getRows() > 0) {
@@ -302,7 +302,7 @@ class rex_article_service
             if ($ART->getValue('startarticle') == 1) {
                 $message = rex_i18n::msg('category_deleted');
                 $SART = rex_sql::factory();
-                $SART->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=' . $id . ' and clang_id=1');
+                $SART->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$id, rex_clang::getStartId()]);
                 for ($i = 0; $i < $SART->getRows(); $i ++) {
                     self::_deleteArticle($id);
                     $SART->next();
@@ -552,7 +552,7 @@ class rex_article_service
 
         // neuen startartikel holen und schauen ob da
         $neu = rex_sql::factory();
-        $neu->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_id and startarticle=0 and clang_id=1");
+        $neu->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$neu_id, rex_clang::getStartId()]);
         if ($neu->getRows() != 1) {
             return false;
         }
@@ -566,7 +566,7 @@ class rex_article_service
 
         // alten startartikel
         $alt = rex_sql::factory();
-        $alt->setQuery('select * from ' . rex::getTablePrefix() . "article where id=$neu_cat_id and startarticle=1 and clang_id=1");
+        $alt->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$neu_cat_id, rex_clang::getStartId()]);
         if ($alt->getRows() != 1) {
             return false;
         }

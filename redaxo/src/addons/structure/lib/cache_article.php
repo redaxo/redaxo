@@ -184,7 +184,7 @@ class rex_article_cache
 
         $GC = rex_sql::factory();
         // $GC->setDebug();
-        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=1 AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parent_id]);
+        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=:clang AND ((parent_id=:id and startarticle=0) OR (id=:id and startarticle=1)) order by priority,name', ['id' => $parent_id, 'clang' => rex_clang::getStartId()]);
 
         $cacheArray = [];
         foreach ($GC as $row) {
@@ -199,7 +199,7 @@ class rex_article_cache
         // --------------------------------------- CAT LIST
 
         $GC = rex_sql::factory();
-        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=:id and clang_id=1 and startarticle=1 order by catpriority,name', ['id' => $parent_id]);
+        $GC->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=:id and clang_id=:clang and startarticle=1 order by catpriority,name', ['id' => $parent_id, 'clang' => rex_clang::getStartId()]);
 
         $cacheArray = [];
         foreach ($GC as $row) {
