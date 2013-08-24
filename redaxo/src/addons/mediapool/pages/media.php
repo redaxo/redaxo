@@ -343,10 +343,8 @@ if ($file_id) {
                 $catname = $Cat->getName();
             }
 
-            if (rex::getUser()->hasPerm('advancedMode[]')) {
-                $ftitle .= ' [' . $file_id . ']';
-                $catname .= ' [' . $rex_file_category . ']';
-            }
+            $ftitle .= ' [' . $file_id . ']';
+            $catname .= ' [' . $rex_file_category . ']';
 
             echo '<h2 class="rex-hl2">' . rex_i18n::msg('pool_file_details') . $opener_link . '</h2>
                         <div class="rex-form" id="rex-form-mediapool-detail">
@@ -653,9 +651,7 @@ if (!$file_id) {
         if ($file_title == '') {
             $file_title = '[' . rex_i18n::msg('pool_file_notitle') . ']';
         }
-        if (rex::getUser()->hasPerm('advancedMode[]')) {
-            $file_title .= ' [' . $file_id . ']';
-        }
+        $file_title .= ' [' . $file_id . ']';
 
         // ----- opener
         $opener_link = '';

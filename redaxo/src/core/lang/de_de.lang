@@ -326,6 +326,3 @@ form_resetted = Eingaben wurden verworfen!
 # clang
 all_clangs = Alle Sprachen
 clangs = Sprachen
-
-# permissions
-perm_options_advancedMode[] = Erweiterte Informationen anzeigen

@@ -94,8 +94,6 @@ if (!rex::isSetup()) {
 
 // ----------------- REX PERMS
 
-rex_perm::register('advancedMode[]', rex_i18n::msg('perm_options_advancedMode[]'), rex_perm::OPTIONS);
-
 rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG

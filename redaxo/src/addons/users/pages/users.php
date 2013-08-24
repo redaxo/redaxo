@@ -17,9 +17,6 @@ clang
 allgemeine zugriffe (array + addons)
     mediapool[]templates[] ...
 
-optionen
-    advancedMode[]
-
 zugriff auf folgende categorien
     csw[2] write
     csr[2] read

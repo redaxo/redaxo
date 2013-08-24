@@ -83,9 +83,7 @@ function rex_structure_searchbar(rex_context $context)
                 $label = $OOArt->getName();
 
                 if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                    if (rex::getUser()->hasPerm('advancedMode[]')) {
-                        $label .= ' [' . $search->getValue('id') . ']';
-                    }
+                    $label .= ' [' . $search->getValue('id') . ']';
 
                     $highlightHit = function ($string, $needle) {
                         return preg_replace(

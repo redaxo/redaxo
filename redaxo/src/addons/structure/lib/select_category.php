@@ -81,11 +81,7 @@ class rex_category_select extends rex_select
                 $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false)
         ) {
             $cid = $cat->getId();
-            $cname = $cat->getName();
-
-            if (rex::getUser()->hasPerm('advancedMode[]')) {
-                $cname .= ' [' . $cid . ']';
-            }
+            $cname = $cat->getName() . ' [' . $cid . ']';
 
             if ($group === null) {
                 $group = $cat->getParentId();

@@ -91,15 +91,13 @@ abstract class rex_linkmap_tree_renderer
         $label = $OOobject->getName();
 
         if (trim($label) == '') {
-        $label = '&nbsp;';
+            $label = '&nbsp;';
         }
 
-        if (rex::getUser()->hasPerm('advancedMode[]')) {
         $label .= ' [' . $OOobject->getId() . ']';
-        }
 
         if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
-        $label .= ' [' . rex_i18n::msg('lmap_has_no_template') . ']';
+            $label .= ' [' . rex_i18n::msg('lmap_has_no_template') . ']';
         }
 
         return $label;

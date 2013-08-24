@@ -257,11 +257,6 @@ if ($function == 'add' or $function == 'edit') {
                 $gma = rex_sql::factory();
                 $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . "module_action.module_id='$module_id'");
 
-                $add_header = '';
-                if (rex::getUser()->hasPerm('advancedMode[]')) {
-                    $add_header = '<th class="rex-slim">' . rex_i18n::msg('id') . '</th>';
-                }
-
                 $actions = '';
                 for ($i = 0; $i < $gma->getRows(); $i++) {
                     $iaction_id = $gma->getValue(rex::getTablePrefix() . 'module_action.id');
@@ -291,7 +286,7 @@ if ($function == 'add' or $function == 'edit') {
                             <thead>
                                 <tr>
                                     <th class="rex-slim">&nbsp;</th>
-                                    ' . $add_header . '
+                                    <th class="rex-slim">' . rex_i18n::msg('id') . '</th>
                                     <th class="rex-name">' . rex_i18n::msg('action_name') . '</th>
                                     <th class="rex-function" colspan="2">' . rex_i18n::msg('action_functions') . '</th>
                                 </tr>

@@ -63,11 +63,7 @@ class rex_media_category_select extends rex_select
                 $this->check_perms && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($mediacat->getId())
         ) {
             $mid = $mediacat->getId();
-            $mname = $mediacat->getName();
-
-            if (rex::getUser()->hasPerm('advancedMode[]')) {
-                $mname .= ' [' . $mid . ']';
-            }
+            $mname = $mediacat->getName() . ' [' . $mid . ']';
 
             $this->addOption($mname, $mid, $mid, $mediacat->getParentId());
             $childs = $mediacat->getChildren();

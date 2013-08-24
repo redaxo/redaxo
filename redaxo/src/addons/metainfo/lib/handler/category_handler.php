@@ -142,12 +142,8 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
     public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
     {
-        $add_td = '';
         $class_td = '';
         $class_tr = '';
-        if (rex::getUser()->hasPerm('advancedMode[]')) {
-            $add_td = '<td></td>';
-        }
 
         $element = $field;
         if ($labelIt) {
@@ -167,7 +163,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $s = '
         <tr class="rex-table-row-activ rex-metainfo-cat' . $class_tr . '" style="display:none;">
             <td></td>
-            ' . $add_td . '
+            <td></td>
             <td colspan="5"' . $class_td . '>
                  <div class="rex-form-row">
                     ' . $element . '

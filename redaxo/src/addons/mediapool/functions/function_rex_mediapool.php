@@ -417,23 +417,17 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $add_file = '';
     if ($file_chooser) {
-        $devInfos = '';
-        if (rex::getUser()->hasPerm('advancedMode[]')) {
-            $devInfos =
-            '<span class="rex-form-notice">
-                 ' . rex_i18n::msg('phpini_settings') . ':<br />
-                 ' . ((rex_ini_get('file_uploads') == 0) ? '<span>' . rex_i18n::msg('pool_upload') . ':</span> <em>' . rex_i18n::msg('pool_upload_disabled') . '</em><br />' : '') . '
-                 <span>' . rex_i18n::msg('pool_max_uploadsize') . ':</span> ' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '<br />
-                 <span>' . rex_i18n::msg('pool_max_uploadtime') . ':</span> ' . rex_ini_get('max_input_time') . 's
-             </span>';
-        }
-
         $add_file = '
                                 <div class="rex-form-row">
                                     <p class="rex-form-file">
                                         <label for="file_new">' . rex_i18n::msg('pool_file_file') . '</label>
                                         <input class="rex-form-file" type="file" id="file_new" name="file_new" size="30" />
-                                        ' . $devInfos . '
+                                        <span class="rex-form-notice">
+                                             ' . rex_i18n::msg('phpini_settings') . ':<br />
+                                             ' . ((rex_ini_get('file_uploads') == 0) ? '<span>' . rex_i18n::msg('pool_upload') . ':</span> <em>' . rex_i18n::msg('pool_upload_disabled') . '</em><br />' : '') . '
+                                             <span>' . rex_i18n::msg('pool_max_uploadsize') . ':</span> ' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '<br />
+                                             <span>' . rex_i18n::msg('pool_max_uploadtime') . ':</span> ' . rex_ini_get('max_input_time') . 's
+                                         </span>
                                     </p>
                                 </div>';
     }
