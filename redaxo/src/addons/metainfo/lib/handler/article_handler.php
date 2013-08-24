@@ -19,6 +19,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         // $article->setDebug();
         $article->setTable(rex::getTablePrefix() . 'article');
         $article->setWhere('id=:id AND clang_id=:clang', ['id' => $params['id'], 'clang' => $params['clang']]);
+        $article->setValue('name', rex_post('meta_article_name', 'string'));
 
         parent::fetchRequestValues($params, $article, $sqlFields);
 
@@ -27,8 +28,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
             $article->update();
         }
 
-        // Artikel nochmal mit den zusätzlichen Werten neu generieren
-        rex_article_cache::generateMeta($params['id'], $params['clang']);
+        rex_article_cache::deleteMeta($params['id'], $params['clang']);
 
         rex_extension::registerPoint(new rex_extension_point('ART_META_UPDATED', '', $params));
 
