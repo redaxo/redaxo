@@ -46,12 +46,17 @@ class rex_metainfo_table_expander extends rex_form
         $qry .= ' ORDER BY priority';
         $sql = rex_sql::factory();
         $sql->setQuery($qry);
+        $value = 1;
         for ($i = 0; $i < $sql->getRows(); $i++) {
+            $value = $sql->getValue('priority') + 1;
             $select->addOption(
-                rex_i18n::msg('minfo_field_after_priority', $sql->getValue('name')),
-                $sql->getValue('priority') + 1
+                rex_i18n::rawMsg('minfo_field_after_priority', $sql->getValue('name')),
+                $value
             );
             $sql->next();
+        }
+        if (!$this->isEditMode()) {
+            $select->setSelected($value);
         }
 
         $field = $this->addTextField('title');

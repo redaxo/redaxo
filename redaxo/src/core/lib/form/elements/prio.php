@@ -65,11 +65,16 @@ class rex_form_prio_element extends rex_form_select_element
         $sql->setQuery($qry);
 
         $this->select->addOption(rex_i18n::msg($this->firstOptionMsg), 1);
+        $value = 1;
         foreach ($sql as $opt) {
+            $value = $opt->getValue($name) + 1;
             $this->select->addOption(
-                rex_i18n::msg($this->optionMsg, $opt->getValue($this->labelField)),
-                $opt->getValue($name) + 1
+                rex_i18n::rawMsg($this->optionMsg, $opt->getValue($this->labelField)),
+                $value
             );
+        }
+        if (!$this->table->isEditMode()) {
+            $this->select->setSelected($value);
         }
 
         return parent::formatElement();
