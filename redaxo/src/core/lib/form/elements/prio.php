@@ -57,7 +57,6 @@ class rex_form_prio_element extends rex_form_select_element
 
         // Im Edit Mode das Feld selbst nicht als Position einfügen
         if ($this->table->isEditMode()) {
-            $sql = $this->table->getSql();
             $qry .= ' AND (' . $name . '!=' . $this->getValue() . ')';
         }
 
