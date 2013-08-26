@@ -19,9 +19,7 @@ rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
         return;
     }
 
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+    rex_login::startSession();
 
     if (!rex_backend_login::hasSession()) {
         throw new rex_exception('no permission for the working version');

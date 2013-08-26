@@ -25,11 +25,9 @@ class rex_login
      */
     public function __construct()
     {
-        if (session_id() == '') {
-            session_start();
-        }
+        self::startSession();
     }
-
+    
     /**
      * Setzt, ob die Ergebnisse der Login-Abfrage
      * pro Seitenaufruf gecached werden sollen
@@ -275,6 +273,23 @@ class rex_login
     {
         session_regenerate_id(true);
     }
+    
+    /**
+     * starts a http-session if not already started
+     */
+    public static function startSession() {
+        if (session_id() == '') {
+            if (@session_start()) {
+                $error = error_get_last();
+                if ($error) {
+                    $message = $error['message'] .' in '. $error['file'] .' on line '. $error['line'];
+                } else {
+                    $message = 'Unable to start session!';
+                }
+                throw new ErrorException($message);
+            }
+        }
+    }    
 
     /**
      * Verschlüsselt den übergebnen String

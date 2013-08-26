@@ -109,9 +109,7 @@ class rex_backend_login extends rex_login
 
     public static function deleteSession()
     {
-        if (session_id() == '') {
-            session_start();
-        }
+        self::startSession()
 
         unset($_SESSION[rex::getProperty('instname')][self::SYSTEM_ID]);
         setcookie('rex_user_' . sha1(rex::getProperty('instname')), '', time() - 3600);
@@ -119,9 +117,7 @@ class rex_backend_login extends rex_login
 
     public static function hasSession()
     {
-        if (session_id() == '') {
-            session_start();
-        }
+        self::startSession()
 
         $instname = rex::getProperty('instname');
 

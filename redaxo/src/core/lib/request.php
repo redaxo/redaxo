@@ -75,7 +75,7 @@ class rex_request
     public static function session($varname, $vartype = '', $default = '')
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call session_start() before!');
+            throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
         if (isset($_SESSION[rex::getProperty('instname')][$varname])) {
@@ -98,7 +98,7 @@ class rex_request
     public static function setSession($varname, $value)
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call session_start() before!');
+            throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
         $_SESSION[rex::getProperty('instname')][$varname] = $value;
@@ -113,7 +113,7 @@ class rex_request
     public static function unsetSession($varname)
     {
         if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call session_start() before!');
+            throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
         unset($_SESSION[rex::getProperty('instname')][$varname]);
