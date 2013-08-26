@@ -240,6 +240,10 @@ abstract class rex_package implements rex_package_interface
         }
         $id = $this->getPackageId();
         $file = $this->getPath(self::FILE_PACKAGE);
+        if (!file_exists($file)) {
+            $this->propertiesLoaded = true;
+            return;
+        }
         if (
             isset($cache[$id]) &&
             (!rex::isBackend() || !($user = rex::getUser()) || !$user->isAdmin() || $cache[$id]['timestamp'] >= filemtime($file))
