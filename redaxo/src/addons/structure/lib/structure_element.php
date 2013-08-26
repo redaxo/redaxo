@@ -366,6 +366,13 @@ abstract class rex_structure_element
     }
 
     /**
+     * Returns whether the element is permitted
+     *
+     * @return bool
+     */
+    abstract public function isPermitted();
+
+    /**
      * Returns a link to this article
      *
      * @param array|string $params             Parameter für den Link

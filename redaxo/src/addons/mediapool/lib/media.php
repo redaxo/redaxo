@@ -330,4 +330,14 @@ class rex_media
             return $this->getValue('med_' . $value);
         }
     }
+
+    /**
+     * Returns whether the element is permitted
+     *
+     * @return bool
+     */
+    public function isPermitted()
+    {
+        return (bool) rex_extension::registerPoint(new rex_extension_point('MEDIA_IS_PERMITTED', true, ['element' => $this]));
+    }
 }

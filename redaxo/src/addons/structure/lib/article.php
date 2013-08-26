@@ -96,4 +96,12 @@ class rex_article extends rex_structure_element
     {
         return parent::_hasValue($value, ['art_']);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isPermitted()
+    {
+        return (bool) rex_extension::registerPoint(new rex_extension_point('ART_IS_PERMITTED', true, ['element' => $this]));
+    }
 }
