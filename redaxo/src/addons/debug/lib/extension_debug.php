@@ -118,7 +118,7 @@ class rex_extension_debug extends rex_extension
                         '–',                // Memory
                         '–',                // subject
                         $entry['params'],   // params
-                        $entry['result'],   // result
+                        '-',                // result
                     ];
                     break;
 
