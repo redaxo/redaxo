@@ -82,24 +82,24 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v2.3.2",
-        "version_normalized": "2.3.2.0",
+        "version": "v2.3.3",
+        "version_normalized": "2.3.3.0",
         "target-dir": "Symfony/Component/Yaml",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Yaml.git",
-            "reference": "v2.3.2"
+            "reference": "3837ccd0830ef44ed5c5844403bf6f69f7998758"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.3.2",
-            "reference": "v2.3.2",
+            "url": "https://api.github.com/repos/symfony/Yaml/zipball/3837ccd0830ef44ed5c5844403bf6f69f7998758",
+            "reference": "3837ccd0830ef44ed5c5844403bf6f69f7998758",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2013-07-11 19:36:36",
+        "time": "2013-07-21 12:12:18",
         "type": "library",
         "extra": {
             "branch-alias": {

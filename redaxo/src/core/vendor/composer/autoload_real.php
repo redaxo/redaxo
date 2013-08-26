@@ -38,7 +38,9 @@ class ComposerAutoloaderInitRedaxoCore
 
         $loader->register(true);
 
-        require $vendorDir . '/ircmaxell/password-compat/lib/password.php';
+        foreach (require __DIR__ . '/autoload_files.php' as $file) {
+            require $file;
+        }
 
         return $loader;
     }
