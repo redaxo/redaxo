@@ -109,4 +109,33 @@ jQuery(function($){
             triggered = false;
         }
     });
+
+    $('#rex-id-search-article-name').typeahead({
+        name: 'structure-search',
+        remote: rex.backendUrl + '?page=structure&rex-api-call=structure_search_content&search_query=%QUERY',
+        prefetch: rex.backendUrl + '?page=structure&rex-api-call=structure_search_structure',
+        limit: 10,
+        
+        header: [
+         '<div class="rex-js-drop rex-dropdown rex-open">',
+           '<div class="rex-drop-container">',
+             '<div class="rex-drop-header">Suchergebnis</div>',
+             '<ul class="rex-drop-list rex-nowrap">',
+        ].join(''),
+        template: [
+               '<li class="rex-drop-item">',
+                 '<a href="#">',
+                   '<span class="rex-icon rex-icon-check"></span>',
+                   '<div class="rex-drop-item-text rex-js-button-text">{{value}} {{tokens}}</div>',
+                 '</a>',
+               '</li>',
+        ].join(''),
+        footer: [
+             '</ul>',
+           '</div>',
+         '</div>',
+        ].join(''),
+        
+        engine: Hogan
+    });
 });
