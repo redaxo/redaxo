@@ -66,9 +66,7 @@ class rex_log_file implements Iterator
      */
     public function current()
     {
-        $data = explode(' | ', $this->currentLine);
-        $timestamp = strtotime(array_shift($data));
-        return new rex_log_entry($timestamp, $data);
+        return rex_log_entry::createFromString($this->currentLine);
     }
 
     /**
@@ -156,6 +154,19 @@ class rex_log_entry
     }
 
     /**
+     * Creates a log entry from string
+     *
+     * @param string $string Log line
+     * @return rex_log_entry
+     */
+    public static function createFromString($string)
+    {
+        $data = array_map('trim', explode(' | ', $string));
+        $timestamp = strtotime(array_shift($data));
+        return new self($timestamp, $data);
+    }
+
+    /**
      * Returns the timestamp
      *
      * @param string $format See {@link rex_formatter::strftime}
@@ -184,6 +195,8 @@ class rex_log_entry
      */
     public function __toString()
     {
-        return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . implode(' | ', $this->data);
+        $data = implode(' | ', array_map('trim', $this->data));
+        $data = str_replace(["\r", "\n"], '', $data);
+        return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
     }
 }
