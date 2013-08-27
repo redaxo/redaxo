@@ -8,40 +8,32 @@
  */
 class rex_log_file implements Iterator
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $path;
 
-    /**
-     * @var resource
-     */
+    /** @var resource */
     private $file;
 
-    /**
-     * @var resource
-     */
+    /** @var resource */
     private $file2;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $second = false;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $pos;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $key;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $currentLine;
+
+    /** @var string */
+    private $buffer;
+
+    /** @var int */
+    private $bufferPos;
 
     /**
      * Constructor
@@ -82,15 +74,16 @@ class rex_log_file implements Iterator
      */
     public function next()
     {
-        $file = $this->second ? $this->file2 : $this->file;
-        if (-1 === fseek($file, $this->pos, SEEK_END)) {
+        static $bufferSize = 500;
+
+        if ($this->pos < 0) {
             $path2 = $this->path . '.2';
             if (!$this->second && ($this->file2 || file_exists($path2))) {
                 if (!$this->file2) {
                     $this->file2 = fopen($path2, 'rb');
                 }
                 $this->second = true;
-                $this->pos = 0;
+                $this->pos = null;
                 $this->next();
                 return;
             }
@@ -98,18 +91,37 @@ class rex_log_file implements Iterator
             $this->key = null;
             return;
         }
+
+        $file = $this->second ? $this->file2 : $this->file;
+        if (is_null($this->pos)) {
+            fseek($file, 0, SEEK_END);
+            $this->pos = (int) (ftell($file) / $bufferSize) * $bufferSize;
+        }
+
         $line = '';
-        do {
-            $char = fgetc($file);
-            if ("\n" !== $char) {
-                if ("\r" !== $char) {
-                    $line = $char . $line;
-                }
-            } elseif ($line = trim($line)) {
-                break;
+        while ($this->pos >= 0) {
+            if ($this->bufferPos < 0) {
+                fseek($file, $this->pos);
+                $this->buffer = fread($file, $bufferSize);
+                $this->bufferPos = strlen($this->buffer) - 1;
             }
-            $this->pos--;
-        } while (-1 !== fseek($file, $this->pos, SEEK_END));
+            for (; $this->bufferPos >= 0; $this->bufferPos--) {
+                $char = $this->buffer[$this->bufferPos];
+                if ("\n" !== $char) {
+                    if ("\r" !== $char) {
+                        $line = $char . $line;
+                    }
+                } elseif ($line = trim($line)) {
+                    $this->bufferPos--;
+                    break 2;
+                }
+            }
+            $this->pos -= $bufferSize;
+        }
+        if (!$line = trim($line)) {
+            $this->next();
+            return;
+        }
         $this->key++;
         $this->currentLine = $line;
     }
@@ -136,8 +148,9 @@ class rex_log_file implements Iterator
     public function rewind()
     {
         $this->second = false;
-        $this->pos = 0;
+        $this->pos = null;
         $this->key = -1;
+        $this->bufferPos = -1;
         $this->next();
     }
 
@@ -161,14 +174,10 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $timestamp;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $data;
 
     /**
