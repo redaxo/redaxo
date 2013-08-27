@@ -22,12 +22,12 @@ class rex_logger_debug extends rex_logger
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
-        $level = self::getLogLevel($level);
+        $levelType = is_int($level) ? self::getLogLevel($level) : $level;
         $firephp = FirePHP::getInstance(true);
 
-        if (in_array($level, [LogLevel::NOTICE, LogLevel::INFO])) {
+        if (in_array($levelType, [LogLevel::NOTICE, LogLevel::INFO])) {
             $firephp->log($message);
-        } elseif (in_array($level, [LogLevel::WARNING])) {
+        } elseif (in_array($levelType, [LogLevel::WARNING])) {
             $firephp->warn($message);
         } else {
             $firephp->error($message);
