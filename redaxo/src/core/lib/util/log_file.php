@@ -114,6 +114,9 @@ class rex_log_file implements Iterator
                     }
                 } elseif ($line = trim($line)) {
                     $this->bufferPos--;
+                    if ($this->bufferPos < 0) {
+                        $this->pos -= $bufferSize;
+                    }
                     break 2;
                 }
             }
