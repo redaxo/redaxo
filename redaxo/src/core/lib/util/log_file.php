@@ -83,7 +83,7 @@ class rex_log_file implements Iterator
      */
     public function valid()
     {
-        return !is_null($this->currentLine);
+        return !empty($this->currentLine);
     }
 
     /**
@@ -94,7 +94,6 @@ class rex_log_file implements Iterator
         $this->file->fseek(0, SEEK_END);
         $this->pos = 0;
         $this->key = -1;
-        $this->currentLine = '';
         $this->next();
     }
 }
