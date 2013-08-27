@@ -44,6 +44,7 @@ class rex_log_file implements Iterator
     public function __construct($path, $maxFileSize = null)
     {
         $this->path = $path;
+        rex_dir::create(dirname($path));
         if ($maxFileSize && filesize($path) > $maxFileSize) {
             rename($path, $path . '.2');
         }
