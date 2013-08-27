@@ -17,7 +17,7 @@ if ($func == 'delLog') {
     // so we can safely delete the file
     rex_logger::close();
 
-    if (rex_file::delete($logFile)) {
+    if (rex_log_file::delete($logFile)) {
         $success = rex_i18n::msg('syslog_deleted');
     } else {
         $error = rex_i18n::msg('syslog_delete_error');

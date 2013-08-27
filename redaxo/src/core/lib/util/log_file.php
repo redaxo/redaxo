@@ -9,9 +9,24 @@
 class rex_log_file implements Iterator
 {
     /**
-     * @var SplFileObject
+     * @var string
+     */
+    private $path;
+
+    /**
+     * @var resource
      */
     private $file;
+
+    /**
+     * @var resource
+     */
+    private $file2;
+
+    /**
+     * @var bool
+     */
+    private $second = false;
 
     /**
      * @var int
@@ -33,21 +48,14 @@ class rex_log_file implements Iterator
      *
      * @param string   $path        File path
      * @param int|null $maxFileSize Maximum file size
-     * @param int      $deleteLines Amount of lines which will be deleted if $maxFileSize is reached
      */
-    public function __construct($path, $maxFileSize = null, $deleteLines = 10000)
+    public function __construct($path, $maxFileSize = null)
     {
-        $this->file = new SplFileObject($path, 'a+b');
-        if ($maxFileSize && $this->file->getSize() > $maxFileSize) {
-            $temp = new SplTempFileObject();
-            foreach (new LimitIterator($this->file, $deleteLines) as $line) {
-                $temp->fwrite($line);
-            }
-            $this->file->ftruncate(0);
-            foreach ($temp as $line) {
-                $this->file->fwrite($line);
-            }
+        $this->path = $path;
+        if ($maxFileSize && filesize($path) > $maxFileSize) {
+            rename($path, $path . '.2');
         }
+        $this->file = fopen($path, 'a+b');
     }
 
     /**
@@ -57,8 +65,8 @@ class rex_log_file implements Iterator
      */
     public function add(array $data)
     {
-        $this->file->fseek(0, SEEK_END);
-        $this->file->fwrite(new rex_log_entry(time(), $data) . "\n");
+        fseek($this->file, 0, SEEK_END);
+        fwrite($this->file, new rex_log_entry(time(), $data) . "\n");
     }
 
     /**
@@ -74,14 +82,25 @@ class rex_log_file implements Iterator
      */
     public function next()
     {
-        if (-1 === $this->file->fseek($this->pos, SEEK_END)) {
+        $file = $this->second ? $this->file2 : $this->file;
+        if (-1 === fseek($file, $this->pos, SEEK_END)) {
+            $path2 = $this->path . '.2';
+            if (!$this->second && ($this->file2 || file_exists($path2))) {
+                if (!$this->file2) {
+                    $this->file2 = fopen($path2, 'rb');
+                }
+                $this->second = true;
+                $this->pos = 0;
+                $this->next();
+                return;
+            }
             $this->currentLine = null;
             $this->key = null;
             return;
         }
         $line = '';
         do {
-            $char = $this->file->fgetc();
+            $char = fgetc($file);
             if ("\n" !== $char) {
                 if ("\r" !== $char) {
                     $line = $char . $line;
@@ -90,7 +109,7 @@ class rex_log_file implements Iterator
                 break;
             }
             $this->pos--;
-        } while (-1 !== $this->file->fseek($this->pos, SEEK_END));
+        } while (-1 !== fseek($file, $this->pos, SEEK_END));
         $this->key++;
         $this->currentLine = $line;
     }
@@ -116,10 +135,21 @@ class rex_log_file implements Iterator
      */
     public function rewind()
     {
-        $this->file->fseek(0, SEEK_END);
+        $this->second = false;
         $this->pos = 0;
         $this->key = -1;
         $this->next();
+    }
+
+    /**
+     * Deletes a log file
+     *
+     * @param string $path File path
+     * @return bool
+     */
+    public static function delete($path)
+    {
+        return rex_file::delete($path) && rex_file::delete($path . '.2');
     }
 }
 
