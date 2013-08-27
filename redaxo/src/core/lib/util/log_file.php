@@ -8,11 +8,33 @@
  */
 class rex_log_file implements Iterator
 {
+    /**
+     * @var SplFileObject
+     */
     private $file;
+
+    /**
+     * @var int
+     */
     private $pos;
+
+    /**
+     * @var int
+     */
     private $key;
+
+    /**
+     * @var string
+     */
     private $currentLine;
 
+    /**
+     * Constructor
+     *
+     * @param string   $path        File path
+     * @param int|null $maxFileSize Maximum file size
+     * @param int      $deleteLines Amount of lines which will be deleted if $maxFileSize is reached
+     */
     public function __construct($path, $maxFileSize = null, $deleteLines = 10000)
     {
         $this->file = new SplFileObject($path, 'a+b');
@@ -28,6 +50,11 @@ class rex_log_file implements Iterator
         }
     }
 
+    /**
+     * Adds a log entry
+     *
+     * @param array $data Log data
+     */
     public function add(array $data)
     {
         $this->file->fseek(0, SEEK_END);
@@ -106,15 +133,34 @@ class rex_log_file implements Iterator
  */
 class rex_log_entry
 {
+    /**
+     * @var int
+     */
     private $timestamp;
+
+    /**
+     * @var array
+     */
     private $data;
 
+    /**
+     * Constructor
+     *
+     * @param int   $timestamp Timestamp
+     * @param array $data      Log data
+     */
     public function __construct($timestamp, array $data)
     {
         $this->timestamp = $timestamp;
         $this->data = $data;
     }
 
+    /**
+     * Returns the timestamp
+     *
+     * @param string $format See {@link rex_formatter::strftime}
+     * @return int|string Unix timestamp or formatted string if $format is given
+     */
     public function getTimestamp($format = null)
     {
         if (is_null($format)) {
@@ -123,11 +169,19 @@ class rex_log_entry
         return rex_formatter::strftime($this->timestamp, $format);
     }
 
+    /**
+     * Returns the log data
+     *
+     * @return array
+     */
     public function getData()
     {
         return $this->data;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . implode(' | ', $this->data);
