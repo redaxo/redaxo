@@ -39,11 +39,11 @@ $content .= '
             <table id="rex-table-log" class="rex-table rex-table-middle rex-table-striped">
                 <thead>
                     <tr>
-                        <th>timestamp</th>
-                        <th>type</th>
-                        <th>message</th>
-                        <th>file</th>
-                        <th>line</th>
+                        <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
+                        <th>' . rex_i18n::msg('syslog_type') . '</th>
+                        <th>' . rex_i18n::msg('syslog_message') . '</th>
+                        <th>' . rex_i18n::msg('syslog_file') . '</th>
+                        <th>' . rex_i18n::msg('syslog_line') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
