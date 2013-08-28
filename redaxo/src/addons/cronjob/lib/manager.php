@@ -89,7 +89,14 @@ class rex_cronjob_manager
                 $name = '[no name]';
             }
         }
-        rex_cronjob_log::save($name, $success, $message, $this->id);
+        $log = new rex_log_file(rex_path::addonData('cronjob', 'cronjob.log'), 2000000);
+        $data = [
+            ($success ? 'SUCCESS' : 'ERROR'),
+            ($this->id ?: '--'),
+            $name,
+            strip_tags($message)
+        ];
+        $log->add($data);
     }
 
     public function timeout()

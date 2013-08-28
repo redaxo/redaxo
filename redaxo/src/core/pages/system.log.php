@@ -17,46 +17,12 @@ if ($func == 'delLog') {
     // so we can safely delete the file
     rex_logger::close();
 
-    if (rex_file::delete($logFile)) {
+    if (rex_log_file::delete($logFile)) {
         $success = rex_i18n::msg('syslog_deleted');
     } else {
         $error = rex_i18n::msg('syslog_delete_error');
     }
 
-} elseif ($func == 'readlog') {
-    // clear output-buffer
-    while (ob_get_level()) {
-        ob_end_clean();
-    }
-
-    echo '<html><head><style type="text/css">div:nth-child(even) {margin-bottom: 1em;}</style></head><body><code>';
-
-    // log files tend to get very big over time. therefore we read only the last n lines
-    $n = 500;
-    if (file_exists($logFile)) {
-        $fp = fopen($logFile, 'r');
-        if ($fp) {
-            // go backwards from the end of the file
-            // a line in the logfile has round about 500 chars
-            fseek($fp, -1 * $n * 500, SEEK_END);
-            // find the next beginning of a line
-            fgets($fp);
-            // stream all remaining lines
-            while (($buf = fgets($fp)) !== false) {
-                echo $buf;
-            }
-            fclose($fp);
-        }
-    }
-
-    echo '
-        </code>
-        <span id="endmarker" />
-        <script type="text/javascript">
-            document.getElementById("endmarker").scrollIntoView(true);
-        </script>';
-    echo '</body></html>';
-    exit();
 }
 
 $content = '';
@@ -69,9 +35,37 @@ if ($error != '') {
     $content .= rex_view::error($error);
 }
 
-$content .= '<iframe src="' . rex_url::currentBackendPage(['func' => 'readlog']) . '" class="rex-log" width="100%" height="500px"></iframe>';
+$content .= '
+            <table id="rex-table-log" class="rex-table rex-table-middle rex-table-striped">
+                <thead>
+                    <tr>
+                        <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
+                        <th>' . rex_i18n::msg('syslog_type') . '</th>
+                        <th>' . rex_i18n::msg('syslog_message') . '</th>
+                        <th>' . rex_i18n::msg('syslog_file') . '</th>
+                        <th>' . rex_i18n::msg('syslog_line') . '</th>
+                    </tr>
+                </thead>
+                <tbody>';
 
+if ($file = new rex_log_file(rex_path::cache('system.log'))) {
+    foreach (new LimitIterator($file, 0, 30) as $entry) {
+        /* @var rex_log_entry $entry */
+        $data = $entry->getData();
+        $content .= '
+                    <tr>
+                        <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                        <td>' . $data[0] . '</td>
+                        <td>' . $data[1] . '</td>
+                        <td>' . (isset($data[2]) ? $data[2] : '') . '</td>
+                        <td>' . (isset($data[3]) ? $data[3] : '') . '</td>
+                    </tr>';
+    }
+}
 
+$content .= '
+                </tbody>
+            </table>';
 
 $content .= '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
