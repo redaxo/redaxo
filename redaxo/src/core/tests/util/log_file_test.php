@@ -14,14 +14,21 @@ class rex_log_file_test extends PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        new rex_log_file($this->getPath('test1.log'));
+        $path = $this->getPath('test1.log');
+        new rex_log_file($path);
+        $this->assertStringEqualsFile($path, '');
     }
 
     public function testConstructWithMaxFileSize()
     {
-        $content = str_repeat('abc', 5);
         $path = $this->getPath('test2.log');
         $path2 = $path . '.2';
+
+        new rex_log_file($path, 20);
+        $this->assertStringEqualsFile($path, '');
+        $this->assertFileNotExists($path2);
+
+        $content = str_repeat('abc', 5);
         rex_file::put($path, $content);
 
         new rex_log_file($path, 20);

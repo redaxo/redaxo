@@ -45,7 +45,7 @@ class rex_log_file implements Iterator
     {
         $this->path = $path;
         rex_dir::create(dirname($path));
-        if ($maxFileSize && filesize($path) > $maxFileSize) {
+        if ($maxFileSize && file_exists($path) && filesize($path) > $maxFileSize) {
             rename($path, $path . '.2');
         }
         $this->file = fopen($path, 'a+b');
