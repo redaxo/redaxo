@@ -71,61 +71,70 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * Reads the log file backwards line by line (each call reads one line)
      */
     public function next()
     {
         static $bufferSize = 500;
 
         if ($this->pos < 0) {
+            // position is before file start -> look for next file
             $path2 = $this->path . '.2';
-            if (!$this->second && ($this->file2 || file_exists($path2))) {
-                if (!$this->file2) {
-                    $this->file2 = fopen($path2, 'rb');
-                }
-                $this->second = true;
-                $this->pos = null;
-                $this->next();
+            if ($this->second || !$this->file2 && !file_exists($path2)) {
+                // already in file2 or file2 does not exist -> mark currentLine as invalid
+                $this->currentLine = null;
+                $this->key = null;
                 return;
             }
-            $this->currentLine = null;
-            $this->key = null;
-            return;
+            // switch to file2 and reset position
+            if (!$this->file2) {
+                $this->file2 = fopen($path2, 'rb');
+            }
+            $this->second = true;
+            $this->pos = null;
         }
 
+        // get current file
         $file = $this->second ? $this->file2 : $this->file;
+
         if (is_null($this->pos)) {
+            // position is not set -> set start position to start of last buffer
             fseek($file, 0, SEEK_END);
             $this->pos = (int) (ftell($file) / $bufferSize) * $bufferSize;
         }
 
         $line = '';
+        // while position is not before file start
         while ($this->pos >= 0) {
             if ($this->bufferPos < 0) {
+                // read next buffer
                 fseek($file, $this->pos);
                 $this->buffer = fread($file, $bufferSize);
                 $this->bufferPos = strlen($this->buffer) - 1;
             }
+            // read buffer backwards char by char
             for (; $this->bufferPos >= 0; $this->bufferPos--) {
                 $char = $this->buffer[$this->bufferPos];
-                if ("\n" !== $char) {
-                    if ("\r" !== $char) {
-                        $line = $char . $line;
-                    }
-                } elseif ($line = trim($line)) {
+                if ("\n" === $char) {
+                    // line start reached -> prepare bufferPos/pos and jump outside of while-loop
                     $this->bufferPos--;
                     if ($this->bufferPos < 0) {
                         $this->pos -= $bufferSize;
                     }
                     break 2;
+                } elseif ("\r" !== $char) {
+                    // build line; \r is ignored
+                    $line = $char . $line;
                 }
             }
             $this->pos -= $bufferSize;
         }
         if (!$line = trim($line)) {
+            // empty lines are skipped -> read next line
             $this->next();
             return;
         }
+        // found a non-empty line
         $this->key++;
         $this->currentLine = $line;
     }
@@ -159,7 +168,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * Deletes a log file
+     * Deletes a log file and its rotations
      *
      * @param string $path File path
      * @return bool
