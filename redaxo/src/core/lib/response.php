@@ -187,6 +187,10 @@ class rex_response
         header('Content-Length: ' . rex_string::size($content));
 
         echo $content;
+
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        }
     }
 
     /**
