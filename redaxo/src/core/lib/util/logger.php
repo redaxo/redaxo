@@ -13,7 +13,10 @@ class rex_logger extends AbstractLogger
 {
     use rex_factory_trait;
 
-    private static $handle;
+    /**
+     * @var rex_log_file
+     */
+    private static $file;
 
     /**
      * Shorthand: Logs the given Exception
@@ -25,8 +28,8 @@ class rex_logger extends AbstractLogger
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
         } else {
-                    $logger = self::factory();
-            $logger->error('<div><b>' . get_class($exception) . '</b>: ' . $exception->getMessage() . ' in <b>' . $exception->getFile() . '</b> on line <b>' . $exception->getLine() . '</b></div>');
+            $logger = self::factory();
+            $logger->log(get_class($exception), $exception->getMessage(), [], $exception->getFile(), $exception->getLine());
         }
     }
 
@@ -55,7 +58,7 @@ class rex_logger extends AbstractLogger
         }
 
         $logger = self::factory();
-        $logger->log(self::getLogLevel($errno), '<div><b>' . rex_error_handler::getErrorType($errno) . "</b>[$errno]: $errstr in <b>$errfile</b> on line <b>$errline</b></div>");
+        $logger->log(rex_error_handler::getErrorType($errno), $errstr, [], $errfile, $errline);
     }
 
     /**
@@ -64,10 +67,12 @@ class rex_logger extends AbstractLogger
      * @param mixed  $level
      * @param string $message
      * @param array  $context
+     * @param string $file
+     * @param int    $line
      * @throws InvalidArgumentException
      * @return null
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = [], $file = null, $line = null)
     {
         if (static::hasFactoryClass()) {
             static::callFactoryClass(__FUNCTION__, func_get_args());
@@ -79,21 +84,24 @@ class rex_logger extends AbstractLogger
         }
 
         self::open();
-        if (is_resource(self::$handle)) {
-            // build a replacement array with braces around the context keys
-            $replace = [];
-            foreach ($context as $key => $val) {
-                $replace['{' . $key . '}'] = $val;
-            }
-
-            // interpolate replacement values into the message and return
-            $message = strtr($message, $replace);
-
-            fwrite(self::$handle, '<div>' . date('r') . '</div>' . $message . "\n");
-
-            // forward the error into phps' error log
-            error_log($message, 0);
+        // build a replacement array with braces around the context keys
+        $replace = [];
+        foreach ($context as $key => $val) {
+            $replace['{' . $key . '}'] = $val;
         }
+
+        // interpolate replacement values into the message and return
+        $message = strtr($message, $replace);
+
+        $logData = [$level, $message];
+        if ($file && $line) {
+            $logData[] = str_replace(rex_path::base(), '', $file);
+            $logData[] = $line;
+        }
+        self::$file->add($logData);
+
+        // forward the error into phps' error log
+        error_log($message, 0);
     }
 
     /**
@@ -102,14 +110,9 @@ class rex_logger extends AbstractLogger
     public static function open()
     {
         // check if already opened
-        if (!self::$handle) {
+        if (!self::$file) {
             $file = rex_path::cache('system.log');
-            self::$handle = fopen($file, 'ab');
-
-            if (!self::$handle) {
-                echo 'Error while creating logfile ' . $file;
-                exit();
-            }
+            self::$file = new rex_log_file($file, 2000000);
         }
     }
 
@@ -120,9 +123,7 @@ class rex_logger extends AbstractLogger
      */
     public static function close()
     {
-        if (is_resource(self::$handle)) {
-            fclose(self::$handle);
-        }
+        self::$file = null;
     }
 
     /**
@@ -153,6 +154,9 @@ class rex_logger extends AbstractLogger
         }
     }
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         $class = self::getFactoryClass();
