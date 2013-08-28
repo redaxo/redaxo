@@ -34,11 +34,7 @@ if (rex::isBackend()) {
         $article->setCLang(rex_clang::getCurrentId());
 
         if ($article->setArticleId(rex::getProperty('article_id'))) {
-            if (rex_request::isPJAXRequest()) {
-                $content .= $article->getArticle();
-            } else {
-                $content .= $article->getArticleTemplate();
-            }
+            $content .= $article->getArticleTemplate();
         } else {
             $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>';
             rex_response::sendPage($content);
