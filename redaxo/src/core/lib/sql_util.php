@@ -126,7 +126,6 @@ class rex_sql_util
         //$sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
         $sql_len = strlen($sql);
-        $char = '';
         $string_start = '';
         $in_string = false;
         $nothing = true;

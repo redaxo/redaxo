@@ -30,11 +30,6 @@ abstract class rex_structure_element
     protected $createuser = '';
 
     /**
-     * @var array
-     */
-    private static $childIds = [];
-
-    /**
      * Constructor
      *
      * @param array $params

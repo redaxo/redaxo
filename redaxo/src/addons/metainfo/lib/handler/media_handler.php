@@ -61,7 +61,6 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                     $aid = $art_arr['id'];
                     $clang = $art_arr['clang_id'];
                     $parent_id = $art_arr['parent_id'];
-                    $name = $art_arr['startarticle'] ? $art_arr['catname'] : $art_arr['name'];
                     if ($art_arr['startarticle']) {
                         $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parent_id, 'clang' => $clang]) . '\')">' . $art_arr['catname'] . '</a></li>';
                     } else {

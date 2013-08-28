@@ -151,8 +151,6 @@ class rex_category_service
      */
     public static function editCategory($category_id, $clang, array $data)
     {
-        $message = '';
-
         if (!is_array($data)) {
             throw  new rex_api_exception('Expecting $data to be an array!');
         }
@@ -322,18 +320,15 @@ class rex_category_service
      */
     public static function categoryStatus($category_id, $clang, $status = null)
     {
-        $message = '';
-        $catStatusTypes = self::statusTypes();
-
         $KAT = rex_sql::factory();
         $KAT->setQuery('select * from ' . rex::getTablePrefix() . "article where id='$category_id' and clang_id=$clang and startarticle=1");
         if ($KAT->getRows() == 1) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
             if (!$status) {
-            $newstatus = self::nextStatus($KAT->getValue('status'));
+                $newstatus = self::nextStatus($KAT->getValue('status'));
             } else {
-            $newstatus = $status;
+                $newstatus = $status;
             }
 
             $EKAT = rex_sql::factory();
@@ -488,10 +483,8 @@ class rex_category_service
 
                 if ($to_cat > 0) {
                     $to_path = $tcat->getValue('path') . $to_cat . '|';
-                    $to_parent_id = $tcat->getValue('parent_id');
                 } else {
                     $to_path = '|';
-                    $to_parent_id = 0;
                 }
 
                 $from_path = $fcat->getValue('path') . $from_cat . '|';
@@ -506,7 +499,6 @@ class rex_category_service
                     // make update
                     $new_path = $to_path . $from_cat . '|' . str_replace($from_path, '', $gcats->getValue('path'));
                     $icid = $gcats->getValue('id');
-                    $irecid = $gcats->getValue('parent_id');
 
                     // path aendern und speichern
                     $up->setTable(rex::getTablePrefix() . 'article');

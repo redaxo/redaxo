@@ -43,7 +43,6 @@ class rex_cronjob_manager
 
     public function tryExecute($cronjob, $name = '', $params = [], $log = true, $id = null)
     {
-        $message = '';
         $success = $cronjob instanceof rex_cronjob;
         if (!$success) {
             if (is_object($cronjob)) {

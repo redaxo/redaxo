@@ -445,7 +445,6 @@ class rex_article_content_base
     // ----- REX_VAR Ersetzungen
     protected function replaceObjectVars(rex_sql $sql, $content)
     {
-        $tmp = '';
         $sliceId = $sql->getValue(rex::getTablePrefix() . 'article_slice.id');
 
         if ($this->mode == 'edit') {

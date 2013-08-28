@@ -433,9 +433,9 @@ class rex_sql implements Iterator
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = $whereParams;
         } elseif (is_string($where)) {
-            $trace = debug_backtrace();
-            $loc = $trace[0];
-//       trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
+            //$trace = debug_backtrace();
+            //$loc = $trace[0];
+            //trigger_error('you have to take care to provide escaped values for your where-string in file "'. $loc['file'] .'" on line '. $loc['line'] .'!', E_USER_WARNING);
 
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = [];
@@ -456,7 +456,6 @@ class rex_sql implements Iterator
      */
     private function buildWhereArg(array $arrFields, $level = 0)
     {
-        $op = '';
         if ($level % 2 == 1) {
             $op = ' OR ';
         } else {
@@ -465,7 +464,6 @@ class rex_sql implements Iterator
 
         $qry = '';
         foreach ($arrFields as $fld_name => $value) {
-            $arg = '';
             if (is_array($value)) {
                 $arg = '(' . $this->buildWhereArg($value, $level + 1) . ')';
             } else {
@@ -1224,7 +1222,7 @@ class rex_sql implements Iterator
     {
         if (!isset(self::$pdo[$DBID])) {
             // create connection if necessary
-            $dummy = self::factory($DBID);
+            self::factory($DBID);
         }
         return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
     }
@@ -1250,7 +1248,7 @@ class rex_sql implements Iterator
         $err_msg = true;
 
         try {
-            $conn = self::createConnection(
+            self::createConnection(
                 $host,
                 $dbname,
                 $login,

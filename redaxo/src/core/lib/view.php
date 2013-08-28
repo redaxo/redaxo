@@ -169,8 +169,6 @@ class rex_view
      */
     private static function message($message, $cssClass)
     {
-        $return = '';
-
         $cssClassMessage = 'rex-message';
         if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
@@ -196,7 +194,6 @@ class rex_view
      */
     public static function toolbar($content, $cssClass = null)
     {
-        $return = '';
         $fragment = new rex_fragment();
         $fragment->setVar('class', $cssClass);
         $fragment->setVar('content', $content, false);

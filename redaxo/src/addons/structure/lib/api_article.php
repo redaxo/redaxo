@@ -90,9 +90,7 @@ class rex_api_article_status extends rex_api_function
 
         // check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($catId) && $user->hasPerm('publishArticle[]')) {
-            $newStatus = rex_article_service::articleStatus($article_id, $clang);
-            $oldStatus = rex_article_service::prevStatus($newStatus);
-            $statusTypes = rex_article_service::statusTypes();
+            rex_article_service::articleStatus($article_id, $clang);
 
             $result = new rex_api_result(true, rex_i18n::msg('article_status_updated'));
             return $result;

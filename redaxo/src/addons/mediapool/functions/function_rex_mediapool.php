@@ -182,8 +182,6 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     $FILESQL->setValue('title', $FILEINFOS['title']);
     $FILESQL->setValue('category_id', $FILEINFOS['rex_file_category']);
 
-    $msg = '';
-
     $updated = false;
     if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none') {
         $ffilename = $_FILES['file_new']['tmp_name'];
@@ -376,7 +374,7 @@ function rex_mediapool_mediaIsInUse($filename)
  */
 function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category, $file_chooser, $close_form)
 {
-    global $subpage, $ftitle, $warning, $info;
+    global $ftitle, $warning, $info;
 
     $s = '';
 

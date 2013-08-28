@@ -46,7 +46,6 @@ class rex_var_link extends rex_var
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $art_name = '';
-        $clang = '';
         $art = rex_article::get($value);
         $category = 0;
 

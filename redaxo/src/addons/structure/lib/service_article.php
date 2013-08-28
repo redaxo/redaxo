@@ -15,8 +15,6 @@ class rex_article_service
      */
     public static function addArticle($data)
     {
-        $message = '';
-
         if (!is_array($data)) {
             throw new rex_api_exception('Expecting $data to be an array!');
         }
@@ -121,8 +119,6 @@ class rex_article_service
      */
     public static function editArticle($article_id, $clang, $data)
     {
-        $message = '';
-
         if (!is_array($data)) {
             throw  new rex_api_exception('Expecting $data to be an array!');
         }
@@ -224,7 +220,6 @@ class rex_article_service
         $Art = rex_sql::factory();
         $Art->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=' . $article_id . ' and startarticle=0');
 
-        $message = '';
         if ($Art->getRows() > 0) {
             $message = self::_deleteArticle($article_id);
             $parent_id = $Art->getValue('parent_id');
@@ -337,8 +332,6 @@ class rex_article_service
      */
     public static function articleStatus($article_id, $clang, $status = null)
     {
-        $message = '';
-
         $GA = rex_sql::factory();
         $GA->setQuery('select * from ' . rex::getTablePrefix() . "article where id='$article_id' and clang_id=$clang");
         if ($GA->getRows() == 1) {
@@ -556,7 +549,6 @@ class rex_article_service
         if ($neu->getRows() != 1) {
             return false;
         }
-        $neu_path = $neu->getValue('path');
         $neu_cat_id = $neu->getValue('parent_id');
 
         // in oberster kategorie dann return
@@ -570,7 +562,6 @@ class rex_article_service
         if ($alt->getRows() != 1) {
             return false;
         }
-        $alt_path = $alt->getValue('path');
         $alt_id = $alt->getValue('id');
         $parent_id = $alt->getValue('parent_id');
 

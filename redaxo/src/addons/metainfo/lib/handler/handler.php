@@ -36,7 +36,6 @@ abstract class rex_metainfo_handler
             $typeLabel     = $sqlFields->getValue('label');
             $attr          = $sqlFields->getValue('attributes');
             $dblength      = $sqlFields->getValue('dblength');
-            $restrictions  = $sqlFields->getValue('restrictions');
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {

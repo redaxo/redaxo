@@ -78,8 +78,6 @@ class rex_metainfo_table_expander extends rex_form
         $select = $field->getSelect();
         $select->setSize(1);
 
-        $changeTypeFieldId = $field->getAttribute('id');
-
         $qry = 'SELECT label,id FROM ' . rex::getTablePrefix() . 'metainfo_type';
         $select->addSqlOptions($qry);
 
