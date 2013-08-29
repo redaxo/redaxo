@@ -28,6 +28,7 @@ class rex_be_page
     private $hidden = false;
     private $hasLayout = true;
     private $hasNavigation = true;
+    private $pjax;
     private $requiredPermissions = [];
 
     /**
@@ -503,6 +504,32 @@ class rex_be_page
     public function hasNavigation()
     {
         return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
+    }
+
+    /**
+     * Sets whether the page allows pjax
+     *
+     * @param bool $pjax
+     */
+    public function setPjax($pjax = true)
+    {
+        $this->pjax = $pjax;
+    }
+
+    /**
+     * Returns whether the page allows pjax
+     *
+     * @return bool
+     */
+    public function allowsPjax()
+    {
+        if (!is_null($this->pjax)) {
+            return $this->pjax;
+        }
+        if ($this->parent) {
+            return $this->parent->allowsPjax();
+        }
+        return false;
     }
 
     /**
