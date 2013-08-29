@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Backend Page Class
+ *
  * @package redaxo\core
  */
 class rex_be_page
@@ -16,7 +18,10 @@ class rex_be_page
     private $path;
     private $subPath;
 
+    /** @var self|null */
     private $parent;
+
+    /** @var self[] */
     private $subpages = [];
 
     private $isActive = null;
@@ -25,6 +30,13 @@ class rex_be_page
     private $hasNavigation = true;
     private $requiredPermissions = [];
 
+    /**
+     * Constructor
+     *
+     * @param string $key
+     * @param string $title
+     * @throws InvalidArgumentException
+     */
     public function __construct($key, $title)
     {
         if (!is_string($key)) {
@@ -39,16 +51,31 @@ class rex_be_page
         $this->title = $title;
     }
 
+    /**
+     * Returns the page key
+     *
+     * @return string
+     */
     public function getKey()
     {
         return $this->key;
     }
 
+    /**
+     * Returns the full page path
+     *
+     * @return string
+     */
     public function getFullKey()
     {
         return $this->fullKey;
     }
 
+    /**
+     * Returns the title
+     *
+     * @returns string
+     */
     public function getTitle()
     {
         return $this->title;
@@ -82,6 +109,8 @@ class rex_be_page
     }
 
     /**
+     * Returns whether the page is a popup
+     *
      * @return bool
      */
     public function isPopup()
@@ -89,6 +118,11 @@ class rex_be_page
         return $this->popup;
     }
 
+    /**
+     * Sets the page href
+     *
+     * @param string|array $href Href string or array of params
+     */
     public function setHref($href)
     {
         if (is_array($href)) {
@@ -97,6 +131,11 @@ class rex_be_page
         $this->href = $href;
     }
 
+    /**
+     * Returns the page href
+     *
+     * @return string
+     */
     public function getHref()
     {
         if ($this->href) {
@@ -105,6 +144,13 @@ class rex_be_page
         return rex_url::backendPage($this->getFullKey(), [], false);
     }
 
+    /**
+     * Sets an item attribute
+     *
+     * @param string $name
+     * @param string $value
+     * @throws InvalidArgumentException
+     */
     public function setItemAttr($name, $value)
     {
         if (!is_string($name)) {
@@ -116,6 +162,13 @@ class rex_be_page
         $this->itemAttr[$name] = $value;
     }
 
+    /**
+     * Returns an item attribute or all item attributes
+     *
+     * @param string|null $name
+     * @param string      $default
+     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     */
     public function getItemAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
@@ -126,11 +179,22 @@ class rex_be_page
         return isset($this->itemAttr[$name]) ? $this->itemAttr[$name] : $default;
     }
 
+    /**
+     * Removes an item attribute
+     *
+     * @param string $name
+     */
     public function removeItemAttr($name)
     {
         unset($this->itemAttr[$name]);
     }
 
+    /**
+     * Adds an item class
+     *
+     * @param string $class
+     * @throws InvalidArgumentException
+     */
     public function addItemClass($class)
     {
         if (!is_string($class)) {
@@ -142,11 +206,23 @@ class rex_be_page
         }
     }
 
+    /**
+     * Removes an item class
+     *
+     * @param string $class
+     */
     public function removeItemClass($class)
     {
         $this->setItemAttr('class', preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getItemAttr('class')));
     }
 
+    /**
+     * Sets an link attribute
+     *
+     * @param string $name
+     * @param string $value
+     * @throws InvalidArgumentException
+     */
     public function setLinkAttr($name, $value)
     {
         if (!is_string($name)) {
@@ -158,11 +234,23 @@ class rex_be_page
         $this->linkAttr[$name] = $value;
     }
 
+    /**
+     * Removes an link attribute
+     *
+     * @param string $name
+     */
     public function removeLinkAttr($name)
     {
         unset($this->linkAttr[$name]);
     }
 
+    /**
+     * Returns an link attribute or all link attributes
+     *
+     * @param string|null $name
+     * @param string      $default
+     * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
+     */
     public function getLinkAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
@@ -173,11 +261,28 @@ class rex_be_page
         return isset($this->linkAttr[$name]) ? $this->linkAttr[$name] : $default;
     }
 
+    /**
+     * Adds an link class
+     *
+     * @param string $class
+     * @throws InvalidArgumentException
+     */
     public function addLinkClass($class)
     {
-        $this->setLinkAttr('class', ltrim($this->getLinkAttr('class') . ' ' . $class));
+        if (!is_string($class)) {
+            throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
+        }
+        $classAttr = $this->geLinkAttr('class');
+        if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
+            $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
+        }
     }
 
+    /**
+     * Removes an link class
+     *
+     * @param string $class
+     */
     public function removeLinkClass($class)
     {
         $this->setLinkAttr('class', preg_replace('/\b' . preg_quote($class, '/') . '\b/', '', $this->getLinkAttr('class')));
@@ -258,6 +363,9 @@ class rex_be_page
         $subpage->setParentKey($this->getFullKey());
     }
 
+    /**
+     * @param string $key
+     */
     private function setParentKey($key)
     {
         $this->fullKey = $key . '/' . $this->key;
@@ -298,11 +406,21 @@ class rex_be_page
         return $this->subpages;
     }
 
+    /**
+     * Sets whether the page is active
+     *
+     * @param bool $isActive
+     */
     public function setIsActive($isActive = true)
     {
         $this->isActive = $isActive;
     }
 
+    /**
+     * Returns whether the page is active
+     *
+     * @return bool
+     */
     public function isActive()
     {
         if ($this->isActive !== null) {
@@ -314,48 +432,82 @@ class rex_be_page
                 return true;
             }
         } while ($page = $page->getParent());
-        return null;
+        return false;
     }
 
     /**
-     * @return self
+     * Returns the parent page object
+     *
+     * @return self|null
      */
     public function getParent()
     {
         return $this->parent;
     }
 
+    /**
+     * Sets whether the page is hidden
+     *
+     * @param bool $hidden
+     */
     public function setHidden($hidden = true)
     {
         $this->hidden = $hidden;
     }
 
+    /**
+     * Returns whether the page is hidden
+     *
+     * @return bool
+     */
     public function isHidden()
     {
         return $this->hidden;
     }
 
+    /**
+     * Sets whether the page has layout
+     *
+     * @param bool $hasLayout
+     */
     public function setHasLayout($hasLayout)
     {
         $this->hasLayout = $hasLayout;
     }
 
+    /**
+     * Returns whether tha page has layout
+     *
+     * @return bool
+     */
     public function hasLayout()
     {
         return $this->hasLayout && (!$this->parent || $this->parent->hasLayout());
     }
 
+    /**
+     * Sets whether the page has a navigation
+     *
+     * @param bool $hasNavigation
+     */
     public function setHasNavigation($hasNavigation)
     {
         $this->hasNavigation = $hasNavigation;
     }
 
+    /**
+     * Returns whether the page has a navigation
+     *
+     * @return bool
+     */
     public function hasNavigation()
     {
         return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
     }
 
     /**
+     * Sets the required permissions
+     *
      * @param array|string $perm
      */
     public function setRequiredPermissions($perm)
@@ -363,11 +515,22 @@ class rex_be_page
         $this->requiredPermissions = (array) $perm;
     }
 
+    /**
+     * Returns the required permission
+     *
+     * @return array
+     */
     public function getRequiredPermissions()
     {
         return $this->requiredPermissions;
     }
 
+    /**
+     * Checks whether the given user has permission for the page
+     *
+     * @param rex_user $rexUser
+     * @return bool
+     */
     public function checkPermission(rex_user $rexUser)
     {
         foreach ($this->requiredPermissions as $perm) {
