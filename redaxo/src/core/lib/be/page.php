@@ -272,7 +272,7 @@ class rex_be_page
         if (!is_string($class)) {
             throw new InvalidArgumentException('Expecting $class to be a string, ' . gettype($class) . 'given!');
         }
-        $classAttr = $this->geLinkAttr('class');
+        $classAttr = $this->getLinkAttr('class');
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
         }
