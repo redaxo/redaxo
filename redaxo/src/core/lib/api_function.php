@@ -81,7 +81,7 @@ abstract class rex_api_function
                     throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function!');
                 }
             } else {
-                    throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
+                throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
             }
         }
 
@@ -103,14 +103,16 @@ abstract class rex_api_function
             if ($apiFunc->published !== true) {
                 if (rex::isBackend() !== true) {
                     throw new rex_http_exception(
-                            new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
-                            rex_response::HTTP_FORBIDDEN);
+                        new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
+                        rex_response::HTTP_FORBIDDEN
+                    );
                 }
 
                 if (!rex::getUser()) {
                     throw new rex_http_exception(
                         new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'),
-                        rex_response::HTTP_UNAUTHORIZED);
+                        rex_response::HTTP_UNAUTHORIZED
+                    );
                 }
             }
 
@@ -262,7 +264,7 @@ class rex_api_result
     {
         $json = new stdClass;
         foreach ($this as $key => $value) {
-                $json->$key = $value;
+            $json->$key = $value;
         }
         return json_encode($json);
     }
@@ -272,7 +274,7 @@ class rex_api_result
         $result = new self(true);
         $json = json_decode($json, true);
         foreach ($json as $key => $value) {
-                $result->$key = $value;
+            $result->$key = $value;
         }
         return $result;
     }
@@ -287,10 +289,4 @@ class rex_api_result
  * @see rex_api_function
  * @package redaxo\core
  */
-class rex_api_exception extends rex_exception
-{
-    public function __construct($message, Exception $previous = null)
-    {
-        parent::__construct($message, $previous);
-    }
-}
+class rex_api_exception extends rex_exception {}
