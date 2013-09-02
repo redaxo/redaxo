@@ -144,6 +144,7 @@ if ($func == '') {
 
     $field = $form->addTextField('name');
     $field->setLabel($this->i18n('name'));
+    $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_name'));
     $nameFieldId = $field->getAttribute('id');
 
     $field = $form->addTextAreaField('description');

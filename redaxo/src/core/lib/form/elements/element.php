@@ -18,6 +18,8 @@ class rex_form_element
     protected $prefix;
     protected $suffix;
     protected $notice;
+    /** @var rex_validator */
+    protected $validator;
 
     public function __construct($tag, rex_form $table = null, array $attributes = [], $separateEnding = false)
     {
@@ -32,6 +34,7 @@ class rex_form_element
         $this->setPrefix('');
         $this->setSuffix('');
         $this->fieldName = '';
+        $this->validator = rex_validator::factory();
     }
 
     // --------- Attribute setter/getters
@@ -179,6 +182,11 @@ class rex_form_element
     public function hasSeparateEnding()
     {
         return $this->separateEnding;
+    }
+
+    public function getValidator()
+    {
+        return $this->validator;
     }
 
     // --------- Element Methods

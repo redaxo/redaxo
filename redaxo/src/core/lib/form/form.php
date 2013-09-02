@@ -1134,7 +1134,22 @@ class rex_form
      */
     protected function validate()
     {
-        return true;
+        $messages = [];
+        foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
+            foreach ($fieldsetElements as $element) {
+                /** @var rex_form_element $element */
+                // read-only-fields
+                if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
+                    continue;
+                }
+
+                $validator = $element->getValidator();
+                if (!$validator->isValid($element->getSaveValue())) {
+                    $messages[] = $validator->getMessage();
+                }
+            }
+        }
+        return empty($messages) ? true : implode('<br />', $messages);
     }
 
     /**
