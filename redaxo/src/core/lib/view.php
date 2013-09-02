@@ -205,18 +205,16 @@ class rex_view
     /**
      * Returns a content block
      *
-     * @param string $content_1
-     * @param string $content_2
-     * @param bool   $flush
-     * @param bool   $bucket
-     * @param string $title
+     * @param string       $key
+     * @param string|array $content
+     * @param string       $title
+     * @param array        $params
      * @return string
      */
-    public static function content($key = 'block', $content, $title = '', $params = [])
+    public static function content($key, $content, $title = '', array $params = [])
     {
-
         if (!is_array($content)) {
-          $content = [$content];
+            $content = [$content];
         }
 
         $fragment = new rex_fragment();
