@@ -63,7 +63,7 @@ class rex_backend_login extends rex_login
         if ($check) {
             // gelungenen versuch speichern | login_tries = 0
             if ($this->userLogin != '' || !$userId) {
-                $this->regenerateSessionId();
+                self::regenerateSessionId();
                 $params = [];
                 $add = '';
                 if ($this->stayLoggedIn || $cookiekey) {

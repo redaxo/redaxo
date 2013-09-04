@@ -162,11 +162,14 @@ class rex_login
             // LoginStatus: 0 = noch checken, 1 = ok, -1 = not ok
 
             // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
-            if ($this->cache) {
-                if ($this->loginStatus > 0) {
-                    return true;
-                } elseif ($this->loginStatus < 0) {
-                    return false;
+            if ($this->cache) {                
+                // always check UID, so session fixation prevention can kick in
+                if ($this->getSessionVar('UID') != '') {
+                    if ($this->loginStatus > 0) {
+                        return true;
+                    } elseif ($this->loginStatus < 0) {
+                        return false;
+                    }
                 }
             }
 
@@ -180,11 +183,10 @@ class rex_login
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
                 if ($this->user->getRows() == 1 && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
+                    self::regenerateSessionId();
                     $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
-                    $this->regenerateSessionId();
                 } else {
                     $this->message = rex_i18n::msg('login_error');
-                    $this->setSessionVar('UID', '');
                 }
             } elseif ($this->getSessionVar('UID') != '') {
                 // wenn kein login und kein logout dann nach sessiontime checken
@@ -203,17 +205,20 @@ class rex_login
                 } else {
                     $this->message = rex_i18n::msg('login_user_not_found');
                 }
-            } else {
-                $ok = false;
             }
         } else {
             $this->message = rex_i18n::msg('login_logged_out');
-            $this->setSessionVar('UID', '');
         }
 
         if ($ok) {
             // wenn alles ok dann REX[UID][system_id] schreiben
             $this->setSessionVar('STAMP', time());
+            
+            // each code-path which set $ok=true, must also set a UID
+            $sessUid = $this->getSessionVar('UID');
+            if (empty($sessUid)) {
+                throw new rex_exception('Login considered successfull but no UID found');
+            }
         } else {
             // wenn nicht, dann UID loeschen und error seite
             $this->setSessionVar('STAMP', '');
@@ -259,6 +264,18 @@ class rex_login
      */
     public function getSessionVar($varname, $default = '')
     {
+        static $sessChecked = false;
+        // validate session-id - once per request - to prevent fixation
+        if (!$sessChecked) {
+            $rexSessId = !empty($_SESSION['REX_SESSID']) ? $_SESSION['REX_SESSID'] : '';
+            
+            if (!empty($rexSessId) && $rexSessId !== session_id()) {
+                // clear redaxo related session properties on a possible attack
+                $_SESSION[rex::getProperty('instname')][$this->systemId] = array();
+            }
+            $sessChecked = true;
+        }
+        
         if (isset($_SESSION[rex::getProperty('instname')][$this->systemId][$varname])) {
             return $_SESSION[rex::getProperty('instname')][$this->systemId][$varname];
         }
@@ -267,11 +284,13 @@ class rex_login
     }
 
     /*
-     * Session fixation
-    */
-    public function regenerateSessionId()
+     * refresh session on permission elevation for security reasons
+     */
+    protected static function regenerateSessionId()
     {
         session_regenerate_id(true);
+        // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
+        $_SESSION['REX_SESSID'] = session_id();
     }
 
     /**
