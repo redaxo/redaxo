@@ -699,6 +699,7 @@ if ($step == 7) {
 
     if (rex_file::putConfig($configFile, $config)) {
         $errmsg = '';
+        rex_file::delete(rex_path::cache('config.yml.cache'));
     } else {
         $errmsg = rex_i18n::msg('setup_701');
     }
