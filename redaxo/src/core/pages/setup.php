@@ -324,7 +324,7 @@ if ($step == 4) {
             </form>
             </div>';
 
-    echo $headline . rex_view::content('block', $content, '', 'block');
+    echo $headline . rex_view::content('block', $content);
 }
 
 
@@ -528,7 +528,7 @@ if ($step == 5) {
                  //-->
             </script>';
 
-    echo $headline . rex_view::content('block', $content, '', 'block');
+    echo $headline . rex_view::content('block', $content);
 }
 
 
@@ -682,7 +682,7 @@ if ($step == 6) {
      //-->
     </script>';
 
-    echo $headline . rex_view::content('block', $content, '', 'block');
+    echo $headline . rex_view::content('block', $content);
 
 }
 
