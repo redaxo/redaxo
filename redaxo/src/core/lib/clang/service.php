@@ -88,11 +88,11 @@ class rex_clang_service
     {
         $startClang = rex_clang::getStartId();
         if ($id == $startClang) {
-            throw new rex_exception('clang with id "' . $startClang . '" can not be deleted');
+            throw new rex_exception(rex_i18n::msg('clang_error_startidcanotbedeleted', $startClang));
         }
 
         if (!rex_clang::exists($id)) {
-            throw new rex_exception('clang with id "' . $id . '" does not exist');
+            throw new rex_exception(rex_i18n::msg('clang_error_idcanotbedeleted', $id));
         }
 
         $clang = rex_clang::get($id);
