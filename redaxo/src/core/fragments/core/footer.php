@@ -1,11 +1,13 @@
     <footer id="rex-page-footer">
         <div class="rex-navi-footer">
             <ul>
-                <li><a href="http://www.yakamara.de" class="logo">Yakamara</a></li>
-                <li><a href="#"><span>REDAXO bei Facebook</span><span>Aktuelle Meldungen</span></a></li>
-                <li><a href="#"><span>Besuche das Forum</span><span>Fragen und Antworten</span></a></li>
-                <li><a href="<?php echo rex_url::backendPage('credits'); ?>"><span>Credits</span><span>Die Macher</span></a></li>
-                <li><a href="#"><span><?php echo date('d. M Y'); ?></span><span><!--DYN--><?php echo $this->time; ?><!--/DYN--> Sek</span></a></li>
+                <li class="top"><a href="" >^</a></li>
+                <li class="yakamaracom"><a href="http://www.yakamara.de">yakamara.com</a></li>
+                <li class="redaxoorg"><a href="http://www.redaxo.org">redaxo.org</a></li>
+                <li><a href="#"><?php echo rex_i18n::msg('footer_joinforum'); ?></a></li>
+                <li><a href="<?php if (rex::isSetup()) echo 'http://www.redaxo.org/'; else echo rex_url::backendPage('credits'); ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
+                <li><?php echo rex_i18n::msg('footer_datetime', rex_formatter::strftime(time(), 'datetime')); ?></li>
+                <li><?php echo rex_i18n::msg('footer_scripttime',$this->time); ?></li>
             </ul>
         </div>
     </footer>
