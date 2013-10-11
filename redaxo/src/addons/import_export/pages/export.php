@@ -22,6 +22,7 @@ $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
+
 if ($exportfilename == '') {
     $server = parse_url(rex::getServer(), PHP_URL_HOST);
     $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
@@ -92,16 +93,16 @@ if ($warning != '') {
     echo rex_view::warning($warning);
 }
 
+$content_info = '<h2>' . rex_i18n::msg('im_export_information') . '</h2><p>' . rex_i18n::msg('im_export_intro_export') . '</p>';
+echo rex_view::content('block', $content_info);
+
+
 
 $content .= '
-            <p>' . rex_i18n::msg('im_export_intro_export') . '</p>
-
             <div class="rex-form" id="rex-form-export">
-            <form action="' . rex_url::currentBackendPage() . '" method="post" >
-                <fieldset class="rex-form-col-1">
-                    <legend>' . rex_i18n::msg('im_export_export') . '</legend>
-
-                    <div class="rex-form-wrapper">';
+            <form action="' . rex_url::currentBackendPage() . '" method="post">
+                <fieldset>
+                    <h2>' . rex_i18n::msg('im_export_export_select') . '</h2>';
 
 $checkedsql = '';
 $checkedfiles = '';
@@ -112,44 +113,60 @@ if ($exporttype == 'files') {
     $checkedsql = ' checked="checked"';
 }
 
-$content .= '
-                        <div class="rex-form-row">
-                            <p class="rex-form-radio rex-form-label-right">
-                                <input class="rex-form-radio" type="radio" id="exporttype_sql" name="exporttype" value="sql"' . $checkedsql . ' />
-                                <label for="exporttype_sql">' . rex_i18n::msg('im_export_database_export') . '</label>
-                            </p>
-                        </div>
-                        <div class="rex-form-row rex-form-element-v2">
-                            <p class="rex-form-radio rex-form-label-right">
-                                <input class="rex-form-radio" type="radio" id="exporttype_files" name="exporttype" value="files"' . $checkedfiles . ' />
-                                <label for="exporttype_files">' . rex_i18n::msg('im_export_file_export') . '</label>
-                            </p>
 
-                            <div class="rex-form-checkboxes">
-                                <div class="rex-form-checkboxes-wrapper">';
 
-    $dir = rex_path::frontend();
-    $folders = readSubFolders($dir);
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="rex-exporttype-sql">' . rex_i18n::msg('im_export_database_export') . '</label>';
+$n['field'] = '<input type="radio" id="rex-exporttype-sql" name="exporttype" value="sql"' . $checkedsql . ' />';
+$formElements[] = $n;
 
-    foreach ($folders as $file) {
-        if ($file == 'redaxo') {
-            continue;
-        }
 
-        $checked = '';
-        if (array_key_exists($file, $EXPDIR) !== false) {
-            $checked = ' checked="checked"';
-        }
+$n = [];
+$n['label'] = '<label for="rex-exporttype-files">' . rex_i18n::msg('im_export_file_export') . '</label>';
+$n['field'] = '<input type="radio" id="rex-exporttype-files" name="exporttype" value="files"' . $checkedfiles . ' />';
+$formElements[] = $n;
 
-        $content .= '<p class="rex-form-checkbox rex-form-label-right">
-                        <input class="rex-form-checkbox" type="checkbox" onchange="checkInput(\'exporttype_files\');" id="EXPDIR_' . $file . '" name="EXPDIR[' . $file . ']" value="true"' . $checked . ' />
-                        <label for="EXPDIR_' . $file . '">' . $file . '</label>
-                    </p>
-        ';
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/radio.php');
+
+
+// Vorhandene Exporte auslesen
+$sel_dirs = new rex_select();
+$sel_dirs->setAttribute('onclick', 'checkInput(\'rex-exporttype-files\')');
+$sel_dirs->setId('rex-form-exportdir');
+$sel_dirs->setName('EXPDIR[]');
+$sel_dirs->setMultiple();
+$sel_dirs->setSelected($EXPDIR);
+$sel_dirs->setStyle('class="rex-form-select"');
+
+$dir = rex_path::frontend();
+$folders = readSubFolders($dir);
+$count_folders = count($folders);
+if ($count_folders > 4) {
+    $sel_dirs->setSize($count_folders);
+}
+foreach ($folders as $file) {
+    if ($file == 'redaxo') {
+        continue;
     }
+    $sel_dirs->addOption($file, $file);
+}
 
-$content .= '</div>
-';
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('im_export_export_select_dir') . '</label>';
+$n['field'] = $sel_dirs->get();
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</fieldset><fieldset>
+                <h2>' . rex_i18n::msg('im_export_export_select_location') . '</h2>';
 
 $checked0 = '';
 $checked1 = '';
@@ -160,33 +177,56 @@ if ($exportdl) {
     $checked0 = ' checked="checked"';
 }
 
-$content .= '<div class="rex-form-row">
-                            <p class="rex-form-radio rex-form-label-right">
-                                <input class="rex-form-radio" type="radio" id="exportdl_server" name="exportdl" value="0"' . $checked0 . ' />
-                                <label for="exportdl_server">' . rex_i18n::msg('im_export_save_on_server') . '</label>
-                            </p>
-                        </div>
-                        <div class="rex-form-row">
-                            <p class="rex-form-radio rex-form-label-right">
-                                <input class="rex-form-radio" type="radio" id="exportdl_download" name="exportdl" value="1"' . $checked1 . ' />
-                                <label for="exportdl_download">' . rex_i18n::msg('im_export_download_as_file') . '</label>
-                            </p>
-                        </div>
-                        <div class="rex-form-row">
-                            <p class="rex-form-text">
-                                <label for="exportfilename">' . rex_i18n::msg('im_export_filename') . '</label>
-                                <input class="rex-form-text" type="text" id="exportfilename" name="exportfilename" value="' . $exportfilename . '" />
-                            </p>
-                        </div>
-                        <div class="rex-form-row">
-                            <p class="rex-form-submit">
-                                <input class="rex-form-submit" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '" />
-                            </p>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-            </div>';
+
+$formElements = [];
+
+$n = [];
+$n['label'] = '<label for="rex-form-exportdl-server">' . rex_i18n::msg('im_export_save_on_server') . '</label>';
+$n['field'] = '<input type="radio" id="rex-form-exportdl-server" name="exportdl" value="0"' . $checked0 . ' />';
+$formElements[] = $n;
 
 
-echo rex_view::content('block', $content);
+$n = [];
+$n['label'] = '<label for="rex-form-exportdl-download">' . rex_i18n::msg('im_export_download_as_file') . '</label>';
+$n['field'] = '<input type="radio" id="rex-form-exportdl-download" name="exportdl" value="1"' . $checked1 . ' />';
+$formElements[] = $n;
+
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/radio.php');
+
+
+$content .= '</fieldset><fieldset>
+                <h2>' . rex_i18n::msg('im_export_export_select_filename') . '</h2>';
+
+$formElements = [];
+
+$n = [];
+$n['label'] = '<label for="rex-form-exportfilename">' . rex_i18n::msg('im_export_filename') . '</label>';
+$n['field'] = '<input type="text" id="rex-form-exportfilename" name="exportfilename" value="' . $exportfilename . '" />';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</fieldset>';
+
+
+$formElements = [];
+$n = [];
+$n['field'] = '<button class="rex-button" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/submit.php');
+
+
+
+
+$content .= '</form></div>';
+
+
+echo rex_view::content('block', $content, '', ['flush' => 1]);
