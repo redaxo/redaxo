@@ -15,7 +15,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
         $this->chkbox_element = new rex_form_checkbox_element('');
         $this->chkbox_element->setAttribute('name', 'enable_restrictions');
-        $this->chkbox_element->setAttribute('id', 'enable_restrictions_chkbx');
+        $this->chkbox_element->setAttribute('id', 'enable-restrictions-checkbox');
         $this->chkbox_element->addOption(rex_i18n::msg('minfo_field_label_no_restrictions'), '');
 
         if ($table->getPrefix() == rex_metainfo_article_handler::PREFIX || $table->getPrefix() == rex_metainfo_category_handler::PREFIX) {
@@ -33,7 +33,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
     public function get()
     {
-        $slctDivId = $this->getAttribute('id') . '_div';
+        $slctDivId = $this->getAttribute('id') . '-div';
 
         // Wert aus dem select in die checkbox übernehmen
         $this->chkbox_element->setValue($this->getValue());
@@ -46,7 +46,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
         jQuery(function($) {
 
-            $("#enable_restrictions_chkbx").click(function() {
+            $("#enable-restrictions-checkbox").click(function() {
                 $("#' . $slctDivId . '").slideToggle("slow");
                 if($(this).is(":checked"))
                 {
@@ -56,7 +56,7 @@ class rex_form_restrictons_element extends rex_form_select_element
                 }
             });
 
-            if($("#enable_restrictions_chkbx").is(":checked")) {
+            if($("#enable-restrictions-checkbox").is(":checked")) {
                 $("#' . $slctDivId . '").hide();
             }
         });
@@ -67,7 +67,7 @@ class rex_form_restrictons_element extends rex_form_select_element
         $html .= $this->chkbox_element->get();
 
         $element = parent :: get();
-        $html .= str_replace('class="rex-form-row"', 'id="' . $slctDivId . '" class="rex-form-row"', $element);
+        $html .= str_replace('class="rex-form"', 'id="' . $slctDivId . '" class="rex-form"', $element);
 
         return $html;
     }

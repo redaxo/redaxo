@@ -204,11 +204,12 @@ function rex_metainfo_meta_table($prefix)
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
-    $page = $ep->getSubject();
-    $mypage = 'metainfo';
+    $page       = $ep->getSubject();
+    $mainpage   = rex_be_controller::getCurrentPagePart(1);
+    $mypage     = 'metainfo';
 
     // additional javascripts
-    if ($page == 'metainfo' || $page == 'content/metainfo') {
+    if ($mainpage == 'metainfo' || $page == 'content/metainfo') {
         rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
     }
 

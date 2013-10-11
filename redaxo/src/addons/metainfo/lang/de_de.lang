@@ -4,6 +4,7 @@ media = Medien
 categories = Kategorien
 articles = Artikel
 
+minfo_title = Metainformationen erweitern
 minfo_metainfos_not_found = Es wurden keine Metainformationen gefunden
 
 minfo_field_list_caption = Liste der Metafelder
@@ -13,6 +14,7 @@ minfo_field_label_prefix = Prefix
 minfo_field_label_title = Feldbezeichnung
 minfo_field_label_name = Spaltenname
 minfo_field_label_function = Funktion
+minfo_field_label_functions = Funktionen
 minfo_field_label_id = ID
 minfo_field_label_type = Feldtyp
 minfo_field_label_attributes = Feldattribute

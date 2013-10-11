@@ -7,8 +7,10 @@
  * @package redaxo5
  */
 
-//------------------------------> Parameter
 
+$content = '';
+
+//------------------------------> Parameter
 if (empty($prefix)) {
     throw new rex_exception('Fehler: Prefix nicht definiert!');
 }
@@ -39,11 +41,13 @@ if ($func == '') {
     $likePrefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
-
+    $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
     $list->setCaption(rex_i18n::msg('minfo_field_list_caption'));
-    $imgHeader = '<a class="rex-ic-metainfo rex-ic-add" href="' . $list->getUrl(['func' => 'add']) . '">' . rex_i18n::msg('add') . '</a>';
-    $list->addColumn($imgHeader, '<span class="rex-ic-metainfo">' . rex_i18n::msg('edit') . '</span>', 0, ['<th class="rex-icon">###VALUE###</th>', '<td class="rex-icon">###VALUE###</td>']);
-    $list->setColumnParams($imgHeader, ['func' => 'edit', 'field_id' => '###id###']);
+
+    $tdIcon = '<span class="rex-icon rex-icon-metainfo"></span>';
+    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '"><span class="rex-icon rex-icon-add-metainfo"></span></a>';
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>']);
+    $list->setColumnParams($thIcon, ['func' => 'edit', 'field_id' => '###id###']);
 
     $list->removeColumn('id');
 
@@ -54,13 +58,23 @@ if ($func == '') {
     $list->setColumnLayout('name',  ['<th class="rex-name">###VALUE###</th>', '<td class="rex-name">###VALUE###</td>']);
     $list->setColumnParams('name', ['func' => 'edit', 'field_id' => '###id###']);
 
-    $list->addColumn('delete', rex_i18n::msg('delete'), -1, ['<th class="rex-function">' . rex_i18n::msg('minfo_field_label_function') . '</th>', '<td class="rex-delete">###VALUE###</td>']);
+
+    $list->addColumn(rex_i18n::msg('minfo_field_label_functions'), rex_i18n::msg('edit'));
+    $list->setColumnLayout(rex_i18n::msg('minfo_field_label_functions'),  ['<th class="rex-function" colspan="2">###VALUE###</th>', '<td class="rex-edit">###VALUE###</td>']);
+    $list->setColumnParams(rex_i18n::msg('minfo_field_label_functions'), ['func' => 'edit', 'field_id' => '###id###']);
+    $list->addLinkAttribute(rex_i18n::msg('minfo_field_label_functions'), 'class', 'rex-edit');
+
+    $list->addColumn('delete', rex_i18n::msg('delete'));
+    $list->setColumnLayout('delete',  ['', '<td class="rex-delete">###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'field_id' => '###id###']);
     $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('delete') . ' ?');
+    $list->addLinkAttribute('delete', 'class', 'rex-delete');
+
+
 
     $list->setNoRowsMessage(rex_i18n::msg('minfo_metainfos_not_found'));
 
-    $list->show();
+    $content .= $list->get();
 }
 //------------------------------> Formular
 elseif ($func == 'edit' || $func == 'add') {
@@ -70,5 +84,8 @@ elseif ($func == 'edit' || $func == 'add') {
         $form->addParam('field_id', $field_id);
     }
 
-    $form->show();
+    $content .= $form->get();
 }
+
+
+echo rex_view::content('block', $content, '', $params = ['flush' => true]);

@@ -4,6 +4,7 @@ media = Media
 categories = Categories
 articles = Articles
 
+minfo_title = Expand metainfo
 minfo_metainfos_not_found = No metainfo found
 
 minfo_field_list_caption = field list

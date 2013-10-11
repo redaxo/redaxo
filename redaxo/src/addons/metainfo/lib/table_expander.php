@@ -84,7 +84,7 @@ class rex_metainfo_table_expander extends rex_form
         $notices = '';
         for ($i = 1; $i < REX_METAINFO_FIELD_COUNT; $i++) {
             if (rex_i18n::hasMsg('minfo_field_params_notice_' . $i)) {
-                $notices .= '<span class="rex-form-notice" id="metainfo_field_params_notice_' . $i . '" style="display:none">' . rex_i18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
+                $notices .= '<span id="metainfo-field-params-notice-' . $i . '" style="display:none">' . rex_i18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
             }
         }
         $notices .= '
@@ -95,20 +95,18 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addTextAreaField('params');
         $field->setLabel(rex_i18n::msg('minfo_field_label_params'));
-        $field->setSuffix($notices);
+        $field->setNotice($notices);
 
         $field = $this->addTextAreaField('attributes');
         $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
-        $notice = '<span class="rex-form-notice" id="rex_metainfo_field_attributes_notice">' . rex_i18n::msg('minfo_field_attributes_notice') . '</span>' . "\n";
-        $field->setSuffix($notice);
+        $notice = '<span id="rex-metainfo-field-attributes-notice">' . rex_i18n::msg('minfo_field_attributes_notice') . '</span>' . "\n";
+        $field->setNotice($notice);
 
         $field = $this->addTextAreaField('callback');
         $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
         $notice = '';
-        $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_notice">' . rex_i18n::msg('minfo_field_label_notice') . '</span>' . "\n";
-        $notice .= '<label>' . rex_i18n::msg('minfo_field_label_callback_templates') . '</label>' . "\n";
-        $notice .= '<span class="rex-form-notice" id="rex_metainfo_field_callback_template_notice"><a href="#">' . rex_i18n::msg('minfo_callback_lang_indep_field') . '</a></span>' . "\n";
-        $field->setSuffix($notice);
+        $notice .= '<span id="rex-metainfo-field-callback-notice">' . rex_i18n::msg('minfo_field_label_notice') . '</span>' . "\n";
+        $field->setNotice($notice);
 
         $field = $this->addTextField('default');
         $field->setLabel(rex_i18n::msg('minfo_field_label_default'));
