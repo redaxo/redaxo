@@ -251,6 +251,14 @@
     color: #900;
 }
 
+fieldset:after {
+    clear: both;
+    content: '.';
+    display: block;
+    height: 0;
+    visibility: hidden;
+    font-size: 0px;
+}
 label {
     font-weight: bold;
 }

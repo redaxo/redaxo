@@ -202,3 +202,18 @@
     content: normal;
 }
 */
+
+
+
+.rex-list-stacked {
+    margin-left: 0;
+    list-style: none;
+}
+.rex-list-stacked > li > a {
+    display: block;
+    text-align: center;
+}
+.rex-list-stacked > li > .rex-button {
+    max-width: 400px;
+    margin: 10px auto 0 auto;
+}

@@ -339,8 +339,16 @@ pre, code, tt, .rex-code {
     clip: rect(1px, 1px, 1px, 1px);
 }
 
-
-
+.rex-pull-left {
+    float: right;
+}
+.rex-pull-right {
+    float: right;
+}
+a.rex-edit,
+a.rex-delete,
+a.rex-offline,
+a.rex-online,
 a.rex-link,
 span.rex-status {
     font-weight: bold;
@@ -368,7 +376,7 @@ span.rex-status {
     opacity: .6;
 }
 .rex-small {
-    font-size: smaller;
+    font-size: smaller !important;
 }
 
 
@@ -404,6 +412,9 @@ h2 {
     clear: both;
     margin: 20px 0 10px 0;
     font-size: 154%;
+}
+section.rex-content + h2 {
+    margin-top: 40px;
 }
 .rex-bucket h2 {
     display: block;
@@ -464,6 +475,11 @@ h2 {
 .rex-bucket p {
     margin: 10px 0;
 }
+.rex-bucket ol,
+.rex-bucket ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 
 
@@ -505,6 +521,10 @@ h2 {
     background-repeat: repeat-x;
     font-size: 14px;
     white-space: nowrap;
+}
+h2 + .rex-table th,
+h2 + * > .rex-table th {
+    font-size: 12px;
 }
 .rex-table thead th:first-child {
     text-align: center;
@@ -569,6 +589,7 @@ h2 {
 
 
 
+
 /*  ----------------------------------- Bucket ------------------------------ */
 .rex-bucket {
     margin: 20px 0;
@@ -585,6 +606,7 @@ h2 {
 .rex-flush .rex-bucket-inner {
     padding: 0;
 }
+
 
 
 
@@ -680,6 +702,22 @@ h2 {
 }
 
 
+
+
+/*  ----------------------------------- Scroll ------------------------------ */
+.rex-content-scroll {
+    height: 500px;
+    background: #fff;
+    border-top: 1px solid #d9dfe3;
+    border-bottom: 1px solid #d9dfe3;
+    overflow: auto;
+
+}
+.rex-bucket-inner > .rex-content-scroll {
+    margin: 0 -10px -10px -10px;
+    padding: 10px;
+    border-bottom: 0;
+}
 
 /*  ----------------------------------- Navigations ------------------------- */
 .rex-navi-content {

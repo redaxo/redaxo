@@ -426,3 +426,10 @@
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
+
+
+
+
+#rex-page-setup .rex-content + * > .rex-button {
+    float: right;
+}

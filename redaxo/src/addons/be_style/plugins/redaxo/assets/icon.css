@@ -391,8 +391,17 @@ tr.rex-plugin .rex-icon-plugin {
 
 
 /*  ----------------------------------- Icons ------------------------------- */
+
+/*  Module ------------------------------- */
 .rex-icon-action:before { content: "\E75E"; }
 .rex-icon-add-action:before { content: "\2795"; }
+
+.rex-icon-module:before { content: "\E754"; }
+.rex-icon-add-module:before { content: "\2795"; }
+
+/*  AddOn -------------------------------- */
+.rex-icon-package:before { content: "\1F4BC"; }
+.rex-icon-add-package:before { content: "\2795"; }
 
 .rex-icon-addon:before { content: "\E792"; }
 .rex-icon-add-addon:before { content: "\2795"; }
@@ -400,6 +409,11 @@ tr.rex-plugin .rex-icon-plugin {
 .rex-icon-plugin:before { content: "\E790"; }
 .rex-icon-add-plugin:before { content: "\2795"; }
 
+.rex-icon-install:before { content: "\27F3"; }
+.rex-icon-reinstall:before { content: "\1F504"; }
+.rex-icon-uninstall:before { content: "\27F2"; }
+
+/*  Structure ---------------------------- */
 .rex-icon-article:before { content: "\1F4C4"; }
 .rex-icon-add-article:before { content: "\2795"; }
 .rex-icon-startarticle:before { content: "\E731"; }
@@ -409,41 +423,55 @@ tr.rex-plugin .rex-icon-plugin {
 .rex-icon-add-category:before { content: "\2795"; }
 .rex-icon-open-category:before { content: "\E738"; }
 
-.rex-icon-language:before { content: "\2691"; }
-.rex-icon-add-language:before { content: "\2795"; }
+.rex-icon-linkmap:before { content: "\2630"; }
+.rex-icon-delete-link:before { content: "\2796"; }
+.rex-icon-open-linkmap:before { content: "\2630"; }
 
-.rex-icon-media:before { content: "\1F304"; }
+/*  Mediapool ---------------------------- */
+.rex-icon-mediapool:before { content: "\2630"; }
+.rex-icon-add-media:before { content: "\E003"; }
+.rex-icon-delete-media:before { content: "\2796"; }
+.rex-icon-open-mediapool:before { content: "\2630"; }
+.rex-icon-view-media:before { content: "\E70A"; }
 
-.rex-icon-mediatype:before { content: "\1F304"; }
-.rex-icon-add-mediatype:before { content: "\2795"; }
-.rex-icon-mediatype-effect:before { content: "\1F304"; }
-.rex-icon-add-mediatype-effect:before { content: "\2795"; }
-
-.rex-icon-module:before { content: "\E754"; }
-.rex-icon-add-module:before { content: "\2795"; }
-
-.rex-icon-package:before { content: "\1F4BC"; }
-.rex-icon-add-package:before { content: "\2795"; }
-
+/*  Template ----------------------------- */
 .rex-icon-template:before { content: "\1F4F0"; }
 .rex-icon-add-template:before { content: "\2795"; }
 
+/*  System ------------------------------- */
+.rex-icon-language:before { content: "\2691"; }
+.rex-icon-add-language:before { content: "\2795"; }
+
+/*  User --------------------------------- */
 .rex-icon-user:before { content: "\1F464"; }
 .rex-icon-add-user:before { content: "\2795"; }
 
 .rex-icon-userrole:before { content: "\1F465"; }
 .rex-icon-add-userrole:before { content: "\2795"; }
 
+/*  Profile ------------------------------ */
+.rex-icon-profile:before { content: "\1F464"; }
 
-.rex-icon-linkmap:before { content: "\2630"; }
-.rex-icon-delete-link:before { content: "\2796"; }
-.rex-icon-open-linkmap:before { content: "\2630"; }
+/*  Metainfo ----------------------------- */
+.rex-icon-metainfo:before { content: "\268F"; }
+.rex-icon-add-metainfo:before { content: "\2795"; }
 
-.rex-icon-mediapool:before { content: "\2630"; }
-.rex-icon-add-media:before { content: "\E003"; }
-.rex-icon-delete-media:before { content: "\2796"; }
-.rex-icon-open-mediapool:before { content: "\2630"; }
-.rex-icon-view-media:before { content: "\E70A"; }
+
+/*  Image Manager ------------------------ */
+.rex-icon-mediatype:before { content: "\1F304"; }
+.rex-icon-add-mediatype:before { content: "\2795"; }
+.rex-icon-mediatype-effect:before { content: "\1F304"; }
+.rex-icon-add-mediatype-effect:before { content: "\2795"; }
+
+
+
+.rex-icon-media:before { content: "\1F304"; }
+
+.rex-icon-database:before { content: "\E754"; }
+
+.rex-icon-file:before { content: "\1F4BC"; }
+
+
 
 
 .rex-icon-back:before { content: "\2B05"; }
@@ -453,7 +481,6 @@ tr.rex-plugin .rex-icon-plugin {
 
 .rex-icon-popup:before { content: "\E74C"; }
 
-.rex-icon-profile:before { content: "\1F464"; }
 
 .rex-icon-top:before { content: "\E763"; }
 .rex-icon-up:before { content: "\E75F"; }
@@ -477,10 +504,6 @@ tr.rex-plugin .rex-icon-plugin {
 .rex-icon-edit:before { content: "\270e"; }
 
 .rex-icon-context-menu:before { content: "\2699"; }
-
-.rex-icon-install:before { content: "\27F3"; }
-.rex-icon-reinstall:before { content: "\1F504"; }
-.rex-icon-uninstall:before { content: "\27F2"; }
 
 .rex-icon-activate:before { content: "\1F4E4"; }
 .rex-icon-deactivate:before { content: "\1F4E5"; }

@@ -14,6 +14,8 @@ body, select, input, textarea, button {
 
 /*  ----------------------------------- Page -------------------------------- */
 #rex-page {
+    width: 1200px;
+    margin: 0 auto;
     background: #fff;
 }
 #rex-page:after {
@@ -24,7 +26,10 @@ body, select, input, textarea, button {
     visibility: hidden;
     font-size: 0px;
 }
-
+.rex-layout-wide #rex-page {
+    width: auto;
+    margin: 0;
+}
 
 
 /*  ----------------------------------- Header ------------------------------ */
@@ -150,11 +155,13 @@ body, select, input, textarea, button {
 
 /*  ----------------------------------- Footer */
 .rex-navi-footer ul {
-    margin-left: -20px;
+    display: table;
+    width: 100%;
+    margin-left: 0;
 }
 .rex-navi-footer li {
-    display: inline-block;
-    margin: 0 20px;
+    display: table-cell;
+    width: 14.285%;
     vertical-align: middle;
 }
 .rex-navi-footer li a {
@@ -240,7 +247,6 @@ body, select, input, textarea, button {
 
 
 
-
 #rex-page-login #rex-page-header {
     width: 100%;
 }
@@ -300,3 +306,5 @@ html, body {
     position: absolute;
     bottom: 0;
 }
+
+
