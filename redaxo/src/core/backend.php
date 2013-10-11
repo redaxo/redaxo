@@ -18,6 +18,8 @@ if (rex::isSetup()) {
     $requestLang = rex_request('lang', 'string');
     if (in_array($requestLang, rex_i18n::getLocales())) {
         rex::setProperty('lang', $requestLang);
+    } else {
+        rex::setProperty('lang', 'en_gb');
     }
 
     rex_i18n::setLocale(rex::getProperty('lang'));
