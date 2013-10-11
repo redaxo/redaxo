@@ -1382,7 +1382,7 @@ class rex_form
 
         $s .= '    <form action="' . rex_url::backendController() . '" method="' . $this->method . '">' . "\n";
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
-            $s .= '        <fieldset">' . "\n";
+            $s .= '        <fieldset>' . "\n";
             $s .= '            <h2>' . htmlspecialchars($fieldsetName) . '</h2>' . "\n";
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
