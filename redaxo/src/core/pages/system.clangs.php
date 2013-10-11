@@ -25,12 +25,19 @@ $info = '';
 
 // ----- delete clang
 if ($func == 'deleteclang' && $clang_id != '') {
-    if (rex_clang::exists($clang_id)) {
-        rex_clang_service::deleteCLang($clang_id);
-        $info = rex_i18n::msg('clang_deleted');
-        $func = '';
-        unset ($clang_id);
+    try {
+        if (rex_clang::exists($clang_id)) {
+            rex_clang_service::deleteCLang($clang_id);
+            $info = rex_i18n::msg('clang_deleted');
+            $func = '';
+            unset ($clang_id);
+        }
+
+    } catch(Exception $e) {
+        echo rex_view::error($e->getMessage());
+    
     }
+
 }
 
 // ----- add clang
@@ -115,7 +122,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
     $add_td = '<td class="rex-id">' . $lang_id . '</td>';
 
     $delLink = rex_i18n::msg('delete');
-    if ($lang_id == 0) {
+    if ($lang_id == rex_clang::getStartId()) {
      $delLink = '<span class="rex-delete rex-disabled">' . $delLink . '</span>';
     } else {
         $delLink = '<a class="rex-delete" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . $delLink . '</a>';
