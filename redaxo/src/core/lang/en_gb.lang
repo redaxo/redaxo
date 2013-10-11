@@ -650,3 +650,13 @@ var_medialist_move_top = Move selected media to top
 var_medialist_move_up = move selected media up
 var_medialist_move_down = move selected media down
 var_medialist_move_bottom  = move selected media to bottom
+
+# clang
+all_clangs = Alle Sprachen
+clangs = Sprachen
+
+# footer
+footer_joinforum = Join the board
+footer_datetime = {0}
+footer_scripttime = {0} sec.
+footer_credits = Credits

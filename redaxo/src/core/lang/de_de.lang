@@ -25,6 +25,7 @@ name = Name
 description = Beschreibung
 no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
+error_undefined = Ein undefinierter Fehler ist aufgetreten
 
 # redaxo/redaxo/index.php
 system = System
@@ -119,6 +120,11 @@ setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}weiter{1} und führ
 setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
 
 
+
+setup_100 = Setup: Schritt 1 von 7 / Sprache
+setup_101 = bitte wähle eine Sprache
+
+
 setup_199 = 1 / Sprache
 
 setup_200 = Setup: Schritt 2 von 7 / Lizenz
@@ -138,7 +144,6 @@ setup_307 = PHP-Versionscheck | Rechteüberprüfung
 setup_308 = PHP-Version ok
 setup_309 = Ordnerrechte ok
 setup_310 = Weiter mit Schritt 4
-setup_311 = Bitte beheben Sie die aufgelisteten Fehler und starten Sie das Setup erneut.
 setup_312 = Schritt 3 erneut durchführen
 setup_399 = 3 / Systemcheck
 
@@ -162,9 +167,12 @@ setup_501 = Datenbank anlegen
 setup_502 = Tabelle {0} wurde nicht gefunden!
 setup_503 = Bitte richten Sie die Datenbank erneut ein.
 setup_504 = Datenbank einrichten
-setup_505 = Datenbank einrichten und alte überschreiben falls vorhanden [Vorsicht - Alte Seite wird komplett gelöscht!]
-setup_506 = Datenbank existiert schon [Weiter ohne Datenbankimport]
-setup_507 = Vorhandenen Export einspielen [Demo einspielen]:
+setup_505 = Datenbank einrichten und alte überschreiben falls vorhanden
+setup_505_note = Vorsicht - Alte Seite wird komplett gelöscht!
+setup_506 = Datenbank existiert schon
+setup_506_note = Weiter ohne Datenbankimport
+setup_507 = Vorhandenen Export einspielen:
+setup_507_note = Demo einspielen
 setup_508 = Bitte wählen Sie einen Export aus!
 setup_509 = Export-Dateien konnten nicht gefunden werden!
 setup_510 = Import/Export AddOn wurde nicht gefunden!
@@ -331,3 +339,14 @@ form_resetted = Eingaben wurden verworfen!
 # clang
 all_clangs = Alle Sprachen
 clangs = Sprachen
+clang_error_startidcanotbedeleted = Startsprache (clang) mit der ID "{0}" kann nicht gelöscht werden
+clang_error_idcanotbedeleted = Sprachid (clang) mit der ID "{0}" existiert nicht
+
+
+
+# footer
+footer_joinforum = Besuche das Forum
+footer_datetime = {0}
+footer_scripttime = {0} Sek.
+footer_credits = Credits
+

@@ -1,4 +1,5 @@
 # addon:import/export de_de
+im_export_information = Information
 im_export_importexport = Im-/Export
 im_export_file_deleted = Datei wurde gelöscht
 im_export_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
@@ -13,7 +14,9 @@ im_export_problem_when_extracting = Es gab Probleme beim Extrahieren der Datei.
 im_export_create_dirs_manually = Erstellen Sie bitte folgende Ordner manuell und setzen Sie die Schreibrechte auf diese Ordner(&uuml;ber ftp).
 im_export_file_imported = Die Datei wurde erfolgreich importiert.
 im_export_import = Import
+im_export_to_import = importieren
 im_export_export = Export
+im_export_to_export = exportieren
 im_export_db_import = Import
 im_export_db_export = Export
 im_export_filename_updated = Ihr Dateiname wurde angepasst, da er unkorrekte Zeichen enthielt. Sofern dieser stimmig ist bitte nochmal auf Export klicken
@@ -23,7 +26,7 @@ im_export_database = Datenbankimport
 im_export_filename = Dateiname
 im_export_filename_notice = Variablen: %REX_SERVER, %REX_VERSION und Datumsvariablen wie bei strftime()
 im_export_filesize = Dateigröße
-im_export_delete = Löschen
+im_export_delete = löschen
 im_export_files = Dateienimport
 im_export_intro_export = Hier können Sie Ihre jetzigen Eingaben und Dateien von REDAXO sichern. Um eine vollständige Sicherung zu erhalten müssen Sie <b>die Datenbank UND die Dateien exportieren</b>. Wenn Sie die Sicherung wiederverwenden wollen, dann kann es Sinn machen diese direkt auf dem Server abzulegen und bei Bedarf direkt wieder zu importieren.
 im_export_database_export = Datenbankexport
@@ -55,3 +58,13 @@ im_export_mail_body = Im Anhang befindet sich eine neue Datenbanksicherung der W
 
 perm_general_import_export[import] = Webseite importieren
 perm_general_import_export[export] = Webseite exportieren
+
+im_export_export_select = Exportvariante
+im_export_export_select_dir = Ordner auswählen
+im_export_export_select_location = Speicherort wählen
+im_export_export_select_filename = Dateiname wählen
+
+im_export_file = Datei
+im_export_note = Hinweis
+im_export_upload = Upload
+im_export_load_from_server = Vom Server laden
