@@ -29,7 +29,7 @@ if ($step == 1) {
     rex_i18n::setLocale($saveLocale, false);
 
     $headline = rex_view::title(rex_i18n::msg('setup_100'));
-    $content = '<h2>'.rex_i18n::msg('setup_101').'</h2>';
+    $content = '<h2>' . rex_i18n::msg('setup_101') . '</h2>';
     $content .= '<ul class="rex-setup-language rex-list-stacked">' . implode('', $langs) . '</ul>';
 
     echo $headline . rex_view::content('block', $content);
@@ -52,7 +52,7 @@ if ($step == 2) {
     $license_file = rex_path::base('LICENSE.md');
     $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
     $content .= '<div class="rex-content-scroll">' . $license . '</div>';
-    
+
     echo $headline . rex_view::content('block', $content) . $button;
 
 }
@@ -222,7 +222,7 @@ if ($step == 4) {
     $headline = rex_view::title(rex_i18n::msg('setup_400'));
 
     $content = '';
-    
+
 
     $submit_message = rex_i18n::msg('setup_410');
     if (count($error_array) > 0) {
@@ -346,14 +346,14 @@ $createdb = rex_post('createdb', 'int', -1);
 
 if ($step > 5 && $createdb > -1) {
 
-    $tables_complete = (rex_setup_importer::verifyDbSchema() == "") ? true : false;
+    $tables_complete = (rex_setup_importer::verifyDbSchema() == '') ? true : false;
 
     if ($createdb == 4) {
         $error = rex_setup_importer::updateFromPrevious();
         if ($error != '') {
             $errors[] = rex_view::error($error);
         }
-        
+
     } elseif ($createdb == 3) {
         $import_name = rex_post('import_name', 'string');
         $error = rex_setup_importer::loadExistingImport($import_name);
@@ -378,7 +378,7 @@ if ($step > 5 && $createdb > -1) {
         if ($error != '') {
             $errors[] = rex_view::error($error);
         }
-        
+
     } else {
         $errors[] = rex_view::error(rex_i18n::msg('error_undefined'));
     }
@@ -397,15 +397,15 @@ if ($step > 5 && $createdb > -1) {
     }
 }
 
-if($step > 5) {
-    if (!rex_setup_importer::verifyDbSchema() == "") {
+if ($step > 5) {
+    if (!rex_setup_importer::verifyDbSchema() == '') {
       $step = 5;
     }
 }
 
 if ($step == 5) {
 
-    $tables_complete = (rex_setup_importer::verifyDbSchema() == "") ? true : false;
+    $tables_complete = (rex_setup_importer::verifyDbSchema() == '') ? true : false;
 
     $createdb = rex_post('createdb', 'int', '');
 
