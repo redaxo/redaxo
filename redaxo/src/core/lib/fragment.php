@@ -198,17 +198,6 @@ class rex_fragment
     }
 
     /**
-     * Magic setter to set a fragment variable
-     *
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function __set($name, $value)
-    {
-        $this->setVar($name, $value);
-    }
-
-    /**
      * Magic method to check if a variable is set.
      *
      * @param string $name The name of the variable to check.
