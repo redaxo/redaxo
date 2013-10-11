@@ -33,7 +33,7 @@ if ($func == 'deleteclang' && $clang_id != '') {
             unset ($clang_id);
         }
 
-    } catch (Exception $e) {
+    } catch (rex_functional_exception $e) {
         echo rex_view::error($e->getMessage());
 
     }
