@@ -12,7 +12,7 @@ class rex_string_test extends PHPUnit_Framework_TestCase
         return [
             [
                 'ae_oe_ue_ae_oe_ue_ss_ae_oe_ue_ae_oe_ue',
-                "Ä Ö Ü ä ö ü ß A\xec\x88 O\xec\x88 U\xec\x88 a\xec\x88 o\xec\x88 u\xec\x88"
+                "Ä Ö Ü ä ö ü ß A\xcc\x88 O\xcc\x88 U\xcc\x88 a\xcc\x88 o\xcc\x88 u\xcc\x88"
             ],
             ['test-12-3-4-a', 'Test. 12+3+-4 [a]', '-'],
             ['test123', '"test" 123', ''],

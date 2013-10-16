@@ -32,7 +32,7 @@ class rex_string
     public static function normalize($string, $replaceChar = '_', $allowedChars = '')
     {
         // replace UTF-8 NFD umlauts
-        $string = preg_replace("/(?<=[aou])\xec\x88/i", 'e', $string);
+        $string = preg_replace("/(?<=[aou])\xcc\x88/i", 'e', $string);
 
         $string = mb_strtolower($string);
 
