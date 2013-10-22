@@ -210,7 +210,8 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, 
 
 
 sql_database_already_exists = Datenbank existiert schon.
-sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank/ zum Datenbankserver hergestellt werden!
+sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank hergestellt werden!
+sql_unable_to_connect_server = Es konnte keine Verbindung zum Datenbankserver hergestellt werden!
 sql_unable_to_create_database = Die angegebene Datenbank konnte nicht angelegt werden!
 sql_unable_to_find_database = Die angegebene Datenbank konnte nicht gefunden werden!
 sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet werden!

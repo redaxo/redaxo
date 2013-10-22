@@ -1302,8 +1302,16 @@ class rex_sql implements Iterator
                 strpos($e->getMessage(), 'SQLSTATE[HY000] [1044]') !== false ||
                 strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
             ) {
-                // unable to connect
+                // unable to connect to db
                 $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
+            }
+            // ER_ACCESS_TO_SERVER_ERROR
+            elseif (
+                strpos($e->getMessage(), 'SQLSTATE[HY000] [2005]') !== false
+            ) {
+                // unable to connect to server
+                $err_msg = rex_i18n::msg('sql_unable_to_connect_server');
+
             } else {
                 // we didn't expected this error, so rethrow it to show it to the admin/end-user
                 throw $e;

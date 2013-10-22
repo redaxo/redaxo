@@ -210,7 +210,7 @@ if ($step > 4) {
 
         try {
             $err = rex_setup::checkDb($config, $redaxo_db_create);
-        } catch ( Exception $e) {
+        } catch ( PDOException $e) {
             $err = rex_i18n::msg("setup_415", $e->getMessage());
         }
 
