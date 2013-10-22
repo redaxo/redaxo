@@ -207,7 +207,13 @@ if ($step > 4) {
     }
 
     if (count($error_array) == 0) {
-        $err = rex_setup::checkDb($config, $redaxo_db_create);
+
+        try {
+            $err = rex_setup::checkDb($config, $redaxo_db_create);
+        } catch ( Exception $e) {
+            $err = rex_i18n::msg("setup_415", $e->getMessage());
+        }
+
         if ($err != '') {
             $error_array[] = rex_view::error($err);
         }

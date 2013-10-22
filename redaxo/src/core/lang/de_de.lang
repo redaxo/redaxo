@@ -160,6 +160,7 @@ setup_411 = Datenbank anlegen?
 setup_412 = Zeitzone
 setup_413 = Zeitzone ist ungültig!
 setup_414 = Schritt 4 erneut durchführen
+setup_415 = Folgender Fehler wurde gemeldet: {0}
 setup_499 = 4 / config.yml
 
 setup_500 = Setup: Schritt 5 von 7 / Datenbank
@@ -209,7 +210,7 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, 
 
 
 sql_database_already_exists = Datenbank existiert schon.
-sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank hergestellt werden!
+sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank/ zum Datenbankserver hergestellt werden!
 sql_unable_to_create_database = Die angegebene Datenbank konnte nicht angelegt werden!
 sql_unable_to_find_database = Die angegebene Datenbank konnte nicht gefunden werden!
 sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet werden!
