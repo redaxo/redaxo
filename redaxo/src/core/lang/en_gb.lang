@@ -480,6 +480,10 @@ pool_upload = Fileupload
 # redaxo/include/pages
 recommended = recommended
 setup = Setup
+
+setup_100 = Setup: Step 1 of 7 / Language
+setup_101 = Please select a language
+
 setup_text = You can initiat the setup process here. This is only for emergency and not required on normal conditions.
 setup_error1 = Setup activated. Please click {0}>continue<{1} and execute setup.
 setup_error2 = Error. boot.php is not writeable. Please insert \"\$REX[SETUP] = true;\" in boot.php
