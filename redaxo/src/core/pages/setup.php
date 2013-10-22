@@ -669,7 +669,23 @@ if ($step == 6) {
     $redaxo_user_pass  = rex_post('redaxo_user_pass', 'string');
 
 
+    if ($user_sql->getRows() > 0) {
+        $formElements = [];
+        $n = [];
 
+        $checked = '';
+        if (!isset($_REQUEST['redaxo_user_login'])) {
+          $checked = 'checked="checked"';
+        }
+
+        $n['label'] = '<label for="rex-form-noadmin">' . rex_i18n::msg('setup_609') . '</label>';
+        $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" '.$checked.' />';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $content .= $fragment->parse('core/form/checkbox.php');
+    }
 
     $formElements = [];
 
@@ -687,22 +703,7 @@ if ($step == 6) {
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/form.php');
 
-    if ($user_sql->getRows() > 0) {
-        $formElements = [];
-        $n = [];
-        $n['label'] = '<label for="rex-form-noadmin">' . rex_i18n::msg('setup_609') . '</label>';
-        $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" />';
-        $formElements[] = $n;
-
-        $fragment = new rex_fragment();
-        $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.php');
-    }
-
-
-
     $content .= '</fieldset><fieldset class="rex-form-action"><div class="rex-form-action-inner">';
-
 
     $formElements = [];
 
@@ -729,7 +730,24 @@ if ($step == 6) {
             });
 
             $("#javascript").val("1");
+
+            $("#createadminform fieldset .rex-form-choice input").on("change",function (){
+
+                if($(this).is(":checked")) {
+                    $("#createadminform fieldset:first-child .rex-form").each(function() {
+                        $(this).css("display","none");
+                    })
+                } else {
+                    $("#createadminform fieldset:first-child .rex-form").each(function() {
+                        $(this).css("display","block");
+                    })
+                }
+
+            }).trigger("change");
+
         });
+
+        jQuery
      //-->
     </script>';
 
