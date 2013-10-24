@@ -746,8 +746,6 @@ if ($step == 6) {
             }).trigger("change");
 
         });
-
-        jQuery
      //-->
     </script>';
 
