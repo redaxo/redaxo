@@ -211,7 +211,7 @@ if ($step > 4) {
         try {
             $err = rex_setup::checkDb($config, $redaxo_db_create);
         } catch ( PDOException $e) {
-            $err = rex_i18n::msg("setup_415", $e->getMessage());
+            $err = rex_i18n::msg('setup_415', $e->getMessage());
         }
 
         if ($err != '') {
@@ -679,7 +679,7 @@ if ($step == 6) {
         }
 
         $n['label'] = '<label for="rex-form-noadmin">' . rex_i18n::msg('setup_609') . '</label>';
-        $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" '.$checked.' />';
+        $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" ' . $checked . ' />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
