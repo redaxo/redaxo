@@ -183,18 +183,48 @@ class rex_finder implements IteratorAggregate, Countable
     {
         $iterator = new RecursiveDirectoryIterator($this->dir, FilesystemIterator::KEY_AS_PATHNAME | FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::SKIP_DOTS);
 
-        $iterator = new rex_finder_filter($iterator);
-        $iterator->dirsOnly = $this->dirsOnly;
-        $iterator->ignoreFiles = $this->ignoreFiles;
-        $iterator->ignoreFilesRecursive = $this->ignoreFilesRecursive;
-        $iterator->ignoreDirs = $this->ignoreDirs;
-        $iterator->ignoreDirsRecursive = $this->ignoreDirsRecursive;
-        $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
+        $iterator = new RecursiveCallbackFilterIterator($iterator, function (SplFileInfo $current, $key, $currentIterator) use ($iterator) {
+            $filename = $current->getFilename();
+            $isRoot = $currentIterator === $iterator;
+
+            if ($current->isFile()) {
+                if ($this->dirsOnly) {
+                    return false;
+                }
+                $ignoreFiles = $isRoot ? array_merge($this->ignoreFiles, $this->ignoreFilesRecursive) : $this->ignoreFilesRecursive;
+                foreach ($ignoreFiles as $ignore) {
+                    if (fnmatch($ignore, $filename)) {
+                        return false;
+                    }
+                }
+            }
+
+            if ($current->isDir()) {
+                if (!$this->recursive && $this->recursiveMode === RecursiveIteratorIterator::LEAVES_ONLY) {
+                    return false;
+                }
+                $ignoreDirs = $isRoot ? array_merge($this->ignoreDirs, $this->ignoreDirsRecursive) : $this->ignoreDirsRecursive;
+                foreach ($ignoreDirs as $ignore) {
+                    if (fnmatch($ignore, $filename)) {
+                        return false;
+                    }
+                }
+            }
+
+            if ($this->ignoreSystemStuff) {
+                static $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
+                foreach ($systemStuff as $systemStuffFile) {
+                    if (stripos($filename, $systemStuffFile) === 0) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        });
 
         if ($this->recursive) {
             $iterator = new RecursiveIteratorIterator($iterator, $this->recursiveMode);
-        } elseif ($this->recursiveMode === RecursiveIteratorIterator::LEAVES_ONLY) {
-            $iterator->ignoreDirs[] = '*';
         }
 
         if ($this->sort) {
@@ -210,91 +240,5 @@ class rex_finder implements IteratorAggregate, Countable
     public function count()
     {
         return iterator_count($this->getIterator());
-    }
-}
-
-/**
- * Private utility class
- *
- * @author staabm
- * @author gharlan
- * @package redaxo\core
- */
-class rex_finder_filter extends RecursiveFilterIterator
-{
-    public $dirsOnly = false;
-    public $ignoreFiles = [];
-    public $ignoreFilesRecursive = [];
-    public $ignoreDirs = [];
-    public $ignoreDirsRecursive = [];
-    public $ignoreSystemStuff = true;
-
-    private static $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
-
-    /**
-     * Constructor
-     *
-     * @param RecursiveDirectoryIterator $iterator
-     */
-    public function __construct(RecursiveDirectoryIterator $iterator)
-    {
-        parent::__construct($iterator);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildren()
-    {
-        /* @var $iterator self */
-        $iterator = parent::getChildren();
-
-        $iterator->dirsOnly = $this->dirsOnly;
-        $iterator->ignoreFilesRecursive = $this->ignoreFilesRecursive;
-        $iterator->ignoreDirsRecursive = $this->ignoreDirsRecursive;
-        $iterator->ignoreSystemStuff = $this->ignoreSystemStuff;
-
-        return $iterator;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function accept()
-    {
-        /* @var $current SplFileInfo */
-        $current = parent::current();
-        $filename = $current->getFilename();
-
-        if ($current->isFile()) {
-            if ($this->dirsOnly) {
-                return false;
-            }
-            $ignoreFiles = array_merge($this->ignoreFiles, $this->ignoreFilesRecursive);
-            foreach ($ignoreFiles as $ignore) {
-                if (fnmatch($ignore, $filename)) {
-                    return false;
-                }
-            }
-        }
-
-        if ($current->isDir()) {
-            $ignoreDirs = array_merge($this->ignoreDirs, $this->ignoreDirsRecursive);
-            foreach ($ignoreDirs as $ignore) {
-                if (fnmatch($ignore, $filename)) {
-                    return false;
-                }
-            }
-        }
-
-        if ($this->ignoreSystemStuff) {
-            foreach (self::$systemStuff as $systemStuff) {
-                if (stripos($filename, $systemStuff) === 0) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 }
