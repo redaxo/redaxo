@@ -123,7 +123,7 @@ class rex_autoload
     {
         if (self::$cacheChanged) {
             if (is_writable(dirname(self::$cacheFile))) {
-                file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$dirs]));
+                file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$addedDirs]));
                 self::$cacheChanged = false;
             } else {
                 throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
@@ -137,7 +137,7 @@ class rex_autoload
     public static function reload()
     {
         self::$classes = [];
-        self::$dirs = [];
+        self::$dirs = self::$addedDirs;
 
         foreach (self::$addedDirs as $dir) {
             self::_addDirectory($dir);
@@ -163,6 +163,9 @@ class rex_autoload
     public static function addDirectory($dir)
     {
         $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
+        if (in_array($dir, self::$addedDirs)) {
+            return;
+        }
         self::$addedDirs[] = $dir;
         if (!in_array($dir, self::$dirs)) {
             self::_addDirectory($dir);
@@ -195,7 +198,6 @@ class rex_autoload
                     self::$classes[$class] = $path;
                 }
             }
-
         }
     }
 
