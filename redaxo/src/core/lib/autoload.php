@@ -76,17 +76,26 @@ class rex_autoload
             return true;
         }
 
-        // we have a class path for the class, let's include it
+        $force = false;
         $lowerClass = strtolower($class);
-        if (isset(self::$classes[$lowerClass]) && is_readable(self::$classes[$lowerClass])) {
-            require_once self::$classes[$lowerClass];
+        if (isset(self::$classes[$lowerClass])) {
+            // we have a class path for the class, let's include it
+            if (is_readable(self::$classes[$lowerClass])) {
+                require_once self::$classes[$lowerClass];
+                if (self::classExists($class)) {
+                    return true;
+                }
+            }
+            $force = true;
+            unset(self::$classes[$lowerClass]);
+            self::$cacheChanged = true;
         }
 
-        // Return true if class exists now or if class exists after calling $composerLoader
-        if (self::classExists($class) || self::$composerLoader->loadClass($class) && self::classExists($class)) {
+        // Return true if class exists after calling $composerLoader
+        if (self::$composerLoader->loadClass($class) && self::classExists($class)) {
             return true;
-        } elseif (!self::$reloaded) {
-            self::reload();
+        } elseif ((!self::$reloaded || $force) && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            self::reload($force);
             return self::autoload($class);
         }
 
@@ -121,29 +130,36 @@ class rex_autoload
      */
     public static function saveCache()
     {
-        if (self::$cacheChanged) {
-            if (is_writable(dirname(self::$cacheFile))) {
-                file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$addedDirs]));
-                self::$cacheChanged = false;
-            } else {
-                throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
+        if (!self::$cacheChanged) {
+            return;
+        }
+        if (!is_writable(dirname(self::$cacheFile))) {
+            throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
+        }
+
+        foreach (self::$dirs as $dir => $files) {
+            if (!in_array($dir, self::$addedDirs)) {
+                unset(self::$dirs[$dir]);
             }
         }
+        file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$dirs]));
+        self::$cacheChanged = false;
     }
 
     /**
      * Reloads cache.
+     *
+     * @param bool $force
      */
-    public static function reload()
+    public static function reload($force = false)
     {
-        self::$classes = [];
-        self::$dirs = self::$addedDirs;
-
+        if ($force) {
+            self::$classes = [];
+            self::$dirs = [];
+        }
         foreach (self::$addedDirs as $dir) {
             self::_addDirectory($dir);
         }
-
-        self::$cacheChanged = true;
         self::$reloaded = true;
     }
 
@@ -167,9 +183,8 @@ class rex_autoload
             return;
         }
         self::$addedDirs[] = $dir;
-        if (!in_array($dir, self::$dirs)) {
+        if (!isset(self::$dirs[$dir])) {
             self::_addDirectory($dir);
-            self::$dirs[] = $dir;
             self::$cacheChanged = true;
         }
     }
@@ -183,13 +198,24 @@ class rex_autoload
             return;
         }
 
+        if (!isset(self::$dirs[$dir])) {
+            self::$dirs[$dir] = [];
+        }
+        $files = self::$dirs[$dir];
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-
         foreach ($iterator as $path => $file) {
             /** @var SplFileInfo $file */
             if (!$file->isFile() || !in_array($file->getExtension(), ['php', 'inc'])) {
                 continue;
             }
+
+            unset($files[$path]);
+            $checksum = md5_file($path);
+            if (isset(self::$dirs[$dir][$path]) && self::$dirs[$dir][$path] === $checksum) {
+                continue;
+            }
+            self::$dirs[$dir][$path] = $checksum;
+            self::$cacheChanged = true;
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
@@ -198,6 +224,10 @@ class rex_autoload
                     self::$classes[$class] = $path;
                 }
             }
+        }
+        foreach ($files as $path) {
+            unset(self::$dirs[$path]);
+            self::$cacheChanged = true;
         }
     }
 
