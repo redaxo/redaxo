@@ -509,6 +509,11 @@ jQuery(document).ready(function($) {
             }
 
             if (isForm) {
+                var clicked = self.find(':submit[data-clicked]');
+                if (clicked.length) {
+                    // https://github.com/defunkt/jquery-pjax/issues/304
+                    self.append('<input type="hidden" name="' + clicked.attr('name') + '" value="' + clicked.val() + '"/>');
+                }
                 return $.pjax.submit(event, container);
             }
             return $.pjax.click(event, container);
@@ -518,6 +523,9 @@ jQuery(document).ready(function($) {
             // install pjax handlers, see defunkt/jquery-pjax#142
             .on('click', '[data-pjax-container] a, a[data-pjax]', pjaxHandler)
             .on('submit', '[data-pjax-container] form, form[data-pjax]', pjaxHandler)
+            .on('click', '[data-pjax-container] form :submit, form[data-pjax] :submit', function() {
+                $(this).attr('data-clicked', 1);
+            })
             // add pjax error handling
             .on('pjax:error', function(e, xhr, err) {
                 // user not authorized -> redirect to login page
