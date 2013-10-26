@@ -6,6 +6,7 @@ supportpage: www.redaxo.org/de/forum/
 page:
     title: Meta Infos
     perm: admin[]
+    pjax: true
     subpages:
         articles: { title: 'translate:articles' }
         categories: { title: 'translate:categories' }

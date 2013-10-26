@@ -368,7 +368,7 @@ if ($article->getRows() == 1) {
                 if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
                     $info = rex_i18n::msg('content_articlemoved');
                     ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['page' => 'content', 'info' => $info], false));
+                    rex_response::sendRedirect($context->getUrl(['page' => 'content/edit', 'info' => $info], false));
                 } else {
                     $warning = rex_i18n::msg('content_errormovearticle');
                 }
@@ -385,7 +385,7 @@ if ($article->getRows() == 1) {
                 if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
                     $info = rex_i18n::msg('content_articlecopied');
                     ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['page' => 'content', 'article_id' => $new_id, 'info' => $info], false));
+                    rex_response::sendRedirect($context->getUrl(['page' => 'content/edit', 'article_id' => $new_id, 'info' => $info], false));
                 } else {
                     $warning = rex_i18n::msg('content_errorcopyarticle');
                 }
@@ -402,7 +402,7 @@ if ($article->getRows() == 1) {
                 if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
                     $info = rex_i18n::msg('category_moved');
                     ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['page' => 'content', 'info' => $info], false));
+                    rex_response::sendRedirect($context->getUrl(['page' => 'content/edit', 'info' => $info], false));
                 } else {
                     $warning = rex_i18n::msg('content_error_movecategory');
                 }
@@ -441,7 +441,7 @@ if ($article->getRows() == 1) {
         $navigation = current($blocks);
         $content_navi_right = $navigation['navigation'];
 
-        $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;" data-pjax="false">' . rex_i18n::msg('show') . '</a>';
+        $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('show') . '</a>';
 
         $left = '<div class="rex-js-drop rex-dropdown rex-drop-right">
                     <span class="rex-button rex-drop-button rex-js-drop-button">

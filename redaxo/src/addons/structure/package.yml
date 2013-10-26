@@ -8,6 +8,7 @@ page:
     perm: structure/hasStructurePerm
     block: system
     prio: 10
+    pjax: true
 
 pages:
     linkmap:
@@ -17,5 +18,6 @@ pages:
         popup: true
         hidden: true
         perm: structure/hasStructurePerm
+        pjax: true
 
 system_plugins: [content]

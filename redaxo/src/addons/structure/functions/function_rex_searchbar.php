@@ -27,7 +27,7 @@ function rex_structure_searchbar(rex_context $context)
     // ------------ Suche via ArtikelId
     if (preg_match('/^[0-9]+$/', $search_article_name, $matches)) {
         if ($OOArt = rex_article::get($matches[0], $clang)) {
-            rex_response::sendRedirect($context->getUrl(['page' => 'content', 'article_id' => $OOArt->getId(), false]));
+            rex_response::sendRedirect($context->getUrl(['page' => 'content/edit', 'article_id' => $OOArt->getId(), false]));
         }
     }
 
@@ -71,7 +71,7 @@ function rex_structure_searchbar(rex_context $context)
         if ($foundRows == 1) {
             $OOArt = rex_article::get($search->getValue('id'), $clang);
             if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($OOArt->getCategoryId())) {
-                rex_response::sendRedirect($context->getUrl(['page' => 'content', 'article_id' => $search->getValue('id')], false));
+                rex_response::sendRedirect($context->getUrl(['page' => 'content/edit', 'article_id' => $search->getValue('id')], false));
             }
         }
         // Mehrere Suchtreffer, Liste anzeigen
@@ -123,7 +123,7 @@ function rex_structure_searchbar(rex_context $context)
                     $label = htmlspecialchars($label);
                     $label = $highlightHit($label, $needle);
 
-                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'content', 'article_id' => $treeItem->getId()]) . '">' . $label . ' </a></li>';
+                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'content/edit', 'article_id' => $treeItem->getId()]) . '">' . $label . ' </a></li>';
 
                     $search_result .= '<li><ul class="be_search-search-hit">' . $s . '</ul></li>';
                 }

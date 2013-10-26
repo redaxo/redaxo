@@ -198,5 +198,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('items', $meta_items, false);
 echo $fragment->parse('core/meta.php');
 
+$pjax = $curPage->allowsPjax() ? 'data-pjax-container="#rex-page-main"' : '';
 
-?><section id="rex-page-main-container"><div id="rex-page-main" data-pjax-container="#rex-page-main">
+?><section id="rex-page-main-container"><div id="rex-page-main"<?= $pjax ?>>

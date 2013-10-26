@@ -6,6 +6,7 @@ supportpage: www.redaxo.org/de/forum/
 page:
     title: 'translate:title'
     perm: admin[]
+    pjax: true
     subpages:
         cronjobs: { title: 'translate:title' }
         log: { title: 'translate:log' }

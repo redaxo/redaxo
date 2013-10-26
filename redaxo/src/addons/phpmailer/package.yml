@@ -6,6 +6,7 @@ supportpage: www.redaxo.org/de/forum/
 page:
     title: PHPMailer
     perm: phpmailer[]
+    pjax: true
     subpages:
         config: { title: 'translate:configuration' }
         example: { title: 'translate:example' }

@@ -143,6 +143,7 @@ class rex_be_controller
     {
         $profile = new rex_be_page('profile', rex_i18n::msg('profile'));
         $profile->setPath(rex_path::core('pages/profile.php'));
+        $profile->setPjax();
         self::$pages['profile'] = $profile;
 
         $credits = new rex_be_page('credits', rex_i18n::msg('credits'));
@@ -153,12 +154,14 @@ class rex_be_controller
         $packages->setPath(rex_path::core('pages/packages.php'));
         $packages->setRequiredPermissions('isAdmin');
         $packages->setPrio(60);
+        $packages->setPjax();
         self::$pages['packages'] = $packages;
 
         $system = new rex_be_page_main('system', 'system', rex_i18n::msg('system'));
         $system->setPath(rex_path::core('pages/system.php'));
         $system->setRequiredPermissions('isAdmin');
         $system->setPrio(70);
+        $system->setPjax();
         $system->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')));
         $system->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')));
         $system->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')));
@@ -327,20 +330,26 @@ class rex_be_controller
 
     public static function checkPage(rex_user $user)
     {
+        $page = self::getCurrentPageObject();
         // --- page pruefen und benoetigte rechte checken
-        if (!($p = self::getCurrentPageObject()) || !$p->checkPermission($user)) {
+        if (!$page || !$page->checkPermission($user)) {
             // --- fallback zur user startpage -> rechte checken
-            $page = $user->getStartPage();
-            if (!($p = self::getPageObject($page)) || !$p->checkPermission($user)) {
+            $page = self::getPageObject($user->getStartPage());
+            if (!$page || !$page->checkPermission($user)) {
                 // --- fallback zur system startpage -> rechte checken
-                $page = rex::getProperty('start_page');
-                if (!($p = self::getPageObject($page)) || !$p->checkPermission($user)) {
+                $page = self::getPageObject(rex::getProperty('start_page'));
+                if (!$page || !$page->checkPermission($user)) {
                     // --- fallback zur profile page
-                    $page = 'profile';
+                    $page = self::getPageObject('profile');
                 }
             }
             rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
-            rex_response::sendRedirect(rex_url::backendPage($page));
+            rex_response::sendRedirect($page->getHref());
+        }
+        if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
+            rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
+            $url = $leaf->hasHref() ? $leaf->getHref() : rex_context::restore()->getUrl(['page' => $leaf->getFullKey()], false);
+            rex_response::sendRedirect($url);
         }
     }
 

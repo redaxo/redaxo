@@ -40,7 +40,7 @@ function openMediaPool(id)
     {
         id = '';
     }
-    newPoolWindow('index.php?page=mediapool&opener_input_field='+ id);
+    newPoolWindow('index.php?page=mediapool/media&opener_input_field='+ id);
 }
 
 function openREXMedia(id,param)
@@ -50,7 +50,7 @@ function openREXMedia(id,param)
     {
         param = '';
     }
-    newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
+    newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + mediaid);
 }
 
 function viewREXMedia(id,param)
@@ -62,8 +62,8 @@ function viewREXMedia(id,param)
         param = '';
     }
     if (value != '') {
-        param = param + '&subpage=media&file_name='+ value;
-        newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + mediaid);
+        param = param + '&file_name='+ value;
+        newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + mediaid);
     }
 }
 
@@ -95,11 +95,11 @@ function openREXMedialist(id,param)
     }
     for (ii = 0; ii < sourcelength; ii++) {
         if (source.options[ii].selected) {
-            param += '&subpage=media&file_name='+ source.options[ii].value;
+            param += '&file_name='+ source.options[ii].value;
             break;
         }
     }
-    newPoolWindow('index.php?page=mediapool'+ param +'&opener_input_field='+ medialist);
+    newPoolWindow('index.php?page=mediapool/media'+ param +'&opener_input_field='+ medialist);
 }
 
 function viewREXMedialist(id,param)
@@ -115,12 +115,12 @@ function viewREXMedialist(id,param)
     }
     for (ii = 0; ii < sourcelength; ii++) {
         if (source.options[ii].selected) {
-            param += '&subpage=media&file_name='+ source.options[ii].value;
+            param += '&file_name='+ source.options[ii].value;
             break;
         }
     }
     if(param != '')
-        newPoolWindow('index.php?page=mediapool' + param + '&opener_input_field=' + medialist);
+        newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + medialist);
 }
 
 function addREXMedialist(id,params)

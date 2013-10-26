@@ -255,7 +255,7 @@ class rex_list implements rex_url_provider_interface
 
     protected function loadBackendConfig()
     {
-        $this->addParam('page', rex_request('page', 'string'));
+        $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
     public function addTableAttribute($attrName, $attrValue)

@@ -28,6 +28,7 @@ class rex_be_page
     private $hidden = false;
     private $hasLayout = true;
     private $hasNavigation = true;
+    private $pjax;
     private $requiredPermissions = [];
 
     /**
@@ -126,9 +127,19 @@ class rex_be_page
     public function setHref($href)
     {
         if (is_array($href)) {
-            $href = rex_url::backendController($href);
+            $href = rex_url::backendController($href, false);
         }
         $this->href = $href;
+    }
+
+    /**
+     * Returns whether the page has a custom href
+     *
+     * @return bool
+     */
+    public function hasHref()
+    {
+        return (boolean) $this->href;
     }
 
     /**
@@ -141,7 +152,7 @@ class rex_be_page
         if ($this->href) {
             return $this->href;
         }
-        return rex_url::backendPage($this->getFullKey(), [], false);
+        return rex_url::backendPage($this->getFirstSubpagesLeaf()->getFullKey(), [], false);
     }
 
     /**
@@ -407,6 +418,20 @@ class rex_be_page
     }
 
     /**
+     * Returns the first leaf of the subpages tree
+     *
+     * @return self
+     */
+    public function getFirstSubpagesLeaf()
+    {
+        $page = $this;
+        while ($subpages = $page->getSubpages()) {
+            $page = reset($subpages);
+        }
+        return $page;
+    }
+
+    /**
      * Sets whether the page is active
      *
      * @param bool $isActive
@@ -503,6 +528,32 @@ class rex_be_page
     public function hasNavigation()
     {
         return $this->hasNavigation && (!$this->parent || $this->parent->hasNavigation());
+    }
+
+    /**
+     * Sets whether the page allows pjax
+     *
+     * @param bool $pjax
+     */
+    public function setPjax($pjax = true)
+    {
+        $this->pjax = $pjax;
+    }
+
+    /**
+     * Returns whether the page allows pjax
+     *
+     * @return bool
+     */
+    public function allowsPjax()
+    {
+        if (!is_null($this->pjax)) {
+            return $this->pjax;
+        }
+        if ($this->parent) {
+            return $this->parent->allowsPjax();
+        }
+        return false;
     }
 
     /**

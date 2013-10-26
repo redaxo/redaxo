@@ -114,21 +114,13 @@ if (rex::getUser()) {
 $pages = rex_extension::registerPoint(new rex_extension_point('PAGES_PREPARED', rex_be_controller::getPages()));
 rex_be_controller::setPages($pages);
 
-// Set current page recursively to first subpage
-$page = rex_be_controller::getCurrentPageObject();
-if ($page) {
-    while ($subpages = $page->getSubpages()) {
-        $page = reset($subpages);
-    }
-    rex_be_controller::setCurrentPage($page->getFullKey());
-}
-$page = rex_be_controller::getCurrentPage();
-
 // Set Startpage
 if ($user = rex::getUser()) {
     // --- page pruefen und benoetigte rechte checken
     rex_be_controller::checkPage($user);
 }
+$page = rex_be_controller::getCurrentPage();
+rex_view::setJsProperty('page', $page);
 
 // ----- EXTENSION POINT
 // page variable validated

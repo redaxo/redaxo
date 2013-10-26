@@ -10,6 +10,7 @@ pages:
         block: system
         hidden: true
         perm: structure/hasStructurePerm
+        pjax: true
         subpages:
             edit: { title: translate:edit_mode }
             functions: { title: translate:metafuncs }
@@ -19,12 +20,14 @@ pages:
         block: system
         prio: 30
         perm: admin
+        pjax: true
     modules:
         title: translate:modules
         main: true
         block: system
         prio: 40
         perm: admin
+        pjax: true
         subpages:
             modules: { title: translate:modules }
             actions: { title: translate:actions }

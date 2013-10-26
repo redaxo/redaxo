@@ -8,3 +8,4 @@ page:
     perm: admin[]
     block: system
     prio: 100
+    pjax: true
