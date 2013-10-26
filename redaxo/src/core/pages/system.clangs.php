@@ -93,9 +93,9 @@ $content .= '
                 <tr>
                     <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'addclang']) . '#clang"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'add') . '><span class="rex-icon rex-icon-add-language"></span></a></th>
                     <th class="rex-id">ID</th>
-                    <th class="rex-code">' . rex_i18n::msg('clang_code') . '</th>
+                    <th class="rex-langcode">' . rex_i18n::msg('clang_code') . '</th>
                     <th class="rex-name">' . rex_i18n::msg('clang_name') . '</th>
-                    <th class="rex-name">' . rex_i18n::msg('clang_priority') . '</th>
+                    <th class="rex-prio">' . rex_i18n::msg('clang_priority') . '</th>
                     <th colspan="2" class="rex-function">' . rex_i18n::msg('clang_function') . '</th>
                 </tr>
             </thead>
@@ -109,7 +109,7 @@ if ($func == 'addclang') {
                 <tr class="rex-active">
                     <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
                     <td class="rex-id">–</td>
-                    <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" autofocus /></td>
+                    <td class="rex-langcode"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" autofocus /></td>
                     <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($clang_name) . '" /></td>
                     <td class="rex-prio"><input type="text" id="rex-form-clang-prio" name="clang_prio" value="' . ($clang_prio ?: rex_clang::count() + 1) . '" /></td>
                     <td colspan="2" class="rex-save"><button class="rex-button" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
@@ -134,7 +134,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                     <tr class="rex-active">
                         <td class="rex-slim"><span class="rex-icon rex-icon-language"></span></td>
                         ' . $add_td . '
-                        <td class="rex-code"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" autofocus /></td>
+                        <td class="rex-langcode"><input type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" autofocus /></td>
                         <td class="rex-name"><input type="text" id="rex-form-clang-name" name="clang_name" value="' . htmlspecialchars($lang->getName()) . '" /></td>
                         <td class="rex-prio"><input type="text" id="rex-form-clang-prio" name="clang_prio" value="' . htmlspecialchars($lang->getPriority()) . '" /></td>
                         <td colspan="2" class="rex-save"><button class="rex-button" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
@@ -147,7 +147,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                     <tr>
                         <td class="rex-slim"><a href="' . $editLink . '" title="' . htmlspecialchars($clang_name) . '"><span class="rex-icon rex-icon-language"></span></a></td>
                         ' . $add_td . '
-                        <td class="rex-code">' . htmlspecialchars($lang->getCode()) . '</td>
+                        <td class="rex-langcode">' . htmlspecialchars($lang->getCode()) . '</td>
                         <td class="rex-name">' . htmlspecialchars($lang->getName()) . '</td>
                         <td class="rex-prio">' . htmlspecialchars($lang->getPriority()) . '</td>
                         <td class="rex-edit"><a class="rex-edit" href="' . $editLink . '">' . rex_i18n::msg('edit') . '</a></td>
