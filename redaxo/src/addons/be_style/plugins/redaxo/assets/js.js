@@ -1,7 +1,7 @@
 // ------------------------------------------------------------ Drop Menu
 
 jQuery(function($) {
-    $('.rex-js-drop-button, .rex-js-drop .rex-js-close').click(function(){
+    $(document).on('click', '.rex-js-drop-button, .rex-js-drop .rex-js-close', function(){
         checkDrop($(this));
     });
 });
@@ -29,7 +29,7 @@ function closeDrop($object) {
 // ------------------------------------------------------------ Context Menu
 
 jQuery(function($) {
-    $('.rex-js-context-menu-button, .rex-js-context-menu .rex-js-close').click(function(){
+    $(document).on('click', '.rex-js-context-menu-button, .rex-js-context-menu .rex-js-close', function(){
         checkContextMenu($(this));
     });
 });
