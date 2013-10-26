@@ -483,7 +483,15 @@ jQuery(document).ready(function($) {
             }
             var isForm = self.is('form');
             var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
-            if (!regex.test(self.attr(isForm ? 'action' : 'href'))) {
+            if (isForm) {
+                if (self.attr('method') == 'get') {
+                    if (self.find('input[name="page"][value="' + rex.page + '"]').length == 0) {
+                        return;
+                    }
+                } else if (!regex.test(self.attr('action'))) {
+                    return;
+                }
+            } else if (!regex.test(self.attr('href'))) {
                 return;
             }
 
