@@ -245,7 +245,7 @@ class rex_article_content_editor extends rex_article_content
                     <form action="' . rex_url::backendController() . '" method="get" id="slice' . $sliceId . '">
                         <fieldset>
                             <legend><span>' . rex_i18n::msg('add_block') . '</span></legend>
-                            <input type="hidden" name="page" value="content" />
+                            <input type="hidden" name="page" value="content/edit" />
                             <input type="hidden" name="article_id" value="' . $this->article_id . '" />
                             <input type="hidden" name="clang" value="' . $this->clang . '" />
                             <input type="hidden" name="ctype" value="' . $this->ctype . '" />
@@ -283,7 +283,7 @@ class rex_article_content_editor extends rex_article_content
                 $this->MODULESELECT[$ct_id]->setName('module_id');
                 $this->MODULESELECT[$ct_id]->setSize('1');
                 $this->MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
-                $this->MODULESELECT[$ct_id]->setAttribute('onchange', 'this.form.submit();');
+                $this->MODULESELECT[$ct_id]->setAttribute('onchange', '$(this).closest(\'form\').submit();');
                 $this->MODULESELECT[$ct_id]->addOption('----------------------------  ' . rex_i18n::msg('add_block'), '');
                 foreach ($modules as $m) {
                     if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id'])) {
