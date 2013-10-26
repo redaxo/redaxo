@@ -143,6 +143,7 @@ class rex_be_controller
     {
         $profile = new rex_be_page('profile', rex_i18n::msg('profile'));
         $profile->setPath(rex_path::core('pages/profile.php'));
+        $profile->setPjax();
         self::$pages['profile'] = $profile;
 
         $credits = new rex_be_page('credits', rex_i18n::msg('credits'));
@@ -153,12 +154,14 @@ class rex_be_controller
         $packages->setPath(rex_path::core('pages/packages.php'));
         $packages->setRequiredPermissions('isAdmin');
         $packages->setPrio(60);
+        $packages->setPjax();
         self::$pages['packages'] = $packages;
 
         $system = new rex_be_page_main('system', 'system', rex_i18n::msg('system'));
         $system->setPath(rex_path::core('pages/system.php'));
         $system->setRequiredPermissions('isAdmin');
         $system->setPrio(70);
+        $system->setPjax();
         $system->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')));
         $system->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')));
         $system->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')));

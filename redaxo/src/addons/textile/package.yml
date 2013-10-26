@@ -6,3 +6,4 @@ supportpage: www.redaxo.org/de/forum/
 page:
     title: 'Textile'
     perm: admin[]
+    pjax: true

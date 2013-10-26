@@ -6,6 +6,7 @@ supportpage: www.redaxo.org/de/forum/
 page:
     title: 'translate:im_export_importexport'
     perm: import_export[export]
+    pjax: true
     subpages:
         export: { title: 'translate:im_export_export' }
         import: { title: 'translate:im_export_import', perm: 'import_export[import]' }

@@ -9,6 +9,7 @@ page:
     perm: media/hasMediaPerm
     prio: 20
     block: system
+    pjax: true
     subpages:
         media:     { title: translate:pool_file_list }
         upload:    { title: translate:pool_file_insert }

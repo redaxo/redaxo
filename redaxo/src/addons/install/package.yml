@@ -8,6 +8,7 @@ page:
     perm: admin[]
     block: system
     prio: 80
+    pjax: true
     subpages:
         packages:
             title: 'translate:subpage_packages'
