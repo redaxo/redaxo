@@ -86,6 +86,9 @@ class rex_autoload
                     return true;
                 }
             }
+            // there is a class path in cache, but the file does not exist or does not contain the class any more
+            // but maybe the class exists in another already known file now
+            // so all files have to be analysed again => $force reload
             $force = true;
             unset(self::$classes[$lowerClass]);
             self::$cacheChanged = true;
@@ -94,7 +97,11 @@ class rex_autoload
         // Return true if class exists after calling $composerLoader
         if (self::$composerLoader->loadClass($class) && self::classExists($class)) {
             return true;
-        } elseif ((!self::$reloaded || $force) && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+        }
+
+        // Class not found, so reanalyse all directories if not already done or if $force==true
+        // but only if an admin is logged in
+        if ((!self::$reloaded || $force) && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
             self::reload($force);
             return self::autoload($class);
         }
@@ -137,19 +144,21 @@ class rex_autoload
             throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
         }
 
+        // remove obsolete dirs from cache
         foreach (self::$dirs as $dir => $files) {
             if (!in_array($dir, self::$addedDirs)) {
                 unset(self::$dirs[$dir]);
             }
         }
+
         file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$dirs]));
         self::$cacheChanged = false;
     }
 
     /**
-     * Reloads cache.
+     * Reanalyses all added directories
      *
-     * @param bool $force
+     * @param bool $force If true, all files are reanalysed, otherwise only new and changed files
      */
     public static function reload($force = false)
     {
@@ -172,7 +181,7 @@ class rex_autoload
     }
 
     /**
-     * Adds a directory to the autoloading system if not yet present and give it the highest possible precedence.
+     * Adds a directory to the autoloading system if not yet present
      *
      * @param string $dir The directory to look for classes
      */
