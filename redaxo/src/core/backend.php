@@ -120,6 +120,7 @@ if ($user = rex::getUser()) {
     rex_be_controller::checkPage($user);
 }
 $page = rex_be_controller::getCurrentPage();
+rex_view::setJsProperty('page', $page);
 
 // ----- EXTENSION POINT
 // page variable validated

@@ -441,7 +441,7 @@ if ($article->getRows() == 1) {
         $navigation = current($blocks);
         $content_navi_right = $navigation['navigation'];
 
-        $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;" data-pjax="false">' . rex_i18n::msg('show') . '</a>';
+        $content_navi_text_right = rex_i18n::msg('article') . ' <a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('show') . '</a>';
 
         $left = '<div class="rex-js-drop rex-dropdown rex-drop-right">
                     <span class="rex-button rex-drop-button rex-js-drop-button">
