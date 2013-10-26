@@ -1287,7 +1287,7 @@ class rex_form
 
         $paramString = '';
         foreach ($params as $name => $value) {
-            $paramString = $name . '=' . $value . '&';
+            $paramString .= '&' . $name . '=' . $value;
         }
 
         if ($this->debug) {
@@ -1358,9 +1358,14 @@ class rex_form
             }
         }
 
-        // Parameter dem Formular hinzufügen
-        foreach ($this->getParams() as $name => $value) {
-            $this->addHiddenField($name, $value, ['internal::useArraySyntax' => 'none']);
+        $actionParams = [];
+        if ('get' == strtolower($this->method)) {
+            // Parameter dem Formular hinzufügen
+            foreach ($this->getParams() as $name => $value) {
+                $this->addHiddenField($name, $value, ['internal::useArraySyntax' => 'none']);
+            }
+        } else {
+            $actionParams = $this->getParams();
         }
 
         $s = "\n";
@@ -1380,7 +1385,7 @@ class rex_form
         $fieldsets = $this->getFieldsetElements();
         $last = count($fieldsets);
 
-        $s .= '    <form action="' . rex_url::backendController() . '" method="' . $this->method . '">' . "\n";
+        $s .= '    <form action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '        <fieldset>' . "\n";
             $s .= '            <h2>' . htmlspecialchars($fieldsetName) . '</h2>' . "\n";
