@@ -202,7 +202,7 @@ class rex_autoload
             self::$dirs[$dir] = [];
         }
         $files = self::$dirs[$dir];
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS));
         foreach ($iterator as $path => $file) {
             /** @var SplFileInfo $file */
             if (!$file->isFile() || !in_array($file->getExtension(), ['php', 'inc'])) {
