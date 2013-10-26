@@ -533,7 +533,6 @@ jQuery(document).ready(function($) {
                     window.location = 'index.php?page=login';
                     return false;
                 }
-                $('#rex-message-container').text('Something went wrong: ' + err);
             })
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
