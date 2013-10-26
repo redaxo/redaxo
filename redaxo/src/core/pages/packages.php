@@ -138,7 +138,7 @@ if ($subpage == '') {
                     <tr class="rex-' . $type . $class . '">
                         <td class="rex-slim"><span class="rex-icon rex-icon-' . $type . '"></span></td>
                         <td class="rex-package-name"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '">' . $name . ' <span class="rex-icon rex-icon-help"></span></a></td>
-                        <td class="rex-install">' . $install . '</td>
+                        <td class="rex-install" data-pjax-container="#rex-page">' . $install . '</td>
                         <td class="rex-active" data-pjax-container="#rex-page">' . $status . '</td>
                         <td class="rex-uninstall" data-pjax-container="#rex-page">' . $uninstall . '</td>
                         <td class="rex-delete" data-pjax-container="#rex-page">' . $delete . '</td>
