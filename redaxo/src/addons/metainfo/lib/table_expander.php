@@ -231,7 +231,7 @@ class rex_metainfo_table_expander extends rex_form
             rex_delete_cache();
 
             $fieldName = $this->addPrefix($fieldName);
-            $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type');
+            $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type_id');
             $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
 
             $sql = rex_sql::factory();
