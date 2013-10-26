@@ -481,7 +481,7 @@ jQuery(document).ready(function($) {
             if(event.isDefaultPrevented()) {
                 return;
             }
-            var isForm = self.prop('tagName').toLowerCase() == 'form';
+            var isForm = self.is('form');
             var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
             if (!regex.test(self.attr(isForm ? 'action' : 'href'))) {
                 return;
