@@ -89,6 +89,7 @@ class rex_be_page
      * If $popup is a string, the variable will be used for the onclick attribute.
      *
      * @param bool|string $popup
+     * @return $this
      */
     public function setPopup($popup)
     {
@@ -107,6 +108,8 @@ class rex_be_page
             $this->removeLinkClass('rex-popup');
             $this->removeLinkAttr('onclick');
         }
+
+        return $this;
     }
 
     /**
@@ -123,6 +126,7 @@ class rex_be_page
      * Sets the page href
      *
      * @param string|array $href Href string or array of params
+     * @return $this
      */
     public function setHref($href)
     {
@@ -130,6 +134,8 @@ class rex_be_page
             $href = rex_url::backendController($href, false);
         }
         $this->href = $href;
+
+        return $this;
     }
 
     /**
@@ -161,6 +167,7 @@ class rex_be_page
      * @param string $name
      * @param string $value
      * @throws InvalidArgumentException
+     * @return $this
      */
     public function setItemAttr($name, $value)
     {
@@ -171,6 +178,8 @@ class rex_be_page
             throw new InvalidArgumentException('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
         }
         $this->itemAttr[$name] = $value;
+
+        return $this;
     }
 
     /**
@@ -205,6 +214,7 @@ class rex_be_page
      *
      * @param string $class
      * @throws InvalidArgumentException
+     * @return $this
      */
     public function addItemClass($class)
     {
@@ -215,6 +225,8 @@ class rex_be_page
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setItemAttr('class', ltrim($classAttr . ' ' . $class));
         }
+
+        return $this;
     }
 
     /**
@@ -233,6 +245,7 @@ class rex_be_page
      * @param string $name
      * @param string $value
      * @throws InvalidArgumentException
+     * @return $this
      */
     public function setLinkAttr($name, $value)
     {
@@ -243,6 +256,8 @@ class rex_be_page
             throw new InvalidArgumentException('Expecting $value to be a scalar, ' . gettype($value) . 'given!');
         }
         $this->linkAttr[$name] = $value;
+
+        return $this;
     }
 
     /**
@@ -277,6 +292,7 @@ class rex_be_page
      *
      * @param string $class
      * @throws InvalidArgumentException
+     * @return $this
      */
     public function addLinkClass($class)
     {
@@ -287,6 +303,8 @@ class rex_be_page
         if (!preg_match('/\b' . preg_quote($class, '/') . '\b/', $classAttr)) {
             $this->setLinkAttr('class', ltrim($classAttr . ' ' . $class));
         }
+
+        return $this;
     }
 
     /**
@@ -303,10 +321,13 @@ class rex_be_page
      * Set the page path which will be included directly by the core
      *
      * @param string $path
+     * @return $this
      */
     public function setPath($path)
     {
         $this->path = $path;
+
+        return $this;
     }
 
     /**
@@ -336,10 +357,13 @@ class rex_be_page
      * Set the page subpath which should be used by the packages to include this page inside their main page
      *
      * @param string $subPath
+     * @return $this
      */
     public function setSubPath($subPath)
     {
         $this->subPath = $subPath;
+
+        return $this;
     }
 
     /**
@@ -366,12 +390,15 @@ class rex_be_page
      * Adds a subpage
      *
      * @param self $subpage
+     * @return $this
      */
     public function addSubpage(self $subpage)
     {
         $this->subpages[$subpage->getKey()] = $subpage;
         $subpage->parent = $this;
         $subpage->setParentKey($this->getFullKey());
+
+        return $this;
     }
 
     /**
@@ -389,11 +416,14 @@ class rex_be_page
      * Sets all subpages
      *
      * @param self[] $subpages
+     * @return $this
      */
     public function setSubpages(array $subpages)
     {
         $this->subpages = [];
         array_walk($subpages, [$this, 'addSubpage']);
+
+        return $this;
     }
 
     /**
@@ -435,10 +465,13 @@ class rex_be_page
      * Sets whether the page is active
      *
      * @param bool $isActive
+     * @return $this
      */
     public function setIsActive($isActive = true)
     {
         $this->isActive = $isActive;
+
+        return $this;
     }
 
     /**
@@ -474,10 +507,13 @@ class rex_be_page
      * Sets whether the page is hidden
      *
      * @param bool $hidden
+     * @return $this
      */
     public function setHidden($hidden = true)
     {
         $this->hidden = $hidden;
+
+        return $this;
     }
 
     /**
@@ -494,10 +530,13 @@ class rex_be_page
      * Sets whether the page has layout
      *
      * @param bool $hasLayout
+     * @return $this
      */
     public function setHasLayout($hasLayout)
     {
         $this->hasLayout = $hasLayout;
+
+        return $this;
     }
 
     /**
@@ -514,10 +553,13 @@ class rex_be_page
      * Sets whether the page has a navigation
      *
      * @param bool $hasNavigation
+     * @return $this
      */
     public function setHasNavigation($hasNavigation)
     {
         $this->hasNavigation = $hasNavigation;
+
+        return $this;
     }
 
     /**
@@ -534,10 +576,13 @@ class rex_be_page
      * Sets whether the page allows pjax
      *
      * @param bool $pjax
+     * @return $this
      */
     public function setPjax($pjax = true)
     {
         $this->pjax = $pjax;
+
+        return $this;
     }
 
     /**
@@ -560,10 +605,13 @@ class rex_be_page
      * Sets the required permissions
      *
      * @param array|string $perm
+     * @return $this
      */
     public function setRequiredPermissions($perm)
     {
         $this->requiredPermissions = (array) $perm;
+
+        return $this;
     }
 
     /**

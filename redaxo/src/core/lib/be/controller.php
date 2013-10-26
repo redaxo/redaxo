@@ -141,35 +141,31 @@ class rex_be_controller
 
     public static function appendLoggedInPages()
     {
-        $profile = new rex_be_page('profile', rex_i18n::msg('profile'));
-        $profile->setPath(rex_path::core('pages/profile.php'));
-        $profile->setPjax();
-        self::$pages['profile'] = $profile;
+        self::$pages['profile'] = (new rex_be_page('profile', rex_i18n::msg('profile')))
+            ->setPath(rex_path::core('pages/profile.php'))
+            ->setPjax();
 
-        $credits = new rex_be_page('credits', rex_i18n::msg('credits'));
-        $credits->setPath(rex_path::core('pages/credits.php'));
-        self::$pages['credits'] = $credits;
+        self::$pages['credits'] = (new rex_be_page('credits', rex_i18n::msg('credits')))
+            ->setPath(rex_path::core('pages/credits.php'));
 
-        $packages = new rex_be_page_main('system', 'packages', rex_i18n::msg('addons'));
-        $packages->setPath(rex_path::core('pages/packages.php'));
-        $packages->setRequiredPermissions('isAdmin');
-        $packages->setPrio(60);
-        $packages->setPjax();
-        self::$pages['packages'] = $packages;
+        self::$pages['packages'] = (new rex_be_page_main('system', 'packages', rex_i18n::msg('addons')))
+            ->setPath(rex_path::core('pages/packages.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(60)
+            ->setPjax();
 
-        $system = new rex_be_page_main('system', 'system', rex_i18n::msg('system'));
-        $system->setPath(rex_path::core('pages/system.php'));
-        $system->setRequiredPermissions('isAdmin');
-        $system->setPrio(70);
-        $system->setPjax();
-        $system->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')));
-        $system->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')));
-        $system->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')));
-        $phpinfo = new rex_be_page('phpinfo', 'phpinfo');
-        $phpinfo->setHidden(true);
-        $phpinfo->setHasLayout(false);
-        $system->addSubpage($phpinfo);
-        self::$pages['system'] = $system;
+        self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
+            ->setPath(rex_path::core('pages/system.php'))
+            ->setRequiredPermissions('isAdmin')
+            ->setPrio(70)
+            ->setPjax()
+            ->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')))
+            ->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')))
+            ->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')))
+            ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
+                ->setHidden(true)
+                ->setHasLayout(false)
+            );
     }
 
     public static function appendPackagePages()

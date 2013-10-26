@@ -418,10 +418,10 @@ if ($article->getRows() == 1) {
         $editPage->setHref($context->getUrl(['page' => 'content/edit'], false));
 
         foreach ($ctypes as $key => $val) {
-            $subpage = new rex_be_page('ctype' . $key, rex_i18n::translate($val));
-            $subpage->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key], false);
-            $subpage->setIsActive($ctype == $key);
-         $editPage->addSubpage($subpage);
+            $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
+                ->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key], false)
+                ->setIsActive($ctype == $key)
+            );
         }
 
         $nav = rex_be_navigation::factory();
