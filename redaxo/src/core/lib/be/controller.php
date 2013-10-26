@@ -327,20 +327,26 @@ class rex_be_controller
 
     public static function checkPage(rex_user $user)
     {
+        $page = self::getCurrentPageObject();
         // --- page pruefen und benoetigte rechte checken
-        if (!($p = self::getCurrentPageObject()) || !$p->checkPermission($user)) {
+        if (!$page || !$page->checkPermission($user)) {
             // --- fallback zur user startpage -> rechte checken
-            $page = $user->getStartPage();
-            if (!($p = self::getPageObject($page)) || !$p->checkPermission($user)) {
+            $page = self::getPageObject($user->getStartPage());
+            if (!$page || !$page->checkPermission($user)) {
                 // --- fallback zur system startpage -> rechte checken
-                $page = rex::getProperty('start_page');
-                if (!($p = self::getPageObject($page)) || !$p->checkPermission($user)) {
+                $page = self::getPageObject(rex::getProperty('start_page'));
+                if (!$page || !$page->checkPermission($user)) {
                     // --- fallback zur profile page
-                    $page = 'profile';
+                    $page = self::getPageObject('profile');
                 }
             }
             rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
-            rex_response::sendRedirect(rex_url::backendPage($page));
+            rex_response::sendRedirect($page->getHref());
+        }
+        if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
+            rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
+            $url = $leaf->hasHref() ? $leaf->getHref() : rex_context::restore()->getUrl(['page' => $leaf->getFullKey()], false);
+            rex_response::sendRedirect($url);
         }
     }
 

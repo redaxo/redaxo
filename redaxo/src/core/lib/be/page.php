@@ -127,9 +127,19 @@ class rex_be_page
     public function setHref($href)
     {
         if (is_array($href)) {
-            $href = rex_url::backendController($href);
+            $href = rex_url::backendController($href, false);
         }
         $this->href = $href;
+    }
+
+    /**
+     * Returns whether the page has a custom href
+     *
+     * @return bool
+     */
+    public function hasHref()
+    {
+        return (boolean) $this->href;
     }
 
     /**
@@ -142,7 +152,7 @@ class rex_be_page
         if ($this->href) {
             return $this->href;
         }
-        return rex_url::backendPage($this->getFullKey(), [], false);
+        return rex_url::backendPage($this->getFirstSubpagesLeaf()->getFullKey(), [], false);
     }
 
     /**
@@ -405,6 +415,20 @@ class rex_be_page
     public function getSubpages()
     {
         return $this->subpages;
+    }
+
+    /**
+     * Returns the first leaf of the subpages tree
+     *
+     * @return self
+     */
+    public function getFirstSubpagesLeaf()
+    {
+        $page = $this;
+        while ($subpages = $page->getSubpages()) {
+            $page = reset($subpages);
+        }
+        return $page;
     }
 
     /**

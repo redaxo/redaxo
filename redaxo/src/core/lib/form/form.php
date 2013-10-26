@@ -113,7 +113,7 @@ class rex_form
     {
         $func = rex_request('func', 'string');
 
-        $this->addParam('page', rex_request('page', 'string'));
+        $this->addParam('page', rex_be_controller::getCurrentPage());
         $this->addParam('func', $func);
         $this->addParam('list', rex_request('list', 'string'));
 
