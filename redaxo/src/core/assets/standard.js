@@ -475,19 +475,19 @@ jQuery(document).ready(function($) {
         $.pjax.defaults.timeout = 5000;
         $.pjax.defaults.maxCacheLength = 0;
 
-        // install pjax handlers, see defunkt/jquery-pjax#142
-        $(document).on('click', '[data-pjax-container] a, a[data-pjax]', function(event) {
+        var pjaxHandler = function(event) {
             var self = $(this), container;
 
             if(event.isDefaultPrevented()) {
                 return;
             }
+            var isForm = self.prop('tagName').toLowerCase() == 'form';
             var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
-            if (!regex.test(self.attr('href'))) {
+            if (!regex.test(self.attr(isForm ? 'action' : 'href'))) {
                 return;
             }
 
-            if(self.is('a[data-pjax]')) {
+            if(self.is('[data-pjax]')) {
                 container = self.attr('data-pjax');
             }
             if ('false' === container) {
@@ -500,11 +500,17 @@ jQuery(document).ready(function($) {
                 container = '#rex-page-main';
             }
 
+            if (isForm) {
+                return $.pjax.submit(event, container);
+            }
             return $.pjax.click(event, container);
-        });
+        };
 
-        // add pjax error handling
         $(document)
+            // install pjax handlers, see defunkt/jquery-pjax#142
+            .on('click', '[data-pjax-container] a, a[data-pjax]', pjaxHandler)
+            .on('submit', '[data-pjax-container] form, form[data-pjax]', pjaxHandler)
+            // add pjax error handling
             .on('pjax:error', function(e, xhr, err) {
                 // user not authorized -> redirect to login page
                 if (xhr.status === 401) {
