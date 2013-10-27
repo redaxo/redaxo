@@ -1,11 +1,29 @@
 Here's an edited summary of the commit log. It doesn't include small changes or changes to test cases.
 
-h2. Changes in master branch (from 3.5.0)
+h2. Changes in v3.5.2 (from v3.5.1)
+
+* Improved support for Redcloth-style definition lists.
+*# Allow multiple terms
+*# Allow linebreaks in terms
+* Fix incorrectly rendered @rel@ attributes (closes "#103":https://github.com/textile/php-textile/issues/103.)
+* Fix @getSymbol()@ so it actually returns the named symbol (closes "#104":https://github.com/textile/php-textile/issues/104.)
+* Fix unicode link aliases that were broken on some PCRE_UTF8 supporting systems.
+* Fix collapsing whitespace and preserve newlines. Preserves whitespace inside long @bc@, @notextile@ and @pre@ blocks, rather than collapsing two or more empty lines down to one. Renders whitespace as it was defined, rather than using hard-coded single LF to separate lines (closes "#109":https://github.com/textile/php-textile/issues/109 and "#111":https://github.com/textile/php-textile/pull/111.)
+* Fix the number of code tags rendered inside long code blocks (closes "#116":https://github.com/textile/php-textile/issues/116.)
+* Fix token spoofing from the document body by randomizing token references (closes "#115":https://github.com/textile/php-textile/issues/115.)
+* Add image dimensions to images even when Textile is run on command line. On CLI, images are looked from the current working directory.
+* Define internal class properties as protected rather than at all, causing them to be created as public.
+* Move internal property definitions from the constructor to class definition.
+* Added runnable PHPUnit tests, integration with "Travis CI":https://travis-ci.org/.
+* Removed error suppression, the code doesn't intentionally produce notices.
+* Add @br@ tags to headings instead of leaving linebreaks untouched.
+
+h2. Changes in v3.5.1 (from v3.5.0)
 
 * Remove horizontal alignment from inline elements (closes "#66":https://github.com/netcarver/textile/issues/66.)
 * Reinstate automatic generation of image width and height generation for relative images (closes "#101":https://github.com/netcarver/textile/issues/101.)
-* Add setResponsiveImages() and getResponsiveImages() to surpress width and height generation for relative images and better support content for responsive layouts (closes "#100":https://github.com/netcarver/textile/issues/101.)
-* Allow . in class attributes (closes  (closes "#97":https://github.com/netcarver/textile/issues/97.)
+* Add setDimensionlessImages() and getDimensionlessImages() to surpress width and height generation for relative images and better support content for responsive layouts (closes "#100":https://github.com/netcarver/textile/issues/101.)
+* Allow "." in class attributes (closes "#97":https://github.com/netcarver/textile/issues/97.)
 
 
 h2. Changes in v3.5.0 (from 2.4.1)
@@ -31,7 +49,7 @@ h2. Changes in v3.5.0 (from 2.4.1)
 * Fix a problem with links followed by ':', ';' or '?' like @Do you like "cheese":/cheese?@ where the '?' becomes part of the href rather than a '?' at the end of the sentence. This happens on platforms where PCRE has unicode support.
 * Removal of leading \t from generated paragraphs & better indentation of generated lists in the HTML (closes "#90":https://github.com/netcarver/textile/issues/90.)
 * New method @textileEncode()@. This is preferred to calling @textileThis()@ with the $encode flag.
-* "PSR-0, PSR-1 & PSR-2":https://github.com/php-fig/fig-standards/tree/master/accepted conformity added...
+* "PSR-0, PSR-1 & PSR-2":https://github.com/php-fig/fig-standards/tree/master/accepted conformity added.
 *# Split class Textile into classes @Parser@, @DataBag@ & @Tag@ and moved them into @src/Netcarver/Textile@ directory for PSR-0.
 *# Unified method names & coding styles according to PSR-1 & PSR-2.
 *# Switched from using defines to explicit set methods; @setSymbol()@ & @setRelativeImagePrefix()@.

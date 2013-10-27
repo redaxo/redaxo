@@ -12,3 +12,6 @@
 /redaxo/src/core/vendor/symfony/yaml/Symfony/Component/Yaml/phpunit.xml.dist
 /redaxo/src/addons/textile/vendor/autoload.php
 /redaxo/src/addons/textile/vendor/composer/
+/redaxo/src/addons/textile/vendor/netcarver/textile/.gitignore
+/redaxo/src/addons/textile/vendor/netcarver/textile/.travis.yml
+/redaxo/src/addons/textile/vendor/netcarver/textile/phpunit.xml
