@@ -533,6 +533,12 @@ jQuery(document).ready(function($) {
                     window.location = 'index.php?page=login';
                     return false;
                 }
+                if (xhr.status === 500) {
+                    var newDoc = document.open("text/html", "replace");
+                    newDoc.write(xhr.responseText);
+                    newDoc.close();
+                    return false;
+                }
             })
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
