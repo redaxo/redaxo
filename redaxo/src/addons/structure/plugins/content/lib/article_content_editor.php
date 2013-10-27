@@ -283,7 +283,7 @@ class rex_article_content_editor extends rex_article_content
                 $this->MODULESELECT[$ct_id]->setName('module_id');
                 $this->MODULESELECT[$ct_id]->setSize('1');
                 $this->MODULESELECT[$ct_id]->setStyle('class="rex-form-select"');
-                $this->MODULESELECT[$ct_id]->setAttribute('onchange', '$(this).closest(\'form\').submit();');
+                $this->MODULESELECT[$ct_id]->setAttribute('onchange', '$(this.form).submit();');
                 $this->MODULESELECT[$ct_id]->addOption('----------------------------  ' . rex_i18n::msg('add_block'), '');
                 foreach ($modules as $m) {
                     if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id'])) {
