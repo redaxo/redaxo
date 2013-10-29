@@ -20,8 +20,7 @@ class rex_textile
     private static function getInstance($doctype = 'xhtml')
     {
         if (!isset(self::$instances[$doctype])) {
-            self::$instances[$doctype] = new Netcarver\Textile\Parser;
-            self::$instances[$doctype]->unrestricted_url_schemes[] = 'redaxo';
+            self::$instances[$doctype] = new rex_textile_parser($doctype);
         }
         return self::$instances[$doctype];
     }
@@ -208,5 +207,17 @@ class rex_textile
                 ]
             ]
         ];
+    }
+}
+
+/**
+ * @package redaxo\textile
+ */
+class rex_textile_parser extends Netcarver\Textile\Parser
+{
+    public function __construct($doctype = 'xhtml')
+    {
+        parent::__construct($doctype);
+        $this->unrestricted_url_schemes[] = 'redaxo';
     }
 }
