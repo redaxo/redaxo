@@ -37,7 +37,7 @@ if ($media_method == 'add_file') {
                     $title = $return['title'];
 
                     if ($opener_input_field == 'TINYIMG') {
-                        if (rex_media::isImageType(rex_file::extension($file_name))) {
+                        if (rex_media::isImageExtension(rex_file::extension($file_name))) {
                             $js = "insertImage('$file_name','$title');";
                         }
                     } elseif ($opener_input_field == 'TINY') {

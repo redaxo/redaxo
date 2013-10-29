@@ -265,7 +265,7 @@ class rex_media
      */
     public function isImage()
     {
-        return self::isImageType($this->getExtension());
+        return self::isImageExtension($this->getExtension());
     }
 
     // new functions by vscope
@@ -294,25 +294,14 @@ class rex_media
     }
 
     // allowed image upload types
-    public static function getImageTypes()
+    public static function getImageExtensions()
     {
-        return rex_addon::get('mediapool')->getProperty('image_types');
+        return rex_addon::get('mediapool')->getProperty('image_extensions');
     }
 
-    public static function isImageType($type)
+    public static function isImageExtension($extension)
     {
-        return in_array($type, self :: getImageTypes());
-    }
-
-    public static function compareImageTypes($type1, $type2)
-    {
-        static $jpg = [
-            'image/jpg',
-            'image/jpeg',
-            'image/pjpeg'
-        ];
-
-        return in_array($type1, $jpg) && in_array($type2, $jpg);
+        return in_array($extension, self::getImageExtensions());
     }
 
     public function hasValue($value)
