@@ -484,6 +484,9 @@ jQuery(document).ready(function($) {
             var isForm = self.is('form');
             var regex = new RegExp('\\bpage=' + rex.page + '(\\b[^\/]|$)');
             if (isForm) {
+                if (self.attr('enctype') == 'multipart/form-data') {
+                    return;
+                }
                 if (self.attr('method') == 'get') {
                     if (self.find('input[name="page"][value="' + rex.page + '"]').length == 0) {
                         return;
