@@ -167,7 +167,7 @@ if ($file_id) {
         $rex_file_category = $gf->getValue('category_id');
 
 
-        $isImage = rex_media::isImageExtension(rex_file::extension($fname));
+        $isImage = rex_media::isImageType(rex_file::extension($fname));
         if ($isImage) {
             $fwidth = $gf->getValue('width');
             $fheight = $gf->getValue('height');
@@ -636,7 +636,7 @@ if (!$file_id) {
             }
             $thumbnail = '<span class="rex-mime' . $icon_class . '" title="' . $alt . '">' . $file_name . '</span>';
 
-            if (rex_media::isImageExtension(rex_file::extension($file_name)) && $thumbs) {
+            if (rex_media::isImageType(rex_file::extension($file_name)) && $thumbs) {
                 $thumbnail = '<img src="' . rex_url::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
                 if ($media_manager) {
                     $thumbnail = '<img src="' . rex_url::frontendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
@@ -656,7 +656,7 @@ if (!$file_id) {
         // ----- opener
         $opener_link = '';
         if ($opener_input_field == 'TINYIMG') {
-            if (rex_media::isImageExtension(rex_file::extension($file_name))) {
+            if (rex_media::isImageType(rex_file::extension($file_name))) {
                 $opener_link .= "<a href=\"javascript:insertImage('$file_name','" . $files->getValue('title') . "')\">" . rex_i18n::msg('pool_image_get') . '</a><br>';
             }
 
