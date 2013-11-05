@@ -65,13 +65,13 @@ class rex
         switch ($key) {
             case 'server':
                 if (!rex_validator::factory()->url($value)) {
-                    throw new InvalidArgumentException('"server" property: expecting $value to be a full URL!');
+                    throw new InvalidArgumentException('"'. $key .'" property: expecting $value to be a full URL!');
                 }
                 $value = rtrim($value, '/') . '/';
                 break;
             case 'error_email':
                 if (null !== $value && !rex_validator::factory()->email($value)) {
-                    throw new InvalidArgumentException('"error_email" property: expecting $value to be an email address!');
+                    throw new InvalidArgumentException('"'. $key .'" property: expecting $value to be an email address!');
                 }
                 break;
         }
