@@ -161,18 +161,10 @@ class rex_login
         if (!$this->logout) {
             // LoginStatus: 0 = noch checken, 1 = ok, -1 = not ok
 
-            // checkLogin schonmal ausgeführt ? gecachte ausgabe erlaubt ?
-            if ($this->cache) {                
-                // always check UID, so session fixation prevention can kick in
-                if ($this->getSessionVar('UID') != '') {
-                    if ($this->loginStatus > 0) {
-                        return true;
-                    } elseif ($this->loginStatus < 0) {
-                        return false;
-                    }
-                }
+            // gecachte ausgabe erlaubt ? checkLogin schonmal ausgeführt ?
+            if ($this->cache && $this->loginStatus != 0) {
+                return $this->loginStatus > 0;
             }
-
 
             if ($this->userLogin != '') {
                 // wenn login daten eingegeben dann checken
