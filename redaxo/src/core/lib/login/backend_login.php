@@ -28,7 +28,7 @@ class rex_backend_login extends rex_login
             AND login = :login
             AND (login_tries < ' . self::LOGIN_TRIES_1 . '
                 OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND UNIX_TIMESTAMP(lasttrydate) < ' . (time() - self::RELOGIN_DELAY_1) . '
-                OR UNIX_TIMESTAMP(lasttrydate) > ' . (time() - self::RELOGIN_DELAY_2) . '
+                OR UNIX_TIMESTAMP(lasttrydate) < ' . (time() - self::RELOGIN_DELAY_2) . '
             )'
         );
         $this->tableName = $tableName;
