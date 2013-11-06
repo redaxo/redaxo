@@ -101,7 +101,7 @@ class rex_validator
         switch ($type) {
             case 'int':
             case 'integer':
-                return self::match($value, '/^\d+$/');
+                return $this->match($value, '/^\d+$/');
 
             case 'float':
             case 'real':
