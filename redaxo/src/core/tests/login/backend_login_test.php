@@ -59,16 +59,20 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
             $this->assertFalse($login->checkLogin());
         }
 
+        // we need to re-create login-objects because the time component is static in their sql queries
+        $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
         $this->assertFalse($login->checkLogin(), 'account locked after fast login attempts');
 
         sleep(1);
 
+        $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
         $this->assertFalse($login->checkLogin(), 'even seconds later account is locked');
 
         sleep(5);
 
+        $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
         $this->assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
 
