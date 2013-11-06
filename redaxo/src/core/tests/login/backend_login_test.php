@@ -60,17 +60,18 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         }
 
         $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin());
+        $this->assertFalse($login->checkLogin(), 'account locked after fast login attempts');
 
         sleep(1);
 
         $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin());
+        $this->assertFalse($login->checkLogin(), 'even seconds later account is locked');
 
-        sleep(rex_backend_login::LOGIN_TRIES_1 - 1);
+        sleep(5);
 
         $login->setLogin($this->login, $this->password, false);
-        $this->assertTrue($login->checkLogin());
+        $this->assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');
+
     }
 
 
