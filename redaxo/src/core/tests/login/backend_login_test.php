@@ -54,7 +54,7 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
     {
         $login = new rex_backend_login();
 
-        for($i = 0; $i < rex_backend_login::LOGIN_TRIES_1; $i++) {
+        for($i = 0; $i <= 10; $i++) {
             $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
             $this->assertFalse($login->checkLogin());
         }
@@ -73,6 +73,15 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         $this->assertTrue($login->checkLogin());
     }
 
+
+    public function testLogout()
+    {
+        $login = new rex_backend_login();
+        $login->setLogin($this->login, $this->password, false);
+        $this->assertTrue($login->checkLogin());
+        $login->setLogout(true);
+        $this->assertFalse($login->checkLogin());
+    }
 
     public function tearDown()
     {
