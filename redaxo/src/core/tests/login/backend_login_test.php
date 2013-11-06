@@ -25,6 +25,55 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         $this->assertTrue($login->checkLogin());
     }
 
+    public function testFailedLogin()
+    {
+        $login = new rex_backend_login();
+        $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
+        $this->assertFalse($login->checkLogin());
+    }
+
+    /**
+     * Test if a login is allowed after one failure before
+     */
+    public function testSuccessfullReLogin()
+    {
+        $login = new rex_backend_login();
+
+        $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
+        $this->assertFalse($login->checkLogin());
+
+        $login->setLogin($this->login, $this->password, false);
+        $this->assertTrue($login->checkLogin());
+    }
+
+
+    /**
+     * After LOGIN_TRIES_1 requests, the account should be not accessible for RELOGIN_DELAY_1 seconds
+     */
+    public function testSuccessfullReLoginAfterLoginTries1Seconds()
+    {
+        $login = new rex_backend_login();
+
+        for($i = 0; $i < rex_backend_login::LOGIN_TRIES_1; $i++) {
+            $login->setLogin($this->login, 'somethingwhichisnotcorrect', false);
+            $this->assertFalse($login->checkLogin());
+        }
+
+        $login->setLogin($this->login, $this->password, false);
+        $this->assertFalse($login->checkLogin());
+
+        sleep(1);
+
+        $login->setLogin($this->login, $this->password, false);
+        $this->assertFalse($login->checkLogin());
+
+        sleep(rex_backend_login::LOGIN_TRIES_1 - 1);
+
+        $login->setLogin($this->login, $this->password, false);
+        $this->assertTrue($login->checkLogin());
+    }
+
+
     public function tearDown()
     {
         $deleteuser = rex_sql::factory();
