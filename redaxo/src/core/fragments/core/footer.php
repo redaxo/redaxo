@@ -10,7 +10,7 @@
 } else {
     echo rex_url::backendPage('credits');
 } ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
-                <li><?php echo rex_i18n::msg('footer_datetime', rex_formatter::strftime(time(), 'datetime')); ?></li>
+                <li><?php echo rex_i18n::msg('footer_datetime', rex_formatter::strftime(time(), 'date')); ?></li>
                 <li><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?></li>
             </ul>
         </div>
