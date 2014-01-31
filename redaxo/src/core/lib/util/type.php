@@ -88,7 +88,7 @@ class rex_type
                             foreach ($var as $key => $value) {
                                 try {
                                     $var[$key] = self::cast($value, $matches[1]);
-                                } catch (rex_exception $e) {
+                                } catch (InvalidArgumentException $e) {
                                     // Evtl Typo im vartype, mit urspr. typ als fehler melden
                                     throw new InvalidArgumentException('Unexpected vartype "' . $vartype . '" in cast()!');
                                 }
