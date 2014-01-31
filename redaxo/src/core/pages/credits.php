@@ -25,7 +25,7 @@ $content[] = '
 
     <h3>Gregor Harlan <span>gregor.harlan@redaxo.org</span></h3>
     <p>' . rex_i18n::msg('credits_developer') . '<br />
-        meyerharlan, <a href="http://meyerharlan.de" onclick="window.open(this.href); return false;">www.meyerharlan.de</a>
+        Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>';
 
 $content[] = '
