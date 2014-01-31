@@ -14,10 +14,10 @@ class rex_sortable_iterator_test extends PHPUnit_Framework_TestCase
 
     public function testValuesMode()
     {
-        $array = [2, 'a10', 'a2', 1, "a\xec\x884", 'ä3', 'b'];
+        $array = [2, 'a10', 'a2', 1, "a\xcc\x884", 'ä3', 'b'];
         $iterator = new rex_sortable_iterator(new ArrayIterator($array));
         $this->assertSame(
-            [3 => 1, 0 => 2, 2 => 'a2', 5 => 'ä3', 4 => "a\xec\x884", 1 => 'a10', 6 => 'b'],
+            [3 => 1, 0 => 2, 2 => 'a2', 5 => 'ä3', 4 => "a\xcc\x884", 1 => 'a10', 6 => 'b'],
             iterator_to_array($iterator),
             'On default the iterator sorts by value'
         );

@@ -34,7 +34,7 @@ class rex_sortable_iterator implements IteratorAggregate
         $array = iterator_to_array($this->iterator);
         $sort = is_callable($this->sort) ? 'callback' : $this->sort;
         $normalize = function ($string) {
-            $string = preg_replace("/(?<=[aou])\xec\x88/i", '', $string);
+            $string = preg_replace("/(?<=[aou])\xcc\x88/i", '', $string);
             $string = mb_strtolower($string);
             $string = str_replace(['ä', 'ö', 'ü', 'ß'], ['a', 'o', 'u', 's'], $string);
             return $string;
