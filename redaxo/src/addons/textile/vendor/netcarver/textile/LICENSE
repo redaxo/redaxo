@@ -2,12 +2,12 @@ Copyright (c) 2003-2004, Dean Allen <dean@textism.com>
 All rights reserved.
 
 Thanks to Carlo Zottmann <carlo@g-blog.net> for refactoring
-Textile's procedural code into a class framework
+Textile's procedural code into a class framework.
 
-Additions and fixes Copyright (c) 2006    Alex Shiels       http://thresholdstate.com/
+Additions and fixes Copyright (c) 2006    Alex Shiels       https://twitter.com/tellyworth
 Additions and fixes Copyright (c) 2010    Stef Dawson       http://stefdawson.com/
-Additions and fixes Copyright (c) 2010-13 Netcarver         http://github.com/netcarver
-Additions and fixes Copyright (c) 2011    Jeff Soo          http://ipsedixit.net
+Additions and fixes Copyright (c) 2010-13 Netcarver         https://github.com/netcarver
+Additions and fixes Copyright (c) 2011    Jeff Soo          http://ipsedixit.net/
 Additions and fixes Copyright (c) 2012    Robert Wetzlmayr  http://wetzlmayr.com/
 Additions and fixes Copyright (c) 2012-13 Jukka Svahn       http://rahforum.biz/
 
@@ -35,4 +35,3 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-

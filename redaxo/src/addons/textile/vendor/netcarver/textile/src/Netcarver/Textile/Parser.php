@@ -17,10 +17,10 @@ namespace Netcarver\Textile;
  * Thanks to Carlo Zottmann <carlo@g-blog.net> for refactoring
  * Textile's procedural code into a class framework
  *
- * Additions and fixes Copyright (c) 2006    Alex Shiels       http://thresholdstate.com/
+ * Additions and fixes Copyright (c) 2006    Alex Shiels       https://twitter.com/tellyworth
  * Additions and fixes Copyright (c) 2010    Stef Dawson       http://stefdawson.com/
- * Additions and fixes Copyright (c) 2010-13 Netcarver         http://github.com/netcarver
- * Additions and fixes Copyright (c) 2011    Jeff Soo          http://ipsedixit.net
+ * Additions and fixes Copyright (c) 2010-13 Netcarver         https://github.com/netcarver
+ * Additions and fixes Copyright (c) 2011    Jeff Soo          http://ipsedixit.net/
  * Additions and fixes Copyright (c) 2012    Robert Wetzlmayr  http://wetzlmayr.com/
  * Additions and fixes Copyright (c) 2012-13 Jukka Svahn       http://rahforum.biz/
  *
@@ -52,8 +52,7 @@ namespace Netcarver\Textile;
  */
 
 /*
-_________
-U S A G E
+Textile usage examples.
 
 Block modifier syntax:
 
@@ -120,9 +119,7 @@ Phrase modifier syntax:
 
 ABC(Always Be Closing)   ->     <acronym title="Always Be Closing">ABC</acronym>
 
-
 Linked Notes:
-============
 
     Allows the generation of an automated list of notes with links.
 
@@ -130,8 +127,7 @@ Linked Notes:
     _references_ to those definitions and one or more _placeholders_ indicating where
     the consolidated list of notes is to be placed in your document.
 
-    Definitions.
-    -----------
+    Definitions:
 
     Each note definition must occur in its own paragraph and should look like this...
 
@@ -140,18 +136,16 @@ Linked Notes:
     You are free to use whatever label you wish after the # as long as it is made up
     of letters, numbers, colon(:) or dash(-).
 
-    References.
-    ----------
+    References:
 
     Each note reference is marked in your text like this[#mynotelabel] and
     it will be replaced with a superscript reference that links into the list of
     note definitions.
 
-    List Placeholder(s).
-    -------------------
+    List placeholder(s):
 
     The note list can go anywhere in your document. You have to indicate where
-    like this...
+    like this:
 
     notelist.
 
@@ -188,16 +182,17 @@ Linked Notes:
 
         note#other. An unreferenced note.
 
-        note#lavader(myliclass). "Proof":url of a small moon.
+        note#lavader(myliclass). "Proof":http://example.com of a small moon.
 
         notelist(myclass#myid)+.
 
         Would output (the actual IDs used would be randomised)...
 
-        <p>Scientists say<sup><a href="#def_id_1" id="ref_id_1a">1</sup> the moon is small.</p>
+        <p>Scientists say<sup><a href="#note1" id="noteref1">1</sup> the moon is small.</p>
 
         <ol class="myclass" id="myid">
-            <li class="myliclass"><a href="#ref_id_1a"><sup>a</sup></a><span id="def_id_1"> </span><a href="url">Proof</a> of a small moon.</li>
+            <li class="myliclass"><a href="#noteref1"><sup>a</sup></a>
+                <span id="note1"> </span><a href="http://example.com">Proof</a> of a small moon.</li>
             <li>An unreferenced note.</li>
         </ol>
 
@@ -214,9 +209,11 @@ Table syntax:
         |And|Another|table|row|
         |With an||empty|cell|
 
-        |=. My table caption goes here  (NB. Table captions *must* be the first line of the table else treated as a center-aligned cell.)
+        |=. My table caption goes here
         |_. A|_. table|_. header|_.row|
         |A|simple|table|row|
+
+    Note: Table captions *must* be the first line of the table else treated as a center-aligned cell.
 
     Tables with attributes:
 
@@ -308,7 +305,7 @@ Applying Attributes:
         It goes like this, %{color:red}the fourth the fifth%
               -> It goes like this, <span style="color:red">the fourth the fifth</span>
 
-Ordered List Start & Continuation:
+Ordered list start and continuation:
 
     You can control the start attribute of an ordered list like so;
 
@@ -324,10 +321,25 @@ Ordered List Start & Continuation:
 /**
  * Textile parser.
  *
- * @example
- * use Netcarver\Textile\Parser;
- * $parser = new Parser();
+ * The Parser class takes Textile input and
+ * converts it to well formatted HTML. This is
+ * the library's main class, hosting the parsing
+ * functionality and exposing a simple
+ * public interface for you to use.
+ *
+ * The most basic use case would involve initialising
+ * a instance of the class and calling the textileThis
+ * method, parsing the given Textile input in unrestricted
+ * mode.
+ *
+ * <code>
+ * $parser = new \Netcarver\Textile\Parser();
  * echo $parser->textileThis('h1. Hello World!');
+ * </code>
+ *
+ * @see Parser::__construct()
+ * @see Parser::textileThis()
+ * @see Parser::textileRestricted()
  */
 
 class Parser
@@ -338,7 +350,7 @@ class Parser
      * @var string
      */
 
-    protected $ver = '3.5.2';
+    protected $ver = '3.5.5';
 
     /**
      * Regular expression snippets.
@@ -392,23 +404,23 @@ class Parser
     protected $styl = "(?:\{[^}\n]+\})";
 
     /**
-     * ?
+     * Regular expression pattern for column spans in tables.
      *
      * @var string
      */
 
-    protected $cspn = "(?:\\\\\d+)";
+    protected $cspn = "(?:\\\\[0-9]+)";
 
     /**
-     * ?
+     * Regular expression for row spans in tables.
      *
      * @var string
      */
 
-    protected $rspn = "(?:\/\d+)";
+    protected $rspn = "(?:\/[0-9]+)";
 
     /**
-     * ?
+     * Regular expression for horizontal or vertical alignment.
      *
      * @var string
      */
@@ -416,7 +428,7 @@ class Parser
     protected $a;
 
     /**
-     * ?
+     * Regular expression for column or row spans in tables.
      *
      * @var string
      */
@@ -424,12 +436,30 @@ class Parser
     protected $s;
 
     /**
-     * ?
+     * Pattern that matches a class, style, language and horizontal alignment attributes.
      *
      * @var string
      */
 
     protected $c;
+
+    /**
+     * Pattern that matches class, style and language attributes.
+     *
+     * Will allows all 16 possible permutations of class, style and language attributes.
+     * <no attribute>, c, cl, cs, cls, csl, l, lc, ls, lcs, lsc, s, sc, sl, scl or slc
+     *
+     * @var string
+     */
+    protected $cls;
+
+    /**
+     * Whitelisted block tags.
+     *
+     * @var array
+     */
+
+    protected $blocktag_whitelist = array();
 
     /**
      * Pattern for punctation.
@@ -734,14 +764,6 @@ class Parser
     protected $notes = array();
 
     /**
-     * Stores shelved URLs.
-     *
-     * @var array
-     */
-
-    protected $urlshelf = array();
-
-    /**
      * Stores URL references.
      *
      * @var array
@@ -756,14 +778,6 @@ class Parser
      */
 
     protected $span_depth = 0;
-
-    /**
-     * Stores tag index.
-     *
-     * @var int
-     */
-
-    protected $tag_index = 1;
 
     /**
      * Unique ID used for reference tokens.
@@ -782,52 +796,145 @@ class Parser
     protected $refIndex = 1;
 
     /**
+     * Stores references values.
+     *
+     * @var array
+     */
+
+    protected $refCache = array();
+
+    /**
+     * Matched open and closed quotes.
+     *
+     * @var array
+     */
+
+    protected $quotes = array(
+        '"' => '"',
+        "'" => "'",
+        '(' => ')',
+        '{' => '}',
+        '[' => ']',
+        '«' => '»',
+        '»' => '«',
+        '‹' => '›',
+        '›' => '‹',
+        '„' => '“',
+        '‚' => '‘',
+        '‘' => '’',
+        '”' => '“',
+    );
+
+    /**
+     * Regular expression that matches starting quotes.
+     *
+     * @var string
+     */
+
+    protected $quote_starts;
+
+    /**
+     * Ordered list starts.
+     *
+     * @var array
+     */
+
+    protected $olstarts = array();
+
+    /**
+     * Link prefix.
+     *
+     * @var string
+     */
+
+    protected $linkPrefix;
+
+    /**
+     * Link index.
+     *
+     * @var int
+     */
+
+    protected $linkIndex = 1;
+
+    /**
      * Constructor.
      *
-     * @param string $doctype The output document type, either 'xhtml' or 'html5'
+     * The constructor allows setting options that affect the
+     * class instance as a whole, such as the output doctype.
+     * To instruct the parser to return HTML5 markup instead of
+     * XHTML, set $doctype argument to 'html5'.
+     *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser('html5');
+     * echo $parser->textileThis('HTML(HyperText Markup Language)");
+     * </code>
+     *
+     * @param  string $doctype The output document type, either 'xhtml' or 'html5'
+     * @throws \InvalidArgumentException
+     * @api
      */
 
     public function __construct($doctype = 'xhtml')
     {
-        $doctype_whitelist = array(
+        $doctypes = array(
             'xhtml',
             'html5',
         );
-        $doctype = strtolower($doctype);
-        if (!in_array($doctype, $doctype_whitelist)) {
-            $this->doctype = 'xhtml';
+
+        if (!in_array($doctype, $doctypes, true)) {
+            throw new \InvalidArgumentException('Invalid doctype given.');
         } else {
             $this->doctype = $doctype;
         }
 
+        $uid = uniqid(rand());
+        $this->uid = 'textileRef:'.$uid.':';
+        $this->linkPrefix = $uid.'-';
         $this->a = "(?:$this->hlgn|$this->vlgn)*";
         $this->s = "(?:$this->cspn|$this->rspn)*";
         $this->c = "(?:$this->clas|$this->styl|$this->lnge|$this->hlgn)*";
-        $this->lc = "(?:$this->clas|$this->styl|$this->lnge)*";
 
-        $this->mb = is_callable('mb_strlen');
+        $this->cls = '(?:'.
+            "$this->clas(?:".
+                "$this->lnge(?:$this->styl)?|$this->styl(?:$this->lnge)?".
+                ')?|'.
+            "$this->lnge(?:".
+                "$this->clas(?:$this->styl)?|$this->styl(?:$this->clas)?".
+                ')?|'.
+            "$this->styl(?:".
+                "$this->clas(?:$this->lnge)?|$this->lnge(?:$this->clas)?".
+                ')?'.
+            ')?';
 
-        if (@preg_match('/\pL/u', 'a')) {
+        if ($this->isUnicodePcreSupported()) {
             $this->regex_snippets = array(
-                'acr' => '\p{Lu}\p{Nd}',
-                'abr' => '\p{Lu}',
-                'nab' => '\p{Ll}',
-                'wrd' => '(?:\p{L}|\p{M}|\p{N}|\p{Pc})',
-                'mod' => 'u', // Make sure to mark the unicode patterns as such, Some servers seem to need this.
-                'cur' => '\p{Sc}',
+                'acr'   => '\p{Lu}\p{Nd}',
+                'abr'   => '\p{Lu}',
+                'nab'   => '\p{Ll}',
+                'wrd'   => '(?:\p{L}|\p{M}|\p{N}|\p{Pc})',
+                'mod'   => 'u', // Make sure to mark the unicode patterns as such, Some servers seem to need this.
+                'cur'   => '\p{Sc}',
+                'digit' => '\p{N}',
+                'space' => '(?:\p{Zs}|\h|\v)',
+                'char'  => '(?:[^\p{Zs}\h\v])',
             );
         } else {
             $this->regex_snippets = array(
-                'acr' => 'A-Z0-9',
-                'abr' => 'A-Z',
-                'nab' => 'a-z',
-                'wrd' => '\w',
-                'mod' => '',
-                'cur' => '',
+                'acr'   => 'A-Z0-9',
+                'abr'   => 'A-Z',
+                'nab'   => 'a-z',
+                'wrd'   => '\w',
+                'mod'   => '',
+                'cur'   => '',
+                'digit' => '\d',
+                'space' => '(?:\s|\h|\v)',
+                'char'  => '\S',
             );
         }
         extract($this->regex_snippets);
         $this->urlch = '['.$wrd.'"$\-_.+!*\'(),";\/?:@=&%#{}|\\^~\[\]`]';
+        $this->quote_starts = implode('|', array_map('preg_quote', array_keys($this->quotes)));
 
         if (defined('DIRECTORY_SEPARATOR')) {
             $this->ds = constant('DIRECTORY_SEPARATOR');
@@ -835,9 +942,9 @@ class Parser
 
         if (php_sapi_name() === 'cli') {
             $this->doc_root = getcwd();
-        } else if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+        } elseif (!empty($_SERVER['DOCUMENT_ROOT'])) {
             $this->doc_root = $_SERVER['DOCUMENT_ROOT'];
-        } else if (!empty($_SERVER['PATH_TRANSLATED'])) {
+        } elseif (!empty($_SERVER['PATH_TRANSLATED'])) {
             $this->doc_root = $_SERVER['PATH_TRANSLATED'];
         }
 
@@ -848,11 +955,12 @@ class Parser
      * Defines a substitution symbol.
      *
      * Call this you need to redefine a substitution symbol to
-     * be used when parsing a textile document.
+     * be used when parsing a Textile document.
      *
      * @param  string $name  Name of the symbol to assign a new value to.
      * @param  string $value New value for the symbol.
-     * @return object $this
+     * @return Parser
+     * @api
      */
 
     public function setSymbol($name, $value)
@@ -871,6 +979,7 @@ class Parser
      * @param  string|null  $name The name of the symbol, or NULL if requesting the symbol table
      * @return array|string The symbol table or the requested symbol
      * @throws \InvalidArgumentException
+     * @api
      */
 
     public function getSymbol($name = null)
@@ -890,14 +999,18 @@ class Parser
      * Sets base image directory path.
      *
      * This is used when Textile is supplied with a relative image path.
-     * Allows client systems to have textile convert relative image paths to
+     * Allows client systems to have PHP-Textile convert relative image paths to
      * absolute or prefixed paths. This method is used to set that base path,
      * usually a absolute HTTP address pointing to a directory.
      *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * $parser->setRelativeImagePrefix('http://static.example.com/');
+     * </code>
+     *
      * @param  string $prefix  The string to prefix all relative image paths with
      * @return Parser
-     * @example
-     * $parser->setRelativeImagePrefix('http://static.example.com/');
+     * @api
      */
 
     public function setRelativeImagePrefix($prefix = '')
@@ -914,16 +1027,19 @@ class Parser
      * dimensions height images that specify a relative path, as long
      * as the image file can be accessed.
      *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * echo $parser->setDimensionlessImages(false)->textileThis('Hello World!');
+     * </code>
+     *
      * @param  bool   $dimensionless TRUE to disable image dimensions, FALSE to enable
      * @return Parser
-     * @example
-     * $parser = new Parser();
-     * echo $parser->setDimensionlessImages(false)->textileThis('Hello World!');
+     * @api
      */
 
     public function setDimensionlessImages($dimensionless = true)
     {
-        $this->dimensionless_images = $dimensionless;
+        $this->dimensionless_images = (bool) $dimensionless;
         return $this;
     }
 
@@ -933,18 +1049,33 @@ class Parser
      * This method will return the state of
      * the state of the $dimensionless_images property.
      *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * if ($parser->getDimensionlessImages() === true)
+     * {
+     *     echo 'Images do not get dimensions.';
+     * }
+     * </code>
+     *
      * @return bool TRUE if images will not get dimensions, FALSE otherwise
+     * @api
      */
 
     public function getDimensionlessImages()
     {
-        return $this->dimensionless_images;
+        return (bool) $this->dimensionless_images;
     }
 
     /**
      * Gets Textile version number.
      *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * echo $parser->getVersion();
+     * </code>
+     *
      * @return string Version
+     * @api
      */
 
     public function getVersion()
@@ -955,11 +1086,14 @@ class Parser
     /**
      * Encodes the given text.
      *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * $parser->textileEncode('Some content to encode.');
+     * </code>
+     *
      * @param  string $text The text to be encoded
      * @return string The encoded text
-     * @example
-     * $parser = new Parser();
-     * $parser->textileEncode('Some content to encode.');
+     * @api
      */
 
     public function textileEncode($text)
@@ -972,18 +1106,32 @@ class Parser
     /**
      * Parses the given Textile input in un-restricted mode.
      *
+     * This method should be used to parse any trusted Textile
+     * input, such as articles created by well-known
+     * authorised users.
+     *
+     * This method allows users to mix raw HTML and Textile.
+     * If you want to parse untrusted input, see the
+     * textileRestricted method instead. Using this less
+     * restrictive method on untrusted input, like comments
+     * and forum posts, will lead to XSS issues, as users
+     * will be able to use any HTML code, JavaScript links
+     * and Textile attributes in their input.
+     *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * echo $parser->textileThis('h1. Hello World!');
+     * </code>
+     *
      * @param  string $text    The Textile input to parse
      * @param  bool   $lite    Switch to lite mode
      * @param  bool   $encode  Encode input and return
      * @param  bool   $noimage Disables images
-     * @param  bool   $strict  FALSE to strip whitespace before parsing
+     * @param  bool   $strict  This argument is ignored
      * @param  string $rel     Relationship attribute applied to generated links
      * @return string Parsed $text
      * @see    Parser::textileRestricted()
-     * @example
-     * use Netcarver\Textile\Parser;
-     * $parser = new Parser();
-     * echo $parser->textileThis('h1. Hello World!');
+     * @api
      */
 
     public function textileThis($text, $lite = false, $encode = false, $noimage = false, $strict = false, $rel = '')
@@ -991,18 +1139,16 @@ class Parser
         $this->prepare($lite, $noimage, $rel);
         $this->url_schemes = $this->unrestricted_url_schemes;
 
-        // Use of the $encode flag is discouraged. Calling textileEncode() is prefered.
         if ($encode) {
+            trigger_error(
+                'Use of the $encode argument is discouraged. Use Parser::textileEncode() instead.',
+                E_USER_DEPRECATED
+            );
             return $this->textileEncode($text);
-        }
-
-        if (!$strict) {
-            $text = $this->cleanWhiteSpace($text);
         }
 
         return $this->textileCommon($text, $lite);
     }
-
 
     /**
      * Parses the given Textile input in restricted mode.
@@ -1010,10 +1156,16 @@ class Parser
      * This method should be used for any untrusted user input,
      * including comments or forum posts.
      *
-     * This method escapes any raw HTML input, links only whitelisted URL
-     * schemes and by default also prevents the use of images and
+     * This method escapes any raw HTML input, ignores unsafe
+     * attributes, links only whitelisted URL schemes
+     * and by default also prevents the use of images and
      * extra Textile formatting, accepting only paragraphs
      * and blockquotes as valid block tags.
+     *
+     * <code>
+     * $parser = new \Netcarver\Textile\Parser();
+     * echo $parser->textileRestricted('h1. Hello World!');
+     * </code>
      *
      * @param  string $text    The Textile input to parse
      * @param  bool   $lite    Controls lite mode, allowing extra formatting
@@ -1021,10 +1173,7 @@ class Parser
      * @param  string $rel     Relationship attribute applied to generated links
      * @return string Parsed $text
      * @see    Parser::textileThis()
-     * @example
-     * use Netcarver\Textile\Parser;
-     * $parser = new Parser();
-     * echo $parser->textileRestricted('h1. Hello World!');
+     * @api
      */
 
     public function textileRestricted($text, $lite = true, $noimage = true, $rel = 'nofollow')
@@ -1035,7 +1184,6 @@ class Parser
 
         // Escape any raw html
         $text = $this->encodeHTML($text, 0);
-        $text = $this->cleanWhiteSpace($text);
 
         return $this->textileCommon($text, $lite);
     }
@@ -1052,19 +1200,23 @@ class Parser
 
     protected function textileCommon($text, $lite)
     {
-        while (1) {
-            $this->uid = 'textileRef' . uniqid(rand());
-
-            if (strpos($text, $this->uid) === false) {
-                break;
-            }
-        }
+        $text = $this->cleanWhiteSpace($text);
+        $text = $this->cleanUniqueTokens($text);
 
         if ($lite) {
             $this->blocktag_whitelist = array('bq', 'p');
             $text = $this->blocks($text."\n\n");
         } else {
-            $this->blocktag_whitelist = array('bq', 'p', 'bc', 'notextile', 'pre', 'h[1-6]', 'fn\d+', '###');
+            $this->blocktag_whitelist = array(
+                'bq',
+                'p',
+                'bc',
+                'notextile',
+                'pre',
+                'h[1-6]',
+                'fn'.$this->regex_snippets['digit'].'+',
+                '###',
+            );
             $text = $this->blocks($text);
             $text = $this->placeNoteLists($text);
         }
@@ -1078,7 +1230,6 @@ class Parser
 
         return $text;
     }
-
 
     /**
      * Prepares the glyph patterns from the symbol table.
@@ -1098,60 +1249,120 @@ class Parser
         $pnc = '[[:punct:]]';
 
         if ($cur) {
-            $cur = '(?:['.$cur.']\s*)?';
+            $cur = '(?:['.$cur.']'.$space.'*)?';
         }
 
-        $this->glyph_search = array(
-            '/([0-9]+[\])]?[\'"]? ?)[xX]( ?[\[(]?)(?=[+-]?'.$cur.'[0-9]*\.?[0-9]+)/'.$mod,   // Dimension sign
-            '/('.$wrd.'|\))\'('.$wrd.')/'.$mod,     // I'm an apostrophe
-            '/(\s)\'(\d+'.$wrd.'?)\b(?![.]?['.$wrd.']*?\')/'.$mod,    // Back in '88/the '90s but not in his '90s', '1', '1.' '10m' or '5.png'
-            "/([([{])'(?=\S)/",                     // Single open following open bracket
-            '/(\S)\'(?=\s|'.$pnc.'|<|$)/',          // Single closing
-            "/'/",                                  // Default single opening
-            '/([([{])"(?=\S)/',                     // Double open following an open bracket. Allows things like Hello ["(Mum) & dad"]
-            '/(\S)"(?=\s|'.$pnc.'|<|$)/',           // Double closing
-            '/"/',                                  // Default double opening
-            '/\b(['.$abr.']['.$acr.']{2,})\b(?:[(]([^)]*)[)])/'.$mod,  // 3+ uppercase acronym
-            '/(?<=\s|^|[>(;-])(['.$abr.']{3,})(['.$nab.']*)(?=\s|'.$pnc.'|<|$)(?=[^">]*?(<|$))/'.$mod,  // 3+ uppercase
-            '/([^.]?)\.{3}/',                       // Ellipsis
-            '/--/',                                 // em dash
-            '/ - /',                                // en dash
-            '/(\b ?|\s|^)[([]TM[])]/i',             // Trademark
-            '/(\b ?|\s|^)[([]R[])]/i',              // Registered
-            '/(\b ?|\s|^)[([]C[])]/i',              // Copyright
-            '/[([]1\/4[])]/',                       // 1/4
-            '/[([]1\/2[])]/',                       // 1/2
-            '/[([]3\/4[])]/',                       // 3/4
-            '/[([]o[])]/',                          // Degrees -- that's a small 'oh'
-            '/[([]\+\/-[])]/',                      // Plus minus
-        );
+        $this->glyph_search = array();
+        $this->glyph_replace = array();
 
-        $this->glyph_replace = array(
-            '$1'.$txt_dimension.'$2',               // Dimension sign
-            '$1'.$txt_apostrophe.'$2',              // I'm an apostrophe
-            '$1'.$txt_apostrophe.'$2',              // Back in '88
-            '$1'.$txt_quote_single_open,            // Single open following open bracket
-            '$1'.$txt_quote_single_close,           // Single closing
-            $txt_quote_single_open,                 // Default single opening
-            '$1'.$txt_quote_double_open,            // Double open following open bracket
-            '$1'.$txt_quote_double_close,           // Double closing
-            $txt_quote_double_open,                 // Default double opening
-            (('html5' === $this->doctype) ? '<abbr title="$2">$1</abbr>' : '<acronym title="$2">$1</acronym>'),     // 3+ uppercase acronym
-            '<span class="caps">glyph:$1</span>$2', // 3+ uppercase
-            '$1'.$txt_ellipsis,                     // Ellipsis
-            $txt_emdash,                            // em dash
-            ' '.$txt_endash.' ',                    // en dash
-            '$1'.$txt_trademark,                    // Trademark
-            '$1'.$txt_registered,                   // Registered
-            '$1'.$txt_copyright,                    // Copyright
-            $txt_quarter,                           // 1/4
-            $txt_half,                              // 1/2
-            $txt_threequarters,                     // 3/4
-            $txt_degrees,                           // Degrees
-            $txt_plusminus,                         // Plus minus
-        );
+        // Dimension sign
+        $this->glyph_search[] = '/([0-9]+[\])]?[\'"]? ?)[xX]( ?[\[(]?)(?=[+-]?'.$cur.'[0-9]*\.?[0-9]+)/'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_dimension.'$2';
 
-        $this->rebuild_glyphs = false; // No need to rebuild next run unless a symbol is redefined
+        // Apostrophe
+        $this->glyph_search[] = '/('.$wrd.'|\))\'('.$wrd.')/'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_apostrophe.'$2';
+
+        // Back in '88/the '90s but not in his '90s', '1', '1.' '10m' or '5.png'
+        $this->glyph_search[] = '/('.$space.')\'(\d+'.$wrd.'?)\b(?![.]?['.$wrd.']*?\')/'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_apostrophe.'$2';
+
+        // Single open following open bracket
+        $this->glyph_search[] = "/([([{])'(?=\S)/".$mod;
+        $this->glyph_replace[] = '$1'.$txt_quote_single_open;
+
+        // Single closing
+        $this->glyph_search[] = '/(\S)\'(?='.$space.'|'.$pnc.'|<|$)/'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_quote_single_close;
+
+        // Default single opening
+        $this->glyph_search[] = "/'/";
+        $this->glyph_replace[] = $txt_quote_single_open;
+
+        // Double open following an open bracket. Allows things like Hello ["(Mum) & dad"]
+        $this->glyph_search[] = '/([([{])"(?=\S)/'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_quote_double_open;
+
+        // Double closing
+        $this->glyph_search[] = '/(\S)"(?='.$space.'|'.$pnc.'|<|$)/'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_quote_double_close;
+
+        // Default double opening
+        $this->glyph_search[] = '/"/';
+        $this->glyph_replace[] = $txt_quote_double_open;
+
+        // 3+ uppercase acronym
+        $this->glyph_search[] = '/\b(['.$abr.']['.$acr.']{2,})\b(?:[(]([^)]*)[)])/'.$mod;
+
+        if ($this->doctype === 'html5') {
+            $this->glyph_replace[] = '<abbr title="$2">$1</abbr>';
+        } else {
+            $this->glyph_replace[] = '<acronym title="$2">$1</acronym>';
+        }
+
+        // 3+ uppercase
+        $this->glyph_search[] = '/('.$space.'|^|[>(;-])(['.$abr.']{3,})'.
+            '(['.$nab.']*)(?='.$space.'|'.$pnc.'|<|$)(?=[^">]*?(<|$))/'.$mod;
+        $this->glyph_replace[] = '$1<span class="caps">'.$this->uid.':glyph:$2</span>$3';
+
+        // Ellipsis
+        $this->glyph_search[] = '/([^.]?)\.{3}/';
+        $this->glyph_replace[] = '$1'.$txt_ellipsis;
+
+        // em dash
+        $this->glyph_search[] = '/--/';
+        $this->glyph_replace[] = $txt_emdash;
+
+        // en dash
+        $this->glyph_search[] = '/ - /';
+        $this->glyph_replace[] = ' '.$txt_endash.' ';
+
+        // Trademark
+        $this->glyph_search[] = '/(\b ?|'.$space.'|^)[([]TM[])]/i'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_trademark;
+
+        // Registered
+        $this->glyph_search[] = '/(\b ?|'.$space.'|^)[([]R[])]/i'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_registered;
+
+        // Copyright
+        $this->glyph_search[] = '/(\b ?|'.$space.'|^)[([]C[])]/i'.$mod;
+        $this->glyph_replace[] = '$1'.$txt_copyright;
+
+        // 1/4
+        $this->glyph_search[] = '/[([]1\/4[])]/';
+        $this->glyph_replace[] = $txt_quarter;
+
+        // 1/2
+        $this->glyph_search[] = '/[([]1\/2[])]/';
+        $this->glyph_replace[] = $txt_half;
+
+        // 3/4
+        $this->glyph_search[] = '/[([]3\/4[])]/';
+        $this->glyph_replace[] = $txt_threequarters;
+
+        // Degrees -- that's a small 'oh'
+        $this->glyph_search[] = '/[([]o[])]/';
+        $this->glyph_replace[] = $txt_degrees;
+
+        // Plus minus
+        $this->glyph_search[] = '/[([]\+\/-[])]/';
+        $this->glyph_replace[] = $txt_plusminus;
+
+        // No need to rebuild next run unless a symbol is redefined
+        $this->rebuild_glyphs = false;
+    }
+
+    /**
+     * Sets the maximum allowd link index.
+     *
+     * @return int
+     * @since 3.5.5
+     */
+
+    protected function getMaxLinkIndex()
+    {
+        return 1000000;
     }
 
     /**
@@ -1167,15 +1378,20 @@ class Parser
 
     protected function prepare($lite, $noimage, $rel)
     {
+        if ($this->linkIndex >= $this->getMaxLinkIndex()) {
+            $this->linkPrefix .= '-';
+            $this->linkIndex = 1;
+        }
+
         $this->unreferencedNotes = array();
         $this->notelist_cache    = array();
         $this->notes      = array();
-        $this->urlshelf   = array();
         $this->urlrefs    = array();
         $this->shelf      = array();
         $this->fn         = array();
         $this->span_depth = 0;
-        $this->tag_index  = 1;
+        $this->refIndex   = 1;
+        $this->refCache   = array();
         $this->note_index = 1;
         $this->rel        = $rel;
         $this->lite       = $lite;
@@ -1254,12 +1470,24 @@ class Parser
 
     protected function parseAttribs($in, $element = '', $include_id = true, $autoclass = '')
     {
-        $out = '';
         $o = $this->parseAttribsToArray($in, $element, $include_id, $autoclass);
-        ksort($o);
 
-        if (count($o)) {
-            foreach ($o as $k => $v) {
+        return $this->formatAttributeString($o);
+    }
+
+    /**
+     * Converts an array of named attribute => value mappings to a string.
+     *
+     * @param array $attribute_array
+     * @return string
+     */
+
+    protected function formatAttributeString(array $attribute_array)
+    {
+        $out = '';
+
+        if (count($attribute_array)) {
+            foreach ($attribute_array as $k => $v) {
                 $out .= " $k=\"$v\"";
             }
         }
@@ -1293,11 +1521,11 @@ class Parser
 
         $matched = $in;
         if ($element == 'td') {
-            if (preg_match("/\\\\(\d+)/", $matched, $csp)) {
+            if (preg_match("/\\\\([0-9]+)/", $matched, $csp)) {
                 $colspan = $csp[1];
             }
 
-            if (preg_match("/\/(\d+)/", $matched, $rsp)) {
+            if (preg_match("/\/([0-9]+)/", $matched, $rsp)) {
                 $rowspan = $rsp[1];
             }
         }
@@ -1309,12 +1537,15 @@ class Parser
         }
 
         if (preg_match("/\{([^}]*)\}/", $matched, $sty)) {
-            $style[] = rtrim($sty[1], ';');
+            if ($sty[1] = $this->cleanAttribs($sty[1])) {
+                $style[] = rtrim($sty[1], ';');
+            }
             $matched = str_replace($sty[0], '', $matched);
         }
 
         if (preg_match("/\[([^]]+)\]/U", $matched, $lng)) {
-            $matched = str_replace($lng[0], '', $matched);    // Consume entire lang block -- valid or invalid...
+            // Consume entire lang block -- valid or invalid.
+            $matched = str_replace($lng[0], '', $matched);
             if (preg_match("/\[([a-zA-Z]{2}(?:[\-\_][a-zA-Z]{2})?)\]/U", $lng[0], $lng)) {
                 $lang = $lng[1];
             }
@@ -1324,8 +1555,11 @@ class Parser
 
             $class_regex = "/^([-a-zA-Z 0-9_\.]*)$/";
 
-            $matched = str_replace($cls[0], '', $matched);    // Consume entire class block -- valid or invalid...
-            // Only allow a restricted subset of the CSS standard characters for classes/ids. No encoding markers allowed...
+            // Consume entire class block -- valid or invalid.
+            $matched = str_replace($cls[0], '', $matched);
+
+            // Only allow a restricted subset of the CSS standard characters for classes/ids.
+            // No encoding markers allowed.
             if (preg_match("/\(([-a-zA-Z 0-9_\.\:\#]+)\)/U", $cls[0], $cls)) {
                 $hashpos = strpos($cls[1], '#');
                 // If a textile class block attribute was found with a '#' in it
@@ -1361,7 +1595,7 @@ class Parser
         }
 
         if ($element == 'col') {
-            if (preg_match("/(?:\\\\(\d+))?\s*(\d+)?/", $matched, $csp)) {
+            if (preg_match("/(?:\\\\([0-9]+))?{$this->regex_snippets['space']}*([0-9]+)?/", $matched, $csp)) {
                 $span = isset($csp[1]) ? $csp[1] : '';
                 $width = isset($csp[2]) ? $csp[2] : '';
             }
@@ -1378,28 +1612,10 @@ class Parser
                 $o['lang']  = $this->cleanAttribs($lang);
             }
 
+            ksort($o);
             return $o;
         } else {
             $class = trim($class . ' ' . $autoclass);
-        }
-
-        $o = '';
-        if ($style) {
-            $tmps = array();
-            foreach ($style as $s) {
-                $parts = explode(';', $s);
-                foreach ($parts as $p) {
-                    $tmps[] = $p;
-                }
-            }
-
-            sort($tmps);
-            foreach ($tmps as $p) {
-                if (!empty($p)) {
-                    $o .= $p.';';
-                }
-            }
-            $style = trim(str_replace(array("\n", ';;'), array('', ';'), $o));
         }
 
         $o = array();
@@ -1428,13 +1644,33 @@ class Parser
         }
 
         if ($style) {
-            $o['style'] = $this->cleanAttribs($style);
+            $so = '';
+            $tmps = array();
+            foreach ($style as $s) {
+                $parts = explode(';', $s);
+                foreach ($parts as $p) {
+                    if ($p = trim(trim($p), ":")) {
+                        $tmps[] = $p;
+                    }
+                }
+            }
+
+            sort($tmps);
+            foreach ($tmps as $p) {
+                if (!empty($p)) {
+                    $so .= $p.';';
+                }
+            }
+            $style = trim(str_replace(array("\n", ';;'), array('', ';'), $so));
+
+            $o['style'] = $style;
         }
 
         if ($width) {
             $o['width'] = $this->cleanAttribs($width);
         }
 
+        ksort($o);
         return $o;
     }
 
@@ -1447,8 +1683,12 @@ class Parser
 
     protected function hasRawText($text)
     {
-        $r = trim(preg_replace('@<(p|blockquote|div|form|table|ul|ol|dl|pre|h\d)[^>]*?'.chr(62).'.*</\1>@s', '', trim($text)));
-        $r = trim(preg_replace('@<(hr|br)[^>]*?/>@', '', $r));
+        $r = preg_replace(
+            '@<(p|hr|br|img|blockquote|div|form|table|ul|ol|dl|pre|h[1-6])[^>]*?'.chr(62).'.*</\1[^>]*?>@si',
+            '',
+            trim($text)
+        );
+        $r = trim(preg_replace('@<(br|hr|img)[^>]*?/?>@i', '', trim($r)));
         return '' != $r;
     }
 
@@ -1462,7 +1702,12 @@ class Parser
     protected function tables($text)
     {
         $text = $text . "\n\n";
-        return preg_replace_callback("/^(?:table(_?{$this->s}{$this->a}{$this->c})\.(.*)?\n)?^({$this->a}{$this->c}\.? ?\|.*\|)[\s]*\n\n/smU", array(&$this, "fTable"), $text);
+        return preg_replace_callback(
+            "/^(?:table(?P<tatts>_?{$this->s}{$this->a}{$this->cls})\.".
+            "(?P<summary>.*)?\n)?^(?P<rows>{$this->a}{$this->cls}\.? ?\|.*\|){$this->regex_snippets['space']}*\n\n/smU",
+            array(&$this, "fTable"),
+            $text
+        );
     }
 
     /**
@@ -1478,98 +1723,153 @@ class Parser
 
     protected function fTable($matches)
     {
-        $tatts = $this->parseAttribs($matches[1], 'table');
+        $tatts = $this->parseAttribs($matches['tatts'], 'table');
+        $space = $this->regex_snippets['space'];
 
-        $sum = trim($matches[2]) ? ' summary="'.htmlspecialchars(trim($matches[2]), ENT_QUOTES, 'UTF-8').'"' : '';
-        $cap       = '';
-        $colgrp    = '';
+        $sum = trim($matches['summary'])
+            ? ' summary="'.htmlspecialchars(trim($matches['summary']), ENT_QUOTES, 'UTF-8').'"'
+            : '';
+        $cap = '';
+        $colgrp = '';
         $last_rgrp = '';
-        $c_row     = 1;
-        foreach (preg_split("/\|\s*?$/m", $matches[3], -1, PREG_SPLIT_NO_EMPTY) as $row) {
+        $c_row = 1;
+
+        foreach (preg_split("/\|{$space}*?$/m", $matches['rows'], -1, PREG_SPLIT_NO_EMPTY) as $row) {
 
             $row = ltrim($row);
 
-            // Caption -- can only occur on row 1, otherwise treat '|=. foo |...' as a normal center-aligned cell.
-            if (($c_row <= 1) && preg_match("/^\|\=($this->s$this->a$this->c)\. ([^\n]*)(.*)/s", ltrim($row), $cmtch)) {
-                $capts = $this->parseAttribs($cmtch[1]);
-                $cap = "\t<caption".$capts.">".trim($cmtch[2])."</caption>\n";
-                $row = ltrim($cmtch[3]);
+            // Caption -- can only occur on row 1, otherwise treat '|=. foo |...'
+            // as a normal center-aligned cell.
+            if (($c_row <= 1) && preg_match(
+                "/^\|\=(?P<capts>$this->s$this->a$this->cls)\. (?P<cap>[^\n]*)(?P<row>.*)/s",
+                ltrim($row),
+                $cmtch
+            )) {
+                $capts = $this->parseAttribs($cmtch['capts']);
+                $cap = "\t<caption".$capts.">".trim($cmtch['cap'])."</caption>\n";
+                $row = ltrim($cmtch['row']);
                 if (empty($row)) {
                     continue;
                 }
             }
+
             $c_row += 1;
 
             // Colgroup
-            if (preg_match("/^\|:($this->s$this->a$this->c\. .*)/m", ltrim($row), $gmtch)) {
-                $nl = strpos($row, "\n");    // Is this colgroup def missing a closing pipe? If so, there will be a newline in the middle of $row somewhere.
-                $idx=0;
-                foreach (explode('|', str_replace('.', '', $gmtch[1])) as $col) {
+            if (preg_match("/^\|:(?P<cols>$this->s$this->a$this->cls\. .*)/m", ltrim($row), $gmtch)) {
+                // Is this colgroup def missing a closing pipe? If so, there
+                // will be a newline in the middle of $row somewhere.
+                $nl = strpos($row, "\n");
+                $idx = 0;
+
+                foreach (explode('|', str_replace('.', '', $gmtch['cols'])) as $col) {
                     $gatts = $this->parseAttribs(trim($col), 'col');
                     $colgrp .= "\t<col".(($idx==0) ? "group".$gatts.">" : $gatts." />")."\n";
                     $idx++;
                 }
+
                 $colgrp .= "\t</colgroup>\n";
 
                 if ($nl === false) {
                     continue;
                 } else {
-                    $row = ltrim(substr($row, $nl));        // Recover from our missing pipe and process the rest of the line...
+                    // Recover from our missing pipe and process the rest of the line.
+                    $row = ltrim(substr($row, $nl));
                 }
             }
 
-            preg_match("/(:?^\|($this->vlgn)($this->s$this->a$this->c)\.\s*$\n)?^(.*)/sm", ltrim($row), $grpmatch);
-
             // Row group
-            $rgrp = isset($grpmatch[2]) ? (($grpmatch[2] == '^') ? 'head' : (($grpmatch[2] == '~') ? 'foot' : (($grpmatch[2] == '-') ? 'body' : ''))) : '';
-            $rgrpatts = isset($grpmatch[3]) ? $this->parseAttribs($grpmatch[3]) : '';
-            $row = $grpmatch[4];
+            $rgrpatts = $rgrp = '';
 
-            if (preg_match("/^($this->a$this->c\. )(.*)/m", ltrim($row), $rmtch)) {
-                $ratts = $this->parseAttribs($rmtch[1], 'tr');
-                $row = $rmtch[2];
+            if (preg_match(
+                "/(:?^\|(?P<part>$this->vlgn)(?P<rgrpatts>$this->s$this->a$this->cls)\.{$space}*$\n)?^(?P<row>.*)/sm",
+                ltrim($row),
+                $grpmatch
+            )) {
+                if (isset($grpmatch['part'])) {
+                    if ($grpmatch['part'] === '^') {
+                        $rgrp = 'head';
+                    } elseif ($grpmatch['part'] === '~') {
+                        $rgrp = 'foot';
+                    } elseif ($grpmatch['part'] === '-') {
+                        $rgrp = 'body';
+                    }
+                }
+
+                if (isset($grpmatch['part'])) {
+                    $rgrpatts = $this->parseAttribs($grpmatch['rgrpatts']);
+                }
+
+                if (isset($grpmatch['row'])) {
+                    $row = $grpmatch['row'];
+                }
+            }
+
+            if (preg_match("/^(?P<ratts>$this->a$this->cls\. )(?P<row>.*)/m", ltrim($row), $rmtch)) {
+                $ratts = $this->parseAttribs($rmtch['ratts'], 'tr');
+                $row = $rmtch['row'];
             } else {
                 $ratts = '';
             }
 
             $cells = array();
             $cellctr = 0;
+
             foreach (explode("|", $row) as $cell) {
                 $ctyp = "d";
-                if (preg_match("/^_(?=[\s[:punct:]])/", $cell)) {
+
+                if (preg_match("/^_(?=[{$this->regex_snippets['space']}[:punct:]])/", $cell)) {
                     $ctyp = "h";
                 }
 
-                if (preg_match("/^(_?$this->s$this->a$this->c\. )(.*)/", $cell, $cmtch)) {
-                    $catts = $this->parseAttribs($cmtch[1], 'td');
-                    $cell = $cmtch[2];
+                if (preg_match("/^(?P<catts>_?$this->s$this->a$this->cls\. )(?P<cell>.*)/s", $cell, $cmtch)) {
+                    $catts = $this->parseAttribs($cmtch['catts'], 'td');
+                    $cell = $cmtch['cell'];
                 } else {
                     $catts = '';
                 }
 
                 if (!$this->lite) {
                     $a = array();
-                    if (preg_match('/(\s*)(.*)/s', $cell, $a)) {
-                        $cell = $this->redclothLists($a[2]);
+
+                    if (preg_match('/(?<space>'.$this->regex_snippets['space'].'*)(?P<cell>.*)/s', $cell, $a)) {
+                        $cell = $this->redclothLists($a['cell']);
                         $cell = $this->textileLists($cell);
-                        $cell = $a[1] . $cell;
+                        $cell = $a['space'] . $cell;
                     }
                 }
 
-                if ($cellctr>0) {
+                if ($cellctr > 0) {
                     // Ignore first 'cell': it precedes the opening pipe
                     $cells[] = $this->doTagBr("t$ctyp", "\t\t\t<t$ctyp$catts>$cell</t$ctyp>");
                 }
 
                 $cellctr++;
             }
-            $grp = (($rgrp && $last_rgrp) ? "\t</t".$last_rgrp.">\n" : '') . (($rgrp) ? "\t<t".$rgrp.$rgrpatts.">\n" : '');
+
+            $grp = '';
+
+            if ($rgrp && $last_rgrp) {
+                $grp .= "\t</t".$last_rgrp.">\n";
+            }
+
+            if ($rgrp) {
+                $grp .= "\t<t".$rgrp.$rgrpatts.">\n";
+            }
+
             $last_rgrp = ($rgrp) ? $rgrp : $last_rgrp;
             $rows[] = $grp."\t\t<tr$ratts>\n" . join("\n", $cells) . ($cells ? "\n" : "") . "\t\t</tr>";
             unset($cells, $catts);
         }
 
-        return "<table{$tatts}{$sum}>\n" .$cap. $colgrp. join("\n", $rows) . "\n".(($last_rgrp) ? "\t</t".$last_rgrp.">\n" : '')."</table>\n\n";
+        $rows = join("\n", $rows) . "\n";
+        $close = '';
+
+        if ($last_rgrp) {
+            $close = "\t</t".$last_rgrp.">\n";
+        }
+
+        return "<table{$tatts}{$sum}>\n".$cap.$colgrp.$rows.$close."</table>\n\n";
     }
 
     /**
@@ -1581,7 +1881,11 @@ class Parser
 
     protected function redclothLists($text)
     {
-        return preg_replace_callback("/^([-]+$this->lc[ .].*:=.*)$(?![^-])/smU", array(&$this, "fRedclothList"), $text);
+        return preg_replace_callback(
+            "/^([-]+$this->cls[ .].*:=.*)$(?![^-])/smU",
+            array(&$this, "fRedclothList"),
+            $text
+        );
     }
 
     /**
@@ -1602,12 +1906,17 @@ class Parser
         $text = preg_split('/\n(?=[-])/m', $in);
         foreach ($text as $nr => $line) {
             $m = array();
-            if (preg_match("/^[-]+($this->lc)\.? (.*)$/s", $line, $m)) {
-                list(, $atts, $content) = $m;
-                $content = trim($content);
-                $atts = $this->parseAttribs($atts);
+            if (preg_match("/^[-]+(?P<atts>$this->cls)\.? (?P<content>.*)$/s", $line, $m)) {
+                $content = trim($m['content']);
+                $atts = $this->parseAttribs($m['atts']);
 
-                if (!preg_match("/^(.*?)[\s]*:=(.*?)[\s]*(=:|:=)?[\s]*$/s", $content, $xm)) {
+                if (!preg_match(
+                    "/^(.*?){$this->regex_snippets['space']}*:=(.*?)".
+                    "{$this->regex_snippets['space']}*(=:|:=)?".
+                    "{$this->regex_snippets['space']}*$/s",
+                    $content,
+                    $xm
+                )) {
                     $xm = array( $content, $content, '' );
                 }
 
@@ -1647,22 +1956,26 @@ class Parser
     }
 
     /**
-     * Parses textile list structures into HTML.
+     * Parses Textile list structures into HTML.
      *
      * Searches for ordered, un-ordered and definition lists in the
      * textile input and generates HTML lists for them.
      *
-     * @param  string $text The textile input
+     * @param  string $text The input
      * @return string The parsed text
      */
 
     protected function textileLists($text)
     {
-        return preg_replace_callback("/^((?:[*;:]+|[*;:#]*#(?:_|\d+)?)$this->lc[ .].*)$(?![^#*;:])/smU", array(&$this, "fTextileList"), $text);
+        return preg_replace_callback(
+            "/^((?:[*;:]+|[*;:#]*#(?:_|\d+)?)$this->cls[ .].*)$(?![^#*;:])/smU",
+            array(&$this, "fTextileList"),
+            $text
+        );
     }
 
     /**
-     * Constructs a HTML list from a textile list structure.
+     * Constructs a HTML list from a Textile list structure.
      *
      * This method is used by Parser::textileLists() to process
      * found list structures.
@@ -1678,16 +1991,18 @@ class Parser
         $pt = '';
         foreach ($text as $nr => $line) {
             $nextline = isset($text[$nr+1]) ? $text[$nr+1] : false;
-            if (preg_match("/^([#*;:]+)(_|\d+)?($this->lc)[ .](.*)$/s", $line, $m)) {
-                list(, $tl, $st, $atts, $content) = $m;
-                $content = trim($content);
+            if (preg_match("/^(?P<tl>[#*;:]+)(?P<st>_|\d+)?(?P<atts>$this->cls)[ .](?P<content>.*)$/s", $line, $m)) {
+                $tl = $m['tl'];
+                $st = $m['st'];
+                $atts = $m['atts'];
+                $content = trim($m['content']);
                 $nl = '';
                 $ltype = $this->liType($tl);
                 $litem = (strpos($tl, ';') !== false) ? 'dt' : ((strpos($tl, ':') !== false) ? 'dd' : 'li');
                 $showitem = (strlen($content) > 0);
 
                 if ('o' === $ltype) {
-                    // Handle list continuation/start attribute on ordered lists...
+                    // Handle list continuation/start attribute on ordered lists.
                     if (!isset($this->olstarts[$tl])) {
                         $this->olstarts[$tl] = 1;
                     }
@@ -1695,35 +2010,39 @@ class Parser
                     if (strlen($tl) > strlen($pt)) {
                         // First line of this level of ol -- has a start attribute?
                         if ('' == $st) {
-                            $this->olstarts[$tl] = 1;           // No => reset count to 1.
+                            // No => reset count to 1.
+                            $this->olstarts[$tl] = 1;
                         } elseif ('_' !== $st) {
-                            $this->olstarts[$tl] = (int) $st;   // Yes, and numeric => reset to given.
-                                                                // TRICKY: the '_' continuation marker just means
-                                                                // output the count so don't need to do anything
-                                                                // here.
+                            // Yes, and numeric => reset to given.
+                            // TRICKY: the '_' continuation marker just means
+                            // output the count so don't need to do anything
+                            // here.
+                            $this->olstarts[$tl] = (int) $st;
                         }
                     }
 
                     if ((strlen($tl) > strlen($pt)) && '' !== $st) {
-                        // Output the start attribute if needed...
+                        // Output the start attribute if needed.
                         $st = ' start="' . $this->olstarts[$tl] . '"';
                     }
 
                     if ($showitem) {
-                        // TRICKY: Only increment the count for list items; not when a list definition line is encountered.
+                        // TRICKY: Only increment the count for list items;
+                        // not when a list definition line is encountered.
                         $this->olstarts[$tl] += 1;
                     }
                 }
 
-                if (preg_match("/^([#*;:]+)(_|[\d]+)?($this->lc)[ .].*/", $nextline, $nm)) {
-                    $nl = $nm[1];
+                if (preg_match("/^(?P<nextlistitem>[#*;:]+)(_|[\d]+)?($this->cls)[ .].*/", $nextline, $nm)) {
+                    $nl = $nm['nextlistitem'];
                 }
 
                 if ((strpos($pt, ';') !== false) && (strpos($tl, ':') !== false)) {
-                    $lists[$tl] = 2; // We're already in a <dl> so flag not to start another
+                    // We're already in a <dl> so flag not to start another
+                    $lists[$tl] = 2;
                 }
 
-                $tabs = str_repeat("\t", strlen($tl));
+                $tabs = str_repeat("\t", strlen($tl)-1);
                 $atts = $this->parseAttribs($atts);
                 if (!isset($lists[$tl])) {
                     $lists[$tl] = 1;
@@ -1746,8 +2065,6 @@ class Parser
                     }
                 }
                 $pt = $tl; // Remember the current Textile tag
-            } else {
-                $line .= "\n";
             }
 
             $out[] = $line;
@@ -1758,7 +2075,7 @@ class Parser
     }
 
     /**
-     * Determines the list type from the textile input symbol.
+     * Determines the list type from the Textile input symbol.
      *
      * @param  string $in Textile input containing the possible list marker
      * @return string Either 'd', 'o', 'u'
@@ -1768,8 +2085,8 @@ class Parser
     {
         $m = array();
         $type = 'd';
-        if (preg_match('/^([#*]+)/', $in, $m)) {
-            $type = ('#' === substr($m[1], -1)) ? 'o' : 'u';
+        if (preg_match('/^(?P<type>[#*]+)/', $in, $m)) {
+            $type = ('#' === substr($m['type'], -1)) ? 'o' : 'u';
         }
         return $type;
     }
@@ -1784,7 +2101,11 @@ class Parser
 
     protected function doTagBr($tag, $in)
     {
-        return preg_replace_callback('@<('.preg_quote($tag).')([^>]*?)>(.*)(</\1>)@s', array(&$this, 'fBr'), $in);
+        return preg_replace_callback(
+            '@<(?P<tag>'.preg_quote($tag).')(?P<atts>[^>]*?)>(?P<content>.*)(?P<closetag></\1>)@s',
+            array(&$this, 'fBr'),
+            $in
+        );
     }
 
     /**
@@ -1796,7 +2117,11 @@ class Parser
 
     protected function doPBr($in)
     {
-        return preg_replace_callback('@<(p|h[1-6])([^>]*?)>(.*)(</\1>)@s', array(&$this, 'fPBr'), $in);
+        return preg_replace_callback(
+            '@<(?P<tag>p|h[1-6])(?P<atts>[^>]*?)>(?P<content>.*)(?P<closetag></\1>)@s',
+            array(&$this, 'fPBr'),
+            $in
+        );
     }
 
     /**
@@ -1812,8 +2137,16 @@ class Parser
 
     protected function fPBr($m)
     {
-        $content = preg_replace("@((?!<br>\n|<br />\n))+\n(?![\s|])@", '$1<br />', $m[3]);
-        return '<'.$m[1].$m[2].'>'.$content.$m[4];
+        // Replaces <br/>\n instances that are not followed by white-space,
+        // or at end, with single LF.
+        $content = preg_replace(
+            "~<br[ ]*/?>{$this->regex_snippets['space']}*\n(?![{$this->regex_snippets['space']}|])~i",
+            "\n",
+            $m['content']
+        );
+        // Replaces those LFs that aren't followed by white-space, or at end, with <br />.
+        $content = preg_replace("/\n(?![\s|])/", '<br />', $content);
+        return '<'.$m['tag'].$m['atts'].'>'.$content.$m['closetag'];
     }
 
     /**
@@ -1825,8 +2158,8 @@ class Parser
 
     protected function fBr($m)
     {
-        $content = preg_replace("@(.+)(?<!<br>|<br />)\n(?![#*;:\s|])@", '$1<br />', $m[3]);
-        return '<'.$m[1].$m[2].'>'.$content.$m[4];
+        $content = preg_replace("@(.+)(?<!<br>|<br />|</li>|</dd>|</dt>)\n(?![#*;:\s|])@", '$1<br />', $m['content']);
+        return '<'.$m['tag'].$m['atts'].'>'.$content.$m['closetag'];
     }
 
     /**
@@ -1841,72 +2174,82 @@ class Parser
 
     protected function blocks($text)
     {
-        $blocktags = join('|', $this->blocktag_whitelist);
+        $regex = '/^(?P<tag>'.join('|', $this->blocktag_whitelist).')'.
+            '(?P<atts>'.$this->a.$this->cls.')\.(?P<ext>\.?)(?::(?P<cite>\S+))? (?P<graf>.*)$/Ss'.
+            $this->regex_snippets['mod'];
 
-        $text = preg_split('/(\n{2,})/', $text, null, PREG_SPLIT_DELIM_CAPTURE);
+        $textblocks = preg_split('/(\n{2,})/', $text, null, PREG_SPLIT_DELIM_CAPTURE);
 
-        $tag  = 'p';
-        $atts = '';
-        $cite = '';
-        $graf = '';
-        $ext  = '';
-        $eat  = false;
-        $whitespace = '';
         $eatWhitespace = false;
+        $whitespace = '';
+        $ext = '';
+        $out = array();
 
-        $out  = array();
-
-        foreach ($text as $key => $line) {
+        foreach ($textblocks as $block) {
 
             // Line is just whitespace, keep it for the next block.
-            if (trim($line) === '') {
+            if (trim($block) === '') {
                 if ($eatWhitespace === false) {
-                    $whitespace .= $line;
+                    $whitespace .= $block;
                 }
                 continue;
             }
 
+            if (!$ext) {
+                $tag   = 'p';
+                $atts  = '';
+                $cite  = '';
+                $graf  = '';
+                $eat   = false;
+            }
+
             $eatWhitespace = false;
-            $anon = 0;
-            if (preg_match("/^($blocktags)($this->a$this->c)\.(\.?)(?::(\S+))? (.*)$/Ss", $line, $m)) {
+            $anonymous_block = !preg_match($regex, $block, $m);
+
+            if (!$anonymous_block) {
                 // Last block was extended, so close it
                 if ($ext) {
                     $out[count($out)-1] .= $c1;
                 }
 
-                // New block
-                list(, $tag, $atts, $ext, $cite, $graf) = $m;
-                list($o1, $o2, $content, $c2, $c1, $eat) = $this->fBlock(array(0, $tag, $atts, $ext, $cite, $graf));
+                // Extract the new block's parts
+                extract($m);
+                list($o1, $o2, $content, $c2, $c1, $eat) = $this->fBlock($m);
 
                 // Leave off c1 if this block is extended, we'll close it at the start of the next block
-                if ($ext) {
-                    $line = $o1.$o2.$content.$c2;
-                } else {
-                    $line = $o1.$o2.$content.$c2.$c1;
+                $block = $o1.$o2.$content.$c2;
+                if (!$ext) {
+                    $block .= $c1;
                 }
             } else {
-                // Anonymous block
-                $anon = 1;
-                if ($ext || !preg_match('/^ /', $line)) {
-                    list($o1, $o2, $content, $c2, $c1, $eat) = $this->fBlock(array(0, $tag, $atts, $ext, $cite, $line));
+                if ($ext || strpos($block, ' ') !== 0) {
+                    list($o1, $o2, $content, $c2, $c1, $eat) = $this->fBlock(array(
+                        0,
+                        $tag,
+                        $atts,
+                        $ext,
+                        $cite,
+                        $block,
+                    ));
+
                     // Skip $o1/$c1 because this is part of a continuing extended block
                     if ($tag == 'p' && !$this->hasRawText($content)) {
-                        $line = $content;
+                        $block = $content;
                     } else {
-                        $line = $o2.$content.$c2;
+                        $block = $o2.$content.$c2;
                     }
                 } else {
-                    $line = $this->graf($line);
+                    $block = $this->graf($block);
                 }
             }
 
-            $line = $this->doPBr($line);
-            $line = $whitespace . preg_replace('/<br>/', '<br />', $line);
+            $block = $this->doPBr($block);
+            $block = $whitespace. str_replace('<br>', '<br />', $block);
 
-            if ($ext && $anon) {
-                $out[count($out)-1] .= $line;
+            if ($ext && $anonymous_block) {
+                $out[count($out)-1] .= $block;
             } elseif (!$eat) {
-                $out[] = $line;
+                $out[] = $block;
             }
 
             if ($eat) {
@@ -1915,13 +2258,6 @@ class Parser
                 $whitespace = '';
             }
 
-            if (!$ext) {
-                $tag  = 'p';
-                $atts = '';
-                $cite = '';
-                $graf = '';
-                $eat  = false;
-            }
         }
 
         if ($ext) {
@@ -1945,6 +2281,7 @@ class Parser
     {
         list(, $tag, $att, $ext, $cite, $content) = $m;
         $atts = $this->parseAttribs($att);
+        $space = $this->regex_snippets['space'];
 
         $o1  = '';
         $o2  = '';
@@ -1954,15 +2291,19 @@ class Parser
 
         if ($tag === 'p') {
             // Is this an anonymous block with a note definition?
-            $notedef = preg_replace_callback("/
-                    ^note\#               #  start of note def marker
-                    ([^%<*!@#^([{ \s.]+)  # !label
-                    ([*!^]?)              # !link
-                    ({$this->c})          # !att
-                    \.?                   #  optional period.
-                    [\s]+                 #  whitespace ends def marker
-                    (.*)$                 # !content
-                /x".$this->regex_snippets['mod'], array(&$this, "fParseNoteDefs"), $content);
+            $notedef = preg_replace_callback(
+                "/
+                    ^note\#                              # start of note def marker
+                    (?P<label>[^%<*!@#^([{ {$space}.]+)  # label
+                    (?P<link>[*!^]?)                     # link
+                    (?P<att>{$this->cls})                # att
+                    \.?                                  # optional period.
+                    {$space}+                            # whitespace ends def marker
+                    (?P<content>.*)$                     # content
+                /x".$this->regex_snippets['mod'],
+                array(&$this, "fParseNoteDefs"),
+                $content
+            );
 
             if ('' === $notedef) {
                 // It will be empty if the regex matched and ate it.
@@ -1970,9 +2311,9 @@ class Parser
             }
         }
 
-        if (preg_match("/fn(\d+)/", $tag, $fns)) {
+        if (preg_match("/fn(?P<fnid>{$this->regex_snippets['digit']}+)/".$this->regex_snippets['mod'], $tag, $fns)) {
             $tag = 'p';
-            $fnid = empty($this->fn[$fns[1]]) ? $fns[1] : $this->fn[$fns[1]];
+            $fnid = empty($this->fn[$fns['fnid']]) ? $this->linkPrefix . ($this->linkIndex++) : $this->fn[$fns['fnid']];
 
             // If there is an author-specified ID goes on the wrapper & the auto-id gets pushed to the <sup>
             $supp_id = '';
@@ -1986,7 +2327,11 @@ class Parser
                 $supp_id = ' id="fn' . $fnid . '"';
             }
 
-            $sup = (strpos($att, '^') === false) ? $this->formatFootnote($fns[1], $supp_id) : $this->formatFootnote('<a href="#fnrev' . $fnid . '">'.$fns[1] .'</a>', $supp_id);
+            if (strpos($att, '^') === false) {
+                $sup = $this->formatFootnote($fns['fnid'], $supp_id);
+            } else {
+                $sup = $this->formatFootnote('<a href="#fnrev' . $fnid . '">'.$fns['fnid'] .'</a>', $supp_id);
+            }
 
             $content = $sup . ' ' . $content;
         }
@@ -1995,7 +2340,7 @@ class Parser
             $cite = $this->shelveURL($cite);
             $cite = ($cite != '') ? ' cite="' . $cite . '"' : '';
             $o1 = "<blockquote$cite$atts>\n";
-            $o2 = "\t\t<p".$this->parseAttribs($att, '', 0).">";
+            $o2 = "\t<p".$this->parseAttribs($att, '', 0).">";
             $c2 = "</p>";
             $c1 = "\n</blockquote>";
         } elseif ($tag == 'bc') {
@@ -2026,6 +2371,14 @@ class Parser
         return array($o1, $o2, $content, $c2, $c1, $eat);
     }
 
+    /**
+     * Formats a footnote.
+     *
+     * @param  string $marker The marker
+     * @param  string $atts   Attributes
+     * @param  bool   $anchor TRUE, if its a reference link
+     * @return string Processed footnote
+     */
 
     protected function formatFootnote($marker, $atts = '', $anchor = true)
     {
@@ -2033,6 +2386,13 @@ class Parser
         return $this->replaceMarkers($pattern, array('atts' => $atts, 'marker' => $marker));
     }
 
+    /**
+     * Replaces markers with replacements in the given input.
+     *
+     * @param  string $text         The input
+     * @param  array  $replacements Marker replacement pairs
+     * @return string
+     */
 
     protected function replaceMarkers($text, $replacements)
     {
@@ -2044,64 +2404,96 @@ class Parser
         return $text;
     }
 
+    /**
+     * Parses HTML comments in the given input.
+     *
+     * This method finds HTML comments in the given input
+     * and replaces them with reference tokens.
+     *
+     * @param  string $text Textile input
+     * @return string $text Processed input
+     */
 
     protected function getHTMLComments($text)
     {
-        $text = preg_replace_callback("/
-            \<!--    #  start
-            (.*?)    # !content *not* greedy
-            -->      #  end
-        /sx", array(&$this, "fParseHTMLComments"), $text);
+        $text = preg_replace_callback(
+            "/\<!--(?P<content>.*?)-->/sx",
+            array(&$this, "fParseHTMLComments"),
+            $text
+        );
         return $text;
     }
 
+    /**
+     * Formats a HTML comment.
+     *
+     * Stores the comment on the shelf and returns
+     * a reference token wrapped in to a HTML comment.
+     *
+     * @param  array  $m Options
+     * @return string Reference token wrapped to a HTML comment tags
+     */
 
     protected function fParseHTMLComments($m)
     {
-        list(, $content) = $m;
-        if ($this->restricted) {
-            $content = $this->shelve($this->rEncodeHTML($content));
-        } else {
-            $content = $this->shelve($content);
-        }
-
-        return "<!--$content-->";
+        return '<!--'.$this->shelve($m['content']).'-->';
     }
 
+    /**
+     * Parses paragraphs in the given input.
+     *
+     * @param  string $text Textile input
+     * @return string Processed input
+     */
 
     protected function graf($text)
     {
         // Handle normal paragraph text
         if (!$this->lite) {
-            $text = $this->noTextile($text);       // Notextile blocks and inlines
-            $text = $this->code($text);            // Handle code
+            // Notextile blocks and inlines
+            $text = $this->noTextile($text);
+            // Handle code
+            $text = $this->code($text);
         }
 
-        $text = $this->getHTMLComments($text);     // HTML comments --
-        $text = $this->getRefs($text);             // Consume link aliases
-        $text = $this->links($text);               // Generate links
+        // HTML comments --
+        $text = $this->getHTMLComments($text);
+        // Consume link aliases
+        $text = $this->getRefs($text);
+        // Treat quoted quote as a special glyph.
+        $text = $this->glyphQuotedQuote($text);
+        // Generate links
+        $text = $this->links($text);
 
+        // Handle images (if permitted)
         if (!$this->noimage) {
-            $text = $this->images($text);          // Handle images (if permitted)
+            $text = $this->images($text);
         }
 
         if (!$this->lite) {
-            $text = $this->tables($text);          // Handle tables
-            $text = $this->redclothLists($text);   // Handle redcloth-style definition lists
-            $text = $this->textileLists($text);    // Handle ordered & unordered lists plus txp-style definition lists
+            // Handle tables
+            $text = $this->tables($text);
+            // Handle redcloth-style definition lists
+            $text = $this->redclothLists($text);
+            // Handle ordered & unordered lists plus txp-style definition lists
+            $text = $this->textileLists($text);
         }
 
-        $text = $this->spans($text);               // Inline markup (em, strong, sup, sub, del etc)
+        // Inline markup (em, strong, sup, sub, del etc)
+        $text = $this->spans($text);
 
         if (!$this->lite) {
-            // Turn footnote references into supers or links. As footnote blocks are banned in lite mode there is no point generating links for them
+            // Turn footnote references into supers or links.
+            // As footnote blocks are banned in lite mode there is no point
+            // generating links for them.
             $text = $this->footnoteRefs($text);
 
             // Turn note references into links
             $text = $this->noteRefs($text);
         }
 
-        $text = $this->glyphs($text);              // Glyph level substitutions (mainly typographic -- " & ' => curly quotes, -- => em-dash etc.
+        // Glyph level substitutions (mainly typographic -- " & ' => curly quotes, -- => em-dash etc.
+        $text = $this->glyphs($text);
 
         return rtrim($text, "\n");
     }
@@ -2110,7 +2502,7 @@ class Parser
      * Replaces Textile span tags with their equivalent HTML inline tags.
      *
      * @param  string $text The Textile document to perform the replacements in
-     * @return string The textile document with spans replaced by their HTML inline equivalents
+     * @return string The Textile document with spans replaced by their HTML inline equivalents
      */
 
     protected function spans($text)
@@ -2120,81 +2512,135 @@ class Parser
         $this->span_depth++;
 
         if ($this->span_depth <= $this->max_span_depth) {
-            foreach ($span_tags as $f) {
-                $f = preg_quote($f);
-                $text = preg_replace_callback("/
-                    (^|(?<=[\s>$pnct\(])|[{[])            # pre
-                    ($f)(?!$f)                            # tag
-                    ({$this->lc})                         # atts - do not use horizontal alignment; it kills html tags within inline elements.
-                    (?::(\S+))?                           # cite
-                    ([^\s$f]+|\S.*?[^\s$f\n])             # content
-                    ([$pnct]*)                            # end
-                    $f
-                    ($|[\[\]}<]|(?=[$pnct]{1,2}[^0-9]|\s|\)))  # tail
-                /x".$this->regex_snippets['mod'], array(&$this, "fSpan"), $text);
+            foreach ($span_tags as $tag) {
+                $tag = preg_quote($tag);
+                $text = preg_replace_callback(
+                    "/
+                    (?P<pre>^|(?<=[\s>$pnct\(])|[{[])
+                    (?P<tag>$tag)(?!$tag)
+                    (?P<atts>{$this->cls})
+                    (?!$tag)
+                    (?::(?P<cite>\S+[^$tag]{$this->regex_snippets['space']}))?
+                    (?P<content>[^{$this->regex_snippets['space']}$tag]+|\S.*?[^\s$tag\n])
+                    (?P<end>[$pnct]*)
+                    $tag
+                    (?P<tail>$|[\[\]}<]|(?=[$pnct]{1,2}[^0-9]|\s|\)))
+                    /x".$this->regex_snippets['mod'],
+                    array(&$this, "fSpan"),
+                    $text
+                );
             }
         }
         $this->span_depth--;
         return $text;
     }
 
+    /**
+     * Formats a span tag and stores it on the shelf.
+     *
+     * @param  array  $m Options
+     * @return string Content wrapped to reference tokens
+     * @see    Parser::spans()
+     */
 
     protected function fSpan($m)
     {
-        list(, $pre, $tag, $atts, $cite, $content, $end, $tail) = $m;
+        $tag = $this->span_tags[$m['tag']];
+        $atts = $this->parseAttribsToArray($m['atts']);
 
-        $tag  = $this->span_tags[$tag];
-        $atts = $this->parseAttribs($atts);
-        $atts .= ($cite != '') ? 'cite="' . $cite . '"' : '';
+        if ($m['cite'] != '') {
+            $atts['cite'] = trim($m['cite']);
+            ksort($atts);
+        }
 
-        $content = $this->spans($content);
-
+        $atts = $this->formatAttributeString($atts);
+        $content = $this->spans($m['content']);
         $opentag = '<'.$tag.$atts.'>';
         $closetag = '</'.$tag.'>';
         $tags = $this->storeTags($opentag, $closetag);
-        $out = "{$tags['open']}{$content}{$end}{$tags['close']}";
+        $out = "{$tags['open']}{$content}{$m['end']}{$tags['close']}";
 
-        if (($pre && !$tail) || ($tail && !$pre)) {
-            $out = $pre.$out.$tail;
+        if (($m['pre'] && !$m['tail']) || ($m['tail'] && !$m['pre'])) {
+            $out = $m['pre'].$out.$m['tail'];
         }
 
         return $out;
     }
 
+    /**
+     * Stores a tag pair in the tag cache.
+     *
+     * @param  string $opentag  Opening tag
+     * @param  string $closetag Closing tag
+     * @return array  Reference tokens for both opening and closing tag
+     */
 
     protected function storeTags($opentag, $closetag = '')
     {
-        $key = ($this->tag_index++);
+        $tags = array();
 
-        $key = str_pad((string) $key, 10, '0', STR_PAD_LEFT).'z'; // $key must be of fixed length to allow proper matching in retrieveTags
-        $this->tagCache[$key] = array('open' => $opentag, 'close' => $closetag);
-        $tags = array(
-            'open'  => "textileSpanReference{$this->uid}opentag{$key} ",
-            'close' => " textileSpanReference{$this->uid}closetag{$key}",
-        );
+        $this->refCache[$this->refIndex] = $opentag;
+        $tags['open'] = $this->uid.$this->refIndex.':ospan ';
+        $this->refIndex++;
+
+        $this->refCache[$this->refIndex] = $closetag;
+        $tags['close'] = ' '.$this->uid.$this->refIndex.':cspan';
+        $this->refIndex++;
+
         return $tags;
     }
 
+    /**
+     * Replaces reference tokens with corresponding shelved span tags.
+     *
+     * This method puts all shelved span tags back to the final,
+     * parsed input.
+     *
+     * @param  string $text The input
+     * @return string Processed text
+     * @see    Parser::storeTags()
+     */
 
     protected function retrieveTags($text)
     {
-        $text = preg_replace_callback('/textileSpanReference'.$this->uid.'opentag([\d]{10}z) /', array(&$this, 'fRetrieveOpenTags'), $text);
-        $text = preg_replace_callback('/ textileSpanReference'.$this->uid.'closetag([\d]{10}z)/', array(&$this, 'fRetrieveCloseTags'), $text);
+        $text = preg_replace_callback(
+            '/'.$this->uid.'(?P<token>[0-9]+):ospan /',
+            array(&$this, 'fRetrieveTags'),
+            $text
+        );
+
+        $text = preg_replace_callback(
+            '/ '.$this->uid.'(?P<token>[0-9]+):cspan/',
+            array(&$this, 'fRetrieveTags'),
+            $text
+        );
+
         return $text;
     }
 
+    /**
+     * Retrieves a tag from the tag cache.
+     *
+     * @param  array $m Options
+     * @return string
+     * @see    Parser::retrieveTags()
+     */
 
-    protected function fRetrieveOpenTags($m)
+    protected function fRetrieveTags($m)
     {
-        return $this->tagCache[$m[1]]['open'];
+        return $this->refCache[$m['token']];
     }
 
-
-    protected function fRetrieveCloseTags($m)
-    {
-        return $this->tagCache[$m[1]]['close'];
-    }
-
+    /**
+     * Parses note lists in the given input.
+     *
+     * This method should be ran after other blocks
+     * have been processed, but before reference tokens
+     * have been replaced with their replacements.
+     *
+     * @param  string $text Textile input
+     * @return string Processed input
+     */
 
     protected function placeNoteLists($text)
     {
@@ -2219,62 +2665,82 @@ class Parser
             $this->notes = $o;
         }
 
-        // Replace list markers...
-        $text = preg_replace_callback("@<p>notelist({$this->c})(?:\:([$wrd|{$this->syms}]))?([\^!]?)(\+?)\.?[\s]*</p>@U$mod", array(&$this, "fNoteLists"), $text);
+        // Replace list markers.
+        $text = preg_replace_callback(
+            "@<p>notelist(?P<atts>{$this->c})".
+            "(?:\:(?P<startchar>[$wrd|{$this->syms}]))?".
+            "(?P<links>[\^!]?)(?P<extras>\+?)\.?$space*</p>@U$mod",
+            array(&$this, "fNoteLists"),
+            $text
+        );
 
         return $text;
     }
 
+    /**
+     * Formats a note list.
+     *
+     * @param  array  $m Options
+     * @return string Processed note list
+     */
 
     protected function fNoteLists($m)
     {
-        list(, $att, $start_char, $g_links, $extras) = $m;
-        if (!$start_char) {
-            $start_char = 'a';
+        if (!$m['startchar']) {
+            $m['startchar'] = 'a';
         }
 
-        $index = $g_links.$extras.$start_char;
+        $index = $m['links'].$m['extras'].$m['startchar'];
 
         if (empty($this->notelist_cache[$index])) {
             // If not in cache, build the entry...
-            $o = array();
+            $out = array();
 
             if (!empty($this->notes)) {
                 foreach ($this->notes as $seq => $info) {
-                    $links = $this->makeBackrefLink($info, $g_links, $start_char);
+                    $links = $this->makeBackrefLink($info, $m['links'], $m['startchar']);
                     $atts = '';
                     if (!empty($info['def'])) {
                         $id = $info['id'];
                         extract($info['def']);
-                        $o[] = "\t".'<li'.$atts.'>'.$links.'<span id="note'.$id.'"> </span>'.$content.'</li>';
+                        $out[] = "\t".'<li'.$atts.'>'.$links.'<span id="note'.$id.'"> </span>'.$content.'</li>';
                     } else {
-                        $o[] = "\t".'<li'.$atts.'>'.$links.' Undefined Note [#'.$info['seq'].'].</li>';
+                        $out[] = "\t".'<li'.$atts.'>'.$links.' Undefined Note [#'.$info['seq'].'].</li>';
                     }
                 }
             }
 
-            if ('+' == $extras && !empty($this->unreferencedNotes)) {
+            if ('+' == $m['extras'] && !empty($this->unreferencedNotes)) {
                 foreach ($this->unreferencedNotes as $seq => $info) {
                     if (!empty($info['def'])) {
                         extract($info['def']);
-                        $o[] = "\t".'<li'.$atts.'>'.$content.'</li>';
+                        $out[] = "\t".'<li'.$atts.'>'.$content.'</li>';
                     }
                 }
             }
 
-            $this->notelist_cache[$index] = join("\n", $o);
+            $this->notelist_cache[$index] = join("\n", $out);
         }
 
-        $_ = ($this->notelist_cache[$index]) ? $this->notelist_cache[$index] : '';
-
-        if (!empty($_)) {
-            $list_atts = $this->parseAttribs($att);
-            $_ = "<ol$list_atts>\n$_\n</ol>";
+        if ($this->notelist_cache[$index]) {
+            $atts = $this->parseAttribs($m['atts']);
+            return "<ol$atts>\n{$this->notelist_cache[$index]}\n</ol>";
         }
 
-        return $_;
+        return '';
     }
 
+    /**
+     * Renders a note back reference link.
+     *
+     * This method renders an array of back reference
+     * links for notes.
+     *
+     * @param  array  $info    Options
+     * @param  string $g_links Reference type
+     * @param  int    $i       Instance count
+     * @return string Processed input
+     */
 
     protected function makeBackrefLink(&$info, $g_links, $i)
     {
@@ -2298,26 +2764,40 @@ class Parser
         } elseif ($backlink_type === '^') {
             return '<sup><a href="#noteref'.$info['refids'][0].'">'.$i.'</a></sup>';
         } else {
-            $_ = array();
+            $out = array();
+
             foreach ($info['refids'] as $id) {
-                $_[] = '<sup><a href="#noteref'.$id.'">'. (($decode) ? $this->decodeHigh($i_) : $i_) .'</a></sup>';
+                $out[] = '<sup><a href="#noteref'.$id.'">'. (($decode) ? $this->decodeHigh($i_) : $i_) .'</a></sup>';
                 if ($allow_inc) {
                     $i_++;
                 }
             }
-            $_ = join(' ', $_);
-            return $_;
+
+            return join(' ', $out);
         }
     }
 
+    /**
+     * Formats note definitions.
+     *
+     * This method formats notes and stores them in
+     * note cache for later use and to build reference
+     * links.
+     *
+     * @param  array  $m Options
+     * @return string Empty string
+     */
 
     protected function fParseNoteDefs($m)
     {
-        list(, $label, $link, $att, $content) = $m;
+        $label = $m['label'];
+        $link  = $m['link'];
+        $att   = $m['att'];
+        $content = $m['content'];
 
         // Assign an id if the note reference parse hasn't found the label yet.
         if (empty($this->notes[$label]['id'])) {
-            $this->notes[$label]['id'] = uniqid(rand());
+            $this->notes[$label]['id'] = $this->linkPrefix . ($this->linkIndex++);
         }
 
         // Ignores subsequent defs using the same label
@@ -2331,62 +2811,72 @@ class Parser
         return '';
     }
 
+    /**
+     * Parses note references in the given input.
+     *
+     * This method replaces note reference tags with
+     * links.
+     *
+     * @param  string $text Textile input
+     * @return string
+     */
 
     protected function noteRefs($text)
     {
-        $text = preg_replace_callback("/
-            \[                   #  start
-            ({$this->c})         # !atts
-            \#
-            ([^\]!]+?)           # !label
-            ([!]?)               # !nolink
-            \]
-        /Ux", array(&$this, "fParseNoteRefs"), $text);
+        $text = preg_replace_callback(
+            "/\[(?P<atts>{$this->c})\#(?P<label>[^\]!]+?)(?P<nolink>[!]?)\]/Ux",
+            array(&$this, "fParseNoteRefs"),
+            $text
+        );
         return $text;
     }
 
+    /**
+     * Formats note reference links.
+     *
+     * By the time this function is called, all note lists will have been
+     * processed into the notes array, and we can resolve the link numbers in
+     * the order we process the references.
+     *
+     * @param  array  $m Options
+     * @return string Note reference
+     */
 
     protected function fParseNoteRefs($m)
     {
-        // By the time this function is called, all the defs will have been processed
-        // into the notes array. So now we can resolve the link numbers in the order
-        // we process the refs...
-
-        list(, $atts, $label, $nolink) = $m;
-        $atts = $this->parseAttribs($atts);
-        $nolink = ($nolink === '!');
+        $atts = $this->parseAttribs($m['atts']);
+        $nolink = ($m['nolink'] === '!');
 
         // Assign a sequence number to this reference if there isn't one already.
 
-        if (empty($this->notes[$label]['seq'])) {
-            $num = $this->notes[$label]['seq'] = ($this->note_index++);
+        if (empty($this->notes[$m['label']]['seq'])) {
+            $num = $this->notes[$m['label']]['seq'] = ($this->note_index++);
         } else {
-            $num = $this->notes[$label]['seq'];
+            $num = $this->notes[$m['label']]['seq'];
         }
 
         // Make our anchor point & stash it for possible use in backlinks when the
-        // note list is generated later...
-        $refid = uniqid(rand());
-        $this->notes[$label]['refids'][] = $refid;
+        // note list is generated later.
+        $refid = $this->linkPrefix . ($this->linkIndex++);
+        $this->notes[$m['label']]['refids'][] = $refid;
 
         // If we are referencing a note that hasn't had the definition parsed yet, then assign it an ID.
 
-        if (empty($this->notes[$label]['id'])) {
-            $id = $this->notes[$label]['id'] = uniqid(rand());
+        if (empty($this->notes[$m['label']]['id'])) {
+            $id = $this->notes[$m['label']]['id'] = $this->linkPrefix . ($this->linkIndex++);
         } else {
-            $id = $this->notes[$label]['id'];
+            $id = $this->notes[$m['label']]['id'];
         }
 
-        // Build the link (if any)...
-        $_ = '<span id="noteref'.$refid.'">'.$num.'</span>';
+        // Build the link (if any).
+        $out = '<span id="noteref'.$refid.'">'.$num.'</span>';
+
         if (!$nolink) {
-            $_ = '<a href="#note'.$id.'">'.$_.'</a>';
+            $out = '<a href="#note'.$id.'">'.$out.'</a>';
         }
 
-        // Build the reference...
-        $_ = $this->replaceMarkers($this->symbols['nl_ref_pattern'], array('atts' => $atts, 'marker' => $_));
-
-        return $_;
+        // Build the reference.
+        return $this->replaceMarkers($this->symbols['nl_ref_pattern'], array('atts' => $atts, 'marker' => $out));
     }
 
     /**
@@ -2403,14 +2893,11 @@ class Parser
 
     protected function parseURI($uri, &$m)
     {
-        $r = "@^((?P<scheme>[^:/?#]+):)?(//(?P<authority>[^/?#]*))?(?P<path>[^?#]*)(\?(?P<query>[^#]*))?(#(?P<fragment>.*))?@";
-        //      12                      3  4                       5               6  7                 8 9
-        //
-        //    scheme    = $2
-        //    authority = $4
-        //    path      = $5
-        //    query     = $7
-        //    fragment  = $9
+        $r = "@^((?P<scheme>[^:/?#]+):)?".
+            "(//(?P<authority>[^/?#]*))?".
+            "(?P<path>[^?#]*)".
+            "(\?(?P<query>[^#]*))?".
+            "(#(?P<fragment>.*))?@";
 
         $ok = preg_match($r, $uri, $m);
         return $ok;
@@ -2429,7 +2916,6 @@ class Parser
     {
         return (in_array($name, $mask) && isset($parts[$name]) && '' !== $parts[$name]);
     }
-
 
     /**
      * Rebuild a URI from parsed parts and a mask.
@@ -2483,41 +2969,330 @@ class Parser
     }
 
     /**
-     * Initiates recognition and conversion of links in the source document.
+     * Parses and shelves links in the given input.
      *
-     * @param  string $text  The source textile text
-     * @return string        The document with tokens inserted representing the links
+     * This method parses the input Textile document for links.
+     * Formats and encodes them, and stores the created link
+     * elements in cache.
+     *
+     * @param  string $text Textile input
+     * @return string The input document with link pulled out and replaced with tokens
      */
 
     protected function links($text)
     {
-        return preg_replace_callback('/
-            (^|(?<=[\s>.\(\|])|[{[])   # $pre
-            "                          #  start
-            (' . $this->c . ')         # $atts
-            ([^"]+?)                   # $text
-            (?:\(([^)]+?)\)(?="))?     # $title
-            ":
-            ('.$this->urlch.'+?)       # $url
-            (\/)?                      # $slash
-            ([^'.$this->regex_snippets['wrd'].'\/]*?)  # $post
-            ([\]}]|(?=\s|$|\)|\|))     # $tail
-            /x'.$this->regex_snippets['mod'], array(&$this, "fLink"), $text);
+        $text = $this->markStartOfLinks($text);
+        return $this->replaceLinks($text);
     }
 
+    /**
+     * Finds and marks the start of well formed links in the input text.
+     *
+     * @param  string $text String to search for link starting positions
+     * @return string Text with links marked
+     * @see    Parser::links()
+     */
+
+    protected function markStartOfLinks($text)
+    {
+        // Slice text on '":<not space>' boundaries. These always occur in inline
+        // links between the link text and the url part and are much more
+        // infrequent than '"' characters so we have less possible links
+        // to process.
+        $mod = $this->regex_snippets['mod'];
+        $slices = preg_split('/":(?='.$this->regex_snippets['char'].')/'.$mod, $text);
+
+        if (count($slices) > 1) {
+
+            // There are never any start of links in the last slice, so pop it
+            // off (we'll glue it back later).
+            $last_slice = array_pop($slices);
+
+            foreach ($slices as &$slice) {
+
+                // If there is no possible start quote then this slice is not a link
+                if (false === strpos($slice, '"')) {
+                    continue;
+                }
+
+                // Cut this slice into possible starting points wherever we
+                // find a '"' character. Any of these parts could represent
+                // the start of the link text - we have to find which one.
+                $possible_start_quotes = explode('"', $slice);
+
+                // Start our search for the start of the link with the closest prior
+                // quote mark.
+                $possibility = rtrim(array_pop($possible_start_quotes));
+
+                // Init the balanced count. If this is still zero at the end
+                // of our do loop we'll mark the " that caused it to balance
+                // as the start of the link and move on to the next slice.
+                $balanced = 0;
+                $linkparts = array();
+                $iter = 0;
+
+                while (null !== $possibility) {
+                    // Starting at the end, pop off the previous part of the
+                    // slice's fragments.
+
+                    // Add this part to those parts that make up the link text.
+                    $linkparts[] = $possibility;
+                    $len = strlen($possibility) > 0;
+
+                    if ($len) {
+                        // did this part inc or dec the balanced count?
+                        if (preg_match('/^\S|=$/'.$mod, $possibility)) {
+                            $balanced--;
+                        }
+
+                        if (preg_match('/\S$/'.$mod, $possibility)) {
+                            $balanced++;
+                        }
+
+                        $possibility = array_pop($possible_start_quotes);
+                    } else {
+                        // If quotes occur next to each other, we get zero length strings.
+                        // eg. ...""Open the door, HAL!"":url...
+                        // In this case we count a zero length in the last position as a
+                        // closing quote and others as opening quotes.
+                        $balanced = (!$iter++) ? $balanced+1 : $balanced-1;
+
+                        $possibility = array_pop($possible_start_quotes);
+
+                        // If out of possible starting segments we back the last one
+                        // from the linkparts array
+                        if (null === $possibility) {
+                            array_pop($linkparts);
+                            break;
+                        }
+
+                        // If the next possibility is empty or ends in a space we have a
+                        // closing ".
+                        if (0 === strlen($possibility) ||
+                            preg_match("~{$this->regex_snippets['space']}$~".$mod, $possibility)) {
+                            $balanced = 0; // force search exit
+                        }
+                    }
+
+                    if ($balanced <= 0) {
+                        array_push($possible_start_quotes, $possibility);
+                        break;
+                    }
+
+                }
+
+                // Rebuild the link's text by reversing the parts and sticking them back
+                // together with quotes.
+                $link_content = implode('"', array_reverse($linkparts));
+
+                // Rebuild the remaining stuff that goes before the link but that's
+                // already in order.
+                $pre_link = implode('"', $possible_start_quotes);
+
+                // Re-assemble the link starts with a specific marker for the next regex.
+                $slice = $pre_link . $this->uid.'linkStartMarker:"' . $link_content;
+            }
+
+            // Add the last part back
+            $slices[] = $last_slice;
+        }
+
+        // Re-assemble the full text with the start and end markers
+        $text = implode('":', $slices);
+
+        return $text;
+    }
+
+    /**
+     * Replaces links with tokens and stores them on the shelf.
+     *
+     * @param  string $text The input
+     * @return string Processed input
+     * @see    Parser::links()
+     */
+
+    protected function replaceLinks($text)
+    {
+        $stopchars = "\s|^'\"*";
+
+        return preg_replace_callback(
+            '/
+            (?P<pre>\[)?                    # Optionally open with a square bracket eg. Look ["here":url]
+            '.$this->uid.'linkStartMarker:" # marks start of the link
+            (?P<inner>.*?)                  # grab the content of the inner "..." part of the link, can be anything but
+                                            # do not worry about matching class, id, lang or title yet
+            ":                              # literal ": marks end of atts + text + title block
+            (?P<urlx>[^'.$stopchars.']*)    # url upto a stopchar
+            /x'.$this->regex_snippets['mod'],
+            array(&$this, "fLink"),
+            $text
+        );
+    }
+
+    /**
+     * Formats a link and stores it on the shelf.
+     *
+     * @param  array  $m Options
+     * @return string Reference token for the shelved content
+     * @see    Parser::replaceLinks()
+     */
 
     protected function fLink($m)
     {
-        list(, $pre, $atts, $text, $title, $url, $slash, $post, $tail) = $m;
+        $in    = $m[0];
+        $pre   = $m['pre'];
+        $inner = $m['inner'];
+        $url   = $m['urlx'];
+        $m = array();
 
-        // Strip any ':' or '?' characters from the end of the url and return them to $post. This seems to be needed
-        // when using the unicode version of the word character class in the regex.
-        $a = array();
-        if (preg_match('/^(.*)([?:]+)$/'.$this->regex_snippets['mod'], $url, $a)) {
-            $url   = $a[1];
-            $post .= $a[2];
+        // Treat empty inner part as an invalid link.
+        $trimmed = trim($inner);
+        if (empty($trimmed)) {
+            return $pre.'"'.$inner.'":'.$url;
         }
 
+        // Split inner into $atts, $text and $title..
+        preg_match(
+            '/
+            ^
+            (?P<atts>' . $this->cls . ')            # $atts (if any)
+            ' . $this->regex_snippets['space'] . '* # any optional spaces
+            (?P<text>                               # $text is...
+                (!.+!)                              #     an image
+            |                                       #   else...
+                .+?                                 #     link text
+            )                                       # end of $text
+            (?:\((?P<title>[^)]+?)\))?              # $title (if any)
+            $
+            /x'.$this->regex_snippets['mod'],
+            $inner,
+            $m
+        );
+        $atts  = isset($m['atts'])  ? $m['atts']  : '';
+        $text  = isset($m['text'])  ? trim($m['text'])  : $inner;
+        $title = isset($m['title']) ? $m['title'] : '';
+        $m = array();
+
+        $pop = $tight = '';
+        $url_chars = array();
+        $counts = array(
+            '['  => null,
+            ']'  => substr_count($url, ']'), # We need to know how many closing square brackets we have
+            '('  => null,
+            ')'  => null,
+        );
+
+        // Look for footnotes or other square-bracket delimieted stuff at the end of the url...
+        // eg. "text":url][otherstuff... will have "[otherstuff" popped back out.
+        //     "text":url?q[]=x][123]    will have "[123]" popped off the back, the remaining closing square brackets
+        //                               will later be tested for balance
+        if ($counts[']']) {
+            if (1 === preg_match('@(?P<url>^.*\])(?P<tight>\[.*?)$@' . $this->regex_snippets['mod'], $url, $m)) {
+                $url         = $m['url'];
+                $tight       = $m['tight'];
+                $m = array();
+            }
+        }
+
+        // Split off any trailing text that isn't part of an array assignment.
+        // eg. "text":...?q[]=value1&q[]=value2 ... is ok
+        // "text":...?q[]=value1]following  ... would have "following"
+        // popped back out and the remaining square bracket
+        // will later be tested for balance
+        if ($counts[']']) {
+            if (1 === preg_match('@(?P<url>^.*\])(?!=)(?P<end>.*?)$@' . $this->regex_snippets['mod'], $url, $m)) {
+                $url         = $m['url'];
+                $tight       = $m['end'] . $tight;
+                $m = array();
+            }
+        }
+
+        // Does this need to be mb_ enabled? We are only searching for text in the ASCII charset anyway
+        // Create an array of (possibly) multi-byte characters.
+        // This is going to allow us to pop off any non-matched or nonsense chars from the url
+        $len = strlen($url);
+        $url_chars = str_split($url);
+
+        // Now we have the array of all the multi-byte chars in the url we will parse the
+        // uri backwards and pop off
+        // any chars that don't belong there (like . or , or unmatched brackets of various kinds).
+        $first = true;
+        do {
+            $c = array_pop($url_chars);
+            $popped = false;
+            switch ($c) {
+
+                // Textile URL shouldn't end in these characters, we pop
+                // them off the end and push them out the back of the url again.
+                case '!':
+                case '?':
+                case ':':
+                case ';':
+                case '.':
+                case ',':
+                    $pop = $c . $pop;
+                    $popped = true;
+                    break;
+
+                case '>':
+                    $urlLeft = implode('', $url_chars);
+
+                    if (preg_match('@(?P<tag><\/[a-z]+)$@', $urlLeft, $m)) {
+                        $url_chars = str_split(substr($urlLeft, 0, strlen($m['tag']) * -1));
+                        $pop = $m['tag'] . $c . $pop;
+                        $popped = true;
+                    }
+
+                    break;
+
+                case ']':
+                    // If we find a closing square bracket we are going to see if it is balanced.
+                    // If it is balanced with matching opening bracket then it is part of the URL
+                    // else we spit it back out of the URL.
+                    if (null === $counts['[']) {
+                        $counts['['] = substr_count($url, '[');
+                    }
+
+                    if ($counts['['] === $counts[']']) {
+                        // It is balanced, so keep it
+                        $url_chars[] = $c;
+                    } else {
+                        // In the case of un-matched closing square brackets we just eat it
+                        $popped = true;
+                        $counts[']'] -= 1;
+                        if ($first) {
+                            $pre = '';
+                        }
+                    }
+                    break;
+
+                case ')':
+                    if (null === $counts[')']) {
+                        $counts['('] = substr_count($url, '(');
+                        $counts[')'] = substr_count($url, ')');
+                    }
+
+                    if ($counts['('] === $counts[')']) {
+                        // It is balanced, so keep it
+                        $url_chars[] = $c;
+                    } else {
+                        // Unbalanced so spit it out the back end
+                        $pop = $c . $pop;
+                        $counts[')'] -= 1;
+                        $popped = true;
+                    }
+                    break;
+
+                default:
+                    // We have an acceptable character for the end of the url so put it back and
+                    // exit the character popping loop
+                    $url_chars[] = $c;
+                    break;
+            }
+            $first = false;
+        } while ($popped);
+
+        $url = implode('', $url_chars);
         $uri_parts = array();
         $this->parseURI($url, $uri_parts);
 
@@ -2526,7 +3301,7 @@ class Parser
         $scheme_ok      = ('' === $scheme) || $scheme_in_list;
 
         if (!$scheme_ok) {
-            return $m[0];
+            return str_replace($this->uid.'linkStartMarker:', '', $in);
         }
 
         if ('$' === $text) {
@@ -2536,18 +3311,13 @@ class Parser
                 if (isset($this->urlrefs[$url])) {
                     $url = urldecode($this->urlrefs[$url]);
                 }
+
                 $text = $url;
             }
         }
 
-        $text  = trim($text);
+        $text = trim($text);
         $title = $this->encodeHTML($title);
-
-        // If the text was in parenthesis and there was no title then the regex will have an empty $text and a non-empty $title so...
-        if (empty($text) && !empty($title)) {
-            $text  = "($title)";
-            $title = '';
-        }
 
         if (!$this->noimage) {
             $text = $this->images($text);
@@ -2555,18 +3325,16 @@ class Parser
 
         $text = $this->spans($text);
         $text = $this->glyphs($text);
-        $url  = $this->shelveURL($this->rebuildURI($uri_parts) . $slash);
-
-        $a    = $this->newTag('a', $this->parseAttribsToArray($atts), false)->title($title)->href($url, true)->rel($this->rel);
+        $url = $this->shelveURL($this->rebuildURI($uri_parts));
+        $a = $this->newTag(
+            'a',
+            $this->parseAttribsToArray($atts),
+            false
+        )->title($title)->href($url, true)->rel($this->rel);
         $tags = $this->storeTags((string) $a, '</a>');
-        $out  = $tags['open'].$text.$tags['close'];
+        $out = $this->shelve($tags['open'].trim($text).$tags['close']);
 
-        if (($pre && !$tail) || ($tail && !$pre)) {
-            $out = $pre.$out.$post.$tail;
-            $post = '';
-        }
-
-        return $this->shelve($out).$post;
+        return $pre . $out . $pop . $tight;
     }
 
      /**
@@ -2584,23 +3352,34 @@ class Parser
 
     protected function getRefs($text)
     {
-        if ($this->restricted) {
-            $pattern = "/^\[(.+)\]((?:https?:\/\/|\/)\S+)(?=\s|$)/Um";
-        } else {
-            $pattern = "/^\[(.+)\]((?:https?:\/\/|tel:|file:|ftp:\/\/|sftp:\/\/|mailto:|callto:|\/)\S+)(?=\s|$)/Um";
+        $pattern = array();
+
+        foreach ($this->url_schemes as $scheme) {
+            $pattern[] = preg_quote($scheme.':', '/');
         }
+
+        $pattern =
+            '/^\[(?P<alias>.+)\]'.
+            '(?P<url>(?:'.join('|', $pattern).'|\/)\S+)'.
+            '(?='.$this->regex_snippets['space'].'|$)/Um';
 
         return preg_replace_callback($pattern.$this->regex_snippets['mod'], array(&$this, "refs"), $text);
     }
 
+    /**
+     * Parses, encodes and shelves the current URI alias.
+     *
+     * @param  array $m Options
+     * @return string Empty string
+     * @see    Parser::getRefs()
+     */
 
     protected function refs($m)
     {
-        list(, $flag, $url) = $m;
         $uri_parts = array();
-        $this->parseURI($url, $uri_parts);
-        $url = ltrim($this->rebuildURI($uri_parts)); // Encodes URL if needed.
-        $this->urlrefs[$flag] = $url;
+        $this->parseURI($m['url'], $uri_parts);
+        // Encodes URL if needed.
+        $this->urlrefs[$m['alias']] = ltrim($this->rebuildURI($uri_parts));
         return '';
     }
 
@@ -2612,6 +3391,7 @@ class Parser
      *
      * @param  string $text The URL
      * @return string The fragment's unique reference ID
+     * @see    Parser::retrieveURLs()
      */
 
     protected function shelveURL($text)
@@ -2620,26 +3400,40 @@ class Parser
             return '';
         }
 
-        $ref = md5($text).'z';
-        $this->urlshelf[$ref] = $text;
-        return 'urlref:'.$ref;
+        $this->refCache[$this->refIndex] = $text;
+        return $this->uid.($this->refIndex++).':url';
     }
 
+    /**
+     * Replaces reference tokens with corresponding shelved URL.
+     *
+     * This method puts all shelved URLs back to the final,
+     * parsed input.
+     *
+     * @param  string $text The input
+     * @return string Processed text
+     * @see    Parser::shelveURL()
+     */
 
     protected function retrieveURLs($text)
     {
-        return preg_replace_callback('/urlref:(\w{32}z)/', array(&$this, "retrieveURL"), $text);
+        return preg_replace_callback('/'.$this->uid.'(?P<token>[0-9]+):url/', array(&$this, 'retrieveURL'), $text);
     }
 
+    /**
+     * Retrieves an URL from the shelve.
+     *
+     * @param  array  $m Options
+     * @return string The URL
+     */
 
     protected function retrieveURL($m)
     {
-        $ref = $m[1];
-        if (!isset($this->urlshelf[$ref])) {
-            return $ref;
+        if (!isset($this->refCache[$m['token']])) {
+            return '';
         }
 
-        $url = $this->urlshelf[$ref];
+        $url = $this->refCache[$m['token']];
         if (isset($this->urlrefs[$url])) {
             $url = $this->urlrefs[$url];
         }
@@ -2650,6 +3444,7 @@ class Parser
     /**
      * Completes and formats a URL.
      *
+     * @param  string $url The URL
      * @return string
      */
 
@@ -2657,12 +3452,10 @@ class Parser
     {
         $parts = @parse_url(urldecode($url));
 
-        if ((empty($parts['scheme']) || $parts['scheme'] == 'http') && empty($parts['host']) && (isset($parts['path']) && preg_match('/^\w/', $parts['path']))) {
-            $url = $this->relativeImagePrefix.$url;
-        }
-
-        if ($this->restricted && !empty($parts['scheme']) && !in_array($parts['scheme'], $this->url_schemes)) {
-            return '#';
+        if (empty($parts['scheme']) || $parts['scheme'] == 'http') {
+            if (empty($parts['host']) && (isset($parts['path']) && preg_match('/^\w/', $parts['path']))) {
+                $url = $this->relativeImagePrefix.$url;
+            }
         }
 
         return $url;
@@ -2685,11 +3478,11 @@ class Parser
     }
 
     /**
-     * Parses images in the given input.
+     * Parses and shelves images in the given input.
      *
-     * This method parses the input textile document for images and
+     * This method parses the input Textile document for images and
      * generates img HTML tags for each one found, caching the
-     * generated img tag internally and replacing the textile image with a
+     * generated img tag internally and replacing the Textile image with a
      * token to the cached tag.
      *
      * @param  string $text Textile input
@@ -2698,81 +3491,88 @@ class Parser
 
     protected function images($text)
     {
-        return preg_replace_callback('/
-            (?:[[{])?                  # pre
-            \!                         # opening !
-            (\<|\=|\>)?                # optional alignment              $algn
-            ('.$this->lc.')            # optional style,class atts       $atts
-            (?:\.\s)?                  # optional dot-space
-            ([^\s(!]+)                 # presume this is the src         $url
-            \s?                        # optional space
-            (?:\(([^\)]+)\))?          # optional title                  $title
-            \!                         # closing
-            (?::(\S+)(?<![\]).,]))?    # optional href sans final punct. $href
-            (?:[\]}]|(?=[.,\s)|]|$))   # lookahead: space , . ) | or end of string ... "|" needed if image in table cell
-        /x'.$this->regex_snippets['mod'], array(&$this, "fImage"), $text);
+        return preg_replace_callback(
+            '/
+            (?:[[{])?                       # pre
+            \!                              # opening !
+            (?P<align>\<|\=|\>|&lt;|&gt;)?  # optional alignment              $algn
+            (?P<atts>'.$this->cls.')        # optional style,class atts       $atts
+            (?:\.\s)?                       # optional dot-space
+            (?P<url>[^\s(!]+)               # presume this is the src         $url
+            \s?                             # optional space
+            (?:\((?P<title>[^\)]+)\))?      # optional title                  $title
+            \!                              # closing
+            (?::(?P<href>\S+)(?<![\]).,]))? # optional href sans final punct. $href
+            (?:[\]}]|(?=[.,\s)|]|$))        # lookahead: space,.)| or end of string ("|" needed if image in table cell)
+            /x'.$this->regex_snippets['mod'],
+            array(&$this, "fImage"),
+            $text
+        );
     }
 
+    /**
+     * Formats an image and stores it on the shelf.
+     *
+     * @param  array  $m Options
+     * @return string Reference token for the shelved content
+     * @see    Parser::images()
+     */
 
     protected function fImage($m)
     {
         $extras = '';
-        $align  = '';
-        $alt    = '';
-        $height = '';
-        $width  = '';
-        $size   = false;
 
-        list(, $algn, $atts, $url, $title, $href) = array_pad($m, 6, null);
-        $url = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+        $align = (isset($m['align'])) ? $m['align'] : '';
+        $atts  = $m['atts'];
+        $url   = $m['url'];
+        $title = (isset($m['title'])) ? $m['title'] : '';
+        $href  = (isset($m['href'])) ? $m['href'] : '';
 
-        if ('' !== $algn) {
-            $vals = array('<' => 'left', '=' => 'center', '>' => 'right');
-            if (isset($vals[$algn])) {
-                if ('html5' === $this->doctype) {
-                    $extras = "align-{$vals[$algn]}";
-                } else {
-                    $align = $vals[$algn];
-                }
+        $alignments = array(
+            '<'    => 'left',
+            '='    => 'center',
+            '>'    => 'right',
+            '&lt;' => 'left',
+            '&gt;' => 'right',
+        );
+
+        if (isset($alignments[$align])) {
+            if ('html5' === $this->doctype) {
+                $extras = 'align-'.$alignments[$align];
+                $align = '';
+            } else {
+                $align = $alignments[$align];
             }
+        } else {
+            $align = '';
         }
 
         if ($title) {
             $title = $this->encodeHTML($title);
-            $alt   = $title;
         }
+
+        $img = $this->newTag('img', $this->parseAttribsToArray($atts, '', 1, $extras))
+            ->align($align)
+            ->alt($title, true)
+            ->src($this->shelveURL($url), true)
+            ->title($title);
 
         if (!$this->dimensionless_images && $this->isRelUrl($url)) {
             $real_location = realpath($this->doc_root.ltrim($url, $this->ds));
 
             if ($real_location) {
-                $size = getimagesize($real_location);
+                if ($size = getimagesize($real_location)) {
+                    $img->height($size[1])->width($size[0]);
+                }
             }
         }
 
-        if ($size) {
-            $height = $size[1];
-            $width  = $size[0];
-        }
-
-        $img  = $this
-                    ->newTag('img', $this->parseAttribsToArray($atts, '', 1, $extras))
-                    ->align($align)
-                    ->alt($alt, true)
-                    ->height($height)
-                    ->src($this->shelveURL($url), true)
-                    ->title($title)
-                    ->width($width)
-                    ;
-
         $out = (string) $img;
+
         if ($href) {
             $href = $this->shelveURL($href);
-            $link = $this
-                        ->newTag('a', array(), false)
-                        ->href($href)
-                        ->rel($this->rel);
-            $out  = (string) $link . "$img</a>";
+            $link = $this->newTag('a', array(), false)->href($href)->rel($this->rel);
+            $out = (string) $link . "$img</a>";
         }
 
         return $this->shelve($out);
@@ -2802,8 +3602,7 @@ class Parser
 
     protected function fCode($m)
     {
-        list(, $before, $text, $after) = array_pad($m, 4, '');
-        return $before.$this->shelve('<code>'.$this->rEncodeHTML($text).'</code>').$after;
+        return $m['before'].$this->shelve('<code>'.$this->rEncodeHTML($m['content']).'</code>');
     }
 
     /**
@@ -2815,8 +3614,7 @@ class Parser
 
     protected function fPre($m)
     {
-        list(, $before, $text, $after) = array_pad($m, 4, '');
-        return $before.'<pre>'.$this->shelve($this->rEncodeHTML($text)).'</pre>'.$after;
+        return $m['before'].'<pre>'.$this->shelve($this->rEncodeHTML($m['content'])).'</pre>';
     }
 
     /**
@@ -2832,7 +3630,7 @@ class Parser
 
     protected function shelve($val)
     {
-        $i = 'textileShelveReference'.$this->uid.'i'.($this->refIndex++).'z';
+        $i = $this->uid.($this->refIndex++).':shelve';
         $this->shelf[$i] = $val;
         return $i;
     }
@@ -2850,7 +3648,7 @@ class Parser
 
     protected function retrieve($text)
     {
-        if (is_array($this->shelf)) {
+        if ($this->shelf) {
             do {
                 $old = $text;
                 $text = str_replace(array_keys($this->shelf), $this->shelf, $text);
@@ -2880,18 +3678,36 @@ class Parser
         return $out;
     }
 
+    /**
+     * Removes any unique tokens from the input.
+     *
+     * @param  string $text The input to clean
+     * @return string Cleaned input
+     * @since  3.5.5
+     */
 
-    protected function doSpecial($text, $start, $end, $method = 'fSpecial')
+    protected function cleanUniqueTokens($text)
     {
-        return preg_replace_callback('/(^|\s|[|[({>])'.preg_quote($start, '/').'(.*?)'.preg_quote($end, '/').'(\s|$|[\])}|])?/ms', array(&$this, $method), $text);
+        return str_replace($this->uid, '', $text);
     }
 
+    /**
+     * Uses the specified callback method to format the content between end and start nodes.
+     *
+     * @param  string $text   The input to format
+     * @param  string $start  The start node to look for
+     * @param  string $end    The end node to look for
+     * @param  string $method The callback method
+     * @return string Processed input
+     */
 
-    protected function fSpecial($m)
+    protected function doSpecial($text, $start, $end, $method)
     {
-        // A special block like notextile or code
-        list(, $before, $text, $after) = array_pad($m, 4, '');
-        return $before.$this->shelve($this->encodeHTML($text)).$after;
+        return preg_replace_callback(
+            '/(?P<before>^|\s|[|[({>])'.preg_quote($start, '/').'(?P<content>.*?)'.preg_quote($end, '/').'/ms',
+            array(&$this, $method),
+            $text
+        );
     }
 
     /**
@@ -2916,8 +3732,7 @@ class Parser
 
     protected function fTextile($m)
     {
-        list(, $before, $notextile, $after) = array_pad($m, 4, '');
-        return $before.$this->shelve($notextile).$after;
+        return $m['before'].$this->shelve($m['content']);
     }
 
     /**
@@ -2932,7 +3747,12 @@ class Parser
 
     protected function footnoteRefs($text)
     {
-        return preg_replace_callback('/(?<=\S)\[(\d+)(!?)\]\s?/U'.$this->regex_snippets['mod'], array(&$this, 'footnoteID'), $text);
+        return preg_replace_callback(
+            '/(?<=\S)\[(?P<id>'.$this->regex_snippets['digit'].'+)'.
+            '(?P<nolink>!?)\]'.$this->regex_snippets['space'].'?/U'.$this->regex_snippets['mod'],
+            array(&$this, 'footnoteID'),
+            $text
+        );
     }
 
     /**
@@ -2944,24 +3764,77 @@ class Parser
 
     protected function footnoteID($m)
     {
-        list(, $id, $nolink) = array_pad($m, 3, '');
         $backref = ' class="footnote"';
 
-        if (empty($this->fn[$id])) {
-            $this->fn[$id] = $a = uniqid(rand());
-            $backref .= " id=\"fnrev$a\"";
+        if (empty($this->fn[$m['id']])) {
+            $this->fn[$m['id']] = $id = $this->linkPrefix . ($this->linkIndex++);
+            $backref .= " id=\"fnrev$id\"";
         }
 
-        $fnid = $this->fn[$id];
-        $footref = ('!' == $nolink) ? $id : '<a href="#fn'.$fnid.'">'.$id.'</a>';
+        $fnid = $this->fn[$m['id']];
+        $footref = ('!' == $m['nolink']) ? $m['id'] : '<a href="#fn'.$fnid.'">'.$m['id'].'</a>';
         $footref = $this->formatFootnote($footref, $backref, false);
 
         return $footref;
     }
 
     /**
+     * Parses and shelves quoted quotes in the given input.
+     *
+     * @param  string $text The text to search for quoted quotes
+     * @return string
+     */
+
+    protected function glyphQuotedQuote($text, $find = '"?|"[^"]+"')
+    {
+        return preg_replace_callback(
+            "/ (?P<pre>{$this->quote_starts})(?P<quoted>$find)(?P<post>.) /".$this->regex_snippets['mod'],
+            array(&$this, "fGlyphQuotedQuote"),
+            $text
+        );
+    }
+
+    /**
+     * Formats quoted quotes and stores it on the shelf.
+     *
+     * @param  array  $m Named regular expression parts
+     * @return string Input with quoted quotes removed and replaced with tokens
+     * @see    Parser::glyphQuotedQuote()
+     */
+
+    protected function fGlyphQuotedQuote($m)
+    {
+        // Check the correct closing character was found.
+        if (!isset($this->quotes[$m['pre']]) || $m['post'] !== $this->quotes[$m['pre']]) {
+            return $m[0];
+        }
+
+        $pre = strtr($m['pre'], array(
+            '"' => '&#8220;',
+            "'" => '&#8216;',
+            ' ' => '&nbsp;',
+        ));
+
+        $post = strtr($m['post'], array(
+            '"' => '&#8221;',
+            "'" => '&#8217;',
+            ' ' => '&nbsp;',
+        ));
+
+        $found = $m['quoted'];
+        if (strlen($found) > 1) {
+            $found = rtrim($this->glyphs($m['quoted']));
+        } elseif ('"' === $found) {
+            $found = "&quot;";
+        }
+
+        $glyph = ' '.$pre.$found.$post.' ';
+        return $this->shelve($glyph);
+    }
+
+    /**
      * Replaces glyphs in the given input.
-     * 
+     *
      * This method performs typographical glyph replacements. The input is split
      * across HTML-like tags in order to avoid attempting glyph
      * replacements within tags.
@@ -3004,7 +3877,7 @@ class Parser
 
     protected function replaceGlyphs($text)
     {
-        return preg_replace('/glyph:([^<]+)/', '$1', $text);
+        return str_replace($this->uid.':glyph:', '', $text);
     }
 
     /**
@@ -3023,7 +3896,9 @@ class Parser
             '<'        => 'left',
             '='        => 'center',
             '>'        => 'right',
-            '<>'       => 'justify');
+            '<>'       => 'justify',
+        );
+
         return (isset($vals[$in])) ? $vals[$in] : '';
     }
 
@@ -3039,21 +3914,48 @@ class Parser
         $vals = array(
             '^' => 'top',
             '-' => 'middle',
-            '~' => 'bottom');
+            '~' => 'bottom',
+        );
+
         return (isset($vals[$in])) ? $vals[$in] : '';
     }
 
+    /**
+     * Converts character codes in the given input from HTML numeric character reference to character code.
+     *
+     * Conversion is done according to Textile's multi-byte conversion map.
+     *
+     * @param  string $text    The input
+     * @param  string $charset The character set
+     * @return string Processed input
+     */
 
     protected function encodeHigh($text, $charset = 'UTF-8')
     {
-        return ($this->mb) ? mb_encode_numericentity($text, $this->cmap, $charset) : htmlentities($text, ENT_NOQUOTES, $charset);
+        if ($this->isMultiByteStringSupported()) {
+            return mb_encode_numericentity($text, $this->cmap, $charset);
+        }
+
+        return htmlentities($text, ENT_NOQUOTES, $charset);
     }
 
+    /**
+     * Converts numeric HTML character references to character code.
+     *
+     * @param  string $text    The input
+     * @param  string $charset The character set
+     * @return string Processed input
+     */
 
     protected function decodeHigh($text, $charset = 'UTF-8')
     {
-        $text = (ctype_digit($text)) ? "&#$text;" : "&$text;";
-        return ($this->mb) ? mb_decode_numericentity($text, $this->cmap, $charset) : html_entity_decode($text, ENT_NOQUOTES, $charset);
+        $text = (string) intval($text) === (string) $text ? "&#$text;" : "&$text;";
+
+        if ($this->isMultiByteStringSupported()) {
+            return mb_decode_numericentity($text, $this->cmap, $charset);
+        }
+
+        return html_entity_decode($text, ENT_NOQUOTES, $charset);
     }
 
     /**
@@ -3108,5 +4010,33 @@ class Parser
         }
 
         return $this->encodeHTML($str, $quotes);
+    }
+
+    /**
+     * Whether multiple mbstring extensions is loaded.
+     *
+     * @return bool
+     * @since  3.5.5
+     */
+
+    protected function isMultiByteStringSupported()
+    {
+        if ($this->mb === null) {
+            $this->mb = is_callable('mb_strlen');
+        }
+
+        return $this->mb;
+    }
+
+    /**
+     * Whether PCRE supports UTF-8.
+     *
+     * @return bool
+     * @since  3.5.5
+     */
+
+    protected function isUnicodePcreSupported()
+    {
+        return (bool) @preg_match('/\pL/u', 'a');
     }
 }

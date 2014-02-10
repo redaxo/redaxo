@@ -9,7 +9,7 @@
 namespace Netcarver\Textile;
 
 /*
- * Copyright (c) 2013, Netcarver http://github.com/netcarver
+ * Copyright (c) 2013, Netcarver https://github.com/netcarver
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,10 +46,11 @@ namespace Netcarver\Textile;
  * used to construct tags with nice object oriented
  * syntax.
  *
- * @example
+ * <code>
  * use Netcarver\Textile\Tag;
  * $img = new Tag('img');
  * echo (string) $img->class('big blue')->src('images/elephant.jpg');
+ * </code>
  */
 
 class Tag extends DataBag
@@ -88,11 +89,13 @@ class Tag extends DataBag
     /**
      * Returns the tag as HTML.
      *
-     * @return string A HTML element
-     * @example
+     * <code>
      * $img = new Tag('img');
      * $img->src('images/example.jpg')->alt('Example image');
      * echo (string) $img;
+     * </code>
+     *
+     * @return string A HTML element
      */
 
     public function __toString()

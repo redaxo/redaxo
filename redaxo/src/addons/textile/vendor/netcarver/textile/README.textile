@@ -1,25 +1,16 @@
-h1. Textile for PHP
+h1. PHP-Textile
 
-"Textile reference":http://txstyle.org/article/43/a-short-introduction | "Live editor":http://txstyle.org/ | "Packagist":https://packagist.org/packages/netcarver/textile
+"Downloads":https://github.com/textile/php-textile/releases | "Textile reference":http://txstyle.org/article/43/a-short-introduction | "Live editor":http://txstyle.org/ | "Packagist":https://packagist.org/packages/netcarver/textile
 
-*Textile is a humane web text generator*. It takes lightweight, readable, plaintext-like markup language and converts it into well formed HTML. This repository contains a Textile parser for PHP.
+!https://travis-ci.org/textile/php-textile.png?branch=master!:https://travis-ci.org/textile/php-textile !https://coveralls.io/repos/textile/php-textile/badge.png?branch=master!:https://coveralls.io/r/textile/php-textile?branch=master
 
-h2. Branches
-
-|^=. "master":https://github.com/textile/php-textile/tree/master | Has a multi-file, namespaced, "PSR-0/1/2":https://github.com/php-fig/fig-standards/tree/master/accepted compliant version of textile. Releases from master are tagged v3.5.x !https://travis-ci.org/textile/php-textile.png?branch=master!:https://travis-ci.org/textile/php-textile |^=. _Requires PHP5.3+_ |
-|^=. "2.5":https://github.com/textile/php-textile/tree/2.5       | Holds a single-file version of textile representing the v2.5.x releases. It is *not* PSR-0 compliant but attempts to follow PSR-1 and PSR-2 in other respects.               !https://travis-ci.org/textile/php-textile.png?branch=2.5!:https://travis-ci.org/textile/php-textile    |^=. _Requires PHP5.0+_ |
-
-*This is the README for the master branch.*
-
-Currently both branches are feature synchronised at the point they are tagged and new features and bugfixes will go into both branches (where possible) for the time being but this _will_ change at some point in the future.
-
-From time to time other branches may be present in the repository. These represent transient development or hotfix branches and should not be used for live sites/projects.
+PHP-Textile is a modern Textile markup language parser for PHP. Textile is a humane web text generator that takes lightweight, readable, plaintext-like markup language and converts it into well formed HTML.
 
 h2. Installing
 
 h3. Using Composer
 
-The recommended way to install Textile is via "Composer":https://getcomposer.org/ package manager. Navigate to your project directory, and run the command:
+The recommended way to install PHP-Textile is via "Composer":https://getcomposer.org/ package manager. Navigate to your project directory, and run the command:
 
 bc. $ composer require "netcarver/textile 3.5.*"
 
@@ -29,13 +20,13 @@ bc. require './vendor/autoload.php';
 
 h3. Manually
 
-You can also install Textile library manually. The library supports any PSR-0 style autoloaders, but you can also include the source files in your project manually. "Download":https://github.com/textile/php-textile/releases the repository, and include the source files:
+You can also install PHP-Textile library manually. The library supports any PSR-0 style autoloaders, but you can also include the source files in your project manually. "Download":https://github.com/textile/php-textile/releases the repository, and include the source files:
 
 bc. require 'path/to/src/Netcarver/Textile/Parser.php';
 require 'path/to/src/Netcarver/Textile/DataBag.php';
 require 'path/to/src/Netcarver/Textile/Tag.php';
 
-Or point your PSR-0 autoloader to the Textile installation location.
+Or point your PSR-0 autoloader to the PHP-Textile installation location.
 
 h2. Usage
 
@@ -47,16 +38,16 @@ echo $parser->textileThis('h1. Hello World!');
 
 h3. Parsing untrusted input
 
-If you are using Textile to format user-supplied input, blog comments for instance, use the @textileRestricted()@ method:
+If you are using PHP-Textile to format user-supplied input, blog comments for instance, use the @textileRestricted()@ method:
 
 bc. $parser = new \Netcarver\Textile\Parser();
 echo $parser->textileRestricted('!bad/image/not/allowed.svg!');
 
-The method doesn't allow more powerful formatting options including inline style, and removes any raw HTML.
+The method doesn't allow more powerful formatting options such as inline style, and removes any raw HTML.
 
 h3. Doctypes
 
-Currently, PHP Textile can target either XHTML or HTML5 output with XHTML being the default for backward compatibility. The targeted doctype can be changed through the constructor:
+Currently, PHP-Textile can target either XHTML or HTML5 output with XHTML being the default for backward compatibility. The targeted doctype can be changed through the constructor:
 
 bc. $parser = new \Netcarver\Textile\Parser('html5');
 echo $parser->textileThis('HTML(HyperText Markup Language)");
@@ -65,7 +56,7 @@ In HTML5 mode, you'll get @abbr@ instead of @acronym@ and if you use alignment m
 
 h3. Setting alternate glyphs
 
-Textile's typographic substitutions can be overridden with the @setSymbol@ method. If you need to setup textile to do non-standard substitutions, call @setSymbol@ before you parse the input with @textileThis@ or @textileRestricted@.
+Textile's typographic substitutions can be overridden with the @setSymbol@ method. If you need to setup Textile to do non-standard substitutions, call @setSymbol@ before you parse the input with @textileThis@ or @textileRestricted@.
 
 bc. $parser = new \Netcarver\Textile\Parser();
 $parser->setSymbol('half', '1&#8260;2');
@@ -81,18 +72,9 @@ bc. $parser = new \Netcarver\Textile\Parser();
 $parser->setRelativeImagePrefix('user/uploads');
 $parser->textileThis('Hello World!');
 
-h2. Running tests
+h2. Getting in contact
 
-Included unit tests can be run with PHPunit:
-
-bc. $ composer install --dev
-$ ./vendor/bin/phpunit
-
-Running tests requires PHP 5.3.3 and PCRE with PCRE_UTF8.
-
-h2. Getting In Contact
-
-The textile project welcomes constructive input and bug reports from users. You can get in contact in several ways...
+The PHP-Textile project welcomes constructive input and bug reports from users. You can contact us in several ways:
 
 * "Open an issue":https://github.com/textile/php-textile/issues on the repository for a feature request or bug.
 * If you are on IRC, feel free to drop into *#textile* on *freenode.net* ("webchat":http://webchat.freenode.net/?channels=#textile.)

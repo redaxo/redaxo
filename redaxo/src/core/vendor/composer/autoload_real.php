@@ -31,6 +31,11 @@ class ComposerAutoloaderInitRedaxoCore
             $loader->set($namespace, $path);
         }
 
+        $map = require __DIR__ . '/autoload_psr4.php';
+        foreach ($map as $namespace => $path) {
+            $loader->setPsr4($namespace, $path);
+        }
+
         $classMap = require __DIR__ . '/autoload_classmap.php';
         if ($classMap) {
             $loader->addClassMap($classMap);
@@ -40,9 +45,14 @@ class ComposerAutoloaderInitRedaxoCore
 
         $includeFiles = require __DIR__ . '/autoload_files.php';
         foreach ($includeFiles as $file) {
-            require $file;
+            composerRequire3c1120fd0dceee40bfddbe6c9d05f32d($file);
         }
 
         return $loader;
     }
+}
+
+function composerRequire3c1120fd0dceee40bfddbe6c9d05f32d($file)
+{
+    require $file;
 }

@@ -44,10 +44,11 @@ namespace Netcarver\Textile;
  * This class to allows storing assignments in an internal
  * data array.
  *
- * @example
+ * <code>
  * use Netcarver\Textile\DataBag;
  * $plant = new DataBag(array('key' => 'value'));
  * $plant->flower('rose')->color('red');
+ * </code>
  */
 
 class DataBag
@@ -77,13 +78,15 @@ class DataBag
      * Empty values are rejected, unless the
      * second argument is set TRUE.
      *
-     * @param   string $name   The name
-     * @param   array  $params Arguments
-     * @return  DataBag
-     * @example
+     * <code>
      * use Netcarver\Textile\DataBag;
      * $plant = new DataBag(array('key' => 'value'));
      * $plant->flower('rose')->color('red')->emptyValue(false, true);
+     * </code>
+     *
+     * @param   string $name   The name
+     * @param   array  $params Arguments
+     * @return  DataBag
      */
 
     public function __call($name, array $params)
