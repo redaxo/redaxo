@@ -30,11 +30,11 @@ if ($rex_user_loginmessage != '') {
                     setTimeout(disableLogin, 1000);
                 } else {
                     $("div.rex-message div").html("' . rex_i18n::msg('login_welcome') . '");
-                    $("#rex-form-login input:not(:hidden)").prop("disabled", "");
+                    $("#rex-form-login").find(":input:not(:hidden)").prop("disabled", "");
                     $("#rex-id-login-user").focus();
                 }
             };
-            $("#rex-form-login input:not(:hidden)").prop("disabled", "disabled");
+            $("#rex-form-login").find(":input:not(:hidden)").prop("disabled", "disabled");
             setTimeout(disableLogin, 1000);
         }';
 }
