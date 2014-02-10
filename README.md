@@ -9,4 +9,3 @@ REDAXO CMS
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/redaxo/redaxo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
