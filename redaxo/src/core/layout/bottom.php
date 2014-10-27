@@ -7,13 +7,8 @@ if (!$curPage->hasLayout()) {
 }
 
 ?>
-</div>
+
 </section><?php
-
-
-$fragment = new rex_fragment();
-$fragment->setVar('navigation', $navigation, false);
-echo $fragment->parse('core/navigation.php');
 
 $sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
 if ($sidebar != '') {

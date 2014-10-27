@@ -54,12 +54,12 @@ if (rex::getUser() && $hasNavigation) {
     $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
 
     $item = [];
-    $item['title']  = rex_i18n::msg('logged_in_as') . ' <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '">' . htmlspecialchars($user_name) . '</a>';
+    $item['title']  = '<a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> ' . htmlspecialchars($user_name) . '</a>';
     $meta_items[] = $item;
     unset($item);
 
     $item = [];
-    $item['title']      = '<span class="rex-icon rex-icon-logout"></span>' . rex_i18n::msg('logout');
+    $item['title']      = '<i class="fa fa-sign-out"></i> ' . rex_i18n::msg('logout');
     $item['href']       = rex_url::backendController(['rex_logout' => 1]);
     $item['attributes'] = 'class="rex-logout"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
     $meta_items[] = $item;
@@ -191,13 +191,20 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
 }
 
 $fragment = new rex_fragment();
+$fragment->setVar('items', $meta_items, false);
+$meta_navigation = $fragment->parse('core/navigations/meta.php');
+
+$fragment = new rex_fragment();
+$fragment->setVar('navigation', $navigation, false);
+$fragment->setVar('meta_navigation', $meta_navigation, false);
+echo $fragment->parse('core/navigation.php');
+
+
+$fragment = new rex_fragment();
 // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
 echo $fragment->parse('core/header.php');
 
-$fragment = new rex_fragment();
-$fragment->setVar('items', $meta_items, false);
-echo $fragment->parse('core/meta.php');
 
 $pjax = $curPage->allowsPjax() ? 'data-pjax-container="#rex-page-main"' : '';
 
-?><section id="rex-page-main-container"><div id="rex-page-main"<?= $pjax ?>>
+?><section class="rex-page-main"<?= $pjax ?>>
