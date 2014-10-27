@@ -2,7 +2,7 @@
 
 class rex_scss_compiler
 {
-    protected $root_dir; 
+    protected $root_dir;
     protected $scss_file;
     protected $css_file;
     protected $formatter;
@@ -55,7 +55,7 @@ class rex_scss_compiler
      * @param string $scss_folder source folder where you have your .scss files
      * @param string $scss_global_file
      * @param string $format_style CSS output format
-     * @param bool $strip_comments 
+     * @param bool $strip_comments
      */
     public function compile()
     {
@@ -68,8 +68,8 @@ class rex_scss_compiler
 
         $scss_compiler = new scssc();
         $scss_compiler->stripComments = $this->strip_comments;
-        
-        $scss_compiler->addImportPath(function($path) use($root_dir) {
+
+        $scss_compiler->addImportPath(function ($path) use ($root_dir) {
 
             $path = $root_dir . $path . '.scss';
 
@@ -90,13 +90,13 @@ class rex_scss_compiler
         });
         // set the path to your to-be-imported mixins. please note: custom paths are coming up on future releases!
         //$scss_compiler->setImportPaths($scss_folder);
-        
+
         // set css formatting (normal, nested or minimized), @see http://leafo.net/scssphp/docs/#output_formatting
         $scss_compiler->setFormatter($this->formatter);
 
         // get .scss's content, put it into $string_sass
         $string_sass = file_get_contents($this->scss_file);
-       
+
         // try/catch block to prevent script stopping when scss compiler throws an error
         try {
             // compile this SASS code to CSS
@@ -115,5 +115,3 @@ class rex_scss_compiler
         }
     }
 }
-
-?>
