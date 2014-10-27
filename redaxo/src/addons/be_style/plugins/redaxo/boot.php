@@ -19,6 +19,9 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
+    require __DIR__ . '/pages/javascripts.php';
+
+
     $compiler = new rex_scss_compiler();
     $compiler->setScssFile($this->getPath('scss/master.scss'));
 
@@ -31,4 +34,10 @@ if (rex::isBackend()) {
     $compiler->compile();
 
     rex_view::addCssFile($this->getAssetsUrl('styles.css'));
+    //rex_view::addJsFile($this->getAddon()->getPath('vendor/bootstrap/assets/javascripts/bootstrap.js'));
+    rex_view::addJsFile(rex_url::backendController(['be_style_' . $mypage . '_js_files' => array('vendor/bootstrap/assets/javascripts/bootstrap.js')]));
+
+
+
+
 }
