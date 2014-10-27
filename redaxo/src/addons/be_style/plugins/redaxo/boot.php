@@ -29,4 +29,6 @@ if (rex::isBackend()) {
     //$compiler->setCssFile($this->getPath('assets/styles.css'));
 
     $compiler->compile();
+
+    rex_view::addCssFile($this->getAssetsUrl('styles.css'));
 }
