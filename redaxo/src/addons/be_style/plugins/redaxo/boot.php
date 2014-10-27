@@ -8,8 +8,7 @@
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
  *
  * @author Umsetzung
- * @author thomas[dot]blum[at]redaxo[dot]de Thomas Blum
- * @author <a href="http://www.blumbeet.com">www.blumbeet.com</a>
+ * @author thomas[dot]blum[at]redaxo[dot]org Thomas Blum
  *
  * @package redaxo5
  *
@@ -20,16 +19,14 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
-    require __DIR__ . '/pages/font.php';
+    $compiler = new rex_scss_compiler();
+    $compiler->setScssFile($this->getPath('scss/master.scss'));
 
-    rex_view::addCssFile(rex_url::backendController(['be_style_' . $mypage . '_font' => 'entypo']));
-    rex_view::addCssFile($this->getAssetsUrl('import.css'));
-    rex_view::addJsFile($this->getAssetsUrl('js.js'));
-    rex_view::setFavicon($this->getAssetsUrl('favicon.ico'));
+    // Compile in frontend assets dir
+    $compiler->setCssFile($this->getAssetsPath('styles.css'));
 
-    rex_extension::register('PAGE_BODY_ATTR', function (rex_extension_point $ep) {
-        $subject = $ep->getSubject();
-        $subject['class'][] = 'redaxo';
-        return $subject;
-    });
+    // Compile in backend assets dir
+    //$compiler->setCssFile($this->getPath('assets/styles.css'));
+
+    $compiler->compile();
 }
