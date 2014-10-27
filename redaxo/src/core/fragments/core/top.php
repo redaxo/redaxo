@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="<?php echo  rex_i18n::msg('htmllang'); ?>">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
 
     <title><?php echo $this->pageTitle ?></title>
 
@@ -33,4 +33,4 @@
 <body<?php echo $this->bodyAttr; ?>>
 
 <div id="rex-ajax-loader" style="display: none">Loading...</div>
-<div id="rex-page">
+<div id="rex-start-of-page" class="rex-page">

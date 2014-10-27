@@ -1,3 +1,3 @@
-</div><!-- END #rex-page -->
+</div><!-- END .rex-page -->
 </body>
 </html>
