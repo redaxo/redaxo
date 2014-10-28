@@ -208,7 +208,7 @@ function rex_structure_searchbar(rex_context $context)
     $fragment = new rex_fragment();
     $fragment->setVar('left', $form, false);
     $fragment->setVar('right', $droplist, false);
-    $navi = $fragment->parse('core/navigations/content.php');
+    //$navi = $fragment->parse('core/navigations/content.php');
 
     return $navi . $search_result;
 }
