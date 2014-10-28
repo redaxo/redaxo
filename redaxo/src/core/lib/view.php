@@ -278,7 +278,6 @@ class rex_view
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-        //$return = '<h1>' . $title . '</h1>' . $subtitle;
 
         echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', '', [
             'category_id' => $category_id,
@@ -297,11 +296,11 @@ class rex_view
      */
     public static function clangSwitch(rex_context $context)
     {
-        if (!rex_clang::count()) {
+        if (rex_clang::count() == 1) {
             return '';
         }
 
-        $button = '';
+        $button_label =  '';
         $items  = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
@@ -310,7 +309,7 @@ class rex_view
                 $item['href']  = $context->getUrl(['clang' => $id]);
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
-                    $button = rex_i18n::translate($clang->getName());
+                    $button_label = rex_i18n::translate($clang->getName());
                 }
                 $items[] = $item;
             }
@@ -318,16 +317,15 @@ class rex_view
 
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'rex-language');
-        $fragment->setVar('button', $button);
-        $fragment->setVar('button_title', rex_i18n::msg('language'));
+        $fragment->setVar('button_prefix', rex_i18n::msg('language'));
+        $fragment->setVar('button_label', $button_label);
         $fragment->setVar('header', rex_i18n::msg('clang_select'));
         $fragment->setVar('items', $items, false);
-        $fragment->setVar('check', true);
 
         if (rex::getUser()->isAdmin()) {
-            $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><span class="rex-icon rex-icon-language"></span>' . rex_i18n::msg('languages_edit') . '</a>', false);
+            $fragment->setVar('footer', '<a href="' . rex_url::backendPage('system/lang') . '"><i class="fa fa-flag"></i> ' . rex_i18n::msg('languages_edit') . '</a>', false);
         }
 
-        return $fragment->parse('core/navigations/drop.php');
+        return $fragment->parse('core/dropdowns/dropdown.php');
     }
 }
