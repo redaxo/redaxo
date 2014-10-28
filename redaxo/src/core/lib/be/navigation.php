@@ -129,12 +129,12 @@ class rex_be_navigation
             foreach ($blockPages as $page) {
                 // check main pages
                 if ($page->isActive()) {
-                    $page->addItemClass('rex-active');
+                    $page->addItemClass('active');
 
                     // check for subpages
                     foreach ($page->getSubpages() as $subpage) {
                         if ($subpage->isActive()) {
-                            $subpage->addItemClass('rex-active');
+                            $subpage->addItemClass('active');
                         }
                     }
                 }
