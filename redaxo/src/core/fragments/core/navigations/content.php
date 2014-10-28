@@ -12,13 +12,13 @@
 
 $navigations = [];
 
-if (isset($this->navigation_left)) {
-    $navigations['left'] = $this->navigation_left;
+if (isset($this->left)) {
+    $navigations['left'] = $this->left;
 
 }
 
-if (isset($this->navigation_right)) {
-    $navigations['right'] = $this->navigation_right;
+if (isset($this->right)) {
+    $navigations['right'] = array_reverse($this->right);
 
 }
 
@@ -42,9 +42,19 @@ foreach ($navigations as $nav_key => $navigation) {
 
         $attributes = [];
 
+        if ($nav_key == 'right') {
+
+            if (is_array($navi['itemClasses'])) {
+                array_unshift($navi['itemClasses'], 'pull-right');
+            } else {
+                $navi['itemClasses'] = ['pull-right'];
+            }
+        }
+
         if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
             $attributes['class'] = implode(' ', $navi['itemClasses']);
         }
+
 
         if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
             foreach ($navi['itemAttr'] as $key => $value) {
@@ -74,14 +84,6 @@ foreach ($navigations as $nav_key => $navigation) {
                 }
             }
 
-            if ($nav_key != 'children') {
-                if (isset($attributes['class'])) {
-                    $attributes['class'] = trim('rex-navi-content-item ' . $attributes['class']);
-                } else {
-                    $attributes['class'] = 'rex-navi-content-item';
-                }
-            }
-
             $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
 
         }
@@ -106,7 +108,7 @@ foreach ($navigations as $nav_key => $navigation) {
 
 
 
-
+/*
 echo '<div class="rex-navi-content">';
 
 $right = '';
@@ -146,6 +148,14 @@ if (isset($navigations['left'])) {
 }
 
 echo '</div>';
+*/
+
+
+
+echo '
+    <div class="rex-nav-tab">
+        <ul class="nav nav-tabs">' . $navigations['left'] . $navigations['right'] . '</ul>
+    </div>';
 
 
 

@@ -260,7 +260,7 @@ class rex_view
 
             if (!empty($navigation)) {
                 $fragment = new rex_fragment();
-                $fragment->setVar('navigation_left', $navigation, false);
+                $fragment->setVar('left', $navigation, false);
                 $subtitle = $fragment->parse('core/navigations/content.php');
             } else {
                 $subtitle = '';
