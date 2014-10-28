@@ -25,12 +25,12 @@ if ($ooCat) {
     }
 }
 
-$title = '<a class="rex-icon rex-icon-sitestartarticle" href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '">' . rex_i18n::msg('homepage') . '</a>';
+$title = '<a href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="fa fa-home"></i> ' . rex_i18n::msg('homepage') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);
 $fragment->setVar('items', $navigation, false);
-echo $fragment->parse('core/navigations/path.php');
+echo $fragment->parse('core/navigations/breadcrumb.php');
 
 unset($fragment);
 unset($navigation);

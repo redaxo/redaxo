@@ -102,7 +102,7 @@ if ($article->getRows() == 1) {
         $fragment = new rex_fragment();
         $fragment->setVar('title', $term);
         $fragment->setVar('items', $navigation, false);
-        echo $fragment->parse('core/navigations/path.php');
+        echo $fragment->parse('core/navigations/breadcrumb.php');
         unset($fragment);
 
     }
