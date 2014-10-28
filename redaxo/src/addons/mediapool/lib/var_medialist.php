@@ -90,10 +90,10 @@ class rex_var_medialist extends rex_var
                 ' . $options . '
             </select>
             <span class="rex-button-vgroup">
-                <a href="#" class="rex-button" onclick="moveREXMedialist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_medialist_move_top') . '"><span class="rex-icon rex-icon-top"></span></a>
-                <a href="#" class="rex-button" onclick="moveREXMedialist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_medialist_move_up') . '"><span class="rex-icon rex-icon-up"></span></a>
-                <a href="#" class="rex-button" onclick="moveREXMedialist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_medialist_move_down') . '"><span class="rex-icon rex-icon-down"></span></a>
-                <a href="#" class="rex-button" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_medialist_move_bottom') . '"><span class="rex-icon rex-icon-bottom"></span></a>
+                <a href="#" class="rex-button btn btn-primary" onclick="moveREXMedialist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_medialist_move_top') . '"><span class="rex-icon rex-icon-top"></span></a>
+                <a href="#" class="rex-button btn btn-primary" onclick="moveREXMedialist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_medialist_move_up') . '"><span class="rex-icon rex-icon-up"></span></a>
+                <a href="#" class="rex-button btn btn-primary" onclick="moveREXMedialist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_medialist_move_down') . '"><span class="rex-icon rex-icon-down"></span></a>
+                <a href="#" class="rex-button btn btn-primary" onclick="moveREXMedialist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_medialist_move_bottom') . '"><span class="rex-icon rex-icon-bottom"></span></a>
             </span>
             <span class="rex-button-group">
                 <a href="#" class="rex-button' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_media_open') . '"><span class="rex-icon rex-icon-open-mediapool"></span></a>

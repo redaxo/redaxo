@@ -216,7 +216,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="rex-button" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
+$n['field'] = '<button class="rex-button btn btn-primary" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

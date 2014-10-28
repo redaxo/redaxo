@@ -31,7 +31,7 @@ $content .= $form . '</fieldset>';
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="rex-button" type="submit" name="savemeta"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' value="1">' . rex_i18n::msg('update_metadata') . '</button>';
+$n['field'] = '<button class="rex-button btn btn-primary" type="submit" name="savemeta"' . rex::getAccesskey(rex_i18n::msg('update_metadata'), 'save') . ' value="1">' . rex_i18n::msg('update_metadata') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

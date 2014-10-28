@@ -68,11 +68,11 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $formElements[] = $n;
 
             $n = [];
-            $n['field'] = '<button class="rex-button" type="submit">Kategorie speichern</button>';
+            $n['field'] = '<button class="rex-button btn btn-primary" type="submit">Kategorie speichern</button>';
             $formElements[] = $n;
 
             $n = [];
-            $n['field'] = '<button class="rex-button" type="submit">Kategorie übernehmen</button>';
+            $n['field'] = '<button class="rex-button btn btn-primary" type="submit">Kategorie übernehmen</button>';
             $formElements[] = $n;
 
             $fragment = new rex_fragment();

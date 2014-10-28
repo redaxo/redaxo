@@ -79,7 +79,7 @@ $content .= '<fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="rex-button" type="submit">' . rex_i18n::msg('login') . '</button>';
+$n['field'] = '<button class="rex-button btn btn-primary" type="submit">' . rex_i18n::msg('login') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

@@ -199,7 +199,7 @@ function rex_structure_searchbar(rex_context $context)
 
     $form .= $context->getHiddenInputFields();
     $form .= '<input type="text" name="search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name') . '/' . rex_i18n::msg('be_search_article_id')) . '" />
-              <button class="rex-button" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>
+              <button class="rex-button btn btn-primary" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>
             </fieldset>
         </form>
     </div>';

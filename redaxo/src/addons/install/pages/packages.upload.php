@@ -121,7 +121,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
+        $n['field'] = '<button class="rex-button btn btn-primary" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
         $formElements[] = $n;
 
         $n = [];
