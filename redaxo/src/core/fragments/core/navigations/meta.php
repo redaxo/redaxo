@@ -34,8 +34,8 @@ if (count($items) > 0) {
     $list_items = rex_extension::registerPoint(new rex_extension_point('META_NAVI', $list_items));
 
     if (count($list_items) > 0) {
-        echo '  <nav class="rex-navi-meta">
-                    <ul class="nav navbar-top-links navbar-right">' . implode('', $list_items) . '</ul>
-                </nav>';
+        echo '  <div class="rex-nav-meta">
+                    <ul class="nav navbar-right">' . implode('', $list_items) . '</ul>
+                </div>';
     }
 }
