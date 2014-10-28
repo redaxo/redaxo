@@ -119,24 +119,32 @@ $content[] = '
 
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
-                        <dl class="rex-formatted">
+                        <dl class="dl-horizontal">
                             <dt>REDAXO</dt><dd>' . rex::getVersion() . '</dd>
                             <dt>PHP</dt><dd>' . phpversion() . ' (<a href="' . rex_url::backendPage('system/phpinfo') . '" onclick="newWindow(\'phpinfo\', this.href, 800,600,\',status=yes,resizable=yes\');return false;">php_info</a>)</dd>
                         </dl>
 
                         <h3>' . rex_i18n::msg('database') . '</h3>
-                        <dl class="rex-formatted">
+                        <dl class="dl-horizontal">
                             <dt>MySQL</dt><dd>' . rex_sql::getServerVersion() . '</dd>
                             <dt>' . rex_i18n::msg('name') . '</dt><dd>' . $dbconfig[1]['name'] . '</dd>
                             <dt>' . rex_i18n::msg('host') . '</dt><dd>' . $dbconfig[1]['host'] . '</dd>
                         </dl>';
 
-echo rex_view::content('block', $content, rex_i18n::msg('system_features'));
 
-$content = '
-                        <fieldset>
-                            <h2>' . rex_i18n::msg('system_settings') . '</h2>
-                            <h3>' . rex_i18n::msg('general_info_header') . '</h3>';
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+$content = $fragment->parse('core/page/grid.php');
+
+$fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('system_features'));
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
+
+
+
+
+$content = [];
 
 $formElements = [];
 
@@ -155,6 +163,15 @@ $n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') 
 $n['field'] = '<input type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content[] = $fragment->parse('core/form/form.php');
+
+
+$elements = '';
+
+$formElements = [];
+
 $n = [];
 $n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
 $n['field'] = $sel_lang->get();
@@ -162,7 +179,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
+$elements .= $fragment->parse('core/form/form.php');
 
 
 
@@ -175,7 +192,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.php');
+$elements .= $fragment->parse('core/form/checkbox.php');
 
 
 foreach (rex_system_setting::getAll() as $setting) {
@@ -185,10 +202,11 @@ foreach (rex_system_setting::getAll() as $setting) {
     }
     $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
     $field->setValue(rex::getProperty($setting->getKey()));
-    $content .= $field->get();
+    $elements .= $field->get();
 }
 
-$content .= '</fieldset>';
+
+
 
 $formElements = [];
 
@@ -198,15 +216,27 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.php');
+$elements .= $fragment->parse('core/form/submit.php');
+
+
+$content[] = $elements;
+
+
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+$content = $fragment->parse('core/page/grid.php');
 
 
 $content = '
 <div class="rex-form" id="rex-form-system-setup">
     <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <input type="hidden" name="func" value="updateinfos" />' .
-    $content .
-        '</form>
+        <input type="hidden" name="func" value="updateinfos" />
+        ' . $content . '
+    </form>
 </div>';
 
-echo rex_view::content('block', $content);
+
+$fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('system_settings'));
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
