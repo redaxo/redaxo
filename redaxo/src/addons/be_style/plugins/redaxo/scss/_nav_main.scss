@@ -1,0 +1,14 @@
+
+@media(min-width: $grid-float-breakpoint) {
+
+    .rex-nav-main {
+        float: left;
+        width: 250px;
+    }
+
+    .rex-page-main {
+        margin-left: 250px;
+        padding: 15px;
+    }
+
+}

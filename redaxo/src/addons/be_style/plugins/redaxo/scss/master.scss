@@ -1,2 +1,8 @@
-@import 'vendor/bootstrap/assets/stylesheets/bootstrap/bootstrap';
-@import 'vendor/font-awesome/scss/font-awesome';
+@import "vendor/bootstrap/assets/stylesheets/bootstrap/bootstrap";
+@import "vendor/font-awesome/scss/font-awesome";
+
+
+@import "plugins/redaxo/scss/global_footer";
+@import "plugins/redaxo/scss/nav_main";
+@import "plugins/redaxo/scss/nav_meta";
+@import "plugins/redaxo/scss/nav_top";
