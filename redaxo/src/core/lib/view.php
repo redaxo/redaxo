@@ -272,7 +272,13 @@ class rex_view
 
         $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head, ['category_id' => $category_id, 'article_id' => $article_id, 'page' => $page]));
 
-        $return = '<h1>' . $title . '</h1>' . $subtitle;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('heading', $title, false);
+        $fragment->setVar('subtitle', $subtitle, false);
+        $return = $fragment->parse('core/page/header.php');
+
+        //$return = '<h1>' . $title . '</h1>' . $subtitle;
 
         echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', '', [
             'category_id' => $category_id,
