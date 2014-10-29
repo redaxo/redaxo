@@ -2,3 +2,4 @@ package: be_style/redaxo
 version: '5.0-alpha7'
 author: 'Ralph Zumkeller, Thomas Blum'
 supportpage: www.redaxo.org/de/forum/
+compile: 0

@@ -43,17 +43,20 @@ if (rex::isBackend()) {
 
     }
 
+    if ($this->getProperty('compile')) {
 
-    $compiler = new rex_scss_compiler();
-    $compiler->setScssFile($this->getPath('scss/master.scss'));
+        $compiler = new rex_scss_compiler();
+        $compiler->setScssFile($this->getPath('scss/master.scss'));
 
-    // Compile in frontend assets dir
-    $compiler->setCssFile($this->getAssetsPath('css/styles.css'));
+        // Compile in frontend assets dir
+        $compiler->setCssFile($this->getAssetsPath('css/styles.css'));
 
-    // Compile in backend assets dir
-    //$compiler->setCssFile($this->getPath('assets/styles.css'));
+        // Compile in backend assets dir
+        $compiler->setCssFile($this->getPath('assets/styles.css'));
 
-    $compiler->compile();
+        $compiler->compile();
+
+    }
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap.js'));
