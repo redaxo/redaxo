@@ -71,7 +71,7 @@ if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
-            <table class="rex-table rex-table-responsive" id="rex-table-addons">
+            <table class="rex-table rex-table-responsive" id="rex-table-packages">
             <caption>' . rex_i18n::msg('package_caption') . '</caption>
             <thead>
                 <tr>
@@ -144,12 +144,12 @@ if ($subpage == '') {
         }
 
         return $message . '
-                    <tr class="rex-' . $type . $class . '">
+                    <tr class="rex-package-is-' . $type . $class . '">
                         <td><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '"><i class="rex-icon rex-icon-package-' . $type . '"></i></a></td>
                         <td data-title="' . rex_i18n::msg('package_hname') . '"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '">' . $name . ' <i class="rex-icon rex-icon-help"></i></a></td>
-                        <td data-title="' . rex_i18n::msg('package_hinstall') . '" data-pjax-container="#rex-page">' . $install . '</td>
-                        <td data-title="' . rex_i18n::msg('package_hactive') . '" data-pjax-container="#rex-page">' . $status . '</td>
-                        <td data-title="' . rex_i18n::msg('package_hdelete') . '" data-pjax-container="#rex-page">' . $uninstall . '</td>
+                        <td data-pjax-container="#rex-page">' . $install . '</td>
+                        <td data-pjax-container="#rex-page">' . $status . '</td>
+                        <td data-pjax-container="#rex-page">' . $uninstall . '</td>
                         <td data-pjax-container="#rex-page">' . $delete . '</td>
                     </tr>' . "\n   ";
     };
@@ -168,5 +168,7 @@ if ($subpage == '') {
             </table>';
 
 
-    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+    $fragment = new rex_fragment();
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 }
