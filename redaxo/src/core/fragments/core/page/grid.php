@@ -8,7 +8,7 @@ switch ($count) {
     case '4':
 
         echo '<div class="row">';
-        
+
         foreach ($this->content as $content) {
             echo '<div class="cols-sm-6 col-md-3">' . $content . '</div>';
         }
@@ -20,7 +20,7 @@ switch ($count) {
     case '3':
 
         echo '<div class="row">';
-        
+
         foreach ($this->content as $content) {
             echo '<div class="col-md-4">' . $content . '</div>';
         }
@@ -32,7 +32,7 @@ switch ($count) {
     case '2':
 
         echo '<div class="row">';
-        
+
         foreach ($this->content as $content) {
             echo '<div class="col-md-6">' . $content . '</div>';
         }
@@ -42,7 +42,7 @@ switch ($count) {
         break;
 
     default:
-        
+
         foreach ($this->content as $content) {
             echo $content;
         }
@@ -50,4 +50,3 @@ switch ($count) {
         break;
 
 }
-?>

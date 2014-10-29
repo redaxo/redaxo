@@ -19,4 +19,4 @@
                 <?= $this->navigation ?>
             </div>
         </nav>
-        <?php endif; ?>
+        <?php endif;

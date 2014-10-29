@@ -1,5 +1,5 @@
 <section class="rex-page-section">
-    <?php 
+    <?php
     $header = '';
     if (isset($this->heading) && $this->heading != '') {
         $header .= '<h2>' . $this->heading . '</h2>';
@@ -11,7 +11,7 @@
     ?>
     <?php if (isset($this->content) && $this->content != ''): ?>
         <div class="rex-page-section-body">
-            <?= $this->content; ?> 
+            <?= $this->content; ?>
         </div>
     <?php endif; ?>
     <?php if (isset($this->footer) && $this->footer != ''): ?>
