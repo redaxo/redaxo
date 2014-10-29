@@ -1,0 +1,47 @@
+.rex-icon {
+    @extend .fa;
+}
+
+.rex-icon-add-language {
+    @extend .fa-plus;
+}
+.rex-icon-bottom {
+    @extend .fa-angle-double-down;
+}
+.rex-icon-category {
+    @extend .fa-folder;
+}
+.rex-icon-delete {
+    @extend .fa-trash;
+}
+.rex-icon-delete-link {
+    @extend .fa-chain-broken;
+}
+.rex-icon-down {
+    @extend .fa-angle-down;
+}
+.rex-icon-edit {
+    @extend .fa-edit;
+}
+.rex-icon-help {
+    @extend .fa-question;
+}
+.rex-icon-language {
+    @extend .fa-flag;    
+}
+.rex-icon-open-linkmap {
+    @extend .fa-align-justify;
+}
+.rex-icon-phpinfo {
+    @extend .fa-info-circle;
+}
+.rex-icon-sitestartarticle {
+    @extend .fa-home;
+}
+.rex-icon-top {
+    @extend .fa-angle-double-up;
+}
+.rex-icon-up {
+    @extend .fa-angle-up;
+}
+

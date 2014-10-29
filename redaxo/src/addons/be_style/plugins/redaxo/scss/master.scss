@@ -2,7 +2,12 @@
 @import "vendor/font-awesome/scss/font-awesome";
 
 
+@import "plugins/redaxo/scss/button";
+@import "plugins/redaxo/scss/form";
 @import "plugins/redaxo/scss/global_footer";
+@import "plugins/redaxo/scss/icon";
 @import "plugins/redaxo/scss/nav_main";
 @import "plugins/redaxo/scss/nav_meta";
 @import "plugins/redaxo/scss/nav_top";
+@import "plugins/redaxo/scss/table";
+@import "plugins/redaxo/scss/typo";

@@ -1,0 +1,81 @@
+.rex-table {
+    @extend .table;
+}
+.rex-table-striped {
+    @extend .table-striped;
+}
+
+
+
+@media (max-width: $screen-sm-max) {
+    
+    .rex-table-responsive {
+        position: relative;
+    }
+    .rex-table-responsive, 
+    .rex-table-responsive > caption, 
+    .rex-table-responsive > thead, 
+    .rex-table-responsive > thead > tr, 
+    .rex-table-responsive > thead > tr > th, 
+    .rex-table-responsive > thead > tr > td, 
+    .rex-table-responsive > tbody, 
+    .rex-table-responsive > tbody > tr, 
+    .rex-table-responsive > tbody > tr > th, 
+    .rex-table-responsive > tbody > tr > td { 
+        display: block; 
+    }
+ 
+    .rex-table-responsive > thead > tr > th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+
+        &:first-child > a {
+            display: block;
+            position: absolute;
+            top: 9999px;
+            left: 9999px + $table-cell-padding;
+        }
+    }
+ 
+    .rex-table-responsive > tbody > tr {
+        border-bottom: 1px solid $table-border-color;
+        
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+ 
+    .rex-table-responsive > tbody > tr > th, 
+    .rex-table-responsive > tbody > tr > td {
+        position: relative;
+        padding-left: 40%; 
+        border: 0 !important;
+        border-bottom: 1px solid lighten($table-border-color, 5%) !important;
+        white-space: normal;
+        text-align:left;
+
+        &:before { 
+            content: attr(data-title);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 35%; 
+            padding: 12px; 
+            white-space: nowrap;
+            font-weight: 700;
+            line-height: $line-height-computed;
+            text-align: left;
+        }
+    }
+ 
+    .rex-table-responsive > tbody > tr:last-child > th:last-child, 
+    .rex-table-responsive > tbody > tr:last-child > td:last-child { 
+        border: 0 !important;
+    }
+ 
+    .rex-table-condensed.rex-table-responsive > tbody > tr > th:before, 
+    .rex-table-condensed.rex-table-responsive > tbody > tr > td:before { 
+        padding: 5px;
+    }
+}

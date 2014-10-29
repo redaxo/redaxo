@@ -1,0 +1,23 @@
+
+
+.rex-button {
+    @extend .btn;
+}
+.rex-button-group {
+    @extend .btn-group;
+}
+.rex-button-danger {
+    @extend .btn-danger;
+}
+.rex-button-default {
+    @extend .btn-default;
+}
+.rex-button-delete {
+    @extend .btn-primary;
+}
+.rex-button-save {
+    @extend .btn-primary;
+}
+.rex-button-update {
+    @extend .btn-primary;
+}

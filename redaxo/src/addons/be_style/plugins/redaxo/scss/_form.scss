@@ -1,0 +1,19 @@
+
+.rex-form-control {
+    @extend .form-control;
+}
+.rex-form-control-static {
+    @extend .form-control-static;
+}
+select.rex-form-select {
+    @extend .form-control;    
+}
+.rex-form-checkbox {
+    @extend .checkbox;
+}
+.rex-form-input-group {
+    @extend .input-group;
+}
+.rex-form-input-group-button {
+    @extend .input-group-btn;
+}
