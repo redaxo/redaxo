@@ -15,7 +15,7 @@ class rex_scss_compiler
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = 'scss_formatter';
+        $this->formatter = 'scss_formatter_compressed';
         $this->strip_comments = true;
     }
 
