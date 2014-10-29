@@ -5,6 +5,25 @@
     @extend .table-striped;
 }
 
+.rex-table {
+
+    > tbody {
+        > .rex-package-is-addon > td {
+            background-color: $table-bg-accent;
+            border-top-width: 2px;
+        }
+        .rex-package-is-plugin > td {
+            border-top: 1px solid lighten($table-border-color, 5%);
+
+            &:first-child {
+                padding-left: ($table-cell-padding * 3);
+            }
+        }
+    }
+
+}
+
+
 
 
 @media (max-width: $screen-sm-max) {
