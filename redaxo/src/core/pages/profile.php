@@ -26,6 +26,7 @@ echo rex_view::title(rex_i18n::msg('profile_title'), '');
 // backend sprache
 $sel_be_sprache = new rex_select;
 $sel_be_sprache->setSize(1);
+$sel_be_sprache->setStyle('class="rex-form-select"');
 $sel_be_sprache->setName('userperm_be_sprache');
 $sel_be_sprache->setId('rex-id-userperm-mylang');
 $sel_be_sprache->addOption('default', '');
@@ -105,17 +106,16 @@ if ($error != '') {
 
 $content = '';
 $content .= '
-<div id="rex-form-profile" class="rex-form">
+<div class="rex-form" id="rex-form-profile">
     <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <fieldset>
-            <h2>' . rex_i18n::msg('profile_myprofile') . '</h2>';
+        <fieldset>';
 
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userlogin">' . rex_i18n::msg('login_name') . '</label>';
-$n['field'] = '<span class="rex-form-read" id="rex-id-userlogin">' . htmlspecialchars($userlogin) . '</span>';
+$n['field'] = '<span class="rex-form-control-static" id="rex-id-userlogin">' . htmlspecialchars($userlogin) . '</span>';
 $formElements[] = $n;
 
 $n = [];
@@ -125,12 +125,12 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
-$n['field'] = '<input type="text" id="rex-id-username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
+$n['field'] = '<input class="rex-form-control" type="text" id="rex-id-username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
-$n['field'] = '<input type="text" id="rex-id-userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+$n['field'] = '<input class="rex-form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -145,7 +145,7 @@ $content .= '
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="rex-button btn btn-primary" type="submit" value="1" name="upd_profile_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save'), 'save') . '>' . rex_i18n::msg('profile_save') . '</button>';
+$n['field'] = '<button class="rex-button rex-button-save" type="submit" value="1" name="upd_profile_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save'), 'save') . '>' . rex_i18n::msg('profile_save') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -155,24 +155,26 @@ $content .= $fragment->parse('core/form/submit.php');
 $content .= '
     </form>
     </div>';
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+$fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('profile_myprofile'), false);
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
 
 
 
 $content = '';
 $content .= '
-    <div id="rex-form-profile-password" class="rex-form">
+    <div class="rex-form" id="rex-form-profile-password">
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         <input type="hidden" name="javascript" value="0" id="rex-id-javascript" />
-        <fieldset>
-            <h2>' . rex_i18n::msg('profile_changepsw') . '</h2>';
-
+        <fieldset>';
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('old_password') . '</label>';
-$n['field'] = '<input type="password" id="rex-id-userpsw" name="userpsw" autocomplete="off" />';
+$n['field'] = '<input class="rex-form-control" type="password" id="rex-id-userpsw" name="userpsw" autocomplete="off" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -185,12 +187,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
-$n['field'] = '<input type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
+$n['field'] = '<input class="rex-form-control" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-2">' . rex_i18n::msg('new_password_repeat') . '</label>';
-$n['field'] = '<input type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="off" />';
+$n['field'] = '<input class="rex-form-control" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="off" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -205,7 +207,7 @@ $content .= '
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="rex-button btn btn-primary" type="submit" value="1" name="upd_psw_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
+$n['field'] = '<button class="rex-button rex-button-save" type="submit" value="1" name="upd_psw_button" ' . rex::getAccesskey(rex_i18n::msg('profile_save_psw'), 'save') . '>' . rex_i18n::msg('profile_save_psw') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -244,4 +246,8 @@ $content .= '
         });
          //-->
     </script>';
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+$fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('profile_changepsw'), false);
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
