@@ -61,7 +61,7 @@
             top: 0;
             left: 0;
             width: 35%; 
-            padding: 12px; 
+            padding: $table-cell-padding; 
             white-space: nowrap;
             font-weight: 700;
             line-height: $line-height-computed;
@@ -76,6 +76,6 @@
  
     .rex-table-condensed.rex-table-responsive > tbody > tr > th:before, 
     .rex-table-condensed.rex-table-responsive > tbody > tr > td:before { 
-        padding: 5px;
+        padding: $table-condensed-cell-padding;
     }
 }

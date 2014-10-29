@@ -5,6 +5,9 @@
 .rex-icon-add-language {
     @extend .fa-plus;
 }
+.rex-icon-back {
+    @extend .fa-reply;
+}
 .rex-icon-bottom {
     @extend .fa-angle-double-down;
 }
@@ -31,6 +34,35 @@
 }
 .rex-icon-open-linkmap {
     @extend .fa-align-justify;
+}
+.rex-icon-package-addon {
+    @extend .fa-bookmark;
+}
+.rex-icon-package-delete {
+    @extend .fa-trash;
+}
+.rex-icon-package-is-activated {
+    @extend .fa-check;
+    @extend .fa-fw;
+}
+.rex-icon-package-is-installed {
+    @extend .fa-refresh;
+    @extend .fa-fw;
+}
+.rex-icon-package-not-activated {
+    @extend .fa-times;
+    @extend .fa-fw;
+}
+.rex-icon-package-not-installed {
+    @extend .fa-rotate-right;
+    @extend .fa-fw;
+}
+.rex-icon-package-plugin {
+    @extend .fa-bookmark-o;
+}
+.rex-icon-package-uninstall {
+    @extend .fa-rotate-left;
+    @extend .fa-fw;
 }
 .rex-icon-phpinfo {
     @extend .fa-info-circle;

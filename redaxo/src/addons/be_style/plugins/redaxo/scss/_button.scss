@@ -6,6 +6,9 @@
 .rex-button-group {
     @extend .btn-group;
 }
+.rex-button-back {
+    @extend .btn-primary;
+}
 .rex-button-danger {
     @extend .btn-danger;
 }
