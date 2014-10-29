@@ -12,49 +12,55 @@ $content = [];
 $content[] = '
     <h2>REDAXO</h2>
 
-    <h3>Jan Kristinus <span>jan.kristinus@redaxo.org</span></h3>
+    <h3>Jan Kristinus <small>jan.kristinus@redaxo.org</small></h3>
     <p>
         ' . rex_i18n::msg('credits_inventor') . ' &amp ' . rex_i18n::msg('credits_developer') . '<br />
-        Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+        Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>
 
-    <h3>Markus Staab <span>markus.staab@redaxo.org</span></h3>
+    <h3>Markus Staab <small>markus.staab@redaxo.org</small></h3>
     <p>' . rex_i18n::msg('credits_developer') . '<br />
         REDAXO, <a href="http://www.redaxo.org" onclick="window.open(this.href); return false;">www.redaxo.org</a>
     </p>
 
-    <h3>Gregor Harlan <span>gregor.harlan@redaxo.org</span></h3>
+    <h3>Gregor Harlan <small>gregor.harlan@redaxo.org</small></h3>
     <p>' . rex_i18n::msg('credits_developer') . '<br />
-        Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+        Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>';
 
 $content[] = '
     <h2>' . rex::getVersion() . '</h2>
 
-    <h3>Ralph Zumkeller <span>info@redaxo.org</span></h3>
+    <h3>Ralph Zumkeller <small>info@redaxo.org</small></h3>
     <p>' . rex_i18n::msg('credits_designer') . '<br />
-        Yakamara Media GmbH &amp; Co KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+        Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>
 
-    <h3>Thomas Blum <span>thomas.blum@redaxo.org</span></h3>
-    <p>blumbeet - web.studio, <a href="http://www.blumbeet.com" onclick="window.open(this.href); return false;">www.blumbeet.com</a></p>';
+    <h3>Thomas Blum <small>thomas.blum@redaxo.org</small></h3>
+    <p>Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a></p>';
 
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+$content = $fragment->parse('core/page/grid.php');
 
-echo rex_view::content('block', $content);
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
+
 
 
 $content = '';
 
 $content .= '
 
-    <table id="rex-table-credits-addons" class="rex-table">
+    <table id="rex-table-credits-addons" class="rex-table rex-table-responsive">
         <caption>' . rex_i18n::msg('credits_caption') . '</caption>
         <thead>
         <tr>
-            <th class="rex-name">' . rex_i18n::msg('credits_name') . '</th>
-            <th class="rex-version">' . rex_i18n::msg('credits_version') . '</th>
-            <th class="rex-author">' . rex_i18n::msg('credits_author') . '</th>
-            <th class="rex-support">' . rex_i18n::msg('credits_supportpage') . '</th>
+            <th>' . rex_i18n::msg('credits_name') . '</th>
+            <th>' . rex_i18n::msg('credits_version') . '</th>
+            <th>' . rex_i18n::msg('credits_author') . '</th>
+            <th>' . rex_i18n::msg('credits_supportpage') . '</th>
         </tr>
         </thead>
 
@@ -62,11 +68,11 @@ $content .= '
 
         foreach (rex_package::getRegisteredPackages() as $package) {
             $content .= '
-            <tr class="rex-' . $package->getType() . ' rex-' . ($package->isAvailable() ? 'active' : 'inactive') . '">
-                <td class="rex-name">' . $package->getName() . ' <a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '">?</a></td>
-                <td class="rex-version">' . $package->getVersion() . '</td>
-                <td class="rex-author">' . $package->getAuthor() . '</td>
-                <td class="rex-support">';
+            <tr class="rex-' . $package->getType() . ' rex-' . $package->getType() . '-' . ($package->isAvailable() ? 'active' : 'inactive') . '">
+                <th data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' <a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i></a></th>
+                <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
+                <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
+                <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
 
             if ($supportpage = $package->getSupportPage()) {
                 $content .= '<a href="http://' . $supportpage . '" onclick="window.open(this.href); return false;">' . $supportpage . '</a>';
@@ -83,4 +89,6 @@ $content .= '
 
 
 
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
