@@ -72,12 +72,14 @@ class rex_var_link extends rex_var
         $media = '
             <div id="rex-widget-linkmap-' . $id . '" class="rex-widget rex-widget-link">
                 <input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />
-                <input type="text" name="REX_LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" />
+                <div class="rex-form-input-group">
+                    <input class="rex-form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" />
 
-                <span class="rex-button-group">
-                    <a href="#" class="rex-button' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><span class="rex-icon rex-icon-open-linkmap"></span></a>
-                    <a href="#" class="rex-button' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><span class="rex-icon rex-icon-delete-link"></span></a>
-                </span>
+                    <div class="rex-form-input-group-button">
+                        <a href="#" class="rex-button rex-button-default' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
+                        <a href="#" class="rex-button rex-button-default' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>
+                    </div>
+                </div>
 
              </div>';
 
