@@ -170,4 +170,7 @@ $content .= '
             </div>';
 
 echo $message;
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
