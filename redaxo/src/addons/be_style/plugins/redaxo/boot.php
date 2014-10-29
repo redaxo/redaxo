@@ -48,13 +48,13 @@ if (rex::isBackend()) {
         $compiler = new rex_scss_compiler();
         $compiler->setScssFile($this->getPath('scss/master.scss'));
 
-        // Compile in frontend assets dir
-        $compiler->setCssFile($this->getAssetsPath('css/styles.css'));
-
         // Compile in backend assets dir
-        $compiler->setCssFile($this->getPath('assets/styles.css'));
+        $compiler->setCssFile($this->getPath('assets/css/styles.css'));
 
         $compiler->compile();
+
+        // Compiled file to copy in frontend assets dir
+        rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
 
     }
 
