@@ -106,6 +106,7 @@ class rex_file
                 $dstfile = $dstdir . DIRECTORY_SEPARATOR . basename($srcfile);
             } else {
                 $dstdir = dirname($dstfile);
+                rex_dir::create($dstdir);
             }
 
             if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {

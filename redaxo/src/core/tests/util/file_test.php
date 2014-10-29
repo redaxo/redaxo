@@ -80,7 +80,7 @@ class rex_file_test extends PHPUnit_Framework_TestCase
     public function testCopyToFile()
     {
         $orig = $this->getPath('orig.txt');
-        $copy = $this->getPath('copy.txt');
+        $copy = $this->getPath('sub/copy.txt');
         $content = 'test';
         rex_file::put($orig, $content);
         $this->assertTrue(rex_file::copy($orig, $copy), 'copy() returns true on success');
