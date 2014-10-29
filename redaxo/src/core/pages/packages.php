@@ -20,8 +20,27 @@ if ($subpage == 'help') {
     $author      = $package->getAuthor();
     $supportPage = $package->getSupportPage();
 
+
+    if (!is_file($package->getPath('help.php'))) {
+        $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
+    } else {
+        ob_start();
+        $package->includeFile('help.php');
+        $content .= ob_get_clean();
+    }
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('package_help') . ' ' . $name, false);
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
+
+    
+
+
+
+
     $credits = '';
-    $credits .= '<dl class="rex-credits-info rex-formatted">';
+    $credits .= '<dl class="rex-credits-info rex-dl-horizontal">';
     $credits .= '<dt>' . rex_i18n::msg('credits_name') . '</dt><dd>' . htmlspecialchars($name) . '</dd>';
 
     if ($version) {
@@ -36,26 +55,14 @@ if ($subpage == 'help') {
 
     $credits .= '</dl>';
 
-    $content .= '<h2>' . rex_i18n::msg('package_help') . ' ' . $name . '</h2>';
 
-    if (!is_file($package->getPath('help.php'))) {
-        $content .= '<div class="rex-content-information">' . rex_i18n::msg('package_no_help_file') . '</div>';
-    } else {
-        ob_start();
-        $package->includeFile('help.php');
-        $content .= ob_get_clean();
-    }
-
-    echo rex_view::content('block', $content);
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('credits'), false);
+    $fragment->setVar('content', $credits, false);
+    echo $fragment->parse('core/page/section.php');
 
 
-    $content = '';
-    $content .= '<h2>' . rex_i18n::msg('credits') . '</h2>';
-    $content .= $credits;
-
-    echo rex_view::content('block', $content);
-
-    echo '<a class="rex-back" href="javascript:history.back();"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('package_back') . '</a>';
+    echo '<a class="rex-button rex-button-back" href="javascript:history.back();"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('package_back') . '</a>';
 
 }
 
@@ -64,20 +71,20 @@ if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
-            <table class="rex-table rex-table-middle" id="rex-table-addons">
+            <table class="rex-table rex-table-responsive" id="rex-table-addons">
             <caption>' . rex_i18n::msg('package_caption') . '</caption>
             <thead>
                 <tr>
-                    <th class="rex-slim">&nbsp;</th>
-                    <th class="rex-name">' . rex_i18n::msg('package_hname') . '</th>
-                    <th class="rex-install">' . rex_i18n::msg('package_hinstall') . '</th>
-                    <th class="rex-active">' . rex_i18n::msg('package_hactive') . '</th>
-                    <th class="rex-delete" colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
+                    <th>&nbsp;</th>
+                    <th>' . rex_i18n::msg('package_hname') . '</th>
+                    <th>' . rex_i18n::msg('package_hinstall') . '</th>
+                    <th>' . rex_i18n::msg('package_hactive') . '</th>
+                    <th colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
                 </tr>
             </thead>
             <tbody>';
 
-    $getLink = function (rex_package $package, $function, $confirm = false, $key = null) {
+    $getLink = function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
         $onclick = '';
         if ($confirm) {
             $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
@@ -88,30 +95,32 @@ if ($subpage == '') {
             'rex-api-call' => 'package',
             'function' => $function
         ]);
+
+        $icon = ($icon != '') ? '<i class="rex-icon ' . $icon . '"></i>' : '';
         $class = ($key ?: $function);
-        return '<a class="rex-' . $class . '" href="' . $url . '"' . $onclick . '>' . $text . '</a>';
+        return '<a class="rex-' . $class . '" href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
     };
 
     $getTableRow = function (rex_package $package) use ($getLink) {
         $packageId = $package->getPackageId();
         $type = $package->getType();
 
-        $delete = $package->isSystemPackage() ? '<span class="rex-muted rex-small">' . rex_i18n::msg($type . '_system' . $type) . '</span>' : $getLink($package, 'delete', true);
+        $delete = $package->isSystemPackage() ? '<small class="rex-text-muted">' . rex_i18n::msg($type . '_system' . $type) . '</small>' : $getLink($package, 'delete', 'rex-icon-package-delete', true);
 
-        $uninstall = '';
+        $uninstall = '&nbsp;';
         if ($package->isInstalled()) {
-            $install = '<span class="rex-icon rex-icon-active-true"></span> ' . $getLink($package, 'install', false, 'reinstall');
-            $uninstall = '<span class="rex-icon rex-icon-uninstall"></span> ' . $getLink($package, 'uninstall', true);
+            $install = $getLink($package, 'install', 'rex-icon-package-is-installed', false, 'reinstall');
+            $uninstall = $getLink($package, 'uninstall', 'rex-icon-package-uninstall', true);
         } else {
-            $install = '<span class="rex-icon rex-icon-install"></span> ' . $getLink($package, 'install');
+            $install = $getLink($package, 'install', 'rex-icon-package-not-installed');
             //$uninstall = rex_i18n::msg('package_notinstalled');
         }
 
-        $status = '';
+        $status = '&nbsp;';
         if ($package->isActivated()) {
-            $status = '<span class="rex-icon rex-icon-active-true"></span> ' . $getLink($package, 'deactivate');
+            $status = $getLink($package, 'deactivate', 'rex-icon-package-is-activated');
         } elseif ($package->isInstalled()) {
-            $status = '<span class="rex-icon rex-icon-active-false"></span> ' . $getLink($package, 'activate');
+            $status = $getLink($package, 'activate', 'rex-icon-package-not-activated');
         } else {
             //$status = rex_i18n::msg('package_notinstalled');
         }
@@ -136,12 +145,12 @@ if ($subpage == '') {
 
         return $message . '
                     <tr class="rex-' . $type . $class . '">
-                        <td class="rex-slim"><span class="rex-icon rex-icon-' . $type . '"></span></td>
-                        <td class="rex-package-name"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '">' . $name . ' <span class="rex-icon rex-icon-help"></span></a></td>
-                        <td class="rex-install" data-pjax-container="#rex-page">' . $install . '</td>
-                        <td class="rex-active" data-pjax-container="#rex-page">' . $status . '</td>
-                        <td class="rex-uninstall" data-pjax-container="#rex-page">' . $uninstall . '</td>
-                        <td class="rex-delete" data-pjax-container="#rex-page">' . $delete . '</td>
+                        <td><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '"><i class="rex-icon rex-icon-package-' . $type . '"></i></a></td>
+                        <td data-title="' . rex_i18n::msg('package_hname') . '"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '">' . $name . ' <i class="rex-icon rex-icon-help"></i></a></td>
+                        <td data-title="' . rex_i18n::msg('package_hinstall') . '" data-pjax-container="#rex-page">' . $install . '</td>
+                        <td data-title="' . rex_i18n::msg('package_hactive') . '" data-pjax-container="#rex-page">' . $status . '</td>
+                        <td data-title="' . rex_i18n::msg('package_hdelete') . '" data-pjax-container="#rex-page">' . $uninstall . '</td>
+                        <td data-pjax-container="#rex-page">' . $delete . '</td>
                     </tr>' . "\n   ";
     };
 
