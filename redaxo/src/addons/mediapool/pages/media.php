@@ -558,6 +558,16 @@ if (!$file_id) {
 
 
     $where = 'f.category_id=' . $rex_file_category;
+    $addTable = '';
+    if ($media_name != '') {
+        $media_name = str_replace(['_', '%'], ['\_', '\%'], $media_name);
+        $where = "(f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
+        if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global' && $rex_file_category != 0) {
+            $addTable = rex::getTablePrefix() . 'media_category c, ';
+            $where .= " AND f.category_id = c.id ";
+            $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
+        }
+    }
     if (isset($args['types'])) {
         $types = [];
         foreach (explode(',', $args['types']) as $type) {
@@ -565,22 +575,7 @@ if (!$file_id) {
         }
         $where .= ' AND (' . implode(' OR ', $types) . ')';
     }
-
-    $addTable = '';
-    if ($media_name != '') {
-        $addTable = rex::getTablePrefix() . 'media_category c, ';
-        $media_name = str_replace(['_', '%'], ['\_', '\%'], $media_name);
-        $where .= " AND f.category_id = c.id AND (f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
-        if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global') {
-            // Suche auf aktuellen Kontext eingrenzen
-            if ($rex_file_category != 0) {
-                $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
-            } else {
-                $where = str_replace('f.category_id=0', '1=1', $where);
-            }
-        }
-    }
-        $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
+    $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
 
     // ----- EXTENSION POINT
     $qry = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $qry, [
