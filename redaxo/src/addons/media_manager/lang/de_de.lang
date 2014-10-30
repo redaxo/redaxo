@@ -63,9 +63,9 @@ media_manager_effect_brand_vpos = vertikale Ausrichtung
 media_manager_effect_brand_padding_x = horizontaler Abstand zum Rand
 media_manager_effect_brand_padding_y = vertikaler Abstand zum Rand
 
-media_manager_effect_blur_amount = Unschärfegrad
-media_manager_effect_blur_radius = Größe der Unschärfematrix
-media_manager_effect_blur_threshold = Grenzwert
+media_manager_effect_blur_repeats = Wiederholungen
+media_manager_effect_blur_type = Blur-Typ
+media_manager_effect_blur_smoothit = glätten (negative Werte schärft Bilder)
 
 media_manager_effect_sharpen_amount = Schärfegrad
 media_manager_effect_sharpen_radius = Größe der Schärfematrix

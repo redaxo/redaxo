@@ -1,102 +1,51 @@
 <?php
 
-// Übernommen von cerdmann.com
-// Unsharp mask algorithm by Torstein Hönsi 2003 (thoensi_at_netcom_dot_no)
-// Christoph Erdmann: changed it a little, cause i could not reproduce the darker blurred image, now it is up to 15% faster with same results
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-////
-////                  Unsharp Mask for PHP - version 2.1.1
-////
-////    Unsharp mask algorithm by Torstein Hönsi 2003-07.
-////             thoensi_at_netcom_dot_no.
-////               Please leave this notice.
-////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * @package redaxo\media-manager
- */
 class rex_effect_filter_blur extends rex_effect_abstract
 {
+    protected $options;
+
+    public function __construct()
+    {
+        $this->options = ['', 'gaussian', 'selective'];
+        $this->options_smoothit = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, '', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    }
+
 
     public function execute()
     {
-        // Attempt to calibrate the parameters to Photoshop:
-        if ($this->params['amount'] > 500) {
-            $this->params['amount'] = 500;
-        }
-        $this->params['amount'] = $this->params['amount'] * 0.016;
-        if ($this->params['radius'] > 50) {
-            $this->params['radius'] = 50;
-        }
-        $this->params['radius'] = $this->params['radius'] * 2;
-        if ($this->params['threshold'] > 255) {
-            $this->params['threshold'] = 255;
-        }
-        $this->params['radius'] = abs(round($this->params['radius'])); // Only integers make sense.
-        if ($this->params['radius'] == 0) {
+        $options = [];
+        $options['gaussian'] = IMG_FILTER_GAUSSIAN_BLUR;
+        $options['selective'] = IMG_FILTER_SELECTIVE_BLUR;
+
+        $gdimage = $this->media->getImage();
+
+        $this->params['repeats'] = (int) $this->params['repeats'];
+        if ($this->params['repeats'] < 0 ) {
             return;
         }
 
-        $this->media->asImage();
-
-        $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
-
-        $imgCanvas = $gdimage;
-        $imgCanvas2 = $gdimage;
-        $imgBlur = imagecreatetruecolor($w, $h);
-
-        // Gaussian blur matrix:
-        //  1 2 1
-        //  2 4 2
-        //  1 2 1
-
-        // Move copies of the image around one pixel at the time and merge them with weight
-        // according to the matrix. The same matrix is simply repeated for higher radii.
-        for ($i = 0; $i < $this->params['radius']; $i++) {
-            imagecopy($imgBlur, $imgCanvas, 0, 0, 1, 1, $w - 1, $h - 1); // up left
-            imagecopymerge($imgBlur, $imgCanvas, 1, 1, 0, 0, $w, $h, 50); // down right
-            imagecopymerge($imgBlur, $imgCanvas, 0, 1, 1, 0, $w - 1, $h, 33.33333); // down left
-            imagecopymerge($imgBlur, $imgCanvas, 1, 0, 0, 1, $w, $h - 1, 25); // up right
-            imagecopymerge($imgBlur, $imgCanvas, 0, 0, 1, 0, $w - 1, $h, 33.33333); // left
-            imagecopymerge($imgBlur, $imgCanvas, 1, 0, 0, 0, $w, $h, 25); // right
-            imagecopymerge($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 20); // up
-            imagecopymerge($imgBlur, $imgCanvas, 0, 1, 0, 0, $w, $h, 16.666667); // down
-            imagecopymerge($imgBlur, $imgCanvas, 0, 0, 0, 0, $w, $h, 50); // center
+        if ( !in_array($this->params['type'], $this->options) ) {
+            $this->params['type'] = '';
         }
-        $imgCanvas = $imgBlur;
 
-        // Calculate the difference between the blurred pixels and the original
-        // and set the pixels
-        for ($x = 0; $x < $w; $x++) {
-            // each row
-            for ($y = 0; $y < $h; $y++) {
-                // each pixel
-                $rgbOrig = ImageColorAt($imgCanvas2, $x, $y);
-                $rOrig = (($rgbOrig >> 16) & 0xFF);
-                $gOrig = (($rgbOrig >> 8) & 0xFF);
-                $bOrig = ($rgbOrig & 0xFF);
-                $rgbBlur = ImageColorAt($imgCanvas, $x, $y);
-                $rBlur = (($rgbBlur >> 16) & 0xFF);
-                $gBlur = (($rgbBlur >> 8) & 0xFF);
-                $bBlur = ($rgbBlur & 0xFF);
+        if ( !in_array($this->params['smoothit'], $this->options_smoothit) ) {
+            $this->params['smoothit'] = '';
+        }
 
-                // When the masked pixels differ less from the original
-                // than the threshold specifies, they are set to their original value.
-                $rNew = (abs($rOrig - $rBlur) >= $this->params['threshold']) ? max(0, min(255, ($this->params['amount'] * ($rOrig - $rBlur)) + $rOrig)) : $rOrig;
-                $gNew = (abs($gOrig - $gBlur) >= $this->params['threshold']) ? max(0, min(255, ($this->params['amount'] * ($gOrig - $gBlur)) + $gOrig)) : $gOrig;
-                $bNew = (abs($bOrig - $bBlur) >= $this->params['threshold']) ? max(0, min(255, ($this->params['amount'] * ($bOrig - $bBlur)) + $bOrig)) : $bOrig;
 
-                if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
-                    $pixCol = ImageColorAllocate($gdimage, $rNew, $gNew, $bNew);
-                    ImageSetPixel($gdimage, $x, $y, $pixCol);
-                }
+        for ($i = 0; $i < $this->params['repeats']; $i++) {
+
+            if ($this->params['smoothit'] != '') {
+                imagefilter($gdimage, IMG_FILTER_SMOOTH, $this->params['smoothit']);
             }
+
+            if ($this->params['type'] != '') {
+                imagefilter($gdimage, $options[$this->params['type']] );
+            }
+
         }
-        $this->media->setImage($imgBlur);
+
+        return;
     }
 
 
@@ -104,23 +53,25 @@ class rex_effect_filter_blur extends rex_effect_abstract
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_blur_amount'),
-                'name' => 'amount',
-                'type'  => 'int',
-                'default' => '80'
+                'label' => rex_i18n::msg('media_manager_effect_blur_repeats'),
+                'name' => 'repeats',
+                'type'    => 'int',
+                'default' => '10'
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_blur_radius'),
-                'name' => 'radius',
-                'type'  => 'int',
-                'default' => '8'
+                'label' => rex_i18n::msg('media_manager_effect_blur_type'),
+                'name' => 'type',
+                'type'  => 'select',
+                'options' => $this->options,
+                'default' => 'gaussian'
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_blur_threshold'),
-                'name' => 'threshold',
-                'type'  => 'int',
-                'default' => '3'
-            ]
+                'label' => rex_i18n::msg('media_manager_effect_blur_smoothit'),
+                'name' => 'smoothit',
+                'type'  => 'select',
+                'options' => $this->options_smoothit,
+                'default' => ''
+            ],
         ];
 
     }
