@@ -125,7 +125,7 @@ class rex_form
         $controlFields['abort'] = rex_i18n::msg('form_abort');
 
         // ----- EXTENSION POINT
-        $controlFields = rex_extension::registerPoint(new rex_extension_point('REX_FORM_CONTROL_FIElDS', $controlFields, ['form' => $this]));
+        $controlFields = rex_extension::registerPoint(new rex_extension_point('REX_FORM_CONTROL_FIELDS', $controlFields, ['form' => $this]));
 
         $controlElements = [];
         foreach ($controlFields as $name => $label) {
