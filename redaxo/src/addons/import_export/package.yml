@@ -9,4 +9,4 @@ page:
     pjax: true
     subpages:
         export: { title: 'translate:im_export_export' }
-        import: { title: 'translate:im_export_import', perm: 'import_export[import]' }
+        import: { title: 'translate:im_export_import', perm: 'admin[]' }
