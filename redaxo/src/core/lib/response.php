@@ -96,7 +96,9 @@ class rex_response
         }
 
         // content length schicken, damit der browser einen ladebalken anzeigen kann
-        header('Content-Length: ' . filesize($file));
+        if (!ini_get('zlib.output_compression')) {
+            header('Content-Length: ' . filesize($file));
+        }
 
         readfile($file);
     }
