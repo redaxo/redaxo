@@ -119,7 +119,7 @@ $n['field'] = '<input type="file" id="rex-form-importdbfile" name="FORM[importfi
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<button class="rex-button btn btn-primary" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '">' . rex_i18n::msg('im_export_to_import') . '</button>';
+$n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '">' . rex_i18n::msg('im_export_to_import') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -188,7 +188,7 @@ $n['field'] = '<input type="file" id="rex-form-importtarfile" name="FORM[importf
 $formElements[] = $n;
 
 $n = [];
-$n['field'] = '<button class="rex-button btn btn-primary" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '">' . rex_i18n::msg('im_export_to_import') . '</button>';
+$n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '">' . rex_i18n::msg('im_export_to_import') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

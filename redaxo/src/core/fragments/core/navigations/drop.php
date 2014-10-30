@@ -118,7 +118,7 @@ $list = $list != '' ? '<div class="rex-drop-container">' . $list . '</div>' : ''
 echo '<div class="rex-js-drop ' . $drop . $class . '">';
 if ($split) {
     echo '<span class="rex-button-group">
-                    <span class="rex-button">
+                    <span class="rex-button rex-button-primary">
                         ' . $button_title . '
                         <span class="rex-js-button">' . $button . '</span>
                     </span>

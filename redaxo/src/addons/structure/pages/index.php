@@ -204,7 +204,7 @@ if ($function == 'add_cat' && $KATPERM) {
     $add_buttons = '
         <input type="hidden" name="rex-api-call" value="category_add" />
         <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
-        <button class="rex-button btn btn-primary" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
+        <button class="rex-button rex-button-primary" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
 
     $class = 'rex-active';
 
@@ -260,7 +260,7 @@ for ($i = 0; $i < $KAT->getRows(); $i++) {
             $add_buttons = '
             <input type="hidden" name="rex-api-call" value="category_edit" />
             <input type="hidden" name="category-id" value="' . $edit_id . '" />
-            <button class="rex-button btn btn-primary" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
+            <button class="rex-button rex-button-primary" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
             $class = 'rex-active';
             if ($meta_buttons != '') {
@@ -475,7 +475,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                     <td class="rex-priority"><input class="rex-number" type="text" id="rex-form-field-priority" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
                     ' . $tmpl_td . '
                     <td class="rex-date">' . rex_formatter::strftime(time(), 'date') . '</td>
-                    <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_add" /><button class="rex-button btn btn-primary" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
+                    <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_add" /><button class="rex-button rex-button-primary" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
     }
@@ -513,7 +513,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                             <td class="rex-priority"><input class="rex-number" type="text" id="rex-form-field-priority" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
                             ' . $tmpl_td . '
                             <td class="rex-date">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
-                            <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_edit" /><button class="rex-button btn btn-primary" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
+                            <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_edit" /><button class="rex-button rex-button-primary" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
 
         } elseif ($KATPERM) {

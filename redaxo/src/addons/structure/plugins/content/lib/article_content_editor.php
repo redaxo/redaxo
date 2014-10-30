@@ -252,7 +252,7 @@ class rex_article_content_editor extends rex_article_content
                             <input type="hidden" name="slice_id" value="' . $sliceId . '" />
                             <input type="hidden" name="function" value="add" />
                             ' . $this->MODULESELECT[$this->ctype]->get() . '
-                            <noscript><button class="rex-button btn btn-primary" type="submit" name="btn_add" value="' . rex_i18n::msg('add_block') . '">' . rex_i18n::msg('add_block') . '</button></noscript>
+                            <noscript><button class="rex-button rex-button-primary" type="submit" name="btn_add" value="' . rex_i18n::msg('add_block') . '">' . rex_i18n::msg('add_block') . '</button></noscript>
                         </fieldset>
                     </form>
                     </div>
@@ -352,7 +352,7 @@ class rex_article_content_editor extends rex_article_content
 
             $formElements = [];
             $n = [];
-            $n['field'] = '<button class="rex-button btn btn-primary" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
+            $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
             $formElements[] = $n;
 
             $fragment = new rex_fragment();
@@ -413,11 +413,11 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<button class="rex-button btn btn-primary" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
+        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button btn btn-primary" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
+        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
