@@ -45,7 +45,7 @@ abstract class rex_metainfo_handler
                 unset($attrArray['perm']);
             }
 
-            $dbvalues = [$sqlFields->getValue('default')];
+            $defaultValue = $sqlFields->getValue('default');
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
@@ -83,11 +83,19 @@ abstract class rex_metainfo_handler
                     }
                     if ($activeItem) {
                         $rexInput->setValue($activeItem->getValue($name));
+                    } else {
+                        $rexInput->setValue($defaultValue);
                     }
                     $field = $rexInput->getHtml();
                     break;
                 }
                 case 'checkbox':
+                    // Beachte auch default values in multiple fields bei ADD.
+                    // Im EDIT wurde dies bereits vorher gehandelt
+                    if(!$activeItem) {
+                        $defaultValue = explode('|', $defaultValue);
+                    }
+
                     $name .= '[]';
                 case 'radio':
                 {
@@ -139,6 +147,10 @@ abstract class rex_metainfo_handler
                         }
                     }
 
+                    if (!$activeItem) {
+                        $dbvalues = (array) $defaultValue;
+                    }
+
                     foreach ($values as $key => $value) {
                         $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
 
@@ -178,8 +190,6 @@ abstract class rex_metainfo_handler
                     $select->setStyle('class="rex-form-select"');
                     $select->setName($name);
                     $select->setId($id);
-                    // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
-                    $select->setSelected($dbvalues);
 
                     $multiple = false;
                     foreach ($attrArray as $attr_name => $attr_value) {
@@ -198,6 +208,15 @@ abstract class rex_metainfo_handler
                     if (!$multiple) {
                         $select->setSize(1);
                     }
+
+                    // Beachte auch default values in multiple fields bei ADD.
+                    // Im EDIT wurde dies bereits vorher gehandelt
+                    if($multiple && !$activeItem) {
+                        $dbvalues = explode('|', $defaultValue);
+                    }
+
+                    // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
+                    $select->setSelected($dbvalues);
 
                     if (rex_sql::getQueryType($params) == 'SELECT') {
                         // Werte via SQL Laden
@@ -264,6 +283,8 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('name', $name);
                     if ($activeItem) {
                         $rexInput->setValue($activeItem->getValue($name));
+                    } else {
+                        $rexInput->setValue($defaultValue);
                     }
                     $field = $rexInput->getHtml();
 
