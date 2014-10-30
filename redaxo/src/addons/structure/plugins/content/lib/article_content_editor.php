@@ -129,18 +129,18 @@ class rex_article_content_editor extends rex_article_content
         $menu_items_action = [];
         $menu_items_move   = [];
 
-        if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
-            && rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId)
-        ) {
+        if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
 
-            // edit
-            $item = [];
-            $item['hidden_label']         = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
-            $item['url']                  = $context->getUrl(['function' => 'edit']) . $fragment;
-            $item['attributes']['title']  = rex_i18n::msg('edit');
-            $item['icon']                 = 'edit';
-            $menu_items_action[] = $item;
-
+            $templateHasModule = rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId);
+            if ($templateHasModule) {
+                // edit
+                $item = [];
+                $item['hidden_label']         = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
+                $item['url']                  = $context->getUrl(['function' => 'edit']) . $fragment;
+                $item['attributes']['title']  = rex_i18n::msg('edit');
+                $item['icon']                 = 'edit';
+                $menu_items_action[] = $item;
+            }
 
             // delete
             $item = [];
@@ -151,7 +151,7 @@ class rex_article_content_editor extends rex_article_content
             $item['icon']                  = 'delete';
             $menu_items_action[] = $item;
 
-            if (rex::getUser()->hasPerm('moveSlice[]')) {
+            if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
 
                 // moveup
                 $item = [];
