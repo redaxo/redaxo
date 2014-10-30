@@ -32,16 +32,4 @@ foreach ($this->elements as $element) {
     $out .= '</div>';
 }
 
-$group = isset($this->group) ? $this->group : false;
-$flush = isset($this->flush) ? $this->flush : false;
-if ($group || $flush) {
-    $classes = [];
-    $classes[] = $group ? 'rex-form-group' : '';
-    $classes[] = $flush ? 'rex-form-flush' : '';
-
-    echo '<div class="' . trim(implode(' ', $classes)) . '">';
-    echo $out;
-    echo '</div>';
-} else {
-    echo $out;
-}
+echo $out;

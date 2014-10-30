@@ -415,8 +415,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('group', true);
-    $fragment->setVar('flush', true);
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/checkbox.php');
 

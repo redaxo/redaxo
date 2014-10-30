@@ -229,7 +229,6 @@ if ($function == 'add' or $function == 'edit') {
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
-                $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
                 $ctypes_out .= $fragment->parse('core/form/checkbox.php');
 
@@ -322,7 +321,6 @@ if ($function == 'add' or $function == 'edit') {
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
-        $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('core/form/checkbox.php');
 
@@ -371,7 +369,6 @@ if ($function == 'add' or $function == 'edit') {
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
-        $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('core/form/checkbox.php');
 
