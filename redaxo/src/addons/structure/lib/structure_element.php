@@ -29,6 +29,8 @@ abstract class rex_structure_element
     protected $updateuser = '';
     protected $createuser = '';
 
+    protected static $classVars;
+
     /**
      * Constructor
      *
@@ -70,11 +72,7 @@ abstract class rex_structure_element
      */
     protected static function _hasValue($value, array $prefixes = [])
     {
-        static $values = null;
-
-        if (!$values) {
-            $values = self::getClassVars();
-        }
+        $values = self::getClassVars();
 
         if (in_array($value, $values)) {
             return true;
@@ -96,10 +94,8 @@ abstract class rex_structure_element
      */
     public static function getClassVars()
     {
-        static $vars = [];
-
-        if (empty($vars)) {
-            $vars = [];
+        if (empty(self::$classVars)) {
+            self::$classVars = [];
 
             $startId = rex::getProperty('start_article_id');
             $file = rex_path::addonCache('structure',  $startId . '.1.article');
@@ -108,19 +104,24 @@ abstract class rex_structure_element
                 $genVars = rex_file::getCache($file);
                 unset($genVars['last_update_stamp']);
                 foreach ($genVars as $name => $value) {
-                    $vars[] = $name;
+                    self::$classVars[] = $name;
                 }
             } else {
                 // Im Backend die Spalten aus der DB auslesen / via EP holen
                 $sql = rex_sql::factory();
                 $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article LIMIT 0');
                 foreach ($sql->getFieldnames() as $field) {
-                    $vars[] = $field;
+                    self::$classVars[] = $field;
                 }
             }
         }
 
-        return $vars;
+        return self::$classVars;
+    }
+
+    public static function resetClassVars()
+    {
+        self::$classVars = null;
     }
 
     /**

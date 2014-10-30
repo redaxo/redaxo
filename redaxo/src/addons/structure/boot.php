@@ -108,3 +108,9 @@ rex_extension::register('CLANG_DELETED', function (rex_extension_point $ep) {
     $del = rex_sql::factory();
     $del->setQuery('delete from ' . rex::getTablePrefix() . 'article where clang_id=?', [$ep->getParam('clang')->getId()]);
 });
+
+rex_extension::register('CACHE_DELETED', function () {
+    rex_structure_element::clearInstancePool();
+    rex_structure_element::clearInstanceListPool();
+    rex_structure_element::resetClassVars();
+});
