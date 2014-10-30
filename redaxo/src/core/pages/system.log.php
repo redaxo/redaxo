@@ -36,7 +36,7 @@ if ($error != '') {
 }
 
 $content .= '
-            <table id="rex-table-log" class="rex-table rex-table-middle rex-table-striped">
+            <table id="rex-table-log" class="rex-table rex-table-responsive">
                 <thead>
                     <tr>
                         <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
@@ -52,13 +52,18 @@ if ($file = new rex_log_file(rex_path::cache('system.log'))) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         /* @var rex_log_entry $entry */
         $data = $entry->getData();
+
+        $class = strtolower($data[0]);
+        $class = ($class == 'notice' || $class == 'warning') ? $class : 'error';
+
+
         $content .= '
-                    <tr>
-                        <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                        <td>' . $data[0] . '</td>
-                        <td>' . $data[1] . '</td>
-                        <td>' . (isset($data[2]) ? $data[2] : '') . '</td>
-                        <td>' . (isset($data[3]) ? $data[3] : '') . '</td>
+                    <tr class="rex-log-' . $class . '">
+                        <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                        <td data-title="' . rex_i18n::msg('syslog_type') . '">' . $data[0] . '</td>
+                        <td data-title="' . rex_i18n::msg('syslog_message') . '">' . $data[1] . '</td>
+                        <td data-title="' . rex_i18n::msg('syslog_file') . '"><span class="rex-truncate-left">' . (isset($data[2]) ? $data[2] : '') . '</span></td>
+                        <td data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? $data[3] : '') . '</td>
                     </tr>';
     }
 }
@@ -86,4 +91,7 @@ $content .= $fragment->parse('core/form/submit.php');
 $content .= '
     </form>';
 
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
