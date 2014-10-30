@@ -63,7 +63,7 @@ class rex_type
                     $var = (object)  $var;
                     break;
                 case 'array'  :
-                    if (empty($var)) {
+                    if ('' === $var) {
                         $var = [];
                     } else {
                         $var = (array) $var;
