@@ -1,0 +1,12 @@
+.rex-content-scroll {
+    overflow: auto;
+    height: 200px;
+
+    &[data-height="2x"] {
+        height: 400px;
+    }
+
+    &[data-height="3x"] {
+        height: 600px;
+    }
+}
