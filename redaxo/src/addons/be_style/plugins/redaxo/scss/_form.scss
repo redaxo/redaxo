@@ -17,6 +17,9 @@ select.rex-form-select {
 .rex-form-input-group {
     @extend .input-group;
 }
+.rex-form-input-group-addon {
+    @extend .input-group-addon;    
+}
 .rex-form-input-group-button {
     @extend .input-group-btn;
 }
