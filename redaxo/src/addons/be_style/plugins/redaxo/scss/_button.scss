@@ -1,5 +1,4 @@
 
-
 .rex-button {
     @extend .btn;
 }
@@ -16,6 +15,9 @@
     @extend .btn-default;
 }
 .rex-button-delete {
+    @extend .btn-primary;
+}
+.rex-button-login {
     @extend .btn-primary;
 }
 .rex-button-next {

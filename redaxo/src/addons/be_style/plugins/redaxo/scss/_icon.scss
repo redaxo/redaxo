@@ -64,8 +64,14 @@
     @extend .fa-rotate-left;
     @extend .fa-fw;
 }
+.rex-icon-password {
+    @extend .fa-lock;    
+}
 .rex-icon-phpinfo {
     @extend .fa-info-circle;
+}
+.rex-icon-sign-in {
+    @extend .fa-sign-in;
 }
 .rex-icon-sitestartarticle {
     @extend .fa-home;
@@ -75,5 +81,8 @@
 }
 .rex-icon-up {
     @extend .fa-angle-up;
+}
+.rex-icon-user {
+    @extend .fa-user;
 }
 

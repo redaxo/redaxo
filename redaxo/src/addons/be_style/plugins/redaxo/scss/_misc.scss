@@ -10,3 +10,40 @@
         height: 600px;
     }
 }
+
+.rex-sr-only {
+    @extend .sr-only;
+}
+
+.rex-log-error > td {
+    @extend .bg-danger;
+}
+.rex-log-warning > td {
+    @extend .bg-warning;
+}
+
+
+.rex-truncate, 
+.rex-truncate-left {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+}
+.rex-truncate {
+    text-overflow: ellipsis;
+}
+.rex-truncate-left {
+    position: relative;
+    direction: rtl;
+    text-align: right;
+
+    &:after {
+        content: '...';
+        position: absolute;
+        left: 0;
+
+        @media (max-width: $screen-sm-max) {
+            display: none;
+        }
+    }
+}
