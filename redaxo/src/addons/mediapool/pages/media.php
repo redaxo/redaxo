@@ -48,7 +48,7 @@ $cat_out = '<div class="rex-form" id="rex-form-mediapool-selectcategory">
                                         <div class="rex-form-row">
                                             <p class="rex-form-col-a rex-form-text" id="be_search-media-search">
                                                 <label for="be_search-media-name">' . rex_i18n::msg('be_search_mpool_media') . '</label>
-                                                <input class="rex-form-text" type="text" name="media_name" id="be_search-media-name" value="' . $media_name . '" />
+                                                <input class="rex-form-text" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />
                                                 <input class="rex-form-submit" type="submit" value="' . rex_i18n::msg('be_search_mpool_start') . '" />
                                             </p>
 
