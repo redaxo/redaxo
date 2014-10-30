@@ -200,8 +200,8 @@ if ($file_id) {
 
             if ($thumbs) {
                 if ($media_manager) {
-                    $imgn = rex_url::frontendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname]);
-                    $img_max = rex_url::frontendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname]);
+                    $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname]);
+                    $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname]);
                 }
             }
 
@@ -639,7 +639,7 @@ if (!$file_id) {
             if (rex_media::isImageType(rex_file::extension($file_name)) && $thumbs) {
                 $thumbnail = '<img src="' . rex_url::media($file_name) . '" width="80" alt="' . $alt . '" title="' . $alt . '" />';
                 if ($media_manager) {
-                    $thumbnail = '<img src="' . rex_url::frontendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                    $thumbnail = '<img src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
                 }
             }
         }

@@ -164,7 +164,7 @@ function writeREXMedialist(id){
             var url;
             var width = 0;
             if($(this).hasClass("rex-widget-preview-media-manager"))
-                url = '../index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
+                url = './index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
             else
             {
                 url = '../media/'+ value;
