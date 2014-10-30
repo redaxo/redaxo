@@ -42,7 +42,7 @@ if ($rex_user_loginmessage != '') {
 $content = '';
 $content .= '
 
-<div id="rex-form-login" class="rex-form">
+<div class="rex-form" id="rex-form-login">
 <form action="' . rex_url::backendController() . '" method="post">
     <fieldset>
         <h2>' . rex_i18n::msg('login_welcome') . '</h2>
@@ -52,17 +52,19 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
-$n['field'] = '<input type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['field'] = '<input class="rex-form-control" type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['left']  = '<i class="rex-icon rex-icon-user"></i>';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-login-password">' . rex_i18n::msg('password') . ':</label>';
-$n['field'] = '<input type="password" name="rex_user_psw" id="rex-id-login-password" />';
+$n['field'] = '<input class="rex-form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
+$n['left']  = '<i class="rex-icon rex-icon-password"></i>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
+$content .= $fragment->parse('core/form/input_group.php');
 
 $formElements = [];
 $n = [];
@@ -79,7 +81,7 @@ $content .= '<fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="rex-button rex-button-primary" type="submit">' . rex_i18n::msg('login') . '</button>';
+$n['field'] = '<button class="rex-button rex-button-login" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -109,4 +111,6 @@ $content .= '
 ';
 
 
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/section.php');
