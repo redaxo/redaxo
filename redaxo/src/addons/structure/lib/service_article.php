@@ -739,6 +739,7 @@ class rex_article_service
                     $art_sql->setValue('catname', $catname);
                     $art_sql->setValue('catpriority', 0);
                     $art_sql->setValue('path', $path);
+                    $art_sql->setValue('name', $from_sql->getValue('name') . ' ' . rex_i18n::msg('structure_copy'));
                     $art_sql->setValue('priority', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
                     $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
                     $art_sql->setValue('startarticle', 0);
@@ -746,7 +747,7 @@ class rex_article_service
                     $art_sql->addGlobalCreateFields();
 
                     // schon gesetzte Felder nicht wieder überschreiben
-                    $dont_copy = ['id', 'pid', 'parent_id', 'catname', 'catpriority', 'path', 'priority', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startarticle'];
+                    $dont_copy = ['id', 'pid', 'parent_id', 'catname', 'name', 'catpriority', 'path', 'priority', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startarticle'];
 
                     foreach (array_diff($from_sql->getFieldnames(), $dont_copy) as $fld_name) {
                         $art_sql->setValue($fld_name, $from_sql->getValue($fld_name));
