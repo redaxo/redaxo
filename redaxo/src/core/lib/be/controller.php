@@ -109,19 +109,18 @@ class rex_be_controller
 
     public static function getPageTitle()
     {
+        $parts = [];
+
         $activePageObj = self::getCurrentPageObject();
-
-        $page_name = $activePageObj->getTitle();
-        $page_title = rex::getServerName();
-
-        if ($page_name != '') {
-            if ($page_title != '') {
-                $page_title .= ' - ';
-            }
-            $page_title .= $page_name;
+        if ($activePageObj->getTitle()) {
+            $parts[] = $activePageObj->getTitle();
         }
+        if (rex::getServerName()) {
+            $parts[] = rex::getServerName();
+        }
+        $parts[] = 'REDAXO CMS';
 
-        return $page_title;
+        return implode(' · ', $parts);
     }
 
     public static function getSetupPage()
