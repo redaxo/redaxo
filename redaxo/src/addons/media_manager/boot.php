@@ -14,4 +14,5 @@ rex_extension::register('PACKAGES_INCLUDED', 'rex_media_manager::init', rex_exte
 if (rex::isBackend()) {
     // delete thumbnails on mediapool changes
     rex_extension::register('MEDIA_UPDATED', 'rex_media_manager::mediaUpdated');
+    rex_extension::register('MEDIA_DELETED', 'rex_media_manager::mediaUpdated');
 }

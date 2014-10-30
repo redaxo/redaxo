@@ -312,6 +312,10 @@ function rex_mediapool_deleteMedia($filename)
 
     rex_media_cache::delete($filename);
 
+    rex_extension::registerPoint(new rex_extension_point('MEDIA_DELETED', '', [
+        'filename' => $filename
+    ]));
+
     return ['ok' => true, 'msg' => rex_i18n::msg('pool_file_deleted')];
 }
 
