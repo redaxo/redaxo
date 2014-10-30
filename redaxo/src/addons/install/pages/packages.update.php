@@ -102,7 +102,7 @@ if ($core && !empty($coreVersions)) {
         <table id="rex-install-packages-addons" class="rex-table">
             <thead>
             <tr>
-                <th class="rex-slim"></th>
+                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>
                 <th class="rex-key">' . $this->i18n('key') . '</th>
                 <th class="rex-name">' . $this->i18n('name') . '</th>
                 <th class="rex-version">' . $this->i18n('existing_version') . '</th>

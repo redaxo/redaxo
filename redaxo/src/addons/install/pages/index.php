@@ -11,4 +11,8 @@ if ($subpage == 'packages') {
     $subpage = rex_be_controller::getCurrentPagePart(3, 'update');
 }
 
+if ('reload' === rex_request('func', 'string')) {
+    rex_install_webservice::deleteCache();
+}
+
 include rex_be_controller::getCurrentPageObject()->getSubPath();

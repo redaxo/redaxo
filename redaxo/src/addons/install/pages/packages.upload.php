@@ -31,11 +31,6 @@ if ($addonkey && isset($addons[$addonkey])) {
         $redaxo_select->setSize(4);
         $redaxo_select->setMultiple(true);
         $redaxo_select->addOption('5.0.x', '5.0.x');
-        $redaxo_select->addOption('4.3.x', '4.3.x');
-        $redaxo_select->addOption('4.2.x', '4.2.x');
-        $redaxo_select->addOption('4.1.x', '4.1.x');
-        $redaxo_select->addOption('4.0.x', '4.0.x');
-        $redaxo_select->addOption('3.2.x', '3.2.x');
         $redaxo_select->setSelected($file['redaxo_versions']);
 
         $uploadCheckboxDisabled = '';
@@ -238,7 +233,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         <table class="rex-table">
          <thead>
             <tr>
-                <th class="rex-slim"></th>
+                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>
                 <th class="rex-key">' . $this->i18n('key') . '</th>
                 <th class="rex-name">' . $this->i18n('name') . '</th>
                 <th colspan="2" class="rex-function">' . $this->i18n('status') . '</th>

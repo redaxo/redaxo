@@ -18,8 +18,7 @@ class rex_install_webservice
         if (is_array($cache = self::getCache($path))) {
             return $cache;
         }
-        $path = self::getPath($path);
-        $fullpath = self::PATH . $path;
+        $fullpath = self::PATH . self::getPath($path);
 
         $error = null;
         try {

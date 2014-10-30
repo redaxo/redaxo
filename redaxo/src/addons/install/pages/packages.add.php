@@ -14,7 +14,7 @@ try {
     $addonkey = '';
 }
 
-if ($addonkey && isset($addons[$addonkey])) {
+if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $addon = $addons[$addonkey];
 
     $content = '
@@ -74,12 +74,14 @@ if ($addonkey && isset($addons[$addonkey])) {
 
 } else {
 
+    echo rex_view::content('block', '<input type="text" id="rex-install-addon-search" class="rex-form-text" placeholder="Suchen…" style="width: 300px"/>');
+
     $content = '
         <h2>' . $this->i18n('addons_found', count($addons)) . '</h2>
         <table id="rex-table-install-packages-addons" class="rex-table rex-table-striped">
          <thead>
             <tr>
-                <th class="rex-slim"></th>
+                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>
                 <th class="rex-key">' . $this->i18n('key') . '</th>
                 <th class="rex-name rex-author">' . $this->i18n('name') . ' / ' . $this->i18n('author') . '</th>
                 <th class="rex-shortdescription">' . $this->i18n('shortdescription') . '</th>
@@ -89,18 +91,51 @@ if ($addonkey && isset($addons[$addonkey])) {
          <tbody>';
 
     foreach ($addons as $key => $addon) {
-        $url = rex_url::currentBackendPage(['addonkey' => $key]);
-        $content .= '
-            <tr>
-                <td class="rex-slim"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span></a></td>
-                <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
-                <td class="rex-name rex-author"><span class="rex-name">' . $addon['name'] . '</span><span class="rex-author">' . $addon['author'] . '</span></td>
-                <td class="rex-shortdescription">' . nl2br($addon['shortdescription']) . '</td>
-                <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . rex_i18n::msg('view') . '</a></td>
-            </tr>';
+        if (rex_addon::exists($key)) {
+            $content .= '
+                <tr>
+                    <td class="rex-slim"></td>
+                    <td class="rex-key">' . $key . '</td>
+                    <td class="rex-name rex-author"><span class="rex-name">' . $addon['name'] . '</span><span class="rex-author">' . $addon['author'] . '</span></td>
+                    <td class="rex-shortdescription">' . nl2br($addon['shortdescription']) . '</td>
+                    <td class="rex-view">' . $this->i18n('addon_already_exists') . '</td>
+                </tr>';
+        } else {
+            $url = rex_url::currentBackendPage(['addonkey' => $key]);
+            $content .= '
+                <tr>
+                    <td class="rex-slim"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span></a></td>
+                    <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
+                    <td class="rex-name rex-author"><span class="rex-name">' . $addon['name'] . '</span><span class="rex-author">' . $addon['author'] . '</span></td>
+                    <td class="rex-shortdescription">' . nl2br($addon['shortdescription']) . '</td>
+                    <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . rex_i18n::msg('view') . '</a></td>
+                </tr>';
+        }
     }
 
     $content .= '</tbody></table>';
+
+    $content .= '
+        <script type="text/javascript">
+        <!--
+        jQuery(function($) {
+            var table = $("#rex-table-install-packages-addons");
+            $("#rex-install-addon-search").keyup(function () {
+                table.find("tr").show();
+                var search = $(this).val().toLowerCase();
+                if (search) {
+                    table.find("tbody tr").each(function () {
+                        var tr = $(this);
+                        if (tr.text().toLowerCase().indexOf(search) < 0) {
+                            tr.hide();
+                        }
+                    });
+                }
+            });
+        });
+        //-->
+        </script>
+    ';
 
 
     echo rex_view::content('block', $content, '', $params = ['flush' => true]);

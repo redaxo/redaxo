@@ -11,6 +11,7 @@ install_webservice_unreachable = Der Webservice ist zurzeit nicht erreichbar!
 install_webservice_error = Der Webservice liefert folgende Fehlermeldung:
 install_archive_unreachable = Die Zip-Datei ist nicht erreibar!
 
+install_reload = Liste aktualisieren
 install_key = Key
 install_information = Information
 install_name = Name
@@ -21,6 +22,7 @@ install_files = Dateien
 install_version = Version
 install_existing_version = Vorhandene Version
 install_available_versions = Verfügbare Versionen
+install_addon_already_exists = bereits heruntergeladen
 install_update = aktualisieren
 install_download = herunterladen
 install_addons_found = {0} AddOns gefunden
