@@ -210,5 +210,5 @@ function rex_structure_searchbar(rex_context $context)
     $fragment->setVar('right', $droplist, false);
     //$navi = $fragment->parse('core/navigations/content.php');
 
-    return $navi . $search_result;
+    return $search_result;
 }
