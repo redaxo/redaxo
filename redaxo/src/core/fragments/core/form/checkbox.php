@@ -7,7 +7,7 @@ foreach ($this->elements as $element) {
     $id         = isset($element['id'])         ? ' id="' . $element['id'] . '"' : '';
     $label      = isset($element['label'])      ? $element['label'] : '<label></label>';
     $field      = isset($element['field'])      ? $element['field'] : '';
-    $note       = isset($element['note'])       ? '<span class="rex-note">' . $element['note'] . '</span>' : '';
+    $note       = isset($element['note'])       ? '<span class="rex-form-note">' . $element['note'] . '</span>' : '';
     $highlight  = isset($element['highlight'])  ? $element['highlight'] : false;
 
     if ($field != '') {
