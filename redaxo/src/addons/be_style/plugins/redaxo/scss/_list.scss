@@ -1,3 +1,21 @@
 .rex-list-inline {
     @extend .list-inline;
 }
+
+
+.rex-list-setup-language-select {
+    @extend .list-group;    
+}
+.rex-list-setup-language-select > li {
+    @extend .list-group-item;
+    
+    > a {
+        display: block;
+        margin: -10px -15px;
+        padding: 10px 15px;
+
+        &:hover {
+            background-color: $list-group-hover-bg;
+        }
+    }
+}
