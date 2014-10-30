@@ -14,12 +14,10 @@ $navigations = [];
 
 if (isset($this->left)) {
     $navigations['left'] = $this->left;
-
 }
 
 if (isset($this->right)) {
     $navigations['right'] = array_reverse($this->right);
-
 }
 
 foreach ($navigations as $nav_key => $navigation) {
@@ -150,12 +148,10 @@ if (isset($navigations['left'])) {
 echo '</div>';
 */
 
-
-
-echo '
-    <div class="rex-nav-tab">
-        <ul class="nav nav-tabs">' . $navigations['left'] . $navigations['right'] . '</ul>
-    </div>';
+$tabs = '';
+$tabs .= isset($navigations['left']) ? $navigations['left'] : '';
+$tabs .= isset($navigations['right']) ? $navigations['right'] : '';
+echo $tabs == '' ? '' : '<div class="rex-nav-tab"><ul class="nav nav-tabs">' . $tabs . '</ul></div>';
 
 
 
