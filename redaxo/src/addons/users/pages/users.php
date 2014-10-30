@@ -39,7 +39,7 @@ $content = '';
 
 $user_id = rex_request('user_id', 'int');
 $info = '';
-$warning = '';
+$warnings = [];
 
 if ($user_id != 0) {
     $sql = rex_sql::factory();
@@ -50,8 +50,8 @@ if ($user_id != 0) {
 }
 
 // Allgemeine Infos
-$userpsw    = rex_request('userpsw', 'string');
-$userlogin  = rex_request('userlogin', 'string');
+$userpsw    = rex_post('userpsw', 'string');
+$userlogin  = rex_post('userlogin', 'string');
 $username   = rex_request('username', 'string');
 $userdesc   = rex_request('userdesc', 'string');
 $useradmin  = rex_request('useradmin', 'int');
@@ -174,14 +174,14 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
         $info = rex_i18n::msg('user_deleted');
         $user_id = 0;
     } else {
-        $warning = rex_i18n::msg('user_notdeleteself');
+        $warnings[] = rex_i18n::msg('user_notdeleteself');
     }
 
 } elseif ($FUNC_ADD != '' and $save == 1) {
     $adduser = rex_sql::factory();
     $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
 
-    if ($adduser->getRows() == 0 and $userlogin != '') {
+    if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
         $userpsw = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
@@ -228,7 +228,15 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
         }
         $sel_startpage->setSelected($userperm_startpage);
 
-        $warning = rex_i18n::msg('user_login_exists');
+        if ($adduser->getRows()) {
+            $warnings[] = rex_i18n::msg('user_login_exists');
+        }
+        if (!$userlogin) {
+            $warnings[] = rex_i18n::msg('user_missing_login');
+        }
+        if (!$userpsw) {
+            $warnings[] = rex_i18n::msg('user_missing_password');
+        }
     }
 }
 
@@ -239,8 +247,8 @@ if ($info != '') {
     $message .= rex_view::info($info);
 }
 
-if ($warning != '') {
-    $message .= rex_view::warning($warning);
+if (!empty($warnings)) {
+    $message .= rex_view::warning(implode('<br/>', $warnings));
 }
 
 // --------------------------------- FORMS
