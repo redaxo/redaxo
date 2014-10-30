@@ -18,16 +18,18 @@ $EXPDIR         = rex_post('EXPDIR', 'array');
 @set_time_limit(0);
 
 if ($impname != '') {
-    $impname = str_replace('/', '', $impname);
+    $impname = basename($impname);
 
     if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql') {
         $impname = '';
     } elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz') {
         $impname = '';
+    } elseif ($function == "delete" && (substr($impname, -4, 4) != ".sql" || substr($impname, -7, 7) != ".tar.gz")) {
+        $impname = '';
     }
 }
 
-if ($function == 'delete') {
+if ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(getImportDir() . '/' . $impname));
     $info = rex_i18n::msg('im_export_file_deleted');
