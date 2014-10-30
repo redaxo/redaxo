@@ -24,15 +24,17 @@ if ($step == 1) {
     foreach (rex_i18n::getLocales() as $locale) {
         rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
         $label = rex_i18n::msg('lang');
-        $langs[$locale] = '<li><a class="rex-button rex-button-primary" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a></li>';
+        $langs[$locale] = '<li><a href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a></li>';
     }
     rex_i18n::setLocale($saveLocale, false);
 
-    $headline = rex_view::title(rex_i18n::msg('setup_100'));
-    $content = '<h2>' . rex_i18n::msg('setup_101') . '</h2>';
-    $content .= '<ul class="rex-setup-language rex-list-stacked">' . implode('', $langs) . '</ul>';
+    echo rex_view::title(rex_i18n::msg('setup_100'));
+    $content = '<ul class="rex-list-setup-language-select">' . implode('', $langs) . '</ul>';
 
-    echo $headline . rex_view::content('block', $content);
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('setup_101'), false);
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 
 }
 
@@ -42,19 +44,22 @@ if ($step == 2) {
 
     rex::setProperty('lang', $lang);
 
-    $headline = rex_view::title(rex_i18n::msg('setup_200'));
-
-    $button = '<p><a class="rex-button rex-large" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
-
-    $content = '<h2>' . rex_i18n::msg('setup_201') . '</h2>';
-    $content .= rex_i18n::rawMsg('setup_202');
 
     $license_file = rex_path::base('LICENSE.md');
     $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
-    $content .= '<div class="rex-content-scroll">' . $license . '</div>';
 
-    echo $headline . rex_view::content('block', $content) . $button;
+    $content = rex_i18n::rawMsg('setup_202');
+    $content .= '<div class="rex-content-scroll" data-height="2x">' . $license . '</div>';
 
+    $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+
+    echo rex_view::title(rex_i18n::msg('setup_200'));
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('setup_201'), false);
+    $fragment->setVar('content', $content, false);
+    $fragment->setVar('footer', $button, false);
+    echo $fragment->parse('core/page/section.php');
 }
 
 // ---------------------------------- Step 3 . Perms, Environment
@@ -93,21 +98,20 @@ if ($step > 2 && count($error_array) > 0) {
 
 if ($step == 3) {
 
-    $headline = rex_view::title(rex_i18n::msg('setup_300'));
+    $message = '';
 
     if (count($success_array) > 0) {
-        $headline .= rex_view::success('<ul><li>' . implode('</li><li>', $success_array) . '</li></ul>');
+        $message .= rex_view::success('<ul><li>' . implode('</li><li>', $success_array) . '</li></ul>');
     }
 
     $button = '';
     if (count($error_array) > 0) {
-        // $headline .= rex_view::error(rex_i18n::msg('setup_311'));
-        $headline .= implode('', $error_array);
+        $message .= implode('', $error_array);
 
-        $button = '<p><a class="rex-button rex-large" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
+        $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
 
     } else {
-        $button = '<p><a class="rex-button rex-large" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
+        $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
     }
 
     $content = '';
@@ -125,7 +129,7 @@ if ($step == 3) {
                 url: url,
                 success: function(data) {
                     $("#rex-setup-security-message").show();
-                    $(".rex-content .rex-button").hide();
+                    $(".rex-page-main .rex-button").hide();
                 }
             });
         });
@@ -134,7 +138,14 @@ if ($step == 3) {
 
     </script>';
 
-    echo $headline . rex_view::content('plain', $content) . $button;
+
+    echo rex_view::title(rex_i18n::msg('setup_300'));
+    echo $message;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('content', $content, false);
+    $fragment->setVar('footer', $button, false);
+    echo $fragment->parse('core/page/section.php');
 
 }
 
@@ -245,6 +256,7 @@ if ($step == 4) {
 
     $timezone_sel = new rex_select;
     $timezone_sel->setId('rex-form-timezone');
+    $timezone_sel->setStyle('class="rex-form-select"');
     $timezone_sel->setName('timezone');
     $timezone_sel->setSize(1);
     $timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
@@ -258,17 +270,17 @@ if ($step == 4) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
+        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
+        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
+        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
         $formElements[] = $n;
 
         $n = [];
@@ -289,22 +301,22 @@ if ($step == 4) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
+        $n['field'] = '<input class="rex-form-control" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
+        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-db-user-login">Login</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
+        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
+        $n['field'] = '<input class="rex-form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -314,31 +326,37 @@ if ($step == 4) {
     $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-form-db-create">' . rex_i18n::msg('setup_411') . '</label>';
-        $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-db-create" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
+        $n['field'] = '<input type="checkbox" id="rex-form-db-create" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/checkbox.php');
 
-    $content .= '</fieldset><fieldset class="rex-form-action"><div class="rex-form-action-inner">';
+    $content .= '</fieldset>';
+
+
 
     $formElements = [];
 
-        $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . rex_i18n::msg('system_update') . '">' . rex_i18n::msg('system_update') . '</button>';
-        $formElements[] = $n;
+    $n = [];
+    $n['field'] = '<button class="rex-button rex-button-next" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
+    $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/form/submit.php');
 
-
-    $content .= '</div></fieldset>
+    $content .= '
             </form>
             </div>';
 
-    echo $headline . implode('', $error_array) . rex_view::content('block', $content);
+    echo $headline;
+    echo implode('', $error_array);
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 }
 
 
@@ -419,14 +437,14 @@ if ($step == 5) {
 
     $content = '
 
-            <h2>' . rex_i18n::msg('setup_501') . '</h2>
-
         <div class="rex-form" id="rex-form-setup-step-5">
             <form action="' . rex_url::backendController() . '" method="post">
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="6" />
                 <input type="hidden" name="lang" value="' . $lang . '" />
+
+                <h2>' . rex_i18n::msg('setup_501') . '</h2>
             ';
 
     $submit_message = rex_i18n::msg('setup_511');
@@ -455,6 +473,7 @@ if ($step == 5) {
     $sel_export = new rex_select();
     $sel_export->setName('import_name');
     $sel_export->setId('rex-form-import-name');
+    $sel_export->setSize(1);
     $sel_export->setStyle('class="rex-form-select"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
     $export_dir = getImportDir();
@@ -499,19 +518,19 @@ if ($step == 5) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-createdb-0">' . rex_i18n::msg('setup_504') . '</label>';
-        $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-0" name="createdb" value="0"' . $dbchecked[0] . ' />';
+        $n['field'] = '<input type="radio" id="rex-form-createdb-0" name="createdb" value="0"' . $dbchecked[0] . ' />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-createdb-1">' . rex_i18n::msg('setup_505') . '</label>';
-        $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-1" name="createdb" value="1"' . $dbchecked[1] . ' />';
+        $n['field'] = '<input type="radio" id="rex-form-createdb-1" name="createdb" value="1"' . $dbchecked[1] . ' />';
         $n['note']  = rex_i18n::msg('setup_505_note');
         $formElements[] = $n;
 
         if ($tables_complete) {
           $n = [];
           $n['label'] = '<label for="rex-form-createdb-2">' . rex_i18n::msg('setup_506') . '</label>';
-          $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-2" name="createdb" value="2"' . $dbchecked[2] . ' />';
+          $n['field'] = '<input type="radio" id="rex-form-createdb-2" name="createdb" value="2"' . $dbchecked[2] . ' />';
           $n['note']  = rex_i18n::msg('setup_506_note');
           $formElements[] = $n;
         }
@@ -526,7 +545,7 @@ if ($step == 5) {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_507') . '</label>';
-        $n['field'] = '<input class="rex-form-radio" type="radio" id="rex-form-createdb-3" name="createdb" value="3"' . $dbchecked[3] . ' />';
+        $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="3"' . $dbchecked[3] . ' />';
         $n['note']  = rex_i18n::msg('setup_507_note');
         $formElements[] = $n;
 
@@ -545,20 +564,20 @@ if ($step == 5) {
     }
 
 
-    $content .= '</fieldset><fieldset class="rex-form-action"><div class="rex-form-action-inner">';
+    $content .= '</fieldset>';
+
 
     $formElements = [];
 
-        $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
-        $formElements[] = $n;
+    $n = [];
+    $n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+    $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/form/submit.php');
 
-    $content .= '</div></fieldset></form></div>
-    ';
+    $content .= '</form></div>';
 
     $content .= '
             <script type="text/javascript">
@@ -572,7 +591,12 @@ if ($step == 5) {
                  //-->
             </script>';
 
-    echo $headline . implode('', $errors) . rex_view::content('block', $content);
+    echo $headline;
+    echo implode('', $error_array);
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 }
 
 
@@ -652,7 +676,6 @@ if ($step == 6) {
     }
 
     $content = '';
-    $content .= '<h2>' . rex_i18n::msg('setup_606') . '</h2>';
 
     $content .= '
     <div class="rex-form" id="rex-form-setup-step-6">
@@ -663,6 +686,7 @@ if ($step == 6) {
             <input type="hidden" name="step" value="7" />
             <input type="hidden" name="lang" value="' . $lang . '" />
 
+            <h2>' . rex_i18n::msg('setup_606') . '</h2>
             ';
 
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
@@ -679,7 +703,7 @@ if ($step == 6) {
         }
 
         $n['label'] = '<label for="rex-form-noadmin">' . rex_i18n::msg('setup_609') . '</label>';
-        $n['field'] = '<input class="rex-form-checkbox" type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" ' . $checked . ' />';
+        $n['field'] = '<input type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" ' . $checked . ' />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -691,19 +715,19 @@ if ($step == 6) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
+        $n['field'] = '<input class="rex-form-control" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-        $n['field'] = '<input class="rex-form-text" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+        $n['field'] = '<input class="rex-form-control" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/form.php');
 
-    $content .= '</fieldset><fieldset class="rex-form-action"><div class="rex-form-action-inner">';
+    $content .= '</fieldset>';
 
     $formElements = [];
 
@@ -713,9 +737,9 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= $fragment->parse('core/form/submit.php');
 
-    $content .= '</div></fieldset></form></div>
+    $content .= '</form></div>
 
     <script type="text/javascript">
          <!--
@@ -731,7 +755,7 @@ if ($step == 6) {
 
             $("#javascript").val("1");
 
-            $("#createadminform fieldset .rex-form-choice input").on("change",function (){
+            $("#createadminform #rex-form-noadmin").on("change",function (){
 
                 if($(this).is(":checked")) {
                     $("#createadminform fieldset:first-child .rex-form").each(function() {
@@ -749,7 +773,11 @@ if ($step == 6) {
      //-->
     </script>';
 
-    echo $headline . rex_view::content('block', $content);
+    echo $headline;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 
 }
 
@@ -773,13 +801,18 @@ if ($step == 7) {
 
     $headline = rex_view::title(rex_i18n::msg('setup_700'));
 
-    $content = '<h2>' . rex_i18n::msg('setup_702') . '</h2>';
-    $content .= '<h3>' . rex_i18n::msg('setup_703') . '</h3>';
+    $content = '<h3>' . rex_i18n::msg('setup_703') . '</h3>';
     $content .= rex_i18n::rawMsg('setup_704', '<a href="' . rex_url::backendController() . '">', '</a>');
     $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
-    $button = '<p><a class="rex-button rex-button-primary" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
+    $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
 
-    echo $headline . rex_view::content('block', $content) . $button;
+    echo $headline;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('setup_702'), false);
+    $fragment->setVar('content', $content, false);
+    $fragment->setVar('footer', $button, false);
+    echo $fragment->parse('core/page/section.php');
 
 }
