@@ -11,9 +11,22 @@ select.rex-form-select {
 .rex-form-checkbox {
     @extend .checkbox;
 }
+.rex-form-radio {
+    @extend .radio;
+}
 .rex-form-input-group {
     @extend .input-group;
 }
 .rex-form-input-group-button {
     @extend .input-group-btn;
+}
+.rex-form-note {
+    @extend .help-block;
+
+    font-size: $font-size-small;
+
+    .rex-form-checkbox &, 
+    .rex-form-radio & {
+        margin-left: 20px;
+    }
 }
