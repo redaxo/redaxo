@@ -228,7 +228,6 @@ class rex_metainfo_table_expander extends rex_form
 
         if (parent::save()) {
             $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'priority'), $fieldOldPriority);
-            rex_delete_cache();
 
             $fieldName = $this->addPrefix($fieldName);
             $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type_id');
@@ -252,6 +251,7 @@ class rex_metainfo_table_expander extends rex_form
                 // Spalte in der Tabelle anlegen
                 $tmRes = $this->tableManager->addColumn($fieldName, $fieldDbType, $fieldDbLength, $fieldDefault);
             }
+            rex_delete_cache();
 
             if ($tmRes) {
                 // DefaultWerte setzen
