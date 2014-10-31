@@ -45,7 +45,6 @@ $content .= '
 <div class="rex-form" id="rex-form-login">
 <form action="' . rex_url::backendController() . '" method="post">
     <fieldset>
-        <h2>' . rex_i18n::msg('login_welcome') . '</h2>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
 
 $formElements = [];
@@ -76,7 +75,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/checkbox.php');
 
-$content .= '<fieldset>';
+$content .= '</fieldset>';
 
 
 $formElements = [];
@@ -112,5 +111,6 @@ $content .= '
 
 
 $fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('login_welcome'), false);
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');
