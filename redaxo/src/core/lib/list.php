@@ -1029,7 +1029,7 @@ class rex_list implements rex_url_provider_interface
             }
             $s .= '        </tbody>' . "\n";
         } else {
-            $s .= '<tr class="rex-table-no-results"><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
+            $s .= '<tr class="table-no-results"><td colspan="' . count($columnNames) . '">' . $this->getNoRowsMessage() . '</td></tr>';
         }
 
         $s .= '    </table>' . "\n";

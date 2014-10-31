@@ -36,7 +36,7 @@ if ($error != '') {
 }
 
 $content .= '
-            <table id="rex-table-log" class="rex-table rex-table-responsive">
+            <table id="rex-table-log" class="table table-responsive">
                 <thead>
                     <tr>
                         <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
@@ -80,7 +80,7 @@ $content .= '
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
+$n['field'] = '<button class="btn btn-primary" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

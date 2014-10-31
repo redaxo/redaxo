@@ -13,7 +13,7 @@
 $content = '';
 
 $content .= '
-            <table id="rex-table-log" class="rex-table rex-table-middle rex-table-striped">
+            <table id="rex-table-log" class="table rex-table-middle table-striped">
                 <thead>
                     <tr>
                         <th class="rex-icon"></th>

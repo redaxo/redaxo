@@ -74,9 +74,9 @@ if ($PERMALL) {
     if ($diff_count > 0) {
         foreach ($diff_files as $file) {
             echo '<div class="rex-form-row">
-                            <p class="rex-form-checkbox rex-form-label-right">';
+                            <p class="checkbox rex-form-label-right">';
             if (is_writable(rex_path::media($file))) {
-                echo '<input class="rex-form-checkbox" type="checkbox" id="sync_file_' . $file . '" name="sync_files[]" value="' . $file . '" />
+                echo '<input class="checkbox" type="checkbox" id="sync_file_' . $file . '" name="sync_files[]" value="' . $file . '" />
                             <label for="sync_file_' . $file . '">' . $file . '</label>';
             } else {
                 echo $file . ' - ' .  rex_i18n::msg('pool_file_not_writable') . "\n";
@@ -86,8 +86,8 @@ if ($PERMALL) {
         }
 
         echo '<div class="rex-form-row">
-                        <p class="rex-form-checkbox rex-form-label-right">
-                            <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />
+                        <p class="checkbox rex-form-label-right">
+                            <input class="checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />
                             <label for="checkie">' . rex_i18n::msg('pool_select_all') . '</label>
                         </p>
                     </div>';

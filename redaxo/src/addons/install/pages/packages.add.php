@@ -20,7 +20,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $content = '
         <h2><b>' . $addonkey . '</b> ' . $this->i18n('information') . '</h2>
 
-        <table id="rex-table-install-packages-information" class="rex-table">
+        <table id="rex-table-install-packages-information" class="table">
             <tbody>
             <tr>
                 <th class="rex-term">' . $this->i18n('name') . '</th>
@@ -46,7 +46,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
 
     $content = '
         <h2>' . $this->i18n('files') . '</h2>
-        <table id="rex-table-install-packages-files" class="rex-table">
+        <table id="rex-table-install-packages-files" class="table">
             <thead>
             <tr>
                 <th class="rex-slim"></th>
@@ -78,7 +78,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
 
     $content = '
         <h2>' . $this->i18n('addons_found', count($addons)) . '</h2>
-        <table id="rex-table-install-packages-addons" class="rex-table rex-table-striped">
+        <table id="rex-table-install-packages-addons" class="table table-striped">
          <thead>
             <tr>
                 <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>

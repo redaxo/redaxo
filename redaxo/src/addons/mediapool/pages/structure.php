@@ -109,7 +109,7 @@ if ($PERMALL) {
         ';
     }
 
-    echo '<table class="rex-table">
+    echo '<table class="table">
                     <caption class="rex-hide">' . rex_i18n::msg('pool_kat_caption') . '</caption>
                     <colgroup>
                         <col width="40" />
@@ -130,7 +130,7 @@ if ($PERMALL) {
 
     if ($media_method == 'add_cat') {
         echo '
-            <tr class="rex-table-row-activ">
+            <tr class="table-row-activ">
                 <td class="rex-icon"><span class="rex-i-element rex-i-mediapool-category"><span class="rex-i-element-text">' . rex_i18n::msg('pool_kat_create') . '</span></span></td>
                 <td class="rex-small">-</td>
                 <td>
@@ -152,7 +152,7 @@ if ($PERMALL) {
         if ($media_method == 'update_file_cat' && $edit_id == $iid) {
             echo '
                 <input type="hidden" name="edit_id" value="' . $edit_id . '" />
-                <tr class="rex-table-row-activ">
+                <tr class="table-row-activ">
                     <td class="rex-icon"><span class="rex-i-element rex-i-mediapool-category"><span class="rex-i-element-text">' . htmlspecialchars($OOCat->getName()) . '</span></span></td>
                     <td class="rex-small">' . $iid . '</td>
                     <td>

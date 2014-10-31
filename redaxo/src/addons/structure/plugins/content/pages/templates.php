@@ -398,11 +398,11 @@ if ($function == 'add' or $function == 'edit') {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-primary" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
+        $n['field'] = '<button class="btn btn-primary" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_template_and_continue'), 'apply') . '>' . rex_i18n::msg('save_template_and_continue') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -458,7 +458,7 @@ if ($OUT) {
     $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
     $list->setCaption(rex_i18n::msg('header_template_caption'));
     $list->addTableAttribute('id', 'rex-table-template');
-    $list->addTableAttribute('class', 'rex-table-striped');
+    $list->addTableAttribute('class', 'table-striped');
 
     $tdIcon = '<span class="rex-icon rex-icon-template"></span>';
     $thIcon = '<a href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><i class="rex-icon rex-icon-add-template"></i></a>';

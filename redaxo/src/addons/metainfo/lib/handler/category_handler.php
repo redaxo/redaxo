@@ -68,11 +68,11 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $formElements[] = $n;
 
             $n = [];
-            $n['field'] = '<button class="rex-button rex-button-primary" type="submit">Kategorie speichern</button>';
+            $n['field'] = '<button class="btn btn-primary" type="submit">Kategorie speichern</button>';
             $formElements[] = $n;
 
             $n = [];
-            $n['field'] = '<button class="rex-button rex-button-primary" type="submit">Kategorie übernehmen</button>';
+            $n['field'] = '<button class="btn btn-primary" type="submit">Kategorie übernehmen</button>';
             $formElements[] = $n;
 
             $fragment = new rex_fragment();
@@ -161,7 +161,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         }
 
         $s = '
-        <tr class="rex-table-row-activ rex-metainfo-cat' . $class_tr . '" style="display:none;">
+        <tr class="table-row-activ rex-metainfo-cat' . $class_tr . '" style="display:none;">
             <td></td>
             <td></td>
             <td colspan="5"' . $class_td . '>

@@ -30,7 +30,7 @@ $content .= '
                 $n = [];
                 $n['reverse'] = true;
                 $n['label'] = '<label for="install-settings-backups">' . $this->i18n('settings_backups') . '</label>';
-                $n['field'] = '<input id="install-settings-backups" type="checkbox" class="rex-form-checkbox" name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
+                $n['field'] = '<input id="install-settings-backups" type="checkbox" class="checkbox" name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -68,7 +68,7 @@ $content .= '
             $formElements = [];
 
                 $n = [];
-                $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="settings[save]" value="1">' . rex_i18n::msg('form_save') . '</button>';
+                $n['field'] = '<button class="btn btn-primary" type="submit" name="settings[save]" value="1">' . rex_i18n::msg('form_save') . '</button>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();

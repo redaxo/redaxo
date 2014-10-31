@@ -116,11 +116,11 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
+        $n['field'] = '<button class="btn btn-primary" id="install-packages-upload-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-danger" id="install-packages-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
+        $n['field'] = '<button class="btn rex-danger" id="install-packages-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -167,7 +167,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $content = '
         <h2><b>' . $addonkey . '</b> ' . $this->i18n('information') . '</h2>
 
-        <table class="rex-table">
+        <table class="table">
             <tbody>
             <tr>
                 <th>' . $this->i18n('name') . '</th>
@@ -192,7 +192,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $content = '
         <h2>' . $this->i18n('files') . '</h2>
-        <table class="rex-table">
+        <table class="table">
             <thead>
             <tr>
                 <th class="rex-slim">' . $icon . '</th>
@@ -230,7 +230,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     $content = '
         <h2>' . $this->i18n('my_packages') . '</h2>
-        <table class="rex-table">
+        <table class="table">
          <thead>
             <tr>
                 <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>

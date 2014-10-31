@@ -140,7 +140,7 @@ $sel_dirs->setId('rex-form-exportdir');
 $sel_dirs->setName('EXPDIR[]');
 $sel_dirs->setMultiple();
 $sel_dirs->setSelected($EXPDIR);
-$sel_dirs->setStyle('class="rex-form-select"');
+$sel_dirs->setStyle('class="form-control"');
 
 $dir = rex_path::frontend();
 $folders = readSubFolders($dir);
@@ -216,7 +216,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
+$n['field'] = '<button class="btn btn-primary" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

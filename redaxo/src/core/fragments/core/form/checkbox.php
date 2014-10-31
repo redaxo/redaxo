@@ -26,7 +26,7 @@ foreach ($this->elements as $element) {
         $classes .= ' rex-required';
     }
 
-    $out .= '<div class="rex-form-checkbox' . $classes . '"' . $id . '>';
+    $out .= '<div class="checkbox' . $classes . '"' . $id . '>';
     $out .= $label;
     $out .= $note;
     $out .= '</div>';

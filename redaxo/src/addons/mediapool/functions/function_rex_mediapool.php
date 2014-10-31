@@ -388,7 +388,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $s = '';
 
     $cats_sel = new rex_media_category_select();
-    $cats_sel->setStyle('class="rex-form-select"');
+    $cats_sel->setStyle('class="form-control"');
     $cats_sel->setSize(1);
     $cats_sel->setName('rex_file_category');
     $cats_sel->setId('rex_file_category');
@@ -471,7 +471,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
                             </div>
 
                             <div class="rex-form-row">
-                                <p class="rex-form-select">
+                                <p class="form-control">
                                     <label for="rex_file_category">' . rex_i18n::msg('pool_file_category') . '</label>
                                     ' . $cats_sel->get() . '
                                 </p>

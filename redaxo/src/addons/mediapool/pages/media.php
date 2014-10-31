@@ -24,7 +24,7 @@ $sel_media = new rex_media_category_select($check_perm = false);
 $sel_media->setId('rex_file_category');
 $sel_media->setName('rex_file_category');
 $sel_media->setSize(1);
-$sel_media->setStyle('class="rex-form-select"');
+$sel_media->setStyle('class="form-control"');
 $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
@@ -254,7 +254,7 @@ if ($file_id) {
 
         if ($TPERM) {
             $cats_sel = new rex_media_category_select();
-            $cats_sel->setStyle('class="rex-form-select"');
+            $cats_sel->setStyle('class="form-control"');
             $cats_sel->setSize(1);
             $cats_sel->setName('rex_file_category');
             $cats_sel->setId('rex_file_new_category');
@@ -281,7 +281,7 @@ if ($file_id) {
                                     </div>
 
                                     <div class="rex-form-row">
-                                        <p class="rex-form-select">
+                                        <p class="form-control">
                                             <label for="rex_file_new_category">' . rex_i18n::msg('pool_file_category') . '</label>
                                             ' . $cats_sel->get() . '
                                         </p>
@@ -462,7 +462,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
 if (!$file_id) {
     $cats_sel = new rex_media_category_select();
     $cats_sel->setSize(1);
-    $cats_sel->setStyle('class="rex-form-select"');
+    $cats_sel->setStyle('class="form-control"');
     $cats_sel->setName('rex_file_category');
     $cats_sel->setId('rex_file_category');
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
@@ -504,7 +504,7 @@ if (!$file_id) {
                             <input type="hidden" id="media_method" name="media_method" value="" />
                             ' . $arg_fields . '
 
-                            <table class="rex-table">
+                            <table class="table">
                                 <caption>' . rex_i18n::msg('pool_file_caption', $rex_file_category_name) . '</caption>
                                 <colgroup>
                                     <col width="40" />
@@ -545,7 +545,7 @@ if (!$file_id) {
             <tr>
                 <td class="rex-icon">
                     <label class="rex-form-hidden-label" for="checkie">' . rex_i18n::msg('pool_select_all') . '</label>
-                    <input class="rex-form-checkbox" type="checkbox" name="checkie" id="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />
+                    <input class="checkbox" type="checkbox" name="checkie" id="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />
                 </td>
                 <td colspan="3">
                     ' . $add_input . '
@@ -668,7 +668,7 @@ if (!$file_id) {
 
         $add_td = '<td></td>';
         if ($PERMALL) {
-            $add_td = '<td class="rex-icon"><input class="rex-form-checkbox" type="checkbox" name="selectedmedia[]" value="' . $file_name . '" /></td>';
+            $add_td = '<td class="rex-icon"><input class="checkbox" type="checkbox" name="selectedmedia[]" value="' . $file_name . '" /></td>';
         }
 
         echo '<tr>

@@ -21,7 +21,7 @@ try {
 if ($core && !empty($coreVersions)) {
     $content .= '
         <h2>REDAXO Core</h2>
-        <table class="rex-table rex-install-core-versions">
+        <table class="table rex-install-core-versions">
             <thead>
             <tr>
                 <th class="rex-slim">&nbsp;</th>
@@ -50,7 +50,7 @@ if ($core && !empty($coreVersions)) {
 
     $content .= '
         <h2>' . $addonkey . '</h2>
-        <table id="rex-install-packages-information" class="rex-table">
+        <table id="rex-install-packages-information" class="table">
             <tbody>
             <tr>
                 <th class="rex-term">' . $this->i18n('name') . '</th>
@@ -72,7 +72,7 @@ if ($core && !empty($coreVersions)) {
         </table>
 
         <h3>' . $this->i18n('files') . '</h3>
-        <table class="rex-table rex-install-packages-files">
+        <table class="table rex-install-packages-files">
             <thead>
             <tr>
                 <th class="rex-slim"></th>
@@ -99,7 +99,7 @@ if ($core && !empty($coreVersions)) {
     $content .= '
         <h2>' . $this->i18n('available_updates', !empty($coreVersions) + count($addons)) . '</h2>
 
-        <table id="rex-install-packages-addons" class="rex-table">
+        <table id="rex-install-packages-addons" class="table">
             <thead>
             <tr>
                 <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>

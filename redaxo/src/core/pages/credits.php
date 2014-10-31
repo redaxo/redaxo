@@ -53,7 +53,7 @@ $content = '';
 
 $content .= '
 
-    <table id="rex-table-credits-addons" class="rex-table rex-table-responsive">
+    <table id="rex-table-credits-addons" class="table table-responsive">
         <caption>' . rex_i18n::msg('credits_caption') . '</caption>
         <thead>
         <tr>

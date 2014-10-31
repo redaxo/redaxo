@@ -41,7 +41,7 @@ if ($func == '') {
     $likePrefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
-    $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
+    $list->addTableAttribute('class', 'rex-table-middle table-striped');
     $list->setCaption(rex_i18n::msg('minfo_field_list_caption'));
 
     $tdIcon = '<span class="rex-icon rex-icon-metainfo"></span>';

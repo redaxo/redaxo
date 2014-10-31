@@ -184,10 +184,10 @@ abstract class rex_metainfo_handler
                 }
                 case 'select':
                 {
-                    $tag_attr = ' class="rex-form-select"';
+                    $tag_attr = ' class="form-control"';
 
                     $select = new rex_select();
-                    $select->setStyle('class="rex-form-select"');
+                    $select->setStyle('class="form-control"');
                     $select->setName($name);
                     $select->setId($id);
 
@@ -248,7 +248,7 @@ abstract class rex_metainfo_handler
                 case 'time':
                 case 'datetime':
                 {
-                    $tag_attr = ' class="rex-form-select-date"';
+                    $tag_attr = ' class="form-control-date"';
 
                     $active = $dbvalues[0] != 0;
                     if ($dbvalues[0] == '') {
@@ -270,7 +270,7 @@ abstract class rex_metainfo_handler
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
-                    $field .= '<input class="rex-form-select-checkbox rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
+                    $field .= '<input class="form-control-checkbox rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
                     break;
                 }
                 case 'textarea':

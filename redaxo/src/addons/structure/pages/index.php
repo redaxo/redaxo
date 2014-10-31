@@ -169,7 +169,7 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
 
 // --------------------- PRINT CATS/SUBCATS
 $echo .= '
-            <table class="rex-table rex-table-striped" id="rex-table-categories">
+            <table class="table table-striped" id="rex-table-categories">
                 <caption>' . rex_i18n::msg('structure_categories_caption', $cat_name) . '</caption>
                 <colgroup>
                     <col class="col-md-1" />
@@ -213,7 +213,7 @@ if ($function == 'add_cat' && $KATPERM) {
     $add_buttons = '
         <input type="hidden" name="rex-api-call" value="category_add" />
         <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
-        <button class="rex-button rex-button-primary" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
+        <button class="btn btn-primary" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
 
     $class = 'rex-active';
 
@@ -221,8 +221,8 @@ if ($function == 'add_cat' && $KATPERM) {
                 <tr class="' . $class . '">
                     <td><i class="rex-icon rex-icon-category"></i></td>
                     <td>-</td>
-                    <td><input class="rex-form-control" type="text" id="rex-form-field-name" name="category-name" class="rex-js-autofocus" autofocus /></td>
-                    <td><input class="rex-form-control" type="text" id="rex-form-field-priority" name="category-position" value="' . ($KAT->getRows() + 1) . '" /></td>
+                    <td><input class="form-control" type="text" id="rex-form-field-name" name="category-name" class="rex-js-autofocus" autofocus /></td>
+                    <td><input class="form-control" type="text" id="rex-form-field-priority" name="category-position" value="' . ($KAT->getRows() + 1) . '" /></td>
                     <td>' . $meta_buttons . '</td>
                     <td colspan="2">' . $add_buttons . '</td>
                 </tr>';
@@ -270,7 +270,7 @@ if ($KAT->getRows() > 0) {
                 $add_buttons = '
                 <input type="hidden" name="rex-api-call" value="category_edit" />
                 <input type="hidden" name="category-id" value="' . $edit_id . '" />
-                <button class="rex-button rex-button-primary" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
+                <button class="btn btn-primary" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
                 $class = 'rex-active';
                 if ($meta_buttons != '') {
@@ -281,8 +281,8 @@ if ($KAT->getRows() > 0) {
                     <tr id="rex-structure-category-' . $i_category_id . '" class="' . $class . '">
                         ' . $kat_icon_td . '
                         <td>' . $i_category_id . '</td>
-                        <td><input class="rex-form-control" type="text" id="rex-form-field-name" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
-                        <td><input class="rex-form-control" type="text" id="rex-form-field-priority" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
+                        <td><input class="form-control" type="text" id="rex-form-field-name" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
+                        <td><input class="form-control" type="text" id="rex-form-field-priority" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
                         <td>' . $meta_buttons . '</td>
                         <td colspan="2">' . $add_buttons . '</td>
                     </tr>';
@@ -377,7 +377,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         $template_select->setName('template_id');
         $template_select->setId('rex-form-template');
         $template_select->setSize(1);
-        $template_select->setStyle('class="rex-form-select"');
+        $template_select->setStyle('class="form-control"');
 
         $templates = rex_template::getTemplatesForCategory($category_id);
         if (count($templates) > 0) {
@@ -443,7 +443,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     // ----------- PRINT OUT THE ARTICLES
 
     $echo .= '
-            <table id="rex-table-articles" class="rex-table table table-striped">
+            <table id="rex-table-articles" class="table table table-striped">
                 <caption>' . rex_i18n::msg('structure_articles_caption', $cat_name) . '</caption>
                 <colgroup>
                     <col class="col-md-1" />
@@ -501,11 +501,11 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         $echo .= '<tr class="rex-active">
                     <td><i class="rex-icon rex-icon-article"></i></td>
                     <td>-</td>
-                    <td><input class="rex-form-control" type="text" id="rex-form-field-name" name="article-name" autofocus /></td>
-                    <td><input class="rex-form-control" type="text" id="rex-form-field-priority" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
+                    <td><input class="form-control" type="text" id="rex-form-field-name" name="article-name" autofocus /></td>
+                    <td><input class="form-control" type="text" id="rex-form-field-priority" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
                     ' . $tmpl_td . '
                     <td>' . rex_formatter::strftime(time(), 'date') . '</td>
-                    <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_add" /><button class="rex-button rex-button-primary" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
+                    <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_add" /><button class="btn btn-primary" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
     }
@@ -539,11 +539,11 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             $echo .= '<tr id="rex-structure-article-' . $article_id . '" class="rex-active' . $class_startarticle . '">
                             <td><a href="' . $context->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td>' . $sql->getValue('id') . '</td>
-                            <td><input class="rex-form-control" type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" autofocus /></td>
-                            <td><input class="rex-form-control" type="text" id="rex-form-field-priority" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
+                            <td><input class="form-control" type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" autofocus /></td>
+                            <td><input class="form-control" type="text" id="rex-form-field-priority" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
                             ' . $tmpl_td . '
                             <td>' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
-                            <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_edit" /><button class="rex-button rex-button-primary" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
+                            <td' . $colspan . '><input type="hidden" name="rex-api-call" value="article_edit" /><button class="btn btn-primary" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
 
         } elseif ($KATPERM) {

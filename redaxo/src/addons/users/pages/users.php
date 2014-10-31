@@ -276,11 +276,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="FUNC_UPDATE" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
+        $n['field'] = '<button class="btn btn-primary" type="submit" name="FUNC_UPDATE" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="FUNC_APPLY" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') . '>' . rex_i18n::msg('user_apply') . '</button>';
+        $n['field'] = '<button class="btn btn-primary" type="submit" name="FUNC_APPLY" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_apply'), 'apply') . '>' . rex_i18n::msg('user_apply') . '</button>';
         $formElements[] = $n;
 
 
@@ -349,7 +349,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $formElements = [];
 
             $n = [];
-            $n['field'] = '<button class="rex-button rex-button-primary" type="submit" name="function" value="1" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . '>' . rex_i18n::msg('add_user') . '</button>';
+            $n['field'] = '<button class="btn btn-primary" type="submit" name="function" value="1" ' . rex::getAccesskey(rex_i18n::msg('add_user'), 'save') . '>' . rex_i18n::msg('add_user') . '</button>';
             $formElements[] = $n;
 
 
@@ -499,7 +499,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 if (isset($SHOW) and $SHOW) {
     $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, UNIX_TIMESTAMP(lasttrydate) as lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
     $list->setCaption(rex_i18n::msg('user_caption'));
-    $list->addTableAttribute('class', 'rex-table-middle rex-table-striped');
+    $list->addTableAttribute('class', 'rex-table-middle table-striped');
 
     $tdIcon = '<span class="rex-icon rex-icon-user"></span>';
     $thIcon = '<a href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><span class="rex-icon rex-icon-add-user"></span></a>';

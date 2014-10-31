@@ -110,7 +110,7 @@ $list = $list != '' ? '<div class="rex-context-menu-container">' . $list . '</di
 
 
 echo '<div class="rex-js-context-menu rex-context-menu' . $class . '">';
-echo '<span class="rex-button rex-context-menu-button rex-js-context-menu-button rex-icon rex-icon-context-menu">
+echo '<span class="btn rex-context-menu-button rex-js-context-menu-button rex-icon rex-icon-context-menu">
                 <span class="rex-drop"></span>
             </span>';
 echo $list;

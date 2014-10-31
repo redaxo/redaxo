@@ -40,7 +40,7 @@ if ($subpage == 'help') {
 
 
     $credits = '';
-    $credits .= '<dl class="rex-credits-info rex-dl-horizontal">';
+    $credits .= '<dl class="rex-credits-info dl-horizontal">';
     $credits .= '<dt>' . rex_i18n::msg('credits_name') . '</dt><dd>' . htmlspecialchars($name) . '</dd>';
 
     if ($version) {
@@ -62,7 +62,7 @@ if ($subpage == 'help') {
     echo $fragment->parse('core/page/section.php');
 
 
-    echo '<a class="rex-button rex-button-back" href="javascript:history.back();"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('package_back') . '</a>';
+    echo '<a class="btn btn-primary" href="javascript:history.back();"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('package_back') . '</a>';
 
 }
 
@@ -71,7 +71,7 @@ if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
-            <table class="rex-table rex-table-responsive" id="rex-table-packages">
+            <table class="table table-responsive" id="rex-table-packages">
             <caption>' . rex_i18n::msg('package_caption') . '</caption>
             <thead>
                 <tr>

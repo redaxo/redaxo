@@ -51,7 +51,7 @@ if ($step == 2) {
     $content = rex_i18n::rawMsg('setup_202');
     $content .= '<div class="rex-content-scroll" data-height="2x">' . $license . '</div>';
 
-    $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+    $button = '<p><a class="btn btn-primary" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
 
     echo rex_view::title(rex_i18n::msg('setup_200'));
 
@@ -108,10 +108,10 @@ if ($step == 3) {
     if (count($error_array) > 0) {
         $message .= implode('', $error_array);
 
-        $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
+        $button = '<p><a class="btn btn-primary" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
 
     } else {
-        $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
+        $button = '<p><a class="btn btn-primary" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
     }
 
     $content = '';
@@ -256,7 +256,7 @@ if ($step == 4) {
 
     $timezone_sel = new rex_select;
     $timezone_sel->setId('rex-form-timezone');
-    $timezone_sel->setStyle('class="rex-form-select"');
+    $timezone_sel->setStyle('class="form-control"');
     $timezone_sel->setName('timezone');
     $timezone_sel->setSize(1);
     $timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
@@ -270,17 +270,17 @@ if ($step == 4) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
+        $n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
         $formElements[] = $n;
 
         $n = [];
@@ -301,22 +301,22 @@ if ($step == 4) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
+        $n['field'] = '<input class="form-control" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-db-user-login">Login</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
+        $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -340,7 +340,7 @@ if ($step == 4) {
     $formElements = [];
 
     $n = [];
-    $n['field'] = '<button class="rex-button rex-button-next" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
+    $n['field'] = '<button class="btn btn-primary" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -474,7 +474,7 @@ if ($step == 5) {
     $sel_export->setName('import_name');
     $sel_export->setId('rex-form-import-name');
     $sel_export->setSize(1);
-    $sel_export->setStyle('class="rex-form-select"');
+    $sel_export->setStyle('class="form-control"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
     $export_dir = getImportDir();
     $exports_found = false;
@@ -570,7 +570,7 @@ if ($step == 5) {
     $formElements = [];
 
     $n = [];
-    $n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+    $n['field'] = '<button class="btn btn-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -715,12 +715,12 @@ if ($step == 6) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
+        $n['field'] = '<input class="form-control" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-        $n['field'] = '<input class="rex-form-control" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+        $n['field'] = '<input class="form-control" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -732,7 +732,7 @@ if ($step == 6) {
     $formElements = [];
 
         $n = [];
-        $n['field'] = '<button class="rex-button rex-button-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+        $n['field'] = '<button class="btn btn-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -805,7 +805,7 @@ if ($step == 7) {
     $content .= rex_i18n::rawMsg('setup_704', '<a href="' . rex_url::backendController() . '">', '</a>');
     $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
-    $button = '<p><a class="rex-button rex-button-next" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
+    $button = '<p><a class="btn btn-primary" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
 
     echo $headline;
 
