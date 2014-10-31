@@ -552,6 +552,14 @@ class rex_list implements rex_url_provider_interface
      *     ['width' => 240]
      * ]);
      *
+     * Beispiel 3:
+     *
+     * $list->addTableColumnGroup([
+     *     ['class' => 'classname-a'],
+     *     ['class' => 'classname-b'],
+     *     ['class' => 'classname-c']
+     * ]);
+     *
      * @param array   $columns         Array von Spalten
      * @param integer $columnGroupSpan Span der Columngroup
      */
@@ -565,7 +573,7 @@ class rex_list implements rex_url_provider_interface
 
         foreach ($columns as $column) {
             if (is_array($column)) {
-                $this->addTableColumn($column['width'], isset($column['span']) ? $column['span'] : null);
+                $this->addTableColumn(isset($column['width']) ? $column['width'] : null, isset($column['span']) ? $column['span'] : null, isset($column['class']) ? $column['class'] : null);
             } else {
                 $this->addTableColumn($column);
             }
@@ -586,7 +594,7 @@ class rex_list implements rex_url_provider_interface
      * @param int $width Breite der Spalte
      * @param int $span  Span der Spalte
      */
-    public function addTableColumn($width, $span = null)
+    public function addTableColumn($width, $span = null, $class = null)
     {
         $tableColumn = [];
         if (is_numeric($width)) {
@@ -597,6 +605,9 @@ class rex_list implements rex_url_provider_interface
         }
         if ($span) {
             $tableColumn['span'] = $span;
+        }
+        if ($class) {
+            $tableColumn['class'] = $class;
         }
 
         $lastIndex = count($this->tableColumnGroups) - 1;
@@ -920,7 +931,7 @@ class rex_list implements rex_url_provider_interface
         // Table vars
         $caption = $this->getCaption();
         $tableColumnGroups = $this->getTableColumnGroups();
-        $class = 'rex-table';
+        $class = 'table';
         if (isset($this->tableAttributes['class'])) {
             $class .= ' ' . $this->tableAttributes['class'];
         }
