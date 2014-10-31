@@ -2,6 +2,9 @@
     @extend .fa;
 }
 
+.rex-icon-action {
+    @extend .fa-bars;
+}
 .rex-icon-active-false {
     @extend .fa-square-o;
     @extend .fa-fw;
@@ -10,6 +13,9 @@
     @extend .fa-check-square-o;
     @extend .fa-fw;
 }
+.rex-icon-add-action {
+    @extend .fa-plus;
+}
 .rex-icon-add-article {
     @extend .fa-plus;
 }
@@ -17,6 +23,9 @@
     @extend .fa-plus;
 }
 .rex-icon-add-language {
+    @extend .fa-plus;
+}
+.rex-icon-add-module {
     @extend .fa-plus;
 }
 .rex-icon-add-template {
@@ -50,7 +59,10 @@
     @extend .fa-question;
 }
 .rex-icon-language {
-    @extend .fa-flag;    
+    @extend .fa-flag;
+}
+.rex-icon-module {
+    @extend .fa-database;
 }
 .rex-icon-open-category {
     @extend .fa-folder-open;    
