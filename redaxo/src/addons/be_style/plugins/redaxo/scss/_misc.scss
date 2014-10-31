@@ -28,6 +28,7 @@
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
+    white-space: nowrap;
 }
 .rex-truncate {
     text-overflow: ellipsis;
