@@ -5,7 +5,7 @@ $out = '';
 foreach ($this->elements as $element) {
 
     $id         = isset($element['id'])     && $element['id'] != ''     ? ' id="' . $element['id'] . '"' : '';
-    $label      = isset($element['label'])  && $element['label'] != ''  ? '<dt>' . $element['label'] . '</dt>' : '';
+    $label      = isset($element['label'])  && $element['label'] != ''  ? $element['label'] : '';
     $field      = isset($element['field'])  && $element['field'] != ''  ? $element['field']   : '';
     
     $before     = isset($element['before']) ? $element['before'] : '';
@@ -17,14 +17,14 @@ foreach ($this->elements as $element) {
     $header     = isset($element['header']) ? $element['header'] : '';
     $footer     = isset($element['footer']) ? $element['footer'] : '';
     
-    $note       = isset($element['note'])   ? '<dd class="rex-note">' . $element['note'] . '</dd>' : '';
+    $note       = isset($element['note'])   ? '<span class="help-block">' . $element['note'] . '</span>' : '';
 
     $classes = '';
 
     $error = '';
     if (isset($element['error']) && $element['error'] != '') {
-        $classes .= ' rex-form-error';
-        $error  = '<dd class="rex-error">' . $element['error'] . '</dd>';
+        $classes .= ' has-error';
+        $error  = '<span class="help-block text-danger">' . $element['error'] . '</span>';
     }
     if (isset($element['required']) && $element['required']) {
         $classes .= ' rex-required';
@@ -35,10 +35,10 @@ foreach ($this->elements as $element) {
 
     if ($left_side != '') {
 
-        $class = 'rex-form-input-group-addon';
-        if (preg_match('@class=[\'|"]rex-button[^"\']@', $left_side)) {
+        $class = 'input-group-addon';
+        if (preg_match('@class=[\'|"]btn[^"\']@', $left_side)) {
 
-            $class = 'rex-form-input-group-button';
+            $class = 'input-group-button';
 
         }
 
@@ -48,10 +48,10 @@ foreach ($this->elements as $element) {
 
     if ($right_side != '') {
 
-        $class = 'rex-form-input-group-addon';
-        if (preg_match('@class=[\'|"]rex-button[^"\']@', $right_side)) {
+        $class = 'input-group-addon';
+        if (preg_match('@class=[\'|"]btn[^"\']@', $right_side)) {
 
-            $class = 'rex-form-input-group-button';
+            $class = 'input-group-button';
 
         }
 
@@ -59,15 +59,17 @@ foreach ($this->elements as $element) {
 
     }
 
-    $field = '<div class="rex-form-input-group">' . $field . '</div>';
+    $form_group = ($label == '' && $before == '' && $after == '' && $note == '' && $error == '') ? false : true;
 
     $out .= $header;
-    $out .= '<dl class="rex-form' . $classes . '"' . $id . '>';
+    $out .= $form_group ? '<div class="form-group">' : '';
     $out .= $label;
-    $out .= '<dd>' . $before . $field . $after . '</dd>';
+    $out .= $before;
+    $out .= '<div class="input-group' . $classes . '"' . $id . '>' . $field . '</div>';
+    $out .= $after;
     $out .= $note;
     $out .= $error;
-    $out .= '</dl>';
+    $out .= $form_group ? '</div>' : '';
     $out .= $footer;
 
 }
