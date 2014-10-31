@@ -1,0 +1,129 @@
+.rex-icon {
+    @extend .fa;
+}
+
+.rex-icon-action {
+    @extend .fa-bars;
+}
+.rex-icon-active-false {
+    @extend .fa-square-o;
+    @extend .fa-fw;
+}
+.rex-icon-active-true {
+    @extend .fa-check-square-o;
+    @extend .fa-fw;
+}
+.rex-icon-add-action {
+    @extend .fa-plus;
+}
+.rex-icon-add-article {
+    @extend .fa-plus;
+}
+.rex-icon-add-category {
+    @extend .fa-plus;
+}
+.rex-icon-add-language {
+    @extend .fa-plus;
+}
+.rex-icon-add-module {
+    @extend .fa-plus;
+}
+.rex-icon-add-template {
+    @extend .fa-plus;
+}
+.rex-icon-article {
+    @extend .fa-file-text-o;
+}
+.rex-icon-back {
+    @extend .fa-reply;
+}
+.rex-icon-bottom {
+    @extend .fa-angle-double-down;
+}
+.rex-icon-category {
+    @extend .fa-folder;
+}
+.rex-icon-delete {
+    @extend .fa-trash;
+}
+.rex-icon-delete-link {
+    @extend .fa-chain-broken;
+}
+.rex-icon-down {
+    @extend .fa-angle-down;
+}
+.rex-icon-edit {
+    @extend .fa-edit;
+}
+.rex-icon-help {
+    @extend .fa-question;
+}
+.rex-icon-language {
+    @extend .fa-flag;
+}
+.rex-icon-module {
+    @extend .fa-database;
+}
+.rex-icon-open-category {
+    @extend .fa-folder-open;    
+}
+.rex-icon-open-linkmap {
+    @extend .fa-align-justify;
+}
+.rex-icon-package-addon {
+    @extend .fa-bookmark;
+}
+.rex-icon-package-delete {
+    @extend .fa-trash;
+}
+.rex-icon-package-is-activated {
+    @extend .fa-check;
+    @extend .fa-fw;
+}
+.rex-icon-package-is-installed {
+    @extend .fa-refresh;
+    @extend .fa-fw;
+}
+.rex-icon-package-not-activated {
+    @extend .fa-times;
+    @extend .fa-fw;
+}
+.rex-icon-package-not-installed {
+    @extend .fa-rotate-right;
+    @extend .fa-fw;
+}
+.rex-icon-package-plugin {
+    @extend .fa-bookmark-o;
+}
+.rex-icon-package-uninstall {
+    @extend .fa-rotate-left;
+    @extend .fa-fw;
+}
+.rex-icon-password {
+    @extend .fa-lock;    
+}
+.rex-icon-phpinfo {
+    @extend .fa-info-circle;
+}
+.rex-icon-sign-in {
+    @extend .fa-sign-in;
+}
+.rex-icon-sitestartarticle {
+    @extend .fa-home;
+}
+.rex-icon-startarticle {
+    @extend .fa-file-text;
+}
+.rex-icon-template {
+    @extend .fa-newspaper-o;
+}
+.rex-icon-top {
+    @extend .fa-angle-double-up;
+}
+.rex-icon-up {
+    @extend .fa-angle-up;
+}
+.rex-icon-user {
+    @extend .fa-user;
+}
+
