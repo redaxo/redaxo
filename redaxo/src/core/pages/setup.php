@@ -24,12 +24,12 @@ if ($step == 1) {
     foreach (rex_i18n::getLocales() as $locale) {
         rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
         $label = rex_i18n::msg('lang');
-        $langs[$locale] = '<li><a href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a></li>';
+        $langs[$locale] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
     }
     rex_i18n::setLocale($saveLocale, false);
 
     echo rex_view::title(rex_i18n::msg('setup_100'));
-    $content = '<ul class="rex-list-setup-language-select">' . implode('', $langs) . '</ul>';
+    $content = '<div class="list-group">' . implode('', $langs) . '</div>';
 
     $fragment = new rex_fragment();
     $fragment->setVar('heading', rex_i18n::msg('setup_101'), false);
@@ -129,7 +129,7 @@ if ($step == 3) {
                 url: url,
                 success: function(data) {
                     $("#rex-setup-security-message").show();
-                    $(".rex-page-main .rex-button").hide();
+                    $(".rex-page-main .btn").hide();
                 }
             });
         });

@@ -106,7 +106,7 @@ $content .= '
 if ($func == 'addclang') {
     //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
     $content .= '
-                <tr class="rex-active">
+                <tr class="rex-table-row-active">
                     <td><i class="rex-icon rex-icon-language"></i></td>
                     <td data-title="ID">–</td>
                     <td data-title="' . rex_i18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" autofocus /></td>
@@ -123,15 +123,15 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
 
     $delLink = rex_i18n::msg('delete');
     if ($lang_id == rex_clang::getStartId()) {
-     $delLink = '<span class="rex-delete rex-text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
+     $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
     } else {
-        $delLink = '<a class="rex-delete" href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
+        $delLink = '<a href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
     }
 
     // Edit form
     if ($func == 'editclang' && $clang_id == $lang_id) {
         $content .= '
-                    <tr class="rex-active">
+                    <tr class="rex-table-row-active">
                         <td><i class="rex-icon rex-icon-language"></i></td>
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" autofocus /></td>
