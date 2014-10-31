@@ -34,6 +34,21 @@ class rex_fragment
     }
 
     /**
+     * Returns the value of the given variable $name.
+     *
+     * @param string $name      Variable name
+     * @param string $default   Default value
+     */
+    public function getVar($name, $default = null)
+    {
+        if (isset($this->vars[$name])) {
+            return $this->vars[$name];
+        }
+
+        return $default;
+    }
+
+    /**
      * Set the variable $name to the given value.
      *
      * @param string $name   The name of the variable.
