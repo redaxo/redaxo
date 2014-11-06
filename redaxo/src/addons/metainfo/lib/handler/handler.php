@@ -56,6 +56,8 @@ abstract class rex_metainfo_handler
                     // Neue Notation mit | als Trenner
                     $dbvalues = explode('|', $activeItem->getValue($name));
                 }
+            } else {
+                $dbvalues = (array) $sqlFields->getValue('default');
             }
 
             if ($title != '') {
