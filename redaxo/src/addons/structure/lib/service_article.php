@@ -836,7 +836,7 @@ class rex_article_service
                     // Artikel als letzten Artikel in die neue Kat einfügen
                     $art_sql->setValue('priority', '99999');
                     // Kopierter Artikel offline setzen
-                    $art_sql->setValue('status', '0');
+                    $art_sql->setValue('status', $from_sql->getValue('status'));
                     $art_sql->addGlobalUpdateFields();
 
                     $art_sql->setWhere('clang_id="' . $clang . '" and startarticle<>1 and id="' . $id . '" and parent_id="' . $from_cat_id . '"');
