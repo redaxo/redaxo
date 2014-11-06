@@ -151,23 +151,6 @@ class rex_effect_resize extends rex_effect_abstract
         }
     }
 
-
-    private function keepTransparent($des)
-    {
-        if ($this->media->getFormat() == 'PNG') {
-            imagealphablending($des, false);
-            imagesavealpha($des, true);
-        } elseif ($this->media->getFormat() == 'GIF') {
-            $gdimage = $this->media->getImage();
-            $colorTransparent = imagecolortransparent($gdimage);
-            imagepalettecopy($gdimage, $des);
-            if ($colorTransparent > 0) {
-                imagefill($des, 0, 0, $colorTransparent);
-                imagecolortransparent($des, $colorTransparent);
-            }
-        }
-    }
-
     public function getParams()
     {
         return [
