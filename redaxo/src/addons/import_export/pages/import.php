@@ -33,8 +33,8 @@ if ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(getImportDir() . '/' . $impname));
     $info = rex_i18n::msg('im_export_file_deleted');
-} elseif ($function == 'download' && $impname) {
-    rex_response::sendFile(getImportDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'application/x-gtar' : 'plain/test', 'attachment');
+} elseif ($function == 'download' && $impname && is_readable(getImportDir().'/'.$impname)) {
+    rex_response::sendFile(getImportDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
     exit;
 } elseif ($function == 'dbimport') {
     // ------------------------------ FUNC DBIMPORT
