@@ -106,7 +106,7 @@ abstract class rex_linkmap_tree_renderer
     public static function formatLi(rex_structure_element $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
     {
         $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
-        $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offine') . '"';
+        $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
         if (strpos($linkAttr, ' href=') === false) {
         $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
