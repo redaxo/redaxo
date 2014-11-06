@@ -20,6 +20,7 @@ $function       = rex_request('function', 'string');
 $exportfilename = rex_post('exportfilename', 'string');
 $exporttype     = rex_post('exporttype', 'string');
 $exportdl       = rex_post('exportdl', 'boolean');
+$EXPTABLES      = rex_post('EXPTABLES', 'array');
 $EXPDIR         = rex_post('EXPDIR', 'array');
 
 
@@ -56,7 +57,7 @@ if (rex_post('export', 'bool')) {
             // ------------------------------ FUNC EXPORT SQL
             $header = 'plain/text';
 
-            $hasContent = rex_a1_export_db($export_path . $filename . $ext);
+            $hasContent = rex_a1_export_db($export_path . $filename . $ext, $EXPTABLES);
             // ------------------------------ /FUNC EXPORT SQL
         } elseif ($exporttype == 'files') {
             // ------------------------------ FUNC EXPORT FILES
@@ -133,6 +134,24 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/radio.php');
 
 
+$tableSelect = new rex_select();
+$tableSelect->setMultiple();
+$tableSelect->setId('rex-form-exporttables');
+$tableSelect->setName('EXPTABLES[]');
+$tables = rex_sql::showTables();
+foreach ($tables as $table) {
+    $tableSelect->addOption($table, $table);
+    if ($table != rex::getTable('user') && 0 === strpos($table, rex::getTablePrefix()) && 0 !== strpos($table, rex::getTablePrefix() . rex::getTempPrefix())) {
+        $tableSelect->setSelected($table);
+    }
+}
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('im_export_export_select_tables') . '</label>';
+$n['field'] = $tableSelect->get();
+$formElements[] = $n;
+
 // Vorhandene Exporte auslesen
 $sel_dirs = new rex_select();
 $sel_dirs->setAttribute('onclick', 'checkInput(\'rex-exporttype-files\')');
@@ -155,7 +174,6 @@ foreach ($folders as $file) {
     $sel_dirs->addOption($file, $file);
 }
 
-$formElements = [];
 $n = [];
 $n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('im_export_export_select_dir') . '</label>';
 $n['field'] = $sel_dirs->get();

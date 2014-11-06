@@ -265,9 +265,10 @@ function rex_a1_import_files($filename)
  * Dieser wird in der Datei $filename gespeichert.
  *
  * @param string $filename
+ * @param array $tables
  * @return boolean TRUE wenn ein Dump erstellt wurde, sonst FALSE
  */
-function rex_a1_export_db($filename)
+function rex_a1_export_db($filename, array $tables = null)
 {
     $fp = @fopen($filename, 'w');
 
@@ -276,7 +277,6 @@ function rex_a1_export_db($filename)
     }
 
     $sql        = rex_sql::factory();
-    $tables     = rex_sql::showTables(1, rex::getTablePrefix());
 
     $nl         = "\n";
     $insertSize = 5000;
@@ -291,80 +291,86 @@ function rex_a1_export_db($filename)
     fwrite($fp, '## charset utf-8' . $nl . $nl);
 //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
+    if (is_null($tables)) {
+        $tables = array();
+        foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
+            if ($table != rex::getTable('user') // User Tabelle nicht exportieren
+                && substr($table, 0 , strlen(rex::getTablePrefix().rex::getTempPrefix())) != rex::getTablePrefix().rex::getTempPrefix()) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+            {
+                $tables[] = $table;
+            }
+        }
+    }
     foreach ($tables as $table) {
-        if (!in_array($table, [rex::getTablePrefix() . 'user', rex::getTablePrefix() . 'user_role']) // User Tabellen nicht exportieren
-                && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
-        ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-            //---- export metadata
-            $create = rex_sql::showCreateTable($table);
+        //---- export metadata
+        $create = rex_sql::showCreateTable($table);
 
-            fwrite($fp, 'DROP TABLE IF EXISTS `' . $table . '`;' . $nl);
-            fwrite($fp, $create . ';' . $nl);
+        fwrite($fp, 'DROP TABLE IF EXISTS `' . $table . '`;' . $nl);
+        fwrite($fp, $create . ';' . $nl);
 
-            $fields = $sql->getArray('SHOW FIELDS FROM `' . $table . '`');
+        $fields = $sql->getArray('SHOW FIELDS FROM `' . $table . '`');
 
-            foreach ($fields as &$field) {
-                if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type'])) {
-                    $field = 'int';
-                } elseif (preg_match('#^(float|double|decimal)#', $field['Type'])) {
-                    $field = 'double';
-                } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
-                    $field = 'string';
-                }
-                // else ?
+        foreach ($fields as &$field) {
+            if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type'])) {
+                $field = 'int';
+            } elseif (preg_match('#^(float|double|decimal)#', $field['Type'])) {
+                $field = 'double';
+            } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
+                $field = 'string';
+            }
+            // else ?
+        }
+
+        //---- export tabledata
+        $start = 0;
+        $max   = $insertSize;
+
+        do {
+            $array = $sql->getArray('SELECT * FROM `' . $table . '` LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
+            $count = $sql->getRows();
+
+            if ($count > 0 && $start == 0) {
+                fwrite($fp, $nl . 'LOCK TABLES `' . $table . '` WRITE;');
+                fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` DISABLE KEYS */;');
+            } elseif ($count == 0) {
+                break;
             }
 
-            //---- export tabledata
-            $start = 0;
-            $max   = $insertSize;
+            $start += $max;
+            $values = [];
 
-            do {
-                $array = $sql->getArray('SELECT * FROM `' . $table . '` LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
-                $count = $sql->getRows();
+            foreach ($array as $row) {
+                $record = [];
 
-                if ($count > 0 && $start == 0) {
-                    fwrite($fp, $nl . 'LOCK TABLES `' . $table . '` WRITE;');
-                    fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` DISABLE KEYS */;');
-                } elseif ($count == 0) {
-                    break;
-                }
+                foreach ($fields as $idx => $type) {
+                    $column = $row[$idx];
 
-                $start += $max;
-                $values = [];
-
-                foreach ($array as $row) {
-                    $record = [];
-
-                    foreach ($fields as $idx => $type) {
-                        $column = $row[$idx];
-
-                        switch ($type) {
-                            case 'int':
-                                $record[] = intval($column);
-                                break;
-                            case 'double':
-                                $record[] = sprintf('%.10F', (double) $column);
-                                break;
-                            case 'string':
-                            default:
-                                $record[] = $sql->escape($column, "'");
-                                break;
-                        }
+                    switch ($type) {
+                        case 'int':
+                            $record[] = intval($column);
+                            break;
+                        case 'double':
+                            $record[] = sprintf('%.10F', (double) $column);
+                            break;
+                        case 'string':
+                        default:
+                            $record[] = $sql->escape($column, "'");
+                            break;
                     }
-
-                    $values[] = $nl . '  (' . implode(',', $record) . ')';
                 }
 
-                if (!empty($values)) {
-                    fwrite($fp, $nl . 'INSERT INTO `' . $table . '` VALUES ' . implode(',', $values) . ';');
-                    unset($values);
-                }
-            } while ($count >= $max);
-
-            if ($start > 0) {
-                fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` ENABLE KEYS */;');
-                fwrite($fp, $nl . 'UNLOCK TABLES;' . $nl . $nl);
+                $values[] = $nl . '  (' . implode(',', $record) . ')';
             }
+
+            if (!empty($values)) {
+                fwrite($fp, $nl . 'INSERT INTO `' . $table . '` VALUES ' . implode(',', $values) . ';');
+                unset($values);
+            }
+        } while ($count >= $max);
+
+        if ($start > 0) {
+            fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` ENABLE KEYS */;');
+            fwrite($fp, $nl . 'UNLOCK TABLES;' . $nl . $nl);
         }
     }
 

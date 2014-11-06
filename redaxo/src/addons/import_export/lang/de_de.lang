@@ -60,6 +60,7 @@ im_export_mail_body = Im Anhang befindet sich eine neue Datenbanksicherung der W
 perm_general_import_export[export] = Webseite exportieren
 
 im_export_export_select = Exportvariante
+im_export_export_select_tables = Tabellen auswählen
 im_export_export_select_dir = Ordner auswählen
 im_export_export_select_location = Speicherort wählen
 im_export_export_select_filename = Dateiname wählen
