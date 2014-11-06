@@ -69,7 +69,7 @@ class rex_managed_media
         $this->image['src'] = false;
 
         // if mimetype detected and in imagemap -> change format
-        if ($finfo = new finfo(FILEINFO_MIME_TYPE) ) {
+        if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE) ) {
             if ($ftype = @$finfo->file($this->image['filepath']) ) {
                 if (array_key_exists($ftype, $this->mimetypeMap)) {
                     $this->image['format'] = $this->mimetypeMap[$ftype];
