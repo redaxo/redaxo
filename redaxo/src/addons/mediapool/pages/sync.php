@@ -15,16 +15,37 @@ if ($PERMALL) {
 
     // ---- Dateien aus der DB lesen
     $db = rex_sql::factory();
-    $db->setQuery('SELECT filename FROM ' . rex::getTablePrefix() . 'media');
+    $db->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media');
     $db_files = [];
+    $db_filenames = array();
 
-    for ($i = 0; $i < $db->getRows(); $i++) {
-        $db_files[] = $db->getValue('filename');
-        $db->next();
+    foreach($db->getArray() as $db_file) {
+        $db_filenames[] = $db_file["filename"];
+        $db_files[] = $db_file;
     }
 
-    $diff_files = array_diff($folder_files, $db_files);
+    $diff_files = array_diff($folder_files, $db_filenames);
     $diff_count = count($diff_files);
+
+    // Extra - filesize/width/height DB-Filesystem Sync
+    foreach($db_files as $db_file) {
+        $file_filesize = filesize(rex_path::media($db_file["filename"]));
+        if ($db_file["filesize"] != $file_filesize) {
+            $file_sql = rex_sql::factory();
+            // $file_sql->debugsql = 1;
+            $file_sql->setTable(rex::getTable('file'));
+            $file_sql->setWhere('filename=?', [$db_file["filename"]]);
+            $file_sql->setValue('filesize', $file_filesize);
+            if ($db_file["width"] > 0) {
+                if($size = @getimagesize(rex_path::media($db_file["filename"]))) {
+                    $file_sql->setValue('width', $size[0]);
+                    $file_sql->setValue('height', $size[1]);
+                }
+            }
+            $file_sql->update();
+            rex_media_cache::delete($db_file["filename"]);
+        }
+    }
 
     $warning = [];
     if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {

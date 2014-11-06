@@ -220,6 +220,12 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         } else {
             $RETURN['msg'] = rex_i18n::msg('pool_file_upload_errortype');
         }
+    } else {
+        if($size = @getimagesize(rex_path::media($FILEINFOS["filename"]))) {
+            $FILESQL->setValue('width',$size[0]);
+            $FILESQL->setValue('height',$size[1]);
+        }
+        $FILESQL->setValue('filesize', @filesize(rex_path::media($FILEINFOS["filename"])));
     }
 
     // Aus BC gruenden hier mit int 1/0

@@ -171,10 +171,6 @@ if ($file_id) {
         if ($isImage) {
             $fwidth = $gf->getValue('width');
             $fheight = $gf->getValue('height');
-            if ($size = @getimagesize(rex_path::media($fname))) {
-                $fwidth = $size[0];
-                $fheight = $size[1];
-            }
 
             if ($fwidth > 199) {
                 $rfwidth = 200;
