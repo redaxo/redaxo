@@ -108,6 +108,11 @@ class rex_article_content extends rex_article_content_base
             $CONTENT = parent::getArticle($curctype);
         }
 
+        $CONTENT = rex_extension::registerPoint(new rex_extension_point('ART_CONTENT', $CONTENT, [
+            'ctype' => $curctype,
+            'article' => $this,
+        ]));
+
         return $CONTENT;
     }
 }
