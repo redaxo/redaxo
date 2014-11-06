@@ -17,6 +17,7 @@ im_export_import = Import
 im_export_to_import = importieren
 im_export_export = Export
 im_export_to_export = exportieren
+im_export_download = herunterladen
 im_export_db_import = Import
 im_export_db_export = Export
 im_export_filename_updated = Ihr Dateiname wurde angepasst, da er unkorrekte Zeichen enthielt. Sofern dieser stimmig ist bitte nochmal auf Export klicken

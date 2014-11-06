@@ -24,7 +24,7 @@ if ($impname != '') {
         $impname = '';
     } elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz') {
         $impname = '';
-    } elseif ($function == "delete" && (substr($impname, -4, 4) != ".sql" || substr($impname, -7, 7) != ".tar.gz")) {
+    } elseif (($function == 'delete'  || $function == 'download') && substr($impname, -4, 4) != '.sql' && substr($impname, -7, 7) != '.tar.gz') {
         $impname = '';
     }
 }
@@ -33,6 +33,9 @@ if ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(getImportDir() . '/' . $impname));
     $info = rex_i18n::msg('im_export_file_deleted');
+} elseif ($function == 'download' && $impname) {
+    rex_response::sendFile(getImportDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'application/x-gtar' : 'plain/test', 'attachment');
+    exit;
 } elseif ($function == 'dbimport') {
     // ------------------------------ FUNC DBIMPORT
 
@@ -142,7 +145,7 @@ $content = '<table class="table">
                         <th>' . rex_i18n::msg('im_export_filename') . '</th>
                         <th>' . rex_i18n::msg('im_export_filesize') . '</th>
                         <th>' . rex_i18n::msg('im_export_createdate') . '</th>
-                        <th colspan="2">' . rex_i18n::msg('im_export_function') . '</th>
+                        <th colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -161,6 +164,7 @@ foreach ($folder as $file) {
                     <td>' . $filesize . '</td>
                     <td>' . $filec . '</td>
                     <td><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' =>  $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">' . rex_i18n::msg('im_export_to_import') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" class="rex-download" title="' . rex_i18n::msg('im_export_download_file') . '">' . rex_i18n::msg('im_export_download') . '</a></td>
                     <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" class="rex-delete" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
                 </tr>
     ';
@@ -211,7 +215,7 @@ $content = '
                     <th>' . rex_i18n::msg('im_export_filename') . '</th>
                     <th>' . rex_i18n::msg('im_export_filesize') . '</th>
                     <th>' . rex_i18n::msg('im_export_createdate') . '</th>
-                    <th colspan="2">' . rex_i18n::msg('im_export_function') . '</th>
+                    <th colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
                 </tr>
             </thead>
             <tbody>';
@@ -231,6 +235,7 @@ foreach ($folder as $file) {
                     <td>' . $filesize . '</td>
                     <td>' . $filec . '</td>
                     <td><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '">' . rex_i18n::msg('im_export_to_import') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" class="rex-download" title="' . rex_i18n::msg('im_export_download_file') . '">' . rex_i18n::msg('im_export_download') . '</a></td>
                     <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" class="rex-delete" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?">' . rex_i18n::msg('im_export_delete') . '</a></td>
                 </tr>';
 }
