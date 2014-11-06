@@ -11,6 +11,15 @@ class rex_managed_media
     private $image;
     private $header = [];
 
+    private $mimetypeMap = [
+        'image/jpeg' => 'jpg',
+        'image/jpg' => 'jpg',
+        'image/pjpeg' => 'jpg',
+        'image/vnd.wap.wbmp' => 'wbmp',
+        'image/png' => 'png',
+        'image/gif' => 'gif'
+    ];
+
     public function __construct($media_path)
     {
         $this->setMediapath($media_path);
@@ -56,26 +65,35 @@ class rex_managed_media
         $this->asImage = true;
 
         $this->image = [];
-        $this->image['format'] = strtoupper(rex_file::extension($this->getMediapath()));
+        $this->image['format'] = strtolower(rex_file::extension($this->getMediapath()));
         $this->image['src'] = false;
 
-        if ($this->image['format'] == 'JPG' || $this->image['format'] == 'JPEG') {
-            $this->image['format'] = 'JPEG';
+        // if mimetype detected and in imagemap -> change format
+        if ($finfo = new finfo(FILEINFO_MIME_TYPE) ) {
+            if ($ftype = @$finfo->file($this->image['filepath']) ) {
+                if (array_key_exists($ftype, $this->mimetypeMap)) {
+                    $this->image['format'] = $this->mimetypeMap[$ftype];
+                }
+            }
+        }
+
+        if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
+            $this->image['format'] = 'jpeg';
             $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
 
-        } elseif ($this->image['format'] == 'PNG') {
+        } elseif ($this->image['format'] == 'png') {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
 
-        } elseif ($this->image['format'] == 'GIF') {
+        } elseif ($this->image['format'] == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
 
-        } elseif ($this->image['format'] == 'WBMP') {
+        } elseif ($this->image['format'] == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
 
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
-            $this->image['format'] = 'PNG';
+            $this->image['format'] = 'png';
         }
 
         if (!$this->image['src']) {
@@ -154,13 +172,13 @@ class rex_managed_media
     protected function getImageSource()
     {
         ob_start();
-        if ($this->image['format'] == 'JPG' || $this->image['format'] == 'JPEG') {
+        if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
             imagejpeg($this->image['src'], null, $this->image['quality']);
-        } elseif ($this->image['format'] == 'PNG') {
+        } elseif ($this->image['format'] == 'png') {
             imagepng($this->image['src']);
-        } elseif ($this->image['format'] == 'GIF') {
+        } elseif ($this->image['format'] == 'gif') {
             imagegif($this->image['src']);
-        } elseif ($this->image['format'] == 'WBMP') {
+        } elseif ($this->image['format'] == 'wbmp') {
             imagewbmp($this->image['src']);
         }
         $src = ob_get_contents();
