@@ -82,9 +82,6 @@ class rex_managed_media
             $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
 
-        } elseif ($this->image['format'] == 'png') {
-            $this->image['src'] = @imagecreatefrompng($this->getMediapath());
-
         } elseif ($this->image['format'] == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
 
@@ -93,6 +90,8 @@ class rex_managed_media
 
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
+            imagealphablending($this->image['src'], false);
+            imagesavealpha($this->img['src'], true);
             $this->image['format'] = 'png';
         }
 
