@@ -132,7 +132,7 @@ class rex_be_controller
 
     public static function getLoginPage()
     {
-        $page = new rex_be_page('login', 'login');
+        $page = new rex_be_page('login', 'Login');
         $page->setPath(rex_path::core('pages/login.php'));
         $page->setHasNavigation(false);
         return $page;
