@@ -30,10 +30,10 @@ abstract class rex_api_install_package_download extends rex_api_function
             throw new rex_api_exception($e->getMessage());
         }
         $message = '';
-        $this->archive = "phar://$archivefile/" . $this->addonkey;
+        $this->archive = $archivefile;
         if ($this->file['checksum'] != md5_file($archivefile)) {
             $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
-        } elseif (!file_exists($this->archive)) {
+        } elseif (!file_exists("phar://$archivefile/" . $this->addonkey)) {
             $message = rex_i18n::msg('install_warning_zip_wrong_format');
         } elseif (is_string($msg = $this->doAction())) {
             $message = $msg;
@@ -53,7 +53,7 @@ abstract class rex_api_install_package_download extends rex_api_function
 
     protected function extractArchiveTo($dir)
     {
-        if (!rex_dir::copy($this->archive, $dir)) {
+        if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {
             rex_dir::delete($dir);
             return rex_i18n::msg('install_warning_addon_zip_not_extracted');
         }

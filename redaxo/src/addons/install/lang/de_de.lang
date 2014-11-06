@@ -48,10 +48,9 @@ install_info_addon_updated = AddOn "{0}" wurde aktualisiert!
 install_warning_addon_not_updated = AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
 install_info_addon_uploaded = AddOn "{0}" wurde hochgeladen!
 install_info_addon_deleted = AddOn-Version von "{0}" wurde gelöscht!
-install_warning_addon_zip_not_extracted = Die Zip-Datei konnte nicht in das AddOn-Verzeichnis entpackt werden!
+install_warning_addon_zip_not_extracted = Beim Entpacken der Zip-Datei in das AddOn-Verzeichnis ist ein Fehler aufgetreten. Möglicherweise fehlen Schreibrechte oder der Ordnername innerhalb der Zip-Datei entspricht nicht dem AddOn-Key.
 
 install_warning_zip_wrong_checksum = Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein!
-install_warning_zip_wrong_format = Die Zip-Datei ist nicht im erforderlichen Format! Der AddOn-Key muss dem Ordnernamen entsprechen.
 
 install_to_addon_page = Zur AddOn-Verwaltung
 

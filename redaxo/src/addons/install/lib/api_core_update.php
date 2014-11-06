@@ -67,7 +67,7 @@ class rex_api_install_core_update extends rex_api_function
             if ($addon->getConfig('backups')) {
                 rex_dir::create($addon->getDataPath());
                 $archive = $addon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
-                rex_install_helper::copyDirToArchive($path, $archive);
+                rex_install_archive::copyDirToArchive($path, $archive);
             }
             rex_dir::delete($path);
             rename($temppath, $path);
