@@ -722,7 +722,7 @@ class rex_article_service
                 if ($to_sql->getRows() == 1 || $to_cat_id == 0) {
                     if ($to_sql->getRows() == 1) {
                         $path = $to_sql->getValue('path') . $to_sql->getValue('id') . '|';
-                        $catname = $to_sql->getValue('name');
+                        $catname = $to_sql->getValue('catname');
                     } else {
                         // In RootEbene
                         $path = '|';
@@ -818,7 +818,7 @@ class rex_article_service
                     if ($to_sql->getRows() == 1) {
                         $parent_id = $to_sql->getValue('id');
                         $path = $to_sql->getValue('path') . $to_sql->getValue('id') . '|';
-                        $catname = $to_sql->getValue('name');
+                        $catname = $to_sql->getValue('catname');
                     } else {
                         // In RootEbene
                         $parent_id = 0;
