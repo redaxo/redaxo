@@ -14,7 +14,6 @@ lang: de_de
 use_gzip: true
 use_etag: true
 use_last_modified: false
-use_md5: true
 start_page: structure
 timezone: Europe/Berlin
 socket_proxy: null

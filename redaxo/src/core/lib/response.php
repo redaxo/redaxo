@@ -84,12 +84,6 @@ class rex_response
 
         self::sendLastModified(filemtime($file));
 
-        // ----- MD5 Checksum
-        $environment = rex::isBackend() ? 'backend' : 'frontend';
-        if (rex::getProperty('use_md5') === true || rex::getProperty('use_md5') === $environment) {
-            self::sendChecksum(md5_file($file));
-        }
-
         header('HTTP/1.1 ' . self::$httpStatus);
         if (!self::$sentCacheControl) {
             self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
@@ -174,11 +168,6 @@ class rex_response
         // ----- GZIP
         if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment) {
             $content = self::sendGzip($content);
-        }
-
-        // ----- MD5 Checksum
-        if (rex::getProperty('use_md5') === true || rex::getProperty('use_md5') === $environment) {
-            self::sendChecksum(self::md5($content));
         }
 
         self::cleanOutputBuffers();
@@ -313,18 +302,6 @@ class rex_response
         }
 
         return $content;
-    }
-
-    /**
-     * Sends a MD5 checksum as HTTP header, so the browser can validate the output
-     *
-     * HTTP_CONTENT_MD5 feature
-     *
-     * @param string $md5 MD5 Checksum
-     */
-    protected static function sendChecksum($md5)
-    {
-        header('Content-MD5: ' . $md5);
     }
 
     /**
