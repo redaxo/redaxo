@@ -18,11 +18,13 @@ if (rex_post('btn_save', 'string') != '') {
         ['bcc', 'string'],
         ['mailer', 'string'],
         ['host', 'string'],
+        ['port', 'int'],
         ['charset', 'string'],
         ['wordwrap', 'int'],
         ['encoding', 'string'],
         ['username', 'string'],
         ['password', 'string'],
+        ['smtpsecure', 'string'],
         ['smtpauth', 'boolean'],
         ['priority', 'int']
     ]));
@@ -46,6 +48,15 @@ $sel_smtpauth->setSize(1);
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
 foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
 $sel_smtpauth->addOption($type, $i);
+}
+
+$sel_smtpsecure = new rex_select();
+$sel_smtpsecure->setId('smtpsecure');
+$sel_smtpsecure->setName('settings[smtpsecure]');
+$sel_smtpsecure->setSize(1);
+$sel_smtpsecure->setSelected($this->getConfig('smtpsecure'));
+foreach(array('' => $this->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls') as $type => $name) {
+    $sel_smtpsecure->addOption($name, $type);
 }
 
 $sel_encoding = new rex_select();
@@ -119,6 +130,12 @@ $content = '
         </div>
         <div class="rex-form-row">
         <p class="rex-form-col-a rex-form-text">
+            <label for="host">' . $this->i18n('port') . '</label>
+            <input type="text" name="settings[port]" id="port" value="' . $this->getConfig('port') . '" />
+        </p>
+        </div>
+        <div class="rex-form-row">
+        <p class="rex-form-col-a rex-form-text">
             <label for="charset">' . $this->i18n('charset') . '</label>
             <input type="text" name="settings[charset]" id="charset" value="' . $this->getConfig('charset') . '" />
         </p>
@@ -140,6 +157,12 @@ $content = '
             <label for="priority">' . $this->i18n('priority') . '</label>
             ' . $sel_priority->get() . '
         </p>
+        </div>
+        <div class="rex-form-row">
+            <p class="rex-form-col-a rex-form-select">
+              <label for="smtpsecure">' . $this->i18n('SMTPSecure') . '</label>
+              ' . $sel_smtpsecure->get() . '
+            </p>
         </div>
         <div class="rex-form-row">
             <p class="rex-form-col-a rex-form-select">

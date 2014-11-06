@@ -19,10 +19,12 @@ class rex_mailer extends PHPMailer
         $this->ConfirmReadingTo = $addon->getConfig('confirmto');
         $this->Mailer           = $addon->getConfig('mailer');
         $this->Host             = $addon->getConfig('host');
+        $this->Port             = $addon->getConfig('port');
         $this->CharSet          = $addon->getConfig('charset');
         $this->WordWrap         = $addon->getConfig('wordwrap');
         $this->Encoding         = $addon->getConfig('encoding');
         $this->Priority         = $addon->getConfig('priority');
+        $this->SMTPSecure       = $addon->getConfig('smtpsecure');
         $this->SMTPAuth         = $addon->getConfig('smtpauth');
         $this->Username         = $addon->getConfig('username');
         $this->Password         = $addon->getConfig('password');
