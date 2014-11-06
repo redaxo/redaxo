@@ -51,7 +51,8 @@ class rex_form_element
 
     public function getSaveValue()
     {
-        return $this->getValue() ?: $this->defaultSaveValue;
+        $value = $this->getValue();
+        return $value !== '' ? $value : $this->defaultSaveValue;
     }
 
     public function getValue()
