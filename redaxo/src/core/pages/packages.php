@@ -30,7 +30,7 @@ if ($subpage == 'help') {
     }
 
     $fragment = new rex_fragment();
-    $fragment->setVar('heading', rex_i18n::msg('package_elp') . ' ' . $name, false);
+    $fragment->setVar('heading', rex_i18n::msg('package_help') . ' ' . $name, false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 
