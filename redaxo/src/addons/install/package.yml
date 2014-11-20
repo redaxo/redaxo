@@ -20,4 +20,4 @@ page:
 
 requires:
     php:
-        extensions: [phar, zlib]
+        extensions: [zlib]

@@ -5,7 +5,7 @@
  */
 class rex_install_archive
 {
-    public static function extract($archive, $dir, $basename)
+    public static function extract($archive, $dir, $basename = '')
     {
         $dir = rtrim($dir, '/\\');
         if (class_exists('ZipArchive')) {
