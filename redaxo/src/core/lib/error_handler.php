@@ -18,7 +18,7 @@ abstract class rex_error_handler
 
         self::$registered = true;
 
-        set_error_handler([__CLASS__, 'handleError']);
+        set_error_handler([__CLASS__, 'handleError'], error_reporting());
         set_exception_handler([__CLASS__, 'handleException']);
         register_shutdown_function([__CLASS__, 'shutdown']);
     }
@@ -114,7 +114,7 @@ abstract class rex_error_handler
 
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 
-        } elseif ((error_reporting() & $errno) == $errno) {
+        } else {
 
             if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
                 echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
