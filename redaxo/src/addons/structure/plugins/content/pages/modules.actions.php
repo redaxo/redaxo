@@ -443,7 +443,6 @@ if ($OUT) {
     // ausgabe actionsliste !
     $content .= '
         <table class="table table-striped" id="rex-table-action">
-            <caption>' . rex_i18n::msg('action_caption') . '</caption>
             <thead>
                 <tr>
                     <th><a href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
@@ -510,12 +509,13 @@ if ($OUT) {
         </table>';
 
     if ($rows < 1) {
-        $content .= '<div class="rex-content-information"><p>' . rex_i18n::msg('actions_not_found') . '</p></div>';
+        $content .= rex_view::info(rex_i18n::msg('actions_not_found'));
     }
 }
 
 echo $message;
 
 $fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('action_caption'), false);
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/section.php');

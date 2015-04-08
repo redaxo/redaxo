@@ -369,9 +369,8 @@ if ($OUT) {
     }
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
-    $list->setCaption(rex_i18n::msg('module_caption'));
     $list->addTableAttribute('id', 'rex-table-module');
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped table-hover');
 
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
@@ -404,6 +403,7 @@ if ($OUT) {
     echo $message;
 
     $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('module_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
