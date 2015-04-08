@@ -206,6 +206,6 @@ $fragment->setVar('meta_navigation', $meta_navigation, false);
 echo $fragment->parse('core/navigation.php');
 
 
-$pjax = $curPage->allowsPjax() ? 'data-pjax-container="#rex-page-main"' : '';
+$pjax = $curPage->allowsPjax() ? ' data-pjax-container="#rex-page-main"' : '';
 
 ?><section class="rex-page-main"<?= $pjax ?>>
