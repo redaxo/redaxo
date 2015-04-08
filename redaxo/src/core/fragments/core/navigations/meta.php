@@ -35,7 +35,7 @@ if (count($items) > 0) {
 
     if (count($list_items) > 0) {
         echo '  <div class="rex-nav-meta">
-                    <ul class="nav navbar-right">' . implode('', $list_items) . '</ul>
+                    <ul class="nav navbar-nav navbar-right">' . implode('', $list_items) . '</ul>
                 </div>';
     }
 }
