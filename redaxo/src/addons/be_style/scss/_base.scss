@@ -1,0 +1,36 @@
+
+@media(min-width: $grid-float-breakpoint) {
+
+    .rex-nav-main {
+        float: left;
+        width: 250px;
+    }
+
+    .rex-page-main {
+        overflow: hidden;
+        margin-left: 250px;
+        padding: 15px;
+    }
+
+    .rex-global-footer {
+        clear: both;
+    }
+
+}
+
+
+.panel > .alert {
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.panel > form > .table, 
+.panel > form > fieldset > .table {
+    margin-bottom: 0;
+}
+
+.panel-heading > .rex-heading {
+    margin: 0;
+    font-size: $font-size-base;
+}
