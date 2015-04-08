@@ -101,7 +101,7 @@ class rex_view
      */
     public static function info($message, $cssClass = '')
     {
-        $cssClassMessage = 'rex-message-info';
+        $cssClassMessage = 'alert-info';
         if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
         }
@@ -118,7 +118,7 @@ class rex_view
      */
     public static function success($message, $cssClass = '')
     {
-        $cssClassMessage = 'rex-message-success';
+        $cssClassMessage = 'alert-success';
         if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
         }
@@ -135,7 +135,7 @@ class rex_view
      */
     public static function warning($message, $cssClass = '')
     {
-        $cssClassMessage = 'rex-message-warning';
+        $cssClassMessage = 'alert-warning';
         if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
         }
@@ -152,7 +152,7 @@ class rex_view
      */
     public static function error($message, $cssClass = '')
     {
-        $cssClassMessage = 'rex-message-error';
+        $cssClassMessage = 'alert-danger';
         if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
         }
@@ -169,7 +169,7 @@ class rex_view
      */
     private static function message($message, $cssClass)
     {
-        $cssClassMessage = 'rex-message';
+        $cssClassMessage = 'alert';
         if ($cssClass != '') {
             $cssClassMessage .= ' ' . $cssClass;
         }
