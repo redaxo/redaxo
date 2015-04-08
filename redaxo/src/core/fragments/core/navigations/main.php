@@ -1,7 +1,7 @@
     <?php if (isset($this->headline)): ?>
     <h4 class="rex-nav-main-title"><?= $this->headline['title'] ?></h4>
     <?php endif; ?>
-    <ul class="rex-nav-main-list nav">
+    <ul class="rex-nav-main-list nav nav-pills nav-stacked">
         <?php foreach ($this->items as $item):
 
             if (isset($item['active']) && $item['active']):
