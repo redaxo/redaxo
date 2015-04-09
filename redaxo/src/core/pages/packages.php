@@ -30,8 +30,8 @@ if ($subpage == 'help') {
     }
 
     $fragment = new rex_fragment();
-    $fragment->setVar('heading', rex_i18n::msg('package_help') . ' ' . $name, false);
-    $fragment->setVar('content', $content, false);
+    $fragment->setVar('header', rex_i18n::msg('package_help') . ' ' . $name, false);
+    $fragment->setVar('body', $content, false);
     echo $fragment->parse('core/page/section.php');
 
     
@@ -57,8 +57,8 @@ if ($subpage == 'help') {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('heading', rex_i18n::msg('credits'), false);
-    $fragment->setVar('content', $credits, false);
+    $fragment->setVar('header', rex_i18n::msg('credits'), false);
+    $fragment->setVar('body', $credits, false);
     echo $fragment->parse('core/page/section.php');
 
 
@@ -71,8 +71,7 @@ if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
-            <table class="table table-responsive" id="rex-table-packages">
-            <caption>' . rex_i18n::msg('package_caption') . '</caption>
+            <table class="table table-hover" id="rex-table-packages">
             <thead>
                 <tr>
                     <th>&nbsp;</th>
@@ -133,7 +132,7 @@ if ($subpage == '') {
         $message = '';
         if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) {
             $message = '
-                    <tr class="rex-' . $type . $class . ' rex-message">
+                    <tr class="rex-package-is-' . $type . $class . ' rex-message">
                         <td></td>
                         <td colspan="7">
                              ' . rex_api_function::getMessage() . '
@@ -171,6 +170,7 @@ if ($subpage == '') {
 
 
     $fragment = new rex_fragment();
+    $fragment->setVar('header', rex_i18n::msg('package_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
