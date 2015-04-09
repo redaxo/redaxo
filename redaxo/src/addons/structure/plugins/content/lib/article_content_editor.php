@@ -73,7 +73,7 @@ class rex_article_content_editor extends rex_article_content
                     // ----- / PRE VIEW ACTION
 
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
-                    $panel .= $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId);
+                    return $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
                 } else {
                     // Modulinhalt ausgeben
                     $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
@@ -86,16 +86,10 @@ class rex_article_content_editor extends rex_article_content
             }
 
 
-            // ----- Slicemenue
-            $containerClass = '';
-            if ($this->function == 'edit' && $this->slice_id == $sliceId) {
-                $containerClass = ' rex-slice-edit';
-            }
-
             $fragment = new rex_fragment();
             $fragment->setVar('header', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
-            $slice_content .= '<li class="rex-slice' . $containerClass . '">' . $fragment->parse('core/page/section.php') . '</li>';
+            $slice_content .= '<li class="rex-slice">' . $fragment->parse('core/page/section.php') . '</li>';
 
 
         }
@@ -404,7 +398,7 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- EDIT Slice
-    protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID)
+    protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)
     {
 
         $formElements = [];
@@ -437,7 +431,7 @@ class rex_article_content_editor extends rex_article_content
             </form>';
 
         $fragment = new rex_fragment();
-        $fragment->setVar('header', rex_i18n::msg('edit_block'), false);
+        $fragment->setVar('header', $this->getSliceMenu($artDataSql), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('footer', $slice_footer, false);
         $slice_content = $fragment->parse('core/page/section.php');
