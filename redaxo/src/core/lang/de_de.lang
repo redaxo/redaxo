@@ -296,12 +296,13 @@ plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte!
 
 # redaxo\include\pages\credits.php
 credits = Credits
-credits_name = AddOn
+credits_name = Name
+credits_help = Hilfe
 credits_version = Version
 credits_author = Autor
 credits_supportpage = Hilfe
 credits_addon_inactive = AddOn inaktiv
-credits_caption = Liste der verwendeten AddOns/PlugIns
+credits_caption = Liste der verwendeten Packages
 credits_open_help_file = Hilfedatei öffnen:
 credits_inventor = Erfinder
 credits_developer = Entwickler
