@@ -89,7 +89,7 @@ class rex_article_content_editor extends rex_article_content
             $fragment = new rex_fragment();
             $fragment->setVar('header', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
-            $slice_content .= '<li class="rex-slice">' . $fragment->parse('core/page/section.php') . '</li>';
+            $slice_content .= '<li class="rex-slice rex-slice-output">' . $fragment->parse('core/page/section.php') . '</li>';
 
 
         }
@@ -225,35 +225,37 @@ class rex_article_content_editor extends rex_article_content
      */
     private function getWrappedModuleOutput($moduleId, $moduleOutput)
     {
-        return '
-                        <section class="rex-slice-content">
-                                ' . $this->getStreamOutput('module/' . $moduleId . '/output', $moduleOutput) . '
-                        </section>
-                        ';
+        return $this->getStreamOutput('module/' . $moduleId . '/output', $moduleOutput);
     }
 
     private function getModuleSelect($sliceId)
     {
         // ----- BLOCKAUSWAHL - SELECT
-        $this->MODULESELECT[$this->ctype]->setId('module_id' . $sliceId);
+        $context = new rex_context([
+            'page' => rex_be_controller::getCurrentPage(),
+            'article_id' => $this->article_id,
+            'clang' => $this->clang,
+            'ctype' => $this->ctype,
+            'slice_id' => $sliceId,
+            'function' => 'add'
+        ]);
 
-        $panel = '<form id="slice' . $sliceId . '" action="' . rex_url::backendController() . '" method="get">
-                        <fieldset>
-                            <legend><span>' . rex_i18n::msg('add_block') . '</span></legend>
-                            <input type="hidden" name="page" value="content/edit" />
-                            <input type="hidden" name="article_id" value="' . $this->article_id . '" />
-                            <input type="hidden" name="clang" value="' . $this->clang . '" />
-                            <input type="hidden" name="ctype" value="' . $this->ctype . '" />
-                            <input type="hidden" name="slice_id" value="' . $sliceId . '" />
-                            <input type="hidden" name="function" value="add" />
-                            ' . $this->MODULESELECT[$this->ctype]->get() . '
-                            <noscript><button class="btn btn-primary" type="submit" name="btn_add" value="' . rex_i18n::msg('add_block') . '">' . rex_i18n::msg('add_block') . '</button></noscript>
-                        </fieldset>
-                    </form>';
+        $modules = $this->MODULESELECT[$this->ctype];
+        $items = [];
+        foreach ($modules as $module) {
+            $item = [];
+            $item['title'] = $module['name'];
+            $item['href']  = $context->getUrl(['module_id' => $module['id']]);
+            $items[] = $item;
+        }
 
         $fragment = new rex_fragment();
-        $fragment->setVar('body', $panel, false);
-        return '<li class="rex-slice-select">' . $fragment->parse('core/page/section.php') . '</li>';
+        $fragment->setVar('block', true);
+        $fragment->setVar('button_label', rex_i18n::msg('add_block'));
+        $fragment->setVar('items', $items, false);
+
+
+        return '<li class="rex-slice rex-slice-select">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
 
     }
 
@@ -275,16 +277,10 @@ class rex_article_content_editor extends rex_article_content
 
             $this->MODULESELECT = [];
             foreach ($template_ctypes as $ct_id => $ct_name) {
-                $this->MODULESELECT[$ct_id] = new rex_select;
-                $this->MODULESELECT[$ct_id]->setName('module_id');
-                $this->MODULESELECT[$ct_id]->setSize('1');
-                $this->MODULESELECT[$ct_id]->setStyle('class="form-control"');
-                $this->MODULESELECT[$ct_id]->setAttribute('onchange', '$(this.form).submit();');
-                $this->MODULESELECT[$ct_id]->addOption('----------------------------  ' . rex_i18n::msg('add_block'), '');
                 foreach ($modules as $m) {
                     if (rex::getUser()->getComplexPerm('modules')->hasPerm($m['id'])) {
                         if (rex_template::hasModule($this->template_attributes, $ct_id, $m['id'])) {
-                            $this->MODULESELECT[$ct_id]->addOption(rex_i18n::translate($m['name'], false), $m['id']);
+                            $this->MODULESELECT[$ct_id][] = ['name' => rex_i18n::translate($m['name'], false), 'id' => $m['id']];
                         }
                     }
                 }
