@@ -1,8 +1,8 @@
 <section class="rex-page-section">
 
-    <div class="panel panel-default">
+    <?php if (isset($this->before)) echo $this->before; ?>
 
-        <?php if (isset($this->before)) echo $this->before; ?>
+    <div class="panel panel-default">
 
         <?php
         $header = '';
@@ -25,12 +25,18 @@
             <?= $this->content; ?>
         <?php endif; ?>
 
-        <?php if (isset($this->footer) && $this->footer != ''): ?>
+        <?php if ((isset($this->footer) && $this->footer != '') || (isset($this->buttons) && $this->buttons != '')): ?>
             <footer class="panel-footer">
-                <?= $this->footer; ?>
+                <?php if (isset($this->footer) && $this->footer != ''): ?>
+                    <?= $this->footer; ?>
+                <?php endif; ?>
+                <?php if (isset($this->buttons) && $this->buttons != ''): ?>
+                    <?= $this->buttons; ?>
+                <?php endif; ?>
             </footer>
         <?php endif; ?>
-
-        <?php if (isset($this->after)) echo $this->after; ?>
     </div>
+
+
+    <?php if (isset($this->after)) echo $this->after; ?>
 </section>
