@@ -55,11 +55,18 @@
 .rex-icon-edit {
     @extend .fa-edit;
 }
+.rex-icon-external-link {
+    @extend .fa-external-link;
+}
 .rex-icon-help {
     @extend .fa-question;
 }
 .rex-icon-language {
     @extend .fa-flag;
+}
+.rex-icon-loading {
+    @extend .fa-pulse;
+    @extend .fa-spinner;
 }
 .rex-icon-module {
     @extend .fa-database;
