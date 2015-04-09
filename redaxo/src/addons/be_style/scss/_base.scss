@@ -36,6 +36,26 @@
 }
 
 
+.rex-ajax-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    background: rgba(#000, .8);
+    color: #fff;
+    font-size: 100px;
+
+    .rex-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
+    }
+}
+
 .rex-slices {
     @include list-unstyled();
 }

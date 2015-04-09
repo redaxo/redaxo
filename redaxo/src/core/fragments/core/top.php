@@ -32,5 +32,5 @@
 </head>
 <body<?php echo $this->bodyAttr; ?>>
 
-<div id="rex-ajax-loader" style="display: none">Loading...</div>
+<div class="rex-ajax-loader" id="rex-ajax-loader" style="display: none"><i class="rex-icon rex-icon-loading"></i><span class="sr-only">Loading...</span></div>
 <div id="rex-start-of-page" class="rex-page">
