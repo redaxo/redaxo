@@ -220,16 +220,11 @@ if ($function == 'add' || $function == 'edit') {
             $message .= rex_view::error($error);
         }
 
-        $content .= '
-            <div class="rex-form" id="rex-form-action">
-                <form action="' . rex_url::currentBackendPage() . '" method="post">
-                    <fieldset>
-                        <h2>' . $legend . ' </h2>
-
-                            <input type="hidden" name="function" value="' . $function . '" />
-                            <input type="hidden" name="save" value="1" />
-                            <input type="hidden" name="action_id" value="' . $action_id . '" />';
-
+        $panel = '';
+        $panel .= '<fieldset>
+                        <input type="hidden" name="function" value="' . $function . '" />
+                        <input type="hidden" name="save" value="1" />
+                        <input type="hidden" name="action_id" value="' . $action_id . '" />';
 
         $formElements = [];
 
@@ -241,13 +236,13 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
-        $content .= '
+        $panel .= '
                     </fieldset>
 
                     <fieldset>
-                        <h3>Preview-Action <small>' . rex_i18n::msg('action_mode_preview') . '</small></h3>';
+                        <legend>Preview-Action <small>' . rex_i18n::msg('action_mode_preview') . '</small></legend>';
 
 
         $formElements = [];
@@ -260,7 +255,7 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
 
         $formElements = [];
@@ -272,7 +267,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.php');
+        $panel .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
@@ -286,13 +281,13 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
-        $content .= '
+        $panel .= '
                     </fieldset>
 
                     <fieldset>
-                        <h3>Presave-Action <small>' . rex_i18n::msg('action_mode_presave') . '</small></h3>';
+                        <legend>Presave-Action <small>' . rex_i18n::msg('action_mode_presave') . '</small></legend>';
 
 
         $formElements = [];
@@ -305,7 +300,7 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
 
         $formElements = [];
@@ -316,7 +311,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.php');
+        $panel .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
@@ -330,14 +325,14 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
-        $content .= '
+        $panel .= '
                     </fieldset>
 
 
                     <fieldset>
-                        <h3>Postsave-Action <small>' . rex_i18n::msg('action_mode_postsave') . '</small></h3>';
+                        <legend>Postsave-Action <small>' . rex_i18n::msg('action_mode_postsave') . '</small></legend>';
 
 
         $formElements = [];
@@ -350,7 +345,7 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
 
         $formElements = [];
@@ -361,7 +356,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.php');
+        $panel .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
@@ -375,9 +370,9 @@ if ($function == 'add' || $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
-        $content .= '</fieldset>';
+        $panel .= '</fieldset>';
 
 
         $formElements = [];
@@ -399,33 +394,43 @@ if ($function == 'add' || $function == 'edit') {
         }
 
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/submit.php');
+        $buttons = $fragment->parse('core/form/submit.php');
 
-        $content .= '
-                </form>
-            </div>
+    
+        $fragment = new rex_fragment();
+        $fragment->setVar('heading', $legend, false);
+        $fragment->setVar('body', $panel, false);
+        $fragment->setVar('buttons', $buttons, false);
+        $content = $fragment->parse('core/page/section.php');
 
-            <script type="text/javascript">
-            <!--
 
-            jQuery(function($) {
-                var eventTypes = "#rex-js-preview #rex-js-presave #rex-js-postsave";
+        $content = '
+        <form id="rex-form-action" action="' . rex_url::currentBackendPage() . '" method="post">
+            ' . $content . '
+        </form>
+        <script type="text/javascript">
+        <!--
 
-                $(eventTypes.split(" ")).each(function() {
-                    var eventType = this;
-                    $(eventType+ "-allevents").click(function() {
-                        $(eventType+"-events").slideToggle("slow");
-                    });
+        jQuery(function($) {
+            var eventTypes = "#rex-js-preview #rex-js-presave #rex-js-postsave";
 
-                    if($(eventType+"-allevents").is(":checked")) {
-                        $(eventType+"-events").hide();
-                    }
+            $(eventTypes.split(" ")).each(function() {
+                var eventType = this;
+                $(eventType+ "-allevents").click(function() {
+                    $(eventType+"-events").slideToggle("slow");
                 });
-            });
 
-            -->
-            </script>
-            ';
+                if($(eventType+"-allevents").is(":checked")) {
+                    $(eventType+"-events").hide();
+                }
+            });
+        });
+
+        -->
+        </script>
+        ';
+
+        echo $content;
 
         $OUT = false;
     }
@@ -442,7 +447,7 @@ if ($OUT) {
 
     // ausgabe actionsliste !
     $content .= '
-        <table class="table table-striped" id="rex-table-action">
+        <table class="table table-striped table-hover" id="rex-table-action">
             <thead>
                 <tr>
                     <th><a href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
@@ -511,11 +516,12 @@ if ($OUT) {
     if ($rows < 1) {
         $content .= rex_view::info(rex_i18n::msg('actions_not_found'));
     }
+
+    echo $message;
+    
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('action_caption'), false);
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 }
 
-echo $message;
-
-$fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('action_caption'), false);
-$fragment->setVar('content', $content, false);
-echo $fragment->parse('core/page/section.php');

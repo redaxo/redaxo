@@ -188,9 +188,9 @@ if ($function == 'add' or $function == 'edit') {
 
         $echo    = '';
         $content = '';
-        $content .= '
+        $panel   = '';
+        $panel  .= '
                 <fieldset>
-                    <h2>' . $legend . '</h2>
                         <input type="hidden" name="function" value="' . $function . '" />
                         <input type="hidden" name="save" value="1" />
                         <input type="hidden" name="category_id" value="0" />
@@ -217,10 +217,10 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
 
-        $content .= '</fieldset>';
+        $panel .= '</fieldset>';
 
 
         $formElements = [];
@@ -242,9 +242,14 @@ if ($function == 'add' or $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/submit.php');
+        $buttons = $fragment->parse('core/form/submit.php');
 
-        //$echo .= rex_view::content('block', $content, '', $params = ['flush' => true]);
+                
+        $fragment = new rex_fragment();
+        $fragment->setVar('heading', $legend, false);
+        $fragment->setVar('body', $panel, false);
+        $fragment->setVar('buttons', $buttons, false);
+        $content .= $fragment->parse('core/page/section.php');
 
 
         if ($function == 'edit') {
@@ -281,7 +286,7 @@ if ($function == 'add' or $function == 'edit') {
 
                 if ($actions != '') {
                     $actions = '
-                        <tableclass="table table-striped" id="rex-table-module-action">
+                        <table class="table table-striped table-hover" id="rex-table-module-action">
                             <caption>' . rex_i18n::msg('actions_added_caption') . '</caption>
                             <thead>
                                 <tr>
@@ -308,10 +313,9 @@ if ($function == 'add' or $function == 'edit') {
                     $gaa->next();
                 }
 
-                $content = '';
-                $content .= $actions . '
-                <fieldset>
-                    <h2>' . rex_i18n::msg('action_add') . '</h2>';
+                $panel = '';
+                $panel .= $actions . '
+                <fieldset>';
 
 
                 $formElements = [];
@@ -323,9 +327,9 @@ if ($function == 'add' or $function == 'edit') {
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/form.php');
+                $panel .= $fragment->parse('core/form/form.php');
 
-                $content .= '</fieldset>';
+                $panel .= '</fieldset>';
 
 
                 $formElements = [];
@@ -336,24 +340,26 @@ if ($function == 'add' or $function == 'edit') {
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/submit.php');
+                $buttons = $fragment->parse('core/form/submit.php');
 
-                //$echo .= rex_view::content('block', $content, '', $params = ['flush' => true]);
+                
+                $fragment = new rex_fragment();
+                $fragment->setVar('heading', rex_i18n::msg('action_add'), false);
+                $fragment->setVar('body', $panel, false);
+                $fragment->setVar('buttons', $buttons, false);
+                $content .= $fragment->parse('core/page/section.php');
+
             }
         }
 
         $content = '
-        <div class="rex-form" id="rex-form-module">
-            <form action="' . rex_url::currentBackendPage() . '" method="post">
+            <form id="rex-form-module" action="' . rex_url::currentBackendPage() . '" method="post">
             ' . $content . '
-            </form>
-        </div>';
+            </form>';
 
         echo $message;
 
-        $fragment = new rex_fragment();
-        $fragment->setVar('content', $content, false);
-        echo $fragment->parse('core/page/section.php');
+        echo $content;
 
         $OUT = false;
     }
