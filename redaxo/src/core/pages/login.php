@@ -112,5 +112,5 @@ $content .= '
 
 $fragment = new rex_fragment();
 $fragment->setVar('heading', rex_i18n::msg('login_welcome'), false);
-$fragment->setVar('content', $content, false);
+$fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
