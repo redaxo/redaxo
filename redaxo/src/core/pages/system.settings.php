@@ -137,8 +137,8 @@ $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('system_features'));
-$fragment->setVar('content', $content, false);
+$fragment->setVar('header', rex_i18n::msg('system_features'));
+$fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
 
@@ -207,6 +207,14 @@ foreach (rex_system_setting::getAll() as $setting) {
 
 
 
+$content[] = $elements;
+
+
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+$content = $fragment->parse('core/page/grid.php');
+
+
 
 $formElements = [];
 
@@ -216,27 +224,20 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$elements .= $fragment->parse('core/form/submit.php');
+$buttons = $fragment->parse('core/form/submit.php');
 
-
-$content[] = $elements;
 
 
 $fragment = new rex_fragment();
-$fragment->setVar('content', $content, false);
-$content = $fragment->parse('core/page/grid.php');
-
+$fragment->setVar('header', rex_i18n::msg('system_settings'));
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
 
 $content = '
-<div class="rex-form" id="rex-form-system-setup">
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <input type="hidden" name="func" value="updateinfos" />
-        ' . $content . '
-    </form>
-</div>';
+<form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
+    <input type="hidden" name="func" value="updateinfos" />
+    ' . $content . '
+</form>';
 
-
-$fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('system_settings'));
-$fragment->setVar('content', $content, false);
-echo $fragment->parse('core/page/section.php');
+echo $content;

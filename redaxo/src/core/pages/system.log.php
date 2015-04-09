@@ -24,15 +24,15 @@ if ($func == 'delLog') {
     }
 
 }
-
+$message = '';
 $content = '';
 
 if ($success != '') {
-    $content .= rex_view::success($success);
+    $message .= rex_view::success($success);
 }
 
 if ($error != '') {
-    $content .= rex_view::error($error);
+    $message .= rex_view::error($error);
 }
 
 $content .= '
@@ -72,10 +72,6 @@ $content .= '
                 </tbody>
             </table>';
 
-$content .= '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <input type="hidden" name="func" value="delLog" />';
-
 
 $formElements = [];
 
@@ -85,13 +81,23 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.php');
+$buttons = $fragment->parse('core/form/submit.php');
 
-
-$content .= '
-    </form>';
 
 
 $fragment = new rex_fragment();
+$fragment->setVar('header', rex_i18n::msg('syslog'), false);
 $fragment->setVar('content', $content, false);
-echo $fragment->parse('core/page/section.php');
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+
+
+$content = '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        <input type="hidden" name="func" value="delLog" />
+        ' . $content . '
+    </form>';
+
+echo $message;
+echo $content;
