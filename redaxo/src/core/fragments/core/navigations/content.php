@@ -42,17 +42,23 @@ foreach ($navigations as $nav_key => $navigation) {
 
         if ($nav_key == 'right') {
 
-            if (is_array($navi['itemClasses'])) {
+            if (isset($navi['itemClasses']) && is_array($navi['itemClasses'])) {
                 array_unshift($navi['itemClasses'], 'pull-right');
             } else {
                 $navi['itemClasses'] = ['pull-right'];
             }
         }
 
+        if (isset($navi['itemAttr']['class']) && $navi['itemAttr']['class'] != '') {
+            if (! in_array($navi['itemAttr']['class'], $navi['itemClasses'])) {
+                array_unshift($navi['itemClasses'], $navi['itemAttr']['class']);
+            }
+            unset($navi['itemAttr']['class']);
+        }
+
         if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
             $attributes['class'] = implode(' ', $navi['itemClasses']);
         }
-
 
         if (isset($navi['itemAttr']) && is_array($navi['itemAttr']) && count($navi['itemAttr']) > 0) {
             foreach ($navi['itemAttr'] as $key => $value) {
@@ -102,62 +108,13 @@ foreach ($navigations as $nav_key => $navigation) {
 }
 
 
-
-
-
-
-/*
-echo '<div class="rex-navi-content">';
-
-$right = '';
-if (isset($navigations['right'])) {
-    $right .= '<ul class="rex-navi-content-items">' . $navigations['right'] . '</ul>';
-}
-
-$gizmo = '';
-if (isset($this->text_right) && $this->text_right != '') {
-    $gizmo .= '<span class="rex-navi-content-text">' . $this->text_right . '</span>';
-}
-if (isset($this->right) && $this->right != '') {
-    $gizmo = '<span class="rex-navi-content-gizmo">' . $this->right . $gizmo . '</span>';
-}
-
-$right .= $gizmo;
-
-echo $right != '' ? '<div class="rex-navi-content-right">' . $right . '</div>' : '';
-
-
-// left text
-$gizmo = '';
-if (isset($this->text_left) && $this->text_left != '') {
-    $gizmo .= '<span class="rex-navi-content-text">' . $this->text_left . '</span>';
-}
-if (isset($this->left) && $this->left != '') {
-    $gizmo = '<span class="rex-navi-content-gizmo">' . $gizmo . $this->left . '</span>';
-}
-
-echo $gizmo;
-
-// left navi
-if (isset($navigations['left'])) {
-    echo '<ul class="rex-navi-content-items">';
-    echo $navigations['left'];
-    echo '</ul>';
-}
-
-echo '</div>';
-*/
-
 $tabs = '';
 $tabs .= isset($navigations['left']) ? $navigations['left'] : '';
 $tabs .= isset($navigations['right']) ? $navigations['right'] : '';
-echo $tabs == '' ? '' : '<div class="rex-nav-tab"><ul class="nav nav-tabs">' . $tabs . '</ul></div>';
+echo $tabs == '' ? '' : '<ul class="nav nav-tabs">' . $tabs . '</ul>';
 
 
 
 if (isset($navigations['children'])) {
-    echo '
-        <div class="rex-navi-content-head">
-            <ul class="rex-piped">' . $navigations['children'] . '</ul>
-        </div>';
+    echo '<ul class="nav nav-pills">' . $navigations['children'] . '</ul>';
 }
