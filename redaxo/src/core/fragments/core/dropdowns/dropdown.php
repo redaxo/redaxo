@@ -1,5 +1,5 @@
-<div class="dropdown pull-right<?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+<div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
+    <button class="btn btn-default<?= (isset($this->block) ? ' btn-block' : '')?> dropdown-toggle" type="button" data-toggle="dropdown">
         <?php if (isset($this->button_prefix) && $this->button_prefix != ''): ?>
         <?= $this->button_prefix ?>
         <?php endif; ?>
@@ -8,7 +8,7 @@
         <?php endif; ?>
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu<?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
         <?php if (isset($this->header) && $this->header != ''): ?>
             <li class="dropdown-header"><?= $this->header ?></li>
         <?php endif; ?>
