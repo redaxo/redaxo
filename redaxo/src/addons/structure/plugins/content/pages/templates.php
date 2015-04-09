@@ -159,6 +159,7 @@ if ($function == 'add' or $function == 'edit') {
         $modul_select = new rex_select();
         $modul_select->setMultiple(true);
         $modul_select->setSize(10);
+        $modul_select->setAttribute('class', 'form-control');
         $m_sql = rex_sql::factory();
         foreach ($m_sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name') as $m) {
             $modul_select->addOption(rex_i18n::translate($m['name']), $m['id']);
@@ -170,6 +171,7 @@ if ($function == 'add' or $function == 'edit') {
         $cat_select->setSize(10);
         $cat_select->setName('categories[]');
         $cat_select->setId('rex-id-categories-select');
+        $cat_select->setAttribute('class', 'form-control');
 
         if (count($categories) > 0) {
             foreach ($categories as $c => $cc) {
@@ -206,7 +208,7 @@ if ($function == 'add' or $function == 'edit') {
                 $formElements = [];
                 $n = [];
                 $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('id') . ' = ' . $i . '</label>';
-                $n['field'] = '<input id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
+                $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -289,28 +291,24 @@ if ($function == 'add' or $function == 'edit') {
 
 
 
-        $content = '';
+        $panel = '';
 
-        $content .= '
-            <div class="rex-form" id="rex-form-template">
-                <form action="' . rex_url::currentBackendPage() . '" method="post">
+        $panel .= '
                     <fieldset>
-                        <h2>' . $legend . '</h2>
-
-                            <input type="hidden" name="function" value="' . $function . '" />
-                            <input type="hidden" name="save" value="ja" />
-                            <input type="hidden" name="template_id" value="' . $template_id . '" />';
+                        <input type="hidden" name="function" value="' . $function . '" />
+                        <input type="hidden" name="save" value="ja" />
+                        <input type="hidden" name="template_id" value="' . $template_id . '" />';
 
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-templatename">' . rex_i18n::msg('template_name') . '</label>';
-        $n['field'] = '<input type="text" id="rex-id-templatename" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
+        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
 
         $formElements = [];
@@ -322,27 +320,27 @@ if ($function == 'add' or $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.php');
+        $panel .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
-        $n['field'] = '<textarea class="rex-very-long rex-code" name="content" id="rex-id-content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code" id="rex-id-content" name="content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
-        $content .= '
+        $panel .= '
                 </fieldset>
 
                 <!-- DIV noetig fuer JQuery slideIn -->
                 <div id="rex-form-template-ctype">
                 <fieldset>
-                    <h2>' . rex_i18n::msg('content_types') . '</h2>
+                    <legend>' . rex_i18n::msg('content_types') . '</legend>
                         ' . $ctypes_out . '
                 </fieldset>
                 </div>
@@ -350,7 +348,7 @@ if ($function == 'add' or $function == 'edit') {
 
                  <div id="rex-form-template-categories">
                     <fieldset>
-                         <h2>' . rex_i18n::msg('template_categories') . '</h2>';
+                         <legend>' . rex_i18n::msg('template_categories') . '</legend>';
 
 
 
@@ -370,7 +368,7 @@ if ($function == 'add' or $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/checkbox.php');
+        $panel .= $fragment->parse('core/form/checkbox.php');
 
 
         $formElements = [];
@@ -384,9 +382,9 @@ if ($function == 'add' or $function == 'edit') {
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $panel .= $fragment->parse('core/form/form.php');
 
-        $content .= '
+        $panel .= '
                     </fieldset>
                 </div>';
 
@@ -394,7 +392,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -407,12 +405,21 @@ if ($function == 'add' or $function == 'edit') {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/submit.php');
+        $buttons = $fragment->parse('core/form/submit.php');
 
-        $content .= '
 
-                </form>
-            </div>
+        $fragment = new rex_fragment();
+        $fragment->setVar('heading', $legend, false);
+        $fragment->setVar('body', $panel, false);
+        $fragment->setVar('buttons', $buttons, false);
+        $content = $fragment->parse('core/page/section.php');
+
+
+
+        $content = '
+            <form id="rex-form-template" action="' . rex_url::currentBackendPage() . '" method="post">
+                ' . $content . '
+            </form>
 
             <script type="text/javascript">
             <!--
@@ -442,6 +449,10 @@ if ($function == 'add' or $function == 'edit') {
 
             //--></script>';
 
+
+        echo $message;
+        echo $content;
+
         $OUT = false;
     }
 }
@@ -456,7 +467,6 @@ if ($OUT) {
     }
 
     $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
-    $list->setCaption(rex_i18n::msg('header_template_caption'));
     $list->addTableAttribute('id', 'rex-table-template');
     $list->addTableAttribute('class', 'table-striped');
 
@@ -493,11 +503,11 @@ if ($OUT) {
     $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));
 
     $content .= $list->get();
+
+    echo $message;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('heading', rex_i18n::msg('header_template_caption'), false);
+    $fragment->setVar('content', $content, false);
+    echo $fragment->parse('core/page/section.php');
 }
-
-echo $message;
-
-
-$fragment = new rex_fragment();
-$fragment->setVar('content', $content, false);
-echo $fragment->parse('core/page/section.php');
