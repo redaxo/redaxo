@@ -34,3 +34,8 @@
     margin: 0;
     font-size: $font-size-base;
 }
+
+
+.rex-slices {
+    @include list-unstyled();
+}
