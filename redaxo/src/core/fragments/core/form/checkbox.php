@@ -7,12 +7,12 @@ foreach ($this->elements as $element) {
     $id         = isset($element['id'])         ? ' id="' . $element['id'] . '"' : '';
     $label      = isset($element['label'])      ? $element['label'] : '<label></label>';
     $field      = isset($element['field'])      ? $element['field'] : '';
-    $note       = isset($element['note'])       ? '<span class="rex-form-note">' . $element['note'] . '</span>' : '';
+    $note       = isset($element['note'])       ? '<span class="help-block">' . $element['note'] . '</span>' : '';
     $highlight  = isset($element['highlight'])  ? $element['highlight'] : false;
 
     if ($field != '') {
         $match = $highlight ? '<em class="rex-highlight">$2</em>' : '$2';
-        $label = preg_replace('@(<label\b[^>]*>)(.*?)(</label>)@', '$1' . $field . $match . '$3', $label);
+        $label = preg_replace('@(<label\b[^>]*>)(.*?)(</label>)@', '$1' . $field . $match . $note . '$3', $label);
     }
 
     $classes = '';
@@ -28,7 +28,6 @@ foreach ($this->elements as $element) {
 
     $out .= '<div class="checkbox' . $classes . '"' . $id . '>';
     $out .= $label;
-    $out .= $note;
     $out .= '</div>';
 }
 
