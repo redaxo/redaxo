@@ -18,8 +18,6 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $addon = $addons[$addonkey];
 
     $content = '
-        <h2><b>' . $addonkey . '</b> ' . $this->i18n('information') . '</h2>
-
         <table id="rex-table-install-packages-information" class="table">
             <tbody>
             <tr>
@@ -42,10 +40,15 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         </table>';
 
 
-    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', '<b>' . $addonkey . '</b> ' . $this->i18n('information'), false);
+    $fragment->setVar('content', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 
     $content = '
-        <h2>' . $this->i18n('files') . '</h2>
         <table id="rex-table-install-packages-files" class="table">
             <thead>
             <tr>
@@ -60,28 +63,44 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     foreach ($addon['files'] as $fileId => $file) {
         $content .= '
             <tr>
-                <td class="rex-slim"><span class="rex-icon rex-icon-package"></span></td>
+                <td class="rex-slim"><i class="rex-icon rex-icon-package"></i></td>
                 <td class="rex-version">' . $file['version'] . '</td>
                 <td class="rex-description">' . nl2br($file['description']) . '</td>
-                <td class="rex-function"><a class="rex-link rex-download" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId]) . '">' . $this->i18n('download') . '</a></td>
+                <td class="rex-function"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId]) . '"><i class="rex-icon rex-icon-download"></i> ' . $this->i18n('download') . '</a></td>
             </tr>';
     }
 
     $content .= '</tbody></table>';
 
-    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $this->i18n('files'), false);
+    $fragment->setVar('content', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 
 
 } else {
 
-    echo rex_view::content('block', '<input type="text" id="rex-install-addon-search" class="rex-form-text" placeholder="Suchen…" style="width: 300px"/>');
+    $toolbar = '
+    <div class="navbar-form">
+        <div class="form-group">
+            <div class="input-group" id="rex-js-install-addon-search">
+                <span class="input-group-addon"><i class="rex-icon rex-icon-search"></i></span>
+                <input class="form-control" type="text" placeholder="' . $this->i18n('search') . '" />
+                <span class="input-group-btn"><button class="btn btn-default">' . $this->i18n('clear') . '</button></span>
+            </div>
+        </div>
+    </div>
+    ';
+    echo rex_view::toolbar($toolbar, '', 'rex-navbar-flexible');
+
 
     $content = '
-        <h2>' . $this->i18n('addons_found', count($addons)) . '</h2>
-        <table id="rex-table-install-packages-addons" class="table table-striped">
+        <table id="rex-js-table-install-packages-addons" class="table table-striped table-hover">
          <thead>
             <tr>
-                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '">' . $this->i18n('reload') . '</a></th>
+                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
                 <th class="rex-key">' . $this->i18n('key') . '</th>
                 <th class="rex-name rex-author">' . $this->i18n('name') . ' / ' . $this->i18n('author') . '</th>
                 <th class="rex-shortdescription">' . $this->i18n('shortdescription') . '</th>
@@ -94,21 +113,21 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         if (rex_addon::exists($key)) {
             $content .= '
                 <tr>
-                    <td class="rex-slim"></td>
+                    <td class="rex-slim"><i class="rex-icon rex-icon-package"></i></td>
                     <td class="rex-key">' . $key . '</td>
                     <td class="rex-name rex-author"><span class="rex-name">' . $addon['name'] . '</span><span class="rex-author">' . $addon['author'] . '</span></td>
                     <td class="rex-shortdescription">' . nl2br($addon['shortdescription']) . '</td>
-                    <td class="rex-view">' . $this->i18n('addon_already_exists') . '</td>
+                    <td class="rex-view"><span class="text-nowrap"><i class="rex-icon rex-icon-package-exists"></i> ' . $this->i18n('addon_already_exists') . '</span></td>
                 </tr>';
         } else {
             $url = rex_url::currentBackendPage(['addonkey' => $key]);
             $content .= '
                 <tr>
-                    <td class="rex-slim"><a href="' . $url . '"><span class="rex-icon rex-icon-package"></span></a></td>
+                    <td class="rex-slim"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                     <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
                     <td class="rex-name rex-author"><span class="rex-name">' . $addon['name'] . '</span><span class="rex-author">' . $addon['author'] . '</span></td>
                     <td class="rex-shortdescription">' . nl2br($addon['shortdescription']) . '</td>
-                    <td class="rex-view"><a href="' . $url . '" class="rex-link rex-view">' . rex_i18n::msg('view') . '</a></td>
+                    <td class="rex-view"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
                 </tr>';
         }
     }
@@ -119,8 +138,8 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         <script type="text/javascript">
         <!--
         jQuery(function($) {
-            var table = $("#rex-table-install-packages-addons");
-            $("#rex-install-addon-search").keyup(function () {
+            var table = $("#rex-js-table-install-packages-addons");
+            $("#rex-js-install-addon-search .form-control").keyup(function () {
                 table.find("tr").show();
                 var search = $(this).val().toLowerCase();
                 if (search) {
@@ -132,12 +151,21 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                     });
                 }
             });
+            $("#rex-js-install-addon-search .btn").click(function () {
+                $("#rex-js-install-addon-search .form-control").val("").trigger("keyup");
+            });
         });
         //-->
         </script>
     ';
 
 
-    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $this->i18n('addons_found', count($addons)), false);
+    $fragment->setVar('content', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 
 }

@@ -63,3 +63,6 @@ install_settings_api_key = API-Key
 install_settings_saved = Einstellungen wurden gespeichert!
 
 install_header_function = Funktion
+
+install_clear = Löschen
+install_search = Suchen ...
