@@ -208,4 +208,4 @@ echo $fragment->parse('core/navigation.php');
 
 $pjax = $curPage->allowsPjax() ? ' data-pjax-container="#rex-js-page-main"' : '';
 
-?><section class="rex-page-main" id="rex-js-page-main"<?= $pjax ?>>
+?><div class="rex-page-main"><section class="rex-page-main-inner" id="rex-js-page-main"<?= $pjax ?>>
