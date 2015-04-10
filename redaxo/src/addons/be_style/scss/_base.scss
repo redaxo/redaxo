@@ -7,9 +7,13 @@
     }
 
     .rex-page-main {
-        overflow: hidden;
+        @include clearfix();
         margin-left: 250px;
         padding: 15px;
+    }
+    .rex-page-main-inner {
+        float: left;
+        width: 100%;
     }
 
     .rex-global-footer {
