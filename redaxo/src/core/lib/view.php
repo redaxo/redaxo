@@ -189,15 +189,17 @@ class rex_view
      * Returns a toolbar
      *
      * @param string $content
+     * @param string $brand
      * @param string $cssClass
      * @return string
      */
-    public static function toolbar($content, $cssClass = null)
+    public static function toolbar($content, $brand = null, $cssClass = null)
     {
         $fragment = new rex_fragment();
-        $fragment->setVar('class', $cssClass);
+        $fragment->setVar('cssClass', $cssClass);
+        $fragment->setVar('brand', $brand);
         $fragment->setVar('content', $content, false);
-        $return = $fragment->parse('toolbar.php');
+        $return = $fragment->parse('core/toolbar.php');
 
         return $return;
     }
