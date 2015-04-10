@@ -58,6 +58,9 @@
 .rex-icon-down {
     @extend .fa-angle-down;
 }
+.rex-icon-download {
+    @extend .fa-download;
+}
 .rex-icon-edit {
     @extend .fa-edit;
 }
@@ -83,11 +86,17 @@
 .rex-icon-open-linkmap {
     @extend .fa-align-justify;
 }
+.rex-icon-package {
+    @extend .fa-bookmark;
+}
 .rex-icon-package-addon {
     @extend .fa-bookmark;
 }
 .rex-icon-package-delete {
     @extend .fa-trash;
+}
+.rex-icon-package-exists {
+    @extend .fa-eye-slash;
 }
 .rex-icon-package-is-activated {
     @extend .fa-check;
@@ -118,6 +127,12 @@
 .rex-icon-phpinfo {
     @extend .fa-info-circle;
 }
+.rex-icon-refresh {
+    @extend .fa-refresh;
+}
+.rex-icon-search {
+    @extend .fa-search;
+}
 .rex-icon-sign-in {
     @extend .fa-sign-in;
 }
@@ -141,5 +156,8 @@
 }
 .rex-icon-userrole {
     @extend .fa-user;
+}
+.rex-icon-view {
+    @extend .fa-eye;
 }
 

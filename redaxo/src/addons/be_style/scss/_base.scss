@@ -60,6 +60,21 @@
     }
 }
 
+.rex-navbar-flexible {
+    .form-group {
+        display: inline;
+
+        > .input-group {
+            display: table;
+
+            > .input-group-addon, 
+            > .input-group-btn {
+                width: 1%;
+            }
+        }
+    }
+}
+
 .rex-slices {
     @include list-unstyled();
 }
