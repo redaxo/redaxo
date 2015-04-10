@@ -31,6 +31,12 @@
 .rex-icon-add-template {
     @extend .fa-plus;
 }
+.rex-icon-add-user {
+    @extend .fa-plus;
+}
+.rex-icon-add-userrole {
+    @extend .fa-plus;
+}
 .rex-icon-article {
     @extend .fa-file-text-o;
 }
@@ -131,6 +137,9 @@
     @extend .fa-angle-up;
 }
 .rex-icon-user {
+    @extend .fa-user;
+}
+.rex-icon-userrole {
     @extend .fa-user;
 }
 
