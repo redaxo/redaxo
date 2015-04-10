@@ -151,7 +151,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 
 $fragment = new rex_fragment();
-$fragment->setVar('header', rex_i18n::msg('profile_myprofile'), false);
+$fragment->setVar('title', rex_i18n::msg('profile_myprofile'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -214,7 +214,7 @@ $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('header', rex_i18n::msg('profile_changepsw'), false);
+$fragment->setVar('title', rex_i18n::msg('profile_changepsw'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

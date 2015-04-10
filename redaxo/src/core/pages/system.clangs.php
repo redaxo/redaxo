@@ -150,7 +150,7 @@ $content .= '
 echo $message;
 
 $fragment = new rex_fragment();
-$fragment->setVar('header', rex_i18n::msg('clang_caption'), false);
+$fragment->setVar('title', rex_i18n::msg('clang_caption'), false);
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');
 

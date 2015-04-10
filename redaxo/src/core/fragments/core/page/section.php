@@ -6,11 +6,11 @@
 
         <?php
         $header = '';
-        if (isset($this->heading) && $this->heading != '') {
-            $header .= '<h2 class="rex-heading">' . $this->heading . '</h2>';
+        if (isset($this->title) && $this->title != '') {
+            $header .= '<div class="panel-title">' . $this->title . '</div>';
         }
-        if (isset($this->header) && $this->header != '') {
-            $header .= $this->header;
+        if (isset($this->heading) && $this->heading != '') {
+            $header .= $this->heading;
         }
         echo $header != '' ? '<header class="panel-heading">' . $header . '</header>' : '';
         ?>

@@ -137,7 +137,7 @@ $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('header', rex_i18n::msg('system_features'));
+$fragment->setVar('title', rex_i18n::msg('system_features'));
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -229,7 +229,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 
 $fragment = new rex_fragment();
-$fragment->setVar('header', rex_i18n::msg('system_settings'));
+$fragment->setVar('title', rex_i18n::msg('system_settings'));
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

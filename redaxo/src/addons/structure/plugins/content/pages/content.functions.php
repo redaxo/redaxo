@@ -62,7 +62,7 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $panel .= '</fieldset>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_startarticle'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_startarticle'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -98,7 +98,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_category'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_category'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -153,7 +153,7 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_article'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_article'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -235,7 +235,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_submitcopycontent'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_submitcopycontent'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -280,7 +280,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_submitmovearticle'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_submitmovearticle'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -324,7 +324,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_submitcopyarticle'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_submitcopyarticle'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');
@@ -368,7 +368,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('content_submitmovecategory'), false);
+    $fragment->setVar('title', rex_i18n::msg('content_submitmovecategory'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content .= $fragment->parse('core/page/section.php');

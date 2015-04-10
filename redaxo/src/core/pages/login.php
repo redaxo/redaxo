@@ -88,7 +88,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 
 $fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('login_welcome'), false);
+$fragment->setVar('title', rex_i18n::msg('login_welcome'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

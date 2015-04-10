@@ -30,7 +30,7 @@ if ($subpage == 'help') {
     }
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('package_help') . ' ' . $name, false);
+    $fragment->setVar('title', rex_i18n::msg('package_help') . ' ' . $name, false);
     $fragment->setVar('body', $content, false);
     echo $fragment->parse('core/page/section.php');
 
@@ -57,7 +57,7 @@ if ($subpage == 'help') {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('credits'), false);
+    $fragment->setVar('title', rex_i18n::msg('credits'), false);
     $fragment->setVar('body', $credits, false);
     echo $fragment->parse('core/page/section.php');
 
@@ -170,7 +170,7 @@ if ($subpage == '') {
 
 
     $fragment = new rex_fragment();
-    $fragment->setVar('header', rex_i18n::msg('package_caption'), false);
+    $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }

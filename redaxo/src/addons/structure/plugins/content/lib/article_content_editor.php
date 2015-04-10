@@ -87,7 +87,7 @@ class rex_article_content_editor extends rex_article_content
 
 
             $fragment = new rex_fragment();
-            $fragment->setVar('header', $this->getSliceMenu($artDataSql), false);
+            $fragment->setVar('title', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
             $slice_content .= '<li class="rex-slice rex-slice-output">' . $fragment->parse('core/page/section.php') . '</li>';
 
@@ -368,7 +368,7 @@ class rex_article_content_editor extends rex_article_content
 
             $fragment = new rex_fragment();
             $fragment->setVar('before', $msg, false);
-            $fragment->setVar('header', rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name')), false);
+            $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name')), false);
             $fragment->setVar('body', $panel, false);
             $fragment->setVar('footer', $slice_footer, false);
             $slice_content = $fragment->parse('core/page/section.php');
@@ -427,7 +427,7 @@ class rex_article_content_editor extends rex_article_content
             </form>';
 
         $fragment = new rex_fragment();
-        $fragment->setVar('header', $this->getSliceMenu($artDataSql), false);
+        $fragment->setVar('title', $this->getSliceMenu($artDataSql), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('footer', $slice_footer, false);
         $slice_content = $fragment->parse('core/page/section.php');
