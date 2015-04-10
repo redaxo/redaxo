@@ -10,9 +10,9 @@ if ($func == 'delete') {
 }
 
 if ($func == '') {
+    $title = rex_i18n::msg('user_role_caption');
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
-    $list->setCaption(rex_i18n::msg('user_role_caption'));
     $list->addTableAttribute('class', 'rex-table-middle table-striped');
 
     $tdIcon = '<span class="rex-icon rex-icon-userrole"></span>';
@@ -36,9 +36,15 @@ if ($func == '') {
 
     $content .= $list->get();
 
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $title);
+    $fragment->setVar('content', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
 } else {
-    $label = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
-    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', $label, 'id = ' . $id);
+    $title = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
+
+    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
     $form->setEditMode($func == 'edit');
@@ -139,6 +145,12 @@ if ($func == '') {
         ';
     }
 
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $title);
+    $fragment->setVar('body', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
 }
 
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+echo $content;

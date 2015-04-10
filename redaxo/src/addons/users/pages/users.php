@@ -63,6 +63,7 @@ $sel_role = new rex_select;
 $sel_role->setSize(1);
 $sel_role->setName('userrole');
 $sel_role->setId('userrole');
+$sel_role->setAttribute('class', 'form-control');
 $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = [];
 $sql_role = rex_sql::factory();
@@ -78,6 +79,7 @@ $sel_be_sprache = new rex_select;
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName('userperm_be_sprache');
 $sel_be_sprache->setId('userperm-mylang');
+$sel_be_sprache->setAttribute('class', 'form-control');
 $sel_be_sprache->addOption('default', '');
 $saveLocale = rex_i18n::getLocale();
 $langs = [];
@@ -94,6 +96,7 @@ $sel_startpage = new rex_select;
 $sel_startpage->setSize(1);
 $sel_startpage->setName('userperm_startpage');
 $sel_startpage->setId('userperm-startpage');
+$sel_startpage->setAttribute('class', 'form-control');
 $sel_startpage->addOption('default', '');
 
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
@@ -262,6 +265,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $statuschecked = 'checked="checked"';
     }
 
+    $buttons = '';
     if ($user_id > 0) {
         // User Edit
 
@@ -272,7 +276,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -286,7 +290,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $add_submit = $fragment->parse('core/form/submit.php');
+        $buttons = $fragment->parse('core/form/submit.php');
         unset($formElements);
 
         $sql = rex_sql::factory();
@@ -343,7 +347,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
         $add_admin_chkbox = '<input type="checkbox" id="useradmin" name="useradmin" value="1" ' . $adminchecked . ' />';
         $add_status_chkbox = '<input type="checkbox" id="userstatus" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input type="text" id="userlogin" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+        $add_user_login = '<input class="form-control" type="text" id="userlogin" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
 
 
         $formElements = [];
@@ -355,15 +359,12 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
-            $add_submit = $fragment->parse('core/form/submit.php');
+            $buttons = $fragment->parse('core/form/submit.php');
         unset($formElements);
     }
 
     $content .= '
-    <div class="rex-form" id="rex-form-user">
-        <form action="' . rex_url::currentBackendPage() . '" method="post" id="userform">
             <fieldset>
-                <h2>' . $form_label . '</h2>
                 <input type="hidden" name="javascript" value="0" id="javascript" />
                 <input type="hidden" name="subpage" value="" />
                 <input type="hidden" name="save" value="1" />
@@ -378,7 +379,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="userpsw">' . rex_i18n::msg('password') . '</label>';
-    $n['field'] = '<input type="password" id="userpsw" name="userpsw" autocomplete="off" />';
+    $n['field'] = '<input class="form-control" type="password" id="userpsw" name="userpsw" autocomplete="off" />';
 
     if (rex::getProperty('pswfunc') != '') {
         $n['note'] = rex_i18n::msg('psw_encrypted');
@@ -389,12 +390,12 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="username">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" id="username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="userdesc">' . rex_i18n::msg('description') . '</label>';
-    $n['field'] = '<input type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
 
     $formElements[] = $n;
 
@@ -452,38 +453,47 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/form.php');
 
-        $content .= '
-            </fieldset>
+    $content .= '</fieldset>';
 
-            ' . $add_submit . '
 
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $form_label);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
+    $content = $fragment->parse('core/page/section.php');
+
+
+    $content = '
+        <form id="rex-form-user" action="' . rex_url::currentBackendPage() . '" method="post" id="userform">
+            ' . $content . '
         </form>
-    </div>
 
-    <script type="text/javascript">
-     <!--
-    jQuery(function($) {
-        $("#userform")
-            .submit(function(){
-                var pwInp = $("#userpsw");
-                if(pwInp.val() != "") {
-                    $("form#userform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-                    pwInp.removeAttr("name");
-                }
+        <script type="text/javascript">
+        <!--
+        jQuery(function($) {
+            $("#userform")
+                .submit(function(){
+                    var pwInp = $("#userpsw");
+                    if(pwInp.val() != "") {
+                        $("form#userform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+                        pwInp.removeAttr("name");
+                    }
+            });
+
+            $("#useradmin").change(function() {
+                 if ($(this).is(":checked"))
+                     $("#userrole").attr("disabled", "disabled");
+                 else
+                     $("#userrole").removeAttr("disabled");
+        }).change();
+
+            $("#javascript").val("1");
         });
+        //-->
+        </script>';
 
-        $("#useradmin").change(function() {
-             if ($(this).is(":checked"))
-                 $("#userrole").attr("disabled", "disabled");
-             else
-                 $("#userrole").removeAttr("disabled");
-    }).change();
-
-        $("#javascript").val("1");
-    });
-     //-->
-</script>
-';
+    echo $message;
+    echo $content;
 
 }
 
@@ -498,13 +508,12 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
 if (isset($SHOW) and $SHOW) {
     $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, UNIX_TIMESTAMP(lasttrydate) as lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
-    $list->setCaption(rex_i18n::msg('user_caption'));
     $list->addTableAttribute('class', 'rex-table-middle table-striped');
 
-    $tdIcon = '<span class="rex-icon rex-icon-user"></span>';
-    $thIcon = '<a href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><span class="rex-icon rex-icon-add-user"></span></a>';
+    $tdIcon = '<i class="rex-icon rex-icon-user"></i>';
+    $thIcon = '<a href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>']);
-    $list->setColumnParams($thIcon, ['id' => '###user_id###']);
+    $list->setColumnParams($thIcon, ['user_id' => '###id###']);
     $list->setColumnFormat($thIcon, 'custom', function ($params) use ($thIcon, $tdIcon) {
         $list = $params['list'];
         $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user rex-muted', $tdIcon) : $tdIcon;
@@ -513,7 +522,7 @@ if (isset($SHOW) and $SHOW) {
 
     $list->removeColumn('status');
 
-    $list->setColumnLabel('id', 'ID');
+    $list->setColumnLabel('id', 'Id');
     $list->setColumnLayout('id', ['<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
@@ -542,21 +551,30 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnLabel('admin', rex_i18n::msg('admin'));
     $list->setColumnLayout('admin', ['<th class="rex-admin">###VALUE###</th>', '<td class="rex-admin">###VALUE###</td>']);
     $list->setColumnFormat('admin', 'custom', function ($params) {
-        return $params['subject'] ? '<span class="rex-icon rex-icon-active-true"></span>' . rex_i18n::msg('yes') : '<span class="rex-icon rex-icon-active-false"></span>' . rex_i18n::msg('no');
+        return $params['subject'] ? '<i class="rex-icon rex-icon-active-true"></i>' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i>' . rex_i18n::msg('no');
     });
 
     $list->setColumnLabel('lasttrydate', rex_i18n::msg('last_login'));
     $list->setColumnLayout('lasttrydate', ['<th class="rex-date">###VALUE###</th>', '<td class="rex-date">###VALUE###</td>']);
     $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
 
-    $list->addColumn('funcs', rex_i18n::msg('user_delete'));
-    $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
-    $list->setColumnLayout('funcs', ['<th class="rex-function">###VALUE###</th>', '<td class="rex-delete">###VALUE###</td>']);
+    $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));    
+    $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-edit">###VALUE###</th>', '<td class="rex-edit">###VALUE###</td>']);
+    $list->setColumnParams(rex_i18n::msg('user_functions'), ['user_id' => '###id###']);
+    $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', function ($params) {
+        $list = $params['list'];
+        $edit = '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit');
+        return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink(rex_i18n::msg('user_functions'), $edit) : $edit;
+    });
+
+
+    $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
+    $list->setColumnLayout('funcs', ['', '<td class="rex-delete">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###']);
     $list->setColumnFormat('funcs', 'custom', function ($params) {
         $list = $params['list'];
         if ($list->getValue('id') == rex::getUser()->getId() || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
-            return '<span class="rex-disabled">' . rex_i18n::msg('user_delete') . '</span>';
+            return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span>';
         }
         return $list->getColumnLink('funcs', rex_i18n::msg('user_delete'));
     });
@@ -565,8 +583,15 @@ if (isset($SHOW) and $SHOW) {
 
     $content .= $list->get();
 
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', rex_i18n::msg('user_caption'));
+    $fragment->setVar('content', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $message;
+    echo $content;
 
 }
 
-echo $message;
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+
