@@ -103,12 +103,10 @@ if ($error != '') {
 
 // --------------------------------- FORMS
 
+$grid = [];
 
 $content = '';
-$content .= '
-<div class="rex-form" id="rex-form-profile">
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <fieldset>';
+$content .= '<fieldset>';
 
 
 $formElements = [];
@@ -139,8 +137,7 @@ $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '
-        </fieldset>';
+$content .= '</fieldset>';
 
 $formElements = [];
 
@@ -150,25 +147,28 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.php');
+$buttons = $fragment->parse('core/form/submit.php');
 
-$content .= '
-    </form>
-    </div>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('profile_myprofile'), false);
-$fragment->setVar('content', $content, false);
-echo $fragment->parse('core/page/section.php');
+$fragment->setVar('header', rex_i18n::msg('profile_myprofile'), false);
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+$content = '
+    <form id="rex-form-profile" action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $content . '
+    </form>';
+
+echo $content;
 
 
 
 $content = '';
 $content .= '
-    <div class="rex-form" id="rex-form-profile-password">
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <input type="hidden" name="javascript" value="0" id="rex-id-javascript" />
-        <fieldset>';
+    <fieldset>
+        <input type="hidden" name="javascript" value="0" id="rex-id-javascript" />';
 
 $formElements = [];
 
@@ -201,8 +201,7 @@ $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '
-        </fieldset>';
+$content .= '</fieldset>';
 
 $formElements = [];
 
@@ -212,9 +211,19 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.php');
+$buttons = $fragment->parse('core/form/submit.php');
 
-$content .= '
+$fragment = new rex_fragment();
+$fragment->setVar('header', rex_i18n::msg('profile_changepsw'), false);
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+
+
+$content = '
+    <form id="rex-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $content . '
     </form>
     </div>
 
@@ -247,7 +256,4 @@ $content .= '
          //-->
     </script>';
 
-$fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('profile_changepsw'), false);
-$fragment->setVar('content', $content, false);
-echo $fragment->parse('core/page/section.php');
+echo $content;

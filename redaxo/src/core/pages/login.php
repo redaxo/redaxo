@@ -14,7 +14,7 @@ echo rex_view::title(rex_i18n::msg('login'));
 
 $js = '';
 if ($rex_user_loginmessage != '') {
-    echo rex_view::warning($rex_user_loginmessage) . "\n";
+    echo rex_view::error($rex_user_loginmessage) . "\n";
     $js = '
         var time_el = $("div.rex-message strong[data-time]");
         if(time_el.length == 1) {
@@ -41,9 +41,6 @@ if ($rex_user_loginmessage != '') {
 
 $content = '';
 $content .= '
-
-<div class="rex-form" id="rex-form-login">
-<form action="' . rex_url::backendController() . '" method="post">
     <fieldset>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
 
@@ -85,18 +82,29 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.php');
-$content .= '
+$buttons = $fragment->parse('core/form/submit.php');
+
+
+
+
+$fragment = new rex_fragment();
+$fragment->setVar('heading', rex_i18n::msg('login_welcome'), false);
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+$content = '
+<form id="rex-form-login" action="' . rex_url::backendController() . '" method="post">
+    ' . $content . '
 </form>
-</div>
 <script type="text/javascript">
      <!--
     jQuery(function($) {
-        $("#rex-form-login form")
+        $("#rex-form-login")
             .submit(function(){
                 var pwInp = $("#rex-id-login-password");
                 if(pwInp.val() != "") {
-                    $("#rex-form-login form").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+                    $("#rex-form-login").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
                     pwInp.removeAttr("name");
                 }
         });
@@ -105,12 +113,7 @@ $content .= '
         ' . $js . '
     });
      //-->
-</script>
+</script>';
 
-';
+echo $content;
 
-
-$fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('login_welcome'), false);
-$fragment->setVar('body', $content, false);
-echo $fragment->parse('core/page/section.php');
