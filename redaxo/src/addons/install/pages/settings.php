@@ -2,7 +2,7 @@
 
 /** @var rex_addon $this */
 
-$content = '';
+$panel = '';
 
 $settings = rex_post('settings', [
     ['backups', 'bool', false],
@@ -18,50 +18,48 @@ if (is_array($settings)) {
     rex_install_webservice::deleteCache();
 }
 
-$content .= '
-    <div class="rex-form">
-        <form action="' . rex_url::currentBackendPage() . '" method="post">
+$panel .= '
             <fieldset>
-                <h2>' . $this->i18n('settings_general') . '</h2>';
+                <legend>' . $this->i18n('settings_general') . '</legend>';
 
 
             $formElements = [];
 
                 $n = [];
                 $n['reverse'] = true;
-                $n['label'] = '<label for="install-settings-backups">' . $this->i18n('settings_backups') . '</label>';
-                $n['field'] = '<input id="install-settings-backups" type="checkbox" class="checkbox" name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
+                $n['label'] = '<label>' . $this->i18n('settings_backups') . '</label>';
+                $n['field'] = '<input type="checkbox"  name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/form.php');
+                $panel .= $fragment->parse('core/form/checkbox.php');
 
 
-$content .= '
+$panel .= '
             </fieldset>
             <fieldset>
-                <h2>' . $this->i18n('settings_myredaxo_account') . '</h2>';
+                <legend>' . $this->i18n('settings_myredaxo_account') . '</legend>';
 
 
             $formElements = [];
 
                 $n = [];
                 $n['label'] = '<label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>';
-                $n['field'] = '<input id="install-settings-api-login" class="rex-form-text" type="text" name="settings[api_login]" value="' . $this->getConfig('api_login') . '" />';
+                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . $this->getConfig('api_login') . '" />';
                 $formElements[] = $n;
 
                 $n = [];
                 $n['label'] = '<label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>';
-                $n['field'] = '<input id="install-settings-api-key" class="rex-form-text" type="text" name="settings[api_key]" value="' . $this->getConfig('api_key') . '" />';
+                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . $this->getConfig('api_key') . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/form.php');
+                $panel .= $fragment->parse('core/form/form.php');
 
 
-$content .= '
+$panel .= '
                 </fieldset>';
 
 
@@ -73,10 +71,19 @@ $content .= '
 
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
-                $content .= $fragment->parse('core/form/submit.php');
+                $buttons = $fragment->parse('core/form/submit.php');
 
-$content .= '
-        </form>
-    </div>';
 
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', $this->i18n('subpage_settings'), false);
+$fragment->setVar('body', $panel, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+$content = '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $content . '
+    </form>';
+
+echo $content;
