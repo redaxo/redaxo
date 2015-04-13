@@ -8,8 +8,8 @@ page:
     perm: media_manager[]
     pjax: true
     subpages:
-        overview: { title: 'translate:media_manager_subpage_desc' }
         types: { title: 'translate:media_manager_subpage_types' }
+        overview: { title: 'translate:media_manager_subpage_desc' }
         settings: { title: 'translate:media_manager_subpage_config' }
         clear_cache: { title: 'translate:media_manager_subpage_clear_cache', href: { page: media_manager/overview, func: clear_cache } }
 
