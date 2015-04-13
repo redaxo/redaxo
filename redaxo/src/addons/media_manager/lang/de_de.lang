@@ -1,7 +1,7 @@
 # addon:media_manager de_de
 
 media_manager = Media Manager
-media_manager_overview_title = Media Manager Addon (Version {0})
+media_manager_overview_title = Media Manager Addon <small>(Version {0})</small>
 
 media_manager_subpage_desc = Erklärung
 media_manager_subpage_config = Konfiguration
@@ -20,7 +20,7 @@ media_manager_jpg_quality = JPG/JPEG Ausgabe-Qualität
 
 media_manager_id = ID
 media_manager_name = Name
-media_manager_edittype = Bildtypen bearbeiten
+media_manager_edittype = Mediatypen bearbeiten
 media_manager_settings = Einstellungen
 
 media_manager_yes = Ja
@@ -29,24 +29,24 @@ media_manager_no = Nein
 media_manager_error_name = Bitte geben Sie einen Namen ein.
 media_manager_error_settings = Bitte geben Sie Inhalte bei Einstellungen ein.
 
-media_manager_type_caption = Liste der angelegten Bildtypen
-media_manager_type_no_types = Keine Bildtypen vorhanden
-media_manager_type_create = Bildtyp erstellen
-media_manager_type_edit = Bildtyp bearbeiten
+media_manager_type_caption = Liste der angelegten Mediatypen
+media_manager_type_no_types = Keine Mediatypen vorhanden
+media_manager_type_create = Mediatyp erstellen
+media_manager_type_edit = Mediatyp bearbeiten
 media_manager_type_effekts_edit = Effekte bearbeiten
-media_manager_type_delete = Bildtyp löschen
+media_manager_type_delete = Mediatyp löschen
 media_manager_type_name = Name
 media_manager_type_priority = Prio
 media_manager_type_description = Beschreibung
 media_manager_type_functions = Funktionen
 media_manager_type_cache_delete = Cache löschen
-media_manager_type_system = System Bildtyp
+media_manager_type_system = System Mediatyp
 media_manager_type_delete = löschen
 
-media_manager_effect_list_header = Effekte des Bildtyps {0}
-media_manager_effect_edit_header = Bildtyp {0}: Effekt bearbeiten
-media_manager_effect_create_header = Bildtyp {0}: Effekt erstellen
-media_manager_effect_caption = Liste der angelegten Effekte des Bildtyps {0}
+media_manager_effect_list_header = Effekte des Mediatyps {0}
+media_manager_effect_edit_header = Mediatyp {0}: Effekt bearbeiten
+media_manager_effect_create_header = Mediatyp {0}: Effekt erstellen
+media_manager_effect_caption = Liste der angelegten Effekte des Mediatyps {0}
 media_manager_effect_no_effects = Keine Effekte vorhanden
 media_manager_effect_create = Effekt erstellen
 media_manager_effect_edit = Effekt bearbeiten
@@ -89,7 +89,7 @@ media_manager_effect_rounded_corners_bottomright = Unten Rechts
 
 media_manager_effect_flip = Richtung
 
-media_manager_error_type_name_not_unique = Ein Bildtyp mit diesem namen existiert bereits!
+media_manager_error_type_name_not_unique = Ein Mediatyp mit diesem namen existiert bereits!
 
 media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
 media_manager_effect_mirror_background_color = Hintergrundfarbe
