@@ -60,8 +60,6 @@ if ($func == '') {
 
     $list = rex_list::factory($query);
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
-    $list->setCaption(rex_i18n::msg('media_manager_type_caption'));
-    $list->addTableColumnGroup([40, 300, '*']);
 
     $list->removeColumn('id');
     $list->removeColumn('status');
@@ -77,22 +75,22 @@ if ($func == '') {
 
 
     // icon column
-    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_type_create') . '"><span class="rex-icon rex-icon-add-mediatype"></span></a>';
-    $tdIcon = '<span class="rex-icon rex-icon-mediatype"</span>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>']);
+    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_type_create') . '"><i class="rex-icon rex-icon-add-mediatype"></i></a>';
+    $tdIcon = '<i class="rex-icon rex-icon-mediatype"></i>';
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => '###id###']);
 
     // functions column spans 2 data-columns
     $funcs = rex_i18n::msg('media_manager_type_functions');
 
-    $list->addColumn($funcs, rex_i18n::msg('media_manager_type_edit'), -1, ['<th colspan="4">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_type_edit'), -1, ['<th colspan="4">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams($funcs, ['func' => 'edit', 'type_id' => '###id###']);
 
-    $list->addColumn('editEffects', rex_i18n::msg('media_manager_type_effekts_edit'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn('editEffects', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_type_effekts_edit'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('editEffects', ['type_id' => '###id###', 'effects' => 1]);
 
 
-    $list->addColumn('deleteCache', rex_i18n::msg('media_manager_type_cache_delete'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn('deleteCache', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_cache_delete'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('deleteCache', ['type_id' => '###id###', 'func' => 'delete_cache']);
     $list->addLinkAttribute('deleteCache', 'data-confirm', rex_i18n::msg('media_manager_type_cache_delete') . ' ?');
 
@@ -105,10 +103,18 @@ if ($func == '') {
         if ($list->getValue('status') == 1) {
             return rex_i18n::msg('media_manager_type_system');
         }
-        return $list->getColumnLink('deleteType', rex_i18n::msg('media_manager_type_delete'));
+        return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));
     });
 
     $content .= $list->get();
+
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', rex_i18n::msg('media_manager_type_caption'), false);
+    $fragment->setVar('content', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 
 } elseif ($func == 'add' || $func == 'edit' && $type_id > 0) {
     if ($func == 'edit') {
@@ -129,7 +135,7 @@ if ($func == '') {
         return $controlFields;
     });
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', $formLabel, 'id=' . $type_id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id=' . $type_id);
 
     $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 
@@ -144,7 +150,14 @@ if ($func == '') {
     }
 
     $content .= $form->get();
+
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title',$formLabel, false);
+    $fragment->setVar('body', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 }
 
 
-echo rex_view::content('block', $content, '', $params = ['flush' => true]);

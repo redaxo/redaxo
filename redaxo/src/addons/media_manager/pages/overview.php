@@ -7,4 +7,9 @@ require __DIR__ . '/../help.php';
 $content = ob_get_contents();
 ob_end_clean();
 
-echo rex_view::content('block', $content, rex_i18n::msg('media_manager_overview_title', $this->getVersion()));
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::RawMsg('media_manager_overview_title', $this->getVersion()), false);
+$fragment->setVar('body', $content, false);
+$content = $fragment->parse('core/page/section.php');
+
+echo $content;
