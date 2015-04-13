@@ -27,9 +27,21 @@ class rex_form_control_element extends rex_form_element
         $s = '';
         $elements = [];
 
+
+        if ($this->abortElement) {
+            if (!$this->abortElement->hasAttribute('class')) {
+                $this->abortElement->setAttribute('class', 'btn btn-abort');
+            }
+
+            $e = [];
+            $e['class'] = $this->abortElement->formatClass();
+            $e['field'] = $this->abortElement->formatElement();
+            $elements[] = $e;
+        }
+
         if ($this->saveElement) {
             if (!$this->saveElement->hasAttribute('class')) {
-                $this->saveElement->setAttribute('class', 'rex-button');
+                $this->saveElement->setAttribute('class', 'btn btn-save');
             }
 
             $e = [];
@@ -40,7 +52,7 @@ class rex_form_control_element extends rex_form_element
 
         if ($this->applyElement) {
             if (!$this->applyElement->hasAttribute('class')) {
-                $this->applyElement->setAttribute('class', 'rex-button');
+                $this->applyElement->setAttribute('class', 'btn btn-apply');
             }
 
             $e = [];
@@ -51,7 +63,7 @@ class rex_form_control_element extends rex_form_element
 
         if ($this->deleteElement) {
             if (!$this->deleteElement->hasAttribute('class')) {
-                $this->deleteElement->setAttribute('class', 'rex-button');
+                $this->deleteElement->setAttribute('class', 'btn btn-delete');
             }
 
             if (!$this->deleteElement->hasAttribute('onclick')) {
@@ -66,7 +78,7 @@ class rex_form_control_element extends rex_form_element
 
         if ($this->resetElement) {
             if (!$this->resetElement->hasAttribute('class')) {
-                $this->resetElement->setAttribute('class', 'rex-button');
+                $this->resetElement->setAttribute('class', 'btn btn-reset');
             }
 
             if (!$this->resetElement->hasAttribute('onclick')) {
@@ -79,21 +91,10 @@ class rex_form_control_element extends rex_form_element
             $elements[] = $e;
         }
 
-        if ($this->abortElement) {
-            if (!$this->abortElement->hasAttribute('class')) {
-                $this->abortElement->setAttribute('class', 'rex-button');
-            }
-
-            $e = [];
-            $e['class'] = $this->abortElement->formatClass();
-            $e['field'] = $this->abortElement->formatElement();
-            $elements[] = $e;
-        }
-
         if (count($elements) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $elements, false);
-            $s = $fragment->parse('core/rex_form/submit.php');
+            $s = $fragment->parse('core/form/submit.php');
         }
 
         return $s;
