@@ -114,7 +114,7 @@ class rex_i18n
 
         if ($htmlspecialchars) {
             $msg = htmlspecialchars($msg);
-            $msg = preg_replace('@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i', '<$1>', $msg);
+            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd)|br ?/?)&gt;@i', '<$1>', $msg);
         }
 
         $patterns = [];
