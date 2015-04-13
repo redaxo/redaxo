@@ -16,7 +16,7 @@ class rex_form_radio_element extends rex_form_options_element
     protected function formatLabel()
     {
         // Da Jedes Feld schon ein Label hat, hier nur eine "Ueberschrift" anbringen
-        return '<span>' . $this->getLabel() . '</span>';
+        return '<label class="control-label">' . $this->getLabel() . '</label>';
     }
 
     public function formatElement()
@@ -34,13 +34,23 @@ class rex_form_radio_element extends rex_form_options_element
             $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
         }
 
+        $formElements = [];
+
         foreach ($options as $opt_name => $opt_value) {
             $checked = $opt_value == $value ? ' checked="checked"' : '';
             $opt_id = $id . '-' . rex_string::normalize($opt_value, '-');
             $opt_attr = $attr . ' id="' . $opt_id . '"';
-            $s .= '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
-                         <label for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
+
+            $n = [];
+            $n['label'] = '<label for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
+            $n['field'] = '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $formElements[] = $n;
         }
+    
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $s = $fragment->parse('core/form/radio.php');
+
         return $s;
     }
 }
