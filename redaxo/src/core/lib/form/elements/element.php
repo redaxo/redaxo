@@ -250,7 +250,7 @@ class rex_form_element
         $n = [];
         $n['header']    = $this->getHeader();
         $n['id']        = '';
-        $n['class']     = $class;
+        //$n['class']     = $class;
         $n['label']     = $this->formatLabel();
         $n['before']    = $this->getPrefix();
         $n['field']     = $this->formatElement();
@@ -261,7 +261,7 @@ class rex_form_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        return  $fragment->parse('core/rex_form/form.php');
+        return  $fragment->parse('core/form/form.php');
     }
 
     public function get()
