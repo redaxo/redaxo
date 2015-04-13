@@ -57,10 +57,10 @@ if ($func == '' && $type_id > 0) {
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
 
     $list = rex_list::factory($query);
+    $list->addTableAttribute('class', 'table-striped');
     $list->addParam('effects', 1);
 
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_effect_no_effects'));
-    $list->setCaption(rex_i18n::msg('media_manager_effect_caption', $typeName));
 
     $list->removeColumn('id');
     $list->removeColumn('type_id');
@@ -73,39 +73,47 @@ if ($func == '' && $type_id > 0) {
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
-    $list->setColumnLayout('priority',  ['<th class="rex-priority">###VALUE###</th>', '<td class="rex-priority">###VALUE###</td>']);
+    $list->setColumnLayout('priority',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
 
     // icon column
-    $thIcon = '<a href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><span class="rex-icon rex-icon-add-mediatype-effect"></span></a>';
-    $tdIcon = '<span class="rex-icon rex-icon-mediatype-effect"></span>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-slim">###VALUE###</th>', '<td class="rex-slim">###VALUE###</td>']);
+    $thIcon = '<a href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';
+    $tdIcon = '<i class="rex-icon rex-icon-mediatype-effect"></i>';
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);
 
     // functions column spans 2 data-columns
     $funcs = rex_i18n::msg('media_manager_effect_functions');
-    $list->addColumn($funcs, rex_i18n::msg('media_manager_effect_edit'), -1, ['<th colspan="2" class="rex-function rex-large">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_effect_edit'), -1, ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams($funcs, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);
-    $list->addLinkAttribute($funcs, 'class', 'rex-link');
 
     $delete = 'deleteCol';
-    $list->addColumn($delete, rex_i18n::msg('media_manager_effect_delete'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn($delete, '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_effect_delete'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams($delete, ['type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute($delete, 'data-confirm', rex_i18n::msg('delete') . ' ?');
-    $list->addLinkAttribute($delete, 'class', 'rex-link');
 
     $content = $list->get();
-    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+    $footer = '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"> ' . rex_i18n::msg('media_manager_back') . '</i></a>';
+
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', rex_i18n::RawMsg('media_manager_effect_caption', $typeName), false);
+    $fragment->setVar('content', $content, false);
+    $fragment->setVar('footer', $footer, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
     $effectNames = rex_media_manager::getSupportedEffectNames();
 
     if ($func == 'edit') {
-        $formLabel = rex_i18n::msg('media_manager_effect_edit_header', htmlspecialchars($typeName));
+        $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', htmlspecialchars($typeName));
     } elseif ($func == 'add') {
-        $formLabel = rex_i18n::msg('media_manager_effect_create_header', htmlspecialchars($typeName));
+        $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', htmlspecialchars($typeName));
     }
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type_effect', $formLabel, 'id=' . $effect_id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effect_id);
 
     // image_type_id for reference to save into the db
     $form->addHiddenField('type_id', $type_id);
@@ -241,5 +249,11 @@ if ($func == '' && $type_id > 0) {
     }
 
     $content = $form->get();
-    echo rex_view::content('block', $content, '', $params = ['flush' => true]);
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', $formLabel, false);
+    $fragment->setVar('body', $content, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo $content;
 }

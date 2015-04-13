@@ -59,6 +59,7 @@ if ($func == '') {
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
+    $list->addTableAttribute('class', 'table-striped');
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
 
     $list->removeColumn('id');
