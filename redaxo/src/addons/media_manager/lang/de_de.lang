@@ -25,6 +25,7 @@ media_manager_settings = Einstellungen
 
 media_manager_yes = Ja
 media_manager_no = Nein
+media_manager_back = Zurück
 
 media_manager_error_name = Bitte geben Sie einen Namen ein.
 media_manager_error_settings = Bitte geben Sie Inhalte bei Einstellungen ein.
@@ -44,9 +45,9 @@ media_manager_type_system = System Mediatyp
 media_manager_type_delete = löschen
 
 media_manager_effect_list_header = Effekte des Mediatyps {0}
-media_manager_effect_edit_header = Mediatyp {0}: Effekt bearbeiten
-media_manager_effect_create_header = Mediatyp {0}: Effekt erstellen
-media_manager_effect_caption = Liste der angelegten Effekte des Mediatyps {0}
+media_manager_effect_edit_header = Mediatyp <mark>{0}</mark>: Effekt bearbeiten
+media_manager_effect_create_header = Mediatyp <mark>{0}</mark>: Effekt erstellen
+media_manager_effect_caption = Liste der angelegten Effekte des Mediatyps <mark>{0}</mark>
 media_manager_effect_no_effects = Keine Effekte vorhanden
 media_manager_effect_create = Effekt erstellen
 media_manager_effect_edit = Effekt bearbeiten
