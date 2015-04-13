@@ -21,7 +21,7 @@ class rex_form_checkbox_element extends rex_form_options_element
         $label = $this->getLabel();
 
         if ($label != '') {
-            $label = '<span>' . $label . '</span>';
+            $label = '<label class="control-label">' . $label . '</label>';
         }
 
         return $label;
@@ -43,6 +43,9 @@ class rex_form_checkbox_element extends rex_form_options_element
             $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
         }
 
+
+        $formElements = [];
+
         foreach ($options as $opt_name => $opt_value) {
             $opt_id = $id;
             if ($opt_value != '') {
@@ -51,9 +54,17 @@ class rex_form_checkbox_element extends rex_form_options_element
             $opt_attr = $attr . ' id="' . htmlspecialchars($opt_id) . '"';
             $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
 
-            $s .= '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />
-                         <label for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
+            $n = [];
+            $n['label'] = '<label for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
+            $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $formElements[] = $n;
         }
+    
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $s = $fragment->parse('core/form/checkbox.php');
+
+
         return $s;
     }
 }
