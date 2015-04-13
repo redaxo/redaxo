@@ -130,17 +130,18 @@ class rex_form
         $controlElements = [];
         foreach ($controlFields as $name => $label) {
             if ($label) {
-                $controlElements[$name] = $this->addInputField(
-                    'submit',
+                $controlElements[$name] = $this->addField(
+                    'button',
                     $name,
                     $label,
-                    ['internal::useArraySyntax' => false],
+                    ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true],
                     false
                 );
             } else {
                 $controlElements[$name] = null;
             }
         }
+
 
         $this->addControlField(
             $controlElements['save'],
@@ -251,6 +252,9 @@ class rex_form
      */
     public function addTextField($name, $value = null, array $attributes = [])
     {
+        if (!isset($attributes['class'])) {
+            $attributes['class'] = 'form-control';
+        }
         $field = $this->addInputField('text', $name, $value, $attributes);
         return $field;
     }
@@ -267,6 +271,9 @@ class rex_form
     public function addReadOnlyTextField($name, $value = null, array $attributes = [])
     {
         $attributes['readonly'] = 'readonly';
+        if (!isset($attributes['class'])) {
+            $attributes['class'] = 'form-control';
+        }
         $field = $this->addInputField('text', $name, $value, $attributes);
         return $field;
     }
@@ -285,9 +292,9 @@ class rex_form
         $attributes['internal::fieldSeparateEnding'] = true;
         $attributes['internal::noNameAttribute'] = true;
         if (!isset($attributes['class'])) {
-            $attributes['class'] = 'rex-form-read';
+            $attributes['class'] = 'form-control-static';
         }
-        $field = $this->addField('span', $name, $value, $attributes, true);
+        $field = $this->addField('p', $name, $value, $attributes, true);
         return $field;
     }
 
@@ -317,9 +324,6 @@ class rex_form
     public function addCheckboxField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_checkbox_element';
-        if (!isset($attributes['class'])) {
-            $attributes['class'] = 'rex-form-checkbox rex-form-label-right';
-        }
         $field = $this->addField('', $name, $value, $attributes);
         return $field;
     }
@@ -335,9 +339,6 @@ class rex_form
      */
     public function addRadioField($name, $value = null, array $attributes = [])
     {
-        if (!isset($attributes['class'])) {
-            $attributes['class'] = 'rex-form-radio';
-        }
         $attributes['internal::fieldClass'] = 'rex_form_radio_element';
         $field = $this->addField('radio', $name, $value, $attributes);
         return $field;
@@ -354,9 +355,14 @@ class rex_form
     public function addTextAreaField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldSeparateEnding'] = true;
+        if (!isset($attributes['class'])) {
+            $attributes['class'] = 'form-control';
+        }
+        /*
         if (!isset($attributes['cols'])) {
             $attributes['cols'] = 50;
         }
+        */
         if (!isset($attributes['rows'])) {
             $attributes['rows'] = 6;
         }
@@ -376,6 +382,9 @@ class rex_form
     public function addSelectField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_select_element';
+        if (!isset($attributes['class'])) {
+            $attributes['class'] = 'form-control';
+        }
         $field = $this->addField('', $name, $value, $attributes, true);
         return $field;
     }
