@@ -25,6 +25,12 @@
 .rex-icon-add-language {
     @extend .fa-plus;
 }
+.rex-icon-add-mediatype {
+    @extend .fa-plus;  
+}
+.rex-icon-add-metainfo {
+    @extend .fa-plus;
+}
 .rex-icon-add-module {
     @extend .fa-plus;
 }
@@ -80,11 +86,17 @@
     @extend .fa-pulse;
     @extend .fa-spinner;
 }
+.rex-icon-mediatype {
+    @extend .fa-picture-o;
+}
+.rex-icon-metainfo {
+    @extend .fa-lemon-o;
+}
 .rex-icon-module {
     @extend .fa-database;
 }
 .rex-icon-open-category {
-    @extend .fa-folder-open;    
+    @extend .fa-folder-open;
 }
 .rex-icon-open-linkmap {
     @extend .fa-align-justify;

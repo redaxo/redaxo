@@ -78,3 +78,15 @@
 .rex-slices {
     @include list-unstyled();
 }
+
+
+.rex-range-input-group {
+    .input-group-addon:first-child {
+        width: 60%;
+    }
+    @media (min-width: $screen-md-min) {
+        .input-group-addon:first-child {
+            width: 80%;
+        }
+    }
+}
