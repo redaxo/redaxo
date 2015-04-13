@@ -26,7 +26,13 @@ else
 }
 ';
 
-echo rex_view::content('block', rex_string::highlight($mdl_input), rex_i18n::msg('textile_code_for_module_input'));
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('textile_code_for_module_input'));
+$fragment->setVar('body', rex_string::highlight($mdl_input), false);
+$content = $fragment->parse('core/page/section.php');
+
+echo $content;
 
 
 
@@ -46,4 +52,10 @@ else
 }
 ';
 
-echo rex_view::content('block', rex_string::highlight($mdl_output), rex_i18n::msg('textile_code_for_module_output'));
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('textile_code_for_module_output'));
+$fragment->setVar('body', rex_string::highlight($mdl_output), false);
+$content = $fragment->parse('core/page/section.php');
+
+echo $content;
