@@ -116,6 +116,7 @@ class rex_metainfo_table_expander extends rex_form
         $field = $this->addField('', 'restrictions', null, $attributes);
         $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
         $field->setAttribute('size', 10);
+        $field->setAttribute('class', 'form-control');
 
         parent::init();
     }
