@@ -398,7 +398,7 @@ if ($function == 'add' || $function == 'edit') {
 
     
         $fragment = new rex_fragment();
-        $fragment->setVar('heading', $legend, false);
+        $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
@@ -520,7 +520,7 @@ if ($OUT) {
     echo $message;
     
     $fragment = new rex_fragment();
-    $fragment->setVar('heading', rex_i18n::msg('action_caption'), false);
+    $fragment->setVar('title', rex_i18n::msg('action_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
