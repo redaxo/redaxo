@@ -23,6 +23,23 @@
 }
 
 
+.btn-abort {
+    @extend .btn-default;
+}
+.btn-apply {
+    @extend .btn-primary;
+}
+.btn-save {
+    @extend .btn-primary;
+}
+.btn-delete {
+    @extend .btn-danger;
+}
+.btn-reset {
+    @extend .btn-default;
+}
+
+
 .panel > .alert {
     margin-bottom: 0;
     border: 0;
