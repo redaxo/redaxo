@@ -200,6 +200,6 @@ class rex_string
      */
     public static function highlight($string)
     {
-        return '<p class="rex-code">' . highlight_string($string, true) . '</p>';
+        return '<pre class="rex-code">' . highlight_string($string, true) . '</pre>';
     }
 }
