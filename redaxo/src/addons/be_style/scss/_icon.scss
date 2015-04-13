@@ -28,6 +28,9 @@
 .rex-icon-add-mediatype {
     @extend .fa-plus;  
 }
+.rex-icon-add-mediatype-effect {
+    @extend .fa-plus;
+}
 .rex-icon-add-metainfo {
     @extend .fa-plus;
 }
@@ -88,6 +91,9 @@
 }
 .rex-icon-mediatype {
     @extend .fa-picture-o;
+}
+.rex-icon-mediatype-effect {
+    @extend .fa-eyedropper;
 }
 .rex-icon-metainfo {
     @extend .fa-lemon-o;
