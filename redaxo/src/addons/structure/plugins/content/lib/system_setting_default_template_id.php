@@ -20,7 +20,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
     public function getField()
     {
         $field = new rex_form_select_element();
-        $field->setAttribute('class', 'rex-form-select');
+        $field->setAttribute('class', 'form-control');
         $field->setLabel(rex_i18n::msg('system_setting_default_template_id'));
         $select = $field->getSelect();
         $select->setSize(1);
