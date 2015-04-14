@@ -292,6 +292,9 @@ class rex_form
         $attributes['internal::fieldSeparateEnding'] = true;
         $attributes['internal::noNameAttribute'] = true;
         if (!isset($attributes['class'])) {
+            // Wenn die class geaendert wird, muss auch
+            // rex_form_container_element::getSaveValue() 
+            // angepasst werden
             $attributes['class'] = 'form-control-static';
         }
         $field = $this->addField('p', $name, $value, $attributes, true);
@@ -1387,17 +1390,19 @@ class rex_form
             $s .= '  ' . rex_view::info($message) . "\n";
         }
 
-        $s .= '<div id="' . $this->divId . '" class="rex-form">' . "\n";
 
         $i = 0;
         $addHeaders = true;
         $fieldsets = $this->getFieldsetElements();
         $last = count($fieldsets);
 
-        $s .= '    <form action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
+        $s .= '<form id="' . $this->divId . '" action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
-            $s .= '        <fieldset>' . "\n";
-            $s .= '            <h2>' . htmlspecialchars($fieldsetName) . '</h2>' . "\n";
+            $s .= '<fieldset>' . "\n";
+
+            if ($fieldsetName != '') {
+                $s .= '<legend>' . htmlspecialchars($fieldsetName) . '</legend>' . "\n";
+            }
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
             if ($i == 0 && $addHeaders) {
@@ -1425,13 +1430,12 @@ class rex_form
                 }
             }
 
-            $s .= '        </fieldset>' . "\n";
+            $s .= '</fieldset>' . "\n";
 
             $i++;
         }
 
-        $s .= '    </form>' . "\n";
-        $s .= '</div>' . "\n";
+        $s .= '</form>' . "\n";
 
         return $s;
     }
