@@ -99,13 +99,12 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addTextAreaField('attributes');
         $field->setLabel(rex_i18n::msg('minfo_field_label_attributes'));
-        $notice = '<span id="rex-metainfo-field-attributes-notice">' . rex_i18n::msg('minfo_field_attributes_notice') . '</span>' . "\n";
+        $notice = rex_i18n::msg('minfo_field_attributes_notice') . "\n";
         $field->setNotice($notice);
 
         $field = $this->addTextAreaField('callback');
         $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
-        $notice = '';
-        $notice .= '<span id="rex-metainfo-field-callback-notice">' . rex_i18n::msg('minfo_field_label_notice') . '</span>' . "\n";
+        $notice = rex_i18n::msg('minfo_field_label_notice') . "\n";
         $field->setNotice($notice);
 
         $field = $this->addTextField('default');
