@@ -99,12 +99,15 @@ $sel_startpage->setId('rex-user-perm-startpage');
 $sel_startpage->setAttribute('class', 'form-control');
 $sel_startpage->addOption('default', '');
 
+$startpages = [];
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
     /* @var $pageObj rex_be_page */
     if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
-        $sel_startpage->addOption($pageObj->getTitle(), $page);
+        $startpages[$page] = $pageObj->getTitle();
     }
 }
+asort($startpages);
+$sel_startpage->addOptions($startpages);
 $userperm_startpage = rex_request('userperm_startpage', 'string');
 
 
