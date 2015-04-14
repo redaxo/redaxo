@@ -42,7 +42,7 @@ class rex_form_radio_element extends rex_form_options_element
             $opt_attr = $attr . ' id="' . $opt_id . '"';
 
             $n = [];
-            $n['label'] = '<label for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
+            $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
             $n['field'] = '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
