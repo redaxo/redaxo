@@ -10,8 +10,6 @@ foreach ($this->elements as $element) {
 
 }
 
-echo '<fieldset class="rex-form-action">';
-echo '<div class="rex-form-action-inner">';
+echo '<div class="rex-form-panel-footer">';
 echo $out;
 echo '</div>';
-echo '</fieldset>';

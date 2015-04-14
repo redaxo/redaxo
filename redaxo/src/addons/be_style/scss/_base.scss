@@ -96,7 +96,12 @@
     @include list-unstyled();
 }
 
-
+.panel-body .rex-form-panel-footer {
+    @extend .panel-footer;
+    margin-right: -(ceil($grid-gutter-width / 2));
+    margin-bottom: -(ceil($grid-gutter-width / 2));
+    margin-left: -(ceil($grid-gutter-width / 2));
+}
 .rex-range-input-group {
     .input-group-addon:first-child {
         width: 60%;
