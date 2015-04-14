@@ -94,16 +94,14 @@ if ($warning != '') {
     echo rex_view::warning($warning);
 }
 
-$content_info = '<h2>' . rex_i18n::msg('im_export_information') . '</h2><p>' . rex_i18n::msg('im_export_intro_export') . '</p>';
-echo rex_view::content('block', $content_info);
+$fragment = new rex_fragment();
+$fragment->setVar('class', 'info', false);
+$fragment->setVar('title', rex_i18n::msg('im_export_information'), false);
+$fragment->setVar('body', '<p>' . rex_i18n::msg('im_export_intro_export') . '</p>', false);
+echo $fragment->parse('core/page/section.php');
 
 
-
-$content .= '
-            <div class="rex-form" id="rex-form-export">
-            <form action="' . rex_url::currentBackendPage() . '" method="post">
-                <fieldset>
-                    <h2>' . rex_i18n::msg('im_export_export_select') . '</h2>';
+$content .= '<fieldset>';
 
 $checkedsql = '';
 $checkedfiles = '';
@@ -118,26 +116,38 @@ if ($exporttype == 'files') {
 
 $formElements = [];
 $n = [];
-$n['label'] = '<label for="rex-exporttype-sql">' . rex_i18n::msg('im_export_database_export') . '</label>';
-$n['field'] = '<input type="radio" id="rex-exporttype-sql" name="exporttype" value="sql"' . $checkedsql . ' />';
+$n['label'] = '<label for="rex-js-exporttype-sql">' . rex_i18n::msg('im_export_database_export') . '</label>';
+$n['field'] = '<input type="radio" id="rex-js-exporttype-sql" name="exporttype" value="sql"' . $checkedsql . ' />';
 $formElements[] = $n;
 
 
 $n = [];
-$n['label'] = '<label for="rex-exporttype-files">' . rex_i18n::msg('im_export_file_export') . '</label>';
-$n['field'] = '<input type="radio" id="rex-exporttype-files" name="exporttype" value="files"' . $checkedfiles . ' />';
+$n['label'] = '<label for="rex-js-exporttype-files">' . rex_i18n::msg('im_export_file_export') . '</label>';
+$n['field'] = '<input type="radio" id="rex-js-exporttype-files" name="exporttype" value="files"' . $checkedfiles . ' />';
 $formElements[] = $n;
 
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/radio.php');
+$radios = $fragment->parse('core/form/radio.php');
+
+
+$formElements = [];
+$n = [];
+$n['label'] = rex_i18n::msg('im_export_export_select');
+$n['field'] = $radios;
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
 
 
 $tableSelect = new rex_select();
 $tableSelect->setMultiple();
 $tableSelect->setId('rex-form-exporttables');
 $tableSelect->setName('EXPTABLES[]');
+$tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::showTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
@@ -148,13 +158,14 @@ foreach ($tables as $table) {
 
 $formElements = [];
 $n = [];
+$n['header'] = '<div id="rex-js-exporttype-sql-div">';
 $n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('im_export_export_select_tables') . '</label>';
 $n['field'] = $tableSelect->get();
+$n['footer'] = '</div>';
 $formElements[] = $n;
 
 // Vorhandene Exporte auslesen
 $sel_dirs = new rex_select();
-$sel_dirs->setAttribute('onclick', 'checkInput(\'rex-exporttype-files\')');
 $sel_dirs->setId('rex-form-exportdir');
 $sel_dirs->setName('EXPDIR[]');
 $sel_dirs->setMultiple();
@@ -175,16 +186,17 @@ foreach ($folders as $file) {
 }
 
 $n = [];
+$n['header'] = '<div id="rex-js-exporttype-files-div" style="display: none;">';
 $n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('im_export_export_select_dir') . '</label>';
 $n['field'] = $sel_dirs->get();
+$n['footer'] = '</div>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '</fieldset><fieldset>
-                <h2>' . rex_i18n::msg('im_export_export_select_location') . '</h2>';
+
 
 $checked0 = '';
 $checked1 = '';
@@ -212,17 +224,25 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/radio.php');
+$radios = $fragment->parse('core/form/radio.php');
+
+$formElements = [];
+$n = [];
+$n['label'] = rex_i18n::msg('im_export_export_select_location');
+$n['field'] = $radios;
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
 
 
-$content .= '</fieldset><fieldset>
-                <h2>' . rex_i18n::msg('im_export_export_select_filename') . '</h2>';
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-form-exportfilename">' . rex_i18n::msg('im_export_filename') . '</label>';
-$n['field'] = '<input type="text" id="rex-form-exportfilename" name="exportfilename" value="' . $exportfilename . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . $exportfilename . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -239,12 +259,41 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/submit.php');
+$buttons = $fragment->parse('core/form/submit.php');
 
 
 
 
-$content .= '</form></div>';
 
 
-echo rex_view::content('block', $content, '', ['flush' => 1]);
+$fragment->setVar('title', rex_i18n::msg('im_export_export'), false);
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+
+
+$content = '
+<form id="rex-form-export" action="' . rex_url::currentBackendPage() . '" method="post">
+    ' . $content . '
+</form>
+
+<script type="text/javascript">
+    <!--
+
+    (function($) {
+        var currentShown = null;
+        $("#rex-js-exporttype-sql, #rex-js-exporttype-files").click(function(){
+            if(currentShown) currentShown.hide();
+
+            var effectParamsId = "#" + $(this).attr("id") + "-div";
+            currentShown = $(effectParamsId);
+            currentShown.fadeIn();
+        }).click();
+    })(jQuery);
+
+    //-->
+</script>';
+
+
+echo $content;
