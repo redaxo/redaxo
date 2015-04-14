@@ -27,7 +27,7 @@ foreach ($this->elements as $element) {
         $error  = '<span class="help-block text-danger">' . $element['error'] . '</span>';
     }
     if (isset($element['required']) && $element['required']) {
-        $classes .= ' rex-required';
+        $classes .= ' rex-is-required';
     }
     if (isset($element['class']) && $element['class'] != '') {
         $classes .= ' ' . $element['class'];

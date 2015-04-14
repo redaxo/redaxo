@@ -14,24 +14,24 @@ foreach ($this->elements as $element) {
     $header = isset($element['header']) ? $element['header']  : '';
     $footer = isset($element['footer']) ? $element['footer']  : '';
 
-    $note   = isset($element['note'])   ? '<dd class="rex-note">' . $element['note'] . '</dd>' : '';
+    $note   = isset($element['note'])   ? '<dd class="help-block rex-note">' . $element['note'] . '</dd>' : '';
 
     $classes = '';
 
     $error = '';
     if (isset($element['error']) && $element['error'] != '') {
-        $classes .= ' rex-form-error';
-        $error  = '<dd class="rex-error">' . $element['error'] . '</dd>';
+        $classes .= ' has-error';
+        $error  = '<dd class="rex-form-error">' . $element['error'] . '</dd>';
     }
     if (isset($element['required']) && $element['required']) {
-        $classes .= ' rex-required';
+        $classes .= ' rex-is-required';
     }
     if (isset($element['class']) && $element['class'] != '') {
         $classes .= ' ' . $element['class'];
     }
 
     $out .= $header;
-    $out .= '<dl class="rex-form' . $classes . '"' . $id . '>';
+    $out .= '<dl class="rex-form-group form-group' . $classes . '"' . $id . '>';
     $out .= $label;
     $out .= '<dd>' . $before . $field . $after . '</dd>';
     $out .= $note;
@@ -42,10 +42,11 @@ foreach ($this->elements as $element) {
 }
 
 $classes = '';
+/*
 $classes .= isset($this->group)  && $this->group  ? ' rex-form-group' : '';
 $classes .= isset($this->flush)  && $this->flush  ? ' rex-form-flush' : '';
 $classes .= isset($this->inline) && $this->inline ? ' rex-form-inline' : '';
-
+*/
 if ($classes != '') {
     echo '<div class="' . trim($classes) . '">';
     echo $out;

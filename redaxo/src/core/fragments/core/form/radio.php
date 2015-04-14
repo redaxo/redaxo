@@ -11,7 +11,7 @@ foreach ($this->elements as $element) {
     $highlight  = isset($element['highlight'])  ? $element['highlight'] : false;
 
     if ($field != '') {
-        $match = $highlight ? '<em class="rex-highlight">$2</em>' : '$2';
+        $match = $highlight ? '<mark>$2</mark>' : '$2';
         $label = preg_replace('@(<label\b[^>]*>)(.*?)(</label>)@', '$1' . $field . $match . '$3', $label);
     }
 
@@ -19,11 +19,11 @@ foreach ($this->elements as $element) {
 
     $error = '';
     if (isset($element['error']) && $element['error'] != '') {
-        $classes .= ' rex-form-error';
+        $classes .= ' has-error';
         $error  = '<dd class="rex-error">' . $element['error'] . '</dd>';
     }
     if (isset($element['required']) && $element['required']) {
-        $classes .= ' rex-required';
+        $classes .= ' rex-is-required';
     }
 
     $out .= '<div class="radio' . $classes . '"' . $id . '>';
