@@ -12,7 +12,6 @@ class rex_form_checkbox_element extends rex_form_options_element
         parent::__construct('', $table, $attributes);
         // Jede checkbox bekommt eingenes Label
         $this->setLabel('');
-        $this->setAttribute('class', 'rex-form-checkbox rex-form-label-right');
     }
 
     protected function formatLabel()
@@ -55,13 +54,14 @@ class rex_form_checkbox_element extends rex_form_options_element
             $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
 
             $n = [];
-            $n['label'] = '<label for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
+            $n['label'] = '<label class="control-label" for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
             $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
     
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
+        $fragment->setVar('grouped', true);
         $s = $fragment->parse('core/form/checkbox.php');
 
 
