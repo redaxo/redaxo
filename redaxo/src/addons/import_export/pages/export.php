@@ -12,8 +12,8 @@ if (rex_ini_get('memory_limit') < 67108864) {
 
 $content = '';
 
-$info = '';
-$warning = '';
+$success = '';
+$error = '';
 
 // ------------------------------ Requestvars
 $function       = rex_request('function', 'string');
@@ -36,7 +36,7 @@ if (rex_post('export', 'bool')) {
     $filename       = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
-        $info = rex_i18n::msg('im_export_filename_updated');
+        $success = rex_i18n::msg('im_export_filename_updated');
         $exportfilename = $filename;
     } else {
         $content     = '';
@@ -64,7 +64,7 @@ if (rex_post('export', 'bool')) {
             $header = 'tar/gzip';
 
             if (empty($EXPDIR)) {
-                $warning = rex_i18n::msg('im_export_please_choose_folder');
+                $error = rex_i18n::msg('im_export_please_choose_folder');
             } else {
                 $content    = rex_a1_export_files($EXPDIR);
                 $hasContent = rex_file::put($export_path . $filename . $ext, $content);
@@ -79,19 +79,19 @@ if (rex_post('export', 'bool')) {
                 rex_file::delete($export_path . $filename);
                 exit;
             } else {
-                $info = rex_i18n::msg('im_export_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
+                $success = rex_i18n::msg('im_export_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
             }
         } else {
-            $warning = rex_i18n::msg('im_export_file_could_not_be_generated') . ' ' . rex_i18n::msg('im_export_check_rights_in_directory') . ' ' . $export_path;
+            $error = rex_i18n::msg('im_export_file_could_not_be_generated') . ' ' . rex_i18n::msg('im_export_check_rights_in_directory') . ' ' . $export_path;
         }
     }
 }
 
-if ($info != '') {
-    echo rex_view::info($info);
+if ($success != '') {
+    echo rex_view::success($success);
 }
-if ($warning != '') {
-    echo rex_view::warning($warning);
+if ($error != '') {
+    echo rex_view::error($error);
 }
 
 $fragment = new rex_fragment();
@@ -266,6 +266,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 
 
+$fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('im_export_export'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
