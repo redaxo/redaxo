@@ -203,7 +203,7 @@ class rex_form_element
         $label = $this->getLabel();
 
         if ($label != '') {
-            $s .= '                    <label for="' . $this->getAttribute('id') . '">' . $label . '</label>' . "\n";
+            $s .= '<label class="control-label" for="' . $this->getAttribute('id') . '">' . $label . '</label>';
         }
 
         return $s;
@@ -220,10 +220,10 @@ class rex_form_element
         }
 
         if ($this->hasSeparateEnding()) {
-            return '                    <' . $tag . $attr . '>' . $value . '</' . $tag . '>' . "\n";
+            return '<' . $tag . $attr . '>' . $value . '</' . $tag . '>';
         } else {
             $attr .= ' value="' . $value . '"';
-            return '                    <' . $tag . $attr . ' />' . "\n";
+            return '<' . $tag . $attr . ' />';
         }
     }
 
