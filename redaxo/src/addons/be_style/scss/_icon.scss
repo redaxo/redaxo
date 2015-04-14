@@ -61,6 +61,9 @@
 .rex-icon-category {
     @extend .fa-folder;
 }
+.rex-icon-database {
+    @extend .fa-database;
+}
 .rex-icon-delete {
     @extend .fa-trash;
 }
@@ -79,8 +82,14 @@
 .rex-icon-external-link {
     @extend .fa-external-link;
 }
+.rex-icon-file-archive {
+    @extend .fa-file-archive-o;
+}
 .rex-icon-help {
     @extend .fa-question;
+}
+.rex-icon-import {
+    @extend .fa-upload;
 }
 .rex-icon-language {
     @extend .fa-flag;
