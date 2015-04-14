@@ -66,8 +66,7 @@ class rex_form_restrictons_element extends rex_form_select_element
 
         $html .= $this->chkbox_element->get();
 
-        $element = parent :: get();
-        $html .= str_replace('class="rex-form"', 'id="' . $slctDivId . '" class="rex-form"', $element);
+        $html .= '<div id="' . $slctDivId . '">' . parent :: get() . '</div>';
 
         return $html;
     }
