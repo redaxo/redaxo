@@ -2,7 +2,11 @@
 
     <?php if (isset($this->before)) echo $this->before; ?>
 
-    <div class="panel panel-default">
+    <?php if (isset($this->class) && $this->class != ''): ?>
+        <div class="panel panel-<?= $this->class; ?>">
+    <?php else: ?>
+        <div class="panel panel-default">
+    <?php endif; ?>
 
         <?php
         $header = '';
