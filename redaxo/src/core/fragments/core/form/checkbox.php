@@ -1,6 +1,8 @@
 <?php
 
 $out = '';
+// Gruppierte Checkboxen werden nochmals via form/form.php geparsed
+// Bsp. Checkboxen in der rex_form
 $grouped = isset($this->grouped) ? $this->grouped : false;
 $inline = isset($this->inline) ? $this->inline : false;
 
