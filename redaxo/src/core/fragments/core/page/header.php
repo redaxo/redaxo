@@ -7,8 +7,6 @@
         </h1>
     </div>
     <?php if (isset($this->subtitle) && $this->subtitle != ''): ?>
-        <nav class="nav rex-page-nav">
-            <?= $this->subtitle ?>
-        </nav>
+        <?= $this->subtitle ?>
     <?php endif; ?>
 </header>

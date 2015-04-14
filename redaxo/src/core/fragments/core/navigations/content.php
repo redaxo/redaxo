@@ -107,14 +107,19 @@ foreach ($navigations as $nav_key => $navigation) {
 
 }
 
+$out = '';
 
 $tabs = '';
 $tabs .= isset($navigations['left']) ? $navigations['left'] : '';
 $tabs .= isset($navigations['right']) ? $navigations['right'] : '';
-echo $tabs == '' ? '' : '<ul class="nav nav-tabs">' . $tabs . '</ul>';
+$out .= $tabs == '' ? '' : '<ul class="nav nav-tabs">' . $tabs . '</ul>';
 
 
 
 if (isset($navigations['children'])) {
-    echo '<ul class="nav nav-pills">' . $navigations['children'] . '</ul>';
+    $out .= '<nav class="navbar navbar-default"><ul class="nav navbar-nav">' . $navigations['children'] . '</ul></nav>';
+}
+
+if ($out != '') {
+    echo '<div class="nav rex-page-nav">' . $out . '</div>';
 }
