@@ -403,6 +403,9 @@ class rex_form
     public function addPrioField($name, $value = null, array $attributes = [])
     {
         $attributes['internal::fieldClass'] = 'rex_form_prio_element';
+        if (!isset($attributes['class'])) {
+            $attributes['class'] = 'form-control';
+        }
         $field = $this->addField('', $name, $value, $attributes, true);
         return $field;
     }
@@ -759,7 +762,7 @@ class rex_form
             case 'readonlytext' :
             case 'text'      : return 'input';
             case 'textarea'  : return $inputType;
-            case 'readonly'  : return 'span';
+            case 'readonly'  : return 'p';
             default          : $inputTag = ''; break;
         }
         return $inputTag;
@@ -784,29 +787,36 @@ class rex_form
             case 'checkbox'  :
             case 'hidden'    :
             case 'radio'     :
-            case 'text'      :
+                return [
+                    'type' => $inputType
+                ];
+            case 'select'  :
+                return [
+                    'class' => 'form-control'
+                ];
+            case 'text'  :
                 return [
                     'type' => $inputType,
-                    'class' => 'rex-form-' . $inputType
+                    'class' => 'form-control'
                 ];
             case 'textarea'  :
                 return [
                     'internal::fieldSeparateEnding' => true,
-                    'class' => 'rex-form-textarea',
-                    'cols' => 50,
+                    'class' => 'form-control',
+                    //'cols' => 50,
                     'rows' => 6
                 ];
             case 'readonly'  :
                 return [
                     'internal::fieldSeparateEnding' => true,
                     'internal::noNameAttribute' => true,
-                    'class' => 'rex-form-read'
+                    'class' => 'form-control-static'
                 ];
             case 'readonlytext'  :
                 return [
                     'type' => 'text',
                     'readonly' => 'readonly',
-                    'class' => 'rex-form-read'
+                    'class' => 'form-control-static'
                 ];
             default          : $inputAttr = []; break;
         }
