@@ -172,6 +172,12 @@
 .rex-icon-startarticle {
     @extend .fa-file-text;
 }
+.rex-icon-structure-category-metainfo {
+    @extend .fa-minus;
+}
+.collapsed .rex-icon-structure-category-metainfo {
+    @extend .fa-plus;
+}
 .rex-icon-template {
     @extend .fa-newspaper-o;
 }
@@ -190,4 +196,3 @@
 .rex-icon-view {
     @extend .fa-eye;
 }
-
