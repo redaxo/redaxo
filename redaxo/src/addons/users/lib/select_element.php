@@ -29,7 +29,7 @@ class rex_form_perm_select_element extends rex_form_select_element
             $field->setValue('|' . rex_complex_perm::ALL . '|');
         }
         $field->addOption($this->checkboxLabel, rex_complex_perm::ALL);
-        $this->setAttribute('class', 'rex-form-select');
+        $this->setAttribute('class', 'form-control');
         return $field->get() . parent::get();
     }
 }
