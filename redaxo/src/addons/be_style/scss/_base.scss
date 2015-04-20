@@ -39,6 +39,13 @@
     @extend .btn-default;
 }
 
+// Wird bei den Kategorie-Metainfos gesetzt
+.form-legend {
+    @extend legend;
+    margin-top: 0;
+    font-weight: 400;
+}
+
 
 .panel > .alert {
     margin-bottom: 0;
@@ -114,6 +121,10 @@
 
 .rex-slices {
     @include list-unstyled();
+}
+.rex-slice {
+    margin-top: $line-height-computed;
+    margin-bottom: $line-height-computed;
 }
 
 .panel-body .rex-form-panel-footer {
