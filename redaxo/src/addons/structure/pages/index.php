@@ -159,7 +159,7 @@ $echo = '';
 if ($function == 'add_cat' || $function == 'edit_cat') {
 
     $echo .= '
-    <form id="rex-form-structure-category" action="' . $context->getUrl(['catstart' => $catstart]) . '" method="post">
+    <form action="' . $context->getUrl(['catstart' => $catstart]) . '" method="post">
         <fieldset>
 
             <input type="hidden" name="edit_id" value="' . $edit_id . '" />';
@@ -168,16 +168,7 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
 
 // --------------------- PRINT CATS/SUBCATS
 $echo .= '
-            <table class="table table-striped table-hover" id="rex-table-categories">
-                <colgroup>
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-6" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                </colgroup>
+            <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>' . $add_category . '</th>
@@ -213,7 +204,7 @@ if ($function == 'add_cat' && $KATPERM) {
         <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
         <button class="btn btn-primary" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
 
-    $class = 'rex-active';
+    $class = 'mark';
 
     $echo .= '
                 <tr class="' . $class . '">
@@ -270,7 +261,7 @@ if ($KAT->getRows() > 0) {
                 <input type="hidden" name="category-id" value="' . $edit_id . '" />
                 <button class="btn btn-primary" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
-                $class = 'rex-active';
+                $class = 'mark';
                 if ($meta_buttons != '') {
                     $class .= ' rex-has-metainfo';
                 }
@@ -441,17 +432,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
     $echo .= '
             <table class="table table-striped table-hover" id="rex-table-articles">
-                <colgroup>
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-4" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                    <col class="col-md-1" />
-                </colgroup>
                 <thead>
                     <tr>
                         <th>' . $art_add_link . '</th>
