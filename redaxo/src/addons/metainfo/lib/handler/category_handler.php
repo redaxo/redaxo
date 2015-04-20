@@ -6,6 +6,7 @@
 class rex_metainfo_category_handler extends rex_metainfo_handler
 {
     const PREFIX = 'cat_';
+    const CONTAINER = 'rex-structure-category-metainfo';
 
     public function renderToggleButton(rex_extension_point $ep)
     {
@@ -14,78 +15,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
         if ($fields->getRows() >= 1) {
 
-
-            // Beispiel Fields
-            $items = [];
-
-            $f = [];
-            $f['label'] = '<label>REX_MEDIA</label>';
-            $f['field'] = rex_var_media::getWidget('id', 'name', 'value');
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('elements', [$f], false);
-            $item = [];
-            $item['html']  = $fragment->parse('core/form/form.php');
-            $items[] = $item;
-
-            $f = [];
-            $f['label'] = '<label>REX_MEDIALIST</label>';
-            $f['field'] = rex_var_medialist::getWidget('id', 'name', 'value');
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('elements', [$f], false);
-            $item = [];
-            $item['html']  = $fragment->parse('core/form/form.php');
-            $items[] = $item;
-
-            $f = [];
-            $f['label'] = '<label>REX_LINK</label>';
-            $f['field'] = rex_var_link::getWidget('id', 'name', 'value');
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('elements', [$f], false);
-            $item = [];
-            $item['html']  = $fragment->parse('core/form/form.php');
-            $items[] = $item;
-
-            $f = [];
-            $f['label'] = '<label>REX_LINKLIST</label>';
-            $f['field'] = rex_var_linklist::getWidget('id', 'name', 'value');
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('elements', [$f], false);
-            $item = [];
-            $item['html']  = $fragment->parse('core/form/form.php');
-            $items[] = $item;
-
-
-
-
-            $formElements = [];
-
-            $n = [];
-            $n['field'] = '<a class="rex-back" href="' . rex_url::currentBackendPage() . '"><span class="rex-icon rex-icon-back"></span>' . rex_i18n::msg('form_abort') . '</a>';
-            $formElements[] = $n;
-
-            $n = [];
-            $n['field'] = '<button class="btn btn-primary" type="submit">Kategorie speichern</button>';
-            $formElements[] = $n;
-
-            $n = [];
-            $n['field'] = '<button class="btn btn-primary" type="submit">Kategorie übernehmen</button>';
-            $formElements[] = $n;
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('elements', $formElements, false);
-            $footer = $fragment->parse('core/form/submit.php');
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('header', rex_i18n::msg('minfo_edit_metadata'));
-            $fragment->setVar('items', $items, false);
-            $fragment->setVar('class', 'rex-large');
-            $fragment->setVar('footer', $footer, false);
-            $return = $fragment->parse('core/navigations/context.php');
-
+            $return = '<a class="btn btn-default collapsed" data-toggle="collapse" href="#' . self::CONTAINER . '"><i class="rex-icon rex-icon-structure-category-metainfo"></i></a>';
 
             return $ep->getSubject() . $return;
         }
@@ -142,36 +72,15 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
     public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
     {
-        $class_td = '';
-        $class_tr = '';
-
         $element = $field;
-        if ($labelIt) {
-            $element = '
-                 <' . $tag . $tag_attr . '>
-                     <label for="' . $id . '">' . $label . '</label>
-                     ' . $field . '
-                 </' . $tag . '>';
-        }
-
+        
         if ($typeLabel == 'legend') {
-            $element = '<p class="rex-form-legend">' . $label . '</p>';
-            $class_td = ' class="rex-colored"';
-            $class_tr .= ' rex-metainfo-cat-b';
+
+            $element = '<h3 class="form-legend">' . $label . '</h3>';
+
         }
 
-        $s = '
-        <tr class="table-row-activ rex-metainfo-cat' . $class_tr . '" style="display:none;">
-            <td></td>
-            <td></td>
-            <td colspan="5"' . $class_td . '>
-                 <div class="rex-form-row">
-                    ' . $element . '
-                </div>
-            </td>
-        </tr>';
-
-        return $s;
+        return $element;
     }
 
     public function extendForm(rex_extension_point $ep)
@@ -184,7 +93,13 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $params['activeItem']->setValue('category_id', $params['id']);
         }
 
-        $result = parent::renderFormAndSave(self::PREFIX, $params);
+        $result = '
+            <tr id="' . self::CONTAINER . '" class="collapse mark">
+                <td colspan="2"></td>
+                <td colspan="5">
+                    ' . parent::renderFormAndSave(self::PREFIX, $params) . '
+                </td>
+            </tr>';
 
         // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
         if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName()) {

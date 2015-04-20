@@ -69,12 +69,14 @@ abstract class rex_metainfo_handler
             $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
             $labelIt = true;
 
+            $label = '<label for="' . $id . '">' . $label . '</label>';
+
             $field = '';
 
             switch ($typeLabel) {
                 case 'text':
                 {
-                    $tag_attr = ' class="rex-form-text"';
+                    $tag_attr = ' class="form-control"';
 
                     $rexInput = rex_input::factory($typeLabel);
                     $rexInput->addAttributes($attrArray);
@@ -89,6 +91,14 @@ abstract class rex_metainfo_handler
                         $rexInput->setValue($defaultValue);
                     }
                     $field = $rexInput->getHtml();
+
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
+
                     break;
                 }
                 case 'checkbox':
@@ -101,6 +111,8 @@ abstract class rex_metainfo_handler
                     $name .= '[]';
                 case 'radio':
                 {
+                    $formElements = [];
+
                     $values = [];
                     if (rex_sql::getQueryType($params) == 'SELECT') {
                         $sql = rex_sql::factory();
@@ -128,19 +140,16 @@ abstract class rex_metainfo_handler
                         }
                     }
 
-                    $class_s = $typeLabel;
-                    $class_p = $typeLabel == 'radio' ? 'radios' : 'checkboxes';
                     $oneValue = (count($values) == 1);
-
-                    if (!$oneValue) {
-                        $labelIt = false;
-                        $tag = 'div';
-                        $tag_attr = ' class="rex-form-col-a rex-form-' . $class_p . '"';
-                        $field .= '<p class="rex-form-label">' . $label . '</p><div class="rex-form-' . $class_p . '-wrapper">';
-                    }
 
                     $attrStr = '';
                     $classAdd = '';
+                    $inline = false;
+
+                    if (false !== $key = array_search('inline', $attrArray)) {
+                        $inline = true;
+                        unset($attrArray[$key]);
+                    }
                     foreach ($attrArray as $key => $value) {
                         if ($key == 'class') {
                             $classAdd = ' ' . $value;
@@ -167,20 +176,41 @@ abstract class rex_metainfo_handler
                             $selected = ' checked="checked"';
                         }
 
+                        $e = [];
                         if ($oneValue) {
-                            $tag_attr = ' class="rex-form-col-a rex-form-' . $class_s . $classAdd . '"';
-                            $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />' . "\n";
+                            $e['label'] = $label;
                         } else {
-                            $field .= '<p class="rex-form-' . $class_s . ' rex-form-label-right' . $classAdd . '">' . "\n";
-                            $field .= '<input class="rex-form-' . $class_s . '" type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />' . "\n";
-                            $field .= '<label for="' . $id . '">' . htmlspecialchars($value) . '</label>';
-                            $field .= '</p>' . "\n";
+                            $e['label'] = '<label for="' . $id . '">' . htmlspecialchars($value) . '</label>';
                         }
+                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />';
+                        $formElements[] = $e;
 
                     }
-                    if (!$oneValue) {
-                        $field .= '</div>';
+
+
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', $formElements, false);
+                    $fragment->setVar('inline', $inline);
+
+                    if ($typeLabel == 'radio') {
+                        $field = $fragment->parse('core/form/radio.php');
+                    } else {
+                        if (!$oneValue) {
+                            $fragment->setVar('grouped', true);
+                        }
+                        $field = $fragment->parse('core/form/checkbox.php');
                     }
+
+
+                    if (!$oneValue) {
+                        $e = [];
+                        $e['label'] = $label;
+                        $e['field'] = $field;
+                        $fragment = new rex_fragment();
+                        $fragment->setVar('elements', [$e], false);
+                        $field = $fragment->parse('core/form/form.php');
+                    }
+
 
                     break;
                 }
@@ -244,6 +274,14 @@ abstract class rex_metainfo_handler
                     }
 
                     $field .= $select->get();
+
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
+
                     break;
                 }
                 case 'date':
@@ -272,12 +310,21 @@ abstract class rex_metainfo_handler
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
-                    $field .= '<input class="form-control-checkbox rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
+                    $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
+
+
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
+
                     break;
                 }
                 case 'textarea':
                 {
-                    $tag_attr = ' class="rex-form-textarea"';
+                    $tag_attr = ' class="form-control"';
 
                     $rexInput = rex_input::factory($typeLabel);
                     $rexInput->addAttributes($attrArray);
@@ -290,6 +337,13 @@ abstract class rex_metainfo_handler
                     }
                     $field = $rexInput->getHtml();
 
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
+
                     break;
                 }
                 case 'legend':
@@ -301,7 +355,7 @@ abstract class rex_metainfo_handler
                     // tabindex entfernen, macht bei einer legend wenig sinn
                     $attr = preg_replace('@tabindex="[^"]*"@', '', $attr);
 
-                    $field = '</div></fieldset><fieldset class="rex-form-col-1"><legend id="' . $id . '"' . $attr . '>' . $label . '</legend><div class="rex-form-wrapper">';
+                    $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attr . '>' . $label . '</legend>';
                     break;
                 }
                 case 'REX_MEDIA_WIDGET':
@@ -329,6 +383,14 @@ abstract class rex_metainfo_handler
 
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
+                    
+
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
 
                     $media_id++;
                     break;
@@ -360,6 +422,13 @@ abstract class rex_metainfo_handler
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
+
                     $mlist_id++;
                     break;
                 }
@@ -384,6 +453,13 @@ abstract class rex_metainfo_handler
                     $rexInput->setValue($dbvalues[0]);
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
+
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
 
                     $link_id++;
                     break;
@@ -410,6 +486,13 @@ abstract class rex_metainfo_handler
                     $rexInput->setValue(implode(',', $dbvalues));
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
+
+                    $e = [];
+                    $e['label'] = $label;
+                    $e['field'] = $field;
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('elements', [$e], false);
+                    $field = $fragment->parse('core/form/form.php');
 
                     $llist_id++;
                     break;
