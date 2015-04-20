@@ -220,6 +220,9 @@ class rex_form_element
         }
 
         if ($this->hasSeparateEnding()) {
+            if ($tag == 'button') {
+                $attr .= ' value="1"';
+            }
             return '<' . $tag . $attr . '>' . $value . '</' . $tag . '>';
         } else {
             $attr .= ' value="' . $value . '"';
