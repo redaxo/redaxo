@@ -8,7 +8,7 @@ class rex_input_textarea extends rex_input
     public function __construct()
     {
         parent::__construct();
-        $this->setAttribute('class', 'rex-form-textarea');
+        $this->setAttribute('class', 'form-control');
         $this->setAttribute('cols', '50');
         $this->setAttribute('rows', '6');
     }
