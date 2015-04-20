@@ -38,7 +38,7 @@ foreach ($this->elements as $element) {
         $class = 'input-group-addon';
         if (preg_match('@class=[\'|"]btn[^"\']@', $left_side)) {
 
-            $class = 'input-group-button';
+            $class = 'input-group-btn';
 
         }
 
@@ -51,7 +51,7 @@ foreach ($this->elements as $element) {
         $class = 'input-group-addon';
         if (preg_match('@class=[\'|"]btn[^"\']@', $right_side)) {
 
-            $class = 'input-group-button';
+            $class = 'input-group-btn';
 
         }
 
