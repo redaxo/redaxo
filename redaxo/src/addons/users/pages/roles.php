@@ -48,7 +48,7 @@ if ($func == '') {
 } else {
     $title = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', '', 'id = ' . $id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', $title, 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
     $form->setEditMode($func == 'edit');
@@ -131,9 +131,9 @@ if ($func == '') {
                 function check_perm_field(field, duration) {
                     var id = field.attr("id").substr(0, field.attr("id").length - 4);
                     if(field.is(":checked"))
-                        $("#"+id).closest(".rex-form").hide(duration);
+                        $("#"+id).closest(".rex-form-group").hide(duration);
                     else
-                        $("#"+id).closest(".rex-form").show(duration);
+                        $("#"+id).closest(".rex-form-group").show(duration);
                 }
                 $("#' . implode('-all, #', $fieldIds) . '-all").change(function(){
                     check_perm_field($(this), "slow");

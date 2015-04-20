@@ -85,7 +85,7 @@ if ($func == '') {
 //------------------------------> Formular
 elseif ($func == 'edit' || $func == 'add') {
     $title = rex_i18n::msg('minfo_field_fieldset');
-    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix() . 'metainfo_field', '', 'id=' . $field_id);
+    $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix() . 'metainfo_field', rex_i18n::msg('minfo_field_fieldset'), 'id=' . $field_id);
 
     if ($func == 'edit') {
         $form->addParam('field_id', $field_id);
