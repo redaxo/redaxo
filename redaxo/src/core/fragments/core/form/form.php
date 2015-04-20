@@ -14,7 +14,7 @@ foreach ($this->elements as $element) {
     $header = isset($element['header']) ? $element['header']  : '';
     $footer = isset($element['footer']) ? $element['footer']  : '';
 
-    $note   = isset($element['note'])   ? '<dd class="help-block rex-note">' . $element['note'] . '</dd>' : '';
+    $note   = isset($element['note']) && $element['note'] != '' ? '<dd class="help-block rex-note">' . $element['note'] . '</dd>' : '';
 
     $classes = '';
 
