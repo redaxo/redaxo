@@ -69,20 +69,17 @@ class rex_var_link extends rex_var
             $delete_func  = 'deleteREXLink(' . $id . ');';
         }
 
-        $media = '
-            <div id="rex-widget-linkmap-' . $id . '" class="rex-widget rex-widget-link">
-                <input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />
-                <div class="rex-form-input-group">
-                    <input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" />
 
-                    <div class="rex-form-input-group-button">
+        $e = [];
+        $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';
+        $e['functionButtons'] = '
                         <a href="#" class="btn btn-default' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
-                        <a href="#" class="btn btn-default' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>
-                    </div>
-                </div>
-
-             </div>';
-
+                        <a href="#" class="btn btn-default' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>';
+        
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', [$e], false);
+        $media = $fragment->parse('core/form/widget.php');
+        
         return $media;
     }
 }

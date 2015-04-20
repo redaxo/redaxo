@@ -58,32 +58,34 @@ class rex_var_linklist extends rex_var
             }
         }
 
-        $class        = ' rex-disabled';
+        $disabled        = ' disabled';
         $open_func    = '';
         $delete_func  = '';
         if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
-            $class        = '';
+            $disabled     = '';
             $open_func    = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';
             $delete_func  = 'deleteREXLinklist(' . $id . ');';
         }
 
-        $link = '
-        <div id="rex-widget-linklist-' . $id . '" class="rex-widget rex-widget-linklist">
-            <input type="hidden" name="' . $name . '" id="REX_LINKLIST_' . $id . '" value="' . $value . '" />
-            <select name="REX_LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8">
+
+        $e = [];
+        $e['field'] = '
+                <select class="form-control" name="REX_LINKLIST_SELECT[' . $id . ']" id="REX_LINKLIST_SELECT_' . $id . '" size="8">
                     ' . $options . '
-            </select>
-            <div class="btn-group-vertical">
-                <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
-                <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
-                <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
-                <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>
-            </div>
-            <div class="btn-group">
-                <a href="#" class="btn' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
-                <a href="#" class="btn' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>
-            </div>
-        </div>';
+                </select>
+                <input type="hidden" name="' . $name . '" id="REX_LINKLIST_' . $id . '" value="' . $value . '" />';
+        $e['moveButtons'] = '
+                    <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'top\');return false;" title="' . rex_i18n::msg('var_linklist_move_top') . '"><i class="rex-icon rex-icon-top"></i></a>
+                    <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'up\');return false;" title="' . rex_i18n::msg('var_linklist_move_up') . '"><i class="rex-icon rex-icon-up"></i></a>
+                    <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'down\');return false;" title="' . rex_i18n::msg('var_linklist_move_down') . '"><i class="rex-icon rex-icon-down"></i></a>
+                    <a href="#" class="btn btn-default" onclick="moveREXLinklist(' . $id . ',\'bottom\');return false;" title="' . rex_i18n::msg('var_linklist_move_bottom') . '"><i class="rex-icon rex-icon-bottom"></i></a>';
+        $e['functionButtons'] = '
+                    <a href="#" class="btn btn-default" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"' . $disabled . '><i class="rex-icon rex-icon-open-linkmap"></i></a>
+                    <a href="#" class="btn btn-default" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"' . $disabled . '><i class="rex-icon rex-icon-delete-link"></i></a>';
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', [$e], false);
+        $link = $fragment->parse('core/form/widget_list.php');
 
         return $link;
     }
