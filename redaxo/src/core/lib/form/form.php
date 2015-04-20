@@ -1161,7 +1161,7 @@ class rex_form
             foreach ($fieldsetElements as $element) {
                 /** @var rex_form_element $element */
                 // read-only-fields
-                if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
+                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
                     continue;
                 }
 
@@ -1183,7 +1183,7 @@ class rex_form
         foreach ($saveElements as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $key => $element) {
                 // read-only-fields nicht speichern
-                if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
+                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
                     continue;
                 }
 
@@ -1231,7 +1231,7 @@ class rex_form
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (strpos($element->getAttribute('class'), 'rex-form-read') !== false) {
+                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
                     continue;
                 }
 
