@@ -27,18 +27,6 @@ class rex_form_control_element extends rex_form_element
         $s = '';
         $elements = [];
 
-
-        if ($this->abortElement) {
-            if (!$this->abortElement->hasAttribute('class')) {
-                $this->abortElement->setAttribute('class', 'btn btn-abort');
-            }
-
-            $e = [];
-            $e['class'] = $this->abortElement->formatClass();
-            $e['field'] = $this->abortElement->formatElement();
-            $elements[] = $e;
-        }
-
         if ($this->saveElement) {
             if (!$this->saveElement->hasAttribute('class')) {
                 $this->saveElement->setAttribute('class', 'btn btn-save');
@@ -58,6 +46,17 @@ class rex_form_control_element extends rex_form_element
             $e = [];
             $e['class'] = $this->applyElement->formatClass();
             $e['field'] = $this->applyElement->formatElement();
+            $elements[] = $e;
+        }
+
+        if ($this->abortElement) {
+            if (!$this->abortElement->hasAttribute('class')) {
+                $this->abortElement->setAttribute('class', 'btn btn-abort');
+            }
+
+            $e = [];
+            $e['class'] = $this->abortElement->formatClass();
+            $e['field'] = $this->abortElement->formatElement();
             $elements[] = $e;
         }
 
