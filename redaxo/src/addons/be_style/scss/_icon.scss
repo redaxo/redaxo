@@ -25,8 +25,11 @@
 .rex-icon-add-language {
     @extend .fa-plus;
 }
+.rex-icon-add-media {
+    @extend .fa-plus;
+}
 .rex-icon-add-mediatype {
-    @extend .fa-plus;  
+    @extend .fa-plus;
 }
 .rex-icon-add-mediatype-effect {
     @extend .fa-plus;
@@ -69,6 +72,9 @@
 }
 .rex-icon-delete-link {
     @extend .fa-chain-broken;
+}
+.rex-icon-delete-media {
+    @extend .fa-minus;
 }
 .rex-icon-down {
     @extend .fa-angle-down;
@@ -114,6 +120,9 @@
     @extend .fa-folder-open;
 }
 .rex-icon-open-linkmap {
+    @extend .fa-align-justify;
+}
+.rex-icon-open-mediapool {
     @extend .fa-align-justify;
 }
 .rex-icon-package {
@@ -194,5 +203,8 @@
     @extend .fa-user;
 }
 .rex-icon-view {
+    @extend .fa-eye;
+}
+.rex-icon-view-media {
     @extend .fa-eye;
 }

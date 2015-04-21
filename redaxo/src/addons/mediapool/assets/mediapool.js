@@ -149,7 +149,7 @@ function writeREXMedialist(id){
         // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
         function rexShowMediaPreview() {
             var value, img_type;
-            if($(this).hasClass("rex-widget-media"))
+            if($(this).hasClass("rex-js-widget-media"))
             {
                 value = $("input[type=text]", this).val();
                 img_type = "rex_mediabutton_preview";
@@ -159,11 +159,11 @@ function writeREXMedialist(id){
                 img_type = "rex_medialistbutton_preview";
             }
 
-            var div = $(".rex-media-preview", this);
+            var div = $(".rex-js-media-preview", this);
 
             var url;
             var width = 0;
-            if($(this).hasClass("rex-widget-preview-media-manager"))
+            if($(this).hasClass("rex-js-widget-preview-media-manager"))
                 url = './index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
             else
             {
@@ -193,13 +193,13 @@ function writeREXMedialist(id){
         };
 
         // Medialist preview neu anzeigen, beim wechsel der auswahl
-        $(".rex-widget-medialist.rex-widget-preview")
+        $(".rex-js-widget-medialist.rex-js-widget-preview")
             .click(rexShowMediaPreview);
 
-        $(".rex-widget-media.rex-widget-preview, .rex-widget-medialist.rex-widget-preview")
+        $(".rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview")
             .bind("mousemove", rexShowMediaPreview)
             .bind("mouseleave", function() {
-                var div = $(".rex-media-preview", this);
+                var div = $(".rex-js-media-preview", this);
                 if(div.css('height') != 'auto')
                 {
                     div.slideUp("normal");
