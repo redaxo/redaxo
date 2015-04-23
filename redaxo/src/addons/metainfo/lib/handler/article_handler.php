@@ -58,30 +58,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 
     protected function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
     {
-        $s = '';
-        if ($typeLabel != 'legend') {
-            $s .= '<div class="rex-form-row">';
-        }
-
-        if ($tag != '') {
-            $s .= '<' . $tag . $tag_attr  . '>' . "\n";
-        }
-
-        if ($labelIt) {
-            $s .= '<label for="' . $id . '">' . $label . '</label>' . "\n";
-        }
-
-        $s .= $field . "\n";
-
-        if ($tag != '') {
-            $s .= '</' . $tag . '>' . "\n";
-        }
-
-        if ($typeLabel != 'legend') {
-            $s .= '</div>';
-        }
-
-        return $s;
+        return $field;
     }
 
     public function getForm(array $params)
