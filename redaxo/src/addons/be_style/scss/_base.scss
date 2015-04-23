@@ -4,22 +4,29 @@
     .rex-nav-main {
         float: left;
         width: 250px;
+
+        & + .rex-page-main {
+            margin-left: 250px;
+
+            .rex-page-main-inner {
+                float: left;
+                width: 100%;
+            }
+        }
+
     }
 
-    .rex-page-main {
-        @include clearfix();
-        margin-left: 250px;
-        padding: 15px;
-    }
-    .rex-page-main-inner {
-        float: left;
-        width: 100%;
-    }
 
     .rex-global-footer {
         clear: both;
     }
 
+}
+    
+.rex-page-main {
+    @include clearfix();
+    padding-left: $floor($grid-gutter-width / 2);
+    padding-right: $floor($grid-gutter-width / 2);
 }
 
 

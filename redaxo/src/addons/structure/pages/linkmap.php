@@ -69,53 +69,50 @@ $func_body .= 'var linkid = link.replace("redaxo://","");
 
 <?php
 
-$navi_path = '<ul id="rex-navi-path">';
-
-
 $isRoot = $category_id === 0;
 $category = rex_category::get($category_id);
-$link = $context->getUrl(['category_id' => 0]);
 
-$navi_path .= '<li>' . rex_i18n::msg('path') . ' </li>';
-$navi_path .= '<li class="rex-navi-first">: <a href="' . $link . '">Homepage</a> </li>';
-
-$tree = [];
-
+$navigation = [];
 if ($category) {
-    foreach ($category->getParentTree() as $cat) {
-        $tree[] = $cat->getId();
-
-        $link = $context->getUrl(['category_id' => $cat->getId()]);
-        $navi_path .= '<li> : <a href="' . $link . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
+    foreach ($category->getParentTree() as $parent) {
+        $n = [];
+        $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+        $n['href'] = $context->getUrl(['category_id' => $parent->getId()]);
+        $navigation[] = $n;
     }
 }
-$navi_path .= '</ul>';
 
-//rex_title(rex::getServerName(), 'Linkmap');
-rex_view::title('Linkmap', $navi_path);
+echo rex_view::title('Linkmap');
 
-?>
 
-<div id="rex-linkmap">
-    <div class="rex-area-col-2">
-        <div class="rex-area-col-a">
-            <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_categories'); ?></h3>
-            <div class="rex-area-content">
-            <?php
-            $categoryTree = new rex_linkmap_category_tree($context);
-            echo $categoryTree->getTree($category_id);
-            ?>
-            </div>
-        </div>
+$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-sitestartarticle"></i> ' . rex_i18n::msg('homepage') . '</a>';
 
-        <div class="rex-area-col-b">
-            <h3 class="rex-hl2"><?php echo rex_i18n::msg('lmap_articles'); ?></h3>
-            <div class="rex-area-content">
-            <?php
-            $articleList = new rex_linkmap_article_list($context);
-            echo $articleList->getList($category_id);
-            ?>
-            </div>
-        </div>
-    </div>
-</div>
+$fragment = new rex_fragment();
+$fragment->setVar('title', $title, false);
+$fragment->setVar('items', $navigation, false);
+echo $fragment->parse('core/navigations/breadcrumb.php');
+
+
+$content = [];
+
+$categoryTree = new rex_linkmap_category_tree($context);
+$panel = $categoryTree->getTree($category_id);
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('linkmap_categories'), false);
+$fragment->setVar('body', $panel, false);
+$content[] = $fragment->parse('core/page/section.php');
+
+
+$articleList = new rex_linkmap_article_list($context);
+$panel = $articleList->getList($category_id);
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('linkmap_articles'), false);
+$fragment->setVar('body', $panel, false);
+$content[] = $fragment->parse('core/page/section.php');
+
+$fragment = new rex_fragment();
+$fragment->setVar('content', $content, false);
+echo $fragment->parse('core/page/grid.php');
+

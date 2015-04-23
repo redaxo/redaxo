@@ -34,6 +34,3 @@ echo $fragment->parse('core/navigations/breadcrumb.php');
 
 unset($fragment);
 unset($navigation);
-
-echo '
-<!-- *** OUTPUT OF CATEGORY-TOOLBAR - END *** -->';
