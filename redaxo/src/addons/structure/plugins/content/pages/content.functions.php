@@ -13,12 +13,14 @@ $isStartpage = $article->getValue('startarticle') == 1;
 if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $panel = '<fieldset>';
 
+    $panelClass = 'default';
     $buttons = '';
     if (!$isStartpage && $article->getValue('parent_id') == 0) {
+        $panelClass = 'info';
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottostartarticle') . '</span>';
+        $n['field'] = '<p class="form-control-static">' . rex_i18n::msg('content_nottostartarticle') . '</p>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -26,10 +28,11 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
         $panel .= $fragment->parse('core/form/form.php');
 
     } elseif ($isStartpage) {
+        $panelClass = 'info';
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_isstartarticle') . '</span>';
+        $n['field'] = '<p class="form-control-static">' . rex_i18n::msg('content_isstartarticle') . '</p>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -37,10 +40,9 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
         $panel .= $fragment->parse('core/form/form.php');
 
     } else {
-
         $formElements = [];
         $n = [];
-        $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_tostartarticle') . '</span>';
+        $n['field'] = '<p class="form-control-static">' . rex_i18n::msg('content_tostartarticle') . '</p>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -62,6 +64,7 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $panel .= '</fieldset>';
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', $panelClass);
     $fragment->setVar('title', rex_i18n::msg('content_startarticle'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
@@ -78,7 +81,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_tocategory') . '</span>';
+    $n['field'] = '<p class="form-control-static">' . rex_i18n::msg('content_tocategory') . '</p>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -113,12 +116,14 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
 
     $panel = '<fieldset>';
 
+    $panelClass = 'default';
     $buttons = '';
     if (!$emptyCategory) {
+        $panelClass = 'info';
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_nottoarticle') . '</span>';
+        $n['field'] = '<p class="form-control-static">' . rex_i18n::msg('content_nottoarticle') . '</p>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -129,7 +134,7 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<span class="rex-form-read">' . rex_i18n::msg('content_toarticle') . '</span>';
+        $n['field'] = '<p class="form-control-static">' . rex_i18n::msg('content_toarticle') . '</p>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -153,6 +158,7 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
 
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', $panelClass);
     $fragment->setVar('title', rex_i18n::msg('content_article'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
@@ -338,6 +344,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
     $move_a->setId('category_id_new');
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
+    $move_a->setAttribute('class', 'form-control');
     $move_a->setSelected($article_id);
 
     $panel = '<fieldset>';
