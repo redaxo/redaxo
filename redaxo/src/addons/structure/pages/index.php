@@ -210,8 +210,8 @@ if ($function == 'add_cat' && $KATPERM) {
                 <tr class="' . $class . '">
                     <td><i class="rex-icon rex-icon-category"></i></td>
                     <td>-</td>
-                    <td><input class="form-control" type="text" id="rex-form-field-name" name="category-name" class="rex-js-autofocus" autofocus /></td>
-                    <td><input class="form-control" type="text" id="rex-form-field-priority" name="category-position" value="' . ($KAT->getRows() + 1) . '" /></td>
+                    <td><input class="form-control" type="text" name="category-name" class="rex-js-autofocus" autofocus /></td>
+                    <td><input class="form-control" type="text" name="category-position" value="' . ($KAT->getRows() + 1) . '" /></td>
                     <td>' . $meta_buttons . '</td>
                     <td colspan="2">' . $add_buttons . '</td>
                 </tr>';
@@ -267,11 +267,11 @@ if ($KAT->getRows() > 0) {
                 }
 
                 $echo .= '
-                    <tr id="rex-structure-category-' . $i_category_id . '" class="' . $class . '">
+                    <tr class="' . $class . '">
                         ' . $kat_icon_td . '
                         <td>' . $i_category_id . '</td>
-                        <td><input class="form-control" type="text" id="rex-form-field-name" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
-                        <td><input class="form-control" type="text" id="rex-form-field-priority" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
+                        <td><input class="form-control" type="text" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
+                        <td><input class="form-control" type="text" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
                         <td>' . $meta_buttons . '</td>
                         <td colspan="2">' . $add_buttons . '</td>
                     </tr>';
@@ -292,7 +292,7 @@ if ($KAT->getRows() > 0) {
                 $category_delete = '<a href="' . $context->getUrl(['category-id' => $i_category_id, 'rex-api-call' => 'category_delete', 'catstart' => $catstart]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
 
                 $echo .= '
-                    <tr id="rex-structure-category-' . $i_category_id . '">
+                    <tr>
                         ' . $kat_icon_td . '
                         <td>' . $i_category_id . '</td>
                         <td><a href="' . $kat_link . '">' . htmlspecialchars($KAT->getValue('catname')) . '</a></td>
@@ -307,7 +307,7 @@ if ($KAT->getRows() > 0) {
                 // --------------------- KATEGORIE WITH READ
 
                 $echo .= '
-                    <tr id="rex-structure-category-' . $i_category_id . '">
+                    <tr>
                         ' . $kat_icon_td . '
                         <td>' . $i_category_id . '</td>
                         <td><a href="' . $kat_link . '">' . $KAT->getValue('catname') . '</a></td>
@@ -364,7 +364,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     if ($withTemplates) {
         $template_select = new rex_select;
         $template_select->setName('template_id');
-        $template_select->setId('rex-form-template');
         $template_select->setSize(1);
         $template_select->setStyle('class="form-control"');
 
@@ -424,14 +423,14 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     if ($function == 'add_art' || $function == 'edit_art') {
 
         $echo .= '
-        <form id="rex-form-structure-article" action="' . $context->getUrl(['artstart' => $artstart]) . '" method="post">
+        <form action="' . $context->getUrl(['artstart' => $artstart]) . '" method="post">
             <fieldset>';
     }
 
     // ----------- PRINT OUT THE ARTICLES
 
     $echo .= '
-            <table class="table table-striped table-hover" id="rex-table-articles">
+            <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>' . $art_add_link . '</th>
@@ -474,11 +473,11 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             $tmpl_td = '<td>' . $template_select->get() . '</td>';
         }
 
-        $echo .= '<tr class="rex-active">
+        $echo .= '<tr class="mark">
                     <td><i class="rex-icon rex-icon-article"></i></td>
                     <td>-</td>
-                    <td><input class="form-control" type="text" id="rex-form-field-name" name="article-name" autofocus /></td>
-                    <td><input class="form-control" type="text" id="rex-form-field-priority" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
+                    <td><input class="form-control" type="text" name="article-name" autofocus /></td>
+                    <td><input class="form-control" type="text" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
                     ' . $tmpl_td . '
                     <td>' . rex_formatter::strftime(time(), 'date') . '</td>
                     <td colspan="3"><input type="hidden" name="rex-api-call" value="article_add" /><button class="btn btn-primary" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
@@ -512,11 +511,11 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td>' . $template_select->get() . '</td>';
             }
-            $echo .= '<tr id="rex-structure-article-' . $article_id . '" class="rex-active' . $class_startarticle . '">
+            $echo .= '<tr class="mark' . $class_startarticle . '">
                             <td><a href="' . $context->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td>' . $sql->getValue('id') . '</td>
-                            <td><input class="form-control" type="text" id="rex-form-field-name" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" autofocus /></td>
-                            <td><input class="form-control" type="text" id="rex-form-field-priority" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
+                            <td><input class="form-control" type="text" name="article-name" value="' . htmlspecialchars($sql->getValue('name')) . '" autofocus /></td>
+                            <td><input class="form-control" type="text" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
                             ' . $tmpl_td . '
                             <td>' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td colspan="3"><input type="hidden" name="rex-api-call" value="article_edit" /><button class="btn btn-primary" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
@@ -553,7 +552,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 $tmpl_td = '<td>' . $tmpl . '</td>';
             }
 
-            $echo .= '<tr id="rex-structure-article-' . $sql->getValue('id') . '"' . (($class_startarticle != '') ? ' class="' . trim($class_startarticle) . '"' : '') . '>
+            $echo .= '<tr' . (($class_startarticle != '') ? ' class="' . trim($class_startarticle) . '"' : '') . '>
                             <td><a href="' . $editModeUrl . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td>' . $sql->getValue('id') . '</td>
                             <td><a href="' . $editModeUrl . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
@@ -577,7 +576,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 $tmpl_td = '<td>' . $tmpl . '</td>';
             }
 
-            $echo .= '<tr id="rex-structure-article-' . $sql->getValue('id') . '">
+            $echo .= '<tr>
                             <td><i class="rex-icon' . $class . '"></i></td>
                             <td>' . $sql->getValue('id') . '</td>
                             <td>' . htmlspecialchars($sql->getValue('name')) . '</td>

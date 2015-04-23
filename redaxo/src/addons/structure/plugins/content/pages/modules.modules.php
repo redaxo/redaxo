@@ -285,9 +285,9 @@ if ($function == 'add' or $function == 'edit') {
                 }
 
                 if ($actions != '') {
-                    $actions = '
-                        <table class="table table-striped table-hover" id="rex-table-module-action">
-                            <caption>' . rex_i18n::msg('actions_added_caption') . '</caption>
+
+                    $panel = '
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>&nbsp;</th>
@@ -300,7 +300,14 @@ if ($function == 'add' or $function == 'edit') {
                             ' . $actions . '
                         </tbody>
                         </table>
-                    ';
+                    ';                   
+
+                
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('title', rex_i18n::msg('actions_added_caption'), false);
+                    $fragment->setVar('content', $panel, false);
+                    $content .= $fragment->parse('core/page/section.php');
+
                 }
 
                 $gaa_sel = new rex_select();
@@ -315,8 +322,7 @@ if ($function == 'add' or $function == 'edit') {
                 }
 
                 $panel = '';
-                $panel .= $actions . '
-                <fieldset>';
+                $panel .= '<fieldset>';
 
 
                 $formElements = [];
@@ -354,7 +360,7 @@ if ($function == 'add' or $function == 'edit') {
         }
 
         $content = '
-            <form id="rex-form-module" action="' . rex_url::currentBackendPage() . '" method="post">
+            <form action="' . rex_url::currentBackendPage() . '" method="post">
             ' . $content . '
             </form>';
 
@@ -376,7 +382,6 @@ if ($OUT) {
     }
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
-    $list->addTableAttribute('id', 'rex-table-module');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
 
