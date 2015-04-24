@@ -1,8 +1,9 @@
 <?php 
     $toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
+    $group = isset($this->group) && $this->group ? true : false;
 ?>
 
-<?php if (! $toolbar): ?>
+<?php if (! $toolbar && ! $group): ?>
 <div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
 <?php endif; ?>
     
@@ -23,13 +24,13 @@
     <?php else: ?>
     </button>
     <?php endif; ?>
-    <ul class="dropdown-menu<?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
+    <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
         <?php if (isset($this->header) && $this->header != ''): ?>
             <li class="dropdown-header"><?= $this->header ?></li>
         <?php endif; ?>
         <?php
         foreach ($this->items as $item) {
-            echo '<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . '>';
+            echo '<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . (isset($item['attributes']) ? ' ' . trim($item['attributes']) : '') . '>';
             echo (isset($item['href']) && $item['href'] != '') ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title'];
             echo '</li>';
         }
@@ -39,6 +40,6 @@
             <li><?= $this->footer ?></li>
         <?php endif; ?>
     </ul>
-<?php if (! $toolbar): ?>
+<?php if (! $toolbar && ! $group): ?>
 </div>
 <?php endif; ?>

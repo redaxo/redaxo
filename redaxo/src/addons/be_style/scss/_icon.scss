@@ -22,6 +22,9 @@
 .rex-icon-add-category {
     @extend .fa-plus;
 }
+.rex-icon-add-cronjob {
+    @extend .fa-plus;
+}
 .rex-icon-add-language {
     @extend .fa-plus;
 }
@@ -64,6 +67,9 @@
 .rex-icon-category {
     @extend .fa-folder;
 }
+.rex-icon-cronjob {
+    @extend .fa-code;
+}
 .rex-icon-database {
     @extend .fa-database;
 }
@@ -84,6 +90,9 @@
 }
 .rex-icon-edit {
     @extend .fa-edit;
+}
+.rex-icon-execute {
+    @extend .fa-sign-in;
 }
 .rex-icon-external-link {
     @extend .fa-external-link;

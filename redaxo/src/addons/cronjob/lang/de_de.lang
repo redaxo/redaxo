@@ -8,12 +8,12 @@ cronjob_edit = Cronjob editieren
 cronjob_caption = Liste der angelegten Cronjobs
 cronjob_no_cronjobs = Keine Cronjobs vorhanden
 
-cronjob_delete = Löschen
+cronjob_delete = löschen
 cronjob_really_delete = Cronjob wirklich löschen?
 cronjob_delete_success = Cronjob "{0}" wurde erfolgreich gelöscht!
 cronjob_delete_error = Cronjob "{0}" konnte nicht gelöscht werden!
 
-cronjob_execute = Ausführen
+cronjob_execute = ausführen
 cronjob_execute_success = Cronjob "{0}" wurde erfolgreich ausgeführt!
 cronjob_execute_error = Cronjob "{0}" wurde nicht erfolgreich ausgeführt!
 
