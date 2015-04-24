@@ -33,45 +33,50 @@ if (rex_post('btn_save', 'string') != '') {
 }
 
 $sel_mailer = new rex_select();
-$sel_mailer->setId('mailer');
+$sel_mailer->setId('phpmailer-mailer');
 $sel_mailer->setName('settings[mailer]');
 $sel_mailer->setSize(1);
+$sel_mailer->setAttribute('class', 'form-control');
 $sel_mailer->setSelected($this->getConfig('mailer'));
 foreach (['mail', 'sendmail', 'smtp'] as $type) {
     $sel_mailer->addOption($type, $type);
 }
 
 $sel_smtpauth = new rex_select();
-$sel_smtpauth->setId('smtpauth');
+$sel_smtpauth->setId('phpmailer-smtpauth');
 $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
+$sel_smtpauth->setAttribute('class', 'form-control');
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
 foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
 $sel_smtpauth->addOption($type, $i);
 }
 
 $sel_smtpsecure = new rex_select();
-$sel_smtpsecure->setId('smtpsecure');
+$sel_smtpsecure->setId('phpmailer-smtpsecure');
 $sel_smtpsecure->setName('settings[smtpsecure]');
 $sel_smtpsecure->setSize(1);
+$sel_smtpsecure->setAttribute('class', 'form-control');
 $sel_smtpsecure->setSelected($this->getConfig('smtpsecure'));
 foreach(array('' => $this->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls') as $type => $name) {
     $sel_smtpsecure->addOption($name, $type);
 }
 
 $sel_encoding = new rex_select();
-$sel_encoding->setId('encoding');
+$sel_encoding->setId('phpmailer-encoding');
 $sel_encoding->setName('settings[encoding]');
 $sel_encoding->setSize(1);
+$sel_encoding->setAttribute('class', 'form-control');
 $sel_encoding->setSelected($this->getConfig('encoding'));
 foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc) {
     $sel_encoding->addOption($enc, $enc);
 }
 
 $sel_priority = new rex_select();
-$sel_priority->setid('priority');
+$sel_priority->setid('phpmailer-priority');
 $sel_priority->setName('settings[priority]');
 $sel_priority->setSize(1);
+$sel_priority->setAttribute('class', 'form-control');
 $sel_priority->setSelected($this->getConfig('priority'));
 foreach ([1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
     $sel_priority->addOption($name, $no);
@@ -79,121 +84,139 @@ foreach ([1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n
 
 
 if ($message != '') {
-    echo rex_view::info($message);
+    echo rex_view::success($message);
 }
 
+$content = '';
+
+$content .= '<fieldset><legend>' . $this->i18n('email_options') . '</legend>';
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="phpmailer-fromname">' . $this->i18n('sender_name') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[fromname]" value="' . $this->getConfig('fromname') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-from">' . $this->i18n('sender_email') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" value="' . $this->getConfig('from') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-confirmto">' . $this->i18n('confirm') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="text" name="settings[confirmto]" value="' . $this->getConfig('confirmto') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-bcc">' . $this->i18n('bcc') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="text" name="settings[bcc]" value="' . $this->getConfig('bcc') . '" />';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</fieldset><fieldset><legend>' . $this->i18n('dispatch_options') . '</legend>';
+
+$formElements = [];
+
+$n = [];
+$n['label'] = '<label for="phpmailer-mailer">' . $this->i18n('mailertype') . '</label>';
+$n['field'] = $sel_mailer->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-port">' . $this->i18n('port') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . $this->getConfig('port') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-charset">' . $this->i18n('charset') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[charset]" value="' . $this->getConfig('charset') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-wordwrap">' . $this->i18n('wordwrap') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="text" name="settings[wordwrap]" value="' . $this->getConfig('wordwrap') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-encoding">' . $this->i18n('encoding') . '</label>';
+$n['field'] = $sel_encoding->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-priority">' . $this->i18n('priority') . '</label>';
+$n['field'] = $sel_priority->get();
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</fieldset><fieldset><legend>' . $this->i18n('smtp_options') . '</legend>';
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="phpmailer-smtpsecure">' . $this->i18n('smtp_secure') . '</label>';
+$n['field'] = $sel_smtpsecure->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-smtpauth">' . $this->i18n('smtp_auth') . '</label>';
+$n['field'] = $sel_smtpauth->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-username">' . $this->i18n('smtp_username') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[username]" value="' . $this->getConfig('username') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-password" type="text" name="settings[password]" value="' . $this->getConfig('password') . '" />';
+$formElements[] = $n;
 
 
-$content = '
-    <div id="rex-addon-editmode" class="rex-form">
-    <form action="" method="post">
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
 
-         <fieldset class="rex-form-col-1">
+$content .= '</fieldset>';
 
-        <div class="rex-form-wrapper">
 
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="fromname">' . $this->i18n('sender_name') . '</label>
-            <input type="text" name="settings[fromname]" id="fromname" value="' . $this->getConfig('fromname') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="from">' . $this->i18n('sender_email') . '</label>
-            <input type="text" name="settings[from]" id="from" value="' . $this->getConfig('from') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="confirmto">' . $this->i18n('confirm') . '</label>
-            <input type="text" name="settings[confirmto]" id="confirmto" value="' . $this->getConfig('confirmto') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="bcc">' . $this->i18n('bcc') . '</label>
-            <input type="text" name="settings[bcc]" id="bcc" value="' . $this->getConfig('bcc') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-select">
-            <label for="mailer">' . $this->i18n('mailertype') . '</label>
-            ' . $sel_mailer->get() . '
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="host">' . $this->i18n('host') . '</label>
-            <input type="text" name="settings[host]" id="host" value="' . $this->getConfig('host') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="host">' . $this->i18n('port') . '</label>
-            <input type="text" name="settings[port]" id="port" value="' . $this->getConfig('port') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="charset">' . $this->i18n('charset') . '</label>
-            <input type="text" name="settings[charset]" id="charset" value="' . $this->getConfig('charset') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="wordwrap">' . $this->i18n('wordwrap') . '</label>
-            <input type="text" name="settings[wordwrap]" id="wordwrap" value="' . $this->getConfig('wordwrap') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-select">
-            <label for="encoding">' . $this->i18n('encoding') . '</label>
-            ' . $sel_encoding->get() . '
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-select">
-            <label for="priority">' . $this->i18n('priority') . '</label>
-            ' . $sel_priority->get() . '
-        </p>
-        </div>
-        <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-select">
-              <label for="smtpsecure">' . $this->i18n('SMTPSecure') . '</label>
-              ' . $sel_smtpsecure->get() . '
-            </p>
-        </div>
-        <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-select">
-              <label for="smtpauth">' . $this->i18n('SMTPAuth') . '</label>
-              ' . $sel_smtpauth->get() . '
-            </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="Username">' . $this->i18n('Username') . '</label>
-            <input type="text" name="settings[username]" id="Username" value="' . $this->getConfig('username') . '" />
-        </p>
-        </div>
-        <div class="rex-form-row">
-        <p class="rex-form-col-a rex-form-text">
-            <label for="Password">' . $this->i18n('Password') . '</label>
-            <input type="text" name="settings[password]" id="Password" value="' . $this->getConfig('password') . '" />
-        </p>
-        </div>
+$formElements = [];
+$n = [];
+$n['field'] = '<button class="btn btn-primary" type="submit" name="btn_save" value="' . $this->i18n('save') . '">' . $this->i18n('save') . '</button>';
+$formElements[] = $n;
+$n = [];
+$n['field'] = '<button class="btn btn-primary" type="reset" name="btn_reset" value="' . $this->i18n('reset') . '" data-confirm="' . $this->i18n('reset_info') . '">' . $this->i18n('reset') . '</button>';
+$formElements[] = $n;
 
-        <div class="rex-form-row">
-            <p class="rex-form-col-a rex-form-submit">
-                 <input class="rex-form-submit" type="submit" name="btn_save" value="' . $this->i18n('save') . '" />
-                 <input class="rex-form-submit rex-form-submit-2" type="reset" name="btn_reset" value="' . $this->i18n('reset') . '" data-confirm="' . $this->i18n('reset_info') . '"/>
-            </p>
-        </div>
 
-        </div>
+$fragment = new rex_fragment();
+$fragment->setVar('flush', true);
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
 
-         </fieldset>
-    </form>
-    </div>';
 
-echo rex_view::content('block', $content, $this->i18n('config_settings'));
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', $this->i18n('config_settings'), false);
+$fragment->setVar('body', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+
+
+
+
+
+echo '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $content . '
+    </form>';
