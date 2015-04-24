@@ -14,4 +14,4 @@ $CONT->setSliceRevision($slice_revision);
 $CONT->setFunction($function);
 $content .= $CONT->getArticle($ctype);
 
-echo $content != '' ? '<ul class="rex-slices">' . $content . '</ul>' : '';
+return $content != '' ? '<ul class="rex-slices">' . $content . '</ul>' : '';

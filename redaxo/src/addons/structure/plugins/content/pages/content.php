@@ -446,34 +446,62 @@ if ($article->getRows() == 1) {
         $fragment = new rex_fragment();
         $fragment->setVar('left', $content_navi_left, false);
         $fragment->setVar('right', $content_navi_right, false);
-        echo $fragment->parse('core/navigations/content.php');
+        
+        $contentMain = $fragment->parse('core/navigations/content.php');
 
 
         // ------------------------------------------ END: CONTENT HEAD MENUE
 
         // ------------------------------------------ WARNING
         if ($global_warning != '') {
-            echo rex_view::warning($global_warning);
+            $contentMain .= rex_view::warning($global_warning);
         }
         if ($global_info != '') {
-            echo rex_view::success($global_info);
+            $contentMain .= rex_view::success($global_info);
         }
 
         // --------------------------------------------- API MESSAGES
-        echo rex_api_function::getMessage();
+        $contentMain .= rex_api_function::getMessage();
 
         if ($warning != '') {
-            echo rex_view::warning($warning);
+            $contentMain .= rex_view::warning($warning);
         }
         if ($info != '') {
-            echo rex_view::success($info);
+            $contentMain .= rex_view::success($info);
         }
 
 
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-        include rex_be_controller::getCurrentPageObject()->getSubPath();
+        $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();
 
         // ------------------------------------------ END: AUSGABE
+
+
+
+
+        // ----- EXTENSION POINT
+        $contentSidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_SIDEBAR', '', [
+            'article_id' => $article_id,
+            'clang' => $clang,
+            'function' => $function,
+            'slice_id' => $slice_id,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $ctype,
+            'category_id' => $category_id,
+            'article_revision' => &$article_revision,
+            'slice_revision' => &$slice_revision,
+        ]));
+
+
+        if ($contentSidebar == '') {
+            echo '<div class="rex-structure-content-main">' . $contentMain . '</div>';
+        } else {
+            echo '
+                <div class="row">
+                    <div class="col-md-9"><div class="rex-structure-content-main">' . $contentMain . '</div></div>
+                    <div class="col-md-3"><aside class="rex-structure-content-sidebar">' . $contentSidebar . '</aside></div>
+                </div>';
+        }
 
     }
 }

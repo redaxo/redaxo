@@ -386,4 +386,4 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
 
 $content .= '</form>';
 
-echo rex_view::content('plain', $content, '', $params = ['flush' => true]);
+return $content;
