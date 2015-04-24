@@ -70,6 +70,13 @@
     font-size: $font-size-base;
 }
 
+.rex-state-inprogress {
+    background-color: $state-warning-bg !important;
+}
+.rex-state-live {
+    background-color: $state-success-bg !important;
+}
+
 
 .rex-ajax-loader {
     position: fixed;

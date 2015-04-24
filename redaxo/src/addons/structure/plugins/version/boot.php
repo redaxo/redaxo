@@ -136,7 +136,7 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
         }
     }
 
-    $cssClass = $rex_version_article[$params['article_id']] == 1 ? 'rex-state-live' : 'rex-state-inprogress';
+    $cssClass = $rex_version_article[$params['article_id']] == 1 ? 'rex-state-inprogress' : 'rex-state-live';
 
     $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass);
 
