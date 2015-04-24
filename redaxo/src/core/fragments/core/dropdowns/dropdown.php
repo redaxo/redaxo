@@ -1,5 +1,16 @@
+<?php 
+    $toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
+?>
+
+<?php if (! $toolbar): ?>
 <div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
-    <button class="btn btn-default<?= (isset($this->block) ? ' btn-block' : '')?> dropdown-toggle" type="button" data-toggle="dropdown">
+<?php endif; ?>
+    
+    <?php if ($toolbar): ?>
+    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
+    <?php else: ?>
+    <button class="btn btn-default<?= (isset($this->block) ? ' btn-block' : '')?> dropdown-toggle" type="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
+    <?php endif; ?>
         <?php if (isset($this->button_prefix) && $this->button_prefix != ''): ?>
         <?= $this->button_prefix ?>
         <?php endif; ?>
@@ -7,7 +18,11 @@
         <?= ' <b>' . $this->button_label . '</b>' ?>
         <?php endif; ?>
         <span class="caret"></span>
+    <?php if ($toolbar): ?>
+    </a>
+    <?php else: ?>
     </button>
+    <?php endif; ?>
     <ul class="dropdown-menu<?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
         <?php if (isset($this->header) && $this->header != ''): ?>
             <li class="dropdown-header"><?= $this->header ?></li>
@@ -24,4 +39,6 @@
             <li><?= $this->footer ?></li>
         <?php endif; ?>
     </ul>
+<?php if (! $toolbar): ?>
 </div>
+<?php endif; ?>
