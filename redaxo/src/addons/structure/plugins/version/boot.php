@@ -67,15 +67,15 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
     switch ($func) {
         case 'copy_work_to_live':
             if ($working_version_empty) {
-                $return .= rex_view::warning(rex_i18n::msg('version_warning_working_version_to_live'));
+                $return .= rex_view::error(rex_i18n::msg('version_warning_working_version_to_live'));
             } elseif (rex::getUser()->hasPerm('version[live_version]')) {
                 rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::WORK, rex_article_revision::LIVE);
-                $return .= rex_view::info(rex_i18n::msg('version_info_working_version_to_live'));
+                $return .= rex_view::success(rex_i18n::msg('version_info_working_version_to_live'));
             }
         break;
         case 'copy_live_to_work':
             rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::LIVE, rex_article_revision::WORK);
-            $return .= rex_view::info(rex_i18n::msg('version_info_live_version_to_working'));
+            $return .= rex_view::success(rex_i18n::msg('version_info_live_version_to_working'));
         break;
     }
 
@@ -93,78 +93,53 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
         'ctype' => $params['ctype']
     ]);
 
-    $return .= '
-        <div id="rex-version-header" class="rex-toolbar rex-toolbar-has-form rex-version-revision-' . $rex_version_article[$params['article_id']] . '">
-                <div class="rex-toolbar-content rex-version-header">
 
-                <form action="' . $context->getUrl() . '" method="post">
-                <fieldset>
-    ';
-
-    $s = new rex_select();
-    foreach ($revisions as $k => $r) {
-        $s->addOption($r, $k);
+    $items = [];
+    $brand = '';
+    foreach ($revisions as $version => $revision) {
+        $item = [];
+        $item['title'] = $revision;
+        $item['href']  = $context->getUrl(['rex_set_version' => $version]);
+        if ($rex_version_article[$params['article_id']] == $version) {
+            $item['active'] = true;
+            $brand = $revision;
+        }
+        $items[] = $item;
     }
-    $s->setSelected($rex_version_article[$params['article_id']]);
-    $s->setName('rex_set_version');
-    $s->setId('rex-select-version-id');
-    $s->setSize('1');
-    $s->setAttribute('onchange', 'this.form.submit();');
+
+    $toolbar = '';
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('button_prefix', rex_i18n::msg('version'));
+    $fragment->setVar('items', $items, false);
+    $fragment->setVar('toolbar', true);
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
-        $s->setDisabled();
+        $fragment->setVar('disabled', true);
     }
 
-    $return .= '<ul class="rex-display-inline">';
-    $return .= '<li class="rex-navi-first"><label for="rex-select-version-id">' . rex_i18n::msg('version') . ':</label> ' . $s->get() . '</li>';
+    $toolbar .= '<li class="dropdown">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
 
     if (!rex::getUser()->hasPerm('version[live_version]')) {
         if ($rex_version_article[$params['article_id']] > 0) {
-            $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
-            $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
+            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         }
     } else {
         if ($rex_version_article[$params['article_id']] > 0) {
             if (!$working_version_empty) {
-                $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
+                $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
             }
-            $return .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         } else {
-            $return .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
+            $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
         }
     }
-    $return .= '</ul>';
 
-    $return .= '
+    $cssClass = $rex_version_article[$params['article_id']] == 1 ? 'rex-state-live' : 'rex-state-inprogress';
 
-                    <noscript>
-                        <input type="submit" />
-                    </noscript>
-                </fieldset>
-                </form>
+    $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass);
 
-            </div>
-            <div class="rex-clearer"></div>
-
-<style type="text/css">
-    /* <![CDATA[ */
-        #rex-version-header label {
-            font-weight: bold;
-        }
-        #rex-version-header li {
-            margin-right: 15px;
-        }
-        div.rex-version-revision-0 {
-            background-color:#bbddaa;
-        }
-        div.rex-version-revision-1 {
-            background-color:#EFECD1;
-        }
-    /* ]]> */
-</style>
-
-        </div>
-    ';
 
     $params['slice_revision'] = $rex_version_article[$params['article_id']];
 

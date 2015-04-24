@@ -115,4 +115,3 @@ $content[] = $fragment->parse('core/page/section.php');
 $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
 echo $fragment->parse('core/page/grid.php');
-
