@@ -71,7 +71,7 @@ if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
-            <table class="table table-hover" id="rex-table-packages">
+            <table class="table table-hover">
             <thead>
                 <tr>
                     <th>&nbsp;</th>
@@ -116,28 +116,32 @@ if ($subpage == '') {
             $install = $getLink($package, 'install', 'rex-icon-package-not-installed');
             //$uninstall = rex_i18n::msg('package_notinstalled');
         }
-
+        
+        $class = '';
         $status = '&nbsp;';
         if ($package->isActivated()) {
             $status = $getLink($package, 'deactivate', 'rex-icon-package-is-activated');
+            $class .= ' rex-package-is-activated';
         } elseif ($package->isInstalled()) {
             $status = $getLink($package, 'activate', 'rex-icon-package-not-activated');
+            $class .= ' rex-package-is-installed';
         } else {
-            //$status = rex_i18n::msg('package_notinstalled');
+            $class .= ' rex-package-not-installed';
         }
         $name = '<span class="rex-' . $type . '-name">' . htmlspecialchars($package->getName()) . '</span>';
-        $class = $package->isSystemPackage() ? ' rex-system-' . $type : '';
+        
+        $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
         // --------------------------------------------- API MESSAGES
         $message = '';
         if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) {
             $message = '
-                    <tr class="rex-package-is-' . $type . $class . ' rex-message">
+                    <tr class="rex-package-message">
                         <td colspan="8">
                              ' . rex_api_function::getMessage() . '
                         </td>
                     </tr>';
-            $class .= ' mark';
+            $class = ' mark';
         }
 
         $version = (trim($package->getVersion()) != '') ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
