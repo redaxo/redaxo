@@ -2,7 +2,7 @@
         <nav class="rex-nav-top navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".rex-nav-main">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".rex-nav-main > .navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -17,7 +17,7 @@
 
         <?php if ($this->navigation != ''): ?>
         <nav class="rex-nav-main navbar-default" role="navigation">
-            <div class="navbar-collapse">
+            <div class="navbar-collapse collapse">
                 <?= $this->navigation ?>
             </div>
         </nav>
