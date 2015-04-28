@@ -219,6 +219,8 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
         require_once $curDir . '/lib/handler/category_handler.php';
     } elseif ($page == 'mediapool') {
         require_once $curDir . '/lib/handler/media_handler.php';
+    } elseif ($mainpage == 'content') {
+        require_once $curDir . '/extensions/extension_content_sidebar.php';
     } elseif ($page == 'import_export') {
         require_once $curDir . '/extensions/extension_cleanup.php';
     }

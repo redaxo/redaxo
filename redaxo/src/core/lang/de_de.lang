@@ -354,3 +354,9 @@ footer_joinforum = Besuche das Forum
 footer_datetime = {0}
 footer_scripttime = {0} Sek.
 footer_credits = Credits
+
+created_by = erstellt von
+created_on = erstellt am
+updated_by = aktualisiert von
+updated_on = aktualisiert am
+status = Status

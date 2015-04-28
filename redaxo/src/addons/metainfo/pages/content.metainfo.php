@@ -43,6 +43,6 @@ $content = $fragment->parse('core/page/section.php');
 
 
 return '
-    <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" id="REX_FORM">
+    <form action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data">
         ' . $content . '
     </form>';
