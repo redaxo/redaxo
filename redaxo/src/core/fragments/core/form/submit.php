@@ -11,5 +11,7 @@ foreach ($this->elements as $element) {
 }
 
 echo '<div class="rex-form-panel-footer">';
+echo '<div class="btn-toolbar">';
 echo $out;
+echo '</div>';
 echo '</div>';
