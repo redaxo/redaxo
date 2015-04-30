@@ -10,14 +10,14 @@
 // - import checken
 // - mehrere ebenen in kategorienedit  einbauen
 
-global $subpage, $ftitle, $warning, $info;
+global $subpage, $ftitle, $error, $success;
 
 // -------------- Defaults
-$subpage      = rex_be_controller::getCurrentPagePart(2);
-$func         = rex_request('func', 'string');
-$info         = rex_request('info', 'string');
-$warning      = rex_request('warning', 'string');
-$args         = rex_request('args', 'array');
+$subpage = rex_be_controller::getCurrentPagePart(2);
+$func    = rex_request('func', 'string');
+$success = rex_request('info', 'string');
+$error   = rex_request('warning', 'string');
+$args    = rex_request('args', 'array');
 
 
 // -------------- Additional Args
@@ -79,13 +79,13 @@ foreach ($subline as $sp) {
 echo rex_view::title(rex_i18n::msg('pool_media'), $subline);
 
 // -------------- Messages
-if ($info != '') {
-    echo rex_view::info($info);
-    $info = '';
+if ($success != '') {
+    echo rex_view::info($success);
+    $success = '';
 }
-if ($warning != '') {
-    echo rex_view::warning($warning);
-    $warning = '';
+if ($error != '') {
+    echo rex_view::error($error);
+    $error = '';
 }
 
 // -------------- Javascripts

@@ -32,9 +32,9 @@ if ($PERMALL) {
         $file_filesize = filesize(rex_path::media($db_file["filename"]));
         if ($db_file["filesize"] != $file_filesize) {
             $file_sql = rex_sql::factory();
-            // $file_sql->debugsql = 1;
-            $file_sql->setTable(rex::getTable('file'));
-            $file_sql->setWhere('filename=?', [$db_file["filename"]]);
+            $file_sql->debugsql = 1;
+            $file_sql->setTable(rex::getTable('media'));
+            $file_sql->setWhere(['filename' => $db_file["filename"]]);
             $file_sql->setValue('filesize', $file_filesize);
             if ($db_file["width"] > 0) {
                 if($size = @getimagesize(rex_path::media($db_file["filename"]))) {
@@ -47,13 +47,13 @@ if ($PERMALL) {
         }
     }
 
-    $warning = [];
+    $error = [];
     if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
         $sync_files = rex_post('sync_files', 'array');
         $ftitle     = rex_post('ftitle', 'string');
 
         if ($diff_count > 0) {
-            $info = [];
+            $success = [];
             $first = true;
             foreach ($sync_files as $file) {
                 // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
@@ -65,75 +65,111 @@ if ($PERMALL) {
                 if ($syncResult['ok']) {
                     unset($diff_files[$key]);
                     if ($first) {
-                        $info[] = rex_i18n::msg('pool_sync_files_synced');
+                        $success[] = rex_i18n::msg('pool_sync_files_synced');
                         $first = false;
                     }
                     if ($syncResult['msg']) {
-                        $info[] = $syncResult['msg'];
+                        $success[] = $syncResult['msg'];
                     }
                 } elseif ($syncResult['msg']) {
-                    $warning[] = $syncResult['msg'];
+                    $error[] = $syncResult['msg'];
                 }
             }
             // diff count neu berechnen, da (hoffentlich) diff files in die db geladen wurden
             $diff_count = count($diff_files);
         }
     } elseif (rex_post('save', 'boolean')) {
-        $warning[] = rex_i18n::msg('pool_file_not_found');
+        $error[] = rex_i18n::msg('pool_file_not_found');
     }
 
-    echo rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rex_file_category, false, false);
 
-    $title = rex_i18n::msg('pool_sync_affected_files');
-    if (!empty($diff_count)) {
-        $title .= ' (' . $diff_count . ')';
-    }
-    echo '<fieldset class="rex-form-col-1">
-                    <legend>' . $title . '</legend>
-                    <div class="rex-form-wrapper">';
+    $content = '';
 
     if ($diff_count > 0) {
+
+        $writable = [];
+        $not_writable = [];
         foreach ($diff_files as $file) {
-            echo '<div class="rex-form-row">
-                            <p class="checkbox rex-form-label-right">';
+
             if (is_writable(rex_path::media($file))) {
-                echo '<input class="checkbox" type="checkbox" id="sync_file_' . $file . '" name="sync_files[]" value="' . $file . '" />
-                            <label for="sync_file_' . $file . '">' . $file . '</label>';
+
+                $e = [];
+                $e['label'] = '<label>' . $file . '</label>';
+                $e['field'] = '<input type="checkbox" name="sync_files[]" value="' . $file . '" />';
+                $writable[] = $e;
+
             } else {
-                echo $file . ' - ' .  rex_i18n::msg('pool_file_not_writable') . "\n";
+
+                $not_writable[] = $file;
+
             }
-            echo '    </p>
-                        </div>';
         }
 
-        echo '<div class="rex-form-row">
-                        <p class="checkbox rex-form-label-right">
-                            <input class="checkbox" type="checkbox" name="checkie" id="checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />
-                            <label for="checkie">' . rex_i18n::msg('pool_select_all') . '</label>
-                        </p>
-                    </div>';
 
-    } else {
-        echo '<div class="rex-form-row">
-                        <p class="rex-form-notice">
-                            <span class="rex-form-notice"><strong>' . rex_i18n::msg('pool_sync_no_diffs') . '</strong></span>
-                        </p>
-                    </div>';
-    }
+        $e = [];
+        $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';
+        $e['field'] = '<input type="checkbox" name="checkie" id="rex-js-checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />';
+        $writable[] = $e;
 
-    echo '</div>
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $writable, false);
+        $panel = $fragment->parse('core/form/checkbox.php');
+
+
+
+
+        $count = count($writable) - 1;
+        if ($count) {
+
+            $content .= rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rex_file_category, false, false);
+            $content .= '<fieldset>';
+            
+            $title = rex_i18n::msg('pool_sync_affected_files') . ' (' . $count . ')';
+            
+            $fragment = new rex_fragment();
+            $fragment->setVar('title', $title, false);
+            $fragment->setVar('body', $panel, false);
+            $content .= $fragment->parse('core/page/section.php');
+
+            $content .= '
                 </fieldset>
             </form>
-        </div>
 
-    <script type="text/javascript">
-        jQuery(document).ready(function($){
-            $("input[name=\'sync_files[]\']").change(function() {
-                $("#media-form-button").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
-            }).change();
-            $("#checkie").change(function() {
-                $("input[name=\'sync_files[]\']").change();
-            });
-        });
-    </script>';
+            <script type="text/javascript">
+                jQuery(document).ready(function($){
+                    $("input[name=\'sync_files[]\']").change(function() {
+                        $(this).closest(\'form\').find("[type=\'submit\']").attr("disabled", $("input[name=\'sync_files[]\']:checked").size() == 0);
+                    }).change();
+                    $("#rex-js-checkie").change(function() {
+                        $("input[name=\'sync_files[]\']").change();
+                    });
+                });
+            </script>';
+        }
+
+        $count = count($not_writable);
+        if ($count) {
+            $title = $count > 1 ? rex_i18n::msg('pool_files_not_writable') : rex_i18n::msg('pool_file_not_writable');
+
+            $fragment = new rex_fragment();
+            $fragment->setVar('title', $title, false);
+            $fragment->setVar('body', '<ul><li>' . implode('</li><li>', $not_writable) . '</li></ul>' , false);
+            $fragment->setVar('class', 'warning', false);
+            $content .= $fragment->parse('core/page/section.php');
+
+        }
+        
+
+    } else {
+        $panel = '<p>' . rex_i18n::msg('pool_sync_no_diffs') . '</p>';
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('title', rex_i18n::msg('pool_sync_title'), false);
+        $fragment->setVar('body', $panel, false);
+        $fragment->setVar('class', 'info', false);
+        $content = $fragment->parse('core/page/section.php');
+    }
+
+    echo $content;
 }

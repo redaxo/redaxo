@@ -31,6 +31,9 @@
 .rex-icon-add-media {
     @extend .fa-plus;
 }
+.rex-icon-add-media-category {
+    @extend .fa-plus;
+}
 .rex-icon-add-mediatype {
     @extend .fa-plus;
 }
@@ -112,6 +115,9 @@
 .rex-icon-loading {
     @extend .fa-pulse;
     @extend .fa-spinner;
+}
+.rex-icon-media-category {
+    @extend .fa-folder;
 }
 .rex-icon-mediatype {
     @extend .fa-picture-o;

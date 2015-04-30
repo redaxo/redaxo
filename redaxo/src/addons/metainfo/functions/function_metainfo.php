@@ -217,7 +217,7 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
     $curDir = __DIR__ . '/..';
     if ($page == 'structure') {
         require_once $curDir . '/lib/handler/category_handler.php';
-    } elseif ($page == 'mediapool') {
+    } elseif ($mainpage == 'mediapool') {
         require_once $curDir . '/lib/handler/media_handler.php';
     } elseif ($mainpage == 'content') {
         require_once $curDir . '/extensions/extension_content_sidebar.php';

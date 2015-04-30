@@ -46,7 +46,7 @@ class rex_media
      */
     public static function get($name)
     {
-        if (!$name || !preg_match('/^[\w.]+$/', $name)) {
+        if (!$name) {
             return null;
         }
 
