@@ -3,14 +3,16 @@ $this->content = is_string($this->content) ? [$this->content] : $this->content;
 
 $count = count($this->content);
 
+$this->classes = (is_array($this->classes) && count($this->classes) == $count) ? $this->classes : [];
+
 switch ($count) {
 
     case '4':
 
         echo '<div class="row">';
 
-        foreach ($this->content as $content) {
-            echo '<div class="cols-sm-6 col-md-3">' . $content . '</div>';
+        foreach ($this->content as $key => $content) {
+            echo '<div class="' . (isset($this->classes[$key]) ? $this->classes[$key] : 'col-sm-6 col-md-3') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -21,8 +23,8 @@ switch ($count) {
 
         echo '<div class="row">';
 
-        foreach ($this->content as $content) {
-            echo '<div class="col-md-4">' . $content . '</div>';
+        foreach ($this->content as $key => $content) {
+            echo '<div class="' . (isset($this->classes[$key]) ? $this->classes[$key] : 'col-md-4') . '">' . $content . '</div>';
         }
 
         echo '</div>';
@@ -33,8 +35,8 @@ switch ($count) {
 
         echo '<div class="row">';
 
-        foreach ($this->content as $content) {
-            echo '<div class="col-md-6">' . $content . '</div>';
+        foreach ($this->content as $key => $content) {
+            echo '<div class="' . (isset($this->classes[$key]) ? $this->classes[$key] : 'col-md-6') . '">' . $content . '</div>';
         }
 
         echo '</div>';
