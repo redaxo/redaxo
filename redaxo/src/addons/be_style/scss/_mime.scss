@@ -1,0 +1,70 @@
+.rex-mime {
+    @extend .fa;
+    @extend .fa-file-o;
+    position: relative;
+    font-size: 3em;
+}
+
+.rex-mime:after {
+    content: attr(data-extension);
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 1.5em;
+    width: 100%;
+    text-align: center;
+    font-family: $font-family-monospace;
+    font-size: $font-size-small;
+    text-transform: uppercase;
+}
+.rex-mime-default {
+}
+.rex-mime-doc, 
+.rex-mime-docx {
+    @extend .fa-file-word-o;
+}
+.rex-mime-doc:after, 
+.rex-mime-docx:after {
+    content: '';
+}
+
+.rex-mime-error {
+    color: $state-danger-text;
+}
+.rex-mime-error:after {
+    content: '!';
+    top: .8em;
+    font-size: $font-size-large;
+}
+
+.rex-mime-pdf {
+    @extend .fa-file-pdf-o;
+}
+.rex-mime-pdf:after {
+    content: '';
+}
+
+.rex-mime-ppt, 
+.rex-mime-pptx {
+    @extend .fa-file-powerpoint-o;
+}
+.rex-mime-ppt:after, 
+.rex-mime-pptx:after {
+    content: '';
+}
+
+.rex-mime-txt {
+    @extend .fa-file-text-o;
+}
+.rex-mime-txt:after {
+    content: '';
+}
+
+.rex-mime-xls, 
+.rex-mime-xlsx {
+    @extend .fa-file-excel-o;
+}
+.rex-mime-xls:after, 
+.rex-mime-xlsx:after {
+    content: '';
+}

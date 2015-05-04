@@ -183,7 +183,7 @@ if ($file_id) {
             }
 
             if (!file_exists(rex_path::media($fname))) {
-                $add_image = '<span class="rex-mime rex-mime-error">' . $fname . '</span>';
+                $add_image = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
             } else {
                 $add_image = '
                         <a href="' . $img_max . '">
@@ -621,14 +621,14 @@ if (!$file_id) {
 
         // wenn datei fehlt
         if (!file_exists(rex_path::media($file_name))) {
-            $thumbnail = '<span class="rex-mime rex-mime-error" title="' . rex_i18n::msg('pool_file_does_not_exist') . '">' . $file_name . '</span>';
+            $thumbnail = '<i class="rex-mime rex-mime-error" title="' . rex_i18n::msg('pool_file_does_not_exist') . '"></i><span class="sr-only">' . $file_name . '</span>';
         } else {
             $file_ext = substr(strrchr($file_name, '.'), 1);
             $icon_class = ' rex-mime-default';
             if (rex_media::isDocType($file_ext)) {
                 $icon_class = ' rex-mime-' . $file_ext;
             }
-            $thumbnail = '<span class="rex-mime' . $icon_class . '" title="' . $alt . '">' . $file_name . '</span>';
+            $thumbnail = '<i class="rex-mime' . $icon_class . '" title="' . $alt . '" data-extension="' . $file_ext . '"></i><span class="sr-only">' . $file_name . '</span>';
 
             if (rex_media::isImageType(rex_file::extension($file_name)) && $thumbs) {
                 $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '" alt="' . $alt . '" title="' . $alt . '" />';
