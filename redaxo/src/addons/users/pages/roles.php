@@ -20,7 +20,7 @@ if ($func == '') {
     $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
-    $list->setColumnLabel('id', 'ID');
+    $list->setColumnLabel('id', rex_i18n::msg('id'));
     $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));

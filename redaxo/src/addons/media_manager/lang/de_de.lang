@@ -18,7 +18,7 @@ media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über
 media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über media-manager umgewandelt werden darf
 media_manager_jpg_quality = JPG/JPEG Ausgabe-Qualität
 
-media_manager_id = ID
+media_manager_id = Id
 media_manager_name = Name
 media_manager_edittype = Mediatypen bearbeiten
 media_manager_settings = Einstellungen
