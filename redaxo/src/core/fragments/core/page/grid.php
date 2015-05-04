@@ -3,7 +3,7 @@ $this->content = is_string($this->content) ? [$this->content] : $this->content;
 
 $count = count($this->content);
 
-$this->classes = (is_array($this->classes) && count($this->classes) == $count) ? $this->classes : [];
+$this->classes = isset($this->classes) && (is_array($this->classes) && count($this->classes) == $count) ? $this->classes : [];
 
 switch ($count) {
 
