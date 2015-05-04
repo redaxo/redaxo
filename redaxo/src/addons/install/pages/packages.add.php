@@ -18,7 +18,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $addon = $addons[$addonkey];
 
     $content = '
-        <table id="rex-table-install-packages-information" class="table">
+        <table class="table">
             <tbody>
             <tr>
                 <th>' . $this->i18n('name') . '</th>
@@ -49,7 +49,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     echo $content;
 
     $content = '
-        <table id="rex-table-install-packages-files" class="table">
+        <table class="table">
             <thead>
             <tr>
                 <th></th>
@@ -97,7 +97,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
 
 
     $content = '
-        <table id="rex-js-table-install-packages-addons" class="table table-striped table-hover">
+        <table class="table table-striped table-hover" id="rex-js-table-install-packages-addons">
          <thead>
             <tr>
                 <th><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>

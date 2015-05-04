@@ -50,7 +50,7 @@ $content = '';
 
 $content .= '
 
-    <table id="rex-table-credits-packages" class="table table-hover">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>&nbsp;</th>
