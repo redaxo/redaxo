@@ -32,7 +32,7 @@ class rex_article_content_editor extends rex_article_content
             $moduleInput  = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
             $moduleId     = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-            
+
             $slice_content = '';
             // ----- add select box einbauen
             if ($this->function == 'add' && $this->slice_id == $sliceId) {
@@ -411,7 +411,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('elements', $formElements, false);
         $slice_footer = $fragment->parse('core/form/submit.php');
 
-        $panel = '            
+        $panel = '
                 <fieldset>
                     <legend>' . rex_i18n::msg('edit_block') . '</legend>
                     <input type="hidden" name="module_id" value="' . $RE_MODUL_ID . '" />

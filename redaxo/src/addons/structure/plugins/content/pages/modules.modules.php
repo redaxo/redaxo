@@ -244,7 +244,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-                
+
         $fragment = new rex_fragment();
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
@@ -300,9 +300,9 @@ if ($function == 'add' or $function == 'edit') {
                             ' . $actions . '
                         </tbody>
                         </table>
-                    ';                   
+                    ';
 
-                
+
                     $fragment = new rex_fragment();
                     $fragment->setVar('title', rex_i18n::msg('actions_added_caption'), false);
                     $fragment->setVar('content', $panel, false);
@@ -349,7 +349,7 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('elements', $formElements, false);
                 $buttons = $fragment->parse('core/form/submit.php');
 
-                
+
                 $fragment = new rex_fragment();
                 $fragment->setVar('title', rex_i18n::msg('action_add'), false);
                 $fragment->setVar('body', $panel, false);

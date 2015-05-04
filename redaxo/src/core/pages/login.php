@@ -116,4 +116,3 @@ $content = '
 </script>';
 
 echo $content;
-

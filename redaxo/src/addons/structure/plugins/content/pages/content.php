@@ -446,7 +446,7 @@ if ($article->getRows() == 1) {
         $fragment = new rex_fragment();
         $fragment->setVar('left', $content_navi_left, false);
         $fragment->setVar('right', $content_navi_right, false);
-        
+
         $contentMain = $fragment->parse('core/navigations/content.php');
 
 

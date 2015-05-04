@@ -265,7 +265,7 @@ function rex_a1_import_files($filename)
  * Dieser wird in der Datei $filename gespeichert.
  *
  * @param string $filename
- * @param array $tables
+ * @param array  $tables
  * @return boolean TRUE wenn ein Dump erstellt wurde, sonst FALSE
  */
 function rex_a1_export_db($filename, array $tables = null)
@@ -292,11 +292,11 @@ function rex_a1_export_db($filename, array $tables = null)
 //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
     if (is_null($tables)) {
-        $tables = array();
+        $tables = [];
         foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
             if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                && substr($table, 0 , strlen(rex::getTablePrefix().rex::getTempPrefix())) != rex::getTablePrefix().rex::getTempPrefix()) // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-            {
+                && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
+            ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
                 $tables[] = $table;
             }
         }

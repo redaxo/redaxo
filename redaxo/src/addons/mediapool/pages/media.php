@@ -166,7 +166,7 @@ if ($file_id) {
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_img_width') . ' / ' . rex_i18n::msg('pool_img_height') . '</label>';
             $e['field'] = '<p class="form-control-static">' . $fwidth . 'px / ' . $fheight . 'px</p>';
-            
+
             $fragment = new rex_fragment();
             $fragment->setVar('elements', [$e], false);
             $add_ext_info = $fragment->parse('core/form/form.php');
@@ -250,7 +250,7 @@ if ($file_id) {
 
             $panel .= $add_ext_info;
 
-            
+
             $formElements = [];
 
             $e = [];
@@ -272,7 +272,7 @@ if ($file_id) {
             $e['label'] = '<label>' . rex_i18n::msg('pool_file_exchange') . '</label>';
             $e['field'] = '<input type="file" name="file_new" />';
             $formElements[] = $e;
-            
+
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
             $panel .= $fragment->parse('core/form/form.php');
@@ -286,7 +286,7 @@ if ($file_id) {
             $e = [];
             $e['field'] = '<button class="btn btn-delete" type="submit" value="' . rex_i18n::msg('pool_file_delete') . '" name="btn_delete" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('delete') . '</button>';
             $formElements[] = $e;
-            
+
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
             $buttons = $fragment->parse('core/form/submit.php');
@@ -328,7 +328,7 @@ if ($file_id) {
 
             $ftitle .= ' [' . $file_id . ']';
             $catname .= ' [' . $rex_file_category . ']';
-            
+
 
             $formElements = [];
 
@@ -358,7 +358,7 @@ if ($file_id) {
             $formElements[] = $e;
 
 
-            
+
             $fragment = new rex_fragment();
             $fragment->setVar('elements', $formElements, false);
             $panel .= $fragment->parse('core/form/form.php');
@@ -566,7 +566,7 @@ if (!$file_id) {
         $where = "(f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
         if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global' && $rex_file_category != 0) {
             $addTable = rex::getTablePrefix() . 'media_category c, ';
-            $where .= " AND f.category_id = c.id ";
+            $where .= ' AND f.category_id = c.id ';
             $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
         }
     }

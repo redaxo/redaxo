@@ -1,4 +1,4 @@
-<?php
+' . rex_i18n::msg('id') . '<?php
 
 /**
  * Layout Kopf des Backends

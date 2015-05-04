@@ -561,7 +561,7 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnLayout('lasttrydate', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
 
-    $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));    
+    $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('user_functions'), ['user_id' => '###id###']);
     $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', function ($params) {
@@ -595,6 +595,3 @@ if (isset($SHOW) and $SHOW) {
     echo $content;
 
 }
-
-
-

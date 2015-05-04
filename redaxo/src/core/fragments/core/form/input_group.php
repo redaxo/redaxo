@@ -7,16 +7,16 @@ foreach ($this->elements as $element) {
     $id         = isset($element['id'])     && $element['id'] != ''     ? ' id="' . $element['id'] . '"' : '';
     $label      = isset($element['label'])  && $element['label'] != ''  ? $element['label'] : '';
     $field      = isset($element['field'])  && $element['field'] != ''  ? $element['field']   : '';
-    
+
     $before     = isset($element['before']) ? $element['before'] : '';
     $after      = isset($element['after'])  ? $element['after']  : '';
-    
+
     $left_side  = isset($element['left'])   ? $element['left']   : '';
     $right_side = isset($element['right'])  ? $element['right']  : '';
-    
+
     $header     = isset($element['header']) ? $element['header'] : '';
     $footer     = isset($element['footer']) ? $element['footer'] : '';
-    
+
     $note       = isset($element['note'])   ? '<span class="help-block">' . $element['note'] . '</span>' : '';
 
     $classes = '';

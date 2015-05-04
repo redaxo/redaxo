@@ -14,10 +14,10 @@ foreach ($this->elements as $element) {
 
     $before    = isset($element['before']) ? $element['before']  : '';
     $after     = isset($element['after'])  ? $element['after']   : '';
-    
+
     $header    = isset($element['header']) ? $element['header']  : '';
     $footer    = isset($element['footer']) ? $element['footer']  : '';
-    
+
     $note      = isset($element['note']) && $element['note'] != '' ? '<span class="help-block rex-note">' . $element['note'] . '</span>' : '';
     $highlight = isset($element['highlight']) ? $element['highlight'] : false;
 
@@ -56,7 +56,7 @@ foreach ($this->elements as $element) {
         $out .= '</dd>';
         $out .= $error;
         $out .= '</dl>';
-        $out .= $footer;   
+        $out .= $footer;
     }
 }
 

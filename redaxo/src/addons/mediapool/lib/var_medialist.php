@@ -82,7 +82,7 @@ class rex_var_medialist extends rex_var
             $delete_func  = 'deleteREXMedialist(' . $id . ');';
             $view_func    = 'viewREXMedialist(' . $id . ',\'' . $open_params . '\');';
         }
-        
+
         $e = [];
         $e['before'] = '<div class="rex-js-widget' . $wdgtClass . '">';
         $e['field'] = '<select class="form-control" name="REX_MEDIALIST_SELECT[' . $id . ']" id="REX_MEDIALIST_SELECT_' . $id . '" size="8">' . $options . '</select><input type="hidden" name="' . $name . '" id="REX_MEDIALIST_' . $id . '" value="' . $value . '" />';

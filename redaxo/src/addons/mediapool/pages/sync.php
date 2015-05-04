@@ -17,10 +17,10 @@ if ($PERMALL) {
     $db = rex_sql::factory();
     $db->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media');
     $db_files = [];
-    $db_filenames = array();
+    $db_filenames = [];
 
-    foreach($db->getArray() as $db_file) {
-        $db_filenames[] = $db_file["filename"];
+    foreach ($db->getArray() as $db_file) {
+        $db_filenames[] = $db_file['filename'];
         $db_files[] = $db_file;
     }
 
@@ -28,22 +28,22 @@ if ($PERMALL) {
     $diff_count = count($diff_files);
 
     // Extra - filesize/width/height DB-Filesystem Sync
-    foreach($db_files as $db_file) {
-        $file_filesize = filesize(rex_path::media($db_file["filename"]));
-        if ($db_file["filesize"] != $file_filesize) {
+    foreach ($db_files as $db_file) {
+        $file_filesize = filesize(rex_path::media($db_file['filename']));
+        if ($db_file['filesize'] != $file_filesize) {
             $file_sql = rex_sql::factory();
             $file_sql->debugsql = 1;
             $file_sql->setTable(rex::getTable('media'));
-            $file_sql->setWhere(['filename' => $db_file["filename"]]);
+            $file_sql->setWhere(['filename' => $db_file['filename']]);
             $file_sql->setValue('filesize', $file_filesize);
-            if ($db_file["width"] > 0) {
-                if($size = @getimagesize(rex_path::media($db_file["filename"]))) {
+            if ($db_file['width'] > 0) {
+                if ($size = @getimagesize(rex_path::media($db_file['filename']))) {
                     $file_sql->setValue('width', $size[0]);
                     $file_sql->setValue('height', $size[1]);
                 }
             }
             $file_sql->update();
-            rex_media_cache::delete($db_file["filename"]);
+            rex_media_cache::delete($db_file['filename']);
         }
     }
 
@@ -124,9 +124,9 @@ if ($PERMALL) {
 
             $content .= rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rex_file_category, false, false);
             $content .= '<fieldset>';
-            
+
             $title = rex_i18n::msg('pool_sync_affected_files') . ' (' . $count . ')';
-            
+
             $fragment = new rex_fragment();
             $fragment->setVar('title', $title, false);
             $fragment->setVar('body', $panel, false);
@@ -159,7 +159,7 @@ if ($PERMALL) {
             $content .= $fragment->parse('core/page/section.php');
 
         }
-        
+
 
     } else {
         $panel = '<p>' . rex_i18n::msg('pool_sync_no_diffs') . '</p>';

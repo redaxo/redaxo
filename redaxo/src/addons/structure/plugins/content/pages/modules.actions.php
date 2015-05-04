@@ -396,7 +396,7 @@ if ($function == 'add' || $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-    
+
         $fragment = new rex_fragment();
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
@@ -518,10 +518,9 @@ if ($OUT) {
     }
 
     echo $message;
-    
+
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('action_caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
-

@@ -33,7 +33,7 @@ if ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(getImportDir() . '/' . $impname));
     $success = rex_i18n::msg('im_export_file_deleted');
-} elseif ($function == 'download' && $impname && is_readable(getImportDir().'/'.$impname)) {
+} elseif ($function == 'download' && $impname && is_readable(getImportDir() . '/' . $impname)) {
     rex_response::sendFile(getImportDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
     exit;
 } elseif ($function == 'dbimport') {
@@ -225,7 +225,7 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('elements', $formElements, false);
-$buttons= $fragment->parse('core/form/submit.php');
+$buttons = $fragment->parse('core/form/submit.php');
 
 $content .= '</fieldset>';
 

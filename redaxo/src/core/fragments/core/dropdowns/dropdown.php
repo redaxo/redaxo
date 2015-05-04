@@ -1,4 +1,4 @@
-<?php 
+<?php
     $toolbar = isset($this->toolbar) && $this->toolbar ? true : false;
     $group = isset($this->group) && $this->group ? true : false;
 ?>
@@ -6,7 +6,7 @@
 <?php if (! $toolbar && ! $group): ?>
 <div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
 <?php endif; ?>
-    
+
     <?php if ($toolbar): ?>
     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"<?= ((isset($this->disabled) && $this->disabled) ? ' disabled' : '') ?>>
     <?php else: ?>
@@ -42,4 +42,4 @@
     </ul>
 <?php if (! $toolbar && ! $group): ?>
 </div>
-<?php endif; ?>
+<?php endif;

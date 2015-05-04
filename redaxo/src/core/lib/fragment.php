@@ -36,8 +36,8 @@ class rex_fragment
     /**
      * Returns the value of the given variable $name.
      *
-     * @param string $name      Variable name
-     * @param string $default   Default value
+     * @param string $name    Variable name
+     * @param string $default Default value
      */
     public function getVar($name, $default = null)
     {

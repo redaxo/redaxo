@@ -27,7 +27,7 @@ if ($func == '') {
     $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams('name', ['func' => 'edit', 'id' => '###id###']);
 
-    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));    
+    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLabel('edit', rex_i18n::msg('user_functions'));
     $list->setColumnLayout('edit', ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'id' => '###id###']);

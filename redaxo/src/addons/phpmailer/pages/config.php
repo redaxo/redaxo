@@ -58,7 +58,7 @@ $sel_smtpsecure->setName('settings[smtpsecure]');
 $sel_smtpsecure->setSize(1);
 $sel_smtpsecure->setAttribute('class', 'form-control');
 $sel_smtpsecure->setSelected($this->getConfig('smtpsecure'));
-foreach(array('' => $this->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls') as $type => $name) {
+foreach (['' => $this->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls'] as $type => $name) {
     $sel_smtpsecure->addOption($name, $type);
 }
 

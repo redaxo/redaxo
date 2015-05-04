@@ -53,12 +53,12 @@ class rex_cronjob_form_interval_element extends rex_form_element
         }
 
         $options = [
-            'i' => rex_i18n::msg('cronjob_interval_minutes'), 
-            'h' => rex_i18n::msg('cronjob_interval_hour'), 
-            'd' => rex_i18n::msg('cronjob_interval_day'), 
-            'w' => rex_i18n::msg('cronjob_interval_week'), 
-            'm' => rex_i18n::msg('cronjob_interval_month'), 
-            'y' => rex_i18n::msg('cronjob_interval_year'), 
+            'i' => rex_i18n::msg('cronjob_interval_minutes'),
+            'h' => rex_i18n::msg('cronjob_interval_hour'),
+            'd' => rex_i18n::msg('cronjob_interval_day'),
+            'w' => rex_i18n::msg('cronjob_interval_week'),
+            'm' => rex_i18n::msg('cronjob_interval_month'),
+            'y' => rex_i18n::msg('cronjob_interval_year'),
         ];
 
         $items = [];

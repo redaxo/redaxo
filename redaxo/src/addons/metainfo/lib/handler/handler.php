@@ -104,7 +104,7 @@ abstract class rex_metainfo_handler
                 case 'checkbox':
                     // Beachte auch default values in multiple fields bei ADD.
                     // Im EDIT wurde dies bereits vorher gehandelt
-                    if(!$activeItem) {
+                    if (!$activeItem) {
                         $defaultValue = explode('|', $defaultValue);
                     }
 
@@ -243,7 +243,7 @@ abstract class rex_metainfo_handler
 
                     // Beachte auch default values in multiple fields bei ADD.
                     // Im EDIT wurde dies bereits vorher gehandelt
-                    if($multiple && !$activeItem) {
+                    if ($multiple && !$activeItem) {
                         $dbvalues = explode('|', $defaultValue);
                     }
 
@@ -383,7 +383,7 @@ abstract class rex_metainfo_handler
 
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
-                    
+
 
                     $e = [];
                     $e['label'] = $label;

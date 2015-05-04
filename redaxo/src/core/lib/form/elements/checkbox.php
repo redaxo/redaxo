@@ -58,7 +58,7 @@ class rex_form_checkbox_element extends rex_form_options_element
             $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
-    
+
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $fragment->setVar('grouped', true);

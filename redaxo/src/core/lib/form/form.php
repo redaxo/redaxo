@@ -293,7 +293,7 @@ class rex_form
         $attributes['internal::noNameAttribute'] = true;
         if (!isset($attributes['class'])) {
             // Wenn die class geaendert wird, muss auch
-            // rex_form_container_element::getSaveValue() 
+            // rex_form_container_element::getSaveValue()
             // angepasst werden
             $attributes['class'] = 'form-control-static';
         }

@@ -20,7 +20,7 @@ $mypage = 'redaxo';
 if (rex::isBackend()) {
 
 
-    //rex::getUser() && 
+    //rex::getUser() &&
     if ($this->getProperty('compile')) {
 
         $compiler = new rex_scss_compiler();

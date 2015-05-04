@@ -80,7 +80,7 @@ class rex_var_media extends rex_var
             $delete_func  = 'deleteREXMedia(' . $id . ');';
             $view_func    = 'viewREXMedia(' . $id . ',\'' . $open_params . '\');';
         }
-        
+
         $e = [];
         $e['before'] = '<div class="rex-js-widget' . $wdgtClass . '">';
         $e['field'] = '<input class="form-control" type="text" name="' . $name . '" value="' . $value . '" id="REX_MEDIA_' . $id . '" readonly />';

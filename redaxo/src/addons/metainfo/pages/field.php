@@ -44,7 +44,7 @@ if ($func == '') {
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE `name` LIKE "' . $likePrefix . '%" ORDER BY priority');
     $list->addTableAttribute('class', 'table-striped');
-    
+
     $tdIcon = '<i class="rex-icon rex-icon-metainfo"></i>';
     $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '"><i class="rex-icon rex-icon-add-metainfo"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);

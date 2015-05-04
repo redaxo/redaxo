@@ -97,7 +97,7 @@ if ($PERMALL) {
     $fragment->setVar('items', $breadcrumb, false);
     echo $fragment->parse('core/navigations/breadcrumb.php');
 
-    
+
     if ($error != '') {
         echo rex_view::error($error);
         $error = '';

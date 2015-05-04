@@ -34,7 +34,7 @@ if ($subpage == 'help') {
     $fragment->setVar('body', $content, false);
     echo $fragment->parse('core/page/section.php');
 
-    
+
 
 
 
@@ -116,7 +116,7 @@ if ($subpage == '') {
             $install = $getLink($package, 'install', 'rex-icon-package-not-installed');
             //$uninstall = rex_i18n::msg('package_notinstalled');
         }
-        
+
         $class = '';
         $status = '&nbsp;';
         if ($package->isActivated()) {
@@ -129,7 +129,7 @@ if ($subpage == '') {
             $class .= ' rex-package-not-installed';
         }
         $name = '<span class="rex-' . $type . '-name">' . htmlspecialchars($package->getName()) . '</span>';
-        
+
         $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
         // --------------------------------------------- API MESSAGES

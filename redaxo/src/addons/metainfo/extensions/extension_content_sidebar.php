@@ -3,16 +3,17 @@
 rex_extension::register('PAGE_CONTENT_SIDEBAR', 'rex_metainfo_content_sidebar');
 
 
-function rex_metainfo_content_sidebar($extionPointParams) {
+function rex_metainfo_content_sidebar($extionPointParams)
+{
 
     $params = $extionPointParams->getParams();
-    
+
     $article = rex_article::get($params['article_id'], $params['clang']);
     $articleStatusTypes = rex_article_service::statusTypes();
 
     $panel = '';
     $panel .= '<dl class="dl-horizontal">';
-    
+
     $panel .= '<dt>' . rex_i18n::msg('created_by') . '</dt>';
     $panel .= '<dd>' . $article->getValue('createuser') . '</dd>';
 

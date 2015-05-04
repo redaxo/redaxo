@@ -3,7 +3,7 @@
 $target = 'rex-js-collapse-' . rand(100, 999) . rand(100, 999);
 
 ?>
-    
+
 <nav class="navbar navbar-default<?= (isset($this->cssClass) && $this->cssClass != '') ? ' ' . $this->cssClass : ''; ?>">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -17,7 +17,7 @@ $target = 'rex-js-collapse-' . rand(100, 999) . rand(100, 999);
                 <span class="navbar-brand">
                     <?= $this->brand; ?>
                 </span>
-            <?php endif; ?>                
+            <?php endif; ?>
         </div>
         <div class="collapse navbar-collapse" id="<?= $target; ?>">
             <?php if (isset($this->content) && $this->content != ''): ?>

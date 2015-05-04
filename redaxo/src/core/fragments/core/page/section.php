@@ -1,6 +1,8 @@
 <section class="rex-page-section">
 
-    <?php if (isset($this->before)) echo $this->before; ?>
+    <?php if (isset($this->before)) {
+    echo $this->before;
+} ?>
 
     <?php if (isset($this->class) && $this->class != ''): ?>
         <div class="panel panel-<?= $this->class; ?>">
@@ -42,5 +44,7 @@
     </div>
 
 
-    <?php if (isset($this->after)) echo $this->after; ?>
+    <?php if (isset($this->after)) {
+            echo $this->after;
+        } ?>
 </section>

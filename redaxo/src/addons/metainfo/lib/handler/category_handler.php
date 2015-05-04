@@ -73,7 +73,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     public function renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel)
     {
         $element = $field;
-        
+
         if ($typeLabel == 'legend') {
 
             $element = '<h3 class="form-legend">' . $label . '</h3>';

@@ -75,11 +75,11 @@ class rex_var_link extends rex_var
         $e['functionButtons'] = '
                         <a href="#" class="btn btn-default' . $class . '" onclick="' . $open_func . 'return false;" title="' . rex_i18n::msg('var_link_open') . '"><i class="rex-icon rex-icon-open-linkmap"></i></a>
                         <a href="#" class="btn btn-default' . $class . '" onclick="' . $delete_func . 'return false;" title="' . rex_i18n::msg('var_link_delete') . '"><i class="rex-icon rex-icon-delete-link"></i></a>';
-        
+
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
         $media = $fragment->parse('core/form/widget.php');
-        
+
         return $media;
     }
 }

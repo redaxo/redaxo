@@ -18,7 +18,7 @@ foreach ($this->elements as $element) {
     if ($moveButtons != '') {
         $out .= '<div class="btn-group"><div class="btn-group-vertical">' . $moveButtons . '</div></div>';
     }
-     
+
 
     if ($functionButtons != '') {
         $out .= '<div class="btn-group">' . $functionButtons . '</div>';
