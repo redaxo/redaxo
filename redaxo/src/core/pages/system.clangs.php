@@ -92,7 +92,7 @@ $content .= '
 if ($func == 'addclang') {
     //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
     $content .= '
-                <tr class="rex-table-row-active">
+                <tr class="mark">
                     <td><i class="rex-icon rex-icon-language"></i></td>
                     <td data-title="' . rex_i18n::msg('id') . '">–</td>
                     <td data-title="' . rex_i18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($clang_code) . '" autofocus /></td>
@@ -117,7 +117,7 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
     // Edit form
     if ($func == 'editclang' && $clang_id == $lang_id) {
         $content .= '
-                    <tr class="rex-table-row-active">
+                    <tr class="mark">
                         <td><i class="rex-icon rex-icon-language"></i></td>
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . htmlspecialchars($lang->getCode()) . '" autofocus /></td>
