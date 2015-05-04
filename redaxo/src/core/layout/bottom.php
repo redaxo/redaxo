@@ -1,4 +1,4 @@
-' . rex_i18n::msg('id') . '<?php
+<?php
 
 $curPage = rex_be_controller::getCurrentPageObject();
 
