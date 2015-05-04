@@ -82,6 +82,15 @@
 .rex-state-live {
     background-color: $state-success-bg !important;
 }
+.rex-state-notice {
+    background-color: $state-info-bg !important;
+}
+.rex-state-warning {
+    background-color: $state-warning-bg !important;
+}
+.rex-state-error {
+    background-color: $state-danger-bg !important;
+}
 
 
 .rex-ajax-loader {
