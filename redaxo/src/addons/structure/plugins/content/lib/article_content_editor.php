@@ -360,7 +360,7 @@ class rex_article_content_editor extends rex_article_content
                     <input type="hidden" name="module_id" value="' . $moduleIdToAdd . '" />
                     <input type="hidden" name="save" value="1" />
 
-                    <div class="rex-form-datas">
+                    <div class="rex-slice-input">
                         ' . $moduleInput . '
                     </div>
                 </fieldset>
@@ -368,6 +368,7 @@ class rex_article_content_editor extends rex_article_content
 
             $fragment = new rex_fragment();
             $fragment->setVar('before', $msg, false);
+            $fragment->setVar('class', 'add', false);
             $fragment->setVar('title', rex_i18n::msg('module') . ': ' . rex_i18n::translate($MOD->getValue('name')), false);
             $fragment->setVar('body', $panel, false);
             $fragment->setVar('footer', $slice_footer, false);
@@ -419,7 +420,7 @@ class rex_article_content_editor extends rex_article_content
                     <input type="hidden" name="save" value="1" />
                     <input type="hidden" name="update" value="0" />
 
-                    <div class="rex-form-datas">
+                    <div class="rex-slice-input">
                         ' . $this->getStreamOutput('module/' . $RE_MODUL_ID . '/input', $RE_MODUL_IN) . '
                     </div>
                 </fieldset>
@@ -427,6 +428,7 @@ class rex_article_content_editor extends rex_article_content
             </form>';
 
         $fragment = new rex_fragment();
+        $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $this->getSliceMenu($artDataSql), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('footer', $slice_footer, false);

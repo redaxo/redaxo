@@ -103,6 +103,11 @@
     font-size: $font-size-base;
 }
 
+.panel-add, 
+.panel-edit {
+    @extend .panel-info;
+}
+
 .rex-state-inprogress {
     background-color: $state-warning-bg !important;
 }
