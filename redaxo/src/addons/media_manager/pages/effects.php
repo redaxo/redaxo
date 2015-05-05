@@ -93,7 +93,7 @@ if ($func == '' && $type_id > 0) {
 
     $content = $list->get();
 
-    $footer = '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"> ' . rex_i18n::msg('media_manager_back') . '</i></a>';
+    $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"> ' . rex_i18n::msg('media_manager_back') . '</i></a>';
 
 
     $fragment = new rex_fragment();

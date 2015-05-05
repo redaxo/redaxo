@@ -51,7 +51,7 @@ if ($step == 2) {
     $content = rex_i18n::rawMsg('setup_202');
     $content .= '<div class="rex-content-scroll" data-height="2x">' . $license . '</div>';
 
-    $button = '<p><a class="btn btn-primary" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+    $button = '<p><a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
 
     echo rex_view::title(rex_i18n::msg('setup_200'));
 
@@ -108,10 +108,10 @@ if ($step == 3) {
     if (count($error_array) > 0) {
         $message .= implode('', $error_array);
 
-        $button = '<p><a class="btn btn-primary" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
+        $button = '<p><a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
 
     } else {
-        $button = '<p><a class="btn btn-primary" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
+        $button = '<p><a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
     }
 
     $content = '';
@@ -340,7 +340,7 @@ if ($step == 4) {
     $formElements = [];
 
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
+    $n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -570,7 +570,7 @@ if ($step == 5) {
     $formElements = [];
 
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+    $n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -732,7 +732,7 @@ if ($step == 6) {
     $formElements = [];
 
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
+        $n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -805,7 +805,7 @@ if ($step == 7) {
     $content .= rex_i18n::rawMsg('setup_704', '<a href="' . rex_url::backendController() . '">', '</a>');
     $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
-    $button = '<p><a class="btn btn-primary" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
+    $button = '<p><a class="btn btn-setup" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
 
     echo $headline;
 

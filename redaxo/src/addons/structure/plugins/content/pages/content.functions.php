@@ -52,7 +52,7 @@ if (rex::getUser()->hasPerm('article2startarticle[]')) {
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit" name="article2startarticle" value="1" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startarticle\');">' . rex_i18n::msg('content_tostartarticle') . '</button>';
+        $n['field'] = '<button class="btn btn-send" type="submit" name="article2startarticle" value="1" data-confirm="' . rex_i18n::msg('content_tostartarticle') . '?" onclick="jQuery(\'#apiField\').val(\'article2startarticle\');">' . rex_i18n::msg('content_tostartarticle') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -92,7 +92,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" name="article2category" value="1" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');">' . rex_i18n::msg('content_tocategory') . '</button>';
+    $n['field'] = '<button class="btn btn-send" type="submit" name="article2category" value="1" data-confirm="' . rex_i18n::msg('content_tocategory') . '?" onclick="jQuery(\'#apiField\').val(\'article2category\');">' . rex_i18n::msg('content_tocategory') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -144,7 +144,7 @@ if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUse
 
         $formElements = [];
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit" name="category2article" value="1" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');">' . rex_i18n::msg('content_toarticle') . '</button>';
+        $n['field'] = '<button class="btn btn-send" type="submit" name="category2article" value="1" data-confirm="' . rex_i18n::msg('content_toarticle') . '?" onclick="jQuery(\'#apiField\').val(\'category2article\');">' . rex_i18n::msg('content_toarticle') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -232,7 +232,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" name="copycontent" value="1" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?">' . rex_i18n::msg('content_submitcopycontent') . '</button>';
+    $n['field'] = '<button class="btn btn-send" type="submit" name="copycontent" value="1" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?">' . rex_i18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -277,7 +277,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" name="movearticle" value="1" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?">' . rex_i18n::msg('content_submitmovearticle') . '</button>';
+    $n['field'] = '<button class="btn btn-send" type="submit" name="movearticle" value="1" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?">' . rex_i18n::msg('content_submitmovearticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -320,7 +320,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" name="copyarticle" value="1" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?">' . rex_i18n::msg('content_submitcopyarticle') . '</button>';
+    $n['field'] = '<button class="btn btn-send" type="submit" name="copyarticle" value="1" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?">' . rex_i18n::msg('content_submitcopyarticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -365,7 +365,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-primary" type="submit" name="movecategory" value="1" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?">' . rex_i18n::msg('content_submitmovecategory') . '</button>';
+    $n['field'] = '<button class="btn btn-send" type="submit" name="movecategory" value="1" data-confirm="' . rex_i18n::msg('content_submitmovecategory') . '?">' . rex_i18n::msg('content_submitmovecategory') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

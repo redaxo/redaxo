@@ -175,7 +175,7 @@ if ($function == 'add' or $function == 'edit') {
 
         $btn_update = '';
         if ($function != 'add') {
-            $btn_update = '<button class="btn btn-primary" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
+            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
         }
 
         if ($success != '') {
@@ -226,11 +226,11 @@ if ($function == 'add' or $function == 'edit') {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
         $formElements[] = $n;
 
         if ($btn_update != '') {
@@ -342,7 +342,7 @@ if ($function == 'add' or $function == 'edit') {
                 $formElements = [];
 
                 $n = [];
-                $n['field'] = '<button class="btn btn-primary" type="submit" value="1" name="add_action">' . rex_i18n::msg('action_add') . '</button>';
+                $n['field'] = '<button class="btn btn-save" type="submit" value="1" name="add_action">' . rex_i18n::msg('action_add') . '</button>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();

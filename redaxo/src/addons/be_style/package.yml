@@ -5,4 +5,4 @@ supportpage: www.redaxo.org/de/forum/
 
 load: early
 system_plugins: [redaxo]
-compile: 0
+compile: 1

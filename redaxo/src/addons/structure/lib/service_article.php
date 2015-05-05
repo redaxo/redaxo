@@ -382,8 +382,8 @@ class rex_article_service
         if (!$artStatusTypes) {
             $artStatusTypes = [
                 // Name, CSS-Class
-                [rex_i18n::msg('status_offline'), 'rex-offline'],
-                [rex_i18n::msg('status_online'), 'rex-online']
+                [rex_i18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
+                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online']
             ];
 
             // ----- EXTENSION POINT

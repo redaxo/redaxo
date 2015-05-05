@@ -369,9 +369,9 @@ class rex_category_service
 
         if (!$catStatusTypes) {
             $catStatusTypes = [
-            // Name, CSS-Class
-            [rex_i18n::msg('status_offline'), 'rex-offline'],
-                [rex_i18n::msg('status_online'), 'rex-online']
+                // Name, CSS-Class, Icon
+                [rex_i18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
+                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online']
             ];
 
             // ----- EXTENSION POINT

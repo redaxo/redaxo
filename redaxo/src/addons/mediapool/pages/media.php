@@ -40,7 +40,7 @@ $formElements = [];
 $n = [];
 $n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />';
 $n['left'] = $sel_media->get();
-$n['right'] = '<button class="btn btn-default" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
+$n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 //$n['right'] = $dropdown;
 $formElements[] = $n;
 
@@ -204,12 +204,12 @@ if ($file_id) {
 
         if ($opener_input_field == 'TINYIMG') {
             if ($isImage) {
-                $opener_link .= '<a class="btn btn-xs btn-select" class="btn btn-xs btn-select" class="btn btn-xs btn-select" href="javascript:insertImage(\'' . $encoded_fname . '\',\'' . $gf->getValue('title') . '\');">' . rex_i18n::msg('pool_image_get') . '</a> | ';
+                $opener_link .= '<a class="btn btn-xs btn-select" href="javascript:insertImage(\'' . $encoded_fname . '\',\'' . $gf->getValue('title') . '\');">' . rex_i18n::msg('pool_image_get') . '</a> | ';
             }
         } elseif ($opener_input_field == 'TINY') {
             $opener_link .= '<a class="btn btn-xs btn-select" href="javascript:insertLink(\'' . $encoded_fname . '\');">' . rex_i18n::msg('pool_link_get') . '</a>';
         } elseif ($opener_input_field != '') {
-            $opener_link = '<a class="btn btn-xs btn-select" class="btn btn-xs btn-select" href="javascript:selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(htmlspecialchars($gf->getValue('title'))) . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
+            $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(htmlspecialchars($gf->getValue('title'))) . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                 $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedialist(\'' . $encoded_fname . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
             }

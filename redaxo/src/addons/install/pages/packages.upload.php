@@ -107,15 +107,15 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
+        $n['field'] = '<button class="btn btn-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-danger" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
+        $n['field'] = '<button class="btn btn-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -221,7 +221,7 @@ if ($addonkey && isset($addons[$addonkey])) {
                 <td class="rex-version">' . implode(', ', $file['redaxo_versions']) . '</td>
                 <td class="rex-description">' . nl2br($file['description']) . '</td>
                 <td class="rex-edit"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $this->i18n('file_edit') . '</a></td>
-                <td class="rex-status"><span class="rex-text-' . $status . '">' . $this->i18n($status) . '</span></td>
+                <td class="rex-status"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $this->i18n($status) . '</span></td>
             </tr>';
         }
 
@@ -236,7 +236,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         echo $content;
 
-        echo '<a class="btn btn-primary" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('back') . '</a>';
+        echo '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('back') . '</a>';
     }
 
 } else {

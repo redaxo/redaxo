@@ -126,7 +126,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-primary" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
+$n['field'] = '<button class="btn btn-send" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -143,7 +143,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-<form id="rex-form-import-data" action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">
+<form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '">
     ' . $content . '
 </form>';
 
@@ -219,7 +219,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-primary" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
+$n['field'] = '<button class="btn btn-send" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -237,7 +237,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-<form id="rex-form-import-files" action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '" >
+<form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '" >
     ' . $content . '
 </form>';
 
@@ -274,8 +274,8 @@ foreach ($folder as $file) {
                     <td>' . $filesize . '</td>
                     <td>' . $filec . '</td>
                     <td><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" class="rex-download" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" class="rex-delete" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
+                    <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
                 </tr>';
 }
 

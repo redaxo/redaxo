@@ -135,7 +135,7 @@ class rex_article_content_editor extends rex_article_content
                 $item = [];
                 $item['hidden_label']         = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
                 $item['url']                  = $context->getUrl(['function' => 'edit']) . $fragment;
-                $item['attributes']['class'][] = 'btn-primary';
+                $item['attributes']['class'][] = 'btn-edit';
                 $item['attributes']['title']  = rex_i18n::msg('edit');
                 $item['icon']                 = 'edit';
                 $menu_items_action[] = $item;
@@ -145,7 +145,7 @@ class rex_article_content_editor extends rex_article_content
             $item = [];
             $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('delete');
             $item['url']                   = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
-            $item['attributes']['class'][] = 'btn-danger';
+            $item['attributes']['class'][] = 'btn-delete';
             $item['attributes']['title']   = rex_i18n::msg('delete');
             $item['icon']                  = 'delete';
             $menu_items_action[] = $item;
@@ -156,7 +156,7 @@ class rex_article_content_editor extends rex_article_content
                 $item = [];
                 $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
                 $item['url']                   = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment;
-                $item['attributes']['class'][] = 'btn-default';
+                $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title']   = rex_i18n::msg('edit');
                 $item['icon']                  = 'up';
                 $menu_items_move[] = $item;
@@ -166,7 +166,7 @@ class rex_article_content_editor extends rex_article_content
                 $item = [];
                 $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
                 $item['url']                   = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment;
-                $item['attributes']['class'][] = 'btn-default';
+                $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title']   = rex_i18n::msg('delete');
                 $item['icon']                  = 'down';
                 $menu_items_move[] = $item;
@@ -344,7 +344,7 @@ class rex_article_content_editor extends rex_article_content
 
             $formElements = [];
             $n = [];
-            $n['field'] = '<button class="btn btn-primary" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
+            $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('add_block'), 'save') . '>' . rex_i18n::msg('add_block') . '</button>';
             $formElements[] = $n;
 
             $fragment = new rex_fragment();
@@ -400,11 +400,11 @@ class rex_article_content_editor extends rex_article_content
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="btn_save" value="1"' . rex::getAccesskey(rex_i18n::msg('save_block'), 'save') . '>' . rex_i18n::msg('save_block') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-primary" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
+        $n['field'] = '<button class="btn btn-apply" type="submit" name="btn_update" value="1"' . rex::getAccesskey(rex_i18n::msg('update_block'), 'apply') . '>' . rex_i18n::msg('update_block') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

@@ -33,19 +33,46 @@
 .btn-abort {
     @extend .btn-default;
 }
+// save and continue a form with data
 .btn-apply {
     @extend .btn-primary;
+}
+.btn-back {
+    @extend .btn-default;
 }
 .btn-delete {
     @extend .btn-danger;
 }
+// e.g. Slice edit
+.btn-edit {
+    @extend .btn-primary;
+}
+// e.g. Slice move
+.btn-move {
+    @extend .btn-default;
+}
+// e.g. Widget
+.btn-popup {
+    @extend .btn-default;
+}
 .btn-reset {
     @extend .btn-default;
 }
+// save and quit a form with data
 .btn-save {
     @extend .btn-primary;
 }
+.btn-search {
+    @extend .btn-default;
+}
 .btn-select {
+    @extend .btn-primary;
+}
+// send a form, e.g. content functions
+.btn-send {
+    @extend .btn-primary;
+}
+.btn-setup {
     @extend .btn-primary;
 }
 .btn-update {

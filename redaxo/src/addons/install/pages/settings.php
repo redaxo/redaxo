@@ -66,7 +66,7 @@ $panel .= '
             $formElements = [];
 
                 $n = [];
-                $n['field'] = '<button class="btn btn-primary" type="submit" name="settings[save]" value="1">' . rex_i18n::msg('form_save') . '</button>';
+                $n['field'] = '<button class="btn btn-save" type="submit" name="settings[save]" value="1">' . rex_i18n::msg('form_save') . '</button>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();

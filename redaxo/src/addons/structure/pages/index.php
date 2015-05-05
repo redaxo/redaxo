@@ -50,11 +50,7 @@ if (rex_clang::count() > 1) {
         }
 
         if ($stop) {
-            echo '
-        <!-- *** OUTPUT OF CLANG-VALIDATE - START *** -->
-                    ' . rex_view::warning('You have no permission to this area') . '
-        <!-- *** OUTPUT OF CLANG-VALIDATE - END *** -->
-            ';
+            echo rex_view::error('You have no permission to this area');
             exit;
         }
     }
@@ -202,7 +198,7 @@ if ($function == 'add_cat' && $KATPERM) {
     $add_buttons = '
         <input type="hidden" name="rex-api-call" value="category_add" />
         <input type="hidden" name="parent-category-id" value="' . $category_id . '" />
-        <button class="btn btn-primary" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
+        <button class="btn btn-save" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
 
     $class = 'mark';
 
@@ -239,12 +235,13 @@ if ($KAT->getRows() > 0) {
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
+        $status_icon  = $catStatusTypes[$KAT->getValue('status')][2];
 
         if ($KATPERM) {
             if ($KATPERM && rex::getUser()->hasPerm('publishCategory[]')) {
-                $kat_status = '<a class="' . $status_class . '" href="' . $context->getUrl(['category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart]) . '">' . $kat_status . '</a>';
+                $kat_status = '<a class="' . $status_class . '" href="' . $context->getUrl(['category-id' => $i_category_id, 'rex-api-call' => 'category_status', 'catstart' => $catstart]) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
             } else {
-                $kat_status = '<span class="' . $status_class . ' text-muted">' . $kat_status . '</span>';
+                $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
             }
 
             if (isset ($edit_id) && $edit_id == $i_category_id && $function == 'edit_cat') {
@@ -259,7 +256,7 @@ if ($KAT->getRows() > 0) {
                 $add_buttons = '
                 <input type="hidden" name="rex-api-call" value="category_edit" />
                 <input type="hidden" name="category-id" value="' . $edit_id . '" />
-                <button class="btn btn-primary" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
+                <button class="btn btn-save" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
                 $class = 'mark';
                 if ($meta_buttons != '') {
@@ -314,7 +311,7 @@ if ($KAT->getRows() > 0) {
                         <td>' . htmlspecialchars($KAT->getValue('catpriority')) . '</td>
                         <td><span class="text-muted"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</span></td>
                         <td><span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span></td>
-                        <td><span class="' . $status_class . ' text-muted">' . $kat_status . '</span></td>
+                        <td><span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span></td>
                     </tr>';
         }
 
@@ -480,7 +477,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                     <td><input class="form-control" type="text" name="article-position" value="' . ($sql->getRows() + 1) . '" /></td>
                     ' . $tmpl_td . '
                     <td>' . rex_formatter::strftime(time(), 'date') . '</td>
-                    <td colspan="3"><input type="hidden" name="rex-api-call" value="article_add" /><button class="btn btn-primary" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
+                    <td colspan="3"><input type="hidden" name="rex-api-call" value="article_add" /><button class="btn btn-save" type="submit" name="artadd_function"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'save') . '>' . rex_i18n::msg('article_add') . '</button></td>
                 </tr>
                             ';
     }
@@ -518,7 +515,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                             <td><input class="form-control" type="text" name="article-position" value="' . htmlspecialchars($sql->getValue('priority')) . '" /></td>
                             ' . $tmpl_td . '
                             <td>' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
-                            <td colspan="3"><input type="hidden" name="rex-api-call" value="article_edit" /><button class="btn btn-primary" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
+                            <td colspan="3"><input type="hidden" name="rex-api-call" value="article_edit" /><button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
 
         } elseif ($KATPERM) {
@@ -526,6 +523,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
             $article_status = $artStatusTypes[$sql->getValue('status')][0];
             $article_class = $artStatusTypes[$sql->getValue('status')][1];
+            $article_icon = $artStatusTypes[$sql->getValue('status')][2];
 
             $add_extra = '';
             if ($sql->getValue('startarticle') == 1) {
@@ -533,9 +531,9 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                               <td><span class="' . $article_class . ' text-muted">' . $article_status . '</span></td>';
             } else {
                 if ($KATPERM && rex::getUser()->hasPerm('publishArticle[]')) {
-                    $article_status = '<a class="' . $article_class . '" href="' . $context->getUrl(['article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart]) . '">' . $article_status . '</a>';
+                    $article_status = '<a class="' . $article_class . '" href="' . $context->getUrl(['article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart]) . '"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</a>';
                 } else {
-                    $article_status = '<span class="' . $article_class . ' text-muted">' . $article_status . '</span>';
+                    $article_status = '<span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span>';
                 }
 
                 $article_delete = '<a href="' . $context->getUrl(['article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_delete', 'artstart' => $artstart]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';

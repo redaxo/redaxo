@@ -77,7 +77,7 @@
     @extend .fa-database;
 }
 .rex-icon-delete {
-    @extend .fa-trash;
+    @extend .fa-trash-o;
 }
 .rex-icon-delete-link {
     @extend .fa-chain-broken;
@@ -139,6 +139,12 @@
 }
 .rex-icon-open-mediapool {
     @extend .fa-align-justify;
+}
+.rex-icon-online {
+    @extend .fa-dot-circle-o;
+}
+.rex-icon-offline {
+    @extend .fa-circle-thin;
 }
 .rex-icon-package {
     @extend .fa-bookmark;

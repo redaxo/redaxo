@@ -254,7 +254,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-primary" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
+$n['field'] = '<button class="btn btn-send" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -275,7 +275,7 @@ $content = $fragment->parse('core/page/section.php');
 
 
 $content = '
-<form id="rex-form-export" action="' . rex_url::currentBackendPage() . '" method="post">
+<form action="' . rex_url::currentBackendPage() . '" method="post">
     ' . $content . '
 </form>
 

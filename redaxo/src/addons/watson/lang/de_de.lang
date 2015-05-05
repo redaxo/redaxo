@@ -1,0 +1,133 @@
+navigation_developer = Developer
+
+b_install_redaxo_version_problem = Die REDAXO Version reicht nicht aus. Es wird mindestens Version {0} gebraucht. Sie nutzen aktuell die Version {1}.
+
+
+b_cheatsheet = Cheatsheet
+b_cheatsheet_title = Cheatsheet
+b_sherlock = Sherlock
+b_sherlock_title = Sherlock
+b_watson = Watson
+b_watson_title = Watson
+b_url_generate = Urls erzeugen
+b_url_generate_title = Urls erzeugen
+
+
+b_add = hinzufügen
+b_add_entry = {0} hinzufügen
+b_article = Artikel
+b_articles = Artikel
+
+b_blocks = Blöcke
+
+b_cache_file_was_written = Cache Datei "{0}" wurde geschrieben.
+b_cache_file_was_not_written = Cache Datei "{0}" konnte nicht geschrieben werden.
+b_color = Color
+b_color_notice = Bspl. #f90 oder #ff9900
+b_column = Spalte
+b_columns = Spalten
+b_column_amount = {0} Spalte
+b_columns_amount = {0} Spalten
+b_create_article = Artikel "{0}" anlegen
+b_create_category = Kategorie "{0}" anlegen
+b_create_media = Medium"{0}" anlegen
+b_create_module = Modul "{0}" anlegen
+b_create_template = Template "{0}" anlegen
+b_create_user = Benutzer "{0}" anlegen
+
+b_description = Beschreibung
+
+b_edit = editieren
+b_edit_blocks = Blöcke bearbeiten
+b_edit_contents = Inhalte bearbeiten
+b_extension_point = Extension Point
+b_extension_points = Extension Points
+
+b_file = Datei
+b_found_extension_points = gefundene Extension Points: {0}
+b_function = Funktion
+
+b_go_to_backend_startarticle = Gehe zum Startartikel im Backend
+b_go_to_frontend = Gehe zum Frontend/Website
+b_gross = Brutto
+
+b_id = Id
+b_image = Image
+
+b_keyword = Keyword
+
+b_language = Sprache
+b_layout = Layout
+b_lists = Auflistung
+b_logout_from_backend = vom Backend abmelden.
+
+b_media = Media
+b_module = Modul
+b_modules = Module
+
+b_name = Name
+b_net = Netto
+b_no_cheatsheets = keine Cheatsheets vorhanden
+b_no_blocks = keine Blöcke vorhanden
+b_no_contents = keine Inhalte vorhanden
+b_no_results = keine Ergebnisse
+b_no_table_selected = keine Tabelle ausgewählt
+b_note = Notiz
+
+b_offline = offline
+b_online = online
+b_open_article_in_backend = Öffnet den Artikel im Backend
+b_open_media = Medium öffnen
+b_open_media_in_mediapool = Medium im Medienpool öffnen
+b_open_module = Modul öffnen
+b_open_template = Template öffnen
+
+b_param = Parameter
+b_params = Parameter
+b_parse_files = Dateien analysieren
+b_parsed_files = Dateien analysiert: {0}
+b_percent_of = von
+b_plain = Plain
+b_prior = Prior
+
+b_readonly = Readonly
+b_rex_vars = REX Variablen
+
+b_search = suchen
+b_standard_tax = 19
+b_status = Status
+b_subject = Subject
+
+b_table = Tabelle
+b_tables = Tabellen
+b_template = Template
+b_templates = Templates
+b_text = Text
+b_textile = Textile
+b_title = Titel
+
+b_url = Url
+b_url_generate_notice_id = Spalte der dazugehörigen eindeutigen Id
+b_url_generate_notice_name = Spalte aus der die Url erzeugt wird
+
+b_vat = Umsatzsteuer
+b_vat_calculator = Ust
+
+b_watson_legend_article_online = Online Artikel
+b_watson_legend_article_offline = Offline Artikel
+b_watson_legend_articles = Artikel
+b_watson_legend_calculator = Taschenrechner
+b_watson_legend_calculator_gross = errechnet den Bruttobetrag
+b_watson_legend_calculator_net = errechnet den Nettobetrag
+b_watson_legend_calculator_vat = errechnet die Umsatzsteuer
+b_watson_legend_command_home = zur Startseite im Frontend
+b_watson_legend_command_logout = REDAXO logout
+b_watson_legend_command_start = zur Startseite im Backend
+b_watson_legend_commands = Kommandos
+b_watson_legend_create_article_in_structure = Artikel in der Struktur anlegen
+b_watson_legend_create_category_in_structure = Kategorie in der Struktur anlegen
+b_watson_legend_media = Medien
+b_watson_legend_modules = Module
+b_watson_legend_synonym_for = Ist ein Synonym für {0}
+b_watson_legend_templates = Templates
+b_watson_legend_users = Benutzer
