@@ -41,7 +41,7 @@ function rex_structure_searchbar(rex_context $context)
     }
 
     // ------------ Suche via ArtikelName
-    if (rex_get('search_start', 'bool')) {
+    if (rex_request('search_start', 'bool')) {
         // replace LIKE wildcards
         $search_article_name_like = str_replace(['_', '%'], ['\_', '\%'], $search_article_name);
 
@@ -77,8 +77,11 @@ function rex_structure_searchbar(rex_context $context)
         // Mehrere Suchtreffer, Liste anzeigen
         elseif ($foundRows > 0) {
             $needle = htmlspecialchars($search_article_name);
-            $search_result .= '<ul class="be_search-search-result">';
+            $search_result .= '<div class="list-group">';
             for ($i = 0; $i < $foundRows; $i++) {
+                
+                $breadcrumb = [];
+
                 $OOArt = rex_article::get($search->getValue('id'), $clang);
                 $label = $OOArt->getName();
 
@@ -88,13 +91,11 @@ function rex_structure_searchbar(rex_context $context)
                     $highlightHit = function ($string, $needle) {
                         return preg_replace(
                             '/(.*)(' . preg_quote($needle, '/') . ')(.*)/i',
-                            '\\1<span class="be_search-search-hit">\\2</span>\\3',
+                            '\\1<mark>\\2</mark>\\3',
                             $string
                         );
                     };
 
-                    $s = '';
-                    $first = true;
                     foreach ($OOArt->getParentTree() as $treeItem) {
                         $treeLabel = $treeItem->getName();
 
@@ -102,36 +103,38 @@ function rex_structure_searchbar(rex_context $context)
                             $treeLabel .= ' [' . $treeItem->getId() . ']';
                         }
 
-                        $prefix = ': ';
-                        if ($first) {
-                            $prefix = '';
-                            $first = false;
-                        }
-
                         $treeLabel = htmlspecialchars($treeLabel);
                         $treeLabel = $highlightHit($treeLabel, $needle);
 
-                        $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'structure', 'category_id' => $treeItem->getId()]) . '">' . $treeLabel . ' </a></li>';
+                        $e = [];
+                        $e['title'] = $treeLabel;
+                        $e['href'] = $context->getUrl(['page' => 'structure', 'category_id' => $treeItem->getId()]);
+                        $breadcrumb[] = $e;
                     }
 
-                    $prefix = ': ';
-                    if ($first) {
-                        $prefix = '';
-                        $first = false;
-                    }
 
                     $label = htmlspecialchars($label);
                     $label = $highlightHit($label, $needle);
 
-                    $s .= '<li>' . $prefix . '<a href="' . $context->getUrl(['page' => 'content/edit', 'article_id' => $treeItem->getId()]) . '">' . $label . ' </a></li>';
+                    $e = [];
+                    $e['title'] = $label;
+                    $e['href'] = $context->getUrl(['page' => 'content/edit', 'article_id' => $treeItem->getId()]);
+                    $breadcrumb[] = $e;
 
-                    $search_result .= '<li><ul class="be_search-search-hit">' . $s . '</ul></li>';
+                    $fragment = new rex_fragment();
+                    $fragment->setVar('items', $breadcrumb, false);
+                    $search_result .= '<div class="list-group-item">' . $fragment->parse('core/navigations/breadcrumb.php') . '</div>';
                 }
                 $search->next();
             }
-            $search_result .= '</ul>';
+            $search_result .= '</div>';
+
+            $fragment = new rex_fragment();
+            $fragment->setVar('title', rex_i18n::msg('be_search_result'), false);
+            $fragment->setVar('content', $search_result, false);
+            $search_result = $fragment->parse('core/page/section.php');
         } else {
-            $message = rex_view::warning(rex_i18n::msg('be_search_no_results'));
+            $message = rex_view::info(rex_i18n::msg('be_search_no_results'));
         }
     }
 
@@ -144,7 +147,6 @@ function rex_structure_searchbar(rex_context $context)
 
     $category_select = new rex_category_select(false, false, true, $add_homepage);
     $category_select->setName($select_name);
-    $category_select->setId('rex-id-search-category-id');
     $category_select->setSize('1');
     $category_select->setAttribute('onchange', 'this.form.submit();');
     $category_select->setSelected($category_id);
@@ -152,63 +154,75 @@ function rex_structure_searchbar(rex_context $context)
     $select = $category_select->get();
 
 
-    $droplist = '';
     $doc = new DOMDocument();
     $doc->loadHTML('<?xml encoding="UTF-8">' . $select);
 
     $options = $doc->getElementsByTagName('option');
 
-    $js_button = 'Home';
+
+    $droplistContext = new rex_context([
+        'page' => 'structure',
+        'category_id' => 0,
+    ]);
+
+    $button_label =  '';
+    $items  = [];
     foreach ($options as $option) {
         $value = '';
-        $class = '';
+        $item = [];
         if ($option->hasAttributes()) {
             foreach ($option->attributes as $attribute) {
                 if ($attribute->name == 'value') {
                     $value = $attribute->value;
 
+                    $droplistContext->setParam('category_id', $value);
+
                     if ($attribute->value == $category_id) {
-                        $js_button = $option->nodeValue;
-                        $class = ' rex-drop-active';
+                        $button_label = str_replace("\xC2\xA0", '', $option->nodeValue);
+                        $item['active'] = true;
                     }
                 }
             }
         }
-        $droplist .= '<li class="rex-drop-item' . $class . '"><a href="index.php?page=structure&amp;category_id=' . $value . '"><span class="rex-icon rex-icon-check"></span><div class="rex-drop-item-text rex-js-button-text">' . $option->nodeValue . '</div></a></li>';
+
+        $item['title'] = $option->nodeValue;
+        $item['href']  = $droplistContext->getUrl();
+        $items[] = $item;
+
 
     }
 
-    $droplist = '
-                <div class="rex-js-drop rex-dropdown">
-                    <span class="btn rex-drop-button rex-js-drop-button">
-                        <i>Schnellnavigation</i>
-                        <span class="rex-js-button">' . $js_button . '</span>
-                        <span class="rex-drop"></span>
-                    </span>
-                    <div class="rex-drop-container">
-                        <ul class="rex-drop-list rex-nowrap">' . $droplist . '</ul>
-                    </div>
-                </div>';
+    $fragment = new rex_fragment();
+    $fragment->setVar('button_prefix', rex_i18n::msg('be_search_quick_navi'));
+    $fragment->setVar('button_label', $button_label);
+    $fragment->setVar('items', $items, false);
+
+    $droplist = '<div class="navbar-btn navbar-right">' . $fragment->parse('core/dropdowns/dropdown.php');
 
 
 
-    $form =
-    '<div class="rex-form">
-        <form action="' . rex_url::backendController() . '" method="get">
-            <fieldset>';
 
-    $form .= $context->getHiddenInputFields();
-    $form .= '<input type="text" name="search_article_name" id="rex-id-search-article-name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name') . '/' . rex_i18n::msg('be_search_article_id')) . '" />
-              <button class="btn btn-search" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>
-            </fieldset>
-        </form>
-    </div>';
-
+    $formElements = [];
+    $n = [];
+    $n['field'] = '<input class="form-control" type="text" name="search_article_name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name') . '/' . rex_i18n::msg('be_search_article_id')) . '" />';
+    $n['right'] = '<button class="btn btn-search" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>';
+    $formElements[] = $n;
 
     $fragment = new rex_fragment();
-    $fragment->setVar('left', $form, false);
-    $fragment->setVar('right', $droplist, false);
-    //$navi = $fragment->parse('core/navigations/content.php');
+    $fragment->setVar('elements', $formElements, false);
+    $toolbar = $fragment->parse('core/form/input_group.php');
 
-    return $search_result;
+    $toolbar = '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    ' . $context->getHiddenInputFields() . '
+    <div class="navbar-form navbar-left">
+        <div class="form-group">
+            ' . $toolbar . '
+        </div>
+    </div>
+    </form>';
+    $toolbar = rex_view::toolbar($toolbar . $droplist, rex_i18n::msg('be_search_search'));
+
+
+    return $toolbar . $search_result;
 }
