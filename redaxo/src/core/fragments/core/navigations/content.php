@@ -56,6 +56,14 @@ foreach ($navigations as $nav_key => $navigation) {
             unset($navi['itemAttr']['class']);
         }
 
+        if (isset($navi['active']) && $navi['active']) {
+            if (isset($navi['itemClasses']) && is_array($navi['itemClasses'])) {
+                array_unshift($navi['itemClasses'], 'active');
+            } else {
+                $navi['itemClasses'] = ['active'];
+            }
+        }
+
         if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
             $attributes['class'] = implode(' ', $navi['itemClasses']);
         }

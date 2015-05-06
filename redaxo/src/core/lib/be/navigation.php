@@ -41,7 +41,7 @@ class rex_be_navigation
      */
     public function getNavigation()
     {
-        $this->setActiveElements();
+        //$this->setActiveElements();
         $return = [];
         foreach ($this->pages as $block => $blockPages) {
             if (is_array($blockPages) && count($blockPages) > 0 && $blockPages[0] instanceof rex_be_page_main) {
