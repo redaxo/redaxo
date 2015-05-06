@@ -40,16 +40,23 @@ foreach ($this->elements as $element) {
 
     $class = $inline ? '-inline' : '';
 
-    if ($classes != '') {
-        $out .= '<div class="' . trim($classes) . '">';
-    }
-
-    $out .= '<div class="radio' . $class . '"' . $id . '>';
-    $out .= $label;
-    $out .= '</div>';
-
-    if ($classes != '') {
+    if ($grouped) {
+        $out .= '<div class="radio' . $class . '"' . $id . '>';
+        $out .= $label;
         $out .= '</div>';
+    } else {
+        $out .= $header;
+        $out .= '<dl class="rex-form-group form-group' . $classes . '">';
+        $out .= '<dd>';
+        $out .= $before;
+        $out .= '<div class="radio' . $class . '"' . $id . '>';
+        $out .= $label;
+        $out .= '</div>';
+        $out .= $after;
+        $out .= '</dd>';
+        $out .= $error;
+        $out .= '</dl>';
+        $out .= $footer;
     }
 }
 
