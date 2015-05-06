@@ -149,7 +149,7 @@ setup_399 = 3 / Systemcheck
 
 setup_400 = Setup: Schritt 4 von 7 / Schreiben der 'data/config.yml'
 setup_401 = data/config.yml konnte nicht geschrieben werden.
-setup_402 = Allgemeine Redaxo-Einstellungen
+setup_402 = Allgemeines
 setup_403 = Datenbankinformationen
 setup_404 = Die angegebene Datenbank existiert bereits!
 setup_405 = Schreiben der 'data/config.yml'
@@ -161,10 +161,11 @@ setup_412 = Zeitzone
 setup_413 = Zeitzone ist ungültig!
 setup_414 = Schritt 4 erneut durchführen
 setup_415 = Folgender Fehler wurde gemeldet: {0}
+setup_416 = REDAXO-Einstellungen
 setup_499 = 4 / config.yml
 
 setup_500 = Setup: Schritt 5 von 7 / Datenbank
-setup_501 = Datenbank anlegen
+setup_501 = Datenbank einrichten
 setup_502 = Tabelle {0} wurde nicht gefunden!
 setup_503 = Bitte richten Sie die Datenbank erneut ein.
 setup_504 = Datenbank einrichten

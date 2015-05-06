@@ -125,7 +125,7 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
 
         $n['href'] = 'javascript:void(0)';
         if ($i < $step) {
-            $n['itemAttr']['class'][] = 'rex-success';
+            $n['itemAttr']['class'][] = 'bg-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
             if ($step == 7) {
                 $n['href'] = 'javascript:void(0)';

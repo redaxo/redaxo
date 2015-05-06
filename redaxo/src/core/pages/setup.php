@@ -49,16 +49,16 @@ if ($step == 2) {
     $license = '<p>' . nl2br(rex_file::get($license_file)) . '</p>';
 
     $content = rex_i18n::rawMsg('setup_202');
-    $content .= '<div class="rex-content-scroll" data-height="2x">' . $license . '</div>';
+    $content .= $license;
 
-    $button = '<p><a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a></p>';
+    $buttons = '<a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 3, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_203') . '</a>';
 
     echo rex_view::title(rex_i18n::msg('setup_200'));
 
     $fragment = new rex_fragment();
     $fragment->setVar('heading', rex_i18n::msg('setup_201'), false);
-    $fragment->setVar('content', $content, false);
-    $fragment->setVar('footer', $button, false);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
     echo $fragment->parse('core/page/section.php');
 }
 
@@ -85,7 +85,7 @@ if (count($res) > 0) {
             foreach ($messages as $message) {
                 $li[] = '<li>' . str_replace($base, '', $message) . '</li>';
             }
-            $error_array[] = rex_view::error('<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>');
+            $error_array[] = '<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
         }
     }
 } else {
@@ -98,29 +98,28 @@ if ($step > 2 && count($error_array) > 0) {
 
 if ($step == 3) {
 
-    $message = '';
+    $content = '';
 
     if (count($success_array) > 0) {
-        $message .= rex_view::success('<ul><li>' . implode('</li><li>', $success_array) . '</li></ul>');
+        $content .= '<ul><li>' . implode('</li><li>', $success_array) . '</li></ul>';
     }
 
-    $button = '';
+    $buttons = '';
+    $class = '';
     if (count($error_array) > 0) {
-        $message .= implode('', $error_array);
+        $class = 'error';
+        $content .= implode('', $error_array);
 
-        $button = '<p><a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a></p>';
+        $buttons = '<a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_312') . '</a>';
 
     } else {
-        $button = '<p><a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a></p>';
+        $class = 'success';
+        $buttons = '<a class="btn btn-setup" href="' . rex_url::backendPage('setup', ['step' => 4, 'lang' => $lang]) . '">' . rex_i18n::msg('setup_310') . '</a>';
     }
 
-    $content = '';
-    /*
-    $content .= '<h2>' . rex_i18n::msg('setup_307') . '</h2>';
-    $content .= '<div id="rex-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg')) . '</div>';
-    */
-    $content .= '<noscript>' . rex_view::warning(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
-    $content .= '<script>
+    $security = '<div class="rex-js-setup-security-message" style="display:none">' . rex_view::error(rex_i18n::msg('setup_security_msg') . '<br />' . rex_i18n::msg('setup_no_js_security_msg')) . '</div>';
+    $security .= '<noscript>' . rex_view::error(rex_i18n::msg('setup_no_js_security_msg')) . '</noscript>';
+    $security .= '<script>
 
     jQuery(function($){
 
@@ -128,8 +127,8 @@ if ($step == 3) {
             $.ajax({
                 url: url,
                 success: function(data) {
-                    $("#rex-setup-security-message").show();
-                    $(".rex-page-main .btn").hide();
+                    $(".rex-js-setup-security-message").show();
+                    $(".rex-js-setup-section").hide();
                 }
             });
         });
@@ -140,12 +139,14 @@ if ($step == 3) {
 
 
     echo rex_view::title(rex_i18n::msg('setup_300'));
-    echo $message;
 
     $fragment = new rex_fragment();
-    $fragment->setVar('content', $content, false);
-    $fragment->setVar('footer', $button, false);
-    echo $fragment->parse('core/page/section.php');
+    $fragment->setVar('class', $class, false);
+    $fragment->setVar('title', rex_i18n::msg('setup_307'), false);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
+    echo '<div class="rex-js-setup-section">' . $fragment->parse('core/page/section.php') . '</div>';
+    echo $security;
 
 }
 
@@ -247,8 +248,6 @@ if ($step == 4) {
     }
 
     $content .= '
-            <div class="rex-form" id="rex-form-setup-step-4">
-            <form action="' . rex_url::backendController() . '" method="post">
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="5" />
@@ -264,7 +263,7 @@ if ($step == 4) {
 
     $db_create_checked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
-    $content .= '<h2>' . rex_i18n::msg('setup_402') . '</h2>';
+    $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
 
     $formElements = [];
 
@@ -293,7 +292,7 @@ if ($step == 4) {
     $content .= $fragment->parse('core/form/form.php');
 
 
-     $content .= '</fieldset><fieldset><h2>' . rex_i18n::msg('setup_403') . '</h2>';
+     $content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_403') . '</legend>';
 
 
 
@@ -325,8 +324,8 @@ if ($step == 4) {
 
     $formElements = [];
         $n = [];
-        $n['label'] = '<label for="rex-form-db-create">' . rex_i18n::msg('setup_411') . '</label>';
-        $n['field'] = '<input type="checkbox" id="rex-form-db-create" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
+        $n['label'] = '<label>' . rex_i18n::msg('setup_411') . '</label>';
+        $n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -345,18 +344,20 @@ if ($step == 4) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/submit.php');
+    $buttons = $fragment->parse('core/form/submit.php');
 
-    $content .= '
-            </form>
-            </div>';
 
     echo $headline;
     echo implode('', $error_array);
 
     $fragment = new rex_fragment();
-    $fragment->setVar('content', $content, false);
-    echo $fragment->parse('core/page/section.php');
+    $fragment->setVar('title', rex_i18n::msg('setup_416'), false);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
+    $content = $fragment->parse('core/page/section.php');
+
+
+    echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
 }
 
 
@@ -436,15 +437,10 @@ if ($step == 5) {
     $headline = rex_view::title(rex_i18n::msg('setup_500'));
 
     $content = '
-
-        <div class="rex-form" id="rex-form-setup-step-5">
-            <form action="' . rex_url::backendController() . '" method="post">
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="6" />
                 <input type="hidden" name="lang" value="' . $lang . '" />
-
-                <h2>' . rex_i18n::msg('setup_501') . '</h2>
             ';
 
     $submit_message = rex_i18n::msg('setup_511');
@@ -474,7 +470,7 @@ if ($step == 5) {
     $sel_export->setName('import_name');
     $sel_export->setId('rex-form-import-name');
     $sel_export->setSize(1);
-    $sel_export->setStyle('class="form-control"');
+    $sel_export->setStyle('class="form-control rex-js-import-name"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
     $export_dir = getImportDir();
     $exports_found = false;
@@ -575,17 +571,17 @@ if ($step == 5) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/submit.php');
+    $buttons = $fragment->parse('core/form/submit.php');
 
-    $content .= '</form></div>';
+    $content .= '</form>';
 
     $content .= '
             <script type="text/javascript">
                  <!--
                 jQuery(function($) {
-                    $("#rex-form-import-name").on("click","",function(){
-                        $("#rex-form-setup-step-5 [name=createdb]").prop("checked", false);
-                        $("#rex-form-createdb-3").prop("checked", true);
+                    $(".rex-js-import-name").on("click","",function(){
+                        $(".rex-js-setup-step-5 [name=createdb]").prop("checked", false);
+                        $(".rex-js-createdb-3").prop("checked", true);
                     });
                 });
                  //-->
@@ -595,8 +591,12 @@ if ($step == 5) {
     echo implode('', $error_array);
 
     $fragment = new rex_fragment();
-    $fragment->setVar('content', $content, false);
-    echo $fragment->parse('core/page/section.php');
+    $fragment->setVar('title', rex_i18n::msg('setup_501'), false);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
 }
 
 
@@ -678,15 +678,11 @@ if ($step == 6) {
     $content = '';
 
     $content .= '
-    <div class="rex-form" id="rex-form-setup-step-6">
-    <form action="' . rex_url::backendController() . '" method="post" autocomplete="off" id="createadminform">
         <fieldset>
-            <input type="hidden" name="javascript" value="0" id="javascript" />
+            <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />
             <input type="hidden" name="page" value="setup" />
             <input type="hidden" name="step" value="7" />
             <input type="hidden" name="lang" value="' . $lang . '" />
-
-            <h2>' . rex_i18n::msg('setup_606') . '</h2>
             ';
 
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
@@ -702,8 +698,8 @@ if ($step == 6) {
           $checked = 'checked="checked"';
         }
 
-        $n['label'] = '<label for="rex-form-noadmin">' . rex_i18n::msg('setup_609') . '</label>';
-        $n['field'] = '<input type="checkbox" id="rex-form-noadmin" name="noadmin" value="1" ' . $checked . ' />';
+        $n['label'] = '<label>' . rex_i18n::msg('setup_609') . '</label>';
+        $n['field'] = '<input class="rex-js-noadmin" type="checkbox" name="noadmin" value="1" ' . $checked . ' />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -720,12 +716,12 @@ if ($step == 6) {
 
         $n = [];
         $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-        $n['field'] = '<input class="form-control" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+        $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
         $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+    $content .= '<div class="rex-js-login-data">' . $fragment->parse('core/form/form.php') . '</div>';
 
     $content .= '</fieldset>';
 
@@ -737,32 +733,32 @@ if ($step == 6) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/submit.php');
+    $buttons = $fragment->parse('core/form/submit.php');
 
-    $content .= '</form></div>
+    $content .= '
 
     <script type="text/javascript">
          <!--
         jQuery(function($) {
-            $("#createadminform")
+            $(".rex-js-createadminform")
                 .submit(function(){
-                    var pwInp = $("#rex-form-redaxo-user-pass");
+                    var pwInp = $(".rex-js-redaxo-user-pass");
                     if(pwInp.val() != "") {
-                        $("#createadminform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
+                        $(".rex-js-createadminform").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
                         pwInp.removeAttr("name");
                     }
             });
 
-            $("#javascript").val("1");
+            $(".rex-js-javascript").val("1");
 
-            $("#createadminform #rex-form-noadmin").on("change",function (){
+            $(".rex-js-createadminform .rex-js-noadmin").on("change",function (){
 
                 if($(this).is(":checked")) {
-                    $("#createadminform fieldset:first-child .rex-form").each(function() {
+                    $(".rex-js-login-data").each(function() {
                         $(this).css("display","none");
                     })
                 } else {
-                    $("#createadminform fieldset:first-child .rex-form").each(function() {
+                    $(".rex-js-login-data").each(function() {
                         $(this).css("display","block");
                     })
                 }
@@ -776,8 +772,12 @@ if ($step == 6) {
     echo $headline;
 
     $fragment = new rex_fragment();
-    $fragment->setVar('content', $content, false);
-    echo $fragment->parse('core/page/section.php');
+    $fragment->setVar('title', rex_i18n::msg('setup_606'), false);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    echo '<form class="rex-js-createadminform" action="' . rex_url::backendController() . '" method="post" autocomplete="off">' . $content . '</form>';
 
 }
 
@@ -805,14 +805,14 @@ if ($step == 7) {
     $content .= rex_i18n::rawMsg('setup_704', '<a href="' . rex_url::backendController() . '">', '</a>');
     $content .= '<p>' . rex_i18n::msg('setup_705') . '</p>';
 
-    $button = '<p><a class="btn btn-setup" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a></p>';
+    $buttons = '<a class="btn btn-setup" href="' . rex_url::backendController() . '">' . rex_i18n::msg('setup_706') . '</a>';
 
     echo $headline;
 
     $fragment = new rex_fragment();
     $fragment->setVar('heading', rex_i18n::msg('setup_702'), false);
-    $fragment->setVar('content', $content, false);
-    $fragment->setVar('footer', $button, false);
+    $fragment->setVar('body', $content, false);
+    $fragment->setVar('buttons', $buttons, false);
     echo $fragment->parse('core/page/section.php');
 
 }
