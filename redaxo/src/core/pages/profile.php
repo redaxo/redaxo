@@ -157,7 +157,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form id="rex-form-profile" action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
 
@@ -168,13 +168,13 @@ echo $content;
 $content = '';
 $content .= '
     <fieldset>
-        <input type="hidden" name="javascript" value="0" id="rex-id-javascript" />';
+        <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />';
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw">' . rex_i18n::msg('old_password') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-id-userpsw" name="userpsw" autocomplete="off" />';
+$n['field'] = '<input class="form-control rex-js-userpsw" type="password" id="rex-id-userpsw" name="userpsw" autocomplete="off" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -187,12 +187,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-1">' . rex_i18n::msg('new_password') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
+$n['field'] = '<input class="form-control rex-js-userpsw-new-1" type="password" id="rex-id-userpsw-new-1" name="userpsw_new_1" autocomplete="off" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userpsw-new-2">' . rex_i18n::msg('new_password_repeat') . '</label>';
-$n['field'] = '<input class="form-control" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="off" />';
+$n['field'] = '<input class="form-control rex-js-userpsw-new-2" type="password" id="rex-id-userpsw-new-2" name="userpsw_new_2" autocomplete="off" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -222,7 +222,7 @@ $content = $fragment->parse('core/page/section.php');
 
 
 $content = '
-    <form id="rex-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
+    <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>
     </div>
@@ -230,28 +230,28 @@ $content = '
     <script type="text/javascript">
          <!--
         jQuery(function($) {
-            $("#rex-form-profile-password form")
+            $(".rex-js-form-profile-password")
                 .submit(function(){
-                    var pwInp0 = $("#rex-id-userpsw");
+                    var pwInp0 = $(".rex-js-userpsw");
                     if(pwInp0.val() != "") {
-                        $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
+                        $(".rex-js-form-profile-password").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
                         pwInp0.removeAttr("name");
                     }
 
-                    var pwInp1 = $("#rex-id-userpsw-new-1");
+                    var pwInp1 = $(".rex-js-userpsw-new-1");
                     if(pwInp1.val() != "") {
-                        $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
+                        $(".rex-js-form-profile-password").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
                         pwInp1.removeAttr("name");
                     }
 
-                    var pwInp2 = $("#rex-id-userpsw-new-2");
+                    var pwInp2 = $(".rex-js-userpsw-new-2");
                     if(pwInp2.val() != "") {
-                        $("#rex-form-profile-password form").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
+                        $(".rex-js-form-profile-password").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
                         pwInp2.removeAttr("name");
                     }
             });
 
-            $("#rex-id-javascript").val("1");
+            $(".rex-js-javascript").val("1");
         });
          //-->
     </script>';
