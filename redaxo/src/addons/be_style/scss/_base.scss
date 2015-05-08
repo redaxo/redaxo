@@ -16,11 +16,17 @@
 
     }
 
+}
 
-    .rex-global-footer {
+.rex-global-footer {
+    padding-left: floor($grid-gutter-width / 2);
+    padding-right: floor($grid-gutter-width / 2);
+    font-size: $font-size-small;
+
+    @media(min-width: $grid-float-breakpoint) {
         clear: both;
+        margin-left: 250px;
     }
-
 }
     
 .rex-page-main {
@@ -77,6 +83,22 @@
 }
 .btn-update {
     @extend .btn-primary;
+}
+
+.rex-nav-top .container-fluid .navbar-brand {
+    min-width: 235px;
+    margin-left: floor($grid-gutter-width / 2);
+    padding-top: 0;
+    padding-bottom: 0;
+    background-image: url('../images/redaxo-logo.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    @include text-hide();
+
+    @media (min-width: $grid-float-breakpoint) {
+        margin-left: 0;
+    }
 }
 
 // Wird bei den Kategorie-Metainfos gesetzt
