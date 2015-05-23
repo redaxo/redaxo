@@ -83,19 +83,18 @@ class rex_backend_login extends rex_login
         } else {
             // fehlversuch speichern | login_tries++
             if ($this->userLogin != '') {
+                $login_tries = null;
                 $sql->setQuery('SELECT login_tries FROM ' . $this->tableName . ' WHERE login=? LIMIT 1', [$this->userLogin]);
                 if ($sql->getRows() > 0) {
                     $login_tries = $sql->getValue('login_tries');
                     $sql->setQuery('UPDATE ' . $this->tableName . ' SET login_tries=login_tries+1,session_id="",cookiekey="",lasttrydate=? WHERE login=? LIMIT 1', [rex_sql::datetime(), $this->userLogin]);
-                    if ($login_tries >= self::LOGIN_TRIES_1 - 1) {
-                        $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
-                        $hours = floor($time / 3600);
-                        $mins  = floor(($time - ($hours * 3600)) / 60);
-                        $secs  = $time % 60;
-                        $formatted = ($hours ? $hours . 'h ' : '') . ($hours || $mins ? $mins . 'min ' : '') . $secs . 's';
-                        $this->message .= ' ' . rex_i18n::msg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
-                    }
                 }
+                $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
+                $hours = floor($time / 3600);
+                $mins  = floor(($time - ($hours * 3600)) / 60);
+                $secs  = $time % 60;
+                $formatted = ($hours ? $hours . 'h ' : '') . ($hours || $mins ? $mins . 'min ' : '') . $secs . 's';
+                $this->message .= ' ' . rex_i18n::msg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
             }
         }
 
