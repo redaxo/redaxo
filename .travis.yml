@@ -10,9 +10,17 @@ matrix:
     allow_failures:
         - php: 7.0
 
+sudo: false
+
+cache:
+    directories:
+        - "$HOME/.php-cs-fixer"
+
 before_script:
     - mysql -e 'create database redaxo_5_0;'
     - php redaxo/src/addons/tests/bin/setup.php
+    - curl http://get.sensiolabs.org/php-cs-fixer.phar -O
+    - mkdir -p "$HOME/.php-cs-fixer"
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
-    - php coding_standards.phar check --hide-process
+    - php php-cs-fixer.phar --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
