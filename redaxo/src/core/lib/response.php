@@ -151,17 +151,21 @@ class rex_response
 
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
-        if (self::$httpStatus == self::HTTP_OK) {
+        if (
+            self::$httpStatus == self::HTTP_OK &&
+            // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
+            false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')
+        ) {
             // ----- Last-Modified
             if (!self::$sentLastModified
-                && rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment
+                && (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
             ) {
                 self::sendLastModified($lastModified);
             }
 
             // ----- ETAG
             if (!self::$sentEtag
-                && rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment
+                && (rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment)
             ) {
                 self::sendEtag($etag ?: self::md5($content));
             }
