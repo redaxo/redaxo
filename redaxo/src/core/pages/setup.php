@@ -118,6 +118,7 @@ if ($step == 3) {
         $.each(["' . rex_url::backend('data/.redaxo') . '", "' . rex_url::backend('src/core/boot.php') . '", "' . rex_url::backend('cache/.redaxo') . '"], function (i, url) {
             $.ajax({
                 url: url,
+                cache: false,
                 success: function(data) {
                     $(".rex-js-setup-security-message").show();
                     $(".rex-js-setup-section").hide();
