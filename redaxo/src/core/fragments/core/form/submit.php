@@ -3,11 +3,9 @@
 $out = '';
 
 foreach ($this->elements as $element) {
-
-    $field  = isset($element['field'])  ? $element['field'] : '';
+    $field = isset($element['field'])  ? $element['field'] : '';
 
     $out .= $field;
-
 }
 
 echo '<div class="rex-form-panel-footer">';

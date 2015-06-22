@@ -20,7 +20,7 @@ class rex_media_perm extends rex_complex_perm
         return [
             'label' => rex_i18n::msg('mediafolder'),
             'all_label' => rex_i18n::msg('all_mediafolder'),
-            'select' => new rex_media_category_select(false)
+            'select' => new rex_media_category_select(false),
         ];
     }
 }

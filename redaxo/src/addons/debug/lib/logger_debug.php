@@ -1,10 +1,12 @@
 <?php
 
 use Psr\Log\LogLevel;
+
 /**
- * Class to monitor extension points
+ * Class to monitor extension points.
  *
  * @author staabm
+ *
  * @package redaxo\debug
  */
 class rex_logger_debug extends rex_logger
@@ -17,8 +19,8 @@ class rex_logger_debug extends rex_logger
      * @param array  $context
      * @param string $file
      * @param int    $line
+     *
      * @throws InvalidArgumentException
-     * @return null
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {

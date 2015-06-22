@@ -4,6 +4,7 @@
  * REX base class for core properties etc.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex
@@ -11,7 +12,7 @@ class rex
     const CONFIG_NAMESPACE = 'core';
 
     /**
-     * Array of properties
+     * Array of properties.
      *
      * @var array
      */
@@ -50,11 +51,13 @@ class rex
     }
 
     /**
-     * Sets a property
+     * Sets a property.
      *
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
-     * @return boolean TRUE when an existing value was overridden, otherwise FALSE
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
+     *
      * @throws InvalidArgumentException on invalid parameters
      */
     public static function setProperty($key, $value)
@@ -81,11 +84,13 @@ class rex
     }
 
     /**
-     * Returns a property
+     * Returns a property.
      *
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
+     *
      * @return mixed The value for $key or $default if $key cannot be found
+     *
      * @throws InvalidArgumentException on invalid parameters
      */
     public static function getProperty($key, $default = null)
@@ -100,10 +105,11 @@ class rex
     }
 
     /**
-     * Returns if a property is set
+     * Returns if a property is set.
      *
      * @param string $key Key of the property
-     * @return boolean TRUE if the key is set, otherwise FALSE
+     *
+     * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function hasProperty($key)
     {
@@ -111,10 +117,12 @@ class rex
     }
 
     /**
-     * Removes a property
+     * Removes a property.
      *
      * @param string $key Key of the property
-     * @return boolean TRUE if the value was found and removed, otherwise FALSE
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
+     *
      * @throws InvalidArgumentException on invalid parameters
      */
     public static function removeProperty($key)
@@ -128,9 +136,9 @@ class rex
     }
 
     /**
-     * Returns if the setup is active
+     * Returns if the setup is active.
      *
-     * @return boolean
+     * @return bool
      */
     public static function isSetup()
     {
@@ -138,9 +146,9 @@ class rex
     }
 
     /**
-     * Returns if the environment is the backend
+     * Returns if the environment is the backend.
      *
-     * @return boolean
+     * @return bool
      */
     public static function isBackend()
     {
@@ -148,9 +156,9 @@ class rex
     }
 
     /**
-     * Returns if the debug mode is active
+     * Returns if the debug mode is active.
      *
-     * @return boolean
+     * @return bool
      */
     public static function isDebugMode()
     {
@@ -158,9 +166,9 @@ class rex
     }
 
     /**
-     * Returns if the safe mode is active
+     * Returns if the safe mode is active.
      *
-     * @return boolean
+     * @return bool
      */
     public static function isSafeMode()
     {
@@ -168,7 +176,7 @@ class rex
     }
 
     /**
-     * Returns the table prefix
+     * Returns the table prefix.
      *
      * @return string
      */
@@ -178,9 +186,10 @@ class rex
     }
 
     /**
-     * Adds the table prefix to the table name
+     * Adds the table prefix to the table name.
      *
      * @param string $table Table name
+     *
      * @return string
      */
     public static function getTable($table)
@@ -189,7 +198,7 @@ class rex
     }
 
     /**
-     * Returns the temp prefix
+     * Returns the temp prefix.
      *
      * @return string
      */
@@ -199,7 +208,7 @@ class rex
     }
 
     /**
-     * Returns the current user
+     * Returns the current user.
      *
      * @return rex_user
      */
@@ -209,9 +218,10 @@ class rex
     }
 
     /**
-     * Returns the server URL
+     * Returns the server URL.
      *
      * @param null|string $protocol
+     *
      * @return string
      */
     public static function getServer($protocol = null)
@@ -224,7 +234,7 @@ class rex
     }
 
     /**
-     * Returns the server name
+     * Returns the server name.
      *
      * @return string
      */
@@ -234,7 +244,7 @@ class rex
     }
 
     /**
-     * Returns the error email
+     * Returns the error email.
      *
      * @return string
      */
@@ -244,9 +254,10 @@ class rex
     }
 
     /**
-     * Returns the redaxo version
+     * Returns the redaxo version.
      *
      * @param string $format See {@link rex_formatter::version()}
+     *
      * @return string
      */
     public static function getVersion($format = null)
@@ -259,10 +270,11 @@ class rex
     }
 
     /**
-     * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag
+     * Returns the title tag and if the property "use_accesskeys" is true, the accesskey tag.
      *
      * @param string $title Title
      * @param string $key   Key for the accesskey
+     *
      * @return string
      */
     public static function getAccesskey($title, $key)
@@ -278,7 +290,7 @@ class rex
     }
 
     /**
-     * Returns the file perm
+     * Returns the file perm.
      *
      * @return int
      */
@@ -288,7 +300,7 @@ class rex
     }
 
     /**
-     * Returns the dir perm
+     * Returns the dir perm.
      *
      * @return int
      */

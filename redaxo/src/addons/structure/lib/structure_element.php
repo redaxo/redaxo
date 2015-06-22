@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Object Oriented Framework: Basisklasse für die Strukturkomponenten
+ * Object Oriented Framework: Basisklasse für die Strukturkomponenten.
  *
  * @package redaxo\structure
  */
@@ -32,7 +32,7 @@ abstract class rex_structure_element
     protected static $classVars;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $params
      */
@@ -46,9 +46,10 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns Object Value
+     * Returns Object Value.
      *
      * @param string $value
+     *
      * @return string
      */
     public function getValue($value)
@@ -68,7 +69,8 @@ abstract class rex_structure_element
     /**
      * @param string $value
      * @param array  $prefixes
-     * @return boolean
+     *
+     * @return bool
      */
     protected static function _hasValue($value, array $prefixes = [])
     {
@@ -88,7 +90,7 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns an Array containing article field names
+     * Returns an Array containing article field names.
      *
      * @return string[]
      */
@@ -130,6 +132,7 @@ abstract class rex_structure_element
      *
      * @param int $id    the article id
      * @param int $clang the clang id
+     *
      * @return static A rex_structure_element instance typed to the late-static binding type of the caller
      */
     public static function get($id, $clang = null)
@@ -169,6 +172,7 @@ abstract class rex_structure_element
      * @param string $listType
      * @param bool   $ignoreOfflines
      * @param int    $clang
+     *
      * @return static[]
      */
     protected static function getChildElements($parentId, $listType, $ignoreOfflines = false, $clang = null)
@@ -205,9 +209,9 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the clang of the category
+     * Returns the clang of the category.
      *
-     * @return integer
+     * @return int
      */
     public function getClang()
     {
@@ -215,10 +219,11 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns a url for linking to this article
+     * Returns a url for linking to this article.
      *
      * @param array|string $params
      * @param string       $divider
+     *
      * @return string
      */
     public function getUrl($params = '', $divider = '&amp;')
@@ -227,9 +232,9 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the id of the article
+     * Returns the id of the article.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -237,9 +242,9 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the parent_id of the article
+     * Returns the parent_id of the article.
      *
-     * @return integer
+     * @return int
      */
     public function getParentId()
     {
@@ -247,14 +252,14 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the path of the category/article
+     * Returns the path of the category/article.
      *
      * @return string
      */
     abstract public function getPath();
 
     /**
-     * Returns the path ids of the category/article as an array
+     * Returns the path ids of the category/article as an array.
      *
      * @return int[]
      */
@@ -265,14 +270,14 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the parent category
+     * Returns the parent category.
      *
      * @return self
      */
     abstract public function getParent();
 
     /**
-     * Returns the name of the article
+     * Returns the name of the article.
      *
      * @return string
      */
@@ -282,9 +287,9 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the article priority
+     * Returns the article priority.
      *
-     * @return integer
+     * @return int
      */
     public function getPriority()
     {
@@ -292,7 +297,7 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the last update user
+     * Returns the last update user.
      *
      * @return string
      */
@@ -302,7 +307,7 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the last update date
+     * Returns the last update date.
      *
      * @return int
      */
@@ -312,7 +317,7 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the creator
+     * Returns the creator.
      *
      * @return string
      */
@@ -322,7 +327,7 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the creation date
+     * Returns the creation date.
      *
      * @return int
      */
@@ -334,7 +339,7 @@ abstract class rex_structure_element
     /**
      * Returns true if article is online.
      *
-     * @return boolean
+     * @return bool
      */
     public function isOnline()
     {
@@ -342,9 +347,9 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns the template id
+     * Returns the template id.
      *
-     * @return integer
+     * @return int
      */
     public function getTemplateId()
     {
@@ -354,7 +359,7 @@ abstract class rex_structure_element
     /**
      * Returns true if article has a template.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTemplate()
     {
@@ -362,19 +367,20 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns whether the element is permitted
+     * Returns whether the element is permitted.
      *
      * @return bool
      */
     abstract public function isPermitted();
 
     /**
-     * Returns a link to this article
+     * Returns a link to this article.
      *
      * @param array|string $params             Parameter für den Link
      * @param array        $attributes         Attribute die dem Link hinzugefügt werden sollen. Default: null
      * @param string       $sorroundTag        HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
      * @param array        $sorroundAttributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
+     *
      * @return string
      */
     public function toLink($params = '', array $attributes = null, $sorroundTag = null, array $sorroundAttributes = null)
@@ -391,6 +397,7 @@ abstract class rex_structure_element
 
     /**
      * @param array $attributes
+     *
      * @return string
      */
     protected function _toAttributeString(array $attributes)
@@ -436,10 +443,11 @@ abstract class rex_structure_element
     }
 
     /**
-     * Checks if $anObj is in the parent tree of the object
+     * Checks if $anObj is in the parent tree of the object.
      *
      * @param self $anObj
-     * @return boolean
+     *
+     * @return bool
      */
     public function inParentTree(self $anObj)
     {
@@ -455,7 +463,7 @@ abstract class rex_structure_element
     /**
      * Returns true if this Article is the Startpage for the category.
      *
-     * @return boolean
+     * @return bool
      */
     public function isStartArticle()
     {
@@ -465,7 +473,7 @@ abstract class rex_structure_element
     /**
      * Returns true if this Article is the Startpage for the entire site.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSiteStartArticle()
     {
@@ -473,9 +481,9 @@ abstract class rex_structure_element
     }
 
     /**
-     * Returns  true if this Article is the not found article
+     * Returns  true if this Article is the not found article.
      *
-     * @return boolean
+     * @return bool
      */
     public function isNotFoundArticle()
     {

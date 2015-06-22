@@ -73,7 +73,7 @@ EOF
         );
         $expected = [
             new rex_log_entry(mktime(23, 9, 43, 8, 27, 2013), ['test2a', 'test2b']),
-            new rex_log_entry(mktime(23, 7, 2, 8, 27, 2013), ['test1a', 'test1b'])
+            new rex_log_entry(mktime(23, 7, 2, 8, 27, 2013), ['test1a', 'test1b']),
         ];
         $this->assertEquals($expected, iterator_to_array($log));
 

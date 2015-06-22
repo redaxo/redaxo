@@ -13,7 +13,7 @@ class rex_test_instance_list_pool
 
     public static function get($id)
     {
-        $instance = new self;
+        $instance = new self();
         $instance->id = $id;
         return $instance;
     }
@@ -34,7 +34,7 @@ class rex_instance_list_pool_trait_test extends PHPUnit_Framework_TestCase
 
         $expected = [
             rex_test_instance_list_pool::get(1),
-            rex_test_instance_list_pool::get(2)
+            rex_test_instance_list_pool::get(2),
         ];
         $this->assertEquals($expected, rex_test_instance_list_pool::getInstanceList(2, 'rex_test_instance_list_pool::get', function ($id) {
             $this->assertEquals(2, $id);

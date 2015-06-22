@@ -4,6 +4,7 @@
  * Klasse die Einsprungpunkte zur Erweiterung der Kernfunktionalitaetet bietet.
  *
  * @author Markus Staab
+ *
  * @package redaxo\core
  */
 abstract class rex_extension
@@ -15,16 +16,17 @@ abstract class rex_extension
     const LATE = 1;
 
     /**
-     * Array of registered extensions
+     * Array of registered extensions.
      *
      * @var array
      */
     private static $extensions = [];
 
     /**
-     * Registers an extension point
+     * Registers an extension point.
      *
      * @param rex_extension_point $extensionPoint Extension point
+     *
      * @return mixed Subject, maybe adjusted by the extensions
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
@@ -53,7 +55,7 @@ abstract class rex_extension
     }
 
     /**
-     * Registers an extension for an extension point
+     * Registers an extension for an extension point.
      *
      * @param string   $extensionPoint Name of extension point
      * @param callable $extension      Callback extension
@@ -70,10 +72,11 @@ abstract class rex_extension
     }
 
     /**
-     * Checks whether an extension is registered for the given extension point
+     * Checks whether an extension is registered for the given extension point.
      *
      * @param string $extensionPoint Name of extension point
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isRegistered($extensionPoint)
     {

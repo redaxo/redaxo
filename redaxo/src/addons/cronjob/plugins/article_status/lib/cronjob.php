@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon - Plugin article_status
+ * Cronjob Addon - Plugin article_status.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -14,9 +14,9 @@ class rex_cronjob_article_status extends rex_cronjob
     {
         $config = rex_plugin::get('cronjob', 'article_status')->getProperty('config');
         $from = $config['from'];
-        $to   = $config['to'];
+        $to = $config['to'];
         $from['before'] = (array) $from['before'];
-        $to['before']   = (array) $to['before'];
+        $to['before'] = (array) $to['before'];
 
         $sql = rex_sql::factory();
         // $sql->setDebug();
@@ -57,7 +57,7 @@ class rex_cronjob_article_status extends rex_cronjob
 
         include_once rex_path::addon('structure', 'functions/function_rex_structure.php');
 
-        for ($i = 0; $i < $rows; $i++) {
+        for ($i = 0; $i < $rows; ++$i) {
             if (in_array($sql->getValue('status'), $from['before'])) {
                 $status = $from['after'];
             } else {

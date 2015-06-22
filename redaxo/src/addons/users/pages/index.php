@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 

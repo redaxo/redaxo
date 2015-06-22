@@ -101,7 +101,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
             'host' => $expectedHost,
             'port' => $expectedPort,
             'ssl' => $expectedSsl,
-            'path' => $expectedPath
+            'path' => $expectedPath,
         ];
         $this->assertEquals($expected, $result);
     }
@@ -111,7 +111,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
         return [
             [''],
             ['http://'],
-            ['abc://example.com']
+            ['abc://example.com'],
         ];
     }
 

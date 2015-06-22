@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Page Content Addon
+ * Page Content Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -30,7 +30,7 @@ if (rex::isBackend()) {
     rex_extension::register('FE_OUTPUT', function (rex_extension_point $ep) {
         $content = $ep->getSubject();
 
-        $article = new rex_article_content;
+        $article = new rex_article_content();
         $article->setCLang(rex_clang::getCurrentId());
 
         if ($article->setArticleId(rex::getProperty('article_id'))) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -51,7 +51,6 @@ if ($func == 'execute') {
 }
 
 if ($func == '') {
-
     $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
@@ -99,7 +98,6 @@ if ($func == '') {
         return rex_i18n::msg('cronjob_execution_ending');
     });
 
-
     $list->setColumnLabel('status', $this->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
     $list->setColumnLayout('status', ['<th colspan="4">###VALUE###</th>', '<td>###VALUE###</td>']);
@@ -118,7 +116,6 @@ if ($func == '') {
     $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'oid' => '###id###']);
 
-
     $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $this->i18n('delete'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###']);
     $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
@@ -135,14 +132,11 @@ if ($func == '') {
 
     $content = $list->get();
 
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', $this->i18n('caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
-
 } elseif ($func == 'edit' || $func == 'add') {
-
     $fieldset = $func == 'edit' ? $this->i18n('edit') : $this->i18n('add');
 
     $form = new rex_cronjob_form(REX_CRONJOB_TABLE, $fieldset, 'id = ' . $oid, 'post', false);
@@ -351,7 +345,7 @@ if ($func == '') {
 
     echo $content;
 
-?>
+    ?>
 
     <script type="text/javascript">
     // <![CDATA[
@@ -364,8 +358,10 @@ if ($func == '') {
                 currentShown.show();
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
-                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
-            }).change();<?php echo $visible_js . "\n"; ?>
+                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js;
+    ?>
+            }).change();<?php echo $visible_js . "\n";
+    ?>
         });
     // ]]>
     </script>

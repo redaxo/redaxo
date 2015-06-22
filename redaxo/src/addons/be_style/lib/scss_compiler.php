@@ -8,8 +8,6 @@ class rex_scss_compiler
     protected $formatter;
     protected $strip_comments;
 
-
-
     public function __construct()
     {
         $this->root_dir = rex_path::addon('be_style');
@@ -19,18 +17,15 @@ class rex_scss_compiler
         $this->strip_comments = true;
     }
 
-
     public function setRootDir($value)
     {
         $this->root_dir = $value;
     }
 
-
     public function setScssFile($value)
     {
         $this->scss_file = $value;
     }
-
 
     public function setCssFile($value)
     {
@@ -44,7 +39,6 @@ class rex_scss_compiler
     {
         $this->formatter = $value;
     }
-
 
     public function setStripComments($value = true)
     {
@@ -81,10 +75,9 @@ class rex_scss_compiler
                 $path = $underscore_file;
             }
 
-            if (! file_exists($path)) {
+            if (!file_exists($path)) {
                 return null;
             }
-
 
             return $path;
 
@@ -107,8 +100,6 @@ class rex_scss_compiler
 
             // write CSS into file with the same filename, but .css extension
             file_put_contents($this->css_file, $string_css);
-
-
         } catch (Exception $e) {
             // here we could put the exception message, but who cares ...
             echo $e->getMessage();

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REDAXO Master File
+ * REDAXO Master File.
  *
  * @global string  $REX['HTDOCS_PATH']    [Required] Relative path to htdocs directory
  * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
@@ -21,7 +21,7 @@ if (!extension_loaded('mbstring')) {
     throw new Exception('PHP extension "mbstring" needed!');
 }
 
-foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -68,7 +68,7 @@ require_once rex_path::core('functions/function_rex_other.php');
 // ----------------- VERSION
 rex::setProperty('version', '5.0.0-alpha7');
 
-$cacheFile  = rex_path::cache('config.yml.cache');
+$cacheFile = rex_path::cache('config.yml.cache');
 $configFile = rex_path::data('config.yml');
 if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile) >= filemtime($configFile)) {
     $config = rex_file::getCache($cacheFile);
@@ -80,7 +80,7 @@ if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile)
     rex_file::putCache($cacheFile, $config);
 }
 foreach ($config as $key => $value) {
-    if (in_array($key, array('fileperm', 'dirperm'))) {
+    if (in_array($key, ['fileperm', 'dirperm'])) {
         $value = octdec($value);
     }
     rex::setProperty($key, $value);

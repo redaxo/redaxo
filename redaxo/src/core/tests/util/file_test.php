@@ -116,7 +116,7 @@ class rex_file_test extends PHPUnit_Framework_TestCase
             ['test.txt',      'txt'],
             ['test.file.txt', 'txt'],
             ['noextension',   ''],
-            ['.hiddenfile',   'hiddenfile']
+            ['.hiddenfile',   'hiddenfile'],
         ];
     }
 

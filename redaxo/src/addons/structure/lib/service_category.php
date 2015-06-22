@@ -1,19 +1,20 @@
 <?php
 
 /**
- * Funktionensammlung für die Strukturverwaltung
+ * Funktionensammlung für die Strukturverwaltung.
  *
  * @package redaxo\structure
  */
 class rex_category_service
 {
     /**
-     * Erstellt eine neue Kategorie
+     * Erstellt eine neue Kategorie.
      *
      * @param int   $category_id KategorieId in der die neue Kategorie erstellt werden soll
      * @param array $data        Array mit den Daten der Kategorie
      *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function addCategory($category_id, array $data)
@@ -70,7 +71,7 @@ class rex_category_service
         foreach (rex_clang::getAllIds() as $key) {
             if ($contentAvailable) {
                 $template_id = rex::getProperty('default_template_id');
-                if (isset ($startpageTemplates[$key]) && $startpageTemplates[$key] != '') {
+                if (isset($startpageTemplates[$key]) && $startpageTemplates[$key] != '') {
                     $template_id = $startpageTemplates[$key];
                 }
 
@@ -85,7 +86,7 @@ class rex_category_service
             }
 
             $AART->setTable(rex::getTablePrefix() . 'article');
-            if (!isset ($id)) {
+            if (!isset($id)) {
                 $id = $AART->setNewId('id');
             } else {
                 $AART->setValue('id', $id);
@@ -130,7 +131,6 @@ class rex_category_service
                     'article' => clone $AART,
                     'data' => $data,
                 ]));
-
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
             }
@@ -140,13 +140,14 @@ class rex_category_service
     }
 
     /**
-     * Bearbeitet einer Kategorie
+     * Bearbeitet einer Kategorie.
      *
      * @param int   $category_id Id der Kategorie die verändert werden soll
      * @param int   $clang       Id der Sprache
      * @param array $data        Array mit den Daten der Kategorie
      *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function editCategory($category_id, $clang, array $data)
@@ -182,9 +183,9 @@ class rex_category_service
                 $ArtSql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $category_id . ' AND startarticle=0 AND clang_id=' . $clang);
 
                 $EART = rex_sql::factory();
-                for ($i = 0; $i < $ArtSql->getRows(); $i++) {
+                for ($i = 0; $i < $ArtSql->getRows(); ++$i) {
                     $EART->setTable(rex::getTablePrefix() . 'article');
-                    $EART->setWhere([ 'id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
+                    $EART->setWhere(['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
                     $EART->setValue('catname', $data['catname']);
                     $EART->addGlobalUpdateFields();
 
@@ -246,11 +247,12 @@ class rex_category_service
     }
 
     /**
-     * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien
+     * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien.
      *
      * @param int $category_id Id der Kategorie die gelöscht werden soll
      *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function deleteCategory($category_id)
@@ -283,18 +285,17 @@ class rex_category_service
 
                         // ----- EXTENSION POINT
                         $message = rex_extension::registerPoint(new rex_extension_point('CAT_DELETED', $message, [
-                            'id'        => $category_id,
+                            'id' => $category_id,
                             'parent_id' => $parent_id,
-                            'clang'     => $_clang,
-                            'name'      => $row->getValue('catname'),
-                            'priority'  => $row->getValue('catpriority'),
-                            'path'      => $row->getValue('path'),
-                            'status'    => $row->getValue('status'),
+                            'clang' => $_clang,
+                            'name' => $row->getValue('catname'),
+                            'priority' => $row->getValue('catpriority'),
+                            'path' => $row->getValue('path'),
+                            'status' => $row->getValue('status'),
                         ]));
                     }
 
                     rex_complex_perm::removeItem('structure', $category_id);
-
                 } else {
                     throw new rex_api_exception(rex_i18n::msg('category_could_not_be_deleted') . ' ' . rex_i18n::msg('category_still_contains_articles'));
                 }
@@ -309,13 +310,14 @@ class rex_category_service
     }
 
     /**
-     * Ändert den Status der Kategorie
+     * Ändert den Status der Kategorie.
      *
      * @param int      $category_id Id der Kategorie die gelöscht werden soll
      * @param int      $clang       Id der Sprache
      * @param int|null $status      Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
      * @throws rex_api_exception
+     *
      * @return int Der neue Status der Kategorie
      */
     public static function categoryStatus($category_id, $clang, $status = null)
@@ -346,7 +348,7 @@ class rex_category_service
                 rex_extension::registerPoint(new rex_extension_point('CAT_STATUS', null, [
                     'id' => $category_id,
                     'clang' => $clang,
-                    'status' => $newstatus
+                    'status' => $newstatus,
                 ]));
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
@@ -359,7 +361,7 @@ class rex_category_service
     }
 
     /**
-     * Gibt alle Stati zurück, die für eine Kategorie gültig sind
+     * Gibt alle Stati zurück, die für eine Kategorie gültig sind.
      *
      * @return array Array von Stati
      */
@@ -371,7 +373,7 @@ class rex_category_service
             $catStatusTypes = [
                 // Name, CSS-Class, Icon
                 [rex_i18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
-                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online']
+                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
             ];
 
             // ----- EXTENSION POINT
@@ -390,7 +392,7 @@ class rex_category_service
     public static function prevStatus($currentStatus)
     {
         $catStatusTypes = self::statusTypes();
-        if (($currentStatus - 1) < 0 ) {
+        if (($currentStatus - 1) < 0) {
             return count($catStatusTypes) - 1;
         }
 
@@ -398,7 +400,7 @@ class rex_category_service
     }
 
     /**
-     * Kopiert eine Kategorie in eine andere
+     * Kopiert eine Kategorie in eine andere.
      *
      * @param int $from_cat KategorieId der Kategorie, die kopiert werden soll (Quelle)
      * @param int $to_cat   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
@@ -409,14 +411,12 @@ class rex_category_service
     }
 
     /**
-     * Berechnet die Prios der Kategorien in einer Kategorie neu
+     * Berechnet die Prios der Kategorien in einer Kategorie neu.
      *
      * @param int $parent_id KategorieId der Kategorie, die erneuert werden soll
      * @param int $clang     ClangId der Kategorie, die erneuert werden soll
      * @param int $new_prio  Neue PrioNr der Kategorie
      * @param int $old_prio  Alte PrioNr der Kategorie
-     *
-     * @return void
      */
     public static function newCatPrio($parent_id, $clang, $new_prio, $old_prio)
     {
@@ -438,13 +438,13 @@ class rex_category_service
         }
     }
 
-
     /**
-     * Verschieben einer Kategorie in eine andere
+     * Verschieben einer Kategorie in eine andere.
      *
      * @param int $from_cat KategorieId der Kategorie, die verschoben werden soll (Quelle)
      * @param int $to_cat   KategorieId der Kategorie, IN die verschoben werden soll (Ziel)
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     *
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function moveCategory($from_cat, $to_cat)
     {
@@ -495,7 +495,7 @@ class rex_category_service
 
                 $up = rex_sql::factory();
                 // $up->setDebug();
-                for ($i = 0; $i < $gcats->getRows(); $i++) {
+                for ($i = 0; $i < $gcats->getRows(); ++$i) {
                     // make update
                     $new_path = $to_path . $from_cat . '|' . str_replace($from_path, '', $gcats->getValue('path'));
                     $icid = $gcats->getValue('id');
@@ -542,10 +542,11 @@ class rex_category_service
     }
 
     /**
-     * Checks whether the required array key $keyName isset
+     * Checks whether the required array key $keyName isset.
      *
      * @param array  $array   The array
      * @param string $keyName The key
+     *
      * @throws rex_api_exception
      */
     protected static function reqKey(array $array, $keyName)

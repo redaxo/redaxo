@@ -18,7 +18,7 @@ class rex_var_property_test extends rex_var_base_test
     {
         return [
             ['REX_PROPERTY[key=myCoreProperty]', 'myCorePropertyValue'],
-            ['REX_PROPERTY[namespace=tests key=myPackageProperty]', 'myPackagePropertyValue']
+            ['REX_PROPERTY[namespace=tests key=myPackageProperty]', 'myPackagePropertyValue'],
         ];
     }
 

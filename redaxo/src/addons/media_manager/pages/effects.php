@@ -14,7 +14,6 @@ if ($sql->getRows() != 1) {
 }
 $typeName = $sql->getValue('name');
 
-
 $info = '';
 $warning = '';
 
@@ -35,7 +34,7 @@ if ($func == 'delete' && $effect_id > 0) {
 
     try {
         $sql->delete();
-        $info = rex_i18n::msg('media_manager_effect_deleted') ;
+        $info = rex_i18n::msg('media_manager_effect_deleted');
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
     }
@@ -49,7 +48,6 @@ if ($info != '') {
 if ($warning != '') {
     echo rex_view::warning($warning);
 }
-
 
 if ($func == '' && $type_id > 0) {
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
@@ -95,7 +93,6 @@ if ($func == '' && $type_id > 0) {
 
     $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"> ' . rex_i18n::msg('media_manager_back') . '</i></a>';
 
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::RawMsg('media_manager_effect_caption', $typeName), false);
     $fragment->setVar('content', $content, false);
@@ -103,7 +100,6 @@ if ($func == '' && $type_id > 0) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
     $effectNames = rex_media_manager::getSupportedEffectNames();
 

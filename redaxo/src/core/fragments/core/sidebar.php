@@ -1,4 +1,5 @@
 <?php
+
 // wenn Sidebar geschlossen dann zusaetzlich "rex-close" notieren
 /*
     <aside class="rex-page-sidebar rex-slide-container">

@@ -1,19 +1,21 @@
 <?php
 
 /**
- * Class for handling directories
+ * Class for handling directories.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_dir
 {
     /**
-     * Creates a directory
+     * Creates a directory.
      *
-     * @param string  $dir       Path of the new directory
-     * @param boolean $recursive When FALSE, nested directories won't be created
-     * @return boolean TRUE on success, FALSE on failure
+     * @param string $dir       Path of the new directory
+     * @param bool   $recursive When FALSE, nested directories won't be created
+     *
+     * @return bool TRUE on success, FALSE on failure
      */
     public static function create($dir, $recursive = true)
     {
@@ -35,10 +37,11 @@ class rex_dir
     }
 
     /**
-     * Returns wether the directory is writable
+     * Returns wether the directory is writable.
      *
      * @param string $dir Path of the directory
-     * @return boolean
+     *
+     * @return bool
      */
     public static function isWritable($dir)
     {
@@ -47,11 +50,12 @@ class rex_dir
     }
 
     /**
-     * Copies a directory
+     * Copies a directory.
      *
      * @param string $srcdir Path of the source directory
      * @param string $dstdir Path of the destination directory
-     * @return boolean TRUE on success, FALSE on failure
+     *
+     * @return bool TRUE on success, FALSE on failure
      */
     public static function copy($srcdir, $dstdir)
     {
@@ -77,11 +81,12 @@ class rex_dir
     }
 
     /**
-     * Deletes a directory
+     * Deletes a directory.
      *
-     * @param string  $dir        Path of the directory
-     * @param boolean $deleteSelf When FALSE, only subdirectories and files will be deleted
-     * @return boolean TRUE on success, FALSE on failure
+     * @param string $dir        Path of the directory
+     * @param bool   $deleteSelf When FALSE, only subdirectories and files will be deleted
+     *
+     * @return bool TRUE on success, FALSE on failure
      */
     public static function delete($dir, $deleteSelf = true)
     {
@@ -89,11 +94,12 @@ class rex_dir
     }
 
     /**
-     * Deletes the files in a directory
+     * Deletes the files in a directory.
      *
-     * @param string  $dir       Path of the directory
-     * @param boolean $recursive When FALSE, files in subdirectories won't be deleted
-     * @return boolean TRUE on success, FALSE on failure
+     * @param string $dir       Path of the directory
+     * @param bool   $recursive When FALSE, files in subdirectories won't be deleted
+     *
+     * @return bool TRUE on success, FALSE on failure
      */
     public static function deleteFiles($dir, $recursive = true)
     {
@@ -102,10 +108,11 @@ class rex_dir
     }
 
     /**
-     * Deletes files and directories by a rex_dir_iterator
+     * Deletes files and directories by a rex_dir_iterator.
      *
      * @param Traversable $iterator Iterator, $iterator->current() must return a SplFileInfo-Object
-     * @return boolean TRUE on success, FALSE on failure
+     *
+     * @return bool TRUE on success, FALSE on failure
      */
     public static function deleteIterator(Traversable $iterator)
     {

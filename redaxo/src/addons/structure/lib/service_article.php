@@ -6,11 +6,12 @@
 class rex_article_service
 {
     /**
-     * Erstellt einen neuen Artikel
+     * Erstellt einen neuen Artikel.
      *
      * @param array $data Array mit den Daten des Artikels
      *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function addArticle($data)
@@ -63,7 +64,7 @@ class rex_article_service
             }
 
             $AART->setTable(rex::getTablePrefix() . 'article');
-            if (!isset ($id) || !$id) {
+            if (!isset($id) || !$id) {
                 $id = $AART->setNewId('id');
             } else {
                 $AART->setValue('id', $id);
@@ -108,13 +109,14 @@ class rex_article_service
     }
 
     /**
-     * Bearbeitet einen Artikel
+     * Bearbeitet einen Artikel.
      *
      * @param int   $article_id Id des Artikels der verändert werden soll
      * @param int   $clang      Id der Sprache
      * @param array $data       Array mit den Daten des Artikels
      *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function editArticle($article_id, $clang, $data)
@@ -209,10 +211,12 @@ class rex_article_service
     }
 
     /**
-     * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel
+     * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel.
      *
      * @param int $article_id Id des Artikels die gelöscht werden soll
+     *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function deleteArticle($article_id)
@@ -230,13 +234,13 @@ class rex_article_service
 
                 // ----- EXTENSION POINT
                 $message = rex_extension::registerPoint(new rex_extension_point('ART_DELETED', $message, [
-                    'id'          => $article_id,
-                    'clang'       => $clang,
-                    'parent_id'   => $parent_id,
-                    'name'        => $Art->getValue('name'),
-                    'status'      => $Art->getValue('status'),
-                    'priority'    => $Art->getValue('priority'),
-                    'path'        => $Art->getValue('path'),
+                    'id' => $article_id,
+                    'clang' => $clang,
+                    'parent_id' => $parent_id,
+                    'name' => $Art->getValue('name'),
+                    'status' => $Art->getValue('status'),
+                    'priority' => $Art->getValue('priority'),
+                    'path' => $Art->getValue('path'),
                     'template_id' => $Art->getValue('template_id'),
                 ]));
 
@@ -250,10 +254,12 @@ class rex_article_service
     }
 
     /**
-     * Löscht einen Artikel
+     * Löscht einen Artikel.
      *
      * @param int $id ArtikelId des Artikels, der gelöscht werden soll
+     *
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function _deleteArticle($id)
@@ -285,20 +291,20 @@ class rex_article_service
         if ($ART->getRows() > 0) {
             $parent_id = $ART->getValue('parent_id');
             $message = rex_extension::registerPoint(new rex_extension_point('ART_PRE_DELETED', $message, [
-                'id'          => $id,
-                'parent_id'   => $parent_id,
-                'name'        => $ART->getValue('name'),
-                'status'      => $ART->getValue('status'),
-                'priority'    => $ART->getValue('priority'),
-                'path'        => $ART->getValue('path'),
-                'template_id' => $ART->getValue('template_id')
+                'id' => $id,
+                'parent_id' => $parent_id,
+                'name' => $ART->getValue('name'),
+                'status' => $ART->getValue('status'),
+                'priority' => $ART->getValue('priority'),
+                'path' => $ART->getValue('path'),
+                'template_id' => $ART->getValue('template_id'),
             ]));
 
             if ($ART->getValue('startarticle') == 1) {
                 $message = rex_i18n::msg('category_deleted');
                 $SART = rex_sql::factory();
                 $SART->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$id, rex_clang::getStartId()]);
-                for ($i = 0; $i < $SART->getRows(); $i ++) {
+                for ($i = 0; $i < $SART->getRows(); ++$i ) {
                     self::_deleteArticle($id);
                     $SART->next();
                 }
@@ -319,15 +325,15 @@ class rex_article_service
         }
     }
 
-
     /**
-     * Ändert den Status des Artikels
+     * Ändert den Status des Artikels.
      *
      * @param int      $article_id Id des Artikels die gelöscht werden soll
      * @param int      $clang      Id der Sprache
      * @param int|null $status     Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
      * @throws rex_api_exception
+     *
      * @return int Der neue Status des Artikels
      */
     public static function articleStatus($article_id, $clang, $status = null)
@@ -338,9 +344,9 @@ class rex_article_service
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
             if (!$status) {
-            $newstatus = self::nextStatus($GA->getValue('status'));
+                $newstatus = self::nextStatus($GA->getValue('status'));
             } else {
-            $newstatus = $status;
+                $newstatus = $status;
             }
 
             $EA = rex_sql::factory();
@@ -358,7 +364,7 @@ class rex_article_service
                 rex_extension::registerPoint(new rex_extension_point('ART_STATUS', null, [
                     'id' => $article_id,
                     'clang' => $clang,
-                    'status' => $newstatus
+                    'status' => $newstatus,
                 ]));
             } catch (rex_sql_exception $e) {
                 throw new rex_api_exception($e);
@@ -371,7 +377,7 @@ class rex_article_service
     }
 
     /**
-     * Gibt alle Stati zurück, die für einen Artikel gültig sind
+     * Gibt alle Stati zurück, die für einen Artikel gültig sind.
      *
      * @return array Array von Stati
      */
@@ -383,7 +389,7 @@ class rex_article_service
             $artStatusTypes = [
                 // Name, CSS-Class
                 [rex_i18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
-                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online']
+                [rex_i18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
             ];
 
             // ----- EXTENSION POINT
@@ -402,7 +408,7 @@ class rex_article_service
     public static function prevStatus($currentStatus)
     {
         $artStatusTypes = self::statusTypes();
-        if (($currentStatus - 1) < 0 ) {
+        if (($currentStatus - 1) < 0) {
             return count($artStatusTypes) - 1;
         }
 
@@ -410,14 +416,12 @@ class rex_article_service
     }
 
     /**
-     * Berechnet die Prios der Artikel in einer Kategorie neu
+     * Berechnet die Prios der Artikel in einer Kategorie neu.
      *
      * @param int $parent_id KategorieId der Kategorie, die erneuert werden soll
      * @param int $clang     ClangId der Kategorie, die erneuert werden soll
      * @param int $new_prio  Neue PrioNr der Kategorie
      * @param int $old_prio  Alte PrioNr der Kategorie
-     *
-     * @return void
      */
     public static function newArtPrio($parent_id, $clang, $new_prio, $old_prio)
     {
@@ -440,11 +444,11 @@ class rex_article_service
     }
 
     /**
-     * Konvertiert einen Artikel in eine Kategorie
+     * Konvertiert einen Artikel in eine Kategorie.
      *
      * @param int $art_id Artikel ID des Artikels, der in eine Kategorie umgewandelt werden soll
      *
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function article2category($art_id)
     {
@@ -484,11 +488,11 @@ class rex_article_service
     }
 
     /**
-     * Konvertiert eine Kategorie in einen Artikel
+     * Konvertiert eine Kategorie in einen Artikel.
      *
      * @param int $art_id Artikel ID der Kategorie, die in einen Artikel umgewandelt werden soll
      *
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function category2article($art_id)
     {
@@ -533,11 +537,11 @@ class rex_article_service
     }
 
     /**
-     * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie
+     * Konvertiert einen Artikel zum Startartikel der eigenen Kategorie.
      *
      * @param int $neu_id Artikel ID des Artikels, der Startartikel werden soll
      *
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function article2startarticle($neu_id)
     {
@@ -609,7 +613,7 @@ class rex_article_service
         $articles = rex_sql::factory();
         $ia = rex_sql::factory();
         $articles->setQuery('select * from ' . rex::getTablePrefix() . "article where path like '%|$alt_id|%'");
-        for ($i = 0; $i < $articles->getRows(); $i++) {
+        for ($i = 0; $i < $articles->getRows(); ++$i) {
             $iid = $articles->getValue('id');
             $ipath = str_replace("|$alt_id|", "|$neu_id|", $articles->getValue('path'));
 
@@ -646,7 +650,7 @@ class rex_article_service
     }
 
     /**
-     * Kopiert die Metadaten eines Artikels in einen anderen Artikel
+     * Kopiert die Metadaten eines Artikels in einen anderen Artikel.
      *
      * @param int   $from_id    ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
      * @param int   $to_id      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
@@ -654,7 +658,7 @@ class rex_article_service
      * @param int   $to_clang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
      * @param array $params     Array von Spaltennamen, welche kopiert werden sollen
      *
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function copyMeta($from_id, $to_id, $from_clang = 1, $to_clang = 1, $params = [])
     {
@@ -690,16 +694,15 @@ class rex_article_service
             return true;
         }
         return false;
-
     }
 
     /**
-     * Kopieren eines Artikels von einer Kategorie in eine andere
+     * Kopieren eines Artikels von einer Kategorie in eine andere.
      *
      * @param int $id        ArtikelId des zu kopierenden Artikels
      * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
      *
-     * @return boolean FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+     * @return bool FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
     public static function copyArticle($id, $to_cat_id)
     {
@@ -785,13 +788,13 @@ class rex_article_service
     }
 
     /**
-     * Verschieben eines Artikels von einer Kategorie in eine Andere
+     * Verschieben eines Artikels von einer Kategorie in eine Andere.
      *
      * @param int $id          ArtikelId des zu verschiebenden Artikels
      * @param int $from_cat_id KategorieId des Artikels, der Verschoben wird
      * @param int $to_cat_id   KategorieId in die der Artikel verschoben werden soll
      *
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function moveArticle($id, $from_cat_id, $to_cat_id)
     {
@@ -800,7 +803,7 @@ class rex_article_service
         $from_cat_id = (int) $from_cat_id;
 
         if ($from_cat_id == $to_cat_id) {
-        return false;
+            return false;
         }
 
         // Artikel in jeder Sprache verschieben
@@ -864,10 +867,11 @@ class rex_article_service
     }
 
     /**
-     * Checks whether the required array key $keyName isset
+     * Checks whether the required array key $keyName isset.
      *
      * @param array  $array   The array
      * @param string $keyName The key
+     *
      * @throws rex_api_exception
      */
     protected static function reqKey($array, $keyName)

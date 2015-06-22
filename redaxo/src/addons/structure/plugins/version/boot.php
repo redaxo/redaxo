@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Version
+ * Version.
  *
  * @author jan@kristinus.de
  *
@@ -56,11 +56,11 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
     $version_id = rex_request('rex_set_version', 'int', '-1');
 
     if ($version_id === 0) {
-            $rex_version_article[$params['article_id']] = 0;
+        $rex_version_article[$params['article_id']] = 0;
     } elseif ($version_id == 1) {
-            $rex_version_article[$params['article_id']] = 1;
+        $rex_version_article[$params['article_id']] = 1;
     } elseif (!isset($rex_version_article[$params['article_id']])) {
-            $rex_version_article[$params['article_id']] = 1;
+        $rex_version_article[$params['article_id']] = 1;
     }
 
     $func = rex_request('rex_version_func', 'string');
@@ -90,16 +90,15 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
         'page' => $params['page'],
         'article_id' => $params['article_id'],
         'clang' => $params['clang'],
-        'ctype' => $params['ctype']
+        'ctype' => $params['ctype'],
     ]);
-
 
     $items = [];
     $brand = '';
     foreach ($revisions as $version => $revision) {
         $item = [];
         $item['title'] = $revision;
-        $item['href']  = $context->getUrl(['rex_set_version' => $version]);
+        $item['href'] = $context->getUrl(['rex_set_version' => $version]);
         if ($rex_version_article[$params['article_id']] == $version) {
             $item['active'] = true;
             $brand = $revision;
@@ -139,7 +138,6 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
     $cssClass = $rex_version_article[$params['article_id']] == 1 ? 'rex-state-inprogress' : 'rex-state-live';
 
     $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass);
-
 
     $params['slice_revision'] = $rex_version_article[$params['article_id']];
 

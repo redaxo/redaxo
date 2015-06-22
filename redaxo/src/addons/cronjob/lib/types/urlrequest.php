@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -58,32 +58,32 @@ class rex_cronjob_urlrequest extends rex_cronjob
         return [
             [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_url'),
-                'name'  => 'url',
-                'type'  => 'text',
-                'default' => 'http://'
+                'name' => 'url',
+                'type' => 'text',
+                'default' => 'http://',
             ],
             [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_post'),
-                'name'  => 'post',
-                'type'  => 'text'
+                'name' => 'post',
+                'type' => 'text',
             ],
             [
-                'name'  => 'http-auth',
-                'type'  => 'checkbox',
-                'options' => [1 => rex_i18n::msg('cronjob_type_urlrequest_httpauth')]
+                'name' => 'http-auth',
+                'type' => 'checkbox',
+                'options' => [1 => rex_i18n::msg('cronjob_type_urlrequest_httpauth')],
             ],
             [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_user'),
-                'name'  => 'user',
-                'type'  => 'text',
-                'visible_if' => ['http-auth' => 1]
+                'name' => 'user',
+                'type' => 'text',
+                'visible_if' => ['http-auth' => 1],
             ],
             [
                 'label' => rex_i18n::msg('cronjob_type_urlrequest_password'),
-                'name'  => 'password',
-                'type'  => 'text',
-                'visible_if' => ['http-auth' => 1]
-            ]
+                'name' => 'password',
+                'type' => 'text',
+                'visible_if' => ['http-auth' => 1],
+            ],
         ];
     }
 }

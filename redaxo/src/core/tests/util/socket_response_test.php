@@ -23,7 +23,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
             ['HTTP/1.1 200 OK',                200, 'OK',                'isSuccessful'],
             ['HTTP/1.1 301 Moved Permanently', 301, 'Moved Permanently', 'isRedirection'],
             ['HTTP/1.1 404 Not Found',         404, 'Not Found',         'isClientError'],
-            ['HTTP/1.1 501 Not Implemented',   501, 'Not Implemented',   'isServerError']
+            ['HTTP/1.1 501 Not Implemented',   501, 'Not Implemented',   'isServerError'],
         ];
     }
 

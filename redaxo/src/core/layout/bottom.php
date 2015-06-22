@@ -20,8 +20,6 @@ if ($sidebar != '') {
 
 unset($fragment);
 
-
-
 $footerfragment = new rex_fragment();
 $footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
 echo $footerfragment->parse('core/footer.php');

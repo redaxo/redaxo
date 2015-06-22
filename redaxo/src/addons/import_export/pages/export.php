@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
@@ -16,13 +15,12 @@ $success = '';
 $error = '';
 
 // ------------------------------ Requestvars
-$function       = rex_request('function', 'string');
+$function = rex_request('function', 'string');
 $exportfilename = rex_post('exportfilename', 'string');
-$exporttype     = rex_post('exporttype', 'string');
-$exportdl       = rex_post('exportdl', 'boolean');
-$EXPTABLES      = rex_post('EXPTABLES', 'array');
-$EXPDIR         = rex_post('EXPDIR', 'array');
-
+$exporttype = rex_post('exporttype', 'string');
+$exportdl = rex_post('exportdl', 'boolean');
+$EXPTABLES = rex_post('EXPTABLES', 'array');
+$EXPDIR = rex_post('EXPDIR', 'array');
 
 if ($exportfilename == '') {
     $server = parse_url(rex::getServer(), PHP_URL_HOST);
@@ -33,22 +31,22 @@ if (rex_post('export', 'bool')) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
-    $filename       = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
+    $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
         $success = rex_i18n::msg('im_export_filename_updated');
         $exportfilename = $filename;
     } else {
-        $content     = '';
-        $hasContent  = false;
-        $header      = '';
-        $ext         = $exporttype == 'sql' ? '.sql' : '.tar.gz';
+        $content = '';
+        $hasContent = false;
+        $header = '';
+        $ext = $exporttype == 'sql' ? '.sql' : '.tar.gz';
         $export_path = getImportDir() . '/';
 
         if (file_exists($export_path . $filename . $ext)) {
             $i = 1;
             while (file_exists($export_path . $filename . '_' . $i . $ext)) {
-                $i++;
+                ++$i;
             }
             $filename = $filename . '_' . $i;
         }
@@ -66,7 +64,7 @@ if (rex_post('export', 'bool')) {
             if (empty($EXPDIR)) {
                 $error = rex_i18n::msg('im_export_please_choose_folder');
             } else {
-                $content    = rex_a1_export_files($EXPDIR);
+                $content = rex_a1_export_files($EXPDIR);
                 $hasContent = rex_file::put($export_path . $filename . $ext, $content);
             }
             // ------------------------------ /FUNC EXPORT FILES
@@ -100,7 +98,6 @@ $fragment->setVar('title', rex_i18n::msg('im_export_information'), false);
 $fragment->setVar('body', '<p>' . rex_i18n::msg('im_export_intro_export') . '</p>', false);
 echo $fragment->parse('core/page/section.php');
 
-
 $content .= '<fieldset>';
 
 $checkedsql = '';
@@ -112,25 +109,20 @@ if ($exporttype == 'files') {
     $checkedsql = ' checked="checked"';
 }
 
-
-
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="rex-js-exporttype-sql">' . rex_i18n::msg('im_export_database_export') . '</label>';
 $n['field'] = '<input type="radio" id="rex-js-exporttype-sql" name="exporttype" value="sql"' . $checkedsql . ' />';
 $formElements[] = $n;
 
-
 $n = [];
 $n['label'] = '<label for="rex-js-exporttype-files">' . rex_i18n::msg('im_export_file_export') . '</label>';
 $n['field'] = '<input type="radio" id="rex-js-exporttype-files" name="exporttype" value="files"' . $checkedfiles . ' />';
 $formElements[] = $n;
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $radios = $fragment->parse('core/form/radio.php');
-
 
 $formElements = [];
 $n = [];
@@ -141,7 +133,6 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-
 
 $tableSelect = new rex_select();
 $tableSelect->setMultiple();
@@ -196,8 +187,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-
-
 $checked0 = '';
 $checked1 = '';
 
@@ -207,7 +196,6 @@ if ($exportdl) {
     $checked0 = ' checked="checked"';
 }
 
-
 $formElements = [];
 
 $n = [];
@@ -215,12 +203,10 @@ $n['label'] = '<label for="rex-form-exportdl-server">' . rex_i18n::msg('im_expor
 $n['field'] = '<input type="radio" id="rex-form-exportdl-server" name="exportdl" value="0"' . $checked0 . ' />';
 $formElements[] = $n;
 
-
 $n = [];
 $n['label'] = '<label for="rex-form-exportdl-download">' . rex_i18n::msg('im_export_download_as_file') . '</label>';
 $n['field'] = '<input type="radio" id="rex-form-exportdl-download" name="exportdl" value="1"' . $checked1 . ' />';
 $formElements[] = $n;
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
@@ -236,8 +222,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-
-
 $formElements = [];
 
 $n = [];
@@ -251,7 +235,6 @@ $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
 
-
 $formElements = [];
 $n = [];
 $n['field'] = '<button class="btn btn-send" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
@@ -261,18 +244,11 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-
-
-
-
-
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('im_export_export'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
-
-
 
 $content = '
 <form action="' . rex_url::currentBackendPage() . '" method="post">
@@ -295,6 +271,5 @@ $content = '
 
     //-->
 </script>';
-
 
 echo $content;

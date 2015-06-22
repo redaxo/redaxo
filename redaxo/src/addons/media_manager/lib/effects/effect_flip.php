@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Spiegel ein Bild
+ * Spiegel ein Bild.
  *
  * @package redaxo\media-manager
  */
@@ -12,7 +12,7 @@ class rex_effect_flip extends rex_effect_abstract
     public function __construct()
     {
         $this->options = [
-            'X', 'Y'
+            'X', 'Y',
         ];
     }
 
@@ -24,19 +24,19 @@ class rex_effect_flip extends rex_effect_abstract
         $w = $this->media->getWidth();
         $h = $this->media->getHeight();
 
-        $width = imagesx( $gdimage );
-        $height = imagesy( $gdimage );
-        $output = imagecreatetruecolor( $width, $height );
+        $width = imagesx($gdimage);
+        $height = imagesy($gdimage);
+        $output = imagecreatetruecolor($width, $height);
 
         // --------------- Flip X
         if ($this->params['flip'] == 'X') {
             $y = 0;
             $x = 1;
-            while ( $x <= $width ) {
-                for ( $i = 0; $i < $height; $i++ ) {
-                    imagesetpixel( $output, $x, $i, imagecolorat( $gdimage, ( $width - $x ), ( $i ) ) );
+            while ($x <= $width) {
+                for ($i = 0; $i < $height; ++$i) {
+                    imagesetpixel($output, $x, $i, imagecolorat($gdimage, ($width - $x), ($i)));
                 }
-                $x++;
+                ++$x;
             }
             $this->media->setImage($output);
         }
@@ -45,19 +45,15 @@ class rex_effect_flip extends rex_effect_abstract
         if ($this->params['flip'] == 'Y') {
             $y = 1;
             $x = 0;
-            while ( $y < $height ) {
-                for ( $i = 0; $i < $width; $i++ ) {
-                    imagesetpixel( $output, $i, $y, imagecolorat( $gdimage, ( $i ), ( $height - $y ) ) );
+            while ($y < $height) {
+                for ($i = 0; $i < $width; ++$i) {
+                    imagesetpixel($output, $i, $y, imagecolorat($gdimage, ($i), ($height - $y)));
                 }
-                $y++;
+                ++$y;
             }
             $this->media->setImage($output);
         }
-
-
-
     }
-
 
     public function getParams()
     {
@@ -65,9 +61,9 @@ class rex_effect_flip extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_flip'),
                 'name' => 'flip',
-                'type'  => 'select',
+                'type' => 'select',
                 'options' => $this->options,
-                'default' => 'X'
+                'default' => 'X',
             ],
         ];
     }

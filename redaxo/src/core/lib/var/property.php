@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_PROPERTY[key=xzy]
+ * REX_PROPERTY[key=xzy].
  *
  * Arguments:
  *   - key

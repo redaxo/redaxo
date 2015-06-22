@@ -47,9 +47,7 @@ if ($core && !empty($coreVersions)) {
     $fragment->setVar('title', 'REDAXO Core', false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
-
 } elseif ($addonkey && isset($addons[$addonkey])) {
-
     $addon = $addons[$addonkey];
 
     $panel .= '
@@ -102,7 +100,6 @@ if ($core && !empty($coreVersions)) {
     $fragment->setVar('title', $addonkey, false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
-
 } else {
     $panel = '
         <table class="table table-striped rex-install-packages-addons">
@@ -157,8 +154,6 @@ if ($core && !empty($coreVersions)) {
     $fragment->setVar('title', $this->i18n('available_updates', !empty($coreVersions) + count($addons)), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
-
-
 }
 
 echo $message;

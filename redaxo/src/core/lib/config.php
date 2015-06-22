@@ -5,36 +5,42 @@
  * The configuration is persisted between requests.
  *
  * @author staabm
+ *
  * @package redaxo\core
  */
 class rex_config
 {
     /**
-     * Flag to indicate if the config was initialized
-     * @var boolean
+     * Flag to indicate if the config was initialized.
+     *
+     * @var bool
      */
     private static $initialized = false;
 
     /**
      * Flag which indicates if database needs an update, because settings have changed.
-     * @var boolean
+     *
+     * @var bool
      */
     private static $changed = false;
 
     /**
-     * data read from database
+     * data read from database.
+     *
      * @var array
      */
     private static $data = [];
 
     /**
-     * data which is modified during this request
+     * data which is modified during this request.
+     *
      * @var array
      */
     private static $changedData = [];
 
     /**
-     * data which was deleted during this request
+     * data which was deleted during this request.
+     *
      * @var array
      */
     private static $deletedData = [];
@@ -50,7 +56,8 @@ class rex_config
      * @param mixed        $value     The value to save
      *
      * @throws InvalidArgumentException
-     * @return boolean TRUE when an existing value was overridden, otherwise FALSE
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function set($namespace, $key, $value = null)
     {
@@ -101,7 +108,9 @@ class rex_config
      * @param string $namespace The namespace e.g. an addon name
      * @param string $key       The associated key
      * @param mixed  $default   Default return value if no associated-value can be found
+     *
      * @throws InvalidArgumentException
+     *
      * @return mixed the value for $key or $default if $key cannot be found in the given $namespace
      */
     public static function get($namespace, $key = null, $default = null)
@@ -133,7 +142,8 @@ class rex_config
      * @param string $key       The associated key
      *
      * @throws InvalidArgumentException
-     * @return boolean TRUE if the key is set, otherwise FALSE
+     *
+     * @return bool TRUE if the key is set, otherwise FALSE
      */
     public static function has($namespace, $key = null)
     {
@@ -161,7 +171,8 @@ class rex_config
      * @param string $key       The associated key
      *
      * @throws InvalidArgumentException
-     * @return boolean TRUE if the value was found and removed, otherwise FALSE
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function remove($namespace, $key)
     {
@@ -193,11 +204,12 @@ class rex_config
     }
 
     /**
-     * Removes all settings associated with the given namespace
+     * Removes all settings associated with the given namespace.
      *
      * @param string $namespace The namespace e.g. an addon name
      *
      * @throws InvalidArgumentException
+     *
      * @return bool TRUE if the namespace was found and removed, otherwise FALSE
      */
     public static function removeNamespace($namespace)
@@ -221,7 +233,7 @@ class rex_config
     }
 
     /**
-     * initilizes the rex_config class
+     * initilizes the rex_config class.
      */
     protected static function init()
     {
@@ -245,7 +257,7 @@ class rex_config
     }
 
     /**
-     * load the config-data
+     * load the config-data.
      */
     protected static function load()
     {
@@ -259,7 +271,7 @@ class rex_config
     }
 
     /**
-     * load the config-data from a file-cache
+     * load the config-data from a file-cache.
      *
      * @return bool Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE.
      */
@@ -274,7 +286,7 @@ class rex_config
     }
 
     /**
-     * load the config-data from database
+     * load the config-data from database.
      */
     private static function loadFromDb()
     {
@@ -288,7 +300,7 @@ class rex_config
     }
 
     /**
-     * save config to file-cache
+     * save config to file-cache.
      */
     private static function generateCache()
     {
@@ -298,7 +310,7 @@ class rex_config
     }
 
     /**
-     * persists the config-data and truncates the file-cache
+     * persists the config-data and truncates the file-cache.
      */
     public static function save()
     {
@@ -321,7 +333,7 @@ class rex_config
     }
 
     /**
-     * save the config-data into the db
+     * save the config-data into the db.
      */
     private static function saveToDb()
     {
@@ -334,7 +346,7 @@ class rex_config
                 $sql->setTable(rex::getTablePrefix() . 'config');
                 $sql->setWhere([
                     'namespace' => $namespace,
-                    'key' => $key
+                    'key' => $key,
                 ]);
                 $sql->delete();
             }

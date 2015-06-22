@@ -96,9 +96,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
         // ---- update "version", "requires" and "conflicts" properties
-        $versions = new SplObjectStorage;
-        $requirements = new SplObjectStorage;
-        $conflicts = new SplObjectStorage;
+        $versions = new SplObjectStorage();
+        $requirements = new SplObjectStorage();
+        $conflicts = new SplObjectStorage();
         if (file_exists($temppath . rex_package::FILE_PACKAGE)) {
             $config = rex_file::getConfig($temppath . rex_package::FILE_PACKAGE);
             if (isset($config['requires'])) {

@@ -46,6 +46,7 @@ class rex_be_controller
     /**
      * @param null|int    $part    Part index, beginning with 1. If $part is null, an array of all current parts will be returned
      * @param null|string $default Default value
+     *
      * @return array|string|null
      */
     public static function getCurrentPagePart($part = null, $default = null)
@@ -70,6 +71,7 @@ class rex_be_controller
 
     /**
      * @param string|array $page
+     *
      * @return rex_be_page
      */
     public static function getPageObject($page)
@@ -219,10 +221,11 @@ class rex_be_controller
     /**
      * @param rex_be_page|array $page
      * @param rex_package       $package
-     * @param boolean           $createMainPage
+     * @param bool              $createMainPage
      * @param rex_be_page|null  $parentPage
      * @param string            $pageKey
-     * @param boolean           $prefix
+     * @param bool              $prefix
+     *
      * @return null|rex_be_page
      */
     private static function pageCreate($page, rex_package $package, $createMainPage, rex_be_page $parentPage = null, $pageKey = null, $prefix = false)

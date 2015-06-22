@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Textile Addon
+ * Textile Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *

@@ -1,22 +1,22 @@
 <?php
+
 /**
- *
  * @package redaxo5
  */
 
 $OUT = true;
 
-$function        = rex_request('function', 'string');
+$function = rex_request('function', 'string');
 $function_action = rex_request('function_action', 'string');
-$save            = rex_request('save', 'string');
-$module_id       = rex_request('module_id', 'int');
-$action_id       = rex_request('action_id', 'int');
-$iaction_id      = rex_request('iaction_id', 'int'); // id der module-action relation
-$mname           = rex_request('mname', 'string');
-$eingabe         = rex_request('eingabe', 'string');
-$ausgabe         = rex_request('ausgabe', 'string');
-$goon            = rex_request('goon', 'string');
-$add_action      = rex_request('add_action', 'string');
+$save = rex_request('save', 'string');
+$module_id = rex_request('module_id', 'int');
+$action_id = rex_request('action_id', 'int');
+$iaction_id = rex_request('iaction_id', 'int'); // id der module-action relation
+$mname = rex_request('mname', 'string');
+$eingabe = rex_request('eingabe', 'string');
+$ausgabe = rex_request('ausgabe', 'string');
+$goon = rex_request('goon', 'string');
+$add_action = rex_request('add_action', 'string');
 
 $success = '';
 $error = '';
@@ -44,13 +44,11 @@ if ($add_action != '') {
     $action->setWhere(['id' => $iaction_id]);
 
     if ($action->delete() && $action->getRows() > 0) {
-        $success = rex_i18n::msg('action_deleted_from_modul') ;
+        $success = rex_i18n::msg('action_deleted_from_modul');
     } else {
         $error = $action->getError();
     }
 }
-
-
 
 // ---------------------------- FUNKTIONEN FUER MODULE
 
@@ -63,7 +61,7 @@ if ($function == 'delete') {
     if ($del->getRows() > 0) {
         $module_in_use_message = '';
         $modulname = htmlspecialchars($del->getValue(rex::getTablePrefix() . 'module.name'));
-        for ($i = 0; $i < $del->getRows(); $i++) {
+        for ($i = 0; $i < $del->getRows(); ++$i) {
             $aid = $del->getValue(rex::getTablePrefix() . 'article_slice.article_id');
             $clang_id = $del->getValue(rex::getTablePrefix() . 'article_slice.clang_id');
             $ctype = $del->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
@@ -83,7 +81,6 @@ if ($function == 'delete') {
         if ($module_in_use_message != '') {
             $error .= '<ul>' . $module_in_use_message . '</ul>';
         }
-
     } else {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module WHERE id='$module_id'");
 
@@ -97,7 +94,6 @@ if ($function == 'delete') {
 }
 
 if ($function == 'add' or $function == 'edit') {
-
     if ($save == '1') {
         $module = rex_sql::factory();
 
@@ -112,7 +108,6 @@ if ($function == 'add' or $function == 'edit') {
 
                 $IMOD->insert();
                 $success = rex_i18n::msg('module_added');
-
             } else {
                 $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=' . $module_id);
                 if ($module->getRows() == 1) {
@@ -139,7 +134,7 @@ if ($function == 'add' or $function == 'edit') {
                         $gc->setQuery('SELECT DISTINCT(' . rex::getTablePrefix() . 'article.id) FROM ' . rex::getTablePrefix() . 'article
                                 LEFT JOIN ' . rex::getTablePrefix() . 'article_slice ON ' . rex::getTablePrefix() . 'article.id=' . rex::getTablePrefix() . 'article_slice.article_id
                                 WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$module_id'");
-                        for ($i = 0; $i < $gc->getRows(); $i++) {
+                        for ($i = 0; $i < $gc->getRows(); ++$i) {
                             rex_article_cache::delete($gc->getValue(rex::getTablePrefix() . 'article.id'));
                             $gc->next();
                         }
@@ -150,7 +145,6 @@ if ($function == 'add' or $function == 'edit') {
             $error = $e->getMessage();
         }
 
-
         if ($goon != '') {
             $save = '0';
         } else {
@@ -158,17 +152,15 @@ if ($function == 'add' or $function == 'edit') {
         }
     }
 
-
-
     if ($save != '1') {
         if ($function == 'edit') {
             $legend = rex_i18n::msg('module_edit') . ' <small>' . rex_i18n::msg('id') . '=' . $module_id . '</small>';
 
             $hole = rex_sql::factory();
             $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
-            $mname    = $hole->getValue('name');
-            $ausgabe  = $hole->getValue('output');
-            $eingabe  = $hole->getValue('input');
+            $mname = $hole->getValue('name');
+            $ausgabe = $hole->getValue('output');
+            $eingabe = $hole->getValue('input');
         } else {
             $legend = rex_i18n::msg('create_module');
         }
@@ -186,16 +178,15 @@ if ($function == 'add' or $function == 'edit') {
             $message .= rex_view::error($error);
         }
 
-        $echo    = '';
+        $echo = '';
         $content = '';
-        $panel   = '';
+        $panel = '';
         $panel  .= '
                 <fieldset>
                         <input type="hidden" name="function" value="' . $function . '" />
                         <input type="hidden" name="save" value="1" />
                         <input type="hidden" name="category_id" value="0" />
                         <input type="hidden" name="module_id" value="' . $module_id . '" />';
-
 
         $formElements = [];
 
@@ -219,9 +210,7 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
-
         $panel .= '</fieldset>';
-
 
         $formElements = [];
 
@@ -239,18 +228,15 @@ if ($function == 'add' or $function == 'edit') {
             $formElements[] = $n;
         }
 
-
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
-
 
         $fragment = new rex_fragment();
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content .= $fragment->parse('core/page/section.php');
-
 
         if ($function == 'edit') {
             // Im Edit Mode Aktionen bearbeiten
@@ -263,7 +249,7 @@ if ($function == 'add' or $function == 'edit') {
                 $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . "module_action.module_id='$module_id'");
 
                 $actions = '';
-                for ($i = 0; $i < $gma->getRows(); $i++) {
+                for ($i = 0; $i < $gma->getRows(); ++$i) {
                     $iaction_id = $gma->getValue(rex::getTablePrefix() . 'module_action.id');
                     $action_id = $gma->getValue(rex::getTablePrefix() . 'module_action.action_id');
                     $action_edit_url = rex_url::backendPage('modules/actions', ['action_id' => $action_id, 'function' => 'edit']);
@@ -285,7 +271,6 @@ if ($function == 'add' or $function == 'edit') {
                 }
 
                 if ($actions != '') {
-
                     $panel = '
                         <table class="table table-striped table-hover">
                             <thead>
@@ -302,12 +287,10 @@ if ($function == 'add' or $function == 'edit') {
                         </table>
                     ';
 
-
                     $fragment = new rex_fragment();
                     $fragment->setVar('title', rex_i18n::msg('actions_added_caption'), false);
                     $fragment->setVar('content', $panel, false);
                     $content .= $fragment->parse('core/page/section.php');
-
                 }
 
                 $gaa_sel = new rex_select();
@@ -316,14 +299,13 @@ if ($function == 'add' or $function == 'edit') {
                 $gaa_sel->setSize(1);
                 $gaa_sel->setAttribute('class', 'form-control');
 
-                for ($i = 0; $i < $gaa->getRows(); $i++) {
+                for ($i = 0; $i < $gaa->getRows(); ++$i) {
                     $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), false), $gaa->getValue('id'));
                     $gaa->next();
                 }
 
                 $panel = '';
                 $panel .= '<fieldset>';
-
 
                 $formElements = [];
 
@@ -338,7 +320,6 @@ if ($function == 'add' or $function == 'edit') {
 
                 $panel .= '</fieldset>';
 
-
                 $formElements = [];
 
                 $n = [];
@@ -349,13 +330,11 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('elements', $formElements, false);
                 $buttons = $fragment->parse('core/form/submit.php');
 
-
                 $fragment = new rex_fragment();
                 $fragment->setVar('title', rex_i18n::msg('action_add'), false);
                 $fragment->setVar('body', $panel, false);
                 $fragment->setVar('buttons', $buttons, false);
                 $content .= $fragment->parse('core/page/section.php');
-
             }
         }
 
@@ -383,7 +362,6 @@ if ($OUT) {
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
     $list->addTableAttribute('class', 'table-striped table-hover');
-
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
     $thIcon = '<a href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_module'), 'add') . ' title="' . rex_i18n::msg('create_module') . '"><i class="rex-icon rex-icon-add-module"></i></a>';

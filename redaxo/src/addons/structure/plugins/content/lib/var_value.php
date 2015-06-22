@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_VALUE[1],
+ * REX_VALUE[1],.
  *
  * @package redaxo\structure\content
  */

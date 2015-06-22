@@ -3,13 +3,10 @@
 $out = '';
 
 foreach ($this->elements as $element) {
-
-    $field           = isset($element['field'])           ? $element['field']           : '';
+    $field = isset($element['field'])           ? $element['field']           : '';
     $functionButtons = isset($element['functionButtons']) ? $element['functionButtons'] : '';
-    $before          = isset($element['before'])          ? $element['before']          : '';
-    $after           = isset($element['after'])           ? $element['after']           : '';
-
-
+    $before = isset($element['before'])          ? $element['before']          : '';
+    $after = isset($element['after'])           ? $element['after']           : '';
 
     $out .= $before;
 
@@ -23,9 +20,7 @@ foreach ($this->elements as $element) {
 
     $out .= '</div>';
 
-
     $out .= $after;
-
 }
 
 echo $out;

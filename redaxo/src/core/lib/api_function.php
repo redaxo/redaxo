@@ -16,6 +16,7 @@
  * The api functions return meaningfull error messages which the caller may display to the end-user.
  *
  * @author staabm
+ *
  * @package redaxo\core
  */
 abstract class rex_api_function
@@ -26,13 +27,15 @@ abstract class rex_api_function
     const REQ_RESULT_PARAM = 'rex-api-result';
 
     /**
-     * Flag, indicating if this api function may be called from the frontend. False by default
-     * @var boolean
+     * Flag, indicating if this api function may be called from the frontend. False by default.
+     *
+     * @var bool
      */
     protected $published = false;
 
     /**
-     * The result of the function call
+     * The result of the function call.
+     *
      * @var rex_api_result
      */
     protected $result = null;
@@ -60,6 +63,7 @@ abstract class rex_api_function
      * Returns the api function instance which is bound to the current request, or null if no api function was bound.
      *
      * @throws rex_exception
+     *
      * @return self
      */
     public static function factory()
@@ -123,11 +127,10 @@ abstract class rex_api_function
                 $apiFunc->result = $result;
             } else {
                 try {
-
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) );
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM));
                     }
 
                     $apiFunc->result = $result;
@@ -191,18 +194,21 @@ abstract class rex_api_function
  * @author staabm
  *
  * @see rex_api_function
+ *
  * @package redaxo\core
  */
 class rex_api_result
 {
     /**
-     * Flag indicating if the api function was executed successfully
-     * @var boolean
+     * Flag indicating if the api function was executed successfully.
+     *
+     * @var bool
      */
     private $succeeded = false;
 
     /**
-     * Optional message which will be visible to the end-user
+     * Optional message which will be visible to the end-user.
+     *
      * @var string
      */
     private $message;
@@ -211,7 +217,7 @@ class rex_api_result
      * Flag indicating whether the result of this api call needs to be rendered in a new sub-request.
      * This is required in rare situations, when some low-level data was changed by the api-function.
      *
-     * @var boolean
+     * @var bool
      */
     private $requiresReboot;
 
@@ -241,7 +247,7 @@ class rex_api_result
     }
 
     /**
-     * Returns end-user friendly statusmessage
+     * Returns end-user friendly statusmessage.
      *
      * @return string a statusmessage
      */
@@ -251,9 +257,9 @@ class rex_api_result
     }
 
     /**
-     * Returns whether the api function was executed successfully
+     * Returns whether the api function was executed successfully.
      *
-     * @return boolean true on success, false on error
+     * @return bool true on success, false on error
      */
     public function isSuccessfull()
     {
@@ -262,7 +268,7 @@ class rex_api_result
 
     public function toJSON()
     {
-        $json = new stdClass;
+        $json = new stdClass();
         foreach ($this as $key => $value) {
             $json->$key = $value;
         }
@@ -287,6 +293,9 @@ class rex_api_result
  * @author staabm
  *
  * @see rex_api_function
+ *
  * @package redaxo\core
  */
-class rex_api_exception extends rex_exception {}
+class rex_api_exception extends rex_exception
+{
+}

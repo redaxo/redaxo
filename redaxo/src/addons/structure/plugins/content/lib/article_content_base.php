@@ -56,7 +56,7 @@ class rex_article_content_base
         rex_extension::registerPoint(new rex_extension_point('ART_INIT', '', [
             'article' => $this,
             'article_id' => $article_id,
-            'clang' => $this->clang
+            'clang' => $this->clang,
         ]));
 
         if ($article_id !== null) {
@@ -197,10 +197,11 @@ class rex_article_content_base
     }
 
     /**
-     * Outputs a slice
+     * Outputs a slice.
      *
      * @param rex_sql $artDataSql    A rex_sql instance containing all slice and module data
-     * @param integer $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
+     * @param int     $moduleIdToAdd The id of the module, which was selected using the ModuleSelect
+     *
      * @return string
      */
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
@@ -210,11 +211,11 @@ class rex_article_content_base
         return $this->getStreamOutput('module/' . $artDataSql->getValue(rex::getTablePrefix() . 'module.id') . '/output', $output);
     }
 
-
     /**
      * Returns the content of the given slice-id.
      *
-     * @param integer $sliceId A article-slice id
+     * @param int $sliceId A article-slice id
+     *
      * @return string
      */
     public function getSlice($sliceId)
@@ -230,11 +231,11 @@ class rex_article_content_base
         return $this->replaceLinks($sliceContent);
     }
 
-
     /**
      * Returns the content of the article of the given ctype. If no ctype is given, content of all ctypes is returned.
      *
-     * @param integer $curctype The ctype to fetch, or -1 for all ctypes
+     * @param int $curctype The ctype to fetch, or -1 for all ctypes
+     *
      * @return string
      */
     public function getArticle($curctype = -1)
@@ -291,8 +292,8 @@ class rex_article_content_base
         $artDataSql->reset();
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
-            $sliceId       = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtypeId  = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+            $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
+            $sliceCtypeId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
             $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             // ----- ctype unterscheidung
@@ -318,7 +319,7 @@ class rex_article_content_base
                     'module_id' => $sliceModuleId,
                     'slice_id' => $sliceId,
                     'function' => $this->function,
-                    'function_slice_id' => $this->slice_id
+                    'function_slice_id' => $this->slice_id,
                 ]
             ));
 
@@ -343,7 +344,6 @@ class rex_article_content_base
             $articleContent .= "\n } ?>";
         }
 
-
         // ----- post hook
         $articleContent = $this->postArticle($articleContent, $module_id);
 
@@ -358,10 +358,11 @@ class rex_article_content_base
     }
 
     /**
-     * Method which gets called, before the slices of the article are processed
+     * Method which gets called, before the slices of the article are processed.
      *
-     * @param string  $articleContent The content of the article
-     * @param integer $module_id      A module id
+     * @param string $articleContent The content of the article
+     * @param int    $module_id      A module id
+     *
      * @return string
      */
     protected function preArticle($articleContent, $module_id)
@@ -371,10 +372,11 @@ class rex_article_content_base
     }
 
     /**
-     * Method which gets called, after all slices have been processed
+     * Method which gets called, after all slices have been processed.
      *
-     * @param string  $articleContent The content of the article
-     * @param integer $module_id      A module id
+     * @param string $articleContent The content of the article
+     * @param int    $module_id      A module id
+     *
      * @return string
      */
     protected function postArticle($articleContent, $module_id)
@@ -430,12 +432,12 @@ class rex_article_content_base
             [
                 'REX_MODULE_ID',
                 'REX_SLICE_ID',
-                'REX_CTYPE_ID'
+                'REX_CTYPE_ID',
             ],
             [
                 (int) $sql->getValue('module_id'),
                 (int) $sql->getValue(rex::getTable('article_slice') . '.id'),
-                (int) $sql->getValue('ctype_id')
+                (int) $sql->getValue('ctype_id'),
             ],
             $content
         );
@@ -487,7 +489,7 @@ class rex_article_content_base
             'REX_CLANG_ID',
             'REX_TEMPLATE_ID',
             'REX_USER_ID',
-            'REX_USER_LOGIN'
+            'REX_USER_LOGIN',
         ];
 
         $replace = [
@@ -496,7 +498,7 @@ class rex_article_content_base
             $this->clang,
             $template_id,
             $user_id,
-            $user_login
+            $user_login,
         ];
 
         return str_replace($search, $replace, $content);

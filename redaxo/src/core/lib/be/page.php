@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Backend Page Class
+ * Backend Page Class.
  *
  * @package redaxo\core
  */
@@ -32,10 +32,11 @@ class rex_be_page
     private $requiredPermissions = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $key
      * @param string $title
+     *
      * @throws InvalidArgumentException
      */
     public function __construct($key, $title)
@@ -53,7 +54,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the page key
+     * Returns the page key.
      *
      * @return string
      */
@@ -63,7 +64,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the full page path
+     * Returns the full page path.
      *
      * @return string
      */
@@ -73,7 +74,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the title
+     * Returns the title.
      *
      * @returns string
      */
@@ -83,12 +84,13 @@ class rex_be_page
     }
 
     /**
-     * Sets whether the page is a popup page
+     * Sets whether the page is a popup page.
      *
      * The method adds (or removes) also the rex-popup CSS class and sets hasNavigation to false (true).
      * If $popup is a string, the variable will be used for the onclick attribute.
      *
      * @param bool|string $popup
+     *
      * @return $this
      */
     public function setPopup($popup)
@@ -113,7 +115,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether the page is a popup
+     * Returns whether the page is a popup.
      *
      * @return bool
      */
@@ -123,9 +125,10 @@ class rex_be_page
     }
 
     /**
-     * Sets the page href
+     * Sets the page href.
      *
      * @param string|array $href Href string or array of params
+     *
      * @return $this
      */
     public function setHref($href)
@@ -139,7 +142,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether the page has a custom href
+     * Returns whether the page has a custom href.
      *
      * @return bool
      */
@@ -149,7 +152,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the page href
+     * Returns the page href.
      *
      * @return string
      */
@@ -162,11 +165,13 @@ class rex_be_page
     }
 
     /**
-     * Sets an item attribute
+     * Sets an item attribute.
      *
      * @param string $name
      * @param string $value
+     *
      * @throws InvalidArgumentException
+     *
      * @return $this
      */
     public function setItemAttr($name, $value)
@@ -183,10 +188,11 @@ class rex_be_page
     }
 
     /**
-     * Returns an item attribute or all item attributes
+     * Returns an item attribute or all item attributes.
      *
      * @param string|null $name
      * @param string      $default
+     *
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      */
     public function getItemAttr($name, $default = '')
@@ -200,7 +206,7 @@ class rex_be_page
     }
 
     /**
-     * Removes an item attribute
+     * Removes an item attribute.
      *
      * @param string $name
      */
@@ -210,10 +216,12 @@ class rex_be_page
     }
 
     /**
-     * Adds an item class
+     * Adds an item class.
      *
      * @param string $class
+     *
      * @throws InvalidArgumentException
+     *
      * @return $this
      */
     public function addItemClass($class)
@@ -230,7 +238,7 @@ class rex_be_page
     }
 
     /**
-     * Removes an item class
+     * Removes an item class.
      *
      * @param string $class
      */
@@ -240,11 +248,13 @@ class rex_be_page
     }
 
     /**
-     * Sets an link attribute
+     * Sets an link attribute.
      *
      * @param string $name
      * @param string $value
+     *
      * @throws InvalidArgumentException
+     *
      * @return $this
      */
     public function setLinkAttr($name, $value)
@@ -261,7 +271,7 @@ class rex_be_page
     }
 
     /**
-     * Removes an link attribute
+     * Removes an link attribute.
      *
      * @param string $name
      */
@@ -271,10 +281,11 @@ class rex_be_page
     }
 
     /**
-     * Returns an link attribute or all link attributes
+     * Returns an link attribute or all link attributes.
      *
      * @param string|null $name
      * @param string      $default
+     *
      * @return string|array Attribute value for given `$name` or attribute array if `$name` is `null`
      */
     public function getLinkAttr($name, $default = '')
@@ -288,10 +299,12 @@ class rex_be_page
     }
 
     /**
-     * Adds an link class
+     * Adds an link class.
      *
      * @param string $class
+     *
      * @throws InvalidArgumentException
+     *
      * @return $this
      */
     public function addLinkClass($class)
@@ -308,7 +321,7 @@ class rex_be_page
     }
 
     /**
-     * Removes an link class
+     * Removes an link class.
      *
      * @param string $class
      */
@@ -318,9 +331,10 @@ class rex_be_page
     }
 
     /**
-     * Set the page path which will be included directly by the core
+     * Set the page path which will be included directly by the core.
      *
      * @param string $path
+     *
      * @return $this
      */
     public function setPath($path)
@@ -331,7 +345,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether a path is set
+     * Returns whether a path is set.
      *
      * @return bool
      */
@@ -341,7 +355,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the path which will be included directly by the core
+     * Returns the path which will be included directly by the core.
      *
      * @return string
      */
@@ -354,9 +368,10 @@ class rex_be_page
     }
 
     /**
-     * Set the page subpath which should be used by the packages to include this page inside their main page
+     * Set the page subpath which should be used by the packages to include this page inside their main page.
      *
      * @param string $subPath
+     *
      * @return $this
      */
     public function setSubPath($subPath)
@@ -367,7 +382,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether a subpath is set
+     * Returns whether a subpath is set.
      *
      * @return bool
      */
@@ -377,7 +392,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the subpath which should by used by packages to include this page inside their main page
+     * Returns the subpath which should by used by packages to include this page inside their main page.
      *
      * @return string
      */
@@ -387,9 +402,10 @@ class rex_be_page
     }
 
     /**
-     * Adds a subpage
+     * Adds a subpage.
      *
      * @param self $subpage
+     *
      * @return $this
      */
     public function addSubpage(self $subpage)
@@ -413,9 +429,10 @@ class rex_be_page
     }
 
     /**
-     * Sets all subpages
+     * Sets all subpages.
      *
      * @param self[] $subpages
+     *
      * @return $this
      */
     public function setSubpages(array $subpages)
@@ -427,9 +444,10 @@ class rex_be_page
     }
 
     /**
-     * Returns the subpage for the given key
+     * Returns the subpage for the given key.
      *
      * @param string $key
+     *
      * @return self
      */
     public function getSubpage($key)
@@ -438,7 +456,7 @@ class rex_be_page
     }
 
     /**
-     * Returns all subpages
+     * Returns all subpages.
      *
      * @return self[]
      */
@@ -448,7 +466,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the first leaf of the subpages tree
+     * Returns the first leaf of the subpages tree.
      *
      * @return self
      */
@@ -462,9 +480,10 @@ class rex_be_page
     }
 
     /**
-     * Sets whether the page is active
+     * Sets whether the page is active.
      *
      * @param bool $isActive
+     *
      * @return $this
      */
     public function setIsActive($isActive = true)
@@ -475,7 +494,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether the page is active
+     * Returns whether the page is active.
      *
      * @return bool
      */
@@ -494,7 +513,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the parent page object
+     * Returns the parent page object.
      *
      * @return self|null
      */
@@ -504,9 +523,10 @@ class rex_be_page
     }
 
     /**
-     * Sets whether the page is hidden
+     * Sets whether the page is hidden.
      *
      * @param bool $hidden
+     *
      * @return $this
      */
     public function setHidden($hidden = true)
@@ -517,7 +537,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether the page is hidden
+     * Returns whether the page is hidden.
      *
      * @return bool
      */
@@ -527,9 +547,10 @@ class rex_be_page
     }
 
     /**
-     * Sets whether the page has layout
+     * Sets whether the page has layout.
      *
      * @param bool $hasLayout
+     *
      * @return $this
      */
     public function setHasLayout($hasLayout)
@@ -540,7 +561,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether tha page has layout
+     * Returns whether tha page has layout.
      *
      * @return bool
      */
@@ -550,9 +571,10 @@ class rex_be_page
     }
 
     /**
-     * Sets whether the page has a navigation
+     * Sets whether the page has a navigation.
      *
      * @param bool $hasNavigation
+     *
      * @return $this
      */
     public function setHasNavigation($hasNavigation)
@@ -563,7 +585,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether the page has a navigation
+     * Returns whether the page has a navigation.
      *
      * @return bool
      */
@@ -573,9 +595,10 @@ class rex_be_page
     }
 
     /**
-     * Sets whether the page allows pjax
+     * Sets whether the page allows pjax.
      *
      * @param bool $pjax
+     *
      * @return $this
      */
     public function setPjax($pjax = true)
@@ -586,7 +609,7 @@ class rex_be_page
     }
 
     /**
-     * Returns whether the page allows pjax
+     * Returns whether the page allows pjax.
      *
      * @return bool
      */
@@ -602,9 +625,10 @@ class rex_be_page
     }
 
     /**
-     * Sets the required permissions
+     * Sets the required permissions.
      *
      * @param array|string $perm
+     *
      * @return $this
      */
     public function setRequiredPermissions($perm)
@@ -615,7 +639,7 @@ class rex_be_page
     }
 
     /**
-     * Returns the required permission
+     * Returns the required permission.
      *
      * @return array
      */
@@ -625,9 +649,10 @@ class rex_be_page
     }
 
     /**
-     * Checks whether the given user has permission for the page
+     * Checks whether the given user has permission for the page.
      *
      * @param rex_user $rexUser
+     *
      * @return bool
      */
     public function checkPermission(rex_user $rexUser)

@@ -45,6 +45,6 @@
 
 
     <?php if (isset($this->after)) {
-            echo $this->after;
-        } ?>
+    echo $this->after;
+} ?>
 </section>

@@ -26,12 +26,12 @@ class rex_article_content_editor extends rex_article_content
                 $moduleIdToAdd
             );
         } else {
-            $sliceId      = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-            $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+            $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
+            $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
 
-            $moduleInput  = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
+            $moduleInput = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
-            $moduleId     = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+            $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             $slice_content = '';
             // ----- add select box einbauen
@@ -57,7 +57,6 @@ class rex_article_content_editor extends rex_article_content
                     $panel .= $msg;
                 }
             }
-
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
             if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
@@ -85,93 +84,86 @@ class rex_article_content_editor extends rex_article_content
                 $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
             }
 
-
             $fragment = new rex_fragment();
             $fragment->setVar('title', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
             $slice_content .= '<li class="rex-slice rex-slice-output">' . $fragment->parse('core/page/section.php') . '</li>';
-
-
         }
 
         return $slice_content;
     }
 
     /**
-     * Returns the slice menu
+     * Returns the slice menu.
      *
      * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
+     *
      * @return string
      */
     private function getSliceMenu(rex_sql $artDataSql)
     {
-        $sliceId      = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
-        $sliceCtype   = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+        $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
+        $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
 
-        $moduleId     = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
-        $moduleName   = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
-
+        $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+        $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
 
         $context = new rex_context([
             'page' => rex_be_controller::getCurrentPage(),
             'article_id' => $this->article_id,
             'slice_id' => $sliceId,
             'clang' => $this->clang,
-            'ctype' => $this->ctype
+            'ctype' => $this->ctype,
         ]);
         $fragment = '#slice' . $sliceId;
 
         $header_right = '';
 
-
         $menu_items_action = [];
-        $menu_items_move   = [];
+        $menu_items_move = [];
 
         if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
-
             $templateHasModule = rex_template::hasModule($this->template_attributes, $this->ctype, $moduleId);
             if ($templateHasModule) {
                 // edit
                 $item = [];
-                $item['hidden_label']         = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
-                $item['url']                  = $context->getUrl(['function' => 'edit']) . $fragment;
+                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
+                $item['url'] = $context->getUrl(['function' => 'edit']) . $fragment;
                 $item['attributes']['class'][] = 'btn-edit';
-                $item['attributes']['title']  = rex_i18n::msg('edit');
-                $item['icon']                 = 'edit';
+                $item['attributes']['title'] = rex_i18n::msg('edit');
+                $item['icon'] = 'edit';
                 $menu_items_action[] = $item;
             }
 
             // delete
             $item = [];
-            $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('delete');
-            $item['url']                   = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
+            $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('delete');
+            $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
             $item['attributes']['class'][] = 'btn-delete';
-            $item['attributes']['title']   = rex_i18n::msg('delete');
-            $item['icon']                  = 'delete';
+            $item['attributes']['title'] = rex_i18n::msg('delete');
+            $item['icon'] = 'delete';
             $menu_items_action[] = $item;
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
 
                 // moveup
                 $item = [];
-                $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
-                $item['url']                   = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment;
+                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
+                $item['url'] = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
-                $item['attributes']['title']   = rex_i18n::msg('edit');
-                $item['icon']                  = 'up';
+                $item['attributes']['title'] = rex_i18n::msg('edit');
+                $item['icon'] = 'up';
                 $menu_items_move[] = $item;
-
 
                 // movedown
                 $item = [];
-                $item['hidden_label']          = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
-                $item['url']                   = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment;
+                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
+                $item['url'] = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
-                $item['attributes']['title']   = rex_i18n::msg('delete');
-                $item['icon']                  = 'down';
+                $item['attributes']['title'] = rex_i18n::msg('delete');
+                $item['icon'] = 'down';
                 $menu_items_move[] = $item;
             }
-
         } else {
             $header_right .= rex_i18n::msg('no_editing_rights') . ' ' . $moduleName;
         }
@@ -187,12 +179,11 @@ class rex_article_content_editor extends rex_article_content
                 'ctype' => $sliceCtype,
                 'module_id' => $moduleId,
                 'slice_id' => $sliceId,
-                'perm' => rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)
+                'perm' => rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId),
             ]
         ));
 
         if (count($menu_items_action) > 0) {
-
             $fragment = new rex_fragment();
             $fragment->setVar('items', $menu_items_action, false);
             $header_right .= $fragment->parse('slice_menu_action.php');
@@ -213,14 +204,14 @@ class rex_article_content_editor extends rex_article_content
         $header_right = $header_right != '' ? '<div class="col-md-4 text-right">' . $header_right . '</div>' : '';
 
         return '<div class="row"><div class="col-md-8"><div class="panel-title">' . $moduleName . '</div></div>' . $header_right . '</div>';
-
     }
 
     /**
-     * Wraps the output of a module
+     * Wraps the output of a module.
      *
-     * @param integer $moduleId     The id of the module
-     * @param string  $moduleOutput The output of the module
+     * @param int    $moduleId     The id of the module
+     * @param string $moduleOutput The output of the module
+     *
      * @return string
      */
     private function getWrappedModuleOutput($moduleId, $moduleOutput)
@@ -237,7 +228,7 @@ class rex_article_content_editor extends rex_article_content
             'clang' => $this->clang,
             'ctype' => $this->ctype,
             'slice_id' => $sliceId,
-            'function' => 'add'
+            'function' => 'add',
         ]);
 
         $modules = $this->MODULESELECT[$this->ctype];
@@ -245,7 +236,7 @@ class rex_article_content_editor extends rex_article_content
         foreach ($modules as $module) {
             $item = [];
             $item['title'] = $module['name'];
-            $item['href']  = $context->getUrl(['module_id' => $module['id']]);
+            $item['href'] = $context->getUrl(['module_id' => $module['id']]);
             $items[] = $item;
         }
 
@@ -254,9 +245,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('button_label', rex_i18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
 
-
         return '<li class="rex-slice rex-slice-select">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
-
     }
 
     /**
@@ -312,7 +301,6 @@ class rex_article_content_editor extends rex_article_content
         return $articleContent;
     }
 
-
     // ----- ADD Slice
     protected function addSlice($sliceId, $moduleIdToAdd)
     {
@@ -351,8 +339,6 @@ class rex_article_content_editor extends rex_article_content
             $fragment->setVar('elements', $formElements, false);
             $slice_footer = $fragment->parse('core/form/submit.php');
 
-
-
             $panel = '
                 <fieldset>
                     <legend>' . rex_i18n::msg('add_block') . '</legend>
@@ -388,7 +374,6 @@ class rex_article_content_editor extends rex_article_content
                     </script>
                 </li>
                 ';
-
         }
 
         return $slice_content;
@@ -397,7 +382,6 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)
     {
-
         $formElements = [];
 
         $n = [];

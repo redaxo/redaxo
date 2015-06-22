@@ -1,7 +1,7 @@
 <?php
 
 /**
- * class implements storage of raw html(string) as rex_form object
+ * class implements storage of raw html(string) as rex_form object.
  *
  * @package redaxo\core
  */

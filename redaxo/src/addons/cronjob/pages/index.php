@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -11,8 +11,8 @@
  */
 
 $subpage = rex_be_controller::getCurrentPagePart(2);
-$func    = rex_request('func', 'string');
-$oid     = rex_request('oid', 'int');
+$func = rex_request('func', 'string');
+$oid = rex_request('oid', 'int');
 
 echo rex_view::title($this->i18n('title'));
 

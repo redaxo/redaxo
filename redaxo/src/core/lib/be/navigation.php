@@ -16,7 +16,7 @@ class rex_be_navigation
     public static function factory()
     {
         $class = static::getFactoryClass();
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -71,16 +71,16 @@ class rex_be_navigation
 
                 $return[] = [
                     'navigation' => $n,
-                    'headline' => ['title' => $this->getHeadline($block)]
+                    'headline' => ['title' => $this->getHeadline($block)],
                 ];
             }
         }
         return $return;
-
     }
 
     /**
      * @param rex_be_page[] $blockPages
+     *
      * @return array
      */
     private function _getNavigation(array $blockPages)
@@ -108,8 +108,8 @@ class rex_be_navigation
                 $n['linkAttr'][$name] = trim($value);
             }
 
-            $n['href']   = str_replace('&', '&amp;', $page->getHref());
-            $n['title']  = $page->getTitle();
+            $n['href'] = str_replace('&', '&amp;', $page->getHref());
+            $n['title'] = $page->getTitle();
             $n['active'] = $page->isActive();
 
             $subpages = $page->getSubpages();
@@ -153,6 +153,7 @@ class rex_be_navigation
 
     /**
      * @param string $block
+     *
      * @return string
      */
     public function getHeadline($block)

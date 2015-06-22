@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class MediaKategorie Select
+ * Class MediaKategorie Select.
  *
  * @package redaxo\mediapool
  */

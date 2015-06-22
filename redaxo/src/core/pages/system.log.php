@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Verwaltung der Content Sprachen
+ * Verwaltung der Content Sprachen.
+ *
  * @package redaxo5
  */
 
 // -------------- Defaults
-$func       = rex_request('func', 'string');
+$func = rex_request('func', 'string');
 
 $error = '';
 $success = '';
@@ -22,7 +23,6 @@ if ($func == 'delLog') {
     } else {
         $error = rex_i18n::msg('syslog_delete_error');
     }
-
 }
 $message = '';
 $content = '';
@@ -56,7 +56,6 @@ if ($file = new rex_log_file(rex_path::cache('system.log'))) {
         $class = strtolower($data[0]);
         $class = ($class == 'notice' || $class == 'warning') ? $class : 'error';
 
-
         $content .= '
                     <tr class="rex-state-' . $class . '">
                         <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
@@ -72,7 +71,6 @@ $content .= '
                 </tbody>
             </table>';
 
-
 $formElements = [];
 
 $n = [];
@@ -83,15 +81,11 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-
-
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('syslog'), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
-
-
 
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">

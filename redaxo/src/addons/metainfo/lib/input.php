@@ -15,7 +15,7 @@ abstract class rex_input
     }
 
     /**
-     * Setzt den Value des Input-Feldes
+     * Setzt den Value des Input-Feldes.
      */
     public function setValue($value)
     {
@@ -23,7 +23,7 @@ abstract class rex_input
     }
 
     /**
-     * Gibt den Wert des Input-Feldes zurueck
+     * Gibt den Wert des Input-Feldes zurueck.
      */
     public function getValue()
     {
@@ -31,7 +31,7 @@ abstract class rex_input
     }
 
     /**
-     * Setzt ein HTML-Attribut des Input-Feldes
+     * Setzt ein HTML-Attribut des Input-Feldes.
      */
     public function setAttribute($name, $value)
     {
@@ -43,7 +43,7 @@ abstract class rex_input
     }
 
     /**
-     * Gibt den Wert des Attributes $name zurueck falls vorhanden, sonst $default
+     * Gibt den Wert des Attributes $name zurueck falls vorhanden, sonst $default.
      */
     public function getAttribute($name, $default = null)
     {
@@ -57,7 +57,7 @@ abstract class rex_input
     }
 
     /**
-     * Prueft ob das Input-Feld ein Attribute $name besitzt
+     * Prueft ob das Input-Feld ein Attribute $name besitzt.
      */
     public function hasAttribute($name)
     {
@@ -65,7 +65,7 @@ abstract class rex_input
     }
 
     /**
-     * Fuegt dem Input-Feld die Attribute $attributes hinzu
+     * Fuegt dem Input-Feld die Attribute $attributes hinzu.
      */
     public function addAttributes($attributes)
     {
@@ -88,7 +88,7 @@ abstract class rex_input
     }
 
     /**
-     * Gibt alle Attribute in Form eines Array zurueck
+     * Gibt alle Attribute in Form eines Array zurueck.
      */
     public function getAttributes()
     {
@@ -96,7 +96,7 @@ abstract class rex_input
     }
 
     /**
-     * Gibt alle Attribute in String-Form zurueck
+     * Gibt alle Attribute in String-Form zurueck.
      */
     public function getAttributeString()
     {
@@ -114,14 +114,14 @@ abstract class rex_input
     abstract public function getHtml();
 
     /**
-     * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen
+     * Factory-Methode um rex_input_*-Elemente anhand des Types $inputType zu erstellen.
      *
      * @param string $inputType
+     *
      * @return self
      */
     public static function factory($inputType)
     {
-
         switch ($inputType) {
             case 'text':
             case 'textarea':

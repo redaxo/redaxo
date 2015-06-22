@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_TEMPLATE[2]
+ * REX_TEMPLATE[2].
  *
  * @package redaxo\structure\content
  */

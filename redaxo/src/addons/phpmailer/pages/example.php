@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHPMailer Addon
+ * PHPMailer Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -46,7 +46,6 @@ foreach($sql as $row)
 }
 
 ?>';
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $this->i18n('example_headline'));

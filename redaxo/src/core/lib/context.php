@@ -4,6 +4,7 @@
  * Generic interface for classes which provide urls.
  *
  * @author staabm
+ *
  * @package redaxo\core
  */
 interface rex_url_provider_interface
@@ -22,7 +23,9 @@ interface rex_url_provider_interface
 /**
  * Generic interface for classes which provide a complete rex-context.
  * A rex-context consists of a set of parameters which may get passed using urls (via parameter) or forms (via hidden input fields).
+ *
  * @author staabm
+ *
  * @package redaxo\core
  */
 interface rex_context_provider_interface extends rex_url_provider_interface
@@ -38,8 +41,10 @@ interface rex_context_provider_interface extends rex_url_provider_interface
 }
 
 /**
- * A generic implementiation of rex_context_provider
+ * A generic implementiation of rex_context_provider.
+ *
  * @author staabm
+ *
  * @package redaxo\core
  */
 class rex_context implements rex_context_provider_interface
@@ -68,7 +73,7 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * Set a global parameter
+     * Set a global parameter.
      *
      * @param string $name
      * @param mixed  $value
@@ -84,6 +89,7 @@ class rex_context implements rex_context_provider_interface
      *
      * @param string $name
      * @param string $default
+     *
      * @return mixed
      */
     public function getParam($name, $default = null)
@@ -103,7 +109,7 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * returns a rex_context instance containing all GET and POST parameters
+     * returns a rex_context instance containing all GET and POST parameters.
      *
      * @return self
      */
@@ -114,9 +120,10 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * Helper method to generate a html string with hidden input fields from an array key-value pairs
+     * Helper method to generate a html string with hidden input fields from an array key-value pairs.
      *
      * @param array $array The array which contains the key-value pairs for convertion
+     *
      * @return string
      */
     private static function array2inputStr(array $array)

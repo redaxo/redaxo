@@ -22,7 +22,7 @@ class rex_cronjob_export extends rex_cronjob
         if (file_exists($dir . $file . $ext)) {
             $i = 1;
             while (file_exists($dir . $file . '_' . $i . $ext)) {
-                $i++;
+                ++$i;
             }
             $file = $file . '_' . $i;
         }
@@ -35,7 +35,7 @@ class rex_cronjob_export extends rex_cronjob
                     $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
                     return false;
                 }
-                $mail = new rex_mailer;
+                $mail = new rex_mailer();
                 $mail->AddAddress($this->mailaddress);
                 $mail->Subject = rex_i18n::msg('im_export_mail_subject');
                 $mail->Body = rex_i18n::msg('im_export_mail_body', rex::getServerName());
@@ -65,23 +65,23 @@ class rex_cronjob_export extends rex_cronjob
         $fields = [
             [
                 'label' => rex_i18n::msg('im_export_filename'),
-                'name'  => 'filename',
-                'type'  => 'text',
+                'name' => 'filename',
+                'type' => 'text',
                 'default' => self::DEFAULT_FILENAME,
-                'notice'  => rex_i18n::msg('im_export_filename_notice')
+                'notice' => rex_i18n::msg('im_export_filename_notice'),
             ],
             [
-                'name'  => 'sendmail',
-                'type'  => 'checkbox',
-                'options' => [1 => rex_i18n::msg('im_export_send_mail')]
-            ]
+                'name' => 'sendmail',
+                'type' => 'checkbox',
+                'options' => [1 => rex_i18n::msg('im_export_send_mail')],
+            ],
         ];
         if (rex_addon::get('phpmailer')->isAvailable()) {
             $fields[] = [
                 'label' => rex_i18n::msg('im_export_mailaddress'),
-                'name'  => 'mailaddress',
-                'type'  => 'text',
-                'visible_if' => ['sendmail' => 1]
+                'name' => 'mailaddress',
+                'type' => 'text',
+                'visible_if' => ['sendmail' => 1],
             ];
         } else {
             $fields[1]['notice'] = rex_i18n::msg('im_export_send_mail_notice');

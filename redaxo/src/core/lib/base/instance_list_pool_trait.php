@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Instance List Pool Trait
+ * Instance List Pool Trait.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 trait rex_instance_list_pool_trait
@@ -14,7 +15,7 @@ trait rex_instance_list_pool_trait
     private static $instanceLists = [];
 
     /**
-     * Adds an instance list
+     * Adds an instance list.
      *
      * @param mixed $key             Key
      * @param array $instanceKeyList Array of instance keys
@@ -26,9 +27,10 @@ trait rex_instance_list_pool_trait
     }
 
     /**
-     * Checks whether an instance list exists for the given key
+     * Checks whether an instance list exists for the given key.
      *
      * @param mixed $key Key
+     *
      * @return bool
      */
     protected static function hasInstanceList($key)
@@ -38,13 +40,14 @@ trait rex_instance_list_pool_trait
     }
 
     /**
-     * Returns the instance list for the given key
+     * Returns the instance list for the given key.
      *
      * If the instance list does not exist it will be created by calling the $createListCallback
      *
      * @param mixed    $key                 Key
      * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
      * @param callable $createListCallback  Callback, will be called to create the list of instance keys
+     *
      * @return static[]
      */
     protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
@@ -69,7 +72,7 @@ trait rex_instance_list_pool_trait
     }
 
     /**
-     * Clears the instance list of the given key
+     * Clears the instance list of the given key.
      *
      * @param mixed $key Key
      */
@@ -80,7 +83,7 @@ trait rex_instance_list_pool_trait
     }
 
     /**
-     * Clears the instance list pool
+     * Clears the instance list pool.
      */
     public static function clearInstanceListPool()
     {
@@ -88,11 +91,12 @@ trait rex_instance_list_pool_trait
     }
 
     /**
-     * Returns a string representation for the key
+     * Returns a string representation for the key.
      *
      * The original key can be a scalar value or an array of scalar values
      *
      * @param mixed $key Key
+     *
      * @return string
      */
     private static function getInstanceListPoolKey($key)

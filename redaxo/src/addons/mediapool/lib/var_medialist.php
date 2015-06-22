@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_MEDIALIST[1]
+ * REX_MEDIALIST[1].
  *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen des Medienpools gesprungen werden soll
@@ -70,17 +70,17 @@ class rex_var_medialist extends rex_var
             }
         }
 
-        $disabled     = ' disabled';
-        $open_func    = '';
-        $add_func     = '';
-        $delete_func  = '';
-        $view_func    = '';
+        $disabled = ' disabled';
+        $open_func = '';
+        $add_func = '';
+        $delete_func = '';
+        $view_func = '';
         if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
-            $disabled     = '';
-            $open_func    = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
-            $add_func     = 'addREXMedialist(' . $id . ',\'' . $open_params . '\');';
-            $delete_func  = 'deleteREXMedialist(' . $id . ');';
-            $view_func    = 'viewREXMedialist(' . $id . ',\'' . $open_params . '\');';
+            $disabled = '';
+            $open_func = 'openREXMedialist(' . $id . ',\'' . $open_params . '\');';
+            $add_func = 'addREXMedialist(' . $id . ',\'' . $open_params . '\');';
+            $delete_func = 'deleteREXMedialist(' . $id . ');';
+            $view_func = 'viewREXMedialist(' . $id . ',\'' . $open_params . '\');';
         }
 
         $e = [];
@@ -101,7 +101,6 @@ class rex_var_medialist extends rex_var
         $fragment = new rex_fragment();
         $fragment->setVar('elements', [$e], false);
         $media = $fragment->parse('core/form/widget_list.php');
-
 
         return $media;
     }

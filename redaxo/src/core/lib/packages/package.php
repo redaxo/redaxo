@@ -1,44 +1,45 @@
 <?php
 
 /**
- * Abstract base class for packages
+ * Abstract base class for packages.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 abstract class rex_package implements rex_package_interface
 {
-    const FILE_PACKAGE       = 'package.yml';
-    const FILE_BOOT          = 'boot.php';
-    const FILE_INSTALL       = 'install.php';
-    const FILE_INSTALL_SQL   = 'install.sql';
-    const FILE_UNINSTALL     = 'uninstall.php';
+    const FILE_PACKAGE = 'package.yml';
+    const FILE_BOOT = 'boot.php';
+    const FILE_INSTALL = 'install.php';
+    const FILE_INSTALL_SQL = 'install.sql';
+    const FILE_UNINSTALL = 'uninstall.php';
     const FILE_UNINSTALL_SQL = 'uninstall.sql';
-    const FILE_UPDATE        = 'update.php';
+    const FILE_UPDATE = 'update.php';
 
     /**
-     * Name of the package
+     * Name of the package.
      *
      * @var string
      */
     private $name;
 
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
     private $properties = [];
 
     /**
-     * Flag whether the properties of package.yml are loaded
+     * Flag whether the properties of package.yml are loaded.
      *
-     * @var boolean
+     * @var bool
      */
     private $propertiesLoaded = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $name Name
      */
@@ -48,10 +49,12 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the package (addon or plugin) by the given package id
+     * Returns the package (addon or plugin) by the given package id.
      *
      * @param string $packageId Package ID
+     *
      * @throws InvalidArgumentException
+     *
      * @return self
      */
     public static function get($packageId)
@@ -68,10 +71,11 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns if the package exists
+     * Returns if the package exists.
      *
      * @param string $packageId Package ID
-     * @return boolean
+     *
+     * @return bool
      */
     public static function exists($packageId)
     {
@@ -234,7 +238,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Loads the properties of package.yml
+     * Loads the properties of package.yml.
      */
     private function loadProperties()
     {
@@ -280,7 +284,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the registered packages
+     * Returns the registered packages.
      *
      * @return self[]
      */
@@ -290,7 +294,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the installed packages
+     * Returns the installed packages.
      *
      * @return self[]
      */
@@ -300,7 +304,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the available packages
+     * Returns the available packages.
      *
      * @return self[]
      */
@@ -310,7 +314,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the setup packages
+     * Returns the setup packages.
      *
      * @return self[]
      */
@@ -320,7 +324,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the system packages
+     * Returns the system packages.
      *
      * @return self[]
      */
@@ -330,10 +334,11 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Returns the packages by the given method
+     * Returns the packages by the given method.
      *
      * @param string $method       Method
      * @param string $pluginMethod Optional other method for plugins
+     *
      * @return self[]
      */
     private static function getPackages($method, $pluginMethod = null)

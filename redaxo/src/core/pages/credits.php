@@ -2,6 +2,7 @@
 
 /**
  * Creditsseite. Auflistung der Credits an die Entwickler von REDAXO und den AddOns.
+ *
  * @package redaxo5
  */
 
@@ -44,8 +45,6 @@ $fragment->setVar('title', 'REDAXO <small>' . rex::getVersion() . '</small>', fa
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
-
-
 $content = '';
 
 $content .= '
@@ -65,7 +64,6 @@ $content .= '
         <tbody>';
 
         foreach (rex_package::getRegisteredPackages() as $package) {
-
             if ($package->isActivated()) {
                 $content .= '
                 <tr class="rex-package-is-' . $package->getType() . '">
@@ -83,15 +81,12 @@ $content .= '
                 $content .= '
                     </td>
                 </tr>';
-
             }
         }
 
         $content .= '
         </tbody>
     </table>';
-
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('credits_caption'), false);

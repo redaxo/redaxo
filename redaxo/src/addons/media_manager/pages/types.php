@@ -30,7 +30,7 @@ if ($func == 'delete' && $type_id > 0) {
 
     try {
         $sql->delete();
-        $success = rex_i18n::msg('media_manager_type_deleted') ;
+        $success = rex_i18n::msg('media_manager_type_deleted');
     } catch (rex_sql_exception $e) {
         $error = $sql->getError();
     }
@@ -74,7 +74,6 @@ if ($func == '') {
         return $name;
     });
 
-
     // icon column
     $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_type_create') . '"><i class="rex-icon rex-icon-add-mediatype"></i></a>';
     $tdIcon = '<i class="rex-icon rex-icon-mediatype"></i>';
@@ -89,7 +88,6 @@ if ($func == '') {
 
     $list->addColumn('editEffects', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_type_effekts_edit'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('editEffects', ['type_id' => '###id###', 'effects' => 1]);
-
 
     $list->addColumn('deleteCache', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_cache_delete'), -1, ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('deleteCache', ['type_id' => '###id###', 'func' => 'delete_cache']);
@@ -109,14 +107,12 @@ if ($func == '') {
 
     $content .= $list->get();
 
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('media_manager_type_caption'), false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-
 } elseif ($func == 'add' || $func == 'edit' && $type_id > 0) {
     if ($func == 'edit') {
         $formLabel = rex_i18n::msg('media_manager_type_edit');
@@ -127,7 +123,7 @@ if ($func == '') {
     rex_extension::register('REX_FORM_CONTROL_FIELDS', function (rex_extension_point $ep) {
         $controlFields = $ep->getSubject();
         $form = $ep->getParam('form');
-        $sql  = $form->getSql();
+        $sql = $form->getSql();
 
         // remove delete button on internal types (status == 1)
         if ($sql->getRows() > 0 && $sql->hasValue('status') && $sql->getValue('status') == 1) {
@@ -151,7 +147,6 @@ if ($func == '') {
     }
 
     $content .= $form->get();
-
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', $formLabel, false);

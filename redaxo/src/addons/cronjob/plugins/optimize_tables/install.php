@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon - Plugin optimize_tables
+ * Cronjob Addon - Plugin optimize_tables.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *

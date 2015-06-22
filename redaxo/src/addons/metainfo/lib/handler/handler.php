@@ -6,10 +6,11 @@
 abstract class rex_metainfo_handler
 {
     /**
-     * Erstellt den nötigen HTML Code um ein Formular zu erweitern
+     * Erstellt den nötigen HTML Code um ein Formular zu erweitern.
      *
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
      * @param array   $epParams  Array of all EP parameters
+     *
      * @return string
      */
     public function renderMetaFields(rex_sql $sqlFields, array $epParams)
@@ -19,7 +20,7 @@ abstract class rex_metainfo_handler
         // Startwert für MEDIABUTTON, MEDIALIST, LINKLIST zähler
         $media_id = 1;
         $mlist_id = 1;
-        $link_id  = 1;
+        $link_id = 1;
         $llist_id = 1;
 
         $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
@@ -27,15 +28,15 @@ abstract class rex_metainfo_handler
         $sqlFields->reset();
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
             // Umschliessendes Tag von Label und Formularelement
-            $tag      = 'p';
+            $tag = 'p';
             $tag_attr = '';
 
-            $name          = $sqlFields->getValue('name');
-            $title         = $sqlFields->getValue('title');
-            $params        = $sqlFields->getValue('params');
-            $typeLabel     = $sqlFields->getValue('label');
-            $attr          = $sqlFields->getValue('attributes');
-            $dblength      = $sqlFields->getValue('dblength');
+            $name = $sqlFields->getValue('name');
+            $title = $sqlFields->getValue('title');
+            $params = $sqlFields->getValue('params');
+            $typeLabel = $sqlFields->getValue('label');
+            $attr = $sqlFields->getValue('attributes');
+            $dblength = $sqlFields->getValue('dblength');
 
             $attrArray = rex_string::split($attr);
             if (isset($attrArray['perm'])) {
@@ -184,9 +185,7 @@ abstract class rex_metainfo_handler
                         }
                         $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
-
                     }
-
 
                     $fragment = new rex_fragment();
                     $fragment->setVar('elements', $formElements, false);
@@ -201,7 +200,6 @@ abstract class rex_metainfo_handler
                         $field = $fragment->parse('core/form/checkbox.php');
                     }
 
-
                     if (!$oneValue) {
                         $e = [];
                         $e['label'] = $label;
@@ -210,7 +208,6 @@ abstract class rex_metainfo_handler
                         $fragment->setVar('elements', [$e], false);
                         $field = $fragment->parse('core/form/form.php');
                     }
-
 
                     break;
                 }
@@ -312,7 +309,6 @@ abstract class rex_metainfo_handler
                     $checked = $active ? ' checked="checked"' : '';
                     $field .= '<input class="rex-metainfo-checkbox" type="checkbox" name="' . $name . '[active]" value="1"' . $checked . ' />';
 
-
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
@@ -384,7 +380,6 @@ abstract class rex_metainfo_handler
                     $id = $rexInput->getAttribute('id');
                     $field = $rexInput->getHtml();
 
-
                     $e = [];
                     $e['label'] = $label;
                     $e['field'] = $field;
@@ -392,7 +387,7 @@ abstract class rex_metainfo_handler
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
-                    $media_id++;
+                    ++$media_id;
                     break;
                 }
                 case 'REX_MEDIALIST_WIDGET':
@@ -429,7 +424,7 @@ abstract class rex_metainfo_handler
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
-                    $mlist_id++;
+                    ++$mlist_id;
                     break;
                 }
                 case 'REX_LINK_WIDGET':
@@ -461,7 +456,7 @@ abstract class rex_metainfo_handler
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
-                    $link_id++;
+                    ++$link_id;
                     break;
                 }
                 case 'REX_LINKLIST_WIDGET':
@@ -494,7 +489,7 @@ abstract class rex_metainfo_handler
                     $fragment->setVar('elements', [$e], false);
                     $field = $fragment->parse('core/form/form.php');
 
-                    $llist_id++;
+                    ++$llist_id;
                     break;
                 }
                 default :
@@ -513,7 +508,7 @@ abstract class rex_metainfo_handler
                                 'values' => $dbvalues,
                                 'rawvalues' => $dbvalues,
                                 'type' => $typeLabel,
-                                'sql' => $sqlFields
+                                'sql' => $sqlFields,
                             ]
                         ));
                 }
@@ -526,7 +521,7 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt
+     * Übernimmt die gePOSTeten werte in ein rex_sql-Objekt.
      *
      * @param array   $params
      * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
@@ -569,6 +564,7 @@ abstract class rex_metainfo_handler
      * @param string $fieldName       The name of the field
      * @param int    $fieldType       One of the REX_METAINFO_FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
+     *
      * @return string
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
@@ -624,10 +620,11 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions
+     * Ermittelt die metainfo felder mit dem Prefix $prefix limitiert auf die Kategorien $restrictions.
      *
      * @param string $prefix          Feldprefix
      * @param string $filterCondition SQL Where-Bedingung zum einschränken der Metafelder
+     *
      * @return rex_sql Metainfofelder
      */
     protected static function getSqlFields($prefix, $filterCondition)
@@ -655,10 +652,11 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * Erweitert das Meta-Formular um die neuen Meta-Felder
+     * Erweitert das Meta-Formular um die neuen Meta-Felder.
      *
      * @param string $prefix Feldprefix
      * @param array  $params EP Params
+     *
      * @return string
      */
     public function renderFormAndSave($prefix, array $params)
@@ -702,7 +700,7 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * Build a SQL Filter String which fits for the current context params
+     * Build a SQL Filter String which fits for the current context params.
      *
      * @param array $params EP Params
      */
@@ -711,13 +709,13 @@ abstract class rex_metainfo_handler
     /**
      * Renders a field of the metaform. The rendered html will be returned.
      *
-     * @param string  $field     The html-source of the field itself
-     * @param string  $tag       The html-tag for the elements container, e.g. "p"
-     * @param string  $tag_attr  Attributes for the elements container, e.g. " class='rex-widget'"
-     * @param string  $id        The id of the field, used for current label or field-specific javascripts
-     * @param string  $label     The textlabel of the field
-     * @param boolean $labelIt   True when an additional label needs to be rendered, otherweise False
-     * @param string  $inputType The input type, e.g. "checkbox", "radio",...
+     * @param string $field     The html-source of the field itself
+     * @param string $tag       The html-tag for the elements container, e.g. "p"
+     * @param string $tag_attr  Attributes for the elements container, e.g. " class='rex-widget'"
+     * @param string $id        The id of the field, used for current label or field-specific javascripts
+     * @param string $label     The textlabel of the field
+     * @param bool   $labelIt   True when an additional label needs to be rendered, otherweise False
+     * @param string $inputType The input type, e.g. "checkbox", "radio",...
      *
      * @return string The rendered html
      */
@@ -728,12 +726,13 @@ abstract class rex_metainfo_handler
      * Afterwards the actual metaForm extension will be rendered.
      *
      * @param rex_extension_point $ep
+     *
      * @return string
      */
     abstract public function extendForm(rex_extension_point $ep);
 
     /**
-     * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table
+     * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
      *
      * @param array   $params
      * @param rex_sql $sqlFields

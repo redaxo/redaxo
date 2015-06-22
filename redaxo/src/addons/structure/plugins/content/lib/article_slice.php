@@ -30,7 +30,7 @@ class rex_article_slice
     private $_linklists;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int    $id
      * @param int    $article_id
@@ -75,11 +75,12 @@ class rex_article_slice
     }
 
     /**
-     * Return an ArticleSlice by its id
+     * Return an ArticleSlice by its id.
      *
      * @param int      $an_id
      * @param bool|int $clang
      * @param int      $revision
+     *
      * @return self
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
@@ -103,6 +104,7 @@ class rex_article_slice
      * @param int      $an_article_id
      * @param bool|int $clang
      * @param int      $revision
+     *
      * @return self
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
@@ -122,12 +124,13 @@ class rex_article_slice
     }
 
     /**
-     * Returns the first slice of the given ctype of an article
+     * Returns the first slice of the given ctype of an article.
      *
      * @param int      $ctype
      * @param int      $an_article_id
      * @param bool|int $clang
      * @param int      $revision
+     *
      * @return self
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
@@ -149,6 +152,7 @@ class rex_article_slice
      * @param int      $an_article_id
      * @param bool|int $clang
      * @param int      $revision
+     *
      * @return self[]
      */
     public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
@@ -171,6 +175,7 @@ class rex_article_slice
      * @param int      $a_moduletype_id
      * @param bool|int $clang
      * @param int      $revision
+     *
      * @return self[]
      */
     public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
@@ -186,7 +191,7 @@ class rex_article_slice
     }
 
     /**
-     * Return the next slice for this article
+     * Return the next slice for this article.
      *
      * @return self
      */
@@ -210,10 +215,9 @@ class rex_article_slice
     }
 
     /**
-     * Gibt den Slice formatiert zurück
+     * Gibt den Slice formatiert zurück.
      *
      * @since 4.1 - 29.05.2008
-     *
      * @see rex_article_content::getSlice()
      *
      * @return string
@@ -230,6 +234,7 @@ class rex_article_slice
     /**
      * @param string $where
      * @param array  $params
+     *
      * @return self
      */
     protected static function getSliceWhere($where, array $params = [])
@@ -241,6 +246,7 @@ class rex_article_slice
     /**
      * @param string $where
      * @param array  $params
+     *
      * @return self[]
      */
     protected static function getSlicesWhere($where, array $params = [])
@@ -256,7 +262,7 @@ class rex_article_slice
         $sql->setQuery($query, $params);
         $rows = $sql->getRows();
         $slices = [];
-        for ($i = 0; $i < $rows; $i++) {
+        for ($i = 0; $i < $rows; ++$i) {
             $slices[] = new self(
                 $sql->getValue('id'),
                 $sql->getValue('article_id'),
@@ -289,7 +295,7 @@ class rex_article_slice
                     $sql->getValue('value17'),
                     $sql->getValue('value18'),
                     $sql->getValue('value19'),
-                    $sql->getValue('value20')
+                    $sql->getValue('value20'),
                 ],
                 [
                     $sql->getValue('media1'),
@@ -301,7 +307,7 @@ class rex_article_slice
                     $sql->getValue('media7'),
                     $sql->getValue('media8'),
                     $sql->getValue('media9'),
-                    $sql->getValue('media10')
+                    $sql->getValue('media10'),
                 ],
                 [
                     $sql->getValue('medialist1'),
@@ -313,7 +319,7 @@ class rex_article_slice
                     $sql->getValue('medialist7'),
                     $sql->getValue('medialist8'),
                     $sql->getValue('medialist9'),
-                    $sql->getValue('medialist10')
+                    $sql->getValue('medialist10'),
                 ],
                 [
                     $sql->getValue('link1'),
@@ -325,7 +331,7 @@ class rex_article_slice
                     $sql->getValue('link7'),
                     $sql->getValue('link8'),
                     $sql->getValue('link9'),
-                    $sql->getValue('link10')
+                    $sql->getValue('link10'),
                 ],
                 [
                     $sql->getValue('linklist1'),
@@ -337,7 +343,7 @@ class rex_article_slice
                     $sql->getValue('linklist7'),
                     $sql->getValue('linklist8'),
                     $sql->getValue('linklist9'),
-                    $sql->getValue('linklist10')
+                    $sql->getValue('linklist10'),
                 ]
             );
 

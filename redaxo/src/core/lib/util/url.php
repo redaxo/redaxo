@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Utility class to generate relative URLs
+ * Utility class to generate relative URLs.
  *
  * @author gharlan
  *
@@ -13,7 +13,7 @@ class rex_url
     protected static $backend;
 
     /**
-     * Initializes the class
+     * Initializes the class.
      *
      * @param string $htdocs  Htdocs path
      * @param string $backend Backend folder name
@@ -24,9 +24,10 @@ class rex_url
         self::$backend = substr($htdocs, -3) === '../' ? '' : $htdocs . $backend . '/';
     }
     /**
-     * Returns a base url
+     * Returns a base url.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function base($file = '')
@@ -35,9 +36,10 @@ class rex_url
     }
 
     /**
-     * Returns the url to the frontend
+     * Returns the url to the frontend.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function frontend($file = '')
@@ -46,10 +48,11 @@ class rex_url
     }
 
     /**
-     * Returns the url to the frontend-controller (index.php from frontend)
+     * Returns the url to the frontend-controller (index.php from frontend).
      *
      * @param array $params Params
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
+     *
      * @return string
      */
     public static function frontendController(array $params = [], $escape = true)
@@ -60,9 +63,10 @@ class rex_url
     }
 
     /**
-     * Returns the url to the backend
+     * Returns the url to the backend.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function backend($file = '')
@@ -71,10 +75,11 @@ class rex_url
     }
 
     /**
-     * Returns the url to the backend-controller (index.php from backend)
+     * Returns the url to the backend-controller (index.php from backend).
      *
      * @param array $params Params
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
+     *
      * @return string
      */
     public static function backendController(array $params = [], $escape = true)
@@ -85,11 +90,12 @@ class rex_url
     }
 
     /**
-     * Returns the url to a backend page
+     * Returns the url to a backend page.
      *
      * @param string $page   Page
      * @param array  $params Params
      * @param bool   $escape Flag whether the argument separator "&" should be escaped (&amp;)
+     *
      * @return string
      */
     public static function backendPage($page, array $params = [], $escape = true)
@@ -98,10 +104,11 @@ class rex_url
     }
 
     /**
-     * Returns the url to the current backend page
+     * Returns the url to the current backend page.
      *
      * @param array $params Params
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
+     *
      * @return string
      */
     public static function currentBackendPage(array $params = [], $escape = true)
@@ -110,9 +117,10 @@ class rex_url
     }
 
     /**
-     * Returns the url to the media-folder
+     * Returns the url to the media-folder.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function media($file = '')
@@ -124,6 +132,7 @@ class rex_url
      * Returns the url to the assets folder of the core, which contains all assets required by the core to work properly.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function assets($file = '')
@@ -136,6 +145,7 @@ class rex_url
      *
      * @param string $addon Addon
      * @param string $file  File
+     *
      * @return string
      *
      * @see assets()
@@ -146,11 +156,12 @@ class rex_url
     }
 
     /**
-     * Returns the url to the assets folder of the given plugin of the given addon
+     * Returns the url to the assets folder of the given plugin of the given addon.
      *
      * @param string $addon  Addon
      * @param string $plugin Plugin
      * @param string $file   File
+     *
      * @return string
      *
      * @see assets()

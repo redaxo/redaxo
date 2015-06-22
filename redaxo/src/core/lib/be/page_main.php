@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Backend main page class
+ * Backend main page class.
  *
  * @package redaxo\core
  */
@@ -11,11 +11,12 @@ class rex_be_page_main extends rex_be_page
     private $prio = 0;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $block Navigation block
      * @param string $key
      * @param string $title
+     *
      * @throws InvalidArgumentException
      */
     public function __construct($block, $key, $title)
@@ -29,9 +30,10 @@ class rex_be_page_main extends rex_be_page
     }
 
     /**
-     * Sets the navigation block
+     * Sets the navigation block.
      *
      * @param string $block
+     *
      * @return $this
      */
     public function setBlock($block)
@@ -42,7 +44,7 @@ class rex_be_page_main extends rex_be_page
     }
 
     /**
-     * Returns the navigation block
+     * Returns the navigation block.
      *
      * @return string
      */
@@ -52,9 +54,10 @@ class rex_be_page_main extends rex_be_page
     }
 
     /**
-     * Sets the priority
+     * Sets the priority.
      *
      * @param int $prio
+     *
      * @return $this
      */
     public function setPrio($prio)
@@ -65,7 +68,7 @@ class rex_be_page_main extends rex_be_page
     }
 
     /**
-     * Returns the priority
+     * Returns the priority.
      *
      * @return int
      */

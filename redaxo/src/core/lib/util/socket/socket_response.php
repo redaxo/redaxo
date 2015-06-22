@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Class for rex_socket responses
+ * Class for rex_socket responses.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_socket_response
@@ -19,9 +20,10 @@ class rex_socket_response
     private $body;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param resource $stream Socket stream
+     *
      * @throws InvalidArgumentException
      */
     public function __construct($stream)
@@ -44,9 +46,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns the HTTP status code, e.g. 200
+     * Returns the HTTP status code, e.g. 200.
      *
-     * @return integer
+     * @return int
      */
     public function getStatusCode()
     {
@@ -54,7 +56,7 @@ class rex_socket_response
     }
 
     /**
-     * Returns the HTTP status message, e.g. "OK"
+     * Returns the HTTP status message, e.g. "OK".
      *
      * @return string
      */
@@ -64,9 +66,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status is "200 OK"
+     * Returns wether the status is "200 OK".
      *
-     * @return boolean
+     * @return bool
      */
     public function isOk()
     {
@@ -74,9 +76,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status class is "Informational"
+     * Returns wether the status class is "Informational".
      *
-     * @return boolean
+     * @return bool
      */
     public function isInformational()
     {
@@ -84,9 +86,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status class is "Success"
+     * Returns wether the status class is "Success".
      *
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful()
     {
@@ -94,9 +96,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status class is "Redirection"
+     * Returns wether the status class is "Redirection".
      *
-     * @return boolean
+     * @return bool
      */
     public function isRedirection()
     {
@@ -104,9 +106,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status class is "Client Error"
+     * Returns wether the status class is "Client Error".
      *
-     * @return boolean
+     * @return bool
      */
     public function isClientError()
     {
@@ -114,9 +116,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status class is "Server Error"
+     * Returns wether the status class is "Server Error".
      *
-     * @return boolean
+     * @return bool
      */
     public function isServerError()
     {
@@ -124,9 +126,9 @@ class rex_socket_response
     }
 
     /**
-     * Returns wether the status is invalid
+     * Returns wether the status is invalid.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInvalid()
     {
@@ -134,10 +136,11 @@ class rex_socket_response
     }
 
     /**
-     * Returns the header for the given key, or the entire header if no key is given
+     * Returns the header for the given key, or the entire header if no key is given.
      *
      * @param string $key     Header key
      * @param string $default Default value (is returned if the header is not set)
+     *
      * @return string
      */
     public function getHeader($key = null, $default = null)
@@ -156,10 +159,11 @@ class rex_socket_response
     }
 
     /**
-     * Returns up to `$length` bytes from the body, or `false` if the end is reached
+     * Returns up to `$length` bytes from the body, or `false` if the end is reached.
      *
-     * @param integer $length Max number of bytes
-     * @return boolean|string
+     * @param int $length Max number of bytes
+     *
+     * @return bool|string
      */
     public function getBufferedBody($length = 1024)
     {
@@ -188,7 +192,7 @@ class rex_socket_response
     }
 
     /**
-     * Returns the entire body
+     * Returns the entire body.
      *
      * @return string
      */
@@ -203,10 +207,11 @@ class rex_socket_response
     }
 
     /**
-     * Writes the body to the given resource
+     * Writes the body to the given resource.
      *
      * @param string|resource $resource File path or file pointer
-     * @return boolean `true` on success, `false` on failure
+     *
+     * @return bool `true` on success, `false` on failure
      */
     public function writeBodyTo($resource)
     {

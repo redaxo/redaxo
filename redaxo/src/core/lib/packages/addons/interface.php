@@ -1,52 +1,55 @@
 <?php
 
 /**
- * Interface for addons
+ * Interface for addons.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 interface rex_addon_interface extends rex_package_interface
 {
     /**
-     * Returns the child plugin by the given name
+     * Returns the child plugin by the given name.
      *
      * @param string $plugin Name of the plugin
+     *
      * @return rex_plugin
      */
     public function getPlugin($plugin);
 
     /**
-     * Returns if the plugin exists
+     * Returns if the plugin exists.
      *
      * @param string $plugin Name of the plugin
-     * @return boolean
+     *
+     * @return bool
      */
     public function pluginExists($plugin);
 
     /**
-     * Returns the registered plugins
+     * Returns the registered plugins.
      *
      * @return rex_plugin[]
      */
     public function getRegisteredPlugins();
 
     /**
-     * Returns the installed plugins
+     * Returns the installed plugins.
      *
      * @return rex_plugin[]
      */
     public function getInstalledPlugins();
 
     /**
-     * Returns the available plugins
+     * Returns the available plugins.
      *
      * @return rex_plugin[]
      */
     public function getAvailablePlugins();
 
     /**
-     * Returns the system plugins
+     * Returns the system plugins.
      *
      * @return rex_plugin[]
      */

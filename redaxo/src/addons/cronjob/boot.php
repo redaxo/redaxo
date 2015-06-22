@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -11,7 +11,7 @@
  */
 
 define('REX_CRONJOB_LOG_FOLDER', $this->getDataPath());
-define('REX_CRONJOB_TABLE'     , rex::getTable('cronjob'));
+define('REX_CRONJOB_TABLE', rex::getTable('cronjob'));
 
 rex_extension::register('PACKAGES_INCLUDED', function () {
     foreach ($this->getAvailablePlugins() as $plugin) {

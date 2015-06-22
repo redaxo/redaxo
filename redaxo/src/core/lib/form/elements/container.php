@@ -91,7 +91,7 @@ class rex_form_container_element extends rex_form_element
         foreach ($this->fields as $group => $groupFields) {
             $format .= '<div id="rex-' . htmlspecialchars($group) . '"' . $attr . '>';
             foreach ($groupFields as $field) {
-                    $format .= $field->get();
+                $format .= $field->get();
             }
             $format .= '</div>';
         }

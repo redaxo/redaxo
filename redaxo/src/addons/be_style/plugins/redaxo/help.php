@@ -1,4 +1,5 @@
 <?php
+
 $content = rex_file::getOutput(rex_path::plugin('be_style', 'redaxo', 'assets/css/styles.css'));
 
 preg_match_all('@\.rex-icon-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
@@ -15,8 +16,6 @@ if (count($matches) > 0) {
     $icons_used = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
 }
 
-
-
 preg_match_all('@\.fa-(\w+):before@im', $content, $matches, PREG_SET_ORDER);
 
 $icons_complete = '';
@@ -30,7 +29,6 @@ if (count($matches) > 0) {
 
     $icons_complete = '<ul class="rex-list-inline">' . implode('', $list) . '</ul>';
 }
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('content', '<h3>REDAXO Icons</h3>' . $icons_used, false);

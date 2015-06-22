@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab
+ * Object Oriented Framework: Bildet eine Kategorie im Medienpool ab.
+ *
  * @package redaxo\mediapool
  */
 class rex_media_category
@@ -31,6 +32,7 @@ class rex_media_category
 
     /**
      * @param int $id
+     *
      * @return self
      */
     public static function get($id)
@@ -84,6 +86,7 @@ class rex_media_category
 
     /**
      * @param int $parentId
+     *
      * @return self[]
      */
     protected static function getChildCategories($parentId)
@@ -128,7 +131,7 @@ class rex_media_category
     }
 
     /**
-     * Returns the path ids of the category as an array
+     * Returns the path ids of the category as an array.
      *
      * @return int[]
      */
@@ -217,9 +220,10 @@ class rex_media_category
     }
 
     /**
-     * Checks if $anObj is in the parent tree of the object
+     * Checks if $anObj is in the parent tree of the object.
      *
      * @param self $anObj
+     *
      * @return bool
      */
     public function inParentTree($anObj)
@@ -257,6 +261,7 @@ class rex_media_category
 
     /**
      * @param self $mediaCat
+     *
      * @return bool
      */
     public function isParent(self $mediaCat)

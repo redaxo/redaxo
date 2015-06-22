@@ -2,10 +2,8 @@
 
 rex_extension::register('PAGE_CONTENT_SIDEBAR', 'rex_metainfo_content_sidebar');
 
-
 function rex_metainfo_content_sidebar($extionPointParams)
 {
-
     $params = $extionPointParams->getParams();
 
     $article = rex_article::get($params['article_id'], $params['clang']);
@@ -31,12 +29,10 @@ function rex_metainfo_content_sidebar($extionPointParams)
 
     $panel .= '</dl>';
 
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('metadata'), false);
     $fragment->setVar('body', $panel, false);
     $content = $fragment->parse('core/page/section.php');
 
     return $content;
-
 }

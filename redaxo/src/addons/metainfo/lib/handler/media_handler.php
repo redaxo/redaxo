@@ -11,7 +11,9 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
      * Extension to check whether the given media is still in use.
      *
      * @param rex_extension_point $ep
+     *
      * @throws rex_exception
+     *
      * @return string
      */
     public static function isMediaInUse(rex_extension_point $ep)
@@ -29,10 +31,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
         $where = [
             'articles' => [],
-            'media' => []
+            'media' => [],
         ];
         $filename = addslashes($params['filename']);
-        for ($i = 0; $i < $rows; $i++) {
+        for ($i = 0; $i < $rows; ++$i) {
             $name = $sql->getValue('name');
             if (rex_metainfo_meta_prefix($name) == self::PREFIX) {
                 $key = 'media';

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Clang class
+ * Clang class.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_clang
@@ -18,7 +19,7 @@ class rex_clang
     private $priority;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int    $id       Id
      * @param string $code     Code
@@ -34,10 +35,11 @@ class rex_clang
     }
 
     /**
-     * Checks if the given clang exists
+     * Checks if the given clang exists.
      *
-     * @param integer $id Clang id
-     * @return boolean
+     * @param int $id Clang id
+     *
+     * @return bool
      */
     public static function exists($id)
     {
@@ -46,9 +48,10 @@ class rex_clang
     }
 
     /**
-     * Returns the clang object for the given id
+     * Returns the clang object for the given id.
      *
-     * @param integer $id Clang id
+     * @param int $id Clang id
+     *
      * @return self
      */
     public static function get($id)
@@ -60,7 +63,7 @@ class rex_clang
     }
 
     /**
-     * Returns the clang start id
+     * Returns the clang start id.
      *
      * @return int
      */
@@ -72,7 +75,7 @@ class rex_clang
     }
 
     /**
-     * Returns the current clang object
+     * Returns the current clang object.
      *
      * @return self
      */
@@ -82,9 +85,9 @@ class rex_clang
     }
 
     /**
-     * Returns the current clang id
+     * Returns the current clang id.
      *
-     * @return integer Current clang id
+     * @return int Current clang id
      */
     public static function getCurrentId()
     {
@@ -92,9 +95,10 @@ class rex_clang
     }
 
     /**
-     * Sets the current clang id
+     * Sets the current clang id.
      *
-     * @param integer $id Clang id
+     * @param int $id Clang id
+     *
      * @throws rex_exception
      */
     public static function setCurrentId($id)
@@ -106,9 +110,9 @@ class rex_clang
     }
 
     /**
-     * Returns the id
+     * Returns the id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -116,7 +120,7 @@ class rex_clang
     }
 
     /**
-     * Returns the lang code
+     * Returns the lang code.
      *
      * @return string
      */
@@ -126,7 +130,7 @@ class rex_clang
     }
 
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string
      */
@@ -136,7 +140,7 @@ class rex_clang
     }
 
     /**
-     * Returns the priority
+     * Returns the priority.
      *
      * @return int
      */
@@ -146,9 +150,9 @@ class rex_clang
     }
 
     /**
-     * Counts the clangs
+     * Counts the clangs.
      *
-     * @return integer
+     * @return int
      */
     public static function count()
     {
@@ -157,7 +161,7 @@ class rex_clang
     }
 
     /**
-     * Returns an array of all clang ids
+     * Returns an array of all clang ids.
      *
      * @return int[]
      */
@@ -168,7 +172,7 @@ class rex_clang
     }
 
     /**
-     * Returns an array of all clangs
+     * Returns an array of all clangs.
      *
      * @return self[]
      */
@@ -179,7 +183,7 @@ class rex_clang
     }
 
     /**
-     * Loads the cache if not already loaded
+     * Loads the cache if not already loaded.
      */
     private static function checkCache()
     {
@@ -198,7 +202,7 @@ class rex_clang
     }
 
     /**
-     * Resets the intern cache of this class
+     * Resets the intern cache of this class.
      */
     public static function reset()
     {

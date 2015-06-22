@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
@@ -9,10 +8,10 @@ echo rex_view::title(rex_i18n::msg('title_templates'));
 
 $OUT = true;
 
-$function     = rex_request('function', 'string');
-$template_id  = rex_request('template_id', 'int');
-$save         = rex_request('save', 'string');
-$goon         = rex_request('goon', 'string');
+$function = rex_request('function', 'string');
+$template_id = rex_request('template_id', 'int');
+$save = rex_request('save', 'string');
+$goon = rex_request('goon', 'string');
 
 $success = '';
 $error = '';
@@ -28,15 +27,12 @@ if ($function == 'delete') {
 
     if ($del->getRows() > 0  || rex::getProperty('default_template_id') == $template_id) {
         $error = rex_i18n::msg('cant_delete_template_because_its_in_use', rex_i18n::msg('id') . ' = ' . $template_id);
-
     } else {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
         rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
         $success = rex_i18n::msg('template_deleted');
     }
-
 } elseif ($function == 'edit') {
-
     $legend = rex_i18n::msg('edit_template') . ' <em class="rex-number">' . rex_i18n::msg('id') . ' = ' . $template_id . '</em>';
 
     $hole = rex_sql::factory();
@@ -46,11 +42,9 @@ if ($function == 'delete') {
         $template = $hole->getValue('content');
         $active = $hole->getValue('active');
         $attributes = $hole->getArrayValue('attributes');
-
     } else {
         $function = '';
     }
-
 } else {
     $templatename = '';
     $template = '';
@@ -58,7 +52,6 @@ if ($function == 'delete') {
     $template_id = '';
     $attributes = [];
     $legend = rex_i18n::msg('create_template');
-
 }
 
 if ($function == 'add' or $function == 'edit') {
@@ -69,9 +62,9 @@ if ($function == 'add' or $function == 'edit') {
         $ctypes = rex_post('ctype', 'array');
         $num_ctypes = count($ctypes);
         if ($ctypes[$num_ctypes] == '') {
-            unset ($ctypes[$num_ctypes]);
-            if (isset ($ctypes[$num_ctypes - 1]) && $ctypes[$num_ctypes - 1] == '') {
-                unset ($ctypes[$num_ctypes - 1]);
+            unset($ctypes[$num_ctypes]);
+            if (isset($ctypes[$num_ctypes - 1]) && $ctypes[$num_ctypes - 1] == '') {
+                unset($ctypes[$num_ctypes - 1]);
             }
         }
 
@@ -137,7 +130,7 @@ if ($function == 'add' or $function == 'edit') {
         }
     }
 
-    if (!isset ($save) or $save != 'ja') {
+    if (!isset($save) or $save != 'ja') {
 
         // Ctype Handling
         $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
@@ -182,15 +175,11 @@ if ($function == 'add' or $function == 'edit') {
             }
         }
 
-
-
-
         $ctypes_out = '';
         $i = 1;
         $ctypes[] = ''; // Extra, fuer Neue Spalte
 
         if (is_array($ctypes)) {
-
             foreach ($ctypes as $id => $name) {
                 $modul_select->setName('modules[' . $i . '][]');
                 $modul_select->setId('rex-id-modules-' . $i . '-select');
@@ -204,7 +193,6 @@ if ($function == 'add' or $function == 'edit') {
                     }
                 }
 
-
                 $formElements = [];
                 $n = [];
                 $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('id') . ' = ' . $i . '</label>';
@@ -215,7 +203,6 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
                 $ctypes_out .= $fragment->parse('core/form/form.php');
-
 
                 $field = '';
                 $field .= '<input id="rex-js-allmodules' . $i . '" type="checkbox" name="modules[' . $i . '][all]" ';
@@ -234,10 +221,9 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('elements', $formElements, false);
                 $ctypes_out .= $fragment->parse('core/form/checkbox.php');
 
-
                 $formElements = [];
                 $n = [];
-                $n['id']    = 'rex-js-modules' . $i;
+                $n['id'] = 'rex-js-modules' . $i;
                 $n['label'] = '<label for="rex-id-modules-' . $i . '-select">' . rex_formatter::widont(rex_i18n::msg('modules_available')) . '</label>';
                 $n['field'] = $modul_select->get();
                 $n['note'] = rex_i18n::msg('ctrl');
@@ -248,12 +234,9 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('elements', $formElements, false);
                 $ctypes_out .= $fragment->parse('core/form/form.php');
 
-
-                $i++;
+                ++$i;
             }
-
         }
-
 
         $ctypes_out .= '
             <script type="text/javascript">
@@ -261,7 +244,7 @@ if ($function == 'add' or $function == 'edit') {
             jQuery(function($) {
         ';
 
-        for ($j = 1; $j <= $i; $j++) {
+        for ($j = 1; $j <= $i; ++$j) {
             $ctypes_out .= '
 
                 $("#rex-js-allmodules' . $j . '").click(function() {
@@ -274,10 +257,9 @@ if ($function == 'add' or $function == 'edit') {
             ';
         }
 
-            $ctypes_out .= '
+        $ctypes_out .= '
             });
             //--></script>';
-
 
         $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
@@ -288,8 +270,6 @@ if ($function == 'add' or $function == 'edit') {
         if ($error != '') {
             $message .= rex_view::error($error);
         }
-
-
 
         $panel = '';
 
@@ -310,18 +290,16 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
-
         $formElements = [];
         $n = [];
         $n['label'] = '<label>' . rex_i18n::msg('checkbox_template_active') . '</label>';
         $n['field'] = '<input type="checkbox" id="rex-js-active" name="active" value="1"' . $tmpl_active_checked . '/>';
-        $n['note']  = rex_i18n::msg('checkbox_template_active_info');
+        $n['note'] = rex_i18n::msg('checkbox_template_active_info');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
-
 
         $formElements = [];
         $n = [];
@@ -350,8 +328,6 @@ if ($function == 'add' or $function == 'edit') {
                     <fieldset>
                          <legend>' . rex_i18n::msg('template_categories') . '</legend>';
 
-
-
         $field = '';
         $field .= '<input id="rex-js-allcategories" type="checkbox" name="categories[all]" ';
         if (!isset($categories['all']) || $categories['all'] == 1) {
@@ -370,10 +346,9 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
-
         $formElements = [];
         $n = [];
-        $n['id']    = 'rex-id-categories';
+        $n['id'] = 'rex-id-categories';
         $n['label'] = '<label for="rex-id-categories-select">' . rex_formatter::widont(rex_i18n::msg('template_categories_custom')) . '</label>';
         $n['field'] = $cat_select->get();
         $n['note'] = rex_i18n::msg('ctrl');
@@ -387,7 +362,6 @@ if ($function == 'add' or $function == 'edit') {
         $panel .= '
                     </fieldset>
                 </div>';
-
 
         $formElements = [];
 
@@ -407,14 +381,11 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-
         $fragment = new rex_fragment();
         $fragment->setVar('title', $legend, false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
-
-
 
         $content = '
             <form id="rex-form-template" action="' . rex_url::currentBackendPage() . '" method="post">
@@ -448,7 +419,6 @@ if ($function == 'add' or $function == 'edit') {
             });
 
             //--></script>';
-
 
         echo $message;
         echo $content;

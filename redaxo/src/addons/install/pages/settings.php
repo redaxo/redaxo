@@ -7,7 +7,7 @@ $panel = '';
 $settings = rex_post('settings', [
     ['backups', 'bool', false],
     ['api_login', 'string'],
-    ['api_key', 'string']
+    ['api_key', 'string'],
 ], null);
 
 if (is_array($settings)) {
@@ -22,7 +22,6 @@ $panel .= '
             <fieldset>
                 <legend>' . $this->i18n('settings_general') . '</legend>';
 
-
             $formElements = [];
 
                 $n = [];
@@ -35,12 +34,10 @@ $panel .= '
                 $fragment->setVar('elements', $formElements, false);
                 $panel .= $fragment->parse('core/form/checkbox.php');
 
-
 $panel .= '
             </fieldset>
             <fieldset>
                 <legend>' . $this->i18n('settings_myredaxo_account') . '</legend>';
-
 
             $formElements = [];
 
@@ -58,10 +55,8 @@ $panel .= '
                 $fragment->setVar('elements', $formElements, false);
                 $panel .= $fragment->parse('core/form/form.php');
 
-
 $panel .= '
                 </fieldset>';
-
 
             $formElements = [];
 
@@ -72,8 +67,6 @@ $panel .= '
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', $formElements, false);
                 $buttons = $fragment->parse('core/form/submit.php');
-
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $this->i18n('subpage_settings'), false);

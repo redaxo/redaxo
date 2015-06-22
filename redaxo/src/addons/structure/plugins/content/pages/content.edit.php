@@ -1,6 +1,6 @@
 <?php
 
-$CONT = new rex_article_content_editor;
+$CONT = new rex_article_content_editor();
 $CONT->getContentAsQuery();
 $CONT->info = $info;
 $CONT->warning = $warning;

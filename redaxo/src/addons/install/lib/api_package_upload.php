@@ -18,7 +18,7 @@ class rex_api_install_package_upload extends rex_api_function
             ['description', 'string'],
             ['status', 'int'],
             ['replace_assets', 'bool'],
-            ['ignore_tests', 'bool']
+            ['ignore_tests', 'bool'],
         ]);
         $file = [];
         $archive = null;

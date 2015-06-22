@@ -50,7 +50,7 @@ if ($PERMALL) {
     $error = [];
     if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
         $sync_files = rex_post('sync_files', 'array');
-        $ftitle     = rex_post('ftitle', 'string');
+        $ftitle = rex_post('ftitle', 'string');
 
         if ($diff_count > 0) {
             $success = [];
@@ -82,46 +82,33 @@ if ($PERMALL) {
         $error[] = rex_i18n::msg('pool_file_not_found');
     }
 
-
     $content = '';
 
     if ($diff_count > 0) {
-
         $writable = [];
         $not_writable = [];
         foreach ($diff_files as $file) {
-
             if (is_writable(rex_path::media($file))) {
-
                 $e = [];
                 $e['label'] = '<label>' . $file . '</label>';
                 $e['field'] = '<input type="checkbox" name="sync_files[]" value="' . $file . '" />';
                 $writable[] = $e;
-
             } else {
-
                 $not_writable[] = $file;
-
             }
         }
-
 
         $e = [];
         $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';
         $e['field'] = '<input type="checkbox" name="checkie" id="rex-js-checkie" value="0" onchange="setAllCheckBoxes(\'sync_files[]\',this)" />';
         $writable[] = $e;
 
-
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $writable, false);
         $panel = $fragment->parse('core/form/checkbox.php');
 
-
-
-
         $count = count($writable) - 1;
         if ($count) {
-
             $content .= rex_mediapool_Mediaform(rex_i18n::msg('pool_sync_title'), rex_i18n::msg('pool_sync_button'), $rex_file_category, false, false);
             $content .= '<fieldset>';
 
@@ -154,13 +141,10 @@ if ($PERMALL) {
 
             $fragment = new rex_fragment();
             $fragment->setVar('title', $title, false);
-            $fragment->setVar('body', '<ul><li>' . implode('</li><li>', $not_writable) . '</li></ul>' , false);
+            $fragment->setVar('body', '<ul><li>' . implode('</li><li>', $not_writable) . '</li></ul>', false);
             $fragment->setVar('class', 'warning', false);
             $content .= $fragment->parse('core/page/section.php');
-
         }
-
-
     } else {
         $panel = '<p>' . rex_i18n::msg('pool_sync_no_diffs') . '</p>';
 

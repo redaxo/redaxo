@@ -6,7 +6,7 @@
 class rex_content_service
 {
     /**
-     * Verschiebt einen Slice
+     * Verschiebt einen Slice.
      *
      * @param int    $slice_id  Id des Slices
      * @param int    $clang     Id der Sprache
@@ -14,6 +14,7 @@ class rex_content_service
      *
      * @throws rex_exception
      * @throws rex_api_exception
+     *
      * @return string Eine Statusmeldung
      */
     public static function moveSlice($slice_id, $clang, $direction)
@@ -33,7 +34,7 @@ class rex_content_service
             $upd = rex_sql::factory();
             $upd->setTable(rex::getTablePrefix() . 'article_slice');
             $upd->setWhere([
-                'id' => $slice_id
+                'id' => $slice_id,
             ]);
 
             // some vars for later use
@@ -78,11 +79,11 @@ class rex_content_service
     }
 
     /**
-     * Löscht einen Slice
+     * Löscht einen Slice.
      *
      * @param int $slice_id Id des Slices
      *
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function deleteSlice($slice_id)
     {
@@ -109,14 +110,15 @@ class rex_content_service
     }
 
     /**
-     * Kopiert die Inhalte eines Artikels in einen anderen Artikel
+     * Kopiert die Inhalte eines Artikels in einen anderen Artikel.
      *
      * @param int $from_id    ArtikelId des Artikels, aus dem kopiert werden (Quell ArtikelId)
      * @param int $to_id      ArtikelId des Artikel, in den kopiert werden sollen (Ziel ArtikelId)
      * @param int $from_clang ClangId des Artikels, aus dem kopiert werden soll (Quell ClangId)
      * @param int $to_clang   ClangId des Artikels, in den kopiert werden soll (Ziel ClangId)
      * @param int $revision
-     * @return boolean TRUE bei Erfolg, sonst FALSE
+     *
+     * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function copyContent($from_id, $to_id, $from_clang = 1, $to_clang = 1, $revision = 0)
     {
@@ -143,16 +145,16 @@ class rex_content_service
                     } elseif ($colname == 'article_id') {
                         $value = $to_id;
                     } else {
-                    $value = $slice->getValue($colname);
+                        $value = $slice->getValue($colname);
                     }
 
                     // collect all affected ctypes
                     if ($colname == 'ctype_id') {
-                    $ctypes[$value] = $value;
+                        $ctypes[$value] = $value;
                     }
 
                     if ($colname != 'id') {
-                    $ins->setValue($colname, $value);
+                        $ins->setValue($colname, $value);
                     }
                 }
 
@@ -190,10 +192,10 @@ class rex_content_service
     {
         foreach (rex_clang::getAllIds() as $_clang) {
             if ($clang !== null && $clang != $_clang) {
-            continue;
+                continue;
             }
 
-            $CONT = new rex_article_content_base;
+            $CONT = new rex_article_content_base();
             $CONT->setCLang($_clang);
             $CONT->setEval(false); // Content nicht ausführen, damit in Cachedatei gespeichert werden kann
             if (!$CONT->setArticleId($article_id)) {
@@ -208,7 +210,7 @@ class rex_content_service
             $article_content = rex_extension::registerPoint(new rex_extension_point('GENERATE_FILTER', $article_content, [
                 'id' => $article_id,
                 'clang' => $_clang,
-                'article' => $CONT
+                'article' => $CONT,
             ]));
 
             if (rex_file::put($article_content_file, $article_content) === false) {

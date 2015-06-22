@@ -3,25 +3,24 @@
 $out = '';
 
 foreach ($this->elements as $element) {
-
-    $id     = isset($element['id'])     && $element['id'] != ''     ? ' id="' . $element['id'] . '"' : '';
-    $label  = isset($element['label'])  && $element['label'] != ''  ? '<dt>' . $element['label'] . '</dt>' : '';
-    $field  = isset($element['field'])  && $element['field'] != ''  ? $element['field']   : '';
+    $id = isset($element['id'])     && $element['id'] != ''     ? ' id="' . $element['id'] . '"' : '';
+    $label = isset($element['label'])  && $element['label'] != ''  ? '<dt>' . $element['label'] . '</dt>' : '';
+    $field = isset($element['field'])  && $element['field'] != ''  ? $element['field']   : '';
 
     $before = isset($element['before']) ? $element['before']  : '';
-    $after  = isset($element['after'])  ? $element['after']   : '';
+    $after = isset($element['after'])  ? $element['after']   : '';
 
     $header = isset($element['header']) ? $element['header']  : '';
     $footer = isset($element['footer']) ? $element['footer']  : '';
 
-    $note   = isset($element['note']) && $element['note'] != '' ? '<dd class="help-block rex-note">' . $element['note'] . '</dd>' : '';
+    $note = isset($element['note']) && $element['note'] != '' ? '<dd class="help-block rex-note">' . $element['note'] . '</dd>' : '';
 
     $classes = '';
 
     $error = '';
     if (isset($element['error']) && $element['error'] != '') {
         $classes .= ' has-error';
-        $error  = '<dd class="rex-form-error">' . $element['error'] . '</dd>';
+        $error = '<dd class="rex-form-error">' . $element['error'] . '</dd>';
     }
     if (isset($element['required']) && $element['required']) {
         $classes .= ' rex-is-required';
@@ -38,7 +37,6 @@ foreach ($this->elements as $element) {
     $out .= $error;
     $out .= '</dl>';
     $out .= $footer;
-
 }
 
 $classes = '';

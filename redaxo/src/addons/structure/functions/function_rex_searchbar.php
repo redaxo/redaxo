@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Backend Search Addon
+ * Backend Search Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -10,7 +10,9 @@
 
 /**
  * @param rex_context $context
+ *
  * @return string
+ *
  * @package redaxo\structure
  */
 function rex_structure_searchbar(rex_context $context)
@@ -19,9 +21,9 @@ function rex_structure_searchbar(rex_context $context)
     $search_result = '';
 
     // ------------ Parameter
-    $clang       = $context->getParam('clang', 1);
+    $clang = $context->getParam('clang', 1);
     $category_id = $context->getParam('category_id', 0);
-    $article_id  = $context->getParam('article_id', 0);
+    $article_id = $context->getParam('article_id', 0);
     $search_article_name = rex_request('search_article_name', 'string');
 
     // ------------ Suche via ArtikelId
@@ -78,8 +80,7 @@ function rex_structure_searchbar(rex_context $context)
         elseif ($foundRows > 0) {
             $needle = htmlspecialchars($search_article_name);
             $search_result .= '<div class="list-group">';
-            for ($i = 0; $i < $foundRows; $i++) {
-                
+            for ($i = 0; $i < $foundRows; ++$i) {
                 $breadcrumb = [];
 
                 $OOArt = rex_article::get($search->getValue('id'), $clang);
@@ -111,7 +112,6 @@ function rex_structure_searchbar(rex_context $context)
                         $e['href'] = $context->getUrl(['page' => 'structure', 'category_id' => $treeItem->getId()]);
                         $breadcrumb[] = $e;
                     }
-
 
                     $label = htmlspecialchars($label);
                     $label = $highlightHit($label, $needle);
@@ -153,20 +153,18 @@ function rex_structure_searchbar(rex_context $context)
 
     $select = $category_select->get();
 
-
     $doc = new DOMDocument();
     $doc->loadHTML('<?xml encoding="UTF-8">' . $select);
 
     $options = $doc->getElementsByTagName('option');
-
 
     $droplistContext = new rex_context([
         'page' => 'structure',
         'category_id' => 0,
     ]);
 
-    $button_label =  '';
-    $items  = [];
+    $button_label = '';
+    $items = [];
     foreach ($options as $option) {
         $value = '';
         $item = [];
@@ -186,10 +184,8 @@ function rex_structure_searchbar(rex_context $context)
         }
 
         $item['title'] = $option->nodeValue;
-        $item['href']  = $droplistContext->getUrl();
+        $item['href'] = $droplistContext->getUrl();
         $items[] = $item;
-
-
     }
 
     $fragment = new rex_fragment();
@@ -198,9 +194,6 @@ function rex_structure_searchbar(rex_context $context)
     $fragment->setVar('items', $items, false);
 
     $droplist = '<div class="navbar-btn navbar-right">' . $fragment->parse('core/dropdowns/dropdown.php');
-
-
-
 
     $formElements = [];
     $n = [];
@@ -222,7 +215,6 @@ function rex_structure_searchbar(rex_context $context)
     </div>
     </form>';
     $toolbar = rex_view::toolbar($toolbar . $droplist, rex_i18n::msg('be_search_search'));
-
 
     return $toolbar . $search_result;
 }

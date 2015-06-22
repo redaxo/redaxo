@@ -12,11 +12,11 @@ class rex_string_test extends PHPUnit_Framework_TestCase
         return [
             [
                 'ae_oe_ue_ae_oe_ue_ss_ae_oe_ue_ae_oe_ue',
-                "Ä Ö Ü ä ö ü ß A\xcc\x88 O\xcc\x88 U\xcc\x88 a\xcc\x88 o\xcc\x88 u\xcc\x88"
+                "Ä Ö Ü ä ö ü ß A\xcc\x88 O\xcc\x88 U\xcc\x88 a\xcc\x88 o\xcc\x88 u\xcc\x88",
             ],
             ['test-12-3-4-a', 'Test. 12+3+-4 [a]', '-'],
             ['test123', '"test" 123', ''],
-            ['[€_1]', '[€ 1]', '_', '[]€']
+            ['[€_1]', '[€ 1]', '_', '[]€'],
         ];
     }
 
@@ -35,8 +35,8 @@ class rex_string_test extends PHPUnit_Framework_TestCase
             ['a b c',                                     ['a', 'b', 'c']],
             ['"a b" cdef \'ghi kl\'',                     ['a b', 'cdef', 'ghi kl']],
             ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
-            ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => "a\\"]],
-            ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']]
+            ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => 'a\\']],
+            ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']],
         ];
     }
 
@@ -54,7 +54,7 @@ class rex_string_test extends PHPUnit_Framework_TestCase
             ['1.1.2',      ['1', '1', '2']],
             ['1.2alpha1',  ['1', '2', 'alpha', '1']],
             ['1_2 beta 2', ['1', '2', 'beta', '2']],
-            ['2.2.3-dev',  ['2', '2', '3', 'dev']]
+            ['2.2.3-dev',  ['2', '2', '3', 'dev']],
         ];
     }
 
@@ -91,7 +91,7 @@ class rex_string_test extends PHPUnit_Framework_TestCase
             ['1.0a1',  '1.0.1',    '<'],
             ['1.0a1',  '1.0a2',    '<'],
             ['1.0',    '1.1a1',    '<'],
-            ['1.0.1',  '1.1a1',    '<']
+            ['1.0.1',  '1.1a1',    '<'],
         ];
     }
 
@@ -109,7 +109,7 @@ class rex_string_test extends PHPUnit_Framework_TestCase
             ['', []],
             ['page=system/settings&a%2Bb=test+test', ['page' => 'system/settings', 'a+b' => 'test test']],
             ['arr[0]=a&arr[1]=b&arr[key]=c', ['arr' => ['a', 'b', 'key' => 'c']]],
-            ['a=1&amp;b=2', ['a' => 1, 'b' => 2], '&amp;']
+            ['a=1&amp;b=2', ['a' => 1, 'b' => 2], '&amp;'],
         ];
     }
 

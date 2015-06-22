@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Validator class
+ * Validator class.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_validator
@@ -14,7 +15,7 @@ class rex_validator
     private $message;
 
     /**
-     * Constructor
+     * Constructor.
      */
     protected function __construct()
     {
@@ -22,22 +23,23 @@ class rex_validator
     }
 
     /**
-     * Factory method
+     * Factory method.
      *
      * @return static
      */
     public static function factory()
     {
         $class = static::getFactoryClass();
-        return new $class;
+        return new $class();
     }
 
     /**
-     * Adds a validator
+     * Adds a validator.
      *
      * @param string      $type    Validator type (any static method name of this class)
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
+     *
      * @throws InvalidArgumentException
      */
     public function add($type, $message = null, $option = null)
@@ -49,9 +51,10 @@ class rex_validator
     }
 
     /**
-     * Checks whether the given value matches all added validators
+     * Checks whether the given value matches all added validators.
      *
      * @param string $value
+     *
      * @return bool
      */
     public function isValid($value)
@@ -68,7 +71,7 @@ class rex_validator
     }
 
     /**
-     * Returns the message
+     * Returns the message.
      *
      * @return string[]
      */
@@ -78,9 +81,10 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is not empty
+     * Checks whether the value is not empty.
      *
      * @param string $value
+     *
      * @return bool
      */
     public function notEmpty($value)
@@ -89,11 +93,13 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is from the given type
+     * Checks whether the value is from the given type.
      *
      * @param string $value
      * @param string $type
+     *
      * @throws InvalidArgumentException
+     *
      * @return bool
      */
     public function type($value, $type)
@@ -113,10 +119,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value has the given min length
+     * Checks whether the value has the given min length.
      *
      * @param string $value
      * @param int    $minLength
+     *
      * @return bool
      */
     public function minLength($value, $minLength)
@@ -125,10 +132,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value has the given max value
+     * Checks whether the value has the given max value.
      *
      * @param string $value
      * @param int    $maxLength
+     *
      * @return bool
      */
     public function maxLength($value, $maxLength)
@@ -137,10 +145,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is equal or greater than the given min value
+     * Checks whether the value is equal or greater than the given min value.
      *
      * @param string $value
      * @param int    $min
+     *
      * @return bool
      */
     public function min($value, $min)
@@ -149,10 +158,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is equal or lower than the given max value
+     * Checks whether the value is equal or lower than the given max value.
      *
      * @param string $value
      * @param int    $max
+     *
      * @return bool
      */
     public function max($value, $max)
@@ -161,9 +171,10 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is an URL
+     * Checks whether the value is an URL.
      *
      * @param string $value
+     *
      * @return bool
      */
     public function url($value)
@@ -172,9 +183,10 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is an email address
+     * Checks whether the value is an email address.
      *
      * @param string $value
+     *
      * @return bool
      */
     public function email($value)
@@ -183,10 +195,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value matches the given regex
+     * Checks whether the value matches the given regex.
      *
      * @param string $value
      * @param string $regex
+     *
      * @return bool
      */
     public function match($value, $regex)
@@ -195,10 +208,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value does not match the given regex
+     * Checks whether the value does not match the given regex.
      *
      * @param string $value
      * @param string $regex
+     *
      * @return bool
      */
     public function notMatch($value, $regex)
@@ -207,10 +221,11 @@ class rex_validator
     }
 
     /**
-     * Checks whether the value is one of the given valid values
+     * Checks whether the value is one of the given valid values.
      *
      * @param string $value
      * @param array  $validValues
+     *
      * @return bool
      */
     public function values($value, array $validValues)
@@ -219,10 +234,11 @@ class rex_validator
     }
 
     /**
-     * Checks the value by using the given callable
+     * Checks the value by using the given callable.
      *
      * @param string   $value
      * @param callable $callback
+     *
      * @return bool
      */
     public function custom($value, callable $callback)

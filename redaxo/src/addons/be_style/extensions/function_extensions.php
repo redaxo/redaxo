@@ -2,7 +2,7 @@
 
 /**
  * Menupunkt nur einbinden, falls ein Plugin sich angemeldet hat
- * via BE_STYLE_PAGE_CONTENT inhalt auszugeben
+ * via BE_STYLE_PAGE_CONTENT inhalt auszugeben.
  *
  * @package redaxo\be-style
  */

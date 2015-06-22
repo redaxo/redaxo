@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Sortable iterator
+ * Sortable iterator.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_sortable_iterator implements IteratorAggregate
@@ -15,7 +16,7 @@ class rex_sortable_iterator implements IteratorAggregate
     private $sort;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Traversable  $iterator Inner iterator
      * @param int|callable $sort     Sort mode, possible values are rex_sortable_iterator::VALUES (default), rex_sortable_iterator::KEYS or a callable

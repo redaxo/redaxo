@@ -40,7 +40,7 @@ class rex_structure_perm extends rex_complex_perm
         return [
             'label' => rex_i18n::msg('categories'),
             'all_label' => rex_i18n::msg('all_categories'),
-            'select' => new rex_category_select(false, false, false, false)
+            'select' => new rex_category_select(false, false, false, false),
         ];
     }
 }

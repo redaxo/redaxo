@@ -41,7 +41,7 @@ if ($media_method == 'add_file') {
                             $js = "insertImage('$file_name','$title');";
                         }
                     } elseif ($opener_input_field == 'TINY') {
-                            $js = "insertLink('" . $file_name . "');";
+                        $js = "insertLink('" . $file_name . "');";
                     } elseif ($opener_input_field != '') {
                         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                             $js = "selectMedialist('" . $file_name . "');";

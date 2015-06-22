@@ -5,7 +5,6 @@
  */
 class rex_effect_workspace extends rex_effect_abstract
 {
-
     private $options;
     private $script;
 
@@ -20,7 +19,7 @@ class rex_effect_workspace extends rex_effect_abstract
             'bottomright',
             'right',
             'topright',
-            'center'
+            'center',
         ];
 
         $this->script = '
@@ -51,12 +50,10 @@ class rex_effect_workspace extends rex_effect_abstract
 })(jQuery);
 
 //--></script>';
-
     }
 
     public function execute()
     {
-
         $gdimage = $this->media->getImage();
         $w = $this->media->getWidth();
         $h = $this->media->getHeight();
@@ -72,17 +69,17 @@ class rex_effect_workspace extends rex_effect_abstract
         }
 
         $this->params['bg_r'] = (int) $this->params['bg_r'];
-        if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0 ) {
+        if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0) {
             $this->params['bg_r'] = 255;
         }
 
         $this->params['bg_g'] = (int) $this->params['bg_g'];
-        if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0 ) {
+        if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0) {
             $this->params['bg_g'] = 255;
         }
 
         $this->params['bg_b'] = (int) $this->params['bg_b'];
-        if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0 ) {
+        if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0) {
             $this->params['bg_b'] = 255;
         }
 
@@ -161,21 +158,21 @@ class rex_effect_workspace extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
-                'type'  => 'select',
-                'options'  => ['left', 'center', 'right'],
-                'default' => 'left'
+                'type' => 'select',
+                'options' => ['left', 'center', 'right'],
+                'default' => 'left',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
-                'type'  => 'select',
-                'options'  => ['top', 'middle', 'bottom'],
-                'default' => 'top'
+                'type' => 'select',
+                'options' => ['top', 'middle', 'bottom'],
+                'default' => 'top',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_color'),
@@ -183,7 +180,7 @@ class rex_effect_workspace extends rex_effect_abstract
                 'type' => 'select',
                 'options' => ['colored', 'transparent'],
                 'default' => 'colored',
-                'suffix' => $this->script
+                'suffix' => $this->script,
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_mirror_background_r'),

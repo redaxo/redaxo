@@ -1,11 +1,10 @@
 <?php
 
 /**
- * Backendstyle Addon
+ * Backendstyle Addon.
  *
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
- *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
@@ -18,7 +17,6 @@ $mypage = 'be_style';
 if (rex::isBackend()) {
     require_once rex_path::addon($mypage, 'extensions/function_extensions.php');
     rex_extension::register('PACKAGES_INCLUDED', 'rex_be_add_page');
-
 
     $files = [
         $this->getPath('vendor/bootstrap/assets/javascripts/bootstrap.js') => $this->getAssetsPath('javascripts/bootstrap.js'),
@@ -33,20 +31,13 @@ if (rex::isBackend()) {
         $this->getPath('vendor/font-awesome/fonts/FontAwesome.otf') => $this->getAssetsPath('fonts/FontAwesome.otf'),
     ];
 
-
     foreach ($files as $source => $destination) {
-
-        if (! file_exists($destination)) {
-
+        if (!file_exists($destination)) {
             rex_file::copy($source, $destination);
-
         }
-
     }
 
-
     if (rex::getUser() && $this->getProperty('compile')) {
-
         $compiler = new rex_scss_compiler();
         $compiler->setScssFile($this->getPath('scss/master.scss'));
 
@@ -57,10 +48,8 @@ if (rex::isBackend()) {
 
         // Compiled file to copy in frontend assets dir
         rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
-
     }
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap.js'));
-
 }

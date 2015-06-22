@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Object Oriented Framework: Bildet einen Artikel der Struktur ab
+ * Object Oriented Framework: Bildet einen Artikel der Struktur ab.
  *
  * @package redaxo\structure
  */
 class rex_article extends rex_structure_element
 {
     /**
-     * Return the site wide start article
+     * Return the site wide start article.
      *
      * @param int $clang
+     *
      * @return self
      */
     public static function getSiteStartArticle($clang = null)
@@ -19,10 +20,11 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * Return a list of top-level articles
+     * Return a list of top-level articles.
      *
      * @param bool $ignoreOfflines
      * @param int  $clang
+     *
      * @return self[]
      */
     public static function getRootArticles($ignoreOfflines = false, $clang = null)
@@ -31,7 +33,7 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * Returns the category id
+     * Returns the category id.
      *
      * @return int
      */
@@ -41,7 +43,7 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * Returns the parent category
+     * Returns the parent category.
      *
      * @return rex_category
      */
@@ -51,7 +53,7 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * Returns the parent object of the article
+     * Returns the parent object of the article.
      *
      * @return self
      */
@@ -61,7 +63,7 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * Returns the path of the category/article
+     * Returns the path of the category/article.
      *
      * @return string
      */
@@ -90,6 +92,7 @@ class rex_article extends rex_structure_element
 
     /**
      * @param string $value
+     *
      * @return bool
      */
     public static function hasValue($value)

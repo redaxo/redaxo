@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User management
+ * User management.
  *
  * @author
  *

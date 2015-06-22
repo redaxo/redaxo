@@ -14,7 +14,6 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 
     protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml)
     {
-
         if ($liClasses != '') {
             $liClasses = ' class="' . rtrim($liClasses) . '"';
         }
@@ -50,7 +49,7 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
     protected function listItem(rex_article $article, $category_id)
     {
         $liClass = $article->isStartArticle() ? ' class="rex-linkmap-startarticle"' : '';
-        $url     = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . addslashes(htmlspecialchars($article->getName())) . '\');';
+        $url = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . addslashes(htmlspecialchars($article->getName())) . '\');';
         return rex_linkmap_tree_renderer::formatLi($article, $category_id, $this->context, $liClass, ' href="' . $url . '"') . '</li>' . "\n";
     }
 }

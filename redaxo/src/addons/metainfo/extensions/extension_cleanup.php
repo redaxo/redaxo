@@ -1,7 +1,8 @@
 <?php
 
 /**
- * MetaForm Addon
+ * MetaForm Addon.
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo\metainfo
@@ -38,7 +39,7 @@ function rex_metainfo_cleanup($epOrParams)
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT name FROM ' . rex::getTablePrefix() . 'metainfo_field');
 
-    for ($i = 0; $i < $sql->getRows(); $i++) {
+    for ($i = 0; $i < $sql->getRows(); ++$i) {
         if (substr($sql->getValue('name'), 0, 4) == 'med_') {
             $tableManager = new rex_metainfo_table_manager(rex::getTablePrefix() . 'media');
         } else {
@@ -49,7 +50,6 @@ function rex_metainfo_cleanup($epOrParams)
 
         $sql->next();
     }
-
 
     // evtl reste aufräumen
     $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_']];

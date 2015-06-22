@@ -4,7 +4,7 @@
  * REX_CATEGORY[xzy]
  * REX_CATEGORY[field=xzy]
  * REX_CATEGORY[field=xzy id=3]
- * REX_CATEGORY[field=xzy id=3 clang=2]
+ * REX_CATEGORY[field=xzy id=3 clang=2].
  *
  * Attribute:
  *   - field    => Feld der Kategorie, das ausgegeben werden soll
@@ -16,7 +16,7 @@
 class rex_var_category extends rex_var
 {
     /**
-     * Werte für die Ausgabe
+     * Werte für die Ausgabe.
      */
     protected function getOutput()
     {

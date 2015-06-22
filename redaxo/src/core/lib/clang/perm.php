@@ -29,7 +29,7 @@ class rex_clang_perm extends rex_complex_perm
         return [
             'label' => rex_i18n::msg('clangs'),
             'all_label' => rex_i18n::msg('all_clangs'),
-            'options' => $options
+            'options' => $options,
         ];
     }
 }

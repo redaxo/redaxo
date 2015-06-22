@@ -1,71 +1,72 @@
 <?php
 
 /**
- * Interface for packages
+ * Interface for packages.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 interface rex_package_interface
 {
     /**
-     * Returns the name of the package
+     * Returns the name of the package.
      *
      * @return string Name
      */
     public function getName();
 
     /**
-     * Returns the related Addon
+     * Returns the related Addon.
      *
      * @return rex_addon
      */
     public function getAddon();
 
     /**
-     * Returns the package ID
+     * Returns the package ID.
      *
      * @return string
      */
     public function getPackageId();
 
     /**
-     * Returns the package type as string
+     * Returns the package type as string.
      *
      * @return string
      */
     public function getType();
 
     /**
-     * Returns the base path
+     * Returns the base path.
      *
      * @param string $file File
      */
     public function getPath($file = '');
 
     /**
-     * Returns the assets path
+     * Returns the assets path.
      *
      * @param string $file File
      */
     public function getAssetsPath($file = '');
 
     /**
-     * Returns the assets url
+     * Returns the assets url.
      *
      * @param string $file File
      */
     public function getAssetsUrl($file = '');
 
     /**
-     * Returns the data path
+     * Returns the data path.
      *
      * @param string $file File
      */
     public function getDataPath($file = '');
 
     /**
-     * Returns the cache path
+     * Returns the cache path.
      *
      * @param string $file File
      */
@@ -92,7 +93,7 @@ interface rex_package_interface
     public function removeConfig($key);
 
     /**
-     * Sets a property
+     * Sets a property.
      *
      * @param string $key   Key of the property
      * @param mixed  $value New value for the property
@@ -100,92 +101,98 @@ interface rex_package_interface
     public function setProperty($key, $value);
 
     /**
-     * Returns a property
+     * Returns a property.
      *
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
+     *
      * @return mixed
      */
     public function getProperty($key, $default = null);
 
     /**
-     * Returns if a property is set
+     * Returns if a property is set.
      *
      * @param string $key Key of the property
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasProperty($key);
 
     /**
-     * Removes a property
+     * Removes a property.
      *
      * @param string $key Key of the property
      */
     public function removeProperty($key);
 
     /**
-     * Returns if the package is available (activated and installed)
+     * Returns if the package is available (activated and installed).
      *
-     * @return boolean
+     * @return bool
      */
     public function isAvailable();
 
     /**
-     * Returns if the package is installed
+     * Returns if the package is installed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isInstalled();
 
     /**
-     * Returns if the package is activated
+     * Returns if the package is activated.
      *
-     * @return boolean
+     * @return bool
      */
     public function isActivated();
 
     /**
-     * Returns if it is a system package
+     * Returns if it is a system package.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSystemPackage();
 
     /**
-     * Returns the author
+     * Returns the author.
      *
      * @param mixed $default Default value, will be returned if the property isn't set
+     *
      * @return mixed
      */
     public function getAuthor($default = null);
 
     /**
-     * Returns the version
+     * Returns the version.
      *
      * @param string $format See {@link rex_formatter::version()}
+     *
      * @return mixed
      */
     public function getVersion($format = null);
 
     /**
-     * Returns the supportpage
+     * Returns the supportpage.
      *
      * @param mixed $default Default value, will be returned if the property isn't set
+     *
      * @return mixed
      */
     public function getSupportPage($default = null);
 
     /**
-     * Includes a file in the package context
+     * Includes a file in the package context.
      *
      * @param string $file Filename
      */
     public function includeFile($file);
 
     /**
-     * Adds the package prefix to the given key and returns the translation for it
+     * Adds the package prefix to the given key and returns the translation for it.
      *
      * @param string $key Key
+     *
      * @return string Translation for the key
      */
     public function i18n($key);

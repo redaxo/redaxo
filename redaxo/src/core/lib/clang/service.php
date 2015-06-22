@@ -6,7 +6,7 @@
 class rex_clang_service
 {
     /**
-     * Erstellt eine Clang
+     * Erstellt eine Clang.
      *
      * @param string $code     Clang Code
      * @param string $name     Name
@@ -30,20 +30,22 @@ class rex_clang_service
         // ----- EXTENSION POINT
         $clang = rex_clang::get($id);
         rex_extension::registerPoint(new rex_extension_point('CLANG_ADDED', '', [
-            'id'    => $clang->getId(),
-            'name'  => $clang->getName(),
-            'clang' => $clang
+            'id' => $clang->getId(),
+            'name' => $clang->getName(),
+            'clang' => $clang,
         ]));
     }
 
     /**
-     * Ändert eine Clang
+     * Ändert eine Clang.
      *
      * @param int    $id       Id der Clang
      * @param string $code     Clang Code
      * @param string $name     Name der Clang
      * @param int    $priority Priority
+     *
      * @return bool
+     *
      * @throws rex_exception
      */
     public static function editCLang($id, $code, $name, $priority)
@@ -70,18 +72,19 @@ class rex_clang_service
         // ----- EXTENSION POINT
         $clang = rex_clang::get($id);
         rex_extension::registerPoint(new rex_extension_point('CLANG_UPDATED', '', [
-            'id'    => $clang->getId(),
-            'name'  => $clang->getName(),
-            'clang' => $clang
+            'id' => $clang->getId(),
+            'name' => $clang->getName(),
+            'clang' => $clang,
         ]));
 
         return true;
     }
 
     /**
-     * Löscht eine Clang
+     * Löscht eine Clang.
      *
      * @param int $id Zu löschende ClangId
+     *
      * @throws rex_exception
      */
     public static function deleteCLang($id)
@@ -106,14 +109,14 @@ class rex_clang_service
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('CLANG_DELETED', '', [
-            'id'    => $clang->getId(),
-            'name'  => $clang->getName(),
-            'clang' => $clang
+            'id' => $clang->getId(),
+            'name' => $clang->getName(),
+            'clang' => $clang,
         ]));
     }
 
     /**
-     * Schreibt Spracheigenschaften in die Datei include/clang.php
+     * Schreibt Spracheigenschaften in die Datei include/clang.php.
      *
      * @throws rex_exception
      */

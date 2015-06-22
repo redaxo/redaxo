@@ -4,9 +4,10 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 
 /**
- * Simple Logger class
+ * Simple Logger class.
  *
  * @author staabm
+ *
  * @package redaxo\core
  */
 class rex_logger extends AbstractLogger
@@ -19,7 +20,7 @@ class rex_logger extends AbstractLogger
     private static $file;
 
     /**
-     * Shorthand: Logs the given Exception
+     * Shorthand: Logs the given Exception.
      *
      * @param Exception $exception The Exception to log
      */
@@ -34,12 +35,13 @@ class rex_logger extends AbstractLogger
     }
 
     /**
-     * Shorthand: Logs a error message
+     * Shorthand: Logs a error message.
      *
-     * @param integer $errno   The error code to log
-     * @param string  $errstr  The error message
-     * @param string  $errfile The file in which the error occured
-     * @param integer $errline The line of the file in which the error occured
+     * @param int    $errno   The error code to log
+     * @param string $errstr  The error message
+     * @param string $errfile The file in which the error occured
+     * @param int    $errline The line of the file in which the error occured
+     *
      * @throws InvalidArgumentException
      */
     public static function logError($errno, $errstr, $errfile, $errline)
@@ -69,8 +71,8 @@ class rex_logger extends AbstractLogger
      * @param array  $context
      * @param string $file
      * @param int    $line
+     *
      * @throws InvalidArgumentException
-     * @return null
      */
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
@@ -105,7 +107,7 @@ class rex_logger extends AbstractLogger
     }
 
     /**
-     * Prepares the logifle for later use
+     * Prepares the logifle for later use.
      */
     public static function open()
     {
@@ -127,9 +129,10 @@ class rex_logger extends AbstractLogger
     }
 
     /**
-     * Map php error codes to PSR3 error levels
+     * Map php error codes to PSR3 error levels.
      *
      * @param int $errno a php error code, e.g. E_ERROR
+     *
      * @return string
      */
     public static function getLogLevel($errno)

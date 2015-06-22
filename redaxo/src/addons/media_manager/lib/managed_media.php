@@ -17,7 +17,7 @@ class rex_managed_media
         'image/pjpeg' => 'jpg',
         'image/vnd.wap.wbmp' => 'wbmp',
         'image/png' => 'png',
-        'image/gif' => 'gif'
+        'image/gif' => 'gif',
     ];
 
     public function __construct($media_path)
@@ -57,7 +57,6 @@ class rex_managed_media
 
     public function asImage()
     {
-
         if ($this->asImage) {
             return;
         }
@@ -69,8 +68,8 @@ class rex_managed_media
         $this->image['src'] = false;
 
         // if mimetype detected and in imagemap -> change format
-        if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE) ) {
-            if ($ftype = @$finfo->file($this->image['filepath']) ) {
+        if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE)) {
+            if ($ftype = @$finfo->file($this->image['filepath'])) {
                 if (array_key_exists($ftype, $this->mimetypeMap)) {
                     $this->image['format'] = $this->mimetypeMap[$ftype];
                 }
@@ -81,13 +80,10 @@ class rex_managed_media
             $this->image['format'] = 'jpeg';
             $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
-
         } elseif ($this->image['format'] == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
-
         } elseif ($this->image['format'] == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
-
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
             imagealphablending($this->image['src'], false);
@@ -98,12 +94,9 @@ class rex_managed_media
         if (!$this->image['src']) {
             $this->setMediapath(rex_path::addon('media_manager', 'media/warning.jpg'));
             $this->asImage();
-
         } else {
             $this->refreshImageDimensions();
-
         }
-
     }
 
     public function refreshImageDimensions()
@@ -150,7 +143,7 @@ class rex_managed_media
             }
         }
         if (!array_key_exists('Content-Disposition', $header)) {
-            $this->setHeader('Content-Disposition', "inline; filename=\"" . $this->getMediaFilename() . "\";");
+            $this->setHeader('Content-Disposition', 'inline; filename="' . $this->getMediaFilename() . '";');
         }
         if (!array_key_exists('Last-Modified', $header)) {
             $this->setHeader('Last-Modified', date('r'));
@@ -165,7 +158,6 @@ class rex_managed_media
             rex_file::putCache($headerCacheFilename, $this->header);
             rex_file::put($sourceCacheFilename, $src);
         }
-
     }
 
     protected function getImageSource()
@@ -183,7 +175,6 @@ class rex_managed_media
         $src = ob_get_contents();
         ob_end_clean();
         return $src;
-
     }
 
     public function getImage()
@@ -205,6 +196,4 @@ class rex_managed_media
     {
         return $this->image['height'];
     }
-
-
 }

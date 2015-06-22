@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Abstract baseclass for REX_VARS
+ * Abstract baseclass for REX_VARS.
  *
  * @package redaxo\core
  */
@@ -20,12 +20,13 @@ abstract class rex_var
     private $args = [];
 
     /**
-     * Parses all REX_VARs in the given content
+     * Parses all REX_VARs in the given content.
      *
      * @param string $content     Content
      * @param int    $env         Environment
      * @param string $context     Context
      * @param mixed  $contextData Context data
+     *
      * @return string
      */
     public static function parse($content, $env = null, $context = null, $contextData = null)
@@ -99,9 +100,10 @@ abstract class rex_var
     }
 
     /**
-     * Returns a rex_var object for the given var name
+     * Returns a rex_var object for the given var name.
      *
      * @param string $var
+     *
      * @return self
      */
     private static function getVar($var)
@@ -114,16 +116,17 @@ abstract class rex_var
             self::$vars[$var] = $class;
         }
         $class = self::$vars[$var];
-        return new $class;
+        return new $class();
     }
 
     /**
-     * Replaces the REX_VARs
+     * Replaces the REX_VARs.
      *
      * @param string $content
      * @param string $format
      * @param bool   $useVariables
      * @param string $stripslashes
+     *
      * @return mixed|string
      */
     private static function replaceVars($content, $format = '%s', $useVariables = false, $stripslashes = null)
@@ -168,9 +171,10 @@ abstract class rex_var
     }
 
     /**
-     * Returns the REX_VAR matches
+     * Returns the REX_VAR matches.
      *
      * @param string $content
+     *
      * @return array
      */
     private static function getMatches($content)
@@ -180,7 +184,7 @@ abstract class rex_var
     }
 
     /**
-     * Sets the arguments
+     * Sets the arguments.
      *
      * @param string $arg_string
      */
@@ -190,10 +194,11 @@ abstract class rex_var
     }
 
     /**
-     * Checks whether the given arguments exists
+     * Checks whether the given arguments exists.
      *
      * @param string $key
      * @param bool   $defaultArg
+     *
      * @return bool
      */
     protected function hasArg($key, $defaultArg = false)
@@ -202,11 +207,12 @@ abstract class rex_var
     }
 
     /**
-     * Returns the argument
+     * Returns the argument.
      *
      * @param string      $key
      * @param null|string $default
      * @param bool        $defaultArg
+     *
      * @return null|string
      */
     protected function getArg($key, $default = null, $defaultArg = false)
@@ -218,11 +224,12 @@ abstract class rex_var
     }
 
     /**
-     * Returns the (recursive) parsed argument
+     * Returns the (recursive) parsed argument.
      *
      * @param string      $key
      * @param null|string $default
      * @param bool        $defaultArg
+     *
      * @return int|null|string
      */
     protected function getParsedArg($key, $default = null, $defaultArg = false)
@@ -242,9 +249,10 @@ abstract class rex_var
     }
 
     /**
-     * Checks whether the given envirenment is active
+     * Checks whether the given envirenment is active.
      *
      * @param int $env Environment
+     *
      * @return bool
      */
     protected function environmentIs($env)
@@ -253,7 +261,7 @@ abstract class rex_var
     }
 
     /**
-     * Returns the context
+     * Returns the context.
      *
      * @return string
      */
@@ -263,7 +271,7 @@ abstract class rex_var
     }
 
     /**
-     * Returns the context data
+     * Returns the context data.
      *
      * @return mixed
      */
@@ -273,16 +281,17 @@ abstract class rex_var
     }
 
     /**
-     * Returns the output
+     * Returns the output.
      *
      * @return bool|string
      */
     abstract protected function getOutput();
 
     /**
-     * Quotes the string for php context
+     * Quotes the string for php context.
      *
      * @param string $string
+     *
      * @return string
      */
     protected static function quote($string)
@@ -294,7 +303,7 @@ abstract class rex_var
     }
 
     /**
-     * Returns the output in consideration of the global args
+     * Returns the output in consideration of the global args.
      *
      * @return bool|string
      */
@@ -334,9 +343,10 @@ abstract class rex_var
     }
 
     /**
-     * Converts a REX_VAR content to a PHP array
+     * Converts a REX_VAR content to a PHP array.
      *
      * @param string $value
+     *
      * @return array|null
      */
     public static function toArray($value)
@@ -346,7 +356,7 @@ abstract class rex_var
     }
 
     /**
-     * Returns empty string
+     * Returns empty string.
      *
      * @return string
      */

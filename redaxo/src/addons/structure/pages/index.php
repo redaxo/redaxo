@@ -1,21 +1,20 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
 // basic request vars
 $category_id = rex_request('category_id', 'int');
-$article_id  = rex_request('article_id',  'int');
-$clang       = rex_request('clang',       'int');
-$ctype       = rex_request('ctype',       'int');
+$article_id = rex_request('article_id',  'int');
+$clang = rex_request('clang',       'int');
+$ctype = rex_request('ctype',       'int');
 
 // additional request vars
-$artstart    = rex_request('artstart',    'int');
-$catstart    = rex_request('catstart',    'int');
-$edit_id     = rex_request('edit_id',     'int');
-$function    = rex_request('function',    'string');
+$artstart = rex_request('artstart',    'int');
+$catstart = rex_request('catstart',    'int');
+$edit_id = rex_request('edit_id',     'int');
+$function = rex_request('function',    'string');
 
 $info = '';
 $warning = '';
@@ -23,8 +22,6 @@ $warning = '';
 $category_id = rex_category::get($category_id) ? $category_id : 0;
 $article_id = rex_article::get($article_id) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
-
-
 
 // --------------------------------------------- Mountpoints
 
@@ -58,22 +55,17 @@ if (rex_clang::count() > 1) {
     $clang = rex_clang::getStartId();
 }
 
-
 $context = new rex_context([
     'page' => 'structure',
     'category_id' => $category_id,
     'article_id' => $article_id,
-    'clang' => $clang
+    'clang' => $clang,
 ]);
-
-
 
 // --------------------- Extension Point
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER_PRE', '', [
-    'context' => $context
+    'context' => $context,
 ]));
-
-
 
 // --------------------------------------------- Languages
 echo rex_view::clangSwitch($context);
@@ -87,10 +79,6 @@ require __DIR__ . '/../functions/function_rex_category.php';
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();
 $artStatusTypes = rex_article_service::statusTypes();
-
-
-
-
 
 // --------------------------------------------- API MESSAGES
 echo rex_api_function::getMessage();
@@ -112,7 +100,7 @@ $data_colspan = 5;
 // --------------------- Extension Point
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER', '', [
     'category_id' => $category_id,
-    'clang' => $clang
+    'clang' => $clang,
 ]));
 
 // --------------------- SEARCH BAR
@@ -148,19 +136,15 @@ if (count($mountpoints) > 0 && $category_id == 0) {
     $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $category_id . ' AND startarticle=1 AND clang_id=' . $clang . ' ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 }
 
-
-
 $echo = '';
 // ---------- INLINE THE EDIT/ADD FORM
 if ($function == 'add_cat' || $function == 'edit_cat') {
-
     $echo .= '
     <form action="' . $context->getUrl(['catstart' => $catstart]) . '" method="post">
         <fieldset>
 
             <input type="hidden" name="edit_id" value="' . $edit_id . '" />';
 }
-
 
 // --------------------- PRINT CATS/SUBCATS
 $echo .= '
@@ -184,16 +168,14 @@ if ($category_id != 0 && ($category = rex_category::get($category_id))) {
     $echo .= '<td>&nbsp;</td>';
     $echo .= '<td colspan="3">&nbsp;</td>';
     $echo .= '</tr>';
-
 }
 
 // --------------------- KATEGORIE ADD FORM
 
 if ($function == 'add_cat' && $KATPERM) {
-
     $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
         'id' => $category_id,
-        'clang' => $clang
+        'clang' => $clang,
     ]));
     $add_buttons = '
         <input type="hidden" name="rex-api-call" value="category_add" />
@@ -220,14 +202,9 @@ if ($function == 'add_cat' && $KATPERM) {
     ]));
 }
 
-
-
-
-
 // --------------------- KATEGORIE LIST
 if ($KAT->getRows() > 0) {
-
-    for ($i = 0; $i < $KAT->getRows(); $i++) {
+    for ($i = 0; $i < $KAT->getRows(); ++$i) {
         $i_category_id = $KAT->getValue('id');
 
         $kat_link = $context->getUrl(['category_id' => $i_category_id]);
@@ -235,7 +212,7 @@ if ($KAT->getRows() > 0) {
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
-        $status_icon  = $catStatusTypes[$KAT->getValue('status')][2];
+        $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
         if ($KATPERM) {
             if ($KATPERM && rex::getUser()->hasPerm('publishCategory[]')) {
@@ -244,7 +221,7 @@ if ($KAT->getRows() > 0) {
                 $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
             }
 
-            if (isset ($edit_id) && $edit_id == $i_category_id && $function == 'edit_cat') {
+            if (isset($edit_id) && $edit_id == $i_category_id && $function == 'edit_cat') {
                 // --------------------- KATEGORIE EDIT FORM
 
                 // ----- EXTENSION POINT
@@ -282,7 +259,6 @@ if ($KAT->getRows() > 0) {
                     'catpriority' => $KAT->getValue('catpriority'),
                     'data_colspan' => ($data_colspan + 1),
                 ]));
-
             } else {
                 // --------------------- KATEGORIE WITH WRITE
 
@@ -299,9 +275,8 @@ if ($KAT->getRows() > 0) {
                         <td>' . $kat_status . '</td>
                     </tr>';
             }
-
         } elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
-                // --------------------- KATEGORIE WITH READ
+            // --------------------- KATEGORIE WITH READ
 
                 $echo .= '
                     <tr>
@@ -328,7 +303,6 @@ if ($KAT->getRows() > 0) {
                     <td></td>
                     <td></td>
                 </tr>';
-
 }
 
 $echo .= '
@@ -346,8 +320,6 @@ $fragment->setVar('heading', rex_i18n::msg('structure_categories_caption', $cat_
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');
 
-
-
 // --------------------------------------------- ARTIKEL LISTE
 
 $echo = '';
@@ -355,11 +327,10 @@ $echo = '';
 // --------------------- READ TEMPLATES
 
 if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
-
     $withTemplates = $this->getPlugin('content')->isAvailable();
     $tmpl_head = '';
     if ($withTemplates) {
-        $template_select = new rex_select;
+        $template_select = new rex_select();
         $template_select->setName('template_id');
         $template_select->setSize(1);
         $template_select->setStyle('class="form-control"');
@@ -415,10 +386,8 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                     priority, name
                 LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage());
 
-
     // ---------- INLINE THE EDIT/ADD FORM
     if ($function == 'add_art' || $function == 'edit_art') {
-
         $echo .= '
         <form action="' . $context->getUrl(['artstart' => $artstart]) . '" method="post">
             <fieldset>';
@@ -484,8 +453,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
     // --------------------- ARTIKEL LIST
 
-    for ($i = 0; $i < $sql->getRows(); $i++) {
-
+    for ($i = 0; $i < $sql->getRows(); ++$i) {
         if ($sql->getValue('id') == rex::getProperty('start_article_id')) {
             $class = ' rex-icon-sitestartarticle';
         } elseif ($sql->getValue('startarticle') == 1) {
@@ -502,7 +470,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         // --------------------- ARTIKEL EDIT FORM
 
         if ($function == 'edit_art' && $sql->getValue('id') == $article_id && $KATPERM) {
-
             $tmpl_td = '';
             if ($withTemplates) {
                 $template_select->setSelected($sql->getValue('template_id'));
@@ -517,7 +484,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                             <td>' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td colspan="3"><input type="hidden" name="rex-api-call" value="article_edit" /><button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
-
         } elseif ($KATPERM) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
@@ -561,7 +527,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                             ' . $add_extra . '
                         </tr>
                         ';
-
         } else {
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
@@ -620,7 +585,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     </form>';
     }
 }
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('heading', rex_i18n::msg('structure_articles_caption', $cat_name), false);

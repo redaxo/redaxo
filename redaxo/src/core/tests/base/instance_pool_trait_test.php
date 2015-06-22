@@ -27,7 +27,7 @@ class rex_instance_pool_trait_test extends PHPUnit_Framework_TestCase
     public function testAddHasInstance()
     {
         $this->assertFalse(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns false for non-existing instance');
-        rex_test_instance_pool_1::addInstance(1, new rex_test_instance_pool_1);
+        rex_test_instance_pool_1::addInstance(1, new rex_test_instance_pool_1());
         $this->assertTrue(rex_test_instance_pool_1::hasInstance(1), 'hasInstance returns true for added instance');
         $this->assertFalse(rex_test_instance_pool_2::hasInstance(1), 'hasInstance uses LSB, instance is only added for subclass 1');
     }
@@ -35,13 +35,13 @@ class rex_instance_pool_trait_test extends PHPUnit_Framework_TestCase
     public function testGetInstance()
     {
         $this->assertNull(rex_test_instance_pool_1::getInstance(2), 'getInstance returns null for non-existing key');
-        $instance1 = new rex_test_instance_pool_1;
+        $instance1 = new rex_test_instance_pool_1();
         $this->assertSame($instance1, rex_test_instance_pool_1::getInstance(2, function ($id) use ($instance1) {
             $this->assertEquals(2, $id);
             return $instance1;
         }), 'getInstance returns the instance that is returned by the callback');
 
-        $instance2 = new rex_test_instance_pool_2;
+        $instance2 = new rex_test_instance_pool_2();
         $this->assertSame($instance2, rex_test_instance_pool_2::getInstance(2, function ($id) use ($instance2) {
             $this->assertEquals(2, $id);
             return $instance2;

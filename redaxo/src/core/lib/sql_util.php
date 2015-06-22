@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class to execute a sql dump
+ * Class to execute a sql dump.
  *
  * @package redaxo\core
  */
@@ -9,7 +9,7 @@ class rex_sql_util
 {
     /**
      * Allgemeine funktion die eine Datenbankspalte fortlaufend durchnummeriert.
-     * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte
+     * Dies ist z.B. nützlich beim Umgang mit einer Prioritäts-Spalte.
      *
      * @param string $tableName       Name der Datenbanktabelle
      * @param string $priorColumnName Name der Spalte in der Tabelle, in der die Priorität (Integer) gespeichert wird
@@ -39,12 +39,14 @@ class rex_sql_util
     }
 
     /**
-     * Importiert die gegebene SQL-Datei in die Datenbank
+     * Importiert die gegebene SQL-Datei in die Datenbank.
      *
-     * @param string  $file
-     * @param boolean $debug
+     * @param string $file
+     * @param bool   $debug
+     *
      * @throws rex_sql_exception
-     * @return boolean true bei Erfolg
+     *
+     * @return bool true bei Erfolg
      */
     public static function importDump($file, $debug = false)
     {
@@ -83,6 +85,7 @@ class rex_sql_util
      * Reads a file and split all statements in it.
      *
      * @param string $file Path to the SQL-dump-file
+     *
      * @return array
      */
     private static function readSqlDump($file)
@@ -105,22 +108,20 @@ class rex_sql_util
         return false;
     }
 
-    /**
-     * Removes comment lines and splits up large sql files into individual queries
-     *
-     * Last revision: September 23, 2001 - gandon
-     *
-     * @param array   $ret     the splitted sql commands
-     * @param string  $sql     the sql commands
-     * @param integer $release the MySQL release number (because certains php3 versions
-     *                         can't get the value of a constant from within a function)
-     *
-     * @return  boolean  always true
-     *
-     * @access  public
-     */
+/**
+ * Removes comment lines and splits up large sql files into individual queries.
+ *
+ * Last revision: September 23, 2001 - gandon
+ *
+ * @param array   $ret     the splitted sql commands
+ * @param string  $sql     the sql commands
+ * @param int $release the MySQL release number (because certains php3 versions
+ *                         can't get the value of a constant from within a function)
+ *
+ * @return  bool  always true
+ */
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
-    public static function splitSqlFile(& $ret, $sql, $release)
+    public static function splitSqlFile(&$ret, $sql, $release)
     {
         // do not trim, see bug #1030644
         //$sql          = trim($sql);
@@ -131,13 +132,13 @@ class rex_sql_util
         $nothing = true;
         $time0 = time();
 
-        for ($i = 0; $i < $sql_len; ++ $i) {
+        for ($i = 0; $i < $sql_len; ++$i) {
             $char = $sql[$i];
 
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
             if ($in_string) {
-                for (;; ) {
+                for (;;) {
                     $i = strpos($sql, $string_start, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
@@ -148,10 +149,10 @@ class rex_sql_util
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string -> exit the loop
                     elseif ($string_start == '`' || $sql[$i - 1] != '\\') {
-                            $string_start = '';
-                            $in_string = false;
-                            break;
-                        }
+                        $string_start = '';
+                        $in_string = false;
+                        break;
+                    }
                     // one or more Backslashes before the presumed end of string...
                     else {
                         // ... first checks for escaped backslashes
@@ -159,7 +160,7 @@ class rex_sql_util
                         $escaped_backslash = false;
                         while ($i - $j > 0 && $sql[$i - $j] == '\\') {
                             $escaped_backslash = !$escaped_backslash;
-                            $j ++;
+                            ++$j;
                         }
                         // ... if escaped backslashes: it's really the end of the
                         // string -> exit the loop
@@ -170,7 +171,7 @@ class rex_sql_util
                         }
                         // ... else loop
                         else {
-                            $i ++;
+                            ++$i;
                         }
                     } // end if...elseif...else
                 } // end for
@@ -178,37 +179,37 @@ class rex_sql_util
 
             // lets skip comments (/*, -- and #)
             elseif (($char == '-' && $sql_len > $i + 2 && $sql[$i + 1] == '-' && $sql[$i + 2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i + 1 && $sql[$i + 1] == '*')) {
-                    $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
+                $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
                     // didn't we hit end of string?
                     if ($i === false) {
                         break;
                     }
-                    if ($char == '/') {
-                        $i ++;
-                    }
+                if ($char == '/') {
+                    ++$i;
                 }
+            }
 
             // We are not in a string, first check for delimiter...
             elseif ($char == ';') {
-                    // if delimiter found, add the parsed part to the returned array
+                // if delimiter found, add the parsed part to the returned array
                     $ret[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
-                    $nothing = true;
-                    $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
-                    $sql_len = strlen($sql);
-                    if ($sql_len) {
-                        $i = -1;
-                    } else {
-                        // The submited statement(s) end(s) here
+                $nothing = true;
+                $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
+                $sql_len = strlen($sql);
+                if ($sql_len) {
+                    $i = -1;
+                } else {
+                    // The submited statement(s) end(s) here
                         return true;
-                    }
-                } // end else if (is delimiter)
+                }
+            } // end else if (is delimiter)
 
             // ... then check for start of a string,...
             elseif (($char == '"') || ($char == '\'') || ($char == '`')) {
-                    $in_string = true;
-                    $nothing = false;
-                    $string_start = $char;
-                } // end else if (is start of string)
+                $in_string = true;
+                $nothing = false;
+                $string_start = $char;
+            } // end else if (is start of string)
 
             elseif ($nothing) {
                 $nothing = false;
@@ -223,7 +224,7 @@ class rex_sql_util
         } // end for
 
         // add any rest to the returned array
-        if (!empty ($sql) && preg_match('@[^[:space:]]+@', $sql)) {
+        if (!empty($sql) && preg_match('@[^[:space:]]+@', $sql)) {
             $ret[] = ['query' => $sql, 'empty' => $nothing];
         }
 

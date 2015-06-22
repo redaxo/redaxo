@@ -5,6 +5,7 @@
  * which is necessary to implement some sort of pagination.
  *
  * @author staabm
+ *
  * @package redaxo\core
  */
 class rex_pager
@@ -14,7 +15,7 @@ class rex_pager
     private $cursorName;
 
     /**
-     * Constructs a rex_pager
+     * Constructs a rex_pager.
      *
      * @param int    $rowsPerPage The number of rows which should be displayed on one page
      * @param string $cursorName  The name of the parameter used for pagination
@@ -26,7 +27,7 @@ class rex_pager
     }
 
     /**
-     * Sets the row count
+     * Sets the row count.
      *
      * @param int $rowCount
      */
@@ -36,7 +37,8 @@ class rex_pager
     }
 
     /**
-     * Returns the number of rows for pagination
+     * Returns the number of rows for pagination.
+     *
      * @return int The number of rows
      */
     public function getRowCount()
@@ -47,6 +49,7 @@ class rex_pager
     /**
      * Returns the number of pages
      * which result from the given number of rows and the rows per page.
+     *
      * @return int The number of pages
      */
     public function getPageCount()
@@ -55,7 +58,8 @@ class rex_pager
     }
 
     /**
-     * Returns the number of rows which will be displayed on a page
+     * Returns the number of rows which will be displayed on a page.
+     *
      * @return int The rows displayed on a page
      */
     public function getRowsPerPage()
@@ -70,6 +74,7 @@ class rex_pager
      * When no parameter is given, the cursor for active page is returned.
      *
      * @param int $pageNo
+     *
      * @return int
      */
     public function getCursor($pageNo = null)
@@ -84,9 +89,10 @@ class rex_pager
     }
 
     /**
-     * Validates the cursor
+     * Validates the cursor.
      *
      * @param int $cursor
+     *
      * @return int
      */
     public function validateCursor($cursor)
@@ -102,7 +108,8 @@ class rex_pager
     }
 
     /**
-     * Returns the name of the parameter which is used for pagination
+     * Returns the name of the parameter which is used for pagination.
+     *
      * @return string The name of the cursor
      */
     public function getCursorName()
@@ -111,7 +118,8 @@ class rex_pager
     }
 
     /**
-     * Returns the first page for pagination
+     * Returns the first page for pagination.
+     *
      * @return int The first page number
      */
     public function getFirstPage()
@@ -120,7 +128,8 @@ class rex_pager
     }
 
     /**
-     * Returns the previous page in respect to the current page
+     * Returns the previous page in respect to the current page.
+     *
      * @return int The previous page number
      */
     public function getPrevPage()
@@ -133,7 +142,8 @@ class rex_pager
     }
 
     /**
-     * Returns the number of the current page
+     * Returns the number of the current page.
+     *
      * @return int The current page number
      */
     public function getCurrentPage()
@@ -148,7 +158,8 @@ class rex_pager
     }
 
     /**
-     * Returns the number of the next page in respect to the current page
+     * Returns the number of the next page in respect to the current page.
+     *
      * @return int The next page number
      */
     public function getNextPage()
@@ -161,7 +172,8 @@ class rex_pager
     }
 
     /**
-     * Return the page number of the last page
+     * Return the page number of the last page.
+     *
      * @return int the last page number
      */
     public function getLastPage()
@@ -170,8 +182,10 @@ class rex_pager
     }
 
     /**
-     * Checks wheter the given page number is the active/current page
+     * Checks wheter the given page number is the active/current page.
+     *
      * @param int $pageNo
+     *
      * @return bool True when the given pageNo is the current page, otherwise False
      */
     public function isActivePage($pageNo)

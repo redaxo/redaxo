@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -56,10 +56,10 @@ class rex_cronjob_phpcallback extends rex_cronjob
         return [
             [
                 'label' => rex_i18n::msg('cronjob_type_phpcallback'),
-                'name'  => 'callback',
-                'type'  => 'text',
-                'notice' => rex_i18n::msg('cronjob_examples') . ': foo(), foo(1, \'string\'), foo::bar()'
-            ]
+                'name' => 'callback',
+                'type' => 'text',
+                'notice' => rex_i18n::msg('cronjob_examples') . ': foo(), foo(1, \'string\'), foo::bar()',
+            ],
         ];
     }
 }

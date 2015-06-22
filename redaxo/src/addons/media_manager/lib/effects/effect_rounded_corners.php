@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Runde Ecken
+ * Runde Ecken.
  *
  * @author staabm
  */
 
 class rex_effect_rounded_corners extends rex_effect_abstract
 {
-
     public function execute()
     {
         $gdimage = $this->media->getImage();
@@ -19,7 +18,7 @@ class rex_effect_rounded_corners extends rex_effect_abstract
             'tl' => $this->params['topleft'],
             'tr' => $this->params['topright'],
             'br' => $this->params['bottomright'],
-            'bl' => $this->params['bottomleft']
+            'bl' => $this->params['bottomleft'],
         ];
 
         $colour = 'ffffff';
@@ -35,9 +34,9 @@ class rex_effect_rounded_corners extends rex_effect_abstract
 
             $solid_colour = imagecolorallocate(
                 $corner_image,
-                hexdec( substr( $colour, 0, 2 ) ),
-                hexdec( substr( $colour, 2, 2 ) ),
-                hexdec( substr( $colour, 4, 2 ) )
+                hexdec(substr($colour, 0, 2)),
+                hexdec(substr($colour, 2, 2)),
+                hexdec(substr($colour, 4, 2))
             );
 
             imagecolortransparent($corner_image, $clear_colour);
@@ -52,17 +51,17 @@ class rex_effect_rounded_corners extends rex_effect_abstract
                     break;
 
                 case 'tr':
-                    $corner_image = imagerotate( $corner_image, 270, 0 );
+                    $corner_image = imagerotate($corner_image, 270, 0);
                     imagecopymerge($gdimage, $corner_image, $w - $r, 0, 0, 0, $r, $r, 100);
                     break;
 
                 case 'br':
-                    $corner_image = imagerotate( $corner_image, 180, 0 );
+                    $corner_image = imagerotate($corner_image, 180, 0);
                     imagecopymerge($gdimage, $corner_image, $w - $r, $h - $r, 0, 0, $r, $r, 100);
                     break;
 
                 case 'bl':
-                    $corner_image = imagerotate( $corner_image, 90, 0 );
+                    $corner_image = imagerotate($corner_image, 90, 0);
                     imagecopymerge($gdimage, $corner_image, 0, $h - $r, 0, 0, $r, $r, 100);
                     break;
             }
@@ -76,31 +75,29 @@ class rex_effect_rounded_corners extends rex_effect_abstract
         //$this->image->refreshDimensions();
     }
 
-
-
     public function getParams()
     {
         return [
             [
                 'label' => rex_i18n::msg('media_manager_effect_rounded_corners_topleft'),
                 'name' => 'topleft',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_rounded_corners_topright'),
                 'name' => 'topright',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_rounded_corners_bottomleft'),
                 'name' => 'bottomleft',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_rounded_corners_bottomright'),
                 'name' => 'bottomright',
-                'type' => 'int'
-            ]
+                'type' => 'int',
+            ],
         ];
     }
 }

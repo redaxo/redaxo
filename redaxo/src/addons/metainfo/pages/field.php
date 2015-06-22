@@ -1,7 +1,8 @@
 <?php
 
 /**
- * MetaForm Addon
+ * MetaForm Addon.
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
@@ -59,7 +60,6 @@ if ($func == '') {
     $list->setColumnLayout('name',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams('name', ['func' => 'edit', 'field_id' => '###id###']);
 
-
     $list->addColumn(rex_i18n::msg('minfo_field_label_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('minfo_field_label_functions'),  ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('minfo_field_label_functions'), ['func' => 'edit', 'field_id' => '###id###']);
@@ -70,8 +70,6 @@ if ($func == '') {
     $list->setColumnParams('delete', ['func' => 'delete', 'field_id' => '###id###']);
     $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->addLinkAttribute('delete', 'class', 'rex-delete');
-
-
 
     $list->setNoRowsMessage(rex_i18n::msg('minfo_metainfos_not_found'));
 
@@ -98,8 +96,5 @@ elseif ($func == 'edit' || $func == 'add') {
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
 }
-
-
-
 
 echo $content;

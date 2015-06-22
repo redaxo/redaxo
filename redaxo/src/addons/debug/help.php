@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Debug Addon
+ * Debug Addon.
  *
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  *

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * media_manager Addon
+ * media_manager Addon.
  *
  * @author markus.staab[at]redaxo[dot]de Markus Staab
  * @author jan.kristinus[at]yakmara[dot]de Jan Kristinus
@@ -27,14 +27,12 @@ if ($func == 'update') {
 
     $this->setConfig('jpg_quality', $jpg_quality);
     echo rex_view::info($this->i18n('config_saved'));
-
 }
 
 $content .= '
     <fieldset>
         <input type="hidden" name="func" value="update" />
 ';
-
 
         $formElements = [];
         $n = [];
@@ -51,8 +49,6 @@ $content .= '
         $fragment->setVar('elements', $formElements, false);
         $content .= $fragment->parse('core/form/input_group.php');
 
-
-
         $formElements = [];
 
         $n = [];
@@ -66,7 +62,6 @@ $content .= '
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
-
 
 $content .= '
     </fieldset>';

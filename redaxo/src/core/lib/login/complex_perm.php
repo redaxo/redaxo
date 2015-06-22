@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Abstract class for complex permissions
+ * Abstract class for complex permissions.
  *
  * All permission check methods ("hasPerm()" etc.) in child classes should return "true" for admins
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 abstract class rex_complex_perm
@@ -13,28 +14,28 @@ abstract class rex_complex_perm
     const ALL = 'all';
 
     /**
-     * User instance
+     * User instance.
      *
      * @var rex_user
      */
     protected $user;
 
     /**
-     * Array of permissions
+     * Array of permissions.
      *
      * @var array
      */
     protected $perms = [];
 
     /**
-     * Array of class names
+     * Array of class names.
      *
      * @var array
      */
     private static $classes = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param rex_user $user  User instance
      * @param mixed    $perms Permissions
@@ -46,9 +47,9 @@ abstract class rex_complex_perm
     }
 
     /**
-     * Returns if the user has the permission for all items
+     * Returns if the user has the permission for all items.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAll()
     {
@@ -56,7 +57,7 @@ abstract class rex_complex_perm
     }
 
     /**
-     * Returns the field params for the role form
+     * Returns the field params for the role form.
      *
      * @return array
      */
@@ -66,10 +67,11 @@ abstract class rex_complex_perm
     }
 
     /**
-     * Registers a new complex perm class
+     * Registers a new complex perm class.
      *
      * @param string $key   Key for the complex perm
      * @param string $class Class name
+     *
      * @throws InvalidArgumentException
      */
     public static function register($key, $class)
@@ -81,7 +83,7 @@ abstract class rex_complex_perm
     }
 
     /**
-     * Returns all complex perm classes
+     * Returns all complex perm classes.
      *
      * @return array Class names
      */
@@ -91,11 +93,12 @@ abstract class rex_complex_perm
     }
 
     /**
-     * Returns the complex perm
+     * Returns the complex perm.
      *
      * @param rex_user $user  User instance
      * @param string   $key   Complex perm key
      * @param mixed    $perms Permissions
+     *
      * @return self
      */
     public static function get(rex_user $user, $key, $perms = [])
@@ -108,7 +111,7 @@ abstract class rex_complex_perm
     }
 
     /**
-     * Should be called if an item is removed
+     * Should be called if an item is removed.
      *
      * @param string $key  Key
      * @param string $item Item
@@ -118,10 +121,8 @@ abstract class rex_complex_perm
         rex_extension::registerPoint(new rex_extension_point('COMPLEX_PERM_REMOVE_ITEM', '', ['key' => $key, 'item' => $item], true));
     }
 
-
-
     /**
-     * Should be called if an item is replaced
+     * Should be called if an item is replaced.
      *
      * @param string $key  Key
      * @param string $item Old item

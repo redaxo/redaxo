@@ -13,7 +13,7 @@ class rex_type_test extends PHPUnit_Framework_TestCase
             ['key1', 'string', 0],
             ['key2', 'int', 1],
             ['key3', 'string', -1],
-            ['key4', $callback]
+            ['key4', $callback],
         ];
         $arrayExpected = ['key1' => '1', 'key2' => 2, 'key3' => -1, 'key4' => 'ab'];
 
@@ -29,8 +29,8 @@ class rex_type_test extends PHPUnit_Framework_TestCase
             [
                 ['k' => $arrayVar],
                 [['k', $arrayCasts]],
-                ['k' => $arrayExpected]
-            ]
+                ['k' => $arrayExpected],
+            ],
         ];
     }
 
@@ -51,7 +51,7 @@ class rex_type_test extends PHPUnit_Framework_TestCase
             ['array['],
             ['array[abc]'],
             [[1]],
-            [new stdClass]
+            [new stdClass()],
         ];
     }
 

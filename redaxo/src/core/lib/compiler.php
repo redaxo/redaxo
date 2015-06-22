@@ -39,7 +39,6 @@ class rex_compiler
      * Compile a fragment.
      *
      * @param string $value
-     * @return void
      */
     public function compile($file)
     {
@@ -57,6 +56,7 @@ class rex_compiler
      * Compile the given Fragment contents.
      *
      * @param string $value
+     *
      * @return string
      */
     public function compileString($value)
@@ -72,6 +72,7 @@ class rex_compiler
      * Compile Fragment comments into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileComments($value)
@@ -85,6 +86,7 @@ class rex_compiler
      * Compile Fragment echos into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileEchos($value)
@@ -104,6 +106,7 @@ class rex_compiler
      * Compile Fragment structure openings into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileOpenings($value)
@@ -117,6 +120,7 @@ class rex_compiler
      * Compile Fragment structure closings into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileClosings($value)
@@ -130,6 +134,7 @@ class rex_compiler
      * Compile Fragment else statements into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileElse($value)
@@ -143,6 +148,7 @@ class rex_compiler
      * Compile Fragment unless statements into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileUnless($value)
@@ -156,6 +162,7 @@ class rex_compiler
      * Compile Fragment end unless statements into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileEndUnless($value)
@@ -169,6 +176,7 @@ class rex_compiler
      * Compile language statements into valid PHP.
      *
      * @param string $value
+     *
      * @return string
      */
     protected function compileLanguage($value)
@@ -182,6 +190,7 @@ class rex_compiler
      * Get the regular expression for a generic Fragment function.
      *
      * @param string $function
+     *
      * @return string
      */
     public function createMatcher($function)
@@ -193,6 +202,7 @@ class rex_compiler
      * Create a plain Fragment matcher.
      *
      * @param string $function
+     *
      * @return string
      */
     public function createPlainMatcher($function)
@@ -204,6 +214,7 @@ class rex_compiler
      * Get the path to the compiled version of a fragment.
      *
      * @param string $path
+     *
      * @return string
      */
     public function getCompiledFile($file)
@@ -215,6 +226,7 @@ class rex_compiler
      * Determine if the fragment at the given path is expired.
      *
      * @param string $path
+     *
      * @return bool
      */
     public function isExpired($file)

@@ -1,4 +1,5 @@
 <?php
+
 class rex_config_test extends PHPUnit_Framework_TestCase
 {
     public function testNonExistentConfig()

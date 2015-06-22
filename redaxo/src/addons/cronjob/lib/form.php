@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -43,7 +43,6 @@ class rex_cronjob_form extends rex_form
 
 class rex_cronjob_form_interval_element extends rex_form_element
 {
-
     public function formatElement()
     {
         $name = $this->getAttribute('name') . '[]';
@@ -67,7 +66,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
             $item = [];
             $item['title'] = $optionTitle;
             $item['href'] = '#';
-            $item['attributes']  = 'data-value="' . $optionValue . '"';
+            $item['attributes'] = 'data-value="' . $optionValue . '"';
             if ($optionValue == $value[2]) {
                 $buttonLabel = $optionTitle;
             }
@@ -110,6 +109,5 @@ class rex_cronjob_form_interval_element extends rex_form_element
         </script>';
 
         return $field . $javascript;
-
     }
 }

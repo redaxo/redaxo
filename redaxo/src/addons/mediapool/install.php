@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Mediapool Addon
+ * Mediapool Addon.
  *
  * @author redaxo
  *

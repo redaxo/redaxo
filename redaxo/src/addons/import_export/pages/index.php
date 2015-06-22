@@ -2,7 +2,6 @@
 
 
 /**
- *
  * @package redaxo5
  */
 
@@ -15,7 +14,6 @@ if (rex_ini_get('memory_limit') < 67108864) {
 include_once rex_path::addon('import_export', 'functions/function_import_export.php');
 include_once rex_path::addon('import_export', 'functions/function_folder.php');
 include_once rex_path::addon('import_export', 'functions/function_import_folder.php');
-
 
 $subpage = rex_be_controller::getCurrentPagePart(2);
 

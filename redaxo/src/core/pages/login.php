@@ -1,10 +1,8 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
-
 
 global $rex_user_loginmessage;
 
@@ -49,13 +47,13 @@ $formElements = [];
 $n = [];
 $n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
 $n['field'] = '<input class="form-control" type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
-$n['left']  = '<i class="rex-icon rex-icon-user"></i>';
+$n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-login-password">' . rex_i18n::msg('password') . ':</label>';
 $n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
-$n['left']  = '<i class="rex-icon rex-icon-password"></i>';
+$n['left'] = '<i class="rex-icon rex-icon-password"></i>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -74,7 +72,6 @@ $content .= $fragment->parse('core/form/checkbox.php');
 
 $content .= '</fieldset>';
 
-
 $formElements = [];
 $n = [];
 $n['field'] = '<button class="btn btn-primary" type="submit"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login') . ' </button>';
@@ -83,9 +80,6 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
-
-
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('login_welcome'), false);

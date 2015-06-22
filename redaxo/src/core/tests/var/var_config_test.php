@@ -18,7 +18,7 @@ class rex_var_config_test extends rex_var_base_test
     {
         return [
             ['REX_CONFIG[key=myCoreConfig]', 'myCoreConfigValue'],
-            ['REX_CONFIG[namespace=tests key=myPackageConfig]', 'myPackageConfigValue']
+            ['REX_CONFIG[namespace=tests key=myPackageConfig]', 'myPackageConfigValue'],
         ];
     }
 

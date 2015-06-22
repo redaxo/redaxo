@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
@@ -24,7 +23,6 @@ if ($PERMALL) {
             $db->update();
             $success = rex_i18n::msg('pool_kat_updated', $cat_name);
             rex_media_cache::deleteCategory($edit_id);
-
         } elseif ($media_method == 'delete_file_cat') {
             $gf = rex_sql::factory();
             $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=' . $edit_id);
@@ -73,7 +71,7 @@ if ($PERMALL) {
         $OOCats = $OOCat->getChildren();
         $paths = explode('|', $OOCat->getPath());
 
-        for ($i = 1; $i < count($paths); $i++) {
+        for ($i = 1; $i < count($paths); ++$i) {
             $iid = current($paths);
             if ($iid != '') {
                 $icat = rex_media_category::get($iid);
@@ -97,7 +95,6 @@ if ($PERMALL) {
     $fragment->setVar('items', $breadcrumb, false);
     echo $fragment->parse('core/navigations/breadcrumb.php');
 
-
     if ($error != '') {
         echo rex_view::error($error);
         $error = '';
@@ -106,7 +103,6 @@ if ($PERMALL) {
         echo rex_view::info($success);
         $success = '';
     }
-
 
     $table = '
         <table class="table table-striped table-hover">
@@ -133,8 +129,7 @@ if ($PERMALL) {
         ';
     }
 
-    foreach ( $OOCats as $OOCat) {
-
+    foreach ($OOCats as $OOCat) {
         $iid = $OOCat->getId();
         $iname = $OOCat->getName();
 
@@ -159,13 +154,11 @@ if ($PERMALL) {
                     <td><a href="' . $link . $cat_id . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('pool_kat_edit') . '</a></td>
                     <td><a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a></td>
                 </tr>';
-}
+        }
     }
     $table .= '
             </tbody>
         </table>';
-
-
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('pool_kat_caption'), false);
@@ -175,8 +168,6 @@ if ($PERMALL) {
     if ($media_method == 'add_cat' || $media_method == 'update_file_cat') {
         $add_mode = $media_method == 'add_cat';
         $method = $add_mode ? 'add_file_cat' : 'edit_file_cat';
-
-
 
         $content = '
             <form action="' . rex_url::currentBackendPage() . '" method="post">

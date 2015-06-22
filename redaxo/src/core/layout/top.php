@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Layout Kopf des Backends
+ * Layout Kopf des Backends.
+ *
  * @package redaxo5
  */
 
@@ -41,33 +42,30 @@ $hasNavigation = $curPage->hasNavigation();
 
 $meta_items = [];
 if (rex::getUser() && $hasNavigation) {
-
     if (rex::isSafeMode()) {
         $item = [];
-        $item['title']  = rex_i18n::msg('safemode_deactivate');
-        $item['href']   = rex_url::backendController(['safemode' => 0]);
+        $item['title'] = rex_i18n::msg('safemode_deactivate');
+        $item['href'] = rex_url::backendController(['safemode' => 0]);
         $meta_items[] = $item;
         unset($item);
     }
 
-
     $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
 
     $item = [];
-    $item['title']  = '<a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> ' . htmlspecialchars($user_name) . '</a>';
+    $item['title'] = '<a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> ' . htmlspecialchars($user_name) . '</a>';
     $meta_items[] = $item;
     unset($item);
 
     $item = [];
-    $item['title']      = '<i class="fa fa-sign-out"></i> ' . rex_i18n::msg('logout');
-    $item['href']       = rex_url::backendController(['rex_logout' => 1]);
+    $item['title'] = '<i class="fa fa-sign-out"></i> ' . rex_i18n::msg('logout');
+    $item['href'] = rex_url::backendController(['rex_logout' => 1]);
     $item['attributes'] = 'class="rex-logout"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
     $meta_items[] = $item;
     unset($item);
-
 } elseif ($hasNavigation) {
     $item = [];
-    $item['title']  = rex_i18n::msg('logged_out');
+    $item['title'] = rex_i18n::msg('logged_out');
     $meta_items[] = $item;
     unset($item);
 }
@@ -108,7 +106,6 @@ if (rex::getUser() && $hasNavigation) {
         $fragment->setVar('items', $block['navigation'], false);
         $navigation .= $fragment->parse('core/navigations/main.php');
     }
-
 }
 
 /* Setup Navigation ***********************************************************/
@@ -117,7 +114,7 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
     $lang = rex_request('lang', 'string', '');
     $navi = [];
     $end = $lang ? 7 : 1;
-    for ($i = 1; $i <= $end; $i++) {
+    for ($i = 1; $i <= $end; ++$i) {
         $n = [];
         if ($i == $step) {
             $n['active'] = true;
@@ -190,11 +187,9 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
     echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
 }
 
-
 $fragment = new rex_fragment();
 // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
 echo $fragment->parse('core/header.php');
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('items', $meta_items, false);
@@ -204,7 +199,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('navigation', $navigation, false);
 $fragment->setVar('meta_navigation', $meta_navigation, false);
 echo $fragment->parse('core/navigation.php');
-
 
 $pjax = $curPage->allowsPjax() ? ' data-pjax-container="#rex-js-page-main"' : '';
 

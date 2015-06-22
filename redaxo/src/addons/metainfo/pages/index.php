@@ -1,7 +1,8 @@
 <?php
 
 /**
- * MetaForm Addon
+ * MetaForm Addon.
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
@@ -14,7 +15,6 @@ $subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
 
 echo rex_view::title(rex_i18n::msg('minfo_title'));
-
 
 // Include Current Page
 switch ($subpage) {

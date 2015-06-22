@@ -35,7 +35,7 @@ class rex_article_action
             rex_request('clang', 'int'),
             rex_request('ctype', 'int'),
             rex_request('module_id', 'int'),
-            $this->mode == 1 ? 0 : rex_request('slice_id', 'int')
+            $this->mode == 1 ? 0 : rex_request('slice_id', 'int'),
         ];
     }
 

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Log file class
+ * Log file class.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_log_file implements Iterator
@@ -36,7 +37,7 @@ class rex_log_file implements Iterator
     private $bufferPos;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string   $path        File path
      * @param int|null $maxFileSize Maximum file size
@@ -52,7 +53,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * Adds a log entry
+     * Adds a log entry.
      *
      * @param array $data Log data
      */
@@ -71,7 +72,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * Reads the log file backwards line by line (each call reads one line)
+     * Reads the log file backwards line by line (each call reads one line).
      */
     public function next()
     {
@@ -113,11 +114,11 @@ class rex_log_file implements Iterator
                 $this->bufferPos = strlen($this->buffer) - 1;
             }
             // read buffer backwards char by char
-            for (; $this->bufferPos >= 0; $this->bufferPos--) {
+            for (; $this->bufferPos >= 0; --$this->bufferPos) {
                 $char = $this->buffer[$this->bufferPos];
                 if ("\n" === $char) {
                     // line start reached -> prepare bufferPos/pos and jump outside of while-loop
-                    $this->bufferPos--;
+                    --$this->bufferPos;
                     if ($this->bufferPos < 0) {
                         $this->pos -= $bufferSize;
                     }
@@ -135,7 +136,7 @@ class rex_log_file implements Iterator
             return;
         }
         // found a non-empty line
-        $this->key++;
+        ++$this->key;
         $this->currentLine = $line;
     }
 
@@ -168,9 +169,10 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * Deletes a log file and its rotations
+     * Deletes a log file and its rotations.
      *
      * @param string $path File path
+     *
      * @return bool
      */
     public static function delete($path)
@@ -180,9 +182,10 @@ class rex_log_file implements Iterator
 }
 
 /**
- * Log entry class
+ * Log entry class.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_log_entry
@@ -194,7 +197,7 @@ class rex_log_entry
     private $data;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param int   $timestamp Timestamp
      * @param array $data      Log data
@@ -206,9 +209,10 @@ class rex_log_entry
     }
 
     /**
-     * Creates a log entry from string
+     * Creates a log entry from string.
      *
      * @param string $string Log line
+     *
      * @return rex_log_entry
      */
     public static function createFromString($string)
@@ -219,9 +223,10 @@ class rex_log_entry
     }
 
     /**
-     * Returns the timestamp
+     * Returns the timestamp.
      *
      * @param string $format See {@link rex_formatter::strftime}
+     *
      * @return int|string Unix timestamp or formatted string if $format is given
      */
     public function getTimestamp($format = null)
@@ -233,7 +238,7 @@ class rex_log_entry
     }
 
     /**
-     * Returns the log data
+     * Returns the log data.
      *
      * @return array
      */

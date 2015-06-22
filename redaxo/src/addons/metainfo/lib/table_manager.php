@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MetaForm Addon
+ * MetaForm Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -30,7 +30,7 @@ class rex_metainfo_table_manager
         $qry .= '`' . $name . '` ' . $type;
 
         if ($length != 0) {
-             $qry .= '(' . $length . ')';
+            $qry .= '(' . $length . ')';
         }
 
         if ($default !== null) {
@@ -55,7 +55,7 @@ class rex_metainfo_table_manager
         $qry .= '`' . $oldname . '` `' . $name . '` ' . $type;
 
         if ($length != 0) {
-             $qry .= '(' . $length . ')';
+            $qry .= '(' . $length . ')';
         }
 
         if ($default !== null) {
@@ -98,7 +98,6 @@ class rex_metainfo_table_manager
         }
         return false;
     }
-
 
     protected function setQuery($qry)
     {

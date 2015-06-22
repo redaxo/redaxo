@@ -39,8 +39,6 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             </tbody>
         </table>';
 
-
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', '<b>' . $addonkey . '</b> ' . $this->i18n('information'), false);
     $fragment->setVar('content', $content, false);
@@ -78,10 +76,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-
-
 } else {
-
     $toolbar = '
     <div class="navbar-form">
         <div class="form-group">
@@ -94,7 +89,6 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     </div>
     ';
     echo rex_view::toolbar($toolbar, '', 'rex-navbar-flexible');
-
 
     $content = '
         <table class="table table-striped table-hover" id="rex-js-table-install-packages-addons">
@@ -159,13 +153,10 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         </script>
     ';
 
-
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', $this->i18n('addons_found', count($addons)), false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-
 }

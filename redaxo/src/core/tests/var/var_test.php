@@ -30,7 +30,7 @@ EOT;
             ['a<?php echo <<<\'EOT\'
 bREX_TEST_VAR[content=c]d
 EOT;
-?>e', 'abcde']
+?>e', 'abcde'],
         ];
     }
 
@@ -89,7 +89,7 @@ cd ef"
 EOT
                 , "ab\ncd ef"],
             ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'],
-            ['REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]']
+            ['REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]'],
         ];
     }
 
@@ -120,7 +120,7 @@ EOT
             ['REX_TEST_VAR[content=cd prefix=ab suffix=ef instead=gh ifempty=ij]', 'abghef'],
             ['REX_TEST_VAR[content="" prefix=ab suffix=ef instead=gh ifempty=ij]', 'abijef'],
             ['REX_TEST_VAR[content=ab callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd'],
-            ['REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd']
+            ['REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::callback" suffix=cd]', 'subject:ab content:ab suffix:cd'],
         ];
     }
 

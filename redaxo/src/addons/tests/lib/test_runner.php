@@ -16,7 +16,7 @@ class rex_test_runner
 
     public function run(rex_test_locator $locator, $colors = false)
     {
-        $suite  = new PHPUnit_Framework_TestSuite();
+        $suite = new PHPUnit_Framework_TestSuite();
         // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
         // PDOStatements are not allowed to be serialized
         $suite->setBackupGlobals(false);
@@ -24,7 +24,7 @@ class rex_test_runner
 
         rex_error_handler::unregister();
 
-        $runner = new PHPUnit_TextUI_TestRunner;
+        $runner = new PHPUnit_TextUI_TestRunner();
 
         $backtrace = debug_backtrace(false);
         array_unshift($backtrace, ['file' => __FILE__, 'line' => __LINE__ + 3]);

@@ -4,15 +4,14 @@
  * Schneidet einen Ausschnitt aus einem Bild heraus. Es wird dabei nicht skaliert.
  *
  * @author staabm
+ *
  * @package redaxo\media-manager
  */
 
 class rex_effect_crop extends rex_effect_abstract
 {
-
     public function execute()
     {
-
         $this->media->asImage();
 
         $gdimage = $this->media->getImage();
@@ -57,11 +56,11 @@ class rex_effect_crop extends rex_effect_abstract
                 $offset_width += $this->params['offset_width'];
                 break;
             case 'right':
-                $offset_width   = (int) ($w - $this->params['width']) + $this->params['offset_width'];
+                $offset_width = (int) ($w - $this->params['width']) + $this->params['offset_width'];
                 break;
             case 'center':
             default: // center
-                $offset_width   = (int) (($w - $this->params['width']) / 2) + $this->params['offset_width'];
+                $offset_width = (int) (($w - $this->params['width']) / 2) + $this->params['offset_width'];
                 break;
         }
 
@@ -80,12 +79,9 @@ class rex_effect_crop extends rex_effect_abstract
         $this->keepTransparent($des);
         imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
 
-        $this->media->setImage($des);;
+        $this->media->setImage($des);
         $this->media->refreshImageDimensions();
-
     }
-
-
 
     public function getParams()
     {
@@ -93,36 +89,36 @@ class rex_effect_crop extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_crop_width'),
                 'name' => 'width',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_crop_height'),
                 'name' => 'height',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_crop_offset_width'),
                 'name' => 'offset_width',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_crop_offset_height'),
                 'name' => 'offset_height',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
-                'type'  => 'select',
-                'options'  => ['left', 'center', 'right'],
-                'default' => 'center'
+                'type' => 'select',
+                'options' => ['left', 'center', 'right'],
+                'default' => 'center',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
-                'type'  => 'select',
-                'options'  => ['top', 'middle', 'bottom'],
-                'default' => 'middle'
+                'type' => 'select',
+                'options' => ['top', 'middle', 'bottom'],
+                'default' => 'middle',
             ],
         ];
     }

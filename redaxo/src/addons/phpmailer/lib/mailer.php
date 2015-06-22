@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHPMailer Addon
+ * PHPMailer Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -14,20 +14,20 @@ class rex_mailer extends PHPMailer
     {
         $addon = rex_addon::get('phpmailer');
 
-        $this->From             = $addon->getConfig('from');
-        $this->FromName         = $addon->getConfig('fromname');
+        $this->From = $addon->getConfig('from');
+        $this->FromName = $addon->getConfig('fromname');
         $this->ConfirmReadingTo = $addon->getConfig('confirmto');
-        $this->Mailer           = $addon->getConfig('mailer');
-        $this->Host             = $addon->getConfig('host');
-        $this->Port             = $addon->getConfig('port');
-        $this->CharSet          = $addon->getConfig('charset');
-        $this->WordWrap         = $addon->getConfig('wordwrap');
-        $this->Encoding         = $addon->getConfig('encoding');
-        $this->Priority         = $addon->getConfig('priority');
-        $this->SMTPSecure       = $addon->getConfig('smtpsecure');
-        $this->SMTPAuth         = $addon->getConfig('smtpauth');
-        $this->Username         = $addon->getConfig('username');
-        $this->Password         = $addon->getConfig('password');
+        $this->Mailer = $addon->getConfig('mailer');
+        $this->Host = $addon->getConfig('host');
+        $this->Port = $addon->getConfig('port');
+        $this->CharSet = $addon->getConfig('charset');
+        $this->WordWrap = $addon->getConfig('wordwrap');
+        $this->Encoding = $addon->getConfig('encoding');
+        $this->Priority = $addon->getConfig('priority');
+        $this->SMTPSecure = $addon->getConfig('smtpsecure');
+        $this->SMTPAuth = $addon->getConfig('smtpauth');
+        $this->Username = $addon->getConfig('username');
+        $this->Password = $addon->getConfig('password');
 
         if ($bcc = $addon->getConfig('bcc')) {
             $this->AddBCC($bcc);

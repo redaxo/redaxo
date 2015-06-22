@@ -2,7 +2,7 @@
 
 /**
  * Template Objekt.
- * Zuständig für die Verarbeitung eines Templates
+ * Zuständig für die Verarbeitung eines Templates.
  *
  * @package redaxo\structure\content
  */
@@ -110,6 +110,7 @@ class rex_template
      *
      * @param int  $category_id
      * @param bool $ignore_inactive
+     *
      * @return array
      */
     public static function getTemplatesForCategory($category_id, $ignore_inactive = true)

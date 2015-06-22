@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Site Structure Addon
+ * Site Structure Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -36,9 +36,9 @@ if (rex::isBackend() && rex::getUser()) {
 
     rex_extension::register('PAGE_SIDEBAR', function () {
         $category_id = rex_request('category_id', 'int');
-        $article_id  = rex_request('article_id',  'int');
-        $clang       = rex_request('clang',       'int');
-        $ctype       = rex_request('ctype',       'int');
+        $article_id = rex_request('article_id',  'int');
+        $clang = rex_request('clang',       'int');
+        $ctype = rex_request('ctype',       'int');
 
         $category_id = rex_category::get($category_id) ? $category_id : 0;
         $article_id = rex_article::get($article_id) ? $article_id : 0;

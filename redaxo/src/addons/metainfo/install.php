@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MetaForm Addon
+ * MetaForm Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -29,9 +29,9 @@ $sql->setQuery('SELECT p.name, p.default, t.dbtype, t.dblength FROM ' . rex::get
 $rows = $sql->getRows();
 $managers = [
     'article' => new rex_metainfo_table_manager(rex::getTable('article')),
-    'media' => new rex_metainfo_table_manager(rex::getTable('media'))
+    'media' => new rex_metainfo_table_manager(rex::getTable('media')),
 ];
-for ($i = 0; $i < $sql->getRows(); $i++) {
+for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = $sql->getValue('name');
     if (substr($column, 0, 4) == 'med_') {
         $table = 'media';

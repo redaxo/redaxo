@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
@@ -27,7 +26,6 @@ if (rex::isSetup()) {
     $pages['setup'] = rex_be_controller::getSetupPage();
     $page = 'setup';
     rex_be_controller::setCurrentPage('setup');
-
 } else {
     // ----------------- CREATE LANG OBJ
     rex_i18n::setLocale(rex::getProperty('lang'));

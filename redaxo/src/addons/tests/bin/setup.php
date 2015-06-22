@@ -47,7 +47,7 @@ if (rex::isSetup()) {
 
     if ($err != '') {
         echo $err;
-        exit (10);
+        exit(10);
     }
 
     // install tests addon
@@ -57,17 +57,17 @@ if (rex::isSetup()) {
 
     if ($err != '') {
         echo $err;
-        exit (20);
+        exit(20);
     }
 
     $config['setup'] = false;
     if (rex_file::putConfig($configFile, $config)) {
         echo 'instance setup successfull', PHP_EOL;
-        exit (0);
+        exit(0);
     }
     echo 'instance setup failure', PHP_EOL;
-    exit (1);
+    exit(1);
 } else {
     echo 'instance setup not necessary', PHP_EOL;
-    exit (0);
+    exit(0);
 }

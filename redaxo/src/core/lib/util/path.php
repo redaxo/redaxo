@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Utility class to generate absolute paths
+ * Utility class to generate absolute paths.
  *
  * @author gharlan
  *
@@ -13,7 +13,7 @@ class rex_path
     protected static $backend;
 
     /**
-     * Initializes the class
+     * Initializes the class.
      *
      * @param string $htdocs  Htdocs path
      * @param string $backend Backend folder name
@@ -25,9 +25,10 @@ class rex_path
     }
 
     /**
-     * Returns a base path
+     * Returns a base path.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function base($file = '')
@@ -36,9 +37,10 @@ class rex_path
     }
 
     /**
-     * Returns the path to the frontend
+     * Returns the path to the frontend.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function frontend($file = '')
@@ -47,7 +49,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the frontend-controller (index.php from frontend)
+     * Returns the path to the frontend-controller (index.php from frontend).
      *
      * @return string
      */
@@ -57,9 +59,10 @@ class rex_path
     }
 
     /**
-     * Returns the path to the backend
+     * Returns the path to the backend.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function backend($file = '')
@@ -68,7 +71,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the backend-controller (index.php from backend)
+     * Returns the path to the backend-controller (index.php from backend).
      *
      * @return string
      */
@@ -78,9 +81,10 @@ class rex_path
     }
 
     /**
-     * Returns the path to the media-folder
+     * Returns the path to the media-folder.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function media($file = '')
@@ -92,6 +96,7 @@ class rex_path
      * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function assets($file = '')
@@ -104,6 +109,7 @@ class rex_path
      *
      * @param string $addon Addon
      * @param string $file  File
+     *
      * @return string
      *
      * @see assets()
@@ -114,11 +120,12 @@ class rex_path
     }
 
     /**
-     * Returns the path to the assets folder of the given plugin of the given addon
+     * Returns the path to the assets folder of the given plugin of the given addon.
      *
      * @param string $addon  Addon
      * @param string $plugin Plugin
      * @param string $file   File
+     *
      * @return string
      *
      * @see assets()
@@ -132,6 +139,7 @@ class rex_path
      * Returns the path to the data folder of the core.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function data($file = '')
@@ -144,6 +152,7 @@ class rex_path
      *
      * @param string $addon Addon
      * @param string $file  File
+     *
      * @return string
      */
     public static function addonData($addon, $file = '')
@@ -157,6 +166,7 @@ class rex_path
      * @param string $addon  Addon
      * @param string $plugin Plugin
      * @param string $file   File
+     *
      * @return string
      */
     public static function pluginData($addon, $plugin, $file = '')
@@ -165,9 +175,10 @@ class rex_path
     }
 
     /**
-     * Returns the path to the cache folder of the core
+     * Returns the path to the cache folder of the core.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function cache($file = '')
@@ -180,6 +191,7 @@ class rex_path
      *
      * @param string $addon Addon
      * @param string $file  File
+     *
      * @return string
      */
     public static function addonCache($addon, $file = '')
@@ -188,11 +200,12 @@ class rex_path
     }
 
     /**
-     * Returns the path to the cache folder of the given plugin
+     * Returns the path to the cache folder of the given plugin.
      *
      * @param string $addon  Addon
      * @param string $plugin Plugin
      * @param string $file   File
+     *
      * @return string
      */
     public static function pluginCache($addon, $plugin, $file = '')
@@ -204,6 +217,7 @@ class rex_path
      * Returns the path to the src folder.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function src($file = '')
@@ -212,9 +226,10 @@ class rex_path
     }
 
     /**
-     * Returns the path to the actual core
+     * Returns the path to the actual core.
      *
      * @param string $file File
+     *
      * @return string
      */
     public static function core($file = '')
@@ -223,10 +238,11 @@ class rex_path
     }
 
     /**
-     * Returns the base path to the folder of the given addon
+     * Returns the base path to the folder of the given addon.
      *
      * @param string $addon Addon
      * @param string $file  File
+     *
      * @return string
      */
     public static function addon($addon, $file = '')
@@ -235,11 +251,12 @@ class rex_path
     }
 
     /**
-     * Returns the base path to the folder of the plugin of the given addon
+     * Returns the base path to the folder of the plugin of the given addon.
      *
      * @param string $addon  Addon
      * @param string $plugin Plugin
      * @param string $file   File
+     *
      * @return string
      */
     public static function plugin($addon, $plugin, $file = '')
@@ -248,9 +265,10 @@ class rex_path
     }
 
     /**
-     * Converts a relative path to an absolute
+     * Converts a relative path to an absolute.
      *
      * @param string $relPath The relative path
+     *
      * @return string Absolute path
      */
     public static function absolute($relPath)

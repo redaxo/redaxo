@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Packages loading
+ * Packages loading.
+ *
  * @package redaxo5
  */
 

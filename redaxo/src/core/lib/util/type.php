@@ -1,15 +1,16 @@
 <?php
 
 /**
- * Class for var casting
+ * Class for var casting.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_type
 {
     /**
-     * Casts the variable $var to $vartype
+     * Casts the variable $var to $vartype.
      *
      * Possible types:
      *  - 'bool' (or 'boolean')
@@ -33,6 +34,7 @@ class rex_type
      * @param mixed $vartype Variable type
      *
      * @throws InvalidArgumentException
+     *
      * @return mixed Castet value
      */
     public static function cast($var, $vartype)
@@ -47,20 +49,20 @@ class rex_type
                     break;
                 case 'int'    :
                 case 'integer':
-                    $var = (int)     $var;
+                    $var = (int) $var;
                     break;
                 case 'double' :
-                    $var = (double)  $var;
+                    $var = (double) $var;
                     break;
                 case 'float'  :
                 case 'real'   :
-                    $var = (float)   $var;
+                    $var = (float) $var;
                     break;
                 case 'string' :
-                    $var = (string)  $var;
+                    $var = (string) $var;
                     break;
                 case 'object' :
-                    $var = (object)  $var;
+                    $var = (object) $var;
                     break;
                 case 'array'  :
                     if ('' === $var) {

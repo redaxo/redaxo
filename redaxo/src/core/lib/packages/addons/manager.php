@@ -6,7 +6,7 @@
 class rex_addon_manager extends rex_package_manager
 {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param rex_addon $addon Addon
      */
@@ -70,7 +70,7 @@ class rex_addon_manager extends rex_package_manager
             return false;
         }
 
-        $plugins = new SplObjectStorage;
+        $plugins = new SplObjectStorage();
         // create the managers for all available plugins
         foreach ($this->package->getAvailablePlugins() as $plugin) {
             $plugins[$plugin] = rex_plugin_manager::factory($plugin);

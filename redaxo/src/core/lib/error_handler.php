@@ -8,7 +8,7 @@ abstract class rex_error_handler
     private static $registered;
 
     /**
-     * Registers the class as php-error/exception handler
+     * Registers the class as php-error/exception handler.
      */
     public static function register()
     {
@@ -24,7 +24,7 @@ abstract class rex_error_handler
     }
 
     /**
-     * Unregisters the logger instance as php-error/exception handler
+     * Unregisters the logger instance as php-error/exception handler.
      */
     public static function unregister()
     {
@@ -40,10 +40,10 @@ abstract class rex_error_handler
     }
 
     /**
-     * Handles the given Exception
+     * Handles the given Exception.
      *
      * @param Exception $exception The Exception to handle
-     * @param boolean   $showTrace
+     * @param bool      $showTrace
      */
     public static function handleException(Exception $exception, $showTrace = true)
     {
@@ -100,32 +100,29 @@ abstract class rex_error_handler
     }
 
     /**
-     * Handles a error message
+     * Handles a error message.
      *
-     * @param integer $errno   The error code to handle
-     * @param string  $errstr  The error message
-     * @param string  $errfile The file in which the error occured
-     * @param integer $errline The line of the file in which the error occured
+     * @param int    $errno   The error code to handle
+     * @param string $errstr  The error message
+     * @param string $errfile The file in which the error occured
+     * @param int    $errline The line of the file in which the error occured
+     *
      * @throws ErrorException
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
         if (in_array($errno, [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
-
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-
         } elseif ((error_reporting() & $errno) == $errno) {
-
             if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
                 echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
             }
             rex_logger::logError($errno, $errstr, $errfile, $errline);
-
         }
     }
 
     /**
-     * Shutdown-handler which is called at the very end of the request
+     * Shutdown-handler which is called at the very end of the request.
      */
     public static function shutdown()
     {
@@ -139,9 +136,10 @@ abstract class rex_error_handler
     }
 
     /**
-     * Get a human readable string representing the given php error code
+     * Get a human readable string representing the given php error code.
      *
      * @param int $errno a php error code, e.g. E_ERROR
+     *
      * @return string
      */
     public static function getErrorType($errno)

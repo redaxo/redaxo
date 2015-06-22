@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHPMailer Addon
+ * PHPMailer Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *

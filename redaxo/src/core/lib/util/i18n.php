@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for internationalization
+ * Class for internationalization.
  *
  * @package redaxo\core
  */
@@ -14,10 +14,10 @@ class rex_i18n
     private static $msg = [];
 
     /**
-     * Switches the current locale
+     * Switches the current locale.
      *
-     * @param string  $locale       The new locale
-     * @param boolean $phpSetLocale When TRUE, php function setlocale() will be called
+     * @param string $locale       The new locale
+     * @param bool   $phpSetLocale When TRUE, php function setlocale() will be called
      *
      * @return string The last locale
      */
@@ -45,7 +45,7 @@ class rex_i18n
     }
 
     /**
-     * Returns the current locale
+     * Returns the current locale.
      *
      * @return string The current locale
      */
@@ -55,7 +55,7 @@ class rex_i18n
     }
 
     /**
-     * Adds a directory with lang files
+     * Adds a directory with lang files.
      *
      * @param string $dir Path to the directory
      */
@@ -69,7 +69,7 @@ class rex_i18n
     }
 
     /**
-     * Returns the translation htmlspecialchared for the given key
+     * Returns the translation htmlspecialchared for the given key.
      *
      * @param string $key Key
      *
@@ -81,7 +81,7 @@ class rex_i18n
     }
 
     /**
-     * Returns the translation for the given key
+     * Returns the translation for the given key.
      *
      * @param string $key Key
      *
@@ -93,11 +93,12 @@ class rex_i18n
     }
 
     /**
-     * Returns the translation for the given key
+     * Returns the translation for the given key.
      *
      * @param string $key
      * @param bool   $htmlspecialchars
      * @param array  $args
+     *
      * @return mixed
      */
     private static function getMsg($key, $htmlspecialchars, array $args)
@@ -121,7 +122,7 @@ class rex_i18n
         $replacements = [];
         $argNum = count($args);
         if ($argNum > 1) {
-            for ($i = 1; $i < $argNum; $i++) {
+            for ($i = 1; $i < $argNum; ++$i) {
                 // zero indexed
                 $patterns[] = '/\{' . ($i - 1) . '\}/';
                 $replacements[] = $args[$i];
@@ -130,13 +131,12 @@ class rex_i18n
         return preg_replace($patterns, $replacements, $msg);
     }
 
-
     /**
-     * Checks if there is a translation for the given key
+     * Checks if there is a translation for the given key.
      *
      * @param string $key Key
      *
-     * @return boolean TRUE on success, else FALSE
+     * @return bool TRUE on success, else FALSE
      */
     public static function hasMsg($key)
     {
@@ -144,7 +144,7 @@ class rex_i18n
     }
 
     /**
-     * Adds a new translation to the catalogue
+     * Adds a new translation to the catalogue.
      *
      * @param string $key Key
      * @param string $msg Message for the key
@@ -155,7 +155,7 @@ class rex_i18n
     }
 
     /**
-     * Returns the locales
+     * Returns the locales.
      *
      * @return array Array of Locales
      */
@@ -175,12 +175,14 @@ class rex_i18n
     }
 
     /**
-     * Translates the $text, if it begins with 'translate:', else it returns $text
+     * Translates the $text, if it begins with 'translate:', else it returns $text.
      *
      * @param string   $text                 The text for translation.
-     * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+     * @param bool     $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
      * @param callable $i18nFunction         Function that returns the translation for the i18n key
+     *
      * @throws InvalidArgumentException
+     *
      * @return string Translated text
      */
     public static function translate($text, $use_htmlspecialchars = true, callable $i18nFunction = null)
@@ -203,12 +205,14 @@ class rex_i18n
     }
 
     /**
-     * Translates all array elements
+     * Translates all array elements.
      *
      * @param mixed    $array                The Array of Strings for translation.
-     * @param boolean  $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
+     * @param bool     $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
      * @param callable $i18nFunction         Function that returns the translation for the i18n key
+     *
      * @throws InvalidArgumentException
+     *
      * @return mixed
      */
     public static function translateArray($array, $use_htmlspecialchars = true, callable $i18nFunction = null)
@@ -228,11 +232,11 @@ class rex_i18n
     }
 
     /**
-     * Loads the translation definitions of the given file
+     * Loads the translation definitions of the given file.
      *
      * @param string $file Path to the file
      *
-     * @return boolean TRUE on success, FALSE on failure
+     * @return bool TRUE on success, FALSE on failure
      */
     private static function loadFile($file)
     {
@@ -247,7 +251,7 @@ class rex_i18n
     }
 
     /**
-     * Loads all translation defintions
+     * Loads all translation defintions.
      */
     private static function loadAll()
     {

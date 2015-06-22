@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for sockets
+ * Class for sockets.
  *
  * Example:
  * <code>
@@ -18,6 +18,7 @@
  * </code>
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_socket
@@ -31,11 +32,11 @@ class rex_socket
     protected $stream;
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param string  $host Host name
-     * @param integer $port Port number
-     * @param boolean $ssl  SSL flag
+     * @param string $host Host name
+     * @param int    $port Port number
+     * @param bool   $ssl  SSL flag
      */
     protected function __construct($host, $port = 80, $ssl = false)
     {
@@ -49,11 +50,12 @@ class rex_socket
     }
 
     /**
-     * Factory method
+     * Factory method.
      *
-     * @param string  $host Host name
-     * @param integer $port Port number
-     * @param boolean $ssl  SSL flag
+     * @param string $host Host name
+     * @param int    $port Port number
+     * @param bool   $ssl  SSL flag
+     *
      * @return static Socket instance
      *
      * @see rex_socket::factoryUrl()
@@ -68,10 +70,12 @@ class rex_socket
     }
 
     /**
-     * Creates a socket by a full URL
+     * Creates a socket by a full URL.
      *
      * @param string $url URL
+     *
      * @throws rex_socket_exception
+     *
      * @return static Socket instance
      *
      * @see rex_socket::factory()
@@ -84,9 +88,10 @@ class rex_socket
     }
 
     /**
-     * Sets the path
+     * Sets the path.
      *
      * @param string $path
+     *
      * @return $this Current socket
      */
     public function setPath($path)
@@ -97,10 +102,11 @@ class rex_socket
     }
 
     /**
-     * Adds a header to the current request
+     * Adds a header to the current request.
      *
      * @param string $key
      * @param string $value
+     *
      * @return $this Current socket
      */
     public function addHeader($key, $value)
@@ -111,10 +117,11 @@ class rex_socket
     }
 
     /**
-     * Adds the basic authorization header to the current request
+     * Adds the basic authorization header to the current request.
      *
      * @param string $user
      * @param string $password
+     *
      * @return $this Current socket
      */
     public function addBasicAuthorization($user, $password)
@@ -125,9 +132,10 @@ class rex_socket
     }
 
     /**
-     * Sets the timeout for the connection
+     * Sets the timeout for the connection.
      *
      * @param int $timeout Timeout
+     *
      * @return $this Current socket
      */
     public function setTimeout($timeout)
@@ -138,9 +146,10 @@ class rex_socket
     }
 
     /**
-     * Makes a GET request
+     * Makes a GET request.
      *
      * @return rex_socket_response Response
+     *
      * @throws rex_socket_exception
      */
     public function doGet()
@@ -149,11 +158,13 @@ class rex_socket
     }
 
     /**
-     * Makes a POST request
+     * Makes a POST request.
      *
      * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
      * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
+     *
      * @return rex_socket_response Response
+     *
      * @throws rex_socket_exception
      */
     public function doPost($data = '', array $files = [])
@@ -205,9 +216,10 @@ class rex_socket
     }
 
     /**
-     * Makes a DELETE request
+     * Makes a DELETE request.
      *
      * @return rex_socket_response Response
+     *
      * @throws rex_socket_exception
      */
     public function doDelete()
@@ -216,11 +228,13 @@ class rex_socket
     }
 
     /**
-     * Makes a request
+     * Makes a request.
      *
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
+     *
      * @return rex_socket_response Response
+     *
      * @throws InvalidArgumentException
      */
     public function doRequest($method, $data = '')
@@ -234,7 +248,7 @@ class rex_socket
     }
 
     /**
-     * Opens the socket connection
+     * Opens the socket connection.
      *
      * @throws rex_socket_exception
      */
@@ -249,13 +263,15 @@ class rex_socket
     }
 
     /**
-     * Writes a request to the opened connection
+     * Writes a request to the opened connection.
      *
      * @param string          $method  HTTP method, e.g. "GET"
      * @param string          $path    Path
      * @param array           $headers Headers
      * @param string|callable $data    Body data as string or a callback for writing the body
+     *
      * @throws rex_socket_exception
+     *
      * @return rex_socket_response Response
      */
     protected function writeRequest($method, $path, array $headers = [], $data = '')
@@ -285,10 +301,12 @@ class rex_socket
     }
 
     /**
-     * Parses a full URL and returns an array with the keys "host", "port", "ssl" and "path"
+     * Parses a full URL and returns an array with the keys "host", "port", "ssl" and "path".
      *
      * @param string $url Full URL
+     *
      * @return array URL parts
+     *
      * @throws rex_socket_exception
      */
     protected static function parseUrl($url)
@@ -323,15 +341,18 @@ class rex_socket
             'host' => $parts['host'],
             'port' => $port,
             'ssl' => $ssl,
-            'path' => $path
+            'path' => $path,
         ];
     }
 }
 
 /**
- * Socket exception
+ * Socket exception.
  *
  * @see rex_socket
+ *
  * @package redaxo\core
  */
-class rex_socket_exception extends rex_exception {}
+class rex_socket_exception extends rex_exception
+{
+}

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Class for the start_article_id and notfound_article_id settings
+ * Class for the start_article_id and notfound_article_id settings.
  *
  * @author gharlan
+ *
  * @package redaxo\structure
  */
 class rex_system_setting_article_id extends rex_system_setting
@@ -11,7 +12,7 @@ class rex_system_setting_article_id extends rex_system_setting
     private $key;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $key Key
      */

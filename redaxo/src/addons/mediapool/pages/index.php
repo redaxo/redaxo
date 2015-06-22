@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
@@ -14,11 +13,10 @@ global $subpage, $ftitle, $error, $success;
 
 // -------------- Defaults
 $subpage = rex_be_controller::getCurrentPagePart(2);
-$func    = rex_request('func', 'string');
+$func = rex_request('func', 'string');
 $success = rex_request('info', 'string');
-$error   = rex_request('warning', 'string');
-$args    = rex_request('args', 'array');
-
+$error = rex_request('warning', 'string');
+$args = rex_request('args', 'array');
 
 // -------------- Additional Args
 $arg_url = ['args' => $args];
@@ -53,7 +51,6 @@ if ($file_name != '') {
 if ($rex_file_category == -1) {
     $rex_file_category = rex_session('media[rex_file_category]', 'int');
 }
-
 
 $gc = rex_sql::factory();
 $gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
@@ -119,7 +116,6 @@ function selectMedialist(filename)
 
                         source.options.add(option, sourcelength);
                         opener.writeREXMedialist(' . $id . ');';
-
         }
     ?>
 }
@@ -150,7 +146,6 @@ function selectMediaListArray(files)
                         }
 
                         opener.writeREXMedialist(' . $id . ');';
-
         }
     ?>
 }

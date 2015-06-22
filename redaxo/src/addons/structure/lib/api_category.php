@@ -31,7 +31,7 @@ class rex_api_category_edit extends rex_api_function
 {
     public function execute()
     {
-        $catId   = rex_request('category-id', 'int');
+        $catId = rex_request('category-id', 'int');
         $clangId = rex_request('clang', 'int');
 
         /**
@@ -61,7 +61,7 @@ class rex_api_category_delete extends rex_api_function
 {
     public function execute()
     {
-        $catId   = rex_request('category-id', 'int');
+        $catId = rex_request('category-id', 'int');
 
         // check permissions
         if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catId)) {
@@ -80,7 +80,7 @@ class rex_api_category_status extends rex_api_function
 {
     public function execute()
     {
-        $catId   = rex_request('category-id', 'int');
+        $catId = rex_request('category-id', 'int');
         $clangId = rex_request('clang', 'int');
 
         /**
@@ -108,9 +108,9 @@ class rex_api_category_move extends rex_api_function
     public function execute()
     {
         // the category to move
-        $catId       = rex_request('category-id', 'int');
+        $catId = rex_request('category-id', 'int');
         // the destination category in which the given category will be moved
-        $newCatId    = rex_request('new-category-id', 'int');
+        $newCatId = rex_request('new-category-id', 'int');
         // a optional priority for the moved category
         $newPriority = rex_request('new-priority', 'int', 0);
 

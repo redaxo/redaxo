@@ -25,7 +25,7 @@ class rex_form_widget_linkmap_element extends rex_form_element
 
         $html = rex_var_link::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), ['category' => $this->category_id]);
 
-        $widget_counter++;
+        ++$widget_counter;
         return $html;
     }
 }

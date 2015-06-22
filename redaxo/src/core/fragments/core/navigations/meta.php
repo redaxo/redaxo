@@ -1,15 +1,14 @@
 <?php
+
 $echo = '';
 
 $items = $this->items;
-
 
 // --------------------- List Items
 $list_items = [];
 
 if (count($items) > 0) {
     foreach ($items as $item) {
-
         $list_item = '';
 
         if (isset($item['title']) && $item['title'] != '') {
@@ -28,7 +27,6 @@ if (count($items) > 0) {
         }
 
         $list_items[] = '<li>' . $list_item . '</li>';
-
     }
 
     $list_items = rex_extension::registerPoint(new rex_extension_point('META_NAVI', $list_items));

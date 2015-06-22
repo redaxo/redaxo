@@ -131,12 +131,12 @@ class rex_select
 
     public function addOptgroup($label)
     {
-        $this->currentOptgroup++;
+        ++$this->currentOptgroup;
         $this->optgroups[$this->currentOptgroup] = $label;
     }
 
     /**
-     * Fügt eine Option hinzu
+     * Fügt eine Option hinzu.
      */
     public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
@@ -159,7 +159,7 @@ class rex_select
         if (is_array($options) && count($options) > 0) {
             // Hier vorher auf is_array abfragen, da bei Strings auch die Syntax mit [] funktioniert
             // $ab = "hallo"; $ab[2] -> "l"
-            $grouped = isset($options[0]) && is_array($options[0]) && isset ($options[0][2]) && isset ($options[0][3]);
+            $grouped = isset($options[0]) && is_array($options[0]) && isset($options[0][2]) && isset($options[0][3]);
             foreach ($options as $key => $option) {
                 $option = (array) $option;
                 $attributes = [];
@@ -188,7 +188,7 @@ class rex_select
 
     /**
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
-     * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben
+     * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben.
      */
     public function addArrayOptions(array $options, $use_keys = true)
     {

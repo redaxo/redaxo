@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Class for permissions
+ * Class for permissions.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 abstract class rex_perm
@@ -13,14 +14,14 @@ abstract class rex_perm
     const EXTRAS = 'extras';
 
     /**
-     * Array of permissions
+     * Array of permissions.
      *
      * @var array
      */
     private static $perms = [];
 
     /**
-     * Registers a new permission
+     * Registers a new permission.
      *
      * @param string $perm  Perm key
      * @param string $name  Perm name
@@ -33,9 +34,10 @@ abstract class rex_perm
     }
 
     /**
-     * Returns whether the permission is registered
+     * Returns whether the permission is registered.
      *
      * @param string $perm
+     *
      * @return bool
      */
     public static function has($perm)
@@ -49,9 +51,10 @@ abstract class rex_perm
     }
 
     /**
-     * Returns all permissions for the given group
+     * Returns all permissions for the given group.
      *
      * @param string $group Perm group
+     *
      * @return array Permissions
      */
     public static function getAll($group = self::GENERAL)

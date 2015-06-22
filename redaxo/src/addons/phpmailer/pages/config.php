@@ -1,8 +1,10 @@
 <?php
 
 /**
- * Addon Framework Classes
+ * Addon Framework Classes.
+ *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ *
  * @package redaxo5
  *
  * @var rex_addon $this
@@ -26,7 +28,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['password', 'string'],
         ['smtpsecure', 'string'],
         ['smtpauth', 'boolean'],
-        ['priority', 'int']
+        ['priority', 'int'],
     ]));
 
     $message = $this->i18n('config_saved_successful');
@@ -49,7 +51,7 @@ $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control');
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
 foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
-$sel_smtpauth->addOption($type, $i);
+    $sel_smtpauth->addOption($type, $i);
 }
 
 $sel_smtpsecure = new rex_select();
@@ -81,7 +83,6 @@ $sel_priority->setSelected($this->getConfig('priority'));
 foreach ([1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
     $sel_priority->addOption($name, $no);
 }
-
 
 if ($message != '') {
     echo rex_view::success($message);
@@ -182,13 +183,11 @@ $n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') 
 $n['field'] = '<input class="form-control" id="phpmailer-password" type="text" name="settings[password]" value="' . $this->getConfig('password') . '" />';
 $formElements[] = $n;
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
-
 
 $formElements = [];
 $n = [];
@@ -198,23 +197,16 @@ $n = [];
 $n['field'] = '<button class="btn btn-save" type="reset" name="btn_reset" value="' . $this->i18n('reset') . '" data-confirm="' . $this->i18n('reset_info') . '">' . $this->i18n('reset') . '</button>';
 $formElements[] = $n;
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
-
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $this->i18n('config_settings'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
-
-
-
-
 
 echo '
     <form action="' . rex_url::currentBackendPage() . '" method="post">

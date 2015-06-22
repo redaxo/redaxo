@@ -22,7 +22,7 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
             ['a',     'float', false],
             ['0',     'float', true],
             ['1234',  'float', true],
-            ['34.54', 'float', true]
+            ['34.54', 'float', true],
         ];
     }
 
@@ -70,7 +70,7 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
             ['www.example.com', false],
             ['http://localhost', true],
             ['http://www.example.com/path/to/file.php?page=2&x=3', true],
-            ['http://www.example.com:8080/', true]
+            ['http://www.example.com:8080/', true],
         ];
     }
 
@@ -89,7 +89,7 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
             ['abc', false],
             ['@example.com', false],
             ['info@example.com', true],
-            ['abc.def@sub.example.com', true]
+            ['abc.def@sub.example.com', true],
         ];
     }
 

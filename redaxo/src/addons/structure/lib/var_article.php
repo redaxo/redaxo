@@ -2,7 +2,7 @@
 
 /**
  * REX_ARTICLE[1]
- * REX_ARTICLE[id=1]
+ * REX_ARTICLE[id=1].
  *
  * REX_ARTICLE[id=1 ctype=2 clang=1]
  *
@@ -20,11 +20,11 @@
 class rex_var_article extends rex_var
 {
     /**
-     * Werte für die Ausgabe
+     * Werte für die Ausgabe.
      */
     protected function getOutput()
     {
-        $id    = $this->getParsedArg('id', 0, true);
+        $id = $this->getParsedArg('id', 0, true);
         $clang = $this->getParsedArg('clang', 'null');
         $ctype = $this->getParsedArg('ctype', -1);
         $field = $this->getParsedArg('field');

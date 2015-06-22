@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo5
  */
 
@@ -21,7 +20,6 @@ if ($func == 'setup') {
 
         header('Location:' . rex_url::backendController());
         exit;
-
     } else {
         $error[] = rex_i18n::msg('setup_error2');
     }
@@ -101,8 +99,6 @@ if ($success != '') {
 
 $dbconfig = rex::getProperty('db');
 
-
-
 $version = rex_path::src();
 if (strlen($version) > 21) {
     $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
@@ -131,7 +127,6 @@ $content[] = '
                             <dt>' . rex_i18n::msg('host') . '</dt><dd>' . $dbconfig[1]['host'] . '</dd>
                         </dl>';
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
@@ -140,9 +135,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('system_features'));
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
-
-
-
 
 $content = [];
 
@@ -167,7 +159,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content[] = $fragment->parse('core/form/form.php');
 
-
 $elements = '';
 
 $formElements = [];
@@ -181,8 +172,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $elements .= $fragment->parse('core/form/form.php');
 
-
-
 $formElements = [];
 
 $n = [];
@@ -194,7 +183,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $elements .= $fragment->parse('core/form/checkbox.php');
 
-
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
     if (!($field instanceof rex_form_element)) {
@@ -205,16 +193,11 @@ foreach (rex_system_setting::getAll() as $setting) {
     $elements .= $field->get();
 }
 
-
-
 $content[] = $elements;
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
-
-
 
 $formElements = [];
 
@@ -225,8 +208,6 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
-
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('system_settings'));

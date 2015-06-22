@@ -1,26 +1,28 @@
 <?php
 
 /**
- * String formatter class
+ * String formatter class.
  *
  * @package redaxo\core
  */
 abstract class rex_formatter
 {
     /**
-     * It's not allowed to create instances of this class
+     * It's not allowed to create instances of this class.
      */
     private function __construct()
     {
     }
 
     /**
-     * Formats a string by the given format type
+     * Formats a string by the given format type.
      *
      * @param string $value      Value
      * @param string $formatType Format type (any method name of this class)
      * @param mixed  $format     For possible values look at the other methods of this class
+     *
      * @return string
+     *
      * @throws InvalidArgumentException
      */
     public static function format($value, $formatType, $format)
@@ -32,12 +34,13 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by `date()`
+     * Formats a string by `date()`.
      *
      * @link http://www.php.net/manual/en/function.date.php
      *
      * @param string $value  Value
      * @param string $format Default format is `d.m.Y`
+     *
      * @return string
      */
     public static function date($value, $format = '')
@@ -50,12 +53,13 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by `strftime()`
+     * Formats a string by `strftime()`.
      *
      * @link http://www.php.net/manual/en/function.strftime.php
      *
      * @param string $value  Value
      * @param string $format Possible values are format strings like in `strftime` or "date" oder "datetime", default is "date"
+     *
      * @return string
      */
     public static function strftime($value, $format = '')
@@ -75,12 +79,13 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by `number_format()`
+     * Formats a string by `number_format()`.
      *
      * @link http://www.php.net/manual/en/function.number-format.php
      *
      * @param string $value  Value
      * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
+     *
      * @return string
      */
     public static function number($value, $format = [])
@@ -105,10 +110,11 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string as bytes
+     * Formats a string as bytes.
      *
      * @param string $value  Value
      * @param array  $format Same as {@link rex_formatter::number()}
+     *
      * @return string
      */
     public static function bytes($value, $format = [])
@@ -117,12 +123,12 @@ abstract class rex_formatter
         $unit_index = 0;
         while (($value / 1024) >= 1) {
             $value /= 1024;
-            $unit_index++;
+            ++$unit_index;
         }
 
         if (isset($format[0])) {
             $z = intval($value * pow(10, $precision = intval($format[0])));
-            for ($i = 0; $i < intval($precision); $i++) {
+            for ($i = 0; $i < intval($precision); ++$i) {
                 if (($z % 10) == 0) {
                     $format[0] = intval($format[0]) - 1;
                     $z = intval($z / 10);
@@ -136,12 +142,13 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by `sprintf()`
+     * Formats a string by `sprintf()`.
      *
      * @link http://www.php.net/manual/en/function.sprintf.php
      *
      * @param string $value  Value
      * @param string $format
+     *
      * @return string
      */
     public static function sprintf($value, $format = '')
@@ -153,11 +160,12 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by `nl2br`
+     * Formats a string by `nl2br`.
      *
      * @link http://www.php.net/manual/en/function.nl2br.php
      *
      * @param string $value Value
+     *
      * @return string
      */
     public static function nl2br($value)
@@ -166,10 +174,11 @@ abstract class rex_formatter
     }
 
     /**
-     * Truncates a string
+     * Truncates a string.
      *
      * @param string $value  Value
      * @param array  $format Default format is `array('length' => 80, 'etc' => '...', 'break_words' => false)`
+     *
      * @return string
      */
     public static function truncate($value, $format = [])
@@ -206,9 +215,10 @@ abstract class rex_formatter
     }
 
     /**
-     * Avoid widows in a string
+     * Avoid widows in a string.
      *
      * @param string $value
+     *
      * @return string
      */
     public static function widont($value)
@@ -223,12 +233,13 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a version string by `sprintf()`
+     * Formats a version string by `sprintf()`.
      *
      * @link http://www.php.net/manual/en/function.sprintf.php
      *
      * @param string $value  Version
      * @param string $format Version format, e.g. "%s.%s"
+     *
      * @return string
      */
     public static function version($value, $format)
@@ -237,10 +248,11 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string as link
+     * Formats a string as link.
      *
      * @param string $value  URL
      * @param array  $format Array with link attributes and params
+     *
      * @return string Link
      */
     public static function url($value, $format = [])
@@ -254,11 +266,11 @@ abstract class rex_formatter
         }
 
         // Linkattribute
-        if (empty ($format['attr'])) {
+        if (empty($format['attr'])) {
             $format['attr'] = '';
         }
         // Linkparameter (z.b. subject=Hallo Sir)
-        if (empty ($format['params'])) {
+        if (empty($format['params'])) {
             $format['params'] = '';
         } else {
             if (strstr($format['params'], '?') != $format['params']) {
@@ -274,10 +286,11 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string as email link
+     * Formats a string as email link.
      *
      * @param string $value  Email
      * @param array  $format Array with link attributes and params
+     *
      * @return string Email link
      */
     public static function email($value, $format = [])
@@ -287,11 +300,11 @@ abstract class rex_formatter
         }
 
         // Linkattribute
-        if (empty ($format['attr'])) {
+        if (empty($format['attr'])) {
             $format['attr'] = '';
         }
         // Linkparameter (z.b. subject=Hallo Sir)
-        if (empty ($format['params'])) {
+        if (empty($format['params'])) {
             $format['params'] = '';
         } else {
             if (strstr($format['params'], '?') != $format['params']) {
@@ -303,11 +316,13 @@ abstract class rex_formatter
     }
 
     /**
-     * Formats a string by a custom callable
+     * Formats a string by a custom callable.
      *
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
+     *
      * @return string
+     *
      * @throws rex_exception
      */
     public static function custom($value, $format)

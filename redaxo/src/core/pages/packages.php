@@ -1,11 +1,10 @@
 <?php
+
 /**
- *
  * @package redaxo5
  */
 
 echo rex_view::title(rex_i18n::msg('addons'), '');
-
 
 $content = '';
 
@@ -14,12 +13,11 @@ $subpage = rex_request('subpage', 'string');
 
 // ----------------- HELPPAGE
 if ($subpage == 'help') {
-    $package     = rex_package::get(rex_request('package', 'string'));
-    $name        = $package->getPackageId();
-    $version     = $package->getVersion();
-    $author      = $package->getAuthor();
+    $package = rex_package::get(rex_request('package', 'string'));
+    $name = $package->getPackageId();
+    $version = $package->getVersion();
+    $author = $package->getAuthor();
     $supportPage = $package->getSupportPage();
-
 
     if (!is_file($package->getPath('help.php'))) {
         $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
@@ -33,11 +31,6 @@ if ($subpage == 'help') {
     $fragment->setVar('title', rex_i18n::msg('package_help') . ' ' . $name, false);
     $fragment->setVar('body', $content, false);
     echo $fragment->parse('core/page/section.php');
-
-
-
-
-
 
     $credits = '';
     $credits .= '<dl class="dl-horizontal">';
@@ -55,15 +48,12 @@ if ($subpage == 'help') {
 
     $credits .= '</dl>';
 
-
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('credits'), false);
     $fragment->setVar('body', $credits, false);
     echo $fragment->parse('core/page/section.php');
 
-
     echo '<a class="btn btn-back" href="javascript:history.back();"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('package_back') . '</a>';
-
 }
 
 // ----------------- OUT
@@ -94,7 +84,7 @@ if ($subpage == '') {
         $url = rex_url::currentBackendPage([
             'package' => $package->getPackageId(),
             'rex-api-call' => 'package',
-            'function' => $function
+            'function' => $function,
         ]);
 
         $icon = ($icon != '') ? '<i class="rex-icon ' . $icon . '"></i>' : '';
@@ -171,7 +161,6 @@ if ($subpage == '') {
 
     $content .= '</tbody>
             </table>';
-
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('package_caption'), false);

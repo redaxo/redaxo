@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Textile Addon
+ * Textile Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -9,7 +9,6 @@
  */
 
 echo rex_view::title('Textile');
-
 
 $mdl_input = '<?php
 if (rex_addon::get(\'textile\')->isAvailable())
@@ -26,15 +25,12 @@ else
 }
 ';
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('textile_code_for_module_input'));
 $fragment->setVar('body', rex_string::highlight($mdl_input), false);
 $content = $fragment->parse('core/page/section.php');
 
 echo $content;
-
-
 
 $mdl_output = '<?php
 if (rex_addon::get(\'textile\')->isAvailable())
@@ -51,7 +47,6 @@ else
     echo rex_view::warning(\'Dieses Modul benötigt das "textile" Addon!\');
 }
 ';
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('textile_code_for_module_output'));

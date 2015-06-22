@@ -1,4 +1,5 @@
 <?php
+
 $message = '';
 $content = '';
 
@@ -44,7 +45,6 @@ if ($func == '') {
     $fragment->setVar('title', $title);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
-
 } else {
     $title = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
 
@@ -153,9 +153,7 @@ if ($func == '') {
     $fragment->setVar('title', $title);
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
-
 }
-
 
 echo $message;
 echo $content;

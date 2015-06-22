@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Instance Pool Trait
+ * Instance Pool Trait.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 trait rex_instance_pool_trait
@@ -14,7 +15,7 @@ trait rex_instance_pool_trait
     private static $instances = [];
 
     /**
-     * Constructor
+     * Constructor.
      */
     private function __construct()
     {
@@ -22,7 +23,7 @@ trait rex_instance_pool_trait
     }
 
     /**
-     * Adds an instance
+     * Adds an instance.
      *
      * @param mixed $key      Key
      * @param self  $instance Instance
@@ -35,9 +36,10 @@ trait rex_instance_pool_trait
     }
 
     /**
-     * Checks whether an instance exists for the given key
+     * Checks whether an instance exists for the given key.
      *
      * @param mixed $key Key
+     *
      * @return bool
      */
     protected static function hasInstance($key)
@@ -48,12 +50,13 @@ trait rex_instance_pool_trait
     }
 
     /**
-     * Returns the instance for the given key
+     * Returns the instance for the given key.
      *
      * If the instance does not exist it will be created by calling the $createCallback
      *
      * @param mixed    $key            Key
      * @param callable $createCallback Callback, will be called to create a new instance
+     *
      * @return null|static
      */
     protected static function getInstance($key, callable $createCallback = null)
@@ -72,7 +75,7 @@ trait rex_instance_pool_trait
     }
 
     /**
-     * Removes the instance of the given key
+     * Removes the instance of the given key.
      *
      * @param mixed $key Key
      */
@@ -84,7 +87,7 @@ trait rex_instance_pool_trait
     }
 
     /**
-     * Clears the instance pool
+     * Clears the instance pool.
      */
     public static function clearInstancePool()
     {
@@ -98,11 +101,12 @@ trait rex_instance_pool_trait
     }
 
     /**
-     * Returns a string representation for the key
+     * Returns a string representation for the key.
      *
      * The original key can be a scalar value or an array of scalar values
      *
      * @param mixed $key Key
+     *
      * @return string
      */
     private static function getInstancePoolKey($key)

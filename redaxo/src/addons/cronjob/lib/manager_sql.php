@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -175,10 +175,10 @@ class rex_cronjob_manager_sql
     public function tryExecuteSql(rex_sql $sql, $log = true, $resetExecutionStart = false)
     {
         if ($sql->getRows() > 0) {
-            $id       = $sql->getValue('id');
-            $name     = $sql->getValue('name');
-            $type     = $sql->getValue('type');
-            $params   = json_decode($sql->getValue('parameters'), true);
+            $id = $sql->getValue('id');
+            $name = $sql->getValue('name');
+            $type = $sql->getValue('type');
+            $params = json_decode($sql->getValue('parameters'), true);
             $interval = $sql->getValue('interval');
 
             $cronjob = rex_cronjob::factory($type);

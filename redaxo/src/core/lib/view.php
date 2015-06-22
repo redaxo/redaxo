@@ -11,7 +11,7 @@ class rex_view
     private static $favicon;
 
     /**
-     * Adds a CSS file
+     * Adds a CSS file.
      *
      * @param string $file
      * @param string $media
@@ -22,7 +22,7 @@ class rex_view
     }
 
     /**
-     * Returns the CSS files
+     * Returns the CSS files.
      *
      * @return string[]
      */
@@ -32,7 +32,7 @@ class rex_view
     }
 
     /**
-     * Adds a JS file
+     * Adds a JS file.
      *
      * @param string $file
      */
@@ -42,7 +42,7 @@ class rex_view
     }
 
     /**
-     * Returns the JS files
+     * Returns the JS files.
      *
      * @return string[]
      */
@@ -52,7 +52,7 @@ class rex_view
     }
 
     /**
-     * Sets a JS property
+     * Sets a JS property.
      *
      * @param string $key
      * @param mixed  $value
@@ -63,7 +63,7 @@ class rex_view
     }
 
     /**
-     * Returns the JS properties
+     * Returns the JS properties.
      *
      * @return array
      */
@@ -73,7 +73,7 @@ class rex_view
     }
 
     /**
-     * Sets the favicon path
+     * Sets the favicon path.
      *
      * @param string $file
      */
@@ -83,7 +83,7 @@ class rex_view
     }
 
     /**
-     * Returns the favicon
+     * Returns the favicon.
      *
      * @return string
      */
@@ -93,10 +93,11 @@ class rex_view
     }
 
     /**
-     * Returns an info message
+     * Returns an info message.
      *
      * @param string $message
      * @param string $cssClass
+     *
      * @return string
      */
     public static function info($message, $cssClass = '')
@@ -110,10 +111,11 @@ class rex_view
     }
 
     /**
-     * Returns a success message
+     * Returns a success message.
      *
      * @param string $message
      * @param string $cssClass
+     *
      * @return string
      */
     public static function success($message, $cssClass = '')
@@ -127,10 +129,11 @@ class rex_view
     }
 
     /**
-     * Returns an warning message
+     * Returns an warning message.
      *
      * @param string $message
      * @param string $cssClass
+     *
      * @return string
      */
     public static function warning($message, $cssClass = '')
@@ -144,10 +147,11 @@ class rex_view
     }
 
     /**
-     * Returns an error message
+     * Returns an error message.
      *
      * @param string $message
      * @param string $cssClass
+     *
      * @return string
      */
     public static function error($message, $cssClass = '')
@@ -161,10 +165,11 @@ class rex_view
     }
 
     /**
-     * Returns a message
+     * Returns a message.
      *
      * @param string $message
      * @param string $cssClass
+     *
      * @return string
      */
     private static function message($message, $cssClass)
@@ -186,11 +191,12 @@ class rex_view
     }
 
     /**
-     * Returns a toolbar
+     * Returns a toolbar.
      *
      * @param string $content
      * @param string $brand
      * @param string $cssClass
+     *
      * @return string
      */
     public static function toolbar($content, $brand = null, $cssClass = null)
@@ -205,12 +211,13 @@ class rex_view
     }
 
     /**
-     * Returns a content block
+     * Returns a content block.
      *
      * @param string       $key
      * @param string|array $content
      * @param string       $title
      * @param array        $params
+     *
      * @return string
      */
     public static function content($key, $content, $title = '', array $params = [])
@@ -226,13 +233,14 @@ class rex_view
         return $fragment->parse('core/content/' . $key . '.php');
     }
 
-
     /**
-     * Returns the formatted title
+     * Returns the formatted title.
      *
      * @param string            $head
      * @param null|string|array $subtitle
+     *
      * @throws InvalidArgumentException
+     *
      * @return string
      */
     public static function title($head, $subtitle = null)
@@ -267,33 +275,31 @@ class rex_view
             } else {
                 $subtitle = '';
             }
-
         } elseif (!is_string($subtitle)) {
             $subtitle = '';
         }
 
         $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head, ['category_id' => $category_id, 'article_id' => $article_id, 'page' => $page]));
 
-
         $fragment = new rex_fragment();
         $fragment->setVar('heading', $title, false);
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-
         echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', '', [
             'category_id' => $category_id,
             'article_id' => $article_id,
-            'page' => $page
+            'page' => $page,
         ]));
 
         return $return;
     }
 
     /**
-     * Returns a clang switch
+     * Returns a clang switch.
      *
      * @param rex_context $context
+     *
      * @return string
      */
     public static function clangSwitch(rex_context $context)
@@ -302,13 +308,13 @@ class rex_view
             return '';
         }
 
-        $button_label =  '';
-        $items  = [];
+        $button_label = '';
+        $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $item = [];
                 $item['title'] = rex_i18n::translate($clang->getName());
-                $item['href']  = $context->getUrl(['clang' => $id]);
+                $item['href'] = $context->getUrl(['clang' => $id]);
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
                     $button_label = rex_i18n::translate($clang->getName());

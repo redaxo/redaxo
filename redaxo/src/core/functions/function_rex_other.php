@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Functions
+ * Functions.
+ *
  * @package redaxo5
  */
 
 /**
- * Deletes the cache
+ * Deletes the cache.
  *
  * @package redaxo\core
  */
@@ -30,7 +31,9 @@ function rex_delete_cache()
 
 /**
  * @param string $val
+ *
  * @return mixed
+ *
  * @package redaxo\core
  */
 function rex_ini_get($val)

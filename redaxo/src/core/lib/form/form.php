@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Klasse zum erstellen von Listen
+ * Klasse zum erstellen von Listen.
+ *
  * @package redaxo5
  */
 
@@ -43,7 +44,7 @@ class rex_form
      */
     protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
     {
-//    $debug = true;
+        //    $debug = true;
 
         if (!in_array($method, ['post', 'get'])) {
             throw new InvalidArgumentException("rex_form: Method-Parameter darf nur die Werte 'post' oder 'get' annehmen!");
@@ -60,7 +61,7 @@ class rex_form
         $this->setMessage('');
 
         $this->sql = rex_sql::factory();
-        $this->debug = & $debug;
+        $this->debug = &$debug;
         $this->sql->setDebug($this->debug);
         $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
@@ -83,7 +84,7 @@ class rex_form
     }
 
     /**
-     * Initialisiert das Formular
+     * Initialisiert das Formular.
      */
     public function init()
     {
@@ -91,13 +92,14 @@ class rex_form
     }
 
     /**
-     * Methode zum erstellen von rex_form Instanzen
+     * Methode zum erstellen von rex_form Instanzen.
      *
      * @param string $tableName
      * @param string $fieldset
      * @param string $whereCondition
      * @param string $method
      * @param bool   $debug
+     *
      * @return static a rex_form instance
      */
     public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
@@ -119,7 +121,7 @@ class rex_form
 
         $controlFields = [];
         $controlFields['save'] = rex_i18n::msg('form_save');
-        $controlFields['apply']  = $func == 'edit' ? rex_i18n::msg('form_apply') : '';
+        $controlFields['apply'] = $func == 'edit' ? rex_i18n::msg('form_apply') : '';
         $controlFields['delete'] = $func == 'edit' ? rex_i18n::msg('form_delete') : '';
         $controlFields['reset'] = ''; //rex_i18n::msg('form_reset');
         $controlFields['abort'] = rex_i18n::msg('form_abort');
@@ -142,7 +144,6 @@ class rex_form
             }
         }
 
-
         $this->addControlField(
             $controlElements['save'],
             $controlElements['apply'],
@@ -153,10 +154,11 @@ class rex_form
     }
 
     /**
-     * Gibt eine Formular-Url zurück
+     * Gibt eine Formular-Url zurück.
      *
      * @param array $params
      * @param bool  $escape
+     *
      * @return string
      */
     public function getUrl(array $params = [], $escape = true)
@@ -183,13 +185,14 @@ class rex_form
     // --------- Fields
 
     /**
-     * Fuegt dem Formular ein Input-Feld hinzu
+     * Fuegt dem Formular ein Input-Feld hinzu.
      *
      * @param string $tag
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
      * @param bool   $addElement
+     *
      * @return rex_form_element
      */
     public function addField($tag, $name, $value = null, array $attributes = [], $addElement = true)
@@ -212,6 +215,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_container_element
      */
     public function addContainerField($name, $value = null, array $attributes = [])
@@ -233,6 +237,7 @@ class rex_form
      * @param mixed  $value
      * @param array  $attributes
      * @param bool   $addElement
+     *
      * @return rex_form_element
      */
     public function addInputField($type, $name, $value = null, array $attributes = [], $addElement = true)
@@ -243,11 +248,12 @@ class rex_form
     }
 
     /**
-     * Fuegt dem Formular ein Text-Feld hinzu
+     * Fuegt dem Formular ein Text-Feld hinzu.
      *
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     public function addTextField($name, $value = null, array $attributes = [])
@@ -266,6 +272,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     public function addReadOnlyTextField($name, $value = null, array $attributes = [])
@@ -285,6 +292,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     public function addReadOnlyField($name, $value = null, array $attributes = [])
@@ -307,6 +315,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     public function addHiddenField($name, $value = null, array $attributes = [])
@@ -322,6 +331,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_checkbox_element
      */
     public function addCheckboxField($name, $value = null, array $attributes = [])
@@ -338,6 +348,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_radio_element
      */
     public function addRadioField($name, $value = null, array $attributes = [])
@@ -353,6 +364,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     public function addTextAreaField($name, $value = null, array $attributes = [])
@@ -380,6 +392,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_select_element
      */
     public function addSelectField($name, $value = null, array $attributes = [])
@@ -398,6 +411,7 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_prio_element
      */
     public function addPrioField($name, $value = null, array $attributes = [])
@@ -417,7 +431,9 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @throws rex_exception
+     *
      * @return rex_form_widget_media_element
      */
     public function addMediaField($name, $value = null, array $attributes = [])
@@ -437,7 +453,9 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @throws rex_exception
+     *
      * @return rex_form_widget_medialist_element
      */
     public function addMedialistField($name, $value = null, array $attributes = [])
@@ -457,7 +475,9 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @throws rex_exception
+     *
      * @return rex_form_widget_linkmap_element
      */
     public function addLinkmapField($name, $value = null, array $attributes = [])
@@ -477,7 +497,9 @@ class rex_form
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @throws rex_exception
+     *
      * @return rex_form_widget_linklist_element
      */
     public function addLinklistField($name, $value = null, array $attributes = [])
@@ -499,6 +521,7 @@ class rex_form
      * @param rex_form_element $deleteElement
      * @param rex_form_element $resetElement
      * @param rex_form_element $abortElement
+     *
      * @return rex_form_control_element
      */
     public function addControlField($saveElement = null, $applyElement = null, $deleteElement = null, $resetElement = null, $abortElement = null)
@@ -509,7 +532,9 @@ class rex_form
 
     /**
      * Fuegt dem Formular beliebiges HTML zu.
+     *
      * @param string $html HTML code
+     *
      * @return rex_form_raw_element
      */
     public function addRawField($html)
@@ -546,7 +571,7 @@ class rex_form
     }
 
     /**
-     * Gibt die Where-Bedingung des Formulars zurueck
+     * Gibt die Where-Bedingung des Formulars zurueck.
      */
     public function getWhereCondition()
     {
@@ -559,6 +584,7 @@ class rex_form
      *
      * @param string $name
      * @param mixed  $default
+     *
      * @return string
      */
     public function getParam($name, $default = null)
@@ -573,6 +599,7 @@ class rex_form
      * Allgemeine Bootleneck-Methode um Elemente in das Formular einzufuegen.
      *
      * @param rex_form_element $element
+     *
      * @return rex_form_element
      */
     protected function addElement(rex_form_element $element)
@@ -582,18 +609,19 @@ class rex_form
     }
 
     /**
-     * Erstellt ein Input-Element anhand des Strings $inputType
+     * Erstellt ein Input-Element anhand des Strings $inputType.
      *
      * @param string $inputType
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     public function createInput($inputType, $name, $value = null, array $attributes = [])
     {
-        $tag        = self::getInputTagName($inputType);
-        $className  = self::getInputClassName($inputType);
+        $tag = self::getInputTagName($inputType);
+        $className = self::getInputClassName($inputType);
         $attributes = array_merge(self::getInputAttributes($inputType), $attributes);
         $attributes['internal::fieldClass'] = $className;
 
@@ -603,12 +631,13 @@ class rex_form
     }
 
     /**
-     * Erstellt ein Input-Element anhand von $tag
+     * Erstellt ein Input-Element anhand von $tag.
      *
      * @param string $tag
      * @param string $name
      * @param mixed  $value
      * @param array  $attributes
+     *
      * @return rex_form_element
      */
     protected function createElement($tag, $name, $value, array $attributes = [])
@@ -672,7 +701,7 @@ class rex_form
     }
 
     /**
-     * Wechselt den Modus des Formulars
+     * Wechselt den Modus des Formulars.
      */
     public function setEditMode($isEditMode)
     {
@@ -686,7 +715,7 @@ class rex_form
     /**
      * Prueft ob sich das Formular im Edit-Modus befindet.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEditMode()
     {
@@ -709,6 +738,7 @@ class rex_form
 
     /**
      * @param string $inputType
+     *
      * @throws rex_exception
      *
      * @return rex_form_element
@@ -769,7 +799,6 @@ class rex_form
     }
 
     /**
-     *
      * @param string $inputType
      *
      * @return array
@@ -788,35 +817,35 @@ class rex_form
             case 'hidden'    :
             case 'radio'     :
                 return [
-                    'type' => $inputType
+                    'type' => $inputType,
                 ];
             case 'select'  :
                 return [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ];
             case 'text'  :
                 return [
                     'type' => $inputType,
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ];
             case 'textarea'  :
                 return [
                     'internal::fieldSeparateEnding' => true,
                     'class' => 'form-control',
                     //'cols' => 50,
-                    'rows' => 6
+                    'rows' => 6,
                 ];
             case 'readonly'  :
                 return [
                     'internal::fieldSeparateEnding' => true,
                     'internal::noNameAttribute' => true,
-                    'class' => 'form-control-static'
+                    'class' => 'form-control-static',
                 ];
             case 'readonlytext'  :
                 return [
                     'type' => 'text',
                     'readonly' => 'readonly',
-                    'class' => 'form-control-static'
+                    'class' => 'form-control-static',
                 ];
             default          : $inputAttr = []; break;
         }
@@ -828,7 +857,7 @@ class rex_form
     /**
      * @param rex_form_element $element
      *
-     * @return boolean
+     * @return bool
      */
     protected function isHeaderElement(rex_form_element $element)
     {
@@ -838,7 +867,7 @@ class rex_form
     /**
      * @param rex_form_element $element
      *
-     * @return boolean
+     * @return bool
      */
     protected function isFooterElement(rex_form_element $element)
     {
@@ -848,18 +877,17 @@ class rex_form
     /**
      * @param rex_form_element $element
      *
-     * @return boolean
+     * @return bool
      */
     protected function isControlElement(rex_form_element $element)
     {
         return is_a($element, 'rex_form_control_element');
     }
 
-
     /**
      * @param rex_form_element $element
      *
-     * @return boolean
+     * @return bool
      */
     protected function isRawElement(rex_form_element $element)
     {
@@ -1002,7 +1030,7 @@ class rex_form
     private function _getElement($fieldsetName, $elementName)
     {
         if (is_array($this->elements[$fieldsetName])) {
-            for ($i = 0; $i < count($this->elements[$fieldsetName]); $i++) {
+            for ($i = 0; $i < count($this->elements[$fieldsetName]); ++$i) {
                 if ($this->elements[$fieldsetName][$i]->getAttribute('name') == $elementName) {
                     return $this->elements[$fieldsetName][$i];
                 }
@@ -1072,7 +1100,7 @@ class rex_form
 
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
-     * kurz vorm speichern
+     * kurz vorm speichern.
      */
     protected function preSave($fieldsetName, $fieldName, $fieldValue, rex_sql $saveSql)
     {
@@ -1106,7 +1134,7 @@ class rex_form
 
     /**
      * Callbackfunktion, damit in subklassen der Value noch beeinflusst werden kann
-     * wenn das Feld mit Datenbankwerten angezeigt wird
+     * wenn das Feld mit Datenbankwerten angezeigt wird.
      */
     protected function preView($fieldsetName, $fieldName, $fieldValue)
     {
@@ -1115,12 +1143,13 @@ class rex_form
 
     /**
      * @param string $fieldsetName
+     *
      * @return array
      */
     public function fieldsetPostValues($fieldsetName)
     {
         // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
-        $normalizedFieldsetName = rex_string::normalize($fieldsetName, '_', '[]');;
+        $normalizedFieldsetName = rex_string::normalize($fieldsetName, '_', '[]');
 
         return rex_post($normalizedFieldsetName, 'array');
     }
@@ -1129,6 +1158,7 @@ class rex_form
      * @param string $fieldsetName
      * @param string $fieldName
      * @param mixed  $default
+     *
      * @return string
      */
     public function elementPostValue($fieldsetName, $fieldName, $default = null)
@@ -1152,7 +1182,7 @@ class rex_form
      *   $val   = $el->getValue();
      * erreichbar.
      *
-     * @return boolean
+     * @return bool
      */
     protected function validate()
     {
@@ -1202,7 +1232,7 @@ class rex_form
     /**
      * @param object $form
      *
-     * @return boolean
+     * @return bool
      */
     public function equals($form)
     {
@@ -1220,7 +1250,7 @@ class rex_form
      * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
      * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
      *
-     * @return boolean
+     * @return bool
      */
     protected function save()
     {
@@ -1257,7 +1287,6 @@ class rex_form
             $saved = false;
         }
 
-
         // ----- EXTENSION POINT
         if ($saved) {
             $saved = rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
@@ -1269,7 +1298,7 @@ class rex_form
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function delete()
     {
@@ -1400,7 +1429,6 @@ class rex_form
             $s .= '  ' . rex_view::info($message) . "\n";
         }
 
-
         $i = 0;
         $addHeaders = true;
         $fieldsets = $this->getFieldsetElements();
@@ -1442,7 +1470,7 @@ class rex_form
 
             $s .= '</fieldset>' . "\n";
 
-            $i++;
+            ++$i;
         }
 
         $s .= '</form>' . "\n";

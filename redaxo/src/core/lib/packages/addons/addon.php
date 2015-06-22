@@ -1,32 +1,35 @@
 <?php
 
 /**
- * Class for addons
+ * Class for addons.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_addon extends rex_package implements rex_addon_interface
 {
     /**
-     * Array of all addons
+     * Array of all addons.
      *
      * @var rex_addon[]
      */
     private static $addons = [];
 
     /**
-     * Array of all child plugins
+     * Array of all child plugins.
      *
      * @var rex_plugin[]
      */
     private $plugins = [];
 
     /**
-     * Returns the addon by the given name
+     * Returns the addon by the given name.
      *
      * @param string $addon Name of the addon
+     *
      * @throws InvalidArgumentException
+     *
      * @return self
      */
     public static function get($addon)
@@ -41,10 +44,11 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns if the addon exists
+     * Returns if the addon exists.
      *
      * @param string $addon Name of the addon
-     * @return boolean
+     *
+     * @return bool
      */
     public static function exists($addon)
     {
@@ -205,7 +209,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the registered addons
+     * Returns the registered addons.
      *
      * @return self[]
      */
@@ -215,7 +219,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the installed addons
+     * Returns the installed addons.
      *
      * @return self[]
      */
@@ -225,7 +229,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the available addons
+     * Returns the available addons.
      *
      * @return self[]
      */
@@ -235,7 +239,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the setup addons
+     * Returns the setup addons.
      *
      * @return self[]
      */
@@ -251,7 +255,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Returns the system addons
+     * Returns the system addons.
      *
      * @return self[]
      */
@@ -267,7 +271,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Initializes all packages
+     * Initializes all packages.
      */
     public static function initialize($dbExists = true)
     {
@@ -305,7 +309,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     }
 
     /**
-     * Filters packages by the given method
+     * Filters packages by the given method.
      *
      * @param array  $packages Array of packages
      * @param string $method   A rex_package method

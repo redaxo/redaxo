@@ -10,14 +10,13 @@ $category_id = rex_category::get($category_id) ? $category_id : 0;
 $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
-
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
     'HTMLArea' => $HTMLArea,
     'opener_input_field' => $opener_input_field,
     'opener_input_field_name' => $opener_input_field_name,
     'category_id' => $category_id,
-    'clang' => $clang
+    'clang' => $clang,
 ]);
 
 // ------- Build JS Functions
@@ -38,8 +37,8 @@ if ($opener_input_field == 'TINY') {
     $func_body .= 'window.opener.insertLink(link,name);
                                  self.close();';
 } elseif (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
-$id = substr($opener_input_field, 13, strlen($opener_input_field));
-$func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
+    $id = substr($opener_input_field, 13, strlen($opener_input_field));
+    $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
                  var source = opener.document.getElementById(linklist);
                  var sourcelength = source.options.length;
@@ -51,12 +50,11 @@ $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                  source.options.add(option, sourcelength);
                  opener.writeREXLinklist(' . $id . ');';
 } else {
-$func_body .= 'var linkid = link.replace("redaxo://","");
+    $func_body .= 'var linkid = link.replace("redaxo://","");
                              window.opener.document.getElementById("' . $opener_input_field . '").value = linkid;
                              window.opener.document.getElementById("' . $opener_input_field_name . '").value = name;
                              self.close();';
 }
-
 
 // ------------------------ Print JS Functions
 
@@ -84,14 +82,12 @@ if ($category) {
 
 echo rex_view::title('Linkmap');
 
-
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-sitestartarticle"></i> ' . rex_i18n::msg('homepage') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);
 $fragment->setVar('items', $navigation, false);
 echo $fragment->parse('core/navigations/breadcrumb.php');
-
 
 $content = [];
 
@@ -102,7 +98,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('linkmap_categories'), false);
 $fragment->setVar('body', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
-
 
 $articleList = new rex_linkmap_article_list($context);
 $panel = $articleList->getList($category_id);

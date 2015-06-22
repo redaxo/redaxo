@@ -4,7 +4,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 {
     public function testDate()
     {
-        $value  = 1336811080;
+        $value = 1336811080;
         $format = 'd.m.Y H:i';
 
         $this->assertEquals(
@@ -101,7 +101,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 
     public function testSprintf()
     {
-        $value  = 'hallo';
+        $value = 'hallo';
         $format = 'X%sX';
 
         $this->assertEquals(
@@ -125,8 +125,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         $value = 'very loooooong text lala';
 
         $format = [
-            'length'      => 10,
-            'etc'         => ' usw.',
+            'length' => 10,
+            'etc' => ' usw.',
             'break_words' => true,
         ];
         $this->assertEquals(
@@ -136,8 +136,8 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 
         // XXX hmm seems not to be correct
         $format = [
-            'length'      => 10,
-            'etc'         => ' usw.',
+            'length' => 10,
+            'etc' => ' usw.',
             'break_words' => false,
         ];
         $this->assertEquals(
@@ -166,7 +166,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         $value = 'http://example.org';
 
         $format = [
-            'attr'   => ' data-haha="foo"',
+            'attr' => ' data-haha="foo"',
             'params' => 'ilike=+1',
         ];
         $this->assertEquals(
@@ -180,7 +180,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         $value = 'dude@example.org';
 
         $format = [
-            'attr'   => ' data-haha="foo"',
+            'attr' => ' data-haha="foo"',
             'params' => 'ilike=+1',
         ];
         $this->assertEquals(

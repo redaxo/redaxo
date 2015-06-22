@@ -3,7 +3,7 @@
     $group = isset($this->group) && $this->group ? true : false;
 ?>
 
-<?php if (! $toolbar && ! $group): ?>
+<?php if (!$toolbar && !$group): ?>
 <div class="dropdown<?= (isset($this->block) ? ' btn-block' : '')?><?= ((isset($this->class) && $this->class != '') ? ' ' . $this->class : '') ?>">
 <?php endif; ?>
 
@@ -31,7 +31,7 @@
         <?php
         foreach ($this->items as $item) {
             echo '<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . (isset($item['attributes']) ? ' ' . trim($item['attributes']) : '') . '>';
-            echo (isset($item['href']) && $item['href'] != '') ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title'];
+            echo(isset($item['href']) && $item['href'] != '') ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title'];
             echo '</li>';
         }
         ?>
@@ -40,6 +40,6 @@
             <li><?= $this->footer ?></li>
         <?php endif; ?>
     </ul>
-<?php if (! $toolbar && ! $group): ?>
+<?php if (!$toolbar && !$group): ?>
 </div>
 <?php endif;

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Extension Point Class
+ * Extension Point Class.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_extension_point
@@ -15,7 +16,7 @@ class rex_extension_point
     private $readonly = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $name
      * @param mixed  $subject
@@ -24,14 +25,14 @@ class rex_extension_point
      */
     public function __construct($name, $subject = null, array $params = [], $readonly = false)
     {
-        $this->name     = $name;
-        $this->subject  = $subject;
-        $this->params   = $params;
+        $this->name = $name;
+        $this->subject = $subject;
+        $this->params = $params;
         $this->readonly = $readonly;
     }
 
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string
      */
@@ -41,9 +42,10 @@ class rex_extension_point
     }
 
     /**
-     * Sets the subject
+     * Sets the subject.
      *
      * @param mixed $subject
+     *
      * @throws rex_exception
      */
     public function setSubject($subject)
@@ -55,7 +57,7 @@ class rex_extension_point
     }
 
     /**
-     * Returns the subject
+     * Returns the subject.
      *
      * @return mixed
      */
@@ -65,10 +67,11 @@ class rex_extension_point
     }
 
     /**
-     * Sets a param
+     * Sets a param.
      *
      * @param string $key
      * @param mixed  $value
+     *
      * @throws rex_exception
      */
     public function setParam($key, $value)
@@ -80,7 +83,7 @@ class rex_extension_point
     }
 
     /**
-     * Sets the specific params for the next extension
+     * Sets the specific params for the next extension.
      *
      * @param array $params
      */
@@ -90,9 +93,10 @@ class rex_extension_point
     }
 
     /**
-     * Returns whether the given param exists
+     * Returns whether the given param exists.
      *
      * @param string $key
+     *
      * @return bool
      */
     public function hasParam($key)
@@ -101,10 +105,11 @@ class rex_extension_point
     }
 
     /**
-     * Returns the param for the given key
+     * Returns the param for the given key.
      *
      * @param string $key
      * @param mixed  $default
+     *
      * @return mixed
      */
     public function getParam($key, $default = null)
@@ -119,7 +124,7 @@ class rex_extension_point
     }
 
     /**
-     * Returns all params
+     * Returns all params.
      *
      * @return array
      */
@@ -129,7 +134,7 @@ class rex_extension_point
     }
 
     /**
-     * Returns whether the extension point is readonly
+     * Returns whether the extension point is readonly.
      *
      * @return bool
      */

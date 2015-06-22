@@ -31,8 +31,6 @@ class rex_media_cache
 
     /**
      * Löscht die gecachten Media-Listen.
-     *
-     * @return void
      */
     public static function deleteLists()
     {
@@ -60,8 +58,6 @@ class rex_media_cache
 
     /**
      * Löscht die gecachten Media-Kategorien-Listen.
-     *
-     * @return void
      */
     public static function deleteCategoryLists()
     {
@@ -91,6 +87,7 @@ class rex_media_cache
      * Generiert den Cache des Mediums.
      *
      * @param string $filename Dateiname des zu generierenden Mediums
+     *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function generate($filename)
@@ -171,6 +168,7 @@ class rex_media_cache
      * Generiert eine Liste mit den Media einer Kategorie.
      *
      * @param int $category_id Id der Kategorie
+     *
      * @return bool TRUE bei Erfolg, sonst FALSE
      */
     public static function generateList($category_id)
@@ -185,7 +183,7 @@ class rex_media_cache
         $sql->setQuery($query);
 
         $cacheArray = [];
-        for ($i = 0; $i < $sql->getRows(); $i++) {
+        for ($i = 0; $i < $sql->getRows(); ++$i) {
             $cacheArray[] = $sql->getValue('filename');
             $sql->next();
         }
@@ -218,7 +216,7 @@ class rex_media_cache
         $sql->setQuery($query);
 
         $cacheArray = [];
-        for ($i = 0; $i < $sql->getRows(); $i++) {
+        for ($i = 0; $i < $sql->getRows(); ++$i) {
             $cacheArray[] = $sql->getValue('id');
             $sql->next();
         }

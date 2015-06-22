@@ -38,6 +38,7 @@ abstract class rex_linkmap_tree_renderer
      *
      * @param rex_category[] $children      A array of rex_category objects representing the top level objects
      * @param int[]          $activeTreeIds
+     *
      * @return string the rendered markup
      */
     public function renderTree(array $children, array $activeTreeIds)
@@ -60,7 +61,7 @@ abstract class rex_linkmap_tree_renderer
                     $linkclasses .= 'rex-linkmap-is-not-empty ';
                 }
 
-                if (next($children) == null ) {
+                if (next($children) == null) {
                     $liclasses .= 'rex-children-last ';
                 }
                 $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
@@ -109,7 +110,7 @@ abstract class rex_linkmap_tree_renderer
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
         if (strpos($linkAttr, ' href=') === false) {
-        $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
+            $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
         }
 
         $label = self::formatLabel($OOobject);

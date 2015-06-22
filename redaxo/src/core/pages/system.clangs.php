@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Verwaltung der Content Sprachen
+ * Verwaltung der Content Sprachen.
+ *
  * @package redaxo5
  */
 
@@ -9,16 +10,15 @@ $content = '';
 $message = '';
 
 // -------------- Defaults
-$clang_id   = rex_request('clang_id', 'int');
+$clang_id = rex_request('clang_id', 'int');
 $clang_code = rex_request('clang_code', 'string');
 $clang_name = rex_request('clang_name', 'string');
 $clang_prio = rex_request('clang_prio', 'int');
-$func       = rex_request('func', 'string');
+$func = rex_request('func', 'string');
 
 // -------------- Form Submits
-$add_clang_save  = rex_post('add_clang_save', 'boolean');
+$add_clang_save = rex_post('add_clang_save', 'boolean');
 $edit_clang_save = rex_post('edit_clang_save', 'boolean');
-
 
 $error = '';
 $success = '';
@@ -30,14 +30,11 @@ if ($func == 'deleteclang' && $clang_id != '') {
             rex_clang_service::deleteCLang($clang_id);
             $success = rex_i18n::msg('clang_deleted');
             $func = '';
-            unset ($clang_id);
+            unset($clang_id);
         }
-
     } catch (rex_functional_exception $e) {
         echo rex_view::error($e->getMessage());
-
     }
-
 }
 
 // ----- add clang
@@ -58,7 +55,7 @@ if ($add_clang_save || $edit_clang_save) {
             rex_clang_service::editCLang($clang_id, $clang_code, $clang_name, $clang_prio);
             $success = rex_i18n::msg('clang_edited');
             $func = '';
-            unset ($clang_id);
+            unset($clang_id);
         }
     }
 }
@@ -70,8 +67,6 @@ if ($success != '') {
 if ($error != '') {
     $message .= rex_view::error($error);
 }
-
-
 
 $content .= '
         <table class="table table-responsive table-striped">
@@ -103,13 +98,12 @@ if ($func == 'addclang') {
             ';
 }
 foreach (rex_clang::getAll() as $lang_id => $lang) {
-
     $add_td = '';
     $add_td = '<td data-title="' . rex_i18n::msg('id') . '">' . $lang_id . '</td>';
 
     $delLink = rex_i18n::msg('delete');
     if ($lang_id == rex_clang::getStartId()) {
-     $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
+        $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
     } else {
         $delLink = '<a href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
     }
@@ -125,7 +119,6 @@ foreach (rex_clang::getAll() as $lang_id => $lang) {
                         <td data-title="' . rex_i18n::msg('clang_priority') . '"><input class="form-control" type="text" id="rex-form-clang-prio" name="clang_prio" value="' . htmlspecialchars($lang->getPriority()) . '" /></td>
                         <td colspan="2"><button class="btn btn-save" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
                     </tr>';
-
     } else {
         $editLink = rex_url::currentBackendPage(['func' => 'editclang', 'clang_id' => $lang_id]) . '#clang';
 
@@ -146,15 +139,12 @@ $content .= '
         </tbody>
     </table>';
 
-
 echo $message;
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('clang_caption'), false);
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');
-
-
 
 if ($func == 'addclang' || $func == 'editclang') {
     $content = '

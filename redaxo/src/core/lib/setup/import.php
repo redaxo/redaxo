@@ -121,7 +121,7 @@ class rex_setup_importer
         return [
             rex::getTablePrefix() . 'clang',
             rex::getTablePrefix() . 'user',
-            rex::getTablePrefix() . 'config'
+            rex::getTablePrefix() . 'config',
         ];
     }
 
@@ -163,7 +163,6 @@ class rex_setup_importer
         rex_package_manager::synchronizeWithFileSystem();
 
         if ($uninstallBefore) {
-
             foreach (array_reverse(rex_package::getSystemPackages()) as $package) {
                 $manager = rex_package_manager::factory($package);
                 $state = $manager->uninstall($installDump);
@@ -206,5 +205,4 @@ class rex_setup_importer
 
         return $addonErr;
     }
-
 }

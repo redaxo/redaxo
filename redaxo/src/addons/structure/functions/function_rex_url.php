@@ -1,13 +1,16 @@
 <?php
 
 /**
- * URL Funktionen
+ * URL Funktionen.
+ *
  * @package redaxo\structure
  */
 
 /**
  * @param string $name
+ *
  * @return string
+ *
  * @package redaxo\structure
  */
 function rex_parse_article_name($name)
@@ -27,7 +30,7 @@ function rex_parse_article_name($name)
 }
 
 /**
- * Baut einen Parameter String anhand des array $params
+ * Baut einen Parameter String anhand des array $params.
  *
  * @package redaxo\structure
  */
@@ -47,13 +50,15 @@ function rex_param_string($params, $divider = '&amp;')
 }
 
 /**
- * Gibt eine Url zu einem Artikel zurück
+ * Gibt eine Url zu einem Artikel zurück.
  *
  * @param string       $_id
  * @param int|string   $_clang  SprachId des Artikels
  * @param array|string $_params Array von Parametern
  * @param bool         $escape  Flag whether the argument separator "&" should be escaped (&amp;)
+ *
  * @return string
+ *
  * @package redaxo\structure
  */
 function rex_getUrl($_id = '', $_clang = '', $_params = '', $escape = true)
@@ -69,7 +74,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $escape = true)
     // ----- get clang
     // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
     // Die rexExtension muss selbst entscheiden was sie damit macht
-    if ($_clang === '' && (rex_clang::count() > 1 || rex_extension::isRegistered( 'URL_REWRITE'))) {
+    if ($_clang === '' && (rex_clang::count() > 1 || rex_extension::isRegistered('URL_REWRITE'))) {
         $clang = rex_clang::getCurrentId();
     }
 
@@ -100,7 +105,7 @@ function rex_getUrl($_id = '', $_clang = '', $_params = '', $escape = true)
 }
 
 /**
- * Leitet auf einen anderen Artikel weiter
+ * Leitet auf einen anderen Artikel weiter.
  *
  * @package redaxo\structure
  */

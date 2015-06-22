@@ -1,4 +1,5 @@
 <?php
+
 /*
     Hauptnavi   -> rex-navi-main
     Sprachen    -> rex-navi-switch
@@ -22,14 +23,12 @@ if (isset($this->type)) {
     }
 }
 
-
 if (isset($this->navigation)) {
     $this->blocks = [];
     $this->blocks[] = ['navigation' => $this->navigation];
 }
 
 foreach ($this->blocks as $block) {
-
     $navigation = [];
     if (isset($block['navigation'])) {
         $navigation = $block['navigation'];
@@ -68,7 +67,6 @@ foreach ($this->blocks as $block) {
     }
 
     foreach ($navigation as $navi) {
-
         $attributes = [];
         if (isset($navi['itemClasses']) && is_array($navi['itemClasses']) && count($navi['itemClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
             $attributes['class'] = implode(' ', $navi['itemClasses']);
@@ -86,12 +84,9 @@ foreach ($this->blocks as $block) {
         echo '<li' . rex_string::buildAttributes($attributes) . '>';
         unset($attributes);
 
-
         if (isset($navi['href']) && $navi['href'] != '') {
-
             $attributes = [];
             $attributes['href'] = $navi['href'];
-
 
             if (isset($navi['linkClasses']) && is_array($navi['linkClasses']) && count($navi['linkClasses']) > 0 && isset($navi['itemClasses'][0]) && $navi['itemClasses'][0] != '') {
                 $attributes['class'] = implode(' ', $navi['linkClasses']);
@@ -175,5 +170,4 @@ foreach ($this->blocks as $block) {
     if (!$this->only_ul) {
         echo '</dd></dl>';
     }
-
 }

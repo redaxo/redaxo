@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MetaForm Addon
+ * MetaForm Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -47,7 +47,7 @@ class rex_metainfo_table_expander extends rex_form
         $sql = rex_sql::factory();
         $sql->setQuery($qry);
         $value = 1;
-        for ($i = 0; $i < $sql->getRows(); $i++) {
+        for ($i = 0; $i < $sql->getRows(); ++$i) {
             $value = $sql->getValue('priority') + 1;
             $select->addOption(
                 rex_i18n::rawMsg('minfo_field_after_priority', $sql->getValue('name')),
@@ -68,7 +68,7 @@ class rex_metainfo_table_expander extends rex_form
         $textFields = [];
         foreach ($gq->getArray() as $f) {
             if ($f['dbtype'] == 'text') {
-            $textFields[$f['id']] = $f['id'];
+                $textFields[$f['id']] = $f['id'];
             }
         }
 
@@ -82,7 +82,7 @@ class rex_metainfo_table_expander extends rex_form
         $select->addSqlOptions($qry);
 
         $notices = '';
-        for ($i = 1; $i < REX_METAINFO_FIELD_COUNT; $i++) {
+        for ($i = 1; $i < REX_METAINFO_FIELD_COUNT; ++$i) {
             if (rex_i18n::hasMsg('minfo_field_params_notice_' . $i)) {
                 $notices .= '<span id="metainfo-field-params-notice-' . $i . '" style="display:none">' . rex_i18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
             }

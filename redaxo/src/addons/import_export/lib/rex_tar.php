@@ -2,7 +2,7 @@
 
 
 /**
- * REDAXO Tar Klasse
+ * REDAXO Tar Klasse.
  *
  * Diese Subklasse fixed ein paar Bugs gegenüber der
  * original Implementierung und erhoeht die Performanz
@@ -10,6 +10,7 @@
  * @author  Markus Staab
  *
  * @package redaxo\import-export
+ *
  * @see     http://www.mkssoftware.com/docs/man4/tar.4.asp
  */
 
@@ -72,19 +73,19 @@ class rex_tar extends tar
         $file_contents = rex_file::get($filename);
 
         // Add file to processed data
-        $this->numFiles++;
-        $activeFile     = &$this->files[];
-        $activeFile['name']   = $filename;
-        $activeFile['mode']   = $file_information['mode'];
-        $activeFile['user_id']    = $file_information['uid'];
-        $activeFile['group_id']   = $file_information['gid'];
-        $activeFile['size']   = $file_information['size'];
-        $activeFile['time']   = $file_information['mtime'];
+        ++$this->numFiles;
+        $activeFile = &$this->files[];
+        $activeFile['name'] = $filename;
+        $activeFile['mode'] = $file_information['mode'];
+        $activeFile['user_id'] = $file_information['uid'];
+        $activeFile['group_id'] = $file_information['gid'];
+        $activeFile['size'] = $file_information['size'];
+        $activeFile['time'] = $file_information['mtime'];
                 // STM: Warnung gefixed
 //    $activeFile["checksum"]   = $checksum;
-        $activeFile['user_name']  = '';
+        $activeFile['user_name'] = '';
         $activeFile['group_name'] = '';
-        $activeFile['file']   = $file_contents;
+        $activeFile['file'] = $file_contents;
 
         return true;
     }
@@ -100,13 +101,13 @@ class rex_tar extends tar
         $file_information = stat($dirname);
 
         // Add directory to processed data
-        $this->numDirectories++;
-        $activeDir    = &$this->directories[];
-        $activeDir['name']  = $dirname;
-        $activeDir['mode']  = $file_information['mode'];
-        $activeDir['time']  = $file_information['time'];
+        ++$this->numDirectories;
+        $activeDir = &$this->directories[];
+        $activeDir['name'] = $dirname;
+        $activeDir['mode'] = $file_information['mode'];
+        $activeDir['time'] = $file_information['time'];
         $activeDir['user_id'] = $file_information['uid'];
-        $activeDir['group_id']  = $file_information['gid'];
+        $activeDir['group_id'] = $file_information['gid'];
                 // STM: Warnung gefixed
 //    $activeDir["checksum"]  = $checksum;
 
@@ -190,7 +191,7 @@ class rex_tar extends tar
         // Generate Records for each directory, if we have directories
         if ($this->numDirectories > 0) {
             foreach ($this->directories as $key => $information) {
-//        unset($header);
+                //        unset($header);
                 // STM: Warnung gefixed
                 $header = '';
 
@@ -216,7 +217,7 @@ class rex_tar extends tar
 
                 // Compute header checksum
                 $checksum = str_pad(decoct($this->__computeUnsignedChecksum($header)), 6, '0', STR_PAD_LEFT);
-                for ($i = 0; $i < 6; $i++) {
+                for ($i = 0; $i < 6; ++$i) {
                     $header[(148 + $i)] = substr($checksum, $i, 1);
                 }
                 $header[154] = chr(0);
@@ -230,7 +231,7 @@ class rex_tar extends tar
         // Generate Records for each file, if we have files (We should...)
         if ($this->numFiles > 0) {
             foreach ($this->files as $key => $information) {
-//        unset($header);
+                //        unset($header);
                 // STM: Warnung gefixed
                 $header = '';
 
@@ -256,7 +257,7 @@ class rex_tar extends tar
 
                 // Compute header checksum
                 $checksum = str_pad(decoct($this->__computeUnsignedChecksum($header)), 6, '0', STR_PAD_LEFT);
-                for ($i = 0; $i < 6; $i++) {
+                for ($i = 0; $i < 6; ++$i) {
                     $header[(148 + $i)] = substr($checksum, $i, 1);
                 }
                 $header[154] = chr(0);
@@ -286,7 +287,7 @@ class rex_tar extends tar
                 if (!file_exists(dirname($item['name']))) {
                     rex_dir::create(dirname($item['name']));
                 }
-                if ($h = @ fopen($item['name'], 'w+')) {
+                if ($h = @fopen($item['name'], 'w+')) {
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {

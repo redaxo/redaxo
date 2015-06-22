@@ -5,7 +5,6 @@
  */
 class rex_effect_header extends rex_effect_abstract
 {
-
     private $options;
     private $script;
 
@@ -20,10 +19,10 @@ class rex_effect_header extends rex_effect_abstract
             'bottomright',
             'right',
             'topright',
-            'center'
+            'center',
         ];
 
-            $this->script = '
+        $this->script = '
 <script type="text/javascript">
 <!--
 
@@ -51,12 +50,10 @@ class rex_effect_header extends rex_effect_abstract
 })(jQuery);
 
 //--></script>';
-
     }
 
     public function execute()
     {
-
         if ($this->params['cache'] == 'no_cache') {
             $this->media->setHeader('Cache-Control', 'no-cache, must-revalidate');
             $this->media->setHeader('Cache-Control', 'private');
@@ -64,7 +61,7 @@ class rex_effect_header extends rex_effect_abstract
         }
 
         if ($this->params['download'] == 'download') {
-            $this->media->setHeader('Content-Disposition', "attachment; filename=\"" . basename($this->media->getMediaFilename()) . "\";");
+            $this->media->setHeader('Content-Disposition', 'attachment; filename="' . basename($this->media->getMediaFilename()) . '";');
         }
 
         /*
@@ -73,9 +70,7 @@ class rex_effect_header extends rex_effect_abstract
          header("Content-Transfer-Encoding: binary");
          header("Content-Length: ".$fsize);
          */
-
     }
-
 
     public function getParams()
     {
@@ -83,9 +78,9 @@ class rex_effect_header extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_header_download'),
                 'name' => 'download',
-                'type'  => 'select',
-                'options'  => ['open_media', 'download'],
-                'default' => 'open_media'
+                'type' => 'select',
+                'options' => ['open_media', 'download'],
+                'default' => 'open_media',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_header_cache'),

@@ -6,9 +6,9 @@
 class rex_backend_login extends rex_login
 {
     const SYSTEM_ID = 'backend_login';
-    const LOGIN_TRIES_1   = 3;
+    const LOGIN_TRIES_1 = 3;
     const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
-    const LOGIN_TRIES_2   = 50;
+    const LOGIN_TRIES_2 = 50;
     const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
 
     private $tableName;
@@ -90,8 +90,8 @@ class rex_backend_login extends rex_login
                     if ($login_tries >= self::LOGIN_TRIES_1 - 1) {
                         $time = $login_tries < self::LOGIN_TRIES_2 ? self::RELOGIN_DELAY_1 : self::RELOGIN_DELAY_2;
                         $hours = floor($time / 3600);
-                        $mins  = floor(($time - ($hours * 3600)) / 60);
-                        $secs  = $time % 60;
+                        $mins = floor(($time - ($hours * 3600)) / 60);
+                        $secs = $time % 60;
                         $formatted = ($hours ? $hours . 'h ' : '') . ($hours || $mins ? $mins . 'min ' : '') . $secs . 's';
                         $this->message .= ' ' . rex_i18n::msg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
                     }
@@ -125,7 +125,7 @@ class rex_backend_login extends rex_login
     }
 
     /**
-     * Creates the user object if it does not already exist
+     * Creates the user object if it does not already exist.
      *
      * Helpful if you want to check permissions of the backend user in frontend.
      * If you only want to know if there is any backend session, use {@link rex_backend_login::hasSession()}.
@@ -141,7 +141,7 @@ class rex_backend_login extends rex_login
             return $user;
         }
 
-        $login = new self;
+        $login = new self();
         rex::setProperty('login', $login);
         if ($login->checkLogin()) {
             $user = $login->getUser();

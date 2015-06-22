@@ -3,9 +3,10 @@
 rex_extension::register('OUTPUT_FILTER', ['rex_extension_debug', 'doLog']);
 
 /**
- * Class to monitor extension points via FirePHP
+ * Class to monitor extension points via FirePHP.
  *
  * @author staabm
+ *
  * @package redaxo\debug
  */
 class rex_extension_debug extends rex_extension
@@ -13,69 +14,67 @@ class rex_extension_debug extends rex_extension
     private static $log = [];
 
     /**
-     * Extends rex_extension::register() with FirePHP logging
+     * Extends rex_extension::register() with FirePHP logging.
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
-        $timer  = new rex_timer();
+        $timer = new rex_timer();
         parent::register($extensionPoint, $extension, $level, $params);
 
         self::$log[] = [
-            'type'     => 'EXT',
-            'ep'       => $extensionPoint,
+            'type' => 'EXT',
+            'ep' => $extensionPoint,
             'callable' => $extension,
-            'level'    => $level,
-            'params'   => $params,
-            'timer'    => $timer->getFormattedDelta(),
+            'level' => $level,
+            'params' => $params,
+            'timer' => $timer->getFormattedDelta(),
         ];
     }
 
-
     /**
-     * Extends rex_extension::registerPoint() with FirePHP logging
+     * Extends rex_extension::registerPoint() with FirePHP logging.
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
         $coreTimer = rex::getProperty('timer');
-        $absDur    = $coreTimer->getFormattedDelta();
+        $absDur = $coreTimer->getFormattedDelta();
 
         // start timer for this extensionPoint
-        $timer  = new rex_timer();
-        $res    = parent::registerPoint($extensionPoint);
-        $epDur  = $timer->getFormattedDelta();
+        $timer = new rex_timer();
+        $res = parent::registerPoint($extensionPoint);
+        $epDur = $timer->getFormattedDelta();
 
         $memory = rex_formatter::bytes(memory_get_usage(true), [3]);
 
         self::$log[] = [
-            'type'      => 'EP',
-            'ep'        => $extensionPoint->getName(),
-            'started'   => $absDur,
-            'duration'  => $epDur,
-            'memory'    => $memory,
-            'subject'   => $extensionPoint->getSubject(),
-            'params'    => $extensionPoint->getParams(),
+            'type' => 'EP',
+            'ep' => $extensionPoint->getName(),
+            'started' => $absDur,
+            'duration' => $epDur,
+            'memory' => $memory,
+            'subject' => $extensionPoint->getSubject(),
+            'params' => $extensionPoint->getParams(),
             'read_only' => $extensionPoint->isReadonly(),
-            'result'    => $res,
-            'timer'     => $epDur
+            'result' => $res,
+            'timer' => $epDur,
         ];
 
         return $res;
     }
 
-
     /**
-     * process log & send as FirePHP table
+     * process log & send as FirePHP table.
      */
     public static function doLog()
     {
         $firephp = FirePHP::getInstance(true);
 
         $registered_eps = $log_table = [];
-        $counter        = [
-            'ep'       => 0,
-            'ext'      => 0,
+        $counter = [
+            'ep' => 0,
+            'ext' => 0,
         ];
-        $log_table[]    = [
+        $log_table[] = [
             'Type',
             'ExtensionPoint',
             'Callable',

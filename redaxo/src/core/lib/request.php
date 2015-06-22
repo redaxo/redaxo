@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class for getting the superglobals
+ * Class for getting the superglobals.
  *
  * @package redaxo\core
  */
 class rex_request
 {
     /**
-     * Returns the variable $varname of $_GET and casts the value
+     * Returns the variable $varname of $_GET and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -22,7 +22,7 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_POST and casts the value
+     * Returns the variable $varname of $_POST and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -36,7 +36,7 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_REQUEST and casts the value
+     * Returns the variable $varname of $_REQUEST and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -50,7 +50,7 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_SERVER and casts the value
+     * Returns the variable $varname of $_SERVER and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -64,12 +64,14 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_SESSION and casts the value
+     * Returns the variable $varname of $_SESSION and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
      * @param mixed  $default Default value
+     *
      * @throws rex_exception
+     *
      * @return mixed
      */
     public static function session($varname, $vartype = '', $default = '')
@@ -89,10 +91,11 @@ class rex_request
     }
 
     /**
-     * Sets a session variable
+     * Sets a session variable.
      *
      * @param string $varname Variable name
      * @param mixed  $value   Value
+     *
      * @throws rex_exception
      */
     public static function setSession($varname, $value)
@@ -105,9 +108,10 @@ class rex_request
     }
 
     /**
-     * Deletes a session variable
+     * Deletes a session variable.
      *
      * @param string $varname Variable name
+     *
      * @throws rex_exception
      */
     public static function unsetSession($varname)
@@ -120,7 +124,7 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_COOKIE and casts the value
+     * Returns the variable $varname of $_COOKIE and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -134,7 +138,7 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_FILES and casts the value
+     * Returns the variable $varname of $_FILES and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -148,7 +152,7 @@ class rex_request
     }
 
     /**
-     * Returns the variable $varname of $_ENV and casts the value
+     * Returns the variable $varname of $_ENV and casts the value.
      *
      * @param string $varname Variable name
      * @param string $vartype Variable type
@@ -162,13 +166,15 @@ class rex_request
     }
 
     /**
-     * Searches the value $needle in array $haystack and returns the casted value
+     * Searches the value $needle in array $haystack and returns the casted value.
      *
      * @param array      $haystack Array
      * @param string|int $needle   Value to search
      * @param string     $vartype  Variable type
      * @param mixed      $default  Default value
+     *
      * @throws InvalidArgumentException
+     *
      * @return mixed
      */
     private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
@@ -188,7 +194,7 @@ class rex_request
     }
 
     /**
-     * Returns the HTTP method of the current request
+     * Returns the HTTP method of the current request.
      *
      * @return String HTTP method in lowercase (head,get,post,put,delete)
      */
@@ -213,7 +219,7 @@ class rex_request
     }
 
     /**
-     * Returns true if the request is a PJAX-Request
+     * Returns true if the request is a PJAX-Request.
      *
      * @see http://pjax.heroku.com/
      */
@@ -223,9 +229,10 @@ class rex_request
     }
 
     /**
-     * Returns true when the current request is a PJAX-Request and the requested container matches the given $containerId
+     * Returns true when the current request is a PJAX-Request and the requested container matches the given $containerId.
      *
      * @param string $containerId
+     *
      * @return bool
      */
     public static function isPJAXContainer($containerId)

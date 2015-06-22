@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -13,7 +13,7 @@ class rex_cronjob_manager
     private static $types = [
         'rex_cronjob_phpcode',
         'rex_cronjob_phpcallback',
-        'rex_cronjob_urlrequest'
+        'rex_cronjob_urlrequest',
     ];
 
     private $message = '';
@@ -23,7 +23,7 @@ class rex_cronjob_manager
 
     public static function factory()
     {
-        return new self;
+        return new self();
     }
 
     public function setMessage($message)
@@ -93,7 +93,7 @@ class rex_cronjob_manager
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
             $name,
-            strip_tags($message)
+            strip_tags($message),
         ];
         $log->add($data);
     }

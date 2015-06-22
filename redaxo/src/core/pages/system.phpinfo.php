@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Shows output of phpinfo()
+ * Shows output of phpinfo().
+ *
  * @package redaxo5
  */
 

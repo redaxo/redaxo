@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Object Oriented Framework: Bildet eine Kategorie der Struktur ab
+ * Object Oriented Framework: Bildet eine Kategorie der Struktur ab.
  *
  * @package redaxo\structure
  */
@@ -18,6 +18,7 @@ class rex_category extends rex_structure_element
      *
      * @param bool $ignoreOfflines
      * @param int  $clang
+     *
      * @return self[]
      */
     public static function getRootCategories($ignoreOfflines = false, $clang = null)
@@ -42,6 +43,7 @@ class rex_category extends rex_structure_element
      * excempt from this list!
      *
      * @param bool $ignoreOfflines
+     *
      * @return self[]
      */
     public function getChildren($ignoreOfflines = false)
@@ -50,7 +52,7 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * Returns the parent category
+     * Returns the parent category.
      *
      * @return self
      */
@@ -64,11 +66,12 @@ class rex_category extends rex_structure_element
      * parent of the other category.
      *
      * @param self $otherCat
-     * @return boolean
+     *
+     * @return bool
      */
     public function isParent(self $otherCat)
     {
-         return $this->getId() == $otherCat->getParentId() &&
+        return $this->getId() == $otherCat->getParentId() &&
              $this->getClang() == $otherCat->getClang();
     }
 
@@ -81,6 +84,7 @@ class rex_category extends rex_structure_element
      * excempt from this list!
      *
      * @param bool $ignoreOfflines
+     *
      * @return rex_article[]
      */
     public function getArticles($ignoreOfflines = false)
@@ -89,7 +93,7 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * Return the start article for this category
+     * Return the start article for this category.
      *
      * @return rex_article
      */
@@ -99,7 +103,7 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * Returns the name of the category
+     * Returns the name of the category.
      *
      * @return string
      */
@@ -109,7 +113,7 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * Returns the path of the category
+     * Returns the path of the category.
      *
      * @return string
      */
@@ -120,7 +124,8 @@ class rex_category extends rex_structure_element
 
     /**
      * @param string $value
-     * @return boolean
+     *
+     * @return bool
      */
     public static function hasValue($value)
     {

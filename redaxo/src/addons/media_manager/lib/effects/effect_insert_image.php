@@ -1,17 +1,14 @@
 <?php
 
 /**
- * Branded ein Bild mit einem Wasserzeichen
+ * Branded ein Bild mit einem Wasserzeichen.
  *
  * @package redaxo\media-manager
  */
 class rex_effect_insert_image extends rex_effect_abstract
 {
-
-
     public function execute()
     {
-
         $this->media->asImage();
 
         // -------------------------------------- CONFIG
@@ -49,9 +46,9 @@ class rex_effect_insert_image extends rex_effect_abstract
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();
 
-        $image_width  = $this->media->getWidth();
+        $image_width = $this->media->getWidth();
         $image_height = $this->media->getHeight();
-        $brand_width  = $brand->getWidth();
+        $brand_width = $brand->getWidth();
         $brand_height = $brand->getHeight();
 
         switch ($hpos) {
@@ -91,36 +88,35 @@ class rex_effect_insert_image extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_image'),
                 'name' => 'brandimage',
-                'type'  => 'media',
-                'default' => ''
+                'type' => 'media',
+                'default' => '',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_hpos'),
                 'name' => 'hpos',
-                'type'  => 'select',
-                'options'  => ['left', 'center', 'right'],
-                'default' => 'left'
+                'type' => 'select',
+                'options' => ['left', 'center', 'right'],
+                'default' => 'left',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_vpos'),
                 'name' => 'vpos',
-                'type'  => 'select',
-                'options'  => ['top', 'middle', 'bottom'],
-                'default' => 'top'
+                'type' => 'select',
+                'options' => ['top', 'middle', 'bottom'],
+                'default' => 'top',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_padding_x'),
                 'name' => 'padding_x',
-                'type'  => 'int',
-                'default' => '-10'
+                'type' => 'int',
+                'default' => '-10',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_brand_padding_y'),
                 'name' => 'padding_y',
-                'type'  => 'int',
-                'default' => '-10'
+                'type' => 'int',
+                'default' => '-10',
             ],
         ];
     }
-
 }

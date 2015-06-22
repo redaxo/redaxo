@@ -1,36 +1,37 @@
 <?php
 
 /**
- * Class for user roles
+ * Class for user roles.
  *
  * @author gharlan
+ *
  * @package redaxo\users
  */
 class rex_user_role implements rex_user_role_interface
 {
     /**
-     * Permissions
+     * Permissions.
      *
      * @var array
      */
     private $perms = [];
 
     /**
-     * Complex perm params
+     * Complex perm params.
      *
      * @var array
      */
     private $complexPermParams = [];
 
     /**
-     * Cache for complex perm instances
+     * Cache for complex perm instances.
      *
      * @var array
      */
     private $complexPerms = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $params Params
      */

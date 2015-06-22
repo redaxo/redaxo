@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse zum Erstellen von Navigationen, v0.1
+ * Klasse zum Erstellen von Navigationen, v0.1.
  *
  * @package redaxo\structure
  */
@@ -58,12 +58,13 @@ class rex_navigation
     }
 
     /**
-     * Generiert eine Navigation
+     * Generiert eine Navigation.
      *
-     * @param integer $category_id     Id der Wurzelkategorie
-     * @param integer $depth           Anzahl der Ebenen die angezeigt werden sollen
-     * @param boolean $open            True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
-     * @param boolean $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
+     * @param int  $category_id     Id der Wurzelkategorie
+     * @param int  $depth           Anzahl der Ebenen die angezeigt werden sollen
+     * @param bool $open            True, wenn nur Elemente der aktiven Kategorie angezeigt werden sollen, sonst FALSE
+     * @param bool $ignore_offlines FALSE, wenn offline Elemente angezeigt werden, sonst TRUE
+     *
      * @return string
      */
     public function get($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
@@ -90,11 +91,12 @@ class rex_navigation
     }
 
     /**
-     * Generiert eine Breadcrumb-Navigation
+     * Generiert eine Breadcrumb-Navigation.
      *
-     * @param string  $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
-     * @param boolean $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
-     * @param integer $category_id    Id der Wurzelkategorie
+     * @param string $startPageLabel Label der Startseite, falls FALSE keine Start-Page anzeigen
+     * @param bool   $includeCurrent True wenn der aktuelle Artikel enthalten sein soll, sonst FALSE
+     * @param int    $category_id    Id der Wurzelkategorie
+     *
      * @return string
      */
     public function getBreadcrumb($startPageLabel, $includeCurrent = false, $category_id = 0)
@@ -110,7 +112,7 @@ class rex_navigation
 
         if ($startPageLabel) {
             $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex::getProperty('start_article_id')) . '">' . htmlspecialchars($startPageLabel) . '</a></li>';
-            $i++;
+            ++$i;
 
             // StartArticle nicht doppelt anzeigen
             if (isset($path[0]) && $path[0] == rex::getProperty('start_article_id')) {
@@ -121,18 +123,18 @@ class rex_navigation
         foreach ($path as $pathItem) {
             $cat = rex_category::get($pathItem);
             $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
-            $i++;
+            ++$i;
         }
 
         if ($includeCurrent) {
             if ($art = rex_article::get($this->current_article_id)) {
                 if (!$art->isStartArticle()) {
                     $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
-            }
-                } else {
-                    $cat = rex_category::get($this->current_article_id);
-                    $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
                 }
+            } else {
+                $cat = rex_category::get($this->current_article_id);
+                $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
+            }
         }
 
         return '<ul class="rex-breadcrumb">' . $lis . '</ul>';
@@ -157,7 +159,7 @@ class rex_navigation
     }
 
     /**
-     * Fügt einen Filter hinzu
+     * Fügt einen Filter hinzu.
      *
      * @param string     $metafield Datenbankfeld der Kategorie
      * @param mixed      $value     Wert für den Vergleich
@@ -169,7 +171,7 @@ class rex_navigation
         $this->filter[] = ['metafield' => $metafield, 'value' => $value, 'type' => $type, 'depth' => $depth];
     }
     /**
-     * Fügt einen Callback hinzu
+     * Fügt einen Callback hinzu.
      *
      * @param callable   $callback z.B. myFunc oder myClass::myMethod
      * @param int|string $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
@@ -331,7 +333,7 @@ class rex_navigation
                 }
                 $l = '<li ' . implode(' ', $li_attr) . '>';
                 $l .= '<a ' . implode(' ', $a_attr) . '>' . htmlspecialchars($nav->getName()) . '</a>';
-                $depth++;
+                ++$depth;
                 if (($this->open ||
                         $nav->getId() == $this->current_category_id ||
                         in_array($nav->getId(), $this->path))
@@ -339,7 +341,7 @@ class rex_navigation
                 ) {
                     $l .= $this->_getNavigation($nav->getId(), $depth);
                 }
-                $depth--;
+                --$depth;
                 $l .= '</li>';
                 $lis[] = $l;
             }
@@ -348,6 +350,5 @@ class rex_navigation
             return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements">' . implode('', $lis) . '</ul>';
         }
         return '';
-
     }
 }

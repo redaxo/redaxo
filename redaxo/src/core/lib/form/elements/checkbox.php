@@ -42,7 +42,6 @@ class rex_form_checkbox_element extends rex_form_options_element
             $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
         }
 
-
         $formElements = [];
 
         foreach ($options as $opt_name => $opt_value) {
@@ -63,7 +62,6 @@ class rex_form_checkbox_element extends rex_form_options_element
         $fragment->setVar('elements', $formElements, false);
         $fragment->setVar('grouped', true);
         $s = $fragment->parse('core/form/checkbox.php');
-
 
         return $s;
     }

@@ -14,7 +14,6 @@ class rex_effect_resize extends rex_effect_abstract
 
     public function __construct()
     {
-
         $this->options = ['maximum', 'minimum', 'exact'];
 
         $this->script = '
@@ -39,12 +38,10 @@ class rex_effect_resize extends rex_effect_abstract
 })(jQuery);
 
 //--></script>';
-
     }
 
     public function execute()
     {
-
         $this->media->asImage();
 
         $gdimage = $this->media->getImage();
@@ -103,14 +100,12 @@ class rex_effect_resize extends rex_effect_abstract
 
         $this->media->setImage($des);
         $this->media->refreshImageDimensions();
-
-
     }
 
     private function resizeMax($w, $h)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
-            $img_ratio  = $w / $h;
+            $img_ratio = $w / $h;
             $resize_ratio = $this->params['width'] / $this->params['height'];
 
             if ($img_ratio >= $resize_ratio) {
@@ -118,13 +113,13 @@ class rex_effect_resize extends rex_effect_abstract
                 $this->params['height'] = ceil($this->params['width'] / $w * $h);
             } else {
                 // --- height
-                $this->params['width']  = ceil($this->params['height'] / $h * $w);
+                $this->params['width'] = ceil($this->params['height'] / $h * $w);
             }
         } elseif (!empty($this->params['height'])) {
-            $img_factor  = $h / $this->params['height'];
+            $img_factor = $h / $this->params['height'];
             $this->params['width'] = ceil($w / $img_factor);
         } elseif (!empty($this->params['width'])) {
-            $img_factor  = $w / $this->params['width'];
+            $img_factor = $w / $this->params['width'];
             $this->params['height'] = ceil($h / $img_factor);
         }
     }
@@ -132,7 +127,7 @@ class rex_effect_resize extends rex_effect_abstract
     private function resizeMin($w, $h)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
-            $img_ratio  = $w / $h;
+            $img_ratio = $w / $h;
             $resize_ratio = $this->params['width'] / $this->params['height'];
 
             if ($img_ratio < $resize_ratio) {
@@ -140,13 +135,13 @@ class rex_effect_resize extends rex_effect_abstract
                 $this->params['height'] = ceil($this->params['width'] / $w * $h);
             } else {
                 // --- height
-                $this->params['width']  = ceil($this->params['height'] / $h * $w);
+                $this->params['width'] = ceil($this->params['height'] / $h * $w);
             }
         } elseif (!empty($this->params['height'])) {
-            $img_factor  = $h / $this->params['height'];
+            $img_factor = $h / $this->params['height'];
             $this->params['width'] = ceil($w / $img_factor);
         } elseif (!empty($this->params['width'])) {
-            $img_factor  = $w / $this->params['width'];
+            $img_factor = $w / $this->params['width'];
             $this->params['height'] = ceil($h / $img_factor);
         }
     }
@@ -162,15 +157,15 @@ class rex_effect_resize extends rex_effect_abstract
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_height'),
                 'name' => 'height',
-                'type' => 'int'
+                'type' => 'int',
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_style'),
                 'name' => 'style',
-                'type'  => 'select',
+                'type' => 'select',
                 'options' => $this->options,
                 'default' => 'fit',
-                'suffix' => $this->script
+                'suffix' => $this->script,
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_resize_imgtosmall'),

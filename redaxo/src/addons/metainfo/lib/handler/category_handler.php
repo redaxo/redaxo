@@ -14,7 +14,6 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
         $fields = parent::getSqlFields(self::PREFIX, $restrictionsCondition);
         if ($fields->getRows() >= 1) {
-
             $return = '<a class="btn btn-default collapsed" data-toggle="collapse" href="#' . self::CONTAINER . '"><i class="rex-icon rex-icon-structure-category-metainfo"></i></a>';
 
             return $ep->getSubject() . $return;
@@ -75,9 +74,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         $element = $field;
 
         if ($typeLabel == 'legend') {
-
             $element = '<h3 class="form-legend">' . $label . '</h3>';
-
         }
 
         return $element;

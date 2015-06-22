@@ -1,4 +1,5 @@
 <?php
+
 class rex_sql_test extends PHPUnit_Framework_TestCase
 {
     const TABLE = 'rex_tests';

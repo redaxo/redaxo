@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class to stop the script time
+ * Class to stop the script time.
  *
  * @author gharlan
  *
@@ -16,7 +16,7 @@ class rex_timer
     private $start;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param float $start Start time
      */
@@ -30,7 +30,7 @@ class rex_timer
     }
 
     /**
-     * Resets the timer
+     * Resets the timer.
      */
     public function reset()
     {
@@ -38,7 +38,7 @@ class rex_timer
     }
 
     /**
-     * Returns the time difference
+     * Returns the time difference.
      *
      * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
      *
@@ -50,7 +50,7 @@ class rex_timer
     }
 
     /**
-     * Returns the formatted time difference
+     * Returns the formatted time difference.
      *
      * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
      * @param int $decimals  Number of decimals points

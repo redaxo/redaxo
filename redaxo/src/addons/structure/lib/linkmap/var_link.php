@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_LINK
+ * REX_LINK.
  *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmapw gesprungen werden soll
@@ -60,15 +60,14 @@ class rex_var_link extends rex_var
             $open_params .= '&category_id=' . $category;
         }
 
-        $class        = ' rex-disabled';
-        $open_func    = '';
-        $delete_func  = '';
+        $class = ' rex-disabled';
+        $open_func = '';
+        $delete_func = '';
         if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
-            $class        = '';
-            $open_func    = 'openLinkMap(\'REX_LINK_' . $id . '\', \'' . $open_params . '\');';
-            $delete_func  = 'deleteREXLink(' . $id . ');';
+            $class = '';
+            $open_func = 'openLinkMap(\'REX_LINK_' . $id . '\', \'' . $open_params . '\');';
+            $delete_func = 'deleteREXLink(' . $id . ');';
         }
-
 
         $e = [];
         $e['field'] = '<input class="form-control" type="text" name="REX_LINK_NAME[' . $id . ']" value="' . htmlspecialchars($art_name) . '" id="REX_LINK_' . $id . '_NAME" readonly="readonly" /><input type="hidden" name="' . $name . '" id="REX_LINK_' . $id . '" value="' . $value . '" />';

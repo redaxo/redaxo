@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_CONFIG[key=xzy]
+ * REX_CONFIG[key=xzy].
  *
  * Arguments:
  *   - key

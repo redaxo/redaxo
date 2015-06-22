@@ -5,7 +5,6 @@ if (!isset($this->buttons)) {
 }
 
 foreach ($this->buttons as $button) {
-
     if (!isset($button['attributes'])) {
         $button['attributes'] = [];
     }
@@ -25,7 +24,5 @@ foreach ($this->buttons as $button) {
 
     $icon = isset($button['icon']) ? '<i class="rex-icon rex-icon-' . $button['icon'] . '"></i>' : '';
 
-
     echo '<a href="' . $button['url'] . '"' . rex_string::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</a>';
-
 }

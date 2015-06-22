@@ -17,9 +17,8 @@ define('REX_A1_IMPORT_EVENT_POST', 4);
     require_once(dirname(__DIR__).'/boot.php');
 }*/
 
-
 /**
- * Importiert den SQL Dump $filename in die Datenbank
+ * Importiert den SQL Dump $filename in die Datenbank.
  *
  * @param string $filename Pfad + Dateinamen zur SQL-Datei
  *
@@ -66,7 +65,6 @@ function rex_a1_import_db($filename)
         return $return;
     }
 
-
     // Charset prüfen
     // ## charset xxx_
     if (preg_match('/^## charset ([a-zA-Z0-9\_\-]*)/', $conts, $matches) && isset($matches[1])) {
@@ -80,9 +78,7 @@ function rex_a1_import_db($filename)
             $return['message'] = rex_i18n::msg('im_export_no_valid_charset') . '. ' . $rexCharset . ' != ' . $charset;
             return $return;
         }
-
     }
-
 
     // Prefix im export mit dem der installation angleichen
     if (rex::getTablePrefix() != $prefix) {
@@ -98,7 +94,7 @@ function rex_a1_import_db($filename)
     $msg = rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_DB_IMPORT', $msg, [
         'content' => $conts,
         'filename' => $filename,
-        'filesize' => $filesize
+        'filesize' => $filesize,
     ]));
 
     // require import skript to do some userside-magic
@@ -108,12 +104,12 @@ function rex_a1_import_db($filename)
     $lines = [];
     rex_sql_util::splitSqlFile($lines, $conts, 0);
 
-    $sql   = rex_sql::factory();
+    $sql = rex_sql::factory();
     foreach ($lines as $line) {
         try {
             $sql->setQuery($line['query']);
         } catch (rex_sql_exception $e) {
-                $error .= "\n" . $e->getMessage();
+            $error .= "\n" . $e->getMessage();
         }
     }
 
@@ -130,7 +126,7 @@ function rex_a1_import_db($filename)
     $user_table_found = in_array(rex::getTablePrefix() . 'user', $tables);
 
     if (!$user_table_found) {
-         $create_user_table = '
+        $create_user_table = '
          CREATE TABLE ' . rex::getTablePrefix() . 'user
          (
              id int(11) NOT NULL auto_increment,
@@ -162,7 +158,7 @@ function rex_a1_import_db($filename)
 
     $user_role_table_found = in_array(rex::getTablePrefix() . 'user_role', $tables);
     if (!$user_role_table_found) {
-         $create_user_role_table = '
+        $create_user_role_table = '
          CREATE TABLE ' . rex::getTablePrefix() . 'user_role
          (
              id int(11) NOT NULL auto_increment,
@@ -191,7 +187,7 @@ function rex_a1_import_db($filename)
         $msg = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_DB_IMPORT', $msg, [
             'content' => $conts,
             'filename' => $filename,
-            'filesize' => $filesize
+            'filesize' => $filesize,
         ]));
 
         // require import skript to do some userside-magic
@@ -207,7 +203,7 @@ function rex_a1_import_db($filename)
 }
 
 /**
- * Importiert das Tar-Archiv $filename in den Ordner /files
+ * Importiert das Tar-Archiv $filename in den Ordner /files.
  *
  * @param string $filename Pfad + Dateinamen zum Tar-Archiv
  *
@@ -228,7 +224,7 @@ function rex_a1_import_files($filename)
     // Ordner /files komplett leeren
     rex_dir::deleteFiles(rex_path::media());
 
-    $tar = new rex_tar;
+    $tar = new rex_tar();
 
     // ----- EXTENSION POINT
     $tar = rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_FILE_IMPORT', $tar));
@@ -266,7 +262,8 @@ function rex_a1_import_files($filename)
  *
  * @param string $filename
  * @param array  $tables
- * @return boolean TRUE wenn ein Dump erstellt wurde, sonst FALSE
+ *
+ * @return bool TRUE wenn ein Dump erstellt wurde, sonst FALSE
  */
 function rex_a1_export_db($filename, array $tables = null)
 {
@@ -276,9 +273,9 @@ function rex_a1_export_db($filename, array $tables = null)
         return false;
     }
 
-    $sql        = rex_sql::factory();
+    $sql = rex_sql::factory();
 
-    $nl         = "\n";
+    $nl = "\n";
     $insertSize = 5000;
 
     // ----- EXTENSION POINT
@@ -295,7 +292,7 @@ function rex_a1_export_db($filename, array $tables = null)
         $tables = [];
         foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
             if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                && substr($table, 0 , strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
+                && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
             ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
                 $tables[] = $table;
             }
@@ -323,7 +320,7 @@ function rex_a1_export_db($filename, array $tables = null)
 
         //---- export tabledata
         $start = 0;
-        $max   = $insertSize;
+        $max = $insertSize;
 
         do {
             $array = $sql->getArray('SELECT * FROM `' . $table . '` LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
@@ -376,16 +373,15 @@ function rex_a1_export_db($filename, array $tables = null)
 
     fclose($fp);
 
-
     $hasContent = true;
 
     // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
     if (rex_extension::isRegistered('A1_AFTER_DB_EXPORT')) {
-        $content    = rex_file::get($filename);
+        $content = rex_file::get($filename);
         $hashBefore = md5($content);
         // ----- EXTENSION POINT
-        $content    = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_DB_EXPORT', $content));
-        $hashAfter  = md5($content);
+        $content = rex_extension::registerPoint(new rex_extension_point('A1_AFTER_DB_EXPORT', $content));
+        $hashAfter = md5($content);
 
         if ($hashAfter != $hashBefore) {
             rex_file::put($filename, $content);
@@ -398,14 +394,15 @@ function rex_a1_export_db($filename, array $tables = null)
 }
 
 /**
- * Exportiert alle Ordner $folders aus dem Verzeichnis /files
+ * Exportiert alle Ordner $folders aus dem Verzeichnis /files.
  *
  * @param array $folders Array von Ordnernamen, die exportiert werden sollen
+ *
  * @return string Inhalt des Tar-Archives als String
  */
 function rex_a1_export_files($folders)
 {
-    $tar = new rex_tar;
+    $tar = new rex_tar();
 
     // ----- EXTENSION POINT
     $tar = rex_extension::registerPoint(new rex_extension_point('A1_BEFORE_FILE_EXPORT', $tar));
@@ -421,10 +418,9 @@ function rex_a1_export_files($folders)
 }
 
 /**
- * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu
- * @access protected
+ * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu.
  */
-function _rex_a1_add_folder_to_tar(& $tar, $path, $dir)
+function _rex_a1_add_folder_to_tar(&$tar, $path, $dir)
 {
     $handle = opendir($path . $dir);
     $isMediafolder = realpath($path . $dir) . '/' == rex_path::media();

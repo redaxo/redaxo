@@ -1,36 +1,37 @@
 <?php
 
 /**
- * Class for users
+ * Class for users.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_user
 {
     /**
-     * SQL instance
+     * SQL instance.
      *
      * @var rex_sql
      */
     protected $sql;
 
     /**
-     * User role instance
+     * User role instance.
      *
      * @var rex_user_role_interface
      */
     protected $role;
 
     /**
-     * Class name for user roles
+     * Class name for user roles.
      *
      * @var string
      */
     protected static $roleClass;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param rex_sql $sql
      */
@@ -40,9 +41,10 @@ class rex_user
     }
 
     /**
-     * Returns the value for the given key
+     * Returns the value for the given key.
      *
      * @param string $key Key
+     *
      * @return string value
      */
     public function getValue($key)
@@ -51,7 +53,7 @@ class rex_user
     }
 
     /**
-     * Returns the ID
+     * Returns the ID.
      *
      * @return int
      */
@@ -61,7 +63,7 @@ class rex_user
     }
 
     /**
-     * Returns the user login
+     * Returns the user login.
      *
      * @return string Login
      */
@@ -71,7 +73,7 @@ class rex_user
     }
 
     /**
-     * Returns the name
+     * Returns the name.
      *
      * @return string Name
      */
@@ -81,9 +83,9 @@ class rex_user
     }
 
     /**
-     * Returns if the user is an admin
+     * Returns if the user is an admin.
      *
-     * @return boolean
+     * @return bool
      */
     public function isAdmin()
     {
@@ -91,7 +93,7 @@ class rex_user
     }
 
     /**
-     * Returns the language
+     * Returns the language.
      *
      * @return string Language
      */
@@ -101,7 +103,7 @@ class rex_user
     }
 
     /**
-     * Returns the start page
+     * Returns the start page.
      *
      * @return string Start page
      */
@@ -111,9 +113,9 @@ class rex_user
     }
 
     /**
-     * Returns if the user has a role
+     * Returns if the user has a role.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole()
     {
@@ -125,10 +127,11 @@ class rex_user
     }
 
     /**
-     * Returns if the user has the given permission
+     * Returns if the user has the given permission.
      *
      * @param string $perm Perm key
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasPerm($perm)
     {
@@ -151,9 +154,10 @@ class rex_user
     }
 
     /**
-     * Returns the complex perm for the user
+     * Returns the complex perm for the user.
      *
      * @param string $key Complex perm key
+     *
      * @return rex_complex_perm Complex perm
      */
     public function getComplexPerm($key)
@@ -165,7 +169,7 @@ class rex_user
     }
 
     /**
-     * Sets the role class
+     * Sets the role class.
      *
      * @param string $class Class name
      */

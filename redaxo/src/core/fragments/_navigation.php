@@ -1,4 +1,5 @@
 <?php
+
 /*
     Hauptnavi   -> rex-navi-main
     Sprachen    -> rex-navi-switch
@@ -22,14 +23,12 @@ if (isset($this->type)) {
     }
 }
 
-
 if (isset($this->navigation)) {
     $this->blocks = [];
     $this->blocks[] = ['navigation' => $this->navigation];
 }
 
 foreach ($this->blocks as $block) {
-
     $navigation = [];
     if (isset($block['navigation'])) {
         $navigation = $block['navigation'];
@@ -165,5 +164,4 @@ foreach ($this->blocks as $block) {
     if (!$this->only_ul) {
         echo '</dd></dl>';
     }
-
 }

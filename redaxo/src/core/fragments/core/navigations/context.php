@@ -1,4 +1,5 @@
 <?php
+
 /*
     Vars
 
@@ -27,19 +28,18 @@
 
 */
 
-$class  = (isset($this->class) && $this->class != '') ? ' ' . $this->class : '';
-$close  = (isset($this->close) && !$this->close) ? false : true;
-$check  = (isset($this->check) && $this->check) ? true : false;
+$class = (isset($this->class) && $this->class != '') ? ' ' . $this->class : '';
+$close = (isset($this->close) && !$this->close) ? false : true;
+$check = (isset($this->check) && $this->check) ? true : false;
 
 $header = isset($this->header) ? $this->header : '';
 $footer = isset($this->footer) ? $this->footer : '';
 
-$items  = $this->items;
+$items = $this->items;
 
 // --------------------- List Items
 $list_items = [];
 foreach ($items as $item) {
-
     $list_item = '';
 
     $list_item_class = '';
@@ -69,15 +69,12 @@ foreach ($items as $item) {
         $list_item .= '</div>';
     }
 
-
-
     if (isset($item['href']) && $item['href'] != '') {
         $list_item = '<a href="' . $item['href'] . '">' . $list_item . '</a>';
     }
 
     $list_items[] = '<li class="rex-context-menu-item' . $list_item_class . '">' . $list_item . '</li>';
 }
-
 
 // --------------------- List Header
 $list_header = [];
@@ -88,8 +85,6 @@ if ($header != '') {
 if ($close) {
     $list_header[] = '<span class="rex-icon rex-icon-close rex-js-close"></span>';
 }
-
-
 
 $list = '';
 
@@ -105,9 +100,7 @@ if ($footer != '') {
     $list .= '<div class="rex-context-menu-footer">' . $footer . '</div>';
 }
 
-
 $list = $list != '' ? '<div class="rex-context-menu-container">' . $list . '</div>' : '';
-
 
 echo '<div class="rex-js-context-menu rex-context-menu' . $class . '">';
 echo '<span class="btn rex-context-menu-button rex-js-context-menu-button rex-icon rex-icon-context-menu">

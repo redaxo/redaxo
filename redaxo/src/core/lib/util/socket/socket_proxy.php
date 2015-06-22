@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Class for sockets over a proxy
+ * Class for sockets over a proxy.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_socket_proxy extends rex_socket
@@ -13,11 +14,12 @@ class rex_socket_proxy extends rex_socket
     protected $destinationSsl;
 
     /**
-     * Sets the destination
+     * Sets the destination.
      *
-     * @param string  $host Host name
-     * @param integer $port Port number
-     * @param boolean $ssl  SSL flag
+     * @param string $host Host name
+     * @param int    $port Port number
+     * @param bool   $ssl  SSL flag
+     *
      * @return $this Current socket
      */
     public function setDestination($host, $port = 80, $ssl = false)
@@ -32,9 +34,10 @@ class rex_socket_proxy extends rex_socket
     }
 
     /**
-     * Sets the destination by a full URL
+     * Sets the destination by a full URL.
      *
      * @param string $url Full URL
+     *
      * @return $this Current socket
      */
     public function setDestinationUrl($url)
@@ -54,7 +57,7 @@ class rex_socket_proxy extends rex_socket
         if ($this->destinationSsl) {
             $headers = [
                 'Host' => $this->destinationHost . ':' . $this->destinationPort,
-                'Proxy-Connection' => 'Keep-Alive'
+                'Proxy-Connection' => 'Keep-Alive',
             ];
             $response = $this->writeRequest('CONNECT', $this->destinationHost . ':' . $this->destinationPort, $headers);
             if (!$response->isOk()) {

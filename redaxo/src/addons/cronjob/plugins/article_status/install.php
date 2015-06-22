@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon - Plugin article_status
+ * Cronjob Addon - Plugin article_status.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *

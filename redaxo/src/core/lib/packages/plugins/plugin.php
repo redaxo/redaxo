@@ -1,22 +1,23 @@
 <?php
 
 /**
- * Class for plugins
+ * Class for plugins.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_plugin extends rex_package implements rex_plugin_interface
 {
     /**
-     * Parent addon
+     * Parent addon.
      *
      * @var rex_addon
      */
     private $addon;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string    $name  Name
      * @param rex_addon $addon Parent addon
@@ -28,11 +29,13 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * Returns the plugin by the given name
+     * Returns the plugin by the given name.
      *
      * @param string $addon  Name of the addon
      * @param string $plugin Name of the plugin
+     *
      * @return self
+     *
      * @throws InvalidArgumentException
      */
     public static function get($addon, $plugin = null)
@@ -50,11 +53,12 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * Returns if the plugin exists
+     * Returns if the plugin exists.
      *
      * @param string $addon  Name of the addon
      * @param string $plugin Name of the plugin
-     * @return boolean
+     *
+     * @return bool
      */
     public static function exists($addon, $plugin = null)
     {
@@ -156,9 +160,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * Returns the registered plugins of the given addon
+     * Returns the registered plugins of the given addon.
      *
      * @param string $addon Addon name
+     *
      * @return self[]
      */
     public static function getRegisteredPlugins($addon)
@@ -167,9 +172,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * Returns the installed plugins of the given addons
+     * Returns the installed plugins of the given addons.
      *
      * @param string $addon Addon name
+     *
      * @return self[]
      */
     public static function getInstalledPlugins($addon)
@@ -178,9 +184,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * Returns the available plugins of the given addons
+     * Returns the available plugins of the given addons.
      *
      * @param string $addon Addon name
+     *
      * @return self[]
      */
     public static function getAvailablePlugins($addon)
@@ -189,9 +196,10 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * Returns the system plugins of the given addons
+     * Returns the system plugins of the given addons.
      *
      * @param string $addon Addon name
+     *
      * @return self[]
      */
     public static function getSystemPlugins($addon)

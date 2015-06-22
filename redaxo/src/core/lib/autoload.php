@@ -17,13 +17,13 @@ class rex_autoload
      */
     protected static $composerLoader;
 
-    protected static $registered   = false;
-    protected static $cacheFile    = null;
+    protected static $registered = false;
+    protected static $cacheFile = null;
     protected static $cacheChanged = false;
-    protected static $reloaded     = false;
-    protected static $dirs         = [];
-    protected static $addedDirs    = [];
-    protected static $classes      = [];
+    protected static $reloaded = false;
+    protected static $dirs = [];
+    protected static $addedDirs = [];
+    protected static $classes = [];
 
     /**
      * Register rex_autoload in spl autoloader.
@@ -67,7 +67,7 @@ class rex_autoload
      *
      * @param string $class A class name.
      *
-     * @return boolean Returns true if the class has been loaded
+     * @return bool Returns true if the class has been loaded
      */
     public static function autoload($class)
     {
@@ -110,9 +110,10 @@ class rex_autoload
     }
 
     /**
-     * Returns whether the given class/interface/trait exists
+     * Returns whether the given class/interface/trait exists.
      *
      * @param string $class
+     *
      * @return bool
      */
     private static function classExists($class)
@@ -156,7 +157,7 @@ class rex_autoload
     }
 
     /**
-     * Reanalyses all added directories
+     * Reanalyses all added directories.
      *
      * @param bool $force If true, all files are reanalysed, otherwise only new and changed files
      */
@@ -181,7 +182,7 @@ class rex_autoload
     }
 
     /**
-     * Adds a directory to the autoloading system if not yet present
+     * Adds a directory to the autoloading system if not yet present.
      *
      * @param string $dir The directory to look for classes
      */
@@ -241,14 +242,16 @@ class rex_autoload
     }
 
     /**
-     * Extract the classes in the given file
+     * Extract the classes in the given file.
      *
      * The method is copied from Composer (with little changes):
      * https://github.com/composer/composer/blob/a2a70380c14a20b3f611d849eae7342f2e35c763/src/Composer/Autoload/ClassMapGenerator.php#L89-L146
      *
      * @param string $path The file to check
+     *
      * @throws \RuntimeException
-     * @return array             The found classes
+     *
+     * @return array The found classes
      */
     private static function findClasses($path)
     {
@@ -289,7 +292,7 @@ class rex_autoload
         $classes = [];
         $namespace = '';
 
-        for ($i = 0, $len = count($matches['type']); $i < $len; $i++) {
+        for ($i = 0, $len = count($matches['type']); $i < $len; ++$i) {
             if (!empty($matches['ns'][$i])) {
                 $namespace = str_replace([' ', "\t", "\r", "\n"], '', $matches['nsname'][$i]) . '\\';
             } else {

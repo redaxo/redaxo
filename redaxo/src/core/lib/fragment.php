@@ -6,19 +6,22 @@
 class rex_fragment
 {
     /**
-     * filename of the actual fragmentfile
+     * filename of the actual fragmentfile.
+     *
      * @var string
      */
     private $filename;
 
     /**
-     * key-value pair which represents all variables defined inside the fragment
+     * key-value pair which represents all variables defined inside the fragment.
+     *
      * @var array
      */
     private $vars;
 
     /**
-     * another fragment which can optionaly be used to decorate the current fragment
+     * another fragment which can optionaly be used to decorate the current fragment.
+     *
      * @var rex_fragment
      */
     private $decorator;
@@ -54,6 +57,7 @@ class rex_fragment
      * @param string $name   The name of the variable.
      * @param mixed  $value  The value for the variable
      * @param bool   $escape Flag which indicates if the value should be escaped or not.
+     *
      * @throws InvalidArgumentException
      */
     public function setVar($name, $value, $escape = true)
@@ -70,12 +74,14 @@ class rex_fragment
     }
 
     /**
-     * Parses the variables of the fragment into the file $filename
+     * Parses the variables of the fragment into the file $filename.
      *
      * @param string $filename           the filename of the fragment to parse.
      * @param bool   $delete_whitespaces
+     *
      * @throws InvalidArgumentException
      * @throws rex_exception
+     *
      * @return string
      */
     public function parse($filename, $delete_whitespaces = true)
@@ -96,7 +102,7 @@ class rex_fragment
                     require $fragment;
                 }
 
-                $content =  ob_get_clean();
+                $content = ob_get_clean();
 
                 if ($this->decorator) {
                     $this->decorator->setVar('rexDecoratedContent', $content, false);
@@ -125,10 +131,12 @@ class rex_fragment
     // -------------------------- in-fragment helpers
 
     /**
-     * Escapes the value $val for proper use in the gui
+     * Escapes the value $val for proper use in the gui.
      *
      * @param mixed $val the value to escape
+     *
      * @throws rex_exception
+     *
      * @return mixed
      */
     protected function escape($val)
@@ -174,7 +182,9 @@ class rex_fragment
      * Translate the given key $key.
      *
      * @param string $key The key to translate
+     *
      * @throws InvalidArgumentException
+     *
      * @return string
      */
     protected function i18n($key)
@@ -199,6 +209,7 @@ class rex_fragment
      * Magic getter to reference variables from within the fragment.
      *
      * @param string $name The name of the variable to get.
+     *
      * @return mixed
      */
     public function __get($name)
@@ -216,7 +227,8 @@ class rex_fragment
      * Magic method to check if a variable is set.
      *
      * @param string $name The name of the variable to check.
-     * @return boolean
+     *
+     * @return bool
      */
     public function __isset($name)
     {
@@ -226,13 +238,14 @@ class rex_fragment
     // /-------------------------- in-fragment helpers
 
     /**
-     * array which contains all folders in which fragments will be searched for at runtime
+     * array which contains all folders in which fragments will be searched for at runtime.
+     *
      * @var array
      */
     private static $fragmentDirs = [];
 
     /**
-     * Add a path to the fragment search path
+     * Add a path to the fragment search path.
      *
      * @param string $dir A path to a directory where fragments can be found
      */

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Stream wrapper to include variables like files (php code will be evaluated)
+ * Stream wrapper to include variables like files (php code will be evaluated).
  *
  * Example:
  * <code>
@@ -11,7 +11,9 @@
  * </code>
  *
  * @author gharlan
+ *
  * @package redaxo\core
+ *
  * @link http://www.php.net/manual/en/class.streamwrapper.php
  */
 class rex_stream
@@ -23,12 +25,13 @@ class rex_stream
     private $content;
 
     /**
-     * Prepares a new stream
+     * Prepares a new stream.
      *
      * @param string $path    Virtual path which should describe the content (e.g. "template/1"), only relevant for error messages
      * @param string $content Content which will be included
      *
      * @throws InvalidArgumentException
+     *
      * @return string Full path with protocol (e.g. "rex://template/1")
      */
     public static function factory($path, $content)
@@ -51,9 +54,9 @@ class rex_stream
         return $path;
     }
 
-    /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-open.php
-     */
+/**
+ * @link http://www.php.net/manual/en/streamwrapper.stream-open.php
+ */
     // @codingStandardsIgnoreName
     public function stream_open($path, $mode, $options, &$opened_path)
     {
@@ -68,9 +71,9 @@ class rex_stream
         return true;
     }
 
-    /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-read.php
-     */
+/**
+ * @link http://www.php.net/manual/en/streamwrapper.stream-read.php
+ */
     // @codingStandardsIgnoreName
     public function stream_read($count)
     {
@@ -79,27 +82,27 @@ class rex_stream
         return $ret;
     }
 
-    /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-eof.php
-     */
+/**
+ * @link http://www.php.net/manual/en/streamwrapper.stream-eof.php
+ */
     // @codingStandardsIgnoreName
     public function stream_eof()
     {
         return $this->position >= strlen($this->content);
     }
 
-    /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-stat.php
-     */
+/**
+ * @link http://www.php.net/manual/en/streamwrapper.stream-stat.php
+ */
     // @codingStandardsIgnoreName
     public function stream_stat()
     {
         return null;
     }
 
-    /**
-     * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
-     */
+/**
+ * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
+ */
     // @codingStandardsIgnoreName
     public function url_stat()
     {

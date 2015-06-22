@@ -251,15 +251,15 @@ class rex_form_element
 
         $formElements = [];
         $n = [];
-        $n['header']    = $this->getHeader();
-        $n['id']        = '';
+        $n['header'] = $this->getHeader();
+        $n['id'] = '';
         //$n['class']     = $class;
-        $n['label']     = $this->formatLabel();
-        $n['before']    = $this->getPrefix();
-        $n['field']     = $this->formatElement();
-        $n['after']     = $this->getSuffix();
-        $n['note']      = $this->formatNotice();
-        $n['footer']    = $this->getFooter();
+        $n['label'] = $this->formatLabel();
+        $n['before'] = $this->getPrefix();
+        $n['field'] = $this->formatElement();
+        $n['after'] = $this->getSuffix();
+        $n['note'] = $this->formatNotice();
+        $n['footer'] = $this->getFooter();
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

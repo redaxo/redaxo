@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Object Oriented Framework: Bildet ein Medium des Medienpools ab
+ * Object Oriented Framework: Bildet ein Medium des Medienpools ab.
+ *
  * @package redaxo\mediapool
  */
 class rex_media
@@ -42,6 +43,7 @@ class rex_media
 
     /**
      * @param string $name
+     *
      * @return null|self
      */
     public static function get($name)
@@ -61,7 +63,7 @@ class rex_media
                 $aliasMap = [
                     'filename' => 'name',
                     'filetype' => 'type',
-                    'filesize' => 'size'
+                    'filesize' => 'size',
                 ];
 
                 $media = new self();
@@ -214,6 +216,7 @@ class rex_media
 
     /**
      * @param array $params
+     *
      * @return string
      */
     public function toImage(array $params = [])
@@ -253,6 +256,7 @@ class rex_media
 
     /**
      * @param string $attributes
+     *
      * @return string
      */
     public function toLink($attributes = '')
@@ -321,7 +325,7 @@ class rex_media
     }
 
     /**
-     * Returns whether the element is permitted
+     * Returns whether the element is permitted.
      *
      * @return bool
      */

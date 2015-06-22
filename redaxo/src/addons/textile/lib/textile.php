@@ -15,6 +15,7 @@ class rex_textile
 
     /**
      * @param string $doctype
+     *
      * @return Netcarver\Textile\Parser
      */
     private static function getInstance($doctype = 'xhtml')
@@ -111,7 +112,7 @@ class rex_textile
                     ['h5. ' . rex_i18n::msg('textile_headline') . ' 5'],
                     ['h6. ' . rex_i18n::msg('textile_headline') . ' 6'],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -141,7 +142,7 @@ class rex_textile
                 'code' => [
                     ['@<?php echo "Hi"; ?>@'],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -166,7 +167,7 @@ class rex_textile
                 'anchor' => [
                     [rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -179,7 +180,7 @@ class rex_textile
                     [rex_i18n::msg('textile_footnote_text') . '[1] ..'],
                     ['fn1. ' . rex_i18n::msg('textile_footnote_note')],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -191,8 +192,8 @@ class rex_textile
                 'lists' => [
                     [rex_i18n::msg('textile_numeric_list') . ":\n# redaxo.org\n# www.redaxo.org/de/forum/"],
                     [rex_i18n::msg('textile_enum_list') . ":\n* redaxo.org\n* www.redaxo.org/de/forum/"],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -204,8 +205,8 @@ class rex_textile
                 'tables' => [
                     ["|_. Id|_. Name|\n|1|Peter|"],
                     ["|www.redaxo.org|35|\n|doku.redaxo.org|32|\n|wiki.redaxo.org|12|"],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

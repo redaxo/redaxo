@@ -1,7 +1,7 @@
 <?php
 
 /**
- * HTTP1.1 Client Cache Features
+ * HTTP1.1 Client Cache Features.
  *
  * @package redaxo\core
  */
@@ -22,9 +22,10 @@ class rex_response
     private static $sentCacheControl = false;
 
     /**
-     * Sets the HTTP Status code
+     * Sets the HTTP Status code.
      *
      * @param int $httpStatus
+     *
      * @throws InvalidArgumentException
      */
     public static function setStatus($httpStatus)
@@ -37,7 +38,7 @@ class rex_response
     }
 
     /**
-     * Returns the HTTP Status code
+     * Returns the HTTP Status code.
      *
      * @return string
      */
@@ -47,9 +48,10 @@ class rex_response
     }
 
     /**
-     * Redirects to a URL
+     * Redirects to a URL.
      *
      * @param string $url URL
+     *
      * @throws InvalidArgumentException
      */
     public static function sendRedirect($url)
@@ -64,7 +66,7 @@ class rex_response
     }
 
     /**
-     * Sends a file to client
+     * Sends a file to client.
      *
      * @param string $file               File path
      * @param string $contentType        Content type
@@ -98,12 +100,12 @@ class rex_response
     }
 
     /**
-     * Sends a resource to the client
+     * Sends a resource to the client.
      *
-     * @param string  $content      Content
-     * @param string  $contentType  Content type
-     * @param integer $lastModified HTTP Last-Modified Timestamp
-     * @param string  $etag         HTTP Cachekey to identify the cache
+     * @param string $content      Content
+     * @param string $contentType  Content type
+     * @param int    $lastModified HTTP Last-Modified Timestamp
+     * @param string $etag         HTTP Cachekey to identify the cache
      */
     public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -112,12 +114,12 @@ class rex_response
     }
 
     /**
-     * Sends a page to client
+     * Sends a page to client.
      *
      * The page content can be modified by the Extension Point OUTPUT_FILTER
      *
-     * @param string  $content      Content of page
-     * @param integer $lastModified HTTP Last-Modified Timestamp
+     * @param string $content      Content of page
+     * @param int    $lastModified HTTP Last-Modified Timestamp
      */
     public static function sendPage($content, $lastModified = null)
     {
@@ -131,12 +133,12 @@ class rex_response
     }
 
     /**
-     * Sends content to the client
+     * Sends content to the client.
      *
-     * @param string  $content      Content
-     * @param string  $contentType  Content type
-     * @param integer $lastModified HTTP Last-Modified Timestamp
-     * @param string  $etag         HTTP Cachekey to identify the cache
+     * @param string $content      Content
+     * @param string $contentType  Content type
+     * @param int    $lastModified HTTP Last-Modified Timestamp
+     * @param string $etag         HTTP Cachekey to identify the cache
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -185,7 +187,7 @@ class rex_response
     }
 
     /**
-     * Cleans all output buffers
+     * Cleans all output buffers.
      */
     public static function cleanOutputBuffers()
     {
@@ -195,7 +197,7 @@ class rex_response
     }
 
     /**
-     * Sends the content type header
+     * Sends the content type header.
      *
      * @param string $contentType
      */
@@ -206,7 +208,7 @@ class rex_response
     }
 
     /**
-     * Sends the cache control header
+     * Sends the cache control header.
      */
     public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private')
     {
@@ -215,11 +217,11 @@ class rex_response
     }
 
     /**
-     * Checks if content has changed by the last modified timestamp
+     * Checks if content has changed by the last modified timestamp.
      *
      * HTTP_IF_MODIFIED_SINCE feature
      *
-     * @param integer $lastModified HTTP Last-Modified Timestamp
+     * @param int $lastModified HTTP Last-Modified Timestamp
      */
     public static function sendLastModified($lastModified = null)
     {
@@ -244,7 +246,7 @@ class rex_response
     }
 
     /**
-     * Checks if content has changed by the etag cachekey
+     * Checks if content has changed by the etag cachekey.
      *
      * HTTP_IF_NONE_MATCH feature
      *
@@ -270,11 +272,12 @@ class rex_response
     }
 
     /**
-     * Encodes the content with GZIP/X-GZIP if the browser supports one of them
+     * Encodes the content with GZIP/X-GZIP if the browser supports one of them.
      *
      * HTTP_ACCEPT_ENCODING feature
      *
      * @param string $content Content
+     *
      * @return string
      */
     protected static function sendGzip($content)
@@ -305,11 +308,12 @@ class rex_response
     }
 
     /**
-     * Creates the md5 checksum for the content
+     * Creates the md5 checksum for the content.
      *
      * Dynamic content surrounded by `<!--DYN-->…<!--/DYN-->` is ignored.
      *
      * @param string $content
+     *
      * @return string
      */
     private static function md5($content)

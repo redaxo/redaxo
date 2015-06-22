@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_LINKLIST[1]
+ * REX_LINKLIST[1].
  *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen der Linkmap gesprungen werden soll
@@ -58,15 +58,14 @@ class rex_var_linklist extends rex_var
             }
         }
 
-        $disabled        = ' disabled';
-        $open_func    = '';
-        $delete_func  = '';
+        $disabled = ' disabled';
+        $open_func = '';
+        $delete_func = '';
         if (rex::getUser()->getComplexPerm('structure')->hasStructurePerm()) {
-            $disabled     = '';
-            $open_func    = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';
-            $delete_func  = 'deleteREXLinklist(' . $id . ');';
+            $disabled = '';
+            $open_func = 'openREXLinklist(' . $id . ', \'' . $open_params . '\');';
+            $delete_func = 'deleteREXLinklist(' . $id . ');';
         }
-
 
         $e = [];
         $e['field'] = '

@@ -1,22 +1,23 @@
 <?php
 
 /**
- * Trait for singletons
+ * Trait for singletons.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 trait rex_singleton_trait
 {
     /**
-     * Singleton instances
+     * Singleton instances.
      *
      * @var static[]
      */
     private static $instances = [];
 
     /**
-     * Returns the singleton instance
+     * Returns the singleton instance.
      *
      * @return static
      */
@@ -24,13 +25,13 @@ trait rex_singleton_trait
     {
         $class = get_called_class();
         if (!isset(self::$instances[$class])) {
-            self::$instances[$class] = new static;
+            self::$instances[$class] = new static();
         }
         return self::$instances[$class];
     }
 
     /**
-     * Cloning a singleton is not allowed
+     * Cloning a singleton is not allowed.
      *
      * @throws BadMethodCallException
      */

@@ -2,6 +2,7 @@
 
 /**
  * Verwaltung der Inhalte. EditierModul / Metadaten ...
+ *
  * @package redaxo5
  */
 
@@ -13,10 +14,10 @@
 
 $content = '';
 
-$article_id  = rex_request('article_id',  'int');
-$clang       = rex_request('clang',       'int');
-$slice_id    = rex_request('slice_id',    'int', '');
-$function    = rex_request('function',    'string');
+$article_id = rex_request('article_id',  'int');
+$clang = rex_request('clang',       'int');
+$slice_id = rex_request('slice_id',    'int', '');
+$function = rex_request('function',    'string');
 
 $article_id = rex_article::get($article_id) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
@@ -42,7 +43,6 @@ $article->setQuery('
             article.id='$article_id'
             AND clang_id=$clang");
 
-
 if ($article->getRows() == 1) {
     // ----- ctype holen
     $template_attributes = $article->getArrayValue('template_attributes');
@@ -63,18 +63,17 @@ if ($article->getRows() == 1) {
     $OOArt = rex_article::get($article_id, $clang);
     $category_id = $OOArt->getCategoryId();
 
-
     // ----- Request Parameter
-    $subpage  = rex_be_controller::getCurrentPagePart(2);
+    $subpage = rex_be_controller::getCurrentPagePart(2);
     $function = rex_request('function', 'string');
-    $warning  = htmlspecialchars(rex_request('warning', 'string'));
-    $info     = htmlspecialchars(rex_request('info', 'string'));
+    $warning = htmlspecialchars(rex_request('warning', 'string'));
+    $info = htmlspecialchars(rex_request('info', 'string'));
 
     $context = new rex_context([
         'page' => rex_be_controller::getCurrentPage(),
         'article_id' => $article_id,
         'clang' => $clang,
-        'ctype' => $ctype
+        'ctype' => $ctype,
     ]);
 
     // ----- Languages
@@ -86,9 +85,7 @@ if ($article->getRows() == 1) {
     // ----- category pfad und rechte
     require rex_path::addon('structure', 'functions/function_rex_category.php');
 
-
     if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
-
         $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
         $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
         // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
@@ -96,7 +93,7 @@ if ($article->getRows() == 1) {
         $navigation = [];
         $navigation[] = [
             'href' => $context->getUrl(),
-            'title' => $catname
+            'title' => $catname,
         ];
 
         $fragment = new rex_fragment();
@@ -104,10 +101,7 @@ if ($article->getRows() == 1) {
         $fragment->setVar('items', $navigation, false);
         echo $fragment->parse('core/navigations/breadcrumb.php');
         unset($fragment);
-
     }
-
-
 
     // ----- EXTENSION POINT
     echo rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_HEADER', '', [
@@ -165,7 +159,6 @@ if ($article->getRows() == 1) {
                     $global_warning = rex_i18n::msg('no_rights_to_this_function');
                     $slice_id = '';
                     $function = '';
-
                 } elseif (!rex::getUser()->getComplexPerm('modules')->hasPerm($module_id)) {
                     // ----- RECHTE AM MODUL: NEIN
                     $global_warning = rex_i18n::msg('no_rights_to_this_function');
@@ -196,7 +189,6 @@ if ($article->getRows() == 1) {
                         } else {
                             $warning = rex_i18n::msg('slice_saved_error');
                         }
-
                     } else {
                         if ($action_message) {
                             $action_message .= '<br />';
@@ -204,7 +196,6 @@ if ($article->getRows() == 1) {
 
                         // ----- SAVE/UPDATE SLICE
                         if ($function == 'add' || $function == 'edit') {
-
                             $sliceTable = rex::getTablePrefix() . 'article_slice';
                             $newsql->setTable($sliceTable);
 
@@ -252,7 +243,6 @@ if ($article->getRows() == 1) {
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
-
                             } elseif ($function == 'add') {
                                 $newsql->addGlobalUpdateFields();
                                 $newsql->addGlobalCreateFields();
@@ -322,7 +312,7 @@ if ($article->getRows() == 1) {
 
                         rex_extension::registerPoint(new rex_extension_point('ART_CONTENT_UPDATED', '', [
                             'id' => $article_id,
-                            'clang' => $clang
+                            'clang' => $clang,
                         ]));
 
                         // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
@@ -449,7 +439,6 @@ if ($article->getRows() == 1) {
 
         $contentMain = $fragment->parse('core/navigations/content.php');
 
-
         // ------------------------------------------ END: CONTENT HEAD MENUE
 
         // ------------------------------------------ WARNING
@@ -470,13 +459,10 @@ if ($article->getRows() == 1) {
             $contentMain .= rex_view::success($info);
         }
 
-
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
         $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();
 
         // ------------------------------------------ END: AUSGABE
-
-
 
 
         // ----- EXTENSION POINT
@@ -492,7 +478,6 @@ if ($article->getRows() == 1) {
             'slice_revision' => &$slice_revision,
         ]));
 
-
         if ($contentSidebar == '') {
             echo '<div class="rex-structure-content-main">' . $contentMain . '</div>';
         } else {
@@ -502,6 +487,5 @@ if ($article->getRows() == 1) {
                     <div class="col-md-3"><aside class="rex-structure-content-sidebar">' . $contentSidebar . '</aside></div>
                 </div>';
         }
-
     }
 }

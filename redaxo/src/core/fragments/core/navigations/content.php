@@ -1,4 +1,5 @@
 <?php
+
 /*
     Tabnavi  -> rex-navi-tab
 
@@ -21,7 +22,6 @@ if (isset($this->right)) {
 }
 
 foreach ($navigations as $nav_key => $navigation) {
-
     foreach ($navigation as $navi) {
         if (isset($navi['active']) && $navi['active'] && isset($navi['children']) && count($navi['children']) > 0) {
             $navigations['children'] = $navi['children'];
@@ -29,19 +29,14 @@ foreach ($navigations as $nav_key => $navigation) {
     }
 }
 
-
 foreach ($navigations as $nav_key => $navigation) {
-
     $li = [];
     foreach ($navigation as $navi) {
-
         $li_a = '';
-
 
         $attributes = [];
 
         if ($nav_key == 'right') {
-
             if (isset($navi['itemClasses']) && is_array($navi['itemClasses'])) {
                 array_unshift($navi['itemClasses'], 'pull-right');
             } else {
@@ -50,7 +45,7 @@ foreach ($navigations as $nav_key => $navigation) {
         }
 
         if (isset($navi['itemAttr']['class']) && $navi['itemAttr']['class'] != '') {
-            if (! in_array($navi['itemAttr']['class'], $navi['itemClasses'])) {
+            if (!in_array($navi['itemAttr']['class'], $navi['itemClasses'])) {
                 array_unshift($navi['itemClasses'], $navi['itemAttr']['class']);
             }
             unset($navi['itemAttr']['class']);
@@ -78,9 +73,7 @@ foreach ($navigations as $nav_key => $navigation) {
 
         $li_a .= '<li' . rex_string::buildAttributes($attributes) . '>';
 
-
         if (isset($navi['href']) && $navi['href'] != '') {
-
             $attributes = [];
             $attributes['href'] = $navi['href'];
 
@@ -97,7 +90,6 @@ foreach ($navigations as $nav_key => $navigation) {
             }
 
             $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
-
         }
 
         $li_a .= $navi['title'];
@@ -110,9 +102,7 @@ foreach ($navigations as $nav_key => $navigation) {
         $li[] = $li_a;
     }
 
-
     $navigations[$nav_key] = implode($li);
-
 }
 
 $out = '';
@@ -121,8 +111,6 @@ $tabs = '';
 $tabs .= isset($navigations['left']) ? $navigations['left'] : '';
 $tabs .= isset($navigations['right']) ? $navigations['right'] : '';
 $out .= $tabs == '' ? '' : '<ul class="nav nav-tabs">' . $tabs . '</ul>';
-
-
 
 if (isset($navigations['children'])) {
     $out .= '<nav class="navbar navbar-default"><ul class="nav navbar-nav">' . $navigations['children'] . '</ul></nav>';

@@ -43,7 +43,7 @@ class rex_api_install_core_update extends rex_api_function
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_format'));
             }
             $coreAddons = [];
-            /** @type rex_addon[] $updateAddons */
+            /** @var rex_addon[] $updateAddons */
             $updateAddons = [];
             if (is_dir($temppath . 'addons')) {
                 foreach (rex_finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
@@ -143,6 +143,7 @@ class rex_api_install_core_update extends rex_api_function
      * @param string      $temppath
      * @param string      $version
      * @param rex_addon[] $addons
+     *
      * @throws rex_functional_exception
      */
     private function checkRequirements($temppath, $version, array $addons)
@@ -150,9 +151,9 @@ class rex_api_install_core_update extends rex_api_function
         // ---- update "version", "requires" and "conflicts" properties
         $coreVersion = rex::getVersion();
         rex::setProperty('version', $version);
-        $versions = new SplObjectStorage;
-        $requirements = new SplObjectStorage;
-        $conflicts = new SplObjectStorage;
+        $versions = new SplObjectStorage();
+        $requirements = new SplObjectStorage();
+        $conflicts = new SplObjectStorage();
         foreach ($addons as $addonkey => $addon) {
             $addonPath = $temppath . 'addons/' . $addonkey . '/';
             if (file_exists($addonPath . rex_package::FILE_PACKAGE)) {

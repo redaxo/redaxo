@@ -1,33 +1,36 @@
 <?php
 
 /**
- * Interface for user roles
+ * Interface for user roles.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 interface rex_user_role_interface
 {
     /**
-     * Returns if the role has the given permission
+     * Returns if the role has the given permission.
      *
      * @param string $perm Perm key
      */
     public function hasPerm($perm);
 
     /**
-     * Returns the complex perm
+     * Returns the complex perm.
      *
      * @param rex_user $user User instance
      * @param string   $key  Complex perm key
+     *
      * @return rex_complex_perm Complex perm
      */
     public function getComplexPerm(rex_user $user, $key);
 
     /**
-     * Returns the role for the given ID
+     * Returns the role for the given ID.
      *
-     * @param integer $id ID
+     * @param int $id ID
+     *
      * @return static Role instance
      */
     public static function get($id);

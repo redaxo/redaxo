@@ -1,4 +1,5 @@
 <?php
+
 $this->content = is_string($this->content) ? [$this->content] : $this->content;
 
 $count = count($this->content);

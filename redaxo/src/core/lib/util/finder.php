@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Finder
+ * Finder.
  *
  * @author staabm
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_finder implements IteratorAggregate, Countable
@@ -25,7 +26,7 @@ class rex_finder implements IteratorAggregate, Countable
     private $sort = false;
 
     /**
-     * Contructor
+     * Contructor.
      *
      * @param string $dir
      */
@@ -35,10 +36,12 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Returns a new finder object
+     * Returns a new finder object.
      *
      * @param string $dir Path to a directory
+     *
      * @throws InvalidArgumentException
+     *
      * @return static
      */
     public static function factory($dir)
@@ -52,9 +55,10 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Activate/Deactivate recursive directory scanning
+     * Activate/Deactivate recursive directory scanning.
      *
-     * @param boolean $recursive
+     * @param bool $recursive
+     *
      * @return $this
      */
     public function recursive($recursive = true)
@@ -89,7 +93,7 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Fetch files only
+     * Fetch files only.
      *
      * @return $this
      */
@@ -101,7 +105,7 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Fetch dirs only
+     * Fetch dirs only.
      *
      * @return $this
      */
@@ -113,10 +117,11 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Ignore all files which match the given glob pattern
+     * Ignore all files which match the given glob pattern.
      *
      * @param string|array $glob      Glob pattern or an array of glob patterns
-     * @param boolean      $recursive When FALSE the patterns won't be checked in child directories
+     * @param bool         $recursive When FALSE the patterns won't be checked in child directories
+     *
      * @return $this
      */
     public function ignoreFiles($glob, $recursive = true)
@@ -132,10 +137,11 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Ignore all directories which match the given glob pattern
+     * Ignore all directories which match the given glob pattern.
      *
      * @param string|array $glob      Glob pattern or an array of glob patterns
-     * @param boolean      $recursive When FALSE the patterns won't be checked in child directories
+     * @param bool         $recursive When FALSE the patterns won't be checked in child directories
+     *
      * @return $this
      */
     public function ignoreDirs($glob, $recursive = true)
@@ -151,9 +157,10 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Ignores system stuff (like .DS_Store, .svn, .git etc.)
+     * Ignores system stuff (like .DS_Store, .svn, .git etc.).
      *
-     * @param boolean $ignoreSystemStuff
+     * @param bool $ignoreSystemStuff
+     *
      * @return $this
      */
     public function ignoreSystemStuff($ignoreSystemStuff = true)
@@ -164,9 +171,10 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * Sorts the elements
+     * Sorts the elements.
      *
      * @param int|callable $sort Sort mode, see {@link rex_sortable_iterator::__construct()}
+     *
      * @return $this
      */
     public function sort($sort = rex_sortable_iterator::KEYS)

@@ -35,7 +35,7 @@ class rex_form_widget_media_element extends rex_form_element
 
         $html = rex_var_media::getWidget($widget_counter, $this->getAttribute('name'), $this->getValue(), $this->args);
 
-        $widget_counter++;
+        ++$widget_counter;
         return $html;
     }
 }

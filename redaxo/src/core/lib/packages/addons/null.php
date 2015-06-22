@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Represents a null addon
+ * Represents a null addon.
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 class rex_null_addon extends rex_null_package implements rex_addon_interface

@@ -30,14 +30,12 @@ class rex_media_manager
             // execute effects on image
             foreach ($set as $effect_params) {
                 $effect_class = 'rex_effect_' . $effect_params['effect'];
-                $effect = new $effect_class;
+                $effect = new $effect_class();
                 $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
                 $effect->execute();
             }
-
         }
-
     }
 
     public function effectsFromType($type)
@@ -76,18 +74,14 @@ class rex_media_manager
         return $effects;
     }
 
-
-
     public function setCachePath($cache_path = '')
     {
         $this->cache_path = $cache_path;
-
     }
 
     public function getCachePath()
     {
         return $this->cache_path;
-
     }
 
     protected function useCache($t = true)
@@ -125,7 +119,6 @@ class rex_media_manager
     {
         $cacheParams = md5(serialize($this->type . $this->media->getMediapath()));
         return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams;
-
     }
 
     public function getHeaderCacheFilename()
@@ -166,7 +159,7 @@ class rex_media_manager
             if ($glob) {
                 foreach ($glob as $file) {
                     if (rex_file::delete($file)) {
-                        $counter++;
+                        ++$counter;
                     }
                 }
             }
@@ -189,12 +182,10 @@ class rex_media_manager
                 header($t . ': ' . $c);
             }
             readfile($CacheFilename);
-
         } else {
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
         }
         exit;
-
     }
 
     public static function getSupportedEffectNames()
@@ -209,7 +200,7 @@ class rex_media_manager
     public static function getSupportedEffects()
     {
         $dirs = [
-            __DIR__ . '/effects/'
+            __DIR__ . '/effects/',
         ];
 
         $effects = [];
@@ -257,17 +248,16 @@ class rex_media_manager
         $rex_media_manager_type = self::getMediaType();
 
         if ($rex_media_manager_file != '' && $rex_media_manager_type != '') {
-            $media_path    = rex_path::media($rex_media_manager_file);
-            $cache_path    = rex_path::addonCache('media_manager');
+            $media_path = rex_path::media($rex_media_manager_file);
+            $cache_path = rex_path::addonCache('media_manager');
 
-            $media         = new rex_managed_media($media_path);
+            $media = new rex_managed_media($media_path);
             $media_manager = new self($media);
             $media_manager->setCachePath($cache_path);
             $media_manager->applyEffects($rex_media_manager_type);
             $media_manager->sendMedia();
 
             exit();
-
         }
     }
 
@@ -282,5 +272,4 @@ class rex_media_manager
     {
         return rex_get('rex_media_type', 'string');
     }
-
 }

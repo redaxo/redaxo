@@ -5,7 +5,6 @@
  */
 class rex_effect_mirror extends rex_effect_abstract
 {
-
     private $script;
 
     public function __construct()
@@ -42,7 +41,6 @@ class rex_effect_mirror extends rex_effect_abstract
 
     public function execute()
     {
-
         $this->media->asImage();
         $gdimage = $this->media->getImage();
 
@@ -59,17 +57,17 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         $this->params['bg_r'] = (int) $this->params['bg_r'];
-        if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0 ) {
+        if (!isset($this->params['bg_r']) || $this->params['bg_r'] > 255 || $this->params['bg_r'] < 0) {
             $this->params['bg_r'] = 255;
         }
 
         $this->params['bg_g'] = (int) $this->params['bg_g'];
-        if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0 ) {
+        if (!isset($this->params['bg_g']) || $this->params['bg_g'] > 255 || $this->params['bg_g'] < 0) {
             $this->params['bg_g'] = 255;
         }
 
         $this->params['bg_b'] = (int) $this->params['bg_b'];
-        if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0 ) {
+        if (!isset($this->params['bg_b']) || $this->params['bg_b'] > 255 || $this->params['bg_b'] < 0) {
             $this->params['bg_b'] = 255;
         }
 
@@ -82,10 +80,9 @@ class rex_effect_mirror extends rex_effect_abstract
             $trans = true;
         }
 
-        $gdimage = $this->imagereflection( $gdimage, $this->params['height'], $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']] );
+        $gdimage = $this->imagereflection($gdimage, $this->params['height'], $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']]);
         $this->media->setImage($gdimage);
         $this->media->refreshImageDimensions();
-
     }
 
     public function getParams()
@@ -102,7 +99,7 @@ class rex_effect_mirror extends rex_effect_abstract
                 'type' => 'select',
                 'options' => ['colored', 'transparent / png24'],
                 'default' => 'colored',
-                'suffix' => $this->script
+                'suffix' => $this->script,
             ],
 
             [
@@ -125,7 +122,6 @@ class rex_effect_mirror extends rex_effect_abstract
 
     private function imagereflection(&$src_img, $reflection_height = 50, $trans = false, $bgcolor)
     {
-
         $src_height = imagesy($src_img);
         $src_width = imagesx($src_img);
         $dest_height = $src_height + $reflection_height;
@@ -142,12 +138,11 @@ class rex_effect_mirror extends rex_effect_abstract
 
         imagecopy($reflected, $src_img, 0, 0, 0, 0, $src_width, $src_height);
         $alpha_step = 80 / $reflection_height;
-        for ($y = 1; $y <= $reflection_height; $y++) {
-
-            for ($x = 0; $x < $dest_width; $x++) {
+        for ($y = 1; $y <= $reflection_height; ++$y) {
+            for ($x = 0; $x < $dest_width; ++$x) {
                 $rgba = imagecolorat($src_img, $x, $src_height - $y);
                 $alpha = ($rgba & 0x7F000000) >> 24;
-                $alpha =  max($alpha, 47 + ($y * $alpha_step));
+                $alpha = max($alpha, 47 + ($y * $alpha_step));
                 $rgba = imagecolorsforindex($src_img, $rgba);
                 $rgba = imagecolorallocatealpha($reflected, $rgba['red'], $rgba['green'], $rgba['blue'], $alpha);
                 imagesetpixel($reflected, $x, $src_height + $y - 1, $rgba);
@@ -156,5 +151,4 @@ class rex_effect_mirror extends rex_effect_abstract
 
         return $reflected;
     }
-
 }

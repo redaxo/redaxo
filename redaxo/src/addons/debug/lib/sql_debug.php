@@ -3,18 +3,19 @@
 rex_extension::register('OUTPUT_FILTER', ['rex_sql_debug', 'doLog']);
 
 /**
- * Class to monitor sql queries
+ * Class to monitor sql queries.
  *
  * @author staabm
+ *
  * @package redaxo\debug
  */
 class rex_sql_debug extends rex_sql
 {
     private static $queries = [];
-    private static $errors  = 0;
+    private static $errors = 0;
 
     /**
-     * {@inheritdocs}
+     * {@inheritdocs}.
      */
     public function setQuery($qry, array $params = [])
     {
@@ -22,12 +23,12 @@ class rex_sql_debug extends rex_sql
             parent::setQuery($qry, $params);
         } catch (rex_exception $e) {
             $trace = debug_backtrace();
-            for ( $i = 0 ; $trace && $i < sizeof($trace) ; $i++ ) {
-                    if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
-                            $file = $trace[$i]['file'];
-                            $line = $trace[$i]['line'];
-                            break;
-                    }
+            for ($i = 0; $trace && $i < sizeof($trace); ++$i) {
+                if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
+                    $file = $trace[$i]['file'];
+                    $line = $trace[$i]['line'];
+                    break;
+                }
             }
             $firephp = FirePHP::getInstance(true);
             $firephp->error($e->getMessage() . ' in ' . $file . ' on line ' . $line);
@@ -37,30 +38,30 @@ class rex_sql_debug extends rex_sql
         return $this;
     }
 
-    /**
-     * {@inheritdocs}
-     */
+/**
+ * {@inheritdocs}.
+ */
     // TODO queries using setQuery() are not logged yet!
     public function execute(array $params = [])
     {
-        $qry   = $this->stmt->queryString;
+        $qry = $this->stmt->queryString;
 
         $timer = new rex_timer();
         parent::execute($params);
 
         $err = $errno = '';
         if ($this->hasError()) {
-            self::$errors++;
-            $err   = parent::getError();
+            ++self::$errors;
+            $err = parent::getError();
             $errno = parent::getErrno();
         }
 
         self::$queries[] = [
-            'rows'  => $this->getRows(),
-            'time'  => $timer->getFormattedDelta(),
+            'rows' => $this->getRows(),
+            'time' => $timer->getFormattedDelta(),
             'query' => $qry,
             'error' => $err,
-            'errno' => $errno
+            'errno' => $errno,
         ];
 
         return $this;
@@ -80,7 +81,7 @@ class rex_sql_debug extends rex_sql
                 } else {
                     $tbl[] = [$i, $qry['rows'], $qry['time'], $qry['query']];
                 }
-                $i++;
+                ++$i;
             }
 
             $firephp = FirePHP::getInstance(true);

@@ -21,7 +21,7 @@ class rex_login
     protected $user;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -30,7 +30,7 @@ class rex_login
 
     /**
      * Setzt, ob die Ergebnisse der Login-Abfrage
-     * pro Seitenaufruf gecached werden sollen
+     * pro Seitenaufruf gecached werden sollen.
      */
     public function setCache($status = true)
     {
@@ -38,7 +38,7 @@ class rex_login
     }
 
     /**
-     * Setzt die Id der zu verwendenden SQL Connection
+     * Setzt die Id der zu verwendenden SQL Connection.
      */
     public function setSqlDb($DB)
     {
@@ -47,7 +47,7 @@ class rex_login
 
     /**
      * Setzt eine eindeutige System Id, damit mehrere
-     * Sessions auf der gleichen Domain unterschieden werden können
+     * Sessions auf der gleichen Domain unterschieden werden können.
      */
     public function setSystemId($system_id)
     {
@@ -55,7 +55,7 @@ class rex_login
     }
 
     /**
-     * Setzt das Session Timeout
+     * Setzt das Session Timeout.
      */
     public function setSessionDuration($sessionDuration)
     {
@@ -63,7 +63,7 @@ class rex_login
     }
 
     /**
-     * Setzt den Login und das Password
+     * Setzt den Login und das Password.
      */
     public function setLogin($login, $password, $isPreHashed = false)
     {
@@ -72,7 +72,7 @@ class rex_login
     }
 
     /**
-     * Markiert die aktuelle Session als ausgeloggt
+     * Markiert die aktuelle Session als ausgeloggt.
      */
     public function setLogout($logout)
     {
@@ -80,7 +80,7 @@ class rex_login
     }
 
     /**
-     * Prüft, ob die aktuelle Session ausgeloggt ist
+     * Prüft, ob die aktuelle Session ausgeloggt ist.
      */
     public function isLoggedOut()
     {
@@ -88,7 +88,7 @@ class rex_login
     }
 
     /**
-     * Setzt den UserQuery
+     * Setzt den UserQuery.
      *
      * Dieser wird benutzt, um einen bereits eingeloggten User
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
@@ -99,7 +99,7 @@ class rex_login
     }
 
     /**
-     * Setzt den LoginQuery
+     * Setzt den LoginQuery.
      *
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
      * Hier wird das eingegebene Password und der Login eingesetzt.
@@ -110,7 +110,7 @@ class rex_login
     }
 
     /**
-     * Setzt den Namen der Spalte, der die User-Id enthält
+     * Setzt den Namen der Spalte, der die User-Id enthält.
      */
     public function setIdColumn($idColumn)
     {
@@ -118,7 +118,7 @@ class rex_login
     }
 
     /**
-     * Sets the password column
+     * Sets the password column.
      *
      * @param string $passwordColumn
      */
@@ -128,7 +128,7 @@ class rex_login
     }
 
     /**
-     * Setzt einen Meldungstext
+     * Setzt einen Meldungstext.
      */
     protected function setMessage($message)
     {
@@ -136,7 +136,7 @@ class rex_login
     }
 
     /**
-     * Returns the message
+     * Returns the message.
      *
      * @return string
      */
@@ -147,7 +147,7 @@ class rex_login
 
     /**
      * Prüft die mit setLogin() und setPassword() gesetzten Werte
-     * anhand des LoginQueries/UserQueries und gibt den Status zurück
+     * anhand des LoginQueries/UserQueries und gibt den Status zurück.
      *
      * Gibt true zurück bei erfolg, sonst false
      */
@@ -169,7 +169,6 @@ class rex_login
                     return false;
                 }
             }
-
 
             if ($this->userLogin != '') {
                 // wenn login daten eingegeben dann checken
@@ -235,7 +234,7 @@ class rex_login
     }
 
     /**
-     * Gibt einen Benutzer-Spezifischen Wert zurück
+     * Gibt einen Benutzer-Spezifischen Wert zurück.
      */
     public function getValue($value, $default = null)
     {
@@ -247,7 +246,7 @@ class rex_login
     }
 
     /**
-     * Setzte eine Session-Variable
+     * Setzte eine Session-Variable.
      */
     public function setSessionVar($varname, $value)
     {
@@ -255,7 +254,7 @@ class rex_login
     }
 
     /**
-     * Gibt den Wert einer Session-Variable zurück
+     * Gibt den Wert einer Session-Variable zurück.
      */
     public function getSessionVar($varname, $default = '')
     {
@@ -275,7 +274,7 @@ class rex_login
     }
 
     /**
-     * starts a http-session if not already started
+     * starts a http-session if not already started.
      */
     public static function startSession()
     {
@@ -292,7 +291,7 @@ class rex_login
     }
 
     /**
-     * Verschlüsselt den übergebnen String
+     * Verschlüsselt den übergebnen String.
      */
     public static function passwordHash($password, $isPreHashed = false)
     {

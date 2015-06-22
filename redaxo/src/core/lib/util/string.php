@@ -1,17 +1,18 @@
 <?php
 
 /**
- * String utility class
+ * String utility class.
  *
  * @package redaxo\core
  */
 class rex_string
 {
     /**
-     * Returns the string size in bytes
+     * Returns the string size in bytes.
      *
      * @param string $string String
-     * @return integer Size in bytes
+     *
+     * @return int Size in bytes
      */
     public static function size($string)
     {
@@ -19,7 +20,7 @@ class rex_string
     }
 
     /**
-     * Normalizes a string
+     * Normalizes a string.
      *
      * Makes the string lowercase, replaces umlauts by their ascii representation (ä -> ae etc.), and replaces all
      * other chars that do not match a-z, 0-9 or $allowedChars by $replaceChar.
@@ -27,6 +28,7 @@ class rex_string
      * @param string $string       Input string
      * @param string $replaceChar  Character that is used to replace not allowed chars
      * @param string $allowedChars Character whitelist
+     *
      * @return string
      */
     public static function normalize($string, $replaceChar = '_', $allowedChars = '')
@@ -45,13 +47,14 @@ class rex_string
 
     /**
      * Splits a string by spaces
-     * (Strings with quotes will be regarded)
+     * (Strings with quotes will be regarded).
      *
      * Examples:
      * "a b 'c d'"   -> array('a', 'b', 'c d')
      * "a=1 b='c d'" -> array('a' => 1, 'b' => 'c d')
      *
      * @param string $string
+     *
      * @return array
      */
     public static function split($string)
@@ -88,9 +91,10 @@ class rex_string
     }
 
     /**
-     * Splits a version string
+     * Splits a version string.
      *
      * @param string $version Version
+     *
      * @return array Version parts
      */
     public static function versionSplit($version)
@@ -99,7 +103,7 @@ class rex_string
     }
 
     /**
-     * Compares two version number strings
+     * Compares two version number strings.
      *
      * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal and it supports a space as separator for
      * the version parts, e.g. "1.0 beta1"
@@ -109,7 +113,8 @@ class rex_string
      * @param string $version1   First version number
      * @param string $version2   Second version number
      * @param string $comparator Optional comparator
-     * @return integer|boolean
+     *
+     * @return int|bool
      */
     public static function versionCompare($version1, $version2, $comparator = null)
     {
@@ -126,6 +131,7 @@ class rex_string
      *
      * @param array $value  The value being encoded
      * @param int   $inline The level where you switch to inline YAML
+     *
      * @return string
      */
     public static function yamlEncode(array $value, $inline = 3)
@@ -137,6 +143,7 @@ class rex_string
      * Parses YAML into a PHP array.
      *
      * @param string $value YAML string
+     *
      * @return array
      */
     public static function yamlDecode($value)
@@ -145,10 +152,11 @@ class rex_string
     }
 
     /**
-     * Generates URL-encoded query string
+     * Generates URL-encoded query string.
      *
      * @param array  $params
      * @param string $argSeparator
+     *
      * @return string
      */
     public static function buildQuery(array $params, $argSeparator = '&')
@@ -169,9 +177,10 @@ class rex_string
     }
 
     /**
-     * Returns a string by key="value" pair
+     * Returns a string by key="value" pair.
      *
      * @param array $attributes
+     *
      * @return string
      */
     public static function buildAttributes(array $attributes)
@@ -193,9 +202,10 @@ class rex_string
     }
 
     /**
-     * Highlights a string
+     * Highlights a string.
      *
      * @param string $string
+     *
      * @return string
      */
     public static function highlight($string)

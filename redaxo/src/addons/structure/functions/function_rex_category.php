@@ -2,7 +2,8 @@
 
 /**
  * Regelt die Rechte an den einzelnen Kategorien und gibt den Pfad aus
- * Kategorien = Startartikel und Bezüge
+ * Kategorien = Startartikel und Bezüge.
+ *
  * @package redaxo5
  */
 

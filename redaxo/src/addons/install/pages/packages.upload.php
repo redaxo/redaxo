@@ -24,7 +24,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
 
-        $redaxo_select = new rex_select;
+        $redaxo_select = new rex_select();
         $redaxo_select->setName('upload[redaxo][]');
         $redaxo_select->setId('rex-install-packages-upload-redaxo');
         $redaxo_select->setAttribute('class', 'form-control');
@@ -42,67 +42,63 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $panel = '<fieldset>';
 
-
         $formElements = [];
 
-            $n = [];
-            $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $this->i18n('version') . '</label>';
-            $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . ($new ? $newVersion : $file['version']) . '</p>
+        $n = [];
+        $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $this->i18n('version') . '</label>';
+        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . ($new ? $newVersion : $file['version']) . '</p>
                            <input type="hidden" name="upload[oldversion]" value="' . $file['version'] . '" />';
-            $formElements[] = $n;
+        $formElements[] = $n;
 
-            $n = [];
-            $n['label'] = '<label for="rex-install-packages-upload-redaxo">REDAXO</label>';
-            $n['field'] = $redaxo_select->get();
-            $formElements[] = $n;
+        $n = [];
+        $n['label'] = '<label for="rex-install-packages-upload-redaxo">REDAXO</label>';
+        $n['field'] = $redaxo_select->get();
+        $formElements[] = $n;
 
-            $n = [];
-            $n['label'] = '<label for="rex-install-packages-upload-description">' . $this->i18n('description') . '</label>';
-            $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . $file['description'] . '</textarea>';
-            $formElements[] = $n;
+        $n = [];
+        $n['label'] = '<label for="rex-install-packages-upload-description">' . $this->i18n('description') . '</label>';
+        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . $file['description'] . '</textarea>';
+        $formElements[] = $n;
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
-
-
         $formElements = [];
 
+        $n = [];
+        $n['reverse'] = true;
+        $n['label'] = '<label for="rex-install-packages-upload-status">' . $this->i18n('online') . '</label>';
+        $n['field'] = '<input id="rex-install-packages-upload-status" type="checkbox" name="upload[status]" value="1" ' . (!$new && $file['status'] ? 'checked="checked" ' : '') . '/>';
+        $formElements[] = $n;
+
+        $n = [];
+        $n['reverse'] = true;
+        $n['label'] = '<label for="rex-js-install-packages-upload-upload-file">' . $this->i18n('upload_file') . '</label>' . $hiddenField;
+        $n['field'] = '<input id="rex-js-install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
+        $formElements[] = $n;
+
+        if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_url::addonAssets($addonkey))) {
             $n = [];
             $n['reverse'] = true;
-            $n['label'] = '<label for="rex-install-packages-upload-status">' . $this->i18n('online') . '</label>';
-            $n['field'] = '<input id="rex-install-packages-upload-status" type="checkbox" name="upload[status]" value="1" ' . (!$new && $file['status'] ? 'checked="checked" ' : '') . '/>';
+            $n['label'] = '<label for="rex-js-install-packages-upload-replace-assets">' . $this->i18n('replace_assets') . '</label>';
+            $n['field'] = '<input id="rex-js-install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" ' . ($new ? '' : 'disabled="disabled" ') . '/>';
             $formElements[] = $n;
+        }
 
+        if (is_dir(rex_path::addon($addonkey, 'tests'))) {
             $n = [];
             $n['reverse'] = true;
-            $n['label'] = '<label for="rex-js-install-packages-upload-upload-file">' . $this->i18n('upload_file') . '</label>' . $hiddenField;
-            $n['field'] = '<input id="rex-js-install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
+            $n['label'] = '<label for="rex-js-install-packages-upload-ignore-tests">' . $this->i18n('ignore_tests') . '</label>';
+            $n['field'] = '<input id="rex-js-install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"' . ($new ? '' : 'disabled="disabled" ') . '/>';
             $formElements[] = $n;
-
-            if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_url::addonAssets($addonkey))) {
-                $n = [];
-                $n['reverse'] = true;
-                $n['label'] = '<label for="rex-js-install-packages-upload-replace-assets">' . $this->i18n('replace_assets') . '</label>';
-                $n['field'] = '<input id="rex-js-install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" ' . ($new ? '' : 'disabled="disabled" ') . '/>';
-                $formElements[] = $n;
-            }
-
-            if (is_dir(rex_path::addon($addonkey, 'tests'))) {
-                $n = [];
-                $n['reverse'] = true;
-                $n['label'] = '<label for="rex-js-install-packages-upload-ignore-tests">' . $this->i18n('ignore_tests') . '</label>';
-                $n['field'] = '<input id="rex-js-install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"' . ($new ? '' : 'disabled="disabled" ') . '/>';
-                $formElements[] = $n;
-            }
+        }
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/checkbox.php');
 
         $panel .= '</fieldset>';
-
 
         $formElements = [];
 
@@ -124,8 +120,6 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $panel .= '</fieldset>';
 
-
-
         $fragment = new rex_fragment();
         $fragment->setVar('title', $addonkey . ' <small>' . $this->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
@@ -137,7 +131,6 @@ if ($addonkey && isset($addons[$addonkey])) {
                 ' . $content . '
             </form>';
         echo $content;
-
 
         if (!$new) {
             echo '
@@ -160,7 +153,6 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     //--></script>';
         }
-
     } else {
         $icon = '';
         if (rex_addon::exists($addonkey)) {
@@ -189,7 +181,6 @@ if ($addonkey && isset($addons[$addonkey])) {
             </tr>
             </tbody>
         </table>';
-
 
         $fragment = new rex_fragment();
         $fragment->setVar('title', $addonkey . ' <small>' . $this->i18n('information') . '</small>', false);
@@ -227,8 +218,6 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $panel .= '</tbody></table>';
 
-
-
         $fragment = new rex_fragment();
         $fragment->setVar('title', $this->i18n('files'), false);
         $fragment->setVar('content', $panel, false);
@@ -238,9 +227,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         echo '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('back') . '</a>';
     }
-
 } else {
-
     $panel = '
         <table class="table table-striped">
          <thead>
@@ -274,5 +261,4 @@ if ($addonkey && isset($addons[$addonkey])) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-
 }

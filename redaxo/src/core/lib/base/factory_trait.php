@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Factory trait
+ * Factory trait.
  *
  * Example child class:
  * <code>
@@ -23,6 +23,7 @@
  * </code>
  *
  * @author gharlan
+ *
  * @package redaxo\core
  */
 trait rex_factory_trait
@@ -33,9 +34,10 @@ trait rex_factory_trait
     private static $factoryClasses = [];
 
     /**
-     * Sets the class for the factory
+     * Sets the class for the factory.
      *
      * @param string $subclass Classname
+     *
      * @throws InvalidArgumentException
      */
     public static function setFactoryClass($subclass)
@@ -51,7 +53,7 @@ trait rex_factory_trait
     }
 
     /**
-     * Returns the class for the factory
+     * Returns the class for the factory.
      *
      * @return string
      */
@@ -62,9 +64,9 @@ trait rex_factory_trait
     }
 
     /**
-     * Returns if the class has a custom factory class
+     * Returns if the class has a custom factory class.
      *
-     * @return boolean
+     * @return bool
      */
     public static function hasFactoryClass()
     {
@@ -73,10 +75,11 @@ trait rex_factory_trait
     }
 
     /**
-     * Calls the factory class with the given method and arguments
+     * Calls the factory class with the given method and arguments.
      *
      * @param string $method    Method name
      * @param array  $arguments Array of arguments
+     *
      * @return mixed Result of the callback
      */
     protected static function callFactoryClass($method, array $arguments)

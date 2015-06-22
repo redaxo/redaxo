@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cronjob Addon
+ * Cronjob Addon.
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
@@ -40,10 +40,10 @@ class rex_cronjob_phpcode extends rex_cronjob
         return [
             [
                 'label' => rex_i18n::msg('cronjob_type_phpcode'),
-                'name'  => 'code',
-                'type'  => 'textarea',
-                'attributes' => ['rows' => 20]
-            ]
+                'name' => 'code',
+                'type' => 'textarea',
+                'attributes' => ['rows' => 20],
+            ],
         ];
     }
 }

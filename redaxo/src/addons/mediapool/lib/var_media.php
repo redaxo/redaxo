@@ -1,7 +1,7 @@
 <?php
 
 /**
- * REX_MEDIA[1]
+ * REX_MEDIA[1].
  *
  * Attribute:
  *   - category  => Kategorie in die beim oeffnen des Medienpools gesprungen werden soll
@@ -68,17 +68,17 @@ class rex_var_media extends rex_var
             }
         }
 
-        $disabled     = ' disabled';
-        $open_func    = '';
-        $add_func     = '';
-        $delete_func  = '';
-        $view_func    = '';
+        $disabled = ' disabled';
+        $open_func = '';
+        $add_func = '';
+        $delete_func = '';
+        $view_func = '';
         if (rex::getUser()->getComplexPerm('media')->hasMediaPerm()) {
-            $disabled     = '';
-            $open_func    = 'openREXMedia(' . $id . ',\'' . $open_params . '\');';
-            $add_func     = 'addREXMedia(' . $id . ',\'' . $open_params . '\');';
-            $delete_func  = 'deleteREXMedia(' . $id . ');';
-            $view_func    = 'viewREXMedia(' . $id . ',\'' . $open_params . '\');';
+            $disabled = '';
+            $open_func = 'openREXMedia(' . $id . ',\'' . $open_params . '\');';
+            $add_func = 'addREXMedia(' . $id . ',\'' . $open_params . '\');';
+            $delete_func = 'deleteREXMedia(' . $id . ');';
+            $view_func = 'viewREXMedia(' . $id . ',\'' . $open_params . '\');';
         }
 
         $e = [];

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * MetaForm Addon
+ * MetaForm Addon.
  *
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
@@ -8,7 +9,7 @@
  */
 
 /**
- * Fügt einen neuen Feldtyp ein
+ * Fügt einen neuen Feldtyp ein.
  *
  * Gibt beim Erfolg die Id des Feldes zurück, bei Fehler die Fehlermeldung
  */
@@ -43,7 +44,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
 }
 
 /**
- * Löscht einen Feldtyp
+ * Löscht einen Feldtyp.
  *
  * Gibt beim Erfolg true zurück, sonst eine Fehlermeldung
  */
@@ -62,7 +63,7 @@ function rex_metainfo_delete_field_type($field_type_id)
 }
 
 /**
- * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an
+ * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an.
  */
 function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
 {
@@ -168,7 +169,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
 }
 
 /**
- * Extrahiert den Prefix aus dem Namen eine Spalte
+ * Extrahiert den Prefix aus dem Namen eine Spalte.
  */
 function rex_metainfo_meta_prefix($name)
 {
@@ -184,7 +185,7 @@ function rex_metainfo_meta_prefix($name)
 }
 
 /**
- * Gibt die mit dem Prefix verbundenen Tabellennamen zurück
+ * Gibt die mit dem Prefix verbundenen Tabellennamen zurück.
  */
 function rex_metainfo_meta_table($prefix)
 {
@@ -198,15 +199,15 @@ function rex_metainfo_meta_table($prefix)
 }
 
 /**
- * Bindet ggf extensions ein
+ * Bindet ggf extensions ein.
  *
  * @param rex_extension_point $ep
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
-    $page       = $ep->getSubject();
-    $mainpage   = rex_be_controller::getCurrentPagePart(1);
-    $mypage     = 'metainfo';
+    $page = $ep->getSubject();
+    $mainpage = rex_be_controller::getCurrentPagePart(1);
+    $mypage = 'metainfo';
 
     // additional javascripts
     if ($mainpage == 'metainfo' || $page == 'content/metainfo' || $page == 'structure') {

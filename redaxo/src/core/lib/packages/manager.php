@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manager class for packages
+ * Manager class for packages.
  *
  * @package redaxo\core
  */
@@ -21,7 +21,7 @@ abstract class rex_package_manager
     private $i18nPrefix;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param rex_package $package    Package
      * @param string      $i18nPrefix Prefix for i18n
@@ -33,9 +33,10 @@ abstract class rex_package_manager
     }
 
     /**
-     * Creates the manager for the package
+     * Creates the manager for the package.
      *
      * @param rex_package $package Package
+     *
      * @return static
      */
     public static function factory(rex_package $package)
@@ -49,7 +50,7 @@ abstract class rex_package_manager
     }
 
     /**
-     * Returns the message
+     * Returns the message.
      *
      * @return string
      */
@@ -59,18 +60,19 @@ abstract class rex_package_manager
     }
 
     /**
-     * Installs a package
+     * Installs a package.
      *
-     * @param boolean $installDump When TRUE, the sql dump will be importet
+     * @param bool $installDump When TRUE, the sql dump will be importet
      *
      * @throws rex_functional_exception
-     * @return boolean TRUE on success, FALSE on error
+     *
+     * @return bool TRUE on success, FALSE on error
      */
     public function install($installDump = true)
     {
         try {
             // check package directory perms
-            $install_dir  = $this->package->getPath();
+            $install_dir = $this->package->getPath();
             if (!rex_dir::isWritable($install_dir)) {
                 throw new rex_functional_exception($this->i18n('dir_not_writable', $install_dir));
             }
@@ -149,7 +151,6 @@ abstract class rex_package_manager
             $this->message = $this->i18n('installed', $this->package->getName());
 
             return true;
-
         } catch (rex_functional_exception $e) {
             $this->message = $e->getMessage();
         } catch (rex_sql_exception $e) {
@@ -163,12 +164,13 @@ abstract class rex_package_manager
     }
 
     /**
-     * Uninstalls a package
+     * Uninstalls a package.
      *
-     * @param boolean $installDump When TRUE, the sql dump will be importet
+     * @param bool $installDump When TRUE, the sql dump will be importet
      *
      * @throws rex_functional_exception
-     * @return boolean TRUE on success, FALSE on error
+     *
+     * @return bool TRUE on success, FALSE on error
      */
     public function uninstall($installDump = true)
     {
@@ -197,7 +199,7 @@ abstract class rex_package_manager
             }
 
             // import uninstall.sql
-            $uninstallSql  = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
+            $uninstallSql = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
             if ($installDump === true && is_readable($uninstallSql)) {
                 rex_sql_util::importDump($uninstallSql);
             }
@@ -214,7 +216,6 @@ abstract class rex_package_manager
             $this->message = $this->i18n('uninstalled', $this->package->getName());
 
             return true;
-
         } catch (rex_functional_exception $e) {
             $this->message = $e->getMessage();
         } catch (rex_sql_exception $e) {
@@ -232,9 +233,9 @@ abstract class rex_package_manager
     }
 
     /**
-     * Activates a package
+     * Activates a package.
      *
-     * @return boolean TRUE on success, FALSE on error
+     * @return bool TRUE on success, FALSE on error
      */
     public function activate()
     {
@@ -271,9 +272,9 @@ abstract class rex_package_manager
     }
 
     /**
-     * Deactivates a package
+     * Deactivates a package.
      *
-     * @return boolean TRUE on success, FALSE on error
+     * @return bool TRUE on success, FALSE on error
      */
     public function deactivate()
     {
@@ -302,9 +303,9 @@ abstract class rex_package_manager
     }
 
     /**
-     * Deletes a package
+     * Deletes a package.
      *
-     * @return boolean TRUE on success, FALSE on error
+     * @return bool TRUE on success, FALSE on error
      */
     public function delete()
     {
@@ -318,11 +319,11 @@ abstract class rex_package_manager
     }
 
     /**
-     * Deletes a package
+     * Deletes a package.
      *
-     * @param boolean $ignoreState
+     * @param bool $ignoreState
      *
-     * @return boolean TRUE on success, FALSE on error
+     * @return bool TRUE on success, FALSE on error
      */
     protected function _delete($ignoreState = false)
     {
@@ -349,6 +350,7 @@ abstract class rex_package_manager
     /**
      * @param string $addonName
      * @param string $pluginName
+     *
      * @return string
      */
     abstract protected function wrongPackageId($addonName, $pluginName = null);
@@ -356,7 +358,7 @@ abstract class rex_package_manager
     /**
      * Checks whether the requirements are met.
      *
-     * @return boolean
+     * @return bool
      */
     public function checkRequirements()
     {
@@ -405,7 +407,8 @@ abstract class rex_package_manager
      * Checks whether the redaxo requirement is met.
      *
      * @param string $redaxoVersion REDAXO version
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkRedaxoRequirement($redaxoVersion)
     {
@@ -421,7 +424,8 @@ abstract class rex_package_manager
      * Checks whether the package requirement is met.
      *
      * @param string $packageId Package ID
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkPackageRequirement($packageId)
     {
@@ -446,9 +450,9 @@ abstract class rex_package_manager
     }
 
     /**
-     * Checks whether the package is in conflict with other packages
+     * Checks whether the package is in conflict with other packages.
      *
-     * @return boolean
+     * @return bool
      */
     public function checkConflicts()
     {
@@ -471,10 +475,11 @@ abstract class rex_package_manager
     }
 
     /**
-     * Checks whether the package is in conflict with another package
+     * Checks whether the package is in conflict with another package.
      *
      * @param string $packageId Package ID
-     * @return boolean
+     *
+     * @return bool
      */
     public function checkPackageConflict($packageId)
     {
@@ -495,9 +500,9 @@ abstract class rex_package_manager
     }
 
     /**
-     * Checks if another Package which is activated, depends on the given package
+     * Checks if another Package which is activated, depends on the given package.
      *
-     * @return boolean
+     * @return bool
      */
     public function checkDependencies()
     {
@@ -523,7 +528,7 @@ abstract class rex_package_manager
     }
 
     /**
-     * Translates the given key
+     * Translates the given key.
      *
      * @param string $key Key
      *
@@ -542,7 +547,7 @@ abstract class rex_package_manager
     }
 
     /**
-     * Generates the package order
+     * Generates the package order.
      */
     protected static function generatePackageOrder()
     {
@@ -595,7 +600,7 @@ abstract class rex_package_manager
     }
 
     /**
-     * Saves the package config
+     * Saves the package config.
      */
     protected static function saveConfig()
     {
@@ -612,7 +617,7 @@ abstract class rex_package_manager
     }
 
     /**
-     * Synchronizes the packages with the file system
+     * Synchronizes the packages with the file system.
      */
     public static function synchronizeWithFileSystem()
     {
@@ -661,8 +666,10 @@ abstract class rex_package_manager
      *
      * @param string $version     Version
      * @param string $constraints Constraint list, separated by comma
+     *
      * @throws rex_exception
-     * @return boolean
+     *
+     * @return bool
      */
     private static function matchVersionConstraints($version, $constraints)
     {
@@ -712,9 +719,10 @@ abstract class rex_package_manager
     }
 
     /**
-     * Returns the subfolders of the given folder
+     * Returns the subfolders of the given folder.
      *
      * @param string $folder Folder
+     *
      * @return string[]
      */
     private static function readPackageFolder($folder)

@@ -1,6 +1,6 @@
 <?php
+
 /**
- *
  * @package redaxo5
  */
 
@@ -10,7 +10,7 @@ $user = rex::getUser();
 $user_id = $user->getId();
 
 // Allgemeine Infos
-$userpsw       = rex_request('userpsw', 'string');
+$userpsw = rex_request('userpsw', 'string');
 $userpsw_new_1 = rex_request('userpsw_new_1', 'string');
 $userpsw_new_2 = rex_request('userpsw_new_2', 'string');
 
@@ -24,7 +24,7 @@ echo rex_view::title(rex_i18n::msg('profile_title'), '');
 // --------------------------------- BE LANG
 
 // backend sprache
-$sel_be_sprache = new rex_select;
+$sel_be_sprache = new rex_select();
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setStyle('class="form-control"');
 $sel_be_sprache->setName('userperm_be_sprache');
@@ -40,7 +40,6 @@ foreach (rex_i18n::getLocales() as $locale) {
 rex_i18n::setLocale($saveLocale, false);
 $userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
 $sel_be_sprache->setSelected($userperm_be_sprache);
-
 
 // --------------------------------- FUNCTIONS
 
@@ -61,7 +60,6 @@ if (rex_post('upd_profile_button', 'bool')) {
         $error = $e->getMessage();
     }
 }
-
 
 if (rex_post('upd_psw_button', 'bool')) {
     // the server side encryption of pw is only required
@@ -87,9 +85,7 @@ if (rex_post('upd_psw_button', 'bool')) {
     } else {
         $error = rex_i18n::msg('user_psw_error');
     }
-
 }
-
 
 // ---------------------------------- ERR MSG
 
@@ -107,7 +103,6 @@ $grid = [];
 
 $content = '';
 $content .= '<fieldset>';
-
 
 $formElements = [];
 
@@ -149,7 +144,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('profile_myprofile'), false);
 $fragment->setVar('body', $content, false);
@@ -162,8 +156,6 @@ $content = '
     </form>';
 
 echo $content;
-
-
 
 $content = '';
 $content .= '
@@ -218,8 +210,6 @@ $fragment->setVar('title', rex_i18n::msg('profile_changepsw'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
-
-
 
 $content = '
     <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">

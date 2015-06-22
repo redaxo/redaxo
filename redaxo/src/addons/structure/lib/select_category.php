@@ -124,9 +124,9 @@ class rex_category_select extends rex_select
             $value = $option[1];
             $id = $option[2];
             if ($id == 0 || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
-                    $ausgabe .= $this->outOption($name, $value, $level);
+                $ausgabe .= $this->outOption($name, $value, $level);
             } elseif (($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
-                $level--;
+                --$level;
             }
 
             $subgroup = $this->getGroup($id, true);
@@ -136,5 +136,4 @@ class rex_category_select extends rex_select
         }
         return $ausgabe;
     }
-
 }
