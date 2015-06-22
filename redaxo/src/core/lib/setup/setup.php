@@ -28,7 +28,8 @@ class rex_setup
         rex_dir::copy(rex_path::core('assets'), rex_path::assets());
 
         // copy skins files/assets
-        rex_dir::copy(rex_path::plugin($skinAddon, $skinPlugin, 'assets'), rex_path::pluginAssets($skinAddon, $skinPlugin, ''));
+        rex_dir::copy(rex_path::addon($skinAddon, 'assets'), rex_path::addonAssets($skinAddon));
+        rex_dir::copy(rex_path::plugin($skinAddon, $skinPlugin, 'assets'), rex_path::pluginAssets($skinAddon, $skinPlugin));
     }
 
     /**
