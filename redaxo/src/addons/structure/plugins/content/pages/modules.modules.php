@@ -376,12 +376,12 @@ if ($OUT) {
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('module_functions'),  ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('module_functions'), ['function' => 'edit', 'module_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'class', 'rex-edit');
 
     $list->addColumn(rex_i18n::msg('delete_module'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
-    $list->setColumnLayout(rex_i18n::msg('delete_module'),  ['', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'class', 'rex-delete');

@@ -19,8 +19,10 @@ cache:
 before_script:
     - mysql -e 'create database redaxo_5_0;'
     - php redaxo/src/addons/tests/bin/setup.php
-    - curl http://get.sensiolabs.org/php-cs-fixer.phar -O
     - mkdir -p "$HOME/.php-cs-fixer"
+    - "echo '{\"require\": {\"fabpot/php-cs-fixer\": \"~2.0@dev\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
+    - composer update --working-dir "$HOME/.php-cs-fixer"
+
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
-    - php php-cs-fixer.phar --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
+    - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose

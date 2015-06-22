@@ -71,7 +71,7 @@ if ($func == '' && $type_id > 0) {
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
-    $list->setColumnLayout('priority',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('priority', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
 
     // icon column
     $thIcon = '<a href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';

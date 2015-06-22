@@ -49,10 +49,10 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $header = "HTTP/1.1 200 OK\r\nKey1: Value1\r\nkey2: Value2";
         $response = $this->getResponse($header . "\r\n\r\nbody\r\nbody");
 
-        $this->assertSame($header,   $response->getHeader(),                  'getHeader() without params returns full header');
-        $this->assertSame('Value1',  $response->getHeader('Key1'),            'getHeader($key) returns the value of the key');
-        $this->assertSame('Value2',  $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
-        $this->assertSame(null,      $response->getHeader('Key3'),            'getHeader($key) returns null for non-existing keys');
+        $this->assertSame($header, $response->getHeader(), 'getHeader() without params returns full header');
+        $this->assertSame('Value1', $response->getHeader('Key1'), 'getHeader($key) returns the value of the key');
+        $this->assertSame('Value2', $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
+        $this->assertSame(null, $response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
         $this->assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
     }
 

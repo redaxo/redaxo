@@ -100,7 +100,7 @@ abstract class rex_structure_element
             self::$classVars = [];
 
             $startId = rex::getProperty('start_article_id');
-            $file = rex_path::addonCache('structure',  $startId . '.1.article');
+            $file = rex_path::addonCache('structure', $startId . '.1.article');
             if (!rex::isBackend() && file_exists($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
                 $genVars = rex_file::getCache($file);

@@ -23,7 +23,7 @@ class rex_sql_debug extends rex_sql
             parent::setQuery($qry, $params);
         } catch (rex_exception $e) {
             $trace = debug_backtrace();
-            for ($i = 0; $trace && $i < sizeof($trace); ++$i) {
+            for ($i = 0; $trace && $i < count($trace); ++$i) {
                 if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
                     $file = $trace[$i]['file'];
                     $line = $trace[$i]['line'];
@@ -38,9 +38,9 @@ class rex_sql_debug extends rex_sql
         return $this;
     }
 
-/**
- * {@inheritdocs}.
- */
+    /**
+     * {@inheritdocs}.
+     */
     // TODO queries using setQuery() are not logged yet!
     public function execute(array $params = [])
     {

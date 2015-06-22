@@ -188,7 +188,6 @@ echo $content;
 
 //echo rex_view::content('block', $content, rex_i18n::msg('im_export_load_from_server'), ['flush' => 1]);
 
-
 echo '<h2>' . rex_i18n::msg('im_export_files') . '</h2>';
 
 $content = '<fieldset>

@@ -14,10 +14,10 @@
 
 $content = '';
 
-$article_id = rex_request('article_id',  'int');
-$clang = rex_request('clang',       'int');
-$slice_id = rex_request('slice_id',    'int', '');
-$function = rex_request('function',    'string');
+$article_id = rex_request('article_id', 'int');
+$clang = rex_request('clang', 'int');
+$slice_id = rex_request('slice_id', 'int', '');
+$function = rex_request('function', 'string');
 
 $article_id = rex_article::get($article_id) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
@@ -463,7 +463,6 @@ if ($article->getRows() == 1) {
         $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();
 
         // ------------------------------------------ END: AUSGABE
-
 
         // ----- EXTENSION POINT
         $contentSidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_SIDEBAR', '', [

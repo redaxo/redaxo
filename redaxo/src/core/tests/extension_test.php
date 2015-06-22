@@ -91,12 +91,12 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
             };
         };
 
-        rex_extension::register($EP, $callback('late1'),   rex_extension::LATE);
+        rex_extension::register($EP, $callback('late1'), rex_extension::LATE);
         rex_extension::register($EP, $callback('normal1'));
-        rex_extension::register($EP, $callback('early1'),  rex_extension::EARLY);
-        rex_extension::register($EP, $callback('late2'),   rex_extension::LATE);
+        rex_extension::register($EP, $callback('early1'), rex_extension::EARLY);
+        rex_extension::register($EP, $callback('late2'), rex_extension::LATE);
         rex_extension::register($EP, $callback('normal2'), rex_extension::NORMAL);
-        rex_extension::register($EP, $callback('early2'),  rex_extension::EARLY);
+        rex_extension::register($EP, $callback('early2'), rex_extension::EARLY);
 
         $expected = 'early1 early2 normal1 normal2 late1 late2 ';
         $actual = rex_extension::registerPoint(new rex_extension_point($EP, ''));

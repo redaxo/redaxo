@@ -10,7 +10,6 @@
 $KATout = ''; // Variable definiert und vorbelegt wenn nicht existent
 $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
-
 $navigation = [];
 
 $ooCat = rex_category::get($category_id, $clang);

@@ -2,7 +2,6 @@
 
 // *************************************** SYNC FUNCTIONS
 
-
 // ----- SYNC DB WITH FILES DIR
 if ($PERMALL) {
     // ---- Dateien aus dem Ordner lesen

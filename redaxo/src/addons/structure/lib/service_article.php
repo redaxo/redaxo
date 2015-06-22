@@ -304,7 +304,7 @@ class rex_article_service
                 $message = rex_i18n::msg('category_deleted');
                 $SART = rex_sql::factory();
                 $SART->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=?', [$id, rex_clang::getStartId()]);
-                for ($i = 0; $i < $SART->getRows(); ++$i ) {
+                for ($i = 0; $i < $SART->getRows(); ++$i) {
                     self::_deleteArticle($id);
                     $SART->next();
                 }

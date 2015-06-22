@@ -445,26 +445,26 @@ if ($OUT) {
     $list->setColumnParams($thIcon, ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
-    $list->setColumnLayout('id',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
-    $list->setColumnLayout('name',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-    $list->setColumnLayout('active',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('active', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnFormat('active', 'custom', function ($params) {
         $list = $params['list'];
         return $list->getValue('active') == 1 ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
     });
 
     $list->addColumn(rex_i18n::msg('header_template_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('header_template_functions'),  ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('header_template_functions'), ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('header_template_functions'), ['function' => 'edit', 'template_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('header_template_functions'), 'class', 'rex-edit');
 
     $list->addColumn(rex_i18n::msg('template_delete'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
-    $list->setColumnLayout(rex_i18n::msg('template_delete'),  ['', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('template_delete'), ['', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('template_delete'), ['function' => 'delete', 'template_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
     $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'class', 'rex-delete');

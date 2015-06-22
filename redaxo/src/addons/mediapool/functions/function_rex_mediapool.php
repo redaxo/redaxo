@@ -495,7 +495,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $buttons = $fragment->parse('core/form/submit.php');
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title',  $form_title, false);
+    $fragment->setVar('title', $form_title, false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);
     $content = $fragment->parse('core/page/section.php');

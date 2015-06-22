@@ -54,19 +54,19 @@ if ($func == '') {
     $list->removeColumn('id');
 
     $list->setColumnLabel('id', rex_i18n::msg('minfo_field_label_id'));
-    $list->setColumnLayout('id',  ['<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>']);
+    $list->setColumnLayout('id', ['<th class="rex-id">###VALUE###</th>', '<td class="rex-id">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('minfo_field_label_name'));
-    $list->setColumnLayout('name',  ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams('name', ['func' => 'edit', 'field_id' => '###id###']);
 
     $list->addColumn(rex_i18n::msg('minfo_field_label_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('minfo_field_label_functions'),  ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('minfo_field_label_functions'), ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('minfo_field_label_functions'), ['func' => 'edit', 'field_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('minfo_field_label_functions'), 'class', 'rex-edit');
 
     $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
-    $list->setColumnLayout('delete',  ['', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('delete', ['', '<td>###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'field_id' => '###id###']);
     $list->addLinkAttribute('delete', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->addLinkAttribute('delete', 'class', 'rex-delete');

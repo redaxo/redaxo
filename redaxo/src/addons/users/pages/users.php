@@ -103,7 +103,6 @@ $userperm_startpage = rex_request('userperm_startpage', 'string');
 
 // --------------------------------- Title
 
-
 // --------------------------------- FUNCTIONS
 $FUNC_UPDATE = '';
 $FUNC_APPLY = '';

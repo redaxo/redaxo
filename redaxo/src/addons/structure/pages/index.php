@@ -6,15 +6,15 @@
 
 // basic request vars
 $category_id = rex_request('category_id', 'int');
-$article_id = rex_request('article_id',  'int');
-$clang = rex_request('clang',       'int');
-$ctype = rex_request('ctype',       'int');
+$article_id = rex_request('article_id', 'int');
+$clang = rex_request('clang', 'int');
+$ctype = rex_request('ctype', 'int');
 
 // additional request vars
-$artstart = rex_request('artstart',    'int');
-$catstart = rex_request('catstart',    'int');
-$edit_id = rex_request('edit_id',     'int');
-$function = rex_request('function',    'string');
+$artstart = rex_request('artstart', 'int');
+$catstart = rex_request('catstart', 'int');
+$edit_id = rex_request('edit_id', 'int');
+$function = rex_request('function', 'string');
 
 $info = '';
 $warning = '';

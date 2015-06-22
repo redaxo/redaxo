@@ -7,10 +7,10 @@ class rex_api_content_move_slice extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id',  'int');
-        $clang = rex_request('clang',       'int');
-        $slice_id = rex_request('slice_id',    'int');
-        $direction = rex_request('direction',   'string');
+        $article_id = rex_request('article_id', 'int');
+        $clang = rex_request('clang', 'int');
+        $slice_id = rex_request('slice_id', 'int');
+        $direction = rex_request('direction', 'string');
 
         $ooArt = rex_article::get($article_id, $clang);
         if (!$ooArt instanceof rex_article) {

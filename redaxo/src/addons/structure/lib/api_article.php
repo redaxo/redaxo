@@ -33,8 +33,8 @@ class rex_api_article_edit extends rex_api_function
     public function execute()
     {
         $category_id = rex_request('category_id', 'int');
-        $article_id = rex_request('article_id',  'int');
-        $clang = rex_request('clang',       'int');
+        $article_id = rex_request('article_id', 'int');
+        $clang = rex_request('clang', 'int');
 
         // check permissions
         if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
@@ -60,7 +60,7 @@ class rex_api_article_delete extends rex_api_function
     public function execute()
     {
         $category_id = rex_request('category_id', 'int');
-        $article_id = rex_request('article_id',  'int');
+        $article_id = rex_request('article_id', 'int');
 
         // check permissions
         if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
@@ -80,8 +80,8 @@ class rex_api_article_status extends rex_api_function
     public function execute()
     {
         $catId = rex_request('category-id', 'int');
-        $article_id = rex_request('article_id',  'int');
-        $clang = rex_request('clang',       'int');
+        $article_id = rex_request('article_id', 'int');
+        $clang = rex_request('clang', 'int');
 
         /**
          * @var rex_user
@@ -107,7 +107,7 @@ class rex_api_article2category extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id',  'int');
+        $article_id = rex_request('article_id', 'int');
 
         $ooArticle = rex_article::get($article_id);
         $category_id = $ooArticle->getCategoryId();
@@ -139,7 +139,7 @@ class rex_api_category2article extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id',  'int');
+        $article_id = rex_request('article_id', 'int');
 
         $ooArticle = rex_article::get($article_id);
         $category_id = $ooArticle->getCategoryId();
@@ -171,7 +171,7 @@ class rex_api_article2startarticle extends rex_api_function
 {
     public function execute()
     {
-        $article_id = rex_request('article_id',  'int');
+        $article_id = rex_request('article_id', 'int');
 
         $ooArticle = rex_article::get($article_id);
         $category_id = $ooArticle->getCategoryId();
