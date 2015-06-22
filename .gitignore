@@ -4,14 +4,7 @@
 /redaxo/data/
 
 # Composer stuff (tests, duplicate autoloader...)
-/redaxo/src/core/vendor/ircmaxell/password-compat/test/
-/redaxo/src/core/vendor/ircmaxell/password-compat/.travis.yml
-/redaxo/src/core/vendor/ircmaxell/password-compat/phpunit.xml.dist
-/redaxo/src/core/vendor/psr/log/Psr/Log/Test/
-/redaxo/src/core/vendor/symfony/yaml/Symfony/Component/Yaml/Tests/
-/redaxo/src/core/vendor/symfony/yaml/Symfony/Component/Yaml/phpunit.xml.dist
+/redaxo/src/core/vendor/symfony/yaml/Tests/
+/redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
 /redaxo/src/addons/textile/vendor/autoload.php
 /redaxo/src/addons/textile/vendor/composer/
-/redaxo/src/addons/textile/vendor/netcarver/textile/.gitignore
-/redaxo/src/addons/textile/vendor/netcarver/textile/.travis.yml
-/redaxo/src/addons/textile/vendor/netcarver/textile/phpunit.xml

@@ -30,7 +30,7 @@ class Yaml
      *
      *  Usage:
      *  <code>
-     *   $array = Yaml::parse('config.yml');
+     *   $array = Yaml::parse(file_get_contents('config.yml'));
      *   print_r($array);
      *  </code>
      *
@@ -38,9 +38,12 @@ class Yaml
      * you must validate the input before calling this method. Passing a file
      * as an input is a deprecated feature and will be removed in 3.0.
      *
-     * @param string  $input                  Path to a YAML file or a string containing YAML
-     * @param Boolean $exceptionOnInvalidType True if an exception must be thrown on invalid types false otherwise
-     * @param Boolean $objectSupport          True if object support is enabled, false otherwise
+     * Note: the ability to pass file names to the Yaml::parse method is deprecated since version 2.2 and will be removed in 3.0. Pass the YAML contents of the file instead.
+     *
+     * @param string $input                  Path to a YAML file or a string containing YAML
+     * @param bool   $exceptionOnInvalidType True if an exception must be thrown on invalid types false otherwise
+     * @param bool   $objectSupport          True if object support is enabled, false otherwise
+     * @param bool   $objectForMap           True if maps should return a stdClass instead of array()
      *
      * @return array The YAML converted to a PHP array
      *
@@ -48,11 +51,13 @@ class Yaml
      *
      * @api
      */
-    public static function parse($input, $exceptionOnInvalidType = false, $objectSupport = false)
+    public static function parse($input, $exceptionOnInvalidType = false, $objectSupport = false, $objectForMap = false)
     {
         // if input is a file, process it
         $file = '';
         if (strpos($input, "\n") === false && is_file($input)) {
+            @trigger_error('The ability to pass file names to the '.__METHOD__.' method is deprecated since version 2.2 and will be removed in 3.0. Pass the YAML contents of the file instead.', E_USER_DEPRECATED);
+
             if (false === is_readable($input)) {
                 throw new ParseException(sprintf('Unable to parse "%s" as the file is not readable.', $input));
             }
@@ -64,7 +69,7 @@ class Yaml
         $yaml = new Parser();
 
         try {
-            return $yaml->parse($input, $exceptionOnInvalidType, $objectSupport);
+            return $yaml->parse($input, $exceptionOnInvalidType, $objectSupport, $objectForMap);
         } catch (ParseException $e) {
             if ($file) {
                 $e->setParsedFile($file);
@@ -80,11 +85,11 @@ class Yaml
      * The dump method, when supplied with an array, will do its best
      * to convert the array into friendly YAML.
      *
-     * @param array   $array                  PHP array
-     * @param integer $inline                 The level where you switch to inline YAML
-     * @param integer $indent                 The amount of spaces to use for indentation of nested nodes.
-     * @param Boolean $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param Boolean $objectSupport          true if object support is enabled, false otherwise
+     * @param array $array                  PHP array
+     * @param int   $inline                 The level where you switch to inline YAML
+     * @param int   $indent                 The amount of spaces to use for indentation of nested nodes.
+     * @param bool  $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool  $objectSupport          true if object support is enabled, false otherwise
      *
      * @return string A YAML string representing the original PHP array
      *

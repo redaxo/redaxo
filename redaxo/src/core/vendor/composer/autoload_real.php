@@ -23,9 +23,6 @@ class ComposerAutoloaderInitRedaxoCore
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInitRedaxoCore', 'loadClassLoader'));
 
-        $vendorDir = dirname(__DIR__);
-        $baseDir = dirname($vendorDir);
-
         $map = require __DIR__ . '/autoload_namespaces.php';
         foreach ($map as $namespace => $path) {
             $loader->set($namespace, $path);
@@ -45,14 +42,14 @@ class ComposerAutoloaderInitRedaxoCore
 
         $includeFiles = require __DIR__ . '/autoload_files.php';
         foreach ($includeFiles as $file) {
-            composerRequire3c1120fd0dceee40bfddbe6c9d05f32d($file);
+            composerRequireRedaxoCore($file);
         }
 
         return $loader;
     }
 }
 
-function composerRequire3c1120fd0dceee40bfddbe6c9d05f32d($file)
+function composerRequireRedaxoCore($file)
 {
     require $file;
 }
