@@ -188,16 +188,19 @@ if (!rex_request::isPJAXContainer('#rex-page')) {
 }
 
 $fragment = new rex_fragment();
-// $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
-echo $fragment->parse('core/header.php');
-
-$fragment = new rex_fragment();
 $fragment->setVar('items', $meta_items, false);
 $meta_navigation = $fragment->parse('core/navigations/meta.php');
 
+
+$fragment = new rex_fragment();
+// $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
+$fragment->setVar('meta_navigation', $meta_navigation, false);
+echo $fragment->parse('core/header.php');
+
+echo '<div class="rex-page-container">';
+
 $fragment = new rex_fragment();
 $fragment->setVar('navigation', $navigation, false);
-$fragment->setVar('meta_navigation', $meta_navigation, false);
 echo $fragment->parse('core/navigation.php');
 
 $pjax = $curPage->allowsPjax() ? ' data-pjax-container="#rex-js-page-main"' : '';

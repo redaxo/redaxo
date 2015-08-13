@@ -8,7 +8,7 @@ if (!$curPage->hasLayout()) {
 
 ?>
 
-</section></div><?php
+</section></div></div><?php
 
 $sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
 if ($sidebar != '') {
