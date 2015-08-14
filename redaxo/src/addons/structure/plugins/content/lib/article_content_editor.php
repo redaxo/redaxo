@@ -85,12 +85,31 @@ class rex_article_content_editor extends rex_article_content
             }
 
             $fragment = new rex_fragment();
-            $fragment->setVar('title', $this->getSliceMenu($artDataSql), false);
+            $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
+            $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
             $slice_content .= '<li class="rex-slice rex-slice-output">' . $fragment->parse('core/page/section.php') . '</li>';
         }
 
         return $slice_content;
+    }
+
+    /**
+     * Returns the slice heading.
+     *
+     * @param rex_sql $artDataSql rex_sql istance containing all the slice and module information
+     *
+     * @return string
+     */
+    private function getSliceHeading(rex_sql $artDataSql)
+    {
+        $sliceId = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.id');
+        $sliceCtype = $artDataSql->getValue(rex::getTablePrefix() . 'article_slice.ctype_id');
+
+        $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
+        $moduleName = rex_i18n::translate($artDataSql->getValue(rex::getTablePrefix() . 'module.name'));
+
+        return $moduleName;
     }
 
     /**
@@ -201,9 +220,9 @@ class rex_article_content_editor extends rex_article_content
             $header_right .= $fragment->parse('slice_menu_move.php');
         }
 
-        $header_right = $header_right != '' ? '<div class="col-md-4 text-right">' . $header_right . '</div>' : '';
+        //$header_right = $header_right != '' ? '<div class="col-md-4 text-right">' . $header_right . '</div>' : '';
 
-        return '<div class="row"><div class="col-md-8"><div class="panel-title">' . $moduleName . '</div></div>' . $header_right . '</div>';
+        return $header_right;
     }
 
     /**
