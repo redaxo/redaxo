@@ -89,7 +89,14 @@ class rex_scss_compiler
         $scss_compiler->setFormatter($this->formatter);
 
         // get .scss's content, put it into $string_sass
-        $string_sass = file_get_contents($this->scss_file);
+        $string_sass = '';
+        if (is_array($this->scss_file)) {
+            foreach ($this->scss_file as $scss_file) {
+                $string_sass .= file_get_contents($scss_file);
+            }
+        } else {
+            $string_sass = file_get_contents($this->scss_file);            
+        }
 
         // try/catch block to prevent script stopping when scss compiler throws an error
         try {
