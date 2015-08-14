@@ -477,14 +477,25 @@ if ($article->getRows() == 1) {
             'slice_revision' => &$slice_revision,
         ]));
 
-        if ($contentSidebar == '') {
-            echo '<div class="rex-structure-content-main">' . $contentMain . '</div>';
-        } else {
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', $contentMain, false);
+        $fragment->setVar('sidebar', $contentSidebar, false);
+
+        echo $fragment->parse('core/page/main_content.php');
+        /*
             echo '
-                <div class="row">
-                    <div class="col-md-9"><div class="rex-structure-content-main">' . $contentMain . '</div></div>
-                    <div class="col-md-3"><aside class="rex-structure-content-sidebar">' . $contentSidebar . '</aside></div>
-                </div>';
+            <div class="rex-structure-content">
+                <div class="row">';
+
+        if ($contentSidebar == '') {
+            echo '<div class="col-md-12"><div class="rex-structure-content-main">' . $contentMain . '</div></div>';
+        } else {
+            echo '  <div class="col-md-9"><div class="rex-structure-content-main">' . $contentMain . '</div></div>
+                    <div class="col-md-3"><aside class="rex-structure-content-sidebar">' . $contentSidebar . '</aside></div>';
         }
+        echo '  </div>
+            </div>';
+            */
     }
 }
