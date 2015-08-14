@@ -49,13 +49,13 @@ $toolbar = $fragment->parse('core/form/input_group.php');
 $toolbar = '
 <form action="' . rex_url::currentBackendPage() . '" method="post">
 ' . $arg_fields . '
-<div class="navbar-form">
+<div class="navbar-form rex-navbar-form-flexible">
     <div class="form-group">
         ' . $toolbar . '
     </div>
 </div>
 </form>';
-$toolbar = rex_view::toolbar($toolbar, rex_i18n::msg('be_search_mpool_search'), 'rex-navbar-flexible');
+$toolbar = rex_view::toolbar($toolbar, rex_i18n::msg('be_search_mpool_search'));
 
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
