@@ -9,7 +9,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><?= rex::getServerName() ?></a>
+                    <a class="navbar-brand" href="<?= rex_url::backendController() ?>"><img class="rex-js-svg rex-redaxo-logo" src="<?= rex_url::assets('redaxo-logo.svg') ?>" /></a>
                 </div>
                 <?= $this->meta_navigation ?>
             </div>
