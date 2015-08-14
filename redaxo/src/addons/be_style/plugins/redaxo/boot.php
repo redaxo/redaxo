@@ -18,19 +18,32 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
+    rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep) use ($mypage) {
+        $subject = $ep->getSubject();
+        $file = rex_plugin::get('be_style', $mypage)->getPath('scss/default.scss');
+        array_unshift($subject , $file);
+        //$subject[] = rex_plugin::get('be_style', $mypage)->getPath('scss/master.scss');
+        return $subject;
+    }, rex_extension::EARLY);
+
     //rex::getUser() &&
     if ($this->getProperty('compile')) {
-        $compiler = new rex_scss_compiler();
-        $compiler->setRootDir($this->getPath('scss/'));
-        $compiler->setScssFile($this->getPath('scss/master.scss'));
 
-        // Compile in backend assets dir
-        $compiler->setCssFile($this->getPath('assets/css/styles.css'));
+                
+        rex_extension::register('PACKAGES_INCLUDED', function() {
+            $compiler = new rex_scss_compiler();
+            $compiler->setRootDir($this->getPath('scss/'));
+            $compiler->setScssFile($this->getPath('scss/master.scss'));
 
-        $compiler->compile();
+            // Compile in backend assets dir
+            $compiler->setCssFile($this->getPath('assets/css/styles.css'));
 
-        // Compiled file to copy in frontend assets dir
-        rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
+            $compiler->compile();
+
+            // Compiled file to copy in frontend assets dir
+            rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
+        });
+
     }
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));

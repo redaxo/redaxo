@@ -1,0 +1,94 @@
+
+
+.breadcrumb {
+    border: 1px solid $color-a-light;
+}
+
+.rex-redaxo-logo {
+    path.rex-redaxo-logo-r, 
+    path.rex-redaxo-logo-e, 
+    path.rex-redaxo-logo-d, 
+    path.rex-redaxo-logo-cms {
+        fill: #fff;
+    }
+    path.rex-redaxo-logo-a, 
+    path.rex-redaxo-logo-x, 
+    path.rex-redaxo-logo-o, 
+    path.rex-redaxo-logo-reg {
+        fill: $color-a-dark;
+    }
+}
+
+
+.rex-nav-top {
+    margin-bottom: 0;
+    background-color: $color-b;
+    border-color: $color-b;
+}
+.rex-nav-meta {
+    .navbar-nav {
+        > li {
+            > a {
+                color: #fff;
+            }
+        }
+    }
+    .text-muted {
+        color: $color-a-dark;
+    }
+}
+
+.rex-nav-main {
+    background-color: $color-a-dark;
+    
+    li {
+
+        > a {
+            color: $color-a;
+
+            &:hover {
+                color: $color-b;
+                background-color: $color-a-darker;
+
+            }
+        }
+
+    }
+}
+.rex-nav-main-title {
+    margin-top: floor($line-height-computed * 2);
+    color: $color-a-lighter;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.rex-page-nav {
+    .navbar {
+        background-color: #fff;
+    }
+    .nav-tabs {
+        > li {
+
+            &.active {
+                > a {
+                    background-color: #fff;
+                }                
+            }
+
+            > a {
+                background-color: $color-a-light;
+
+                &:hover {
+                    background-color: #fff;
+                    border-color: #fff #fff $color-a-light;
+                }
+            }
+        }
+    }
+}
+
+.rex-main-frame {
+    margin-left: floor(-$grid-gutter-width / 2);
+    margin-right: floor(-$grid-gutter-width / 2);
+    padding: floor($grid-gutter-width * 2) floor($grid-gutter-width / 2);
+    background-color: $color-a;
+}
