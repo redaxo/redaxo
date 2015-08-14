@@ -432,7 +432,8 @@ class rex_article_content_editor extends rex_article_content
 
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
-        $fragment->setVar('title', $this->getSliceMenu($artDataSql), false);
+        $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
+        $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('footer', $slice_footer, false);
         $slice_content = $fragment->parse('core/page/section.php');
