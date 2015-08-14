@@ -18,6 +18,9 @@
         if (isset($this->heading) && $this->heading != '') {
             $header .= $this->heading;
         }
+        if (isset($this->options) && $this->options != '') {
+            $header .= '<div class="rex-panel-options">' . $this->options . '</div>';
+        }
         echo $header != '' ? '<header class="panel-heading">' . $header . '</header>' : '';
         ?>
 
