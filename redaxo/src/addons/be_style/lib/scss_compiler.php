@@ -95,7 +95,7 @@ class rex_scss_compiler
                 $string_sass .= file_get_contents($scss_file);
             }
         } else {
-            $string_sass = file_get_contents($this->scss_file);            
+            $string_sass = file_get_contents($this->scss_file);
         }
 
         // try/catch block to prevent script stopping when scss compiler throws an error

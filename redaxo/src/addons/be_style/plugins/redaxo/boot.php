@@ -18,7 +18,7 @@ $mypage = 'redaxo';
 
 if (rex::isBackend()) {
 
-    rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep) use ($mypage) {
+    rex_extension::register('BE_STYLE_SCSS_FILES', function (rex_extension_point $ep) use ($mypage) {
         $subject = $ep->getSubject();
         $file = rex_plugin::get('be_style', $mypage)->getPath('scss/default.scss');
         array_unshift($subject , $file);
@@ -29,8 +29,8 @@ if (rex::isBackend()) {
     //rex::getUser() &&
     if ($this->getProperty('compile')) {
 
-                
-        rex_extension::register('PACKAGES_INCLUDED', function() {
+
+        rex_extension::register('PACKAGES_INCLUDED', function () {
             $compiler = new rex_scss_compiler();
             $compiler->setRootDir($this->getPath('scss/'));
             $compiler->setScssFile($this->getPath('scss/master.scss'));

@@ -39,8 +39,8 @@ if (rex::isBackend()) {
     }
 
     if (rex::getUser() && $this->getProperty('compile')) {
-                
-        rex_extension::register('PACKAGES_INCLUDED', function() {
+
+        rex_extension::register('PACKAGES_INCLUDED', function () {
             $compiler = new rex_scss_compiler();
 
             $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', [$this->getPath('scss/master.scss')]));
