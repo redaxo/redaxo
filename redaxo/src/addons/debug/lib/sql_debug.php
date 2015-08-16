@@ -38,9 +38,9 @@ class rex_sql_debug extends rex_sql
         return $this;
     }
 
-/**
- * {@inheritdoc}.
- */
+    /**
+     * {@inheritdoc}.
+     */
     // TODO queries using setQuery() are not logged yet!
     public function execute(array $params = [])
     {
