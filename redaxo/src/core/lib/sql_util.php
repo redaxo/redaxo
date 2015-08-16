@@ -108,18 +108,18 @@ class rex_sql_util
         return false;
     }
 
-    /**
-     * Removes comment lines and splits up large sql files into individual queries.
-     *
-     * Last revision: September 23, 2001 - gandon
-     *
-     * @param array  $ret     the splitted sql commands
-     * @param string $sql     the sql commands
-     * @param int    $release the MySQL release number (because certains php3 versions
-     *                        can't get the value of a constant from within a function)
-     *
-     * @return bool always true
-     */
+/**
+ * Removes comment lines and splits up large sql files into individual queries.
+ *
+ * Last revision: September 23, 2001 - gandon
+ *
+ * @param array  $ret     the splitted sql commands
+ * @param string $sql     the sql commands
+ * @param int    $release the MySQL release number (because certains php3 versions
+ *                        can't get the value of a constant from within a function)
+ *
+ * @return bool always true
+ */
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     public static function splitSqlFile(&$ret, $sql, $release)
     {

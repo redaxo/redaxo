@@ -27,7 +27,7 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPriority()
     {
@@ -133,7 +133,7 @@ class rex_category extends rex_structure_element
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isPermitted()
     {

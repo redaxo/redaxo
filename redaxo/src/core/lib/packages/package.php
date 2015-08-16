@@ -87,7 +87,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -95,7 +95,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setConfig($key, $value = null)
     {
@@ -103,7 +103,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfig($key = null, $default = null)
     {
@@ -111,7 +111,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasConfig($key = null)
     {
@@ -119,7 +119,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function removeConfig($key)
     {
@@ -127,7 +127,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setProperty($key, $value)
     {
@@ -138,7 +138,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getProperty($key, $default = null)
     {
@@ -149,7 +149,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasProperty($key)
     {
@@ -163,7 +163,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function removeProperty($key)
     {
@@ -174,7 +174,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isAvailable()
     {
@@ -182,7 +182,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isInstalled()
     {
@@ -190,7 +190,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isActivated()
     {
@@ -198,7 +198,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAuthor($default = null)
     {
@@ -206,7 +206,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getVersion($format = null)
     {
@@ -218,7 +218,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSupportPage($default = null)
     {
@@ -226,7 +226,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function includeFile($file)
     {

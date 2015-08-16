@@ -10,7 +10,7 @@
 class rex_null_addon extends rex_null_package implements rex_addon_interface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -18,7 +18,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPlugin($plugin)
     {
@@ -26,7 +26,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function pluginExists($plugin)
     {
@@ -34,7 +34,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRegisteredPlugins()
     {
@@ -42,7 +42,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getInstalledPlugins()
     {
@@ -50,7 +50,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAvailablePlugins()
     {
@@ -58,7 +58,7 @@ class rex_null_addon extends rex_null_package implements rex_addon_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSystemPlugins()
     {

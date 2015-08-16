@@ -477,7 +477,6 @@ if ($article->getRows() == 1) {
             'slice_revision' => &$slice_revision,
         ]));
 
-
         $fragment = new rex_fragment();
         $fragment->setVar('content', $contentMain, false);
         $fragment->setVar('sidebar', $contentSidebar, false);

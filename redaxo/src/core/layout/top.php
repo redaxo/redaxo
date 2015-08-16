@@ -191,7 +191,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('items', $meta_items, false);
 $meta_navigation = $fragment->parse('core/navigations/meta.php');
 
-
 $fragment = new rex_fragment();
 // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
 $fragment->setVar('meta_navigation', $meta_navigation, false);

@@ -537,7 +537,7 @@ function rex_mediapool_Syncform($rex_file_category)
  * @param string $filename
  * @param array  $args
  *
- * @return  bool
+ * @return bool
  */
 function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
@@ -564,7 +564,7 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
  *
  * @param array $args widget params
  *
- * @return  array         whitelisted extensions
+ * @return array whitelisted extensions
  */
 function rex_mediapool_getMediaTypeWhitelist($args = [])
 {
@@ -585,7 +585,7 @@ function rex_mediapool_getMediaTypeWhitelist($args = [])
 /**
  * return global mediatype blacklist from master.inc.
  *
- * @return  array  blacklisted mediatype extensions
+ * @return array blacklisted mediatype extensions
  */
 function rex_mediapool_getMediaTypeBlacklist()
 {

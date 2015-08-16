@@ -16,7 +16,7 @@ class rex_plugin_manager extends rex_package_manager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function wrongPackageId($addonName, $pluginName = null)
     {

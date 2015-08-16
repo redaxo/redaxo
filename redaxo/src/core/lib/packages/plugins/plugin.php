@@ -66,7 +66,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAddon()
     {
@@ -74,7 +74,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPackageId()
     {
@@ -82,7 +82,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -90,7 +90,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPath($file = '')
     {
@@ -98,7 +98,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAssetsPath($file = '')
     {
@@ -106,7 +106,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAssetsUrl($file = '')
     {
@@ -114,7 +114,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataPath($file = '')
     {
@@ -122,7 +122,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getCachePath($file = '')
     {
@@ -130,7 +130,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isAvailable()
     {
@@ -138,7 +138,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isSystemPackage()
     {
@@ -146,7 +146,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function i18n($key)
     {

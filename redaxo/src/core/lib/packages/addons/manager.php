@@ -16,7 +16,7 @@ class rex_addon_manager extends rex_package_manager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function install($installDump = true)
     {
@@ -38,7 +38,7 @@ class rex_addon_manager extends rex_package_manager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function uninstall($installDump = true)
     {
@@ -58,7 +58,7 @@ class rex_addon_manager extends rex_package_manager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function activate()
     {
@@ -103,7 +103,7 @@ class rex_addon_manager extends rex_package_manager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function checkDependencies()
     {
@@ -126,7 +126,7 @@ class rex_addon_manager extends rex_package_manager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function wrongPackageId($addonName, $pluginName = null)
     {

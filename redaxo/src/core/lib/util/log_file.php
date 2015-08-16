@@ -141,7 +141,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function key()
     {
@@ -149,7 +149,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function valid()
     {
@@ -157,7 +157,7 @@ class rex_log_file implements Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function rewind()
     {

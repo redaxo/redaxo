@@ -77,7 +77,7 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($value)
     {
@@ -101,7 +101,7 @@ class rex_article extends rex_structure_element
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isPermitted()
     {
