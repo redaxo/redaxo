@@ -21,12 +21,14 @@ if (rex::isBackend()) {
         $subject = $ep->getSubject();
         $file = rex_plugin::get('be_style', $mypage)->getPath('scss/default.scss');
         array_unshift($subject, $file);
-        //$subject[] = rex_plugin::get('be_style', $mypage)->getPath('scss/master.scss');
         return $subject;
     }, rex_extension::EARLY);
 
-    //rex::getUser() &&
-    if ($this->getProperty('compile')) {
+    
+    if (rex::getUser() && $this->getProperty('compile')) {
+        
+        rex_addon::get('be_style')->setProperty('compile', true);
+
         rex_extension::register('PACKAGES_INCLUDED', function () {
             $compiler = new rex_scss_compiler();
             $compiler->setRootDir($this->getPath('scss/'));
