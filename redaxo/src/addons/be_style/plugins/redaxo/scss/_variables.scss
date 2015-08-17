@@ -1,12 +1,21 @@
 
+// Grey
 $color-a-lighter:   #f3f6fb;
 $color-a-light:     #dfe3e9;
 $color-a:           #9ca5b2;
 $color-a-dark:      #324050;
 $color-a-darker:    #283542;
 
+// Blue
 $color-b-lighter:   #dbedf7;
 $color-b:           #4b9ad9;
+
+// Yellow
+$color-c-light:     #fbffd6;
+
+
+$color-online:      #3bb594;
+$color-offline:     #dc6ca3;
 
 
 
@@ -27,7 +36,7 @@ $gray:                   lighten($gray-base, 33.5%) !default; // #555
 $gray-light:             lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
-$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
+$brand-primary:         $color-b;
 $brand-success:         #5cb85c !default;
 $brand-info:            #5bc0de !default;
 $brand-warning:         #f0ad4e !default;
@@ -146,13 +155,13 @@ $table-condensed-cell-padding:  5px !default;
 //** Default background color used for all tables.
 $table-bg:                      transparent !default;
 //** Background color used for `.table-striped`.
-$table-bg-accent:               #f9f9f9 !default;
+$table-bg-accent:               transparent;
 //** Background color used for `.table-hover`.
-$table-bg-hover:                #f5f5f5 !default;
+$table-bg-hover:                $color-c-light;
 $table-bg-active:               $table-bg-hover !default;
 
 //** Border color for table and cell borders.
-$table-border-color:            #ddd !default;
+$table-border-color:            $color-a-light;
 
 
 //== Buttons
@@ -726,11 +735,11 @@ $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         $border-radius-base !default;
 
 //** Border color for elements within panels
-$panel-inner-border:          #ddd !default;
+$panel-inner-border:          $color-a-light;
 $panel-footer-bg:             #f5f5f5 !default;
 
-$panel-default-text:          $gray-dark !default;
-$panel-default-border:        #ddd !default;
+$panel-default-text:          $color-a-dark;
+$panel-default-border:        $color-a-light;
 $panel-default-heading-bg:    $color-a-light;
 
 $panel-primary-text:          #fff !default;
@@ -877,7 +886,7 @@ $blockquote-font-size:        ($font-size-base * 1.25) !default;
 //** Blockquote border color
 $blockquote-border-color:     $gray-lighter !default;
 //** Page header border color
-$page-header-border-color:    $gray-lighter !default;
+$page-header-border-color:    transparent;
 //** Width of horizontal description list titles
 $dl-horizontal-offset:        $component-offset-horizontal !default;
 //** Horizontal line color.

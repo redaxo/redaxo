@@ -92,3 +92,11 @@
     padding: floor($grid-gutter-width * 2) floor($grid-gutter-width / 2);
     background-color: $color-a;
 }
+
+
+.rex-online {
+    color: $color-online;
+}
+.rex-offline {
+    color: $color-offline;
+}

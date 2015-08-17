@@ -1,4 +1,12 @@
 
+
+.nav-tabs > li.pull-right > a {
+    margin-left: 2px;
+    margin-right: 0;
+}
+
+
+
 @media(min-width: $grid-float-breakpoint) {
     html, body, .rex-page {
         height: 100%;
