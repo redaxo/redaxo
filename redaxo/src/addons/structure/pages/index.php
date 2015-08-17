@@ -494,7 +494,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             $add_extra = '';
             if ($sql->getValue('startarticle') == 1) {
                 $add_extra = '<td><span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span></td>
-                              <td><span class="' . $article_class . ' text-muted">' . $article_status . '</span></td>';
+                              <td><span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span></td>';
             } else {
                 if ($KATPERM && rex::getUser()->hasPerm('publishArticle[]')) {
                     $article_status = '<a class="' . $article_class . '" href="' . $context->getUrl(['article_id' => $sql->getValue('id'), 'rex-api-call' => 'article_status', 'artstart' => $artstart]) . '"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</a>';
@@ -532,6 +532,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
 
             $art_status = $artStatusTypes[$sql->getValue('status')][0];
             $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
+            $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
 
             $tmpl_td = '';
             if ($withTemplates) {
@@ -548,7 +549,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                             <td>' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td><span class="text-muted"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</span></td>
                             <td><span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span></td>
-                            <td><span class="' . $art_status_class . ' text-muted">' . $art_status . '</span></td>
+                            <td><span class="' . $art_status_class . ' text-muted"><i class="rex-icon ' . $art_status_icon . '"></i> ' . $art_status . '</span></td>
                         </tr>';
         }
 
