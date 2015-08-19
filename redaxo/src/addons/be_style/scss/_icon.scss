@@ -109,12 +109,21 @@
 .rex-icon-import {
     @extend .fa-upload;
 }
+.rex-icon-import-export {
+    @extend .fa-hdd-o;
+}
+.rex-icon-install {
+    @extend .fa-key;
+}
 .rex-icon-language {
     @extend .fa-flag;
 }
 .rex-icon-loading {
     @extend .fa-pulse;
     @extend .fa-spinner;
+}
+.rex-icon-media {
+    @extend .fa-picture-o;
 }
 .rex-icon-media-category {
     @extend .fa-folder;
@@ -207,6 +216,9 @@
 }
 .collapsed .rex-icon-structure-category-metainfo {
     @extend .fa-plus;
+}
+.rex-icon-system {
+    @extend .fa-cogs;
 }
 .rex-icon-template {
     @extend .fa-newspaper-o;
