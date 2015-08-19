@@ -52,7 +52,6 @@ if (rex::isBackend()) {
 
             // Compiled file to copy in frontend assets dir
             rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
-
         }
     });
 

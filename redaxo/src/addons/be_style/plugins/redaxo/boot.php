@@ -24,9 +24,7 @@ if (rex::isBackend()) {
         return $subject;
     }, rex_extension::EARLY);
 
-    
     if (rex::getUser() && $this->getProperty('compile')) {
-        
         rex_addon::get('be_style')->setProperty('compile', true);
 
         rex_extension::register('PACKAGES_INCLUDED', function () {
