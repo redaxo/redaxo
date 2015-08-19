@@ -19,13 +19,17 @@ if (!$curPage->hasLayout()) {
 $body_attr = [];
 $body_id = str_replace('_', '-', rex_be_controller::getCurrentPage());
 
-if ($curPage->isPopup()) {
-    $body_attr['class'] = ['rex-popup'];
-}
-
 $body_attr['id'] = ['rex-page-' . $body_id];
 $body_attr['onunload'] = ['closeAll();'];
 
+$body_attr['class'] = ['rex-is-logged-out'];
+if (rex::getUser()) {
+    $body_attr['class'] = ['rex-is-logged-in'];
+}
+if ($curPage->isPopup()) {
+    $body_attr['class'][] = 'rex-is-popup';
+
+}
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 
