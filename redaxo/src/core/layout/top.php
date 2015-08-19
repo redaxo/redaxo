@@ -28,7 +28,6 @@ if (rex::getUser()) {
 }
 if ($curPage->isPopup()) {
     $body_attr['class'][] = 'rex-is-popup';
-
 }
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
