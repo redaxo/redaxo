@@ -229,7 +229,10 @@
 }
 .rex-page-nav {
     margin-bottom: $line-height-computed;
-
+    
+    .navbar {
+        min-height: 0;
+    }
     .navbar-default {
         margin-bottom: 0;
         background-color: transparent;
