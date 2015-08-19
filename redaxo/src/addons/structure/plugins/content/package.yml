@@ -21,6 +21,7 @@ pages:
         prio: 30
         perm: admin
         pjax: true
+        icon: rex-icon rex-icon-template
     modules:
         title: translate:modules
         main: true
@@ -28,6 +29,7 @@ pages:
         prio: 40
         perm: admin
         pjax: true
+        icon: rex-icon rex-icon-module
         subpages:
             modules: { title: translate:modules }
             actions: { title: translate:actions }

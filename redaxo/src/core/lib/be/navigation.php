@@ -101,7 +101,7 @@ class rex_be_navigation
             $n['linkClasses'][] = $page->getItemAttr('class');
 
             foreach ($page->getItemAttr(null) as $name => $value) {
-                $n['itemAttr'][$name] = trim($value);
+                $n['itemAttr'][$name] = [trim($value)];
             }
 
             foreach ($page->getLinkAttr(null) as $name => $value) {
@@ -111,6 +111,7 @@ class rex_be_navigation
             $n['href'] = str_replace('&', '&amp;', $page->getHref());
             $n['title'] = $page->getTitle();
             $n['active'] = $page->isActive();
+            $n['icon'] = $page->getIcon();
 
             $subpages = $page->getSubpages();
             if (is_array($subpages) && !empty($subpages)) {

@@ -9,6 +9,7 @@ page:
     block: system
     prio: 80
     pjax: true
+    icon: rex-icon rex-icon-install
     subpages:
         packages:
             title: 'translate:subpage_packages'

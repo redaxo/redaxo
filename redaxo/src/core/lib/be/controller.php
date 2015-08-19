@@ -153,13 +153,15 @@ class rex_be_controller
             ->setPath(rex_path::core('pages/packages.php'))
             ->setRequiredPermissions('isAdmin')
             ->setPrio(60)
-            ->setPjax();
+            ->setPjax()
+            ->setIcon('rex-icon rex-icon-package-addon');
 
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
             ->setPrio(70)
             ->setPjax()
+            ->setIcon('rex-icon rex-icon-system')
             ->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')))
             ->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')))
             ->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')))

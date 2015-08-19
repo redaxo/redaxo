@@ -9,6 +9,7 @@ page:
     block: system
     prio: 10
     pjax: true
+    icon: rex-icon rex-icon-open-category
 
 pages:
     linkmap:

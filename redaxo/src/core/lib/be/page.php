@@ -29,6 +29,7 @@ class rex_be_page
     private $hasLayout = true;
     private $hasNavigation = true;
     private $pjax;
+    private $icon;
     private $requiredPermissions = [];
 
     /**
@@ -626,6 +627,40 @@ class rex_be_page
             return $this->parent->allowsPjax();
         }
         return false;
+    }
+
+    /**
+     * Sets whether the page has an icon.
+     *
+     * @param string $icon
+     *
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Returns the icon.
+     *
+     * @returns string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Returns whether the page has an icon.
+     *
+     * @return bool
+     */
+    public function hasIcon()
+    {
+        return !empty($this->icon);
     }
 
     /**

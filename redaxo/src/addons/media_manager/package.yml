@@ -7,6 +7,7 @@ page:
     title: 'Media Manager'
     perm: media_manager[]
     pjax: true
+    icon: rex-icon rex-icon-media
     subpages:
         types: { title: 'translate:media_manager_subpage_types' }
         overview: { title: 'translate:media_manager_subpage_desc' }

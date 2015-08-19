@@ -10,6 +10,7 @@ page:
     prio: 20
     block: system
     pjax: true
+    icon: rex-icon rex-icon-media
     subpages:
         media:     { title: translate:pool_file_list }
         upload:    { title: translate:pool_file_insert }

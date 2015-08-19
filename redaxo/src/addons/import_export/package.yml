@@ -7,6 +7,7 @@ page:
     title: 'translate:im_export_importexport'
     perm: import_export[export]
     pjax: true
+    icon: rex-icon rex-icon-import-export
     subpages:
         export: { title: 'translate:im_export_export' }
         import: { title: 'translate:im_export_import', perm: 'admin[]' }

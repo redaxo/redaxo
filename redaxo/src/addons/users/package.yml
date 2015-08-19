@@ -11,6 +11,7 @@ page:
     block: system
     prio: 50
     pjax: true
+    icon: rex-icon rex-icon-user
     subpages:
         users: { title: 'translate:users' }
         roles: { title: 'translate:roles', perm: admin }

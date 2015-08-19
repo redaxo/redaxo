@@ -8,10 +8,20 @@
                 $item['itemAttr']['class'][] = 'active';
             endif;
 
+            $icon = '';
+            if (isset($item['icon']) && $item['icon'] != ''):
+                if (isset($item['itemAttr']['class'])) {
+                    $item['itemAttr']['class'][] = 'rex-has-icon';
+                } else {
+                    $item['itemAttr']['class'] = ['rex-has-icon'];
+                }
+                $icon = '<i class="' . trim($item['icon']) . '"></i> ';
+            endif;
+
             $itemAttr = isset($item['itemAttr']) ? rex_string::buildAttributes($item['itemAttr']) : '';
             $linkAttr = isset($item['linkAttr']) ? rex_string::buildAttributes($item['linkAttr']) : '';
         ?>
 
-        <li<?= $itemAttr ?>><a href="<?= $item['href']; ?>"<?= $linkAttr; ?>><?= $item['title']; ?></a></li>
+        <li<?= $itemAttr ?>><a href="<?= $item['href']; ?>"<?= $linkAttr; ?>><?= $icon . $item['title']; ?></a></li>
         <?php endforeach; ?>
     </ul>
