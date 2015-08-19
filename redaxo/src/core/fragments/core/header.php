@@ -1,5 +1,4 @@
 
-        <?php if ($this->meta_navigation != ''): ?>
         <nav class="rex-nav-top navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -14,4 +13,3 @@
                 <?= $this->meta_navigation ?>
             </div>
         </nav>
-        <?php endif; ?>
