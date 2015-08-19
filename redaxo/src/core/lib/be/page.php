@@ -11,7 +11,7 @@ class rex_be_page
     private $fullKey;
     private $title;
 
-    private $popup = false;
+    private $popup = null;
     private $href;
     private $itemAttr = [];
     private $linkAttr = [];
@@ -121,7 +121,11 @@ class rex_be_page
      */
     public function isPopup()
     {
-        return $this->popup;
+        if (null !== $this->popup) {
+            return $this->popup;
+        }
+
+        return $this->parent && $this->parent->isPopup();
     }
 
     /**
