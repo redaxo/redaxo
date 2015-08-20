@@ -139,10 +139,23 @@
         margin-left: 0;
     }
 }
+.rex-nav-meta {
+    margin-top: 20px;
+
+    li {
+        > a {
+            display: inline-block;
+        }
+    }
+}
 
 .rex-redaxo-logo {
     height: 30px;
     vertical-align: middle;
+}
+
+.rex-code {
+    font-family: $font-family-monospace;
 }
 
 // Wird bei den Kategorie-Metainfos gesetzt

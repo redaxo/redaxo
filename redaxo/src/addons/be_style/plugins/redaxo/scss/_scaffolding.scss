@@ -36,8 +36,12 @@
 .rex-nav-meta {
     .navbar-nav {
         > li {
-            > a {
+            > a,
+            > a:hover {
                 color: #fff;
+            }
+            > a:hover {
+                text-decoration: underline;
             }
         }
     }
@@ -68,67 +72,6 @@
     color: $color-a-lighter;
     font-size: $font-size-large;
 }
-/*
-.rex-page-nav {
-    .navbar {
-        //margin-bottom: -20px;
-        background-color: #fff;
-        border: 0;
-    }
-    .nav-tabs {
-        > li {
-
-            &.active {
-                > a {
-
-                    .rex-main-frame & {
-                        background-color: #fff;
-                        border-color: #fff;
-                    }
-                    
-
-                    &:hover {
-                        background-color: $nav-tabs-active-link-hover-bg;
-                        border: 1px solid $nav-tabs-active-link-hover-border-color;
-                        border-bottom-color: transparent;
-                    }
-                }
-            }
-
-            > a {
-
-                .rex-main-frame & {
-                    background-color: $color-a-light;
-                    border-color: $color-a-light;
-                }
-
-                &:hover {
-                    background-color: #fff;
-                    border-color: #fff #fff $color-a-light;
-
-                    .rex-main-frame & {
-                        border-color: #fff;
-                    }
-                }
-            }
-        }
-    }
-
-    &:after {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 20px;
-        @include gradient-vertical(#fff, $body-bg);
-
-        .rex-main-frame & {
-            display: none;
-            height: 0;
-            background: none;
-        }
-    }
-}
-*/
 
 .rex-page-nav {
     .navbar {
@@ -196,6 +139,36 @@
 }
 .rex-offline {
     color: $color-offline;
+}
+
+
+.rex-form-group {
+    
+    @media (min-width: $grid-float-breakpoint) {
+        > dt {
+            float: left;
+            width: 20%;
+        }
+        > dd {
+            margin-left: 25%;
+        }
+
+        textarea {
+            min-height: 25em;
+        }
+    }
+    @media (min-width: $screen-lg-min) {
+        > dt {
+            width: 10%;
+        }
+        > dd {
+            margin-left: 15%;
+        }
+
+        textarea {
+            min-height: 35em;
+        }
+    }
 }
 
 
