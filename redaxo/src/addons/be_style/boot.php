@@ -28,6 +28,7 @@ if (rex::isBackend()) {
         $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.svg') => $this->getAssetsPath('fonts/fontawesome-webfont.svg'),
         $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.ttf') => $this->getAssetsPath('fonts/fontawesome-webfont.ttf'),
         $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.woff') => $this->getAssetsPath('fonts/fontawesome-webfont.woff'),
+        $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.woff2') => $this->getAssetsPath('fonts/fontawesome-webfont.woff2'),
         $this->getPath('vendor/font-awesome/fonts/FontAwesome.otf') => $this->getAssetsPath('fonts/FontAwesome.otf'),
     ];
 
