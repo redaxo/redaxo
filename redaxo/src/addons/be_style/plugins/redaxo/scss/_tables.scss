@@ -1,0 +1,72 @@
+@media (max-width: $screen-sm-max) {
+    
+    .table {
+        position: relative;
+    }
+    .table, 
+    .table > caption, 
+    .table > thead, 
+    .table > thead > tr, 
+    .table > thead > tr > th, 
+    .table > thead > tr > td, 
+    .table > tbody, 
+    .table > tbody > tr, 
+    .table > tbody > tr > th, 
+    .table > tbody > tr > td { 
+        display: block; 
+    }
+ 
+    .table > thead > tr > th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+
+        &:first-child > a {
+            display: block;
+            position: absolute;
+            top: 9999px;
+            left: 9999px + $table-cell-padding;
+        }
+    }
+ 
+    .table > tbody > tr {
+        border-bottom: 1px solid $table-border-color;
+        
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+ 
+    .table > tbody > tr > th, 
+    .table > tbody > tr > td {
+        position: relative;
+        padding-left: 40%; 
+        border: 0 !important;
+        border-bottom: 1px solid lighten($table-border-color, 5%) !important;
+        white-space: normal;
+        text-align:left;
+
+        &:before { 
+            content: attr(data-title);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 35%; 
+            padding: $table-cell-padding; 
+            white-space: nowrap;
+            font-weight: 700;
+            line-height: $line-height-computed;
+            text-align: left;
+        }
+    }
+ 
+    .table > tbody > tr:last-child > th:last-child, 
+    .table > tbody > tr:last-child > td:last-child { 
+        border: 0 !important;
+    }
+ 
+    .table.table-condensed > tbody > tr > th:before, 
+    .table.table-condensed > tbody > tr > td:before { 
+        padding: $table-condensed-cell-padding;
+    }
+}
