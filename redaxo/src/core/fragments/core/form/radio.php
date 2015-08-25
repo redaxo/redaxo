@@ -37,6 +37,7 @@ foreach ($this->elements as $element) {
     }
 
     $class = $inline ? '-inline' : '';
+    $grouped = $inline ? true : $grouped;
 
     if ($grouped) {
         $out .= '<div class="radio' . $class . '"' . $id . '>';
