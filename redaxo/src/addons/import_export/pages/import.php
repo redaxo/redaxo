@@ -97,7 +97,7 @@ if ($error != '') {
     echo rex_view::error($error);
 }
 
-echo '<h2>' . rex_i18n::msg('im_export_export_db_caption') . '</h2>';
+echo '<h2>' . rex_i18n::msg('im_export_database') . '</h2>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info');
