@@ -241,7 +241,7 @@ if ($function == 'add' || $function == 'edit') {
                     </fieldset>
 
                     <fieldset>
-                        <legend>Preview-Action <small>' . rex_i18n::msg('action_mode_preview') . '</small></legend>';
+                        <legend>' . rex_i18n::msg('action_heading_preview') . ' <small>' . rex_i18n::msg('action_mode_preview') . '</small></legend>';
 
         $formElements = [];
         $n = [];
@@ -283,7 +283,7 @@ if ($function == 'add' || $function == 'edit') {
                     </fieldset>
 
                     <fieldset>
-                        <legend>Presave-Action <small>' . rex_i18n::msg('action_mode_presave') . '</small></legend>';
+                        <legend>' . rex_i18n::msg('action_heading_presave') . ' <small>' . rex_i18n::msg('action_mode_presave') . '</small></legend>';
 
         $formElements = [];
         $n = [];
@@ -325,7 +325,7 @@ if ($function == 'add' || $function == 'edit') {
 
 
                     <fieldset>
-                        <legend>Postsave-Action <small>' . rex_i18n::msg('action_mode_postsave') . '</small></legend>';
+                        <legend>' . rex_i18n::msg('action_heading_postsave') . ' <small>' . rex_i18n::msg('action_mode_postsave') . '</small></legend>';
 
         $formElements = [];
         $n = [];
@@ -440,9 +440,9 @@ if ($OUT) {
                     <th><a href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
                     <th>' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('action_name') . '</th>
-                    <th>Preview-Event(s)</th>
-                    <th>Presave-Event(s)</th>
-                    <th>Postsave-Event(s)</th>
+                    <th>' . rex_i18n::msg('action_header_preview') . '</th>
+                    <th>' . rex_i18n::msg('action_header_presave') . '</th>
+                    <th>' . rex_i18n::msg('action_header_postsave') . '</th>
                     <th colspan="2">' . rex_i18n::msg('action_functions') . '</th>
                 </tr>
             </thead>
