@@ -641,8 +641,8 @@ if (!$file_id) {
 
         $panel .= '<tr>
                         ' . $add_td . '
-                        <td><a href="' . $ilink . '">' . $thumbnail . '</a></td>
-                        <td>
+                        <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
+                        <td data-title="' . rex_i18n::msg('pool_file_info') . '">
                             <div class="rex-media-heading"><a href="' . $ilink . '">' . htmlspecialchars($file_title) . '</a></div>
                             <div class="rex-media-description">' . $desc . '</div>
                             <div class="rex-media-filename">' . htmlspecialchars($file_name) . '</div>

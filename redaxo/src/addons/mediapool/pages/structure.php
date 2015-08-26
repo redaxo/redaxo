@@ -108,10 +108,10 @@ if ($PERMALL) {
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th><a href="' . $link . $cat_id . '&amp;media_method=add_cat"' . rex::getAccesskey(rex_i18n::msg('pool_kat_create'), 'add') . ' title="' . rex_i18n::msg('pool_kat_create') . '"><i class="rex-icon rex-icon-add-media-category"></i></a></th>
-                    <th>' . rex_i18n::msg('id') . '</th>
+                    <th class="rex-table-icon"><a href="' . $link . $cat_id . '&amp;media_method=add_cat"' . rex::getAccesskey(rex_i18n::msg('pool_kat_create'), 'add') . ' title="' . rex_i18n::msg('pool_kat_create') . '"><i class="rex-icon rex-icon-add-media-category"></i></a></th>
+                    <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('pool_kat_name') . '</th>
-                    <th colspan="2">' . rex_i18n::msg('pool_kat_function') . '</th>
+                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('pool_kat_function') . '</th>
                 </tr>
             </thead>
             <tbody>';
@@ -119,10 +119,10 @@ if ($PERMALL) {
     if ($media_method == 'add_cat') {
         $table .= '
             <tr class="mark">
-                <td><i class="rex-icon rex-icon-media-category"></i></td>
-                <td>-</td>
-                <td><input class="form-control" type="text" name="catname" value="" /></td>
-                <td colspan="2">
+                <td class="rex-table-icon"><i class="rex-icon rex-icon-media-category"></i></td>
+                <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">-</td>
+                <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="catname" value="" /></td>
+                <td class="rex-table-action" colspan="2">
                     <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_create') . '"' . rex::getAccesskey(rex_i18n::msg('pool_kat_create'), 'save') . '>' . rex_i18n::msg('pool_kat_create') . '</button>
                 </td>
             </tr>
@@ -136,10 +136,10 @@ if ($PERMALL) {
         if ($media_method == 'update_file_cat' && $edit_id == $iid) {
             $table .= '
                 <tr class="mark">
-                    <td><i class="rex-icon rex-icon-media-category"></i></td>
-                    <td>' . $iid . '</td>
-                    <td><input class="form-control" type="text" name="cat_name" value="' . htmlspecialchars($iname) . '" /></td>
-                    <td colspan="2">
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-media-category"></i></td>
+                    <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $iid . '</td>
+                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . htmlspecialchars($iname) . '" /></td>
+                    <td class="rex-table-action" colspan="2">
                         <input type="hidden" name="edit_id" value="' . $edit_id . '" />
                         <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_update') . '"' . rex::getAccesskey(rex_i18n::msg('pool_kat_update'), 'save') . '>' . rex_i18n::msg('pool_kat_update') . '</button>
                     </td>
@@ -148,11 +148,11 @@ if ($PERMALL) {
         } else {
             $table .= '
                 <tr>
-                    <td><a href="' . $link . $iid . '" title="' . htmlspecialchars($OOCat->getName()) . '"><i class="rex-icon rex-icon-media-category"></i></a></td>
-                    <td>' . $iid . '</td>
-                    <td>' . htmlspecialchars($OOCat->getName()) . '</td>
-                    <td><a href="' . $link . $cat_id . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('pool_kat_edit') . '</a></td>
-                    <td><a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a></td>
+                    <td class="rex-table-icon"><a href="' . $link . $iid . '" title="' . htmlspecialchars($OOCat->getName()) . '"><i class="rex-icon rex-icon-media-category"></i></a></td>
+                    <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $iid . '</td>
+                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '">' . htmlspecialchars($OOCat->getName()) . '</td>
+                    <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('pool_kat_edit') . '</a></td>
+                    <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a></td>
                 </tr>';
         }
     }

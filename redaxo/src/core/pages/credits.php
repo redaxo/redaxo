@@ -52,10 +52,10 @@ $content .= '
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>&nbsp;</th>
+            <th class="rex-table-icon">&nbsp;</th>
             <th>' . rex_i18n::msg('credits_name') . '</th>
             <th>' . rex_i18n::msg('credits_version') . '</th>
-            <th>' . rex_i18n::msg('credits_help') . '</th>
+            <th class="rex-table-slim">' . rex_i18n::msg('credits_help') . '</th>
             <th>' . rex_i18n::msg('credits_author') . '</th>
             <th>' . rex_i18n::msg('credits_supportpage') . '</th>
         </tr>
@@ -67,10 +67,10 @@ $content .= '
             if ($package->isActivated()) {
                 $content .= '
                 <tr class="rex-package-is-' . $package->getType() . '">
-                    <td><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
                     <td data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' </td>
                     <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
-                    <td data-title="' . rex_i18n::msg('credits_help') . '"><a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
+                    <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_help') . '"><a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
                     <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
                     <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
 

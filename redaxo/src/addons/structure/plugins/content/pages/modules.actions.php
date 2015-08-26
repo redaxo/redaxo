@@ -437,13 +437,13 @@ if ($OUT) {
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th><a href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
-                    <th>' . rex_i18n::msg('id') . '</th>
+                    <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('action_create'), 'add') . ' title="' . rex_i18n::msg('action_create') . '"><i class="rex-icon rex-icon-add-action"></i></a></th>
+                    <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('action_name') . '</th>
                     <th>' . rex_i18n::msg('action_header_preview') . '</th>
                     <th>' . rex_i18n::msg('action_header_presave') . '</th>
                     <th>' . rex_i18n::msg('action_header_postsave') . '</th>
-                    <th colspan="2">' . rex_i18n::msg('action_functions') . '</th>
+                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('action_functions') . '</th>
                 </tr>
             </thead>
         ';
@@ -480,14 +480,14 @@ if ($OUT) {
 
             $content .= '
                         <tr>
-                            <td><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
-                            <td data-title="' . rex_i18n::msg('id') . '">' . $sql->getValue('id') . '</td>
+                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                            <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $sql->getValue('id') . '</td>
                             <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
                             <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_postsave') . '">' . implode('/', $postsavemode) . '</td>
-                            <td><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
-                            <td><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete']) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
+                            <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
+                            <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete']) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
                         </tr>
                     ';
 

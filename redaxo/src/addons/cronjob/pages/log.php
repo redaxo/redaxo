@@ -37,9 +37,9 @@ if ($file = new rex_log_file($this->getDataPath('cronjob.log'))) {
         $content .= '
                     <tr class="' . $class . '">
                         <td>' . $icon . '</td>
-                        <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                        <td>' . htmlspecialchars($data[2]) . '</td>
-                        <td>' . $data[3] . '</td>
+                        <td data-title="' . rex_i18n::msg('cronjob_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                        <td data-title="' . rex_i18n::msg('cronjob_name') . '">' . htmlspecialchars($data[2]) . '</td>
+                        <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . $data[3] . '</td>
                     </tr>';
     }
 }

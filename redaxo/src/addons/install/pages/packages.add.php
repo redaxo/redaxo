@@ -22,19 +22,19 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             <tbody>
             <tr>
                 <th>' . $this->i18n('name') . '</th>
-                <td>' . $addon['name'] . '</td>
+                <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('author') . '</th>
-                <td>' . $addon['author'] . '</td>
+                <td data-title="' . $this->i18n('author') . '">' . $addon['author'] . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('shortdescription') . '</th>
-                <td>' . nl2br($addon['shortdescription']) . '</td>
+                <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br($addon['shortdescription']) . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('description') . '</th>
-                <td>' . nl2br($addon['description']) . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br($addon['description']) . '</td>
             </tr>
             </tbody>
         </table>';
@@ -47,24 +47,27 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     echo $content;
 
     $content = '
-        <table class="table">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th></th>
+                <th class="rex-table-icon"></th>
                 <th>' . $this->i18n('version') . '</th>
                 <th>' . $this->i18n('description') . '</th>
-                <th>' . $this->i18n('header_function') . '</th>
+                <th class="rex-table-action">' . $this->i18n('header_function') . '</th>
             </tr>
             </thead>
             <tbody>';
 
     foreach ($addon['files'] as $fileId => $file) {
+
+        $file['description'] = trim($file['description']) == '' ? '&nbsp;' : $file['description'];
+
         $content .= '
             <tr>
-                <td><i class="rex-icon rex-icon-package"></i></td>
-                <td>' . $file['version'] . '</td>
-                <td>' . nl2br($file['description']) . '</td>
-                <td><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId]) . '"><i class="rex-icon rex-icon-download"></i> ' . $this->i18n('download') . '</a></td>
+                <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
+                <td data-title="' . $this->i18n('version') . '">' . $file['version'] . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br($file['description']) . '</td>
+                <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_add', 'file' => $fileId]) . '"><i class="rex-icon rex-icon-download"></i> ' . $this->i18n('download') . '</a></td>
             </tr>';
     }
 
@@ -92,11 +95,11 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         <table class="table table-striped table-hover" id="rex-js-table-install-packages-addons">
          <thead>
             <tr>
-                <th><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
                 <th>' . $this->i18n('key') . '</th>
                 <th>' . $this->i18n('name') . ' / ' . $this->i18n('author') . '</th>
                 <th>' . $this->i18n('shortdescription') . '</th>
-                <th>' . $this->i18n('header_function') . '</th>
+                <th class="rex-table-action">' . $this->i18n('header_function') . '</th>
             </tr>
          </thead>
          <tbody>';
@@ -105,21 +108,21 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         if (rex_addon::exists($key)) {
             $content .= '
                 <tr>
-                    <td><i class="rex-icon rex-icon-package"></i></td>
-                    <td>' . $key . '</td>
-                    <td><b>' . $addon['name'] . '</b><br /><span class="text-muted">' . $addon['author'] . '</span></td>
-                    <td>' . nl2br($addon['shortdescription']) . '</td>
-                    <td><span class="text-nowrap"><i class="rex-icon rex-icon-package-exists"></i> ' . $this->i18n('addon_already_exists') . '</span></td>
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
+                    <td data-title="' . $this->i18n('key') . '">' . $key . '</td>
+                    <td data-title="' . $this->i18n('name') . '"><b>' . $addon['name'] . '</b><br /><span class="text-muted">' . $addon['author'] . '</span></td>
+                    <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br($addon['shortdescription']) . '</td>
+                    <td class="rex-table-action"><span class="text-nowrap"><i class="rex-icon rex-icon-package-exists"></i> ' . $this->i18n('addon_already_exists') . '</span></td>
                 </tr>';
         } else {
             $url = rex_url::currentBackendPage(['addonkey' => $key]);
             $content .= '
                 <tr>
-                    <td><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                    <td><a href="' . $url . '">' . $key . '</a></td>
-                    <td><b>' . $addon['name'] . '</b><br /><span class="text-muted">' . $addon['author'] . '</span></td>
-                    <td>' . nl2br($addon['shortdescription']) . '</td>
-                    <td><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
+                    <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                    <td data-title="' . $this->i18n('key') . '"><a href="' . $url . '">' . $key . '</a></td>
+                    <td data-title="' . $this->i18n('name') . '"><b>' . $addon['name'] . '</b><br /><span class="text-muted">' . $addon['author'] . '</span></td>
+                    <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br($addon['shortdescription']) . '</td>
+                    <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
                 </tr>';
         }
     }

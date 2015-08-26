@@ -20,13 +20,13 @@ try {
 
 if ($core && !empty($coreVersions)) {
     $panel = '
-        <table class="table table-striped rex-install-core-versions">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-slim">&nbsp;</th>
-                <th class="rex-version">' . $this->i18n('version') . '</th>
-                <th class="rex-description">' . $this->i18n('description') . '</th>
-                <th class="rex-function"></th>
+                <th class="rex-table-icon">&nbsp;</th>
+                <th>' . $this->i18n('version') . '</th>
+                <th>' . $this->i18n('description') . '</th>
+                <th class="rex-table-action"></th>
             </tr>
             </thead>
             <tbody>';
@@ -34,10 +34,10 @@ if ($core && !empty($coreVersions)) {
     foreach ($coreVersions as $id => $version) {
         $panel .= '
                 <tr>
-                    <td class="rex-slim"><i class="rex-icon rex-icon-package"></i></td>
-                    <td>' . $version['version'] . '</td>
-                    <td>' . nl2br($version['description']) . '</td>
-                    <td><a href="' . rex_url::currentBackendPage(['core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id]) . '">' . $this->i18n('update') . '</a></td>
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
+                    <td data-title="' . $this->i18n('version') . '">' . $version['version'] . '</td>
+                    <td data-title="' . $this->i18n('description') . '">' . nl2br($version['description']) . '</td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id]) . '">' . $this->i18n('update') . '</a></td>
                 </tr>';
     }
 
@@ -51,35 +51,35 @@ if ($core && !empty($coreVersions)) {
     $addon = $addons[$addonkey];
 
     $panel .= '
-        <table class="table table-striped rex-install-packages-information">
+        <table class="table">
             <tbody>
             <tr>
-                <th class="rex-term">' . $this->i18n('name') . '</th>
-                <td class="rex-description">' . $addon['name'] . '</td>
+                <th>' . $this->i18n('name') . '</th>
+                <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
             </tr>
             <tr>
-                <th class="rex-term">' . $this->i18n('author') . '</th>
-                <td class="rex-description">' . $addon['author'] . '</td>
+                <th>' . $this->i18n('author') . '</th>
+                <td data-title="' . $this->i18n('author') . '">' . $addon['author'] . '</td>
             </tr>
             <tr>
-                <th class="rex-term">' . $this->i18n('shortdescription') . '</th>
-                <td class="rex-description">' . nl2br($addon['shortdescription']) . '</td>
+                <th>' . $this->i18n('shortdescription') . '</th>
+                <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br($addon['shortdescription']) . '</td>
             </tr>
             <tr>
-                <th class="rex-term">' . $this->i18n('description') . '</th>
-                <td class="rex-description">' . nl2br($addon['description']) . '</td>
+                <th>' . $this->i18n('description') . '</th>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br($addon['description']) . '</td>
             </tr>
             </tbody>
         </table>
 
         <h3>' . $this->i18n('files') . '</h3>
-        <table class="table table-striped rex-install-packages-files">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-slim"></th>
-                <th class="rex-version">' . $this->i18n('version') . '</th>
-                <th class="rex-description">' . $this->i18n('description') . '</th>
-                <th class="rex-function"></th>
+                <th class="rex-table-icon"></th>
+                <th>' . $this->i18n('version') . '</th>
+                <th>' . $this->i18n('description') . '</th>
+                <th class="rex-table-action"></th>
             </tr>
             </thead>
             <tbody>';
@@ -87,10 +87,10 @@ if ($core && !empty($coreVersions)) {
     foreach ($addon['files'] as $fileId => $file) {
         $panel .= '
             <tr>
-                <td class="rex-slim"><i class="rex-icon rex-icon-package"></i></td>
-                <td class="rex-version">' . $file['version'] . '</td>
-                <td class="rex-description">' . nl2br($file['description']) . '</td>
-                <td class="rex-update"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId]) . '">' . $this->i18n('update') . '</a></td>
+                <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
+                <td data-title="' . $this->i18n('version') . '">' . $file['version'] . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br($file['description']) . '</td>
+                <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId]) . '">' . $this->i18n('update') . '</a></td>
             </tr>';
     }
 
@@ -102,14 +102,14 @@ if ($core && !empty($coreVersions)) {
     $content = $fragment->parse('core/page/section.php');
 } else {
     $panel = '
-        <table class="table table-striped rex-install-packages-addons">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
-                <th class="rex-key">' . $this->i18n('key') . '</th>
-                <th class="rex-name">' . $this->i18n('name') . '</th>
-                <th class="rex-version">' . $this->i18n('existing_version') . '</th>
-                <th class="rex-version">' . $this->i18n('available_versions') . '</th>
+                <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th>' . $this->i18n('key') . '</th>
+                <th>' . $this->i18n('name') . '</th>
+                <th>' . $this->i18n('existing_version') . '</th>
+                <th>' . $this->i18n('available_versions') . '</th>
             </tr>
             </thead>
             <tbody>';
@@ -123,11 +123,11 @@ if ($core && !empty($coreVersions)) {
 
         $panel .= '
             <tr>
-                <td class="rex-slim"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td class="rex-key"><a href="' . $url . '">core</a></td>
-                <td class="rex-name">REDAXO Core</td>
-                <td class="rex-version">' . rex::getVersion() . '</td>
-                <td class="rex-version">' . implode(', ', $availableVersions) . '</td>
+                <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                <td data-title="' . $this->i18n('key') . '"><a href="' . $url . '">core</a></td>
+                <td data-title="' . $this->i18n('name') . '">REDAXO Core</td>
+                <td data-title="' . $this->i18n('existing_version') . '">' . rex::getVersion() . '</td>
+                <td data-title="' . $this->i18n('available_versions') . '">' . implode(', ', $availableVersions) . '</td>
             </tr>';
     }
 
@@ -140,11 +140,11 @@ if ($core && !empty($coreVersions)) {
 
         $panel .= '
             <tr>
-                <td class="rex-slim"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td class="rex-key"><a href="' . $url . '">' . $key . '</a></td>
-                <td class="rex-name">' . $addon['name'] . '</td>
-                <td class="rex-version">' . rex_addon::get($key)->getVersion() . '</td>
-                <td class="rex-version">' . implode(', ', $availableVersions) . '</td>
+                <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                <td data-title="' . $this->i18n('key') . '"><a href="' . $url . '">' . $key . '</a></td>
+                <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
+                <td data-title="' . $this->i18n('existing_version') . '">' . rex_addon::get($key)->getVersion() . '</td>
+                <td data-title="' . $this->i18n('available_versions') . '">' . implode(', ', $availableVersions) . '</td>
             </tr>';
     }
 

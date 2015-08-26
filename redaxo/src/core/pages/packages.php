@@ -64,13 +64,13 @@ if ($subpage == '') {
             <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>&nbsp;</th>
+                    <th class="rex-table-icon">&nbsp;</th>
                     <th>' . rex_i18n::msg('package_hname') . '</th>
                     <th>' . rex_i18n::msg('package_hversion') . '</th>
-                    <th>' . rex_i18n::msg('package_hhelp') . '</th>
-                    <th>' . rex_i18n::msg('package_hinstall') . '</th>
-                    <th>' . rex_i18n::msg('package_hactive') . '</th>
-                    <th colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
+                    <th class="rex-table-slim">' . rex_i18n::msg('package_hhelp') . '</th>
+                    <th class="rex-table-action">' . rex_i18n::msg('package_hinstall') . '</th>
+                    <th class="rex-table-action">' . rex_i18n::msg('package_hactive') . '</th>
+                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
                 </tr>
             </thead>
             <tbody>';
@@ -138,14 +138,14 @@ if ($subpage == '') {
 
         return $message . '
                     <tr class="rex-package-is-' . $type . $class . '">
-                        <td><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
+                        <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
-                        <td data-title="' . rex_i18n::msg('package_hhelp') . '"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
-                        <td data-pjax-container="#rex-page">' . $install . '</td>
-                        <td data-pjax-container="#rex-page">' . $status . '</td>
-                        <td data-pjax-container="#rex-page">' . $uninstall . '</td>
-                        <td data-pjax-container="#rex-page">' . $delete . '</td>
+                        <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
+                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $install . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $status . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $uninstall . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $delete . '</td>
                     </tr>' . "\n   ";
     };
 

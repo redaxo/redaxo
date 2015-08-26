@@ -146,11 +146,11 @@ echo $content;
 $content = '<table class="table table-striped">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th class="rex-table-icon"></th>
                         <th>' . rex_i18n::msg('im_export_filename') . '</th>
                         <th>' . rex_i18n::msg('im_export_filesize') . '</th>
                         <th>' . rex_i18n::msg('im_export_createdate') . '</th>
-                        <th colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
+                        <th class="rex-table-action" colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -164,13 +164,13 @@ foreach ($folder as $file) {
     $filesize = rex_file::formattedSize($filepath);
 
     $content .= '<tr>
-                    <td><i class="rex-icon rex-icon-database"></i></td>
-                    <td>' . $file . '</td>
-                    <td>' . $filesize . '</td>
-                    <td>' . $filec . '</td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-database"></i></td>
+                    <td data-title="' . rex_i18n::msg('im_export_filename') . '">' . $file . '</td>
+                    <td data-title="' . rex_i18n::msg('im_export_filesize') . '">' . $filesize . '</td>
+                    <td data-title="' . rex_i18n::msg('im_export_createdate') . '">' . $filec . '</td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
                 </tr>
     ';
 }
@@ -233,11 +233,11 @@ $content = '
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th></th>
+                    <th class="rex-table-icon"></th>
                     <th>' . rex_i18n::msg('im_export_filename') . '</th>
                     <th>' . rex_i18n::msg('im_export_filesize') . '</th>
                     <th>' . rex_i18n::msg('im_export_createdate') . '</th>
-                    <th colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
+                    <th class="rex-table-action" colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
                 </tr>
             </thead>
             <tbody>';
@@ -251,13 +251,13 @@ foreach ($folder as $file) {
     $filesize = rex_file::formattedSize($filepath);
 
     $content .= '<tr>
-                    <td><i class="rex-icon rex-icon-file-archive"></i></td>
-                    <td>' . $file . '</td>
-                    <td>' . $filesize . '</td>
-                    <td>' . $filec . '</td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
-                    <td><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
+                    <td class="rex-table-icon"><i class="rex-icon rex-icon-file-archive"></i></td>
+                    <td data-title="' . rex_i18n::msg('im_export_filename') . '">' . $file . '</td>
+                    <td data-title="' . rex_i18n::msg('im_export_filesize') . '">' . $filesize . '</td>
+                    <td data-title="' . rex_i18n::msg('im_export_createdate') . '">' . $filec . '</td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
                 </tr>';
 }
 

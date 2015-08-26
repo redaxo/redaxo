@@ -36,14 +36,14 @@ if ($error != '') {
 }
 
 $content .= '
-            <table class="table table-responsive">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>' . rex_i18n::msg('syslog_timestamp') . '</th>
                         <th>' . rex_i18n::msg('syslog_type') . '</th>
                         <th>' . rex_i18n::msg('syslog_message') . '</th>
                         <th>' . rex_i18n::msg('syslog_file') . '</th>
-                        <th>' . rex_i18n::msg('syslog_line') . '</th>
+                        <th class="rex-table-number">' . rex_i18n::msg('syslog_line') . '</th>
                     </tr>
                 </thead>
                 <tbody>';
@@ -62,7 +62,7 @@ if ($file = new rex_log_file(rex_path::cache('system.log'))) {
                         <td data-title="' . rex_i18n::msg('syslog_type') . '">' . $data[0] . '</td>
                         <td data-title="' . rex_i18n::msg('syslog_message') . '">' . $data[1] . '</td>
                         <td data-title="' . rex_i18n::msg('syslog_file') . '"><span class="rex-truncate rex-truncate-left">' . (isset($data[2]) ? $data[2] : '') . '</span></td>
-                        <td data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? $data[3] : '') . '</td>
+                        <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? $data[3] : '') . '</td>
                     </tr>';
     }
 }

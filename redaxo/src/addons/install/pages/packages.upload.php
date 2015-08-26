@@ -165,19 +165,19 @@ if ($addonkey && isset($addons[$addonkey])) {
             <tbody>
             <tr>
                 <th>' . $this->i18n('name') . '</th>
-                <td>' . $addon['name'] . '</td>
+                <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('author') . '</th>
-                <td>' . $addon['author'] . '</td>
+                <td data-title="' . $this->i18n('author') . '">' . $addon['author'] . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('shortdescription') . '</th>
-                <td>' . nl2br($addon['shortdescription']) . '</td>
+                <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br($addon['shortdescription']) . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('description') . '</th>
-                <td>' . nl2br($addon['description']) . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br($addon['description']) . '</td>
             </tr>
             </tbody>
         </table>';
@@ -190,14 +190,14 @@ if ($addonkey && isset($addons[$addonkey])) {
         echo $content;
 
         $panel = '
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
-                <th class="rex-slim">' . $icon . '</th>
-                <th class="rex-version">' . $this->i18n('version') . '</th>
+                <th class="rex-table-icon">' . $icon . '</th>
+                <th>' . $this->i18n('version') . '</th>
                 <th>REDAXO</th>
-                <th class="rex-description">' . $this->i18n('description') . '</th>
-                <th colspan="2" class="rex-function">' . $this->i18n('status') . '</th>
+                <th>' . $this->i18n('description') . '</th>
+                <th class="rex-table-action" colspan="2">' . $this->i18n('status') . '</th>
             </tr>
             </thead>
             <tbody>';
@@ -207,12 +207,12 @@ if ($addonkey && isset($addons[$addonkey])) {
             $status = $file['status'] ? 'online' : 'offline';
             $panel .= '
             <tr>
-                <td class="rex-slim"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td class="rex-version">' . $file['version'] . '</td>
-                <td class="rex-version">' . implode(', ', $file['redaxo_versions']) . '</td>
-                <td class="rex-description">' . nl2br($file['description']) . '</td>
-                <td class="rex-edit"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $this->i18n('file_edit') . '</a></td>
-                <td class="rex-status"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $this->i18n($status) . '</span></td>
+                <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                <td data-title="' . $this->i18n('version') . '">' . $file['version'] . '</td>
+                <td data-title="REDAXO">' . implode(', ', $file['redaxo_versions']) . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br($file['description']) . '</td>
+                <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $this->i18n('file_edit') . '</a></td>
+                <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $this->i18n($status) . '</span></td>
             </tr>';
         }
 
@@ -229,13 +229,13 @@ if ($addonkey && isset($addons[$addonkey])) {
     }
 } else {
     $panel = '
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
          <thead>
             <tr>
-                <th class="rex-slim"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
-                <th class="rex-key">' . $this->i18n('key') . '</th>
-                <th class="rex-name">' . $this->i18n('name') . '</th>
-                <th colspan="2" class="rex-function">' . $this->i18n('status') . '</th>
+                <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th>' . $this->i18n('key') . '</th>
+                <th>' . $this->i18n('name') . '</th>
+                <th class="rex-table-action" colspan="2">' . $this->i18n('status') . '</th>
             </tr>
          </thead>
          <tbody>';
@@ -245,11 +245,11 @@ if ($addonkey && isset($addons[$addonkey])) {
         $status = $addon['status'] ? 'online' : 'offline';
         $panel .= '
             <tr>
-                <td class="rex-slime"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td class="rex-key">' . $key . '</td>
-                <td class="rex-name">' . $addon['name'] . '</td>
-                <td class="rex-view"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
-                <td class="rex-status"><span class="rex-text-' . $status . '">' . $this->i18n($status) . '</span></td>
+                <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
+                <td data-title="' . $this->i18n('key') . '">' . $key . '</td>
+                <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
+                <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
+                <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $this->i18n($status) . '</span></td>
             </tr>';
     }
 

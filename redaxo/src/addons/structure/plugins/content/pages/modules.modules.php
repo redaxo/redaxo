@@ -262,7 +262,7 @@ if ($function == 'add' or $function == 'edit') {
                         $actions .= '<td>' . $gma->getValue('id') . '</td>';
                     }
 
-                    $actions .= '<td><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
+                    $actions .= '<td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
                         <td><a href="' . $action_edit_url . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
                         <td><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id]) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
                     </tr>';
@@ -275,10 +275,10 @@ if ($function == 'add' or $function == 'edit') {
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>&nbsp;</th>
-                                    <th>' . rex_i18n::msg('id') . '</th>
+                                    <th class="rex-table-icon">&nbsp;</th>
+                                    <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                                     <th>' . rex_i18n::msg('action_name') . '</th>
-                                    <th colspan="2">' . rex_i18n::msg('action_functions') . '</th>
+                                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('action_functions') . '</th>
                                 </tr>
                             </thead>
                         <tbody>
@@ -365,23 +365,23 @@ if ($OUT) {
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
     $thIcon = '<a href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_module'), 'add') . ' title="' . rex_i18n::msg('create_module') . '"><i class="rex-icon rex-icon-add-module"></i></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['function' => 'edit', 'module_id' => '###id###']);
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
-    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
+    $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('module_description') . '">###VALUE###</td>']);
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('module_functions'), ['function' => 'edit', 'module_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'class', 'rex-edit');
 
     $list->addColumn(rex_i18n::msg('delete_module'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
-    $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td>###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'class', 'rex-delete');
