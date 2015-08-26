@@ -111,7 +111,7 @@ class rex_be_navigation
             $n['href'] = str_replace('&', '&amp;', $page->getHref());
             $n['title'] = $page->getTitle();
             $n['active'] = $page->isActive();
-            $n['icon'] = $page->getIcon();
+            $n['icon'] = $page->hasIcon() ? $page->getIcon() : 'rex-icon rex-icon-package-addon';
 
             $subpages = $page->getSubpages();
             if (is_array($subpages) && !empty($subpages)) {
