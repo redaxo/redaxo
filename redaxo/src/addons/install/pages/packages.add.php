@@ -59,7 +59,6 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             <tbody>';
 
     foreach ($addon['files'] as $fileId => $file) {
-
         $file['description'] = trim($file['description']) == '' ? '&nbsp;' : $file['description'];
 
         $content .= '
