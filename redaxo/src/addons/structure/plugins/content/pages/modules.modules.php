@@ -369,10 +369,10 @@ if ($OUT) {
     $list->setColumnParams($thIcon, ['function' => 'edit', 'module_id' => '###id###']);
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
-    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
-    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('module_description') . '">###VALUE###</td>']);
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));

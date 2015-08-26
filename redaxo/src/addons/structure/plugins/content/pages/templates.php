@@ -445,14 +445,14 @@ if ($OUT) {
     $list->setColumnParams($thIcon, ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
-    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
-    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('header_template_description') . '">###VALUE###</td>']);
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-    $list->setColumnLayout('active', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('active', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('header_template_active') . '">###VALUE###</td>']);
     $list->setColumnFormat('active', 'custom', function ($params) {
         $list = $params['list'];
         return $list->getValue('active') == 1 ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
