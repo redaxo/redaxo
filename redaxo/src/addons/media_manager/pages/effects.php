@@ -71,21 +71,21 @@ if ($func == '' && $type_id > 0) {
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
-    $list->setColumnLayout('priority', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('priority', ['<th class="rex-table-priority">###VALUE###</th>', '<td class="rex-table-priority">###VALUE###</td>']);
 
     // icon column
     $thIcon = '<a href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';
     $tdIcon = '<i class="rex-icon rex-icon-mediatype-effect"></i>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);
 
     // functions column spans 2 data-columns
     $funcs = rex_i18n::msg('media_manager_effect_functions');
-    $list->addColumn($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_effect_edit'), -1, ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($funcs, '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_effect_edit'), -1, ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams($funcs, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);
 
     $delete = 'deleteCol';
-    $list->addColumn($delete, '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_effect_delete'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn($delete, '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_effect_delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams($delete, ['type_id' => $type_id, 'effect_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute($delete, 'data-confirm', rex_i18n::msg('delete') . ' ?');
 

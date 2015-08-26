@@ -256,15 +256,11 @@ if ($function == 'add' or $function == 'edit') {
                     $action_name = rex_i18n::translate($gma->getValue('name'));
 
                     $actions .= '<tr>
-                        <td><a href="' . $action_edit_url . '" title="' . htmlspecialchars($action_name) . '"><i class="rex-icon rex-icon-action"></i></a></td>';
-
-                    if (rex::getUser()->hasPerm('advancedMode[]')) {
-                        $actions .= '<td>' . $gma->getValue('id') . '</td>';
-                    }
-
-                    $actions .= '<td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
-                        <td><a href="' . $action_edit_url . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
-                        <td><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id]) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
+                        <td class="rex-table-icon"><a href="' . $action_edit_url . '" title="' . htmlspecialchars($action_name) . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                        <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $gma->getValue('id') . '</td>
+                        <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
+                        <td class="rex-table-action"><a href="' . $action_edit_url . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
+                        <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id]) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
                     </tr>';
 
                     $gma->next();
@@ -372,19 +368,16 @@ if ($OUT) {
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
-    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td data-title="' . rex_i18n::msg('module_description') . '">###VALUE###</td>']);
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('module_functions'), ['function' => 'edit', 'module_id' => '###id###']);
-    $list->addLinkAttribute(rex_i18n::msg('module_functions'), 'class', 'rex-edit');
 
     $list->addColumn(rex_i18n::msg('delete_module'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###']);
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
-    $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'class', 'rex-delete');
 
     $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));
 

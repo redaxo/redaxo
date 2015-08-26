@@ -18,24 +18,23 @@ if ($func == '') {
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
     $thIcon = '<a href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
-    $list->setColumnLayout('id', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
-    $list->setColumnLayout('name', ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
     $list->setColumnParams('name', ['func' => 'edit', 'id' => '###id###']);
 
     $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLabel('edit', rex_i18n::msg('user_functions'));
-    $list->setColumnLayout('edit', ['<th colspan="2">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('edit', ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'id' => '###id###']);
 
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_role_delete'));
     $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
-    $list->setColumnLayout('funcs', ['', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###']);
     $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
 

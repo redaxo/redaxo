@@ -59,7 +59,7 @@ if ($func == '') {
 
     $tdIcon = '<i class="rex-icon rex-icon-cronjob"></i>';
     $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . $this->i18n('add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th>###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'oid' => '###id###']);
 
     $list->removeColumn('id');
@@ -100,7 +100,7 @@ if ($func == '') {
 
     $list->setColumnLabel('status', $this->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
-    $list->setColumnLayout('status', ['<th colspan="4">###VALUE###</th>', '<td>###VALUE###</td>']);
+    $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', function ($params) {
         $list = $params['list'];
         if (!class_exists($list->getValue('type'))) {
@@ -113,14 +113,14 @@ if ($func == '') {
         return $str;
     });
 
-    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'oid' => '###id###']);
 
-    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $this->i18n('delete'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $this->i18n('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###']);
     $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
 
-    $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'), -1, ['', '<td>###VALUE###</td>']);
+    $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###']);
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];

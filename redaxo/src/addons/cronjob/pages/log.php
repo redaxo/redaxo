@@ -16,7 +16,7 @@ $content .= '
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th class="rex-table-icon"></th>
                         <th>' . rex_i18n::msg('cronjob_log_date') . '</th>
                         <th>' . rex_i18n::msg('cronjob_name') . '</th>
                         <th>' . rex_i18n::msg('cronjob_log_message') . '</th>
@@ -36,7 +36,7 @@ if ($file = new rex_log_file($this->getDataPath('cronjob.log'))) {
         }
         $content .= '
                     <tr class="' . $class . '">
-                        <td>' . $icon . '</td>
+                        <td class="rex-table-icon">' . $icon . '</td>
                         <td data-title="' . rex_i18n::msg('cronjob_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                         <td data-title="' . rex_i18n::msg('cronjob_name') . '">' . htmlspecialchars($data[2]) . '</td>
                         <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . $data[3] . '</td>
