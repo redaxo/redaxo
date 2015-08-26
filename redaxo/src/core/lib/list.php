@@ -131,7 +131,7 @@ class rex_list implements rex_url_provider_interface
         $this->columnDisabled = [];
 
         // --------- Default
-        $this->defaultColumnLayout = ['<th>###VALUE###</th>', '<td>###VALUE###</td>'];
+        $this->defaultColumnLayout = ['<th>###VALUE###</th>', '<td data-title="{{ label }}">###VALUE###</td>'];
 
         // --------- Table Attributes
         $this->tableAttributes = [];
@@ -1038,8 +1038,9 @@ class rex_list implements rex_url_provider_interface
                         $columnValue = $this->getColumnLink($columnName, $columnValue);
                     }
 
+                    $columnHead = $this->getColumnLabel($columnName);
                     $layout = $this->getColumnLayout($columnName);
-                    $columnValue = str_replace('###VALUE###', $columnValue, $layout[1]);
+                    $columnValue = str_replace(['###VALUE###', '{{ label }}'], [$columnValue, $columnHead], $layout[1]);
                     $columnValue = $this->replaceVariables($columnValue);
                     $s .= '        ' . $columnValue . "\n";
                 }
