@@ -1,7 +1,46 @@
+
+
+@media (min-width: $screen-md-min) {
+    .table th.rex-table-slimmer,
+    .table td.rex-table-slimmer {
+        width: 40px;
+        text-align: center;
+    }
+    .table th.rex-table-slim,
+    .table td.rex-table-slim {
+        width: 60px;
+        text-align: center;
+    }
+    .table th.rex-table-icon, 
+    .table td.rex-table-icon {
+        width: 40px;
+        text-align: center;
+    }
+    .table th.rex-table-id,
+    .table td.rex-table-id, 
+    .table th.rex-table-priority,
+    .table td.rex-table-priority {
+        width: 60px;
+        text-align: center;
+    }
+    .table th.rex-table-number,
+    .table td.rex-table-number {
+        width: 100px;
+        text-align: center;
+    }
+    .table th.rex-table-action:not([colspan]),
+    .table td.rex-table-action:not([colspan]) {
+        width: 160px;
+    }
+}
+
 @media (max-width: $screen-sm-max) {
     
     .table {
         position: relative;
+    }
+    .table > tbody > tr > th { 
+        display: none;
     }
     .table, 
     .table > caption, 
@@ -11,9 +50,27 @@
     .table > thead > tr > td, 
     .table > tbody, 
     .table > tbody > tr, 
-    .table > tbody > tr > th, 
+    .table > tbody > tr > th[data-title], 
     .table > tbody > tr > td { 
         display: block; 
+    }
+    .table > tbody > tr > th:empty, 
+    .table > tbody > tr > td:empty, 
+    .table > thead > tr.collapse > th, 
+    .table > thead > tr.collapse > td, 
+    .table > tbody > tr.collapse > th[data-title], 
+    .table > tbody > tr.collapse > td { 
+        display: none; 
+    }
+    .table > thead > tr.collapsing > th, 
+    .table > thead > tr.collapsing > td, 
+    .table > tbody > tr.collapsing > th[data-title], 
+    .table > tbody > tr.collapsing > td, 
+    .table > thead > tr.collapse.in > th, 
+    .table > thead > tr.collapse.in > td, 
+    .table > tbody > tr.collapse.in > th[data-title], 
+    .table > tbody > tr.collapse.in > td { 
+        display: block;
     }
  
     .table > thead > tr > th {
@@ -37,9 +94,10 @@
         }
     }
  
-    .table > tbody > tr > th, 
+    .table > tbody > tr > th[data-title], 
     .table > tbody > tr > td {
         position: relative;
+        width: 100%;
         padding-left: 40%; 
         border: 0 !important;
         border-bottom: 1px solid lighten($table-border-color, 5%) !important;
@@ -51,13 +109,21 @@
             position: absolute;
             top: 0;
             left: 0;
+            overflow: hidden;
             width: 35%; 
             padding: $table-cell-padding; 
             white-space: nowrap;
             font-weight: 700;
             line-height: $line-height-computed;
             text-align: left;
+            text-overflow: ellipsis;
         }
+    }
+    .table > tbody > tr.collapsing > th[data-title], 
+    .table > tbody > tr.collapsing > td, 
+    .table > tbody > tr.collapse.in > th[data-title], 
+    .table > tbody > tr.collapse.in > td {
+        padding-left: $table-cell-padding;
     }
  
     .table > tbody > tr:last-child > th:last-child, 
@@ -65,7 +131,7 @@
         border: 0 !important;
     }
  
-    .table.table-condensed > tbody > tr > th:before, 
+    .table.table-condensed > tbody > tr > th[data-title]:before, 
     .table.table-condensed > tbody > tr > td:before { 
         padding: $table-condensed-cell-padding;
     }

@@ -324,3 +324,17 @@
 .list-group-item .breadcrumb {
     margin-bottom: 0;
 }
+
+
+.table > thead > tr.mark, 
+.table > tfoot > tr.mark, 
+.table > tbody > tr.mark {
+    padding: 0;
+}
+.table > tbody > tr.mark {
+    background-color: $state-warning-bg;
+}
+.table > tbody > tr.mark > th, 
+.table > tbody > tr.mark > td {
+    vertical-align: middle;
+}
