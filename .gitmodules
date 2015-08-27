@@ -7,3 +7,6 @@
 [submodule "redaxo/src/addons/be_style/vendor/scssphp"]
 	path = redaxo/src/addons/be_style/vendor/scssphp
 	url = https://github.com/leafo/scssphp
+[submodule "redaxo/src/addons/watson"]
+	path = redaxo/src/addons/watson
+	url = https://github.com/tbaddade/redaxo_watson.git
