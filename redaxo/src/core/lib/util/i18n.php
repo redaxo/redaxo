@@ -111,6 +111,14 @@ class rex_i18n
             $msg = self::$msg[$key];
         } else {
             $msg = "[translate:$key]";
+            $msg = rex_extension::registerPoint(new rex_extension_point(
+                'I18N_MISSING_TRANSLATION',
+                $msg,
+                array(
+                    'key'  => $key,
+                    'args' => $args,
+                )
+            ));
         }
 
         if ($htmlspecialchars) {
