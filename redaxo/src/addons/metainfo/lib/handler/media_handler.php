@@ -173,7 +173,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             }
         }
 
-        return parent::renderFormAndSave(self::PREFIX, $params);
+        return $ep->getSubject() . parent::renderFormAndSave(self::PREFIX, $params);
     }
 }
 
