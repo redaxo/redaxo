@@ -114,10 +114,10 @@ class rex_i18n
             $msg = rex_extension::registerPoint(new rex_extension_point(
                 'I18N_MISSING_TRANSLATION',
                 $msg,
-                array(
-                    'key'  => $key,
+                [
+                    'key' => $key,
                     'args' => $args,
-                )
+                ]
             ));
         }
 

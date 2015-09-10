@@ -12,6 +12,7 @@ return Symfony\CS\Config\Config::create()
         '-concat_without_spaces',
         '-return',
         '-empty_return',
+        '-method_separation',
         '-no_empty_lines_after_phpdocs',
         '-phpdoc_no_package',
         '-phpdoc_to_comment',
