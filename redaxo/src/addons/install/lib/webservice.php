@@ -126,7 +126,7 @@ class rex_install_webservice
         $path .= 'rex_version=' . rex::getVersion();
         $addon = rex_addon::get('install');
         if ($addon->getConfig('api_login')) {
-            $path .= '&api_login=' . $addon->getConfig('api_login') . '&api_key=' . $addon->getConfig('api_key');
+            $path .= '&api_login=' . urlencode($addon->getConfig('api_login')) . '&api_key=' . urlencode($addon->getConfig('api_key'));
         }
         return $path;
     }
