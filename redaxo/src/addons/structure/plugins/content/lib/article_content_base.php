@@ -297,8 +297,13 @@ class rex_article_content_base
             $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             // ----- ctype unterscheidung
-            if ($this->mode != 'edit' && !$this->eval && $i == 0) {
-                $articleContent = "<?php if (\$this->ctype == '" . $sliceCtypeId . "' || (\$this->ctype == '-1')) { \n";
+            if ($this->mode != 'edit' && !$this->eval) {
+                if (0 == $i) {
+                    $articleContent = "<?php if (\$this->ctype == '" . $sliceCtypeId . "' || (\$this->ctype == '-1')) { \n";
+                } elseif (isset($prevCtype) && $sliceCtypeId != $prevCtype) {
+                    // ----- zwischenstand: ctype .. wenn ctype neu dann if
+                    $articleContent .= "\n } if(\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1'){ \n";
+                }
             }
 
             // ------------- EINZELNER SLICE - AUSGABE
@@ -326,11 +331,6 @@ class rex_article_content_base
             // ---------- slice in ausgabe speichern wenn ctype richtig
             if ($this->ctype == -1 || $this->ctype == $sliceCtypeId) {
                 $articleContent .= $slice_content;
-            }
-
-            // ----- zwischenstand: ctype .. wenn ctype neu dann if
-            if ($this->mode != 'edit' && !$this->eval && isset($prevCtype) && $sliceCtypeId != $prevCtype) {
-                $articleContent .= "\n } if(\$this->ctype == '" . $sliceCtypeId . "' || \$this->ctype == '-1'){ \n";
             }
 
             $prevCtype = $sliceCtypeId;
