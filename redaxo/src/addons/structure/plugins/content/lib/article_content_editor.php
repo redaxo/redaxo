@@ -250,13 +250,14 @@ class rex_article_content_editor extends rex_article_content
             'function' => 'add',
         ]);
 
-        $modules = $this->MODULESELECT[$this->ctype];
         $items = [];
-        foreach ($modules as $module) {
-            $item = [];
-            $item['title'] = $module['name'];
-            $item['href'] = $context->getUrl(['module_id' => $module['id']]);
-            $items[] = $item;
+        if (isset($this->MODULESELECT[$this->ctype])) {
+            foreach ($this->MODULESELECT[$this->ctype] as $module) {
+                $item = [];
+                $item['title'] = $module['name'];
+                $item['href'] = $context->getUrl(['module_id' => $module['id']]);
+                $items[] = $item;
+            }
         }
 
         $fragment = new rex_fragment();
