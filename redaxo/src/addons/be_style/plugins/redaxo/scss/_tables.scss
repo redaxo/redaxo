@@ -1,4 +1,8 @@
 
+.table tr .alert {
+    margin-top: $line-height-computed;
+    margin-bottom: floor($line-height-computed / 2);
+}
 
 @media (min-width: $screen-md-min) {
     .table th.rex-table-slimmer,
