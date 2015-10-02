@@ -255,7 +255,7 @@ class rex_article_content_editor extends rex_article_content
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
                 $item['title'] = $module['name'];
-                $item['href'] = $context->getUrl(['module_id' => $module['id']]);
+                $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice' . $sliceId;
                 $items[] = $item;
             }
         }
@@ -381,7 +381,7 @@ class rex_article_content_editor extends rex_article_content
             $slice_content = $fragment->parse('core/page/section.php');
 
             $slice_content = '
-                <li class="rex-slice rex-slice-add">
+                <li class="rex-slice rex-slice-add" id="slice' . $sliceId . '">
                     <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice' . $sliceId . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $slice_content . '
                     </form>
@@ -440,7 +440,7 @@ class rex_article_content_editor extends rex_article_content
         $slice_content = $fragment->parse('core/page/section.php');
 
         $slice_content = '
-            <li class="rex-slice rex-slice-edit">
+            <li class="rex-slice rex-slice-edit" id="slice' . $sliceId . '">
                 <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $RE_CONTS, 'ctype' => $RE_CTYPE, 'clang' => $this->clang]) . '#slice' . $RE_CONTS . '" method="post" id="REX_FORM">
                     ' . $slice_content . '
                 </form>
