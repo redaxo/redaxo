@@ -183,7 +183,7 @@ function rex_structure_searchbar(rex_context $context)
             }
         }
 
-        $item['title'] = $option->nodeValue;
+        $item['title'] = preg_replace('/\[([0-9]+)\]$/', '<small class="rex-primary-id">$1</small>', $option->nodeValue);
         $item['href'] = $droplistContext->getUrl();
         $items[] = $item;
     }

@@ -141,7 +141,7 @@ if ($function == 'add' || $function == 'edit') {
 
     if ($save != '1') {
         if ($function == 'edit') {
-            $legend = rex_i18n::msg('action_edit') . ' <small>' . rex_i18n::msg('id') . '=' . $action_id . '</small>';
+            $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $action_id . '</small>';
 
             $action = rex_sql::factory();
             $action->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action WHERE id=' . $action_id);

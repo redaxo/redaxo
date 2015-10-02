@@ -203,6 +203,9 @@
     background-color: $state-danger-bg;
 }
 
+.rex-primary-id {
+    @extend .text-muted;
+}
 
 .rex-ajax-loader {
     position: fixed;

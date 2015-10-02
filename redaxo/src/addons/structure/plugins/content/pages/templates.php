@@ -33,7 +33,7 @@ if ($function == 'delete') {
         $success = rex_i18n::msg('template_deleted');
     }
 } elseif ($function == 'edit') {
-    $legend = rex_i18n::msg('edit_template') . ' <em class="rex-number">' . rex_i18n::msg('id') . ' = ' . $template_id . '</em>';
+    $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
 
     $hole = rex_sql::factory();
     $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '"');

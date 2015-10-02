@@ -154,7 +154,7 @@ if ($function == 'add' or $function == 'edit') {
 
     if ($save != '1') {
         if ($function == 'edit') {
-            $legend = rex_i18n::msg('module_edit') . ' <small>' . rex_i18n::msg('id') . '=' . $module_id . '</small>';
+            $legend = rex_i18n::msg('module_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $module_id . '</small>';
 
             $hole = rex_sql::factory();
             $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
