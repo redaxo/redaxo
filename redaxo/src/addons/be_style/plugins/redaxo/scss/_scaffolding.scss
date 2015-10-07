@@ -91,36 +91,23 @@
             margin-bottom: 0;
 
             &.active {
-                > a {
-                    background-color: #fff;
-                    border-color: #fff;
-                    
-                    .rex-main-frame & {
-                        background-color: #fff;
-                        border-color: #fff;
-                    }
-                    
-
-                    &:hover {
-                        background-color: $nav-tabs-active-link-hover-bg;
-                        border: 1px solid $nav-tabs-active-link-hover-border-color;
-                        //border-bottom-color: transparent;
-                    }
+                > a, 
+                > a:hover {
+                    background-color: $color-b;
+                    border-color: $color-b;
+                    color: #fff;
                 }
             }
 
             > a {
-                background-color: $body-bg;
-                border-color: $body-bg;
-
-                .rex-main-frame & {
-                    background-color: $color-a-light;
-                    border-color: $color-a-light;
-                }
+                background-color: $color-a-dark;
+                border-color: $color-a-dark;
+                color: $color-a;
 
                 &:hover {
-                    background-color: #fff;
-                    border-color: #fff;
+                    background-color: $color-a-darker;
+                    border-color: $color-a-darker;
+                    color: $color-b;
                 }
             }
         }
@@ -147,6 +134,9 @@
 
 
 .rex-form-group {
+
+    @include clearfix();
+
     
     @media (min-width: $grid-float-breakpoint) {
         > dt {
@@ -170,14 +160,54 @@
     @media (min-width: $screen-lg-min) {
         > dt {
             width: 10%;
+
+            .row > * > & {
+                width: 30%;
+            }
         }
         > dd {
             margin-left: 15%;
+
+            .row > * > & {
+                margin-left: 35%;
+            }
         }
 
         textarea:not([rows]) {
             min-height: 35em;
         }
+    }
+}
+
+
+.rex-slice-select {
+    > .dropdown >.btn-default {
+        background-color: $color-b-lighter;
+        border-color: $color-b-light;
+    }
+
+    > .open > .btn-default.dropdown-toggle:hover, 
+    > .open > .btn-default.dropdown-toggle:focus, 
+    > .open > .btn-default.dropdown-toggle.focus {
+        background-color: $color-b-light;
+        border-color: $color-b;
+    }
+}
+
+
+
+.panel-add, 
+.panel-edit {
+    @include panel-variant($color-d, #fff, $color-d, $color-d);
+}
+.panel-add, 
+.panel-edit {
+
+    .panel-body {
+        background-color: $color-c-light;
+    }
+    .panel-footer {
+        background-color: $color-a-light;
     }
 }
 
