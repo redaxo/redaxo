@@ -81,11 +81,8 @@
         border: 0;
     }
     .nav-tabs {
-        border-bottom-color: $body-bg;
-                    
-        .rex-main-frame & {
-            border-bottom-color: #fff;
-        }
+        border-bottom-color: #fff;
+
         > li {
             
             margin-bottom: 0;
