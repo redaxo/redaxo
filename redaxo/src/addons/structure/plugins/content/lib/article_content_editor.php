@@ -170,7 +170,7 @@ class rex_article_content_editor extends rex_article_content
                 $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'moveup']) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
-                $item['attributes']['title'] = rex_i18n::msg('edit');
+                $item['attributes']['title'] = rex_i18n::msg('move_slice_up');
                 $item['icon'] = 'up';
                 $menu_items_move[] = $item;
 
@@ -179,7 +179,7 @@ class rex_article_content_editor extends rex_article_content
                 $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(['upd' => time(), 'rex-api-call' => 'content_move_slice', 'direction' => 'movedown']) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
-                $item['attributes']['title'] = rex_i18n::msg('delete');
+                $item['attributes']['title'] = rex_i18n::msg('move_slice_down');
                 $item['icon'] = 'down';
                 $menu_items_move[] = $item;
             }
