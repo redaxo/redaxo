@@ -11,6 +11,7 @@ block_updated = Block wurde aktualisiert!
 block_added = Block wurde hinzugefügt
 no_rights_to_this_function = Sie haben keine Rechte für diese Funktion!
 module_not_found = FEHLER! Modul wurde nicht gefunden!
+confirm_delete_block = Block löschen?
 block_deleted = Block wurde gelöscht!
 block_not_deleted = Block wurde nicht gelöscht
 edit_mode = Editiermodus

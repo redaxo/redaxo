@@ -160,6 +160,7 @@ class rex_article_content_editor extends rex_article_content
             $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
             $item['attributes']['class'][] = 'btn-delete';
             $item['attributes']['title'] = rex_i18n::msg('delete');
+            $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
             $item['icon'] = 'delete';
             $menu_items_action[] = $item;
 
@@ -449,7 +450,7 @@ class rex_article_content_editor extends rex_article_content
         $slice_content = $fragment->parse('core/page/section.php');
 
         $slice_content = '
-            <li class="rex-slice rex-slice-edit" id="slice' . $sliceId . '">
+            <li class="rex-slice rex-slice-edit" id="slice' . $RE_CONTS . '">
                 <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $RE_CONTS, 'ctype' => $RE_CTYPE, 'clang' => $this->clang]) . '#slice' . $RE_CONTS . '" method="post" id="REX_FORM">
                     ' . $slice_content . '
                 </form>
