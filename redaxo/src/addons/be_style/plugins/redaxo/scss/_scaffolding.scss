@@ -130,24 +130,32 @@
 }
 
 
+
+legend {
+    padding-bottom: 3px;
+    font-size: $font-size-large;
+    font-weight: 700;
+}
 .rex-form-group {
 
-    @include clearfix();
+    //@include clearfix();
 
     
     @media (min-width: $grid-float-breakpoint) {
-        > dt {
-            float: left;
-            width: 20%;
-        }
-        > dd {
-            margin-left: 25%;
 
-            .rex-form-group {
-                > dd {
-                    margin-left: 0;
-                }
-            }
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+
+        > dt, 
+        > dd {
+            display: table-cell;
+            vertical-align: top;
+        }
+        > dt {
+            width: floor($grid-gutter-width * 6);
+            padding-top: 10px; // margin-top .radio/.checkbox
+            padding-right: floor($grid-gutter-width / 2);
         }
 
         textarea:not([rows]) {
@@ -156,56 +164,135 @@
     }
     @media (min-width: $screen-lg-min) {
         > dt {
-            width: 10%;
-
-            .row > * > & {
-                width: 30%;
-            }
-        }
-        > dd {
-            margin-left: 15%;
-
-            .row > * > & {
-                margin-left: 35%;
-            }
+            width: floor($grid-gutter-width * 7);
+            padding-right: $grid-gutter-width;
         }
 
         textarea:not([rows]) {
             min-height: 35em;
         }
     }
+    @media (min-width: 1400px) {
+        > dt {
+            width: floor($grid-gutter-width * 10);
+        }
+    }
 }
+.rex-form-group > dd {    
 
+    &:first-child {
+        @media (min-width: $grid-float-breakpoint) {
+            padding-left: floor($grid-gutter-width * 6);
+        }
+        @media (min-width: $screen-lg-min) {
+            padding-left: floor($grid-gutter-width * 7);
+        }
+        @media (min-width: $screen-xl-min) {
+            padding-left: floor($grid-gutter-width * 10);
+        }
+    }
+
+    & > .rex-form-group {
+        
+        margin-bottom: 0;
+
+        > dd {
+            padding-left: 0;
+        }
+    }
+}
+.rex-form-panel-footer > .btn-toolbar button:first-child {
+
+    @media (min-width: $grid-float-breakpoint) {
+        margin-left: floor($grid-gutter-width * 6);
+    }
+    @media (min-width: $screen-lg-min) {
+        margin-left: floor($grid-gutter-width * 7);
+    }
+    @media (min-width: $screen-xl-min) {
+        margin-left: floor($grid-gutter-width * 10);
+    }
+}
 
 .rex-slice-select {
-    > .dropdown >.btn-default {
+    > .dropdown > .btn-default {
         background-color: $color-b-lighter;
-        border-color: $color-b-light;
-    }
+        border-color: $color-b-lighter;
+        color: $color-b;
 
-    > .open > .btn-default.dropdown-toggle:hover, 
-    > .open > .btn-default.dropdown-toggle:focus, 
-    > .open > .btn-default.dropdown-toggle.focus {
-        background-color: $color-b-light;
-        border-color: $color-b;
+        &:hover {
+            background-color: darken($color-b-lighter, 3%);
+            border-color: darken($color-b-lighter, 3%);
+            color: $color-b;            
+        }
+        &:focus,
+        &.focus,
+        &:active,
+        &.active,
+        .open > &.dropdown-toggle {
+            background-color: $color-b;
+            border-color: $color-b;
+            color: #fff;
+        }
+        border-radius: 0;
     }
 }
 
+.btn-xs > .rex-icon, 
+.btn-group-xs > .btn > .rex-icon {
+    font-size: $font-size-base;
+}
 
+.btn-primary:hover, 
+.btn-apply:hover, 
+.btn-save:hover, 
+.btn-select:hover, 
+.btn-send:hover, 
+.btn-setup:hover, 
+.btn-update:hover {
+    background-color: $color-a-darker;
+    border-color: $color-a-darker;
+    color: $color-b;
+}
+
+.btn-edit {
+    @include button-variant(#fff, $color-d, $color-d);
+
+    .rex-icon {
+        vertical-align: middle;
+    }
+
+    .btn-group > &:hover {
+        z-index: 0;
+    }
+}
+
+.panel-edit .btn-edit {
+    @include button-variant($color-d, #fff, #fff);
+}
 
 .panel-add, 
 .panel-edit {
     @include panel-variant($color-d, #fff, $color-d, $color-d);
-}
-.panel-add, 
-.panel-edit {
 
     .panel-body {
         background-color: $color-c-light;
     }
-    .panel-footer {
-        background-color: $color-a-light;
-    }
+}
+
+.btn-save, 
+.btn-apply {
+    @include button-variant(#fff, $color-d, $color-d);
+}
+
+.btn-toolbar > .btn-abort {
+    float: right;
+}
+
+.dropdown-menu > li > a:hover, 
+.dropdown-menu > li > a:focus, 
+.table > tbody > tr.mark {
+    background-color: $color-c-light;
 }
 
 
@@ -293,6 +380,13 @@
         &:hover {
             background-color: darken($color-a-darker, 5%);
         }
+    }
+
+    .rex-form-group > dd:first-child {
+        padding-left: 0;
+    }
+    .rex-form-panel-footer > .btn-toolbar button:first-child {
+        margin-left: 0;
     }
     .form-control {
         background-color: $color-a;
