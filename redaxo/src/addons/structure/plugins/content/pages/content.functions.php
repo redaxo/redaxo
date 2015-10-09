@@ -193,7 +193,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $fragment = new rex_fragment();
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
-    $grid[] = $fragment->parse('core/form/form.php');
+    $panel .= $fragment->parse('core/form/form.php');
 
     $formElements = [];
     $n = [];
@@ -204,11 +204,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $fragment = new rex_fragment();
     $fragment->setVar('group', true);
     $fragment->setVar('elements', $formElements, false);
-    $grid[] = $fragment->parse('core/form/form.php');
-
-    $fragment = new rex_fragment();
-    $fragment->setVar('content', $grid, false);
-    $panel .= $fragment->parse('core/page/grid.php');
+    $panel .= $fragment->parse('core/form/form.php');
 
     $panel .= '</fieldset>';
 
