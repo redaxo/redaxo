@@ -22,6 +22,14 @@ $color-online:      #3bb594;
 $color-offline:     #dc6ca3;
 
 
+// Large screen / wide desktop
+$screen-xl-min:     1400px;
+$screen-lg-max:     ($screen-xl-min - 1);
+
+
+
+
+
 
 $bootstrap-sass-asset-helper: false !default;
 //
@@ -178,9 +186,9 @@ $btn-default-color:              #333 !default;
 $btn-default-bg:                 #fff !default;
 $btn-default-border:             #ccc !default;
 
-$btn-primary-color:              #fff !default;
+$btn-primary-color:              $color-a;
 $btn-primary-bg:                 $color-a-dark;
-$btn-primary-border:             darken($btn-primary-bg, 5%) !default;
+$btn-primary-border:             $color-a-dark;
 
 $btn-success-color:              #fff !default;
 $btn-success-bg:                 $brand-success !default;
@@ -201,7 +209,7 @@ $btn-danger-border:              darken($btn-danger-bg, 5%) !default;
 $btn-link-disabled-color:        $gray-light !default;
 
 // Allows for customizing button radius independently from global border radius
-$btn-border-radius-base:         $border-radius-base !default;
+$btn-border-radius-base:         4px;
 $btn-border-radius-large:        $border-radius-large !default;
 $btn-border-radius-small:        $border-radius-small !default;
 
@@ -246,7 +254,7 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $form-group-margin-bottom:       15px !default;
 
 $legend-color:                   $gray-dark !default;
-$legend-border-color:            #e5e5e5 !default;
+$legend-border-color:            $color-a-light;
 
 //** Background color for textual input addons
 $input-group-addon-bg:           $gray-lighter !default;
@@ -734,13 +742,13 @@ $list-group-link-heading-color: #333 !default;
 
 $panel-bg:                    #fff !default;
 $panel-body-padding:          15px !default;
-$panel-heading-padding:       10px 15px !default;
-$panel-footer-padding:        $panel-heading-padding !default;
+$panel-heading-padding:       14px 15px;
+$panel-footer-padding:        10px 15px;
 $panel-border-radius:         $border-radius-base !default;
 
 //** Border color for elements within panels
 $panel-inner-border:          $color-a-light;
-$panel-footer-bg:             $color-a-lighter;
+$panel-footer-bg:             $color-a-light;
 
 $panel-default-text:          $color-a-dark;
 $panel-default-border:        $color-a-light;
