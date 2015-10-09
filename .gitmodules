@@ -10,3 +10,6 @@
 [submodule "redaxo/src/addons/watson"]
 	path = redaxo/src/addons/watson
 	url = https://github.com/tbaddade/redaxo_watson.git
+[submodule "redaxo/src/addons/wildcard"]
+	path = redaxo/src/addons/wildcard
+	url = git@github.com:tbaddade/redaxo_wildcard.git
