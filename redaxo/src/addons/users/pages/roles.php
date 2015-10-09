@@ -149,6 +149,7 @@ if ($func == '') {
     }
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $title);
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');

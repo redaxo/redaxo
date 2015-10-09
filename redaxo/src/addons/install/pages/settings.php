@@ -69,6 +69,7 @@ $panel .= '
                 $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
+$fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', $this->i18n('subpage_settings'), false);
 $fragment->setVar('body', $panel, false);
 $fragment->setVar('buttons', $buttons, false);

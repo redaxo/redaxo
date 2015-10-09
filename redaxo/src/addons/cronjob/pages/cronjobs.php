@@ -339,6 +339,7 @@ if ($func == '') {
     $content = $form->get();
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $fieldset);
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');

@@ -67,6 +67,7 @@ $content .= '
     </fieldset>';
 
 $fragment = new rex_fragment();
+$fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', $this->i18n('subpage_config'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

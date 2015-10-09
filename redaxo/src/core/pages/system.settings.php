@@ -210,6 +210,7 @@ $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
+$fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', rex_i18n::msg('system_settings'));
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);

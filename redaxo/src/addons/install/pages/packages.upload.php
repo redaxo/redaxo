@@ -107,7 +107,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-send" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
+        $n['field'] = '<button class="btn btn-save" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
         $formElements[] = $n;
 
         $n = [];
@@ -121,6 +121,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $panel .= '</fieldset>';
 
         $fragment = new rex_fragment();
+        $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $addonkey . ' <small>' . $this->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);

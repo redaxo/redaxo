@@ -426,6 +426,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $content .= '</fieldset>';
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $form_label);
     $fragment->setVar('body', $content, false);
     $fragment->setVar('buttons', $buttons, false);
