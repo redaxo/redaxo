@@ -201,7 +201,7 @@ legend {
         }
     }
 }
-.rex-form-panel-footer > .btn-toolbar button:first-child {
+.rex-form-panel-footer > .btn-toolbar button:first-of-type {
 
     @media (min-width: $grid-float-breakpoint) {
         margin-left: floor($grid-gutter-width * 6);
