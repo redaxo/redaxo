@@ -5,7 +5,7 @@ legend {
     font-size: $font-size-large;
     font-weight: 700;
 }
-.rex-form-group {
+.rex-form-group:not(.rex-form-group-vertical) {
 
     //@include clearfix();
 
@@ -47,7 +47,7 @@ legend {
         }
     }
 }
-.rex-form-group > dd {    
+.rex-form-group:not(.rex-form-group-vertical) > dd {    
 
     &:first-child {
         @media (min-width: $grid-float-breakpoint) {

@@ -42,23 +42,47 @@ $content .= '
     <fieldset>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
 
+
 $formElements = [];
+
+$inputGroups = [];
+$n = [];
+$n['field'] = '<input class="form-control" type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['left'] = '<i class="rex-icon rex-icon-user"></i>';
+$inputGroups[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $inputGroups, false);
+$inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
 $n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . ':</label>';
-$n['field'] = '<input class="form-control" type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
-$n['left'] = '<i class="rex-icon rex-icon-user"></i>';
+$n['field'] = $inputGroup;
+$n['class'] = 'rex-form-group-vertical';
 $formElements[] = $n;
+
+
+$inputGroups = [];
+$n = [];
+$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
+$n['left'] = '<i class="rex-icon rex-icon-password"></i>';
+$inputGroups[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $inputGroups, false);
+$inputGroup = $fragment->parse('core/form/input_group.php');
 
 $n = [];
 $n['label'] = '<label for="rex-id-login-password">' . rex_i18n::msg('password') . ':</label>';
-$n['field'] = '<input class="form-control" type="password" name="rex_user_psw" id="rex-id-login-password" />';
-$n['left'] = '<i class="rex-icon rex-icon-password"></i>';
+$n['field'] = $inputGroup;
+$n['class'] = 'rex-form-group-vertical';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/input_group.php');
+$content .= $fragment->parse('core/form/form.php');
+
+
 
 $formElements = [];
 $n = [];

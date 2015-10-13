@@ -34,23 +34,30 @@ $content .= '
         <input type="hidden" name="func" value="update" />
 ';
 
-        $formElements = [];
+        $inputGroups = [];
         $n = [];
         $n['class'] = 'rex-range-input-group';
-        $n['label'] = '<label for="rex-js-rating-text-jpg-quality">' . $this->i18n('jpg_quality') . ' [0-100]</label>';
-        //$n['field'] = '<input class="form-control" type="text" id="rex-jpg-quality" name="jpg_quality" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
         $n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
         $n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" id="rex-jpg-quality" name="jpg_quality" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
         $n['right'] = '%';
+        $inputGroups[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $inputGroups, false);
+        $inputGroup = $fragment->parse('core/form/input_group.php');
+
+        $formElements = [];
+        $n = [];
+        $n['label'] = '<label for="rex-js-rating-text-jpg-quality">' . $this->i18n('jpg_quality') . ' [0-100]</label>';
+        $n['field'] = $inputGroup;
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
-        $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/input_group.php');
+        $content = $fragment->parse('core/form/form.php');
+
 
         $formElements = [];
-
         $n = [];
         $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
@@ -83,10 +90,10 @@ $content = '
 
     jQuery(function($) {
 
-        $("#rex-js-rating-text-jpg-quality").change(function(){
+        $("#rex-js-rating-text-jpg-quality").on("input change", function(){
             $("#rex-js-rating-source-jpg-quality").val(this.value);
         });
-        $("#rex-js-rating-source-jpg-quality").change(function(){
+        $("#rex-js-rating-source-jpg-quality").on("input change", function(){
             $("#rex-js-rating-text-jpg-quality").val(this.value);
             $("#rex-js-rating-text-jpg-quality").trigger("change");
         });
