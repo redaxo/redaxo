@@ -54,7 +54,7 @@ if ($core && !empty($coreVersions)) {
         <table class="table">
             <tbody>
             <tr>
-                <th>' . $this->i18n('name') . '</th>
+                <th class="rex-table-width-5">' . $this->i18n('name') . '</th>
                 <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
             </tr>
             <tr>
@@ -77,7 +77,7 @@ if ($core && !empty($coreVersions)) {
             <thead>
             <tr>
                 <th class="rex-table-icon"></th>
-                <th>' . $this->i18n('version') . '</th>
+                <th class="rex-table-width-4">' . $this->i18n('version') . '</th>
                 <th>' . $this->i18n('description') . '</th>
                 <th class="rex-table-action"></th>
             </tr>

@@ -21,7 +21,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         <table class="table">
             <tbody>
             <tr>
-                <th>' . $this->i18n('name') . '</th>
+                <th class="rex-table-width-5">' . $this->i18n('name') . '</th>
                 <td data-title="' . $this->i18n('name') . '">' . $addon['name'] . '</td>
             </tr>
             <tr>
@@ -51,7 +51,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
             <thead>
             <tr>
                 <th class="rex-table-icon"></th>
-                <th>' . $this->i18n('version') . '</th>
+                <th class="rex-table-width-4">' . $this->i18n('version') . '</th>
                 <th>' . $this->i18n('description') . '</th>
                 <th class="rex-table-action">' . $this->i18n('header_function') . '</th>
             </tr>
