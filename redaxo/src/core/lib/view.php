@@ -313,6 +313,74 @@ class rex_view
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
                 $item = [];
+                $item['href'] = $context->getUrl(['clang' => $id]);
+                $item['title'] = '<i class="rex-icon rex-icon-language"></i> ' . rex_i18n::translate($clang->getName());
+                if ($id == $context->getParam('clang')) {
+                    $item['active'] = true;
+                }
+                $items[] = $item;
+            }
+        }
+        $fragment = new rex_fragment();
+        $fragment->setVar('left', $items, false);
+
+        return $fragment->parse('core/navigations/content.php');
+    }
+
+    /**
+     * Returns a clang switch.
+     *
+     * @param rex_context $context
+     *
+     * @return string
+     */
+    public static function clangSwitchAsButtons(rex_context $context)
+    {
+        if (rex_clang::count() == 1) {
+            return '';
+        }
+
+        $button_label = '';
+        $items = [];
+        foreach (rex_clang::getAll() as $id => $clang) {
+            if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+                $item = [];
+                $item['label'] = rex_i18n::translate($clang->getName());
+                $item['url'] = $context->getUrl(['clang' => $id]);
+                $item['attributes']['class'][] = 'btn-clang';
+                $item['attributes']['title'] = rex_i18n::translate($clang->getName());
+                if ($id == $context->getParam('clang')) {
+                    $item['attributes']['class'][] = 'active';
+                }
+                $items[] = $item;
+            }
+        }
+
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('buttons', $items, false);
+        return '<div class="btn-toolbar">' . $fragment->parse('core/buttons/button_group.php') . '</div>';
+    }
+
+
+    /**
+     * Returns a clang switch.
+     *
+     * @param rex_context $context
+     *
+     * @return string
+     */
+    public static function clangSwitchAsDropdown(rex_context $context)
+    {
+        if (rex_clang::count() == 1) {
+            return '';
+        }
+
+        $button_label = '';
+        $items = [];
+        foreach (rex_clang::getAll() as $id => $clang) {
+            if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+                $item = [];
                 $item['title'] = rex_i18n::translate($clang->getName());
                 $item['href'] = $context->getUrl(['clang' => $id]);
                 if ($id == $context->getParam('clang')) {
