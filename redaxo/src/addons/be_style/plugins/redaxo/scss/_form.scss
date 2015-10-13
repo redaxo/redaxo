@@ -70,19 +70,24 @@ legend {
         }
     }
 }
-.rex-form-panel-footer > .btn-toolbar button:first-of-type {
+.rex-form-panel-footer > .btn-toolbar {
 
-    @media (min-width: $grid-float-breakpoint) {
-        margin-left: floor($grid-gutter-width * 6);
-    }
-    @media (min-width: $screen-lg-min) {
-        margin-left: floor($grid-gutter-width * 7);
-    }
-    @media (min-width: $screen-xl-min) {
-        margin-left: floor($grid-gutter-width * 10);
-    }
 
-    .table + .panel-footer & {
-        margin-left: 0;
+    button:first-of-type {
+
+        @media (min-width: $grid-float-breakpoint) {
+            margin-left: floor($grid-gutter-width * 6 + 5px); // btn-toolbar is left moved (-5px), Offset the first child's margin
+        }
+        @media (min-width: $screen-lg-min) {
+            margin-left: floor($grid-gutter-width * 7 + 5px); // btn-toolbar is left moved (-5px), Offset the first child's margin
+        }
+        @media (min-width: $screen-xl-min) {
+            margin-left: floor($grid-gutter-width * 10 + 5px); // btn-toolbar is left moved (-5px), Offset the first child's margin
+        }
+
+        .table + .panel-footer & {
+            margin-left: 0;
+        }
+
     }
 }
