@@ -1,0 +1,107 @@
+
+
+#rex-page-login {
+    background: $color-a-darker;
+
+    .rex-nav-top {
+        padding-top: ($grid-gutter-width * 5);
+        padding-bottom: $grid-gutter-width;
+        background: $color-a-dark;
+        border-color: $color-a-dark;
+        text-align: center;
+
+        .navbar-header, 
+        .navbar-brand {
+            float: none;
+        }
+    }
+
+    .rex-page-header {
+        display: none;
+    }
+
+    .rex-page-main {
+        position: relative;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: $grid-gutter-width;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: (-$grid-gutter-width / 2);
+            width: 0;
+            height: 0;
+            border-width: ($grid-gutter-width / 2);
+            border-style: solid;
+            border-color: $color-a-dark transparent transparent transparent;
+        }
+    }
+
+    .rex-global-footer {
+        text-align: center;
+    }
+    .rex-nav-footer {
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        color: $color-a;
+
+        li:first-child, 
+        li:last-child {
+            display: none;
+        }
+
+        a {
+            color: $color-a;
+        }
+    }
+
+    .panel-default {
+        background-color: $color-a-dark;
+        border: 0;
+        color: $color-a-light;
+
+        .panel-heading, 
+        .panel-footer {
+            background-color: $color-a-dark;
+            border: 0;
+        }
+        .panel-heading {
+            color: $color-a-light;
+        }
+        .panel-footer {
+            .btn {
+                float: right;
+            }
+        }
+    }
+    .btn-primary {
+        background-color: $color-a-darker;
+        &:hover {
+            background-color: darken($color-a-darker, 5%);
+        }
+    }
+
+    .rex-form-group > dd:first-child {
+        padding-left: 0;
+    }
+    .rex-form-panel-footer > .btn-toolbar button:first-child {
+        margin-left: 0;
+    }
+    .form-control {
+        background-color: $color-a;
+
+        &:focus {
+            border-color: inherit;
+            @include box-shadow(none);
+        }
+    }
+    .input-group-addon {
+        background-color: $color-a;
+        color: $color-a-dark;
+    }
+}

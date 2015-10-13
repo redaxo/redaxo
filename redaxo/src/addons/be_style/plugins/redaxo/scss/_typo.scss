@@ -1,39 +1,10 @@
-a:hover, a:focus {
-    text-decoration: none;
-}
-
-.rex-online {
-    @extend .text-success;
-}
-.rex-offline {
-    @extend .text-danger;
-}
-.rex-text-muted {
-    @extend .text-muted;
-}
 
 
-.rex-dl-horizontal {
-    @extend .dl-horizontal;
-
-    dt {
-        text-align: left;
-    }
+.rex-online, 
+.rex-text-online {
+    color: $color-online;
 }
-
-
-.rex-message {
-    @extend .alert;
-}
-.rex-message-error {
-    @extend .alert-danger;
-}
-.rex-message-info {
-    @extend .alert-info;
-}
-.rex-message-success {
-    @extend .alert-success;
-}
-.rex-message-warning {
-    @extend .alert-warning;
+.rex-offline, 
+.rex-text-offline {
+    color: $color-offline;
 }

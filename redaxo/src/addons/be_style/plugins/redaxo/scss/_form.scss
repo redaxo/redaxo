@@ -1,35 +1,88 @@
 
-.rex-form-control {
-    @extend .form-control;
-}
-.rex-form-control-static {
-    @extend .form-control-static;
-}
-select.rex-form-select {
-    @extend .form-control;    
-}
-.rex-form-checkbox {
-    @extend .checkbox;
-}
-.rex-form-radio {
-    @extend .radio;
-}
-.rex-form-input-group {
-    @extend .input-group;
-}
-.rex-form-input-group-addon {
-    @extend .input-group-addon;    
-}
-.rex-form-input-group-button {
-    @extend .input-group-btn;
-}
-.rex-form-note {
-    @extend .help-block;
 
-    font-size: $font-size-small;
+legend {
+    padding-bottom: 3px;
+    font-size: $font-size-large;
+    font-weight: 700;
+}
+.rex-form-group {
 
-    .rex-form-checkbox &, 
-    .rex-form-radio & {
-        margin-left: 20px;
+    //@include clearfix();
+
+    
+    @media (min-width: $grid-float-breakpoint) {
+
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+
+        > dt, 
+        > dd {
+            display: table-cell;
+            vertical-align: top;
+        }
+        > dt {
+            width: floor($grid-gutter-width * 6);
+            padding-top: 10px; // margin-top .radio/.checkbox
+            padding-right: floor($grid-gutter-width / 2);
+        }
+
+        textarea:not([rows]) {
+            min-height: 25em;
+        }
+    }
+    @media (min-width: $screen-lg-min) {
+        > dt {
+            width: floor($grid-gutter-width * 7);
+            padding-right: $grid-gutter-width;
+        }
+
+        textarea:not([rows]) {
+            min-height: 35em;
+        }
+    }
+    @media (min-width: 1400px) {
+        > dt {
+            width: floor($grid-gutter-width * 10);
+        }
+    }
+}
+.rex-form-group > dd {    
+
+    &:first-child {
+        @media (min-width: $grid-float-breakpoint) {
+            padding-left: floor($grid-gutter-width * 6);
+        }
+        @media (min-width: $screen-lg-min) {
+            padding-left: floor($grid-gutter-width * 7);
+        }
+        @media (min-width: $screen-xl-min) {
+            padding-left: floor($grid-gutter-width * 10);
+        }
+    }
+
+    & > .rex-form-group {
+        
+        margin-bottom: 0;
+
+        > dd {
+            padding-left: 0;
+        }
+    }
+}
+.rex-form-panel-footer > .btn-toolbar button:first-of-type {
+
+    @media (min-width: $grid-float-breakpoint) {
+        margin-left: floor($grid-gutter-width * 6);
+    }
+    @media (min-width: $screen-lg-min) {
+        margin-left: floor($grid-gutter-width * 7);
+    }
+    @media (min-width: $screen-xl-min) {
+        margin-left: floor($grid-gutter-width * 10);
+    }
+
+    .table + .panel-footer & {
+        margin-left: 0;
     }
 }

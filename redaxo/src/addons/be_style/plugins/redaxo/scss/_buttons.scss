@@ -1,0 +1,43 @@
+
+.btn-xs > .rex-icon, 
+.btn-group-xs > .btn > .rex-icon {
+    font-size: $font-size-base;
+}
+
+.btn-primary:hover, 
+.btn-apply:hover, 
+.btn-save:hover, 
+.btn-select:hover, 
+.btn-send:hover, 
+.btn-setup:hover, 
+.btn-update:hover {
+    background-color: $color-a-darker;
+    border-color: $color-a-darker;
+    color: $color-b;
+}
+
+.btn-edit {
+    @include button-variant(#fff, $color-d, $color-d);
+
+    .rex-icon {
+        vertical-align: middle;
+    }
+
+    .btn-group > &:hover {
+        z-index: 0;
+    }
+
+    .panel-edit & {
+        @include button-variant($color-d, #fff, #fff);
+    }
+}
+
+
+.btn-save, 
+.btn-apply {
+    @include button-variant(#fff, $color-d, $color-d);
+}
+
+.btn-toolbar > .btn-abort {
+    float: right;
+}

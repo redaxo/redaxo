@@ -1,23 +1,22 @@
 
+.table > tbody > tr.mark {
+    background-color: $color-c-light;
+}
+
 .table tr .alert {
     margin-top: $line-height-computed;
     margin-bottom: floor($line-height-computed / 2);
 }
 
 @media (min-width: $screen-md-min) {
-    .table th.rex-table-slimmer,
-    .table td.rex-table-slimmer {
-        width: 40px;
-        text-align: center;
-    }
-    .table th.rex-table-slim,
-    .table td.rex-table-slim {
-        width: 60px;
-        text-align: center;
-    }
+
+    $cell-width: 40px;
+
     .table th.rex-table-icon, 
-    .table td.rex-table-icon {
-        width: 40px;
+    .table td.rex-table-icon,
+    .table th.rex-table-width-1,
+    .table td.rex-table-width-1  {
+        width: $cell-width;
         text-align: center;
     }
     .table th.rex-table-id,
@@ -32,9 +31,51 @@
         width: 100px;
         text-align: center;
     }
+    .table th.rex-table-slimmer,
+    .table td.rex-table-slimmer,
+    .table th.rex-table-width-2,
+    .table td.rex-table-width-2 {
+        width: $cell-width * 2;
+    }
+    .table th.rex-table-slim,
+    .table td.rex-table-slim,
+    .table th.rex-table-width-3,
+    .table td.rex-table-width-3 {
+        width: $cell-width * 3;
+    }
     .table th.rex-table-action:not([colspan]),
-    .table td.rex-table-action:not([colspan]) {
-        width: 160px;
+    .table td.rex-table-action:not([colspan]),
+    .table th.rex-table-width-4,
+    .table td.rex-table-width-4 {
+        width: $cell-width * 4;
+    }
+    .table th.rex-table-width-5, 
+    .table td.rex-table-width-5 {
+        width: $cell-width * 5;
+    }
+    .table th.rex-table-width-6, 
+    .table td.rex-table-width-6 {
+        width: $cell-width * 6;
+    }
+    .table th.rex-table-width-7, 
+    .table td.rex-table-width-7 {
+        width: $cell-width * 7;
+    }
+    .table th.rex-table-width-8, 
+    .table td.rex-table-width-8 {
+        width: $cell-width * 8;
+    }
+    .table th.rex-table-width-9, 
+    .table td.rex-table-width-9 {
+        width: $cell-width * 9;
+    }
+    .table th.rex-table-width-10, 
+    .table td.rex-table-width-10 {
+        width: $cell-width * 10;
+    }
+    .table th.rex-table-action > *,
+    .table td.rex-table-action > * {
+        white-space: nowrap;
     }
 }
 

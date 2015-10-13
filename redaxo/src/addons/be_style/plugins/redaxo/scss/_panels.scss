@@ -1,0 +1,10 @@
+
+
+.panel-add, 
+.panel-edit {
+    @include panel-variant($color-d, #fff, $color-d, $color-d);
+
+    .panel-body {
+        background-color: $color-c-light;
+    }
+}
