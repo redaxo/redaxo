@@ -76,32 +76,28 @@ if ($article->getRows() == 1) {
         'ctype' => $ctype,
     ]);
 
-    // ----- Languages
-    echo rex_view::clangSwitch($context);
+    if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
 
-    // ----- Titel anzeigen
-    echo rex_view::title(rex_i18n::msg('content'), '');
+        rex_extension::register('PAGE_TITLE', function ($ep) use ($article) {
+            $icon = ($article->getValue('startarticle') == 1) ? 'rex-icon-startarticle' : 'rex-icon-article';
+            $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
+
+            return '<i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small>';
+
+        });
+    }
 
     // ----- category pfad und rechte
     require rex_path::addon('structure', 'functions/function_rex_category.php');
 
-    if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
-        $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
-        $catname = str_replace(' ', '&nbsp;', htmlspecialchars($article->getValue('name')));
-        // TODO: if admin or recht advanced -> $KATout .= " [$article_id]";
 
-        $navigation = [];
-        $navigation[] = [
-            'href' => $context->getUrl(),
-            'title' => $catname,
-        ];
+    // ----- Titel anzeigen
+    echo rex_view::title(rex_i18n::msg('content'), '');
 
-        $fragment = new rex_fragment();
-        $fragment->setVar('title', $term);
-        $fragment->setVar('items', $navigation, false);
-        echo $fragment->parse('core/navigations/breadcrumb.php');
-        unset($fragment);
-    }
+
+    // ----- Languages
+    echo rex_view::clangSwitch($context);
+
 
     // ----- EXTENSION POINT
     echo rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_HEADER', '', [
@@ -118,8 +114,8 @@ if ($article->getRows() == 1) {
 
     // --------------------- SEARCH BAR
 
-    require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
-    echo rex_structure_searchbar($context);
+    //require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
+    //echo rex_structure_searchbar($context);
 
     // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
     if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
@@ -431,7 +427,7 @@ if ($article->getRows() == 1) {
         $navigation = current($blocks);
         $content_navi_right = $navigation['navigation'];
 
-        $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;">' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
+        $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
 
         $fragment = new rex_fragment();
         $fragment->setVar('left', $content_navi_left, false);

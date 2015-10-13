@@ -67,14 +67,14 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
     'context' => $context,
 ]));
 
-// --------------------------------------------- Languages
-echo rex_view::clangSwitch($context);
+// --------------------------------------------- Path
+require __DIR__ . '/../functions/function_rex_category.php';
 
 // --------------------------------------------- TITLE
 echo rex_view::title(rex_i18n::msg('title_structure'));
 
-// --------------------------------------------- Path
-require __DIR__ . '/../functions/function_rex_category.php';
+// --------------------------------------------- Languages
+echo rex_view::clangSwitch($context);
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();
@@ -104,8 +104,8 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
 ]));
 
 // --------------------- SEARCH BAR
-require_once $this->getPath('functions/function_rex_searchbar.php');
-echo rex_structure_searchbar($context);
+//require_once $this->getPath('functions/function_rex_searchbar.php');
+//echo rex_structure_searchbar($context);
 
 // --------------------- COUNT CATEGORY ROWS
 
