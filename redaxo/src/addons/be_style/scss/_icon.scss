@@ -94,6 +94,9 @@
 .rex-icon-edit {
     @extend .fa-edit;
 }
+.rex-icon-editmode {
+    @extend .fa-pencil;
+}
 .rex-icon-execute {
     @extend .fa-sign-in;
 }
@@ -133,6 +136,9 @@
 }
 .rex-icon-mediatype-effect {
     @extend .fa-eyedropper;
+}
+.rex-icon-metafuncs {
+    @extend .fa-wrench;
 }
 .rex-icon-metainfo {
     @extend .fa-lemon-o;

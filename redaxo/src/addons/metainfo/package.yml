@@ -13,7 +13,7 @@ page:
         categories: { title: 'translate:categories' }
         media: { title: 'translate:media' }
 pages:
-    content/metainfo: { title: 'translate:metadata' }
+    content/metainfo: { title: 'translate:metadata', icon: rex-icon rex-icon-metainfo }
 
 requires:
     packages:

@@ -92,6 +92,10 @@ foreach ($navigations as $nav_key => $navigation) {
             $li_a .= '<a' . rex_string::buildAttributes($attributes) . '>';
         }
 
+        if (isset($navi['icon']) && $navi['icon'] != '') {
+            $li_a .= '<i class="' . $navi['icon'] . '"></i> ';
+        }
+
         $li_a .= $navi['title'];
 
         if (isset($navi['href']) && $navi['href'] != '') {

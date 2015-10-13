@@ -12,8 +12,8 @@ pages:
         perm: structure/hasStructurePerm
         pjax: true
         subpages:
-            edit: { title: translate:edit_mode }
-            functions: { title: translate:metafuncs }
+            edit: { title: translate:edit_mode, icon: rex-icon rex-icon-editmode }
+            functions: { title: translate:metafuncs, icon: rex-icon rex-icon-metafuncs }
     templates:
         title: translate:templates
         main: true
