@@ -59,15 +59,15 @@
             margin-bottom: 0;
 
             &.active {
-                > a, 
-                > a:hover {
+                > a:not(.btn), 
+                > a:not(.btn):hover {
                     background-color: $color-b;
                     border-color: $color-b;
                     color: #fff;
                 }
             }
 
-            > a {
+            > a:not(.btn) {
                 background-color: $color-a-dark;
                 border-color: $color-a-dark;
                 color: $color-a;
