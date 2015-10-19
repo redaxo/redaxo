@@ -351,7 +351,7 @@ abstract class rex_var
      */
     public static function toArray($value)
     {
-        $value = json_decode(htmlspecialchars_decode($value));
+        $value = json_decode(htmlspecialchars_decode($value), true);
         return is_array($value) ? $value : null;
     }
 
