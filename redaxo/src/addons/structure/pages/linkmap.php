@@ -80,7 +80,7 @@ if ($category) {
     }
 }
 
-echo rex_view::title('Linkmap');
+echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
 $title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-sitestartarticle"></i> ' . rex_i18n::msg('homepage') . '</a>';
 
@@ -109,4 +109,5 @@ $content[] = $fragment->parse('core/page/section.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);
+$fragment->setVar('classes', ['col-sm-6', 'col-sm-6'], false);
 echo $fragment->parse('core/page/grid.php');
