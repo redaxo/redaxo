@@ -33,7 +33,7 @@ abstract class rex_api_install_package_download extends rex_api_function
         $this->archive = $archivefile;
         if ($this->file['checksum'] != md5_file($archivefile)) {
             $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
-        } elseif (!file_exists("phar://$archivefile/" . $this->addonkey)) {
+        } elseif (!$this->isCorrectFormat($archivefile)) {
             $message = rex_i18n::msg('install_warning_zip_wrong_format');
         } elseif (is_string($msg = $this->doAction())) {
             $message = $msg;
@@ -63,4 +63,26 @@ abstract class rex_api_install_package_download extends rex_api_function
     abstract protected function checkPreConditions();
 
     abstract protected function doAction();
+
+    private function isCorrectFormat($file)
+    {
+        if (class_exists('ZipArchive')) {
+            $success = false;
+            $zip = new ZipArchive();
+            if ($zip->open($file) === true) {
+                for ($i = 0; $i < $zip->numFiles; ++$i) {
+                    $filename = $zip->getNameIndex($i);
+                    if (substr($filename, 0, strlen($this->addonkey.'/')) != $this->addonkey.'/') {
+                        $zip->deleteIndex($i);
+                    } else {
+                        $success = true;
+                    }
+                }
+                $zip->close();
+            }
+            return $success;
+        }
+
+        return file_exists("phar://$file/" . $this->addonkey);
+    }
 }
