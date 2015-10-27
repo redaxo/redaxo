@@ -39,7 +39,9 @@ class rex_install_archive
             $iterator->ignoreDirs($excludeDirs, false);
         }
         foreach ($iterator as $path => $file) {
-            $files[str_replace($dir, $basename, $path)] = $path;
+            $subpath = str_replace($dir, $basename, $path);
+            $subpath = str_replace('\\', '/', $subpath);
+            $files[$subpath] = $path;
         }
         if (class_exists('ZipArchive')) {
             $zip = new ZipArchive();
