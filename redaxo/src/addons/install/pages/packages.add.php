@@ -133,6 +133,13 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         <!--
         jQuery(function($) {
             var table = $("#rex-js-table-install-packages-addons");
+            var tablebody = table.find("tbody");
+            var replaceNumber = function replaceNumber() {
+                table.prev().find(".panel-title").text(
+                function(i,txt) {
+                    return txt.replace(/\d+/, tablebody.find("tr").filter(":visible").length);
+                });
+            };
             $("#rex-js-install-addon-search .form-control").keyup(function () {
                 table.find("tr").show();
                 var search = $(this).val().toLowerCase();
@@ -143,6 +150,11 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                             tr.hide();
                         }
                     });
+                    replaceNumber();
+                }
+                else
+                {
+                    replaceNumber();
                 }
             });
             $("#rex-js-install-addon-search .btn").click(function () {
