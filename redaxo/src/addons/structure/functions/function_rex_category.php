@@ -12,14 +12,21 @@ $KAToutARR = []; // Variable definiert und vorbelegt wenn nicht existent
 
 $navigation = [];
 
-$ooCat = rex_category::get($category_id, $clang);
-if ($ooCat) {
-    foreach ($ooCat->getParentTree() as $parent) {
-        $catid = $parent->getId();
-        if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($catid)) {
+$object_id = $article_id > 0 ? $article_id : $category_id;
+$object = rex_article::get($object_id, $clang);
+if ($object) {
+    $tree = $object->getParentTree();
+    if (! $object->isStartarticle()) {
+        $tree[] = $object;
+    }
+    foreach ($tree as $parent) {
+        $id = $parent->getId();
+        if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
             $n = [];
             $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
-            $n['href'] = rex_url::backendPage('structure', ['category_id' => $catid, 'clang' => $clang]);
+            if ($parent->isStartarticle()) {
+                $n['href'] = rex_url::backendPage('structure', ['category_id' => $id, 'clang' => $clang]);
+            }
             $navigation[] = $n;
         }
     }
