@@ -13,3 +13,6 @@
 [submodule "redaxo/src/addons/wildcard"]
 	path = redaxo/src/addons/wildcard
 	url = git@github.com:tbaddade/redaxo_wildcard.git
+[submodule "redaxo/src/addons/yform"]
+	path = redaxo/src/addons/yform
+	url = git@github.com:yakamara/redaxo_yform.git
