@@ -15,6 +15,7 @@ $color-b:           #4b9ad9;
 $color-c-light:     #fbffd6;
 
 // Green
+$color-d-light:     #95e0cc;
 $color-d:           #3bb594;
 
 
@@ -535,7 +536,7 @@ $jumbotron-heading-font-size:    ceil(($font-size-base * 4.5)) !default;
 //## Define colors for form feedback states and, by default, alerts.
 
 $state-success-text:             #3c763d !default;
-$state-success-bg:               $color-d;
+$state-success-bg:               $color-d-light;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
 $state-info-text:                #31708f !default;
