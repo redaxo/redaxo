@@ -142,10 +142,10 @@ if ($subpage == '') {
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                         <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
-                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $install . '</td>
-                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $status . '</td>
-                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $uninstall . '</td>
-                        <td class="rex-table-action" data-pjax-container="#rex-page">' . $delete . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $status . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $uninstall . '</td>
+                        <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $delete . '</td>
                     </tr>' . "\n   ";
     };
 

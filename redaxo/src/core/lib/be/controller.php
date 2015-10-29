@@ -360,7 +360,7 @@ class rex_be_controller
     {
         $currentPage = self::getCurrentPageObject();
 
-        if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-page')) {
+        if (rex_request::isPJAXRequest() && !rex_request::isPJAXContainer('#rex-js-page-container')) {
             // non-core pjax containers should not have a layout.
             // they render their whole response on their own
             $currentPage->setHasLayout(false);
