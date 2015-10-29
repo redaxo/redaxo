@@ -3,7 +3,8 @@
  */
 function newLinkMapWindow(link)
 {
-    newWindow( 'linkmappopup', link, 960,800,',status=yes,resizable=yes');
+    // 1200 = $screen-lg
+    newWindow( 'linkmappopup', link, 1200,800,',status=yes,resizable=yes');
 }
 
 function openLinkMap(id, param)
