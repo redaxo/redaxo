@@ -36,7 +36,7 @@ $body = '';
 foreach ($body_attr as $k => $v) {
     $body .= ' ' . $k . '="';
     if (is_array($v)) {
-        $body .= implode(' ', $v);
+        $body .= rex_string::normalize(implode(' ', $v), '-', ' ');
     }
     $body .= '"';
 }
