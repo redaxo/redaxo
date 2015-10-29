@@ -14,14 +14,10 @@
         margin-top: 0;
     }
     h1 {
-        // margin-top: ($line-height-computed * 2 + 42px);
-        font-size: $font-size-h2;
-        font-weight: 700;
-/*
-        .rex-breadcrumb + & {
-            margin-top: ($line-height-computed * 2 + 42px - 68px - $line-height-computed);
-        }
-*/
+        margin-top: ($line-height-computed + 14px);
+        margin-bottom: 0;
+        font-size: $font-size-h3;
+        font-weight: 400;
     }
 }
 

@@ -1,6 +1,10 @@
 
 .rex-breadcrumb {
-    padding-top: 32px;
+    //padding-top: 32px;
+
+    .rex-page-header + & {
+        margin-top: -9px;
+    }
 }
 .breadcrumb {
     border: 0;
