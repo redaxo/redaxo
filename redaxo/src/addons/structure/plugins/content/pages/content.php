@@ -76,23 +76,22 @@ if ($article->getRows() == 1) {
         'ctype' => $ctype,
     ]);
 
+
+    // ----- Titel anzeigen
+    echo rex_view::title(rex_i18n::msg('content'), '');
+
+
     if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
 
-        rex_extension::register('PAGE_TITLE', function ($ep) use ($article) {
             $icon = ($article->getValue('startarticle') == 1) ? 'rex-icon-startarticle' : 'rex-icon-article';
             $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
 
-            return '<i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small>';
+            //echo '<h2><i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small></h2>';
 
-        });
     }
 
     // ----- category pfad und rechte
     require rex_path::addon('structure', 'functions/function_rex_category.php');
-
-
-    // ----- Titel anzeigen
-    echo rex_view::title(rex_i18n::msg('content'), '');
 
 
     // ----- Languages
