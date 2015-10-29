@@ -135,9 +135,10 @@ rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep
         }
     }
 
+    $inverse = $rex_version_article[$params['article_id']] == 1 ? true : false;
     $cssClass = $rex_version_article[$params['article_id']] == 1 ? 'rex-state-inprogress' : 'rex-state-live';
 
-    $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass);
+    $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass, $inverse);
 
     $params['slice_revision'] = $rex_version_article[$params['article_id']];
 

@@ -199,9 +199,10 @@ class rex_view
      *
      * @return string
      */
-    public static function toolbar($content, $brand = null, $cssClass = null)
+    public static function toolbar($content, $brand = null, $cssClass = null, $inverse = false)
     {
         $fragment = new rex_fragment();
+        $fragment->setVar('inverse', $inverse);
         $fragment->setVar('cssClass', $cssClass);
         $fragment->setVar('brand', $brand);
         $fragment->setVar('content', $content, false);
