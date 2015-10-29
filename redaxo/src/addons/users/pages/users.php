@@ -265,7 +265,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="FUNC_UPDATE" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="FUNC_UPDATE" value="1" ' . rex::getAccesskey(rex_i18n::msg('user_save'), 'save') . '>' . rex_i18n::msg('user_save') . '</button>';
         $formElements[] = $n;
 
         $n = [];

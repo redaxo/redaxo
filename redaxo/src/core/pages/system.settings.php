@@ -202,7 +202,7 @@ $content = $fragment->parse('core/page/grid.php');
 $formElements = [];
 
 $n = [];
-$n['field'] = '<button class="btn btn-save" type="submit" name="sendit"' . rex::getAccesskey(rex_i18n::msg('system_update'), 'save') . '>' . rex_i18n::msg('system_update') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="sendit"' . rex::getAccesskey(rex_i18n::msg('system_update'), 'save') . '>' . rex_i18n::msg('system_update') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

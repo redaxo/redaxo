@@ -29,7 +29,7 @@ class rex_form_control_element extends rex_form_element
 
         if ($this->saveElement) {
             if (!$this->saveElement->hasAttribute('class')) {
-                $this->saveElement->setAttribute('class', 'btn btn-save');
+                $this->saveElement->setAttribute('class', 'btn btn-save rex-form-aligned');
             }
 
             $e = [];

@@ -63,7 +63,7 @@ $content .= '
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('update'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
+        $n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('update'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

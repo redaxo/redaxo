@@ -219,7 +219,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
         $formElements[] = $n;
 
         if ($btn_update != '') {
@@ -320,7 +320,7 @@ if ($function == 'add' or $function == 'edit') {
                 $formElements = [];
 
                 $n = [];
-                $n['field'] = '<button class="btn btn-save" type="submit" value="1" name="add_action">' . rex_i18n::msg('action_add') . '</button>';
+                $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="add_action">' . rex_i18n::msg('action_add') . '</button>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();

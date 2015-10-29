@@ -70,10 +70,8 @@ legend {
         }
     }
 }
-.rex-form-panel-footer > .btn-toolbar {
-
-
-    button:first-of-type {
+.rex-form-aligned, 
+.btn-toolbar .rex-form-aligned {
 
         @media (min-width: $grid-float-breakpoint) {
             margin-left: floor($grid-gutter-width * 6 + 5px); // btn-toolbar is left moved (-5px), Offset the first child's margin
@@ -88,6 +86,4 @@ legend {
         .table + .panel-footer & {
             margin-left: 0;
         }
-
-    }
 }

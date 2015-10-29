@@ -370,7 +370,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_template_and_quit'), 'save') . '>' . rex_i18n::msg('save_template_and_quit') . '</button>';
         $formElements[] = $n;
 
         $n = [];
