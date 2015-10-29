@@ -91,7 +91,7 @@ if ($func == '' && $type_id > 0) {
 
     $content = $list->get();
 
-    $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '"><i class="rex-icon rex-icon-back"></i>' . rex_i18n::msg('media_manager_back') . '</a>';
+    $footer = '<a class="btn btn-back" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('media_manager_back') . '</a>';
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::RawMsg('media_manager_effect_caption', $typeName), false);

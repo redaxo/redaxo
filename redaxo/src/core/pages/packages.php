@@ -53,7 +53,7 @@ if ($subpage == 'help') {
     $fragment->setVar('body', $credits, false);
     echo $fragment->parse('core/page/section.php');
 
-    echo '<a class="btn btn-back" href="javascript:history.back();"><i class="rex-icon rex-icon-back"></i> ' . rex_i18n::msg('package_back') . '</a>';
+    echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
 }
 
 // ----------------- OUT
