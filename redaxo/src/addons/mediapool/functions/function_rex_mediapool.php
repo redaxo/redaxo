@@ -468,7 +468,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
         $e = [];
         $e['label'] = '<label for="rex-mediapool-choose-file">' . rex_i18n::msg('pool_file_file') . '</label>';
         $e['field'] = '<input id="rex-mediapool-choose-file" type="file" name="file_new" />';
-        $e['note'] = '<h3>' . rex_i18n::msg('phpini_settings') . '</h3>
+        $e['after'] = '<h3>' . rex_i18n::msg('phpini_settings') . '</h3>
                         <dl class="dl-horizontal">
                         ' . ((rex_ini_get('file_uploads') == 0) ? '<dt><span class="text-warning">' . rex_i18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . rex_i18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
                             <dt>' . rex_i18n::msg('pool_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
@@ -483,7 +483,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $formElements = [];
 
     $e = [];
-    $e['field'] = '<button class="btn btn-save" type="submit" name="save" value="' . $button_title . '"' . rex::getAccesskey($button_title, 'save') . '>' . $button_title . '</button>';
+    $e['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="save" value="' . $button_title . '"' . rex::getAccesskey($button_title, 'save') . '>' . $button_title . '</button>';
     $formElements[] = $e;
 
     $e = [];
@@ -495,6 +495,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $buttons = $fragment->parse('core/form/submit.php');
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $form_title, false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('buttons', $buttons, false);

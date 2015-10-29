@@ -30,3 +30,19 @@
         border-top: 1px solid rgba($color-a, .3);
     }
 }
+
+.dl-horizontal.text-left {
+    > dt {
+        text-align: left;
+    }
+}
+
+.table > tbody > tr > td > h3 {
+    font-size: $font-size-base;
+    font-weight: 700;
+    line-height: $line-height-base;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}

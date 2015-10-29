@@ -23,8 +23,16 @@ legend {
         }
         > dt {
             width: floor($grid-gutter-width * 6);
-            padding-top: 10px; // margin-top .radio/.checkbox
+            padding-top: ($padding-base-vertical + 1);
             padding-right: floor($grid-gutter-width / 2);
+        }
+        > dd {
+
+            .checkbox, 
+            .radio {
+                margin-top: ($padding-base-vertical + 1);
+                margin-bottom: ($padding-base-vertical + 1);
+            }
         }
 
         textarea:not([rows]) {
@@ -68,6 +76,10 @@ legend {
         > dd {
             padding-left: 0;
         }
+    }
+
+    .table tr:not(.collapse):not(.collapsing) & {
+        padding-left: 0;
     }
 }
 .rex-form-aligned, 

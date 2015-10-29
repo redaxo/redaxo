@@ -245,17 +245,17 @@ if ($file_id) {
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-            $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . htmlspecialchars($fname) . '</a> <span class="rex-media-filesize">' . $ffile_size . '</span></p>';
+            $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . htmlspecialchars($fname) . '</a> <span class="rex-filesize">' . $ffile_size . '</span></p>';
             $formElements[] = $e;
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' <span class="rex-media-author">' . $gf->getValue('updateuser') . '</span></p>';
+            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
             $formElements[] = $e;
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' <span class="rex-media-author">' . $gf->getValue('createuser') . '</span></p>';
+            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
             $formElements[] = $e;
 
             $e = [];
@@ -270,7 +270,7 @@ if ($file_id) {
             $formElements = [];
 
             $e = [];
-            $e['field'] = '<button class="btn btn-apply" type="submit" value="' . rex_i18n::msg('pool_file_update') . '" name="btn_update">' . rex_i18n::msg('pool_file_update') . '</button>';
+            $e['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" value="' . rex_i18n::msg('pool_file_update') . '" name="btn_update">' . rex_i18n::msg('pool_file_update') . '</button>';
             $formElements[] = $e;
             $e = [];
             $e['field'] = '<button class="btn btn-delete" type="submit" value="' . rex_i18n::msg('pool_file_delete') . '" name="btn_delete" data-confirm="' . rex_i18n::msg('delete') . ' ?">' . rex_i18n::msg('delete') . '</button>';
@@ -288,6 +288,7 @@ if ($file_id) {
             }
 
             $fragment = new rex_fragment();
+            $fragment->setVar('class', 'edit', false);
             $fragment->setVar('title', rex_i18n::msg('pool_file_edit') . $opener_link, false);
             $fragment->setVar('body', $panel, false);
             $fragment->setVar('buttons', $buttons, false);
@@ -327,17 +328,17 @@ if ($file_id) {
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-            $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . $fname . '</a>  <span class="rex-media-filesize">' . $ffile_size . '</span></p>';
+            $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . $fname . '</a>  <span class="rex-filesize">' . $ffile_size . '</span></p>';
             $formElements[] = $e;
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' <span class="rex-media-author">' . $gf->getValue('updateuser') . '</span></p>';
+            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
             $formElements[] = $e;
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' <span class="rex-media-author">' . $gf->getValue('createuser') . '</span></p>';
+            $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
             $formElements[] = $e;
 
             $fragment = new rex_fragment();
@@ -469,10 +470,11 @@ if (!$file_id) {
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>' . rex_i18n::msg('pool_file_thumbnail') . '</th>
+                                    <th class="rex-table-icon"></th>
+                                    <th class="rex-table-thumbnail">' . rex_i18n::msg('pool_file_thumbnail') . '</th>
                                     <th>' . rex_i18n::msg('pool_file_info') . ' / ' . rex_i18n::msg('pool_file_description') . '</th>
-                                    <th>' . rex_i18n::msg('pool_file_functions') . '</th>
+                                    <th>' . rex_i18n::msg('pool_last_update') . '</th>
+                                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('pool_file_functions') . '</th>
                                 </tr>
                             </thead>';
 
@@ -522,7 +524,7 @@ if (!$file_id) {
                 <td colspan="2">
                 ' . $checkbox . '
                 </td>
-                <td colspan="2">
+                <td colspan="4">
                 ' . $field . '
                 </td>
             </tr>
@@ -584,7 +586,7 @@ if (!$file_id) {
         $desc = '';
         foreach (['med_description'] as $col) {
             if ($files->hasValue($col) && $files->getValue($col) != '') {
-                $desc = htmlspecialchars($files->getValue($col));
+                $desc = '<p>' . htmlspecialchars($files->getValue($col)) . '</p>';
                 break;
             }
         }
@@ -643,14 +645,13 @@ if (!$file_id) {
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
                         <td data-title="' . rex_i18n::msg('pool_file_info') . '">
-                            <div class="rex-media-heading"><a href="' . $ilink . '">' . htmlspecialchars($file_title) . '</a></div>
-                            <div class="rex-media-description">' . $desc . '</div>
-                            <div class="rex-media-filename">' . htmlspecialchars($file_name) . '</div>
-                            <div class="rex-media-filesize">' . $file_size . '</div>
-                            <div class="rex-media-updated">' . $file_stamp . '</div>
-                            <div class="rex-media-author">' . htmlspecialchars($file_updateuser) . '</div>
+                            <h3><a href="' . $ilink . '">' . htmlspecialchars($file_title) . '</a></h3>
+                            ' . $desc . '
+                            <p>' . htmlspecialchars($file_name) . ' <span class="rex-filesize">' . $file_size . '</span></p>
                         </td>
-                        <td>';
+                        <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . $file_stamp . '</p><p class="rex-author">' . htmlspecialchars($file_updateuser) . '</p></td>
+                        <td class="rex-table-action"><a href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
+                        <td class="rex-table-action">';
 
         $panel .= rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_FUNCTIONS', $opener_link, [
             'file_id' => $files->getValue('id'),
@@ -674,7 +675,7 @@ if (!$file_id) {
         $panel .= '
             <tr>
                 <td></td>
-                <td colspan="3">' . rex_i18n::msg('pool_nomediafound') . '</td>
+                <td colspan="5">' . rex_i18n::msg('pool_nomediafound') . '</td>
             </tr>';
     }
 

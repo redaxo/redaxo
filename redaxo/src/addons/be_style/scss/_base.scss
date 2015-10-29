@@ -200,6 +200,13 @@
     font-family: $font-family-monospace;
 }
 
+
+.rex-author, 
+.rex-filesize {
+    @extend .text-muted;
+}
+
+
 // Wird bei den Kategorie-Metainfos gesetzt
 .form-legend {
     @extend legend;
