@@ -101,7 +101,7 @@ class rex_be_navigation
             $n['linkClasses'][] = $page->getItemAttr('class');
 
             foreach ($page->getItemAttr(null) as $name => $value) {
-                $n['itemAttr'][$name] = [trim($value)];
+                $n['itemAttr'][$name] = trim($value);
             }
 
             foreach ($page->getLinkAttr(null) as $name => $value) {

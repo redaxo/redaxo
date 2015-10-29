@@ -11,7 +11,11 @@
             $icon = '';
             if (isset($item['icon']) && $item['icon'] != ''):
                 if (isset($item['itemAttr']['class'])) {
-                    $item['itemAttr']['class'][] = 'rex-has-icon';
+                    if (is_array($item['itemAttr']['class'])) {
+                        $item['itemAttr']['class'] = array_merge($item['itemAttr']['class'], ['rex-has-icon']);
+                    } else {
+                        $item['itemAttr']['class'] = [$item['itemAttr']['class'], 'rex-has-icon'];                        
+                    }
                 } else {
                     $item['itemAttr']['class'] = ['rex-has-icon'];
                 }
