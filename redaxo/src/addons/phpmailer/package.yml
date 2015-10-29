@@ -7,6 +7,7 @@ page:
     title: PHPMailer
     perm: phpmailer[]
     pjax: true
+    icon: rex-icon rex-icon-envelope
     subpages:
         config: { title: 'translate:configuration' }
         example: { title: 'translate:example' }
