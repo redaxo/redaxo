@@ -43,3 +43,11 @@
 .rex-language {
     float: right;
 }
+
+
+.rex-state-inprogress {
+    background-color: $navbar-inverse-bg;
+}
+.rex-state-live {
+    background-color: $navbar-default-bg;
+}
