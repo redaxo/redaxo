@@ -8,7 +8,13 @@ if (!$curPage->hasLayout()) {
 
 ?>
 
-</section></div></div><?php
+</section></div><?php
+
+if (rex_request::isPJAXContainer('#rex-js-page-container')) {
+    return;
+}
+
+echo '</div>';
 
 $sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
 if ($sidebar != '') {
@@ -25,8 +31,6 @@ $footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex
 echo $footerfragment->parse('core/footer.php');
 unset($footerfragment);
 
-if (!rex_request::isPJAXContainer('#rex-page')) {
-    $bottomfragment = new rex_fragment();
-    echo $bottomfragment->parse('core/bottom.php');
-    unset($bottomfragment);
-}
+$bottomfragment = new rex_fragment();
+echo $bottomfragment->parse('core/bottom.php');
+unset($bottomfragment);
