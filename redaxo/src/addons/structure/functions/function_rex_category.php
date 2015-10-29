@@ -16,7 +16,7 @@ $object_id = $article_id > 0 ? $article_id : $category_id;
 $object = rex_article::get($object_id, $clang);
 if ($object) {
     $tree = $object->getParentTree();
-    if (! $object->isStartarticle()) {
+    if (!$object->isStartarticle()) {
         $tree[] = $object;
     }
     foreach ($tree as $parent) {

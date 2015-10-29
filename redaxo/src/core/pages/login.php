@@ -42,7 +42,6 @@ $content .= '
     <fieldset>
         <input type="hidden" name="javascript" value="0" id="javascript" />';
 
-
 $formElements = [];
 
 $inputGroups = [];
@@ -60,7 +59,6 @@ $n['label'] = '<label for="rex-id-login-user">' . rex_i18n::msg('login_name') . 
 $n['field'] = $inputGroup;
 $n['class'] = 'rex-form-group-vertical';
 $formElements[] = $n;
-
 
 $inputGroups = [];
 $n = [];
@@ -81,8 +79,6 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-
-
 
 $formElements = [];
 $n = [];

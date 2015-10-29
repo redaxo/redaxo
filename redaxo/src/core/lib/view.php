@@ -357,12 +357,10 @@ class rex_view
             }
         }
 
-
         $fragment = new rex_fragment();
         $fragment->setVar('buttons', $items, false);
         return '<div class="btn-toolbar">' . $fragment->parse('core/buttons/button_group.php') . '</div>';
     }
-
 
     /**
      * Returns a clang switch.

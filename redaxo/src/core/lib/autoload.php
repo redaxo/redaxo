@@ -23,7 +23,7 @@ class rex_autoload
     protected static $reloaded = false;
     protected static $dirs = [];
     protected static $addedDirs = [];
-    static $classes = [];
+    public static $classes = [];
 
     /**
      * Register rex_autoload in spl autoloader.

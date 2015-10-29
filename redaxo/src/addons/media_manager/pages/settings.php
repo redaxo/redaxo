@@ -56,7 +56,6 @@ $content .= '
         $fragment->setVar('elements', $formElements, false);
         $content = $fragment->parse('core/form/form.php');
 
-
         $formElements = [];
         $n = [];
         $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('form_abort') . '</a>';
