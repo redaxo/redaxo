@@ -12,6 +12,9 @@ matrix:
 
 sudo: false
 
+notifications:
+    email: false
+
 cache:
     directories:
         - "$HOME/.php-cs-fixer"
