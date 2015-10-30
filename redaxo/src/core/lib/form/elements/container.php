@@ -103,16 +103,6 @@ class rex_form_container_element extends rex_form_element
         return 'core/form/container.php';
     }
 
-    public function get()
-    {
-        $s = '';
-        $s .= $this->getHeader();
-        $s .= $this->_get();
-        $s .= $this->getFooter();
-
-        return $s;
-    }
-
     public function getSaveValue()
     {
         $value = [];
