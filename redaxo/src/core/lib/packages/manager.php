@@ -105,7 +105,7 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($message);
             }
 
-            $activate = !$this->package->getProperty('install');
+            $reinstall = $this->package->getProperty('install');
             $available = $this->package->isAvailable();
             $this->package->setProperty('install', true);
 
@@ -132,11 +132,11 @@ abstract class rex_package_manager
                 rex_sql_util::importDump($installSql);
             }
 
-            if ($activate) {
+            if (!$reinstall) {
                 $this->package->setProperty('status', true);
             }
             $this->saveConfig();
-            if ($activate && $this->generatePackageOrder) {
+            if (!$reinstall && $this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
 
@@ -148,7 +148,7 @@ abstract class rex_package_manager
                 }
             }
 
-            $this->message = $this->i18n('installed', $this->package->getName());
+            $this->message = $this->i18n($reinstall ? 'reinstalled' : 'installed', $this->package->getName());
 
             return true;
         } catch (rex_functional_exception $e) {
