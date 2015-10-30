@@ -98,6 +98,11 @@ class rex_form_container_element extends rex_form_element
         return $format;
     }
 
+    protected function getFragment()
+    {
+        return 'core/form/container.php';
+    }
+
     public function get()
     {
         $s = '';
