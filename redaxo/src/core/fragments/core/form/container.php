@@ -30,23 +30,11 @@ foreach ($this->elements as $element) {
     }
 
     $out .= $header;
-    $out .= '<dl class="rex-form-group form-group' . $classes . '"' . $id . '>';
+    $out .= '<div class="rex-form-group rex-form-container form-group' . $classes . '"' . $id . '>';
     $out .= $label;
-    $out .= '<dd>' . $before . $field . $after . $note . $error . '</dd>';
-    $out .= '</dl>';
+    $out .= '<div class="rex-form-container-field">' . $before . $field . $after . $note . $error . '</div>';
+    $out .= '</div>';
     $out .= $footer;
 }
 
-$classes = '';
-/*
-$classes .= isset($this->group)  && $this->group  ? ' rex-form-group' : '';
-$classes .= isset($this->flush)  && $this->flush  ? ' rex-form-flush' : '';
-$classes .= isset($this->inline) && $this->inline ? ' rex-form-inline' : '';
-*/
-if ($classes != '') {
-    echo '<div class="' . trim($classes) . '">';
-    echo $out;
-    echo '</div>';
-} else {
-    echo $out;
-}
+echo $out;
