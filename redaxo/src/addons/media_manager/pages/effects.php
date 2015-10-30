@@ -114,6 +114,12 @@ if ($func == '' && $type_id > 0) {
     // image_type_id for reference to save into the db
     $form->addHiddenField('type_id', $type_id);
 
+    // effect prio
+    $field = $form->addPrioField('priority');
+    $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
+    $field->setLabelField('effect');
+    $field->setWhereCondition('type_id = ' . $type_id);
+
     // effect name als SELECT
     $field = $form->addSelectField('effect');
     $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
@@ -137,12 +143,6 @@ if ($func == '' && $type_id > 0) {
     })(jQuery);
 
     //--></script>';
-
-    // effect prio
-    $field = $form->addPrioField('priority');
-    $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
-    $field->setLabelField('effect');
-    $field->setWhereCondition('type_id = ' . $type_id);
 
     // effect parameters
     $fieldContainer = $form->addContainerField('parameters');
