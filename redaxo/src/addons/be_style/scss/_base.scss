@@ -33,6 +33,10 @@
             //margin-top: -$navbar-height;
             padding-top: $navbar-height;
             table-layout: fixed;
+
+            .rex-is-popup& {
+                padding-top: $popup-navbar-height;
+            }
         }
 
         .rex-nav-main {
