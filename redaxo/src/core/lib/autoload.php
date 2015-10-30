@@ -200,7 +200,7 @@ class rex_autoload
     }
 
     /**
-     * Returns the classes
+     * Returns the classes.
      *
      * @return string[]
      */
