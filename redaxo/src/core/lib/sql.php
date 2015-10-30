@@ -1331,7 +1331,7 @@ class rex_sql implements Iterator
                         }
                     } catch (PDOException $e) {
                         // unable to find database
-                        $err_msg = rex_i18n::msg('sql_unable_to_open_datebase');
+                        $err_msg = rex_i18n::msg('sql_unable_to_open_database');
                     }
                 } else {
                     // unable to find database
