@@ -47,21 +47,22 @@ $fragment->setVar('elements', $formElements, false);
 $toolbar = $fragment->parse('core/form/input_group.php');
 
 $toolbar = '
+<div class="navbar-form navbar-right">
 <form action="' . rex_url::currentBackendPage() . '" method="post">
-' . $arg_fields . '
-<div class="navbar-form rex-navbar-form-flexible">
+    ' . $arg_fields . '
     <div class="form-group">
-        ' . $toolbar . '
+    ' . $toolbar . '
     </div>
-</div>
-</form>';
-$toolbar = rex_view::toolbar($toolbar, rex_i18n::msg('be_search_mpool_search'));
+</form>
+</div>';
+
 
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
     'category_id' => $rex_file_category,
 ]));
+
 
 // *************************************** Subpage: Media
 
@@ -130,8 +131,6 @@ if ($file_id) {
         if ($PERMALL || rex::getUser()->hasPerm('media[' . $gf->getValue('category_id') . ']')) {
             $TPERM = true;
         }
-
-        echo $toolbar;
 
         $ftitle = $gf->getValue('title');
         $fname = $gf->getValue('filename');
@@ -290,6 +289,7 @@ if ($file_id) {
             $fragment = new rex_fragment();
             $fragment->setVar('class', 'edit', false);
             $fragment->setVar('title', rex_i18n::msg('pool_file_edit') . $opener_link, false);
+            $fragment->setVar('options', $toolbar, false);
             $fragment->setVar('body', $panel, false);
             $fragment->setVar('buttons', $buttons, false);
             $content = $fragment->parse('core/page/section.php');
@@ -354,6 +354,7 @@ if ($file_id) {
 
             $fragment = new rex_fragment();
             $fragment->setVar('title', rex_i18n::msg('pool_file_details') . $opener_link, false);
+            $fragment->setVar('options', $toolbar, false);
             $fragment->setVar('body', $panel, false);
             $content = $fragment->parse('core/page/section.php');
 
@@ -432,8 +433,6 @@ if (!$file_id) {
     $cats_sel->setId('rex_file_category');
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     $cats_sel->setSelected($rex_file_category);
-
-    echo $toolbar;
 
     if (is_array($error)) {
         if (count($error) > 0) {
@@ -687,6 +686,7 @@ if (!$file_id) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('pool_file_caption', $rex_file_category_name), false);
+    $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
 
