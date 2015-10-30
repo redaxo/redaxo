@@ -244,6 +244,11 @@ class rex_form_element
         return $content;
     }
 
+    protected function getFragment()
+    {
+        return 'core/form/form.php';
+    }
+
     protected function _get()
     {
         $class = $this->formatClass();
@@ -264,7 +269,7 @@ class rex_form_element
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        return  $fragment->parse('core/form/form.php');
+        return  $fragment->parse($this->getFragment());
     }
 
     public function get()
