@@ -183,3 +183,7 @@
         padding: $table-condensed-cell-padding;
     }
 }
+
+tr.rex-package-is-plugin > td.rex-table-icon {
+    text-align: right;
+}
