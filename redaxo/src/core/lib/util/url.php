@@ -9,20 +9,18 @@
  */
 class rex_url
 {
-    protected static $base;
-    protected static $backend;
+    protected static $pathprovider;
 
     /**
      * Initializes the class.
      *
-     * @param string $htdocs  Htdocs path
-     * @param string $backend Backend folder name
+     * @param mixed $pathprovider  A path provider.
      */
-    public static function init($htdocs, $backend)
+    public static function init($pathprovider)
     {
-        self::$base = $htdocs;
-        self::$backend = substr($htdocs, -3) === '../' ? '' : $htdocs . $backend . '/';
+        self::$pathprovider = $pathprovider;
     }
+
     /**
      * Returns a base url.
      *
@@ -32,7 +30,7 @@ class rex_url
      */
     public static function base($file = '')
     {
-        return self::$base . $file;
+        return self::$pathprovider->base($file);
     }
 
     /**
@@ -44,7 +42,7 @@ class rex_url
      */
     public static function frontend($file = '')
     {
-        return self::base($file);
+        return self::$pathprovider->frontend($file);
     }
 
     /**
@@ -59,7 +57,7 @@ class rex_url
     {
         $query = rex_string::buildQuery($params, $escape ? '&amp;' : '&');
         $query = $query ? '?' . $query : '';
-        return self::base('index.php' . $query);
+        return self::$pathprovider->frontendController() . $query;
     }
 
     /**
@@ -71,7 +69,7 @@ class rex_url
      */
     public static function backend($file = '')
     {
-        return self::$backend . $file;
+        return self::$pathprovider->backend($file);
     }
 
     /**
@@ -86,7 +84,7 @@ class rex_url
     {
         $query = rex_string::buildQuery($params, $escape ? '&amp;' : '&');
         $query = $query ? '?' . $query : '';
-        return self::backend('index.php' . $query);
+        return self::$pathprovider->backendController() . $query;
     }
 
     /**
@@ -125,7 +123,7 @@ class rex_url
      */
     public static function media($file = '')
     {
-        return self::base('media/' . $file);
+        return self::$pathprovider->media($file);
     }
 
     /**
@@ -137,7 +135,7 @@ class rex_url
      */
     public static function assets($file = '')
     {
-        return self::base('assets/' . $file);
+        return self::$pathprovider->assets($file);
     }
 
     /**
@@ -152,7 +150,7 @@ class rex_url
      */
     public static function addonAssets($addon, $file = '')
     {
-        return self::assets('addons/' . $addon . '/' . $file);
+        return self::$pathprovider->addonAssets($addon, $file);
     }
 
     /**
@@ -168,6 +166,6 @@ class rex_url
      */
     public static function pluginAssets($addon, $plugin, $file = '')
     {
-        return self::addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
+        return self::$pathprovider->pluginAssets($addon, $plugin, $file);
     }
 }

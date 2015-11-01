@@ -41,7 +41,8 @@ session_cache_limiter(false);
 ini_set('arg_separator.output', '&amp;');
 
 require_once __DIR__ . '/lib/util/path.php';
-rex_path::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
+require_once __DIR__ . '/lib/util/path_default_provider.php';
+rex_path::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true));
 
 require_once rex_path::core('lib/autoload.php');
 
@@ -50,7 +51,7 @@ rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
 
-rex_url::init($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER']);
+rex_url::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false));
 
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT']));

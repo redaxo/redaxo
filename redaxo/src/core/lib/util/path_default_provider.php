@@ -7,18 +7,29 @@
  *
  * @package redaxo\core
  */
-class rex_path
+class rex_path_default_provider
 {
-    protected static $pathprovider;
+    protected  $base;
+    protected  $backend;
+    protected  $provideAbsolutes;
 
     /**
      * Initializes the class.
      *
-     * @param mixed $pathprovider  A path provider.
+     * @param string $htdocs  Htdocs path
+     * @param string $backend Backend folder name
+     * @param boolean $provideAbsolutes Flag whether to return absolute path, or relative ones
      */
-    public static function init($pathprovider)
+    public function __construct($htdocs, $backend, $provideAbsolutes)
     {
-        self::$pathprovider = $pathprovider;
+        if ($provideAbsolutes) {
+            $this->base = realpath($htdocs) . '/';
+            $this->backend = $backend;
+        } else {
+            $this->base = $htdocs;
+            $this->backend = substr($htdocs, -3) === '../' ? '' : $htdocs . $backend . '/';
+        }
+        $this->provideAbsolutes = $provideAbsolutes;
     }
 
     /**
@@ -28,9 +39,13 @@ class rex_path
      *
      * @return string
      */
-    public static function base($file = '')
+    public function base($file)
     {
-        return self::$pathprovider->base($file);
+        if ($this->provideAbsolutes) {
+            return strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+        } else {
+            return $this->base . $file;
+        }
     }
 
     /**
@@ -40,9 +55,9 @@ class rex_path
      *
      * @return string
      */
-    public static function frontend($file = '')
+    public function frontend($file)
     {
-        return self::$pathprovider->base($file);
+        return self::base($file);
     }
 
     /**
@@ -50,9 +65,9 @@ class rex_path
      *
      * @return string
      */
-    public static function frontendController()
+    public function frontendController()
     {
-        return self::$pathprovider->base('index.php');
+        return self::base('index.php');
     }
 
     /**
@@ -62,9 +77,13 @@ class rex_path
      *
      * @return string
      */
-    public static function backend($file = '')
+    public  function backend($file)
     {
-        return self::$pathprovider->backend($file);
+        if ($this->provideAbsolutes) {
+            return self::base($this->backend . '/' . $file);
+        } else {
+            return $this->backend . $file;
+        }
     }
 
     /**
@@ -72,9 +91,9 @@ class rex_path
      *
      * @return string
      */
-    public static function backendController()
+    public function backendController()
     {
-        return self::$pathprovider->backendController();
+        return self::backend('index.php');
     }
 
     /**
@@ -84,9 +103,9 @@ class rex_path
      *
      * @return string
      */
-    public static function media($file = '')
+    public function media($file)
     {
-        return self::$pathprovider->media($file);
+        return self::base('media/' . $file);
     }
 
     /**
@@ -96,9 +115,9 @@ class rex_path
      *
      * @return string
      */
-    public static function assets($file = '')
+    public function assets($file)
     {
-        return self::$pathprovider->assets($file);
+        return self::base('assets/' . $file);
     }
 
     /**
@@ -111,9 +130,9 @@ class rex_path
      *
      * @see assets()
      */
-    public static function addonAssets($addon, $file = '')
+    public function addonAssets($addon, $file)
     {
-        return self::$pathprovider->addonAssets($addon, $file);
+        return self::assets('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -127,9 +146,9 @@ class rex_path
      *
      * @see assets()
      */
-    public static function pluginAssets($addon, $plugin, $file = '')
+    public function pluginAssets($addon, $plugin, $file)
     {
-        return self::$pathprovider->pluginAssets($addon, $plugin, $file);
+        return self::addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -139,9 +158,9 @@ class rex_path
      *
      * @return string
      */
-    public static function data($file = '')
+    public function data($file)
     {
-        return self::$pathprovider->data($file);
+        return self::backend('data/' . $file);
     }
 
     /**
@@ -152,9 +171,9 @@ class rex_path
      *
      * @return string
      */
-    public static function addonData($addon, $file = '')
+    public function addonData($addon, $file)
     {
-        return self::$pathprovider->addonData($addon, $file);
+        return self::data('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -166,9 +185,9 @@ class rex_path
      *
      * @return string
      */
-    public static function pluginData($addon, $plugin, $file = '')
+    public function pluginData($addon, $plugin, $file)
     {
-        return self::$pathprovider->pluginData($addon, $plugin, $file);
+        return self::addonData($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -178,9 +197,9 @@ class rex_path
      *
      * @return string
      */
-    public static function cache($file = '')
+    public function cache($file)
     {
-        return self::$pathprovider->cache($file);
+        return self::backend('cache/' . $file);
     }
 
     /**
@@ -191,9 +210,9 @@ class rex_path
      *
      * @return string
      */
-    public static function addonCache($addon, $file = '')
+    public function addonCache($addon, $file)
     {
-        return self::$pathprovider->addonCache($addon, $file);
+        return self::cache('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -205,9 +224,9 @@ class rex_path
      *
      * @return string
      */
-    public static function pluginCache($addon, $plugin, $file = '')
+    public function pluginCache($addon, $plugin, $file)
     {
-        return self::$pathprovider->pluginCache($addon, $plugin, $file);
+        return self::addonCache($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -217,9 +236,9 @@ class rex_path
      *
      * @return string
      */
-    public static function src($file = '')
+    public function src($file)
     {
-        return self::$pathprovider->src($file);
+        return self::backend('src/' . $file);
     }
 
     /**
@@ -229,9 +248,9 @@ class rex_path
      *
      * @return string
      */
-    public static function core($file = '')
+    public  function core($file)
     {
-        return self::$pathprovider->core($file);
+        return self::src('core/' . $file);
     }
 
     /**
@@ -242,9 +261,9 @@ class rex_path
      *
      * @return string
      */
-    public static function addon($addon, $file = '')
+    public function addon($addon, $file)
     {
-        return self::$pathprovider->addon($addon, $file);
+        return self::src('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -256,40 +275,9 @@ class rex_path
      *
      * @return string
      */
-    public static function plugin($addon, $plugin, $file = '')
+    public function plugin($addon, $plugin, $file)
     {
-        return self::$pathprovider->plugin($addon, $plugin, $file);
+        return self::addon($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
-    /**
-     * Converts a relative path to an absolute.
-     *
-     * @param string $relPath The relative path
-     *
-     * @return string Absolute path
-     */
-    public static function absolute($relPath)
-    {
-        $stack = [];
-
-        // pfadtrenner vereinheitlichen
-        $relPath = str_replace('\\', '/', $relPath);
-        foreach (explode('/', $relPath) as $dir) {
-            // Aktuelles Verzeichnis, oder Ordner ohne Namen
-            if ($dir == '.' || $dir == '') {
-                continue;
-            }
-
-            // Zum Parent
-            if ($dir == '..') {
-                array_pop($stack);
-            }
-            // Normaler Ordner
-            else {
-                array_push($stack, $dir);
-            }
-        }
-
-        return implode(DIRECTORY_SEPARATOR, $stack);
-    }
 }
