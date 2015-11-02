@@ -17,7 +17,7 @@ if (!$curPage->hasLayout()) {
 }
 
 $body_attr = [];
-$body_id = str_replace('_', '-', rex_be_controller::getCurrentPage());
+$body_id = rex_string::normalize(rex_be_controller::getCurrentPage(), '-', ' ');
 
 $body_attr['id'] = ['rex-page-' . $body_id];
 $body_attr['onunload'] = ['closeAll();'];
@@ -36,7 +36,7 @@ $body = '';
 foreach ($body_attr as $k => $v) {
     $body .= ' ' . $k . '="';
     if (is_array($v)) {
-        $body .= rex_string::normalize(implode(' ', $v), '-', ' ');
+        $body .= implode(' ', $v);
     }
     $body .= '"';
 }
