@@ -132,7 +132,11 @@ if ($func == '') {
         return $controlFields;
     });
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id=' . $type_id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type', '', 'id = ' . $type_id);
+    $form->addParam('type_id', $type_id);
+    if ($func == 'edit') {
+        $form->setEditMode($func == 'edit');
+    }
 
     $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 
@@ -142,13 +146,11 @@ if ($func == '') {
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
 
-    if ($func == 'edit') {
-        $form->addParam('type_id', $type_id);
-    }
 
     $content .= $form->get();
 
     $fragment = new rex_fragment();
+    $fragment->setVar('class', 'edit', false);
     $fragment->setVar('title', $formLabel, false);
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
