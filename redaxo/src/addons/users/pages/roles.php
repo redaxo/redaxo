@@ -47,7 +47,7 @@ if ($func == '') {
 } else {
     $title = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
 
-    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', $title, 'id = ' . $id);
+    $form = rex_form::factory(rex::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
     $form->setEditMode($func == 'edit');
