@@ -24,7 +24,7 @@
 
 .rex-nav-main {
     background-color: $color-a-dark;
-    
+
     li {
 
         > a {
@@ -51,15 +51,21 @@
         background-color: #fff;
         border: 0;
     }
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus {
+        color: $color-a-dark;
+    }
+
     .nav-tabs {
         border-bottom-color: #fff;
 
         > li {
-            
+
             margin-bottom: 0;
 
             &.active {
-                > a:not(.btn), 
+                > a:not(.btn),
                 > a:not(.btn):hover {
                     background-color: $color-b;
                     border-color: $color-b;
