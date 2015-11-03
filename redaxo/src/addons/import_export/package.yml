@@ -10,4 +10,9 @@ page:
     icon: rex-icon rex-icon-import-export
     subpages:
         export: { title: 'translate:im_export_export' }
-        import: { title: 'translate:im_export_import', perm: 'admin[]' }
+        import:
+            title: 'translate:im_export_import'
+            perm: 'admin[]'
+            subpages:
+                upload: { title: 'translate:im_export_upload' }
+                server: { title: 'translate:im_export_load_from_server' }

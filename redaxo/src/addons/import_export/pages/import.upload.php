@@ -51,7 +51,11 @@ if ($function == 'delete' && $impname) {
 
         if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
             $state = rex_a1_import_db($file_temp);
-            $success = $state['message'];
+            if ($state['state']) {
+                $success = $state['message'];
+            } else {
+                $error = $state['message'];
+            }
 
             // temp datei löschen
             if ($impname == '') {
@@ -97,8 +101,6 @@ if ($error != '') {
     echo rex_view::error($error);
 }
 
-echo '<h2>' . rex_i18n::msg('im_export_database') . '</h2>';
-
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', rex_i18n::msg('im_export_note'), false);
@@ -121,7 +123,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-send" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
+$n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -131,7 +133,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('im_export_upload'), false);
+$fragment->setVar('title', rex_i18n::msg('im_export_database_export'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -143,52 +145,7 @@ $content = '
 
 echo $content;
 
-$content = '<table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="rex-table-icon"></th>
-                        <th>' . rex_i18n::msg('im_export_filename') . '</th>
-                        <th>' . rex_i18n::msg('im_export_filesize') . '</th>
-                        <th>' . rex_i18n::msg('im_export_createdate') . '</th>
-                        <th class="rex-table-action" colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
-                    </tr>
-                </thead>
-                <tbody>';
-
-$dir = getImportDir();
-$folder = readImportFolder('.sql');
-
-foreach ($folder as $file) {
-    $filepath = $dir . '/' . $file;
-    $filec = date('d.m.Y H:i', filemtime($filepath));
-    $filesize = rex_file::formattedSize($filepath);
-
-    $content .= '<tr>
-                    <td class="rex-table-icon"><i class="rex-icon rex-icon-database"></i></td>
-                    <td data-title="' . rex_i18n::msg('im_export_filename') . '">' . $file . '</td>
-                    <td data-title="' . rex_i18n::msg('im_export_filesize') . '">' . $filesize . '</td>
-                    <td data-title="' . rex_i18n::msg('im_export_createdate') . '">' . $filec . '</td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_db_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
-                </tr>
-    ';
-}
-
-$content .= '
-                    </tbody>
-                </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('im_export_load_from_server'), false);
-$fragment->setVar('content', $content, false);
-$content = $fragment->parse('core/page/section.php');
-
-echo $content;
-
-//echo rex_view::content('block', $content, rex_i18n::msg('im_export_load_from_server'), ['flush' => 1]);
-
-echo '<h2>' . rex_i18n::msg('im_export_files') . '</h2>';
+//echo '<h2>' . rex_i18n::msg('im_export_files') . '</h2>';
 
 $content = '<fieldset>
                 <input type="hidden" name="function" value="fileimport" />';
@@ -206,7 +163,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-send" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
+$n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" value="' . rex_i18n::msg('im_export_to_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -217,7 +174,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('im_export_upload'), false);
+$fragment->setVar('title', rex_i18n::msg('im_export_file_export'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -229,46 +186,3 @@ $content = '
 
 echo $content;
 
-$content = '
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="rex-table-icon"></th>
-                    <th>' . rex_i18n::msg('im_export_filename') . '</th>
-                    <th>' . rex_i18n::msg('im_export_filesize') . '</th>
-                    <th>' . rex_i18n::msg('im_export_createdate') . '</th>
-                    <th class="rex-table-action" colspan="3">' . rex_i18n::msg('im_export_function') . '</th>
-                </tr>
-            </thead>
-            <tbody>';
-
-$dir = getImportDir();
-$folder = readImportFolder('.tar.gz');
-
-foreach ($folder as $file) {
-    $filepath = $dir . '/' . $file;
-    $filec = date('d.m.Y H:i', filemtime($filepath));
-    $filesize = rex_file::formattedSize($filepath);
-
-    $content .= '<tr>
-                    <td class="rex-table-icon"><i class="rex-icon rex-icon-file-archive"></i></td>
-                    <td data-title="' . rex_i18n::msg('im_export_filename') . '">' . $file . '</td>
-                    <td data-title="' . rex_i18n::msg('im_export_filesize') . '">' . $filesize . '</td>
-                    <td data-title="' . rex_i18n::msg('im_export_createdate') . '">' . $filec . '</td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_import_file') . '" data-confirm="' . rex_i18n::msg('im_export_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('im_export_to_import') . '</a></td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('im_export_download') . '</a></td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('im_export_delete_file') . '" data-confirm="' . rex_i18n::msg('im_export_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('im_export_delete') . '</a></td>
-                </tr>';
-}
-
-$content .= '
-               </tbody>
-            </table>
-        ';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('im_export_load_from_server'), false);
-$fragment->setVar('content', $content, false);
-$content = $fragment->parse('core/page/section.php');
-
-echo $content;
