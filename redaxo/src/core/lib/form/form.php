@@ -55,7 +55,7 @@ class rex_form
         $this->tableName = $tableName;
         $this->elements = [];
         $this->params = [];
-        $this->addFieldset($fieldset);
+        $this->addFieldset($fieldset ?: $this->name);
         $this->whereCondition = $whereCondition;
         $this->divId = 'rex-addon-editmode';
         $this->setMessage('');
@@ -1438,7 +1438,7 @@ class rex_form
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
-            if ($fieldsetName != '') {
+            if ($fieldsetName != '' && $fieldsetName != $this->name) {
                 $s .= '<legend>' . htmlspecialchars($fieldsetName) . '</legend>' . "\n";
             }
 
