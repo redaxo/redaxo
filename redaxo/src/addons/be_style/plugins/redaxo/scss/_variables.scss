@@ -1,3 +1,5 @@
+$top-popup-navbar-height: 70px;
+$helper-factor-spacing: 40px;
 
 // Grey
 $color-a-lighter:   #f3f6fb;
@@ -396,7 +398,7 @@ $container-lg:                 $container-large-desktop !default;
 //##
 
 // Basics of a navbar
-$navbar-height:                    70px;
+$navbar-height:                    50px !default;
 $navbar-margin-bottom:             $line-height-computed !default;
 $navbar-border-radius:             $border-radius-base !default;
 $navbar-padding-horizontal:        floor(($grid-gutter-width / 2)) !default;
@@ -827,9 +829,9 @@ $badge-border-radius:         10px !default;
 //##
 
 $breadcrumb-padding-vertical:   8px !default;
-$breadcrumb-padding-horizontal: 0;
+$breadcrumb-padding-horizontal: 15px;
 //** Breadcrumb background color
-$breadcrumb-bg:                 transparent;
+$breadcrumb-bg:                 $color-a-light;
 //** Breadcrumb text color
 $breadcrumb-color:              $color-a;
 //** Text color of current page in the breadcrumb
