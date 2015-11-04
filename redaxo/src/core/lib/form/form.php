@@ -38,6 +38,7 @@ class rex_form
     protected $errorMessages;
     protected $warning;
     protected $divId;
+    protected $languageSupport;
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
@@ -58,6 +59,7 @@ class rex_form
         $this->addFieldset($fieldset ?: $this->name);
         $this->whereCondition = $whereCondition;
         $this->divId = 'rex-addon-editmode';
+        $this->languageSupport = [];
         $this->setMessage('');
 
         $this->sql = rex_sql::factory();
@@ -701,6 +703,18 @@ class rex_form
     }
 
     /**
+     * Mehrsprachigkeit unterstuetzen
+     *
+     * @param string $idField
+     * @param string $clangField
+     */
+    public function setLanguageSupport($idField, $clangField)
+    {
+        $this->languageSupport['id'] = $idField;
+        $this->languageSupport['clang'] = $clangField;
+    }
+
+    /**
      * Wechselt den Modus des Formulars.
      */
     public function setEditMode($isEditMode)
@@ -1258,6 +1272,7 @@ class rex_form
         $sql->setDebug($this->debug);
         $sql->setTable($this->tableName);
 
+        $values = [];
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
@@ -1271,16 +1286,34 @@ class rex_form
                 // Callback, um die Values vor dem Speichern noch beeinflussen zu können
                 $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
 
-                $sql->setValue($fieldName, $fieldValue);
+                $values[$fieldName] = $fieldValue;
             }
         }
 
         try {
             if ($this->isEditMode()) {
+                $sql->setValues($values);
                 $sql->setWhere($this->whereCondition);
                 $sql->update();
             } else {
-                $sql->insert();
+                if (count($this->languageSupport)) {
+                    foreach (rex_clang::getAllIds() as $clang_id) {
+                        $sql->setTable($this->tableName);
+                        $sql->addGlobalCreateFields();
+                        $sql->addGlobalUpdateFields();
+                        if (!isset($id)) {
+                            $id = $sql->setNewId($this->languageSupport['id']);
+                        } else {
+                            $sql->setValue($this->languageSupport['id'], $id);
+                        }
+                        $sql->setValue($this->languageSupport['clang'], $clang_id);
+                        $sql->setValues($values);
+                        $sql->insert();
+                    }
+                } else {
+                    $sql->setValues($values);
+                    $sql->insert();
+                }
             }
             $saved = true;
         } catch (rex_sql_exception $e) {
