@@ -1,27 +1,3 @@
-
-.rex-nav-top {
-    margin-bottom: 0;
-    background-color: $color-b;
-    border-color: $color-b;
-    border-radius: 0;
-}
-.rex-nav-meta {
-    .navbar-nav {
-        > li {
-            > a,
-            > a:hover {
-                color: #fff;
-            }
-            > a:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-    .text-muted {
-        color: $color-a-dark;
-    }
-}
-
 .rex-nav-main {
     background-color: $color-a-dark;
 
@@ -44,10 +20,36 @@
     color: $color-a-lighter;
     font-size: $font-size-large;
 }
+.rex-nav-meta {
+    .navbar-nav {
+        > li {
+            > a,
+            > a:hover {
+                color: #fff;
+            }
+            > a:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .text-muted {
+        color: $color-a-dark;
+    }
+}
+
+.rex-nav-top {
+    min-height: $top-popup-navbar-height;
+    margin-bottom: 0;
+    padding-top: floor(($top-popup-navbar-height - $navbar-height) / 2);
+    padding-bottom: floor(($top-popup-navbar-height - $navbar-height) / 2);
+    background-color: $color-b;
+    border-color: $color-b;
+    border-radius: 0;
+}
 
 .rex-page-nav {
+/*
     .navbar {
-        //margin-bottom: -20px;
         background-color: #fff;
         border: 0;
     }
@@ -81,6 +83,129 @@
                 &:hover {
                     background-color: $color-a-darker;
                     border-color: $color-a-darker;
+                    color: $color-b;
+                }
+            }
+        }
+    }
+*/
+
+
+/*
+    .navbar {
+        background-color: $color-b;
+        border: 0;
+    }
+    .navbar-default .navbar-nav > li > a {
+        color: $color-a-dark;
+    }
+    .navbar-default .navbar-nav > li > a:hover,
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus {
+        color: #fff;
+    }
+
+    .nav-tabs {
+        border-bottom-color: $color-b;
+
+        > li {
+
+            margin-bottom: 0;
+
+            &.active {
+                > a:not(.btn),
+                > a:not(.btn):hover {
+                    background-color: $color-b;
+                    border-color: $color-b;
+                    color: #fff;
+                }
+            }
+
+            > a:not(.btn) {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color: $color-a-dark;
+                border-color: $color-a-dark;
+                border-radius: 6px 6px 0 0;
+                color: $color-a;
+
+                &:hover {
+                    background-color: $color-a-darker;
+                    border-color: $color-a-darker;
+                    color: $color-b;
+                }
+            }
+        }
+    }
+*/
+
+    .navbar {
+        background-color: #fff;
+        border: 0;
+    }
+    .navbar-default .navbar-nav > li + li:before {
+        content: '';
+        display: inline-block;
+        float: left;
+        height: $line-height-computed;
+        margin-top: 15px;
+        border-left: 2px solid $color-a-light;
+
+        .rex-main-frame & {
+            border-color: darken($color-a-light, 15%);
+        }
+    }
+    .navbar-default .navbar-nav > li > a {
+        color: $color-b;
+    }
+    .navbar-default .navbar-nav > li > a:hover,
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus {
+        color: $text-color;
+    }
+
+    .nav-tabs {
+        border-bottom-color: #fff;
+
+        > li {
+
+            margin-bottom: 0;
+
+            &.active {
+                > a:not(.btn),
+                > a:not(.btn):hover {
+                    background-color: #fff;
+                    border-color: $color-b;
+                    border-width: 0;
+                    border-top-width: 2px;
+                    //color: #fff;
+
+                    .rex-main-frame & {
+                        border-color: $color-b;
+                    }
+                }
+            }
+
+            > a:not(.btn) {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color: $color-a-light;
+                border-color: $color-a;
+                border-width: 0;
+                border-top-width: 2px;
+
+                border-radius: 4px 4px 0 0;
+                color: $text-color;
+
+                .rex-main-frame & {
+                    border-color: darken($color-a, 15%);
+                }
+
+                &:hover {
+                    background-color: $color-a-light;
+                    border-color: $color-b;
                     color: $color-b;
                 }
             }
