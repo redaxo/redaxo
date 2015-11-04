@@ -1,0 +1,12 @@
+@media (min-width: $screen-md-min) {
+    @include generate-spacing(1, 10, 'rex-table-width', 'width', $helper-factor-spacing, true);
+    @include generate-spacing(1, 10, 'rex-table-min-width', 'min-width', $helper-factor-spacing, true);
+    .rex-table-width-1,
+    .rex-table-width-1  {
+        text-align: center !important;
+    }
+}
+
+.vertical-top {
+    vertical-align: top;
+}

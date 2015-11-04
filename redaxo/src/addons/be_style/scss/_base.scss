@@ -31,11 +31,11 @@
             width: 100%;
             height: 100%;
             //margin-top: -$navbar-height;
-            padding-top: $navbar-height;
+            padding-top: $top-navbar-height;
             table-layout: fixed;
 
             .rex-is-popup& {
-                padding-top: $popup-navbar-height;
+                padding-top: $top-popup-navbar-height;
             }
         }
 
@@ -53,7 +53,7 @@
         }
 
         .rex-main-frame {
-            margin-bottom: -$grid-gutter-width;            
+            margin-bottom: -$grid-gutter-width;
         }
 
         .rex-global-footer {
@@ -75,7 +75,7 @@
         display: none;
     }
 }
-    
+
 @media(max-width: $grid-float-breakpoint-max) {
 
     .rex-page-main {
@@ -164,10 +164,10 @@
     margin-left: floor($grid-gutter-width / 2);
     padding: 0;
     line-height: $navbar-height;
-    
+
     .rex-is-popup & {
-        height: $popup-navbar-height;
-        line-height: $popup-navbar-height;
+        height: $top-popup-navbar-height;
+        line-height: $top-popup-navbar-height;
     }
 
     @media (min-width: $grid-float-breakpoint) {
@@ -175,9 +175,9 @@
     }
 }
 .rex-nav-top {
-    
+
     .rex-is-popup & {
-        min-height: $popup-navbar-height;
+        min-height: $top-popup-navbar-height;
     }
 
 }
@@ -194,7 +194,7 @@
 .rex-redaxo-logo {
     height: 30px;
     vertical-align: middle;
-    
+
     .rex-is-popup & {
         height: 20px;
     }
@@ -205,7 +205,7 @@
 }
 
 
-.rex-author, 
+.rex-author,
 .rex-filesize {
     @extend .text-muted;
 }
@@ -225,7 +225,7 @@
     border-radius: 0;
 }
 
-.panel > form > .table, 
+.panel > form > .table,
 .panel > form > fieldset > .table {
     margin-bottom: 0;
 }
@@ -235,7 +235,7 @@
     font-size: $font-size-base;
 }
 
-.panel-add, 
+.panel-add,
 .panel-edit {
     @extend .panel-info;
 }
@@ -298,7 +298,7 @@
 }
 .rex-page-nav {
     margin-bottom: $line-height-computed;
-    
+
     .navbar {
         min-height: 0;
     }
@@ -312,11 +312,11 @@
     .navbar-default .navbar-nav > li > a {
         color: $link-color;
     }
-    .navbar-default .navbar-nav > .active > a, 
-    .navbar-default .navbar-nav > .active > a:hover, 
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
         color: $navbar-default-link-active-color;
-        background-color: transparent;        
+        background-color: transparent;
     }
 }
 
@@ -327,7 +327,7 @@
         > .input-group {
             display: table;
 
-            > .input-group-addon, 
+            > .input-group-addon,
             > .input-group-btn {
                 width: 1%;
             }
@@ -382,15 +382,15 @@
 }
 
 
-.table > thead > tr.mark, 
-.table > tfoot > tr.mark, 
+.table > thead > tr.mark,
+.table > tfoot > tr.mark,
 .table > tbody > tr.mark {
     padding: 0;
 }
 .table > tbody > tr.mark {
     background-color: $state-warning-bg;
 }
-.table > tbody > tr.mark > th, 
+.table > tbody > tr.mark > th,
 .table > tbody > tr.mark > td {
     vertical-align: middle;
 }

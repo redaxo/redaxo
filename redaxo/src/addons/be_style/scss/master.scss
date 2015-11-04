@@ -1,9 +1,13 @@
-$navbar-height: 70px;
-$popup-navbar-height: 50px;
+$top-navbar-height: 70px;
+$top-popup-navbar-height: 50px;
+$helper-factor-spacing: 40px;
 
 @import "vendor/bootstrap/assets/stylesheets/bootstrap";
 @import "vendor/font-awesome/scss/font-awesome";
 
+@import "scss/mixins/helper";
+
 @import "scss/base";
+@import "scss/helper";
 @import "scss/icon";
 @import "scss/mime";
