@@ -1,6 +1,13 @@
 
+.panel-heading {
+    line-height: 1.25;  // 20/16
 
-.panel-add, 
+    .rex-panel-options {
+        margin-top: -3px;
+        margin-bottom: -3px;
+    }
+}
+.panel-add,
 .panel-edit {
     @include panel-variant($color-d, #fff, $color-d, $color-d);
 

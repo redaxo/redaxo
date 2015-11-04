@@ -149,7 +149,7 @@
         display: inline-block;
         float: left;
         height: $line-height-computed;
-        margin-top: 15px;
+        margin-top: 12px;
         border-left: 2px solid $color-a-light;
 
         .rex-main-frame & {
@@ -157,6 +157,8 @@
         }
     }
     .navbar-default .navbar-nav > li > a {
+        padding-top: 12px;
+        padding-bottom: 12px;
         color: $color-b;
     }
     .navbar-default .navbar-nav > li > a:hover,
@@ -189,8 +191,8 @@
             }
 
             > a:not(.btn) {
-                padding-top: 12px;
-                padding-bottom: 12px;
+                padding-top: 10px;
+                padding-bottom: 10px;
                 background-color: $color-a-light;
                 border-color: $color-a;
                 border-width: 0;
