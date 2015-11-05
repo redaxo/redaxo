@@ -1,19 +1,20 @@
 
 .rex-breadcrumb {
     //padding-top: 32px;
+    overflow: hidden;
 
     .rex-page-header + & {
         margin-top: -9px;
     }
 }
 .breadcrumb {
-    border: 0;
+    border: 1px solid $color-a-light;
 }
 
 .rex-redaxo-logo {
-    path.rex-redaxo-logo-r, 
-    path.rex-redaxo-logo-e, 
-    path.rex-redaxo-logo-d, 
+    path.rex-redaxo-logo-r,
+    path.rex-redaxo-logo-e,
+    path.rex-redaxo-logo-d,
     path.rex-redaxo-logo-cms {
         fill: #fff;
 
@@ -21,9 +22,9 @@
             fill: $color-b;
         }
     }
-    path.rex-redaxo-logo-a, 
-    path.rex-redaxo-logo-x, 
-    path.rex-redaxo-logo-o, 
+    path.rex-redaxo-logo-a,
+    path.rex-redaxo-logo-x,
+    path.rex-redaxo-logo-o,
     path.rex-redaxo-logo-reg {
         fill: $color-a-dark;
 

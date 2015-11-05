@@ -121,6 +121,9 @@
 .btn-back {
     @extend .btn-default;
 }
+.btn-clang {
+    @extend .btn-default;
+}
 .btn-delete {
     @extend .btn-danger;
 }
@@ -160,6 +163,9 @@
     @extend .btn-primary;
 }
 
+.rex-nav-btn {
+    margin-bottom: $line-height-computed;
+}
 .rex-nav-top .container-fluid .navbar-brand {
     margin-left: floor($grid-gutter-width / 2);
     padding: 0;

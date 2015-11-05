@@ -1,21 +1,42 @@
+.btn-group > .btn.active,
+.btn-group-vertical > .btn.active {
+    z-index: 3;
+}
 
-.btn-xs > .rex-icon, 
+.btn-xs > .rex-icon,
 .btn-group-xs > .btn > .rex-icon {
     font-size: $font-size-base;
 }
 
-.btn-primary:hover, 
-.btn-apply:hover, 
-.btn-save:hover, 
-.btn-select:hover, 
-.btn-send:hover, 
-.btn-setup:hover, 
+.btn {
+    padding-top: $breadcrumb-padding-vertical;
+    padding-bottom: $breadcrumb-padding-vertical;
+}
+
+.btn-primary:hover,
+.btn-apply:hover,
+.btn-save:hover,
+.btn-select:hover,
+.btn-send:hover,
+.btn-setup:hover,
 .btn-update:hover {
     background-color: $color-a-darker;
     border-color: $color-a-darker;
     color: $color-b;
 }
 
+.btn-clang {
+    $normal: (color: $color-b, background: #fff, border: $color-a-light);
+    $hover: (color: $color-b, background: lighten($color-a-light, 5%), border: $color-a-light);
+    $active: (color: #fff, background: $color-b, border: $color-b);
+    @include rex-button-variant($normal, $hover, $active);
+    position: relative;
+
+    &:active,
+    &.active {
+        @include box-shadow(none);
+    }
+}
 .btn-edit {
     @include button-variant(#fff, $color-d, $color-d);
 
@@ -33,7 +54,7 @@
 }
 
 
-.btn-save, 
+.btn-save,
 .btn-apply {
     @include button-variant(#fff, $color-d, $color-d);
 }
