@@ -31,8 +31,12 @@ class rex_article_content_editor extends rex_article_content
 
             $moduleInput = $artDataSql->getValue(rex::getTablePrefix() . 'module.input');
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
+            $moduleOutputBackend = $artDataSql->getValue(rex::getTablePrefix() . 'module.output_backend');
             $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
+            if($moduleOutputBackend)
+                $moduleOutput = $moduleOutputBackend;
+                
             $slice_content = '';
             // ----- add select box einbauen
             if ($this->function == 'add' && $this->slice_id == $sliceId) {

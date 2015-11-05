@@ -104,6 +104,7 @@ articel_updated = Artikel wurden aktualisiert
 create_module = Neues Modul erstellen
 input = Eingabe
 output = Ausgabe
+output_backend = Ausgabe Backend
 module_name = Name
 save_module_and_quit = Modul speichern
 save_module_and_continue = Modul übernehmen
