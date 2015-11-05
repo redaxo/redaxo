@@ -86,11 +86,12 @@ if ($article->getRows() == 1) {
             //echo '<h2><i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small></h2>';
     }
 
+    // ----- Languages
+    echo rex_view::clangSwitchAsButtons($context);
+
     // ----- category pfad und rechte
     require rex_path::addon('structure', 'functions/function_rex_category.php');
 
-    // ----- Languages
-    echo rex_view::clangSwitch($context);
 
     // ----- EXTENSION POINT
     echo rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_HEADER', '', [
