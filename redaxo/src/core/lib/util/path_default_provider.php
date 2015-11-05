@@ -9,9 +9,9 @@
  */
 class rex_path_default_provider
 {
-    protected  $base;
-    protected  $backend;
-    protected  $provideAbsolutes;
+    protected $base;
+    protected $backend;
+    protected $provideAbsolutes;
 
     /**
      * Initializes the class.
@@ -57,7 +57,7 @@ class rex_path_default_provider
      */
     public function frontend($file)
     {
-        return self::base($file);
+        return $this->base($file);
     }
 
     /**
@@ -67,7 +67,7 @@ class rex_path_default_provider
      */
     public function frontendController()
     {
-        return self::base('index.php');
+        return $this->base('index.php');
     }
 
     /**
@@ -80,7 +80,7 @@ class rex_path_default_provider
     public  function backend($file)
     {
         if ($this->provideAbsolutes) {
-            return self::base($this->backend . '/' . $file);
+            return $this->base($this->backend . '/' . $file);
         } else {
             return $this->backend . $file;
         }
@@ -93,7 +93,7 @@ class rex_path_default_provider
      */
     public function backendController()
     {
-        return self::backend('index.php');
+        return $this->backend('index.php');
     }
 
     /**
@@ -105,7 +105,7 @@ class rex_path_default_provider
      */
     public function media($file)
     {
-        return self::base('media/' . $file);
+        return $this->base('media/' . $file);
     }
 
     /**
@@ -117,7 +117,7 @@ class rex_path_default_provider
      */
     public function assets($file)
     {
-        return self::base('assets/' . $file);
+        return $this->base('assets/' . $file);
     }
 
     /**
@@ -132,7 +132,7 @@ class rex_path_default_provider
      */
     public function addonAssets($addon, $file)
     {
-        return self::assets('addons/' . $addon . '/' . $file);
+        return $this->assets('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -148,7 +148,7 @@ class rex_path_default_provider
      */
     public function pluginAssets($addon, $plugin, $file)
     {
-        return self::addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
+        return $this->addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -160,7 +160,7 @@ class rex_path_default_provider
      */
     public function data($file)
     {
-        return self::backend('data/' . $file);
+        return $this->backend('data/' . $file);
     }
 
     /**
@@ -173,7 +173,7 @@ class rex_path_default_provider
      */
     public function addonData($addon, $file)
     {
-        return self::data('addons/' . $addon . '/' . $file);
+        return $this->data('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -187,7 +187,7 @@ class rex_path_default_provider
      */
     public function pluginData($addon, $plugin, $file)
     {
-        return self::addonData($addon, 'plugins/' . $plugin . '/' . $file);
+        return $this->addonData($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -199,7 +199,7 @@ class rex_path_default_provider
      */
     public function cache($file)
     {
-        return self::backend('cache/' . $file);
+        return $this->backend('cache/' . $file);
     }
 
     /**
@@ -212,7 +212,7 @@ class rex_path_default_provider
      */
     public function addonCache($addon, $file)
     {
-        return self::cache('addons/' . $addon . '/' . $file);
+        return $this->cache('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -226,7 +226,7 @@ class rex_path_default_provider
      */
     public function pluginCache($addon, $plugin, $file)
     {
-        return self::addonCache($addon, 'plugins/' . $plugin . '/' . $file);
+        return $this->addonCache($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
     /**
@@ -238,7 +238,7 @@ class rex_path_default_provider
      */
     public function src($file)
     {
-        return self::backend('src/' . $file);
+        return $this->backend('src/' . $file);
     }
 
     /**
@@ -250,7 +250,7 @@ class rex_path_default_provider
      */
     public  function core($file)
     {
-        return self::src('core/' . $file);
+        return $this->src('core/' . $file);
     }
 
     /**
@@ -263,7 +263,7 @@ class rex_path_default_provider
      */
     public function addon($addon, $file)
     {
-        return self::src('addons/' . $addon . '/' . $file);
+        return $this->src('addons/' . $addon . '/' . $file);
     }
 
     /**
@@ -277,7 +277,7 @@ class rex_path_default_provider
      */
     public function plugin($addon, $plugin, $file)
     {
-        return self::addon($addon, 'plugins/' . $plugin . '/' . $file);
+        return $this->addon($addon, 'plugins/' . $plugin . '/' . $file);
     }
 
 }
