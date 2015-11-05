@@ -32,6 +32,8 @@ function rex_metainfo_content_sidebar($extionPointParams)
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('metadata'), false);
     $fragment->setVar('body', $panel, false);
+    $fragment->setVar('collapse', true);
+    $fragment->setVar('collapsed', true);
     $content = $fragment->parse('core/page/section.php');
 
     return $content;
