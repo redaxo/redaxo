@@ -42,7 +42,7 @@ class rex_path
      */
     public static function frontend($file = '')
     {
-        return self::$pathprovider->base($file);
+        return self::$pathprovider->frontend($file);
     }
 
     /**
@@ -52,7 +52,7 @@ class rex_path
      */
     public static function frontendController()
     {
-        return self::$pathprovider->base('index.php');
+        return self::$pathprovider->frontendController();
     }
 
     /**
