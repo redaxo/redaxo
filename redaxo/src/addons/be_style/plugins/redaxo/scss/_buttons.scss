@@ -11,6 +11,10 @@
 .btn {
     padding-top: $breadcrumb-padding-vertical;
     padding-bottom: $breadcrumb-padding-vertical;
+    .input-group-btn & {
+        padding-top: $padding-base-vertical;
+        padding-bottom: $padding-base-vertical;
+    }
 }
 
 .btn-primary:hover,
