@@ -70,11 +70,11 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
 // --------------------------------------------- TITLE
 echo rex_view::title(rex_i18n::msg('title_structure'));
 
+// --------------------------------------------- Languages
+echo rex_view::clangSwitchAsButtons($context);
+
 // --------------------------------------------- Path
 require __DIR__ . '/../functions/function_rex_category.php';
-
-// --------------------------------------------- Languages
-echo rex_view::clangSwitch($context);
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();
