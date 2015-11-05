@@ -5,6 +5,7 @@ $helper-factor-spacing: 40px;
 @import "vendor/bootstrap/assets/stylesheets/bootstrap";
 @import "vendor/font-awesome/scss/font-awesome";
 
+@import "scss/mixins/buttons";
 @import "scss/mixins/helper";
 
 @import "scss/base";

@@ -1,0 +1,56 @@
+
+@mixin rex-button-variant($normal, $hover, $active) {
+    color: map-get($normal, color);
+    background-color: map-get($normal, background);
+    border-color: map-get($normal, border);
+
+    &:focus,
+    &.focus {
+        color: map-get($hover, color);
+        background-color: map-get($hover, background);
+        border-color: map-get($hover, border);
+    }
+    &:hover {
+        color: map-get($hover, color);
+        background-color: map-get($hover, background);
+        border-color: map-get($hover, border);
+    }
+    &:active,
+    &.active,
+    .open > &.dropdown-toggle {
+        color: map-get($active, color);
+        background-color: map-get($active, background);
+        border-color: map-get($active, border);
+
+        &:hover,
+        &:focus,
+        &.focus {
+            color: map-get($hover, color);
+            background-color: map-get($hover, background);
+            border-color: map-get($hover, border);
+        }
+    }
+    &:active,
+    &.active,
+    .open > &.dropdown-toggle {
+        background-image: none;
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &:hover,
+        &:focus,
+        &.focus,
+        &:active,
+        &.active {
+            background-color: map-get($normal, background);
+            border-color: map-get($normal, border);
+        }
+    }
+
+    .badge {
+        color: map-get($normal, color);
+        background-color: map-get($normal, background);
+    }
+}
