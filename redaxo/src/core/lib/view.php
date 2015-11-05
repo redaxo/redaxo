@@ -313,9 +313,10 @@ class rex_view
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+                $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
                 $item['href'] = $context->getUrl(['clang' => $id]);
-                $item['title'] = '<i class="rex-icon rex-icon-language"></i> ' . rex_i18n::translate($clang->getName());
+                $item['title'] = $icon . rex_i18n::translate($clang->getName());
                 if ($id == $context->getParam('clang')) {
                     $item['active'] = true;
                 }
@@ -345,8 +346,9 @@ class rex_view
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
+                $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
                 $item = [];
-                $item['label'] = rex_i18n::translate($clang->getName());
+                $item['label'] = $icon . rex_i18n::translate($clang->getName());
                 $item['url'] = $context->getUrl(['clang' => $id]);
                 $item['attributes']['class'][] = 'btn-clang';
                 $item['attributes']['title'] = rex_i18n::translate($clang->getName());
@@ -359,7 +361,7 @@ class rex_view
 
         $fragment = new rex_fragment();
         $fragment->setVar('buttons', $items, false);
-        return '<div class="btn-toolbar">' . $fragment->parse('core/buttons/button_group.php') . '</div>';
+        return '<div class="rex-nav-btn rex-nav-language"><div class="btn-toolbar">' . $fragment->parse('core/buttons/button_group.php') . '</div></div>';
     }
 
     /**
