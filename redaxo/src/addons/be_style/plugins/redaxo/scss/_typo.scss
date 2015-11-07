@@ -1,10 +1,10 @@
 
 
-.rex-online, 
+.rex-online,
 .rex-text-online {
     color: $color-online;
 }
-.rex-offline, 
+.rex-offline,
 .rex-text-offline {
     color: $color-offline;
 }
@@ -28,12 +28,6 @@
 
     .rex-nav-main-list + & {
         border-top: 1px solid rgba($color-a, .3);
-    }
-}
-
-.dl-horizontal.text-left {
-    > dt {
-        text-align: left;
     }
 }
 
