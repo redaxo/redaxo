@@ -2,15 +2,15 @@
 
 rex_extension::register('PAGE_CONTENT_SIDEBAR', 'rex_metainfo_content_sidebar');
 
-function rex_metainfo_content_sidebar($extionPointParams)
+function rex_metainfo_content_sidebar(\rex_extension_point $ep)
 {
-    $params = $extionPointParams->getParams();
+    $params = $ep->getParams();
 
     $article = rex_article::get($params['article_id'], $params['clang']);
     $articleStatusTypes = rex_article_service::statusTypes();
 
     $panel = '';
-    $panel .= '<dl class="dl-horizontal">';
+    $panel .= '<dl class="dl-horizontal text-left">';
 
     $panel .= '<dt>' . rex_i18n::msg('created_by') . '</dt>';
     $panel .= '<dd>' . $article->getValue('createuser') . '</dd>';
@@ -30,7 +30,7 @@ function rex_metainfo_content_sidebar($extionPointParams)
     $panel .= '</dl>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('metadata'), false);
+    $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . rex_i18n::msg('metadata'), false);
     $fragment->setVar('body', $panel, false);
     $fragment->setVar('collapse', true);
     $fragment->setVar('collapsed', true);
