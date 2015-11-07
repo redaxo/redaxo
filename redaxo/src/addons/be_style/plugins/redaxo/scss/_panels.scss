@@ -2,6 +2,13 @@
 .panel-heading {
     line-height: 1.25;  // 20/16
 
+    &[data-toggle] {
+        &:hover {
+            background-color: darken($panel-default-heading-bg, 5%);
+            border-color: darken($panel-default-heading-bg, 5%);
+        }
+    }
+
     .rex-panel-options {
         margin-top: -3px;
         margin-bottom: -3px;
