@@ -542,8 +542,8 @@ jQuery(document).ready(function($) {
             })
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
-            .on('pjax:start', function() { $('#rex-ajax-loader').show(); })
-            .on('pjax:end',   function() { $('#rex-ajax-loader').hide(); });
+            .on('pjax:start', function() { $('#rex-js-ajax-loader').addClass('rex-visible'); })
+            .on('pjax:end',   function() { $('#rex-js-ajax-loader').removeClass('rex-visible'); });
     }
 
     /*
