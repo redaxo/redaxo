@@ -466,7 +466,7 @@ if ($article->getRows() == 1) {
         // ------------------------------------------ END: AUSGABE
 
         // ----- EXTENSION POINT
-        $contentMain .= rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT', '', [
+        $contentMain .= rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_AFTER_SLICES', '', [
             'article_id' => $article_id,
             'clang' => $clang,
             'function' => $function,
