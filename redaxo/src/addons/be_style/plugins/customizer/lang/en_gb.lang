@@ -1,0 +1,24 @@
+customizer = customizer
+customizer_features = function
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = activate CodeMirror
+customizer_codemirror_theme = CodeMirror Theme
+
+customizer_codemirror_info =
+
+customizer_labeling = Additions
+customizer_labelcolor = color (#47a1ce)
+customizer_labelcolor_error = No valid color code (#0af oder #00aaff)
+customizer_showlink = activate link
+
+customizer_config_updated = settings have been saved
+customizer_config_update_failed = settings were not saved
+
+customizer_update = save settings
+
+
+customizer_projectname = project name
+customizer_textarea = wide textarea on template and module page
+customizer_liquid = liquid layout
+customizer_nav_flyout = navigation with flyout

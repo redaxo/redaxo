@@ -1,0 +1,59 @@
+
+h1.be-style-customizer-title {
+    position: absolute;
+    top: 32px;
+    left: 202px;
+    width: 420px;
+    overflow: hidden;
+    color: #2C8EC0;
+    font-size: 17px;
+    font-weight: normal;
+    line-height: 26px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+h1.be-style-customizer-title.be-style-customizer-small {
+    font-size: 13px;
+}
+
+.be-style-customizer-nav-flyout #rex-navi-main dd > ul > li {
+    position: relative;
+}
+.be-style-customizer-nav-flyout #rex-navi-main dd > ul > li:hover > a {
+    background-color: #14568A;
+}
+.be-style-customizer-nav-flyout #rex-navi-main dd > ul > li:hover .rex-navi-level-2 {
+    display: block;
+    position: absolute;
+    top: -1px;
+    left: 100%;
+    z-index: 100;
+    min-width: 160px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+}
+.be-style-customizer-nav-flyout #rex-navi-main dd > ul > li.rex-active .rex-navi-level-2 {
+    position: static;
+    min-width: none;
+    box-shadow: none;
+}
+.be-style-customizer-nav-flyout #rex-navi-main dd > ul > li .rex-navi-level-2 a {
+    white-space: nowrap;
+}
+
+#rex-page-module.be-style-customizer-textarea-big #rex-wrapper textarea,
+#rex-page-template.be-style-customizer-textarea-big #rex-wrapper textarea {
+  margin-left: 5px;
+  width: 98%;
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+
+.CodeMirror {
+    min-height: 330px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    line-height: 16px !important;
+}
