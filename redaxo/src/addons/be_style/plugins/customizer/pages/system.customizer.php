@@ -8,12 +8,13 @@ $info = '';
 $success = '';
 
 if (rex_post('btn_save', 'string') != '') {
+    
     // set config
 
-    $tempConfig = array();
-    $newConfig = array();
+    $tempConfig = [];
+    $newConfig = [];
 
-    $newConfig = rex_post('settings','array');
+    $newConfig = rex_post('settings', 'array');
 
     $tempConfig['codemirror'] = 0;
     if ($newConfig['codemirror'] == 1) {
@@ -26,7 +27,7 @@ if (rex_post('btn_save', 'string') != '') {
 
     $labelcolor = $newConfig['labelcolor'];
     if ($labelcolor == '') {
-       $tempConfig['labelcolor'] = '';
+        $tempConfig['labelcolor'] = '';
     } elseif (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
         $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
     } else {
@@ -53,7 +54,7 @@ if (rex_post('btn_save', 'string') != '') {
         $tempConfig['nav_flyout'] = 1;
     }
 
-    // save config	
+    // save config
 
     if(empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
         $success = rex_i18n::msg('customizer_config_updated');
@@ -96,7 +97,6 @@ if ($info != '') {
 if ($success != '') {
     echo rex_view::success($success);
 }
-
 
 // output
 

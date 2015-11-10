@@ -1,13 +1,13 @@
 <?php
 
 /**
- * REDAXO customizer
+ * REDAXO customizer.
  *
  * Codemirror by : http://codemirror.net/
  * Marijn Haverbeke <marijnh@gmail.com>
  */
 
-if (rex::isBackend()) {	
+if (rex::isBackend()) {
     $curDir = __DIR__;
     require_once $curDir . '/functions/function_customizer.php';
 
@@ -15,11 +15,10 @@ if (rex::isBackend()) {
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
 
-    if($config['codemirror'])
-    {
+    if($config['codemirror']) {
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css'));
-        rex_view::setJsProperty('customizer_codemirror_defaulttheme',$config['codemirror_theme']);
+        rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/rex-init.js'));
     }
