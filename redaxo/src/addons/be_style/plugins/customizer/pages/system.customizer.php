@@ -7,61 +7,59 @@ $config = [];
 $info = '';
 $success = '';
 
-// save config
-
 if (rex_post('btn_save', 'string') != '') {
-	// set config
-	
-	$tempConfig = array();
-	$newConfig = array();
-	
-	$newConfig = rex_post('settings','array');
+    // set config
 
-	$tempConfig['codemirror'] = 0;
-	if ($newConfig['codemirror'] == 1) {
-		$tempConfig['codemirror'] = 1;
-	}
-	
-	$tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
-	
-	$tempConfig['projectname'] = htmlspecialchars($newConfig['projectname']);
-	
-	$labelcolor = $newConfig['labelcolor'];
-	if ($labelcolor == '') {
-       $tempConfig['labelcolor'] = '';
-	} elseif (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
-        $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
-	} else {
-		$error[] = rex_i18n::msg('customizer_labelcolor_error');
+    $tempConfig = array();
+    $newConfig = array();
+
+    $newConfig = rex_post('settings','array');
+
+    $tempConfig['codemirror'] = 0;
+    if ($newConfig['codemirror'] == 1) {
+        $tempConfig['codemirror'] = 1;
     }
-	
-	$tempConfig['showlink'] = 0;
-	if ($newConfig['showlink'] == 1) {
-		$tempConfig['showlink'] = 1;
-	}
-	
-	$tempConfig['textarea'] = 0;
-	if ($newConfig['textarea'] == 1) {
-		$tempConfig['textarea'] = 1;
-	}
-	
-	$tempConfig['liquid'] = 0;
-	if ($newConfig['liquid'] == 1) {
-		$tempConfig['liquid'] = 1;
-	}
-	
-	$tempConfig['nav_flyout'] = 0;
-	if ($newConfig['nav_flyout'] == 1) {
-		$tempConfig['nav_flyout'] = 1;
-	}
 
-	// save config	
-	
-	if(empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
-		$success = rex_i18n::msg('customizer_config_updated');
-	} else {
-		$error[] = rex_i18n::msg('customizer_config_update_failed');
-	}
+    $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
+
+    $tempConfig['projectname'] = htmlspecialchars($newConfig['projectname']);
+
+    $labelcolor = $newConfig['labelcolor'];
+    if ($labelcolor == '') {
+       $tempConfig['labelcolor'] = '';
+    } elseif (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
+        $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
+    } else {
+        $error[] = rex_i18n::msg('customizer_labelcolor_error');
+    }
+
+    $tempConfig['showlink'] = 0;
+    if ($newConfig['showlink'] == 1) {
+        $tempConfig['showlink'] = 1;
+    }
+
+    $tempConfig['textarea'] = 0;
+    if ($newConfig['textarea'] == 1) {
+        $tempConfig['textarea'] = 1;
+    }
+
+    $tempConfig['liquid'] = 0;
+    if ($newConfig['liquid'] == 1) {
+        $tempConfig['liquid'] = 1;
+    }
+
+    $tempConfig['nav_flyout'] = 0;
+    if ($newConfig['nav_flyout'] == 1) {
+        $tempConfig['nav_flyout'] = 1;
+    }
+
+    // save config	
+
+    if(empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
+        $success = rex_i18n::msg('customizer_config_updated');
+    } else {
+        $error[] = rex_i18n::msg('customizer_config_update_failed');
+    }
 }
 
 // load config
@@ -139,7 +137,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
-$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" disabled="disabled" value="' . $config['labelcolor'] . '" />';
+$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" disabled="disabled" value="' . htmlspecialchars($config['labelcolor']) . '" />';
 $formElements[] = $n;
 
 $n = [];
