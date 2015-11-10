@@ -20,15 +20,16 @@
         $structureLanguageTopPositionSubtract = 70 + 20;
 
     function structureContentScroll() {
-        if($structureContentNavTopPosition !== null)
+        if($structureContentNavTopPosition !== null) {
             if ($(this).scrollTop() >= $structureContentNavTopPosition) {
                 $structureContentNav.addClass('rex-is-fixed');
             } else {
                 $structureContentNav.removeClass('rex-is-fixed');
             }
+            structureContentResize();
+        }
     }
     function structureContentResize() {
-        $structureContentNav.width($structureContentNav.parent().width());
         if ($structureContentNav.length > 0 && $structureContentNav.hasClass('rex-is-fixed')) {
             $structureContentNav.css('width', $structureContentNav.parent().width());
         } else {
@@ -37,13 +38,14 @@
     }
 
     function structureBreadcrumbScroll() {
-        if($structureBreadcrumbTopPosition !== null)
+        if($structureBreadcrumbTopPosition !== null) {
             if ($(this).scrollTop() >= $structureBreadcrumbTopPosition) {
                 $structureBreadcrumb.addClass('rex-is-fixed');
             } else {
                 $structureBreadcrumb.removeClass('rex-is-fixed');
             }
             structureBreadcrumbResize();
+        }
     }
     function structureBreadcrumbResize() {
         if ($structureBreadcrumb.length > 0 && $structureBreadcrumb.hasClass('rex-is-fixed') && $structureLanguage.length > 0) {
