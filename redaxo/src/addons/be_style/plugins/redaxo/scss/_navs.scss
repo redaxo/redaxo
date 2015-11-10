@@ -42,10 +42,10 @@
 }
 
 .rex-nav-top {
-    min-height: $top-popup-navbar-height;
+    min-height: $top-navbar-height;
     margin-bottom: 0;
-    padding-top: floor(($top-popup-navbar-height - $navbar-height) / 2);
-    padding-bottom: floor(($top-popup-navbar-height - $navbar-height) / 2);
+    padding-top: floor(($top-navbar-height - $navbar-height) / 2);
+    padding-bottom: floor(($top-navbar-height - $navbar-height) / 2);
     background-color: $color-b;
     border-color: $color-b;
     border-radius: 0;
@@ -135,5 +135,31 @@
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
         color: $text-color;
+    }
+}
+
+
+
+@media(min-width: $grid-float-breakpoint) {
+    .rex-is-logged-in {
+        .rex-page-container,
+        .rex-page-main,
+        .rex-nav-main {
+            display: block;
+        }
+        .rex-page-main {
+            margin-left: 250px;
+        }
+        .rex-nav-main {
+            position: fixed;
+            left: 0;
+            top: $top-navbar-height;
+            bottom: 0;
+            z-index: 1010;
+        }
+        .rex-nav-top {
+            position: fixed;
+            z-index: 1010;
+        }
     }
 }
