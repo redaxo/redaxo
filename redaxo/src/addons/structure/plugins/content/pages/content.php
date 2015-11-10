@@ -429,6 +429,19 @@ if ($article->getRows() == 1) {
 
         $contentMain = $fragment->parse('core/navigations/content.php');
 
+        // ----- EXTENSION POINT
+        $contentMain .= rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_BEFORE_SLICES', '', [
+            'article_id' => $article_id,
+            'clang' => $clang,
+            'function' => $function,
+            'slice_id' => $slice_id,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $ctype,
+            'category_id' => $category_id,
+            'article_revision' => &$article_revision,
+            'slice_revision' => &$slice_revision,
+        ]));
+
         // ------------------------------------------ END: CONTENT HEAD MENUE
 
         // ------------------------------------------ WARNING
@@ -451,8 +464,20 @@ if ($article->getRows() == 1) {
 
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
         $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();
-
         // ------------------------------------------ END: AUSGABE
+
+        // ----- EXTENSION POINT
+        $contentMain .= rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_AFTER_SLICES', '', [
+            'article_id' => $article_id,
+            'clang' => $clang,
+            'function' => $function,
+            'slice_id' => $slice_id,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $ctype,
+            'category_id' => $category_id,
+            'article_revision' => &$article_revision,
+            'slice_revision' => &$slice_revision,
+        ]));
 
         // ----- EXTENSION POINT
         $contentSidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_SIDEBAR', '', [
