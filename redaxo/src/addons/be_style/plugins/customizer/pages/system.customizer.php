@@ -8,7 +8,6 @@ $info = '';
 $success = '';
 
 if (rex_post('btn_save', 'string') != '') {
-    
     // set config
 
     $tempConfig = [];

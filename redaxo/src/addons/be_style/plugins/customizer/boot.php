@@ -15,7 +15,7 @@ if (rex::isBackend()) {
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
 
-    if($config['codemirror']) {
+    if ($config['codemirror']) {
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css'));
         rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
