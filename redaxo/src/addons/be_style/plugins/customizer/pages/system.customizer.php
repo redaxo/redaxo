@@ -55,7 +55,7 @@ if (rex_post('btn_save', 'string') != '') {
 
     // save config
 
-    if(empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
+    if (empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
         $success = rex_i18n::msg('customizer_config_updated');
     } else {
         $error[] = rex_i18n::msg('customizer_config_update_failed');
