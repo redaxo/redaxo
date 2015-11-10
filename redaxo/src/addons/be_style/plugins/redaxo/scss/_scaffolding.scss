@@ -6,6 +6,31 @@
     .rex-page-header + & {
         margin-top: -9px;
     }
+
+
+    @media(min-width: $screen-md-min) {
+        &.rex-is-fixed {
+            position: fixed;
+            top: 90px;
+            z-index: 1020;
+
+            + .rex-main-frame {
+                position: relative;
+                margin-top: 78px;
+                &:before {
+                    content: '';
+                    display: block;
+                    position: fixed;
+                    left: 250px;
+                    top: 70px;
+                    right: 0px;
+                    z-index: 1010;
+                    height: 78px;
+                    background: $color-a-lighter;
+                }
+            }
+        }
+    }
 }
 .breadcrumb {
     border: 1px solid $color-a-light;
