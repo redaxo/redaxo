@@ -1,6 +1,6 @@
 <?php
 
-rex_extension::register('PAGE_CONTENT_SIDEBAR', 'rex_metainfo_content_sidebar');
+rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', 'rex_metainfo_content_sidebar');
 
 function rex_metainfo_content_sidebar(\rex_extension_point $ep)
 {

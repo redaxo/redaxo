@@ -94,7 +94,7 @@ if ($article->getRows() == 1) {
 
 
     // ----- EXTENSION POINT
-    echo rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_HEADER', '', [
+    echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEADER', '', [
         'article_id' => $article_id,
         'clang' => $clang,
         'function' => $function,
@@ -218,7 +218,7 @@ if ($article->getRows() == 1) {
                                     $info = $action_message . rex_i18n::msg('block_updated');
 
                                     // ----- EXTENSION POINT
-                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, [
+                                    $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, [
                                         'article_id' => $article_id,
                                         'clang' => $clang,
                                         'function' => $function,
@@ -252,7 +252,7 @@ if ($article->getRows() == 1) {
                                     $function = '';
 
                                     // ----- EXTENSION POINT
-                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, [
+                                    $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, [
                                         'article_id' => $article_id,
                                         'clang' => $clang,
                                         'function' => $function,
@@ -274,7 +274,7 @@ if ($article->getRows() == 1) {
                                 $global_info = rex_i18n::msg('block_deleted');
 
                                 // ----- EXTENSION POINT
-                                $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, [
+                                $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, [
                                     'article_id' => $article_id,
                                     'clang' => $clang,
                                     'function' => $function,
@@ -300,7 +300,7 @@ if ($article->getRows() == 1) {
                         $EA->update();
                         rex_article_cache::delete($article_id, $clang);
 
-                        rex_extension::registerPoint(new rex_extension_point('ART_CONTENT_UPDATED', '', [
+                        rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_ARTICLE_UPDATED', '', [
                             'id' => $article_id,
                             'clang' => $clang,
                         ]));
@@ -449,13 +449,40 @@ if ($article->getRows() == 1) {
             $contentMain .= rex_view::success($info);
         }
 
+
+        // ----- EXTENSION POINT
+        $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_BEFORE_SLICES', '', [
+            'article_id' => $article_id,
+            'clang' => $clang,
+            'function' => $function,
+            'slice_id' => $slice_id,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $ctype,
+            'category_id' => $category_id,
+            'article_revision' => &$article_revision,
+            'slice_revision' => &$slice_revision,
+        ]));
+
+
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
         $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();
-
         // ------------------------------------------ END: AUSGABE
 
         // ----- EXTENSION POINT
-        $contentSidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_CONTENT_SIDEBAR', '', [
+        $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_AFTER_SLICES', '', [
+            'article_id' => $article_id,
+            'clang' => $clang,
+            'function' => $function,
+            'slice_id' => $slice_id,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $ctype,
+            'category_id' => $category_id,
+            'article_revision' => &$article_revision,
+            'slice_revision' => &$slice_revision,
+        ]));
+
+        // ----- EXTENSION POINT
+        $contentSidebar = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SIDEBAR', '', [
             'article_id' => $article_id,
             'clang' => $clang,
             'function' => $function,
@@ -472,19 +499,5 @@ if ($article->getRows() == 1) {
         $fragment->setVar('sidebar', $contentSidebar, false);
 
         echo $fragment->parse('core/page/main_content.php');
-        /*
-            echo '
-            <div class="rex-structure-content">
-                <div class="row">';
-
-        if ($contentSidebar == '') {
-            echo '<div class="col-md-12"><div class="rex-structure-content-main">' . $contentMain . '</div></div>';
-        } else {
-            echo '  <div class="col-md-9"><div class="rex-structure-content-main">' . $contentMain . '</div></div>
-                    <div class="col-md-3"><aside class="rex-structure-content-sidebar">' . $contentSidebar . '</aside></div>';
-        }
-        echo '  </div>
-            </div>';
-            */
     }
 }
