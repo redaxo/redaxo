@@ -35,6 +35,7 @@ if ($object) {
 $title = '<a href="' . rex_url::backendPage('structure', ['category_id' => 0, 'clang' => $clang]) . '"><i class="rex-icon rex-icon-sitestartarticle"></i> ' . rex_i18n::msg('homepage') . '</a>';
 
 $fragment = new rex_fragment();
+$fragment->setVar('id', 'rex-js-structure-breadcrumb', false);
 $fragment->setVar('title', $title, false);
 $fragment->setVar('items', $navigation, false);
 echo $fragment->parse('core/navigations/breadcrumb.php');

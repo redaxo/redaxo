@@ -424,6 +424,7 @@ if ($article->getRows() == 1) {
         $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
 
         $fragment = new rex_fragment();
+        $fragment->setVar('id', 'rex-js-structure-content-nav', false);
         $fragment->setVar('left', $content_navi_left, false);
         $fragment->setVar('right', $content_navi_right, false);
 
