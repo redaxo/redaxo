@@ -1,14 +1,25 @@
-
 .rex-ajax-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1990;
+    background-color: rgba(#000, .4);
+}
+.rex-ajax-loader-elements {
     display: block;
-    top: 25px;
+    position: absolute;
+    top: 50%;
     left: 50%;
     right: auto;
     bottom: auto;
     z-index: 2000;
-    width: 20px;
-    height: 20px;
-    margin-left: -10px;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+    background: none;
     -webkit-transform: rotateZ(45deg);
         -ms-transform: rotateZ(45deg); // IE9 only
          -o-transform: rotateZ(45deg);
