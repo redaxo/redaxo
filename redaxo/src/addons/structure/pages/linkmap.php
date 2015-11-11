@@ -96,7 +96,7 @@ $panel = $categoryTree->getTree($category_id);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('linkmap_categories'), false);
-$fragment->setVar('body', $panel, false);
+$fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
 $articleList = new rex_linkmap_article_list($context);
@@ -104,7 +104,7 @@ $panel = $articleList->getList($category_id);
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('linkmap_articles'), false);
-$fragment->setVar('body', $panel, false);
+$fragment->setVar('content', $panel, false);
 $content[] = $fragment->parse('core/page/section.php');
 
 $fragment = new rex_fragment();

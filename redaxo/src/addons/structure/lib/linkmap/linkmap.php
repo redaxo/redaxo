@@ -12,7 +12,7 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
         $this->context = $context;
     }
 
-    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml)
+    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
     {
         if ($liClasses != '') {
             $liClasses = ' class="' . rtrim($liClasses) . '"';
@@ -24,9 +24,12 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 
         $label = self::formatLabel($cat);
 
+        $countChildren = count($cat->getChildren());
+        $badgeCat = ($countChildren > 0) ? '<span class="badge">' . $countChildren . '</span>' : '';
         $li = '';
-        $li .= '            <li' . $liClasses . '>';
-        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . htmlspecialchars($label) . '</a>';
+        $li .= '<li' . $liClasses . '>';
+        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . $liIcon . htmlspecialchars($label) . '</a>';
+        $li .= $badgeCat;
         $li .= $subHtml;
         $li .= '</li>' . "\n";
 
@@ -48,8 +51,8 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
 
     protected function listItem(rex_article $article, $category_id)
     {
-        $liClass = $article->isStartArticle() ? ' class="rex-linkmap-startarticle"' : '';
+        $liAttr = ' class="list-group-item"';
         $url = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . addslashes(htmlspecialchars($article->getName())) . '\');';
-        return rex_linkmap_tree_renderer::formatLi($article, $category_id, $this->context, $liClass, ' href="' . $url . '"') . '</li>' . "\n";
+        return rex_linkmap_tree_renderer::formatLi($article, $category_id, $this->context, $liAttr, ' href="' . $url . '"') . '</li>' . "\n";
     }
 }

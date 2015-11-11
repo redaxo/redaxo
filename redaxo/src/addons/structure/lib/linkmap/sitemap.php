@@ -23,7 +23,7 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
         return parent::getTree($category_id);
     }
 
-    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml)
+    protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
     {
         $linkClasses .= '';
 
