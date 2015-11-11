@@ -4,14 +4,13 @@
         $('.rex-nav-main').perfectScrollbar();
     });
 
-    $(function(){
-        $('.rex-nav-main').perfectScrollbar();
-    });
-
 
     var $structureContentNav = null,
         $structureContentNavTopPosition = null,
         $structureContentNavTopPositionSubtract = 70 + 20 + 78,
+        $structureContentSidebar = null,
+        $structureContentSidebarTopPosition = null,
+        $structureContentSidebarTopPositionSubtract = 70 + 20 + 78,
         $structureBreadcrumb = null,
         $structureBreadcrumbTopPosition = null,
         $structureBreadcrumbTopPositionSubtract = 70 + 20,
@@ -19,21 +18,40 @@
         $structureLanguageTopPosition = null,
         $structureLanguageTopPositionSubtract = 70 + 20;
 
-    function structureContentScroll() {
+    function structureContentNavScroll() {
         if($structureContentNavTopPosition !== null) {
             if ($(this).scrollTop() >= $structureContentNavTopPosition) {
                 $structureContentNav.addClass('rex-is-fixed');
             } else {
                 $structureContentNav.removeClass('rex-is-fixed');
             }
-            structureContentResize();
+            structureContentNavResize();
         }
     }
-    function structureContentResize() {
+    function structureContentNavResize() {
         if ($structureContentNav.length > 0 && $structureContentNav.hasClass('rex-is-fixed')) {
             $structureContentNav.css('width', $structureContentNav.parent().width());
         } else {
             $structureContentNav.css('width', '');
+        }
+    }
+    function structureContentSidebarScroll() {
+        if($structureContentSidebarTopPosition !== null) {
+            if ($(this).scrollTop() >= $structureContentSidebarTopPosition) {
+                $structureContentSidebar.addClass('rex-is-fixed');
+            } else {
+                $structureContentSidebar.removeClass('rex-is-fixed');
+            }
+            structureContentSidebarResize();
+        }
+    }
+    function structureContentSidebarResize() {
+        if ($structureContentSidebar.length > 0 && $structureContentSidebar.hasClass('rex-is-fixed')) {
+            $structureContentSidebar.css('width', $structureContentSidebar.parent().width());
+            $structureContentSidebar.perfectScrollbar();
+        } else {
+            $structureContentSidebar.css('width', '');
+            $structureContentSidebar.perfectScrollbar('destroy');
         }
     }
 
@@ -66,24 +84,31 @@
 
     $(function() {
         $structureContentNav = $('#rex-js-structure-content-nav');
+        $structureContentSidebar = $('#rex-page-content-edit #rex-js-main-sidebar');
         $structureBreadcrumb = $('#rex-js-structure-breadcrumb');
         $structureLanguage = $('#rex-js-page-main > .rex-nav-language').first();
 
         $(window).on({
             scroll: function() {
-                structureContentScroll();
+                structureContentNavScroll();
+                structureContentSidebarScroll();
                 structureBreadcrumbScroll();
                 structureLanguageScroll();
             },
             resize: function () {
-                structureContentResize();
+                structureContentNavResize();
+                structureContentSidebarResize();
                 structureBreadcrumbResize();
             }
         });
 
         if($structureContentNav.length > 0) {
             $structureContentNavTopPosition = $structureContentNav.offset().top - $structureContentNavTopPositionSubtract;
-            structureContentResize();
+            structureContentNavResize();
+        }
+        if($structureContentSidebar.length > 0) {
+            $structureContentSidebarTopPosition = $structureContentSidebar.offset().top - $structureContentSidebarTopPositionSubtract;
+            structureContentSidebarResize();
         }
         if($structureBreadcrumb.length > 0) {
             $structureBreadcrumbTopPosition = $structureBreadcrumb.offset().top - $structureBreadcrumbTopPositionSubtract;

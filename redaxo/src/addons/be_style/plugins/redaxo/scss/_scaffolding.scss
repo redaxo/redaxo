@@ -14,7 +14,8 @@
             top: 90px;
             z-index: 1020;
 
-            + .rex-main-frame {
+            + .rex-main-frame,
+            ~ .rex-page-section:first-of-type {
                 position: relative;
                 margin-top: 78px;
                 &:before {
@@ -76,4 +77,31 @@
 }
 .rex-state-live {
     background-color: $navbar-default-bg;
+}
+
+@media(min-width: $grid-float-breakpoint) {
+    .rex-is-logged-in {
+        .rex-page-container,
+        .rex-page-main,
+        .rex-nav-main {
+            display: block;
+        }
+        .rex-page-container {
+            height: auto;
+        }
+        .rex-page-main {
+            margin-left: 250px;
+        }
+        .rex-main-frame {
+            margin-bottom: $grid-gutter-width / 2;
+        }
+    }
+    .rex-main-sidebar.rex-is-fixed {
+        position: fixed;
+        top: 148px;
+        right: 15px;
+        bottom: 55px;
+        z-index: 1020;
+        padding: 20px 0 10px 0;
+    }
 }
