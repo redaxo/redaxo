@@ -13,6 +13,13 @@
             position: fixed;
             z-index: 1010;
         }
+        &.rex-is-popup {
+            .rex-page-header {
+                .page-header {
+                    position: fixed;
+                }
+            }
+        }
 
         .rex-breadcrumb.rex-is-fixed {
             position: fixed;

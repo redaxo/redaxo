@@ -70,4 +70,29 @@
             margin-bottom: $grid-gutter-width / 2;
         }
     }
+    .rex-is-popup {
+        .rex-page-main {
+            margin-left: 0;
+        }
+    }
+}
+
+.rex-is-popup {
+    .rex-page-header {
+        padding-top: $grid-gutter-width;
+
+        .page-header {
+            position: absolute;
+            top: 0;
+            right: $grid-gutter-width / 2;
+            z-index: 1020;
+            margin: 0;
+            padding: 0;
+            > h1 {
+                margin: 0;
+                color: #fff;
+                line-height: $top-popup-navbar-height;
+            }
+        }
+    }
 }

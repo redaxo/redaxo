@@ -49,6 +49,11 @@
     background-color: $color-b;
     border-color: $color-b;
     border-radius: 0;
+
+    .rex-is-popup & {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
 
 .rex-page-nav {

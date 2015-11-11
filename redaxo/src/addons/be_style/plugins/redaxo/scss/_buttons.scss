@@ -3,9 +3,14 @@
     z-index: 3;
 }
 
-.btn-xs > .rex-icon,
-.btn-group-xs > .btn > .rex-icon {
-    font-size: $font-size-base;
+.btn-xs,
+.btn-group-xs > .btn {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 1;
+    > .rex-icon {
+        font-size: $font-size-base;
+    }
 }
 
 .btn {
@@ -43,10 +48,6 @@
 }
 .btn-edit {
     @include button-variant(#fff, $color-d, $color-d);
-
-    .rex-icon {
-        vertical-align: middle;
-    }
 
     .btn-group > &:hover {
         z-index: 0;
