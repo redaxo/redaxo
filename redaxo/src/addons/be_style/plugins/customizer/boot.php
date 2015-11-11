@@ -23,7 +23,7 @@ if (rex::isBackend()) {
         
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
     }
-            
+    
     if ($config['labelcolor'] != '') {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
     }
