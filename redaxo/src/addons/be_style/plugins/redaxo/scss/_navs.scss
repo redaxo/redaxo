@@ -52,101 +52,66 @@
 }
 
 .rex-page-nav {
-/*
-    .navbar {
-        background-color: #fff;
-        border: 0;
-    }
-    .navbar-default .navbar-nav > .active > a,
-    .navbar-default .navbar-nav > .active > a:hover,
-    .navbar-default .navbar-nav > .active > a:focus {
-        color: $color-a-dark;
-    }
-
     .nav-tabs {
-        border-bottom-color: #fff;
+        border-bottom-color: $color-a-light;
+        .rex-main-frame & {
+            border-bottom-color: #fff;
+        }
 
         > li {
-
-            margin-bottom: 0;
+            .rex-main-frame & {
+                margin-bottom: 0;
+            }
 
             &.active {
                 > a:not(.btn),
                 > a:not(.btn):hover {
-                    background-color: $color-b;
-                    border-color: $color-b;
-                    color: #fff;
+                    background-color: #fff;
+                    border-top-color: $color-b;
+                    border-top-width: 2px;
+
+                    .rex-main-frame & {
+                        border-left-width: 0;
+                        border-right-width: 0;
+                        border-top-color: $color-b;
+                    }
                 }
             }
 
             > a:not(.btn) {
-                background-color: $color-a-dark;
-                border-color: $color-a-dark;
-                color: $color-a;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background-color: $color-a-light;
+                border-color: $color-a-light;
+                border-bottom-color: transparent;
+                border-top-color: $color-a;
+                border-top-width: 2px;
+
+                border-radius: 4px 4px 0 0;
+                color: $text-color;
+
+                .rex-main-frame & {
+                    padding-bottom: 9px;
+                    border-left-width: 0;
+                    border-right-width: 0;
+                    border-top-color: darken($color-a, 15%);
+                }
 
                 &:hover {
-                    background-color: $color-a-darker;
-                    border-color: $color-a-darker;
+                    background-color: $color-a-light;
+                    border-top-color: $color-b;
                     color: $color-b;
                 }
             }
         }
     }
-*/
-
-
-/*
-    .navbar {
-        background-color: $color-b;
-        border: 0;
-    }
-    .navbar-default .navbar-nav > li > a {
-        color: $color-a-dark;
-    }
-    .navbar-default .navbar-nav > li > a:hover,
-    .navbar-default .navbar-nav > .active > a,
-    .navbar-default .navbar-nav > .active > a:hover,
-    .navbar-default .navbar-nav > .active > a:focus {
-        color: #fff;
-    }
-
-    .nav-tabs {
-        border-bottom-color: $color-b;
-
-        > li {
-
-            margin-bottom: 0;
-
-            &.active {
-                > a:not(.btn),
-                > a:not(.btn):hover {
-                    background-color: $color-b;
-                    border-color: $color-b;
-                    color: #fff;
-                }
-            }
-
-            > a:not(.btn) {
-                padding-top: 12px;
-                padding-bottom: 12px;
-                background-color: $color-a-dark;
-                border-color: $color-a-dark;
-                border-radius: 6px 6px 0 0;
-                color: $color-a;
-
-                &:hover {
-                    background-color: $color-a-darker;
-                    border-color: $color-a-darker;
-                    color: $color-b;
-                }
-            }
-        }
-    }
-*/
-
+    // Tab subnavigation
     .navbar {
         background-color: #fff;
-        border: 0;
+        border-color: $color-a-light;
+        .rex-main-frame & {
+            border-color: #fff;
+        }
     }
     .navbar-default .navbar-nav > li + li:before {
         content: '';
@@ -170,51 +135,5 @@
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
         color: $text-color;
-    }
-
-    .nav-tabs {
-        border-bottom-color: #fff;
-
-        > li {
-
-            margin-bottom: 0;
-
-            &.active {
-                > a:not(.btn),
-                > a:not(.btn):hover {
-                    background-color: #fff;
-                    border-color: $color-b;
-                    border-width: 0;
-                    border-top-width: 2px;
-                    //color: #fff;
-
-                    .rex-main-frame & {
-                        border-color: $color-b;
-                    }
-                }
-            }
-
-            > a:not(.btn) {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                background-color: $color-a-light;
-                border-color: $color-a;
-                border-width: 0;
-                border-top-width: 2px;
-
-                border-radius: 4px 4px 0 0;
-                color: $text-color;
-
-                .rex-main-frame & {
-                    border-color: darken($color-a, 15%);
-                }
-
-                &:hover {
-                    background-color: $color-a-light;
-                    border-color: $color-b;
-                    color: $color-b;
-                }
-            }
-        }
     }
 }

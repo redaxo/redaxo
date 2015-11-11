@@ -1,0 +1,24 @@
+customizer = Customizer
+customizer_features = Funktionen
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = CodeMirror aktivieren
+customizer_codemirror_theme = CodeMirror Theme
+
+customizer_codemirror_info = Sobald CodeMirror aktiviert ist, werden diese bei Templates und Modulen automatisch verwendet. Sofern man selbst diese verwenden möchte, bitte folgende Form verwenden:<br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br>Die Parameter <i>codemirror-theme</i> und <i>codemirror-mode</i> sind optional.
+
+customizer_labeling = Ergänzungen
+customizer_labelcolor = Erkennungsfarbe (z.B. #43a047)
+customizer_labelcolor_error = Keine gültiger Farbcode (z.B. #43a oder #43a047)
+customizer_showlink = Link zur Webseite anzeigen ?
+
+customizer_config_updated = Eingaben wurden gespeichert
+customizer_config_update_failed = Eingaben wurden nicht gespeichert
+
+customizer_update = Einstellungen speichern
+
+
+customizer_projectname = Projektname
+customizer_textarea = breite Textarea unter Template und Module
+customizer_liquid = Liquid Layout
+customizer_nav_flyout = Navigation mit Flyout

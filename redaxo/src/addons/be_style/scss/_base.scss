@@ -266,7 +266,14 @@
     @extend .text-muted;
 }
 
+.rex-hidden {
+    display: none !important;
+}
+.rex-visible {
+    display: block !important;
+}
 .rex-ajax-loader {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -353,6 +360,10 @@
 
     @include clearfix();
 
+    &[data-toggle] {
+        cursor: pointer;
+    }
+
     > .panel-title {
         float: left;
     }
@@ -385,6 +396,12 @@
 
 .list-group-item .breadcrumb {
     margin-bottom: 0;
+}
+
+.dl-horizontal.text-left {
+    > dt {
+        text-align: left;
+    }
 }
 
 

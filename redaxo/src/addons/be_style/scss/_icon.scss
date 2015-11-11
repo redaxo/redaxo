@@ -121,6 +121,9 @@
 .rex-icon-import-export {
     @extend .fa-hdd-o;
 }
+.rex-icon-info {
+    @extend .fa-info-circle;
+}
 .rex-icon-install {
     @extend .fa-key;
 }
@@ -211,6 +214,9 @@
 .rex-icon-password {
     @extend .fa-lock;
 }
+.rex-icon-permissions {
+    @extend .fa-toggle-on;
+}
 .rex-icon-phpinfo {
     @extend .fa-info-circle;
 }
@@ -238,6 +244,9 @@
 .collapsed .rex-icon-structure-category-metainfo {
     @extend .fa-plus;
 }
+.rex-icon-seo {
+    @extend .fa-area-chart;
+}
 .rex-icon-system {
     @extend .fa-cogs;
 }
@@ -258,6 +267,9 @@
 }
 .rex-icon-userrole {
     @extend .fa-user;
+}
+.rex-icon-user-secret {
+    @extend .fa-user-secret;
 }
 .rex-icon-view {
     @extend .fa-eye;
