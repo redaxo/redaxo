@@ -279,16 +279,14 @@
     right: 0;
     bottom: 0;
     z-index: 2000;
-    background: rgba(#000, .8);
-    color: #fff;
-    font-size: 100px;
+    background: rgba(#000, .5);
 
-    .rex-icon {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin-top: -50px;
-        margin-left: -50px;
+    .rex-ajax-loader-element1
+    .rex-ajax-loader-element2,
+    .rex-ajax-loader-element3,
+    .rex-ajax-loader-element4,
+    .rex-ajax-loader-element5 {
+        display: none;
     }
 }
 
