@@ -16,13 +16,11 @@ if (rex_post('btn_save', 'string') != '') {
     $newConfig = rex_post('settings', 'array');
 
     $tempConfig['codemirror'] = 0;
-    if ($newConfig['codemirror'] == 1) {
+    if (isset($newConfig['codemirror']) && $newConfig['codemirror'] == 1) {
         $tempConfig['codemirror'] = 1;
     }
 
     $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
-
-    $tempConfig['projectname'] = htmlspecialchars($newConfig['projectname']);
 
     $labelcolor = $newConfig['labelcolor'];
     if ($labelcolor == '') {
@@ -34,23 +32,8 @@ if (rex_post('btn_save', 'string') != '') {
     }
 
     $tempConfig['showlink'] = 0;
-    if ($newConfig['showlink'] == 1) {
+    if (isset($newConfig['showlink']) && $newConfig['showlink'] == 1) {
         $tempConfig['showlink'] = 1;
-    }
-
-    $tempConfig['textarea'] = 0;
-    if ($newConfig['textarea'] == 1) {
-        $tempConfig['textarea'] = 1;
-    }
-
-    $tempConfig['liquid'] = 0;
-    if ($newConfig['liquid'] == 1) {
-        $tempConfig['liquid'] = 1;
-    }
-
-    $tempConfig['nav_flyout'] = 0;
-    if ($newConfig['nav_flyout'] == 1) {
-        $tempConfig['nav_flyout'] = 1;
     }
 
     // save config
@@ -136,27 +119,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
-$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" disabled="disabled" value="' . htmlspecialchars($config['labelcolor']) . '" />';
+$n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="customizer-showlink">' . rex_i18n::msg('customizer_showlink') . '</label>';
-$n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[showlink]" disabled="disabled" value="" ' . ($config['showlink'] ? 'checked="checked" ' : '') . '/>';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="customizer-textarea">' . rex_i18n::msg('customizer_textarea') . '</label>';
-$n['field'] = '<input type="checkbox" id="customizer-textarea" name="settings[textarea]" disabled="disabled" value="" ' . ($config['textarea'] ? 'checked="checked" ' : '') . '/>';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="customizer-liquid">' . rex_i18n::msg('customizer_liquid') . '</label>';
-$n['field'] = '<input type="checkbox" id="customizer-liquid" name="settings[liquid]" disabled="disabled" value="" ' . ($config['liquid'] ? 'checked="checked" ' : '') . '/>';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="customizer-nav_flyout">' . rex_i18n::msg('customizer_nav_flyout') . '</label>';
-$n['field'] = '<input type="checkbox" id="customizer-nav_flyout" name="settings[nav_flyout]" disabled="disabled" value="" ' . ($config['nav_flyout'] ? 'checked="checked" ' : '') . '/>';
+$n['field'] = '<input type="checkbox" id="customizer-showlink" name="settings[showlink]" value="1" ' . ($config['showlink'] ? 'checked="checked" ' : '') . ' />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

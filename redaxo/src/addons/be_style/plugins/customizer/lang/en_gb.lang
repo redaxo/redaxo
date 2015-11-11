@@ -8,8 +8,8 @@ customizer_codemirror_theme = CodeMirror Theme
 customizer_codemirror_info =
 
 customizer_labeling = Additions
-customizer_labelcolor = color (#47a1ce)
-customizer_labelcolor_error = No valid color code (#0af oder #00aaff)
+customizer_labelcolor = color (#43a047)
+customizer_labelcolor_error = No valid color code (#43a oder #43a047)
 customizer_showlink = activate link
 
 customizer_config_updated = settings have been saved
