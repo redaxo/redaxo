@@ -1,15 +1,6 @@
 .rex-nav-language {
     float: right;
     margin-left: $grid-gutter-width;
-
-    @media(min-width: $screen-md-min) {
-        &.rex-is-fixed {
-            position: fixed;
-            top: 90px;
-            right: 15px;
-            z-index: 1020;
-        }
-    }
 }
 .rex-nav-main {
     background-color: $color-a-dark;
@@ -144,39 +135,5 @@
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
         color: $text-color;
-    }
-
-    @media(min-width: $screen-md-min) {
-        &.rex-is-fixed {
-            position: fixed;
-            top: 148px;
-            left: 250px;
-            z-index: 1020;
-            margin-left: 15px;
-            padding: 20px 0 10px 0;
-            background-color: $color-a;
-
-            ~ .rex-slices {
-                margin-top: 108px;
-            }
-        }
-    }
-}
-
-
-
-@media(min-width: $grid-float-breakpoint) {
-    .rex-is-logged-in {
-        .rex-nav-main {
-            position: fixed;
-            left: 0;
-            top: $top-navbar-height;
-            bottom: 0;
-            z-index: 1010;
-        }
-        .rex-nav-top {
-            position: fixed;
-            z-index: 1010;
-        }
     }
 }
