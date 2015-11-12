@@ -29,7 +29,7 @@ if (rex::isBackend()) {
     }
     
     if ($config['showlink']) {
-        rex_view::setJsProperty('customizer_showlink', '<h1 class="be-style-customizer-title"><a href="'. rex::getServer() .'" onclick="window.open(this.href); return false">' . rex::getServerName() . '</a><i class="fa fa-external-link"></i></h1>');
+        rex_view::setJsProperty('customizer_showlink', '<h1 class="be-style-customizer-title"><a href="'. rex::getServer() .'" target="_blank">' . rex::getServerName() . '</a><i class="fa fa-external-link"></i></h1>');
     }
     
     rex_view::addJsFile($this->getAssetsUrl('js/main.js'));
