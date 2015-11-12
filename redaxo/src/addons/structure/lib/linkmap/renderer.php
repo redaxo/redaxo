@@ -30,7 +30,7 @@ abstract class rex_linkmap_tree_renderer
 
         $rendered = $this->renderTree($roots, $tree);
         // add css class to root node
-        return '<ul class="list-group"' . substr($rendered, 3);
+        return '<ul class="list-group rex-linkmap-list-group"' . substr($rendered, 3);
     }
 
     /**
@@ -138,7 +138,7 @@ abstract class rex_linkmap_article_list_renderer
             }
 
             if ($list != '') {
-                $list = '<ul class="list-group">' . $list . '</ul>';
+                $list = '<ul class="list-group rex-linkmap-list-group">' . $list . '</ul>';
             }
         }
         return $list;
