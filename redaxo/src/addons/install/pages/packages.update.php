@@ -50,7 +50,7 @@ if ($core && !empty($coreVersions)) {
 } elseif ($addonkey && isset($addons[$addonkey])) {
     $addon = $addons[$addonkey];
 
-    $panel .= '
+    $panel = '
         <table class="table">
             <tbody>
             <tr>
