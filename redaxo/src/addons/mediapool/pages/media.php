@@ -56,41 +56,13 @@ $toolbar = '
 </form>
 </div>';
 
-$context = new rex_context([
-    'page' => rex_be_controller::getCurrentPage(),
-]);
 
-/*
-$view_buttons = [];
-
-// symbol view
-$button = [];
-$button['url'] = $context->getUrl(['func' => 'media-view-icon']);
-$button['attributes']['class'][] = 'btn-default';
-$button['attributes']['title'] = rex_i18n::msg('mediapool_view_icon');
-$button['icon'] = 'view-icon';
-$view_buttons[] = $button;
-
-// list view
-$button = [];
-$button['url'] = $context->getUrl(['func' => 'media-view-list']);
-$button['attributes']['class'][] = 'btn-default';
-$button['attributes']['title'] = rex_i18n::msg('mediapool_view_list');
-$button['icon'] = 'view-list';
-$view_buttons[] = $button;
-
-if (count($view_buttons) > 0) {
-    $fragment = new rex_fragment();
-    $fragment->setVar('buttons', $view_buttons, false);
-    $fragment->setVar('size', 'xs', false);
-    $toolbar .= $fragment->parse('core/buttons/button_group.php');
-}
-*/
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
     'category_id' => $rex_file_category,
 ]));
+
 
 // *************************************** Subpage: Media
 
@@ -497,7 +469,7 @@ if (!$file_id) {
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="rex-table-icon"><a href="' . rex_url::backendController(['page' => 'mediapool/upload']) . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
+                                    <th class="rex-table-icon"></th>
                                     <th class="rex-table-thumbnail">' . rex_i18n::msg('pool_file_thumbnail') . '</th>
                                     <th>' . rex_i18n::msg('pool_file_info') . ' / ' . rex_i18n::msg('pool_file_description') . '</th>
                                     <th>' . rex_i18n::msg('pool_last_update') . '</th>

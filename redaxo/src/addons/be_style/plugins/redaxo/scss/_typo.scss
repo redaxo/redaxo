@@ -1,13 +1,4 @@
-.rex-page-section {
-    h3 {
-        font-size: ceil(($font-size-base * 1.125));
-        font-weight: 700;
-        .rex-slice & {
-            font-size: $font-size-h3;
-            font-weight: $headings-font-weight;
-        }
-    }
-}
+
 
 .rex-online,
 .rex-text-online {

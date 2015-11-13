@@ -1,5 +1,4 @@
-$top-navbar-height: 70px;
-$top-popup-navbar-height: 50px;
+$top-popup-navbar-height: 70px;
 $helper-factor-spacing: 40px;
 
 // Grey
@@ -30,10 +29,6 @@ $color-offline:     #dc6ca3;
 $screen-xl-min:     1400px;
 $screen-lg-max:     ($screen-xl-min - 1);
 
-// Large screen / wide desktop
-$container-xlarge-desktop:      (1340px + $grid-gutter-width) !default;
-//** For `$screen-xl-min` and up.
-$container-xl:                 $container-xlarge-desktop !default;
 
 
 

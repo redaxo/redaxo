@@ -191,7 +191,7 @@ class rex_article_content_editor extends rex_article_content
         // ----- EXTENSION POINT
         $menu_items_ep = [];
         $menu_items_ep = rex_extension::registerPoint(new rex_extension_point(
-            'STRUCTURE_CONTENT_SLICE_MENU',
+            'ART_SLICE_MENU',
                 $menu_items_ep,
             [
                 'article_id' => $this->article_id,
@@ -265,19 +265,8 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('block', true);
         $fragment->setVar('button_label', rex_i18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
-        $select = $fragment->parse('core/dropdowns/dropdown.php');
-        $select = rex_extension::registerPoint(new rex_extension_point(
-            'STRUCTURE_CONTENT_MODULE_SELECT',
-                $select,
-            [
-                'page' => rex_be_controller::getCurrentPage(),
-                'article_id' => $this->article_id,
-                'clang' => $this->clang,
-                'ctype' => $this->ctype,
-                'slice_id' => $sliceId,
-            ]
-        ));
-        return '<li class="rex-slice rex-slice-select">' . $select . '</li>';
+
+        return '<li class="rex-slice rex-slice-select">' . $fragment->parse('core/dropdowns/dropdown.php') . '</li>';
     }
 
     /**

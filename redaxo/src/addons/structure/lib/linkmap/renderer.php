@@ -30,7 +30,7 @@ abstract class rex_linkmap_tree_renderer
 
         $rendered = $this->renderTree($roots, $tree);
         // add css class to root node
-        return '<ul class="list-group rex-linkmap-list-group"' . substr($rendered, 3);
+        return '<ul class="rex-tree-root"' . substr($rendered, 3);
     }
 
     /**
@@ -46,23 +46,32 @@ abstract class rex_linkmap_tree_renderer
         $ul = '';
         if (is_array($children)) {
             $li = '';
-            $ulclasses = 'list-group';
+            $ulclasses = '';
+            if (count($children) == 1) {
+                $ulclasses .= 'rex-children-one ';
+            }
             foreach ($children as $cat) {
                 $cat_children = $cat->getChildren();
                 $cat_id = $cat->getId();
-                $liclasses = 'list-group-item';
+                $liclasses = '';
                 $linkclasses = '';
                 $sub_li = '';
-                $liIcon = '<i class="rex-icon rex-icon-category"></i> ';
+                if (count($cat_children) > 0) {
+                    $liclasses .= 'rex-children ';
+                    $linkclasses .= 'rex-linkmap-is-not-empty ';
+                }
 
+                if (next($children) == null) {
+                    $liclasses .= 'rex-children-last ';
+                }
                 $linkclasses .= $cat->isOnline() ? 'rex-online ' : 'rex-offline ';
                 if (is_array($activeTreeIds) && in_array($cat_id, $activeTreeIds)) {
                     $sub_li = $this->renderTree($cat_children, $activeTreeIds);
-                    $liIcon = '<i class="rex-icon rex-icon-open-category"></i> ';
+                    $liclasses .= 'rex-active ';
                     $linkclasses .= 'rex-active ';
                 }
 
-                $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li, $liIcon);
+                $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li);
             }
 
             if ($ulclasses != '') {
@@ -76,7 +85,7 @@ abstract class rex_linkmap_tree_renderer
         return $ul;
     }
 
-    abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon);
+    abstract protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml);
 
     public static function formatLabel(rex_structure_element $OOobject)
     {
@@ -97,6 +106,7 @@ abstract class rex_linkmap_tree_renderer
 
     public static function formatLi(rex_structure_element $OOobject, $current_category_id, rex_context $context, $liAttr = '', $linkAttr = '')
     {
+        $liAttr .= $OOobject->getId() == $current_category_id ? ' id="rex-linkmap-active"' : '';
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
         if (strpos($linkAttr, ' href=') === false) {
@@ -105,9 +115,7 @@ abstract class rex_linkmap_tree_renderer
 
         $label = self::formatLabel($OOobject);
 
-        $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isStartArticle() ? 'startarticle' : 'article') . '"></i>';
-
-        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . htmlspecialchars($label) . '</a>';
+        return '<li' . $liAttr . '><a' . $linkAttr . '>' . htmlspecialchars($label) . '</a>';
     }
 }
 
@@ -138,7 +146,7 @@ abstract class rex_linkmap_article_list_renderer
             }
 
             if ($list != '') {
-                $list = '<ul class="list-group rex-linkmap-list-group">' . $list . '</ul>';
+                $list = '<ul>' . $list . '</ul>';
             }
         }
         return $list;

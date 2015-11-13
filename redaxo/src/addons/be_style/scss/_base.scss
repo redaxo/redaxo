@@ -110,6 +110,7 @@
 .nav-tabs > li > .btn-danger {
     @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
+
 .btn-abort {
     @extend .btn-default;
 }
@@ -279,14 +280,16 @@
     right: 0;
     bottom: 0;
     z-index: 2000;
-    background: rgba(#000, .5);
+    background: rgba(#000, .8);
+    color: #fff;
+    font-size: 100px;
 
-    .rex-ajax-loader-element1
-    .rex-ajax-loader-element2,
-    .rex-ajax-loader-element3,
-    .rex-ajax-loader-element4,
-    .rex-ajax-loader-element5 {
-        display: none;
+    .rex-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
     }
 }
 
@@ -393,20 +396,6 @@
 
 .list-group-item .breadcrumb {
     margin-bottom: 0;
-}
-.panel > .list-group .list-group {
-    margin-top: 10px;
-    margin-bottom: -10px;
-    margin-right: -15px;
-    > .list-group-item {
-        padding-left: 20px;
-        &:first-child {
-            border-top-width: 1px;
-        }
-    }
-}
-.list-group-item > .rex-active {
-    color: $link-hover-color;
 }
 
 .dl-horizontal.text-left {

@@ -4,7 +4,6 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('watson')
     ->exclude('wildcard')
     ->exclude('yform')
-    ->exclude('fragments')
     ->in(__DIR__)
 ;
 

@@ -59,11 +59,6 @@ abstract class rex_perm
      */
     public static function getAll($group = self::GENERAL)
     {
-        if (isset(self::$perms[$group])) {
-            $perms = self::$perms[$group];
-            natsort($perms);
-            return $perms;
-        }
-        return [];
+        return isset(self::$perms[$group]) ? self::$perms[$group] : [];
     }
 }
