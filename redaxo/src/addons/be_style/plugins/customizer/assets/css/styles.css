@@ -1,0 +1,20 @@
+.be-style-customizer-title {
+    float: left;
+    margin: 0 0 0 40px;
+}
+.be-style-customizer-title i,
+.be-style-customizer-title a{
+    color: #fff;
+    font-size: 17px;
+    font-weight: normal;
+}
+.be-style-customizer-title i{
+    margin-left:10px;
+}
+
+.CodeMirror {
+    min-height: 330px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    line-height: 16px !important;
+}
