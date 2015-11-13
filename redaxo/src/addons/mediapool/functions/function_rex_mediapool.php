@@ -469,7 +469,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
         $e['label'] = '<label for="rex-mediapool-choose-file">' . rex_i18n::msg('pool_file_file') . '</label>';
         $e['field'] = '<input id="rex-mediapool-choose-file" type="file" name="file_new" />';
         $e['after'] = '<h3>' . rex_i18n::msg('phpini_settings') . '</h3>
-                        <dl class="dl-horizontal text-left">
+                        <dl class="dl-horizontal">
                         ' . ((rex_ini_get('file_uploads') == 0) ? '<dt><span class="text-warning">' . rex_i18n::msg('pool_upload') . '</span></dt><dd><span class="text-warning">' . rex_i18n::msg('pool_upload_disabled') . '</span></dd>' : '') . '
                             <dt>' . rex_i18n::msg('pool_max_uploadsize') . ':</dt><dd>' . rex_formatter::bytes(rex_ini_get('upload_max_filesize')) . '</dd>
                             <dt>' . rex_i18n::msg('pool_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>

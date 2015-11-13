@@ -247,7 +247,7 @@ if ($function == 'add' || $function == 'edit') {
         $n = [];
         $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
         $n['field'] = '<textarea class="form-control" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>';
-        $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
+        $n['note'] = rex_i18n::msg('action_hint', '<var>$REX_ACTION</var>');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -289,7 +289,7 @@ if ($function == 'add' || $function == 'edit') {
         $n = [];
         $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
         $n['field'] = '<textarea class="form-control" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>';
-        $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
+        $n['note'] = rex_i18n::msg('action_hint', '<var>$REX_ACTION</var>');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -331,7 +331,7 @@ if ($function == 'add' || $function == 'edit') {
         $n = [];
         $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
         $n['field'] = '<textarea class="form-control" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>';
-        $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
+        $n['note'] = rex_i18n::msg('action_hint', '<var>$REX_ACTION</var>');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();

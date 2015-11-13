@@ -42,18 +42,13 @@
 }
 
 .rex-nav-top {
-    min-height: $top-navbar-height;
+    min-height: $top-popup-navbar-height;
     margin-bottom: 0;
-    padding-top: floor(($top-navbar-height - $navbar-height) / 2);
-    padding-bottom: floor(($top-navbar-height - $navbar-height) / 2);
+    padding-top: floor(($top-popup-navbar-height - $navbar-height) / 2);
+    padding-bottom: floor(($top-popup-navbar-height - $navbar-height) / 2);
     background-color: $color-b;
     border-color: $color-b;
     border-radius: 0;
-
-    .rex-is-popup & {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
 }
 
 .rex-page-nav {

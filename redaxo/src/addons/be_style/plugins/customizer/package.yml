@@ -1,0 +1,13 @@
+package: be_style/customizer
+version: '5.0-alpha7'
+author: Peter Thiel
+supportpage: www.redaxo.org/de/forum/
+
+page:
+    title: translate:customizer
+    perm: admin[]
+    pjax: true
+    icon: rex-icon rex-icon-customizer
+
+pages:
+    system/customizer: { title: 'translate:customizer', icon: rex-icon rex-icon-customizer }

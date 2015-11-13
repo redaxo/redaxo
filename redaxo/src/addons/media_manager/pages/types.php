@@ -146,6 +146,7 @@ if ($func == '') {
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
 
+
     $content .= $form->get();
 
     $fragment = new rex_fragment();

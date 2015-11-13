@@ -43,5 +43,4 @@ if (rex::isBackend()) {
     }
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/redaxo.js'));
 }

@@ -33,7 +33,7 @@ rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
     $article->setEval(true);
 });
 
-rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
+rex_extension::register('PAGE_CONTENT_HEADER', function (rex_extension_point $ep) {
     $params = $ep->getParams();
     $return = '';
 

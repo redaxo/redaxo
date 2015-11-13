@@ -252,7 +252,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-<form action="' . rex_url::currentBackendPage() . '" data-pjax="false" method="post">
+<form action="' . rex_url::currentBackendPage() . '" method="post">
     ' . $content . '
 </form>
 
