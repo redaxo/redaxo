@@ -703,7 +703,7 @@ class rex_form
     }
 
     /**
-     * Mehrsprachigkeit unterstuetzen
+     * Mehrsprachigkeit unterstuetzen.
      *
      * @param string $idField
      * @param string $clangField

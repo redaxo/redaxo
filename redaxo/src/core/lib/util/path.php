@@ -14,7 +14,7 @@ class rex_path
     /**
      * Initializes the class.
      *
-     * @param mixed $pathprovider  A path provider.
+     * @param mixed $pathprovider A path provider.
      */
     public static function init($pathprovider)
     {

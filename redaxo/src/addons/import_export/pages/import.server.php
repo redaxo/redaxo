@@ -143,7 +143,6 @@ $content .= '
                     </tbody>
                 </table>';
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('im_export_export_db_caption'), false);
 $fragment->setVar('content', $content, false);
@@ -193,6 +192,3 @@ $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');
 
 echo $content;
-
-
-

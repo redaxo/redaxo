@@ -27,7 +27,7 @@ function rex_metainfo_content_sidebar(\rex_extension_point $ep)
     $panel .= '<dt>' . rex_i18n::msg('status') . '</dt>';
     $panel .= '<dd class="' . $articleStatusTypes[$article->getValue('status')][1] . '">' . $articleStatusTypes[$article->getValue('status')][0] . '</dd>';
 
-    $panel .= '</dl>';;
+    $panel .= '</dl>';
     $fragment = new rex_fragment();
     $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . rex_i18n::msg('metadata'), false);
     $fragment->setVar('body', $panel, false);

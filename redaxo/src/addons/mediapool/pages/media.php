@@ -56,7 +56,6 @@ $toolbar = '
 </form>
 </div>';
 
-
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
 ]);
@@ -92,7 +91,6 @@ $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOL
     'subpage' => $subpage,
     'category_id' => $rex_file_category,
 ]));
-
 
 // *************************************** Subpage: Media
 
