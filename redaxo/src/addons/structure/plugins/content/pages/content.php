@@ -92,7 +92,6 @@ if ($article->getRows() == 1) {
     // ----- category pfad und rechte
     require rex_path::addon('structure', 'functions/function_rex_category.php');
 
-
     // ----- EXTENSION POINT
     echo rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_HEADER', '', [
         'article_id' => $article_id,
@@ -450,7 +449,6 @@ if ($article->getRows() == 1) {
             $contentMain .= rex_view::success($info);
         }
 
-
         // ----- EXTENSION POINT
         $contentMain .= rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_BEFORE_SLICES', '', [
             'article_id' => $article_id,
@@ -463,7 +461,6 @@ if ($article->getRows() == 1) {
             'article_revision' => &$article_revision,
             'slice_revision' => &$slice_revision,
         ]));
-
 
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
         $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();

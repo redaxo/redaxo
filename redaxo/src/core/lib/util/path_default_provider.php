@@ -16,9 +16,9 @@ class rex_path_default_provider
     /**
      * Initializes the class.
      *
-     * @param string $htdocs  Htdocs path
-     * @param string $backend Backend folder name
-     * @param boolean $provideAbsolutes Flag whether to return absolute path, or relative ones
+     * @param string $htdocs           Htdocs path
+     * @param string $backend          Backend folder name
+     * @param bool   $provideAbsolutes Flag whether to return absolute path, or relative ones
      */
     public function __construct($htdocs, $backend, $provideAbsolutes)
     {
@@ -77,7 +77,7 @@ class rex_path_default_provider
      *
      * @return string
      */
-    public  function backend($file)
+    public function backend($file)
     {
         if ($this->provideAbsolutes) {
             return $this->base($this->backend . '/' . $file);
@@ -248,7 +248,7 @@ class rex_path_default_provider
      *
      * @return string
      */
-    public  function core($file)
+    public function core($file)
     {
         return $this->src('core/' . $file);
     }
@@ -279,5 +279,4 @@ class rex_path_default_provider
     {
         return $this->addon($addon, 'plugins/' . $plugin . '/' . $file);
     }
-
 }
