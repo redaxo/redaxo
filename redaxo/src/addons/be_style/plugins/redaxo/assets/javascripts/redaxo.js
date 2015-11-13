@@ -6,6 +6,7 @@
 
 
     var $structureContentNav = null,
+        $structureContentNavHeight = null,
         $structureContentNavTopPosition = null,
         $structureContentNavTopPositionSubtract = 70 + 20 + 78,
         $structureContentSidebar = null,
@@ -31,8 +32,10 @@
     function structureContentNavResize() {
         if ($structureContentNav.length > 0 && $structureContentNav.hasClass('rex-is-fixed')) {
             $structureContentNav.css('width', $structureContentNav.parent().width());
+            $structureContentNav.next().css('margin-top', $structureContentNavHeight);
         } else {
             $structureContentNav.css('width', '');
+            $structureContentNav.next().css('margin-top', '');
         }
     }
     function structureContentSidebarScroll() {
@@ -84,7 +87,8 @@
 
     $(function() {
         $structureContentNav = $('#rex-js-structure-content-nav');
-        $structureContentSidebar = $('#rex-page-content-edit #rex-js-main-sidebar');
+        $structureContentNavHeight = $structureContentNav.outerHeight(true);
+        $structureContentSidebar = $('#rex-js-main-sidebar');
         $structureBreadcrumb = $('#rex-js-structure-breadcrumb');
         $structureLanguage = $('#rex-js-page-main > .rex-nav-language').first();
 
