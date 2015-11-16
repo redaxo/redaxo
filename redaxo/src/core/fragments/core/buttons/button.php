@@ -24,5 +24,11 @@ foreach ($this->buttons as $button) {
 
     $icon = isset($button['icon']) ? '<i class="rex-icon rex-icon-' . $button['icon'] . '"></i>' : '';
 
-    echo '<a href="' . $button['url'] . '"' . rex_string::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</a>';
+    $tag = 'button';
+    $href = '';
+    if (isset($button['url'])) {
+        $tag = 'a';
+        $href = ' href="' . $button['url'] . '"';
+    }
+    echo '<' .$tag . $href . rex_string::buildAttributes($button['attributes']) . '>' . $icon . $button['label'] . '</' . $tag . '>';
 }
