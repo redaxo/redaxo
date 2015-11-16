@@ -174,7 +174,7 @@ abstract class rex_package_manager
      */
     public function uninstall($installDump = true)
     {
-        $isActivated = $this->package->isActivated();
+        $isActivated = $this->package->isAvailable();
         if ($isActivated && !$this->deactivate()) {
             return false;
         }
@@ -607,10 +607,10 @@ abstract class rex_package_manager
         $config = [];
         foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
             $config[$addonName]['install'] = $addon->isInstalled();
-            $config[$addonName]['status'] = $addon->isActivated();
+            $config[$addonName]['status'] = $addon->isAvailable();
             foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
                 $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
-                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
+                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isAvailable();
             }
         }
         rex::setConfig('package-config', $config);
@@ -637,7 +637,7 @@ abstract class rex_package_manager
             } else {
                 $addon = rex_addon::get($addonName);
                 $config[$addonName]['install'] = $addon->isInstalled();
-                $config[$addonName]['status'] = $addon->isActivated();
+                $config[$addonName]['status'] = $addon->isAvailable();
                 $registeredPlugins = array_keys($addon->getRegisteredPlugins());
             }
             $plugins = self::readPackageFolder(rex_path::addon($addonName, 'plugins'));
@@ -649,7 +649,7 @@ abstract class rex_package_manager
             foreach ($plugins as $pluginName) {
                 $plugin = rex_plugin::get($addonName, $pluginName);
                 $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
-                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isActivated();
+                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isAvailable();
             }
             if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
                 ksort($config[$addonName]['plugins']);

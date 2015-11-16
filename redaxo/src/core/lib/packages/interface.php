@@ -141,13 +141,6 @@ interface rex_package_interface
     public function isInstalled();
 
     /**
-     * Returns if the package is activated.
-     *
-     * @return bool
-     */
-    public function isActivated();
-
-    /**
      * Returns if it is a system package.
      *
      * @return bool

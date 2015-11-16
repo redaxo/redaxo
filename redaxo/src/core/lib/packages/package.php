@@ -178,7 +178,7 @@ abstract class rex_package implements rex_package_interface
      */
     public function isAvailable()
     {
-        return $this->isInstalled() && $this->isActivated();
+        return $this->isInstalled() && (boolean) $this->getProperty('status', false);
     }
 
     /**
@@ -190,11 +190,11 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated since 5.0, use isAvailable()
      */
     public function isActivated()
     {
-        return (boolean) $this->getProperty('status', false);
+        return $this->isAvailable();
     }
 
     /**

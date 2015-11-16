@@ -17,8 +17,8 @@ class rex_api_package extends rex_api_function
         $packageId = rex_request('package', 'string');
         $package = rex_package::get($packageId);
         if ($function == 'uninstall' && !$package->isInstalled()
-            || $function == 'activate' && $package->isActivated()
-            || $function == 'deactivate' && !$package->isActivated()
+            || $function == 'activate' && $package->isAvailable()
+            || $function == 'deactivate' && !$package->isAvailable()
             || $function == 'delete' && !rex_package::exists($packageId)
         ) {
             throw new rex_api_exception('Illegal operation "' . $function . '" for package "' . $packageId . '"');

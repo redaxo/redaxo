@@ -109,7 +109,7 @@ if ($subpage == '') {
 
         $class = '';
         $status = '&nbsp;';
-        if ($package->isActivated()) {
+        if ($package->isAvailable()) {
             $status = $getLink($package, 'deactivate', 'rex-icon-package-is-activated');
             $class .= ' rex-package-is-activated';
         } elseif ($package->isInstalled()) {
@@ -152,7 +152,7 @@ if ($subpage == '') {
     foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
         $content .= $getTableRow($addon);
 
-        if ($addon->isActivated()) {
+        if ($addon->isAvailable()) {
             foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
                 $content .= $getTableRow($plugin);
             }

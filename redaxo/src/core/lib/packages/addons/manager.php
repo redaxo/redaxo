@@ -42,7 +42,7 @@ class rex_addon_manager extends rex_package_manager
      */
     public function uninstall($installDump = true)
     {
-        $isActivated = $this->package->isActivated();
+        $isActivated = $this->package->isAvailable();
         if ($isActivated && !$this->deactivate()) {
             return false;
         }

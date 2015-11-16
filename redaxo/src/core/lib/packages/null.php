@@ -154,11 +154,11 @@ abstract class rex_null_package implements rex_package_interface
     }
 
     /**
-     * {@inheritdoc}
+     * @deprecated since 5.0, use isAvailable()
      */
     public function isActivated()
     {
-        return false;
+        return $this->isAvailable();
     }
 
     /**

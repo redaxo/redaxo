@@ -63,25 +63,23 @@ $content .= '
 
         <tbody>';
 
-        foreach (rex_package::getRegisteredPackages() as $package) {
-            if ($package->isActivated()) {
-                $content .= '
-                <tr class="rex-package-is-' . $package->getType() . '">
-                    <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
-                    <td data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' </td>
-                    <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
-                    <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_help') . '"><a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
-                    <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
-                    <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
+        foreach (rex_package::getAvailablePackages() as $package) {
+            $content .= '
+            <tr class="rex-package-is-' . $package->getType() . '">
+                <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $package->getType() . '"></i></td>
+                <td data-title="' . rex_i18n::msg('credits_name') . '">' . $package->getName() . ' </td>
+                <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
+                <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_help') . '"><a href="' . rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]) . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
+                <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
+                <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
 
-                if ($supportpage = $package->getSupportPage()) {
-                    $content .= '<a href="http://' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . $supportpage . '</a>';
-                }
-
-                $content .= '
-                    </td>
-                </tr>';
+            if ($supportpage = $package->getSupportPage()) {
+                $content .= '<a href="http://' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . $supportpage . '</a>';
             }
+
+            $content .= '
+                </td>
+            </tr>';
         }
 
         $content .= '

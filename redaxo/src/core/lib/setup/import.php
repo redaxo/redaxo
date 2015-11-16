@@ -185,7 +185,7 @@ class rex_setup_importer
                 $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
 
-            if ($state === true && !$package->isActivated()) {
+            if ($state === true && !$package->isAvailable()) {
                 $state = $manager->activate();
 
                 if ($state !== true) {
