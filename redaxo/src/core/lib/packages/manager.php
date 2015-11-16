@@ -610,7 +610,7 @@ abstract class rex_package_manager
             $config[$addonName]['status'] = $addon->isAvailable();
             foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
                 $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
-                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isAvailable();
+                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->getProperty('status');
             }
         }
         rex::setConfig('package-config', $config);
@@ -649,7 +649,7 @@ abstract class rex_package_manager
             foreach ($plugins as $pluginName) {
                 $plugin = rex_plugin::get($addonName, $pluginName);
                 $config[$addonName]['plugins'][$pluginName]['install'] = $plugin->isInstalled();
-                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->isAvailable();
+                $config[$addonName]['plugins'][$pluginName]['status'] = $plugin->getProperty('status');
             }
             if (isset($config[$addonName]['plugins']) && is_array($config[$addonName]['plugins'])) {
                 ksort($config[$addonName]['plugins']);
