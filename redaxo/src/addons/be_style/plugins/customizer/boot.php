@@ -7,7 +7,7 @@
  * Marijn Haverbeke <marijnh@gmail.com>
  */
 
-if (rex::isBackend()) {
+if (rex::isBackend() && !empty(rex::getUser())) {
     
     $config = $this->getConfig();
 
