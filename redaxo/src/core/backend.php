@@ -115,7 +115,7 @@ rex_be_controller::setPages($pages);
 // Set Startpage
 if ($user = rex::getUser()) {
     // --- page pruefen und benoetigte rechte checken
-    rex_be_controller::checkPage($user);
+    rex_be_controller::checkPagePermissions($user);
 }
 $page = rex_be_controller::getCurrentPage();
 rex_view::setJsProperty('page', $page);

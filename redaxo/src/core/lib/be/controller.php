@@ -328,22 +328,45 @@ class rex_be_controller
         }
     }
 
-    public static function checkPage(rex_user $user)
+    public static function checkPagePermissions(rex_user $user)
     {
+        $check = function (rex_be_page $page) use (&$check, $user) {
+            if (!$page->checkPermission($user)) {
+                return false;
+            }
+
+            $subpages = $page->getSubpages();
+            foreach ($subpages as $key => $subpage) {
+                if (!$check($subpage)) {
+                    unset($subpages[$key]);
+                }
+            }
+            $page->setSubpages($subpages);
+
+            return true;
+        };
+
+        foreach (self::$pages as $key => $page) {
+            if (!$check($page)) {
+                unset(self::$pages[$key]);
+            }
+        }
+        self::$pageObject = null;
+
         $page = self::getCurrentPageObject();
         // --- page pruefen und benoetigte rechte checken
-        if (!$page || !$page->checkPermission($user)) {
+        if (!$page) {
             // --- fallback zur user startpage -> rechte checken
             $page = self::getPageObject($user->getStartPage());
-            if (!$page || !$page->checkPermission($user)) {
+            if (!$page) {
                 // --- fallback zur system startpage -> rechte checken
                 $page = self::getPageObject(rex::getProperty('start_page'));
-                if (!$page || !$page->checkPermission($user)) {
+                if (!$page) {
                     // --- fallback zur profile page
                     $page = self::getPageObject('profile');
                 }
             }
-            rex_response::setStatus(rex_response::HTTP_FORBIDDEN);
+            rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
             rex_response::sendRedirect($page->getHref());
         }
         if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
