@@ -1086,6 +1086,18 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Escapes and adds backsticks around.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function escapeIdentifier($name)
+    {
+        return '`' . str_replace('`', '``', $name) . '`';
+    }
+
+    /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user.
      *
      * @return $this the current rex_sql object
