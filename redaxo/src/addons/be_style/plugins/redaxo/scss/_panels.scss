@@ -13,6 +13,9 @@
         margin-top: -3px;
         margin-bottom: -3px;
     }
+    .rex-panel-option-title {
+        margin-left: ($grid-gutter-width / 2);
+    }
 }
 .panel-add,
 .panel-edit {

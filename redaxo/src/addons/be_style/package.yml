@@ -1,6 +1,6 @@
 package: be_style
 version: '5.0-alpha7'
-author: 'Jan Kristinus, Markus Staab'
+author: 'Jan Kristinus, Markus Staab, Thomas Blum'
 supportpage: www.redaxo.org/de/forum/
 
 load: early
