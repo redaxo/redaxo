@@ -29,6 +29,9 @@ file_put_contents('data/config.yml', "error_email: info@redaxo.org\n");
 // bootstrap core
 require 'src/core/boot.php';
 
+// bootstrap addons
+include_once rex_path::core('packages.php');
+
 // run setup, if instance not already prepared
 if (rex::isSetup()) {
     $err = '';
