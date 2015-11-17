@@ -20,7 +20,7 @@ class rex_backup
 
     public static function getBackupFiles($filePrefix)
     {
-        $dir = rex_backup::getDir();
+        $dir = self::getDir();
 
         $folder = rex_finder::factory($dir)->filesOnly();
 
