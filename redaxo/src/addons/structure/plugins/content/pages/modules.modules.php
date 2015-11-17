@@ -15,6 +15,7 @@ $iaction_id = rex_request('iaction_id', 'int'); // id der module-action relation
 $mname = rex_request('mname', 'string');
 $eingabe = rex_request('eingabe', 'string');
 $ausgabe = rex_request('ausgabe', 'string');
+$ausgabe_backend = rex_request('output_backend', 'string');
 $goon = rex_request('goon', 'string');
 $add_action = rex_request('add_action', 'string');
 
@@ -104,6 +105,7 @@ if ($function == 'add' or $function == 'edit') {
                 $IMOD->setValue('name', $mname);
                 $IMOD->setValue('input', $eingabe);
                 $IMOD->setValue('output', $ausgabe);
+                $IMOD->setValue('output_backend', $ausgabe_backend);
                 $IMOD->addGlobalCreateFields();
 
                 $IMOD->insert();
@@ -121,6 +123,7 @@ if ($function == 'add' or $function == 'edit') {
                     $UMOD->setValue('name', $mname);
                     $UMOD->setValue('input', $eingabe);
                     $UMOD->setValue('output', $ausgabe);
+                    $UMOD->setValue('output_backend', $ausgabe_backend);
                     $UMOD->addGlobalUpdateFields();
 
                     $UMOD->update();
@@ -159,6 +162,7 @@ if ($function == 'add' or $function == 'edit') {
             $hole = rex_sql::factory();
             $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
             $mname = $hole->getValue('name');
+            $ausgabe_backend = $hole->getValue('output_backend');
             $ausgabe = $hole->getValue('output');
             $eingabe = $hole->getValue('input');
         } else {
@@ -203,6 +207,11 @@ if ($function == 'add' or $function == 'edit') {
         $n = [];
         $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
         $n['field'] = '<textarea class="form-control rex-code" id="moutput" name="ausgabe">' . htmlspecialchars($ausgabe) . '</textarea>';
+        $formElements[] = $n;
+
+        $n = [];
+        $n['label'] = '<label for="moutput_backend">' . rex_i18n::msg('output_backend') . '</label>';
+        $n['field'] = '<textarea class="form-control rex-code" id="moutput_backend" name="output_backend">' . htmlspecialchars($ausgabe_backend) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
