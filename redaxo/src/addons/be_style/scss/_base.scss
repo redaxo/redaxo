@@ -1,4 +1,28 @@
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
+body:before {
+    display: none;
+    content: "xs";
+    @media (min-width: $screen-sm-min) {
+        content: "sm";
+    }
+    @media (min-width: $screen-md-min) {
+        content: "md";
+    }
+    @media (min-width: $screen-lg-min) {
+        content: "lg";
+    }
+}
+body:after {
+    display: none;
+    content: "max";
+    @media (min-width: $grid-float-breakpoint) {
+        content: "min";
+    }
+}
 
 .nav-tabs > li.pull-right > a {
     margin-left: 2px;
@@ -169,6 +193,10 @@
     margin-left: floor($grid-gutter-width / 2);
     padding: 0;
     line-height: $navbar-height;
+    @media (max-width: $screen-sm-max) {
+        height: $line-height-computed;
+        line-height: $line-height-computed;
+    }
 
     .rex-is-popup & {
         height: $top-popup-navbar-height;
@@ -199,6 +227,9 @@
 .rex-redaxo-logo {
     height: 30px;
     vertical-align: middle;
+    @media (max-width: $screen-sm-max) {
+        height: floor($grid-gutter-width / 2);
+    }
 
     .rex-is-popup & {
         height: 20px;

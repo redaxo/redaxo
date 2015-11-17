@@ -53,6 +53,23 @@
     background-color: $navbar-default-bg;
 }
 
+@media(max-width: $grid-float-breakpoint-max) {
+    .rex-is-logged-in {
+        .rex-page {
+            position: relative;
+            z-index: 3;
+            background-color: $body-bg;
+            /* Force Hardware Acceleration */
+            @include translate3d(0, 0, 0);
+            @include backface-visibility(hidden);
+            @include transition-transform(0.3s);
+
+            &.rex-nav-main-is-visible {
+                @include translate(-260px, 0);
+            }
+        }
+    }
+}
 @media(min-width: $screen-lg-min) {
     .rex-is-logged-in {
         .rex-page-container,

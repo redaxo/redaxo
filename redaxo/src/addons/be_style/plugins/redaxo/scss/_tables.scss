@@ -94,8 +94,9 @@
         &:first-child > a {
             display: block;
             position: absolute;
-            top: 9999px;
+            top: 9999px + $table-cell-padding;
             left: 9999px + $table-cell-padding;
+            z-index: 900;
         }
     }
 
