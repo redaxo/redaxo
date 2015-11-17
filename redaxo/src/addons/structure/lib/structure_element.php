@@ -221,12 +221,12 @@ abstract class rex_structure_element
     /**
      * Returns a url for linking to this article.
      *
-     * @param array|string $params
-     * @param string       $divider
+     * @param array  $params
+     * @param string $divider
      *
      * @return string
      */
-    public function getUrl($params = '', $divider = '&amp;')
+    public function getUrl(array $params = [], $divider = '&amp;')
     {
         return rex_getUrl($this->getId(), $this->getClang(), $params, $divider);
     }
