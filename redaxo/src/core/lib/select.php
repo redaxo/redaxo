@@ -22,9 +22,14 @@ class rex_select
     {
         $this->resetSelected();
         $this->setName('standard');
-        $this->setSize('5');
+        $this->setSize('1');
         $this->setMultiple(false);
         $this->setDisabled(false);
+    }
+
+    public function setAttributes($attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
     }
 
     public function setAttribute($name, $value)
