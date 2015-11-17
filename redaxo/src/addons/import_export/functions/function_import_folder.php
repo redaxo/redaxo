@@ -7,7 +7,10 @@
 // Import Folder Functions
 function getImportDir()
 {
-    return rex_path::addon('import_export', 'backup');
+    $dir = rex_path::addonData('import_export', 'backups');
+    rex_dir::create($dir);
+
+    return $dir;
 }
 
 function readImportFolder($fileprefix)
