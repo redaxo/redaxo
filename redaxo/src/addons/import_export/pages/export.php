@@ -267,7 +267,7 @@ $content = '
             var effectParamsId = "#" + $(this).attr("id") + "-div";
             currentShown = $(effectParamsId);
             currentShown.fadeIn();
-        }).click();
+        }).filter(":checked").click();
     })(jQuery);
 
     //-->
