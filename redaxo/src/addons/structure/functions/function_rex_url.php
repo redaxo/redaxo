@@ -31,7 +31,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
     // ----- get clang
     // Wenn eine rexExtension vorhanden ist, immer die clang mitgeben!
     // Die rexExtension muss selbst entscheiden was sie damit macht
-    if ($clang < 1 && (rex_clang::count() > 1 || rex_extension::isRegistered('URL_REWRITE'))) {
+    if (!rex_clang::exists($clang) && (rex_clang::count() > 1 || rex_extension::isRegistered('URL_REWRITE'))) {
         $clang = rex_clang::getCurrentId();
     }
 
@@ -39,10 +39,12 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
     $url = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE', '', ['id' => $id, 'clang' => $clang, 'params' => $params, 'separator' => $separator]));
 
     if ($url == '') {
-        $clang = '';
         if (rex_clang::count() > 1) {
-            $clang .= $separator . 'clang=' . $clang;
+            $clang = $separator . 'clang=' . $clang;
+        } else {
+            $clang = '';
         }
+
         $params = rex_string::buildQuery($params, $separator);
         $params = $params ? $separator . $params : '';
 
