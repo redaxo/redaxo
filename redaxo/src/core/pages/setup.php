@@ -429,11 +429,7 @@ if ($step == 5) {
         default :
             $dbchecked[0] = ' checked="checked"';
     }
-
-    $export_addon_dir = rex_path::addon('backup');
-    require_once $export_addon_dir . '/functions/function_folder.php';
-    require_once $export_addon_dir . '/functions/function_import_folder.php';
-
+    
     // Vorhandene Exporte auslesen
     $sel_export = new rex_select();
     $sel_export->setName('import_name');

@@ -1,10 +1,5 @@
 <?php
 
-$export_addon_dir = rex_path::addon('backup');
-require_once $export_addon_dir . '/functions/function_folder.php';
-require_once $export_addon_dir . '/functions/function_import_folder.php';
-require_once $export_addon_dir . '/functions/function_import_export.php';
-
 /**
  * @package redaxo\core
  */
