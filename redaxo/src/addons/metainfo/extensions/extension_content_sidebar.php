@@ -35,9 +35,5 @@ function rex_metainfo_content_sidebar(\rex_extension_point $ep)
     $fragment->setVar('collapsed', true);
     $content = $fragment->parse('core/page/section.php');
 
-    $content .= $fragment->parse('core/page/section.php');
-    $content .= $fragment->parse('core/page/section.php');
-    $content .= $fragment->parse('core/page/section.php');
-
     return $content;
 }
