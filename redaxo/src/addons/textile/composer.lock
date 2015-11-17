@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "39e46ec1137463f23907560e04164a16",
+    "content-hash": "948d3c5aba74b76dcec5c17d1e93362c",
     "packages": [
         {
             "name": "netcarver/textile",
