@@ -8,7 +8,7 @@
  * @package redaxo\metainfo
  */
 
-rex_extension::register('IMEXPORT_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
+rex_extension::register('BACKUP_BEFORE_DB_IMPORT', 'rex_metainfo_cleanup');
 
 /**
  * Alle Metafelder löschen, nicht das nach einem Import in der Parameter Tabelle

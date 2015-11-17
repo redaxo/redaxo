@@ -4,5 +4,5 @@
 
 rex_dir::copy(
     $this->getPath('backups'),
-    $this->getDataPath('backups')
+    $this->getDataPath()
 );

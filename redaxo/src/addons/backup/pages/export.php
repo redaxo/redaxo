@@ -34,14 +34,14 @@ if (rex_post('export', 'bool')) {
     $filename = preg_replace('@[^\.a-z0-9_\-]@', '', $exportfilename);
 
     if ($filename != $exportfilename) {
-        $success = rex_i18n::msg('im_export_filename_updated');
+        $success = rex_i18n::msg('backup_filename_updated');
         $exportfilename = $filename;
     } else {
         $content = '';
         $hasContent = false;
         $header = '';
         $ext = $exporttype == 'sql' ? '.sql' : '.tar.gz';
-        $export_path = getImportDir() . '/';
+        $export_path = rex_backup::getDir() . '/';
 
         if (file_exists($export_path . $filename . $ext)) {
             $i = 1;
@@ -55,16 +55,16 @@ if (rex_post('export', 'bool')) {
             // ------------------------------ FUNC EXPORT SQL
             $header = 'plain/text';
 
-            $hasContent = rex_a1_export_db($export_path . $filename . $ext, $EXPTABLES);
+            $hasContent = rex_backup::exportDb($export_path . $filename . $ext, $EXPTABLES);
             // ------------------------------ /FUNC EXPORT SQL
         } elseif ($exporttype == 'files') {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
 
             if (empty($EXPDIR)) {
-                $error = rex_i18n::msg('im_export_please_choose_folder');
+                $error = rex_i18n::msg('backup_please_choose_folder');
             } else {
-                $content = rex_a1_export_files($EXPDIR);
+                $content = rex_backup::exportFiles($EXPDIR);
                 $hasContent = rex_file::put($export_path . $filename . $ext, $content);
             }
             // ------------------------------ /FUNC EXPORT FILES
@@ -77,10 +77,10 @@ if (rex_post('export', 'bool')) {
                 rex_file::delete($export_path . $filename);
                 exit;
             } else {
-                $success = rex_i18n::msg('im_export_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
+                $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
             }
         } else {
-            $error = rex_i18n::msg('im_export_file_could_not_be_generated') . ' ' . rex_i18n::msg('im_export_check_rights_in_directory') . ' ' . $export_path;
+            $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $export_path;
         }
     }
 }
@@ -94,8 +94,8 @@ if ($error != '') {
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info', false);
-$fragment->setVar('title', rex_i18n::msg('im_export_information'), false);
-$fragment->setVar('body', '<p>' . rex_i18n::msg('im_export_intro_export') . '</p>', false);
+$fragment->setVar('title', rex_i18n::msg('backup_information'), false);
+$fragment->setVar('body', '<p>' . rex_i18n::msg('backup_intro_export') . '</p>', false);
 echo $fragment->parse('core/page/section.php');
 
 $content .= '<fieldset>';
@@ -111,12 +111,12 @@ if ($exporttype == 'files') {
 
 $formElements = [];
 $n = [];
-$n['label'] = '<label for="rex-js-exporttype-sql">' . rex_i18n::msg('im_export_database_export') . '</label>';
+$n['label'] = '<label for="rex-js-exporttype-sql">' . rex_i18n::msg('backup_database_export') . '</label>';
 $n['field'] = '<input type="radio" id="rex-js-exporttype-sql" name="exporttype" value="sql"' . $checkedsql . ' />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-js-exporttype-files">' . rex_i18n::msg('im_export_file_export') . '</label>';
+$n['label'] = '<label for="rex-js-exporttype-files">' . rex_i18n::msg('backup_file_export') . '</label>';
 $n['field'] = '<input type="radio" id="rex-js-exporttype-files" name="exporttype" value="files"' . $checkedfiles . ' />';
 $formElements[] = $n;
 
@@ -126,7 +126,7 @@ $radios = $fragment->parse('core/form/radio.php');
 
 $formElements = [];
 $n = [];
-$n['label'] = rex_i18n::msg('im_export_export_select');
+$n['label'] = rex_i18n::msg('backup_export_select');
 $n['field'] = $radios;
 $formElements[] = $n;
 
@@ -150,7 +150,7 @@ foreach ($tables as $table) {
 $formElements = [];
 $n = [];
 $n['header'] = '<div id="rex-js-exporttype-sql-div">';
-$n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('im_export_export_select_tables') . '</label>';
+$n['label'] = '<label for="rex-form-exporttables">' . rex_i18n::msg('backup_export_select_tables') . '</label>';
 $n['field'] = $tableSelect->get();
 $n['footer'] = '</div>';
 $formElements[] = $n;
@@ -164,7 +164,12 @@ $sel_dirs->setSelected($EXPDIR);
 $sel_dirs->setStyle('class="form-control"');
 
 $dir = rex_path::frontend();
-$folders = readSubFolders($dir);
+$folders = rex_finder::factory($dir)
+    ->dirsOnly()
+    ->ignoreDirs('.*')
+    ->ignoreDirs('redaxo')
+;
+$folders = iterator_to_array($folders);
 $count_folders = count($folders);
 if ($count_folders > 4) {
     $sel_dirs->setSize($count_folders);
@@ -178,7 +183,7 @@ foreach ($folders as $file) {
 
 $n = [];
 $n['header'] = '<div id="rex-js-exporttype-files-div" style="display: none;">';
-$n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('im_export_export_select_dir') . '</label>';
+$n['label'] = '<label for="rex-form-exportdir">' . rex_i18n::msg('backup_export_select_dir') . '</label>';
 $n['field'] = $sel_dirs->get();
 $n['footer'] = '</div>';
 $formElements[] = $n;
@@ -199,12 +204,12 @@ if ($exportdl) {
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-form-exportdl-server">' . rex_i18n::msg('im_export_save_on_server') . '</label>';
+$n['label'] = '<label for="rex-form-exportdl-server">' . rex_i18n::msg('backup_save_on_server') . '</label>';
 $n['field'] = '<input type="radio" id="rex-form-exportdl-server" name="exportdl" value="0"' . $checked0 . ' />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-form-exportdl-download">' . rex_i18n::msg('im_export_download_as_file') . '</label>';
+$n['label'] = '<label for="rex-form-exportdl-download">' . rex_i18n::msg('backup_download_as_file') . '</label>';
 $n['field'] = '<input type="radio" id="rex-form-exportdl-download" name="exportdl" value="1"' . $checked1 . ' />';
 $formElements[] = $n;
 
@@ -214,7 +219,7 @@ $radios = $fragment->parse('core/form/radio.php');
 
 $formElements = [];
 $n = [];
-$n['label'] = rex_i18n::msg('im_export_export_select_location');
+$n['label'] = rex_i18n::msg('backup_export_select_location');
 $n['field'] = $radios;
 $formElements[] = $n;
 
@@ -225,7 +230,7 @@ $content .= $fragment->parse('core/form/form.php');
 $formElements = [];
 
 $n = [];
-$n['label'] = '<label for="rex-form-exportfilename">' . rex_i18n::msg('im_export_filename') . '</label>';
+$n['label'] = '<label for="rex-form-exportfilename">' . rex_i18n::msg('backup_filename') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-form-exportfilename" name="exportfilename" value="' . $exportfilename . '" />';
 $formElements[] = $n;
 
@@ -237,7 +242,7 @@ $content .= '</fieldset>';
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="export" value="' . rex_i18n::msg('im_export_db_export') . '">' . rex_i18n::msg('im_export_to_export') . '</button>';
+$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="export" value="' . rex_i18n::msg('backup_db_export') . '">' . rex_i18n::msg('backup_to_export') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -246,7 +251,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', rex_i18n::msg('im_export_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

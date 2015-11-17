@@ -9,12 +9,12 @@
  *
  * @author  Markus Staab
  *
- * @package redaxo\import-export
+ * @package redaxo\backup
  *
  * @see     http://www.mkssoftware.com/docs/man4/tar.4.asp
  */
 
-class rex_tar extends tar
+class rex_backup_tar extends tar
 {
     private $message;
 

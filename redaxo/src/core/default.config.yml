@@ -18,12 +18,12 @@ start_page: structure
 timezone: Europe/Berlin
 socket_proxy: null
 setup_addons:
+    - backup
     - be_style
-    - import_export
 system_addons:
+    - backup
     - mediapool
     - structure
-    - import_export
     - metainfo
     - be_style
     - media_manager

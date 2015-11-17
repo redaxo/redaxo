@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\import-export
+ * @package redaxo\backup
  */
 class rex_cronjob_export extends rex_cronjob
 {
@@ -9,15 +9,12 @@ class rex_cronjob_export extends rex_cronjob
 
     public function execute()
     {
-        include_once rex_path::addon('import_export', 'functions/function_import_export.php');
-        include_once rex_path::addon('import_export', 'functions/function_import_folder.php');
-
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
         $filename = str_replace('%REX_SERVER', parse_url(rex::getServer(), PHP_URL_HOST), $filename);
         $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
         $filename = strftime($filename);
         $file = $filename;
-        $dir = getImportDir() . '/';
+        $dir = rex_backup::getDir() . '/';
         $ext = '.sql';
         if (file_exists($dir . $file . $ext)) {
             $i = 1;
@@ -27,7 +24,7 @@ class rex_cronjob_export extends rex_cronjob
             $file = $file . '_' . $i;
         }
 
-        if (rex_a1_export_db($dir . $file . $ext)) {
+        if (rex_backup::exportDb($dir . $file . $ext)) {
             $message = $file . $ext . ' created';
 
             if ($this->sendmail) {
@@ -37,8 +34,8 @@ class rex_cronjob_export extends rex_cronjob
                 }
                 $mail = new rex_mailer();
                 $mail->AddAddress($this->mailaddress);
-                $mail->Subject = rex_i18n::msg('im_export_mail_subject');
-                $mail->Body = rex_i18n::msg('im_export_mail_body', rex::getServerName());
+                $mail->Subject = rex_i18n::msg('backup_mail_subject');
+                $mail->Body = rex_i18n::msg('backup_mail_body', rex::getServerName());
                 $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');
@@ -57,34 +54,34 @@ class rex_cronjob_export extends rex_cronjob
 
     public function getTypeName()
     {
-        return rex_i18n::msg('im_export_database_export');
+        return rex_i18n::msg('backup_database_export');
     }
 
     public function getParamFields()
     {
         $fields = [
             [
-                'label' => rex_i18n::msg('im_export_filename'),
+                'label' => rex_i18n::msg('backup_filename'),
                 'name' => 'filename',
                 'type' => 'text',
                 'default' => self::DEFAULT_FILENAME,
-                'notice' => rex_i18n::msg('im_export_filename_notice'),
+                'notice' => rex_i18n::msg('backup_filename_notice'),
             ],
             [
                 'name' => 'sendmail',
                 'type' => 'checkbox',
-                'options' => [1 => rex_i18n::msg('im_export_send_mail')],
+                'options' => [1 => rex_i18n::msg('backup_send_mail')],
             ],
         ];
         if (rex_addon::get('phpmailer')->isAvailable()) {
             $fields[] = [
-                'label' => rex_i18n::msg('im_export_mailaddress'),
+                'label' => rex_i18n::msg('backup_mailaddress'),
                 'name' => 'mailaddress',
                 'type' => 'text',
                 'visible_if' => ['sendmail' => 1],
             ];
         } else {
-            $fields[1]['notice'] = rex_i18n::msg('im_export_send_mail_notice');
+            $fields[1]['notice'] = rex_i18n::msg('backup_send_mail_notice');
             $fields[1]['attributes'] = ['disabled' => 'disabled'];
         }
         return $fields;

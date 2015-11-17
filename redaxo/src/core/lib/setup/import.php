@@ -1,6 +1,6 @@
 <?php
 
-$export_addon_dir = rex_path::addon('import_export');
+$export_addon_dir = rex_path::addon('backup');
 require_once $export_addon_dir . '/functions/function_folder.php';
 require_once $export_addon_dir . '/functions/function_import_folder.php';
 require_once $export_addon_dir . '/functions/function_import_export.php';
@@ -35,8 +35,8 @@ class rex_setup_importer
         if ($import_name == '') {
             $err_msg .= '<p>' . rex_i18n::msg('setup_508') . '</p>';
         } else {
-            $import_sql = getImportDir() . '/' . $import_name . '.sql';
-            $import_archiv = getImportDir() . '/' . $import_name . '.tar.gz';
+            $import_sql = rex_backup::getDir() . '/' . $import_name . '.sql';
+            $import_archiv = rex_backup::getDir() . '/' . $import_name . '.tar.gz';
 
             // Nur hier zuerst die Addons installieren
             // Da sonst Daten aus dem eingespielten Export
@@ -129,21 +129,21 @@ class rex_setup_importer
     {
         $err_msg = '';
 
-        if (!is_dir(rex_path::addon('import_export'))) {
+        if (!is_dir(rex_path::addon('backup'))) {
             $err_msg .= rex_i18n::msg('setup_510') . '<br />';
         } else {
             if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv))) {
-                rex_i18n::addDirectory(rex_path::addon('import_export', 'lang/'));
+                rex_i18n::addDirectory(rex_path::addon('backup', 'lang/'));
 
                 // DB Import
-                $state_db = rex_a1_import_db($import_sql);
+                $state_db = rex_backup::importDb($import_sql);
                 if ($state_db['state'] === false) {
                     $err_msg .= nl2br($state_db['message']) . '<br />';
                 }
 
                 // Archiv optional importieren
                 if ($state_db['state'] === true && $import_archiv !== null) {
-                    $state_archiv = rex_a1_import_files($import_archiv);
+                    $state_archiv = rex_backup::importFiles($import_archiv);
                     if ($state_archiv['state'] === false) {
                         $err_msg .= $state_archiv['message'] . '<br />';
                     }

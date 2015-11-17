@@ -430,7 +430,7 @@ if ($step == 5) {
             $dbchecked[0] = ' checked="checked"';
     }
 
-    $export_addon_dir = rex_path::addon('import_export');
+    $export_addon_dir = rex_path::addon('backup');
     require_once $export_addon_dir . '/functions/function_folder.php';
     require_once $export_addon_dir . '/functions/function_import_folder.php';
 
@@ -441,7 +441,7 @@ if ($step == 5) {
     $sel_export->setSize(1);
     $sel_export->setStyle('class="form-control rex-js-import-name"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
-    $export_dir = getImportDir();
+    $export_dir = rex_backup::getDir();
     $exports_found = false;
 
     if (is_dir($export_dir)) {

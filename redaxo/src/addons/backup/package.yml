@@ -1,0 +1,18 @@
+package: backup
+version: '5.0-alpha7'
+author: 'Jan Kristinus, Markus Staab'
+supportpage: www.redaxo.org/de/forum/
+
+page:
+    title: 'translate:backup_title'
+    perm: backup[export]
+    pjax: true
+    icon: rex-icon rex-icon-backup
+    subpages:
+        export: { title: 'translate:backup_export' }
+        import:
+            title: 'translate:backup_import'
+            perm: 'admin[]'
+            subpages:
+                upload: { title: 'translate:backup_upload' }
+                server: { title: 'translate:backup_load_from_server' }

@@ -1,0 +1,50 @@
+# addon:import/export en_gb
+backup_importexport = Import/Export
+backup_file_deleted = File has been deleted
+backup_no_import_file_chosen_or_wrong_version = No omportfile chosen or version is wrong
+backup_no_valid_import_file = Not valid import file
+backup_no_valid_charset = Not a valid charset found
+backup_database_imported = Database imported
+backup_entry_count = ({0} entries)
+backup_file_could_not_be_uploaded = File could not be uploaded.
+backup_you_have_no_write_permission_in = No permissions to this folder {0}.
+backup_no_import_file_chosen = Please choose an import file.
+backup_problem_when_extracting = Problems occured during extracting.
+backup_create_dirs_manually = Please create the following folders manually(via ftp).
+backup_file_imported = File has been imported.
+backup_import = Import
+backup_export = Export
+backup_db_import = Import
+backup_db_export = Export
+backup_filename_updated = Filname updated because of unallowed characters. Please click again on export
+backup_please_choose_folder = Please choose the folders to be exported
+backup_intro_import = Please take care when you import a database. <b>The current database will be deleted</b>.
+backup_database = Databaseimport
+backup_filename = Filename
+backup_filesize = Filesizee
+backup_delete = Delete
+backup_files = Fileimport
+backup_intro_export = To backup the whole website please backup database AND files.
+backup_database_export = Databaseexport
+backup_file_export = Fileexport
+backup_save_on_server = Save on server
+backup_download_as_file = Download as file
+backup_createdate = Create date
+
+backup_import_file = Import file
+backup_delete_file = Delete file
+backup_download_file = Download file
+
+backup_file_could_not_be_generated  = File could not be generated.
+backup_file_generated_in  = File has been generated in
+
+backup_proceed_db_import = Current data (articles, templates, modules,...) will be deleted. Are you sure ?
+backup_proceed_file_import = Current files will be deleted. Are you sure ?
+
+backup_export_db_caption = Databaseexports
+backup_export_file_caption = Fileexports
+
+backup_export_db_summary = Table of all database exports
+backup_export_file_summary = Table of all file exports
+
+backup_function = Function
