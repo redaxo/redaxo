@@ -47,8 +47,7 @@
     }
 }
 
-@media (max-width: $screen-sm-max) {
-
+@media (max-width: $screen-sm-min - 1) {
     .table {
         position: relative;
     }
