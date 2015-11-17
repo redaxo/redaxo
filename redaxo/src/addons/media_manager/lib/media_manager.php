@@ -99,13 +99,7 @@ class rex_media_manager
             $cachetime = filectime($cache_file);
             $mediapath = $this->media->getMediaPath();
 
-            // file exists?
-            if (file_exists($mediapath)) {
-                $filetime = filectime($mediapath);
-            } else {
-                $media->sendError('Missing original file for cache-validation!');
-                exit();
-            }
+            $filetime = filectime($mediapath);
             // cache is newer?
             if ($cachetime > $filetime) {
                 return true;
