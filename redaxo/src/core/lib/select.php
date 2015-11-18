@@ -64,6 +64,9 @@ class rex_select
     {
         if ($multiple) {
             $this->setAttribute('multiple', 'multiple');
+            if ($this->getAttribute('size') == '1') {
+                $this->setSize('5');
+            }
         } else {
             $this->delAttribute('multiple');
         }
