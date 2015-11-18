@@ -1,9 +1,6 @@
 <?php
 
-rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', 'rex_metainfo_content_sidebar');
-
-function rex_metainfo_content_sidebar(\rex_extension_point $ep)
-{
+rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function (rex_extension_point $ep) {
     $params = $ep->getParams();
 
     $article = rex_article::get($params['article_id'], $params['clang']);
@@ -36,4 +33,4 @@ function rex_metainfo_content_sidebar(\rex_extension_point $ep)
     $content = $fragment->parse('core/page/section.php');
 
     return $content;
-}
+});
