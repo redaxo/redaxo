@@ -190,14 +190,6 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * @deprecated since 5.0, use isAvailable()
-     */
-    public function isActivated()
-    {
-        return $this->isAvailable();
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getAuthor($default = null)
