@@ -152,7 +152,7 @@ class rex_autoload
             }
         }
 
-        file_put_contents(self::$cacheFile, json_encode([self::$classes, self::$dirs]));
+        rex_file::putCache(self::$cacheFile, [self::$classes, self::$dirs]);
         self::$cacheChanged = false;
     }
 
