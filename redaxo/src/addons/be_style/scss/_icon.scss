@@ -67,6 +67,9 @@
 .rex-icon-back {
     @extend .fa-reply;
 }
+.rex-icon-backup {
+    @extend .fa-hdd-o;
+}
 .rex-icon-bottom {
     @extend .fa-angle-double-down;
 }
@@ -112,14 +115,14 @@
 .rex-icon-file-archive {
     @extend .fa-file-archive-o;
 }
+.rex-icon-first {
+    @extend .fa-angle-double-left;
+}
 .rex-icon-help {
     @extend .fa-question;
 }
 .rex-icon-import {
     @extend .fa-upload;
-}
-.rex-icon-backup {
-    @extend .fa-hdd-o;
 }
 .rex-icon-info {
     @extend .fa-info-circle;
@@ -132,6 +135,9 @@
 }
 .rex-icon-language-active {
     @extend .fa-flag;
+}
+.rex-icon-last {
+    @extend .fa-angle-double-right;
 }
 .rex-icon-linkmap {
     @extend .fa-sitemap;
@@ -160,6 +166,9 @@
 }
 .rex-icon-module {
     @extend .fa-database;
+}
+.rex-icon-next {
+    @extend .fa-angle-right;
 }
 .rex-icon-open-category {
     @extend .fa-folder-open;
@@ -219,6 +228,9 @@
 }
 .rex-icon-phpinfo {
     @extend .fa-info-circle;
+}
+.rex-icon-previous {
+    @extend .fa-angle-left;
 }
 .rex-icon-refresh {
     @extend .fa-refresh;

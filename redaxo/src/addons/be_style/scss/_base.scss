@@ -266,6 +266,20 @@ body:after {
     margin-bottom: 0;
 }
 
+.panel > .rex-nav-pagination {
+    padding: $panel-heading-padding;
+}
+.rex-nav-pagination {
+    > .pagination {
+        display: inline;
+    }
+    > .rex-pagination-count {
+        display: inline-block;
+        padding: ($padding-base-vertical + 1) $padding-base-horizontal; // 1px border
+        line-height: $line-height-base;
+    }
+}
+
 .panel-heading > .rex-heading {
     margin: 0;
     font-size: $font-size-base;
