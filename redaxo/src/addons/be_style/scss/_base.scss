@@ -473,3 +473,9 @@ body:after {
 .table > tbody > tr.mark > td {
     vertical-align: middle;
 }
+
+.input-group-addon {
+    > .btn-group-vertical + .btn-group-vertical {
+        margin-left: ceil($padding-base-horizontal / 2);
+    }
+}
