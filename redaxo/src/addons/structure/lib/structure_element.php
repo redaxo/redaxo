@@ -376,14 +376,14 @@ abstract class rex_structure_element
     /**
      * Returns a link to this article.
      *
-     * @param array|string $params             Parameter für den Link
+     * @param array        $params             Parameter für den Link
      * @param array        $attributes         Attribute die dem Link hinzugefügt werden sollen. Default: null
      * @param string       $sorroundTag        HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
      * @param array        $sorroundAttributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
      *
      * @return string
      */
-    public function toLink($params = '', array $attributes = null, $sorroundTag = null, array $sorroundAttributes = null)
+    public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = null)
     {
         $name = htmlspecialchars($this->getName());
         $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
