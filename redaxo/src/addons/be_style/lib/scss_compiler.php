@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo\be_style
+ */
 class rex_scss_compiler
 {
     protected $root_dir;
