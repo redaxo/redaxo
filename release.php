@@ -84,12 +84,23 @@ class rex_release
             $this->addDir($update, rex_path::addon($addon), 'addons/'.$addon);
         }
 
+        $addon = rex_addon::get('be_style');
+        $this->addDir($complete, $addon->getPath('assets'), 'assets/addons/be_style');
+        $this->addDir($complete, $addon->getPlugin('redaxo')->getPath('assets'), 'assets/addons/be_style/plugins/redaxo');
+
+        $files = require $addon->getPath('vendor_files.php');
+        foreach ($files as $source => $destination) {
+            $complete->addFile($addon->getPath($source), 'assets/addons/be_style/'.$destination);
+        }
+
         $complete->close();
         $update->close();
     }
 
     private function addDir(ZipArchive $zip, $dir, $base)
     {
+        $dir = rtrim($dir, '\\/');
+
         $finder = rex_finder::factory($dir)
             ->recursive()
             ->filesOnly()
@@ -98,7 +109,7 @@ class rex_release
         /** @var SplFileInfo $file */
         foreach ($finder as $path => $file) {
             if (!$this->matchesGitignore($path)) {
-                $zip->addFile($path, $base.substr($path, strlen($dir) - 1));
+                $zip->addFile($path, $base.substr($path, strlen($dir)));
             }
         }
     }
@@ -114,7 +125,7 @@ class rex_release
             });
         }
 
-        $subpath = substr($path, strlen(rex_path::base()) - 1);
+        $subpath = substr($path, strlen(rex_path::base()));
         foreach ($gitignore as $ignore) {
             if (0 === strpos($subpath, $ignore)) {
                 return true;

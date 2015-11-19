@@ -8,28 +8,13 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="http://www.redaxo.org">www.redaxo.org</a>
  *
- * @package redaxo5
+ * @package redaxo\be_style
+ *
+ * @var rex_addon $this
  */
 
-$files = [
-    $this->getPath('vendor/bootstrap/assets/javascripts/bootstrap.js') => $this->getAssetsPath('javascripts/bootstrap.js'),
-    $this->getPath('vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.eot') => $this->getAssetsPath('fonts/bootstrap/glyphicons-halflings-regular.eot'),
-    $this->getPath('vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.svg') => $this->getAssetsPath('fonts/bootstrap/glyphicons-halflings-regular.svg'),
-    $this->getPath('vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf') => $this->getAssetsPath('fonts/bootstrap/glyphicons-halflings-regular.ttf'),
-    $this->getPath('vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.woff') => $this->getAssetsPath('fonts/bootstrap/glyphicons-halflings-regular.woff'),
-    $this->getPath('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') => $this->getAssetsPath('css/bootstrap-select.min.css'),
-    $this->getPath('vendor/bootstrap-select/dist/js/bootstrap-select.min.js') => $this->getAssetsPath('javascripts/bootstrap-select.min.js'),
-    $this->getPath('vendor/bootstrap-select/dist/js/bootstrap-select.js.map') => $this->getAssetsPath('javascripts/bootstrap-select.js.map'),
-    $this->getPath('vendor/bootstrap-select/dist/js/i18n/defaults-de_DE.min.js') => $this->getAssetsPath('javascripts/bootstrap-select-defaults-de_DE.min.js'),
-    $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.eot') => $this->getAssetsPath('fonts/fontawesome-webfont.eot'),
-    $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.svg') => $this->getAssetsPath('fonts/fontawesome-webfont.svg'),
-    $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.ttf') => $this->getAssetsPath('fonts/fontawesome-webfont.ttf'),
-    $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.woff') => $this->getAssetsPath('fonts/fontawesome-webfont.woff'),
-    $this->getPath('vendor/font-awesome/fonts/fontawesome-webfont.woff2') => $this->getAssetsPath('fonts/fontawesome-webfont.woff2'),
-    $this->getPath('vendor/font-awesome/fonts/FontAwesome.otf') => $this->getAssetsPath('fonts/FontAwesome.otf'),
-    $this->getPath('vendor/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js') => $this->getAssetsPath('javascripts/perfect-scrollbar.jquery.min.js'),
-    $this->getPath('vendor/perfect-scrollbar/css/perfect-scrollbar.min.css') => $this->getAssetsPath('css/perfect-scrollbar.min.css'),
-];
+$files = require __DIR__.'/vendor_files.php';
+
 foreach ($files as $source => $destination) {
-    rex_file::copy($source, $destination);
+    rex_file::copy($this->getPath($source), $this->getAssetsPath($destination));
 }
