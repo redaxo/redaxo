@@ -25,7 +25,7 @@ if ($function == 'delete') {
         LEFT JOIN ' . rex::getTablePrefix() . 'template ON ' . rex::getTablePrefix() . 'article.template_id=' . rex::getTablePrefix() . 'template.id
         WHERE ' . rex::getTablePrefix() . 'article.template_id="' . $template_id . '" LIMIT 0,10');
 
-    if ($del->getRows() > 0  || rex::getProperty('default_template_id') == $template_id) {
+    if ($del->getRows() > 0  || rex_template::getDefaultId() == $template_id) {
         $error = rex_i18n::msg('cant_delete_template_because_its_in_use', rex_i18n::msg('id') . ' = ' . $template_id);
     } else {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein

@@ -9,10 +9,6 @@
  */
 class rex_system_setting_default_template_id extends rex_system_setting
 {
-    public function __construct()
-    {
-    }
-
     public function getKey()
     {
         return 'default_template_id';
@@ -25,7 +21,7 @@ class rex_system_setting_default_template_id extends rex_system_setting
         $field->setLabel(rex_i18n::msg('system_setting_default_template_id'));
         $select = $field->getSelect();
         $select->setSize(1);
-        $select->setSelected(rex::getProperty('default_template_id'));
+        $select->setSelected(rex_template::getDefaultId());
 
         $templates = rex_template::getTemplatesForCategory(0);
         if (empty($templates)) {
@@ -36,18 +32,17 @@ class rex_system_setting_default_template_id extends rex_system_setting
         return $field;
     }
 
-    public function isValid($value)
+    public function setValue($value)
     {
+        $value = (int) $value;
+
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id=' . $value . ' AND active=1');
         if ($sql->getRows() != 1 && $value != 0) {
             return rex_i18n::msg('system_setting_default_template_id_invalid');
         }
-        return true;
-    }
 
-    public function cast($value)
-    {
-        return (integer) $value;
+        rex_config::set('structure/content', 'default_template_id', $value);
+        return true;
     }
 }

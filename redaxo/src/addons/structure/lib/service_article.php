@@ -277,10 +277,10 @@ class rex_article_service
         // -> startarticle = 1
         // --> rekursiv aufrufen
 
-        if ($id == rex::getProperty('start_article_id')) {
+        if ($id == rex_article::getSiteStartArticleId()) {
             throw new rex_api_exception(rex_i18n::msg('cant_delete_sitestartarticle'));
         }
-        if ($id == rex::getProperty('notfound_article_id')) {
+        if ($id == rex_article::getNotfoundArticleId()) {
             throw new rex_api_exception(rex_i18n::msg('cant_delete_notfoundarticle'));
         }
 

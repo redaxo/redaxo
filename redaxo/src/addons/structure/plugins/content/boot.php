@@ -42,7 +42,7 @@ if (rex::isBackend()) {
         }
 
         $art_id = $article->getArticleId();
-        if ($art_id == rex::getProperty('notfound_article_id') && $art_id != rex::getProperty('start_article_id')) {
+        if ($art_id == rex_article::getNotfoundArticleId() && $art_id != rex_article::getSiteStartArticleId()) {
             rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
         }
 

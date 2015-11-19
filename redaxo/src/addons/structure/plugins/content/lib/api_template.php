@@ -15,6 +15,11 @@ class rex_template
         $this->id = (int) $template_id;
     }
 
+    public static function getDefaultId()
+    {
+        return rex_config::get('structure/content', 'default_template_id', 1);
+    }
+
     public function getId()
     {
         return $this->id;

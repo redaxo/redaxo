@@ -8,6 +8,16 @@
 class rex_article extends rex_structure_element
 {
     /**
+     * Return the site wide start article id.
+     *
+     * @return int
+     */
+    public static function getSiteStartArticleId()
+    {
+        return rex_config::get('structure', 'start_article_id', 1);
+    }
+
+    /**
      * Return the site wide start article.
      *
      * @param int $clang
@@ -16,7 +26,29 @@ class rex_article extends rex_structure_element
      */
     public static function getSiteStartArticle($clang = null)
     {
-        return self::get(rex::getProperty('start_article_id'), $clang);
+        return self::get(self::getSiteStartArticleId(), $clang);
+    }
+
+    /**
+     * Return the site wide notfound article id.
+     *
+     * @return int
+     */
+    public static function getNotfoundArticleId()
+    {
+        return rex_config::get('structure', 'notfound_article_id', 1);
+    }
+
+    /**
+     * Return the site wide notfound article.
+     *
+     * @param int $clang
+     *
+     * @return self
+     */
+    public static function getNotfoundArticle($clang = null)
+    {
+        return self::get(self::getNotfoundArticleId(), $clang);
     }
 
     /**

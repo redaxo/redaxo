@@ -7,9 +7,6 @@ error_email: null
 fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
-start_article_id: 1
-notfound_article_id: 1
-default_template_id: 1
 lang: de_de
 use_gzip: true
 use_etag: true

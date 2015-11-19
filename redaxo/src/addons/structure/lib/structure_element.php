@@ -99,7 +99,7 @@ abstract class rex_structure_element
         if (empty(self::$classVars)) {
             self::$classVars = [];
 
-            $startId = rex::getProperty('start_article_id');
+            $startId = rex_article::getSiteStartArticleId();
             $file = rex_path::addonCache('structure', $startId . '.1.article');
             if (!rex::isBackend() && file_exists($file)) {
                 // da getClassVars() eine statische Methode ist, können wir hier nicht mit $this->getId() arbeiten!
@@ -477,7 +477,7 @@ abstract class rex_structure_element
      */
     public function isSiteStartArticle()
     {
-        return $this->id == rex::getProperty('start_article_id');
+        return $this->id == rex_article::getSiteStartArticleId();
     }
 
     /**
@@ -487,6 +487,6 @@ abstract class rex_structure_element
      */
     public function isNotFoundArticle()
     {
-        return $this->id == rex::getProperty('notfound_article_id');
+        return $this->id == rex_article::getNotfoundArticleId();
     }
 }

@@ -70,7 +70,7 @@ class rex_category_service
         $AART = rex_sql::factory();
         foreach (rex_clang::getAllIds() as $key) {
             if ($contentAvailable) {
-                $template_id = rex::getProperty('default_template_id');
+                $template_id = rex_template::getDefaultId();
                 if (isset($startpageTemplates[$key]) && $startpageTemplates[$key] != '') {
                     $template_id = $startpageTemplates[$key];
                 }

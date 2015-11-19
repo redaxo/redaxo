@@ -24,10 +24,10 @@ rex_complex_perm::register('structure', 'rex_structure_perm');
 require_once __DIR__ . '/functions/function_rex_url.php';
 
 if (rex_request('article_id', 'int') == 0) {
-    rex::setProperty('article_id', rex::getProperty('start_article_id'));
+    rex::setProperty('article_id', rex_article::getSiteStartArticleId());
 } else {
     $article_id = rex_request('article_id', 'int');
-    $article_id = rex_article::get($article_id) ? $article_id : rex::getProperty('notfound_article_id');
+    $article_id = rex_article::get($article_id) ? $article_id : rex_article::getNotfoundArticleId();
     rex::setProperty('article_id', $article_id);
 }
 

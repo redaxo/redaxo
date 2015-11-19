@@ -17,7 +17,7 @@ abstract class rex_system_setting
     private static $settings = [];
 
     /**
-     * Returns the key for the rex property.
+     * Returns the setting key.
      *
      * @return string
      */
@@ -31,25 +31,11 @@ abstract class rex_system_setting
     abstract public function getField();
 
     /**
-     * Returns if the given value is valid for this setting.
+     * Sets the new value
      *
-     * @param mixed $value Value
-     *
-     * @return bool|string true or an error message
+     * @param mixed $value
      */
-    abstract public function isValid($value);
-
-    /**
-     * Casts the given value.
-     *
-     * @param string $value Value
-     *
-     * @return mixed
-     */
-    public function cast($value)
-    {
-        return $value;
-    }
+    abstract public function setValue($value);
 
     /**
      * Registers a setting object.

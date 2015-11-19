@@ -429,7 +429,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 }
             }
             if (!$selectedTemplate || !isset($TEMPLATE_NAME[$selectedTemplate])) {
-                $selectedTemplate = rex::getProperty('default_template_id');
+                $selectedTemplate = rex_template::getDefaultId();
             }
             if ($selectedTemplate && isset($TEMPLATE_NAME[$selectedTemplate])) {
                 $template_select->setSelected($selectedTemplate);
@@ -453,7 +453,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     // --------------------- ARTIKEL LIST
 
     for ($i = 0; $i < $sql->getRows(); ++$i) {
-        if ($sql->getValue('id') == rex::getProperty('start_article_id')) {
+        if ($sql->getValue('id') == rex_article::getSiteStartArticleId()) {
             $class = ' rex-icon-sitestartarticle';
         } elseif ($sql->getValue('startarticle') == 1) {
             $class = ' rex-icon-startarticle';

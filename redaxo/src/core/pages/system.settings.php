@@ -57,12 +57,8 @@ if ($func == 'setup') {
     foreach (rex_system_setting::getAll() as $setting) {
         $key = $setting->getKey();
         if (isset($settings[$key])) {
-            $value = $setting->cast($settings[$key]);
-            if (($msg = $setting->isValid($value)) !== true) {
+            if (($msg = $setting->setValue($settings[$key])) !== true) {
                 $error[] = $msg;
-            } else {
-                $config[$key] = $value;
-                rex::setProperty($key, $value);
             }
         }
     }
@@ -189,7 +185,6 @@ foreach (rex_system_setting::getAll() as $setting) {
         throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
     }
     $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
-    $field->setValue(rex::getProperty($setting->getKey()));
     $elements .= $field->get();
 }
 
