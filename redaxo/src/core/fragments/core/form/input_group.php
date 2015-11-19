@@ -3,11 +3,13 @@
 $out = '';
 
 foreach ($this->elements as $element) {
-    $id = isset($element['id'])     && $element['id'] != ''     ? ' id="' . $element['id'] . '"' : '';
-
-    $field = isset($element['field'])  && $element['field'] != ''  ? $element['field']   : '';
-    $left_side = isset($element['left'])   ? $element['left']   : '';
-    $right_side = isset($element['right'])  ? $element['right']  : '';
+    $id = isset($element['id']) && $element['id'] != '' ? ' id="' . $element['id'] . '"' : '';
+    $field = isset($element['field']) && $element['field'] != '' ? $element['field']   : '';
+    $left_side = isset($element['left']) ? $element['left'] : '';
+    $right_side = isset($element['right']) ? $element['right'] : '';
+    // special for bootstrap-select
+    $before = isset($element['before']) ? $element['before'] : '';
+    $after = isset($element['after']) ? $element['after'] : '';
 
     $classes = '';
 
@@ -33,7 +35,7 @@ foreach ($this->elements as $element) {
         $field = $field . '<span class="' . $class . '">' . $right_side . '</span>';
     }
 
-    $out .= '<div class="input-group' . $classes . '"' . $id . '>' . $field . '</div>';
+    $out .= '<div class="input-group' . $classes . '"' . $id . '>' . $before . $field . $after . '</div>';
 }
 
 echo $out;

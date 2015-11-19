@@ -25,7 +25,7 @@ $sel_media->setName('rex_file_category');
 $sel_media->setSize(1);
 $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
-$sel_media->setAttribute('class', 'form-control');
+$sel_media->setAttribute('class', 'selectpicker');
 $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
 
 // ----- EXTENSION POINT
@@ -36,8 +36,8 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER
 
 $formElements = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />';
-$n['left'] = $sel_media->get();
+$n['field'] =  '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />';
+$n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 //$n['right'] = $dropdown;
 $formElements[] = $n;
@@ -456,7 +456,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
 if (!$file_id) {
     $cats_sel = new rex_media_category_select();
     $cats_sel->setSize(1);
-    $cats_sel->setStyle('class="form-control"');
+    $cats_sel->setStyle('class="form-control selectpicker"');
     $cats_sel->setName('rex_file_category');
     $cats_sel->setId('rex_file_category');
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');

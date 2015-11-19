@@ -16,3 +16,6 @@
 [submodule "redaxo/src/addons/yform"]
 	path = redaxo/src/addons/yform
 	url = https://github.com/yakamara/redaxo_yform
+[submodule "redaxo/src/addons/be_style/vendor/bootstrap-select"]
+	path = redaxo/src/addons/be_style/vendor/bootstrap-select
+	url = https://github.com/silviomoreto/bootstrap-select.git

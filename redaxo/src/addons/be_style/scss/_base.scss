@@ -479,3 +479,20 @@ body:after {
         margin-left: ceil($padding-base-horizontal / 2);
     }
 }
+
+// selectpicker - bootstrap-select
+.input-group {
+    > .bootstrap-select > .btn {
+        border-radius: 0;
+    }
+    > .selectpicker:first-child + .bootstrap-select > .btn {
+        border-right: 0;
+        border-top-left-radius: $btn-border-radius-base;
+        border-bottom-left-radius: $btn-border-radius-base;
+    }
+    .bootstrap-select:last-child > .btn {
+        border-left: 0;
+        border-top-right-radius: $btn-border-radius-base;
+        border-bottom-right-radius: $btn-border-radius-base;
+    }
+}
