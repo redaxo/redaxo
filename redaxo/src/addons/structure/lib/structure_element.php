@@ -376,10 +376,10 @@ abstract class rex_structure_element
     /**
      * Returns a link to this article.
      *
-     * @param array        $params             Parameter für den Link
-     * @param array        $attributes         Attribute die dem Link hinzugefügt werden sollen. Default: null
-     * @param string       $sorroundTag        HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
-     * @param array        $sorroundAttributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
+     * @param array  $params             Parameter für den Link
+     * @param array  $attributes         Attribute die dem Link hinzugefügt werden sollen. Default: null
+     * @param string $sorroundTag        HTML-Tag-Name mit dem der Link umgeben werden soll, z.b. 'li', 'div'. Default: null
+     * @param array  $sorroundAttributes Attribute die Umgebenden-Element hinzugefügt werden sollen. Default: null
      *
      * @return string
      */
