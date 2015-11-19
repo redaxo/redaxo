@@ -530,13 +530,33 @@ if (!$file_id) {
             $field .= $fragment->parse('core/form/input_group.php');
         }
 
-        $field .= '<button class="btn btn-delete" type="submit" onclick="if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}">' . rex_i18n::msg('pool_delete_selectedmedia') . '</button>';
+        $buttons = [];
 
+        $button = [];
+        $button['label'] = rex_i18n::msg('pool_delete_selectedmedia');
+        $button['attributes']['class'][] = 'btn-delete';
+        $button['attributes']['type'][] = 'submit';
+        $button['attributes']['onclick'][] = 'if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}';
+        $buttons[] = $button;
+
+        //$buttons = '<button class="btn btn-delete" type="submit" onclick="if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}">' . rex_i18n::msg('pool_delete_selectedmedia') . '</button>';
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $field .= '<button class="btn btn-apply" type="submit" onclick="selectMediaListArray(\'selectedmedia[]\');return false;">' . rex_i18n::msg('pool_get_selectedmedia') . '</button>';
+            $button = [];
+            $button['label'] = rex_i18n::msg('pool_get_selectedmedia');
+            $button['attributes']['class'][] = 'btn-apply';
+            $button['attributes']['type'][] = 'submit';
+            $button['attributes']['onclick'][] = 'selectMediaListArray(\'selectedmedia[]\');return false;';
+            $buttons[] = $button;
         }
 
-        $field = '<div class="btn-toolbar">' . $field . '</div>';
+        $actionButtons = '';
+        if (count($buttons) > 0) {
+           $fragment = new rex_fragment();
+           $fragment->setVar('buttons', $buttons, false);
+            $actionButtons = $fragment->parse('core/buttons/button_group.php');
+       }
+
+        $field = '<div class="row"><div class="col-md-8">' . $field . '</div><div class="col-md-4">' . $actionButtons . '</div>';
 
         $e = [];
         $e['label'] = '<label>' . rex_i18n::msg('pool_selectedmedia') . '</label>';
