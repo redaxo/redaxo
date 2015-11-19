@@ -109,7 +109,7 @@ if ($subpage == '') {
 
         $class = '';
         $status = '&nbsp;';
-        if ($package->isActivated()) {
+        if ($package->isAvailable()) {
             $status = $getLink($package, 'deactivate', 'rex-icon-package-is-activated');
             $class .= ' rex-package-is-activated';
         } elseif ($package->isInstalled()) {
@@ -136,9 +136,22 @@ if ($subpage == '') {
 
         $version = (trim($package->getVersion()) != '') ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
 
+        if ($type == 'addon' && $package->isAvailable()) {
+            $plugins = $package->getRegisteredPlugins();
+            if (!empty($plugins)) {
+                $icon = 'fa fa-plus-square-o';
+            } else {
+                $icon = 'rex-icon-package-' . $type;
+            }
+        } else {
+            $icon = 'rex-icon-package-' . $type;
+            $class .= ' rex-hidden';
+        }
+        
+        
         return $message . '
                     <tr class="rex-package-is-' . $type . $class . '">
-                        <td class="rex-table-icon"><i class="rex-icon rex-icon-package-' . $type . '"></i></td>
+                        <td class="rex-table-icon"><i class="rex-icon '.$icon.'"></i></td>
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                         <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '"><a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a></td>
@@ -152,7 +165,7 @@ if ($subpage == '') {
     foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
         $content .= $getTableRow($addon);
 
-        if ($addon->isActivated()) {
+        if ($addon->isAvailable()) {
             foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
                 $content .= $getTableRow($plugin);
             }

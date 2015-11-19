@@ -580,4 +580,14 @@ jQuery(document).ready(function($) {
         }, 'xml');
 
     });
+    
+    $('.rex-page-main-inner').on('click', '.rex-package-is-addon i', function() {
+        if ($(this).hasClass('fa-minus-square-o')) {
+            $(this).removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+            $(this).parents('.rex-package-is-addon').nextUntil('.rex-package-is-addon').addClass('rex-hidden');
+        } else {
+            $(this).removeClass('fa-plus-square-o').addClass('fa-minus-square-o');
+            $(this).parents('.rex-package-is-addon').nextUntil('.rex-package-is-addon').removeClass('rex-hidden');
+        }
+    });
 });
