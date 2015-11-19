@@ -16,3 +16,37 @@
 .vertical-top {
     vertical-align: top !important;
 }
+
+.rex-truncate-target {
+    display: inline-block;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .rex-truncate-expandable&:hover,
+    .rex-truncate-expandable > &:hover {
+        max-width: 10000px !important;
+    }
+}
+
+.rex-truncate {
+    &.rex-truncate-target,
+    .rex-truncate-target {
+        text-overflow: ellipsis;
+    }
+}
+.rex-truncate-left {
+    position: relative;
+
+    .rex-truncate-target {
+        margin-left: 15px;
+        direction: rtl;
+        text-align: right;
+        &:after {
+            content: '...';
+            position: absolute;
+            left: 0;
+        }
+    }
+
+}
