@@ -23,27 +23,16 @@ class rex_release
 
     public function create()
     {
-        $this->updateVersions();
+        $this->updateVersion();
         $this->createArchives();
     }
 
-    private function updateVersions()
+    private function updateVersion()
     {
         $file = rex_path::core('boot.php');
         $content = rex_file::get($file);
         $content = preg_replace('/(?<=^rex::setProperty\(\'version\', \').*?(?=\')/m', $this->version, $content);
         rex_file::put($file, $content);
-
-        foreach (rex_package::getRegisteredPackages() as $package) {
-            if (!in_array($package->getAddon()->getName(), self::$addons)) {
-                continue;
-            }
-
-            $file = $package->getPath('package.yml');
-            $content = rex_file::get($file);
-            $content = preg_replace('/(?<=^version: ).*?$/m', "'".$this->version."'", $content);
-            rex_file::put($file, $content);
-        }
     }
 
     private function createArchives()
