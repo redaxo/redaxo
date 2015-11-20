@@ -441,6 +441,11 @@ if ($step == 5) {
     $exports_found = false;
 
     if (is_dir($export_dir)) {
+        rex_dir::copy(
+            rex_path::addon('backup', 'backups'),
+            $export_dir
+        );
+
         if ($handle = opendir($export_dir)) {
             $export_archives = [];
             $export_sqls = [];
