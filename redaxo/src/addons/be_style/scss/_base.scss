@@ -24,6 +24,12 @@ body:after {
     }
 }
 
+
+#rex-page-setup .bg-success,
+#rex-page-setup .bg-success > a {
+    color: #fff;
+}
+
 .nav-tabs > li.pull-right > a {
     margin-left: 2px;
     margin-right: 0;
@@ -37,7 +43,8 @@ body:after {
     }
 
 
-    .rex-is-logged-in {
+    .rex-is-logged-in,
+    #rex-page-setup {
         .rex-page {
             position: relative;
         }
