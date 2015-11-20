@@ -185,7 +185,7 @@ class rex_navigation
 
     private function _setActivePath()
     {
-        $article_id = rex::getProperty('article_id');
+        $article_id = rex_article::getCurrentId();
         if ($OOArt = rex_article::get($article_id)) {
             $path = trim($OOArt->getPath(), '|');
 

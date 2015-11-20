@@ -33,7 +33,7 @@ if (rex::isBackend()) {
         $article = new rex_article_content();
         $article->setCLang(rex_clang::getCurrentId());
 
-        if ($article->setArticleId(rex::getProperty('article_id'))) {
+        if ($article->setArticleId(rex_article::getCurrentId())) {
             $content .= $article->getArticleTemplate();
         } else {
             $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>';

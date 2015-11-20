@@ -23,12 +23,15 @@ rex_complex_perm::register('structure', 'rex_structure_perm');
 
 require_once __DIR__ . '/functions/function_rex_url.php';
 
+$this->setProperty('start_article_id', $this->getConfig('start_article_id', 1));
+$this->setProperty('notfound_article_id', $this->getConfig('notfound_article_id', 1));
+
 if (rex_request('article_id', 'int') == 0) {
-    rex::setProperty('article_id', rex_article::getSiteStartArticleId());
+    $this->setProperty('article_id', rex_article::getSiteStartArticleId());
 } else {
     $article_id = rex_request('article_id', 'int');
     $article_id = rex_article::get($article_id) ? $article_id : rex_article::getNotfoundArticleId();
-    rex::setProperty('article_id', $article_id);
+    $this->setProperty('article_id', $article_id);
 }
 
 if (rex::isBackend() && rex::getUser()) {

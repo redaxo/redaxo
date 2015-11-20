@@ -25,7 +25,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
 
     // ----- get id
     if ($id == 0) {
-        $id = rex::getProperty('article_id');
+        $id = rex_article::getCurrentId();
     }
 
     // ----- get clang
