@@ -246,8 +246,6 @@ class rex_view
      */
     public static function title($head, $subtitle = null)
     {
-        global $article_id, $category_id, $page;
-
         if ($subtitle !== null && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page)) {
             throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of rex_be_page!');
         }
@@ -280,18 +278,14 @@ class rex_view
             $subtitle = '';
         }
 
-        $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head, ['category_id' => $category_id, 'article_id' => $article_id, 'page' => $page]));
+        $title = rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE', $head));
 
         $fragment = new rex_fragment();
         $fragment->setVar('heading', $title, false);
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-        echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', '', [
-            'category_id' => $category_id,
-            'article_id' => $article_id,
-            'page' => $page,
-        ]));
+        echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
 
         return $return;
     }
