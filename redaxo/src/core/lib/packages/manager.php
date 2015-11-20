@@ -680,7 +680,7 @@ abstract class rex_package_manager
                 continue;
             }
 
-            if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
+            if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|\^|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
                 || isset($match['wildcard']) && $match['wildcard'] && ($match['op'] != '' || isset($match['prerelease']) && $match['prerelease'])
             ) {
                 throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
@@ -691,10 +691,10 @@ abstract class rex_package_manager
                 $pos = strrpos($match['version'], '.') + 1;
                 $sub = substr($match['version'], $pos);
                 $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
-            } elseif ($match['op'] == '~') {
+            } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
-                if (($pos = strrpos($match['version'], '.')) === false) {
-                    $constraints[] = ['<', $match['version'] + 1];
+                if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
+                    $constraints[] = ['<', (int) $match['version'] + 1];
                 } else {
                     $main = '';
                     $sub = substr($match['version'], 0, $pos);
