@@ -196,7 +196,7 @@ class rex_request
     /**
      * Returns the HTTP method of the current request.
      *
-     * @return String HTTP method in lowercase (head,get,post,put,delete)
+     * @return string HTTP method in lowercase (head,get,post,put,delete)
      */
     public static function requestMethod()
     {
