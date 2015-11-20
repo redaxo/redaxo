@@ -31,7 +31,7 @@ abstract class rex_system_setting
     abstract public function getField();
 
     /**
-     * Sets the new value
+     * Sets the new value.
      *
      * @param mixed $value
      */

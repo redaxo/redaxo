@@ -36,7 +36,7 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER
 
 $formElements = [];
 $n = [];
-$n['field'] =  '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />';
+$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />';
 $n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 //$n['right'] = $dropdown;
@@ -551,10 +551,10 @@ if (!$file_id) {
 
         $actionButtons = '';
         if (count($buttons) > 0) {
-           $fragment = new rex_fragment();
-           $fragment->setVar('buttons', $buttons, false);
+            $fragment = new rex_fragment();
+            $fragment->setVar('buttons', $buttons, false);
             $actionButtons = $fragment->parse('core/buttons/button_group.php');
-       }
+        }
 
         $field = '<div class="row"><div class="col-md-8">' . $field . '</div><div class="col-md-4">' . $actionButtons . '</div>';
 
