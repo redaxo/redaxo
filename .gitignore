@@ -3,6 +3,7 @@
 /media/
 /redaxo/cache/
 /redaxo/data/
+/releases/
 
 # Composer stuff (tests, duplicate autoloader...)
 /redaxo/src/core/vendor/symfony/yaml/Tests/
