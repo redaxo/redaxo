@@ -73,6 +73,8 @@ class rex_release
             $this->addDir($update, rex_path::addon($addon), 'addons/'.$addon);
         }
 
+        $this->addDir($complete, rex_path::core('assets'), 'assets');
+
         $addon = rex_addon::get('be_style');
         $this->addDir($complete, $addon->getPath('assets'), 'assets/addons/be_style');
         $this->addDir($complete, $addon->getPlugin('redaxo')->getPath('assets'), 'assets/addons/be_style/plugins/redaxo');
