@@ -1,5 +1,5 @@
 package: phpmailer
-version: '5.0-alpha7'
+version: '2.0.0-beta1'
 author: 'Markus Staab, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 

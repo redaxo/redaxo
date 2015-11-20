@@ -1,12 +1,12 @@
 package: cronjob/article_status
-version: '5.0 a1'
+version: '2.0.0-beta1'
 author: Gregor Harlan
 supportpage: www.redaxo.org/de/forum/
 
 requires:
     packages:
-        structure: '~ 5.0 alpha'
-        metainfo: '~ 5.0 alpha'
+        structure: '^2.0.0-beta'
+        metainfo: '^2.0.0-beta'
 
 cronjob_type: rex_cronjob_article_status
 

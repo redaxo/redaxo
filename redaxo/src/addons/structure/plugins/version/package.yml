@@ -1,9 +1,9 @@
 package: structure/version
-version: '5.0-alpha7'
+version: '2.0.0-beta1'
 author: Jan Kristinus
 supportpage: www.redaxo.org/de/forum/
 
 requires:
     packages:
-        structure: '~ 5.0 alpha'
-        structure/content: '~ 5.0 alpha'
+        structure: '^2.0.0-beta'
+        structure/content: '^2.0.0-beta'
