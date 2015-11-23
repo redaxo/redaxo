@@ -29,10 +29,7 @@ if ($func == 'update') {
     echo rex_view::info($this->i18n('config_saved'));
 }
 
-$content .= '
-    <fieldset>
-        <input type="hidden" name="func" value="update" />
-';
+
 
         $inputGroups = [];
         $n = [];
@@ -69,8 +66,6 @@ $content .= '
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
-$content .= '
-    </fieldset>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
@@ -81,13 +76,16 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
-        ' . $content . '
+        <fieldset>
+            <input type="hidden" name="func" value="update" />
+            ' . $content . '
+        </fieldset>
     </form>
 
     <script type="text/javascript">
     <!--
 
-    jQuery(function($) {
+    (function($) {
 
         $("#rex-js-rating-text-jpg-quality").on("input change", function(){
             $("#rex-js-rating-source-jpg-quality").val(this.value);
@@ -97,7 +95,7 @@ $content = '
             $("#rex-js-rating-text-jpg-quality").trigger("change");
         });
 
-    });
+    })(jQuery);
 
     //-->
     </script>
