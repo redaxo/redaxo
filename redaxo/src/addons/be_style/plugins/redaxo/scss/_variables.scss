@@ -38,6 +38,37 @@ $container-xl:                 $container-xlarge-desktop !default;
 
 
 
+// input-type-range
+// The draghandle
+$input-type-range-thumb-color: $color-b;
+
+$input-type-range-thumb-radius: 50%;
+$input-type-range-thumb-height: 16px;
+$input-type-range-thumb-width: 16px;
+
+$input-type-range-thumb-border-width: 0;
+$input-type-range-thumb-border-color: transparent;
+
+$input-type-range-thumb-shadow-size: 0;
+$input-type-range-thumb-shadow-blur: 1px;
+$input-type-range-thumb-shadow-color: rgba(0,0,0,.0);
+
+// The range
+$input-type-range-track-color: $color-a;
+
+$input-type-range-track-radius: 3px;
+$input-type-range-track-width: 100%;
+$input-type-range-track-height: 5px;
+
+$input-type-range-track-border-width: 0;
+$input-type-range-track-border-color: transparent;
+
+$input-type-range-track-shadow-size: 2px;
+$input-type-range-track-shadow-blur: 2px;
+$input-type-range-track-shadow-color: rgba(0,0,0,.0);
+
+
+
 
 $bootstrap-sass-asset-helper: false !default;
 //
