@@ -214,24 +214,17 @@ class rex_view
     /**
      * Returns a content block.
      *
-     * @param string       $key
-     * @param string|array $content
-     * @param string       $title
-     * @param array        $params
+     * @param string $content
+     * @param string $title
      *
      * @return string
      */
-    public static function content($key, $content, $title = '', array $params = [])
+    public static function content($content, $title = '')
     {
-        if (!is_array($content)) {
-            $content = [$content];
-        }
-
         $fragment = new rex_fragment();
-        $fragment->setVar('content', $content, false);
         $fragment->setVar('title', $title, false);
-        $fragment->setVar('params', $params, false);
-        return $fragment->parse('core/content/' . $key . '.php');
+        $fragment->setVar('body', $content, false);
+        return $fragment->parse('core/page/section.php');
     }
 
     /**
