@@ -1,3 +1,14 @@
+
+mark,
+.mark {
+    padding: .1em .3em;
+    background-color: #9ca5b2;
+    background-color: $color-a;
+    background-color:  darken($color-a-light, 15%);
+    color: inherit;
+    font-weight: 700;
+}
+
 .rex-page-section {
     h3 {
         font-size: ceil(($font-size-base * 1.125));
