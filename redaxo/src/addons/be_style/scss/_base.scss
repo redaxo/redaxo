@@ -213,6 +213,9 @@ body:after {
     @media (min-width: $grid-float-breakpoint) {
         margin-left: 0;
     }
+    #rex-page-login & {
+        margin-left: 0;
+    }
 }
 .rex-nav-top {
 

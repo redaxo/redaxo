@@ -263,9 +263,9 @@ $input-bg:                       $color-a-lighter;
 $input-bg-disabled:              $gray-lighter !default;
 
 //** Text color for `<input>`s
-$input-color:                    $gray !default;
+$input-color:                    $text-color;
 //** `<input>` border color
-$input-border:                   #ccc !default;
+$input-border:                   $color-a-light;
 
 // TODO: Rename `$input-border-radius` to `$input-border-radius-base` in v4
 //** Default `.form-control` border radius

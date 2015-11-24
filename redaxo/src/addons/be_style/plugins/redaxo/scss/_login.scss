@@ -4,13 +4,17 @@
     background: $color-a-darker;
 
     .rex-nav-top {
-        padding-top: ($grid-gutter-width * 5);
+        padding-top: $grid-gutter-width;
         padding-bottom: $grid-gutter-width;
         background: $color-a-dark;
         border-color: $color-a-dark;
         text-align: center;
 
-        .navbar-header, 
+        @media(min-width: $grid-float-breakpoint) {
+            padding-top: ($grid-gutter-width * 5);
+        }
+
+        .navbar-header,
         .navbar-brand {
             float: none;
         }
@@ -50,7 +54,7 @@
         margin-right: auto;
         color: $color-a;
 
-        li:first-child, 
+        li:first-child,
         li:last-child {
             display: none;
         }
@@ -65,7 +69,7 @@
         border: 0;
         color: $color-a-light;
 
-        .panel-heading, 
+        .panel-heading,
         .panel-footer {
             background-color: $color-a-dark;
             border: 0;
@@ -94,6 +98,7 @@
     }
     .form-control {
         background-color: $color-a;
+        color: $color-a-darker;
 
         &:focus {
             border-color: inherit;
