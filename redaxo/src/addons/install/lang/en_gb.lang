@@ -1,0 +1,68 @@
+# addon:install en_gb
+
+install_title = [missing_text] de:Installer
+install_subpage_packages = [missing_text] de:Core & Packages
+install_subpage_update = [missing_text] de:Vorhandene aktualisieren
+install_subpage_add = [missing_text] de:Neue herunterladen
+install_subpage_upload = [missing_text] de:Eigene hochladen
+install_subpage_settings = [missing_text] de:Einstellungen
+
+install_webservice_unreachable = [missing_text] de:Der Webservice ist zurzeit nicht erreichbar!
+install_webservice_error = [missing_text] de:Der Webservice liefert folgende Fehlermeldung:
+install_archive_unreachable = [missing_text] de:Die Zip-Datei ist nicht erreichbar!
+
+install_reload = [missing_text] de:Liste aktualisieren
+install_key = [missing_text] de:Key
+install_information = [missing_text] de:Information
+install_name = [missing_text] de:Name
+install_author = [missing_text] de:Autor
+install_shortdescription = [missing_text] de:Kurzbeschreibung
+install_description = [missing_text] de:Beschreibung
+install_files = [missing_text] de:Dateien
+install_version = [missing_text] de:Version
+install_existing_version = [missing_text] de:Vorhandene Version
+install_available_versions = [missing_text] de:Verfügbare Versionen
+install_addon_already_exists = [missing_text] de:bereits heruntergeladen
+install_update = [missing_text] de:aktualisieren
+install_download = [missing_text] de:herunterladen
+install_addons_found = [missing_text] de:{0} AddOns gefunden
+install_available_updates = [missing_text] de:{0} Updates verfügbar
+install_my_packages = [missing_text] de:Meine Packages
+install_status = [missing_text] de:Status
+install_online = [missing_text] de:online
+install_offline = [missing_text] de:offline
+install_file_add = [missing_text] de:Datei hinzufügen
+install_file_edit = [missing_text] de:Datei aktualisieren
+install_send = [missing_text] de:Senden
+install_upload_file = [missing_text] de:Zip-Datei erstellen und hochladen
+install_replace_assets = [missing_text] de:Assets aus dem Root-Assets-Ordner nehmen
+install_ignore_tests = [missing_text] de:Ordner "tests" ignorieren
+
+install_info_core_updated = [missing_text] de:Der Core wurde aktualisiert!
+install_warning_core_not_updated = [missing_text] de:Der Core konnte aus folgendem Grund nicht aktualisiert werden:
+install_warning_core_zip_not_extracted = [missing_text] de:Die Zip-Datei konnte nicht in das "src"-Verzeichnis entpackt werden!
+
+install_info_addon_downloaded = [missing_text] de:AddOn "{0}" wurde heruntergeladen!
+install_warning_addon_not_downloaded = [missing_text] de:AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:
+install_info_addon_updated = [missing_text] de:AddOn "{0}" wurde aktualisiert!
+install_warning_addon_not_updated = [missing_text] de:AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
+install_info_addon_uploaded = [missing_text] de:AddOn "{0}" wurde hochgeladen!
+install_info_addon_deleted = [missing_text] de:AddOn-Version von "{0}" wurde gelöscht!
+install_warning_addon_zip_not_extracted = [missing_text] de:Beim Entpacken der Zip-Datei in das AddOn-Verzeichnis ist ein Fehler aufgetreten. Möglicherweise fehlen Schreibrechte oder der Ordnername innerhalb der Zip-Datei entspricht nicht dem AddOn-Key.
+
+install_warning_zip_wrong_checksum = [missing_text] de:Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein!
+install_warning_zip_wrong_format = [missing_text] de:Die Zip-Datei ist nicht im erforderlichen Format.
+
+install_to_addon_page = [missing_text] de:Zur AddOn-Verwaltung
+
+install_settings_general = [missing_text] de:Allgemein
+install_settings_backups = [missing_text] de:Backups erstellen
+install_settings_myredaxo_account = [missing_text] de:myREDAXO-Account
+install_settings_api_login = [missing_text] de:Nutzername
+install_settings_api_key = [missing_text] de:API-Key
+install_settings_saved = [missing_text] de:Einstellungen wurden gespeichert!
+
+install_header_function = [missing_text] de:Funktion
+
+install_clear = [missing_text] de:Löschen
+install_search = [missing_text] de:Suchen ...

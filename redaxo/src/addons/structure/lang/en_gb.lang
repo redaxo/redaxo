@@ -1,0 +1,86 @@
+structure = Structure
+
+title_structure = Structure management
+homepage = [missing_text] de:Homepage
+root_level = [missing_text] de:Hauptebene
+no_such_category = Category not found!
+category_updated = Category updated.
+category_could_not_be_deleted = Error. Category not deleted!
+category_still_contains_articles = Category still contains articles.
+category_still_contains_subcategories = Category still contains subcategories.
+category_status_updated = Category status updated.
+category_added_and_startarticle_created = Category added and start-article created!
+article_status_updated = Article status updated.
+article_updated = Article updated.
+article_added = Article added.
+header_category = Category
+header_priority = Prio
+header_status = Status/Function
+header_id = Id
+add_category = Add category
+edit_category = Change category
+save_category = Save category
+status_online = online
+status_offline = offline
+option_no_template = No template
+template_default_name = NO TEMPLATE
+header_article_name = Article name
+header_template = Template
+header_date = Created
+change = change
+article_add = Add article
+article_edit = Change article
+article_save = Save article
+article = Article
+start_article = Start-article
+no_article_available = no article available
+structure_categories_caption = List of subcategories in "{0}"
+structure_articles_caption = List of articles in "{0}"
+article_deleted = Article deleted!
+article_could_not_be_generated = Article could not be generated.
+category_deleted = Category deleted!
+category_doesnt_exist = Category doesn't exist!
+cant_delete_sitestartarticle = [missing_text] de:Der Webseiten-Startartikel kann nicht gelöscht werden!
+cant_delete_notfoundarticle = Not-Found-article can not be deleted
+structure_copy = [missing_text] de:Kopie
+
+all_categories = All categories
+categories = Categories
+
+be_search_article_name = [missing_text] de:Artikelname
+be_search_article_id = [missing_text] de:Artikel Id
+be_search_start = [missing_text] de:suchen
+be_search_jump_to_category = [missing_text] de:Zur Kategorie springen
+be_search_quick_navi = [missing_text] de:Schnellnavigation
+be_search_no_results = [missing_text] de:Kein Artikel entspricht dem Suchkriterium
+be_search_search = [missing_text] de:Suche
+be_search_result = [missing_text] de:Suchergebniss
+
+perm_options_article2category[] = Artikel in Kategorien umwandeln
+perm_options_article2startarticle[] = Artikel in Startartikel umwandeln
+perm_options_copyArticle[] = Artikel kopieren
+perm_options_copyContent[] = Artikelinhalte kopieren
+perm_options_moveArticle[] = Artikel verschieben
+perm_options_moveCategory[] = Kategorien verschieben
+perm_options_publishArticle[] = Artikel veröffentlichen
+perm_options_publishCategory[] = Kategorien veröffentlichen
+perm_extras_editContentOnly[] = Es dürfen nur Inhalte gepflegt werden
+
+system_setting_start_article_id = [missing_text] de:Startartikel
+system_setting_notfound_article_id = [missing_text] de:Fehlerartikel
+system_setting_default_template_id = [missing_text] de:Standardtemplate
+system_setting_start_article_id_invalid = [missing_text] de:Ungültiger Startartikel!
+system_setting_notfound_article_id_invalid = [missing_text] de:Ungültiger Fehlerartikel!
+system_setting_default_template_id_invalid = [missing_text] de:Ungültiges Standardtemplate!
+
+linkmap = Linkmap
+linkmap_categories = [missing_text] de:Kategorien
+linkmap_articles = [missing_text] de:Artikel
+linkmap_has_no_template = [missing_text] de:hat kein Template
+
+var_link_open = [missing_text] de:Link auswählen
+var_link_delete = [missing_text] de:Ausgewählten Link löschen
+var_linklist_move_top = [missing_text] de:Ausgewählten Link an den Anfang verschieben
+var_linklist_move_up = [missing_text] de:Ausgewählten Link nach oben verschieben
+var_linklist_move_down = [missing_text] de:Ausgewählten Link nach unten verschieben
+var_linklist_move_bottom = [missing_text] de:Ausgewählten Link an das Ende verschieben

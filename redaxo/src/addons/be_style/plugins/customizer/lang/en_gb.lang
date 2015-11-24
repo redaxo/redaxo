@@ -5,7 +5,7 @@ customizer_codemirror = CodeMirror
 customizer_codemirror_check = activate CodeMirror
 customizer_codemirror_theme = CodeMirror Theme
 
-customizer_codemirror_info =
+customizer_codemirror_info = 
 
 customizer_labeling = Additions
 customizer_labelcolor = color (#43a047)

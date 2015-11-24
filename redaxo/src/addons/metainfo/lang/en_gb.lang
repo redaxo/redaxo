@@ -1,4 +1,4 @@
-# addon:metaform de_de
+# addon:metaform en_gb
 
 media = Media
 categories = Categories
@@ -13,13 +13,19 @@ minfo_field_fieldset = edit/create field
 minfo_field_label_prefix = prefix
 minfo_field_label_title = field title
 minfo_field_label_name = label name
+minfo_field_label_function = [missing_text] de:Funktion
+minfo_field_label_functions = [missing_text] de:Funktionen
 minfo_field_label_id = ID
 minfo_field_label_type = fieldtype
 minfo_field_label_attributes = fieldattribute
+minfo_field_label_callback = [missing_text] de:Callback
+minfo_field_label_callback_templates = [missing_text] de:Callback-Vorlagen
 minfo_field_label_default = default value
 minfo_field_label_nullable = mandatory field
 minfo_field_label_params = parameter
 minfo_field_label_priority = field position
+minfo_field_label_restrictions = [missing_text] de:Nur in folgenden Kategorien verfügbar
+minfo_field_label_no_restrictions = [missing_text] de:In allen Kategorien verfügbar
 
 minfo_field_notice_title = prefix "translate:" translates the value via I18N
 
@@ -29,8 +35,13 @@ minfo_field_after_priority = after the field "{0}"
 minfo_field_params_notice_3 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_4 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
 minfo_field_params_notice_5 = examples:<br />a) all|user|admin<br />b) 1:all|2:user|3:admin<br />c) SELECT label,id FROM my_table WHERE a=4<br />d) (DB2) SELECT label,id FROM my_table WHERE a=4
+minfo_field_params_notice_6 = [missing_text] de:Beispiel:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_7 = [missing_text] de:Beispiel:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
+minfo_field_params_notice_8 = [missing_text] de:Beispiel:<br /> <code>category="1"</code>
+minfo_field_params_notice_9 = [missing_text] de:Beispiel:<br /> <code>category="1"</code>
 
 minfo_field_attributes_notice = example:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
+minfo_field_label_notice = [missing_text] de:Code der ausgeführt wird, wenn der Wert des Feldes geändert wird.<br /> Lesbare Variablen: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Please enter the columns name!
 minfo_field_error_unique_name = This column name already exists!
@@ -42,6 +53,26 @@ minfo_field_error_invalid_length = This field length is not valid!
 minfo_field_error_invalid_name = This column name is not valid!
 minfo_field_error_invalid_fieldid = This field-id is not valid!
 minfo_field_error_invalid_typeid = This type-id is not valid!
+minfo_field_error_deleted = [missing_text] de:Feld wurde nicht gelöscht!
+minfo_field_successfull_deleted = [missing_text] de:Feld erfolgreich gelöscht!
 minfo_field_successfull_saved = Field has been successfully saved!
 
 minfo_edit_metadata = edit metainfo
+
+minfo_media_in_use_art = [missing_text] de:Artikel (Metadaten)
+minfo_media_in_use_cat = [missing_text] de:Kategorien (Metadaten)
+minfo_media_in_use_med = [missing_text] de:Medien (Metadaten)
+
+minfo_callback_lang_indep_field = [missing_text] de:Sprachunabhängiges Feld
+
+# bc: labels aus dem core
+online_from = Online from
+online_to = to
+description = Description
+keywords = Keywords
+header_article_type = Article type
+metadata_image = Metafile/Image
+teaser = Teaser
+pool_file_copyright = Copyright
+
+metadata = Metadata/Others

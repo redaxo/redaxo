@@ -25,6 +25,7 @@ media_manager_settings = settings
 
 media_manager_yes = yes
 media_manager_no = no
+media_manager_back = [missing_text] de:Zurück
 
 media_manager_error_name = please enter a namen.
 media_manager_error_settings = please check the settings.
@@ -41,6 +42,7 @@ media_manager_type_description = description
 media_manager_type_functions = function
 media_manager_type_cache_delete = delete cache
 media_manager_type_system = system imagetype
+media_manager_type_delete = delete imagetype
 
 media_manager_effect_list_header = effect of imagetype "{0}"
 media_manager_effect_edit_header = imagetype "{0}": edit effect
@@ -62,9 +64,9 @@ media_manager_effect_brand_vpos = vertical position
 media_manager_effect_brand_padding_x = padding x
 media_manager_effect_brand_padding_y = padding y
 
-media_manager_effect_blur_amount = amount
-media_manager_effect_blur_radius = radius
-media_manager_effect_blur_threshold = threshold
+media_manager_effect_blur_repeats = [missing_text] de:Wiederholungen
+media_manager_effect_blur_type = [missing_text] de:Blur-Typ
+media_manager_effect_blur_smoothit = [missing_text] de:glätten (negative Werte schärft Bilder)
 
 media_manager_effect_sharpen_amount = amount
 media_manager_effect_sharpen_radius = radius
@@ -81,17 +83,26 @@ media_manager_effect_crop_offset_width = offset width
 media_manager_effect_crop_offset_height = offset height
 media_manager_effect_crop_position = position
 
+media_manager_effect_rounded_corners_topleft = [missing_text] de:Oben Links
+media_manager_effect_rounded_corners_topright = [missing_text] de:Oben Rechts
+media_manager_effect_rounded_corners_bottomleft = [missing_text] de:Unten Links
+media_manager_effect_rounded_corners_bottomright = [missing_text] de:Unten Rechts
+
 media_manager_effect_flip = direction
 
 media_manager_error_type_name_not_unique = an imagetype with this name already exists!
 
-im_fx_mirror_height = refl. height (50 / 10%)
-im_fx_mirror_background_color = background
-im_fx_mirror_background_r = background R (0-255)
-im_fx_mirror_background_g = background G (0-255)
-im_fx_mirror_background_b = background B (0-255)
+media_manager_effect_mirror_height = [missing_text] de:Refl. Höhe (50 / 10%)
+media_manager_effect_mirror_background_color = [missing_text] de:Hintergrundfarbe
+media_manager_effect_mirror_background_r = [missing_text] de:Hintergrund R (0-255)
+media_manager_effect_mirror_background_g = [missing_text] de:Hintergrund G (0-255)
+media_manager_effect_mirror_background_b = [missing_text] de:Hintergrund B (0-255)
 
-im_fx_workspace_pos = Position
+media_manager_effect_workspace_pos = [missing_text] de:Position
 
-form_field_first_priority = first position
-form_field_after_priority = after "{0}"
+media_manager_effect_folder = [missing_text] de:Alternativen Ordner default: "media"
+
+media_manager_effect_mediapath = [missing_text] de:Medienordner
+
+media_manager_effect_header_download = [missing_text] de:Download
+media_manager_effect_header_cache = [missing_text] de:Cache-Control
