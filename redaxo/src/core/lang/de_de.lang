@@ -23,6 +23,7 @@ path = Pfad
 id = Id
 name = Name
 description = Beschreibung
+function = Funktion
 no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
