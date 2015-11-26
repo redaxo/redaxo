@@ -8,7 +8,7 @@
         &:hover {
             background-color: darken($color-b-lighter, 3%);
             border-color: darken($color-b-lighter, 3%);
-            color: $color-b;            
+            color: $color-b;
         }
         &:focus,
         &.focus,
@@ -24,7 +24,7 @@
 }
 
 
-.dropdown-menu > li > a:hover, 
+.dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
     background-color: $color-c-light;
 }

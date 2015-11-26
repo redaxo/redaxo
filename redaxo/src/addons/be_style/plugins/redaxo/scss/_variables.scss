@@ -221,13 +221,13 @@ $table-border-color:            $color-a-light;
 
 $btn-font-weight:                normal !default;
 
-$btn-default-color:              #333 !default;
+$btn-default-color:              $text-color;
 $btn-default-bg:                 #fff !default;
-$btn-default-border:             #ccc !default;
+$btn-default-border:             darken($color-a-light, 10%);
 
-$btn-primary-color:              $color-a;
-$btn-primary-bg:                 $color-a-dark;
-$btn-primary-border:             $color-a-dark;
+$btn-primary-color:              #fff;
+$btn-primary-bg:                 lighten($color-a-dark, 5%);
+$btn-primary-border:             lighten($color-a-dark, 5%);
 
 $btn-success-color:              #fff !default;
 $btn-success-bg:                 $brand-success !default;
@@ -249,8 +249,8 @@ $btn-link-disabled-color:        $gray-light !default;
 
 // Allows for customizing button radius independently from global border radius
 $btn-border-radius-base:         4px;
-$btn-border-radius-large:        $border-radius-large !default;
-$btn-border-radius-small:        $border-radius-small !default;
+$btn-border-radius-large:        6px;
+$btn-border-radius-small:        2px;
 
 
 //== Forms

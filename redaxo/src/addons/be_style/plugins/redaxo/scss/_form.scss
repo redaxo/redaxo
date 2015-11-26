@@ -5,6 +5,19 @@ legend {
     font-size: $font-size-large;
     font-weight: 700;
 }
+// Text input groups
+// -------------------------
+.input-group-addon {
+    border-radius: $btn-border-radius-base;
+
+    // Sizing
+    &.input-sm {
+        border-radius: $btn-border-radius-small;
+    }
+    &.input-lg {
+        border-radius: $border-radius-large;
+    }
+}
 .rex-form-group:not(.rex-form-group-vertical) {
 
     //@include clearfix();
@@ -104,22 +117,17 @@ input[type=range] {
     @include input-type-range();
 }
 
-/*
-input[type=range]::-moz-range-track {
-    height: 5px;
-    background: $color-a;
-    border: none;
-    border-radius: 3px;
+.input-group {
+    .bootstrap-select {
+        .btn {
+            border-color: $input-group-addon-border-color;
+        }
+    }
 }
-input[type=range]::-moz-range-thumb {
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: $color-b;
-    cursor: pointer;
+
+.rex-panel-options {
+    .form-control,
+    .input-group .bootstrap-select .btn {
+        border-color: darken($color-a-light, 10%);
+    }
 }
-input[type=range]::-moz-focus-outer {
-    border: 0;
-}
-*/
