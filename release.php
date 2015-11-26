@@ -38,7 +38,9 @@ class rex_release
     private function createArchives()
     {
         $path = rex_path::base('releases/'.$this->version.'/');
-        rex_dir::deleteFiles($path);
+        if (file_exists($path)) {
+            rex_dir::deleteFiles($path);
+        }
         rex_dir::create($path);
 
         $complete = new ZipArchive();
