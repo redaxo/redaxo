@@ -10,9 +10,6 @@
 [submodule "redaxo/src/addons/watson"]
 	path = redaxo/src/addons/watson
 	url = https://github.com/tbaddade/redaxo_watson
-[submodule "redaxo/src/addons/wildcard"]
-	path = redaxo/src/addons/wildcard
-	url = https://github.com/tbaddade/redaxo_wildcard
 [submodule "redaxo/src/addons/yform"]
 	path = redaxo/src/addons/yform
 	url = https://github.com/yakamara/redaxo_yform
@@ -22,3 +19,6 @@
 [submodule "redaxo/src/addons/yrewrite"]
 	path = redaxo/src/addons/yrewrite
 	url = https://github.com/yakamara/redaxo_yrewrite.git
+[submodule "redaxo/src/addons/sprog"]
+	path = redaxo/src/addons/sprog
+	url = git@github.com:tbaddade/redaxo_sprog.git
