@@ -12,6 +12,7 @@ composer update --no-dev -d redaxo/src/addons/textile/
 
 echo "\nUpdate redaxo/src/core/assets/jquery.min.js"
 curl -# http://cdn.jsdelivr.net/jquery/2/jquery.min.js > redaxo/src/core/assets/jquery.min.js
+curl -# http://cdn.jsdelivr.net/jquery/2/jquery.min.map > redaxo/src/core/assets/jquery.min.map
 
 echo "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js"
 curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js http://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
