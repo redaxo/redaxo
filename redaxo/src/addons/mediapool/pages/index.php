@@ -43,7 +43,7 @@ if ($file_name != '') {
     $sql = rex_sql::factory();
     $sql->setQuery('select * from ' . rex::getTablePrefix() . "media where filename='$file_name'");
     if ($sql->getRows() == 1) {
-        $file_id = $sql->getValue('file_id');
+        $file_id = $sql->getValue('id');
         $rex_file_category = $sql->getValue('category_id');
     }
 }
