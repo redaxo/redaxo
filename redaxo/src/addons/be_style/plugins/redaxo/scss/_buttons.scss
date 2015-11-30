@@ -1,3 +1,19 @@
+.btn-default:hover {
+    background-color: #dbdee4;
+}
+.btn-abort,
+.btn-back,
+.btn-clang,
+.btn-move,
+.btn-popup,
+.btn-reset,
+.btn-search {
+    &:hover {
+        @extend .btn-default:hover;
+    }
+}
+
+
 .btn-group > .btn.active,
 .btn-group-vertical > .btn.active {
     z-index: 3;

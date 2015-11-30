@@ -18,12 +18,13 @@ $color-b:           #4b9ad9;
 $color-c-light:     #fbffd6;
 
 // Green
+$color-d-lighter:   #e0f5ee;
 $color-d-light:     #95e0cc;
 $color-d:           #3bb594;
 
 
 $color-online:      #3bb594;
-$color-offline:     #dc6ca3;
+$color-offline:     #d9534f; // is $brand-danger
 
 
 // Large screen / wide desktop
@@ -88,9 +89,9 @@ $gray-light:             lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
 $brand-primary:         $color-b;
-$brand-success:         #5cb85c !default;
-$brand-info:            #5bc0de !default;
-$brand-warning:         #f0ad4e !default;
+$brand-success:         $color-d;
+$brand-info:            $color-b;
+$brand-warning:         #cfb550;
 $brand-danger:          #d9534f !default;
 
 
@@ -208,7 +209,7 @@ $table-bg:                      #fff;
 //** Background color used for `.table-striped`.
 $table-bg-accent:               transparent;
 //** Background color used for `.table-hover`.
-$table-bg-hover:                $color-c-light;
+$table-bg-hover:                $color-d-lighter;
 $table-bg-active:               $table-bg-hover !default;
 
 //** Border color for table and cell borders.
@@ -260,12 +261,12 @@ $btn-border-radius-small:        2px;
 //** `<input>` background color
 $input-bg:                       $color-a-lighter;
 //** `<input disabled>` background color
-$input-bg-disabled:              $gray-lighter !default;
+$input-bg-disabled:              #e9ecf2;
 
 //** Text color for `<input>`s
 $input-color:                    $text-color;
 //** `<input>` border color
-$input-border:                   $color-a-light;
+$input-border:                   $btn-default-border;
 
 // TODO: Rename `$input-border-radius` to `$input-border-radius-base` in v4
 //** Default `.form-control` border radius
@@ -293,7 +294,7 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $form-group-margin-bottom:       15px !default;
 
 $legend-color:                   $gray-dark !default;
-$legend-border-color:            $color-a-light;
+$legend-border-color:            $input-border;
 
 //** Background color for textual input addons
 $input-group-addon-bg:           $gray-lighter !default;
@@ -574,20 +575,20 @@ $jumbotron-heading-font-size:    ceil(($font-size-base * 4.5)) !default;
 //## Define colors for form feedback states and, by default, alerts.
 
 $state-success-text:             #fff;
-$state-success-bg:               #43A047;
-$state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
+$state-success-bg:               $color-d;
+$state-success-border:           $state-success-bg;
 
 $state-info-text:                #fff;
-$state-info-bg:                  #039BE5;
-$state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
+$state-info-bg:                  $color-b;
+$state-info-border:              $state-info-bg;
 
 $state-warning-text:             #fff;
-$state-warning-bg:               #ffb300;
-$state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
+$state-warning-bg:               $brand-warning;
+$state-warning-border:           $state-warning-bg;
 
 $state-danger-text:              #fff;
-$state-danger-bg:                #E53935;
-$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+$state-danger-bg:                $brand-danger;
+$state-danger-border:            $state-danger-bg;
 
 
 //== Tooltips
@@ -703,19 +704,19 @@ $alert-link-font-weight:      bold !default;
 
 $alert-success-bg:            $state-success-bg !default;
 $alert-success-text:          $state-success-text !default;
-$alert-success-border:        $state-success-border !default;
+$alert-success-border:        darken($state-success-border, 10%);
 
 $alert-info-bg:               $state-info-bg !default;
 $alert-info-text:             $state-info-text !default;
-$alert-info-border:           $state-info-border !default;
+$alert-info-border:           darken($state-info-border, 10%);
 
 $alert-warning-bg:            $state-warning-bg !default;
 $alert-warning-text:          $state-warning-text !default;
-$alert-warning-border:        $state-warning-border !default;
+$alert-warning-border:        darken($state-warning-border, 10%);;
 
 $alert-danger-bg:             $state-danger-bg !default;
 $alert-danger-text:           $state-danger-text !default;
-$alert-danger-border:         $state-danger-border !default;
+$alert-danger-border:         darken($state-danger-border, 10%);;
 
 
 //== Progress bars

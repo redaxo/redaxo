@@ -1,4 +1,9 @@
-
+.panel > form {
+    margin-bottom: 0;
+}
+.form-control:focus {
+    background-color: #fff;
+}
 
 legend {
     padding-bottom: 3px;

@@ -7,6 +7,14 @@ mark,
     background-color:  darken($color-a-light, 15%);
     color: inherit;
     font-weight: 700;
+
+    .panel-add > .panel-heading &,
+    .panel-edit > .panel-heading & {
+        background-color:  darken($color-d, 15%);
+    }
+}
+tr.mark {
+    font-weight: inherit;
 }
 
 .rex-page-section {

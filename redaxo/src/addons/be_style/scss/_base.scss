@@ -237,9 +237,6 @@ body:after {
 .rex-redaxo-logo {
     height: 30px;
     vertical-align: middle;
-    @media (max-width: $grid-float-breakpoint-max) {
-        height: floor($grid-gutter-width / 2);
-    }
 
     .rex-is-popup & {
         height: 20px;
@@ -311,9 +308,21 @@ body:after {
 }
 .rex-state-warning {
     background-color: $state-warning-bg;
+    color: $state-warning-text;
+
+    tr&:hover > th,
+    tr&:hover > td {
+        background-color: darken($state-warning-bg, 10%);
+    }
 }
 .rex-state-error {
     background-color: $state-danger-bg;
+    color: $state-danger-text;
+
+    tr&:hover > th,
+    tr&:hover > td {
+        background-color: darken($state-danger-bg, 10%);
+    }
 }
 
 .rex-primary-id {
@@ -416,16 +425,27 @@ body:after {
         cursor: pointer;
     }
 
-    > .panel-title {
-        float: left;
+    > .rex-panel-options {
+        .navbar-form {
+            margin-right: 0;
+            margin-bottom: -6px;
+            margin-left: 0;
+            padding: 0;
+        }
     }
 
-    > .rex-panel-options {
-        float: right;
+    @media (min-width: $screen-md-min) {
+        > .panel-title {
+            float: left;
+        }
 
-        .navbar-form {
-            margin: -6px 0;
-            padding: 0;
+        > .rex-panel-options {
+            float: right;
+
+            .navbar-form {
+                margin-top: -6px;
+                padding: 0;
+            }
         }
     }
 }
