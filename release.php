@@ -128,7 +128,6 @@ class rex_release
 
                 '/redaxo/src/addons/be_style/vendor/font-awesome/css/',
                 '/redaxo/src/addons/be_style/vendor/font-awesome/less/',
-                '/redaxo/src/addons/be_style/vendor/font-awesome/scss/',
                 '/redaxo/src/addons/be_style/vendor/font-awesome/src/',
 
                 '/redaxo/src/addons/be_style/vendor/scssphp/tests/',
