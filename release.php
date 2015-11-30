@@ -12,7 +12,7 @@ require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
 
 class rex_release
 {
-    private static $addons = ['backup', 'be_style', 'cronjob', 'debug', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'textile', 'users'];
+    private static $addons = ['backup', 'be_style', 'cronjob', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'users'];
 
     private $version;
 
