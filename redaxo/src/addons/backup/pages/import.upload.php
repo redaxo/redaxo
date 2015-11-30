@@ -80,7 +80,7 @@ if ($function == 'delete' && $impname) {
         if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
             $return = rex_backup::importFiles($file_temp);
             if ($return['state']) {
-                $info = $return['message'];
+                $success = $return['message'];
             } else {
                 $error = $return['message'];
             }
