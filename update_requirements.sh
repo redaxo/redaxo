@@ -10,6 +10,9 @@ php -r "foreach (array('redaxo/src/core/vendor/autoload.php', 'redaxo/src/core/v
 echo "\nUpdate redaxo/src/addons/textile/vendor"
 composer update --no-dev -d redaxo/src/addons/textile/
 
+echo "\nUpdate redaxo/src/addons/phpmailer/vendor"
+composer update --no-dev -d redaxo/src/addons/phpmailer/
+
 echo "\nUpdate redaxo/src/core/assets/jquery.min.js"
 curl -# http://cdn.jsdelivr.net/jquery/2/jquery.min.js > redaxo/src/core/assets/jquery.min.js
 curl -# http://cdn.jsdelivr.net/jquery/2/jquery.min.map > redaxo/src/core/assets/jquery.min.map

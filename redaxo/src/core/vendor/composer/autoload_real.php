@@ -41,15 +41,19 @@ class ComposerAutoloaderInitRedaxoCore
         $loader->register(true);
 
         $includeFiles = require __DIR__ . '/autoload_files.php';
-        foreach ($includeFiles as $file) {
-            composerRequireRedaxoCore($file);
+        foreach ($includeFiles as $fileIdentifier => $file) {
+            composerRequireRedaxoCore($fileIdentifier, $file);
         }
 
         return $loader;
     }
 }
 
-function composerRequireRedaxoCore($file)
+function composerRequireRedaxoCore($fileIdentifier, $file)
 {
-    require $file;
+    if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
+        require $file;
+
+        $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
+    }
 }
