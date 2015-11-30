@@ -559,23 +559,8 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     if ($sql->getRows() > 0 || $function == 'add_art') {
         $echo .= '
                 </tbody>';
-    } elseif ($sql->getRows() == 0) {
-        $echo .= '
-            <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>';
     }
-
+    
     $echo .= '
             </table>';
 
