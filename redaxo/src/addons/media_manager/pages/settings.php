@@ -29,8 +29,6 @@ if ($func == 'update') {
     echo rex_view::info($this->i18n('config_saved'));
 }
 
-
-
         $inputGroups = [];
         $n = [];
         $n['class'] = 'rex-range-input-group';
@@ -65,7 +63,6 @@ if ($func == 'update') {
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);

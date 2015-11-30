@@ -2,10 +2,11 @@
 
 $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('watson')
-    ->exclude('wildcard')
+    ->exclude('sprog')
     ->exclude('yform')
     ->exclude('yrewrite')
     ->exclude('fragments')
+    ->exclude('releases')
     ->in(__DIR__)
 ;
 
