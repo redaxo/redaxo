@@ -13,12 +13,12 @@ class rex_metainfo_table_expander extends rex_form
     private $metaPrefix;
     private $tableManager;
 
-    public function __construct($metaPrefix, $metaTable, $tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    public function __construct($metaPrefix, $metaTable, $tableName, $whereCondition, $method = 'post', $debug = false)
     {
         $this->metaPrefix = $metaPrefix;
         $this->tableManager = new rex_metainfo_table_manager($metaTable);
 
-        parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
+        parent::__construct($tableName, rex_i18n::msg('minfo_field_fieldset'), $whereCondition, $method, $debug);
     }
 
     public function init()
@@ -118,11 +118,6 @@ class rex_metainfo_table_expander extends rex_form
         $field->setAttribute('class', 'form-control');
 
         parent::init();
-    }
-
-    public function getFieldsetName()
-    {
-        return rex_i18n::msg('minfo_field_fieldset');
     }
 
     protected function delete()
