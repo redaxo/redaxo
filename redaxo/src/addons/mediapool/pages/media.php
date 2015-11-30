@@ -556,7 +556,7 @@ if (!$file_id) {
             $actionButtons = $fragment->parse('core/buttons/button_group.php');
         }
 
-        $field = '<div class="row"><div class="col-md-8">' . $field . '</div><div class="col-md-4">' . $actionButtons . '</div>';
+        $field = '<div class="row"><div class="col-sm-9">' . $field . '</div><div class="col-sm-3">' . $actionButtons . '</div>';
 
         $e = [];
         $e['label'] = '<label>' . rex_i18n::msg('pool_selectedmedia') . '</label>';
