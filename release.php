@@ -101,26 +101,43 @@ class rex_release
 
         /** @var SplFileInfo $file */
         foreach ($finder as $path => $file) {
-            if (!$this->matchesGitignore($path)) {
+            if (!$this->shouldIgnore($path)) {
                 $zip->addFile($path, $base.substr($path, strlen($dir)));
             }
         }
     }
 
-    private function matchesGitignore($path)
+    private function shouldIgnore($path)
     {
-        static $gitignore;
+        static $ignore;
 
-        if (null === $gitignore) {
-            $gitignore = file(rex_path::base('.gitignore'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            $gitignore = array_filter($gitignore, function ($path) {
+        if (null === $ignore) {
+            $ignore = file(rex_path::base('.gitignore'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $ignore = array_filter($ignore, function ($path) {
                 return '#' !== $path[0];
             });
+
+            $ignore = array_merge($ignore, [
+                '/redaxo/src/addons/be_style/vendor/bootstrap/lib/',
+                '/redaxo/src/addons/be_style/vendor/bootstrap/tasks/',
+                '/redaxo/src/addons/be_style/vendor/bootstrap/templates/',
+                '/redaxo/src/addons/be_style/vendor/bootstrap/test/',
+
+                '/redaxo/src/addons/be_style/vendor/bootstrap-select/js/',
+                '/redaxo/src/addons/be_style/vendor/bootstrap-select/less/',
+
+                '/redaxo/src/addons/be_style/vendor/font-awesome/css/',
+                '/redaxo/src/addons/be_style/vendor/font-awesome/less/',
+                '/redaxo/src/addons/be_style/vendor/font-awesome/scss/',
+                '/redaxo/src/addons/be_style/vendor/font-awesome/src/',
+
+                '/redaxo/src/addons/be_style/vendor/scssphp/tests/',
+            ]);
         }
 
-        $subpath = substr($path, strlen(rex_path::base()));
-        foreach ($gitignore as $ignore) {
-            if (0 === strpos($subpath, $ignore)) {
+        $subpath = substr($path, strlen(rex_path::base()) - 1);
+        foreach ($ignore as $pattern) {
+            if (0 === strpos($subpath, $pattern)) {
                 return true;
             }
         }
