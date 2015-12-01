@@ -43,4 +43,5 @@ if (rex::isBackend()) {
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/perfect-scrollbar.jquery.min.js'));
+    rex_view::addJsFile($this->getAssetsUrl('javascripts/main.js'));
 }
