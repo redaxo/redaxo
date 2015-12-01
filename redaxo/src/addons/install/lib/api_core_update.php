@@ -48,19 +48,33 @@ class rex_api_install_core_update extends rex_api_function
             if (is_dir($temppath . 'addons')) {
                 foreach (rex_finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
                     $addonkey = $dir->getBasename();
+                    $addonPath = $dir->getRealPath() . '/';
+                    if (!file_exists($addonPath . rex_package::FILE_PACKAGE)) {
+                        continue;
+                    }
+
+                    $config = rex_file::getConfig($addonPath . rex_package::FILE_PACKAGE);
+                    if (
+                        !isset($config['version']) ||
+                        rex_addon::exists($addonkey) && rex_string::versionCompare($config['version'], rex_addon::get($addonkey)->getVersion(), '<')
+                    ) {
+                        continue;
+                    }
+
                     $coreAddons[$addonkey] = $addonkey;
                     if (rex_addon::exists($addonkey)) {
                         $updateAddons[$addonkey] = rex_addon::get($addonkey);
+                        $updateAddonsConfig[$addonkey] = $config;
                     }
                 }
             }
-            $config = rex_file::getConfig($temppath . 'core/default.config.yml');
-            foreach ($config['system_addons'] as $addonkey) {
-                if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
-                    $updateAddons[$addonkey] = rex_addon::get($addonkey);
-                }
-            }
-            $this->checkRequirements($temppath, $version['version'], $updateAddons);
+            //$config = rex_file::getConfig($temppath . 'core/default.config.yml');
+            //foreach ($config['system_addons'] as $addonkey) {
+            //    if (is_dir($temppath . 'addons/' . $addonkey) && rex_addon::exists($addonkey)) {
+            //        $updateAddons[$addonkey] = rex_addon::get($addonkey);
+            //    }
+            //}
+            $this->checkRequirements($temppath, $version['version'], $updateAddonsConfig);
             if (file_exists($temppath . 'core/update.php')) {
                 include $temppath . 'core/update.php';
             }
@@ -154,35 +168,34 @@ class rex_api_install_core_update extends rex_api_function
         $versions = new SplObjectStorage();
         $requirements = new SplObjectStorage();
         $conflicts = new SplObjectStorage();
-        foreach ($addons as $addonkey => $addon) {
+        foreach ($addons as $addonkey => $config) {
+            $addon = rex_addon::get($addonkey);
             $addonPath = $temppath . 'addons/' . $addonkey . '/';
-            if (file_exists($addonPath . rex_package::FILE_PACKAGE)) {
-                $config = rex_file::getConfig($addonPath . rex_package::FILE_PACKAGE);
-                if (isset($config['requires'])) {
-                    $requirements[$addon] = $addon->getProperty('requires');
-                    $addon->setProperty('requires', $config['requires']);
-                }
-                if (isset($config['conflicts'])) {
-                    $conflicts[$addon] = $addon->getProperty('conflicts');
-                    $addon->setProperty('conflicts', $config['conflicts']);
-                }
-                $versions[$addon] = $addon->getVersion();
-                $addon->setProperty('version', $config['version']);
-                foreach ($addon->getAvailablePlugins() as $plugin) {
-                    if (is_dir($addonPath . 'plugins/' . $plugin->getName())) {
-                        $config = rex_file::getConfig($addonPath . 'plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
-                        if (isset($config['requires'])) {
-                            $requirements[$plugin] = $plugin->getProperty('requires');
-                            $plugin->setProperty('requires', $config['requires']);
-                        }
-                        if (isset($config['conflicts'])) {
-                            $conflicts[$plugin] = $plugin->getProperty('conflicts');
-                            $plugin->setProperty('conflicts', $config['conflicts']);
-                        }
-                        if (isset($config['version'])) {
-                            $versions[$plugin] = $plugin->getProperty('version');
-                            $plugin->setProperty('requires', $config['version']);
-                        }
+
+            if (isset($config['requires'])) {
+                $requirements[$addon] = $addon->getProperty('requires');
+                $addon->setProperty('requires', $config['requires']);
+            }
+            if (isset($config['conflicts'])) {
+                $conflicts[$addon] = $addon->getProperty('conflicts');
+                $addon->setProperty('conflicts', $config['conflicts']);
+            }
+            $versions[$addon] = $addon->getVersion();
+            $addon->setProperty('version', $config['version']);
+            foreach ($addon->getAvailablePlugins() as $plugin) {
+                if (is_dir($addonPath . 'plugins/' . $plugin->getName())) {
+                    $config = rex_file::getConfig($addonPath . 'plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
+                    if (isset($config['requires'])) {
+                        $requirements[$plugin] = $plugin->getProperty('requires');
+                        $plugin->setProperty('requires', $config['requires']);
+                    }
+                    if (isset($config['conflicts'])) {
+                        $conflicts[$plugin] = $plugin->getProperty('conflicts');
+                        $plugin->setProperty('conflicts', $config['conflicts']);
+                    }
+                    if (isset($config['version'])) {
+                        $versions[$plugin] = $plugin->getProperty('version');
+                        $plugin->setProperty('requires', $config['version']);
                     }
                 }
             }
