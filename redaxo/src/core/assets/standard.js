@@ -364,7 +364,7 @@ jQuery(function($){
         }
 
         var key = String.fromCharCode(event.which);
-        var haystack = $("input[accesskey='"+ key +"']");
+        var haystack = $("input[accesskey='"+ key +"'], button[accesskey='"+ key +"']");
 
         if(haystack.size() > 0)
         {
