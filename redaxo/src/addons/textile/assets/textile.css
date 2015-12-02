@@ -1,10 +1,6 @@
-div.a79_help_overview {
-    margin-top: 10px;
-}
-
-div.a79_help_overview h3 {
-    font-size:1.2em;
-}
-.a79_help_overview thead th {
-    text-align: left;
+.textile-help-overview h4 {
+    margin-top: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 700;
 }

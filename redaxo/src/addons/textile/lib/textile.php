@@ -30,30 +30,26 @@ class rex_textile
     {
         $formats = self::getHelpOverviewFormats();
 
-        echo '<div class="a79_help_overview">
-                        <h3 class="a79">' . rex_i18n::msg('textile_instructions') . '</h3>
-                        <table style="width: 100%">
-                            <colgroup>
-                                <col width="50%" />
-                                <col width="50%" />
-                            </colgroup>
-                    ';
+        $echo = '';
+
+
+        $echo .= '
+            <div class="textile-help-overview">
+                <h4>' . rex_i18n::msg('textile_instructions') . '</h4>';
+
         foreach ($formats as $format) {
-            $label = $format[0];
-            $id = preg_replace('/[^a-zA-z0-9]/', '', htmlentities($label));
 
-            echo '
-                            <thead>
-                                <tr>
-                                    <th colspan="3"><a href="#" onclick="toggleElement(\'' . $id . '\'); return false;">' . htmlspecialchars($label) . '</a></th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="' . $id . '" style="display: none">
-                                <tr>
-                                    <th>' . rex_i18n::msg('textile_input') . '</th>
-                                    <th>' . rex_i18n::msg('textile_preview') . '</th>
-                                </tr>
+            $title = $format[0];
+            $content = '';
+            $content .= '
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>' . rex_i18n::msg('textile_input') . '</th>
+                            <th>' . rex_i18n::msg('textile_preview') . '</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                          ';
 
             foreach ($format[1] as $perm => $formats) {
@@ -71,18 +67,24 @@ class rex_textile
 
                     $code = trim(self::parse($code));
 
-                    echo '<tr>
-                                    <td>' . nl2br(htmlspecialchars($desc)) . '</td>
-                                    <td>' . $code . '</td>
-                                </tr>
-                                ';
+                    $content .= '<tr>
+                            <td>' . nl2br(htmlspecialchars($desc)) . '</td>
+                            <td>' . $code . '</td>
+                        </tr>';
                 }
             }
 
-            echo '</tbody>';
+            $content .= '</tbody></table>';
+
+            $fragment = new rex_fragment();
+            $fragment->setVar('title', '<i class="rex-icon rex-icon-package-addon"></i> ' . $title, false);
+            $fragment->setVar('content', $content, false);
+            $fragment->setVar('collapse', true);
+            $fragment->setVar('collapsed', true);
+            $echo .= $fragment->parse('core/page/section.php');
         }
-        echo '</table>';
-        echo '</div>';
+        $echo .= '</div>';
+        echo $echo;
     }
 
     private static function getHelpOverviewFormats()
@@ -152,20 +154,20 @@ class rex_textile
             rex_i18n::msg('textile_links'),
             [
                 'links_intern' => [
-                    [rex_i18n::msg('textile_link_internal') . ':redaxo://5'],
-                    [rex_i18n::msg('textile_link_internal_anchor') . ':redaxo://7#AGB'],
+                    [rex_i18n::rawMsg('textile_link_internal') . ':redaxo://5'],
+                    [rex_i18n::rawMsg('textile_link_internal_anchor') . ':redaxo://7#AGB'],
                 ],
                 'links_extern' => [
-                    [rex_i18n::msg('textile_link_external') . ':http://www.redaxo.org'],
-                    [rex_i18n::msg('textile_link_external_anchor') . ':http://www.redaxo.org#news'],
+                    [rex_i18n::rawMsg('textile_link_external') . ':http://www.redaxo.org'],
+                    [rex_i18n::rawMsg('textile_link_external_anchor') . ':http://www.redaxo.org#news'],
                 ],
                 'links_attributes' => [
-                    [rex_i18n::msg('textile_link_attr_title') . ':media/test.jpg'],
-                    [rex_i18n::msg('textile_link_attr_rel') . ':media/test.jpg'],
-                    [rex_i18n::msg('textile_link_attr_title_rel') . ':media/test.jpg'],
+                    [rex_i18n::rawMsg('textile_link_attr_title') . ':media/test.jpg'],
+                    [rex_i18n::rawMsg('textile_link_attr_rel') . ':media/test.jpg'],
+                    [rex_i18n::rawMsg('textile_link_attr_title_rel') . ':media/test.jpg'],
                 ],
                 'anchor' => [
-                    [rex_i18n::msg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')],
+                    [rex_i18n::rawMsg('textile_link_anchor') . ":\n\np(#Impressum). " . rex_i18n::msg('textile_link_anchor_text')],
                 ],
             ],
         ];
