@@ -63,7 +63,7 @@ if (rex::getUser() && $hasNavigation) {
     $item = [];
     $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
     $item['href'] = rex_url::backendController(['rex_logout' => 1]);
-    $item['attributes'] = 'class="rex-logout"' . rex::getAccesskey(rex_i18n::msg('logout'), 'logout');
+    $item['attributes'] = 'class="rex-logout"';
     $meta_items[] = $item;
     unset($item);
 } elseif ($hasNavigation) {
