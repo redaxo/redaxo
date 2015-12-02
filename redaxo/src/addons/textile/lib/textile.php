@@ -32,13 +32,11 @@ class rex_textile
 
         $echo = '';
 
-
         $echo .= '
             <div class="textile-help-overview">
                 <h4>' . rex_i18n::msg('textile_instructions') . '</h4>';
 
         foreach ($formats as $format) {
-
             $title = $format[0];
             $content = '';
             $content .= '

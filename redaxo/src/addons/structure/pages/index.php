@@ -560,7 +560,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         $echo .= '
                 </tbody>';
     }
-    
+
     $echo .= '
             </table>';
 
