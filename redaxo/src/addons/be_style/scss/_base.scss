@@ -306,22 +306,63 @@ body:after {
 .rex-state-notice {
     background-color: $state-info-bg;
 }
-.rex-state-warning {
-    background-color: $state-warning-bg;
-    color: $state-warning-text;
 
-    tr&:hover > th,
-    tr&:hover > td {
-        background-color: darken($state-warning-bg, 10%);
+.rex-state-success,
+.rex-state-info
+.rex-state-warnign,
+.rex-state-danger,
+.rex-state-error {
+    a {
+        text-decoration: underline;
     }
 }
-.rex-state-error {
-    background-color: $state-danger-bg;
-    color: $state-danger-text;
+.rex-state-success {
+    background-color: $alert-success-bg;
+
+    &, a {
+        color: $alert-success-text;
+    }
 
     tr&:hover > th,
     tr&:hover > td {
-        background-color: darken($state-danger-bg, 10%);
+        background-color: darken($alert-success-bg, 10%);
+    }
+}
+.rex-state-info {
+    background-color: $alert-info-bg;
+
+    &, a {
+        color: $alert-info-text;
+    }
+
+    tr&:hover > th,
+    tr&:hover > td {
+        background-color: darken($alert-info-bg, 10%);
+    }
+}
+.rex-state-warning {
+    background-color: $alert-warning-bg;
+
+    &, a {
+        color: $alert-warning-text;
+    }
+
+    tr&:hover > th,
+    tr&:hover > td {
+        background-color: darken($alert-warning-bg, 10%);
+    }
+}
+.rex-state-danger,
+.rex-state-error {
+    background-color: $alert-danger-bg;
+
+    &, a {
+        color: $alert-danger-text;
+    }
+
+    tr&:hover > th,
+    tr&:hover > td {
+        background-color: darken($alert-danger-bg, 10%);
     }
 }
 

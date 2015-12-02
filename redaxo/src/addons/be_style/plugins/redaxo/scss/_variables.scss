@@ -574,19 +574,19 @@ $jumbotron-heading-font-size:    ceil(($font-size-base * 4.5)) !default;
 //
 //## Define colors for form feedback states and, by default, alerts.
 
-$state-success-text:             #fff;
-$state-success-bg:               $color-d;
+$state-success-text:             darken($brand-success, 10%);
+$state-success-bg:               $brand-success;
 $state-success-border:           $state-success-bg;
 
-$state-info-text:                #fff;
-$state-info-bg:                  $color-b;
+$state-info-text:                darken($brand-info, 10%);
+$state-info-bg:                  $brand-info;
 $state-info-border:              $state-info-bg;
 
-$state-warning-text:             #fff;
+$state-warning-text:             darken($brand-warning, 10%);
 $state-warning-bg:               $brand-warning;
 $state-warning-border:           $state-warning-bg;
 
-$state-danger-text:              #fff;
+$state-danger-text:              darken($brand-danger, 10%);
 $state-danger-bg:                $brand-danger;
 $state-danger-border:            $state-danger-bg;
 
@@ -703,19 +703,19 @@ $alert-border-radius:         $border-radius-base !default;
 $alert-link-font-weight:      bold !default;
 
 $alert-success-bg:            $state-success-bg !default;
-$alert-success-text:          $state-success-text !default;
+$alert-success-text:          #fff;
 $alert-success-border:        darken($state-success-border, 10%);
 
 $alert-info-bg:               $state-info-bg !default;
-$alert-info-text:             $state-info-text !default;
+$alert-info-text:             #fff;
 $alert-info-border:           darken($state-info-border, 10%);
 
 $alert-warning-bg:            $state-warning-bg !default;
-$alert-warning-text:          $state-warning-text !default;
+$alert-warning-text:          #fff;
 $alert-warning-border:        darken($state-warning-border, 10%);;
 
 $alert-danger-bg:             $state-danger-bg !default;
-$alert-danger-text:           $state-danger-text !default;
+$alert-danger-text:           #fff;
 $alert-danger-border:         darken($state-danger-border, 10%);;
 
 

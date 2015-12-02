@@ -13,7 +13,7 @@
 $content = '';
 
 $content .= '
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th class="rex-table-icon"></th>
@@ -28,7 +28,7 @@ if ($file = new rex_log_file($this->getDataPath('cronjob.log'))) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         /* @var rex_log_entry $entry */
         $data = $entry->getData();
-        $class = trim($data[0]) == 'ERROR' ? 'text-danger' : 'text-success';
+        $class = trim($data[0]) == 'ERROR' ? 'rex-state-error' : 'rex-state-success';
         if ($data[1] == '--') {
             $icon = '<i class="rex-icon rex-icon-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"></i>';
         } else {
