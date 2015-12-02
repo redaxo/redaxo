@@ -390,11 +390,11 @@ jQuery(function($){
 
     var laststate;
     $("body")
-        .on("focus", "input,button,textarea,select,option", function(event) {
+        .on("focus", "input,button,textarea,select,option,[contenteditable=true]", function(event) {
             laststate = rex.accesskeys;
             rex.accesskeys = false;
         })
-        .on("blur", "input,button,textarea,select,option", function(event) {
+        .on("blur", "input,button,textarea,select,option,[contenteditable=true]", function(event) {
             rex.accesskeys = laststate;
         });
     $("[autofocus]").trigger("focus");
