@@ -34,7 +34,7 @@ if (rex_request('article_id', 'int') == 0) {
     $this->setProperty('article_id', $article_id);
 }
 
-if (rex::isBackend() && rex::getUser()) {
+if (rex::isUserLoggedIn()) {
     rex_view::addJsFile($this->getAssetsUrl('linkmap.js'));
 
     rex_extension::register('PAGE_SIDEBAR', function () {
