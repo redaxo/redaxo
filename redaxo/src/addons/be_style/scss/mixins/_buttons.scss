@@ -1,5 +1,5 @@
 
-@mixin rex-button-variant($normal, $hover, $active) {
+@mixin rex-button-variant($normal, $hover, $active, $activeHover) {
     color: map-get($normal, color);
     background-color: map-get($normal, background);
     border-color: map-get($normal, border);
@@ -21,13 +21,25 @@
         color: map-get($active, color);
         background-color: map-get($active, background);
         border-color: map-get($active, border);
-
+    }
+    &:active,
+    &.active,
+    .open > &.dropdown-toggle {
         &:hover,
         &:focus,
         &.focus {
             color: map-get($hover, color);
             background-color: map-get($hover, background);
             border-color: map-get($hover, border);
+        }
+    }
+    &.active {
+        &:hover,
+        &:focus,
+        &.focus {
+            color: map-get($activeHover, color);
+            background-color: map-get($activeHover, background);
+            border-color: map-get($activeHover, border);
         }
     }
     &:active,
