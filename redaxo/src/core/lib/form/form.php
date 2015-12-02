@@ -1457,9 +1457,9 @@ class rex_form
         $warning = $this->getWarning();
         $message = $this->getMessage();
         if ($warning != '') {
-            $s .= '  ' . rex_view::warning($warning) . "\n";
+            $s .= '  ' . rex_view::error($warning) . "\n";
         } elseif ($message != '') {
-            $s .= '  ' . rex_view::info($message) . "\n";
+            $s .= '  ' . rex_view::success($message) . "\n";
         }
 
         $i = 0;
