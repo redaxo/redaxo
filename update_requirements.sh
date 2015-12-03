@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 echo "Update redaxo/src/core/vendor"
 composer update --no-dev -d redaxo/src/core/
