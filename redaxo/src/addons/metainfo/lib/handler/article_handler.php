@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\metainfo
+ *
+ * @internal
  */
 class rex_metainfo_article_handler extends rex_metainfo_handler
 {

@@ -12,6 +12,8 @@ require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
 
 /**
  * @package redaxo\core
+ *
+ * @internal
  */
 class rex_release
 {

@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 // XXX NOT USED ATM
 class rex_api_sitemap_tree extends rex_api_function

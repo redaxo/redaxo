@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\core
+ *
+ * @internal
  */
 class rex_setup_importer
 {

@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 abstract class rex_linkmap_tree_renderer
 {

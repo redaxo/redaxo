@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
 {
