@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\be_style
+ * @package redaxo\be-style
  */
 class rex_scss_compiler
 {

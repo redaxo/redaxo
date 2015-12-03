@@ -10,6 +10,9 @@ $REX['LOAD_PAGE'] = false;
 require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
 require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
 
+/**
+ * @package redaxo\core
+ */
 class rex_release
 {
     private static $addons = ['backup', 'be_style', 'cronjob', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'users'];
