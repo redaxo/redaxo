@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\tests
+ *
+ * @internal
  */
 class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
 {

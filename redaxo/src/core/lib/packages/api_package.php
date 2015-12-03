@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\core
+ *
+ * @internal
  */
 class rex_api_package extends rex_api_function
 {

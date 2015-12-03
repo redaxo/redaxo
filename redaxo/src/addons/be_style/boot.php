@@ -15,8 +15,11 @@ $mypage = 'be_style';
 
 /* Addon Parameter */
 if (rex::isBackend()) {
-    require_once rex_path::addon($mypage, 'extensions/function_extensions.php');
-    rex_extension::register('PACKAGES_INCLUDED', 'rex_be_add_page');
+    rex_extension::register('PACKAGES_INCLUDED', function () {
+        if (rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT')) {
+            rex_addon::get('be_style')->setProperty('name', 'Backend Style');
+        }
+    });
 
     rex_extension::register('PACKAGES_INCLUDED', function () {
         if (rex::getUser() && $this->getProperty('compile')) {

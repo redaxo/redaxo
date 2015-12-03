@@ -6,6 +6,8 @@
  * @author gharlan
  *
  * @package redaxo\structure\content
+ *
+ * @internal
  */
 class rex_system_setting_default_template_id extends rex_system_setting
 {

@@ -14,6 +14,8 @@
  * @return string
  *
  * @package redaxo\structure
+ *
+ * @internal
  */
 function rex_structure_searchbar(rex_context $context)
 {

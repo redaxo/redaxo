@@ -12,6 +12,8 @@
  * @package redaxo\backup
  *
  * @see     http://www.mkssoftware.com/docs/man4/tar.4.asp
+ *
+ * @internal
  */
 
 class rex_backup_tar extends tar

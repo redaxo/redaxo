@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\metainfo
+ *
+ * @internal
  */
 class rex_input_linkbutton extends rex_input
 {

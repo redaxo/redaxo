@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\metainfo
+ *
+ * @internal
  */
 class rex_input_text extends rex_input
 {

@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\metainfo
+ *
+ * @internal
  */
 class rex_input_medialistbutton extends rex_input
 {

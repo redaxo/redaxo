@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\install
+ *
+ * @internal
  */
 class rex_api_install_core_update extends rex_api_function
 {

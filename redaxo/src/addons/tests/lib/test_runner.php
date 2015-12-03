@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\tests
+ *
+ * @internal
  */
 class rex_test_runner
 {
