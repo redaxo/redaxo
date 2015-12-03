@@ -156,16 +156,6 @@ class rex
     }
 
     /**
-     * Returns whether the environment is the backend and a user is logged in.
-     *
-     * @return bool
-     */
-    public static function isUserLoggedIn()
-    {
-        return self::isBackend() && self::getUser();
-    }
-
-    /**
      * Returns if the debug mode is active.
      *
      * @return bool

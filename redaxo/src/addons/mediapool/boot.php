@@ -14,7 +14,7 @@ $mypage = 'mediapool';
 
 rex_complex_perm::register('media', 'rex_media_perm');
 
-if (rex::isUserLoggedIn()) {
+if (rex::isBackend() && rex::getUser()) {
     require_once __DIR__ . '/functions/function_rex_mediapool.php';
 
     rex_view::addJsFile($this->getAssetsUrl('mediapool.js'));

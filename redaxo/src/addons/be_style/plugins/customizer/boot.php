@@ -7,7 +7,7 @@
  * Marijn Haverbeke <marijnh@gmail.com>
  */
 
-if (rex::isUserLoggedIn()) {
+if (rex::isBackend() && rex::getUser()) {
     $config = $this->getConfig();
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
