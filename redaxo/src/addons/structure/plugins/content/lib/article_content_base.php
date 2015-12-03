@@ -208,6 +208,18 @@ class rex_article_content_base
     {
         $output = $this->replaceVars($artDataSql, $artDataSql->getValue(rex::getTablePrefix() . 'module.output'));
 
+        $customContent = rex_extension::registerPoint(new rex_extension_point(
+            'MODULE_OUTPUT',
+            $output,
+            [
+                'article_id' => $this->article_id,
+                'clang' => $this->clang,
+                'slice_data' => $artDataSql
+            ]
+        ));
+        if($customContent)
+            $output = $customContent;
+        
         return $this->getStreamOutput('module/' . $artDataSql->getValue(rex::getTablePrefix() . 'module.id') . '/output', $output);
     }
 
