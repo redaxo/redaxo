@@ -43,6 +43,11 @@ class rex_cronjob_form extends rex_form
     }
 }
 
+/**
+ * @package redaxo\cronjob
+ *
+ * @internal
+ */
 class rex_cronjob_form_interval_element extends rex_form_element
 {
     public function formatElement()

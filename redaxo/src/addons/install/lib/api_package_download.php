@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\install
+ *
+ * @internal
  */
 abstract class rex_api_install_package_download extends rex_api_function
 {

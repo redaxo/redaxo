@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 class rex_api_category_add extends rex_api_function
 {
@@ -26,6 +28,8 @@ class rex_api_category_add extends rex_api_function
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 class rex_api_category_edit extends rex_api_function
 {
@@ -56,6 +60,8 @@ class rex_api_category_edit extends rex_api_function
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 class rex_api_category_delete extends rex_api_function
 {
@@ -75,6 +81,8 @@ class rex_api_category_delete extends rex_api_function
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 class rex_api_category_status extends rex_api_function
 {
@@ -102,6 +110,8 @@ class rex_api_category_status extends rex_api_function
 
 /**
  * @package redaxo\structure
+ *
+ * @internal
  */
 class rex_api_category_move extends rex_api_function
 {

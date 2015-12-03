@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\install
+ *
+ * @internal
  */
 class rex_install_packages
 {
