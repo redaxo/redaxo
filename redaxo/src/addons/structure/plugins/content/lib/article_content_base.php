@@ -206,17 +206,16 @@ class rex_article_content_base
      */
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
     {
-        $output = $this->replaceVars($artDataSql, $artDataSql->getValue(rex::getTablePrefix() . 'module.output'));
-
         $output = rex_extension::registerPoint(new rex_extension_point(
             'MODULE_OUTPUT',
-            $output,
+            $artDataSql->getValue(rex::getTablePrefix() . 'module.output'),
             [
                 'article_id' => $this->article_id,
                 'clang' => $this->clang,
                 'slice_data' => $artDataSql
             ]
         ));
+        $output = $this->replaceVars($artDataSql, $output);
         
         return $this->getStreamOutput('module/' . $artDataSql->getValue(rex::getTablePrefix() . 'module.id') . '/output', $output);
     }
