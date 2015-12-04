@@ -2,6 +2,7 @@
 
 rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function (rex_extension_point $ep) {
     $params = $ep->getParams();
+    $subject = $ep->getSubject();
 
     $article = rex_article::get($params['article_id'], $params['clang']);
     $articleStatusTypes = rex_article_service::statusTypes();
@@ -32,5 +33,5 @@ rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function (rex_extension_poi
     $fragment->setVar('collapsed', true);
     $content = $fragment->parse('core/page/section.php');
 
-    return $content;
+    return $content.$subject;
 });
