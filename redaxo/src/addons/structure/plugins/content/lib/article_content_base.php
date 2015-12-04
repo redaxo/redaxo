@@ -207,7 +207,7 @@ class rex_article_content_base
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
     {
         $output = rex_extension::registerPoint(new rex_extension_point(
-            'MODULE_OUTPUT',
+            'SLICE_OUTPUT',
             $artDataSql->getValue(rex::getTablePrefix() . 'module.output'),
             [
                 'article_id' => $this->article_id,
