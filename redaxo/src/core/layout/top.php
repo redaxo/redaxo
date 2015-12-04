@@ -8,11 +8,16 @@
 
 $curPage = rex_be_controller::getCurrentPageObject();
 
+if (rex_request::isPJAXRequest()) {
+    // add title to the page, so pjax can update it. see gh#136
+    echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
+}
+
 if (!$curPage->hasLayout()) {
     if (rex_request::isPJAXRequest()) {
-        // add title to the page, so pjax can update it. see gh#136
-        echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
+        echo '<section class="rex-page-main-inner" id="rex-js-page-main" data-pjax-container="#rex-js-page-main">';
     }
+
     return;
 }
 
@@ -194,12 +199,9 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     // $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);
     $fragment->setVar('meta_navigation', $meta_navigation, false);
     echo $fragment->parse('core/header.php');
-
-    echo '<div id="rex-js-page-container" class="rex-page-container">';
-} elseif (rex_request::isPJAXRequest()) {
-    // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
 }
+
+echo '<div id="rex-js-page-container" class="rex-page-container">';
 
 $fragment = new rex_fragment();
 $fragment->setVar('navigation', $navigation, false);

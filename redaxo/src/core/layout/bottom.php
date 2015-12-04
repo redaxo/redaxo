@@ -3,6 +3,10 @@
 $curPage = rex_be_controller::getCurrentPageObject();
 
 if (!$curPage->hasLayout()) {
+    if (rex_request::isPJAXRequest()) {
+        echo '</section>';
+    }
+
     return;
 }
 

@@ -10,7 +10,7 @@ pages:
         block: system
         hidden: true
         perm: structure/hasStructurePerm
-        pjax: true
+        pjax: false
         subpages:
             edit: { title: translate:edit_mode, icon: rex-icon rex-icon-editmode }
             functions: { title: translate:metafuncs, icon: rex-icon rex-icon-metafuncs }

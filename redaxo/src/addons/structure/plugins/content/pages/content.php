@@ -479,6 +479,8 @@ if ($article->getRows() == 1) {
             'slice_revision' => &$slice_revision,
         ]));
 
+        $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">'.$contentMain.'</section>';
+
         // ----- EXTENSION POINT
         $contentSidebar = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SIDEBAR', '', [
             'article_id' => $article_id,

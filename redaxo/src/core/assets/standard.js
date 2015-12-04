@@ -508,15 +508,17 @@ jQuery(document).ready(function($) {
                 container = '#rex-page-main';
             }
 
+            var push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+
             if (isForm) {
                 var clicked = self.find(':submit[data-clicked]');
                 if (clicked.length) {
                     // https://github.com/defunkt/jquery-pjax/issues/304
                     self.append('<input type="hidden" name="' + clicked.attr('name') + '" value="' + clicked.val() + '"/>');
                 }
-                return $.pjax.submit(event, container);
+                return $.pjax.submit(event, {container: container, fragment: container, push: push });
             }
-            return $.pjax.click(event, container);
+            return $.pjax.click(event, {container: container, fragment: container, push: push });
         };
 
         $(document)
