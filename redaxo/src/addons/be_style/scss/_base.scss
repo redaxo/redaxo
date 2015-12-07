@@ -38,8 +38,11 @@ body:after {
 
 
 @media(min-width: $grid-float-breakpoint) {
-    html, body, .rex-page {
+    html {
         height: 100%;
+    }
+    body, .rex-page {
+        min-height: 100%;
     }
 
 
