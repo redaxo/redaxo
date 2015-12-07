@@ -70,29 +70,6 @@
         }
     }
 }
-@media(min-width: $screen-lg-min) {
-    .rex-is-logged-in {
-        .rex-page-container,
-        .rex-page-main,
-        .rex-nav-main {
-            display: block;
-        }
-        .rex-page-container {
-            height: auto;
-        }
-        .rex-page-main {
-            margin-left: 250px;
-        }
-        .rex-main-frame {
-            margin-bottom: $grid-gutter-width / 2;
-        }
-    }
-    .rex-is-popup {
-        .rex-page-main {
-            margin-left: 0;
-        }
-    }
-}
 
 .rex-is-popup {
     .rex-page-header {
