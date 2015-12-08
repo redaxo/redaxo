@@ -245,7 +245,9 @@ class rex_config
 
         // take care, so we are able to write a cache file on shutdown
         // (check here, since exceptions in shutdown functions are not visible to the user)
-        if (!is_writable(dirname(REX_CONFIG_FILE_CACHE))) {
+        $dir = dirname(REX_CONFIG_FILE_CACHE);
+        rex_dir::create($dir);
+        if (!is_writable($dir)) {
             throw new rex_exception('rex-config: cache dir "' . dirname(REX_CONFIG_FILE_CACHE) . '" is not writable!');
         }
 
