@@ -5,6 +5,47 @@
 /redaxo/data/
 /releases/
 
+
+# .gitignore
+# Erstmal alles ignorieren
+/redaxo/src/addons/*
+
+# Core-Addons "un-ignorieren"
+!/redaxo/src/backup/
+!/redaxo/src/backup/*
+!/redaxo/src/be_style/
+!/redaxo/src/be_style/*
+!/redaxo/src/cronjob/
+!/redaxo/src/cronjob/*
+!/redaxo/src/debug/
+!/redaxo/src/debug/*
+!/redaxo/src/install/
+!/redaxo/src/install/*
+!/redaxo/src/media_manager/
+!/redaxo/src/media_manager/*
+!/redaxo/src/mediapool/
+!/redaxo/src/mediapool/*
+!/redaxo/src/metainfo/
+!/redaxo/src/metainfo/*
+!/redaxo/src/phpmailer/
+!/redaxo/src/phpmailer/*
+!/redaxo/src/sprog/
+!/redaxo/src/sprog/*
+!/redaxo/src/structure/
+!/redaxo/src/structure/*
+!/redaxo/src/tests/
+!/redaxo/src/tests/*
+!/redaxo/src/textile/
+!/redaxo/src/textile/*
+!/redaxo/src/users/
+!/redaxo/src/users/*
+!/redaxo/src/watson/
+!/redaxo/src/watson/*
+!/redaxo/src/yform/
+!/redaxo/src/yform/*
+!/redaxo/src/yrewrite/
+!/redaxo/src/yrewrite/*
+
 # Composer stuff (tests, duplicate autoloader...)
 /redaxo/src/core/vendor/symfony/yaml/Tests/
 /redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
