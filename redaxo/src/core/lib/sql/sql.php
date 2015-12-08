@@ -307,7 +307,7 @@ class rex_sql implements Iterator
             if($this->limit) {
                 $query .= ' LIMIT :start, :results';
             }
-            $this->prepareQuery($query);a
+            $this->prepareQuery($query);
             $this->execute($params);
         } else {
             try {
