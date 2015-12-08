@@ -1,23 +1,20 @@
 #!/usr/bin/env bash
 
-echo "Update redaxo/src/core/vendor"
+printf "Update redaxo/src/core/vendor\n"
 composer update --no-dev -d redaxo/src/core/
 composer dump-autoload --optimize -d redaxo/src/core
-php -r "foreach (array('redaxo/src/core/vendor/autoload.php', 'redaxo/src/core/vendor/composer/autoload_real.php') as \$file) {\
-    file_put_contents(\$file, preg_replace('/(?<=ComposerAutoloaderInit)[0-9a-f]{32}/', 'RedaxoCore', file_get_contents(\$file)));\
-}"
 
-echo "Update redaxo/src/addons/textile/vendor"
+printf "\nUpdate redaxo/src/addons/textile/vendor\n"
 composer update --no-dev -d redaxo/src/addons/textile/
 
-echo "Update redaxo/src/addons/phpmailer/vendor"
+printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
 
-echo "Update redaxo/src/core/assets/jquery.min.js"
+printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# http://cdn.jsdelivr.net/jquery/2/jquery.min.js > redaxo/src/core/assets/jquery.min.js
 curl -# http://cdn.jsdelivr.net/jquery/2/jquery.min.map > redaxo/src/core/assets/jquery.min.map
 
-echo "Update redaxo/src/core/assets/jquery-pjax.min.js"
+printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"
 curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js http://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
 
 cp redaxo/src/core/assets/jquery-pjax.min.js assets
