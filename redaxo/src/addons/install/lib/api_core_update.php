@@ -152,7 +152,13 @@ class rex_api_install_core_update extends rex_api_function
             rex_delete_cache();
             rex_install_webservice::deleteCache('core');
         }
-        return new rex_api_result($success, $message);
+
+        $result = new rex_api_result($success, $message);
+        if ($success) {
+            $result->setRequiresReboot(true);
+        }
+
+        return $result;
     }
 
     /**
