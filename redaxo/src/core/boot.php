@@ -67,7 +67,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.0.0-beta1');
+rex::setProperty('version', '5.0.0-beta2');
 
 include rex_path::core('update.php');
 
