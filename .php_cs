@@ -12,9 +12,9 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 
 return Symfony\CS\Config\Config::create()
     ->setUsingCache(true)
+    ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
-        'psr0' => false,
         'concat_without_spaces' => false,
         'return' => false,
         'empty_return' => false,
@@ -24,6 +24,7 @@ return Symfony\CS\Config\Config::create()
         'phpdoc_to_comment' => false,
         'phpdoc_var_without_name' => false,
         'short_array_syntax' => true,
+        'php4_constructor' => true,
     ])
     ->finder($finder)
 ;
