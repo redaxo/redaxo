@@ -236,7 +236,7 @@ abstract class rex_package implements rex_package_interface
     {
         static $cache = null;
         if (is_null($cache)) {
-            $cache = rex_file::getCache(rex_path::cache('packages.cache'));
+            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
         }
         $id = $this->getPackageId();
         $file = $this->getPath(self::FILE_PACKAGE);
@@ -263,7 +263,7 @@ abstract class rex_package implements rex_package_interface
                             unset($cache[$package]);
                         }
                     }
-                    rex_file::putCache(rex_path::cache('packages.cache'), $cache);
+                    rex_file::putCache(rex_path::coreCache('packages.cache'), $cache);
                 });
             }
         }

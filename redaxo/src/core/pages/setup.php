@@ -146,7 +146,7 @@ if ($step == 3) {
 $error_array = [];
 
 if ($step >= 4) {
-    $configFile = rex_path::data('config.yml');
+    $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)
@@ -742,7 +742,7 @@ if ($step == 6) {
 // ---------------------------------- step 7 . thank you . setup false
 
 if ($step == 7) {
-    $configFile = rex_path::data('config.yml');
+    $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)
@@ -751,7 +751,7 @@ if ($step == 7) {
 
     if (rex_file::putConfig($configFile, $config)) {
         $errmsg = '';
-        rex_file::delete(rex_path::cache('config.yml.cache'));
+        rex_file::delete(rex_path::coreCache('config.yml.cache'));
     } else {
         $errmsg = rex_i18n::msg('setup_701');
     }

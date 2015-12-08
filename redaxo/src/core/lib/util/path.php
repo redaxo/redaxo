@@ -90,7 +90,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
+     * Returns the path to the assets folder.
      *
      * @param string $file File
      *
@@ -99,6 +99,18 @@ class rex_path
     public static function assets($file = '')
     {
         return self::$pathprovider->assets($file);
+    }
+
+    /**
+     * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function coreAssets($file = '')
+    {
+        return self::$pathprovider->coreAssets($file);
     }
 
     /**
@@ -133,7 +145,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the data folder of the core.
+     * Returns the path to the data folder.
      *
      * @param string $file File
      *
@@ -142,6 +154,18 @@ class rex_path
     public static function data($file = '')
     {
         return self::$pathprovider->data($file);
+    }
+
+    /**
+     * Returns the path to the data folder of the core.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function coreData($file = '')
+    {
+        return self::$pathprovider->coreData($file);
     }
 
     /**
@@ -172,7 +196,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the cache folder of the core.
+     * Returns the path to the cache folder.
      *
      * @param string $file File
      *
@@ -181,6 +205,18 @@ class rex_path
     public static function cache($file = '')
     {
         return self::$pathprovider->cache($file);
+    }
+
+    /**
+     * Returns the path to the cache folder of the core.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function coreCache($file = '')
+    {
+        return self::$pathprovider->coreCache($file);
     }
 
     /**

@@ -27,7 +27,7 @@ class rex_setup
         rex_backend_login::deleteSession();
 
         // copy alle media files of the current rex-version into redaxo_media
-        rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+        rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
 
         // copy skins files/assets
         $skinAddon = rex_addon::get($skinAddon);

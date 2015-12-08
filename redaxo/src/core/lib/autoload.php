@@ -46,7 +46,7 @@ class rex_autoload
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
         }
 
-        self::$cacheFile = rex_path::cache('autoload.cache');
+        self::$cacheFile = rex_path::coreCache('autoload.cache');
         self::loadCache();
         register_shutdown_function([__CLASS__, 'saveCache']);
 

@@ -127,7 +127,7 @@ class rex_url
     }
 
     /**
-     * Returns the url to the assets folder of the core, which contains all assets required by the core to work properly.
+     * Returns the url to the assets folder.
      *
      * @param string $file File
      *
@@ -136,6 +136,18 @@ class rex_url
     public static function assets($file = '')
     {
         return self::$pathprovider->assets($file);
+    }
+
+    /**
+     * Returns the url to the assets folder of the core, which contains all assets required by the core to work properly.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function coreAssets($file = '')
+    {
+        return self::$pathprovider->coreAssets($file);
     }
 
     /**

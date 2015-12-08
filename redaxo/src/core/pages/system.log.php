@@ -12,7 +12,7 @@ $func = rex_request('func', 'string');
 $error = '';
 $success = '';
 
-$logFile = rex_path::cache('system.log');
+$logFile = rex_path::coreCache('system.log');
 if ($func == 'delLog') {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
@@ -48,7 +48,7 @@ $content .= '
                 </thead>
                 <tbody>';
 
-if ($file = new rex_log_file(rex_path::cache('system.log'))) {
+if ($file = new rex_log_file(rex_path::coreCache('system.log'))) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         /* @var rex_log_entry $entry */
         $data = $entry->getData();

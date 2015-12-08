@@ -33,7 +33,7 @@ class rex_api_install_core_update extends rex_api_function
             throw new rex_api_exception($e->getMessage());
         }
         $message = '';
-        $temppath = rex_path::cache('.new.core/');
+        $temppath = rex_path::coreCache('.new.core/');
         try {
             if ($version['checksum'] != md5_file($archivefile)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_checksum'));
@@ -124,7 +124,7 @@ class rex_api_install_core_update extends rex_api_function
             rex_dir::delete(rex_path::core());
             rename($temppath . 'core', rex_path::core());
             if (is_dir(rex_path::core('assets'))) {
-                rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+                rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
             }
             foreach ($coreAddons as $addonkey) {
                 if (isset($updateAddons[$addonkey])) {

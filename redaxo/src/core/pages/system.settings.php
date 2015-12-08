@@ -11,7 +11,7 @@ $success = '';
 if ($func == 'setup') {
     // REACTIVATE SETUP
 
-    $configFile = rex_path::data('config.yml');
+    $configFile = rex_path::coreData('config.yml');
     $config = rex_file::getConfig($configFile);
     $config['setup'] = true;
     // echo nl2br(htmlspecialchars($cont));
@@ -27,10 +27,10 @@ if ($func == 'setup') {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();
 } elseif ($func == 'updateassets') {
-    rex_dir::copy(rex_path::core('assets'), rex_path::assets());
+    rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
     $success = 'Updated assets';
 } elseif ($func == 'updateinfos') {
-    $configFile = rex_path::data('config.yml');
+    $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)

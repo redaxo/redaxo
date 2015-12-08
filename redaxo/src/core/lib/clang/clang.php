@@ -191,7 +191,7 @@ class rex_clang
             return;
         }
 
-        $file = rex_path::cache('clang.cache');
+        $file = rex_path::coreCache('clang.cache');
         if (!file_exists($file)) {
             rex_clang_service::generateCache();
         }

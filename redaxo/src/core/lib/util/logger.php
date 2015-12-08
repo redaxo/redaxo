@@ -113,7 +113,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            $file = rex_path::cache('system.log');
+            $file = rex_path::coreCache('system.log');
             self::$file = new rex_log_file($file, 2000000);
         }
     }

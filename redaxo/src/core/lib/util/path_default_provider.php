@@ -109,7 +109,7 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
+     * Returns the path to the assets folder.
      *
      * @param string $file File
      *
@@ -118,6 +118,18 @@ class rex_path_default_provider
     public function assets($file)
     {
         return $this->base('assets/' . $file);
+    }
+
+    /**
+     * Returns the path to the assets folder of the core, which contains all assets required by the core to work properly.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public function coreAssets($file)
+    {
+        return $this->assets('core/' . $file);
     }
 
     /**
@@ -152,7 +164,7 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the data folder of the core.
+     * Returns the path to the data folder.
      *
      * @param string $file File
      *
@@ -161,6 +173,18 @@ class rex_path_default_provider
     public function data($file)
     {
         return $this->backend('data/' . $file);
+    }
+
+    /**
+     * Returns the path to the data folder of the core.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public function coreData($file)
+    {
+        return $this->data('core/' . $file);
     }
 
     /**
@@ -191,7 +215,7 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the cache folder of the core.
+     * Returns the path to the cache folder.
      *
      * @param string $file File
      *
@@ -200,6 +224,18 @@ class rex_path_default_provider
     public function cache($file)
     {
         return $this->backend('cache/' . $file);
+    }
+
+    /**
+     * Returns the path to the cache folder of the core.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public function coreCache($file)
+    {
+        return $this->cache('core/' . $file);
     }
 
     /**

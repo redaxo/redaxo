@@ -37,7 +37,7 @@ if (rex::isSetup()) {
     $err = '';
 
     // read initial config
-    $configFile = rex_path::data('config.yml');
+    $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)
