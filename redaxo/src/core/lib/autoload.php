@@ -141,9 +141,6 @@ class rex_autoload
         if (!self::$cacheChanged) {
             return;
         }
-        if (!is_writable(dirname(self::$cacheFile))) {
-            throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
-        }
 
         // remove obsolete dirs from cache
         foreach (self::$dirs as $dir => $files) {
@@ -152,7 +149,9 @@ class rex_autoload
             }
         }
 
-        rex_file::putCache(self::$cacheFile, [self::$classes, self::$dirs]);
+        if (!rex_file::putCache(self::$cacheFile, [self::$classes, self::$dirs])) {
+            throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
+        }
         self::$cacheChanged = false;
     }
 
