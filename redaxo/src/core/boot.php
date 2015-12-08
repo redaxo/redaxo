@@ -69,8 +69,6 @@ require_once rex_path::core('functions/function_rex_other.php');
 // ----------------- VERSION
 rex::setProperty('version', '5.0.0-beta2');
 
-include rex_path::core('update.php');
-
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
 if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile) >= filemtime($configFile)) {
