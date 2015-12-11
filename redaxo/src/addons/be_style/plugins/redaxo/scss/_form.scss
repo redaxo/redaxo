@@ -9,6 +9,10 @@ legend {
     padding-bottom: 3px;
     font-size: $font-size-large;
     font-weight: 700;
+
+    .rex-slice-input & {
+        font-size: $font-size-base;
+    }
 }
 // Text input groups
 // -------------------------
