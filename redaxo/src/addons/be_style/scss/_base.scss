@@ -460,6 +460,11 @@ body:after {
     margin-top: $line-height-computed;
     margin-bottom: $line-height-computed;
 }
+.rex-slice-output {
+    .container {
+        width: 100%;
+    }
+}
 
 .panel-heading {
 
