@@ -139,7 +139,6 @@ class rex_content_service
             $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
 
             foreach ($gc as $slice) {
-                $ins->setTable(rex::getTablePrefix() . 'article_slice');
                 foreach ($cols as $col) {
                     $colname = $col->getValue('Field');
                     if ($colname == 'clang_id') {
@@ -162,6 +161,7 @@ class rex_content_service
 
                 $ins->addGlobalUpdateFields();
                 $ins->addGlobalCreateFields();
+                $ins->setTable(rex::getTablePrefix() . 'article_slice');
                 $ins->insert();
             }
 
