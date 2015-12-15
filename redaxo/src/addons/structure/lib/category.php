@@ -8,6 +8,18 @@
 class rex_category extends rex_structure_element
 {
     /**
+     * Return the current category.
+     *
+     * @param int $clang
+     *
+     * @return self
+     */
+    public static function getCurrent($clang = null)
+    {
+        return rex_article::getCurrent($clang)->getCategory();
+    }
+
+    /**
      * Return a list of top level categories, ie.
      * categories that have no parent.
      * Returns an array of rex_category objects sorted by $priority.
