@@ -209,9 +209,9 @@ if ($func == '') {
 
     if ($func != 'add' && !in_array($activeType, $types)) {
         if (!$activeType && !$field->getValue()) {
-            $warning = $this->i18n('not_found');
+            $warning = rex_i18n::rawMsg('cronjob_not_found');
         } else {
-            $warning = $this->i18n('type_not_found', $field->getValue(), $activeType);
+            $warning = rex_i18n::rawMsg('cronjob_type_not_found', $field->getValue(), $activeType);
         }
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
