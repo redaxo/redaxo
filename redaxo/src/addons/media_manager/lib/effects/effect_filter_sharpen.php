@@ -23,7 +23,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $this->media->asImage();
 
         // do not sharpen gifs, results in black image
-        if (strtolower($this->media->image['format']) == 'gif') {
+        if (strtolower($this->media->getFormat() === 'gif')) {
             return;
         }
 
