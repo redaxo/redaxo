@@ -37,8 +37,7 @@ if (rex_addon::get(\'textile\')->isAvailable())
 {
     if(\'REX_VALUE[id=1 isset=1]\')
     {
-        $textile = \'REX_VALUE[id=1 html=1]\';
-        $textile = str_replace(\'<br />\', \'\', $textile);
+        $textile = \'REX_VALUE[id=1 output=html]\';
         echo rex_textile::parse($textile);
     }
 }
