@@ -19,6 +19,7 @@ return Symfony\CS\Config\Config::create()
         'return' => false,
         'empty_return' => false,
         'method_separation' => false,
+        'method_argument_default_value' => false,
         'no_empty_lines_after_phpdocs' => false,
         'phpdoc_no_package' => false,
         'phpdoc_to_comment' => false,

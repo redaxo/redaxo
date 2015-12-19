@@ -138,7 +138,7 @@ class rex_sql_util
             // We are in a string, check for not escaped end of strings except for
             // backquotes that can't be escaped
             if ($in_string) {
-                for (;;) {
+                for (; ;) {
                     $i = strpos($sql, $string_start, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
