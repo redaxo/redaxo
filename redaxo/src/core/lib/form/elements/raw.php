@@ -23,9 +23,4 @@ class rex_form_raw_element extends rex_form_element
     {
         return $this->html;
     }
-
-    public function wrapContent()
-    {
-        return $this->html;
-    }
 }
