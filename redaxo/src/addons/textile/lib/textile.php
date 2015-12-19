@@ -220,5 +220,6 @@ class rex_textile_parser extends Netcarver\Textile\Parser
     {
         parent::__construct($doctype);
         $this->unrestricted_url_schemes[] = 'redaxo';
+        $this->restricted_url_schemes[] = 'redaxo';
     }
 }
