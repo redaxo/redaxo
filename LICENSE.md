@@ -58,24 +58,7 @@ License: LGPL, see LICENSE
 mehr zu dieser Lizenz in class.smtp.inc.php
 
 
-### T E X T I L E
-A Humane Web Text Generator
-Version 2.0
-Copyright (c) 2003-2004, Dean Allen <dean@textism.com>
-All rights reserved.
-Thanks to Carlo Zottmann <carlo@g-blog.net> for refactoring
-Textile's procedural code into a class framework
-Additions and fixes Copyright (c) 2006 Alex Shiels http://thresholdstate.com/
-
-
 ### Symfony Classes
 http://symfony.com/license
 (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
 sfYaml* offers convenience methods to load and dump YAML.
-
-
-### TinyMCE
-Moxiecode
-copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
-License: LGPL, see LICENSE
-mehr zu dieser Lizenz unter http://tinymce.moxiecode.com/
