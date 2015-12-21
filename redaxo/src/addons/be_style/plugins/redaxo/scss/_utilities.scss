@@ -1,0 +1,12 @@
+.rex-scrollable {
+    max-height: 500px;
+    overflow-y: scroll;
+
+    .panel > &,
+    .panel-body > & {
+        padding: $panel-body-padding;
+    }
+    .panel-body > & {
+        margin: -$panel-body-padding;
+    }
+}
