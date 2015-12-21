@@ -22,3 +22,6 @@
 [submodule "redaxo/src/addons/sprog"]
 	path = redaxo/src/addons/sprog
 	url = https://github.com/tbaddade/redaxo_sprog
+[submodule "redaxo/src/addons/demo_base"]
+	path = redaxo/src/addons/demo_base
+	url = https://github.com/redaxo/redaxo_demo_base.git
