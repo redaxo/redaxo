@@ -131,12 +131,13 @@ class rex_content_service
 
         if ($gc->getRows() > 0) {
             $ins = rex_sql::factory();
-            $ins->setTable(rex::getTablePrefix() . 'article_slice');
+            //$ins->setDebug();
             $ctypes = [];
 
             $cols = rex_sql::factory();
-            // $cols->setDebug();
+            //$cols->setDebug();
             $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+
             foreach ($gc as $slice) {
                 foreach ($cols as $col) {
                     $colname = $col->getValue('Field');
@@ -160,6 +161,7 @@ class rex_content_service
 
                 $ins->addGlobalUpdateFields();
                 $ins->addGlobalCreateFields();
+                $ins->setTable(rex::getTablePrefix() . 'article_slice');
                 $ins->insert();
             }
 
