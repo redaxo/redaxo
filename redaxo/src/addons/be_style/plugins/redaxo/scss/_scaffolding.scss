@@ -1,4 +1,8 @@
-
+@media(min-width: $grid-float-breakpoint) {
+    body, .rex-page {
+        height: 100%;
+    }
+}
 .rex-breadcrumb {
     //padding-top: 32px;
     overflow: hidden;
