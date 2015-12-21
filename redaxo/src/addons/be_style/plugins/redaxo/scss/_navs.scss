@@ -64,6 +64,11 @@
                     transform: translateY(0) rotate(45deg);
         }
     }
+    .rex-nav-footer {
+        a {
+            color: $color-a-dark;
+        }
+    }
 }
 
 
