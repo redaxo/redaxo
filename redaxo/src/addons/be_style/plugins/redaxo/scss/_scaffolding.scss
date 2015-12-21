@@ -1,4 +1,7 @@
 @media(min-width: $grid-float-breakpoint) {
+    html {
+        overflow-y: scroll;
+    }
     body, .rex-page {
         height: 100%;
     }
