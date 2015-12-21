@@ -51,7 +51,7 @@ if ($step == 2) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('heading', rex_i18n::msg('setup_201'), false);
-    $fragment->setVar('body', $content, false);
+    $fragment->setVar('body', '<div class="rex-scrollable">' . $content . '</div>', false);
     $fragment->setVar('buttons', $buttons, false);
     echo $fragment->parse('core/page/section.php');
 }
