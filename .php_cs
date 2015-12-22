@@ -1,8 +1,9 @@
 <?php
 
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->exclude('watson')
+    ->exclude('demo_base')
     ->exclude('sprog')
+    ->exclude('watson')
     ->exclude('yform')
     ->exclude('yrewrite')
     ->exclude('fragments')
