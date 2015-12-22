@@ -219,7 +219,7 @@ class rex_log_entry
      */
     public static function createFromString($string)
     {
-        $data = array_map('trim', explode(' | ', $string));
+        $data = array_map('trim', explode('|', $string));
         $timestamp = strtotime(array_shift($data));
         return new self($timestamp, $data);
     }
