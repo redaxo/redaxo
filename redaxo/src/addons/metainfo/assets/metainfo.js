@@ -44,9 +44,8 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
 
 };
 
-
-jQuery( function($) {
-    function disableSelect(chkbox) {
+$(document).on('rex:ready', function (event, container) {
+    var disableSelect = function (chkbox) {
         var sibling = chkbox;
         while (sibling != null) {
             if (sibling.nodeType == 1 && sibling.tagName.toLowerCase() == "select") {
@@ -54,13 +53,11 @@ jQuery( function($) {
             }
             sibling = sibling.previousSibling;
         }
-    }
-    ;
+    };
 
-    $("input[type=checkbox].rex-metainfo-checkbox").click( function() {
+    container.find("input[type=checkbox].rex-metainfo-checkbox").click(function () {
         disableSelect(this);
-    });
-    $("input[type=checkbox].rex-metainfo-checkbox").each( function() {
+    }).each(function () {
         disableSelect(this);
-    });
+    })
 });

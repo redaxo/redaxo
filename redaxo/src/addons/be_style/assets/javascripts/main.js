@@ -1,5 +1,3 @@
-(function () {
-    $(document).on('pjax:end', function(event, xhr, options) {
-        options.container.find('.selectpicker').selectpicker();
-    });
-})();
+$(document).on('rex:ready', function (event, container) {
+    container.find('.selectpicker').selectpicker();
+});

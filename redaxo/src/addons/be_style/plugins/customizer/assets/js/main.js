@@ -1,18 +1,15 @@
-$(document).on('pjax:end',   function(){
-    Customizer.init();
-});
-$(document).ready(function(){
-    Customizer.init();
+$(document).on('rex:ready', function (event, container) {
+    Customizer.init(container);
 });
 
 var Customizer = function () {};
 
-Customizer.init = function ()
-{    
+Customizer.init = function (container)
+{
     var cm_editor = {};
     var cm = 0;
 
-	$("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror").each(function() {
+    container.find("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror").each(function() {
         var t = $(this);
         var id = t.attr("id");
 
@@ -57,11 +54,11 @@ Customizer.init = function ()
             }
         });
     });
-    
+
     if (typeof rex.customizer_labelcolor !== "undefined" && rex.customizer_labelcolor != '') {
         $('.rex-nav-top').css('border-bottom','10px solid '+rex.customizer_labelcolor)
     }
-    
+
     if (typeof rex.customizer_showlink !== "undefined" && rex.customizer_showlink != '' && !$('.be-style-customizer-title').length) {
         $('.rex-nav-top .navbar-header').append(rex.customizer_showlink);
     }

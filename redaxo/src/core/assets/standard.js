@@ -544,9 +544,17 @@ jQuery(document).ready(function($) {
             })
             /*.on('pjax:success', function(e, data, status, xhr, options) {
              })*/
-            .on('pjax:start', function() { $('#rex-js-ajax-loader').addClass('rex-visible'); })
-            .on('pjax:end',   function() { $('#rex-js-ajax-loader').removeClass('rex-visible'); });
+            .on('pjax:start', function () {
+                $('#rex-js-ajax-loader').addClass('rex-visible');
+            })
+            .on('pjax:end',   function (event, xhr, options) {
+                $('#rex-js-ajax-loader').removeClass('rex-visible');
+
+                options.container.trigger('rex:ready', [options.container]);
+            });
     }
+
+    $('body').trigger('rex:ready', [$('body')]);
 
     /*
      * Replace all SVG images with inline SVG
