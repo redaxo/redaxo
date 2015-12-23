@@ -18,7 +18,7 @@ $info = '';
 $warning = '';
 
 //-------------- delete cache on effect changes or deletion
-if ((rex_post('func') != '' || $func == 'delete')
+if ((rex_request('func') != '' || $func == 'delete')
      && $type_id > 0
 ) {
     $counter = rex_media_manager::deleteCacheByType($type_id);

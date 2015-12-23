@@ -111,7 +111,7 @@ class rex_media_manager
 
     public function getCacheFilename()
     {
-        $cacheParams = md5(serialize($this->type . $this->media->getMediapath()));
+        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediapath()));
         return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams;
     }
 
@@ -143,18 +143,14 @@ class rex_media_manager
             $cacheParams = '*';
         }
 
-        $folders = [];
-        $folders[] = rex_path::addonCache('media_manager');
-        $folders[] = rex_path::media();
-
         $counter = 0;
-        foreach ($folders as $folder) {
-            $glob = glob($folder . 'media_manager__' . $cacheParams . '_' . $filename);
-            if ($glob) {
-                foreach ($glob as $file) {
-                    if (rex_file::delete($file)) {
-                        ++$counter;
-                    }
+        $folder = rex_path::addonCache('media_manager');
+
+        $glob = glob($folder . $filename . '_' . $cacheParams . '*');
+        if ($glob) {
+            foreach ($glob as $file) {
+                if (rex_file::delete($file)) {
+                    ++$counter;
                 }
             }
         }
