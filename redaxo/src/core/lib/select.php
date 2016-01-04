@@ -11,13 +11,11 @@ class rex_select
     private $options = [];
     private $option_selected;
 
-    ################ Konstruktor
     public function __construct()
     {
         $this->init();
     }
 
-    ################ init
     public function init()
     {
         $this->resetSelected();
@@ -59,7 +57,6 @@ class rex_select
         return $default;
     }
 
-    ############### multiple felder ?
     public function setMultiple($multiple = true)
     {
         if ($multiple) {
@@ -72,7 +69,6 @@ class rex_select
         }
     }
 
-    ############### disabled ?
     public function setDisabled($disabled = true)
     {
         if ($disabled) {
@@ -82,13 +78,11 @@ class rex_select
         }
     }
 
-    ################ select name
     public function setName($name)
     {
         $this->setAttribute('name', $name);
     }
 
-    ################ select id
     public function setId($id)
     {
         $this->setAttribute('id', $id);
@@ -114,13 +108,11 @@ class rex_select
         }
     }
 
-    ################ select size
     public function setSize($size)
     {
         $this->setAttribute('size', $size);
     }
 
-    ################ selected feld - option value uebergeben
     public function setSelected($selected)
     {
         if (is_array($selected)) {
@@ -232,7 +224,6 @@ class rex_select
         $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
-    ############### show select
     public function get()
     {
         $attr = '';
@@ -260,7 +251,6 @@ class rex_select
         return $ausgabe;
     }
 
-    ############### show select
     public function show()
     {
         echo $this->get();

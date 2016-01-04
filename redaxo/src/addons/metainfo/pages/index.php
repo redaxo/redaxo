@@ -18,20 +18,14 @@ echo rex_view::title(rex_i18n::msg('minfo_title'));
 
 // Include Current Page
 switch ($subpage) {
-    case 'media' :
-    {
+    case 'media':
         $prefix = 'med_';
         break;
-    }
-    case 'categories' :
-    {
+    case 'categories':
         $prefix = 'cat_';
         break;
-    }
     default:
-    {
         $prefix = 'art_';
-    }
 }
 
 $metaTable = rex_metainfo_meta_table($prefix);

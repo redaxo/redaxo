@@ -78,7 +78,6 @@ abstract class rex_metainfo_handler
 
             switch ($typeLabel) {
                 case 'text':
-                {
                     $tag_attr = ' class="form-control"';
 
                     $rexInput = rex_input::factory($typeLabel);
@@ -103,7 +102,6 @@ abstract class rex_metainfo_handler
                     $field = $fragment->parse('core/form/form.php');
 
                     break;
-                }
                 case 'checkbox':
                     // Beachte auch default values in multiple fields bei ADD.
                     // Im EDIT wurde dies bereits vorher gehandelt
@@ -113,7 +111,6 @@ abstract class rex_metainfo_handler
 
                     $name .= '[]';
                 case 'radio':
-                {
                     $formElements = [];
 
                     $values = [];
@@ -212,9 +209,7 @@ abstract class rex_metainfo_handler
                     }
 
                     break;
-                }
                 case 'select':
-                {
                     $tag_attr = ' class="form-control"';
 
                     $select = new rex_select();
@@ -282,11 +277,9 @@ abstract class rex_metainfo_handler
                     $field = $fragment->parse('core/form/form.php');
 
                     break;
-                }
                 case 'date':
                 case 'time':
                 case 'datetime':
-                {
                     $tag_attr = ' class="form-control-date"';
 
                     $active = $dbvalues[0] != 0;
@@ -319,9 +312,7 @@ abstract class rex_metainfo_handler
                     $field = $fragment->parse('core/form/form.php');
 
                     break;
-                }
                 case 'textarea':
-                {
                     $tag_attr = ' class="form-control"';
 
                     $rexInput = rex_input::factory($typeLabel);
@@ -343,9 +334,7 @@ abstract class rex_metainfo_handler
                     $field = $fragment->parse('core/form/form.php');
 
                     break;
-                }
                 case 'legend':
-                {
                     $tag = '';
                     $tag_attr = '';
                     $labelIt = false;
@@ -355,9 +344,7 @@ abstract class rex_metainfo_handler
 
                     $field = '</fieldset><fieldset><legend id="' . $id . '"' . $attr . '>' . $label . '</legend>';
                     break;
-                }
                 case 'REX_MEDIA_WIDGET':
-                {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
 
@@ -391,9 +378,7 @@ abstract class rex_metainfo_handler
 
                     ++$media_id;
                     break;
-                }
                 case 'REX_MEDIALIST_WIDGET':
-                {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
 
@@ -428,9 +413,7 @@ abstract class rex_metainfo_handler
 
                     ++$mlist_id;
                     break;
-                }
                 case 'REX_LINK_WIDGET':
-                {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
 
@@ -460,9 +443,7 @@ abstract class rex_metainfo_handler
 
                     ++$link_id;
                     break;
-                }
                 case 'REX_LINKLIST_WIDGET':
-                {
                     $tag = 'div';
                     $tag_attr = ' class="rex-form-widget"';
 
@@ -493,9 +474,7 @@ abstract class rex_metainfo_handler
 
                     ++$llist_id;
                     break;
-                }
-                default :
-                {
+                default:
                     // ----- EXTENSION POINT
                     list($field, $tag, $tag_attr, $id, $label, $labelIt) =
                         rex_extension::registerPoint(new rex_extension_point(
@@ -513,7 +492,6 @@ abstract class rex_metainfo_handler
                                 'sql' => $sqlFields,
                             ]
                         ));
-                }
             }
 
             $s .= $this->renderFormItem($field, $tag, $tag_attr, $id, $label, $labelIt, $typeLabel);

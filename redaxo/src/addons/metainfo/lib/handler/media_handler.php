@@ -50,7 +50,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 case '7':
                     $where[$key][] = 'FIND_IN_SET("' . $filename . '", ' . $name . ')';
                     break;
-                default :
+                default:
                     throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!');
             }
             $sql->next();

@@ -170,69 +170,61 @@ if ($func == '' && $type_id > 0) {
             }
 
             switch ($param['type']) {
-                case 'int' :
-                case 'float' :
-                case 'string' :
-                    {
-                        $type = 'text';
-                        $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-                        $field->setLabel($param['label']);
-                        $field->setAttribute('id', "media_manager $name $type");
-                        if (!empty($param['notice'])) {
-                            $field->setNotice($param['notice']);
-                        }
-                        if (!empty($param['prefix'])) {
-                            $field->setPrefix($param['prefix']);
-                        }
-                        if (!empty($param['suffix'])) {
-                            $field->setSuffix($param['suffix']);
-                        }
-                        break;
+                case 'int':
+                case 'float':
+                case 'string':
+                    $type = 'text';
+                    $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+                    $field->setLabel($param['label']);
+                    $field->setAttribute('id', "media_manager $name $type");
+                    if (!empty($param['notice'])) {
+                        $field->setNotice($param['notice']);
                     }
-                case 'select' :
-                    {
-                        $type = $param['type'];
-                        $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-                        $field->setLabel($param['label']);
-                        $field->setAttribute('id', "media_manager $name $type");
-                        if (!empty($param['notice'])) {
-                            $field->setNotice($param['notice']);
-                        }
-                        if (!empty($param['prefix'])) {
-                            $field->setPrefix($param['prefix']);
-                        }
-                        if (!empty($param['suffix'])) {
-                            $field->setSuffix($param['suffix']);
-                        }
+                    if (!empty($param['prefix'])) {
+                        $field->setPrefix($param['prefix']);
+                    }
+                    if (!empty($param['suffix'])) {
+                        $field->setSuffix($param['suffix']);
+                    }
+                    break;
+                case 'select':
+                    $type = $param['type'];
+                    $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+                    $field->setLabel($param['label']);
+                    $field->setAttribute('id', "media_manager $name $type");
+                    if (!empty($param['notice'])) {
+                        $field->setNotice($param['notice']);
+                    }
+                    if (!empty($param['prefix'])) {
+                        $field->setPrefix($param['prefix']);
+                    }
+                    if (!empty($param['suffix'])) {
+                        $field->setSuffix($param['suffix']);
+                    }
 
-                        $select = $field->getSelect();
-                        if (!isset($attributes['multiple'])) {
-                            $select->setSize(1);
-                        }
-                        $select->addOptions($param['options'], true);
-                        break;
+                    $select = $field->getSelect();
+                    if (!isset($attributes['multiple'])) {
+                        $select->setSize(1);
                     }
-                case 'media' :
-                    {
-                        $type = $param['type'];
-                        $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-                        $field->setLabel($param['label']);
-                        $field->setAttribute('id', "media_manager $name $type");
-                        if (!empty($param['notice'])) {
-                            $field->setNotice($param['notice']);
-                        }
-                        if (!empty($param['prefix'])) {
-                            $field->setPrefix($param['prefix']);
-                        }
-                        if (!empty($param['suffix'])) {
-                            $field->setSuffix($param['suffix']);
-                        }
-                        break;
+                    $select->addOptions($param['options'], true);
+                    break;
+                case 'media':
+                    $type = $param['type'];
+                    $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+                    $field->setLabel($param['label']);
+                    $field->setAttribute('id', "media_manager $name $type");
+                    if (!empty($param['notice'])) {
+                        $field->setNotice($param['notice']);
                     }
+                    if (!empty($param['prefix'])) {
+                        $field->setPrefix($param['prefix']);
+                    }
+                    if (!empty($param['suffix'])) {
+                        $field->setSuffix($param['suffix']);
+                    }
+                    break;
                 default:
-                    {
                     throw new rex_exception('Unexpected param type "' . $param['type'] . '"');
-                    }
             }
         }
     }

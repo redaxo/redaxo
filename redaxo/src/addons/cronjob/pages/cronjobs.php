@@ -255,43 +255,37 @@ if ($func == '') {
                 $value = isset($param['value']) ? $param['value'] : $value;
                 $attributes = isset($param['attributes']) ? $param['attributes'] : [];
                 switch ($param['type']) {
-                    case 'text' :
-                    case 'textarea' :
-                    case 'media' :
-                    case 'medialist' :
-                    case 'link' :
-                    case 'linklist' :
-                    case 'readonly' :
-                    case 'readonlytext' :
-                        {
-                            $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-                            $field->setLabel($label);
-                            if (isset($param['notice'])) {
-                                $field->setNotice($param['notice']);
-                            }
-                            break;
+                    case 'text':
+                    case 'textarea':
+                    case 'media':
+                    case 'medialist':
+                    case 'link':
+                    case 'linklist':
+                    case 'readonly':
+                    case 'readonlytext':
+                        $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+                        $field->setLabel($label);
+                        if (isset($param['notice'])) {
+                            $field->setNotice($param['notice']);
                         }
-                    case 'select' :
-                        {
-                            $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-                            $field->setLabel($label);
-                            $select = $field->getSelect();
-                            $select->addArrayOptions($param['options']);
-                            if (isset($param['notice'])) {
-                                $field->setNotice($param['notice']);
-                            }
-                            break;
+                        break;
+                    case 'select':
+                        $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+                        $field->setLabel($label);
+                        $select = $field->getSelect();
+                        $select->addArrayOptions($param['options']);
+                        if (isset($param['notice'])) {
+                            $field->setNotice($param['notice']);
                         }
-                    case 'checkbox' :
-                    case 'radio' :
-                        {
-                            $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
-                            $field->addArrayOptions($param['options']);
-                            if (isset($param['notice'])) {
-                                $field->setNotice($param['notice']);
-                            }
-                            break;
+                        break;
+                    case 'checkbox':
+                    case 'radio':
+                        $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
+                        $field->addArrayOptions($param['options']);
+                        if (isset($param['notice'])) {
+                            $field->setNotice($param['notice']);
                         }
+                        break;
                     default:var_dump($param);
                 }
                 if (isset($param['visible_if']) && is_array($param['visible_if'])) {

@@ -43,28 +43,28 @@ class rex_type
             $casted = true;
             switch ($vartype) {
                 // ---------------- PHP types
-                case 'bool'   :
+                case 'bool':
                 case 'boolean':
                     $var = (boolean) $var;
                     break;
-                case 'int'    :
+                case 'int':
                 case 'integer':
                     $var = (int) $var;
                     break;
-                case 'double' :
+                case 'double':
                     $var = (double) $var;
                     break;
-                case 'float'  :
-                case 'real'   :
+                case 'float':
+                case 'real':
                     $var = (float) $var;
                     break;
-                case 'string' :
+                case 'string':
                     $var = (string) $var;
                     break;
-                case 'object' :
+                case 'object':
                     $var = (object) $var;
                     break;
-                case 'array'  :
+                case 'array':
                     if ('' === $var) {
                         $var = [];
                     } else {
@@ -73,7 +73,7 @@ class rex_type
                     break;
 
                     // kein Cast, nichts tun
-                case ''       : break;
+                case '': break;
 
                 default:
                     // check for array with generic type

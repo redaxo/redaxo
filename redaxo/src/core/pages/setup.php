@@ -420,13 +420,13 @@ if ($step == 5) {
 
     $dbchecked = array_fill(0, 6, '');
     switch ($createdb) {
-        case 1 :
-        case 2 :
-        case 3 :
-        case 4 :
+        case 1:
+        case 2:
+        case 3:
+        case 4:
             $dbchecked[$createdb] = ' checked="checked"';
             break;
-        default :
+        default:
             $dbchecked[0] = ' checked="checked"';
     }
 

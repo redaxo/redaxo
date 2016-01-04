@@ -139,10 +139,8 @@ abstract class rex_input
             case 'medialistbutton':
             case 'linkbutton':
             case 'linklistbutton':
-            {
                 $class = 'rex_input_' . $inputType;
                 return new $class();
-            }
         }
         return null;
     }

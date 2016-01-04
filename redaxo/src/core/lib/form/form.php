@@ -767,21 +767,41 @@ class rex_form
         }
 
         switch ($inputType) {
-            case 'control'   : $className = 'rex_form_control_element'; break;
-            case 'checkbox'  : $className = 'rex_form_checkbox_element'; break;
-            case 'radio'     : $className = 'rex_form_radio_element'; break;
-            case 'select'    : $className = 'rex_form_select_element'; break;
-            case 'media'     : $className = 'rex_form_widget_media_element'; break;
-            case 'medialist' : $className = 'rex_form_widget_medialist_element'; break;
-            case 'link'      : $className = 'rex_form_widget_linkmap_element'; break;
-            case 'linklist'  : $className = 'rex_form_widget_linklist_element'; break;
-            case 'hidden'    :
-            case 'readonly'  :
-            case 'readonlytext' :
-            case 'text'      :
-            case 'textarea'  : $className = 'rex_form_element'; break;
-            default          : throw new rex_exception("Unexpected inputType '" . $inputType . "'!");
+            case 'control':
+                $className = 'rex_form_control_element';
+                break;
+            case 'checkbox':
+                $className = 'rex_form_checkbox_element';
+                break;
+            case 'radio':
+                $className = 'rex_form_radio_element';
+                break;
+            case 'select':
+                $className = 'rex_form_select_element';
+                break;
+            case 'media':
+                $className = 'rex_form_widget_media_element';
+                break;
+            case 'medialist':
+                $className = 'rex_form_widget_medialist_element';
+                break;
+            case 'link':
+                $className = 'rex_form_widget_linkmap_element';
+                break;
+            case 'linklist':
+                $className = 'rex_form_widget_linklist_element';
+                break;
+            case 'hidden':
+            case 'readonly':
+            case 'readonlytext':
+            case 'text':
+            case 'textarea':
+                $className = 'rex_form_element';
+                break;
+            default:
+                throw new rex_exception("Unexpected inputType '" . $inputType . "'!");
         }
+
         return $className;
     }
 
@@ -800,14 +820,18 @@ class rex_form
         }
 
         switch ($inputType) {
-            case 'checkbox'  :
-            case 'hidden'    :
-            case 'radio'     :
-            case 'readonlytext' :
-            case 'text'      : return 'input';
-            case 'textarea'  : return $inputType;
-            case 'readonly'  : return 'p';
-            default          : $inputTag = ''; break;
+            case 'checkbox':
+            case 'hidden':
+            case 'radio':
+            case 'readonlytext':
+            case 'text':
+                return 'input';
+            case 'textarea':
+                return $inputType;
+            case 'readonly':
+                return 'p';
+            default:
+                $inputTag = '';
         }
         return $inputTag;
     }
@@ -827,42 +851,44 @@ class rex_form
         }
 
         switch ($inputType) {
-            case 'checkbox'  :
-            case 'hidden'    :
-            case 'radio'     :
+            case 'checkbox':
+            case 'hidden':
+            case 'radio':
                 return [
                     'type' => $inputType,
                 ];
-            case 'select'  :
+            case 'select':
                 return [
                     'class' => 'form-control',
                 ];
-            case 'text'  :
+            case 'text':
                 return [
                     'type' => $inputType,
                     'class' => 'form-control',
                 ];
-            case 'textarea'  :
+            case 'textarea':
                 return [
                     'internal::fieldSeparateEnding' => true,
                     'class' => 'form-control',
                     //'cols' => 50,
                     'rows' => 6,
                 ];
-            case 'readonly'  :
+            case 'readonly':
                 return [
                     'internal::fieldSeparateEnding' => true,
                     'internal::noNameAttribute' => true,
                     'class' => 'form-control-static',
                 ];
-            case 'readonlytext'  :
+            case 'readonlytext':
                 return [
                     'type' => 'text',
                     'readonly' => 'readonly',
                     'class' => 'form-control-static',
                 ];
-            default          : $inputAttr = []; break;
+            default:
+                $inputAttr = [];
         }
+
         return $inputAttr;
     }
 
