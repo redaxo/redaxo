@@ -19,7 +19,7 @@ before_script:
     - php redaxo/src/addons/tests/bin/setup.php
     - mkdir -p "$HOME/.php-cs-fixer"
     - "echo '{\"require\": {\"fabpot/php-cs-fixer\": \"~2.0@dev\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
-    - composer update --working-dir "$HOME/.php-cs-fixer"
+    - travis_retry composer update --working-dir "$HOME/.php-cs-fixer"
 
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
