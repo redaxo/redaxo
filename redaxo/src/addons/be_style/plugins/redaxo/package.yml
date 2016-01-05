@@ -1,5 +1,5 @@
 package: be_style/redaxo
-version: '2.0.0-beta2'
+version: '2.0.0-rc'
 author: 'Ralph Zumkeller, Thomas Blum'
 supportpage: www.redaxo.org/de/forum/
 compile: 0
