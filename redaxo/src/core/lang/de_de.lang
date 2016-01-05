@@ -259,6 +259,7 @@ addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 addon_dir_not_writable = Der AddOn-Ordner hat keine Schreibrechte!
 package_missing_yml_file = Die package.yml fehlt!
+package_invalid_yml_file = Die package.yml ist invalid:
 package_missing_id = Es fehlt die "package"-Angabe in der package.yml ("package: {0}")!
 package_missing_version = Es fehlt die Versionsangabe in der package.yml!
 package_wrong_dir_name = Das Ordnername muss gemäß package.yml "<b>{0}</b>" heißen!

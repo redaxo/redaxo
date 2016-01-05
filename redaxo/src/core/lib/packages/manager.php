@@ -78,8 +78,14 @@ abstract class rex_package_manager
             }
 
             // check package.yml
-            if (!is_readable($this->package->getPath(rex_package::FILE_PACKAGE))) {
+            $packageFile = $this->package->getPath(rex_package::FILE_PACKAGE);
+            if (!is_readable($packageFile)) {
                 throw new rex_functional_exception($this->i18n('missing_yml_file'));
+            }
+            try {
+                rex_file::getConfig($packageFile);
+            } catch (rex_yaml_parse_exception $e) {
+                throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }
             $packageId = $this->package->getProperty('package');
             if ($packageId === null) {

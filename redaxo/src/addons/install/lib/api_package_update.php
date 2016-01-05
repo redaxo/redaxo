@@ -36,7 +36,18 @@ class rex_api_install_package_update extends rex_api_install_package_download
             return $msg;
         }
 
-        if ($this->addon->isAvailable() && ($msg = $this->checkRequirements()) !== true) {
+        // ---- check package.yml
+        $packageFile = $temppath . rex_package::FILE_PACKAGE;
+        if (!file_exists($packageFile)) {
+            return rex_i18n::msg('package_missing_yml_file');
+        }
+        try {
+            $config = rex_file::getConfig($packageFile);
+        } catch (rex_yaml_parse_exception $e) {
+            return rex_i18n::msg('package_invalid_yml_file') . ' ' . $e->getMessage();
+        }
+
+        if ($this->addon->isAvailable() && ($msg = $this->checkRequirements($config)) !== true) {
             return $msg;
         }
 
@@ -93,7 +104,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
     }
 
-    private function checkRequirements()
+    private function checkRequirements($config)
     {
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
@@ -101,17 +112,16 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $versions = new SplObjectStorage();
         $requirements = new SplObjectStorage();
         $conflicts = new SplObjectStorage();
-        if (file_exists($temppath . rex_package::FILE_PACKAGE)) {
-            $config = rex_file::getConfig($temppath . rex_package::FILE_PACKAGE);
-            if (isset($config['requires'])) {
-                $requirements[$this->addon] = $this->addon->getProperty('requires');
-                $this->addon->setProperty('requires', $config['requires']);
-            }
-            if (isset($config['conflicts'])) {
-                $conflicts[$this->addon] = $this->addon->getProperty('conflicts');
-                $this->addon->setProperty('conflicts', $config['conflicts']);
-            }
+
+        if (isset($config['requires'])) {
+            $requirements[$this->addon] = $this->addon->getProperty('requires');
+            $this->addon->setProperty('requires', $config['requires']);
         }
+        if (isset($config['conflicts'])) {
+            $conflicts[$this->addon] = $this->addon->getProperty('conflicts');
+            $this->addon->setProperty('conflicts', $config['conflicts']);
+        }
+
         $versions[$this->addon] = $this->addon->getVersion();
         $this->addon->setProperty('version', isset($config['version']) ? $config['version'] : $this->file['version']);
         $availablePlugins = $this->addon->getAvailablePlugins();
