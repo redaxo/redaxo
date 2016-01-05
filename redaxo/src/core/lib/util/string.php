@@ -145,10 +145,15 @@ class rex_string
      * @param string $value YAML string
      *
      * @return array
+     * @throws rex_yml_parse_exception
      */
     public static function yamlDecode($value)
     {
-        return Symfony\Component\Yaml\Yaml::parse($value);
+        try {
+            return Symfony\Component\Yaml\Yaml::parse($value);
+        } catch (Symfony\Component\Yaml\Exception\ParseException $exception) {
+            throw new rex_yaml_parse_exception($exception->getMessage(), $exception);
+        }
     }
 
     /**

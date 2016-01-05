@@ -58,3 +58,12 @@ class rex_http_exception extends rex_exception
         return $this->httpCode;
     }
 }
+
+/**
+ * Exception class for yaml parse errors
+ *
+ * @package redaxo\core
+ */
+class rex_yaml_parse_exception extends rex_exception
+{
+}
