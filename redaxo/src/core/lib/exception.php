@@ -60,7 +60,7 @@ class rex_http_exception extends rex_exception
 }
 
 /**
- * Exception class for yaml parse errors
+ * Exception class for yaml parse errors.
  *
  * @package redaxo\core
  */
