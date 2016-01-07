@@ -192,7 +192,8 @@ class rex_media_manager
         $dirs = [
             __DIR__ . '/effects/',
         ];
-
+        $dirs = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_SUPPORTED_EFFECTS', $dirs));
+        
         $effects = [];
         foreach ($dirs as $dir) {
             $files = glob($dir . 'effect_*.php');
