@@ -497,7 +497,7 @@ if (!$file_id) {
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="rex-table-icon"><a href="' . rex_url::backendController(['page' => 'mediapool/upload']) . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
+                                    <th class="rex-table-icon"><a href="' . rex_url::backendController(array_merge(['page' => 'mediapool/upload'], $arg_url)) . '"' . rex::getAccesskey(rex_i18n::msg('pool_file_insert'), 'add') . ' title="' . rex_i18n::msg('pool_file_insert') . '"><i class="rex-icon rex-icon-add-media"></i></a></th>
                                     <th class="rex-table-thumbnail">' . rex_i18n::msg('pool_file_thumbnail') . '</th>
                                     <th>' . rex_i18n::msg('pool_file_info') . ' / ' . rex_i18n::msg('pool_file_description') . '</th>
                                     <th>' . rex_i18n::msg('pool_last_update') . '</th>
