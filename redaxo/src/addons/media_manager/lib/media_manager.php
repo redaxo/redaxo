@@ -9,6 +9,8 @@ class rex_media_manager
     private $type;
     private $use_cache;
 
+    private static $effects = [];
+
     public function __construct(rex_managed_media $media)
     {
         $this->media = $media;
@@ -178,32 +180,32 @@ class rex_media_manager
         exit;
     }
 
-    public static function getSupportedEffectNames()
-    {
-        $effectNames = [];
-        foreach (self::getSupportedEffects() as $effectClass => $effectFile) {
-            $effectNames[] = self::getEffectName($effectFile);
-        }
-        return $effectNames;
-    }
-
     public static function getSupportedEffects()
     {
         $dirs = [
             __DIR__ . '/effects/',
         ];
-        $dirs = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_SUPPORTED_EFFECTS', $dirs));
-        
+
         $effects = [];
         foreach ($dirs as $dir) {
             $files = glob($dir . 'effect_*.php');
             if ($files) {
                 foreach ($files as $file) {
-                    $effects[self::getEffectClass($file)] = $file;
+                    $effects[self::getEffectClass($file)] = self::getEffectName($file);
                 }
             }
         }
+
+        foreach (self::$effects as $class) {
+            $effects[$class] = str_replace(['rex_', 'effect_'], '', $class);
+        }
+
         return $effects;
+    }
+
+    public static function addEffect($class)
+    {
+        self::$effects[] = $class;
     }
 
     private static function getEffectName($effectFile)

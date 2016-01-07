@@ -101,7 +101,7 @@ if ($func == '' && $type_id > 0) {
 
     echo $content;
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
-    $effectNames = rex_media_manager::getSupportedEffectNames();
+    $effects = rex_media_manager::getSupportedEffects();
 
     if ($func == 'edit') {
         $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', htmlspecialchars($typeName));
@@ -124,7 +124,7 @@ if ($func == '' && $type_id > 0) {
     $field = $form->addSelectField('effect');
     $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
     $select = $field->getSelect();
-    $select->addOptions($effectNames, true);
+    $select->addOptions($effects, true);
     $select->setSize(1);
 
     $script = '
@@ -149,10 +149,7 @@ if ($func == '' && $type_id > 0) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setSuffix($script);
 
-    $effects = rex_media_manager::getSupportedEffects();
-
-    foreach ($effects as $effectClass => $effectFile) {
-        require_once $effectFile;
+    foreach ($effects as $effectClass => $effectName) {
         $effectObj = new $effectClass();
         $effectParams = $effectObj->getParams();
         $group = $effectClass;
