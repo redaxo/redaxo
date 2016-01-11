@@ -61,7 +61,7 @@ if ($file = new rex_log_file(rex_path::coreCache('system.log'))) {
                         <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                         <td data-title="' . rex_i18n::msg('syslog_type') . '">' . $data[0] . '</td>
                         <td data-title="' . rex_i18n::msg('syslog_message') . '">' . $data[1] . '</td>
-                        <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-truncate-left rex-truncate-expandable"><span class="rex-truncate-target">' . (isset($data[2]) ? $data[2] : '') . '</span></div></td>
+                        <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . (isset($data[2]) ? $data[2] : '') . '</div></td>
                         <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? $data[3] : '') . '</td>
                     </tr>';
     }

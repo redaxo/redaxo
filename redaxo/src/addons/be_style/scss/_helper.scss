@@ -50,3 +50,10 @@
     }
 
 }
+
+.rex-text-hyphen {
+    @include hyphens();
+}
+.rex-word-break {
+    word-break: break-all;
+}
