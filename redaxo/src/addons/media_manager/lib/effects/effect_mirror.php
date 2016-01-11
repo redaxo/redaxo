@@ -72,11 +72,11 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         if ($this->params['set_transparent'] != 'colored') {
-            $this->media->setFormat('PNG');
+            $this->media->setFormat('png');
         }
 
         $trans = false;
-        if ($this->media->getFormat() == 'PNG') {
+        if ($this->media->getFormat() == 'png') {
             $trans = true;
         }
 
