@@ -102,7 +102,8 @@ class rex_content_service
         rex_sql_util::organizePriorities(
             rex::getTable('article_slice'),
             'priority',
-            'article_id=' . $curr->getValue('article_id') . ' AND clang_id=' . $curr->getValue('clang_id') . ' AND ctype_id=' . $curr->getValue('ctype_id') . ' AND revision=' . $curr->getValue('revision')
+            'article_id=' . $curr->getValue('article_id') . ' AND clang_id=' . $curr->getValue('clang_id') . ' AND ctype_id=' . $curr->getValue('ctype_id') . ' AND revision=' . $curr->getValue('revision'),
+            'priority'
         );
 
         // check if delete was successfull
