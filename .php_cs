@@ -8,6 +8,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('yrewrite')
     ->exclude('fragments')
     ->exclude('releases')
+    ->notPath('src/core/boot.php')
     ->in(__DIR__)
 ;
 

@@ -7,8 +7,6 @@
  * @global string  $REX['BACKEND_FOLDER'] [Required] Name of backend folder
  * @global boolean $REX['REDAXO']         [Required] Backend/Frontend flag
  * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
- *
- * @codingStandardsPhp53
  */
 
 define('REX_MIN_PHP_VERSION', '5.5.0');
@@ -21,7 +19,7 @@ if (!extension_loaded('mbstring')) {
     throw new Exception('PHP extension "mbstring" needed!');
 }
 
-foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
+foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -81,7 +79,7 @@ if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile)
     rex_file::putCache($cacheFile, $config);
 }
 foreach ($config as $key => $value) {
-    if (in_array($key, ['fileperm', 'dirperm'])) {
+    if (in_array($key, array('fileperm', 'dirperm'))) {
         $value = octdec($value);
     }
     rex::setProperty($key, $value);
