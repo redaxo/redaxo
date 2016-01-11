@@ -415,6 +415,7 @@ if ($step == 5) {
     $submit_message = rex_i18n::msg('setup_511');
     if (count($errors) > 0) {
         $errors[] = rex_view::error(rex_i18n::msg('setup_503'));
+        $headline .= implode('', $errors);
         $submit_message = rex_i18n::msg('setup_512');
     }
 
