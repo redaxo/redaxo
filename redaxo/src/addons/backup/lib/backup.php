@@ -438,8 +438,8 @@ class rex_backup
         // ----- EXTENSION POINT
         $tar = rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_FILE_EXPORT', $tar));
 
-        foreach ($folders as $key => $item) {
-            self::addFolderToTar($tar, rex_url::frontend(), $key);
+        foreach ($folders as $item) {
+            self::addFolderToTar($tar, rex_url::frontend(), $item);
         }
 
         // ----- EXTENSION POINT

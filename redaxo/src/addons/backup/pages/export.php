@@ -9,8 +9,6 @@ if (rex_ini_get('memory_limit') < 67108864) {
     @ini_set('memory_limit', '64M');
 }
 
-$content = '';
-
 $success = '';
 $error = '';
 
@@ -37,7 +35,6 @@ if (rex_post('export', 'bool')) {
         $success = rex_i18n::msg('backup_filename_updated');
         $exportfilename = $filename;
     } else {
-        $content = '';
         $hasContent = false;
         $header = '';
         $ext = $exporttype == 'sql' ? '.sql' : '.tar.gz';
@@ -91,6 +88,8 @@ if ($success != '') {
 if ($error != '') {
     echo rex_view::error($error);
 }
+
+$content = '';
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info', false);
@@ -175,9 +174,7 @@ if ($count_folders > 4) {
     $sel_dirs->setSize($count_folders);
 }
 foreach ($folders as $file) {
-    if ($file == 'redaxo') {
-        continue;
-    }
+    $file = basename($file);
     $sel_dirs->addOption($file, $file);
 }
 
