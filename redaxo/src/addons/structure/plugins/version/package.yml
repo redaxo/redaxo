@@ -1,9 +1,9 @@
 package: structure/version
-version: '2.0.0-rc'
+version: '2.0.0'
 author: Jan Kristinus
 supportpage: www.redaxo.org/de/forum/
 
 requires:
     packages:
-        structure: '^2.0.0-beta'
-        structure/content: '^2.0.0-beta'
+        structure: '^2.0.0'
+        structure/content: '^2.0.0'
