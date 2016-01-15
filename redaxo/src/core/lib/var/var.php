@@ -19,6 +19,8 @@ abstract class rex_var
 
     private $args = [];
 
+    private static $variableIndex = 0;
+
     /**
      * Parses all REX_VARs in the given content.
      *
@@ -37,6 +39,8 @@ abstract class rex_var
         self::$env = $env;
         self::$context = $context;
         self::$contextData = $contextData;
+
+        self::$variableIndex = 0;
 
         $tokens = token_get_all($content);
         $countTokens = count($tokens);
@@ -138,7 +142,6 @@ abstract class rex_var
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
         $variables = [];
-        $i = 0;
         foreach ($iterator as $match) {
             $var = self::getVar($match[1]);
             $replaced = false;
@@ -151,7 +154,7 @@ abstract class rex_var
                 if (($output = $var->getGlobalArgsOutput()) !== false) {
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
-                        $replace = '$__rex_var_content_' . $i++;
+                        $replace = '$__rex_var_content_' . ++self::$variableIndex;
                         $variables[] = $replace . ' = ' . $output;
                     } else {
                         $replace = $output;
@@ -331,8 +334,8 @@ abstract class rex_var
                 $if = $content;
                 $then = $this->getParsedArg('instead');
             } else {
-                $if = '$__rex_var_content = ' . $content;
-                $then = '$__rex_var_content';
+                $if = '$__rex_var_content_' . ++self::$variableIndex . ' = ' . $content;
+                $then = '$__rex_var_content_' . self::$variableIndex;
             }
             if ($ifempty) {
                 return $prefix . '((' . $if . ') ? ' . $then . ' : ' . $this->getParsedArg('ifempty') . ')' . $suffix;

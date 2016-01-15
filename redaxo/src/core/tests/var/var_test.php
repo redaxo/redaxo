@@ -113,6 +113,7 @@ EOT
             ['REX_TEST_VAR[content="" instead=cd ifempty=ef]', 'ef'],
             ['REX_TEST_VAR[content=cd prefix=ab]', 'abcd'],
             ['REX_TEST_VAR[content="" prefix=ab]', ''],
+            ['REX_TEST_VAR[content=ef prefix="REX_TEST_VAR[content=cd prefix=ab]"]', 'abcdef'],
             ['REX_TEST_VAR[content=cd suffix=ef]', 'cdef'],
             ['REX_TEST_VAR[content="" suffix=ef]', ''],
             ['REX_TEST_VAR[content=cd prefix=ab suffix=ef]', 'abcdef'],
