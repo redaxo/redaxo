@@ -65,7 +65,7 @@ class rex_stream
 
         $this->position = 0;
         $this->content = self::$nextContent[$path];
-        unset(self::$nextContent[$path]);
+        //unset(self::$nextContent[$path]);
 
         return true;
     }
@@ -86,6 +86,42 @@ class rex_stream
     public function stream_eof()
     {
         return $this->position >= strlen($this->content);
+    }
+
+    /**
+     * @link http://www.php.net/manual/en/streamwrapper.stream-seek.php
+     */
+    public function stream_seek($offset, $whence = SEEK_SET)
+    {
+        switch ($whence) {
+            case SEEK_SET:
+                $this->position = $offset;
+                return true;
+            case SEEK_CUR:
+                $this->position += $offset;
+                return true;
+            case SEEK_END:
+                $this->position = strlen($this->content) - 1 + $offset;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * @link http://www.php.net/manual/en/streamwrapper.stream-tell.php
+     */
+    public function stream_tell()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @link http://www.php.net/manual/en/streamwrapper.stream-flush.php
+     */
+    public function stream_flush()
+    {
+        return true;
     }
 
     /**
