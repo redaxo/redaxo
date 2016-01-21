@@ -93,12 +93,12 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                 for ($y = 0; $y < $h; ++$y) {
                     // each pixel
 
-                    $rgbOrig = ImageColorAt($gdimage, $x, $y);
+                    $rgbOrig = imagecolorat($gdimage, $x, $y);
                     $rOrig = (($rgbOrig >> 16) & 0xFF);
                     $gOrig = (($rgbOrig >> 8) & 0xFF);
                     $bOrig = ($rgbOrig & 0xFF);
 
-                    $rgbBlur = ImageColorAt($imgBlur, $x, $y);
+                    $rgbBlur = imagecolorat($imgBlur, $x, $y);
 
                     $rBlur = (($rgbBlur >> 16) & 0xFF);
                     $gBlur = (($rgbBlur >> 8) & 0xFF);
@@ -117,8 +117,8 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                     : $bOrig;
 
                     if (($rOrig != $rNew) || ($gOrig != $gNew) || ($bOrig != $bNew)) {
-                        $pixCol = ImageColorAllocate($gdimage, $rNew, $gNew, $bNew);
-                        ImageSetPixel($gdimage, $x, $y, $pixCol);
+                        $pixCol = imagecolorallocate($gdimage, $rNew, $gNew, $bNew);
+                        imagesetpixel($gdimage, $x, $y, $pixCol);
                     }
                 }
             }
@@ -127,12 +127,12 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                 // each row
                 for ($y = 0; $y < $h; ++$y) {
                     // each pixel
-                    $rgbOrig = ImageColorAt($gdimage, $x, $y);
+                    $rgbOrig = imagecolorat($gdimage, $x, $y);
                     $rOrig = (($rgbOrig >> 16) & 0xFF);
                     $gOrig = (($rgbOrig >> 8) & 0xFF);
                     $bOrig = ($rgbOrig & 0xFF);
 
-                    $rgbBlur = ImageColorAt($imgBlur, $x, $y);
+                    $rgbBlur = imagecolorat($imgBlur, $x, $y);
 
                     $rBlur = (($rgbBlur >> 16) & 0xFF);
                     $gBlur = (($rgbBlur >> 8) & 0xFF);
@@ -157,7 +157,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
                         $bNew = 0;
                     }
                     $rgbNew = ($rNew << 16) + ($gNew << 8) + $bNew;
-                    ImageSetPixel($gdimage, $x, $y, $rgbNew);
+                    imagesetpixel($gdimage, $x, $y, $rgbNew);
                 }
             }
         }

@@ -142,7 +142,7 @@ class rex
      */
     public static function isSetup()
     {
-        return (boolean) self::getProperty('setup', false);
+        return (bool) self::getProperty('setup', false);
     }
 
     /**
@@ -152,7 +152,7 @@ class rex
      */
     public static function isBackend()
     {
-        return (boolean) self::getProperty('redaxo', false);
+        return (bool) self::getProperty('redaxo', false);
     }
 
     /**
@@ -162,7 +162,7 @@ class rex
      */
     public static function isDebugMode()
     {
-        return (boolean) self::getProperty('debug', false);
+        return (bool) self::getProperty('debug', false);
     }
 
     /**

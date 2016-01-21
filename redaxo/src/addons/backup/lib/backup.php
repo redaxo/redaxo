@@ -378,7 +378,7 @@ class rex_backup
                                 $record[] = intval($column);
                                 break;
                             case 'double':
-                                $record[] = sprintf('%.10F', (double) $column);
+                                $record[] = sprintf('%.10F', (float) $column);
                                 break;
                             case 'string':
                             default:

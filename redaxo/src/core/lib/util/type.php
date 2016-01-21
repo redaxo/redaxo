@@ -45,14 +45,14 @@ class rex_type
                 // ---------------- PHP types
                 case 'bool':
                 case 'boolean':
-                    $var = (boolean) $var;
+                    $var = (bool) $var;
                     break;
                 case 'int':
                 case 'integer':
                     $var = (int) $var;
                     break;
                 case 'double':
-                    $var = (double) $var;
+                    $var = (float) $var;
                     break;
                 case 'float':
                 case 'real':

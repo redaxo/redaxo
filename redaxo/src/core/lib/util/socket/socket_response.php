@@ -225,7 +225,7 @@ class rex_socket_response
         }
         $success = true;
         while ($success && ($buf = $this->getBufferedBody()) !== false) {
-            $success = (boolean) fwrite($resource, $buf);
+            $success = (bool) fwrite($resource, $buf);
         }
         if ($close) {
             fclose($resource);

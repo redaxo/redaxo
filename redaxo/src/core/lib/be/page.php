@@ -153,7 +153,7 @@ class rex_be_page
      */
     public function hasHref()
     {
-        return (boolean) $this->href;
+        return (bool) $this->href;
     }
 
     /**

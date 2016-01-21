@@ -89,7 +89,7 @@ class rex_user
      */
     public function isAdmin()
     {
-        return (boolean) $this->sql->getValue('admin');
+        return (bool) $this->sql->getValue('admin');
     }
 
     /**

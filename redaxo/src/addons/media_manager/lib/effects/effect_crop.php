@@ -66,9 +66,9 @@ class rex_effect_crop extends rex_effect_abstract
 
         // create cropped image
         if (function_exists('ImageCreateTrueColor')) {
-            $des = @ImageCreateTrueColor($this->params['width'], $this->params['height']);
+            $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
         } else {
-            $des = @ImageCreate($this->params['width'], $this->params['height']);
+            $des = @imagecreate($this->params['width'], $this->params['height']);
         }
 
         if (!$des) {

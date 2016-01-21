@@ -153,7 +153,7 @@ abstract class rex_api_function
     public static function hasMessage()
     {
         $apiFunc = self::factory();
-        return (boolean) $apiFunc->getResult();
+        return (bool) $apiFunc->getResult();
     }
 
     public static function getMessage($formatted = true)

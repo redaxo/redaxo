@@ -83,7 +83,7 @@ class rex_sql implements Iterator
     {
         $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
         $options = [
-            PDO::ATTR_PERSISTENT => (boolean) $persistent,
+            PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
 //      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
 //      PDO::ATTR_EMULATE_PREPARES => true,

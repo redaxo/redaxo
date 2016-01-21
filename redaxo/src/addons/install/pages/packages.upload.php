@@ -37,7 +37,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $hiddenField = '';
         if ($new || !rex_addon::exists($addonkey)) {
             $uploadCheckboxDisabled = ' disabled="disabled"';
-            $hiddenField = '<input type="hidden" name="upload[upload_file]" value="' . ((integer) $new) . '" />';
+            $hiddenField = '<input type="hidden" name="upload[upload_file]" value="' . ((int) $new) . '" />';
         }
 
         $panel = '<fieldset>';

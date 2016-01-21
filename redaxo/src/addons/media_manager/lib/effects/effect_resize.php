@@ -85,9 +85,9 @@ class rex_effect_resize extends rex_effect_abstract
         }
 
         if (function_exists('ImageCreateTrueColor')) {
-            $des = @ImageCreateTrueColor($this->params['width'], $this->params['height']);
+            $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
         } else {
-            $des = @ImageCreate($this->params['width'], $this->params['height']);
+            $des = @imagecreate($this->params['width'], $this->params['height']);
         }
 
         if (!$des) {

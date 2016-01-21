@@ -518,7 +518,7 @@ class rex_article_content_base
         return preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
             function ($matches) {
-                return rex_getUrl($matches[1], isset($matches[2]) ? $matches[2] : (integer) $this->clang);
+                return rex_getUrl($matches[1], isset($matches[2]) ? $matches[2] : (int) $this->clang);
             },
             $content
         );
