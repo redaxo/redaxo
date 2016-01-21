@@ -37,7 +37,7 @@ if ($core && !empty($coreVersions)) {
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                     <td data-title="' . $this->i18n('version') . '">' . $version['version'] . '</td>
                     <td data-title="' . $this->i18n('description') . '">' . nl2br($version['description']) . '</td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id]) . '">' . $this->i18n('update') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'rex-api-call' => 'install_core_update', 'version_id' => $id]) . '" data-pjax="false">' . $this->i18n('update') . '</a></td>
                 </tr>';
     }
 
@@ -90,7 +90,7 @@ if ($core && !empty($coreVersions)) {
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $this->i18n('version') . '">' . $file['version'] . '</td>
                 <td data-title="' . $this->i18n('description') . '">' . nl2br($file['description']) . '</td>
-                <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId]) . '">' . $this->i18n('update') . '</a></td>
+                <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'rex-api-call' => 'install_package_update', 'file' => $fileId]) . '" data-pjax="false">' . $this->i18n('update') . '</a></td>
             </tr>';
     }
 
