@@ -126,10 +126,16 @@ class rex_install_webservice
     {
         $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
-        $addon = rex_addon::get('install');
-        if ($addon->getConfig('api_login')) {
-            $path .= '&api_login=' . urlencode($addon->getConfig('api_login')) . '&api_key=' . urlencode($addon->getConfig('api_key'));
+
+        static $config;
+        if (null === $config) {
+            $config = rex_file::getCache(rex_path::addonData('install', 'config.json'));
         }
+
+        if (isset($config['api_login']) && $config['api_login'] && isset($config['api_key'])) {
+            $path .= '&api_login=' . urlencode($config['api_login']) . '&api_key=' . urlencode($config['api_key']);
+        }
+
         return $path;
     }
 

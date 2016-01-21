@@ -99,7 +99,8 @@ class rex_api_install_core_update extends rex_api_function
             }
 
             // create backup
-            if ($installAddon->getConfig('backups')) {
+            $installConfig = rex_file::getCache($installAddon->getDataPath('config.json'));
+            if (isset($installConfig['backups']) && $installConfig['backups']) {
                 rex_dir::create($installAddon->getDataPath());
                 $archive = $installAddon->getDataPath(strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', rex::getVersion())) . '.zip');
                 rex_install_archive::copyDirToArchive(rex_path::core(), $archive);

@@ -70,7 +70,8 @@ class rex_api_install_package_update extends rex_api_install_package_download
 
         // ---- backup
         $assets = $this->addon->getAssetsPath();
-        if (rex_addon::get('install')->getConfig('backups')) {
+        $installConfig = rex_file::getCache(rex_addon::get('install')->getDataPath('config.json'));
+        if (isset($installConfig['backups']) && $installConfig['backups']) {
             $archivePath = rex_path::addonData('install', $this->addonkey . '/');
             rex_dir::create($archivePath);
             $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion('0'))) . '.zip';

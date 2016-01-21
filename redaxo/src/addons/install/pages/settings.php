@@ -4,16 +4,22 @@
 
 $panel = '';
 
-$settings = rex_post('settings', [
+$configFile = $this->getDataPath('config.json');
+$config = array_merge([
+    'backups' => false,
+    'api_login' => null,
+    'api_key' => null,
+], rex_file::getCache($configFile));
+
+$newConfig = rex_post('settings', [
     ['backups', 'bool', false],
     ['api_login', 'string'],
     ['api_key', 'string'],
 ], null);
 
-if (is_array($settings)) {
-    foreach ($settings as $key => $value) {
-        $this->setConfig($key, $value);
-    }
+if (is_array($newConfig)) {
+    $config = $newConfig;
+    rex_file::putCache($configFile, $config);
     echo rex_view::success($this->i18n('settings_saved'));
     rex_install_webservice::deleteCache();
 }
@@ -27,7 +33,7 @@ $panel .= '
                 $n = [];
                 $n['reverse'] = true;
                 $n['label'] = '<label>' . $this->i18n('settings_backups') . '</label>';
-                $n['field'] = '<input type="checkbox"  name="settings[backups]" value="1" ' . ($this->getConfig('backups') ? 'checked="checked" ' : '') . '/>';
+                $n['field'] = '<input type="checkbox"  name="settings[backups]" value="1" ' . ($config['backups'] ? 'checked="checked" ' : '') . '/>';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -43,12 +49,12 @@ $panel .= '
 
                 $n = [];
                 $n['label'] = '<label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>';
-                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . $this->getConfig('api_login') . '" />';
+                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . htmlspecialchars($config['api_login']) . '" />';
                 $formElements[] = $n;
 
                 $n = [];
                 $n['label'] = '<label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>';
-                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . $this->getConfig('api_key') . '" />';
+                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . htmlspecialchars($config['api_key']) . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
