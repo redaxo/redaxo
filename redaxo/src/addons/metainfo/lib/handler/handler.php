@@ -289,7 +289,7 @@ abstract class rex_metainfo_handler
 
                     $inputValue = [];
                     $inputValue['year'] = date('Y', $dbvalues[0]);
-                    $inputValue['month'] = date('m', $dbvalues[0]);
+                    $inputValue['month'] = date('n', $dbvalues[0]);
                     $inputValue['day'] = date('j', $dbvalues[0]);
                     $inputValue['hour'] = date('G', $dbvalues[0]);
                     $inputValue['minute'] = date('i', $dbvalues[0]);
