@@ -435,8 +435,8 @@ class rex_article_content_base
     // ----- Modulvariablen werden ersetzt
     protected function replaceVars(rex_sql $sql, $content)
     {
-        $content = $this->replaceObjectVars($sql, $content);
         $content = $this->replaceCommonVars($content);
+        $content = $this->replaceObjectVars($sql, $content);
         $content = str_replace(
             [
                 'REX_MODULE_ID',
