@@ -18,6 +18,8 @@
  */
 class rex_stream
 {
+    private static $useRealFiles;
+
     private static $registered = false;
     private static $nextContent = [];
 
@@ -41,6 +43,22 @@ class rex_stream
         }
         if (!is_string($content)) {
             throw new InvalidArgumentException('Expecting $content to be a string!');
+        }
+
+        if (null === self::$useRealFiles) {
+            self::$useRealFiles = extension_loaded('suhosin')
+                && !preg_match('/(?:^|,)rex(?::|,|$)/', ini_get('suhosin.executor.include.whitelist'));
+        }
+
+        if (self::$useRealFiles) {
+            $hash = substr(sha1($content), 0, 7);
+            $path = rex_path::coreCache('stream/'.$path.'/'.$hash);
+
+            if (!file_exists($path)) {
+                rex_file::put($path, $content);
+            }
+
+            return $path;
         }
 
         if (!self::$registered) {
