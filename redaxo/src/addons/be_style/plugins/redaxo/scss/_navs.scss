@@ -90,10 +90,10 @@
         > a {
             color: $color-a;
 
-            &:hover {
+            &:hover,
+            &:focus {
                 color: $color-b;
                 background-color: $color-a-darker;
-
             }
         }
     }
