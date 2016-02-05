@@ -59,16 +59,29 @@ abstract class rex_var
             }
 
             $add = $token[1];
-            $useVariables = false;
-            $stripslashes = null;
             switch ($token[0]) {
                 case T_INLINE_HTML:
-                    $format = '<?= %s ?>';
+                    $format = '<?= %s@@@INLINE_HTML_REPLACEMENT_END@@@';
+                    $add = self::replaceVars($add, $format);
+                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', function (array $match) {
+                        return $match[1]
+                            ? ', "'.addcslashes($match[1], "\r\n").'" ?>'.$match[1]
+                            : ' ?>';
+                    }, $add);
                     break;
 
                 case T_CONSTANT_ENCAPSED_STRING:
                     $format = $token[1][0] == '"' ? '" . %s . "' : "' . %s . '";
-                    $stripslashes = $token[1][0];
+                    $add = self::replaceVars($add, $format, false, $token[1][0]);
+
+                    $start = substr($add, 0, 5);
+                    $end = substr($add, -5);
+                    if ($start == '"" . ' || $start == "'' . ") {
+                        $add = substr($add, 5);
+                    }
+                    if ($end == ' . ""' || $end == " . ''") {
+                        $add = substr($add, 0, -5);
+                    }
                     break;
 
                 case T_STRING:
@@ -79,9 +92,9 @@ abstract class rex_var
                         $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
                     }
                     --$i;
-                    $format = '%s';
+                    $add = self::replaceVars($add);
                     break;
-                
+
                 case T_START_HEREDOC:
                     while (isset($tokens[++$i]) && (is_string($tokens[$i]) || $tokens[$i][0] != T_END_HEREDOC)) {
                         $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
@@ -89,24 +102,11 @@ abstract class rex_var
                     --$i;
                     if (preg_match("/'(.*)'/", $token[1], $match)) { // nowdoc
                         $format = "\n" . $match[1] . "\n. %s . <<<'" . $match[1] . "'\n";
+                        $add = self::replaceVars($add, $format);
                     } else { // heredoc
-                        $format = '{%s}';
-                        $useVariables = true;
+                        $add = self::replaceVars($add, '{%s}', true);
                     }
                     break;
-            }
-
-            $add = self::replaceVars($add, $format, $useVariables, $stripslashes);
-
-            if ($token[0] == T_CONSTANT_ENCAPSED_STRING) {
-                $start = substr($add, 0, 5);
-                $end = substr($add, -5);
-                if ($start == '"" . ' || $start == "'' . ") {
-                    $add = substr($add, 5);
-                }
-                if ($end == ' . ""' || $end == " . ''") {
-                    $add = substr($add, 0, -5);
-                }
             }
 
             $content .= $add;
