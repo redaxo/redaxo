@@ -136,7 +136,7 @@ class rex_form
             if ($label) {
                 $attr = ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true];
 
-                if($name === 'abort') {
+                if ($name === 'abort') {
                     $attr['formnovalidate'] = 'formnovalidate';
                 }
                 $controlElements[$name] = $this->addField(
