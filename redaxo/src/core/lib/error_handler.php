@@ -43,7 +43,7 @@ abstract class rex_error_handler
      * Handles the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to handle
-     * @param bool      $showTrace
+     * @param bool                $showTrace
      */
     public static function handleException($exception, $showTrace = true)
     {
