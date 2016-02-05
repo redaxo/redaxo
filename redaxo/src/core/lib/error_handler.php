@@ -42,10 +42,10 @@ abstract class rex_error_handler
     /**
      * Handles the given Exception.
      *
-     * @param Exception $exception The Exception to handle
+     * @param Throwable|Exception $exception The Exception to handle
      * @param bool      $showTrace
      */
-    public static function handleException(Exception $exception, $showTrace = true)
+    public static function handleException($exception, $showTrace = true)
     {
         rex_logger::logException($exception);
 
