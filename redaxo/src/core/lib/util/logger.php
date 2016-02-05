@@ -22,9 +22,9 @@ class rex_logger extends AbstractLogger
     /**
      * Shorthand: Logs the given Exception.
      *
-     * @param Exception $exception The Exception to log
+     * @param Throwable|Exception $exception The Exception to log
      */
-    public static function logException(Exception $exception)
+    public static function logException($exception)
     {
         if ($exception instanceof ErrorException) {
             self::logError($exception->getSeverity(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
