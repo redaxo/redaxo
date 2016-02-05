@@ -134,11 +134,16 @@ class rex_form
         $controlElements = [];
         foreach ($controlFields as $name => $label) {
             if ($label) {
+                $attr = ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true];
+
+                if($name === 'abort') {
+                    $attr['formnovalidate'] = 'formnovalidate';
+                }
                 $controlElements[$name] = $this->addField(
                     'button',
                     $name,
                     $label,
-                    ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true],
+                    $attr,
                     false
                 );
             } else {
