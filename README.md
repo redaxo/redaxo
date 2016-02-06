@@ -20,4 +20,4 @@ git submodule update
 
 Oder alternativ ein [Release herunterladen](https://github.com/redaxo/redaxo/releases)
 
-Beachte: Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten nicht die nötigen GIT Submodule, funktionieren daher nicht.
+*Beachte:* Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten nicht die nötigen GIT Submodule, funktionieren daher nicht.
