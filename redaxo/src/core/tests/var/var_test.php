@@ -31,6 +31,9 @@ EOT;
 bREX_TEST_VAR[content=c]d
 EOT;
 ?>e', 'abcde'],
+            ['a
+REX_TEST_VAR[content=b]
+c', "a\nb\nc"],
         ];
     }
 

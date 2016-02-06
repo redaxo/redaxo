@@ -550,7 +550,7 @@ jQuery(document).ready(function($) {
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
 
-                options.container.trigger('rex:ready', [options.container]);
+                options.context.trigger('rex:ready', [options.context]);
             });
     }
 

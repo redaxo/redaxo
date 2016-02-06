@@ -101,7 +101,7 @@
         color: $color-a-darker;
 
         &:focus {
-            border-color: inherit;
+            border-color: $color-a-light;
             @include box-shadow(none);
         }
     }
