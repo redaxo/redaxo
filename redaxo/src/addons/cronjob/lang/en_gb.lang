@@ -1,77 +1,77 @@
 # addon:cronjob en_gb
 
-cronjob_title = [missing_text] de:Cronjobs
+cronjob_title = Cronjobs
 
-cronjob_add = [missing_text] de:Cronjob hinzufügen
-cronjob_edit = [missing_text] de:Cronjob editieren
+cronjob_add = add cronjob
+cronjob_edit = edit cronjob
 
-cronjob_caption = [missing_text] de:Liste der angelegten Cronjobs
-cronjob_no_cronjobs = [missing_text] de:Keine Cronjobs vorhanden
+cronjob_caption = List of creaded cronjobs
+cronjob_no_cronjobs = No cronjobs created
 
-cronjob_delete = [missing_text] de:löschen
-cronjob_really_delete = [missing_text] de:Cronjob wirklich löschen?
-cronjob_delete_success = [missing_text] de:Cronjob "{0}" wurde erfolgreich gelöscht!
-cronjob_delete_error = [missing_text] de:Cronjob "{0}" konnte nicht gelöscht werden!
+cronjob_delete = delete
+cronjob_really_delete = Do you really want to delete this cronjob?
+cronjob_delete_success = Cronjob "{0}" was deleted successfully!
+cronjob_delete_error = Cronjob "{0}" could not be deleted!
 
-cronjob_execute = [missing_text] de:ausführen
-cronjob_execute_success = [missing_text] de:Cronjob "{0}" wurde erfolgreich ausgeführt!
-cronjob_execute_error = [missing_text] de:Cronjob "{0}" wurde nicht erfolgreich ausgeführt!
+cronjob_execute = execute
+cronjob_execute_success = Cronjob "{0}" was executed successfully!
+cronjob_execute_error = Cronjob "{0}" was not executed successfully!
 
-cronjob_name = [missing_text] de:Name
-cronjob_description = [missing_text] de:Beschreibung
-cronjob_examples = [missing_text] de:Beispiele
+cronjob_name = Name
+cronjob_description = Description
+cronjob_examples = Examples
 
-cronjob_type = [missing_text] de:Typ
-cronjob_type_not_found = [missing_text] de:Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn/PlugIn aktiviert ist!
-cronjob_type_phpcode = [missing_text] de:PHP-Code
-cronjob_type_phpcallback = [missing_text] de:PHP-Callback
-cronjob_type_urlrequest = [missing_text] de:URL-Aufruf
-cronjob_type_urlrequest_url = [missing_text] de:URL
-cronjob_type_urlrequest_post = [missing_text] de:POST-Parameter
-cronjob_type_urlrequest_httpauth = [missing_text] de:HTTP-Authentifizierung
-cronjob_type_urlrequest_user = [missing_text] de:Benutzer
-cronjob_type_urlrequest_password = [missing_text] de:Passwort
-cronjob_type_parameters = [missing_text] de:Typspezifische Parameter
-cronjob_type_no_parameters = [missing_text] de:Für diesen Typ sind keine weiteren Parameter notwendig!
+cronjob_type = Type
+cronjob_type_not_found = Cronjob "{0}" can not be modified due to a missing class "{1}". Make sure the associated AddOn or plugin is active!
+cronjob_type_phpcode = PHP-Code
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = URL-Request
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = POST-Parameter
+cronjob_type_urlrequest_httpauth = HTTP-Authentification
+cronjob_type_urlrequest_user = User
+cronjob_type_urlrequest_password = Password
+cronjob_type_parameters = Type-specific parameter
+cronjob_type_no_parameters = No other parameters are required for this type!
 
-cronjob_interval = [missing_text] de:Intervall
-cronjob_interval_minutes = [missing_text] de:Minute(n)
-cronjob_interval_hour = [missing_text] de:Stunde(n)
-cronjob_interval_day = [missing_text] de:Tag(e)
-cronjob_interval_week = [missing_text] de:Woche(n)
-cronjob_interval_month = [missing_text] de:Monat(e)
-cronjob_interval_year = [missing_text] de:Jahr(e)
+cronjob_interval = Interval
+cronjob_interval_minutes = Minute(s)
+cronjob_interval_hour = Hour(s)
+cronjob_interval_day = Day(s)
+cronjob_interval_week = Week(s)
+cronjob_interval_month = Month(s)
+cronjob_interval_year = Year(s)
 
-cronjob_environment = [missing_text] de:Umgebung
-cronjob_environment_frontend = [missing_text] de:Frontend
-cronjob_environment_backend = [missing_text] de:Backend
+cronjob_environment = Environment
+cronjob_environment_frontend = Frontend
+cronjob_environment_backend = Backend
 
-cronjob_execution = [missing_text] de:Ausführung
-cronjob_execution_beginning = [missing_text] de:Skriptanfang
-cronjob_execution_ending = [missing_text] de:Skriptende
+cronjob_execution = Execution
+cronjob_execution_beginning = Execution beginning
+cronjob_execution_ending = Execution ending
 
-cronjob_status_function = [missing_text] de:Status/Funktion
-cronjob_status = [missing_text] de:Status
-cronjob_status_activated = [missing_text] de:aktiviert
-cronjob_status_deactivated = [missing_text] de:deaktiviert
-cronjob_status_invalid = [missing_text] de:fehlerhaft
-cronjob_status_activate_success = [missing_text] de:Cronjob "{0}" wurde aktiviert!
-cronjob_status_activate_error = [missing_text] de:Cronjob "{0}" konnte nicht aktiviert werden!
-cronjob_status_deactivate_success = [missing_text] de:Cronjob "{0}" wurde deaktiviert!
-cronjob_status_deactivate_error = [missing_text] de:Cronjob "{0}" konnte nicht deaktiviert werden!
+cronjob_status_function = Status/Function
+cronjob_status = Status
+cronjob_status_activated = activated
+cronjob_status_deactivated = deactivated
+cronjob_status_invalid = invalid
+cronjob_status_activate_success = Cronjob "{0}" was activated!
+cronjob_status_activate_error = Cronjob "{0}" could not be activated!
+cronjob_status_deactivate_success = Cronjob "{0}" was deactivated!
+cronjob_status_deactivate_error = Cronjob "{0}" could not be deactivated!
 
-cronjob_error_no_name = [missing_text] de:Geben Sie einen Namen ein!
+cronjob_error_no_name = Please enter a name!
 
-cronjob_not_found = [missing_text] de:Cronjob nicht gefunden!
-cronjob_not_editable = [missing_text] de:Cronjob ist nicht editierbar!
+cronjob_not_found = Cronjob was not found!
+cronjob_not_editable = Cronjob can not be modified!
 
-cronjob_log = [missing_text] de:Log
-cronjob_log_date = [missing_text] de:Datum
-cronjob_log_year = [missing_text] de:Jahr
-cronjob_log_month = [missing_text] de:Monat
-cronjob_log_ok = [missing_text] de:OK
-cronjob_no_log_files = [missing_text] de:Keine Log-Dateien vorhanden.
-cronjob_log_no_data = [missing_text] de:Keine Daten vorhanden.
-cronjob_log_caption_1 = [missing_text] de:Liste der ausgeführten Cronjobs im {0} {1}
-cronjob_log_caption_2 = [missing_text] de:Liste der zuletzt ausgeführten Cronjobs
-cronjob_log_message = [missing_text] de:Meldung
+cronjob_log = Log
+cronjob_log_date = Date
+cronjob_log_year = Year
+cronjob_log_month = Month
+cronjob_log_ok = OK
+cronjob_no_log_files = No log files available.
+cronjob_log_no_data = No log data available.
+cronjob_log_caption_1 = List of executed cronjobs in {0} {1}
+cronjob_log_caption_2 = List of latest executed cronjobs
+cronjob_log_message = Log message

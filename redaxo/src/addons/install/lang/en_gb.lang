@@ -1,68 +1,68 @@
 # addon:install en_gb
 
-install_title = [missing_text] de:Installer
-install_subpage_packages = [missing_text] de:Core & Packages
-install_subpage_update = [missing_text] de:Vorhandene aktualisieren
-install_subpage_add = [missing_text] de:Neue herunterladen
-install_subpage_upload = [missing_text] de:Eigene hochladen
-install_subpage_settings = [missing_text] de:Einstellungen
+install_title = Installer
+install_subpage_packages = Core & Packages
+install_subpage_update = Updates
+install_subpage_add = Download new
+install_subpage_upload = Upload your own
+install_subpage_settings = Settings
 
-install_webservice_unreachable = [missing_text] de:Der Webservice ist zurzeit nicht erreichbar!
-install_webservice_error = [missing_text] de:Der Webservice liefert folgende Fehlermeldung:
-install_archive_unreachable = [missing_text] de:Die Zip-Datei ist nicht erreichbar!
+install_webservice_unreachable = Webserver is currently not available!
+install_webservice_error = Webserver error response:
+install_archive_unreachable = Zip file is  not available!
 
-install_reload = [missing_text] de:Liste aktualisieren
-install_key = [missing_text] de:Key
-install_information = [missing_text] de:Information
-install_name = [missing_text] de:Name
-install_author = [missing_text] de:Autor
-install_shortdescription = [missing_text] de:Kurzbeschreibung
-install_description = [missing_text] de:Beschreibung
-install_files = [missing_text] de:Dateien
-install_version = [missing_text] de:Version
-install_existing_version = [missing_text] de:Vorhandene Version
-install_available_versions = [missing_text] de:Verfügbare Versionen
-install_addon_already_exists = [missing_text] de:bereits heruntergeladen
-install_update = [missing_text] de:aktualisieren
-install_download = [missing_text] de:herunterladen
-install_addons_found = [missing_text] de:{0} AddOns gefunden
-install_available_updates = [missing_text] de:{0} Updates verfügbar
-install_my_packages = [missing_text] de:Meine Packages
-install_status = [missing_text] de:Status
-install_online = [missing_text] de:online
-install_offline = [missing_text] de:offline
-install_file_add = [missing_text] de:Datei hinzufügen
-install_file_edit = [missing_text] de:Datei aktualisieren
-install_send = [missing_text] de:Senden
-install_upload_file = [missing_text] de:Zip-Datei erstellen und hochladen
-install_replace_assets = [missing_text] de:Assets aus dem Root-Assets-Ordner nehmen
-install_ignore_tests = [missing_text] de:Ordner "tests" ignorieren
+install_reload = Reload list
+install_key = Key
+install_information = Information
+install_name = Name
+install_author = Author
+install_shortdescription = Short description
+install_description = Description
+install_files = Files
+install_version = Version
+install_existing_version = Existing Version
+install_available_versions = Available versions
+install_addon_already_exists = downloaded already
+install_update = update
+install_download = download
+install_addons_found = {0} AddOns found
+install_available_updates = {0} Updates available
+install_my_packages = Your packages
+install_status = Status
+install_online = online
+install_offline = offline
+install_file_add = Add file
+install_file_edit = Edit file
+install_send = Send
+install_upload_file = Create Zip file and upload
+install_replace_assets = Replace assets from Root-Assets-Folder
+install_ignore_tests = Ignore "tests" folder
 
-install_info_core_updated = [missing_text] de:Der Core wurde aktualisiert!
-install_warning_core_not_updated = [missing_text] de:Der Core konnte aus folgendem Grund nicht aktualisiert werden:
-install_warning_core_zip_not_extracted = [missing_text] de:Die Zip-Datei konnte nicht in das "src"-Verzeichnis entpackt werden!
+install_info_core_updated = Core has been updated!
+install_warning_core_not_updated = The core could not be updated for the following reason:
+install_warning_core_zip_not_extracted = The zip file could not be unpacked in the "src" directory!
 
-install_info_addon_downloaded = [missing_text] de:AddOn "{0}" wurde heruntergeladen!
-install_warning_addon_not_downloaded = [missing_text] de:AddOn "{0}" konnte aus folgendem Grund nicht heruntergeladen werden:
-install_info_addon_updated = [missing_text] de:AddOn "{0}" wurde aktualisiert!
-install_warning_addon_not_updated = [missing_text] de:AddOn "{0}" konnte aus folgendem Grund nicht aktualisiert werden:
-install_info_addon_uploaded = [missing_text] de:AddOn "{0}" wurde hochgeladen!
-install_info_addon_deleted = [missing_text] de:AddOn-Version von "{0}" wurde gelöscht!
-install_warning_addon_zip_not_extracted = [missing_text] de:Beim Entpacken der Zip-Datei in das AddOn-Verzeichnis ist ein Fehler aufgetreten. Möglicherweise fehlen Schreibrechte oder der Ordnername innerhalb der Zip-Datei entspricht nicht dem AddOn-Key.
+install_info_addon_downloaded = AddOn "{0}" downloaded!
+install_warning_addon_not_downloaded = AddOn "{0}" could not be downloaded because of the following:
+install_info_addon_updated = AddOn "{0}" has been updated!
+install_warning_addon_not_updated = AddOn "{0}" could not be downloaded because of the following:
+install_info_addon_uploaded = AddOn "{0}" has been uploaded!
+install_info_addon_deleted = AddOn-Version of "{0}" has been deleted!
+install_warning_addon_zip_not_extracted = Zip file could not bee extracted in the AddOn directory. You may have missing write permissions or the folder name within the zip file does not match the add-Key.
 
-install_warning_zip_wrong_checksum = [missing_text] de:Die Prüfsumme der heruntergeladenen Zip-Datei stimmt nicht mit der erwarteten überein!
-install_warning_zip_wrong_format = [missing_text] de:Die Zip-Datei ist nicht im erforderlichen Format.
+install_warning_zip_wrong_checksum = The checksum of the downloaded zip file does not match!
+install_warning_zip_wrong_format = The zip file is not in the required format..
 
-install_to_addon_page = [missing_text] de:Zur AddOn-Verwaltung
+install_to_addon_page = Go to AddOn management
 
-install_settings_general = [missing_text] de:Allgemein
-install_settings_backups = [missing_text] de:Backups erstellen
-install_settings_myredaxo_account = [missing_text] de:myREDAXO-Account
-install_settings_api_login = [missing_text] de:Nutzername
-install_settings_api_key = [missing_text] de:API-Key
-install_settings_saved = [missing_text] de:Einstellungen wurden gespeichert!
+install_settings_general = General
+install_settings_backups = Create backup
+install_settings_myredaxo_account = myREDAXO account
+install_settings_api_login = Username
+install_settings_api_key = API-Key
+install_settings_saved = Settings saved !
 
-install_header_function = [missing_text] de:Funktion
+install_header_function = Function
 
-install_clear = [missing_text] de:Löschen
-install_search = [missing_text] de:Suchen ...
+install_clear = Clear
+install_search = Search ...
