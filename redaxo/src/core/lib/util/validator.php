@@ -62,6 +62,13 @@ class rex_validator
         $this->message = null;
         foreach ($this->types as $type) {
             list($type, $message, $option) = $type;
+
+            if ($value === '') {
+                if (strtolower($type) !== 'notempty') {
+                    continue;
+                }
+            }
+
             if (!$this->$type($value, $option)) {
                 $this->message = $message;
                 return false;
