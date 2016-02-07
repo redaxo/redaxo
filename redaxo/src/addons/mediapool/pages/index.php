@@ -14,8 +14,8 @@ global $subpage, $ftitle, $error, $success;
 // -------------- Defaults
 $subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
-$success = rex_request('info', 'string');
-$error = rex_request('warning', 'string');
+$success = htmlspecialchars(rex_request('info', 'string'));
+$error = htmlspecialchars(rex_request('warning', 'string'));
 $args = rex_request('args', 'array');
 
 // -------------- Additional Args

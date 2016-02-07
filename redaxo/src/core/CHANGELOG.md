@@ -6,7 +6,8 @@ Version 5.0.1 – XX.XX.2016
 
 ### Security
 
-* Im eingeloggten Bereich war eine SQL-Injection möglich
+* Im eingeloggten Bereich war eine SQL-Injection im Medienpool möglich
+* Im eingeloggten Bereich war XSS im Medienpool möglich
 
 ### Bugfixes
 
