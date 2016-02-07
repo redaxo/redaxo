@@ -579,11 +579,13 @@ if (!$file_id) {
         ';
     }
 
+    $files = rex_sql::factory();
     $where = 'f.category_id=' . $rex_file_category;
     $addTable = '';
     if ($media_name != '') {
         $media_name = str_replace(['_', '%'], ['\_', '\%'], $media_name);
-        $where = "(f.filename LIKE '%" . $media_name . "%' OR f.title LIKE '%" . $media_name . "%')";
+        $media_name = $files->escape('%'.$media_name.'%');
+        $where = "(f.filename LIKE " . $media_name . " OR f.title LIKE " . $media_name . ")";
         if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global' && $rex_file_category != 0) {
             $addTable = rex::getTablePrefix() . 'media_category c, ';
             $where .= ' AND f.category_id = c.id ';
@@ -593,7 +595,7 @@ if (!$file_id) {
     if (isset($args['types'])) {
         $types = [];
         foreach (explode(',', $args['types']) as $type) {
-            $types[] = 'LOWER(RIGHT(f.filename, LOCATE(".", REVERSE(f.filename))-1))="' . strtolower(htmlspecialchars($type)) . '"';
+            $types[] = 'LOWER(RIGHT(f.filename, LOCATE(".", REVERSE(f.filename))-1))=' . $files->escape(strtolower($type));
         }
         $where .= ' AND (' . implode(' OR ', $types) . ')';
     }
@@ -603,8 +605,6 @@ if (!$file_id) {
     $qry = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $qry, [
         'category_id' => $rex_file_category,
     ]));
-    $files = rex_sql::factory();
-//   $files->setDebug();
     $files->setQuery($qry);
 
     $panel .= '<tbody>';
