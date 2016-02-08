@@ -141,7 +141,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $("#rex-js-install-packages-upload-upload-file").change(function(){
                 if($(this).is(":checked"))
                 {
-                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html("<del>' . $file['version'] . '</del> <ins>' . $newVersion . '</ins>");' : '') . '
+                    ' . ($newVersion != $file['version'] ? '$("#rex-js-install-packages-upload-version").html(\'<del class="rex-package-old-version">' . $file['version'] . '</del> <ins class="rex-package-new-version">' . $newVersion . '</ins>\');' : '') . '
                     $("#rex-js-install-packages-upload-replace-assets, #rex-js-install-packages-upload-ignore-tests").removeAttr("disabled");
                 }
                 else
