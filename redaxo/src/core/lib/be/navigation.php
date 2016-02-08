@@ -8,7 +8,11 @@ class rex_be_navigation
     use rex_factory_trait;
 
     private $headlines = [];
-    private $pages = [];
+    private $pages = [
+        'default' => [],
+        'system' => [],
+        'addons' => [],
+    ];
 
     /**
      * @return static
