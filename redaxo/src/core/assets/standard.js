@@ -587,4 +587,14 @@ jQuery(document).ready(function($) {
         }, 'xml');
 
     });
+
+    $('.dropdown').on('show.bs.dropdown', function () {
+        var windowHeight = $(window).height();
+        var rect = this.getBoundingClientRect();
+        if (rect.top > windowHeight) return;
+        var menuHeight = $(this).children('.dropdown-menu').height();
+        $(this).toggleClass('dropup',
+          ((windowHeight - rect.bottom) < menuHeight) &&
+          (rect.top > menuHeight));
+    });
 });
