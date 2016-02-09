@@ -11,6 +11,7 @@ Version 5.0.1 – XX.XX.2016
 
 ### Bugfixes
 
+* Fehlende Übersetzungen in Englisch ergänzt (@VIEWSION)
 * Navigation: Teilweise erschienen die Addons über dem Hauptmenü bei Nicht-Admins
 * Einbindung von Templates/Modulen (rex_stream) funktionierte auf manchen Servern nicht
 * REX_VARs:

@@ -1,8 +1,8 @@
 structure = Structure
 
 title_structure = Structure management
-homepage = [missing_text] de:Homepage
-root_level = [missing_text] de:Hauptebene
+homepage = Homepage
+root_level = Root
 no_such_category = Category not found!
 category_updated = Category updated.
 category_could_not_be_deleted = Error. Category not deleted!
@@ -40,21 +40,21 @@ article_deleted = Article deleted!
 article_could_not_be_generated = Article could not be generated.
 category_deleted = Category deleted!
 category_doesnt_exist = Category doesn't exist!
-cant_delete_sitestartarticle = [missing_text] de:Der Webseiten-Startartikel kann nicht gelöscht werden!
-cant_delete_notfoundarticle = Not-Found-article can not be deleted
-structure_copy = [missing_text] de:Kopie
+cant_delete_sitestartarticle = The start article can not be deleted!
+cant_delete_notfoundarticle = Not-found article can not be deleted
+structure_copy = Copy
 
 all_categories = All categories
 categories = Categories
 
-be_search_article_name = [missing_text] de:Artikelname
-be_search_article_id = [missing_text] de:Artikel Id
-be_search_start = [missing_text] de:suchen
-be_search_jump_to_category = [missing_text] de:Zur Kategorie springen
-be_search_quick_navi = [missing_text] de:Schnellnavigation
-be_search_no_results = [missing_text] de:Kein Artikel entspricht dem Suchkriterium
-be_search_search = [missing_text] de:Suche
-be_search_result = [missing_text] de:Suchergebniss
+be_search_article_name = Article name
+be_search_article_id = Article ID
+be_search_start = search
+be_search_jump_to_category = Go to category
+be_search_quick_navi = Quick navigation
+be_search_no_results = No article is matching your search criteria
+be_search_search = Search
+be_search_result = Search result
 
 perm_options_article2category[] = Artikel in Kategorien umwandeln
 perm_options_article2startarticle[] = Artikel in Startartikel umwandeln
@@ -66,21 +66,21 @@ perm_options_publishArticle[] = Artikel veröffentlichen
 perm_options_publishCategory[] = Kategorien veröffentlichen
 perm_extras_editContentOnly[] = Es dürfen nur Inhalte gepflegt werden
 
-system_setting_start_article_id = [missing_text] de:Startartikel
-system_setting_notfound_article_id = [missing_text] de:Fehlerartikel
-system_setting_default_template_id = [missing_text] de:Standardtemplate
-system_setting_start_article_id_invalid = [missing_text] de:Ungültiger Startartikel!
-system_setting_notfound_article_id_invalid = [missing_text] de:Ungültiger Fehlerartikel!
-system_setting_default_template_id_invalid = [missing_text] de:Ungültiges Standardtemplate!
+system_setting_start_article_id = Start article
+system_setting_notfound_article_id = Not-found article
+system_setting_default_template_id = Default template
+system_setting_start_article_id_invalid = Invalid start article!
+system_setting_notfound_article_id_invalid = Invalid not-found article!
+system_setting_default_template_id_invalid = Invalid default template!
 
 linkmap = Linkmap
-linkmap_categories = [missing_text] de:Kategorien
-linkmap_articles = [missing_text] de:Artikel
-linkmap_has_no_template = [missing_text] de:hat kein Template
+linkmap_categories = Categories
+linkmap_articles = Article
+linkmap_has_no_template = has no template
 
-var_link_open = [missing_text] de:Link auswählen
-var_link_delete = [missing_text] de:Ausgewählten Link löschen
-var_linklist_move_top = [missing_text] de:Ausgewählten Link an den Anfang verschieben
-var_linklist_move_up = [missing_text] de:Ausgewählten Link nach oben verschieben
-var_linklist_move_down = [missing_text] de:Ausgewählten Link nach unten verschieben
-var_linklist_move_bottom = [missing_text] de:Ausgewählten Link an das Ende verschieben
+var_link_open = Select Link
+var_link_delete = Delete selected link
+var_linklist_move_top = Move selected link to top
+var_linklist_move_up = Move selected link up
+var_linklist_move_down = Move selected link down
+var_linklist_move_bottom = Move selected link to bottom
