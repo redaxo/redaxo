@@ -25,11 +25,11 @@ if ($PERMALL) {
             rex_media_cache::deleteCategory($edit_id);
         } elseif ($media_method == 'delete_file_cat') {
             $gf = rex_sql::factory();
-            $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=' . $edit_id);
+            $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=?', [$edit_id]);
             $gd = rex_sql::factory();
-            $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=' . $edit_id);
+            $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$edit_id]);
             if ($gf->getRows() == 0 && $gd->getRows() == 0) {
-                $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $edit_id);
+                $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$edit_id]);
                 rex_media_cache::deleteCategory($edit_id);
                 rex_media_cache::deleteLists();
                 $success = rex_i18n::msg('pool_kat_deleted');

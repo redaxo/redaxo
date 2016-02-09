@@ -122,7 +122,7 @@ if ($file_id && rex_post('btn_delete', 'string')) {
 
 if ($file_id && rex_post('btn_update', 'string')) {
     $gf = rex_sql::factory();
-    $gf->setQuery('select * from ' . rex::getTablePrefix() . "media where id='$file_id'");
+    $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
     if ($gf->getRows() == 1) {
         if ($PERMALL || (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category))) {
             $FILEINFOS = [];
@@ -153,7 +153,7 @@ if ($file_id && rex_post('btn_update', 'string')) {
 
 if ($file_id) {
     $gf = rex_sql::factory();
-    $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = "' . $file_id . '"');
+    $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$file_id]);
     if ($gf->getRows() == 1) {
         $TPERM = false;
         if ($PERMALL || rex::getUser()->hasPerm('media[' . $gf->getValue('category_id') . ']')) {

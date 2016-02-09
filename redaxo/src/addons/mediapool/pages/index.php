@@ -41,7 +41,7 @@ $rex_file_category = rex_request('rex_file_category', 'int', -1);
 
 if ($file_name != '') {
     $sql = rex_sql::factory();
-    $sql->setQuery('select * from ' . rex::getTablePrefix() . "media where filename='$file_name'");
+    $sql->setQuery('select * from ' . rex::getTablePrefix() . 'media where filename=?', [$file_name]);
     if ($sql->getRows() == 1) {
         $file_id = $sql->getValue('id');
         $rex_file_category = $sql->getValue('category_id');
@@ -53,7 +53,7 @@ if ($rex_file_category == -1) {
 }
 
 $gc = rex_sql::factory();
-$gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
+$gc->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$rex_file_category]);
 if ($gc->getRows() != 1) {
     $rex_file_category = 0;
     $rex_file_category_name = rex_i18n::msg('pool_kats_no');

@@ -92,10 +92,10 @@ class rex_media_cache
      */
     public static function generate($filename)
     {
-        $query = 'SELECT * FROM ' . rex::getTable('media') . ' WHERE filename = "' . $filename . '"';
+        $query = 'SELECT * FROM ' . rex::getTable('media') . ' WHERE filename = ?';
         $sql = rex_sql::factory();
         //$sql->setDebug();
-        $sql->setQuery($query);
+        $sql->setQuery($query, [$filename]);
 
         if ($sql->getRows() == 0) {
             return false;
@@ -135,10 +135,10 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT * FROM ' . rex::getTable('media_category') . ' WHERE id = ' . $category_id;
+        $query = 'SELECT * FROM ' . rex::getTable('media_category') . ' WHERE id = ?';
         $sql = rex_sql::factory();
         //$sql->setDebug();
-        $sql->setQuery($query);
+        $sql->setQuery($query, [$category_id]);
 
         if ($sql->getRows() == 0) {
             return false;
@@ -178,9 +178,9 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT filename FROM ' . rex::getTable('media') . ' WHERE category_id = ' . $category_id;
+        $query = 'SELECT filename FROM ' . rex::getTable('media') . ' WHERE category_id = ?';
         $sql = rex_sql::factory();
-        $sql->setQuery($query);
+        $sql->setQuery($query, [$category_id]);
 
         $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); ++$i) {
@@ -210,10 +210,10 @@ class rex_media_cache
             return false;
         }
 
-        $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex::getTable('media_category') . ' WHERE parent_id = ' . $category_id . ' ORDER BY sort, name';
+        $query = 'SELECT id, cast( name AS SIGNED ) AS sort FROM ' . rex::getTable('media_category') . ' WHERE parent_id = ? ORDER BY sort, name';
         $sql = rex_sql::factory();
         //$sql->setDebug();
-        $sql->setQuery($query);
+        $sql->setQuery($query, [$category_id]);
 
         $cacheArray = [];
         for ($i = 0; $i < $sql->getRows(); ++$i) {
