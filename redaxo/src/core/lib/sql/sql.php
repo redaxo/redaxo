@@ -81,6 +81,10 @@ class rex_sql implements Iterator
 
     protected static function createConnection($host, $database, $login, $password, $persistent = false)
     {
+        if (!$database) {
+            throw new InvalidArgumentException('Database name can not be empty.');
+        }
+
         $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
@@ -1301,6 +1305,10 @@ class rex_sql implements Iterator
      */
     public static function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
     {
+        if (!$dbname) {
+            return rex_i18n::msg('sql_database_name_missing');
+        }
+
         $err_msg = true;
 
         try {

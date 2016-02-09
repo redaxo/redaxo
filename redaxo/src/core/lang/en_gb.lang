@@ -210,7 +210,7 @@ setup_799 = 7 / Hooray
 setup_security_msg = The folder redaxo/include is insecure. Please protect this folder and run setup again.
 setup_no_js_security_msg = Please check, if files in the folder redaxo/include are directly accessible! This should be impossible due to security restrictions!
 
-
+sql_database_name_missing = The database name is missing!
 sql_database_already_exists = Database already exists!
 sql_unable_to_connect_database = Unable to connect to the database!
 sql_unable_to_connect_server = Unable to connect to the databaseserver!

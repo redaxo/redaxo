@@ -12,6 +12,7 @@ Version 5.0.1 – XX.XX.2016
 ### Bugfixes
 
 * Fehlende Übersetzungen in Englisch ergänzt (@VIEWSION)
+* Bei Überprüfung der DB-Verbindung wurde keine sinnvolle Fehlermeldung ausgegeben, wenn der Datenbankname fehlte
 * Navigation: Teilweise erschienen die Addons über dem Hauptmenü bei Nicht-Admins
 * Einbindung von Templates/Modulen (rex_stream) funktionierte auf manchen Servern nicht
 * REX_VARs:

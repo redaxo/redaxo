@@ -210,7 +210,7 @@ setup_799 = 7 / Heureka
 setup_security_msg = Der Ordner redaxo ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, redaxo/data und redaxo/src direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
 
-
+sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
 sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank hergestellt werden!
 sql_unable_to_connect_server = Es konnte keine Verbindung zum Datenbankserver hergestellt werden!
