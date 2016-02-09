@@ -1,6 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
+    ->exclude('data')
     ->exclude('demo_base')
     ->exclude('sprog')
     ->exclude('watson')

@@ -585,7 +585,7 @@ if (!$file_id) {
     if ($media_name != '') {
         $media_name = str_replace(['_', '%'], ['\_', '\%'], $media_name);
         $media_name = $files->escape('%'.$media_name.'%');
-        $where = "(f.filename LIKE " . $media_name . " OR f.title LIKE " . $media_name . ")";
+        $where = '(f.filename LIKE ' . $media_name . ' OR f.title LIKE ' . $media_name . ')';
         if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global' && $rex_file_category != 0) {
             $addTable = rex::getTablePrefix() . 'media_category c, ';
             $where .= ' AND f.category_id = c.id ';
