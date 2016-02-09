@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.0.2 – XX.XX.2016
+--------------------------
+
+### Bugfixes
+
+* Bessere Darstellung der alten und neuen Versionsnummer beim Überschreiben (Upload) einer Addon-Version
+
 Version 2.0.1 – 22.01.2016
 --------------------------
 
