@@ -87,7 +87,7 @@ class rex_managed_media
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
             imagealphablending($this->image['src'], false);
-            imagesavealpha($this->img['src'], true);
+            imagesavealpha($this->image['src'], true);
             $this->image['format'] = 'png';
         }
 
