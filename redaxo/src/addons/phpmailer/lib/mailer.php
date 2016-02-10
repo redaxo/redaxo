@@ -10,7 +10,7 @@
 
 class rex_mailer extends PHPMailer
 {
-    public function __construct()
+    public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
 
@@ -34,5 +34,36 @@ class rex_mailer extends PHPMailer
         }
 
         $this->PluginDir = $addon->getPath('lib/phpmailer/');
+        
+        parent::__construct($exceptions);
+    }
+    
+    public function send()
+    {
+        $this->backup();
+        return parent::send();
+    }
+    
+    private function backup()
+    {
+        $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
+        $content .= 'From : '.$this->From.PHP_EOL;
+        $content .= 'To : '.implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL;
+        $content .= 'Subject : '.$this->Subject.PHP_EOL;
+        $content .= ' -->'.PHP_EOL;
+        $content .= $this->Body;
+        
+        $dir = rex_path::frontend().'mail_backup';
+        if (!file_exists($dir)) {
+          mkdir($dir);
+        }
+        
+        $count = 1;
+        $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
+        while (file_exists($backupFile)) {
+          $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
+        }
+        
+        file_put_contents($backupFile, $content);
     }
 }
