@@ -1,16 +1,28 @@
 <?php
 
+$src = __DIR__.'/redaxo/src';
+
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('data')
-    ->exclude('demo_base')
-    ->exclude('sprog')
-    ->exclude('watson')
-    ->exclude('yform')
-    ->exclude('yrewrite')
     ->exclude('fragments')
-    ->exclude('releases')
-    ->notPath('src/core/boot.php')
-    ->in(__DIR__)
+    ->in([
+        $src.'/core',
+        $src.'/addons/backup',
+        $src.'/addons/be_style',
+        $src.'/addons/cronjob',
+        $src.'/addons/debug',
+        $src.'/addons/install',
+        $src.'/addons/media_manager',
+        $src.'/addons/mediapool',
+        $src.'/addons/metainfo',
+        $src.'/addons/phpmailer',
+        $src.'/addons/structure',
+        $src.'/addons/tests',
+        $src.'/addons/textile',
+        $src.'/addons/users',
+    ])
+    ->filter(function (\SplFileInfo $file) use ($src) {
+        return $src.'/core/boot.php' !== $file->getRealPath();
+    })
 ;
 
 return PhpCsFixer\Config::create()
