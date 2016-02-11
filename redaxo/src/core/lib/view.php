@@ -278,7 +278,7 @@ class rex_view
         $fragment->setVar('subtitle', $subtitle, false);
         $return = $fragment->parse('core/page/header.php');
 
-        echo rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
+        $return .= rex_extension::registerPoint(new rex_extension_point('PAGE_TITLE_SHOWN', ''));
 
         return $return;
     }
