@@ -53,9 +53,9 @@ class rex_mailer extends PHPMailer
         $content .= ' -->'.PHP_EOL;
         $content .= $this->Body;
         
-        $dir = rex_path::frontend().'mail_backup';
+        $dir = rex_path::addonData('phpmailer', 'mail_backup/'.date('Y').'/'.date('m'));
         if (!file_exists($dir)) {
-          mkdir($dir);
+          mkdir($dir, 0777, true);
         }
         
         $count = 1;
