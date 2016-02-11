@@ -7,21 +7,6 @@
 [submodule "redaxo/src/addons/be_style/vendor/scssphp"]
 	path = redaxo/src/addons/be_style/vendor/scssphp
 	url = https://github.com/leafo/scssphp
-[submodule "redaxo/src/addons/watson"]
-	path = redaxo/src/addons/watson
-	url = https://github.com/tbaddade/redaxo_watson
-[submodule "redaxo/src/addons/yform"]
-	path = redaxo/src/addons/yform
-	url = https://github.com/yakamara/redaxo_yform
 [submodule "redaxo/src/addons/be_style/vendor/bootstrap-select"]
 	path = redaxo/src/addons/be_style/vendor/bootstrap-select
 	url = https://github.com/silviomoreto/bootstrap-select.git
-[submodule "redaxo/src/addons/yrewrite"]
-	path = redaxo/src/addons/yrewrite
-	url = https://github.com/yakamara/redaxo_yrewrite.git
-[submodule "redaxo/src/addons/sprog"]
-	path = redaxo/src/addons/sprog
-	url = https://github.com/tbaddade/redaxo_sprog
-[submodule "redaxo/src/addons/demo_base"]
-	path = redaxo/src/addons/demo_base
-	url = https://github.com/redaxo/redaxo_demo_base.git
