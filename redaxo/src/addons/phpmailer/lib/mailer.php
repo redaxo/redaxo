@@ -54,9 +54,6 @@ class rex_mailer extends PHPMailer
         $content .= $this->Body;
         
         $dir = rex_path::addonData('phpmailer', 'mail_backup/'.date('Y').'/'.date('m'));
-        if (!file_exists($dir)) {
-          mkdir($dir, 0777, true);
-        }
         
         $count = 1;
         $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
@@ -64,6 +61,6 @@ class rex_mailer extends PHPMailer
           $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
         }
         
-        file_put_contents($backupFile, $content);
+        rex_file::put($backupFile, $content);
     }
 }
