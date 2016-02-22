@@ -72,7 +72,6 @@ class rex_sql implements Iterator
                 $this->setQuery('SET SQL_MODE=""');
                 // set encoding
                 $this->setQuery('SET NAMES utf8');
-                $this->setQuery('SET CHARACTER SET utf8');
             }
         } catch (PDOException $e) {
             throw new rex_sql_exception('Could not connect to database', $e);
