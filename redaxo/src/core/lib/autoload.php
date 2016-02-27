@@ -79,9 +79,10 @@ class rex_autoload
         $force = false;
         $lowerClass = strtolower($class);
         if (isset(self::$classes[$lowerClass])) {
+            $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
-            if (is_readable(self::$classes[$lowerClass])) {
-                require_once self::$classes[$lowerClass];
+            if (is_readable($path)) {
+                require_once $path;
                 if (self::classExists($class)) {
                     return true;
                 }
@@ -188,6 +189,7 @@ class rex_autoload
     public static function addDirectory($dir)
     {
         $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
+        $dir = self::normalizePath($dir);
         if (in_array($dir, self::$addedDirs)) {
             return;
         }
@@ -209,11 +211,25 @@ class rex_autoload
     }
 
     /**
+     * Returns path relative to project root.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    private static function normalizePath($path)
+    {
+        return substr($path, strlen(rex_path::base()));
+    }
+
+    /**
      * @param string $dir
      */
     private static function _addDirectory($dir)
     {
-        if (!is_dir($dir)) {
+        $dirPath = rex_path::base($dir);
+
+        if (!is_dir($dirPath)) {
             return;
         }
 
@@ -221,31 +237,32 @@ class rex_autoload
             self::$dirs[$dir] = [];
         }
         $files = self::$dirs[$dir];
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS));
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS));
         foreach ($iterator as $path => $file) {
             /** @var SplFileInfo $file */
             if (!$file->isFile() || !in_array($file->getExtension(), ['php', 'inc'])) {
                 continue;
             }
 
-            unset($files[$path]);
+            $file = self::normalizePath($path);
+            unset($files[$file]);
             $checksum = md5_file($path);
-            if (isset(self::$dirs[$dir][$path]) && self::$dirs[$dir][$path] === $checksum) {
+            if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
                 continue;
             }
-            self::$dirs[$dir][$path] = $checksum;
+            self::$dirs[$dir][$file] = $checksum;
             self::$cacheChanged = true;
 
             $classes = self::findClasses($path);
             foreach ($classes as $class) {
                 $class = strtolower($class);
                 if (!isset(self::$classes[$class])) {
-                    self::$classes[$class] = $path;
+                    self::$classes[$class] = $file;
                 }
             }
         }
-        foreach ($files as $path) {
-            unset(self::$dirs[$path]);
+        foreach ($files as $file) {
+            unset(self::$dirs[$file]);
             self::$cacheChanged = true;
         }
     }
