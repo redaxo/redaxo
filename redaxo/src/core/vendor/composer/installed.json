@@ -41,23 +41,23 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "3df409958a646dad2bc5046c3fb671ee24a1a691"
+            "reference": "3cf0709d7fe936e97bee9e954382e449003f1d9a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/3df409958a646dad2bc5046c3fb671ee24a1a691",
-            "reference": "3df409958a646dad2bc5046c3fb671ee24a1a691",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/3cf0709d7fe936e97bee9e954382e449003f1d9a",
+            "reference": "3cf0709d7fe936e97bee9e954382e449003f1d9a",
             "shasum": ""
         },
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2015-12-26 13:39:53",
+        "time": "2016-02-02 13:44:19",
         "type": "library",
         "extra": {
             "branch-alias": {
