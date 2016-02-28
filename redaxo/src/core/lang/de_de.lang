@@ -182,6 +182,8 @@ setup_510 = Backup-AddOn wurde nicht gefunden!
 setup_511 = Weiter zu Schritt 6
 setup_512 = Schritt 5 erneut durchführen
 setup_513 = System AddOn(s) konnte nicht installiert werden
+setup_514 = Aktualisierung der Datenbank
+setup_514_note = Update von vorheriger Version {0}
 setup_599 = 5 / Datenbank
 
 setup_600 = Setup: Schritt 6 von 7 / Administrator
