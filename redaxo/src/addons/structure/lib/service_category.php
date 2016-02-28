@@ -232,8 +232,8 @@ class rex_category_service
 
                 'parent_id' => $thisCat->getValue('parent_id'),
                 'clang' => $clang,
-                'name' => $thisCat->getValue('catname'),
-                'priority' => $thisCat->getValue('catpriority'),
+                'name' => isset($data['catname']) ? $data['catname'] : $thisCat->getValue('catname'),
+                'priority' => isset($data['catpriority']) ? $data['catpriority'] : $thisCat->getValue('catpriority'),
                 'path' => $thisCat->getValue('path'),
                 'status' => $thisCat->getValue('status'),
 
