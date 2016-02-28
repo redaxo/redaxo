@@ -12,9 +12,19 @@ class rex_setup_importer
         // ----- vorhandenen seite updaten
         $err_msg = '';
 
-        $import_sql = rex_path::core('install/update4_x_to_5_0.sql');
         if ($err_msg == '') {
-            $err_msg .= self::import($import_sql);
+            $version = rex::getVersion();
+            rex::setProperty('version', rex::getConfig('version'));
+
+            try {
+                include rex_path::core('update.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
+
+            rex::setProperty('version', $version);
         }
 
         if ($err_msg == '') {

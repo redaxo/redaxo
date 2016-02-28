@@ -387,6 +387,7 @@ if ($step > 5 && $createdb > -1) {
 
     if (count($errors) == 0) {
         rex_clang_service::generateCache();
+        rex::setConfig('version', rex::getVersion());
     } else {
         $step = 5;
     }
@@ -494,6 +495,12 @@ if ($step == 5) {
         $n['note'] = rex_i18n::msg('setup_506_note');
         $formElements[] = $n;
     }
+
+    $n = [];
+    $n['label'] = '<label for="rex-form-createdb-4">' . rex_i18n::msg('setup_514') . '</label>';
+    $n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="4"' . $dbchecked[4] . ' />';
+    $n['note'] = rex_i18n::msg('setup_514_note', rex::getConfig('version'));
+    $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
