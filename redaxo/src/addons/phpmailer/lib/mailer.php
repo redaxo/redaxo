@@ -23,7 +23,12 @@ class rex_mailer extends PHPMailer
         $this->CharSet = $addon->getConfig('charset');
         $this->WordWrap = $addon->getConfig('wordwrap');
         $this->Encoding = $addon->getConfig('encoding');
+        if ( $this->Priority = $addon->getConfig('priority')==0){
+         $this->Priority = null;   
+        }
+        else {
         $this->Priority = $addon->getConfig('priority');
+        }
         $this->SMTPSecure = $addon->getConfig('smtpsecure');
         $this->SMTPAuth = $addon->getConfig('smtpauth');
         $this->Username = $addon->getConfig('username');
