@@ -476,7 +476,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 // ---------------------------------- Userliste
 
 if (isset($SHOW) and $SHOW) {
-    $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, UNIX_TIMESTAMP(lasttrydate) as lasttrydate FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
+    $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, UNIX_TIMESTAMP(lastlogin) as lastlogin FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
     $list->addTableAttribute('class', 'table-striped');
 
     $tdIcon = '<i class="rex-icon rex-icon-user"></i>';
@@ -518,8 +518,8 @@ if (isset($SHOW) and $SHOW) {
         return $params['subject'] ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
     });
 
-    $list->setColumnLabel('lasttrydate', rex_i18n::msg('last_login'));
-    $list->setColumnFormat('lasttrydate', 'strftime', 'datetime');
+    $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
+    $list->setColumnFormat('lastlogin', 'strftime', 'datetime');
 
     $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);

@@ -40,6 +40,7 @@ CREATE TABLE `rex_user` (
     `createdate` datetime NOT NULL,
     `updatedate` datetime NOT NULL,
     `lasttrydate` datetime NOT NULL,
+    `lastlogin` datetime,
     `session_id` varchar(255) DEFAULT NULL,
     `cookiekey` varchar(255) DEFAULT NULL,
     `revision` int(10) unsigned NOT NULL,

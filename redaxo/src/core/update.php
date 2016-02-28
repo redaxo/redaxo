@@ -21,6 +21,7 @@ if (rex_string::versionCompare(rex::getVersion(), '5.0.0-beta1', '<=')) {
 if (rex_string::versionCompare(rex::getVersion(), '5.1.0', '<')) {
     rex_sql_table::get(rex::getTable('user'))
         ->ensureColumn(new rex_sql_column('email', 'varchar(255)', true))
+        ->ensureColumn(new rex_sql_column('lastlogin', 'datetime', true))
         ->alter();
 
     rex_sql_table::get(rex::getTable('clang'))
