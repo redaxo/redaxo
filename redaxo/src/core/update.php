@@ -17,3 +17,9 @@ if (rex_string::versionCompare(rex::getVersion(), '5.0.0-beta1', '<=')) {
     rex_dir::create(rex_path::data('core'));
     rename(rex_path::data('config.yml'), rex_path::data('core/config.yml'));
 }
+
+if (rex_string::versionCompare(rex::getVersion(), '5.1.0', '<')) {
+    rex_sql_table::get(rex::getTable('user'))
+        ->ensureColumn(new rex_sql_column('email', 'varchar(255)', true))
+        ->alter();
+}

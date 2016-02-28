@@ -23,6 +23,7 @@ path = Path
 id = Id
 name = Name
 description = Description
+email = E-mail
 function = Function
 no_editing_rights = permission denied
 check_rights_in_directory = Check folder permissions.

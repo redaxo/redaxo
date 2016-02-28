@@ -16,6 +16,7 @@ $userpsw_new_2 = rex_request('userpsw_new_2', 'string');
 
 $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
+$useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
 
 // --------------------------------- Title
@@ -49,6 +50,7 @@ if (rex_post('upd_profile_button', 'bool')) {
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
+    $updateuser->setValue('email', $useremail);
     $updateuser->setValue('language', $userperm_be_sprache);
 
     $updateuser->addGlobalUpdateFields();
@@ -124,6 +126,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

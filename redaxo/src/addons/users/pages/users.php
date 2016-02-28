@@ -47,6 +47,7 @@ $userpsw = rex_post('userpsw', 'string');
 $userlogin = rex_post('userlogin', 'string');
 $username = rex_request('username', 'string');
 $userdesc = rex_request('userdesc', 'string');
+$useremail = rex_request('useremail', 'string');
 $useradmin = rex_request('useradmin', 'int');
 $userstatus = rex_request('userstatus', 'int');
 
@@ -132,6 +133,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
     $updateuser->setValue('startpage', $userperm_startpage);
     $updateuser->addGlobalUpdateFields();
     $updateuser->setValue('description', $userdesc);
+    $updateuser->setValue('email', $useremail);
     if ($loginReset == 1) {
         $updateuser->setValue('login_tries', '0');
     }
@@ -182,6 +184,7 @@ if ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
         $adduser->setValue('password', $userpsw);
         $adduser->setValue('login', $userlogin);
         $adduser->setValue('description', $userdesc);
+        $adduser->setValue('email', $useremail);
         $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
         $adduser->setValue('language', $userperm_be_sprache);
         $adduser->setValue('startpage', $userperm_startpage);
@@ -306,6 +309,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
             $userpsw = $sql->getValue(rex::getTablePrefix() . 'user.password');
             $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
             $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
+            $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
 
             if (!rex::getUser()->isAdmin()) {
                 $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" disabled="disabled" />';
@@ -374,7 +378,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $n = [];
     $n['label'] = '<label for="rex-user-description">' . rex_i18n::msg('description') . '</label>';
     $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+    $formElements[] = $n;
 
+    $n = [];
+    $n['label'] = '<label for="rex-user-email">' . rex_i18n::msg('email') . '</label>';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-email" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

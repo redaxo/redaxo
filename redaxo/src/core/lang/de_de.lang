@@ -23,6 +23,7 @@ path = Pfad
 id = Id
 name = Name
 description = Beschreibung
+email = E-Mail
 function = Funktion
 no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner

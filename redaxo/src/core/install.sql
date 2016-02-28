@@ -27,6 +27,7 @@ CREATE TABLE `rex_user` (
     `description` text,
     `login` varchar(50) NOT NULL,
     `password` varchar(255) NOT NULL,
+    `email` varchar(255),
     `status` tinyint(1) NOT NULL,
     `admin` tinyint(1) NOT NULL,
     `language` varchar(255) NOT NULL,

@@ -83,6 +83,16 @@ class rex_user
     }
 
     /**
+     * Returns the email.
+     *
+     * @return string email
+     */
+    public function getEmail()
+    {
+        return $this->sql->getValue('email');
+    }
+
+    /**
      * Returns if the user is an admin.
      *
      * @return bool
