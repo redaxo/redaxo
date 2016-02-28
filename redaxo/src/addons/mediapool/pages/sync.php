@@ -28,7 +28,12 @@ if ($PERMALL) {
 
     // Extra - filesize/width/height DB-Filesystem Sync
     foreach ($db_files as $db_file) {
-        $file_filesize = filesize(rex_path::media($db_file['filename']));
+        $path = rex_path::media($db_file['filename']);
+        if (!file_exists($path)) {
+            continue;
+        }
+
+        $file_filesize = filesize($path);
         if ($db_file['filesize'] != $file_filesize) {
             $file_sql = rex_sql::factory();
             $file_sql->debugsql = 1;
