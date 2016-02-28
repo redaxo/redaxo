@@ -1,5 +1,8 @@
 <?php
 
+$func = rex_request('func', 'string');
+$id = rex_request('id', 'int');
+
 $message = '';
 $content = '';
 

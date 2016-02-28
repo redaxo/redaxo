@@ -1,5 +1,5 @@
 package: phpmailer
-version: '2.0.1'
+version: '2.1.0-dev'
 author: 'Markus Staab, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
@@ -11,3 +11,6 @@ page:
     subpages:
         config: { title: 'translate:configuration' }
         example: { title: 'translate:example' }
+
+requires:
+    redaxo: ^5.1.0-dev

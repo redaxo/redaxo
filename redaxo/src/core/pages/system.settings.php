@@ -8,6 +8,8 @@ $info = '';
 $error = [];
 $success = '';
 
+$func = rex_request('func', 'string');
+
 if ($func == 'setup') {
     // REACTIVATE SETUP
 

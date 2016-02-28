@@ -162,12 +162,13 @@ class rex_be_controller
             ->setPrio(70)
             ->setPjax()
             ->setIcon('rex-icon rex-icon-system')
-            ->addSubpage(new rex_be_page('settings', rex_i18n::msg('main_preferences')))
-            ->addSubpage(new rex_be_page('lang', rex_i18n::msg('languages')))
-            ->addSubpage(new rex_be_page('log', rex_i18n::msg('syslog')))
+            ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
+            ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
+            ->addSubpage((new rex_be_page('log', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log.php')))
             ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
+                ->setPath(rex_path::core('pages/system.phpinfo.php'))
             );
     }
 
@@ -391,18 +392,47 @@ class rex_be_controller
 
         require rex_path::core('layout/top.php');
 
-        $path = $currentPage->getPath();
-        $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
-        if (preg_match($pattern, $path, $matches)) {
-            $package = rex_addon::get($matches[1]);
-            if (isset($matches[2])) {
-                $package = $package->getPlugin($matches[2]);
-            }
-            $package->includeFile(str_replace($package->getPath(), '', $path));
-        } else {
-            include $path;
-        }
+        self::includePath($currentPage->getPath());
 
         require rex_path::core('layout/bottom.php');
+    }
+
+    /**
+     * Includes the sub-path of current page.
+     *
+     * @param array $context
+     *
+     * @return mixed
+     */
+    public static function includeCurrentPageSubPath(array $context = [])
+    {
+        return self::includePath(self::getCurrentPageObject()->getSubPath(), $context);
+    }
+
+    /**
+     * Includes a path in correct package context.
+     *
+     * @param string $path
+     * @param array  $context
+     *
+     * @return mixed
+     */
+    private static function includePath($path, array $context = [])
+    {
+        $pattern = '@' . preg_quote(rex_path::src('addons/'), '@') . '([^/\\\]+)(?:[/\\\]plugins[/\\\]([^/\\\]+))?@';
+
+        if (!preg_match($pattern, $path, $matches)) {
+            $__context = $context;
+            $__path = $path;
+            unset($context, $path, $pattern, $matches);
+            extract($__context, EXTR_SKIP);
+            return include $__path;
+        }
+
+        $package = rex_addon::get($matches[1]);
+        if (isset($matches[2])) {
+            $package = $package->getPlugin($matches[2]);
+        }
+        return $package->includeFile(str_replace($package->getPath(), '', $path), $context);
     }
 }

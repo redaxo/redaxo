@@ -463,7 +463,7 @@ if ($article->getRows() == 1) {
         ]));
 
         // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-        $contentMain .= include rex_be_controller::getCurrentPageObject()->getSubPath();
+        $contentMain .= rex_be_controller::includeCurrentPageSubPath(compact('info', 'warning', 'template_attributes', 'article', 'article_id', 'category_id', 'clang', 'slice_id', 'slice_revision', 'function', 'ctype', 'content', 'context'));
         // ------------------------------------------ END: AUSGABE
 
         // ----- EXTENSION POINT

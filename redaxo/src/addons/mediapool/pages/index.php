@@ -173,4 +173,4 @@ function openPage(src)
 <?php
 
 // -------------- Include Page
-include rex_be_controller::getCurrentPageObject()->getSubPath();
+rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));

@@ -10,6 +10,9 @@
  * @var rex_addon $this
  */
 
+$func = rex_request('func', 'string');
+$oid = rex_request('oid', 'int');
+
 if ($func == 'setstatus') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);

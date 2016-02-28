@@ -1,5 +1,5 @@
 package: mediapool
-version: '2.0.1'
+version: '2.0.2-dev'
 author: 'Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
@@ -20,3 +20,6 @@ page:
 blocked_extensions: [php, php3, php4, php5, php6, phtml, pl, asp, aspx, cfm, jsp, jsf, bat, sh, cgi]
 allowed_doctypes: [bmp, css, doc, docx, eps, gif, gz, jpg, mov, mp3, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, swf, tar, tif, txt, wma, xls, xlsx, zip]
 image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff]
+
+requires:
+    redaxo: ^5.1.0-dev

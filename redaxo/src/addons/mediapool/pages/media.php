@@ -4,6 +4,8 @@
  * @package redaxo5
  */
 
+$subpage = rex_be_controller::getCurrentPagePart(2);
+
 $media_method = rex_request('media_method', 'string');
 $media_name = rex_request('media_name', 'string');
 
