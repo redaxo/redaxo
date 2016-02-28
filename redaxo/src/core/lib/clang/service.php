@@ -11,8 +11,9 @@ class rex_clang_service
      * @param string $code     Clang Code
      * @param string $name     Name
      * @param int    $priority Priority
+     * @param bool   $status   Status
      */
-    public static function addCLang($code, $name, $priority)
+    public static function addCLang($code, $name, $priority, $status = false)
     {
         $sql = rex_sql::factory();
         $sql->setTable(rex::getTablePrefix() . 'clang');
@@ -20,6 +21,7 @@ class rex_clang_service
         $sql->setValue('code', $code);
         $sql->setValue('name', $name);
         $sql->setValue('priority', $priority);
+        $sql->setValue('status', $status);
         $sql->insert();
         $id = $sql->getLastId();
 
@@ -39,16 +41,17 @@ class rex_clang_service
     /**
      * Ändert eine Clang.
      *
-     * @param int    $id       Id der Clang
-     * @param string $code     Clang Code
-     * @param string $name     Name der Clang
-     * @param int    $priority Priority
+     * @param int       $id       Id der Clang
+     * @param string    $code     Clang Code
+     * @param string    $name     Name der Clang
+     * @param int       $priority Priority
+     * @param bool|null $status   Status
      *
      * @return bool
      *
      * @throws rex_exception
      */
-    public static function editCLang($id, $code, $name, $priority)
+    public static function editCLang($id, $code, $name, $priority, $status = null)
     {
         if (!rex_clang::exists($id)) {
             throw new rex_exception('clang with id "' . $id . '" does not exist');
@@ -62,6 +65,9 @@ class rex_clang_service
         $editLang->setValue('code', $code);
         $editLang->setValue('name', $name);
         $editLang->setValue('priority', $priority);
+        if (null !== $status) {
+            $editLang->setValue('status', $status);
+        }
         $editLang->update();
 
         $comparator = $oldPriority < $priority ? '=' : '!=';

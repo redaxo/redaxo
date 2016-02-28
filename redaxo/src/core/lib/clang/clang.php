@@ -17,6 +17,7 @@ class rex_clang
     private $code;
     private $name;
     private $priority;
+    private $status;
 
     /**
      * Constructor.
@@ -25,13 +26,15 @@ class rex_clang
      * @param string $code     Code
      * @param string $name     Name
      * @param int    $priority Priority
+     * @param bool   $status   Status
      */
-    private function __construct($id, $code, $name, $priority)
+    private function __construct($id, $code, $name, $priority, $status)
     {
         $this->id = $id;
         $this->code = $code;
         $this->name = $name;
         $this->priority = $priority;
+        $this->status = (bool) $status;
     }
 
     /**
@@ -150,6 +153,16 @@ class rex_clang
     }
 
     /**
+     * Returns the status.
+     *
+     * @return bool
+     */
+    public function isOnline()
+    {
+        return $this->status;
+    }
+
+    /**
      * Counts the clangs.
      *
      * @return int
@@ -163,23 +176,34 @@ class rex_clang
     /**
      * Returns an array of all clang ids.
      *
+     * @param bool $ignoreOfflines
+     *
      * @return int[]
      */
-    public static function getAllIds()
+    public static function getAllIds($ignoreOfflines = false)
     {
         self::checkCache();
-        return array_keys(self::$clangs);
+        return array_keys(self::getAll($ignoreOfflines));
     }
 
     /**
      * Returns an array of all clangs.
      *
+     * @param bool $ignoreOfflines
+     *
      * @return self[]
      */
-    public static function getAll()
+    public static function getAll($ignoreOfflines = false)
     {
         self::checkCache();
-        return self::$clangs;
+
+        if (!$ignoreOfflines) {
+            return self::$clangs;
+        }
+
+        return array_filter(self::$clangs, function (self $clang) {
+            return $clang->isOnline();
+        });
     }
 
     /**
@@ -196,7 +220,7 @@ class rex_clang
             rex_clang_service::generateCache();
         }
         foreach (rex_file::getCache($file) as $id => $clang) {
-            self::$clangs[$id] = new self($id, $clang['code'], $clang['name'], $clang['priority']);
+            self::$clangs[$id] = new self($id, $clang['code'], $clang['name'], $clang['priority'], $clang['status']);
         }
         self::$cacheLoaded = true;
     }
