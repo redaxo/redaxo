@@ -12,14 +12,16 @@ notifications:
 
 cache:
     directories:
-        - "$HOME/.php-cs-fixer"
+        - $HOME/.php-cs-fixer
+        - $HOME/.composer/cache
 
-before_script:
+install:
     - mysql -e 'create database redaxo_5_0;'
     - php redaxo/src/addons/tests/bin/setup.php
     - mkdir -p "$HOME/.php-cs-fixer"
     - "echo '{\"require\": {\"fabpot/php-cs-fixer\": \"~2.0@dev\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
-    - travis_retry composer update --working-dir "$HOME/.php-cs-fixer"
+    - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN} --no-interaction --working-dir "$HOME/.php-cs-fixer"; fi;
+    - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
 
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
