@@ -9,7 +9,7 @@ if ($PERMALL) {
     $path = rex_path::media();
     $iterator = rex_finder::factory($path)->filesOnly()->ignoreFiles(['.*', rex::getTempPrefix() . '*'])->sort();
     foreach ($iterator as $file) {
-        $folder_files[] = $file->getFilename();
+        $folder_files[] = rex_string::normalizeEncoding($file->getFilename());
     }
 
     // ---- Dateien aus der DB lesen

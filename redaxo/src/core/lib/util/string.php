@@ -20,6 +20,39 @@ class rex_string
     }
 
     /**
+     * Normalizes the encoding of a string (UTF8 NFD to NFC).
+     *
+     * On HFS+ filesystem (OS X) filenames are stored in UTF8 NFD while all other filesystems are
+     * using UTF8 NFC. NFC is more common in general.
+     *
+     * @param string $string Input string
+     *
+     * @return string
+     */
+    public static function normalizeEncoding($string)
+    {
+        static $normalizer;
+
+        if (null === $normalizer) {
+            if (function_exists('normalizer_normalize')) {
+                $normalizer = function ($string) {
+                    return normalizer_normalize($string, Normalizer::FORM_C);
+                };
+            } else {
+                $normalizer = function ($string) {
+                    return str_replace(
+                        ["A\xcc\x88", "a\xcc\x88", "O\xcc\x88", "o\xcc\x88", "U\xcc\x88", "u\xcc\x88"],
+                        ['Ä', 'ä', 'Ö', 'ö', 'Ü', 'ü'],
+                        $string
+                    );
+                };
+            }
+        }
+
+        return $normalizer($string);
+    }
+
+    /**
      * Normalizes a string.
      *
      * Makes the string lowercase, replaces umlauts by their ascii representation (ä -> ae etc.), and replaces all
@@ -33,14 +66,9 @@ class rex_string
      */
     public static function normalize($string, $replaceChar = '_', $allowedChars = '')
     {
-        // replace UTF-8 NFD umlauts
-        $string = preg_replace("/(?<=[aou])\xcc\x88/i", 'e', $string);
-
+        $string = self::normalizeEncoding($string);
         $string = mb_strtolower($string);
-
-        // replace UTF-8 NFC umlauts
         $string = str_replace(['ä', 'ö', 'ü', 'ß'], ['ae', 'oe', 'ue', 'ss'], $string);
-
         $string = preg_replace('/[^a-z\d' . preg_quote($allowedChars, '/') . ']+/ui', $replaceChar, $string);
         return trim($string, $replaceChar);
     }
