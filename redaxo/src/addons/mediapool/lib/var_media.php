@@ -43,6 +43,8 @@ class rex_var_media extends rex_var
                 if ($media) {
                     $value = $media->getType();
                 }
+            } elseif ($this->hasArg('field') && $field = $this->getParsedArg('field')) {
+                return 'htmlspecialchars(rex_media::get(' . self::quote($value) . ')->getValue(' . $field . '))';
             }
         }
 
