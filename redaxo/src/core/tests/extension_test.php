@@ -103,4 +103,17 @@ class rex_extension_test extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function testRegisterMultiple()
+    {
+        $EP1 = 'TEST_EP_MULTIPLE_1';
+        $EP2 = 'TEST_EP_MULTIPLE_2';
+
+        rex_extension::register([$EP1, $EP2], function () {
+            return 'foo';
+        });
+
+        $this->assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP1)));
+        $this->assertSame('foo', rex_extension::registerPoint(new rex_extension_point($EP2)));
+    }
 }

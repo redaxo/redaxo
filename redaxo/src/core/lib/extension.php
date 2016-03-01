@@ -57,10 +57,10 @@ abstract class rex_extension
     /**
      * Registers an extension for an extension point.
      *
-     * @param string   $extensionPoint Name of extension point
-     * @param callable $extension      Callback extension
-     * @param int      $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
-     * @param array    $params         Additional params
+     * @param string|string[] $extensionPoint Name(s) of extension point(s)
+     * @param callable        $extension      Callback extension
+     * @param int             $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
+     * @param array           $params         Additional params
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
@@ -68,7 +68,9 @@ abstract class rex_extension
             static::callFactoryClass(__FUNCTION__, func_get_args());
             return;
         }
-        self::$extensions[$extensionPoint][(int) $level][] = [$extension, $params];
+        foreach ((array) $extensionPoint as $ep) {
+            self::$extensions[$ep][(int) $level][] = [$extension, $params];
+        }
     }
 
     /**
