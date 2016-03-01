@@ -34,7 +34,7 @@ class rex_stream
      *
      * @throws InvalidArgumentException
      *
-     * @return string Full path with protocol (e.g. "rex://template/1")
+     * @return string Full path with protocol (e.g. "rex:///template/1")
      */
     public static function factory($path, $content)
     {
@@ -66,7 +66,9 @@ class rex_stream
             self::$registered = true;
         }
 
-        $path = 'rex://' . $path;
+        // 3 slashes needed to sidestep some server url include protections
+        // example: https://www.strato.de/faq/article/622/Warum-erhalte-ich-über-PHP-die-Fehlermeldung-%22Warning:-main()-…:-include(….).html
+        $path = 'rex:///' . $path;
         self::$nextContent[$path] = $content;
 
         return $path;
