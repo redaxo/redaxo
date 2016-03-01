@@ -924,6 +924,11 @@ class rex_list implements rex_url_provider_interface
         return isset($this->customColumns[$colname]) ? $this->customColumns[$colname] : $this->sql->getValue($colname);
     }
 
+    public function getArrayValue($colname)
+    {
+        return json_decode($this->getValue($colname), true);
+    }
+
     /**
      * Erstellt den Tabellen Quellcode.
      *
