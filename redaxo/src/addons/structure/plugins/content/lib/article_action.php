@@ -50,6 +50,8 @@ class rex_article_action
                         $values[$i] = json_encode($values[$i]);
                     }
                     $this->sql->setValue($key . $i, $values[$i]);
+                } else {
+                    $this->sql->setValue($key . $i, null);
                 }
             }
         }
