@@ -499,7 +499,7 @@ if ($step == 5) {
     $n = [];
     $n['label'] = '<label for="rex-form-createdb-4">' . rex_i18n::msg('setup_514') . '</label>';
     $n['field'] = '<input type="radio" id="rex-form-createdb-4" name="createdb" value="4"' . $dbchecked[4] . ' />';
-    $n['note'] = rex_i18n::msg('setup_514_note', rex::getConfig('version'));
+    $n['note'] = rex_i18n::msg('setup_514_note');
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
