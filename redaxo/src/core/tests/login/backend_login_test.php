@@ -8,7 +8,9 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        parent::setUp();
+        if (rex::getUser()) {
+            $this->markTestSkipped('The rex_backend_login class can not be tested when test suite is running in redaxo backend.');
+        }
 
         $adduser = rex_sql::factory();
         $adduser->setTable(rex::getTablePrefix() . 'user');
