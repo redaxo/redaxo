@@ -22,6 +22,9 @@ if ($subpage == 'help') {
     if (!is_file($package->getPath('help.php'))) {
         $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
     } else {
+        if (!$package->isAvailable() && is_readable($package->getPath('lang'))) {
+            rex_i18n::addDirectory($package->getPath('lang'));
+        }
         ob_start();
         $package->includeFile('help.php');
         $content .= ob_get_clean();
