@@ -100,7 +100,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
                 </td>
             </tr>';
 
-        // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zur�ckgeben
+        // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
         if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName()) {
             return $ep->getSubject();
         } else {

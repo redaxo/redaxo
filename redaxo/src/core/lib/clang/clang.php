@@ -19,22 +19,8 @@ class rex_clang
     private $priority;
     private $status;
 
-    /**
-     * Constructor.
-     *
-     * @param int    $id       Id
-     * @param string $code     Code
-     * @param string $name     Name
-     * @param int    $priority Priority
-     * @param bool   $status   Status
-     */
-    private function __construct($id, $code, $name, $priority, $status)
+    private function __construct()
     {
-        $this->id = $id;
-        $this->code = $code;
-        $this->name = $name;
-        $this->priority = $priority;
-        $this->status = (bool) $status;
     }
 
     /**
@@ -163,6 +149,38 @@ class rex_clang
     }
 
     /**
+     * Checks whether the clang has the given value.
+     *
+     * @param string $value
+     *
+     * @return bool
+     */
+    public function hasValue($value)
+    {
+        return isset($this->$value) || isset($this->{'clang_' . $value});
+    }
+
+    /**
+     * Returns the given value.
+     *
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function getValue($value)
+    {
+        if (isset($this->$value)) {
+            return $this->$value;
+        }
+
+        if (isset($this->{'clang_' . $value})) {
+            return $this->{'clang_' . $value};
+        }
+
+        return null;
+    }
+
+    /**
      * Counts the clangs.
      *
      * @return int
@@ -219,8 +237,14 @@ class rex_clang
         if (!file_exists($file)) {
             rex_clang_service::generateCache();
         }
-        foreach (rex_file::getCache($file) as $id => $clang) {
-            self::$clangs[$id] = new self($id, $clang['code'], $clang['name'], $clang['priority'], $clang['status']);
+        foreach (rex_file::getCache($file) as $id => $data) {
+            $clang = new self();
+
+            foreach ($data as $key => $value) {
+                $clang->$key = $value;
+            }
+
+            self::$clangs[$id] = $clang;
         }
         self::$cacheLoaded = true;
     }

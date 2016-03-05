@@ -24,6 +24,9 @@ switch ($subpage) {
     case 'categories':
         $prefix = 'cat_';
         break;
+    case 'clangs':
+        $prefix = 'clang_';
+        break;
     default:
         $prefix = 'art_';
 }
