@@ -1210,8 +1210,11 @@ class rex_form
     {
         $fields = $this->fieldsetPostValues($fieldsetName);
 
-        if (isset($fields[$fieldName])) {
-            return $fields[$fieldName];
+        // name attributes are normalized
+        $normalizedFieldName = rex_string::normalize($fieldName, '_', '[]');
+
+        if (isset($fields[$normalizedFieldName])) {
+            return $fields[$normalizedFieldName];
         }
 
         return $default;
