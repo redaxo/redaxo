@@ -21,7 +21,7 @@ if (!$this->hasConfig()) {
     $this->setConfig('charset', 'utf-8');
     $this->setConfig('wordwrap', 120);
     $this->setConfig('encoding', '8bit');
-    $this->setConfig('priority', 3);
+    $this->setConfig('priority', 0);
     $this->setConfig('smtpsecure', '');
     $this->setConfig('smtpauth', false);
     $this->setConfig('username', '');
