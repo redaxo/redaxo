@@ -20,7 +20,7 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     if ($file_id) {
         $new = $file_id == 'new';
-        $file = $new ? ['version' => '', 'description' => '', 'status' => 1, 'redaxo_versions' => ['5.0.x']] : $addon['files'][$file_id];
+        $file = $new ? ['version' => '', 'description' => '', 'status' => 1, 'redaxo_versions' => ['5.1.x']] : $addon['files'][$file_id];
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
 
@@ -31,6 +31,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $redaxo_select->setSize(4);
         $redaxo_select->setMultiple(true);
         $redaxo_select->addOption('5.0.x', '5.0.x');
+        $redaxo_select->addOption('5.1.x', '5.1.x');
         $redaxo_select->setSelected($file['redaxo_versions']);
 
         $uploadCheckboxDisabled = '';
