@@ -80,7 +80,7 @@ $sel_priority->setName('settings[priority]');
 $sel_priority->setSize(1);
 $sel_priority->setAttribute('class', 'form-control');
 $sel_priority->setSelected($this->getConfig('priority'));
-foreach ([1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
+foreach ([0 => $this->i18n('disabled'), 1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
     $sel_priority->addOption($name, $no);
 }
 
