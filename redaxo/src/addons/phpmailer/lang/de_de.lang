@@ -26,6 +26,7 @@ phpmailer_smtp_secure = Verschlüsselung
 phpmailer_smtp_auth = Authentifizierung
 phpmailer_config_saved_error = Fehler beim speichern der Konfiguration!
 phpmailer_config_saved_successful = Konfiguration erfolgreich gespeichert!
+phpmailer_disabled = Deaktiviert
 phpmailer_high = Hoch
 phpmailer_normal = Normal
 phpmailer_low = Niedrig
