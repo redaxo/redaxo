@@ -142,7 +142,7 @@ abstract class rex_package_manager
                 $this->package->setProperty('status', true);
             }
             $this->saveConfig();
-            if (!$reinstall && $this->generatePackageOrder) {
+            if ($this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
 
@@ -555,7 +555,7 @@ abstract class rex_package_manager
     /**
      * Generates the package order.
      */
-    protected static function generatePackageOrder()
+    public static function generatePackageOrder()
     {
         $early = [];
         $normal = [];

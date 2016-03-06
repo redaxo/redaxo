@@ -34,6 +34,9 @@ class rex_api_install_core_update extends rex_api_function
         }
         $message = '';
         $temppath = rex_path::coreCache('.new.core/');
+        $coreAddons = [];
+        /** @var rex_addon[] $updateAddons */
+        $updateAddons = [];
         try {
             if ($version['checksum'] != md5_file($archivefile)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_checksum'));
@@ -44,9 +47,6 @@ class rex_api_install_core_update extends rex_api_function
             if (!is_dir($temppath . 'core')) {
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_format'));
             }
-            $coreAddons = [];
-            /** @var rex_addon[] $updateAddons */
-            $updateAddons = [];
             if (is_dir($temppath . 'addons')) {
                 foreach (rex_finder::factory($temppath . 'addons')->dirsOnly() as $dir) {
                     $addonkey = $dir->getBasename();
@@ -153,6 +153,17 @@ class rex_api_install_core_update extends rex_api_function
             rex_delete_cache();
             rex_install_webservice::deleteCache('core');
             rex::setConfig('version', $version['version']);
+
+            // ---- update package order
+            foreach ($updateAddons as $addon) {
+                if ($addon->isAvailable()) {
+                    $addon->loadProperties();
+                    foreach ($addon->getAvailablePlugins() as $plugin) {
+                        $plugin->loadProperties();
+                    }
+                    rex_package_manager::generatePackageOrder();
+                }
+            }
         }
 
         $result = new rex_api_result($success, $message);

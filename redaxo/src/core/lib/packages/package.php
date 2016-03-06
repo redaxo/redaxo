@@ -234,7 +234,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Loads the properties of package.yml.
      */
-    private function loadProperties()
+    public function loadProperties()
     {
         static $cache = null;
         if (is_null($cache)) {
@@ -278,6 +278,7 @@ abstract class rex_package implements rex_package_interface
                 $properties = [];
             }
         }
+        $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
         foreach ($properties as $key => $value) {
             if (!isset($this->properties[$key])) {
                 $this->properties[$key] = rex_i18n::translateArray($value, false, [$this, 'i18n']);

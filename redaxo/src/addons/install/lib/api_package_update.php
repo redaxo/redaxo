@@ -101,6 +101,15 @@ class rex_api_install_package_update extends rex_api_install_package_download
             rex_dir::copy($origAssets, $assets);
         }
 
+        // ---- update package order
+        if ($this->addon->isAvailable()) {
+            $this->addon->loadProperties();
+            foreach ($this->addon->getAvailablePlugins() as $plugin) {
+                $plugin->loadProperties();
+            }
+            rex_package_manager::generatePackageOrder();
+        }
+
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
     }
