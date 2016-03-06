@@ -40,6 +40,8 @@ class rex_validator
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      *
+     * @return $this
+     *
      * @throws InvalidArgumentException
      */
     public function add($type, $message = null, $option = null)
@@ -48,6 +50,8 @@ class rex_validator
             throw new InvalidArgumentException('Unknown validator type: ' . $type);
         }
         $this->types[] = [$type, $message, $option];
+
+        return $this;
     }
 
     /**
