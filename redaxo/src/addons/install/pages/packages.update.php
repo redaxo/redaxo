@@ -70,9 +70,14 @@ if ($core && !empty($coreVersions)) {
                 <td data-title="' . $this->i18n('description') . '">' . nl2br($addon['description']) . '</td>
             </tr>
             </tbody>
-        </table>
+        </table>';
 
-        <h3>' . $this->i18n('files') . '</h3>
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', '<b>' . $addonkey . '</b> ' . $this->i18n('information'), false);
+    $fragment->setVar('content', $panel, false);
+    $content = $fragment->parse('core/page/section.php');
+
+    $panel = '
         <table class="table table-striped table-hover">
             <thead>
             <tr>
@@ -97,9 +102,9 @@ if ($core && !empty($coreVersions)) {
     $panel .= '</tbody></table>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', $addonkey, false);
+    $fragment->setVar('title', $this->i18n('files'), false);
     $fragment->setVar('content', $panel, false);
-    $content = $fragment->parse('core/page/section.php');
+    $content .= $fragment->parse('core/page/section.php');
 } else {
     $panel = '
         <table class="table table-striped table-hover">
