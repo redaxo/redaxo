@@ -46,7 +46,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$toolbar = $fragment->parse('core/form/input_group.php');
+$toolbar = '<div class="rex-truncate-dropdown">' . $fragment->parse('core/form/input_group.php') . '</div>';
 
 $toolbar = '
 <div class="navbar-form navbar-right">
@@ -529,7 +529,7 @@ if (!$file_id) {
 
             $fragment = new rex_fragment();
             $fragment->setVar('elements', [$e], false);
-            $field .= $fragment->parse('core/form/input_group.php');
+            $field .= '<div class="rex-truncate-dropdown">' . $fragment->parse('core/form/input_group.php') . '</div>';
         }
 
         $buttons = [];
@@ -558,7 +558,7 @@ if (!$file_id) {
             $actionButtons = $fragment->parse('core/buttons/button_group.php');
         }
 
-        $field = '<div class="row"><div class="col-sm-9">' . $field . '</div><div class="col-sm-3">' . $actionButtons . '</div>';
+        $field = '<div class="row"><div class="col-sm-9">' . $field . '</div><div class="col-sm-3 text-right">' . $actionButtons . '</div>';
 
         $e = [];
         $e['label'] = '<label>' . rex_i18n::msg('pool_selectedmedia') . '</label>';
