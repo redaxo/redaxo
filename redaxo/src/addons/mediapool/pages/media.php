@@ -316,20 +316,20 @@ if ($file_id) {
                 $panel = $fragment->parse('core/page/grid.php');
             }
 
+            $body = '
+                <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="file_id" value="' . $file_id . '" />
+                    ' . $arg_fields . '
+                    ' . $panel . '
+                    ' . $buttons . '
+                </form>';
+
             $fragment = new rex_fragment();
             $fragment->setVar('class', 'edit', false);
             $fragment->setVar('title', rex_i18n::msg('pool_file_edit') . $opener_link, false);
             $fragment->setVar('options', $toolbar, false);
-            $fragment->setVar('body', $panel, false);
-            $fragment->setVar('buttons', $buttons, false);
+            $fragment->setVar('body', $body, false);
             $content = $fragment->parse('core/page/section.php');
-
-            $content = '
-                <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="file_id" value="' . $file_id . '" />
-                    ' . $arg_fields . '
-                    ' . $content . '
-                </form>';
 
             echo $content;
         } else {
