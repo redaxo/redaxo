@@ -228,11 +228,8 @@ abstract class rex_metainfo_handler
                         if ($attr_name == 'multiple') {
                             $multiple = true;
                             $select->setName($name . '[]');
+                            $select->setMultiple();
                         }
-                    }
-
-                    if (!$multiple) {
-                        $select->setSize(1);
                     }
 
                     // Beachte auch default values in multiple fields bei ADD.
