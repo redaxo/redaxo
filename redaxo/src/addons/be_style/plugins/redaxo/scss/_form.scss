@@ -4,7 +4,11 @@
 .form-control:focus {
     background-color: #fff;
 }
-
+// rex_select liefert immer size=1 und bs3 setzt height auf auto
+// hier werden auch alle selects ohne size Attribute auf einheitliche Höhe gesetzt
+select.form-control {
+    height: auto;
+}
 legend {
     padding-bottom: 3px;
     font-size: $font-size-large;
@@ -56,9 +60,10 @@ legend {
             padding-right: floor($grid-gutter-width / 2);
         }
         > dd {
-
             .checkbox,
-            .radio {
+            .radio,
+            select.form-control,
+            input[type="file"] {
                 margin-top: ($padding-base-vertical + 1);
                 margin-bottom: ($padding-base-vertical + 1);
             }
