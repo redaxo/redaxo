@@ -476,23 +476,25 @@ body:after {
 
     > .rex-panel-options {
         .navbar-form {
-            margin-right: 0;
-            margin-bottom: -6px;
-            margin-left: 0;
+            margin: 0;
+            margin-bottom: 6px;
             padding: 0;
         }
     }
 
     @media (min-width: $screen-md-min) {
+        /*
         > .panel-title {
             float: left;
         }
+        */
 
         > .rex-panel-options {
             float: right;
 
             .navbar-form {
                 margin-top: -6px;
+                margin-bottom: -6px;
                 padding: 0;
             }
         }

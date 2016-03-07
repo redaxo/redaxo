@@ -14,20 +14,27 @@
         $collapse_id = (isset($this->collapse) && $this->collapse) ? 'collapse-' . rand(100000, 999999) : '';
         $collapsed = (isset($this->collapsed) && $this->collapsed) ? true : false;
         $header = '';
+
+        $attributes = [];
+        $attributes['class'][] = 'panel-heading';
+        if (isset($this->options) && $this->options != '') {
+            $attributes['class'][] = 'rex-has-panel-options';
+            $header .= '<div class="rex-panel-options">' . $this->options . '</div>';
+        }
         if (isset($this->title) && $this->title != '') {
             $header .= '<div class="panel-title">' . $this->title . '</div>';
         }
         if (isset($this->heading) && $this->heading != '') {
             $header .= $this->heading;
         }
-        if (isset($this->options) && $this->options != '') {
-            $header .= '<div class="rex-panel-options">' . $this->options . '</div>';
-        }
-        $attributes = ' class="panel-heading"';
         if (isset($this->collapse) && $this->collapse) {
-            $attributes = ' class="panel-heading' . ($collapsed ? ' collapsed' : '') . '" data-toggle="collapse" data-target="#' . $collapse_id . '"';
+            if ($collapsed) {
+                $attributes['class'][] = 'collapsed';
+            }
+            $attributes['data-toggle'] = 'collapse';
+            $attributes['data-target'] = '#' . $collapse_id;
         };
-        echo $header != '' ? '<header' . $attributes . '>' . $header . '</header>' : '';
+        echo $header != '' ? '<header' . rex_string::buildAttributes($attributes) . '>' . $header . '</header>' : '';
         ?>
 
         <?php if (isset($this->collapse) && $this->collapse): ?>

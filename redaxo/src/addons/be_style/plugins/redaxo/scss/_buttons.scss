@@ -86,3 +86,17 @@
 .btn-toolbar > .btn-abort {
     float: right;
 }
+
+.rex-truncate-dropdown {
+    .btn.dropdown-toggle {
+        max-width: 200px;
+        > .filter-option {
+            @extend .rex-truncate;
+            text-overflow: ellipsis;
+        }
+    }
+    .input-group > .input-group-addon,
+    .input-group > .input-group-btn {
+        width: auto;
+    }
+}

@@ -139,6 +139,9 @@ input[type=range] {
     .input-group .bootstrap-select .btn {
         border-color: darken($color-a-light, 10%);
     }
+    .input-group .form-control {
+        min-width: 160px;
+    }
 }
 
 .rex-select-style {
