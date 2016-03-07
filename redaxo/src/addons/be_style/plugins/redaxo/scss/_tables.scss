@@ -63,7 +63,11 @@
     .table > tbody,
     .table > tbody > tr,
     .table > tbody > tr > th[data-title],
-    .table > tbody > tr > td {
+    .table > tbody > tr > td,
+    .table > tfoot,
+    .table > tfoot > tr,
+    .table > tfoot > tr > th,
+    .table > tfoot > tr > td {
         display: block;
     }
     .table > tbody > tr > th:empty,
