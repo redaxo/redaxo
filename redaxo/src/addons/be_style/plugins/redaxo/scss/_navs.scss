@@ -284,3 +284,54 @@
 .rex-slice-input .nav-tabs {
     margin-bottom: $line-height-computed;
 }
+
+.panel-heading .nav-tabs {
+    border-bottom: 0;
+    margin-bottom: -10px;
+    > li {
+        &.active {
+            > a:not(.btn),
+            > a:not(.btn):hover {
+                background-color: #fff;
+                border-top-color: $color-b;
+                border-top-width: 2px;
+                border-left-width: 0;
+                border-right-width: 0;
+
+                .panel-edit & {
+                    background-color: $color-d-lighter;
+                    border-top-color: $color-d-light;
+                }
+            }
+        }
+
+        > a:not(.btn) {
+            padding-top: $padding-small-vertical;
+            padding-bottom: $padding-small-vertical;
+            background-color: $color-a-lighter;
+            border-color: $color-a-lighter;
+            border-bottom-color: transparent;
+            border-top-color: $color-a;
+            border-top-width: 2px;
+            border-left-width: 0;
+            border-right-width: 0;
+
+            border-radius: 4px 4px 0 0;
+            color: $text-color;
+
+            .panel-edit & {
+                background-color: #fff;
+                border-top-color: $color-d-lighter;
+            }
+
+            &:hover {
+                background-color: $color-a-lighter;
+                border-top-color: $color-b;
+
+                .panel-edit & {
+                    border-top-color: $color-d-light;
+                }
+            }
+        }
+    }
+}

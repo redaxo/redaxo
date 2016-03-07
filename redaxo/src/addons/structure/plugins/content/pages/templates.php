@@ -193,9 +193,11 @@ if ($function == 'add' or $function == 'edit') {
                     }
                 }
 
+                $ctypes_out .= '<fieldset><legend><small>' . rex_i18n::msg('content_type') . '</small> ' . rex_i18n::msg('id') . '=' . $i . '</legend>';
+
                 $formElements = [];
                 $n = [];
-                $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('id') . ' = ' . $i . '</label>';
+                $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('name') . '</label>';
                 $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
                 $formElements[] = $n;
 
@@ -233,6 +235,8 @@ if ($function == 'add' or $function == 'edit') {
                 $fragment->setVar('flush', true);
                 $fragment->setVar('elements', $formElements, false);
                 $ctypes_out .= $fragment->parse('core/form/form.php');
+
+                $ctypes_out .= '</fieldset>';
 
                 ++$i;
             }
@@ -274,10 +278,13 @@ if ($function == 'add' or $function == 'edit') {
         $panel = '';
 
         $panel .= '
+        <div class="tab-content">
+            <div class="tab-pane fade" id="rex-form-template-default">
                     <fieldset>
                         <input type="hidden" name="function" value="' . $function . '" />
                         <input type="hidden" name="save" value="ja" />
-                        <input type="hidden" name="template_id" value="' . $template_id . '" />';
+                        <input type="hidden" name="template_id" value="' . $template_id . '" />
+                        <input id="rex-js-form-template-tab" type="hidden" name="template_tab" value="" />';
 
         $formElements = [];
         $n = [];
@@ -314,19 +321,14 @@ if ($function == 'add' or $function == 'edit') {
 
         $panel .= '
                 </fieldset>
+            </div>
+            <div class="tab-pane fade" id="rex-form-template-ctype">
+                ' . $ctypes_out . '
+            </div>
 
-                <!-- DIV noetig fuer JQuery slideIn -->
-                <div id="rex-form-template-ctype">
+            <div class="tab-pane fade" id="rex-form-template-categories">
                 <fieldset>
-                    <legend>' . rex_i18n::msg('content_types') . '</legend>
-                        ' . $ctypes_out . '
-                </fieldset>
-                </div>
-
-
-                 <div id="rex-form-template-categories">
-                    <fieldset>
-                         <legend>' . rex_i18n::msg('template_categories') . '</legend>';
+                     <legend>' . rex_i18n::msg('template_categories') . '</legend>';
 
         $field = '';
         $field .= '<input id="rex-js-allcategories" type="checkbox" name="categories[all]" ';
@@ -361,7 +363,8 @@ if ($function == 'add' or $function == 'edit') {
 
         $panel .= '
                     </fieldset>
-                </div>';
+                </div>
+            </div>';
 
         $formElements = [];
 
@@ -381,9 +384,21 @@ if ($function == 'add' or $function == 'edit') {
         $fragment->setVar('elements', $formElements, false);
         $buttons = $fragment->parse('core/form/submit.php');
 
+        $activeTab = rex_request('template_tab', 'string', 'rex-form-template-default');
+        $optionTabs = [
+            'rex-form-template-default' => rex_i18n::msg('header_template'),
+            'rex-form-template-ctype' => rex_i18n::msg('content_types'),
+            'rex-form-template-categories' => rex_i18n::msg('template_categories'),
+        ];
+        $options = '<ul class="nav nav-tabs" id="rex-js-form-template-tabs">';
+        foreach ($optionTabs as $optionTabId => $optionTabTitle) {
+            $options .= '<li><a href="#' . $optionTabId . '" data-toggle="tab">' . $optionTabTitle . '</a></li>';
+        }
+        $options .= '</ul>';
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
         $fragment->setVar('title', $legend, false);
+        $fragment->setVar('options', $options, false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
@@ -395,17 +410,22 @@ if ($function == 'add' or $function == 'edit') {
 
             <script type="text/javascript">
             <!--
-
             jQuery(function($) {
+                // store the currently selected tab in the hidden input#rex-js-form-template-tab
+                $("#rex-js-form-template-tabs > li > a").on("shown.bs.tab", function(e) {
+                    var id = $(e.target).attr("href").substr(1);
+                    $("#rex-js-form-template-tab").val(id);
+                });
+                $("#rex-js-form-template-tabs a[href=\"#' . $activeTab . '\"]").tab("show");
 
                 $("#rex-js-active").click(function() {
-                    $("#rex-form-template-ctype").slideToggle("slow");
-                    $("#rex-form-template-categories").slideToggle("slow");
+                    $("#rex-js-form-template-tabs a[href=\"#rex-form-template-ctype\"]").toggle("slow");
+                    $("#rex-js-form-template-tabs a[href=\"#rex-form-template-categories\"]").toggle("slow");
                 });
 
                 if($("#rex-js-active").is(":not(:checked)")) {
-                    $("#rex-form-template-ctype").hide();
-                    $("#rex-form-template-categories").hide();
+                    $("#rex-js-form-template-tabs a[href=\"#rex-form-template-ctype\"]").hide();
+                    $("#rex-js-form-template-tabs a[href=\"#rex-form-template-categories\"]").hide();
                 }
 
                 $("#rex-js-allcategories").click(function() {
@@ -415,7 +435,6 @@ if ($function == 'add' or $function == 'edit') {
                 if($("#rex-js-allcategories").is(":checked")) {
                     $("#rex-id-categories").hide();
                 }
-
 
             });
 
