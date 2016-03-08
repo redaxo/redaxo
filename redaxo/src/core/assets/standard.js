@@ -588,7 +588,7 @@ jQuery(document).ready(function($) {
 
     });
 
-    $('.dropdown').on('show.bs.dropdown', function () {
+    $(document).on('show.bs.dropdown', '.dropdown', function () {
         var windowHeight = $(window).height();
         var rect = this.getBoundingClientRect();
         if (rect.top > windowHeight) return;
