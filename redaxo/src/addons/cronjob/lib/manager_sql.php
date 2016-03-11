@@ -217,7 +217,7 @@ class rex_cronjob_manager_sql
             WHERE   status = 1
         ');
         if ($this->sql->getRows() == 1) {
-            return $this->sql->getValue('nexttime');
+            return (int) $this->sql->getValue('nexttime');
         }
         return null;
     }
