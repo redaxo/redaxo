@@ -216,7 +216,7 @@ class rex_response
     /**
      * Sends the cache control header.
      */
-    public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private')
+    public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
     {
         header('Cache-Control: ' . $cacheControl);
         self::$sentCacheControl = true;
