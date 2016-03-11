@@ -9,14 +9,7 @@ abstract class rex_linkmap_tree_renderer
 {
     public function getTree($category_id)
     {
-        $tree = [];
         $category = rex_category::get($category_id);
-
-        if ($category) {
-            foreach ($category->getParentTree() as $cat) {
-                $tree[] = $cat->getId();
-            }
-        }
 
         $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
         if (count($mountpoints) > 0) {
@@ -26,8 +19,18 @@ abstract class rex_linkmap_tree_renderer
                     $roots[] = rex_category::get($mp);
                 }
             }
+            if (!$category && 1 === count($roots)) {
+                $category = $roots[0];
+            }
         } else {
             $roots = rex_category::getRootCategories();
+        }
+
+        $tree = [];
+        if ($category) {
+            foreach ($category->getParentTree() as $cat) {
+                $tree[] = $cat->getId();
+            }
         }
 
         $rendered = $this->renderTree($roots, $tree);
@@ -125,8 +128,15 @@ abstract class rex_linkmap_article_list_renderer
         $isRoot = $category_id === 0;
         $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
 
+        if ($isRoot && 1 === count($mountpoints)) {
+            $category_id = reset($mountpoints);
+            $isRoot = false;
+        }
+
         if ($isRoot && count($mountpoints) == 0) {
             $articles = rex_article::getRootArticles();
+        } elseif ($isRoot) {
+            $articles = [];
         } else {
             $articles = rex_category::get($category_id)->getArticles();
         }
