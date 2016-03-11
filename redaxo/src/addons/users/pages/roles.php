@@ -133,9 +133,9 @@ if ($func == '') {
                 function check_perm_field(field, duration) {
                     var id = field.attr("id").substr(0, field.attr("id").length - 4);
                     if(field.is(":checked"))
-                        $("#"+id).closest(".rex-form-group").hide(duration);
+                        $("#"+id).closest(".rex-form-group").hide(duration).find(":input").prop("disabled", true);
                     else
-                        $("#"+id).closest(".rex-form-group").show(duration);
+                        $("#"+id).closest(".rex-form-group").show(duration).find(":input").prop("disabled", false);
                 }
                 $("#' . implode('-all, #', $fieldIds) . '-all").change(function(){
                     check_perm_field($(this), "slow");
