@@ -476,7 +476,18 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 // ---------------------------------- Userliste
 
 if (isset($SHOW) and $SHOW) {
-    $list = rex_list::factory('SELECT id, IF(name <> "", name, login) as name, login, admin, status, UNIX_TIMESTAMP(lastlogin) as lastlogin FROM ' . rex::getTablePrefix() . 'user ORDER BY name');
+    $list = rex_list::factory('
+        SELECT 
+            id, 
+            IF(name <> "", name, login) as name, 
+            login, 
+            admin, 
+            IF(admin, "Admin", (SELECT name FROM ' . rex::getTable('user_role') . ' WHERE id = role)) as role, 
+            status, 
+            UNIX_TIMESTAMP(lastlogin) as lastlogin 
+        FROM ' . rex::getTable('user') . ' 
+        ORDER BY name
+    ');
     $list->addTableAttribute('class', 'table-striped');
 
     $tdIcon = '<i class="rex-icon rex-icon-user"></i>';
@@ -489,6 +500,7 @@ if (isset($SHOW) and $SHOW) {
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
     });
 
+    $list->removeColumn('admin');
     $list->removeColumn('status');
 
     $list->setColumnLabel('id', 'Id');
@@ -513,10 +525,7 @@ if (isset($SHOW) and $SHOW) {
             return $login;
         });
 
-    $list->setColumnLabel('admin', rex_i18n::msg('admin'));
-    $list->setColumnFormat('admin', 'custom', function ($params) {
-        return $params['subject'] ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
-    });
+    $list->setColumnLabel('role', rex_i18n::msg('user_role'));
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
     $list->setColumnFormat('lastlogin', 'strftime', 'datetime');
