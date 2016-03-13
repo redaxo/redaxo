@@ -1,5 +1,14 @@
 <?php
 
+$apiFunc = rex_api_function::factory();
+if ($apiFunc && $result = $apiFunc->getResult()) {
+    if ($result->isSuccessfull()) {
+        $info = $result->getMessage();
+    } else {
+        $warning = $result->getMessage();
+    }
+}
+
 $CONT = new rex_article_content_editor();
 $CONT->getContentAsQuery();
 $CONT->info = $info;
