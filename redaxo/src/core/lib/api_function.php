@@ -135,7 +135,7 @@ abstract class rex_api_function
 
                     $apiFunc->result = $result;
                     if ($result->requiresReboot()) {
-                        $context = rex_context::restore();
+                        $context = rex_context::fromGet();
                         // add api call result to url
                         $context->setParam(self::REQ_RESULT_PARAM, $result->toJSON());
                         // and redirect to SELF for reboot

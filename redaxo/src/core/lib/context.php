@@ -109,7 +109,7 @@ class rex_context implements rex_context_provider_interface
     }
 
     /**
-     * returns a rex_context instance containing all GET and POST parameters.
+     * Returns a rex_context instance containing all GET and POST parameters.
      *
      * @return self
      */
@@ -117,6 +117,26 @@ class rex_context implements rex_context_provider_interface
     {
         // $_REQUEST contains some server specific globals, therefore we merge GET and POST manually
         return new self($_GET + $_POST);
+    }
+
+    /**
+     * Returns a rex_context instance containing all GET parameters.
+     *
+     * @return self
+     */
+    public static function fromGet()
+    {
+        return new self($_GET);
+    }
+
+    /**
+     * Returns a rex_context instance containing all POST parameters.
+     *
+     * @return self
+     */
+    public static function fromPost()
+    {
+        return new self($_GET);
     }
 
     /**

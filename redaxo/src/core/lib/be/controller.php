@@ -372,7 +372,7 @@ class rex_be_controller
         }
         if ($page !== $leaf = $page->getFirstSubpagesLeaf()) {
             rex_response::setStatus(rex_response::HTTP_MOVED_PERMANENTLY);
-            $url = $leaf->hasHref() ? $leaf->getHref() : rex_context::restore()->getUrl(['page' => $leaf->getFullKey()], false);
+            $url = $leaf->hasHref() ? $leaf->getHref() : rex_context::fromGet()->getUrl(['page' => $leaf->getFullKey()], false);
             rex_response::sendRedirect($url);
         }
     }

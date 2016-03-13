@@ -24,7 +24,7 @@ class rex_api_sitemap_tree extends rex_api_function
             throw new rex_api_exception('user has no permission for this category!');
         }
 
-        $context = rex_context::restore();
+        $context = rex_context::fromGet();
         $categoryTree = new rex_sitemap_category_tree($context);
         $tree = $categoryTree->getTree($category_id);
 
