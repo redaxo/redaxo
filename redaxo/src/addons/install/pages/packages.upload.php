@@ -20,19 +20,9 @@ if ($addonkey && isset($addons[$addonkey])) {
 
     if ($file_id) {
         $new = $file_id == 'new';
-        $file = $new ? ['version' => '', 'description' => '', 'status' => 1, 'redaxo_versions' => ['5.1.x']] : $addon['files'][$file_id];
+        $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][$file_id];
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
-
-        $redaxo_select = new rex_select();
-        $redaxo_select->setName('upload[redaxo][]');
-        $redaxo_select->setId('rex-install-packages-upload-redaxo');
-        $redaxo_select->setAttribute('class', 'form-control');
-        $redaxo_select->setSize(4);
-        $redaxo_select->setMultiple(true);
-        $redaxo_select->addOption('5.0.x', '5.0.x');
-        $redaxo_select->addOption('5.1.x', '5.1.x');
-        $redaxo_select->setSelected($file['redaxo_versions']);
 
         $uploadCheckboxDisabled = '';
         $hiddenField = '';
@@ -49,11 +39,6 @@ if ($addonkey && isset($addons[$addonkey])) {
         $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $this->i18n('version') . '</label>';
         $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . ($new ? $newVersion : $file['version']) . '</p>
                            <input type="hidden" name="upload[oldversion]" value="' . $file['version'] . '" />';
-        $formElements[] = $n;
-
-        $n = [];
-        $n['label'] = '<label for="rex-install-packages-upload-redaxo">REDAXO</label>';
-        $n['field'] = $redaxo_select->get();
         $formElements[] = $n;
 
         $n = [];

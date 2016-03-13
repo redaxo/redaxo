@@ -16,7 +16,6 @@ class rex_api_install_package_upload extends rex_api_function
         $upload = rex_request('upload', [
             ['upload_file', 'bool'],
             ['oldversion', 'string'],
-            ['redaxo', 'array[string]'],
             ['description', 'string'],
             ['status', 'int'],
             ['replace_assets', 'bool'],
@@ -25,7 +24,7 @@ class rex_api_install_package_upload extends rex_api_function
         $file = [];
         $archive = null;
         $file['version'] = $upload['upload_file'] ? rex_addon::get($addonkey)->getVersion() : $upload['oldversion'];
-        $file['redaxo_versions'] = $upload['redaxo'];
+        $file['redaxo_versions'] = ['5.x'];
         $file['description'] = $upload['description'];
         $file['status'] = $upload['status'];
         try {
