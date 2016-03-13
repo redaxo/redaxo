@@ -119,7 +119,7 @@ function newWindow(name,link,width,height,type)
 }
 
 var winObj = new Array();
-if (typeof opender != "undefined")
+if (opener != null)
 {
     if (typeof(opener.winObjCounter) == "number")
     {
@@ -549,6 +549,7 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
+                winObjCounter = -1;
 
                 options.context.trigger('rex:ready', [options.context]);
             });
@@ -594,7 +595,7 @@ jQuery(document).ready(function($) {
         if (rect.top > windowHeight) return;
         var menuHeight = $(this).children('.dropdown-menu').height();
         $(this).toggleClass('dropup',
-          ((windowHeight - rect.bottom) < menuHeight) &&
-          (rect.top > menuHeight));
+            ((windowHeight - rect.bottom) < menuHeight) &&
+            (rect.top > menuHeight));
     });
 });
