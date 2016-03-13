@@ -15,9 +15,15 @@ class rex_view
      *
      * @param string $file
      * @param string $media
+     *
+     * @throws rex_exception
      */
     public static function addCssFile($file, $media = 'all')
     {
+        if (isset(self::$cssFiles[$media]) && in_array($file, self::$cssFiles[$media])) {
+            throw new rex_exception(sprintf('The CSS file "%s" is already added to media "%s".', $file, $media));
+        }
+
         self::$cssFiles[$media][] = $file;
     }
 
@@ -35,9 +41,15 @@ class rex_view
      * Adds a JS file.
      *
      * @param string $file
+     *
+     * @throws rex_exception
      */
     public static function addJsFile($file)
     {
+        if (in_array($file, self::$jsFiles)) {
+            throw new rex_exception(sprintf('The JS file "%s" is already added.', $file));
+        }
+
         self::$jsFiles[] = $file;
     }
 
