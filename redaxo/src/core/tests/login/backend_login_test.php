@@ -2,6 +2,8 @@
 
 class rex_backend_login_test extends PHPUnit_Framework_TestCase
 {
+    private $skipped = false;
+
     private $login = 'testusr';
     private $password = 'test1234';
     private $cookiekey = 'mycookie';
@@ -9,6 +11,7 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         if (rex::getUser()) {
+            $this->skipped = true;
             $this->markTestSkipped('The rex_backend_login class can not be tested when test suite is running in redaxo backend.');
         }
 
@@ -21,6 +24,19 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         $adduser->setValue('login_tries', '0');
         $adduser->setValue('cookiekey', $this->cookiekey);
         $adduser->insert();
+    }
+
+    public function tearDown()
+    {
+        if ($this->skipped) {
+            return;
+        }
+
+        $deleteuser = rex_sql::factory();
+        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". $this->login ."' LIMIT 1");
+
+        // make sure we don't mess up the global scope
+        session_destroy();
     }
 
     public function testSuccessfullLogin()
@@ -89,14 +105,5 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
         $this->assertTrue($login->checkLogin());
         $login->setLogout(true);
         $this->assertFalse($login->checkLogin());
-    }
-
-    public function tearDown()
-    {
-        $deleteuser = rex_sql::factory();
-        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE login = '". $this->login ."' LIMIT 1");
-
-        // make sure we don't mess up the global scope
-        session_destroy();
     }
 }
