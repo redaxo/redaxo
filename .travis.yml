@@ -25,4 +25,4 @@ install:
 
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
-    - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.$TRAVIS_PHP_VERSION.cache" --dry-run --diff --verbose
+    - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
