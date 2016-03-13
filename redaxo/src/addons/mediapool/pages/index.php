@@ -18,6 +18,10 @@ $success = htmlspecialchars(rex_request('info', 'string'));
 $error = htmlspecialchars(rex_request('warning', 'string'));
 $args = rex_request('args', 'array');
 
+$regex = '@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i';
+$success = preg_replace($regex, '<$1>', $success);
+$error = preg_replace($regex, '<$1>', $error);
+
 // -------------- Additional Args
 $arg_url = ['args' => $args];
 $arg_fields = '';
