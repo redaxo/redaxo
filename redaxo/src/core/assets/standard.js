@@ -112,10 +112,10 @@ function newWindow(name,link,width,height,type)
         posy = parseInt((screen.height-height)/2) - 24;
     }
 
-
-
     winObjCounter++;
-    winObj[winObjCounter]=new makeWinObj(name,link,posx,posy,width,height,extra);
+    winObj[winObjCounter] = new makeWinObj(name,link,posx,posy,width,height,extra);
+
+    return winObj[winObjCounter].obj;
 }
 
 var winObj = new Array();

@@ -222,13 +222,7 @@ if ($file_id) {
             $success = '';
         }
 
-        if ($opener_input_field == 'TINYIMG') {
-            if ($isImage) {
-                $opener_link .= '<a class="btn btn-xs btn-select" href="javascript:insertImage(\'' . $encoded_fname . '\',\'' . $gf->getValue('title') . '\');">' . rex_i18n::msg('pool_image_get') . '</a> | ';
-            }
-        } elseif ($opener_input_field == 'TINY') {
-            $opener_link .= '<a class="btn btn-xs btn-select" href="javascript:insertLink(\'' . $encoded_fname . '\');">' . rex_i18n::msg('pool_link_get') . '</a>';
-        } elseif ($opener_input_field != '') {
+        if ($opener_input_field != '') {
             $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(htmlspecialchars($gf->getValue('title'))) . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                 $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedialist(\'' . $encoded_fname . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
@@ -670,13 +664,7 @@ if (!$file_id) {
 
         // ----- opener
         $opener_link = '';
-        if ($opener_input_field == 'TINYIMG') {
-            if (rex_media::isImageType(rex_file::extension($file_name))) {
-                $opener_link .= '<a class="btn btn-select" href="javascript:insertImage(\'$file_name\',\'' . $files->getValue('title') . '\')">' . rex_i18n::msg('pool_image_get') . '</a>';
-            }
-        } elseif ($opener_input_field == 'TINY') {
-            $opener_link .= '<a class="btn btn-select" href="javascript:insertLink(\'' . $file_name . '\');"">' . rex_i18n::msg('pool_link_get') . '</a>';
-        } elseif ($opener_input_field != '') {
+        if ($opener_input_field != '') {
             $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedia(\'' . $file_name . '\', \'' . addslashes(htmlspecialchars($files->getValue('title'))) . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                 $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedialist(\'' . $file_name . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';

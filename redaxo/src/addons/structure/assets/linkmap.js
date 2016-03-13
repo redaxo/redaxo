@@ -4,7 +4,7 @@
 function newLinkMapWindow(link)
 {
     // 1200 = $screen-lg
-    newWindow( 'linkmappopup', link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'linkmappopup', link, 1200,800,',status=yes,resizable=yes');
 }
 
 function openLinkMap(id, param)
@@ -17,7 +17,7 @@ function openLinkMap(id, param)
     {
         param = '';
     }
-    newLinkMapWindow('index.php?page=linkmap&opener_input_field=' + id + param);
+    return newLinkMapWindow('index.php?page=linkmap&opener_input_field=' + id + param);
 }
 
 function deleteREXLink(id)
@@ -51,7 +51,7 @@ function openREXLinklist(id, param)
         }
     }
 
-    newLinkMapWindow('index.php?page=linkmap&opener_input_field='+linklist+param);
+    return newLinkMapWindow('index.php?page=linkmap&opener_input_field='+linklist+param);
 }
 
 function deleteREXLinklist(id){

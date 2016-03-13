@@ -2,7 +2,6 @@
 
 // ------- Default Values
 
-$HTMLArea = rex_request('HTMLArea', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string');
 $opener_input_field_name = rex_request('opener_input_field_name', 'string');
 $category_id = rex_request('category_id', 'int');
@@ -12,7 +11,6 @@ $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
-    'HTMLArea' => $HTMLArea,
     'opener_input_field' => $opener_input_field,
     'opener_input_field_name' => $opener_input_field_name,
     'category_id' => $category_id,
@@ -22,21 +20,11 @@ $context = new rex_context([
 // ------- Build JS Functions
 
 $func_body = '';
-if ($HTMLArea != '') {
-    if ($HTMLArea == 'TINY') {
-        $func_body = 'window.opener.tinyMCE.insertLink(link);';
-    } else {
-        $func_body = 'window.opener.' . $HTMLArea . '.surroundHTML("<a href="+link+">","</a>");';
-    }
-}
 
 if ($opener_input_field != '' && $opener_input_field_name == '') {
     $opener_input_field_name = $opener_input_field . '_NAME';
 }
-if ($opener_input_field == 'TINY') {
-    $func_body .= 'window.opener.insertLink(link,name);
-                                 self.close();';
-} elseif (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
+if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
     $id = substr($opener_input_field, 13, strlen($opener_input_field));
     $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
@@ -50,10 +38,16 @@ if ($opener_input_field == 'TINY') {
                  source.options.add(option, sourcelength);
                  opener.writeREXLinklist(' . $id . ');';
 } else {
-    $func_body .= 'var linkid = link.replace("redaxo://","");
-                             window.opener.document.getElementById("' . $opener_input_field . '").value = linkid;
-                             window.opener.document.getElementById("' . $opener_input_field_name . '").value = name;
-                             self.close();';
+    $func_body .= <<<JS
+var event = jQuery.Event("rex:selectLink");
+opener.jQuery(window).trigger(event, [link, name]);
+if (!event.isDefaultPrevented()) {
+    var linkid = link.replace("redaxo://","");
+    window.opener.document.getElementById("$opener_input_field").value = linkid;
+    window.opener.document.getElementById("$opener_input_field_name").value = name;
+    self.close();
+}
+JS;
 }
 
 // ------------------------ Print JS Functions

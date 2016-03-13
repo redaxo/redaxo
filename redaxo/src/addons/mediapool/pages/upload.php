@@ -36,13 +36,7 @@ if ($media_method == 'add_file') {
                     $ffiletype = $return['type'];
                     $title = $return['title'];
 
-                    if ($opener_input_field == 'TINYIMG') {
-                        if (rex_media::isImageType(rex_file::extension($file_name))) {
-                            $js = "insertImage('$file_name','$title');";
-                        }
-                    } elseif ($opener_input_field == 'TINY') {
-                        $js = "insertLink('" . $file_name . "');";
-                    } elseif ($opener_input_field != '') {
+                    if ($opener_input_field != '') {
                         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                             $js = "selectMedialist('" . $file_name . "');";
                             $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field], false) . '";';
