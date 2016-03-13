@@ -30,11 +30,12 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     define('REX_METAINFO_FIELD_COUNT', 13);
 }
 
-$this->setProperty('prefixes', ['art_', 'cat_', 'med_']);
+$this->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
 $this->setProperty('metaTables', [
     'art_' => rex::getTablePrefix() . 'article',
     'cat_' => rex::getTablePrefix() . 'article',
     'med_' => rex::getTablePrefix() . 'media',
+    'clang_' => rex::getTablePrefix() . 'clang',
 ]);
 
 if (rex::isBackend()) {

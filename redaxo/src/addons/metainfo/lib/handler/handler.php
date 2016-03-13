@@ -604,7 +604,7 @@ abstract class rex_metainfo_handler
      *
      * @return rex_sql Metainfofelder
      */
-    protected static function getSqlFields($prefix, $filterCondition)
+    protected static function getSqlFields($prefix, $filterCondition = '')
     {
         // replace LIKE wildcards
         $prefix = str_replace(['_', '%'], ['\_', '\%'], $prefix);

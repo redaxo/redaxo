@@ -12,8 +12,8 @@
 
 rex_sql_util::importDump($this->getPath('_install.sql'));
 
-$tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_']];
-$columns = ['article' => [], 'media' => []];
+$tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
+$columns = ['article' => [], 'media' => [], 'clang' => []];
 foreach ($tablePrefixes as $table => $prefixes) {
     foreach (rex_sql::showColumns(rex::getTable($table)) as $column) {
         $column = $column['name'];
@@ -30,11 +30,14 @@ $rows = $sql->getRows();
 $managers = [
     'article' => new rex_metainfo_table_manager(rex::getTable('article')),
     'media' => new rex_metainfo_table_manager(rex::getTable('media')),
+    'clang' => new rex_metainfo_table_manager(rex::getTable('clang')),
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = $sql->getValue('name');
     if (substr($column, 0, 4) == 'med_') {
         $table = 'media';
+    } elseif (substr($column, 0, 6) == 'clang_') {
+        $table = 'clang';
     } else {
         $table = 'article';
     }
