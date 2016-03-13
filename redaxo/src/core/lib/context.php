@@ -136,7 +136,7 @@ class rex_context implements rex_context_provider_interface
      */
     public static function fromPost()
     {
-        return new self($_GET);
+        return new self($_POST);
     }
 
     /**
