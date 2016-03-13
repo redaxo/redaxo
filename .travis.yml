@@ -20,9 +20,8 @@ install:
     - php redaxo/src/addons/tests/bin/setup.php
     - mkdir -p "$HOME/.php-cs-fixer"
     - "echo '{\"require\": {\"fabpot/php-cs-fixer\": \"~2.0@dev\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
-    - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN} --no-interaction --working-dir "$HOME/.php-cs-fixer"; fi;
     - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
 
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
-    - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
+    - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.$TRAVIS_PHP_VERSION.cache" --dry-run --diff --verbose
