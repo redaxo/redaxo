@@ -58,6 +58,7 @@ minfo_field_successfull_deleted = Feld erfolgreich gelöscht!
 minfo_field_successfull_saved = Daten erfolgreich gespeichert!
 
 minfo_edit_metadata = Metadaten bearbeiten
+minfo_metadata_saved = Die Metadaten wurden gespeichert.
 
 minfo_media_in_use_art = Artikel (Metadaten)
 minfo_media_in_use_cat = Kategorien (Metadaten)

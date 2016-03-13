@@ -1,5 +1,11 @@
 <?php
 
+$content = '';
+
+if (rex_post('savemeta', 'boolean')) {
+    $content = rex_view::success(rex_i18n::msg('minfo_metadata_saved'));
+}
+
 $panel = '<fieldset>
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="ctype" value="' . $ctype . '" />
@@ -38,7 +44,7 @@ $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', rex_i18n::msg('general'), false);
 $fragment->setVar('body', $panel, false);
 $fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
+$content .= $fragment->parse('core/page/section.php');
 
 return '
     <form action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data">
