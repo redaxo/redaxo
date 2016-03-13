@@ -1424,6 +1424,8 @@ class rex_form
     {
         $this->init();
 
+        rex_extension::registerPoint(new rex_extension_point('REX_FORM_GET', $this, [], true));
+
         $this->setApplyUrl($this->getUrl(['func' => ''], false));
 
         if (($controlElement = $this->getControlElement()) !== null) {

@@ -936,6 +936,8 @@ class rex_list implements rex_url_provider_interface
      */
     public function get()
     {
+        rex_extension::registerPoint(new rex_extension_point('REX_LIST_GET', $this, [], true));
+
         $s = "\n";
 
         // Form vars
