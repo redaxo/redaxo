@@ -601,7 +601,7 @@ if (!$file_id) {
         }
         $where .= ' AND (' . implode(' OR ', $types) . ')';
     }
-    $qry = 'SELECT * FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
+    $qry = 'SELECT f.* FROM ' . $addTable . rex::getTablePrefix() . 'media f WHERE ' . $where . ' ORDER BY f.updatedate desc, f.id desc';
 
     // ----- EXTENSION POINT
     $qry = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_QUERY', $qry, [
