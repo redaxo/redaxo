@@ -5,6 +5,7 @@
  */
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
+header('X-Frame-Options: SAMEORIGIN');
 
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
