@@ -303,6 +303,14 @@ class rex_be_controller
                     }
                     break;
 
+                case 'itemattr':
+                case 'linkattr':
+                    $setter = [$page, 'set' . ucfirst($key)];
+                    foreach ($value as $k => $v) {
+                        call_user_func($setter, $k, $v);
+                    }
+                    break;
+
                 case 'perm':
                     $page->setRequiredPermissions($value);
                     break;
