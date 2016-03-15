@@ -394,7 +394,6 @@ if ($article->getRows() == 1) {
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');
-        $editPage->setHref($context->getUrl(['page' => 'content/edit'], false));
 
         foreach ($ctypes as $key => $val) {
             $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
@@ -403,22 +402,26 @@ if ($article->getRows() == 1) {
             );
         }
 
-        $nav = rex_be_navigation::factory();
-        $nav->addPage($editPage);
-        $blocks = $nav->getNavigation();
+        $leftNav = rex_be_navigation::factory();
+        $rightNav = rex_be_navigation::factory();
+
+        foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
+            if (!$subpage->hasHref()) {
+                $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
+            }
+            if ($subpage->getItemAttr('left')) {
+                $leftNav->addPage($subpage);
+            } else {
+                $rightNav->addPage($subpage);
+            }
+            $subpage->removeItemAttr('left');
+        }
+
+        $blocks = $leftNav->getNavigation();
         $navigation = current($blocks);
         $content_navi_left = $navigation['navigation'];
 
-        $nav = rex_be_navigation::factory();
-        foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
-            if ($subpage->getKey() != 'edit') {
-                if (!$subpage->hasHref()) {
-                    $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
-                }
-                $nav->addPage($subpage);
-            }
-        }
-        $blocks = $nav->getNavigation();
+        $blocks = $rightNav->getNavigation();
         $navigation = current($blocks);
         $content_navi_right = $navigation['navigation'];
 
