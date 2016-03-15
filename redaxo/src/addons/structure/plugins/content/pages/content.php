@@ -412,7 +412,9 @@ if ($article->getRows() == 1) {
         $nav = rex_be_navigation::factory();
         foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
             if ($subpage->getKey() != 'edit') {
-                $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
+                if (!$subpage->hasHref()) {
+                    $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
+                }
                 $nav->addPage($subpage);
             }
         }
