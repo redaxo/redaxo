@@ -57,6 +57,9 @@ minfo_field_error_deleted = Feld wurde nicht gelöscht!
 minfo_field_successfull_deleted = Feld erfolgreich gelöscht!
 minfo_field_successfull_saved = Daten erfolgreich gespeichert!
 
+minfo_default_fields_create = Standardfelder erstellen
+minfo_default_fields_created = Standardfelder erfolgreich erstellt!
+
 minfo_edit_metadata = Metadaten bearbeiten
 minfo_metadata_saved = Die Metadaten wurden gespeichert.
 

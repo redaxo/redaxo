@@ -38,6 +38,8 @@ if ($func == 'delete') {
 
 //------------------------------> Eintragsliste
 if ($func == '') {
+    echo rex_api_function::getMessage();
+
     $title = rex_i18n::msg('minfo_field_list_caption');
 
     // replace LIKE wildcards
@@ -76,6 +78,16 @@ if ($func == '') {
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', $title);
+
+    if (in_array($prefix, ['art_', 'med_'])) {
+        $defaultFields = sprintf(
+            '<div class="navbar-form"><a href="%s" class="btn btn-default">%s</a></div>',
+            rex_url::currentBackendPage(['rex-api-call' => 'metainfo_default_fields_create', 'type' => $subpage]),
+            rex_i18n::msg('minfo_default_fields_create')
+        );
+        $fragment->setVar('options', $defaultFields, false);
+    }
+
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 }

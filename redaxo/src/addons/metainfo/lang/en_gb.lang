@@ -57,6 +57,9 @@ minfo_field_error_deleted = Field has not been deleted!
 minfo_field_successfull_deleted = Field has been deleted!
 minfo_field_successfull_saved = Field has been successfully saved!
 
+minfo_default_fields_create = Create default fields
+minfo_default_fields_created = Default fields successfully created!
+
 minfo_edit_metadata = edit metainfo
 
 minfo_media_in_use_art = Article (metadata)
