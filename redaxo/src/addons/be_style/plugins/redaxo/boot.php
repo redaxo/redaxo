@@ -42,6 +42,7 @@ if (rex::isBackend()) {
         });
     }
 
+    rex_view::setFavicon($this->getAssetsUrl('images/favicon-16x16.png'));
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/redaxo.js'));
 }
