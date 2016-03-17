@@ -96,12 +96,16 @@ if ($error != '') {
 
 function selectMedia(filename, alt)
 {
-    <?php
-    if ($opener_input_field != '') {
-        echo 'opener.document.getElementById("' . $opener_input_field . '").value = filename;';
+    var opener_input_field = "<?= $opener_input_field ?>";
+
+    var event = jQuery.Event("rex:selectMedia");
+    opener.jQuery(window).trigger(event, [filename, alt]);
+    if (!event.isDefaultPrevented()) {
+        if (opener_input_field) {
+            opener.document.getElementById(opener_input_field).value = filename;
+        }
+        self.close();
     }
-    ?>
-    self.close();
 }
 
 function selectMedialist(filename)
@@ -152,18 +156,6 @@ function selectMediaListArray(files)
                         opener.writeREXMedialist(' . $id . ');';
         }
     ?>
-}
-
-function insertImage(src,alt)
-{
-    window.opener.insertImage("<?php echo rex_url::media(); ?>" + src, alt);
-    self.close();
-}
-
-function insertLink(src)
-{
-    window.opener.insertFileLink("<?php echo rex_url::media(); ?>" + src);
-    self.close();
 }
 
 function openPage(src)

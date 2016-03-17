@@ -26,7 +26,7 @@ function setAllCheckBoxes(FieldName, mthis)
 function newPoolWindow(link)
 {
     // 1200 = $screen-lg
-    newWindow( 'rexmediapopup'+(winObjCounter+1), link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'rexmediapopup'+(winObjCounter+1), link, 1200,800,',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
@@ -35,7 +35,7 @@ function openMediaDetails(id, file_id, file_category_id)
     {
         id = '';
     }
-    newPoolWindow('index.php?page=mediapool/media&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
+    return newPoolWindow('index.php?page=mediapool/media&opener_input_field='+ id + '&file_id=' + file_id + '&file_category_id=' + file_category_id);
 }
 
 function openMediaPool(id)
@@ -44,7 +44,7 @@ function openMediaPool(id)
     {
         id = '';
     }
-    newPoolWindow('index.php?page=mediapool/media&opener_input_field='+ id);
+    return newPoolWindow('index.php?page=mediapool/media&opener_input_field='+ id);
 }
 
 function openREXMedia(id,param)
@@ -54,7 +54,7 @@ function openREXMedia(id,param)
     {
         param = '';
     }
-    newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + mediaid);
+    return newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + mediaid);
 }
 
 function viewREXMedia(id,param)
@@ -67,7 +67,7 @@ function viewREXMedia(id,param)
     }
     if (value != '') {
         param = param + '&file_name='+ value;
-        newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + mediaid);
+        return newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + mediaid);
     }
 }
 
@@ -83,7 +83,7 @@ function addREXMedia(id,params)
     {
         params = '';
     }
-    newPoolWindow('index.php?page=mediapool/upload&opener_input_field=REX_MEDIA_'+id+params);
+    return newPoolWindow('index.php?page=mediapool/upload&opener_input_field=REX_MEDIA_'+id+params);
 }
 
 function openREXMedialist(id,param)
@@ -103,7 +103,7 @@ function openREXMedialist(id,param)
             break;
         }
     }
-    newPoolWindow('index.php?page=mediapool/media'+ param +'&opener_input_field='+ medialist);
+    return newPoolWindow('index.php?page=mediapool/media'+ param +'&opener_input_field='+ medialist);
 }
 
 function viewREXMedialist(id,param)
@@ -124,7 +124,7 @@ function viewREXMedialist(id,param)
         }
     }
     if(param != '')
-        newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + medialist);
+        return newPoolWindow('index.php?page=mediapool/media' + param + '&opener_input_field=' + medialist);
 }
 
 function addREXMedialist(id,params)
@@ -133,7 +133,7 @@ function addREXMedialist(id,params)
     {
         params = '';
     }
-    newPoolWindow('index.php?page=mediapool/upload&opener_input_field=REX_MEDIALIST_'+id+params);
+    return newPoolWindow('index.php?page=mediapool/upload&opener_input_field=REX_MEDIALIST_'+id+params);
 }
 
 function deleteREXMedialist(id){
