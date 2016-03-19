@@ -63,7 +63,7 @@ if (rex::isBackend()) {
             $size = $size . 'x' . $size;
             $icons[] = '<meta name="msapplication-square' . $size . 'logo" content="' . $this->getAssetsUrl('images/mstile-' . $size . '.png') . '" />';
         }
-        $icons[]= '<meta name="msapplication-wide310x150logo" content="' . $this->getAssetsUrl('images/mstile-310x150.png') . '" />';
+        $icons[] = '<meta name="msapplication-wide310x150logo" content="' . $this->getAssetsUrl('images/mstile-310x150.png') . '" />';
 
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());
