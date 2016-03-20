@@ -183,6 +183,10 @@ if ($article->getRows() == 1) {
                             $action_message .= '<br />';
                         }
 
+                        // clone sql object to preserve values in sql object given to rex_article_action
+                        // otherwise the POSTSAVE action did not have access to values
+                        $newsql = clone $newsql;
+
                         // ----- SAVE/UPDATE SLICE
                         if ($function == 'add' || $function == 'edit') {
                             $sliceTable = rex::getTablePrefix() . 'article_slice';
