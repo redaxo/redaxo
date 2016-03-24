@@ -1,5 +1,5 @@
 package: media_manager
-version: '2.0.2-dev'
+version: '2.0.2'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
@@ -17,4 +17,4 @@ page:
 requires:
     php:
         extensions: [gd]
-    redaxo: ^5.1.0-dev
+    redaxo: ^5.1.0

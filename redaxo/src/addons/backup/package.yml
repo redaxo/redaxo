@@ -1,5 +1,5 @@
 package: backup
-version: '2.0.3-dev'
+version: '2.0.3'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
@@ -18,4 +18,4 @@ page:
                 server: { title: 'translate:backup_load_from_server' }
 
 requires:
-    redaxo: ^5.1.0-dev
+    redaxo: ^5.1.0

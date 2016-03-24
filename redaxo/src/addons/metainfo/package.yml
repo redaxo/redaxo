@@ -1,5 +1,5 @@
 package: metainfo
-version: '2.1.0-dev'
+version: '2.1.0'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
@@ -17,7 +17,7 @@ pages:
     content/metainfo: { title: 'translate:metadata', icon: rex-icon rex-icon-metainfo }
 
 requires:
-    redaxo: '^5.1.0-dev'
+    redaxo: '^5.1.0'
     packages:
         structure: '^2.0.0'
         mediapool: '^2.0.0'

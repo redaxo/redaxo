@@ -1,5 +1,5 @@
 package: structure/content
-version: '2.1.0-dev'
+version: '2.1.0'
 author: Markus Staab
 supportpage: www.redaxo.org/de/forum/
 
@@ -35,4 +35,4 @@ pages:
             actions: { title: translate:actions }
 
 requires:
-    redaxo: ^5.1.0-dev
+    redaxo: ^5.1.0
