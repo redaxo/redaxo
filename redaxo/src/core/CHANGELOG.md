@@ -7,7 +7,7 @@ Version 5.1.0 – 24.03.2016
 ### Neu
 
 * Core-Update wieder über Setup möglich, als Alternative zum Installer
-* Status (online/offlice) für Sprachen
+* Status (online/offline) für Sprachen
 * Neue REX_VAR: REX_CLANG[]
 * Neue EPs: REX_FORM_GET und REX_LIST_GET
 * Extension Points: Es können Extensions direkt für mehrere EPs (Array) registriert werden
