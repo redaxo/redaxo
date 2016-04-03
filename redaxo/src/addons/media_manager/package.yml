@@ -16,5 +16,5 @@ page:
 
 requires:
     php:
-        extensions: [gd]
+        extensions: [gd, fileinfo]
     redaxo: ^5.1.0
