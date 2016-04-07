@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%metainfo_field` (
     `validate` text NULL,
     `callback` text NULL,
     `restrictions` text NULL,
+    `templates` text NULL,
     `createuser` varchar(255) NOT NULL,
     `createdate` datetime NOT NULL,
     `updateuser` varchar(255) NOT NULL,

@@ -26,6 +26,8 @@ minfo_field_label_params = parameter
 minfo_field_label_priority = field position
 minfo_field_label_restrictions = Available only in the following categories
 minfo_field_label_no_restrictions = Available in all categories
+minfo_field_label_all_templates = Available for all templates
+minfo_field_label_templates = Available only for the following templates
 
 minfo_field_notice_title = prefix "translate:" translates the value via I18N
 
