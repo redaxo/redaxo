@@ -67,6 +67,15 @@ legend {
                 margin-top: ($padding-base-vertical + 1);
                 margin-bottom: ($padding-base-vertical + 1);
             }
+            > .input-group {
+                .checkbox,
+                .radio,
+                select.form-control,
+                input[type="file"] {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
         }
 
         textarea:not([rows]) {
