@@ -42,6 +42,13 @@ class rex_content_service
             $ctype = $CM->getValue('ctype_id');
             $slice_revision = $CM->getValue('revision');
 
+            rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
+                'type' => 'slice_'.$direction,
+                'article_id' => $article_id,
+                'clang_id' => $clang,
+                'slice_revision' => $slice_revision,
+            ]));
+
             if ($direction == 'moveup' || $direction == 'movedown') {
                 if ($direction == 'moveup') {
                     $upd->setValue('priority', $CM->getValue('priority') - 1);
@@ -94,6 +101,13 @@ class rex_content_service
             return false;
         }
 
+        rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
+            'type' => 'slice_delete',
+            'article_id' => $curr->getValue('article_id'),
+            'clang_id' => $curr->getValue('clang_id'),
+            'slice_revision' => $curr->getValue('revision'),
+        ]));
+
         // delete the slice
         $del = rex_sql::factory();
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=' . $slice_id);
@@ -131,6 +145,14 @@ class rex_content_service
         $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang_id='$from_clang' and revision='$revision'");
 
         if ($gc->getRows() > 0) {
+
+            rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
+                'type' => 'slices_copy',
+                'article_id' => $to_id,
+                'clang_id' => $to_clang,
+                'slice_revision' => $revision,
+            ]));
+
             $ins = rex_sql::factory();
             //$ins->setDebug();
             $ctypes = [];
