@@ -41,6 +41,10 @@ function rex_history_snapVersion(select_id) {
 
     var history_date = $("#" + select_id).val();
 
+    if (history_date == "") {
+        return false;
+    }
+
     $.ajax({
         url: "index.php?rex_history_function=snap&history_article_id=" + history_article_id + "&history_clang_id=" + history_clang_id + "&history_revision=" + history_revision + "&history_date=" + history_date,
         context: document.body
