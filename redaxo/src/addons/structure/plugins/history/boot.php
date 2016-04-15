@@ -115,7 +115,7 @@ if (rex_backend_login::hasSession()) {
             foreach ($versions as $version) {
                 $select .= '<option value="' . $version["history_date"] . '">' . $version["history_date"] . '</option>';
             }
-            $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1">' . $select . '</select>';
+            $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . $select . '</select>';
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';

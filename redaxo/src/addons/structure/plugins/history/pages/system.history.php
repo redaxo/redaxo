@@ -1,7 +1,7 @@
 <?php
 
 // Todo:
-// Editierseite unterhalb der Versionaktualisierung updaten ..
+// BUG: Editierseite unterhalb der Versionaktualisierung updaten ..
 // an/aus
 // cronjob mit bereinigung von unnötigen versionen
 
