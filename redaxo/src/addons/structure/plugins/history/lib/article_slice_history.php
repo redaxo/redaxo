@@ -10,6 +10,8 @@ class rex_article_slice_history {
     static public function makeArticleSlicesSnapshot($article_id, $clang_id, $history_type = '', $revision = 0)
     {
 
+        self::checkTables();
+
         $slices = rex_sql::factory();
         $slices = $slices->getArray('select * from '.rex::getTable('article_slice').' where article_id=? and clang_id=? and revision=?',
             [
@@ -47,9 +49,17 @@ class rex_article_slice_history {
 
     }
 
-
     static public function setVersionByDate($history_date, $article_id, $clang_id, $revision = 0)
     {
+
+        self::checkTables();
+
+        $sql = rex_sql::factory();
+        $slices = $sql->getArray('select id from '.self::getTable().' where article_id=? and clang_id=? and revision=? and history_date=?', [$article_id, $clang_id, $revision, $history_date]);
+
+        if (count($slices) == 0) {
+            return false;
+        }
 
         self::makeArticleSlicesSnapshot($article_id, $clang_id, 'version set '.$history_date, $revision);
 
@@ -61,7 +71,6 @@ class rex_article_slice_history {
 
         foreach($slices as $slice) {
             $sql = rex_sql::factory();
-            $sql->setDebug();
             $sql->setTable(rex::getTable('article_slice'));
 
             $ignore_fields = ['id','slice_id','history_date','history_type'];
@@ -78,8 +87,25 @@ class rex_article_slice_history {
 
         rex_article_cache::delete($article_id, $clang_id);
 
+        return true;
+
     }
 
+    static public function checkTables()
+    {
+        $slices_table = rex_sql_table::get(rex::getTable('article_slice'));
+        $history_table = rex_sql_table::get(self::getTable());
 
+        echo "\n\n\n\n";
+        foreach($slices_table->getColumns() as $column) {
+            if (strtolower($column->getName()) != "id") {
+                echo "\n** ".$column->getName();
+                $history_table->ensureColumn($column)->alter();
+
+            }
+
+        }
+
+    }
 
 }
