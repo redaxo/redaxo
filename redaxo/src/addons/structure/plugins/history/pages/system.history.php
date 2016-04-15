@@ -1,0 +1,16 @@
+<?php
+
+// Einstellungen erlauben
+
+
+
+
+
+
+
+
+
+
+
+
+?>
