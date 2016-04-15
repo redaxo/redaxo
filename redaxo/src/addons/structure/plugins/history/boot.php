@@ -1,21 +1,12 @@
 <?php
 
 /**
- * Version.
+ * History.
  *
  * @author jan@kristinus.de
  *
  * @package redaxo5
  */
-
-// TODO:
-// - check ob datum bei wiederherstellung vorhanden ist
-// - design.. overlay fenster aufhübschen, iframe dynamisch machen.
-// - history_date prüfen .. microtime stimmt wohl nicht
-// - mit button übernehmen einbauen
-// cronjob mit löschung einbauen ..
-// - in history übersicht versionen löschen einbauen (admin)
-
 
 $mypage = 'history';
 $history_date = rex_request('rex_history_date',"string");
@@ -25,8 +16,6 @@ if ($history_date != '') {
     if (!rex_backend_login::hasSession()) {
         throw new rex_exception('no permission for the slice version');
     }
-
-    // Articleausgabe anpassen. Eigener SQL wird gesetzt wenn gleicher Artikel -> history article
 
     rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
 
@@ -82,7 +71,6 @@ if ($history_date != '') {
 
 if (rex_backend_login::hasSession()) {
 
-    // slice / history aktivieren
     rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
 
         $type = $ep->getParam('type');
@@ -111,7 +99,7 @@ if (rex_backend_login::hasSession()) {
 
             rex_article_slice_history::setVersionByDate($history_date, $article_id, $clang_id, $revision);
 
-            $info = 'update wurde gemacht';
+            $info = $version["history_snapshot_history_reactivate_snapshot"];
 
         case("layer"):
 
@@ -123,7 +111,7 @@ if (rex_backend_login::hasSession()) {
 
             $versions = rex_article_slice_history::getVersionsByDate($article_id, $clang_id, $revision);
 
-            $select = '<option value="" selected="selected">Aktuelle Version</option>';
+            $select = '<option value="" selected="selected">'.rex_i18n::msg('history_current_version').'</option>';
             foreach ($versions as $version) {
                 $select .= '<option value="' . $version["history_date"] . '">' . $version["history_date"] . '</option>';
             }
@@ -131,11 +119,11 @@ if (rex_backend_login::hasSession()) {
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
-            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">Diese Version übernehmen</a>';
+            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">'.rex_i18n::msg('history_snapshot_reactivate').'</a>';
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
-            $fragment->setVar('title', 'Seitentitel - Lorem Ipsum');
+            $fragment->setVar('title', rex_i18n::msg('history_overview_versions'));
             $fragment->setVar('info', $info, false);
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);
