@@ -11,9 +11,15 @@
 $mypage = 'history';
 $history_date = rex_request('rex_history_date',"string");
 
+rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
+
 if ($history_date != '') {
 
     if (!rex_backend_login::hasSession()) {
+        throw new rex_exception('no permission for the slice version');
+    }
+
+    if (!rex::getUser()->isAdmin && !rex::getUser()->hasPerm('history[article_rollback]')) {
         throw new rex_exception('no permission for the slice version');
     }
 
@@ -69,7 +75,7 @@ if ($history_date != '') {
 }
 
 
-if (rex_backend_login::hasSession()) {
+if (rex_backend_login::hasSession() && rex::isBackend() && (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('history[article_rollback]'))) {
 
     rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
 
@@ -83,10 +89,8 @@ if (rex_backend_login::hasSession()) {
     }
     );
 
-    if (rex::isBackend()) {
-        rex_view::addCssFile($this->getAssetsUrl('history.css'));
-        rex_view::addJsFile($this->getAssetsUrl('history.js'));
-    }
+    rex_view::addCssFile($this->getAssetsUrl('history.css'));
+    rex_view::addJsFile($this->getAssetsUrl('history.js'));
 
     $info = '';
     switch(rex_request('rex_history_function','string')) {
