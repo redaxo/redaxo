@@ -53,6 +53,9 @@ function rex_history_snapVersion(select_id) {
 
         rex_history_setLayer(data);
 
+        url = "index.php?page=content/edit&article_id=" + history_article_id + "&clang_id=" + history_clang_id + "&ctype=" + history_ctype_id + "&rex_set_version=" + history_revision;
+        $.pjax({url: url, container: '#rex-js-page-main-content', fragment: '#rex-js-page-main-content'})
+
     });
 
 };

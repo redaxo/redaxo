@@ -145,6 +145,7 @@ if (rex_backend_login::hasSession() && rex::isBackend() && (rex::getUser()->isAd
             echo '<script>
                     var history_article_id = '.rex_article::getCurrentId().';
                     var history_clang_id = '.rex_clang::getCurrentId().';
+                    var history_ctype_id = '.rex_request("ctype","int",0).';
                     var history_revision = '.rex_request("rex_set_version",'int',0).';
                     var history_article_link = "'.rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request("rex_set_version",'int',0)],'&').'";
                     </script>';
