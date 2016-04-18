@@ -1,13 +1,16 @@
 <?php
 
-// Todo:
-// BUG: Editierseite unterhalb der Versionaktualisierung updaten ..
-// an/aus
-// cronjob mit bereinigung von unnötigen versionen
+if (rex_request("func","string") == "clearall") {
+    rex_article_slice_history::clearAllHistory();
+    echo rex_view::success(rex_i18n::msg('history_deleted'));
+}
+
+$content = rex_i18n::rawMsg('history_info_content');
+$content .= '<p><a href="index.php?page=system/history&func=clearall" class="btn btn-setup">'.rex_i18n::msg('history_button_delete_history').'</a></p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('history_title_info'));
-$fragment->setVar('body', rex_i18n::rawMsg('history_info_content'), false);
+$fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
 $fragment = new rex_fragment();

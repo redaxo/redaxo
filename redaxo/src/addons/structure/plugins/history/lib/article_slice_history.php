@@ -91,6 +91,11 @@ class rex_article_slice_history {
 
     }
 
+    static public function clearAllHistory() {
+        rex_sql::factory()->setQuery('delete from '.self::getTable().'', []);
+
+    }
+
     static public function checkTables()
     {
         $slices_table = rex_sql_table::get(rex::getTable('article_slice'));
