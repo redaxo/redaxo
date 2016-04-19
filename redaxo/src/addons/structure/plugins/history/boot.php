@@ -15,11 +15,13 @@ rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
 
-    if (!rex_backend_login::hasSession()) {
-        throw new rex_exception('no permission for the slice version');
+    $user = rex_backend_login::createUser();
+
+    if (!$user) {
+        throw new rex_exception('no permission');
     }
 
-    if (!rex::getUser()->isAdmin && !rex::getUser()->hasPerm('history[article_rollback]')) {
+    if ( !$user->hasPerm('history[article_rollback]') ) {
         throw new rex_exception('no permission for the slice version');
     }
 
@@ -75,7 +77,7 @@ if ($history_date != '') {
 }
 
 
-if (rex_backend_login::hasSession() && rex::isBackend() && (rex::getUser()->isAdmin() || rex::getUser()->hasPerm('history[article_rollback]'))) {
+if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
 
     rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
 
