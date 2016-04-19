@@ -9,7 +9,7 @@
  */
 
 $mypage = 'history';
-$history_date = rex_request('rex_history_date',"string");
+$history_date = rex_request('rex_history_date', 'string');
 
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
@@ -34,7 +34,7 @@ if ($history_date != '') {
 
     rex_extension::register('ARTICLE_SLICES_SQL', function (rex_extension_point $ep) {
 
-        $history_date = rex_request('rex_history_date', "string");
+        $history_date = rex_request('rex_history_date', 'string');
         $history_revision = rex_request('history_revision', 'int', 0);
         $article = $ep->getParam('article');
 
@@ -49,7 +49,7 @@ if ($history_date != '') {
 
             $escapeSql = rex_sql::factory();
 
-            $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = '.$escapeSql->escape($history_date);
+            $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($history_date);
 
             $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                         FROM
@@ -93,37 +93,37 @@ if (rex_backend_login::hasSession() && rex::isBackend() && (rex::getUser()->isAd
     rex_view::addJsFile($this->getAssetsUrl('history.js'));
 
     $info = '';
-    switch(rex_request('rex_history_function','string')) {
+    switch (rex_request('rex_history_function', 'string')) {
 
-        case("snap"):
-            $article_id = rex_request("history_article_id","int");
-            $clang_id = rex_request("history_clang_id","int");
-            $revision = rex_request("history_revision","int",0);
-            $history_date = rex_request("history_date",'string');
+        case 'snap':
+            $article_id = rex_request('history_article_id', 'int');
+            $clang_id = rex_request('history_clang_id', 'int');
+            $revision = rex_request('history_revision', 'int', 0);
+            $history_date = rex_request('history_date', 'string');
 
             rex_article_slice_history::setVersionByDate($history_date, $article_id, $clang_id, $revision);
 
-            $info = $version["history_snapshot_history_reactivate_snapshot"];
+            $info = $version['history_snapshot_history_reactivate_snapshot'];
 
-        case("layer"):
+        case 'layer':
 
             // article_id und clang_id und revision noch nötig
 
-            $article_id = rex_request("history_article_id","int");
-            $clang_id = rex_request("history_clang_id","int");
-            $revision = rex_request("history_revision","int",0);
+            $article_id = rex_request('history_article_id', 'int');
+            $clang_id = rex_request('history_clang_id', 'int');
+            $revision = rex_request('history_revision', 'int', 0);
 
             $versions = rex_article_slice_history::getVersionsByDate($article_id, $clang_id, $revision);
 
-            $select = '<option value="" selected="selected">'.rex_i18n::msg('history_current_version').'</option>';
+            $select = '<option value="" selected="selected">' . rex_i18n::msg('history_current_version') . '</option>';
             foreach ($versions as $version) {
-                $select .= '<option value="' . $version["history_date"] . '">' . $version["history_date"] . '</option>';
+                $select .= '<option value="' . $version['history_date'] . '">' . $version['history_date'] . '</option>';
             }
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . $select . '</select>';
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
-            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">'.rex_i18n::msg('history_snapshot_reactivate').'</a>';
+            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . rex_i18n::msg('history_snapshot_reactivate') . '</a>';
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
@@ -143,15 +143,14 @@ if (rex_backend_login::hasSession() && rex::isBackend() && (rex::getUser()->isAd
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
         if ($ep->getParam('page') == 'content/edit') {
             echo '<script>
-                    var history_article_id = '.rex_article::getCurrentId().';
-                    var history_clang_id = '.rex_clang::getCurrentId().';
-                    var history_ctype_id = '.rex_request("ctype","int",0).';
-                    var history_revision = '.rex_request("rex_set_version",'int',0).';
-                    var history_article_link = "'.rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request("rex_set_version",'int',0)],'&').'";
+                    var history_article_id = ' . rex_article::getCurrentId() . ';
+                    var history_clang_id = ' . rex_clang::getCurrentId() . ';
+                    var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
+                    var history_revision = ' . rex_request('rex_set_version', 'int', 0) . ';
+                    var history_article_link = "' . rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&') . '";
                     </script>';
         }
     }
     );
 
 }
-

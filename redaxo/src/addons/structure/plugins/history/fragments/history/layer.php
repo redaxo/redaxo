@@ -8,7 +8,9 @@
                 </div>
             </div>
             <div class="col-lg-4 text-center">
-                <?php if ( $this->getVar('info') != "") { echo '<p class="alert alert-success">'.$this->getVar('info').'</p>'; } ?>
+                <?php if ( $this->getVar('info') != '') {
+    echo '<p class="alert alert-success">' . $this->getVar('info') . '</p>';
+} ?>
             </div>
             <div class="col-lg-2 text-center">
                 <div class="form-group">
