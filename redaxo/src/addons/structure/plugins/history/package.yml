@@ -1,0 +1,15 @@
+package: structure/history
+version: '1.0.0'
+author: Jan Kristinus
+supportpage: www.redaxo.org/de/forum/
+
+pages:
+    content/history: { title: " ", icon: "fa fa-history", href: "javascript:rex_history_openLayer();", itemAttr: { left: true }, perm: history[article_rollback] }
+    system/history:
+        title: translate:history
+
+requires:
+    packages:
+        structure: '^2.0.0'
+        structure/content: '^2.0.0'
+    redaxo: '>=5.1'

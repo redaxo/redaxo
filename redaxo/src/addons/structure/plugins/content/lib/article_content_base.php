@@ -284,12 +284,23 @@ class rex_article_content_base
                             ' . $sliceLimit . '
                             ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
 
-        $artDataSql = rex_sql::factory();
-        if ($this->debug) {
-            $artDataSql->setDebug();
-        }
+        $artDataSql = rex_extension::registerPoint(new rex_extension_point(
+            'ARTICLE_SLICES_SQL',
+            '',
+            [
+                'article' => $this,
+                'sql' => $sql
+            ]
+        ));
 
-        $artDataSql->setQuery($sql);
+        if (!($artDataSql instanceof rex_sql)) {
+            $artDataSql = rex_sql::factory();
+            if ($this->debug) {
+                $artDataSql->setDebug();
+            }
+            $artDataSql->setQuery($sql);
+
+        }
 
         // pre hook
         $articleContent = '';
