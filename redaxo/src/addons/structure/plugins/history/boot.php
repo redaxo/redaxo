@@ -14,14 +14,13 @@ $history_date = rex_request('rex_history_date', 'string');
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
-
     $user = rex_backend_login::createUser();
 
     if (!$user) {
         throw new rex_exception('no permission');
     }
 
-    if ( !$user->hasPerm('history[article_rollback]') ) {
+    if (!$user->hasPerm('history[article_rollback]')) {
         throw new rex_exception('no permission for the slice version');
     }
 
@@ -41,7 +40,6 @@ if ($history_date != '') {
         $article = $ep->getParam('article');
 
         if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
-
             $articleLimit = '';
             if ($article->getArticleId() != 0) {
                 $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
@@ -69,16 +67,12 @@ if ($history_date != '') {
 
             $artDataSql = rex_sql::factory()->setQuery($sql);
             return $artDataSql;
-
         }
 
     });
-
 }
 
-
 if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
-
     rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
 
         $type = $ep->getParam('type');
@@ -154,5 +148,4 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         }
     }
     );
-
 }

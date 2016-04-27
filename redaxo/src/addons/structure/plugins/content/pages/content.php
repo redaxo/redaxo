@@ -217,7 +217,6 @@ if ($article->getRows() == 1) {
                             if ($function == 'edit') {
                                 $newsql->addGlobalUpdateFields();
                                 try {
-
                                     rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
                                         'type' => 'slice_update',
                                         'article_id' => $article_id,
@@ -244,12 +243,11 @@ if ($article->getRows() == 1) {
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
-                            } else if ($function == 'add') {
+                            } elseif ($function == 'add') {
                                 $newsql->addGlobalUpdateFields();
                                 $newsql->addGlobalCreateFields();
 
                                 try {
-
                                     rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
                                         'type' => 'slice_add',
                                         'article_id' => $article_id,

@@ -289,7 +289,7 @@ class rex_article_content_base
             '',
             [
                 'article' => $this,
-                'sql' => $sql
+                'sql' => $sql,
             ]
         ));
 
@@ -299,7 +299,6 @@ class rex_article_content_base
                 $artDataSql->setDebug();
             }
             $artDataSql->setQuery($sql);
-
         }
 
         // pre hook

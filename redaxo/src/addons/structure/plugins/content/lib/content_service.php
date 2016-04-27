@@ -145,7 +145,6 @@ class rex_content_service
         $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang_id='$from_clang' and revision='$revision'");
 
         if ($gc->getRows() > 0) {
-
             rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
                 'type' => 'slices_copy',
                 'article_id' => $to_id,
