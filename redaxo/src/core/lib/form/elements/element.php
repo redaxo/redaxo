@@ -185,6 +185,9 @@ class rex_form_element
         return $this->separateEnding;
     }
 
+    /**
+     * @return rex_validator
+     */
     public function getValidator()
     {
         return $this->validator;
