@@ -125,6 +125,7 @@ if ($func == '') {
 
     $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###']);
+    $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
         if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type'))) {
