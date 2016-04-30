@@ -50,6 +50,8 @@ class rex_response
     /**
      * Redirects to a URL.
      *
+     * NOTE: Execution will stop within this method!
+     *
      * @param string $url URL
      *
      * @throws InvalidArgumentException
