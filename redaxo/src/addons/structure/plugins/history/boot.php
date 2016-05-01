@@ -77,7 +77,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         $clang_id = $ep->getParam('clang_id');
         $slice_revision = $ep->getParam('slice_revision');
 
-        rex_article_slice_history::makeArticleSlicesSnapshot($article_id, $clang_id, $type, $slice_revision);
+        rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type, $slice_revision);
 
     }
     );
@@ -94,7 +94,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $revision = rex_request('history_revision', 'int', 0);
             $history_date = rex_request('history_date', 'string');
 
-            rex_article_slice_history::setVersionByDate($history_date, $article_id, $clang_id, $revision);
+            rex_article_slice_history::restoreSnapshot($history_date, $article_id, $clang_id, $revision);
 
             $info = $version['history_snapshot_history_reactivate_snapshot'];
 
@@ -106,9 +106,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $clang_id = rex_request('history_clang_id', 'int');
             $revision = rex_request('history_revision', 'int', 0);
 
-            $versions = rex_article_slice_history::getVersionsByDate($article_id, $clang_id, $revision);
+            $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id, $revision);
 
-            $select = '<option value="" selected="selected">' . rex_i18n::msg('history_current_version') . '</option>';
+            $select = '<option value="" selected="selected">' . $this->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
                 $select .= '<option value="' . $version['history_date'] . '">' . $version['history_date'] . '</option>';
             }
@@ -116,11 +116,11 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
-            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . rex_i18n::msg('history_snapshot_reactivate') . '</a>';
+            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . $this->i18n('snapshot_reactivate') . '</a>';
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
-            $fragment->setVar('title', rex_i18n::msg('history_overview_versions'));
+            $fragment->setVar('title', $this->i18n('overview_versions'));
             $fragment->setVar('info', $info, false);
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);

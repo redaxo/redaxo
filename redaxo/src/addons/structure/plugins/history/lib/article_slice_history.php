@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author dergel
+ *
+ * @package redaxo\structure\history
+ */
 class rex_article_slice_history
 {
     public static function getTable()
@@ -7,17 +12,18 @@ class rex_article_slice_history
         return rex::getTablePrefix() . 'article_slice_history';
     }
 
-    public static function makeArticleSlicesSnapshot($article_id, $clang_id, $history_type = '', $revision = 0)
+    public static function makeSnapshot($article_id, $clang_id, $history_type, $revision = 0)
     {
         self::checkTables();
 
-        $slices = rex_sql::factory();
-        $slices = $slices->getArray('select * from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?',
+        $slices = rex_sql::factory()->getArray(
+            'select * from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?',
             [
                 $article_id,
                 $clang_id,
                 $revision,
-            ]);
+            ]
+        );
 
         $microtime = explode(',', microtime(true));
         $history_date = date('Y-m-d H:i:s ') . $microtime[1];
@@ -38,13 +44,15 @@ class rex_article_slice_history
         }
     }
 
-    public static function getVersionsByDate($article_id, $clang_id, $revision = 0)
+    public static function getSnapshots($article_id, $clang_id, $revision = 0)
     {
-        $versions = rex_sql::factory()->getArray('select distinct history_date,updateuser from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc', [$article_id, $clang_id, $revision]);
-        return $versions;
+        return rex_sql::factory()->getArray(
+            'select distinct history_date,updateuser from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
+            [$article_id, $clang_id, $revision]
+        );
     }
 
-    public static function setVersionByDate($history_date, $article_id, $clang_id, $revision = 0)
+    public static function restoreSnapshot($history_date, $article_id, $clang_id, $revision = 0)
     {
         self::checkTables();
 
@@ -55,7 +63,7 @@ class rex_article_slice_history
             return false;
         }
 
-        self::makeArticleSlicesSnapshot($article_id, $clang_id, 'version set ' . $history_date, $revision);
+        self::makeSnapshot($article_id, $clang_id, 'version set ' . $history_date, $revision);
 
         $sql = rex_sql::factory();
         $sql->setQuery('delete from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?', [$article_id, $clang_id, $revision]);
@@ -84,18 +92,16 @@ class rex_article_slice_history
 
     public static function clearAllHistory()
     {
-        rex_sql::factory()->setQuery('delete from ' . self::getTable() . '', []);
+        rex_sql::factory()->setQuery('delete from ' . self::getTable());
     }
 
-    public static function checkTables()
+    private static function checkTables()
     {
         $slices_table = rex_sql_table::get(rex::getTable('article_slice'));
         $history_table = rex_sql_table::get(self::getTable());
 
-        echo "\n\n\n\n";
         foreach ($slices_table->getColumns() as $column) {
             if (strtolower($column->getName()) != 'id') {
-                echo "\n** " . $column->getName();
                 $history_table->ensureColumn($column)->alter();
             }
         }
