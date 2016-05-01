@@ -271,7 +271,7 @@ class rex_article_content_base
         $module_id = rex_request('module_id', 'int');
 
         // ---------- alle teile/slices eines artikels auswaehlen
-        $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+        $query = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
                         FROM
                             ' . rex::getTablePrefix() . 'article_slice
                         LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
@@ -284,22 +284,15 @@ class rex_article_content_base
                             ' . $sliceLimit . '
                             ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
 
-        $artDataSql = rex_extension::registerPoint(new rex_extension_point(
-            'ARTICLE_SLICES_SQL',
-            '',
-            [
-                'article' => $this,
-                'sql' => $sql,
-            ]
+        $query = rex_extension::registerPoint(new rex_extension_point(
+            'ART_SLICES_QUERY',
+            $query,
+            ['article' => $this]
         ));
 
-        if (!($artDataSql instanceof rex_sql)) {
-            $artDataSql = rex_sql::factory();
-            if ($this->debug) {
-                $artDataSql->setDebug();
-            }
-            $artDataSql->setQuery($sql);
-        }
+        $artDataSql = rex_sql::factory();
+        $artDataSql->setDebug($this->debug);
+        $artDataSql->setQuery($query);
 
         // pre hook
         $articleContent = '';

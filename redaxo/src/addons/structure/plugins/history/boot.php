@@ -33,7 +33,7 @@ if ($history_date != '') {
         $article->setEval(true);
     });
 
-    rex_extension::register('ARTICLE_SLICES_SQL', function (rex_extension_point $ep) {
+    rex_extension::register('ART_SLICES_QUERY', function (rex_extension_point $ep) {
 
         $history_date = rex_request('rex_history_date', 'string');
         $history_revision = rex_request('history_revision', 'int', 0);
@@ -51,22 +51,19 @@ if ($history_date != '') {
 
             $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($history_date);
 
-            $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
-                        FROM
-                            ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
-                        LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-                        LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
-                        WHERE
-                            ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
-                            " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
-                            " . rex::getTablePrefix() . "article_slice.revision='" . $history_revision . "'
-                            " . $articleLimit . '
-                            ' . $sliceLimit . '
-                            ' . $sliceDate . '
-                            ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
-
-            $artDataSql = rex_sql::factory()->setQuery($sql);
-            return $artDataSql;
+            return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+                FROM
+                    ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
+                LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
+                LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
+                WHERE
+                    ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
+                    " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
+                    " . rex::getTablePrefix() . "article_slice.revision='" . $history_revision . "'
+                    " . $articleLimit . '
+                    ' . $sliceLimit . '
+                    ' . $sliceDate . '
+                    ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
         }
 
     });
