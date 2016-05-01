@@ -288,13 +288,6 @@ if ($article->getRows() == 1) {
                         } else {
                             // make delete
 
-                            rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_UPDATE', '', [
-                                'type' => 'slice_delete',
-                                'article_id' => $article_id,
-                                'clang_id' => $clang,
-                                'slice_revision' => $slice_revision,
-                            ]));
-
                             if (rex_content_service::deleteSlice($slice_id)) {
                                 $global_info = rex_i18n::msg('block_deleted');
 
