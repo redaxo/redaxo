@@ -1,5 +1,7 @@
 {
     "require": {
+        "erusev/parsedown": "^1.6",
+        "erusev/parsedown-extra": "^0.7",
         "psr/log": "^1.0",
         "symfony/yaml": "^3.0"
     },
