@@ -1,10 +1,13 @@
 {
     "require": {
-        "symfony/yaml": "~3.0",
-        "psr/log": "~1.0"
+        "psr/log": "^1.0",
+        "symfony/yaml": "^3.0"
     },
 
     "config": {
-        "autoloader-suffix": "RedaxoCore"
+        "autoloader-suffix": "RedaxoCore",
+        "platform": {
+            "php": "5.5.9"
+        }
     }
 }
