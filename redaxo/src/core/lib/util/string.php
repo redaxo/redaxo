@@ -174,7 +174,7 @@ class rex_string
      *
      * @return array
      *
-     * @throws rex_yml_parse_exception
+     * @throws rex_yaml_parse_exception
      */
     public static function yamlDecode($value)
     {
