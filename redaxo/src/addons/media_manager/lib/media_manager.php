@@ -165,6 +165,8 @@ class rex_media_manager
         $headerCacheFilename = $this->getHeaderCacheFilename();
         $CacheFilename = $this->getCacheFilename();
 
+        rex_response::cleanOutputBuffers();
+
         if ($this->isCached()) {
             $header = rex_file::getCache($headerCacheFilename);
             if (isset($header['Last-Modified'])) {
