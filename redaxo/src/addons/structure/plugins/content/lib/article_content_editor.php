@@ -44,19 +44,18 @@ class rex_article_content_editor extends rex_article_content
 
             $panel = '';
             // ----- Display message at current slice
-            //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId))
-            {
-                if ($this->function != 'add' && $this->slice_id == $sliceId) {
-                    $msg = '';
-                    if ($this->warning != '') {
-                        $msg .= rex_view::warning($this->warning);
-                    }
-                    if ($this->info != '') {
-                        $msg .= rex_view::success($this->info);
-                    }
-                    $panel .= $msg;
+            //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
+            if ($this->function != 'add' && $this->slice_id == $sliceId) {
+                $msg = '';
+                if ($this->warning != '') {
+                    $msg .= rex_view::warning($this->warning);
                 }
+                if ($this->info != '') {
+                    $msg .= rex_view::success($this->info);
+                }
+                $panel .= $msg;
             }
+            //}
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
             if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {

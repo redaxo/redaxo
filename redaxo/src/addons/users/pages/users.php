@@ -516,14 +516,14 @@ if (isset($SHOW) and $SHOW) {
 
     $list->setColumnLabel('login', rex_i18n::msg('login'));
     $list->setColumnFormat('login', 'custom', function ($params) {
-            $list = $params['list'];
+        $list = $params['list'];
 
-            $login = $list->getValue('login');
-            if (!$list->getValue('status')) {
-                $login = '<span class="text-muted">' . $login . '</span>';
-            }
-            return $login;
-        });
+        $login = $list->getValue('login');
+        if (!$list->getValue('status')) {
+            $login = '<span class="text-muted">' . $login . '</span>';
+        }
+        return $login;
+    });
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
 

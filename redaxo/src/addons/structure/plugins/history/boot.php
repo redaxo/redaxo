@@ -25,7 +25,6 @@ if ($history_date != '') {
     }
 
     rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
-
         $article = $ep->getParam('article');
         if ($article instanceof rex_article_content) {
             $article->getContentAsQuery();
@@ -34,7 +33,6 @@ if ($history_date != '') {
     });
 
     rex_extension::register('ART_SLICES_QUERY', function (rex_extension_point $ep) {
-
         $history_date = rex_request('rex_history_date', 'string');
         $history_revision = rex_request('history_revision', 'int', 0);
         $article = $ep->getParam('article');
@@ -65,20 +63,17 @@ if ($history_date != '') {
                     ' . $sliceDate . '
                     ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
         }
-
     });
 }
 
 if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
     rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
-
         $type = $ep->getParam('type');
         $article_id = $ep->getParam('article_id');
         $clang_id = $ep->getParam('clang_id');
         $slice_revision = $ep->getParam('slice_revision');
 
         rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type, $slice_revision);
-
     }
     );
 

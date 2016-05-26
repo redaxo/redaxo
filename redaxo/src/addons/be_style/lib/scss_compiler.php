@@ -68,7 +68,6 @@ class rex_scss_compiler
         $scss_compiler->stripComments = $this->strip_comments;
 
         $scss_compiler->addImportPath(function ($path) use ($root_dir) {
-
             $path = $root_dir . $path . '.scss';
 
             $path_parts = pathinfo($path);
@@ -83,7 +82,6 @@ class rex_scss_compiler
             }
 
             return $path;
-
         });
         // set the path to your to-be-imported mixins. please note: custom paths are coming up on future releases!
         //$scss_compiler->setImportPaths($scss_folder);
