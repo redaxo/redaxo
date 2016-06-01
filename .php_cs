@@ -15,6 +15,7 @@ $finder = PhpCsFixer\Finder::create()
         $src.'/addons/mediapool',
         $src.'/addons/metainfo',
         $src.'/addons/phpmailer',
+        $src.'/addons/project',
         $src.'/addons/structure',
         $src.'/addons/tests',
         $src.'/addons/textile',
