@@ -65,6 +65,8 @@ class rex_category_service
             // Alle Templates der Kategorie
             $templates = rex_template::getTemplatesForCategory($category_id);
         }
+        
+        $user = rex::isBackend() ? null : 'frontend';
 
         // Kategorie in allen Sprachen anlegen
         $AART = rex_sql::factory();
@@ -102,8 +104,8 @@ class rex_category_service
             $AART->setValue('path', $path);
             $AART->setValue('startarticle', 1);
             $AART->setValue('status', $data['status']);
-            $AART->addGlobalUpdateFields();
-            $AART->addGlobalCreateFields();
+            $AART->addGlobalUpdateFields($user);
+            $AART->addGlobalCreateFields($user);
 
             try {
                 $AART->insert();
@@ -172,7 +174,9 @@ class rex_category_service
             $EKAT->setValue('catpriority', $data['catpriority']);
         }
 
-        $EKAT->addGlobalUpdateFields();
+        $user = rex::isBackend() ? null : 'frontend';
+        
+        $EKAT->addGlobalUpdateFields($user);
 
         try {
             $EKAT->update();
@@ -187,7 +191,7 @@ class rex_category_service
                     $EART->setTable(rex::getTablePrefix() . 'article');
                     $EART->setWhere(['id' => $ArtSql->getValue('id'), 'startarticle' => '0', 'clang_id' => $clang]);
                     $EART->setValue('catname', $data['catname']);
-                    $EART->addGlobalUpdateFields();
+                    $EART->addGlobalUpdateFields($user);
 
                     $EART->update();
                     rex_article_cache::delete($ArtSql->getValue('id'), $clang);
@@ -209,7 +213,7 @@ class rex_category_service
                     ->setTable(rex::getTable('article'))
                     ->setWhere('id = :id AND clang_id != :clang', ['id' => $category_id, 'clang' => $clang])
                     ->setValue('catpriority', $data['catpriority'])
-                    ->addGlobalUpdateFields()
+                    ->addGlobalUpdateFields($user)
                     ->update();
 
                 foreach (rex_clang::getAllIds() as $clangId) {
@@ -337,7 +341,7 @@ class rex_category_service
             $EKAT->setTable(rex::getTablePrefix() . 'article');
             $EKAT->setWhere(['id' => $category_id,  'clang_id' => $clang, 'startarticle' => 1]);
             $EKAT->setValue('status', $newstatus);
-            $EKAT->addGlobalCreateFields();
+            $EKAT->addGlobalCreateFields(rex::isBackend() ? null : 'frontend');
 
             try {
                 $EKAT->update();

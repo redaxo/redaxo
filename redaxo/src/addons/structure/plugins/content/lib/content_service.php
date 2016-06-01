@@ -57,7 +57,7 @@ class rex_content_service
                     $upd->setValue('priority', $CM->getValue('priority') + 1);
                     $updSort = 'ASC';
                 }
-                $upd->addGlobalUpdateFields();
+                $upd->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
                 $upd->update();
 
                 rex_sql_util::organizePriorities(
@@ -159,6 +159,8 @@ class rex_content_service
             $cols = rex_sql::factory();
             //$cols->setDebug();
             $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+            
+            $user = rex::isBackend() ? null : 'frontend';
 
             foreach ($gc as $slice) {
                 foreach ($cols as $col) {
@@ -181,8 +183,8 @@ class rex_content_service
                     }
                 }
 
-                $ins->addGlobalUpdateFields();
-                $ins->addGlobalCreateFields();
+                $ins->addGlobalUpdateFields($user);
+                $ins->addGlobalCreateFields($user);
                 $ins->setTable(rex::getTablePrefix() . 'article_slice');
                 $ins->insert();
             }

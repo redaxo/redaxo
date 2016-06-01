@@ -54,6 +54,7 @@ class rex_article_service
 
         $AART = rex_sql::factory();
         unset($id);
+        $user = rex::isBackend() ? null : 'frontend';
         foreach (rex_clang::getAllIds() as $key) {
             // ------- Kategorienamen holen
             $category = rex_category::get($data['category_id'], $key);
@@ -78,8 +79,8 @@ class rex_article_service
             $AART->setValue('startarticle', 0);
             $AART->setValue('status', 0);
             $AART->setValue('template_id', $data['template_id']);
-            $AART->addGlobalCreateFields();
-            $AART->addGlobalUpdateFields();
+            $AART->addGlobalCreateFields($user);
+            $AART->addGlobalUpdateFields($user);
 
             try {
                 $AART->insert();
@@ -170,7 +171,7 @@ class rex_article_service
         $EA->setValue('name', $data['name']);
         $EA->setValue('template_id', $data['template_id']);
         $EA->setValue('priority', $data['priority']);
-        $EA->addGlobalUpdateFields();
+        $EA->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
 
         try {
             $EA->update();
@@ -181,7 +182,7 @@ class rex_article_service
                 ->setTable(rex::getTable('article'))
                 ->setWhere('id = :id AND clang_id != :clang', ['id' => $article_id, 'clang' => $clang])
                 ->setValue('priority', $data['priority'])
-                ->addGlobalUpdateFields()
+                ->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend')
                 ->update();
 
             foreach (rex_clang::getAllIds() as $clangId) {
@@ -682,7 +683,7 @@ class rex_article_service
             // $uc->setDebug();
             $uc->setTable(rex::getTablePrefix() . 'article');
             $uc->setWhere("clang_id='$to_clang' and id='$to_id'");
-            $uc->addGlobalUpdateFields();
+            $uc->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
 
             foreach ($params as $key => $value) {
                 $uc->setValue($value, $gc->getValue($value));
@@ -709,6 +710,8 @@ class rex_article_service
         $id = (int) $id;
         $to_cat_id = (int) $to_cat_id;
         $new_id = '';
+
+        $user = rex::isBackend() ? null : 'frontend';
 
         // Artikel in jeder Sprache kopieren
         foreach (rex_clang::getAllIds() as $clang) {
@@ -746,8 +749,8 @@ class rex_article_service
                     $art_sql->setValue('priority', 99999); // Artikel als letzten Artikel in die neue Kat einfügen
                     $art_sql->setValue('status', 0); // Kopierter Artikel offline setzen
                     $art_sql->setValue('startarticle', 0);
-                    $art_sql->addGlobalUpdateFields();
-                    $art_sql->addGlobalCreateFields();
+                    $art_sql->addGlobalUpdateFields($user);
+                    $art_sql->addGlobalCreateFields($user);
 
                     // schon gesetzte Felder nicht wieder überschreiben
                     $dont_copy = ['id', 'pid', 'parent_id', 'catname', 'name', 'catpriority', 'path', 'priority', 'status', 'updatedate', 'updateuser', 'createdate', 'createuser', 'startarticle'];
@@ -839,7 +842,7 @@ class rex_article_service
                     $art_sql->setValue('priority', '99999');
                     // Kopierter Artikel offline setzen
                     $art_sql->setValue('status', $from_sql->getValue('status'));
-                    $art_sql->addGlobalUpdateFields();
+                    $art_sql->addGlobalUpdateFields(rex::isBackend() ? null : 'frontend');
 
                     $art_sql->setWhere('clang_id="' . $clang . '" and startarticle<>1 and id="' . $id . '" and parent_id="' . $from_cat_id . '"');
                     $art_sql->update();
