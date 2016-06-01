@@ -265,9 +265,9 @@ class rex_article_service
     public static function _deleteArticle($id)
     {
         // artikel loeschen
-        //
+
         // kontrolle ob erlaubnis nicht hier.. muss vorher geschehen
-        //
+
         // -> startarticle = 0
         // --> artikelfiles löschen
         // ---> article

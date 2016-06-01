@@ -34,6 +34,7 @@ return PhpCsFixer\Config::create()
         'blank_line_before_return' => false,
         'simplified_null_return' => false,
         'method_separation' => false,
+        'no_extra_consecutive_blank_lines' => false,
         'no_unreachable_default_argument_value' => false,
         'no_blank_lines_after_phpdoc' => false,
         'phpdoc_no_package' => false,
