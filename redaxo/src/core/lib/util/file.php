@@ -117,8 +117,8 @@ class rex_file
             }
 
             if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
-                touch($dstfile, filemtime($srcfile));
                 @chmod($dstfile, rex::getFilePerm());
+                touch($dstfile, filemtime($srcfile));
                 return true;
             }
         }
