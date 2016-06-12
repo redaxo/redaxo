@@ -67,14 +67,23 @@ if ($history_date != '') {
 }
 
 if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
-    rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
-        $type = $ep->getParam('type');
-        $article_id = $ep->getParam('article_id');
-        $clang_id = $ep->getParam('clang_id');
-        $slice_revision = $ep->getParam('slice_revision');
+    rex_extension::register(
+        ['SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
+        function (rex_extension_point $ep) {
+            switch ($ep->getName()) {
+                case 'SLICE_MOVE':
+                    $type = 'slice_'.$ep->getParam('direction');
+                    break;
+                default:
+                    $type = strtolower($ep->getName());
+            }
 
-        rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type, $slice_revision);
-    }
+            $article_id = $ep->getParam('article_id');
+            $clang_id = $ep->getParam('clang_id');
+            $slice_revision = $ep->getParam('slice_revision');
+
+            rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type, $slice_revision);
+        }
     );
 
     rex_view::addCssFile($this->getAssetsUrl('history.css'));
