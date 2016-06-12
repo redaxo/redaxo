@@ -2,7 +2,6 @@
 
 class rex_effect_filter_colorize extends rex_effect_abstract
 {
-
     public function execute()
     {
         $this->params['filter_r'] = (int) $this->params['filter_r'];
@@ -42,11 +41,11 @@ class rex_effect_filter_colorize extends rex_effect_abstract
         for ($y = 0; $y < $src_y; ++$y) {
             for ($x = 0; $x < $src_x; ++$x) {
                 $rgb = imagecolorat($dst_im, $x, $y);
-                $TabColors=imagecolorsforindex ( $dst_im , $rgb );
-                $color_r=floor($TabColors['red']*$this->params['filter_r']/255);
-                $color_g=floor($TabColors['green']*$this->params['filter_g']/255);
-                $color_b=floor($TabColors['blue']*$this->params['filter_b']/255);
-                $newcol = imagecolorallocate($dst_im, $color_r,$color_g,$color_b);
+                $TabColors = imagecolorsforindex($dst_im, $rgb);
+                $color_r = floor($TabColors['red'] * $this->params['filter_r'] / 255);
+                $color_g = floor($TabColors['green'] * $this->params['filter_g'] / 255);
+                $color_b = floor($TabColors['blue'] * $this->params['filter_b'] / 255);
+                $newcol = imagecolorallocate($dst_im, $color_r, $color_g, $color_b);
                 imagesetpixel($dst_im, $x, $y, $newcol);
             }
         }
