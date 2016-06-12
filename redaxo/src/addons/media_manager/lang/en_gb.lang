@@ -68,6 +68,10 @@ media_manager_effect_blur_repeats = Repeats
 media_manager_effect_blur_type = Blur type
 media_manager_effect_blur_smoothit = smoothing (negative values for sharpening)
 
+media_manager_effect_colorize_r = Red-Value
+media_manager_effect_colorize_g = Green-Value
+media_manager_effect_colorize_b = Blue-Value
+
 media_manager_effect_sharpen_amount = amount
 media_manager_effect_sharpen_radius = radius
 media_manager_effect_sharpen_threshold = threshold
