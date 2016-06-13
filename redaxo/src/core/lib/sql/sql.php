@@ -40,7 +40,7 @@ class rex_sql implements Iterator
     /**
      * @var PDO[]
      */
-    private static $pdo = [];
+    protected static $pdo = [];
 
     protected function __construct($DBID = 1)
     {
