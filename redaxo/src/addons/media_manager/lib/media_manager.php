@@ -171,6 +171,7 @@ class rex_media_manager
             $header = rex_file::getCache($headerCacheFilename);
             if (isset($header['Last-Modified'])) {
                 rex_response::sendLastModified(strtotime($header['Last-Modified']));
+                unset($header['Last-Modified']);
             }
             foreach ($header as $t => $c) {
                 header($t . ': ' . $c);

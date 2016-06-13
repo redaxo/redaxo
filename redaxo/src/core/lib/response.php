@@ -237,7 +237,7 @@ class rex_response
             $lastModified = time();
         }
 
-        $lastModified = date('r', (float) $lastModified);
+        $lastModified = gmdate('D, d M Y H:i:s T', (float) $lastModified);
 
         // Sende Last-Modification time
         header('Last-Modified: ' . $lastModified);

@@ -146,7 +146,7 @@ class rex_managed_media
             $this->setHeader('Content-Disposition', 'inline; filename="' . $this->getMediaFilename() . '";');
         }
         if (!array_key_exists('Last-Modified', $header)) {
-            $this->setHeader('Last-Modified', date('r'));
+            $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
         }
 
         rex_response::cleanOutputBuffers();
