@@ -91,7 +91,6 @@
     .btn.dropdown-toggle {
         max-width: 200px;
         > .filter-option {
-            @extend .rex-truncate;
             text-overflow: ellipsis;
         }
     }

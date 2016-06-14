@@ -1,4 +1,5 @@
 <?php
+use Leafo\ScssPhp\Compiler;
 
 /**
  * @package redaxo\be-style
@@ -16,7 +17,7 @@ class rex_scss_compiler
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = 'scss_formatter_compressed';
+        $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
         $this->strip_comments = true;
     }
 
@@ -63,7 +64,7 @@ class rex_scss_compiler
 
         $root_dir = $this->root_dir;
 
-        $scss_compiler = new scssc();
+        $scss_compiler = new Compiler();
         $scss_compiler->setNumberPrecision(10);
         $scss_compiler->stripComments = $this->strip_comments;
 
@@ -76,7 +77,7 @@ class rex_scss_compiler
             if (file_exists($underscore_file)) {
                 $path = $underscore_file;
             }
-
+            
             if (!file_exists($path)) {
                 return null;
             }
