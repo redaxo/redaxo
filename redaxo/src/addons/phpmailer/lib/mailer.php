@@ -28,6 +28,8 @@ class rex_mailer extends PHPMailer
         } else {
             $this->Priority = $addon->getConfig('priority');
         }
+		$this->SMTPDebug = $addon->getConfig('smtp_debug');
+
         $this->SMTPSecure = $addon->getConfig('smtpsecure');
         $this->SMTPAuth = $addon->getConfig('smtpauth');
         $this->Username = $addon->getConfig('username');
