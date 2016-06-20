@@ -9,7 +9,7 @@
 class rex_effect_convert2img extends rex_effect_abstract
 {
 
-    static
+    private static
     $convert_types = [
         'pdf',
         'ps',
