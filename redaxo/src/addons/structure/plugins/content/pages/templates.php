@@ -457,7 +457,7 @@ if ($OUT) {
     }
 
     $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-template"></i>';
     $thIcon = '<a href="' . $list->getUrl(['function' => 'add']) . '"' . rex::getAccesskey(rex_i18n::msg('create_template'), 'add') . ' title="' . rex_i18n::msg('create_template') . '"><i class="rex-icon rex-icon-add-template"></i></a>';
