@@ -244,6 +244,7 @@ class rex_string
      */
     public static function highlight($string)
     {
-        return '<pre class="rex-code">' . highlight_string($string, true) . '</pre>';
+        $return =  str_replace(["\r","\n"],["",""], highlight_string($string, true)) ;
+        return '<pre class="rex-code">' . $return . '</pre>';
     }
 }
