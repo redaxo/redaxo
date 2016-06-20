@@ -279,9 +279,11 @@ abstract class rex_package implements rex_package_interface
             }
         }
         $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
-        foreach ($properties as $key => $value) {
-            if (!isset($this->properties[$key])) {
-                $this->properties[$key] = rex_i18n::translateArray($value, false, [$this, 'i18n']);
+        if ($properties) {
+            foreach ($properties as $key => $value) {
+                if (!isset($this->properties[$key])) {
+                    $this->properties[$key] = rex_i18n::translateArray($value, false, [$this, 'i18n']);
+                }
             }
         }
         $this->propertiesLoaded = true;
