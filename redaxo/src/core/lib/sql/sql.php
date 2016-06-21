@@ -302,7 +302,7 @@ class rex_sql implements Iterator
                 $this->stmt = self::$pdo[$this->DBID]->query($query);
                 $this->rows = $this->stmt->rowCount();
             } catch (PDOException $e) {
-                throw new rex_sql_exception('Error while executing statement "' . $query . '! ' . $e->getMessage());
+                throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage());
             }
         }
 
