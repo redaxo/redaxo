@@ -57,7 +57,8 @@ if ($func == '') {
     $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
-
+    $list->addTableAttribute('class', 'table-striped table-hover');
+    
     $list->setNoRowsMessage($this->i18n('no_cronjobs'));
 
     $tdIcon = '<i class="rex-icon rex-icon-cronjob"></i>';
