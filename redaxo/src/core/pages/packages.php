@@ -19,15 +19,18 @@ if ($subpage == 'help') {
     $author = $package->getAuthor();
     $supportPage = $package->getSupportPage();
 
-    if (!is_file($package->getPath('help.php'))) {
-        $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
-    } else {
+    if (is_readable($package->getPath('help.php'))) {
         if (!$package->isAvailable() && is_readable($package->getPath('lang'))) {
             rex_i18n::addDirectory($package->getPath('lang'));
         }
         ob_start();
         $package->includeFile('help.php');
         $content .= ob_get_clean();
+    } elseif (is_readable($package->getPath('README.md'))) {
+        $markdown = new rex_markdown();
+        $content .= $markdown->parse(rex_file::get($package->getPath('README.md')));
+    } else {
+        $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
     }
 
     $fragment = new rex_fragment();
