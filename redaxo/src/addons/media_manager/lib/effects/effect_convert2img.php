@@ -1,16 +1,14 @@
 <?php
 
 /**
- * Benutzt den Konsolen convert Befehl
+ * Benutzt den Konsolen convert Befehl.
  *
  * @author jan
  */
 
 class rex_effect_convert2img extends rex_effect_abstract
 {
-
-    private static
-    $convert_types = [
+    private static $convert_types = [
         'pdf',
         'ps',
         'psd',
@@ -25,12 +23,12 @@ class rex_effect_convert2img extends rex_effect_abstract
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
-            'createfunc' => 'imagecreatefromjpeg'
+            'createfunc' => 'imagecreatefromjpeg',
         ],
         'png' => [
             'ext' => 'png',
             'content-type' => 'image/png',
-            'createfunc' => 'imagecreatefrompng'
+            'createfunc' => 'imagecreatefrompng',
         ],
     ],
     $densities = [100, 150, 200, 300, 600],
@@ -39,7 +37,7 @@ class rex_effect_convert2img extends rex_effect_abstract
     $convert_to_default = 'jpg'
     ;
 
-    function execute()
+    public function execute()
     {
 
         // error_reporting(E_ALL);ini_set("display_errors",1);
@@ -74,7 +72,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         }
 
         $filename = $this->media->getMediaFilename();
-        $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext) ));
+        $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext)));
 
         $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediapath()) . '_' . $filename_wo_ext . $convert_to['ext']);
 
@@ -84,14 +82,12 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         if ($ret != 0) {
             return false;
-
         }
 
         $image_src = call_user_func($convert_to['createfunc'], $to_path);
 
         if (!$image_src) {
             return;
-
         }
 
         $this->media->setImage($image_src);
@@ -100,11 +96,10 @@ class rex_effect_convert2img extends rex_effect_abstract
         $this->media->setMediaFilename($filename);
         $this->media->setHeader('Content-Type', $convert_to['content-type']);
         unlink($to_path);
-
     }
 
 
-    function getParams()
+    public function getParams()
     {
         return [
             [
@@ -122,7 +117,6 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'default' => self::$density_default,
             ],
         ];
-
     }
 
     private function getConvertPath()
@@ -130,8 +124,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $path = '';
 
         if (function_exists('exec')) {
-
-            $out = array();
+            $out = [];
             $cmd = 'which convert';
             exec($cmd, $out, $ret);
 
@@ -146,9 +139,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                     default:
                 }
             }
-
         }
         return $path;
     }
-
 }

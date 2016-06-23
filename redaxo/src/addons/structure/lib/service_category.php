@@ -65,7 +65,7 @@ class rex_category_service
             // Alle Templates der Kategorie
             $templates = rex_template::getTemplatesForCategory($category_id);
         }
-        
+
         $user = rex::isBackend() ? null : 'frontend';
 
         // Kategorie in allen Sprachen anlegen
@@ -175,7 +175,7 @@ class rex_category_service
         }
 
         $user = rex::isBackend() ? null : 'frontend';
-        
+
         $EKAT->addGlobalUpdateFields($user);
 
         try {

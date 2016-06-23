@@ -58,7 +58,7 @@ if ($func == '') {
 
     $list = rex_list::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
-    
+
     $list->setNoRowsMessage($this->i18n('no_cronjobs'));
 
     $tdIcon = '<i class="rex-icon rex-icon-cronjob"></i>';
@@ -343,9 +343,7 @@ if ($func == '') {
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
-    echo $content;
-
-    ?>
+    echo $content; ?>
 
     <script type="text/javascript">
     // <![CDATA[
@@ -358,10 +356,8 @@ if ($func == '') {
                 currentShown.show();
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
-                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js;
-    ?>
-            }).change();<?php echo $visible_js . "\n";
-    ?>
+                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
+            }).change();<?php echo $visible_js . "\n"; ?>
         });
     // ]]>
     </script>

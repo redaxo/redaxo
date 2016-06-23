@@ -159,7 +159,7 @@ class rex_content_service
             $cols = rex_sql::factory();
             //$cols->setDebug();
             $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
-            
+
             $user = rex::isBackend() ? null : 'frontend';
 
             foreach ($gc as $slice) {

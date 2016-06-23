@@ -1,4 +1,5 @@
 <?php
+
 use Leafo\ScssPhp\Compiler;
 
 /**
@@ -77,7 +78,7 @@ class rex_scss_compiler
             if (file_exists($underscore_file)) {
                 $path = $underscore_file;
             }
-            
+
             if (!file_exists($path)) {
                 return null;
             }

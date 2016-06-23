@@ -45,10 +45,10 @@ class rex_managed_media
         return $this->media;
     }
 
-	public function setMediaFilename($filename)
-	{
-	    $this->media = $filename;
-	}
+    public function setMediaFilename($filename)
+    {
+        $this->media = $filename;
+    }
 
     public function setHeader($type, $content)
     {
@@ -170,7 +170,7 @@ class rex_managed_media
     {
         ob_start();
         if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
-        	$this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
+            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             imagejpeg($this->image['src'], null, $this->image['quality']);
         } elseif ($this->image['format'] == 'png') {
             imagepng($this->image['src']);
