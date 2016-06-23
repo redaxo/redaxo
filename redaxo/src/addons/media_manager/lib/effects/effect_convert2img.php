@@ -4,6 +4,8 @@
  * Benutzt den Konsolen convert Befehl.
  *
  * @author jan
+ *
+ * @package redaxo\media-manager
  */
 
 class rex_effect_convert2img extends rex_effect_abstract
