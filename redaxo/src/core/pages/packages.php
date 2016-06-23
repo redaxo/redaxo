@@ -49,7 +49,7 @@ if ($subpage == 'help') {
         $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . htmlspecialchars($author) . '</dd>';
     }
     if ($supportPage) {
-        $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="http://' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
+        $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
     }
 
     $credits .= '</dl>';
