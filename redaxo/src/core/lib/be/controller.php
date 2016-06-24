@@ -414,7 +414,18 @@ class rex_be_controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        return self::includePath(self::getCurrentPageObject()->getSubPath(), $context);
+        $path = self::getCurrentPageObject()->getSubPath();
+
+        if ('.md' !== strtolower(substr($path, -3))) {
+            return self::includePath($path, $context);
+        }
+
+        $markown = new rex_markdown();
+        $content = $markown->parse(rex_file::get($path));
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('body', $content, false);
+        echo $fragment->parse('core/page/section.php');
     }
 
     /**
