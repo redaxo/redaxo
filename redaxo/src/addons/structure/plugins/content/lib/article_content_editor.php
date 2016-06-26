@@ -8,6 +8,7 @@
 class rex_article_content_editor extends rex_article_content
 {
     private $MODULESELECT;
+    private $sliceAddPosition = 0;
 
     public function __construct($article_id = null, $clang = null)
     {
@@ -87,7 +88,7 @@ class rex_article_content_editor extends rex_article_content
             $fragment->setVar('title', $this->getSliceHeading($artDataSql), false);
             $fragment->setVar('options', $this->getSliceMenu($artDataSql), false);
             $fragment->setVar('body', $panel, false);
-            $slice_content .= '<li class="rex-slice rex-slice-output">' . $fragment->parse('core/page/section.php') . '</li>';
+            $slice_content .= '<li class="rex-slice rex-slice-output" id="slice'.$sliceId.'">' . $fragment->parse('core/page/section.php') . '</li>';
         }
 
         return $slice_content;
@@ -250,12 +251,14 @@ class rex_article_content_editor extends rex_article_content
             'function' => 'add',
         ]);
 
+        $position = $this->sliceAddPosition++;
+
         $items = [];
         if (isset($this->MODULESELECT[$this->ctype])) {
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
                 $item['title'] = $module['name'];
-                $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice' . $sliceId;
+                $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
                 $items[] = $item;
             }
         }
@@ -276,7 +279,7 @@ class rex_article_content_editor extends rex_article_content
                 'slice_id' => $sliceId,
             ]
         ));
-        return '<li class="rex-slice rex-slice-select">' . $select . '</li>';
+        return '<li class="rex-slice rex-slice-select" id="slice-add-pos-' . $position . '">' . $select . '</li>';
     }
 
     /**
@@ -396,9 +399,11 @@ class rex_article_content_editor extends rex_article_content
             $fragment->setVar('footer', $slice_footer, false);
             $slice_content = $fragment->parse('core/page/section.php');
 
+            $position = $this->sliceAddPosition++;
+
             $slice_content = '
-                <li class="rex-slice rex-slice-add" id="slice' . $sliceId . '">
-                    <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice' . $sliceId . '" method="post" id="REX_FORM" enctype="multipart/form-data">
+                <li class="rex-slice rex-slice-add" id="slice-add-pos-' . $position . '">
+                    <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $position . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $slice_content . '
                     </form>
                     <script type="text/javascript">
