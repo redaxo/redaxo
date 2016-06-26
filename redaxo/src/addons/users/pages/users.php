@@ -280,51 +280,53 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $buttons = $fragment->parse('core/form/submit.php');
         unset($formElements);
 
-        $sql = rex_sql::factory();
-        $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where id=' . $user_id);
 
-        if ($sql->getRows() == 1) {
-            // ----- EINLESEN DER PERMS
-            if ($sql->getValue('admin')) {
-                $adminchecked = 'checked="checked"';
-            } else {
-                $adminchecked = '';
+        if (!$FUNC_UPDATE && !$FUNC_APPLY) {
+            $sql = rex_sql::factory();
+            $sql->setQuery('select * from '.rex::getTablePrefix().'user where id='.$user_id);
+
+            if ($sql->getRows() == 1) {
+                $useradmin = $sql->getValue('admin');
+                $userstatus = $sql->getValue(rex::getTablePrefix().'user.status');
+                $userrole = $sql->getValue(rex::getTablePrefix().'user.role');
+                $userperm_be_sprache = $sql->getValue('language');
+                $userperm_startpage = $sql->getValue('startpage');
+                $userpsw = $sql->getValue(rex::getTablePrefix().'user.password');
+                $username = $sql->getValue(rex::getTablePrefix().'user.name');
+                $userdesc = $sql->getValue(rex::getTablePrefix().'user.description');
+                $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
             }
+        }
 
-            if ($sql->getValue(rex::getTablePrefix() . 'user.status') == 1) {
-                $statuschecked = 'checked="checked"';
-            } else {
-                $statuschecked = '';
-            }
+        if ($useradmin) {
+            $adminchecked = 'checked="checked"';
+        } else {
+            $adminchecked = '';
+        }
 
-            $userrole = $sql->getValue(rex::getTablePrefix() . 'user.role');
-            $sel_role->setSelected($userrole);
+        if ($userstatus == 1) {
+            $statuschecked = 'checked="checked"';
+        } else {
+            $statuschecked = '';
+        }
 
-            $userperm_be_sprache = $sql->getValue('language');
-            $sel_be_sprache->setSelected($userperm_be_sprache);
+        $sel_role->setSelected($userrole);
+        $sel_be_sprache->setSelected($userperm_be_sprache);
+        $sel_startpage->setSelected($userperm_startpage);
 
-            $userperm_startpage = $sql->getValue('startpage');
-            $sel_startpage->setSelected($userperm_startpage);
+        if (!rex::getUser()->isAdmin()) {
+            $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" disabled="disabled" />';
+        } elseif (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
+            $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
+        } else {
+            $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
+        }
 
-            $userpsw = $sql->getValue(rex::getTablePrefix() . 'user.password');
-            $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
-            $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
-            $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
-
-            if (!rex::getUser()->isAdmin()) {
-                $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" disabled="disabled" />';
-            } elseif (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
-                $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
-            } else {
-                $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
-            }
-
-            // Der Benutzer kann sich selbst den Status nicht entziehen
-            if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $statuschecked != '') {
-                $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' disabled="disabled" />';
-            } else {
-                $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-            }
+        // Der Benutzer kann sich selbst den Status nicht entziehen
+        if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $statuschecked != '') {
+            $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' disabled="disabled" />';
+        } else {
+            $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
         }
     } else {
         // User Add
