@@ -174,6 +174,10 @@ class rex_sql_table
             $queries[] = 'ADD '.$columnDefinition($column);
         }
 
+        if (!$queries) {
+            return;
+        }
+
         $query = 'ALTER TABLE '.$sql->escapeIdentifier($this->name)."\n    ";
         $query .= implode(",\n    ", $queries);
         $query .= ';';
