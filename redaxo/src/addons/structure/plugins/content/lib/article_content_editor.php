@@ -34,13 +34,11 @@ class rex_article_content_editor extends rex_article_content
             $moduleOutput = $artDataSql->getValue(rex::getTablePrefix() . 'module.output');
             $moduleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
-            $slice_content = '';
             // ----- add select box einbauen
+            $slice_content = $this->getModuleSelect($sliceId);
+
             if ($this->function == 'add' && $this->slice_id == $sliceId) {
                 $slice_content .= $this->addSlice($sliceId, $moduleIdToAdd);
-            } else {
-                // ----- BLOCKAUSWAHL - SELECT
-                $slice_content .= $this->getModuleSelect($sliceId);
             }
 
             $panel = '';
@@ -72,7 +70,7 @@ class rex_article_content_editor extends rex_article_content
                     // ----- / PRE VIEW ACTION
 
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
-                    return $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
+                    return $slice_content . $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
                 } else {
                     // Modulinhalt ausgeben
                     $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
@@ -251,7 +249,7 @@ class rex_article_content_editor extends rex_article_content
             'function' => 'add',
         ]);
 
-        $position = $this->sliceAddPosition++;
+        $position = ++$this->sliceAddPosition;
 
         $items = [];
         if (isset($this->MODULESELECT[$this->ctype])) {
@@ -367,7 +365,7 @@ class rex_article_content_editor extends rex_article_content
             $formElements = [];
 
             $n = [];
-            $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice' . $sliceId . '">' . rex_i18n::msg('form_abort') . '</a>';
+            $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . rex_i18n::msg('form_abort') . '</a>';
             $formElements[] = $n;
 
             $n = [];
@@ -399,11 +397,9 @@ class rex_article_content_editor extends rex_article_content
             $fragment->setVar('footer', $slice_footer, false);
             $slice_content = $fragment->parse('core/page/section.php');
 
-            $position = $this->sliceAddPosition++;
-
             $slice_content = '
-                <li class="rex-slice rex-slice-add" id="slice-add-pos-' . $position . '">
-                    <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $position . '" method="post" id="REX_FORM" enctype="multipart/form-data">
+                <li class="rex-slice rex-slice-add">
+                    <form action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $sliceId, 'clang' => $this->clang, 'ctype' => $this->ctype]) . '#slice-add-pos-' . $this->sliceAddPosition . '" method="post" id="REX_FORM" enctype="multipart/form-data">
                         ' . $slice_content . '
                     </form>
                     <script type="text/javascript">
