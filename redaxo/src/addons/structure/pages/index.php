@@ -342,8 +342,8 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             }
         } else {
             $template_select->addOption(rex_i18n::msg('option_no_template'), '0');
-            $TEMPLATE_NAME[0] = rex_i18n::msg('template_default_name');
         }
+        $TEMPLATE_NAME[0] = rex_i18n::msg('template_default_name');
         $tmpl_head = '<th>' . rex_i18n::msg('header_template') . '</th>';
     }
 
