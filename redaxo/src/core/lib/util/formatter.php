@@ -45,11 +45,15 @@ abstract class rex_formatter
      */
     public static function date($value, $format = '')
     {
+        if (empty($value)) {
+            return '';
+        }
+
         if ($format == '') {
             $format = 'd.m.Y';
         }
 
-        return date($format, $value);
+        return date($format, self::getTimestamp($value));
     }
 
     /**
@@ -75,7 +79,7 @@ abstract class rex_formatter
             // Default REX-Datetimeformat
             $format = rex_i18n::msg('datetimeformat');
         }
-        return strftime($format, $value);
+        return strftime($format, self::getTimestamp($value));
     }
 
     /**
@@ -345,5 +349,14 @@ abstract class rex_formatter
         }
 
         return call_user_func($format, $value);
+    }
+
+    private static function getTimestamp($value)
+    {
+        if (is_numeric($value)) {
+            return $value;
+        }
+
+        return strtotime($value);
     }
 }

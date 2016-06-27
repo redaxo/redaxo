@@ -4,12 +4,15 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
 {
     public function testDate()
     {
-        $value = 1336811080;
         $format = 'd.m.Y H:i';
 
         $this->assertEquals(
             '12.05.2012 10:24',
-            rex_formatter::date($value, $format)
+            rex_formatter::date(1336811080, $format)
+        );
+        $this->assertEquals(
+            '27.06.2016 21:40',
+            rex_formatter::date('2016-06-27 21:40:00', $format)
         );
     }
 
@@ -24,6 +27,11 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             '12.05.2012 10:24',
             rex_formatter::strftime($value, $format)
+        );
+
+        $this->assertEquals(
+            '27.06.2016 21:40',
+            rex_formatter::strftime('2016-06-27 21:40:00', $format)
         );
 
         $format = 'date';
