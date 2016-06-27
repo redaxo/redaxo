@@ -7,8 +7,7 @@ class rex_markdown_test extends PHPUnit_Framework_TestCase
      */
     public function testParse($expected, $code)
     {
-        $markdown = new rex_markdown();
-        $this->assertSame($expected, $markdown->parse($code));
+        $this->assertSame($expected, rex_markdown::factory()->parse($code));
     }
 
     public function parseProvider()

@@ -9,13 +9,24 @@
  */
 class rex_markdown
 {
+    use rex_factory_trait;
+
     /** @var ParsedownExtra */
     private $parser;
 
-    public function __construct()
+    private function __construct()
     {
         $this->parser = new ParsedownExtra();
         $this->parser->setBreaksEnabled(true);
+    }
+
+    /**
+     * @return static
+     */
+    public static function factory()
+    {
+        $class = static::getFactoryClass();
+        return new $class();
     }
 
     /**
