@@ -62,7 +62,7 @@ abstract class rex_formatter
      * @link http://www.php.net/manual/en/function.strftime.php
      *
      * @param string $value  Unix timestamp or datetime string for `strtotime`
-     * @param string $format Possible values are format strings like in `strftime` or "date" oder "datetime", default is "date"
+     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
      */
