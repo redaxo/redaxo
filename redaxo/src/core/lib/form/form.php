@@ -662,10 +662,6 @@ class rex_form
             $value = $this->sql->getValue($name);
         }
 
-        if (is_array($value)) {
-            $value = '|' . implode('|', $value) . '|';
-        }
-
         if (!isset($attributes['internal::useArraySyntax'])) {
             $attributes['internal::useArraySyntax'] = true;
         }
@@ -1267,10 +1263,6 @@ class rex_form
 
                 $fieldName = $element->getFieldName();
                 $fieldValue = $this->elementPostValue($fieldsetName, $fieldName);
-
-                if (is_array($fieldValue)) {
-                    $fieldValue = '|' . implode('|', $fieldValue) . '|';
-                }
 
                 $element->setValue($fieldValue);
             }

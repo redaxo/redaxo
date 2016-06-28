@@ -18,6 +18,11 @@ class rex_form_container_element extends rex_form_element
         $this->multiple = true;
     }
 
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
     public function setMultiple($multiple = true)
     {
         $this->multiple = $multiple;
@@ -41,6 +46,10 @@ class rex_form_container_element extends rex_form_element
             $this->fields[$group] = [];
         }
 
+        $field->setAttribute('id', $this->getAttribute('id').'-'.$group.'-'.$field->getFieldName());
+        $field->setAttribute('name', $this->getAttribute('name').'['.$group.']['.$field->getFieldName().']');
+        $field->setValue(null);
+
         $this->fields[$group][] = $field;
         return $field;
     }
@@ -52,19 +61,22 @@ class rex_form_container_element extends rex_form_element
 
     protected function prepareInnerFields()
     {
-        $values = json_decode($this->getValue(), true);
-        if ($this->multiple) {
-            foreach ($this->fields as $group => $groupFields) {
-                foreach ($groupFields as $key => $field) {
-                    if (isset($values[$group][$field->getFieldName()])) {
-                        $field->setValue($values[$group][$field->getFieldName()]);
-                    }
-                }
+        $values = $this->getValue();
+        if (is_string($values)) {
+            $values = json_decode($values, true);
+            if (!$this->multiple) {
+                $values = [$this->active => $values];
             }
-        } elseif (isset($this->active) && isset($this->fields[$this->active])) {
-            foreach ($this->fields[$this->active] as $key => $field) {
-                if (isset($values[$field->getFieldName()])) {
-                    $field->setValue($values[$field->getFieldName()]);
+        }
+
+        foreach ($this->fields as $group => $groupFields) {
+            if (!$this->multiple && $this->active && $this->active !== $group) {
+                continue;
+            }
+
+            foreach ($groupFields as $key => $field) {
+                if (isset($values[$group][$field->getFieldName()])) {
+                    $field->setValue($values[$group][$field->getFieldName()]);
                 }
             }
         }
@@ -105,6 +117,8 @@ class rex_form_container_element extends rex_form_element
 
     public function getSaveValue()
     {
+        $this->prepareInnerFields();
+
         $value = [];
         if ($this->multiple) {
             foreach ($this->fields as $group => $groupFields) {
