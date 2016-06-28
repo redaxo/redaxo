@@ -6,6 +6,14 @@
         height: 100%;
     }
 }
+@media(max-width: $grid-float-breakpoint-max) {
+    html, body {
+        height: 100%;
+    }
+    .rex-page {
+        min-height: 100%;
+    }
+}
 .rex-breadcrumb {
     //padding-top: 32px;
     overflow: hidden;
