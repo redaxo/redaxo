@@ -549,6 +549,7 @@ if (!$file_id) {
         if (count($buttons) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('buttons', $buttons, false);
+            $fragment->setVar('vertical', true, false);
             $actionButtons = $fragment->parse('core/buttons/button_group.php');
         }
 

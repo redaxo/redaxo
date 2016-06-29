@@ -161,3 +161,10 @@
 tr.rex-package-is-plugin > td.rex-table-icon {
     text-align: right;
 }
+
+
+@media (min-width: $screen-md-min) {
+    #rex-page-mediapool-media td.rex-table-action:last-child {
+        text-align: right;
+    }
+}
