@@ -472,7 +472,7 @@ jQuery(document).ready(function($) {
     if ($.support.pjax) {
         // prevent pjax from jumping to top, see github#60
         $.pjax.defaults.scrollTo = false;
-        $.pjax.defaults.timeout = 5000;
+        $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
 
         var pjaxHandler = function(event) {
