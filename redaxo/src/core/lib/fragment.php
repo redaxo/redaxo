@@ -54,9 +54,9 @@ class rex_fragment
     /**
      * Set the variable $name to the given value.
      *
-     * @param string $name   The name of the variable.
+     * @param string $name   The name of the variable
      * @param mixed  $value  The value for the variable
-     * @param bool   $escape Flag which indicates if the value should be escaped or not.
+     * @param bool   $escape Flag which indicates if the value should be escaped or not
      *
      * @throws InvalidArgumentException
      */
@@ -76,7 +76,7 @@ class rex_fragment
     /**
      * Parses the variables of the fragment into the file $filename.
      *
-     * @param string $filename           the filename of the fragment to parse.
+     * @param string $filename           the filename of the fragment to parse
      * @param bool   $delete_whitespaces
      *
      * @throws InvalidArgumentException
@@ -208,7 +208,7 @@ class rex_fragment
     /**
      * Magic getter to reference variables from within the fragment.
      *
-     * @param string $name The name of the variable to get.
+     * @param string $name The name of the variable to get
      *
      * @return mixed
      */
@@ -226,7 +226,7 @@ class rex_fragment
     /**
      * Magic method to check if a variable is set.
      *
-     * @param string $name The name of the variable to check.
+     * @param string $name The name of the variable to check
      *
      * @return bool
      */
