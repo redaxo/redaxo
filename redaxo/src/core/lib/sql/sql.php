@@ -1101,7 +1101,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $user the name of the user who created the dataset. Defaults to the current user.
+     * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
      */
@@ -1118,7 +1118,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $user the name of the user who updated the dataset. Defaults to the current user.
+     * @param string $user the name of the user who updated the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
      */
