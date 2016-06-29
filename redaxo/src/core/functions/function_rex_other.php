@@ -56,3 +56,17 @@ function rex_ini_get($val)
 
     return $val;
 }
+
+
+/**
+ * @param string $markup
+ *
+ * @return string
+ *
+ * @package redaxo\core
+ */
+function rex_markdown($markup)
+{
+    $article = '<div class="rex-docs"><article>' . rex_markdown::factory()->parse($markup) . '</article></div>';
+    return $article;
+}
