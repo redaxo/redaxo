@@ -345,7 +345,7 @@ class rex_view
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
-                $icon = ($id == $context->getParam('clang')) ? '<i class="rex-icon rex-icon-language-active"></i> ' : '<i class="rex-icon rex-icon-language"></i> ';
+                $icon = $clang->isOnline() ? '<i class="rex-icon rex-icon-online"></i> ' : '<i class="rex-icon rex-icon-offline"></i> ';
                 $item = [];
                 $item['label'] = $icon . rex_i18n::translate($clang->getName());
                 $item['url'] = $context->getUrl(['clang' => $id]);
