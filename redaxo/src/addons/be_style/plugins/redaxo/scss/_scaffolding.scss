@@ -55,6 +55,15 @@ html {
     padding: floor($grid-gutter-width * 2) floor($grid-gutter-width / 2);
     background-color: $color-a;
 }
+@media(min-width: $grid-float-breakpoint) {
+    .rex-main-sidebar {
+        opacity: .5;
+        @include transition(opacity 0.2s);
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
 
 .rex-language {
     float: right;
