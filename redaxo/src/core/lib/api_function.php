@@ -153,7 +153,8 @@ abstract class rex_api_function
     public static function hasMessage()
     {
         $apiFunc = self::factory();
-        return (bool) $apiFunc->getResult();
+        $result = $apiFunc->getResult();
+        return $result && null !== $result->getMessage();
     }
 
     public static function getMessage($formatted = true)
@@ -239,6 +240,10 @@ class rex_api_result
 
     public function getFormattedMessage()
     {
+        if (null === $this->message) {
+            return null;
+        }
+
         if ($this->isSuccessfull()) {
             return rex_view::success($this->message);
         } else {
