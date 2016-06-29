@@ -195,7 +195,7 @@ if ($file_id) {
             $imgn = rex_url::media($fname) . '" width="' . $rfwidth;
             $img_max = rex_url::media($fname);
 
-            if ($media_manager && rex_file::extension($fname) != "svg") {
+            if ($media_manager && rex_file::extension($fname) != 'svg') {
                 $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname]);
                 $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname]);
             }
@@ -645,7 +645,7 @@ if (!$file_id) {
 
             if (rex_media::isImageType(rex_file::extension($file_name))) {
                 $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
-                if ($media_manager && rex_file::extension($file_name) != "svg") {
+                if ($media_manager && rex_file::extension($file_name) != 'svg') {
                     $thumbnail = '<img class="thumbnail" src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
                 }
             }

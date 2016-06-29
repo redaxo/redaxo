@@ -38,6 +38,7 @@ return PhpCsFixer\Config::create()
         'no_extra_consecutive_blank_lines' => false,
         'no_unreachable_default_argument_value' => false,
         'no_blank_lines_after_phpdoc' => false,
+        'phpdoc_annotation_without_dot' => false,
         'phpdoc_no_package' => false,
         'phpdoc_to_comment' => false,
         'phpdoc_var_without_name' => false,
