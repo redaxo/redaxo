@@ -1,15 +1,30 @@
 .be-style-customizer-title {
     float: left;
-    margin: 0 0 0 40px;
+    margin: -1px 0 0 40px;
+    line-height: 1;
 }
 .be-style-customizer-title i,
-.be-style-customizer-title a{
+.be-style-customizer-title a {
     color: #fff;
     font-size: 17px;
     font-weight: normal;
 }
-.be-style-customizer-title i{
-    margin-left:10px;
+.be-style-customizer-title i {
+    margin-left: 10px;
+}
+@media (max-width: 991px) {
+    .be-style-customizer-title {
+        position: absolute;
+        right: 15px;
+        bottom: 9px;
+        font-size: 17px;
+    }
+    .be-style-customizer-title-name {
+        display: none
+    }
+    .be-style-customizer-title i {
+        margin-left: 0;
+    }
 }
 
 .CodeMirror {
