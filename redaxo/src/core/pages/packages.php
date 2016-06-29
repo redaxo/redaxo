@@ -27,7 +27,7 @@ if ($subpage == 'help') {
         $package->includeFile('help.php');
         $content .= ob_get_clean();
     } elseif (is_readable($package->getPath('README.md'))) {
-        $content .= rex_markdown(rex_file::get($package->getPath('README.md')));
+        $content .= rex_view::markdown(rex_file::get($package->getPath('README.md')));
     } else {
         $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
     }

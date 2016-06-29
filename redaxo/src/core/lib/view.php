@@ -404,4 +404,18 @@ class rex_view
 
         return $fragment->parse('core/dropdowns/dropdown.php');
     }
+
+
+    /**
+     * Returns the formatted Markdown Markup.
+     *
+     * @param string $markup
+     *
+     * @return string
+     */
+    public static function markdown($markup)
+    {
+        $article = '<div class="rex-docs"><article>' . rex_markdown::factory()->parse($markup) . '</article></div>';
+        return $article;
+    }
 }
