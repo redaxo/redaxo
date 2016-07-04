@@ -323,12 +323,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $sel_be_sprache->setSelected($userperm_be_sprache);
         $sel_startpage->setSelected($userperm_startpage);
 
-        if (!rex::getUser()->isAdmin()) {
-            $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" disabled="disabled" />';
-        } elseif (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $adminchecked != '') {
+        if (rex::getUser()->isAdmin()) {
             $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
         } else {
-            $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
+            $add_admin_chkbox = '';
         }
 
         // Der Benutzer kann sich selbst den Status nicht entziehen
@@ -341,7 +339,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         // User Add
         $form_label = rex_i18n::msg('create_user');
         $add_hidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
-        $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
+        if (rex::getUser()->isAdmin()) {
+            $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
+        } else {
+            $add_admin_chkbox = '';
+        }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
         $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
 
@@ -404,11 +406,13 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $formElements = [];
 
-    $n = [];
-    $n['label'] = '<label for="rex-js-user-admin">' . rex_i18n::msg('user_admin') . '</label>';
-    $n['field'] = $add_admin_chkbox;
-    $n['note'] = rex_i18n::msg('user_admin_note');
-    $formElements[] = $n;
+    if ($add_admin_chkbox) {
+        $n = [];
+        $n['label'] = '<label for="rex-js-user-admin">' . rex_i18n::msg('user_admin') . '</label>';
+        $n['field'] = $add_admin_chkbox;
+        $n['note'] = rex_i18n::msg('user_admin_note');
+        $formElements[] = $n;
+    }
 
     $n = [];
     $n['label'] = '<label for="rex-user-status">' . rex_i18n::msg('user_status') . '</label>';
