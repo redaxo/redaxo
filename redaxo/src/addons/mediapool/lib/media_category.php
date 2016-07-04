@@ -66,9 +66,6 @@ class rex_media_category
                 $cat->createuser = $cache['createuser'];
                 $cat->updateuser = $cache['updateuser'];
 
-                $cat->children = null;
-                $cat->files = null;
-
                 return $cat;
             }
 
