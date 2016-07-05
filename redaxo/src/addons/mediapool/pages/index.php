@@ -98,7 +98,7 @@ function selectMedia(filename, alt)
 {
     var opener_input_field = "<?= $opener_input_field ?>";
 
-    var event = jQuery.Event("rex:selectMedia");
+    var event = opener.jQuery.Event("rex:selectMedia");
     opener.jQuery(window).trigger(event, [filename, alt]);
     if (!event.isDefaultPrevented()) {
         if (opener_input_field) {

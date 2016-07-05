@@ -39,7 +39,7 @@ if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
                  opener.writeREXLinklist(' . $id . ');';
 } else {
     $func_body .= <<<JS
-var event = jQuery.Event("rex:selectLink");
+var event = opener.jQuery.Event("rex:selectLink");
 opener.jQuery(window).trigger(event, [link, name]);
 if (!event.isDefaultPrevented()) {
     var linkid = link.replace("redaxo://","");
