@@ -16,6 +16,7 @@ class rex_effect_filter_blur extends rex_effect_abstract
         $options['gaussian'] = IMG_FILTER_GAUSSIAN_BLUR;
         $options['selective'] = IMG_FILTER_SELECTIVE_BLUR;
 
+        $this->media->asImage();
         $gdimage = $this->media->getImage();
 
         $this->params['repeats'] = (int) $this->params['repeats'];
@@ -41,7 +42,6 @@ class rex_effect_filter_blur extends rex_effect_abstract
             }
         }
 
-        return;
     }
 
     public function getParams()
