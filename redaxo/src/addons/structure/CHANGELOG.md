@@ -1,6 +1,28 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2016
+--------------------------
+
+### Neu
+
+* Neues Plugin "history": Änderungen an Artikelinhalten werden protokolliert, mit Vergleichs- und Wiederherstellungsmöglichkeit
+* Das Default-Template wird vorinstalliert
+* Neue EPs: SLICE_CREATE, SLICE_EDIT, SLICE_DELETE, SLICE_MOVE, ART_SLICES_QUERY, ART_SLICES_COPY
+* Umbenennung EPs (alte funktionieren noch): STRUCTURE_CONTENT_CREATED/UPDATED/DELETED -> SLICE_CREATED/UPDATED/DELETED
+* Service-Klassen können auch aus Frontend heraus genutzt werden
+* "Block hinzufügen" wird auch beim Bearbeiten/Erstellen eines Slices angezeigt
+
+### Bugfixes
+
+* Artikel kopieren: Inhalten wurden nicht kopiert, wenn Ctype 1 leer ist
+* Content-Page: Es wurde nicht immer korrekt zum Slice gesprungen
+* Benutzer mit Recht "Artikel veröffentlichen" konnten trotzdem den Status der Artikel nicht ändern
+* Bei Artikeln ohne Template wurde "KEIN TEMPLATE" nicht mehr angezeigt, sobald es Templates gab
+* $art/$cat->getValue('parent_id') liefert immer das selbe wie getParentId()
+* Aktionen: "Aktion übernehmen" sprang zurück in Übersicht
+
+
 Version 2.1.0 – 24.03.2016
 --------------------------
 

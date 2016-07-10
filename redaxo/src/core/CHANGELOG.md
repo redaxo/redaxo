@@ -6,7 +6,28 @@ Version 5.2.0 – XX.XX.2016
 
 ### Neu
 
-* Updates: jquery 2.2.3, symfony/yaml 3.0.6
+* Updates: jquery 2.2.4, symfony/yaml 3.1.2
+* Markdown-Parser integriert:
+    - README.md wird in Addonhilfe ausgegeben, falls help.php nicht vorhanden
+    - Markdown-Dateien können in package.yml als Subpages definiert werden
+* Neues leeres "project"-Addon, wo projektspezifische Dinge abgelegt werden können
+* getSupportPage() bei Packages liefert die URL immer mit Protokoll (http://) (**BC-BREAK**)
+* rex_sql: $pdo-Property als protected statt private
+* rex_formatter: Auch DATETIME-Strings werden unterstützt
+
+### Bugfixes
+
+* Navigationspunkte werden nun ohne Beachtung Groß-/Kleinschreibung sortiert
+* "Last-Modified"-Header wurden fälschlicherweise nicht als GMT geliefert (@rosserl)
+* Nicht-installierte Addons mit leerer package.yml erzeugten eine Warnung (@aeberhard)
+* Im Safemode hat der Autoloader unter bestimmten Bedingungen einen Fehler geworfen
+* Login-Seite wurde mit 401-Header ausgeliefert, was mit machen Proxys inkompatibel ist
+* pjax-Timeout verdoppelt, um doppelte Ausführungen von Aktionen zu vermeiden
+* Fehlermeldung bei Reload nach (De)Aktivierung von Packages beseitigt
+* rex_finder: Funktionierte auf manchen NAS nicht, da dort `fnmatch` nicht zur Verfügung steht
+* rex_socket: Bei POST-Requests waren keine anderen Content-Types als "application/x-www-form-urlencoded" möglich
+* rex_string: highlight() erzeugte teils doppelte Zeilenumbrüche
+* rex_form: Felder innerhalb von Container-Fields konnten nicht gleich heißen wie vorhandene normale Felder
 
 
 Version 5.1.0 – 24.03.2016

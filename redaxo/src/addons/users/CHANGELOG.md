@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.1.1 – XX.XX.2016
+--------------------------
+
+* Bei Fehlern werden abgesendete Werte wieder angezeigt
+* E-Mail-Adresse wird validiert
+* Nicht-Admins sehen Admin-Checkbox gar nicht mehr
+
+
 Version 2.1.0 – 24.03.2016
 --------------------------
 

@@ -4,7 +4,8 @@ Changelog
 Version 2.1.1 – XX.XX.2016
 --------------------------
 
-* Update phpmailer auf 5.2.15
+* Update phpmailer auf 5.2.16
+* SMTP-Debug kann in Backend konfiguriert werden (@alexplusde)
 
 
 Version 2.1.0 – 24.03.2016
