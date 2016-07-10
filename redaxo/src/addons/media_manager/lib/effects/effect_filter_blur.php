@@ -41,7 +41,6 @@ class rex_effect_filter_blur extends rex_effect_abstract
                 imagefilter($gdimage, $options[$this->params['type']]);
             }
         }
-
     }
 
     public function getParams()

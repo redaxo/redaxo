@@ -20,8 +20,8 @@ class rex_effect_convert2img extends rex_effect_abstract
         'eps',
         'ico',
         // 'svg'
-    ],
-    $convert_to = [
+    ];
+    private static $convert_to = [
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
@@ -32,11 +32,11 @@ class rex_effect_convert2img extends rex_effect_abstract
             'content-type' => 'image/png',
             'createfunc' => 'imagecreatefrompng',
         ],
-    ],
-    $densities = [100, 150, 200, 300, 600],
-    $density_default = 150,
-    $convert_tos = ['jpg', 'png'],
-    $convert_to_default = 'jpg'
+    ];
+    private static $densities = [100, 150, 200, 300, 600];
+    private static $density_default = 150;
+    private static $convert_tos = ['jpg', 'png'];
+    private static $convert_to_default = 'jpg'
     ;
 
     public function execute()
