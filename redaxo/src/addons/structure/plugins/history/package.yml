@@ -1,5 +1,5 @@
 package: structure/history
-version: '1.0.0-dev'
+version: '1.0.0-beta1'
 author: Jan Kristinus
 supportpage: www.redaxo.org/de/forum/
 
@@ -15,6 +15,6 @@ pages:
 
 requires:
     packages:
-        structure: '^2.2.0-dev'
-        structure/content: '^2.2.0-dev'
+        structure: '^2.2.0-beta1'
+        structure/content: '^2.2.0-beta1'
     redaxo: '^5.1'
