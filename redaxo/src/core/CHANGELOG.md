@@ -6,6 +6,7 @@ Version 5.2.0 – XX.XX.2016
 
 ### Neu
 
+* PHP-Mindestversion 5.5.9
 * Updates: jquery 2.2.4, symfony/yaml 3.1.2
 * Markdown-Parser integriert:
     - README.md wird in Addonhilfe ausgegeben, falls help.php nicht vorhanden
