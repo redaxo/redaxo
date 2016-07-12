@@ -1,5 +1,4 @@
-.rex-docs > article {
-    max-width: 900px;
+.rex-wiki {
     h1 {
         font-size: $font-size-h1;
     }
@@ -165,5 +164,18 @@
     :not(pre) > code {
         padding: 1px 5px;
         border-radius: 3px;
+    }
+}
+.rex-wiki-content {
+    max-width: 900px;
+}
+
+.rex-wiki-has-sidebar {
+    .rex-wiki-content {
+        margin-left: 280px;
+    }
+    .rex-wiki-sidebar {
+        float: left;
+        width: 230px;
     }
 }
