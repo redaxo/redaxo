@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.1.1 – XX.XX.2016
+--------------------------
+
+### Bugfixes
+
+* Nach Core-Updates wurde teilweise die gleiche Version direkt wieder zum Updaten angezeigt
+
+
 Version 2.1.0 – 24.03.2016
 --------------------------
 
