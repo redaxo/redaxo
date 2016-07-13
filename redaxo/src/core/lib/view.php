@@ -407,30 +407,26 @@ class rex_view
 
 
     /**
-     * Returns the formatted Markdown Markup.
+     * Returns the formatted Markdown markup.
      *
-     * @param string $markup
-     *
-     * @return string
-     */
-    public static function markdown($markup)
-    {
-        return rex_markdown::factory()->parse($markup);
-    }
-
-
-    /**
-     * Returns the formatted Wiki page.
-     *
-     * @param string $markup
+     * @param string $content
+     * @param string $sidebar
      *
      * @return string
      */
-    public static function wiki($content, $sidebar = '')
+    public static function markdown($content, $sidebar = null)
     {
-        if ($sidebar != '') {
-            $sidebar = '<div class="rex-wiki-sidebar">' . self::markdown($sidebar) . '</div>';
+        $markdown = rex_markdown::factory();
+
+        if (null !== $sidebar) {
+            $sidebar = '<div class="rex-wiki-sidebar">' . $markdown->parse($sidebar) . '</div>';
         }
-        return '<div class="rex-wiki' . (($sidebar == '') ? '' : ' rex-wiki-has-sidebar') . '">' . $sidebar . '<article class="rex-wiki-content">' . self::markdown($content) . '</article></div>';
+
+        return sprintf(
+            '<div class="rex-wiki%s">%s<article class="rex-wiki-content">%s</article></div>',
+            $sidebar ? ' rex-wiki-has-sidebar' : '',
+            $sidebar,
+            $markdown->parse($content)
+        );
     }
 }
