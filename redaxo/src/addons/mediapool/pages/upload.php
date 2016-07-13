@@ -51,7 +51,7 @@ if ($media_method == 'add_file') {
                     echo '</script>';
                     exit;
                 } elseif ($return['ok'] == 1) {
-                    rex_response::sendRedirect(rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
+                    rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
                 } else {
                     $warning = rex_i18n::msg('pool_file_movefailed');
                 }
