@@ -110,7 +110,7 @@ abstract class rex_linkmap_tree_renderer
 
         $label = self::formatLabel($OOobject);
 
-        $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isStartArticle() ? 'startarticle' : 'article') . '"></i>';
+        $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isSiteStartArticle() ? 'sitestartarticle' : ($OOobject->isStartArticle() ? 'startarticle' : 'article')) . '"></i>';
 
         return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . htmlspecialchars($label) . '</a>';
     }
