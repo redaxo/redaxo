@@ -67,7 +67,7 @@ legend {
                 margin-top: ($padding-base-vertical + 1);
                 margin-bottom: ($padding-base-vertical + 1);
             }
-            > .input-group {
+            .input-group {
                 .checkbox,
                 .radio,
                 select.form-control,
@@ -183,7 +183,7 @@ input[type=range] {
 
         .rex-form-group:not(.rex-form-group-vertical) > dd & {
             margin-top: 0;
-            margin-bottom: 0;            
+            margin-bottom: 0;
         }
 
         &[multiple],
