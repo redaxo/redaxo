@@ -1,4 +1,4 @@
-<div class="rex-docs<?= $this->getVar('sidebar') ? ' rex-docs-has-sidebar' : '' ?>">
+<div class="rex-docs">
     <?php if ($this->getVar('sidebar')): ?>
         <div class="rex-docs-sidebar"><?= $this->getVar('sidebar') ?></div>
     <?php endif ?>
