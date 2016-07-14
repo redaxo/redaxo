@@ -11,6 +11,7 @@ Version 2.1.0 – XX.XX.2016
 ### Bugfixes
 
 * Effekte insert_image, filter_blur und rounded_corners repariert
+* crop-Filter schneidet nun auch zu, wenn nur eine Seite größer als Zielgröße ist
 * fileinfo-Extension war nicht als Abhängigkeit hinterlegt
 * Bei gecachten Bildern wurde bei der Auslieferung nicht der Output Buffer geleert
 
