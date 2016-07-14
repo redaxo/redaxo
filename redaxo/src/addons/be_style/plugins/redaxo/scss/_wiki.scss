@@ -1,4 +1,4 @@
-.rex-wiki {
+.rex-docs {
     h1 {
         font-size: $font-size-h1;
     }
@@ -166,15 +166,15 @@
         border-radius: 3px;
     }
 }
-.rex-wiki-content {
+.rex-docs-content {
     max-width: 900px;
 }
 
-.rex-wiki-has-sidebar {
-    .rex-wiki-content {
+.rex-docs-has-sidebar {
+    .rex-docs-content {
         margin-left: 280px;
     }
-    .rex-wiki-sidebar {
+    .rex-docs-sidebar {
         float: left;
         width: 230px;
     }

@@ -420,7 +420,9 @@ class rex_be_controller
             return self::includePath($path, $context);
         }
 
-        $content = rex_view::markdown(rex_file::get($path));
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
+        $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
         $fragment->setVar('body', $content, false);

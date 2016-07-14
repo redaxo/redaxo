@@ -404,29 +404,4 @@ class rex_view
 
         return $fragment->parse('core/dropdowns/dropdown.php');
     }
-
-
-    /**
-     * Returns the formatted Markdown markup.
-     *
-     * @param string $content
-     * @param string $sidebar
-     *
-     * @return string
-     */
-    public static function markdown($content, $sidebar = null)
-    {
-        $markdown = rex_markdown::factory();
-
-        if (null !== $sidebar) {
-            $sidebar = '<div class="rex-wiki-sidebar">' . $markdown->parse($sidebar) . '</div>';
-        }
-
-        return sprintf(
-            '<div class="rex-wiki%s">%s<article class="rex-wiki-content">%s</article></div>',
-            $sidebar ? ' rex-wiki-has-sidebar' : '',
-            $sidebar,
-            $markdown->parse($content)
-        );
-    }
 }
