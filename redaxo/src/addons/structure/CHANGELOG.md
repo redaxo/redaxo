@@ -19,6 +19,7 @@ Version 2.2.0 – XX.XX.2016
 * Content-Page: Es wurde nicht immer korrekt zum Slice gesprungen
 * Benutzer mit Recht "Artikel veröffentlichen" konnten trotzdem den Status der Artikel nicht ändern
 * Bei Artikeln ohne Template wurde "KEIN TEMPLATE" nicht mehr angezeigt, sobald es Templates gab
+* Sobald eine 2. Seite vorhanden war, bekamen alle neuen Artikel/Kategorien die Prio 31
 * $art/$cat->getValue('parent_id') liefert immer das selbe wie getParentId()
 * Aktionen: "Aktion übernehmen" sprang zurück in Übersicht
 
