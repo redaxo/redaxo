@@ -70,7 +70,7 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         $result = '
             <tr id="' . self::CONTAINER . '" class="collapse mark">
                 <td colspan="2"></td>
-                <td colspan="7">
+                <td colspan="6">
                     <div class="rex-collapse-content">
                         ' . parent::renderFormAndSave(self::PREFIX, $params) . '
                     </div>
