@@ -83,6 +83,12 @@
     @include button-variant(#fff, $color-d, $color-d);
 }
 
+@media (min-width: $screen-md-min) {
+    .rex-table-action .btn-save {
+        float: right;
+    }
+}
+
 .btn-toolbar > .btn-abort {
     float: right;
 }
