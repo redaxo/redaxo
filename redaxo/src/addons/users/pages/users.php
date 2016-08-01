@@ -324,7 +324,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $sel_startpage->setSelected($userperm_startpage);
 
         if (rex::getUser()->isAdmin()) {
-            $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' disabled="disabled" />';
+            $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
         } else {
             $add_admin_chkbox = '';
         }
