@@ -475,8 +475,8 @@ if (!$file_id) {
         $success = '';
     }
 
-    if (!empty($args['types'])) {
-        echo rex_view::info(rex_i18n::msg('pool_file_filter') . ' <code>' . $args['types'] . '</code>');
+    if (!empty($arg_url['args']['types'])) {
+        echo rex_view::info(rex_i18n::msg('pool_file_filter') . ' <code>' . $arg_url['args']['types'] . '</code>');
     }
 
     //deletefilelist und cat change
@@ -586,9 +586,9 @@ if (!$file_id) {
             $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
         }
     }
-    if (isset($args['types'])) {
+    if (isset($arg_url['args']['types'])) {
         $types = [];
-        foreach (explode(',', $args['types']) as $type) {
+        foreach (explode(',', $arg_url['args']['types']) as $type) {
             $types[] = 'LOWER(RIGHT(f.filename, LOCATE(".", REVERSE(f.filename))-1))=' . $files->escape(strtolower($type));
         }
         $where .= ' AND (' . implode(' OR ', $types) . ')';
