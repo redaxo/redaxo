@@ -97,15 +97,15 @@ if ($error != '') {
 function selectMedia(filename, alt)
 {
     var opener_input_field = "<?= $opener_input_field ?>";
-
-    var event = opener.jQuery.Event("rex:selectMedia");
-    opener.jQuery(window).trigger(event, [filename, alt]);
-    if (!event.isDefaultPrevented()) {
-        if (opener_input_field) {
-            opener.document.getElementById(opener_input_field).value = filename;
-        }
+    if (opener_input_field.substring(0,10) == 'REX_MEDIA_') {
+        opener.document.getElementById(opener_input_field).value = filename;
         self.close();
     }
+    else {
+        opener.jQuery(window).trigger("rex:selectMedia", [filename, alt]);
+        opener.jQuery('body').trigger("rex:selectMedia", [filename, alt, window.name]);
+    }
+    return false;
 }
 
 function selectMedialist(filename)
