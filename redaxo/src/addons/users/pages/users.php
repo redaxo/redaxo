@@ -323,14 +323,17 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $sel_be_sprache->setSelected($userperm_be_sprache);
         $sel_startpage->setSelected($userperm_startpage);
 
+        $self = rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login');
+
         if (rex::getUser()->isAdmin()) {
-            $add_admin_chkbox = '<input type="hidden" name="useradmin" value="1" /><input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
+            $disabled = $self ? ' disabled="disabled"' : '';
+            $add_admin_chkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . $disabled . ' />';
         } else {
             $add_admin_chkbox = '';
         }
 
         // Der Benutzer kann sich selbst den Status nicht entziehen
-        if (rex::getUser()->getValue('login') == $sql->getValue(rex::getTablePrefix() . 'user.login') && $statuschecked != '') {
+        if ($self && $statuschecked != '') {
             $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' disabled="disabled" />';
         } else {
             $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
