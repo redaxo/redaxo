@@ -333,8 +333,8 @@ class rex_socket
         }
         $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
-        $path = (isset($parts['path'])   ? $parts['path']          : '/')
-            . (isset($parts['query'])    ? '?' . $parts['query']    : '')
+        $path = (isset($parts['path']) ? $parts['path'] : '/')
+            . (isset($parts['query']) ? '?' . $parts['query'] : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 
         return [

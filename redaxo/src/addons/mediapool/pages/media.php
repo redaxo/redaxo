@@ -559,7 +559,7 @@ if (!$file_id) {
         $fragment->setVar('elements', [$e], false);
         $field = $fragment->parse('core/form/form.php');
 
-        $panel .=  '
+        $panel .= '
             <tfoot>
             <tr>
                 <td colspan="2">

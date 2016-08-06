@@ -23,7 +23,7 @@ if ($impname != '') {
         $impname = '';
     } elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz') {
         $impname = '';
-    } elseif (($function == 'delete'  || $function == 'download') && substr($impname, -4, 4) != '.sql' && substr($impname, -7, 7) != '.tar.gz') {
+    } elseif (($function == 'delete' || $function == 'download') && substr($impname, -4, 4) != '.sql' && substr($impname, -7, 7) != '.tar.gz') {
         $impname = '';
     }
 }

@@ -119,7 +119,7 @@ $FUNC_ADD = rex_request('FUNC_ADD', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 
-if ($FUNC_ADD || $FUNC_UPDATE  || $FUNC_APPLY) {
+if ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY) {
     $validator = rex_validator::factory();
     if ($useremail && !rex_validator::factory()->email($useremail)) {
         $warnings[] = rex_i18n::msg('invalid_email');
