@@ -549,7 +549,6 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
-                winObjCounter = -1;
 
                 options.context.trigger('rex:ready', [options.context]);
             });
