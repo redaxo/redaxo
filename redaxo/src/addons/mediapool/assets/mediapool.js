@@ -25,8 +25,9 @@ function setAllCheckBoxes(FieldName, mthis)
 
 function newPoolWindow(link)
 {
+    var counter = opener ? opener.winObjCounter + 1 : 0;
     // 1200 = $screen-lg
-    return newWindow( 'rexmediapopup'+(winObjCounter+1), link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'rexmediapopup'+counter, link, 1200,800,',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
