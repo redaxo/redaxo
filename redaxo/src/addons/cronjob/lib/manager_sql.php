@@ -112,6 +112,8 @@ class rex_cronjob_manager_sql
 
     public function check()
     {
+        $env = rex_cronjob_manager::getCurrentEnvironment();
+
         $sql = rex_sql::factory();
         // $sql->setDebug();
         $sql->setQuery('
@@ -123,12 +125,12 @@ class rex_cronjob_manager_sql
                 AND   nexttime <= ?
             ORDER BY  nexttime ASC, execution_moment DESC, name ASC
             LIMIT     1
-        ', [rex_sql::datetime(time() - 2 * ini_get('max_execution_time')), '%|' . (int) rex::isBackend() . '|%', rex_sql::datetime()]);
+        ', [rex_sql::datetime(time() - 2 * ini_get('max_execution_time')), '%|' .$env. '|%', rex_sql::datetime()]);
         if ($sql->getRows() != 0) {
             ignore_user_abort(true);
             register_shutdown_function([$this, 'timeout'], $sql);
             $this->setExecutionStart($sql->getValue('id'));
-            if ($sql->getValue('execution_moment') == 1) {
+            if ($sql->getValue('execution_moment') == 1 || 'script' === $env) {
                 $this->tryExecuteSql($sql, true, true);
             } else {
                 rex_extension::register(
@@ -163,7 +165,7 @@ class rex_cronjob_manager_sql
             FROM      ' . REX_CRONJOB_TABLE . '
             WHERE     id = ? AND environment LIKE ?
             LIMIT     1
-        ', [$id, '%|' . (int) rex::isBackend() . '|%']);
+        ', [$id, '%|' . rex_cronjob_manager::getCurrentEnvironment() . '|%']);
         if ($sql->getRows() != 1) {
             $this->getManager()->setMessage('Cronjob not found in database');
             $this->saveNextTime();

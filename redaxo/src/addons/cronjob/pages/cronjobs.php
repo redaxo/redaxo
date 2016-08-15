@@ -85,11 +85,14 @@ if ($func == '') {
     $list->setColumnFormat('environment', 'custom', function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (strpos($value, '|0|') !== false) {
+        if (strpos($value, '|frontend|') !== false) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (strpos($value, '|1|') !== false) {
+        if (strpos($value, '|backend|') !== false) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
+        }
+        if (strpos($value, '|script|') !== false) {
+            $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
     });
@@ -129,7 +132,7 @@ if ($func == '') {
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
-        if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type'))) {
+        if (strpos($list->getValue('environment'), '|backend|') !== false && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'));
         }
         return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute') . '</span>';
@@ -166,9 +169,10 @@ if ($func == '') {
     $field->setAttribute('multiple', 'multiple');
     $envFieldId = $field->getAttribute('id');
     $select = $field->getSelect();
-    $select->setSize(2);
-    $select->addOption($this->i18n('environment_frontend'), 0);
-    $select->addOption($this->i18n('environment_backend'), 1);
+    $select->setSize(3);
+    $select->addOption($this->i18n('environment_frontend'), 'frontend');
+    $select->addOption($this->i18n('environment_backend'), 'backend');
+    $select->addOption($this->i18n('environment_script'), 'script');
     if ($func == 'add') {
         $select->setSelected([0, 1]);
     }
@@ -231,14 +235,7 @@ if ($func == '') {
     $env_js = '';
     $visible = [];
     foreach ($cronjobs as $group => $cronjob) {
-        $disabled = [];
-        $envs = (array) $cronjob->getEnvironments();
-        if (!in_array('frontend', $envs)) {
-            $disabled[] = 0;
-        }
-        if (!in_array('backend', $envs)) {
-            $disabled[] = 1;
-        }
+        $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
             $env_js .= '
                 if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")

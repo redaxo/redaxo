@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+if (PHP_SAPI !== 'cli') {
+    echo 'error: this script may only be run from CLI';
+    exit(10);
+}
+
+// get "redaxo" dir
+$dir = dirname(dirname(dirname(dirname(__DIR__))));
+chdir($dir);
+
+$REX['REDAXO'] = true;
+$REX['HTDOCS_PATH'] = '../';
+$REX['BACKEND_FOLDER'] = basename($dir);
+
+define('REX_CRONJOB_SCRIPT', true);
+
+require $dir . '/src/core/boot.php';
+
+require rex_path::core('packages.php');

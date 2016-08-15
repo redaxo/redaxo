@@ -87,7 +87,7 @@ abstract class rex_cronjob
     public function getEnvironments()
     {
         // returns an array of environments in which the cronjob is available
-        return ['frontend', 'backend'];
+        return ['frontend', 'backend', 'script'];
     }
 
     public function getParamFields()

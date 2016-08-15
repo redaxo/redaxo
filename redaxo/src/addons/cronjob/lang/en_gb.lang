@@ -45,6 +45,7 @@ cronjob_interval_year = Year(s)
 cronjob_environment = Environment
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
+cronjob_environment_script = Script
 
 cronjob_execution = Execution
 cronjob_execution_beginning = Execution beginning

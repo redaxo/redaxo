@@ -116,4 +116,13 @@ class rex_cronjob_manager
     {
         self::$types[] = $class;
     }
+
+    public static function getCurrentEnvironment()
+    {
+        if (defined('REX_CRONJOB_SCRIPT') && REX_CRONJOB_SCRIPT) {
+            return 'script';
+        }
+
+        return rex::isBackend() ? 'backend' : 'frontend';
+    }
 }
