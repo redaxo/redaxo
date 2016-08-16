@@ -128,10 +128,20 @@ class rex_response
         // ----- EXTENSION POINT
         $content = rex_extension::registerPoint(new rex_extension_point('OUTPUT_FILTER', $content));
 
+        $hasShutdownExtension = rex_extension::isRegistered('RESPONSE_SHUTDOWN');
+        if ($hasShutdownExtension) {
+            header('Connection: close');
+        }
+
         self::sendContent($content, null, $lastModified);
 
         // ----- EXTENSION POINT - (read only)
-        rex_extension::registerPoint(new rex_extension_point('RESPONSE_SHUTDOWN', $content, [], true));
+        if ($hasShutdownExtension) {
+            // unlock session
+            session_write_close();
+
+            rex_extension::registerPoint(new rex_extension_point('RESPONSE_SHUTDOWN', $content, [], true));
+        }
     }
 
     /**
