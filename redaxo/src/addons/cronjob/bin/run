@@ -6,6 +6,8 @@ if (PHP_SAPI !== 'cli') {
     exit(10);
 }
 
+set_time_limit(0);
+
 // get "redaxo" dir
 $dir = dirname(dirname(dirname(dirname(__DIR__))));
 chdir($dir);

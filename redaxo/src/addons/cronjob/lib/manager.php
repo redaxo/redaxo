@@ -41,6 +41,11 @@ class rex_cronjob_manager
         return !empty($this->message);
     }
 
+    public function setCronjob($cronjob)
+    {
+        $this->cronjob = $cronjob;
+    }
+
     public function tryExecute($cronjob, $name = '', $params = [], $log = true, $id = null)
     {
         $success = $cronjob instanceof rex_cronjob;
@@ -78,7 +83,7 @@ class rex_cronjob_manager
         return $success;
     }
 
-    private function log($success, $message)
+    public function log($success, $message)
     {
         $name = $this->name;
         if (!$name) {
@@ -96,15 +101,6 @@ class rex_cronjob_manager
             strip_tags($message),
         ];
         $log->add($data);
-    }
-
-    public function timeout()
-    {
-        if ($this->cronjob instanceof rex_cronjob) {
-            $this->log(false, 'timeout');
-            return true;
-        }
-        return false;
     }
 
     public static function getTypes()

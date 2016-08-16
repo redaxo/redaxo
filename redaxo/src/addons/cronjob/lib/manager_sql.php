@@ -113,84 +113,102 @@ class rex_cronjob_manager_sql
     public function check()
     {
         $env = rex_cronjob_manager::getCurrentEnvironment();
+        $script = 'script' === $env;
 
         $sql = rex_sql::factory();
         // $sql->setDebug();
-        $sql->setQuery('
+
+        $query = '
             SELECT    id, name, type, parameters, `interval`, execution_moment
-            FROM      ' . REX_CRONJOB_TABLE . '
+            FROM      '.REX_CRONJOB_TABLE.'
             WHERE     status = 1
                 AND   execution_start < ?
                 AND   environment LIKE ?
                 AND   nexttime <= ?
             ORDER BY  nexttime ASC, execution_moment DESC, name ASC
-            LIMIT     1
-        ', [rex_sql::datetime(time() - 2 * ini_get('max_execution_time')), '%|' .$env. '|%', rex_sql::datetime()]);
-        if ($sql->getRows() != 0) {
-            ignore_user_abort(true);
-            register_shutdown_function([$this, 'timeout'], $sql);
-            $this->setExecutionStart($sql->getValue('id'));
-            if ($sql->getValue('execution_moment') == 1 || 'script' === $env) {
-                $this->tryExecuteSql($sql, true, true);
-            } else {
-                rex_extension::register(
-                    'RESPONSE_SHUTDOWN',
-                    function () use ($sql) {
-                        $this->tryExecuteSql($sql, true, true);
-                    }
-                );
-            }
-        } else {
-            $this->saveNextTime();
+        ';
+        if (!$script) {
+            $query .= ' LIMIT 1';
         }
-    }
 
-    public function timeout(rex_sql $sql)
-    {
-        if (connection_status() != 0) {
-            if ($this->hasManager() && $this->getManager()->timeout()) {
-                $this->setNextTime($sql->getValue('id'), $sql->getValue('interval'), true);
-            } else {
-                $this->setExecutionStart($sql->getValue('id'), true);
-                $this->saveNextTime();
-            }
+        $maxExecutionTime = ini_get('max_execution_time') ?: 60 * 60;
+        $jobs = $sql->getArray($query, [rex_sql::datetime(time() - 2 * $maxExecutionTime), '%|' .$env. '|%', rex_sql::datetime()]);
+
+        if (!$jobs) {
+            $this->saveNextTime();
+            return;
         }
+
+        ignore_user_abort(true);
+        register_shutdown_function(function () use (&$jobs) {
+            foreach ($jobs as $job) {
+                if (isset($job['finished'])) {
+                    continue;
+                }
+
+                if (!isset($job['started'])) {
+                    $this->setExecutionStart($job['id'], true);
+                    continue;
+                }
+
+                $manager = $this->getManager();
+                $manager->setCronjob(rex_cronjob::factory($job['type']));
+                $manager->log(false, connection_status() != 0 ? 'Timeout' : 'Unknown error');
+                $this->setNextTime($job['id'], $job['interval'], true);
+            }
+
+            $this->saveNextTime();
+        });
+
+        foreach ($jobs as $job) {
+            $this->setExecutionStart($job['id']);
+        }
+
+        if ($script || 1 == $jobs[0]['execution_moment']) {
+            foreach ($jobs as &$job) {
+                $job['started'] = true;
+                $this->tryExecuteJob($job, true, true);
+                $job['finished'] = true;
+            }
+            return;
+        }
+
+        rex_extension::register('RESPONSE_SHUTDOWN', function () use (&$jobs) {
+            $job[0]['started'] = true;
+            $this->tryExecuteJob($jobs[0], true, true);
+            $job[0]['finished'] = true;
+        });
     }
 
     public function tryExecute($id, $log = true)
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('
+        $jobs = $sql->getArray('
             SELECT    id, name, type, parameters, `interval`
             FROM      ' . REX_CRONJOB_TABLE . '
             WHERE     id = ? AND environment LIKE ?
             LIMIT     1
         ', [$id, '%|' . rex_cronjob_manager::getCurrentEnvironment() . '|%']);
-        if ($sql->getRows() != 1) {
+
+        if (!$jobs) {
             $this->getManager()->setMessage('Cronjob not found in database');
             $this->saveNextTime();
             return false;
         }
-        return $this->tryExecuteSql($sql, $log);
+
+        return $this->tryExecuteJob($jobs[0], $log);
     }
 
-    public function tryExecuteSql(rex_sql $sql, $log = true, $resetExecutionStart = false)
+    private function tryExecuteJob(array $job, $log = true, $resetExecutionStart = false)
     {
-        if ($sql->getRows() > 0) {
-            $id = $sql->getValue('id');
-            $name = $sql->getValue('name');
-            $type = $sql->getValue('type');
-            $params = json_decode($sql->getValue('parameters'), true);
-            $interval = $sql->getValue('interval');
+        $params = json_decode($job['parameters'], true);
+        $cronjob = rex_cronjob::factory($job['type']);
 
-            $cronjob = rex_cronjob::factory($type);
-            $success = $this->getManager()->tryExecute($cronjob, $name, $params, $log, $id);
+        $success = $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
 
-            $this->setNextTime($id, $interval, $resetExecutionStart);
+        $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
 
-            return $success;
-        }
-        return false;
+        return $success;
     }
 
     public function setNextTime($id, $interval, $resetExecutionStart = false)
