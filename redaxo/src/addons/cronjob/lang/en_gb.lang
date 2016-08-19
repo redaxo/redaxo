@@ -47,6 +47,7 @@ cronjob_interval_months = Months
 cronjob_interval_months_all = Every month
 
 cronjob_environment = Environment
+cronjob_environment_notice = Script: Execution via <code>redaxo/src/addons/cronjob/bin/run</code>. The script should be invoked by a real cronjob.
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
 cronjob_environment_script = Script

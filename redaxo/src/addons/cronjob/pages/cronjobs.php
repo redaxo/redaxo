@@ -157,6 +157,7 @@ if ($func == '') {
 
     $field = $form->addSelectField('environment');
     $field->setLabel($this->i18n('environment'));
+    $field->setNotice($this->i18n('environment_notice'));
     $field->setAttribute('multiple', 'multiple');
     $envFieldId = $field->getAttribute('id');
     $select = $field->getSelect();
