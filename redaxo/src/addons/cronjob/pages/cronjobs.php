@@ -54,7 +54,7 @@ if ($func == 'execute') {
 }
 
 if ($func == '') {
-    $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
+    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -71,15 +71,6 @@ if ($func == '') {
 
     $list->setColumnLabel('name', $this->i18n('name'));
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
-
-    $list->setColumnLabel('interval', $this->i18n('interval'));
-    $list->setColumnFormat('interval', 'custom', function ($params) {
-        $value = explode('|', $params['list']->getValue('interval'));
-        $str = $value[1] . ' ';
-        $array = ['i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year'];
-        $str .= rex_i18n::msg('cronjob_interval_' . $array[$value[2]]);
-        return $str;
-    });
 
     $list->setColumnLabel('environment', $this->i18n('environment'));
     $list->setColumnFormat('environment', 'custom', function ($params) {
@@ -104,6 +95,9 @@ if ($func == '') {
         }
         return rex_i18n::msg('cronjob_execution_ending');
     });
+
+    $list->setColumnLabel('nexttime', $this->i18n('nexttime'));
+    $list->setColumnFormat('nexttime', 'strftime', 'datetime');
 
     $list->setColumnLabel('status', $this->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
@@ -160,9 +154,6 @@ if ($func == '') {
 
     $field = $form->addTextAreaField('description');
     $field->setLabel($this->i18n('description'));
-
-    $field = $form->addIntervalField('interval');
-    $field->setLabel($this->i18n('interval'));
 
     $field = $form->addSelectField('environment');
     $field->setLabel($this->i18n('environment'));
@@ -224,6 +215,10 @@ if ($func == '') {
         }
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
+
+    $form->addFieldset($this->i18n('interval'));
+
+    $field = $form->addIntervalField('interval');
 
     $form->addFieldset($this->i18n('type_parameters'));
 

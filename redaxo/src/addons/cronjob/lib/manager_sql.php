@@ -213,14 +213,15 @@ class rex_cronjob_manager_sql
 
     public function setNextTime($id, $interval, $resetExecutionStart = false)
     {
-        $nexttime = self::calculateNextTime($interval);
+        $nexttime = self::calculateNextTime(json_decode($interval, true));
+        $nexttime = $nexttime ? rex_sql::datetime($nexttime) : null;
         $add = $resetExecutionStart ? ', execution_start = 0' : '';
         try {
             $this->sql->setQuery('
                 UPDATE  ' . REX_CRONJOB_TABLE . '
                 SET     nexttime = ?' . $add . '
                 WHERE   id = ?
-            ', [rex_sql::datetime($nexttime), $id]);
+            ', [$nexttime, $id]);
             $success = true;
         } catch (rex_sql_exception $e) {
             $success = false;
@@ -257,20 +258,58 @@ class rex_cronjob_manager_sql
         return true;
     }
 
-    public static function calculateNextTime($interval)
+    public static function calculateNextTime(array $interval)
     {
-        $interval = explode('|', trim($interval, '|'));
-        if (is_array($interval) && isset($interval[0]) && isset($interval[1])) {
-            $date = getdate();
-            switch ($interval[1]) {
-                case 'i': return mktime($date['hours'], $date['minutes'] + $interval[0], 0);
-                case 'h': return mktime($date['hours'] + $interval[0], 0, 0);
-                case 'd': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0]);
-                case 'w': return mktime(0, 0, 0, $date['mon'], $date['mday'] + $interval[0] * 7 - $date['wday']);
-                case 'm': return mktime(0, 0, 0, $date['mon'] + $interval[0], 1);
-                case 'y': return mktime(0, 0, 0, 1, 1, $date['year'] + $interval[0]);
+        if (empty($interval['minutes']) || empty($interval['hours']) || empty($interval['days']) || empty($interval['weekdays']) || empty($interval['months'])) {
+            return null;
+        }
+
+        $date = new \DateTime('+5 min');
+        $date->setTime($date->format('H'), floor($date->format('i') / 5) * 5, 0);
+
+        $isValid = function ($value, $current) {
+            return 'all' === $value || in_array($current, $value);
+        };
+
+        $validateTime = function () use ($interval, $date, $isValid) {
+            while (!$isValid($interval['hours'], $date->format('G'))) {
+                $date->modify('+1 hour');
+                $date->setTime($date->format('H'), 0, 0);
+            }
+
+            while (!$isValid($interval['minutes'], (int) $date->format('i'))) {
+                $date->modify('+5 min');
+
+                while (!$isValid($interval['hours'], $date->format('G'))) {
+                    $date->modify('+1 hour');
+                    $date->setTime($date->format('H'), 0, 0);
+                }
+            }
+        };
+
+        $validateTime();
+
+        if (
+            !$isValid($interval['days'], $date->format('j')) ||
+            !$isValid($interval['weekdays'], $date->format('w')) ||
+            !$isValid($interval['months'], $date->format('n'))
+        ) {
+            $date->setTime(0, 0, 0);
+            $validateTime();
+
+            while (!$isValid($interval['months'], $date->format('n'))) {
+                $date->modify('first day of next month');
+            }
+
+            while (!$isValid($interval['days'], $date->format('j')) || !$isValid($interval['weekdays'], $date->format('w'))) {
+                $date->modify('+1 day');
+
+                while (!$isValid($interval['months'], $date->format('n'))) {
+                    $date->modify('first day of next month');
+                }
             }
         }
-        return null;
+
+        return $date->getTimestamp();
     }
 }
