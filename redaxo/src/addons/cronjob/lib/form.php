@@ -64,7 +64,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $value = $this->getValue();
 
         $save = [];
-        foreach (['minutes','hours','days','weekdays','months'] as $key) {
+        foreach (['minutes', 'hours', 'days', 'weekdays', 'months'] as $key) {
             if (!isset($value[$key])) {
                 $save[$key] = [];
             } elseif ('all' === $value[$key]) {
