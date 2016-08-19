@@ -155,7 +155,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $value = $this->getValue();
         $value = isset($value[$group]) ? $value[$group] : $default;
 
-        $field = '<div class="rex-js-cronjob-interval-all">';
+        $field = '<div class="rex-js-cronjob-interval-all rex-cronjob-interval-all">';
 
         $elements = [];
 
@@ -173,7 +173,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $fragment->setVar('grouped', true);
         $field .= $fragment->parse('core/form/checkbox.php');
 
-        $field .= '</div><div class="rex-js-cronjob-interval-particular">';
+        $field .= '</div><div class="rex-js-cronjob-interval-particular rex-cronjob-interval-' . $group . '">';
 
         $elements = [];
         foreach ($options as $key => $label) {

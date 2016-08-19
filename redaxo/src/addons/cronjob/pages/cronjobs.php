@@ -354,6 +354,36 @@ if ($func == '') {
     // ]]>
     </script>
 
+    <style>
+        .rex-cronjob-interval-all .checkbox label {
+            font-weight: 700;
+        }
+
+        .rex-cronjob-interval-hours .checkbox-inline:nth-child(12),
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(10),
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(20) {
+            display: inline;
+        }
+        .rex-cronjob-interval-minutes .checkbox-inline label,
+        .rex-cronjob-interval-hours .checkbox-inline label,
+        .rex-cronjob-interval-days .checkbox-inline label,
+        .rex-cronjob-interval-weekdays .checkbox-inline label,
+        .rex-cronjob-interval-months .checkbox-inline label {
+            font-weight: 400;
+        }
+        .rex-cronjob-interval-hours .checkbox-inline:nth-child(12):after,
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(10):after,
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(20):after {
+            content: '\A';
+            white-space: pre;
+        }
+        .rex-cronjob-interval-hours .checkbox-inline:nth-child(13),
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(11),
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(21) {
+            margin-left: 0;
+        }
+    </style>
+
 <?php
 
 }
