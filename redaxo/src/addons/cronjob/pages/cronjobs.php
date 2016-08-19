@@ -359,9 +359,9 @@ if ($func == '') {
             font-weight: 700;
         }
 
-        .rex-cronjob-interval-hours .checkbox-inline:nth-child(12),
-        .rex-cronjob-interval-days .checkbox-inline:nth-child(10),
-        .rex-cronjob-interval-days .checkbox-inline:nth-child(20) {
+        .rex-cronjob-interval-hours .checkbox-inline,
+        .rex-cronjob-interval-days .checkbox-inline,
+        .rex-cronjob-interval-days .checkbox-inline {
             display: inline;
         }
         .rex-cronjob-interval-minutes .checkbox-inline label,
@@ -369,6 +369,7 @@ if ($func == '') {
         .rex-cronjob-interval-days .checkbox-inline label,
         .rex-cronjob-interval-weekdays .checkbox-inline label,
         .rex-cronjob-interval-months .checkbox-inline label {
+            margin-right: 10px;
             font-weight: 400;
         }
         .rex-cronjob-interval-hours .checkbox-inline:nth-child(12):after,
