@@ -221,10 +221,6 @@ class rex_media
      */
     public function toImage(array $params = [])
     {
-        if (!is_array($params)) {
-            $params = [];
-        }
-
         if (!$this->isImage()) {
             return '';
         }
