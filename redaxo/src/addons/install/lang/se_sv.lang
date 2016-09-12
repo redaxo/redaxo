@@ -1,0 +1,68 @@
+# addon:install se_sv
+
+install_title = Installer
+install_subpage_packages = Core & Packages
+install_subpage_update = Aktualisiera befintliga
+install_subpage_add = Ladda ner nya
+install_subpage_upload = Ladda upp egna
+install_subpage_settings = Inställningar
+
+install_webservice_unreachable = Webbservicen är f.n. inte tillgänglig!
+install_webservice_error = Webbservicen generar följande felmeddelandet:
+install_archive_unreachable = Zip-filen är inte tillgänglig!
+
+install_reload = Aktualisera listan
+install_key = Key
+install_information = Information
+install_name = Namn
+install_author = Autor
+install_shortdescription = Kortbeskrivning
+install_description = Beskrivning
+install_files = Filer
+install_version = Version
+install_existing_version = Tillgänglig version
+install_available_versions = Tillgängliga  versioner
+install_addon_already_exists = redan nerladdat
+install_update = aktualisiera
+install_download = ladda ner
+install_addons_found = {0} AddOns hittades
+install_available_updates = {0} Updates tillgängliga
+install_my_packages = Mina packages
+install_status = Status
+install_online = online
+install_offline = offline
+install_file_add = Tillfoga fil
+install_file_edit = aktualisera fil
+install_send = Skicka
+install_upload_file = Skapa och ladda upp zip-fil
+install_replace_assets = Ta ut assets från root-assets-mappen
+install_ignore_tests = Ignorera mappen "tests"
+
+install_info_core_updated = Koden aktualiserades!
+install_warning_core_not_updated = Kärnan (Core) kunde av följande skäl inte aktualiseras:
+install_warning_core_zip_not_extracted = Zip-filen kunde inte packas upp i "src"-katalogen!
+
+install_info_addon_downloaded = AddOn "{0}" har laddas ner!
+install_warning_addon_not_downloaded = AddOn "{0}" kunde av följande skäl inte laddas ner:
+install_info_addon_updated = AddOn "{0}" aktualiserades!
+install_warning_addon_not_updated = AddOn "{0}" kunde av följande skäl inte aktualiseras:
+install_info_addon_uploaded = AddOn "{0}" har laddas upp!
+install_info_addon_deleted = AddOn-version av "{0}" raderades!
+install_warning_addon_zip_not_extracted = Fel uppstod vid uppackningen av zip-filen i addon-katalogen. Möjligtvis saknas det skrivrättigheter eller mappens namn i zip-filen motsvara inte AddOn-nyckeln.
+
+install_warning_zip_wrong_checksum = Checksumman av de nedladdade zip-filerna stämmer inte överens med den förväntade summan!
+install_warning_zip_wrong_format = Zip-filen har inte det nödvändiga formatet.
+
+install_to_addon_page = Till AddOn-förvaltningen
+
+install_settings_general = Allmänt
+install_settings_backups = Skapa backups
+install_settings_myredaxo_account = myREDAXO-Account
+install_settings_api_login = Användarnamn
+install_settings_api_key = API-Key
+install_settings_saved = Inställningarna sparades!
+
+install_header_function = Funktion
+
+install_clear = Radera
+install_search = Sök ...
