@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 2.1.2 – 19.09.2016
+--------------------------
+
+* Beim Bearbeiten von Benutzern wurden diese immer zu Admins
+
 Version 2.1.1 – 15.07.2016
 --------------------------
 
