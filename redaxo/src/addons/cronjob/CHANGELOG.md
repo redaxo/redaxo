@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.1.0 – 30.09.2016
+--------------------------
+
+### Neu
+
+* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über 
+  einen echten Cronjob laufen zu lassen
+* Flexiblere Intervallauswahl
+
+### Bugfixes
+
+* Cronjob-Typ "phpcallback" hat teilweise Notices geworfen
+
+
 Version 2.0.3 – 15.07.2016
 --------------------------
 
