@@ -303,10 +303,7 @@ class rex_navigation
         if (count($nav_obj) > 0) {
             if(!empty($this->ulclasses)){
                 $ulclasses = '';
-                foreach($this->ulclasses as $ulclass){
-                    $ulclasses .= $ulclass .' ';
-                }
-                $ulclasses = ' '.trim($ulclasses);
+                $ulclasses = ' '. implode(' '. $ulclasses);
             }
             $return .= '<ul class="rex-navi' . ($depth + 1) . $ulclasses . '">';
         }
