@@ -232,7 +232,6 @@ $content = '
     <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>
-    </div>
 
     <script type="text/javascript">
          <!--
