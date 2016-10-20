@@ -121,10 +121,14 @@ function newWindow(name,link,width,height,type)
 var winObj = new Array();
 if (opener != null)
 {
-    if (typeof(opener.winObjCounter) == "number")
-    {
-        var winObjCounter = opener.winObjCounter;
-    }
+	try{
+	    if (typeof(opener.winObjCounter) == "number")
+	    {
+	        var winObjCounter = opener.winObjCounter;
+	    }
+	} catch(e) {
+	    var winObjCounter = -1;
+	}
 }else
 {
     var winObjCounter = -1;
