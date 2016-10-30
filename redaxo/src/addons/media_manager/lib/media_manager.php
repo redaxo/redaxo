@@ -182,7 +182,12 @@ class rex_media_manager
         }
         exit;
     }
-
+    
+    public function setType($type)
+    {
+    	$this->type = $type;
+    }
+    
     public static function getSupportedEffects()
     {
         $dirs = [
