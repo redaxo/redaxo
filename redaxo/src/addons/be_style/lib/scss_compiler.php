@@ -13,12 +13,19 @@ class rex_scss_compiler
     protected $formatter;
     protected $strip_comments;
 
-    public function __construct()
+    public function __construct($compress = true)
     {
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
+        
+        if ($compress) {
+            $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
+        } else {
+            $this->formatter = 'Leafo\ScssPhp\Formatter\Expanded';
+        }
+        
+        
         $this->strip_comments = true;
     }
 
@@ -107,9 +114,18 @@ class rex_scss_compiler
             $string_css = $scss_compiler->compile($string_sass) . "\n";
 
             // $string_css = csscrush_string($string_css, $options = array('minify' => true));
+            
+            preg_match_all('|url\((.*)\)|U', $string_css, $matches);
+            if (!empty($matches[1])) {
+                $oldPath = dirname(substr($this->scss_file, strlen(rex_path::base())));
+                
+                foreach ($matches[1] as $match) {
+                    $string_css = preg_replace('|'.str_replace(['/','.'], ['\/','\.'], $match).'|', $oldPath.'/'.$match, $string_css, 1);
+                }
+            }
 
             // write CSS into file with the same filename, but .css extension
-            file_put_contents($this->css_file, $string_css);
+            rex_file::put($this->css_file, $string_css);
         } catch (Exception $e) {
             // here we could put the exception message, but who cares ...
             echo $e->getMessage();
