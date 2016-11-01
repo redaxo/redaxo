@@ -12,9 +12,9 @@ echo rex_view::title(rex_i18n::msg('login'));
 
 $js = '';
 if ($rex_user_loginmessage != '') {
-    echo rex_view::error($rex_user_loginmessage) . "\n";
+    echo '<div class="rex-js-login-message">'.rex_view::error($rex_user_loginmessage) . "</div>\n";
     $js = '
-        var time_el = $("div.rex-message strong[data-time]");
+        var time_el = $(".rex-js-login-message strong[data-time]");
         if(time_el.length == 1) {
             function disableLogin() {
                 var time = time_el.attr("data-time");

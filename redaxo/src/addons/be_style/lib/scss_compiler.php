@@ -1,5 +1,7 @@
 <?php
 
+use Leafo\ScssPhp\Compiler;
+
 /**
  * @package redaxo\be-style
  */
@@ -16,7 +18,7 @@ class rex_scss_compiler
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = 'scss_formatter_compressed';
+        $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
         $this->strip_comments = true;
     }
 
@@ -63,12 +65,11 @@ class rex_scss_compiler
 
         $root_dir = $this->root_dir;
 
-        $scss_compiler = new scssc();
+        $scss_compiler = new Compiler();
         $scss_compiler->setNumberPrecision(10);
         $scss_compiler->stripComments = $this->strip_comments;
 
         $scss_compiler->addImportPath(function ($path) use ($root_dir) {
-
             $path = $root_dir . $path . '.scss';
 
             $path_parts = pathinfo($path);
@@ -83,7 +84,6 @@ class rex_scss_compiler
             }
 
             return $path;
-
         });
         // set the path to your to-be-imported mixins. please note: custom paths are coming up on future releases!
         //$scss_compiler->setImportPaths($scss_folder);

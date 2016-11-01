@@ -54,11 +54,11 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $imgBlur = imagecreatetruecolor($w, $h);
 
         // Gaussian blur matrix:
-        //
+
         //    1    2    1
         //    2    4    2
         //    1    2    1
-        //
+
         //////////////////////////////////////////////////
 
         if (function_exists('imageconvolution')) {

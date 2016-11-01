@@ -10,6 +10,9 @@
         margin-left: ($grid-gutter-width / 2);
     }
 }
+.rex-slice .panel-heading > .rex-panel-options {
+    float: right;
+}
 .panel-add,
 .panel-edit {
     @include panel-variant($color-d, #fff, $color-d, $color-d);

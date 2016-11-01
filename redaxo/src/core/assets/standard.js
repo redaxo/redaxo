@@ -472,7 +472,7 @@ jQuery(document).ready(function($) {
     if ($.support.pjax) {
         // prevent pjax from jumping to top, see github#60
         $.pjax.defaults.scrollTo = false;
-        $.pjax.defaults.timeout = 5000;
+        $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
 
         var pjaxHandler = function(event) {
@@ -549,7 +549,6 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
-                winObjCounter = -1;
 
                 options.context.trigger('rex:ready', [options.context]);
             });

@@ -37,7 +37,6 @@ class rex_effect_filter_sepia extends rex_effect_abstract
     public function getParams()
     {
         return [
-
         ];
     }
 }

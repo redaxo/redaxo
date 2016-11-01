@@ -17,7 +17,7 @@ if ($func == '') {
     $title = rex_i18n::msg('user_role_caption');
 
     $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
     $thIcon = '<a href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . rex::getAccesskey(rex_i18n::msg('create_user_role'), 'add') . ' title="' . rex_i18n::msg('create_user_role') . '"><i class="rex-icon rex-icon-add-userrole"></i></a>';

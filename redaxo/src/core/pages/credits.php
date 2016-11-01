@@ -74,7 +74,7 @@ $content .= '
                 <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
 
             if ($supportpage = $package->getSupportPage()) {
-                $content .= '<a href="http://' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . $supportpage . '</a>';
+                $content .= '<a href="' . $supportpage . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-external-link"></i> ' . $supportpage . '</a>';
             }
 
             $content .= '

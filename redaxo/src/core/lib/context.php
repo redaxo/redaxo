@@ -12,7 +12,7 @@ interface rex_url_provider_interface
     /**
      * Returns a Url which contains the given parameters.
      *
-     * @param array $params A scalar array containing key value pairs for the parameter and its value.
+     * @param array $params A scalar array containing key value pairs for the parameter and its value
      * @param bool  $escape Flag whether the argument separator "&" should be escaped (&amp;)
      *
      * @return string The generated Url
@@ -33,7 +33,7 @@ interface rex_context_provider_interface extends rex_url_provider_interface
     /**
      * Returns a html string containg hidden input fields for the given parameters.
      *
-     * @param array $params A array containing key value pairs for the parameter and its value.
+     * @param array $params A array containing key value pairs for the parameter and its value
      *
      * @return string The generated html source containing the hidden input fields
      */

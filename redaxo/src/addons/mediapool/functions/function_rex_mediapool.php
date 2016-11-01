@@ -446,6 +446,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     }
 
     $panel = '';
+    $panel .= '<fieldset>';
     $formElements = [];
 
     $e = [];
@@ -479,6 +480,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
         $fragment->setVar('elements', [$e], false);
         $panel .= $fragment->parse('core/form/form.php');
     }
+    $panel .= '</fieldset>';
 
     $formElements = [];
 

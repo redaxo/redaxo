@@ -45,6 +45,11 @@ class rex_managed_media
         return $this->media;
     }
 
+    public function setMediaFilename($filename)
+    {
+        $this->media = $filename;
+    }
+
     public function setHeader($type, $content)
     {
         $this->header[$type] = $content;
@@ -78,7 +83,6 @@ class rex_managed_media
 
         if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
             $this->image['format'] = 'jpeg';
-            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
         } elseif ($this->image['format'] == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
@@ -86,9 +90,11 @@ class rex_managed_media
             $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
-            imagealphablending($this->image['src'], false);
-            imagesavealpha($this->image['src'], true);
-            $this->image['format'] = 'png';
+            if ($this->image['src']) {
+                imagealphablending($this->image['src'], false);
+                imagesavealpha($this->image['src'], true);
+                $this->image['format'] = 'png';
+            }
         }
 
         if (!$this->image['src']) {
@@ -146,7 +152,7 @@ class rex_managed_media
             $this->setHeader('Content-Disposition', 'inline; filename="' . $this->getMediaFilename() . '";');
         }
         if (!array_key_exists('Last-Modified', $header)) {
-            $this->setHeader('Last-Modified', date('r'));
+            $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
         }
 
         rex_response::cleanOutputBuffers();
@@ -164,6 +170,7 @@ class rex_managed_media
     {
         ob_start();
         if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
+            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             imagejpeg($this->image['src'], null, $this->image['quality']);
         } elseif ($this->image['format'] == 'png') {
             imagepng($this->image['src']);
@@ -185,6 +192,7 @@ class rex_managed_media
     public function setImage($src)
     {
         $this->image['src'] = $src;
+        $this->asImage = true;
     }
 
     public function getWidth()

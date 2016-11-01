@@ -96,7 +96,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             <tr id="' . self::CONTAINER . '" class="collapse mark">
                 <td colspan="2"></td>
                 <td colspan="5">
+                    <div class="rex-collapse-content">
                     ' . parent::renderFormAndSave(self::PREFIX, $params) . '
+                    </div>
                 </td>
             </tr>';
 

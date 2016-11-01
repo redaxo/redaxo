@@ -1,0 +1,373 @@
+lang = Svenska
+htmllang = se
+htmlcharset = utf-8
+yes = ja
+no = nej
+general = Allmänt
+dateformat = %d. %b. %Y
+setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
+phpini_settings = PHP.ini inställningar
+
+datetimeformat = %d. %b. %Y - %H:%Mh
+ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
+
+# Allgemein
+abort = avbryt
+add = tillfoga
+back = tillbaka
+delete = radera
+edit = bearbeta
+update = aktualisera
+view = visa
+path = Pfad
+id = Id
+name = Namn
+description = Beskrivning
+email = E-post
+function = Funktion
+no_editing_rights = Du har inte rätt att ändra
+check_rights_in_directory  =  Vänligen kolla rättigheterna i mappen
+error_undefined = Okänt fel
+
+# redaxo/redaxo/index.php
+system = System
+user = Användare
+profile = Min profil
+logout = logga ut
+navigation_system = Huvudmenu
+navigation_addons = AddOns
+subnavigation = Undernavigation från {0}
+
+# redaxo/include/classes/class.login.php
+login_name  =  Användarnamn
+password  =  Lösenord
+new_password = Nytt lösenord
+request_new_password = Få nytt lösenord
+login_error = Fel vid login.
+login_wait = Vänligen väntar {0} för nästa försöket.
+login_session_expired = Session avslutat.
+login_user_not_found = Användare kunde inte hittas!
+login_welcome = Vänligen logga in dig.
+login_logged_out = Utloggat.
+stay_logged_in = Stanna inloggat
+
+# redaxo/include/layout_redaxo/top.php
+logged_out  =  inte inloggat
+logged_in_as  =  Inloggat som
+safemode_deactivate = Avaktivera safe mode 
+
+# redaxo/include/classes/class.form.php
+form_field_first_priority = Vid början
+form_field_after_priority = Efter fältet "{0}"
+
+# redaxo\include\pages\system.php
+info_updated = Informationen aktualiserades!
+delete_cache = Radera cachen
+delete_cache_description = Mallar och språkfiler skapas, sidcachen raderas. So fort en sida öppnas i browsern (frontend) återskapas cachen av sidan (eller kategorien).
+delete_cache_message = Cachen raderades.
+system_features = Funktioner
+system_settings = Inställningar
+general_info_header = Allmänt information:
+db1_can_only_be_changed_by_setup = Databas[1] kan bara ändras via setup:en.
+system_others = Övrigt
+system_update = ändra
+main_preferences = Inställningar
+language = Språk
+languages = Språk
+languages_edit = bearbeta språk
+id_exists = Id existera redan.
+enter_code = Vänligen anger en kod.
+enter_name = Vänligen anger ett namn.
+clang_add = Tillfoga språk
+clang_edit = Bearbeta språk
+clang_update = Välj språket
+clang_created = Nytt språk skapades.
+clang_edited = Språk bearbetades.
+clang_deleted = Språket raderades
+clang_code = Kod
+clang_name = Namn
+clang_priority = Prio
+clang_online = online
+clang_offline = offline
+clang_delete = Radera språk
+clang_select = Välj språk
+clang_caption = List av tillgängliga språk
+clang_function = Funktioner
+version = Version
+host = Host
+database = Databas
+syslog = Systemlog
+syslog_delete = Radera systemlog
+syslog_deleted = Systemlog raderades
+syslog_delete_error = Fel när systemlog:en skulle raderas!
+syslog_timestamp = Tid
+syslog_type = Typ
+syslog_message = Meddelande
+syslog_file = Fil
+syslog_line = Rad
+server = Webbsidans URL
+servername = Webbsidans namn
+error_email = E-postadress vid fel
+error_email_required = Ange en e-postadress när det uppstår fel
+error_email_invalid = Ange en giltig e-postadress!
+server_required = Det krävs en URL för webbplatsen!
+server_invalid = Webbadressen är ogiltig, den måste anges komplett inkl. protokoll!
+servername_required = Ange ett servernamn!
+lang_required = Ange ett språk!
+debug_mode = Debug-modus
+
+# redaxo\include\pages\medienpool.php\setup.php
+setup = Installation
+setup_restart = Installation: starta nytt
+setup_text = 
+Här kan du starta installationen. Detta bör du bara göra i en nödsituation. Under normala omständigheter är det inte nödvändigt.
+setup_error1 = Installatonen aktiverad. Vänliga klicka på {0} vidare {1} och genomför installationen.
+setup_error2 = Tyvärr kunde det inte skrivas på config.yml-filen. Vänligen ändra till \"setup: true\" i config.yml.
+
+
+
+setup_100 = Installation: Steg 1 av 7 / Språk
+setup_101 = Vänligen välj ett språk
+
+
+setup_199 = 1 / Språk
+
+setup_200 = Installation: Steg 2 av 7 / Licens
+setup_201 = Välkommen till REDAXO-installationen.
+setup_202 = <h3>Vad händer härnäst:</h3><ol><li>Filrättigheterna kontrolleras</li><li>Databastillgängliheten kontrolleras och skrivas in i config.yml</li><li>Databasen (ny)skapas</li><li>Ett administratörskonto skapas</li></ol>
+setup_203 = Akceptera licensbestämmelserna. Fortsätt med steg 3
+setup_299 = 2 / Licens
+
+setup_300 = Installation: Steg 3 av 7 / Systemkontroll
+setup_301 = Serverns PHP-version är föråldrat ({0}), vänligen aktualisera till en nyare version (minst {1}, den nyaste rekommenderas)
+setup_302 = Den nödvändiga PHP-Extension <b>{0}</b> kunde inte hittas!
+setup_303 = Nödvändiga system-tillägg saknas
+setup_304 = De följande förteckningarna är inte skrivbar:
+setup_305 = De följande filerna är inte skrivbar:
+setup_306 = De följande förteckningarna kunde inte hittas eller saknar skrivrättigheterna:
+setup_307 = PHP-versionscheck | Kontrollera rättigheterna
+setup_308 = PHP-version ok
+setup_309 = Mapprättigheterna ok
+setup_310 = Fortsätt med steg 4
+setup_312 = Återta steg 3
+setup_399 = 3 / Systemkontroll
+
+setup_400 = Installation: Steg 4 av 7 / Skrivar 'data/config.yml'
+setup_401 = data/config.yml kunde inte skrivas.
+setup_402 = Allmänt
+setup_403 = Databasinformationen
+setup_404 = Den angivna databasen existerar redan!
+setup_405 = Skriva 'data/config.yml'
+setup_408 = Databasens namn
+setup_409 = Lösenord
+setup_410 = Vidare till steg 5
+setup_411 = Skapa databas?
+setup_412 = Tidszon
+setup_413 = Tidszonen är inte giltig!
+setup_414 = Återta steg 4
+setup_415 = Följande fel rapporterades: {0}
+setup_416 = REDAXO-inställningar
+setup_499 = 4 / config.yml
+
+setup_500 = Installation: Steg 5 av 7 / Databas
+setup_501 = Skapa databasen
+setup_502 = Tabell {0} kunde inte hittas!
+setup_503 = Vänligen skapa databasen på nytt.
+setup_504 = Skapa databas
+setup_505 = Skapa databas och skriv över en eventuell redan existerande databas
+setup_505_note = Obs! - Den gamla sidan kommer att raderas helt!
+setup_506 = Databasen existera redan
+setup_506_note = Fortsätt utan databsimport
+setup_507 = Spela in en redan existerande databasexport:
+setup_507_note = Spela in demo:n
+setup_508 = Vänligen välja en databasexport!
+setup_509 = Export-filerna kunde inte hittas!
+setup_510 = Backup-addOn kunde inte hittas!
+setup_511 = Vidare med steg 6
+setup_512 = Återta steg 5
+setup_513 = System addOn(s) kunde inte installeras
+setup_514 = Aktualisering av databasen
+setup_514_note = Update av tidigare versionen
+setup_599 = 5 / Databasen
+
+setup_600 = Installation: Steg 6 av 7 / Administratör
+setup_601 = Vänligen ange ett administratorlogin!
+setup_602 = Vänligen ange administratörslösenordet!
+setup_603 = Login existerar redan!
+setup_604 = Administratörskontot kunde inte skapas.
+setup_605 = Det existera ingen användare än. Vänligen skapa en användare.
+setup_606 = Skapa administratörskonto
+setup_607 = Login
+setup_608 = Lösenord
+setup_609 = Skapa ingen användare
+setup_610 = Fortsätt med steg 7
+setup_611 = Återta steg 6
+setup_699 = 6 / Administratör
+
+setup_700 = Installation: Steg 7 av 7 / Heureka
+setup_701 = Config.yml - filen kunde inte skrivas. Vänligen ändrar filen manuellt via FTP.
+setup_702 = Grattis tillREDAXO-installationen!
+setup_703 = Vänligen observera följande:
+setup_704 = <ol><li>Logga in {1} med {0}</li><li>Importera demo via [om inloggat]: Import/Export och installera där resp. databas och filerna.</li></ol>
+setup_705 = Lycka till!<br />Er REDAXO team
+setup_706 = till login
+setup_799 = 7 / Heureka
+
+setup_security_msg = Redaxo-mappem är inte säker. Vänligen skydda mappen och starta om installationen!
+setup_no_js_security_msg = Kolla om filer från mappen redaxo/cache, redaxo/data och redaxo/src är direkt tillgängliga! Det ska de av säkerhetsskäl inte vara!
+
+sql_database_name_missing = Du måste ange ett databsnamn!
+sql_database_already_exists = Databasen existera redan.
+sql_unable_to_connect_database = Det kunde inte upprättas en förbindelse till databasen!
+sql_unable_to_connect_server = Det kunde inte upprättas en förbindelse till databasservern!
+sql_unable_to_create_database = Den angivna databasen kunde inte skapas!
+sql_unable_to_find_database = Den angivna databasen kunde inte hittas!
+sql_unable_to_open_database = Den angivna databasen kunde inte öppnas!
+
+# redaxo\include\pages\addon.php
+addon = AddOn
+addons = AddOns
+package_help = Hjälp
+package_no_help_file = Kunde inte hitta hjälpfil
+package_back = tillbaka
+addon_no_install = AddOn <b>{0}</b> konnte aus folgendem Grund <b>nicht</b> installiert werden:
+addon_no_uninstall = AddOn <b>{0}</b> konnte aus folgendem Grund <b>nicht</b> deinstalliert werden:
+package_no_reason = Es wurde kein Grund angegeben.
+addon_no_activation = AddOn <b>{0}</b> konnte aus folgendem Grund <b>nicht</b> aktiviert werden:
+addon_no_deactivation = AddOn <b>{0}</b> konnte aus folgendem Grund <b>nicht</b> deaktiviert werden:
+package_not_installed = Es wurde noch nicht installiert!
+addon_installed = AddOn <b>{0}</b> wurde installiert und aktiviert!
+addon_reinstalled = AddOn <b>{0}</b> wurde re-installiert!
+addon_activated = AddOn <b>{0}</b> wurde aktiviert!
+addon_deactivated =  AddOn <b>{0}</b> wurde deaktiviert!
+addon_uninstalled = AddOn <b>{0}</b> wurde deinstalliert!
+addon_deleted = AddOn <b>{0}</b> wurde gelöscht!
+addon_not_deleted = AddOn <b>{0}</b> konnte nicht gelöscht werden!
+addon_delete_question = AddOn "{0}" löschen?
+addon_uninstall_question = AddOn "{0}" de-installieren?
+package_hname = Namn
+package_hversion = Version
+package_hhelp = Hjälp
+package_hinstall = Installerad
+package_hactive = Aktiverad
+package_hdelete = ta bort
+package_reinstall = om-installera
+package_install = installera
+package_notinstalled = inte installerad
+package_uninstall = av-installera
+package_delete = radera
+package_deactivate = avaktivera
+package_activate = aktivera
+package_yes = ja
+package_no = nej
+package_caption = List av alla tillgängliga paket (Packages)
+addon_systemaddon = System AddOn
+addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
+addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
+package_missing_yml_file = package.yml-filen saknas!
+package_invalid_yml_file = Die package.yml ist invalid:
+package_missing_id = "package"-beteckningen saknas i package.yml ("package: {0}")!
+package_missing_version = Versionsbeteckningen saknas i package.yml!
+package_wrong_dir_name = Namnet av mappen måste enligt package.yml heta "<b>{0}</b>"!
+package_is_plugin = Paketet måste installeras som PlugIn "<b>{1}</b>" av AddOn:et "<b>{0}</b>"!
+package_is_addon = Paketet måste installeras som AddOn "<b>{0}</b>"!
+package_install_cant_copy_files = Fel vid kopieringen av /assets mappen!
+package_install_cant_delete_files = Fel vid raderingen av /assets mappen!
+package_requirement_error_redaxo_version = REDAXO-versionen (<b>{0}</b>) motsvarar inte versionskraven <b>{1}</b>!
+package_requirement_error_php_version = PHP-versionen (<b>{0}</b>) motsvarar inte versionskraven <b>{1}</b>!
+package_requirement_error_php_extension = PHP-Extension <b>{0}</b> krävs!
+package_requirement_error_addon = AddOn <b>{0}</b> krävs!
+package_requirement_error_addon_version = AddOn:et <b>{0}</b> (Version <b>{1}</b>) motsvarar inte versionskraven <b>{2}</b>!
+package_requirement_error_plugin = PlugIn <b>{0}</b> krävs!
+package_requirement_error_plugin_version = PlugIn:et <b>{0}</b> (version <b>{1}</b>) motsvarar inte versionskraven <b>{2}</b>!
+package_conflict_error_addon = Es kann nicht gemeinsam mit dem AddOn <b>{0}</b> aktiviert sein!
+package_conflict_error_addon_version = Kan inte vara aktiverat tillsammans med AddOn:et <b>{0}</b> med version <b>{1}</b>!
+package_conflict_error_plugin = Es kann nicht gemeinsam mit dem PlugIn <b>{0}</b> aktiviert sein!
+package_conflict_error_plugin_version = Kan inte vara aktiverat tillsammans med PlugIn:et <b>{0}</b> med version <b>{1}</b>!
+package_dependencies_error_addon = Är nödvändigt för det aktiverade AddOn:et <b>{0}</b>!
+package_dependencies_error_plugin = Är nödvändigt för det aktiverade PlugIn:et <b>{0}</b>!
+plugin_plugins_installed = PlugIn installerades
+plugin_no_install = PlugIn <b>{0}</b> kunde <b>inte</b> installeras pga.:
+plugin_no_uninstall = PlugIn <b>{0}</b> kunde <b>inte</b> avinstallerades pga.:
+plugin_no_reason = Inga skäl anges.
+plugin_no_activation = PlugIn <b>{0}</b> kunde<b>inte</b> aktiveras pga.:
+plugin_no_deactivation = PlugIn <b>{0}</b> kunde<b>inte</b> avaktiveras pga.:
+plugin_installed = PlugIn <b>{0}</b> installierades och aktiverades!
+plugin_reinstalled = PlugIn <b>{0}</b> återinstallerades!
+plugin_activated = PlugIn <b>{0}</b> aktiverades!
+plugin_deactivated =  PlugIn <b>{0}</b> avaktiverad!
+plugin_uninstalled = PlugIn <b>{0}</b> avinstallerades!
+plugin_deleted = PlugIn <b>{0}</b> raderades!
+plugin_not_deleted = PlugIn <b>{0}</b> kunde inte raderas!
+plugin_delete_question = PlugIn "{0}" radera?
+plugin_uninstall_question = PlugIn "{0}" avinstallera?
+plugin_systemplugin = System plugIn
+plugin_systempackage_delete_not_allowed = System plugIns får inte raderas!
+plugin_dir_not_writable = PlugIn-mappen har inga skrivrättigheter!
+
+# redaxo\include\pages\credits.php
+credits = Credits
+credits_name = Namn
+credits_help = Hjälp
+credits_version = Version
+credits_author = Autor
+credits_supportpage = Hjälp
+credits_addon_inactive = AddOn inaktiv
+credits_caption = List av använda paket
+credits_open_help_file = Öppna hjälpfil:
+credits_inventor = Uppfinnare
+credits_developer = Utvecklare
+credits_designer = Grafiker
+
+# redaxo\include\pages\profile.php
+profile_myprofile = Ändra min profil
+profile_title = Min profil
+profile_save = Spara profil
+user_psw_updated = Lösenordet aktualiserades
+user_psw_error = Vänligen ange det gamla och det nya lösenordet två gånger
+profile_changepsw = Ändra lösenord
+old_password = Gammalt lösenord
+new_password = Nytt lösenord
+new_password_repeat = Upprepa nytt lösenord
+profile_save_psw = Spara lösenord
+backend_language = Backendspråk
+user_data_updated = Användaruppgifter aktualiserades!
+
+# redaxo\include\classes\class.rex_list.php
+list_previous = föregående sida
+list_next = Nästa sida
+list_rows_found = {0} Hittade inlägg
+list_no_rows = Inga inlägg tillgängliga
+
+# redaxo\include\classes\class.rex_form.php
+form_save = Spara
+form_apply = Spara och fortsätt
+form_delete = Radera
+form_reset = Gå tillbaka
+form_abort = Avbryta
+form_saved = Uppgifterna sparades!
+form_save_error = Fel vid sparande!
+form_applied = Uppgifterna sparades!
+form_deleted = Uppgifterna raderades!
+form_delete_error = Fel vid radering!
+form_resetted = Inmatningarna förkastades!
+
+# clang
+all_clangs = Alla språk
+clangs = Språk
+clang_error_startidcanotbedeleted = Startspråk (clang) med Id "{0}" kunde inte raderas
+clang_error_idcanotbedeleted = Språkid (clang) med Id "{0}" existerar inte
+
+
+
+# footer
+footer_joinforum = Besök vår forum
+footer_datetime = {0}
+footer_scripttime = {0} Sek.
+footer_credits = Credits
+
+created_by = skapades av
+created_on = skapades den
+updated_by = aktualiserades av
+updated_on = aktualiserades den
+status = Status

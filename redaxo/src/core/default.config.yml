@@ -26,6 +26,7 @@ system_addons:
     - media_manager
     - users
     - install
+    - project
 table_prefix: rex_
 temp_prefix: tmp_
 db:

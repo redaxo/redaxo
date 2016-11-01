@@ -692,7 +692,7 @@ abstract class rex_metainfo_handler
      * @param string $id        The id of the field, used for current label or field-specific javascripts
      * @param string $label     The textlabel of the field
      * @param bool   $labelIt   True when an additional label needs to be rendered, otherweise False
-     * @param string $inputType The input type, e.g. "checkbox", "radio",...
+     * @param string $inputType The input type, e.g. "checkbox", "radio",..
      *
      * @return string The rendered html
      */

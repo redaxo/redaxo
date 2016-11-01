@@ -209,8 +209,8 @@ class rex_socket
         } elseif (!is_callable($data)) {
             if (is_array($data)) {
                 $data = rex_string::buildQuery($data);
+                $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
             }
-            $this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
         }
         return $this->doRequest('POST', $data);
     }
@@ -333,8 +333,8 @@ class rex_socket
         }
         $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
-        $path = (isset($parts['path'])   ? $parts['path']          : '/')
-            . (isset($parts['query'])    ? '?' . $parts['query']    : '')
+        $path = (isset($parts['path']) ? $parts['path'] : '/')
+            . (isset($parts['query']) ? '?' . $parts['query'] : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 
         return [

@@ -322,6 +322,7 @@ credits_designer = Designer
 profile_myprofile = Edit my profile
 profile_title = My profile
 profile_save = save profile
+invalid_email = The email address is invalid.
 user_psw_updated = Password has been updated
 user_psw_error = Please enter the old password and the new one twice
 profile_changepsw = change password

@@ -40,7 +40,7 @@ class rex_sql implements Iterator
     /**
      * @var PDO[]
      */
-    private static $pdo = [];
+    protected static $pdo = [];
 
     protected function __construct($DBID = 1)
     {
@@ -302,7 +302,7 @@ class rex_sql implements Iterator
                 $this->stmt = self::$pdo[$this->DBID]->query($query);
                 $this->rows = $this->stmt->rowCount();
             } catch (PDOException $e) {
-                throw new rex_sql_exception('Error while executing statement "' . $query . '! ' . $e->getMessage());
+                throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage());
             }
         }
 
@@ -1101,7 +1101,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $user the name of the user who created the dataset. Defaults to the current user.
+     * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
      */
@@ -1118,7 +1118,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $user the name of the user who updated the dataset. Defaults to the current user.
+     * @param string $user the name of the user who updated the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
      */

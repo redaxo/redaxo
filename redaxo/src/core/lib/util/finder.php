@@ -195,13 +195,18 @@ class rex_finder implements IteratorAggregate, Countable
             $filename = $current->getFilename();
             $isRoot = $currentIterator === $iterator;
 
+            $match = function ($pattern, $filename) {
+                $regex = '/^'.strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']).'$/i';
+                return preg_match($regex, $filename);
+            };
+
             if ($current->isFile()) {
                 if ($this->dirsOnly) {
                     return false;
                 }
                 $ignoreFiles = $isRoot ? array_merge($this->ignoreFiles, $this->ignoreFilesRecursive) : $this->ignoreFilesRecursive;
                 foreach ($ignoreFiles as $ignore) {
-                    if (fnmatch($ignore, $filename)) {
+                    if ($match($ignore, $filename)) {
                         return false;
                     }
                 }
@@ -213,7 +218,7 @@ class rex_finder implements IteratorAggregate, Countable
                 }
                 $ignoreDirs = $isRoot ? array_merge($this->ignoreDirs, $this->ignoreDirsRecursive) : $this->ignoreDirsRecursive;
                 foreach ($ignoreDirs as $ignore) {
-                    if (fnmatch($ignore, $filename)) {
+                    if ($match($ignore, $filename)) {
                         return false;
                     }
                 }

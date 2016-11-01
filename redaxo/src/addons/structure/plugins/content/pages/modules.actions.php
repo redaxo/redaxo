@@ -133,7 +133,7 @@ if ($function == 'add' || $function == 'edit') {
         }
 
         if (isset($goon) and $goon != '') {
-            $save = 'nein';
+            $save = '0';
         } else {
             $function = '';
         }
@@ -208,7 +208,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $btn_update = '';
         if ($function != 'add') {
-            $btn_update = '<button class="btn btn-apply" type="submit" name="goon"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
+            $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
         }
 
         if ($success != '') {

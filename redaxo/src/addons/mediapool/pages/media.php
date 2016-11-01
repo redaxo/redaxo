@@ -11,7 +11,6 @@ $media_name = rex_request('media_name', 'string');
 
 // *************************************** CONFIG
 
-$thumbs = true;
 $media_manager = rex_addon::get('media_manager')->isAvailable();
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
@@ -196,11 +195,9 @@ if ($file_id) {
             $imgn = rex_url::media($fname) . '" width="' . $rfwidth;
             $img_max = rex_url::media($fname);
 
-            if ($thumbs) {
-                if ($media_manager) {
-                    $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname]);
-                    $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname]);
-                }
+            if ($media_manager && rex_file::extension($fname) != 'svg') {
+                $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname]);
+                $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname]);
             }
 
             if (!file_exists(rex_path::media($fname))) {
@@ -549,6 +546,7 @@ if (!$file_id) {
         if (count($buttons) > 0) {
             $fragment = new rex_fragment();
             $fragment->setVar('buttons', $buttons, false);
+            $fragment->setVar('vertical', true, false);
             $actionButtons = $fragment->parse('core/buttons/button_group.php');
         }
 
@@ -561,7 +559,7 @@ if (!$file_id) {
         $fragment->setVar('elements', [$e], false);
         $field = $fragment->parse('core/form/form.php');
 
-        $panel .=  '
+        $panel .= '
             <tfoot>
             <tr>
                 <td colspan="2">
@@ -645,9 +643,9 @@ if (!$file_id) {
             }
             $thumbnail = '<i class="rex-mime' . $icon_class . '" title="' . $alt . '" data-extension="' . $file_ext . '"></i><span class="sr-only">' . $file_name . '</span>';
 
-            if (rex_media::isImageType(rex_file::extension($file_name)) && $thumbs) {
-                $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '" alt="' . $alt . '" title="' . $alt . '" />';
-                if ($media_manager) {
+            if (rex_media::isImageType(rex_file::extension($file_name))) {
+                $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
+                if ($media_manager && rex_file::extension($file_name) != 'svg') {
                     $thumbnail = '<img class="thumbnail" src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
                 }
             }

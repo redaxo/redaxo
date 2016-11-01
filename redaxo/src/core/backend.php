@@ -51,7 +51,9 @@ if (rex::isSetup()) {
 
     $rex_user_loginmessage = '';
     if ($loginCheck !== true) {
-        rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+        if (rex_request::isXmlHttpRequest()) {
+            rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
+        }
 
         // login failed
         $rex_user_loginmessage = $login->getMessage();

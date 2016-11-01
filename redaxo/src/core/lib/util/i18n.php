@@ -185,7 +185,7 @@ class rex_i18n
     /**
      * Translates the $text, if it begins with 'translate:', else it returns $text.
      *
-     * @param string   $text                 The text for translation.
+     * @param string   $text                 The text for translation
      * @param bool     $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
      * @param callable $i18nFunction         Function that returns the translation for the i18n key
      *
@@ -215,7 +215,7 @@ class rex_i18n
     /**
      * Translates all array elements.
      *
-     * @param mixed    $array                The Array of Strings for translation.
+     * @param mixed    $array                The Array of Strings for translation
      * @param bool     $use_htmlspecialchars Flag whether the translated text should be passed to htmlspecialchars()
      * @param callable $i18nFunction         Function that returns the translation for the i18n key
      *

@@ -54,9 +54,10 @@ if ($func == 'execute') {
 }
 
 if ($func == '') {
-    $query = 'SELECT id, name, type, `interval`, environment, execution_moment, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
+    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
+    $list->addTableAttribute('class', 'table-striped table-hover');
 
     $list->setNoRowsMessage($this->i18n('no_cronjobs'));
 
@@ -71,24 +72,18 @@ if ($func == '') {
     $list->setColumnLabel('name', $this->i18n('name'));
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
-    $list->setColumnLabel('interval', $this->i18n('interval'));
-    $list->setColumnFormat('interval', 'custom', function ($params) {
-        $value = explode('|', $params['list']->getValue('interval'));
-        $str = $value[1] . ' ';
-        $array = ['i' => 'minutes', 'h' => 'hour', 'd' => 'day', 'w' => 'week', 'm' => 'month', 'y' => 'year'];
-        $str .= rex_i18n::msg('cronjob_interval_' . $array[$value[2]]);
-        return $str;
-    });
-
     $list->setColumnLabel('environment', $this->i18n('environment'));
     $list->setColumnFormat('environment', 'custom', function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (strpos($value, '|0|') !== false) {
+        if (strpos($value, '|frontend|') !== false) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (strpos($value, '|1|') !== false) {
+        if (strpos($value, '|backend|') !== false) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
+        }
+        if (strpos($value, '|script|') !== false) {
+            $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
     });
@@ -100,6 +95,9 @@ if ($func == '') {
         }
         return rex_i18n::msg('cronjob_execution_ending');
     });
+
+    $list->setColumnLabel('nexttime', $this->i18n('nexttime'));
+    $list->setColumnFormat('nexttime', 'strftime', 'datetime');
 
     $list->setColumnLabel('status', $this->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
@@ -128,7 +126,7 @@ if ($func == '') {
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
-        if (strpos($list->getValue('environment'), '|1|') !== false && class_exists($list->getValue('type'))) {
+        if (strpos($list->getValue('environment'), '|backend|') !== false && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'));
         }
         return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute') . '</span>';
@@ -157,17 +155,16 @@ if ($func == '') {
     $field = $form->addTextAreaField('description');
     $field->setLabel($this->i18n('description'));
 
-    $field = $form->addIntervalField('interval');
-    $field->setLabel($this->i18n('interval'));
-
     $field = $form->addSelectField('environment');
     $field->setLabel($this->i18n('environment'));
+    $field->setNotice($this->i18n('environment_notice'));
     $field->setAttribute('multiple', 'multiple');
     $envFieldId = $field->getAttribute('id');
     $select = $field->getSelect();
-    $select->setSize(2);
-    $select->addOption($this->i18n('environment_frontend'), 0);
-    $select->addOption($this->i18n('environment_backend'), 1);
+    $select->setSize(3);
+    $select->addOption($this->i18n('environment_frontend'), 'frontend');
+    $select->addOption($this->i18n('environment_backend'), 'backend');
+    $select->addOption($this->i18n('environment_script'), 'script');
     if ($func == 'add') {
         $select->setSelected([0, 1]);
     }
@@ -220,6 +217,10 @@ if ($func == '') {
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
 
+    $form->addFieldset($this->i18n('interval'));
+
+    $field = $form->addIntervalField('interval');
+
     $form->addFieldset($this->i18n('type_parameters'));
 
     $fieldContainer = $form->addContainerField('parameters');
@@ -230,14 +231,7 @@ if ($func == '') {
     $env_js = '';
     $visible = [];
     foreach ($cronjobs as $group => $cronjob) {
-        $disabled = [];
-        $envs = (array) $cronjob->getEnvironments();
-        if (!in_array('frontend', $envs)) {
-            $disabled[] = 0;
-        }
-        if (!in_array('backend', $envs)) {
-            $disabled[] = 1;
-        }
+        $disabled = array_diff(['frontend', 'backend', 'script'], (array) $cronjob->getEnvironments());
         if (count($disabled) > 0) {
             $env_js .= '
                 if ($("#' . $typeFieldId . ' option:selected").val() == "' . $group . '")
@@ -342,9 +336,7 @@ if ($func == '') {
     $fragment->setVar('body', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
-    echo $content;
-
-    ?>
+    echo $content; ?>
 
     <script type="text/javascript">
     // <![CDATA[
@@ -357,13 +349,58 @@ if ($func == '') {
                 currentShown.show();
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
-                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js;
-    ?>
-            }).change();<?php echo $visible_js . "\n";
-    ?>
+                $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
+            }).change();<?php echo $visible_js . "\n"; ?>
         });
     // ]]>
     </script>
+
+    <style>
+        .rex-cronjob-interval-all .checkbox label {
+            font-weight: 700;
+        }
+
+        .rex-cronjob-interval-hours .checkbox-inline,
+        .rex-cronjob-interval-days .checkbox-inline,
+        .rex-cronjob-interval-days .checkbox-inline {
+            display: inline;
+        }
+        .rex-cronjob-interval-minutes .checkbox-inline,
+        .rex-cronjob-interval-hours .checkbox-inline,
+        .rex-cronjob-interval-days .checkbox-inline,
+        .rex-cronjob-interval-weekdays .checkbox-inline,
+        .rex-cronjob-interval-months .checkbox-inline {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+
+        .rex-cronjob-interval-minutes .checkbox-inline label,
+        .rex-cronjob-interval-hours .checkbox-inline label,
+        .rex-cronjob-interval-days .checkbox-inline label,
+        .rex-cronjob-interval-weekdays .checkbox-inline label,
+        .rex-cronjob-interval-months .checkbox-inline label {
+            margin-right: 10px;
+            font-weight: 400;
+        }
+        .rex-cronjob-interval-minutes .checkbox-inline input[type="checkbox"],
+        .rex-cronjob-interval-hours .checkbox-inline input[type="checkbox"],
+        .rex-cronjob-interval-days .checkbox-inline input[type="checkbox"],
+        .rex-cronjob-interval-weekdays .checkbox-inline input[type="checkbox"],
+        .rex-cronjob-interval-months .checkbox-inline input[type="checkbox"] {
+            top: 0;
+        }
+        .rex-cronjob-interval-hours .checkbox-inline:nth-child(12):after,
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(10):after,
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(20):after {
+            content: '\A';
+            white-space: pre;
+        }
+        .rex-cronjob-interval-hours .checkbox-inline:nth-child(13),
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(11),
+        .rex-cronjob-interval-days .checkbox-inline:nth-child(21) {
+            margin-left: 0;
+        }
+    </style>
 
 <?php
 

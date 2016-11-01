@@ -26,4 +26,5 @@ if (!$this->hasConfig()) {
     $this->setConfig('smtpauth', false);
     $this->setConfig('username', '');
     $this->setConfig('password', '');
+    $this->setConfig('smtp_debug', '0');
 }

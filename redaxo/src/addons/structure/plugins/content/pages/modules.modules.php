@@ -181,7 +181,7 @@ if ($function == 'add' or $function == 'edit') {
         $echo = '';
         $content = '';
         $panel = '';
-        $panel  .= '
+        $panel .= '
                 <fieldset>
                         <input type="hidden" name="function" value="' . $function . '" />
                         <input type="hidden" name="save" value="1" />

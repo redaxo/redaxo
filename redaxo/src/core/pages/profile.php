@@ -44,7 +44,15 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 
 // --------------------------------- FUNCTIONS
 
-if (rex_post('upd_profile_button', 'bool')) {
+$update = rex_post('upd_profile_button', 'bool');
+
+if ($update) {
+    if ($useremail && !rex_validator::factory()->email($useremail)) {
+        $error = rex_i18n::msg('invalid_email');
+    }
+}
+
+if ($update && !$error) {
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);

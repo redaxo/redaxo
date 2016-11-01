@@ -48,7 +48,7 @@ trait rex_instance_list_pool_trait
      * @param callable $getInstanceCallback Callback, will be called for every list item to get the instance
      * @param callable $createListCallback  Callback, will be called to create the list of instance keys
      *
-     * @return static[]
+     * @return array
      */
     protected static function getInstanceList($key, callable $getInstanceCallback, callable $createListCallback = null)
     {

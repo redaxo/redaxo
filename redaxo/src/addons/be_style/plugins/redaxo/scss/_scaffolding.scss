@@ -1,9 +1,17 @@
+html {
+    overflow-y: scroll;
+}
 @media(min-width: $grid-float-breakpoint) {
-    html {
-        overflow-y: scroll;
-    }
     body, .rex-page {
         height: 100%;
+    }
+}
+@media(max-width: $grid-float-breakpoint-max) {
+    html, body {
+        height: 100%;
+    }
+    .rex-page {
+        min-height: 100%;
     }
 }
 .rex-breadcrumb {
@@ -46,6 +54,15 @@
     margin-right: floor(-$grid-gutter-width / 2);
     padding: floor($grid-gutter-width * 2) floor($grid-gutter-width / 2);
     background-color: $color-a;
+}
+@media(min-width: $grid-float-breakpoint) {
+    .rex-main-sidebar {
+        opacity: .5;
+        @include transition(opacity 0.2s);
+        &:hover {
+            opacity: 1;
+        }
+    }
 }
 
 .rex-language {

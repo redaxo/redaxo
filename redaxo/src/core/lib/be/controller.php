@@ -414,7 +414,19 @@ class rex_be_controller
      */
     public static function includeCurrentPageSubPath(array $context = [])
     {
-        return self::includePath(self::getCurrentPageObject()->getSubPath(), $context);
+        $path = self::getCurrentPageObject()->getSubPath();
+
+        if ('.md' !== strtolower(substr($path, -3))) {
+            return self::includePath($path, $context);
+        }
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
+        $content = $fragment->parse('core/page/docs.php');
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('body', $content, false);
+        echo $fragment->parse('core/page/section.php');
     }
 
     /**

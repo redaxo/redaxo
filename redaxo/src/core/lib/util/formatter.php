@@ -38,18 +38,22 @@ abstract class rex_formatter
      *
      * @link http://www.php.net/manual/en/function.date.php
      *
-     * @param string $value  Value
+     * @param string $value  Unix timestamp or datetime string for `strtotime`
      * @param string $format Default format is `d.m.Y`
      *
      * @return string
      */
     public static function date($value, $format = '')
     {
+        if (empty($value)) {
+            return '';
+        }
+
         if ($format == '') {
             $format = 'd.m.Y';
         }
 
-        return date($format, $value);
+        return date($format, self::getTimestamp($value));
     }
 
     /**
@@ -57,8 +61,8 @@ abstract class rex_formatter
      *
      * @link http://www.php.net/manual/en/function.strftime.php
      *
-     * @param string $value  Value
-     * @param string $format Possible values are format strings like in `strftime` or "date" oder "datetime", default is "date"
+     * @param string $value  Unix timestamp or datetime string for `strtotime`
+     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
      */
@@ -75,7 +79,7 @@ abstract class rex_formatter
             // Default REX-Datetimeformat
             $format = rex_i18n::msg('datetimeformat');
         }
-        return strftime($format, $value);
+        return strftime($format, self::getTimestamp($value));
     }
 
     /**
@@ -345,5 +349,14 @@ abstract class rex_formatter
         }
 
         return call_user_func($format, $value);
+    }
+
+    private static function getTimestamp($value)
+    {
+        if (is_numeric($value)) {
+            return $value;
+        }
+
+        return strtotime($value);
     }
 }

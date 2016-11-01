@@ -27,6 +27,8 @@ $color-online:      #3bb594;
 $color-offline:     #d9534f; // is $brand-danger
 
 
+$grid-gutter-width:         30px !default;
+
 // Large screen / wide desktop
 $screen-xl-min:     1400px;
 $screen-lg-max:     ($screen-xl-min - 1);

@@ -87,7 +87,7 @@ class rex_api_article_status extends rex_api_function
 {
     public function execute()
     {
-        $catId = rex_request('category-id', 'int');
+        $catId = rex_request('category_id', 'int');
         $article_id = rex_request('article_id', 'int');
         $clang = rex_request('clang', 'int');
 

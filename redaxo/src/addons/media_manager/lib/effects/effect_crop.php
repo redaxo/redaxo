@@ -25,7 +25,7 @@ class rex_effect_crop extends rex_effect_abstract
         }
 
         // das original-bild ist kleiner als das zu croppende format
-        if ($this->params['width'] > $w || $this->params['height'] > $h) {
+        if ($this->params['width'] > $w && $this->params['height'] > $h) {
             return;
         }
 
@@ -38,16 +38,19 @@ class rex_effect_crop extends rex_effect_abstract
             $this->params['offset_height'] = 0;
         }
 
+        $cropW = min($this->params['width'], $w);
+        $cropH = min($this->params['height'], $h);
+
         switch ($this->params['vpos']) {
             case 'top':
                 $offset_height += $this->params['offset_height'];
                 break;
             case 'bottom':
-                $offset_height = (int) (($h - $this->params['height'])) + $this->params['offset_height'];
+                $offset_height = (int) (($h - $cropH)) + $this->params['offset_height'];
                 break;
             case 'middle':
             default: // center
-                $offset_height = (int) (($h - $this->params['height']) / 2) + $this->params['offset_height'];
+                $offset_height = (int) (($h - $cropH) / 2) + $this->params['offset_height'];
                 break;
         }
 
@@ -56,19 +59,19 @@ class rex_effect_crop extends rex_effect_abstract
                 $offset_width += $this->params['offset_width'];
                 break;
             case 'right':
-                $offset_width = (int) ($w - $this->params['width']) + $this->params['offset_width'];
+                $offset_width = (int) ($w - $cropW) + $this->params['offset_width'];
                 break;
             case 'center':
             default: // center
-                $offset_width = (int) (($w - $this->params['width']) / 2) + $this->params['offset_width'];
+                $offset_width = (int) (($w - $cropW) / 2) + $this->params['offset_width'];
                 break;
         }
 
         // create cropped image
         if (function_exists('ImageCreateTrueColor')) {
-            $des = @imagecreatetruecolor($this->params['width'], $this->params['height']);
+            $des = @imagecreatetruecolor($cropW, $cropH);
         } else {
-            $des = @imagecreate($this->params['width'], $this->params['height']);
+            $des = @imagecreate($cropW, $cropH);
         }
 
         if (!$des) {
@@ -77,7 +80,7 @@ class rex_effect_crop extends rex_effect_abstract
 
         // Transparenz erhalten
         $this->keepTransparent($des);
-        imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $this->params['width'], $this->params['height'], $this->params['width'], $this->params['height']);
+        imagecopyresampled($des, $gdimage, 0, 0, $offset_width, $offset_height, $cropW, $cropH, $cropW, $cropH);
 
         $this->media->setImage($des);
         $this->media->refreshImageDimensions();
