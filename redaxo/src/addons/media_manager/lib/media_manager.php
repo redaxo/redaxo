@@ -17,7 +17,7 @@ class rex_media_manager
         $this->useCache(true);
     }
 
-    protected function applyEffects($type)
+    public function applyEffects($type)
     {
         $this->type = $type;
 
@@ -181,11 +181,6 @@ class rex_media_manager
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
         }
         exit;
-    }
-    
-    public function setType($type)
-    {
-    	$this->type = $type;
     }
     
     public static function getSupportedEffects()
