@@ -182,7 +182,7 @@ class rex_media_manager
         }
         exit;
     }
-    
+
     public static function getSupportedEffects()
     {
         $dirs = [
