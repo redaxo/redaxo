@@ -16,6 +16,7 @@
  * Navigation:
  *
  * $nav = rex_navigation::factory();
+ * $nav->setUlClasses(array('list-unstyled','list-inline'));
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
  * $nav->setLinkClasses(array('alev1', 'alev2', 'alev3'));
  * echo $nav->get(0,2,TRUE,TRUE);
@@ -298,14 +299,14 @@ class rex_navigation
             $nav_obj = rex_category::get($category_id)->getChildren();
         }
 
-        $return = '';
+        // $return = '';
 
         if (count($nav_obj) > 0) {
             if(!empty($this->ulclasses)){
                 $ulclasses = '';
-                $ulclasses = ' '. implode(' '. $ulclasses);
+                $ulclasses = ' '. implode(' ', $ulclasses);
             }
-            $return .= '<ul class="rex-navi' . ($depth + 1) . $ulclasses . '">';
+            // $return .= '<ul class="rex-navi' . ($depth + 1) . $ulclasses . '">';
         }
 
         $lis = [];
@@ -358,7 +359,7 @@ class rex_navigation
         }
         if (count($lis) > 0) {
             if($ulclasses != ''){
-                return '<ul class="rex-navi' . $depth . $ulclasses '">' . implode('', $lis) . '</ul>';
+                return '<ul class="rex-navi' . $depth . $ulclasses .'">' . implode('', $lis) . '</ul>';
             } else {
                return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements">' . implode('', $lis) . '</ul>'; 
             }
