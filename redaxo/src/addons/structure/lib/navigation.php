@@ -300,7 +300,6 @@ class rex_navigation
         }
 
         // $return = '';
-
         if (count($nav_obj) > 0) {
             if(!empty($this->ulclasses)){
                 $ulclasses = '';
