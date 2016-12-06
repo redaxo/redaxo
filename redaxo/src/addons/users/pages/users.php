@@ -289,7 +289,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         $buttons = $fragment->parse('core/form/submit.php');
         unset($formElements);
 
-
         if (!$FUNC_UPDATE && !$FUNC_APPLY) {
             $sql = rex_sql::factory();
             $sql->setQuery('select * from '.rex::getTablePrefix().'user where id='.$user_id);

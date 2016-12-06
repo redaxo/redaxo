@@ -170,6 +170,7 @@ class rex_navigation
     {
         $this->filter[] = ['metafield' => $metafield, 'value' => $value, 'type' => $type, 'depth' => $depth];
     }
+
     /**
      * Fügt einen Callback hinzu.
      *

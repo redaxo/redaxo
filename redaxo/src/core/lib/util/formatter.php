@@ -36,7 +36,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `date()`.
      *
-     * @link http://www.php.net/manual/en/function.date.php
+     * @see http://www.php.net/manual/en/function.date.php
      *
      * @param string $value  Unix timestamp or datetime string for `strtotime`
      * @param string $format Default format is `d.m.Y`
@@ -59,7 +59,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `strftime()`.
      *
-     * @link http://www.php.net/manual/en/function.strftime.php
+     * @see http://www.php.net/manual/en/function.strftime.php
      *
      * @param string $value  Unix timestamp or datetime string for `strtotime`
      * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
@@ -85,7 +85,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `number_format()`.
      *
-     * @link http://www.php.net/manual/en/function.number-format.php
+     * @see http://www.php.net/manual/en/function.number-format.php
      *
      * @param string $value  Value
      * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
@@ -148,7 +148,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `sprintf()`.
      *
-     * @link http://www.php.net/manual/en/function.sprintf.php
+     * @see http://www.php.net/manual/en/function.sprintf.php
      *
      * @param string $value  Value
      * @param string $format
@@ -166,7 +166,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `nl2br`.
      *
-     * @link http://www.php.net/manual/en/function.nl2br.php
+     * @see http://www.php.net/manual/en/function.nl2br.php
      *
      * @param string $value Value
      *
@@ -239,7 +239,7 @@ abstract class rex_formatter
     /**
      * Formats a version string by `sprintf()`.
      *
-     * @link http://www.php.net/manual/en/function.sprintf.php
+     * @see http://www.php.net/manual/en/function.sprintf.php
      *
      * @param string $value  Version
      * @param string $format Version format, e.g. "%s.%s"

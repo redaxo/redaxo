@@ -163,7 +163,6 @@ class rex_article_content_editor extends rex_article_content
             $menu_items_action[] = $item;
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
-
                 // moveup
                 $item = [];
                 $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('move_slice_up');

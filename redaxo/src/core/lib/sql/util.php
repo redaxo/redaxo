@@ -229,5 +229,5 @@ class rex_sql_util
         }
 
         return true;
-    } // end of the 'PMA_splitSqlFile()' function
+    }
 }

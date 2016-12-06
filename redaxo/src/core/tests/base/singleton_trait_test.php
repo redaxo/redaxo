@@ -15,7 +15,7 @@ class rex_singleton_trait_test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException BadMethodCallException
+     * @expectedException \BadMethodCallException
      */
     public function testClone()
     {

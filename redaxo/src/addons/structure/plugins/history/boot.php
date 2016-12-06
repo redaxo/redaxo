@@ -94,7 +94,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     $info = '';
     switch (rex_request('rex_history_function', 'string')) {
-
         case 'snap':
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
@@ -137,7 +136,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             echo $fragment->parse('history/layer.php');
             exit;
-
     }
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {

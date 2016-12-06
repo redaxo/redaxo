@@ -1178,6 +1178,7 @@ class rex_sql implements Iterator
     {
         return $this->hasNext();
     }
+
     // ----------------- /iterator interface
 
     /**
@@ -1257,7 +1258,7 @@ class rex_sql implements Iterator
 
         $columns = [];
         foreach ($sql as $col) {
-            $columns [] = [
+            $columns[] = [
                 'name' => $col->getValue('Field'),
                 'type' => $col->getValue('Type'),
                 'null' => $col->getValue('Null'),

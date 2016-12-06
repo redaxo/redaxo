@@ -269,6 +269,7 @@ class rex_media
     }
 
     // new functions by vscope
+
     /**
      * @return string
      */

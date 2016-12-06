@@ -131,7 +131,6 @@ if ($function == 'add' or $function == 'edit') {
     }
 
     if (!isset($save) or $save != 'ja') {
-
         // Ctype Handling
         $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
         $modules = isset($attributes['modules']) ? $attributes['modules'] : [];

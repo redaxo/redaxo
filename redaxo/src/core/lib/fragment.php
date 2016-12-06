@@ -128,6 +128,7 @@ class rex_fragment
         $this->decorator = new self($params);
         $this->decorator->filename = $filename;
     }
+
     // -------------------------- in-fragment helpers
 
     /**

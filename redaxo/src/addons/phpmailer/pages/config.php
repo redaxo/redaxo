@@ -198,7 +198,6 @@ $n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') .
 $n['field'] = $sel_debug->get();
 $formElements[] = $n;
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');

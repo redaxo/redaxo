@@ -41,7 +41,6 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function execute()
     {
-
         // error_reporting(E_ALL);ini_set("display_errors",1);
 
         if (!isset(self::$convert_to[$this->params['convert_to']])) {
@@ -99,7 +98,6 @@ class rex_effect_convert2img extends rex_effect_abstract
         $this->media->setHeader('Content-Type', $convert_to['content-type']);
         unlink($to_path);
     }
-
 
     public function getParams()
     {
