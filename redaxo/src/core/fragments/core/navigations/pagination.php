@@ -1,15 +1,65 @@
-        <?php if ($this->pager->getRowCount() > $this->pager->getRowsPerPage()): ?>
+<?php
+    /** @var rex_pager $pager */
+    $pager = $this->pager;
+    /** @var rex_url_provider_interface $urlProvider */
+    $urlProvider = $this->urlprovider;
+
+    $firstPage = $pager->getFirstPage();
+    $lastPage = $pager->getLastPage();
+
+    $from = max($firstPage + 1, $pager->getCurrentPage() - 3);
+    $to = min($lastPage - 1, $from + 6);
+    $from = max($firstPage + 1, $to - 6);
+    $from = $firstPage + 2 == $from ? $firstPage + 1 : $from;
+    $to = $lastPage - 2 == $to ? $lastPage - 1 : $to;
+?>
+        <?php if ($pager->getRowCount() > $pager->getRowsPerPage()): ?>
             <nav class="rex-nav-pagination">
                 <ul class="pagination">
-                    <?php $class = ($this->pager->isActivePage($this->pager->getFirstPage())) ? ' disabled' : ''; ?>
-                    <li class="rex-prev<?php echo $class; ?>"><a href="<?php echo $this->urlprovider->getUrl([$this->pager->getCursorName() => $this->pager->getCursor($this->pager->getPrevPage())]) ?>" title="<?php echo $this->i18n('list_previous') ?>"><i class="rex-icon rex-icon-previous"></i><span class="sr-only"><?php echo $this->i18n('list_previous') ?></span></a></li>
-                    <?php for ($page = $this->pager->getFirstPage(); $page <= $this->pager->getLastPage(); ++$page): ?>
-                        <?php $class = ($this->pager->isActivePage($page)) ? ' active' : ''; ?>
-                        <li class="rex-page<?php echo $class ?>"><a href="<?php echo $this->urlprovider->getUrl([$this->pager->getCursorName() => $this->pager->getCursor($page)]) ?>"><?php echo($page + 1) ?></a></li>
+                    <li class="rex-prev<?= $pager->isActivePage($firstPage) ? ' disabled' : ''; ?>">
+                        <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($pager->getPrevPage())]) ?>" title="<?= $this->i18n('list_previous') ?>">
+                            <i class="rex-icon rex-icon-previous"></i><span class="sr-only"><?= $this->i18n('list_previous') ?></span>
+                        </a>
+                    </li>
+
+                    <li class="rex-page<?= $pager->isActivePage($firstPage) ? ' active' : '' ?>">
+                        <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($firstPage)]) ?>">
+                            <?= $firstPage + 1 ?>
+                        </a>
+                    </li>
+
+                    <?php if ($from > $firstPage + 1): ?>
+                        <li class="disabled">
+                            <span>…</span>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php for ($page = $from; $page <= $to; ++$page): ?>
+                        <li class="rex-page<?= $pager->isActivePage($page) ? ' active' : '' ?>">
+                            <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($page)]) ?>">
+                                <?= $page + 1 ?>
+                            </a>
+                        </li>
                     <?php endfor; ?>
-                    <?php $class = ($this->pager->isActivePage($this->pager->getLastPage())) ? ' disabled' : ''; ?>
-                    <li class="rex-next<?php echo $class; ?>"><a href="<?php echo $this->urlprovider->getUrl([$this->pager->getCursorName() => $this->pager->getCursor($this->pager->getNextPage())]) ?>" title="<?php echo $this->i18n('list_next') ?>"><span class="sr-only"><?php echo $this->i18n('list_next') ?></span><i class="rex-icon rex-icon-next"></i></a></li>
+
+                    <?php if ($to < $lastPage - 1): ?>
+                        <li class="disabled">
+                            <span>…</span>
+                        </li>
+                    <?php endif; ?>
+
+                    <li class="rex-page<?= $pager->isActivePage($lastPage) ? ' active' : '' ?>">
+                        <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($lastPage)]) ?>">
+                            <?= $lastPage + 1 ?>
+                        </a>
+                    </li>
+
+                    <li class="rex-next<?= $pager->isActivePage($lastPage) ? ' disabled' : ''; ?>">
+                        <a href="<?= $urlProvider->getUrl([$pager->getCursorName() => $pager->getCursor($pager->getNextPage())]) ?>" title="<?= $this->i18n('list_next') ?>">
+                            <span class="sr-only"><?= $this->i18n('list_next') ?></span><i class="rex-icon rex-icon-next"></i>
+                        </a>
+                    </li>
                 </ul>
-                <div class="rex-pagination-count"><?php echo $this->i18n('list_rows_found', $this->pager->getRowCount()) ?></div>
+                <div class="rex-pagination-count"><?= $this->i18n('list_rows_found', $pager->getRowCount()) ?></div>
             </nav>
         <?php endif;
