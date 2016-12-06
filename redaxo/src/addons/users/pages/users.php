@@ -132,6 +132,10 @@ if ($warnings) {
     $loginReset = rex_request('logintriesreset', 'int');
     $userstatus = rex_request('userstatus', 'int');
 
+    if (rex::getUser()->isAdmin() && $user_id == rex::getUser()->getId()) {
+        $useradmin = 1;
+    }
+
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
