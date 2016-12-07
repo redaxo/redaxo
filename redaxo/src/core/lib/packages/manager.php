@@ -343,7 +343,6 @@ abstract class rex_package_manager
             $this->message = $this->i18n('not_deleted', $this->package->getName());
             return false;
         }
-        rex_dir::delete($this->package->getDataPath());
 
         if (!$ignoreState) {
             $this->saveConfig();
