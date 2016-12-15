@@ -35,9 +35,9 @@ class rex_user_role implements rex_user_role_interface
      *
      * @param array $params Params
      */
-    private function __construct($roles)
+    private function __construct(array $roles)
     {
-        foreach ($roles as $role_key => $role) {
+        foreach ($roles as $role) {
             $params = $role;
             foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
                 $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : [];
