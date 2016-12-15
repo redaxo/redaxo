@@ -141,7 +141,7 @@ if ($warnings) {
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
-    $updateuser->setValue('role', implode(",", $userrole));
+    $updateuser->setValue('role', implode(',', $userrole));
     $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
     $updateuser->setValue('language', $userperm_be_sprache);
     $updateuser->setValue('startpage', $userperm_startpage);
@@ -202,7 +202,7 @@ if ($warnings) {
         $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
         $adduser->setValue('language', $userperm_be_sprache);
         $adduser->setValue('startpage', $userperm_startpage);
-        $adduser->setValue('role', implode(",", $userrole));
+        $adduser->setValue('role', implode(',', $userrole));
         $adduser->addGlobalCreateFields();
         if (isset($userstatus) and $userstatus == 1) {
             $adduser->setValue('status', 1);
@@ -296,22 +296,22 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         if (!$FUNC_UPDATE && !$FUNC_APPLY) {
             $sql = rex_sql::factory();
-            $sql->setQuery('select * from '.rex::getTablePrefix().'user where id='.$user_id);
+            $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where id=' . $user_id);
 
             if ($sql->getRows() == 1) {
                 $useradmin = $sql->getValue('admin');
-                $userstatus = $sql->getValue(rex::getTablePrefix().'user.status');
-                $userrole = $sql->getValue(rex::getTablePrefix().'user.role');
-                if ($userrole == "") {
+                $userstatus = $sql->getValue(rex::getTablePrefix() . 'user.status');
+                $userrole = $sql->getValue(rex::getTablePrefix() . 'user.role');
+                if ($userrole == '') {
                     $userrole = [];
                 } else {
-                    $userrole = explode(",", $userrole);
+                    $userrole = explode(',', $userrole);
                 }
                 $userperm_be_sprache = $sql->getValue('language');
                 $userperm_startpage = $sql->getValue('startpage');
-                $userpsw = $sql->getValue(rex::getTablePrefix().'user.password');
-                $username = $sql->getValue(rex::getTablePrefix().'user.name');
-                $userdesc = $sql->getValue(rex::getTablePrefix().'user.description');
+                $userpsw = $sql->getValue(rex::getTablePrefix() . 'user.password');
+                $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
+                $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
                 $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
             }
         }
@@ -504,15 +504,15 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
 if (isset($SHOW) and $SHOW) {
     $list = rex_list::factory('
-        SELECT 
-            id, 
-            IF(name <> "", name, login) as name, 
-            login, 
-            admin, 
-            role, 
-            status, 
-            UNIX_TIMESTAMP(lastlogin) as lastlogin 
-        FROM ' . rex::getTable('user') . ' 
+        SELECT
+            id,
+            IF(name <> "", name, login) as name,
+            login,
+            admin,
+            role,
+            status,
+            UNIX_TIMESTAMP(lastlogin) as lastlogin
+        FROM ' . rex::getTable('user') . '
         ORDER BY name
     ');
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -555,13 +555,13 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
     $list->setColumnFormat('role', 'custom', function ($params) {
         $list = $params['list'];
-        $roles = $params["params"]["roles"];
+        $roles = $params['params']['roles'];
         $role_names = [];
         if ($list->getValue('admin')) {
             $role_names[] = 'Admin';
         } else {
-            if ($list->getValue('role') != "") {
-                foreach(explode(",", $list->getValue('role')) as $user_role_id) {
+            if ($list->getValue('role') != '') {
+                foreach (explode(',', $list->getValue('role')) as $user_role_id) {
                     if (isset($roles[$user_role_id])) {
                         $role_names[] = $roles[$user_role_id];
                     }
@@ -569,10 +569,10 @@ if (isset($SHOW) and $SHOW) {
             }
         }
         if (count($role_names) == 0) {
-            $role_names[] = rex_i18n::msg("user_no_role");
+            $role_names[] = rex_i18n::msg('user_no_role');
 
         }
-        return implode("<br />", $role_names);
+        return implode('<br />', $role_names);
     }, ['roles' => $roles]);
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));

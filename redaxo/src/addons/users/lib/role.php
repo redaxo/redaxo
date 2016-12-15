@@ -37,7 +37,7 @@ class rex_user_role implements rex_user_role_interface
      */
     private function __construct($roles)
     {
-        foreach($roles as $role_key => $role) {
+        foreach ($roles as $role_key => $role) {
             $params = $role;
             foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
                 $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : [];
@@ -45,14 +45,14 @@ class rex_user_role implements rex_user_role_interface
                 unset($params[$key]);
             }
 
-            foreach($params as $key => $value) {
+            foreach ($params as $key => $value) {
                 $perms = $params[$key] == rex_complex_perm::ALL ? rex_complex_perm::ALL : explode('|', trim($params[$key], '|'));
                 if (!isset($this->complexPermParams[$key])) {
                     $this->complexPermParams[$key] = $perms;
 
-                } else if ($this->complexPermParams[$key] == rex_complex_perm::ALL) {
+                } elseif ($this->complexPermParams[$key] == rex_complex_perm::ALL) {
 
-                } else if ($this->complexPermParams[$key] != rex_complex_perm::ALL && $perms == rex_complex_perm::ALL) {
+                } elseif ($this->complexPermParams[$key] != rex_complex_perm::ALL && $perms == rex_complex_perm::ALL) {
                     $this->complexPermParams[$key] = $perms;
 
                 } else {
@@ -100,7 +100,7 @@ class rex_user_role implements rex_user_role_interface
         }
 
         $roles = [];
-        foreach($user_roles as $user_role) {
+        foreach ($user_roles as $user_role) {
             $roles[] = json_decode($user_role['perms'], true);
         }
 
