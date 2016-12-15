@@ -570,7 +570,6 @@ if (isset($SHOW) and $SHOW) {
         }
         if (count($role_names) == 0) {
             $role_names[] = rex_i18n::msg('user_no_role');
-
         }
         return implode('<br />', $role_names);
     }, ['roles' => $roles]);

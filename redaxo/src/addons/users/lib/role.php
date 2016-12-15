@@ -49,20 +49,15 @@ class rex_user_role implements rex_user_role_interface
                 $perms = $params[$key] == rex_complex_perm::ALL ? rex_complex_perm::ALL : explode('|', trim($params[$key], '|'));
                 if (!isset($this->complexPermParams[$key])) {
                     $this->complexPermParams[$key] = $perms;
-
                 } elseif ($this->complexPermParams[$key] == rex_complex_perm::ALL) {
-
                 } elseif ($this->complexPermParams[$key] != rex_complex_perm::ALL && $perms == rex_complex_perm::ALL) {
                     $this->complexPermParams[$key] = $perms;
-
                 } else {
                     $this->complexPermParams[$key] = array_merge($perms, $this->complexPermParams[$key]);
 
                 }
-
             }
         }
-
     }
 
     /**
