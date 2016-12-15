@@ -41,7 +41,7 @@ class rex_user_role implements rex_user_role_interface
             $params = $role;
             foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
                 $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : [];
-                $this->perms[] = array_merge($this->perms, $perms);
+                $this->perms = array_merge($this->perms, $perms);
                 unset($params[$key]);
             }
 
