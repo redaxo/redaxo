@@ -1,5 +1,11 @@
 <?php
 
+if (rex_string::versionCompare(rex::getVersion(), '5.3.0-beta1', '<')) {
+    rex_sql_table::get(rex::getTable('user'))
+        ->ensureColumn(new rex_sql_column('role', 'text', true))
+        ->alter();
+}
+
 if (rex_string::versionCompare(rex::getVersion(), '5.1.0-beta1', '<')) {
     rex_sql_table::get(rex::getTable('user'))
         ->ensureColumn(new rex_sql_column('email', 'varchar(255)', true))

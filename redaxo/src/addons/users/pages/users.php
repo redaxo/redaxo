@@ -54,10 +54,11 @@ $userstatus = rex_request('userstatus', 'int');
 // role
 $sel_role = new rex_select();
 $sel_role->setSize(1);
-$sel_role->setName('userrole');
+$sel_role->setName('userrole[]');
 $sel_role->setId('rex-js-user-role');
+$sel_role->setMultiple();
 $sel_role->setAttribute('class', 'form-control');
-$sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
+// $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = [];
 $sql_role = rex_sql::factory();
 $sql_role->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name');
@@ -65,7 +66,7 @@ foreach ($sql_role as $role) {
     $roles[$role->getValue('id')] = $role->getValue('name');
     $sel_role->addOption($role->getValue('name'), $role->getValue('id'));
 }
-$userrole = rex_request('userrole', 'string');
+$userrole = rex_request('userrole', 'array');
 
 // backend sprache
 $sel_be_sprache = new rex_select();
@@ -140,7 +141,7 @@ if ($warnings) {
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
-    $updateuser->setValue('role', $userrole);
+    $updateuser->setValue('role', implode(",", $userrole));
     $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
     $updateuser->setValue('language', $userperm_be_sprache);
     $updateuser->setValue('startpage', $userperm_startpage);
@@ -201,7 +202,7 @@ if ($warnings) {
         $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
         $adduser->setValue('language', $userperm_be_sprache);
         $adduser->setValue('startpage', $userperm_startpage);
-        $adduser->setValue('role', $userrole);
+        $adduser->setValue('role', implode(",", $userrole));
         $adduser->addGlobalCreateFields();
         if (isset($userstatus) and $userstatus == 1) {
             $adduser->setValue('status', 1);
@@ -301,6 +302,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
                 $useradmin = $sql->getValue('admin');
                 $userstatus = $sql->getValue(rex::getTablePrefix().'user.status');
                 $userrole = $sql->getValue(rex::getTablePrefix().'user.role');
+                if ($userrole == "") {
+                    $userrole = [];
+                } else {
+                    $userrole = explode(",", $userrole);
+                }
                 $userperm_be_sprache = $sql->getValue('language');
                 $userperm_startpage = $sql->getValue('startpage');
                 $userpsw = $sql->getValue(rex::getTablePrefix().'user.password');
@@ -503,7 +509,7 @@ if (isset($SHOW) and $SHOW) {
             IF(name <> "", name, login) as name, 
             login, 
             admin, 
-            IF(admin, "Admin", (SELECT name FROM ' . rex::getTable('user_role') . ' WHERE id = role)) as role, 
+            role, 
             status, 
             UNIX_TIMESTAMP(lastlogin) as lastlogin 
         FROM ' . rex::getTable('user') . ' 
@@ -547,6 +553,27 @@ if (isset($SHOW) and $SHOW) {
     });
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
+    $list->setColumnFormat('role', 'custom', function ($params) {
+        $list = $params['list'];
+        $roles = $params["params"]["roles"];
+        $role_names = [];
+        if ($list->getValue('admin')) {
+            $role_names[] = 'Admin';
+        } else {
+            if ($list->getValue('role') != "") {
+                foreach(explode(",", $list->getValue('role')) as $user_role_id) {
+                    if (isset($roles[$user_role_id])) {
+                        $role_names[] = $roles[$user_role_id];
+                    }
+                }
+            }
+        }
+        if (count($role_names) == 0) {
+            $role_names[] = rex_i18n::msg("user_no_role");
+
+        }
+        return implode("<br />", $role_names);
+    }, ['roles' => $roles]);
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
     $list->setColumnFormat('lastlogin', 'strftime', 'datetime');

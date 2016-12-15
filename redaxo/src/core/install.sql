@@ -33,7 +33,7 @@ CREATE TABLE `rex_user` (
     `admin` tinyint(1) NOT NULL,
     `language` varchar(255) NOT NULL,
     `startpage` varchar(255) NOT NULL,
-    `role` int(10) unsigned NOT NULL,
+    `role` text,
     `login_tries` tinyint(4) DEFAULT '0',
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
