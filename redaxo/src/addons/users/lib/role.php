@@ -54,7 +54,6 @@ class rex_user_role implements rex_user_role_interface
                     $this->complexPermParams[$key] = $perms;
                 } else {
                     $this->complexPermParams[$key] = array_merge($perms, $this->complexPermParams[$key]);
-
                 }
             }
         }
