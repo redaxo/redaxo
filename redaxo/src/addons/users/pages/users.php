@@ -559,12 +559,10 @@ if (isset($SHOW) and $SHOW) {
         $role_names = [];
         if ($list->getValue('admin')) {
             $role_names[] = 'Admin';
-        } else {
-            if ($list->getValue('role') != '') {
-                foreach (explode(',', $list->getValue('role')) as $user_role_id) {
-                    if (isset($roles[$user_role_id])) {
-                        $role_names[] = $roles[$user_role_id];
-                    }
+        } elseif ($list->getValue('role') != '') {
+            foreach (explode(',', $list->getValue('role')) as $user_role_id) {
+                if (isset($roles[$user_role_id])) {
+                    $role_names[] = $roles[$user_role_id];
                 }
             }
         }

@@ -29,7 +29,7 @@ interface rex_user_role_interface
     /**
      * Returns the role for the given ID.
      *
-     * @param int $id ID
+     * @param string $id IDs comma seperated
      *
      * @return static Role instance
      */
