@@ -329,6 +329,8 @@ class rex_backup
             }
         }
         foreach ($tables as $table) {
+            $table = preg_replace('/[^a-z0-9._-]/i', '', $table);
+            
             //---- export metadata
             $create = rex_sql::showCreateTable($table);
 
