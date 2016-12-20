@@ -30,7 +30,7 @@ if ($EXPTABLES) {
     
     foreach($EXPTABLES as $k => $EXPTABLE) {
         if (!in_array($tables, $EXPTABLE)) {
-            unset($EXPTABLES[$i]);
+            unset($EXPTABLES[$k]);
         }
     }
 }
