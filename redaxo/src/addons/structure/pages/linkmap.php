@@ -9,6 +9,9 @@ $category_id = rex_category::get($category_id) ? $category_id : 0;
 $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
+$opener_input_field = preg_replace('/[^a-z0-9]/i', '', $opener_input_field);
+$opener_input_field_name = preg_replace('/[^a-z0-9]/i', '', $opener_input_field_name);
+
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
     'opener_input_field' => $opener_input_field,
