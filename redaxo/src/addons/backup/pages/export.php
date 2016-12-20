@@ -25,6 +25,16 @@ if ($exportfilename == '') {
     $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
 }
 
+if ($EXPTABLES) {
+    $tables = rex_sql::showTables();
+    
+    foreach($EXPTABLES as $k => $EXPTABLE) {
+        if (!in_array($tables, $EXPTABLE)) {
+            unset($EXPTABLES[$i]);
+        }
+    }
+}
+
 if (rex_post('export', 'bool')) {
     // ------------------------------ FUNC EXPORT
 
