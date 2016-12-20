@@ -28,7 +28,7 @@ if ($exportfilename == '') {
 if ($EXPTABLES) {
     $tables = rex_sql::showTables();
     
-    foreach($EXPTABLES as $k => $EXPTABLE) {
+    foreach ($EXPTABLES as $k => $EXPTABLE) {
         if (!in_array($tables, $EXPTABLE)) {
             unset($EXPTABLES[$k]);
         }
