@@ -329,7 +329,9 @@ class rex_backup
             }
         }
         foreach ($tables as $table) {
-            $table = preg_replace('/[^a-z0-9._-]/i', '', $table);
+            if (!preg_match('/^[a-z0-9._-]+$/i', $table)) {
+                throw new Exception('tablename "'. $table .'" contains invalid characters!');
+            }
             
             //---- export metadata
             $create = rex_sql::showCreateTable($table);
