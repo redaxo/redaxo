@@ -10,41 +10,41 @@ class rex_media
     use rex_instance_pool_trait;
 
     // id
-    private $id = '';
+    protected $id = '';
     // categoryid
-    private $category_id = '';
+    protected $category_id = '';
 
     // filename
-    private $name = '';
+    protected $name = '';
     // originalname
-    private $originalname = '';
+    protected $originalname = '';
     // filetype
-    private $type = '';
+    protected $type = '';
     // filesize
-    private $size = '';
+    protected $size = '';
 
     // filewidth
-    private $width = '';
+    protected $width = '';
     // fileheight
-    private $height = '';
+    protected $height = '';
 
     // filetitle
-    private $title = '';
+    protected $title = '';
 
     // updatedate
-    private $updatedate = '';
+    protected $updatedate = '';
     // createdate
-    private $createdate = '';
+    protected $createdate = '';
 
     // updateuser
-    private $updateuser = '';
+    protected $updateuser = '';
     // createuser
-    private $createuser = '';
+    protected $createuser = '';
 
     /**
      * @param string $name
      *
-     * @return null|self
+     * @return null|static
      */
     public static function get($name)
     {
@@ -52,7 +52,7 @@ class rex_media
             return null;
         }
 
-        return self::getInstance($name, function ($name) {
+        return static::getInstance($name, function ($name) {
             $media_path = rex_path::addonCache('mediapool', $name . '.media');
             if (!file_exists($media_path)) {
                 rex_media_cache::generate($name);
@@ -66,7 +66,7 @@ class rex_media
                     'filesize' => 'size',
                 ];
 
-                $media = new self();
+                $media = new static();
                 foreach ($cache as $key => $value) {
                     if (array_key_exists($key, $aliasMap)) {
                         $var_name = $aliasMap[$key];
