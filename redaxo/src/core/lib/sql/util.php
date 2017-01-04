@@ -92,7 +92,7 @@ class rex_sql_util
     {
         if (is_file($file) && is_readable($file)) {
             $ret = [];
-            $sqlsplit = '';
+            $sqlsplit = [];
             $fileContent = file_get_contents($file);
             self::splitSqlFile($sqlsplit, $fileContent, '');
 
