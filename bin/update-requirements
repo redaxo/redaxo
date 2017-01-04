@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 printf "Update redaxo/src/core/vendor\n"
-composer update --no-dev --optimize-autoloader -d redaxo/src/core/
+composer update --no-dev -d redaxo/src/core/
 
 printf "\nUpdate redaxo/src/addons/textile/vendor\n"
 composer update --no-dev -d redaxo/src/addons/textile/

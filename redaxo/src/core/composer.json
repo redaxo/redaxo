@@ -9,6 +9,7 @@
 
     "config": {
         "autoloader-suffix": "RedaxoCore",
+        "optimize-autoloader": true,
         "platform": {
             "php": "5.5.9"
         }
