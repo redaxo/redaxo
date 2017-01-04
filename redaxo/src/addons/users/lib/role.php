@@ -33,16 +33,29 @@ class rex_user_role implements rex_user_role_interface
     /**
      * Constructor.
      *
-     * @param array $params Params
+     * @param array $roles
      */
-    private function __construct(array $params)
+    private function __construct(array $roles)
     {
-        foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
-            $perms = $params[$key] ? explode('|', trim($params[$key], '|')) : [];
-            $this->perms = array_merge($this->perms, $perms);
-            unset($params[$key]);
+        foreach ($roles as $role) {
+            foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $key) {
+                $perms = $role[$key] ? explode('|', trim($role[$key], '|')) : [];
+                $this->perms = array_merge($this->perms, $perms);
+                unset($role[$key]);
+            }
+
+            foreach ($role as $key => $value) {
+                $perms = $role[$key] == rex_complex_perm::ALL ? rex_complex_perm::ALL : explode('|', trim($role[$key], '|'));
+                if (!isset($this->complexPermParams[$key])) {
+                    $this->complexPermParams[$key] = $perms;
+                } elseif ($this->complexPermParams[$key] == rex_complex_perm::ALL) {
+                } elseif ($perms == rex_complex_perm::ALL) {
+                    $this->complexPermParams[$key] = $perms;
+                } else {
+                    $this->complexPermParams[$key] = array_merge($perms, $this->complexPermParams[$key]);
+                }
+            }
         }
-        $this->complexPermParams = $params;
     }
 
     /**
@@ -61,25 +74,30 @@ class rex_user_role implements rex_user_role_interface
         if (isset($this->complexPerms[$key])) {
             return $this->complexPerms[$key];
         }
-        $perms = [];
-        if (isset($this->complexPermParams[$key])) {
-            $perms = $this->complexPermParams[$key] == rex_complex_perm::ALL ? rex_complex_perm::ALL : explode('|', trim($this->complexPermParams[$key], '|'));
+        if (!isset($this->complexPermParams[$key])) {
+            $this->complexPermParams[$key] = [];
         }
-        $this->complexPerms[$key] = rex_complex_perm::get($user, $key, $perms);
+        $this->complexPerms[$key] = rex_complex_perm::get($user, $key, $this->complexPermParams[$key]);
         return $this->complexPerms[$key];
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function get($id)
+    public static function get($ids)
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE id = ?', [$id]);
-        if ($sql->getRows() == 0) {
+        $user_roles = $sql->getArray('SELECT perms FROM ' . rex::getTablePrefix() . 'user_role WHERE FIND_IN_SET(id, ?)', [$ids]);
+        if (count($user_roles) == 0) {
             return null;
         }
-        return new self($sql->getArrayValue('perms'));
+
+        $roles = [];
+        foreach ($user_roles as $user_role) {
+            $roles[] = json_decode($user_role['perms'], true);
+        }
+
+        return new self($roles);
     }
 
     public static function removeOrReplaceItem(rex_extension_point $ep)

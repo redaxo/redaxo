@@ -16,3 +16,9 @@ if (rex_string::versionCompare(rex::getVersion(), '5.1.0-beta1', '<')) {
 if (PHP_VERSION_ID < 50509) {
     throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '5.5.9'));
 }
+
+if (rex_string::versionCompare(rex::getVersion(), '5.3.0-beta1', '<')) {
+    rex_sql_table::get(rex::getTable('user'))
+        ->ensureColumn(new rex_sql_column('role', 'text', true))
+        ->alter();
+}
