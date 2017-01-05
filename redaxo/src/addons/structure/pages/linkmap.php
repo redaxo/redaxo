@@ -9,6 +9,14 @@ $category_id = rex_category::get($category_id) ? $category_id : 0;
 $clang = rex_request('clang', 'int');
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
+$pattern = '/[^a-z0-9_-]/i';
+if (preg_match($pattern, $opener_input_field, $match)) {
+    throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field.', $match[0]));
+}
+if (preg_match($pattern, $opener_input_field_name, $match)) {
+    throw new InvalidArgumentException(sprintf('Invalid character "%s" in opener_input_field_name.', $match[0]));
+}
+
 $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
     'opener_input_field' => $opener_input_field,
