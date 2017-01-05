@@ -51,6 +51,9 @@ class rex_navigation
         // nichts zu tun
     }
 
+    /**
+     * @return static
+     */
     public static function factory()
     {
         $class = self::getFactoryClass();
@@ -120,7 +123,16 @@ class rex_navigation
             }
         }
 
+        $show = !$category_id;
         foreach ($path as $pathItem) {
+            if (!$show) {
+                if ($pathItem == $category_id) {
+                    $show = true;
+                } else {
+                    continue;
+                }
+            }
+
             $cat = rex_category::get($pathItem);
             $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
             ++$i;
