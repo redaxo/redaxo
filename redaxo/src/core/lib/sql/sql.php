@@ -1193,7 +1193,7 @@ class rex_sql implements Iterator
     public static function showCreateTable($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW CREATE TABLE `' . $table . '`');
+        $sql->setQuery('SHOW CREATE TABLE ' . $sql->escapeIdentifier($table));
         return $sql->getValue('Create Table');
     }
 
