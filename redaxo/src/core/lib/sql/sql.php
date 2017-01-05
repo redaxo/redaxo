@@ -1193,7 +1193,7 @@ class rex_sql implements Iterator
     public static function showCreateTable($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW CREATE TABLE ' . $this->escapeIdentifier($table));
+        $sql->setQuery('SHOW CREATE TABLE ' . $sql->escapeIdentifier($table));
         return $sql->getValue('Create Table');
     }
 
@@ -1254,7 +1254,7 @@ class rex_sql implements Iterator
     public static function showColumns($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW COLUMNS FROM ' . $this->escapeIdentifier($table));
+        $sql->setQuery('SHOW COLUMNS FROM ' . $sql->escapeIdentifier($table));
 
         $columns = [];
         foreach ($sql as $col) {
