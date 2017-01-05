@@ -329,17 +329,13 @@ class rex_backup
             }
         }
         foreach ($tables as $table) {
-            if (!preg_match('/^[a-z0-9._-]+$/i', $table)) {
-                throw new Exception('tablename "'. $table .'" contains invalid characters!');
-            }
-
             //---- export metadata
             $create = rex_sql::showCreateTable($table);
 
-            fwrite($fp, 'DROP TABLE IF EXISTS `' . $table . '`;' . $nl);
+            fwrite($fp, 'DROP TABLE IF EXISTS ' . $sql->escapeIdentifier($table) . ';' . $nl);
             fwrite($fp, $create . ';' . $nl);
 
-            $fields = $sql->getArray('SHOW FIELDS FROM `' . $table . '`');
+            $fields = $sql->getArray('SHOW FIELDS FROM ' . $sql->escapeIdentifier($table));
 
             foreach ($fields as &$field) {
                 if (preg_match('#^(bigint|int|smallint|mediumint|tinyint|timestamp)#i', $field['Type'])) {
@@ -357,12 +353,12 @@ class rex_backup
             $max = $insertSize;
 
             do {
-                $array = $sql->getArray('SELECT * FROM `' . $table . '` LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
+                $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
                 $count = $sql->getRows();
 
                 if ($count > 0 && $start == 0) {
-                    fwrite($fp, $nl . 'LOCK TABLES `' . $table . '` WRITE;');
-                    fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` DISABLE KEYS */;');
+                    fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
+                    fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
                 } elseif ($count == 0) {
                     break;
                 }
@@ -394,13 +390,13 @@ class rex_backup
                 }
 
                 if (!empty($values)) {
-                    fwrite($fp, $nl . 'INSERT INTO `' . $table . '` VALUES ' . implode(',', $values) . ';');
+                    fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ' . implode(',', $values) . ';');
                     unset($values);
                 }
             } while ($count >= $max);
 
             if ($start > 0) {
-                fwrite($fp, $nl . '/*!40000 ALTER TABLE `' . $table . '` ENABLE KEYS */;');
+                fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' ENABLE KEYS */;');
                 fwrite($fp, $nl . 'UNLOCK TABLES;' . $nl . $nl);
             }
         }
