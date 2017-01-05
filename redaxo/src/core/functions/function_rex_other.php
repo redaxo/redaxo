@@ -44,6 +44,7 @@ function rex_ini_get($val)
     } else {
         $last = '';
     }
+    $val = (int) $val;
     switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
