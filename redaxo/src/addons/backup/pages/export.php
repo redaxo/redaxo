@@ -29,7 +29,7 @@ if ($EXPTABLES) {
     $tables = rex_sql::showTables();
 
     foreach ($EXPTABLES as $k => $EXPTABLE) {
-        if (!in_array($tables, $EXPTABLE)) {
+        if (!in_array($EXPTABLE, $tables)) {
             unset($EXPTABLES[$k]);
         }
     }
