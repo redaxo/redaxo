@@ -139,7 +139,7 @@ class rex_setup_importer
         if (!is_dir(rex_path::addon('backup'))) {
             $err_msg .= rex_i18n::msg('setup_510') . '<br />';
         } else {
-            if (file_exists($import_sql) && ($import_archiv === null || $import_archiv !== null && file_exists($import_archiv))) {
+            if (file_exists($import_sql)) {
                 rex_i18n::addDirectory(rex_path::addon('backup', 'lang/'));
 
                 // DB Import
@@ -149,7 +149,7 @@ class rex_setup_importer
                 }
 
                 // Archiv optional importieren
-                if ($state_db['state'] === true && $import_archiv !== null) {
+                if ($state_db['state'] === true && $import_archiv !== null && file_exists($import_archiv)) {
                     $state_archiv = rex_backup::importFiles($import_archiv);
                     if ($state_archiv['state'] === false) {
                         $err_msg .= $state_archiv['message'] . '<br />';

@@ -469,9 +469,7 @@ if ($step == 5) {
         }
 
         foreach ($export_sqls as $sql_export) {
-            if (in_array($sql_export, $export_archives)) {
-                $sel_export->addOption($sql_export, $sql_export);
-            }
+            $sel_export->addOption($sql_export, $sql_export);
         }
     }
 
@@ -511,7 +509,6 @@ if ($step == 5) {
         $n = [];
         $n['label'] = '<label for="rex-form-createdb-3">' . rex_i18n::msg('setup_507') . '</label>';
         $n['field'] = '<input type="radio" id="rex-form-createdb-3" name="createdb" value="3"' . $dbchecked[3] . ' />';
-        $n['note'] = rex_i18n::msg('setup_507_note');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
