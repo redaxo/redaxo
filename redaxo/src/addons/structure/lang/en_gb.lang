@@ -40,6 +40,7 @@ article_deleted = Article deleted!
 article_could_not_be_generated = Article could not be generated.
 category_deleted = Category deleted!
 category_doesnt_exist = Category doesn't exist!
+article_doesnt_exist = Article doesn't exist!
 cant_delete_sitestartarticle = The start article can not be deleted!
 cant_delete_notfoundarticle = Not-found article can not be deleted
 structure_copy = Copy
