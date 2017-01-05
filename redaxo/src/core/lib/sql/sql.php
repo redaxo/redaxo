@@ -25,6 +25,8 @@ class rex_sql implements Iterator
     protected $lastRow; // Wert der zuletzt gefetchten zeile
     protected $table; // Tabelle setzen
     protected $wherevar; // WHERE Bediengung
+    protected $limit; // Limit 1
+    protected $offset; // Limit 1,2
     protected $whereParams; // WHERE parameter array
     protected $rows; // anzahl der treffer
     protected $counter; // pointer
@@ -88,8 +90,8 @@ class rex_sql implements Iterator
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
+            PDO::ATTR_EMULATE_PREPARES => false,
 //      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
-//      PDO::ATTR_EMULATE_PREPARES => true,
         ];
 
         $dbh = @new PDO($dsn, $login, $password, $options);
@@ -259,6 +261,14 @@ class rex_sql implements Iterator
 
         try {
             $this->flush();
+
+            if($this->limit) {
+                $this->stmt->bindValue(':start', (int)$this->offset, PDO::PARAM_INT);
+                $this->stmt->bindValue(':results', (int)$this->limit, PDO::PARAM_INT);
+                $params['start'] = (int)$this->offset;
+                $params['results'] = (int)$this->limit;
+            }
+
             $this->params = $params;
 
             $this->stmt->execute($params);
@@ -291,14 +301,23 @@ class rex_sql implements Iterator
     {
         // Alle Werte zuruecksetzen
         $this->flush();
+
         $this->query = $query;
         $this->params = $params;
 
+
         if (!empty($params)) {
+            if($this->limit) {
+                $query .= ' LIMIT :start, :results';
+            }
             $this->prepareQuery($query);
             $this->execute($params);
         } else {
             try {
+                if($this->limit) {
+                    $query .= ' LIMIT '.(int)$this->offset.', '.(int)$this->limit;
+                    $this->query = $query;
+                }
                 $this->stmt = self::$pdo[$this->DBID]->query($query);
                 $this->rows = $this->stmt->rowCount();
             } catch (PDOException $e) {
@@ -323,6 +342,22 @@ class rex_sql implements Iterator
     public function setTable($table)
     {
         $this->table = $table;
+
+        return $this;
+    }
+
+    /**
+     * Setzt das Limit.
+     *
+     * @param integer $limit
+     * @param integer $offset
+     *
+     * @return $this the current rex_sql object
+     */
+    public function setLimit($limit,$offset = 0)
+    {
+        $this->limit = intval($limit);
+        $this->offset = intval($offset);
 
         return $this;
     }
