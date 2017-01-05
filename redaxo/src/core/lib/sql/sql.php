@@ -492,7 +492,7 @@ class rex_sql implements Iterator
             if (is_array($value)) {
                 $arg = '(' . $this->buildWhereArg($value, $level + 1) . ')';
             } else {
-                $arg = '`' . $fld_name . '` = :' . $fld_name;
+                $arg = $this->escapeIdentifier($fld_name) . ' = :' . $fld_name;
             }
 
             if ($qry != '') {
@@ -663,7 +663,7 @@ class rex_sql implements Iterator
                     $qry .= ', ';
                 }
 
-                $qry .= '`' . $fld_name . '` = :' . $fld_name;
+                $qry .= $this->escapeIdentifier($fld_name) .' = :' . $fld_name;
             }
         }
         if (is_array($this->rawValues)) {
@@ -672,7 +672,7 @@ class rex_sql implements Iterator
                     $qry .= ', ';
                 }
 
-                $qry .= '`' . $fld_name . '` = ' . $value;
+                $qry .= $this->escapeIdentifier($fld_name) . ' = ' . $value;
             }
         }
 
@@ -707,7 +707,7 @@ class rex_sql implements Iterator
     public function select($fields = '*')
     {
         $this->setQuery(
-            'SELECT ' . $fields . ' FROM `' . $this->table . '` ' . $this->getWhere(),
+            'SELECT ' . $fields . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $this->getWhere(),
             $this->whereParams
         );
         return $this;
@@ -724,7 +724,7 @@ class rex_sql implements Iterator
     public function update()
     {
         $this->setQuery(
-            'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
+            'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
         );
         return $this;
@@ -745,7 +745,7 @@ class rex_sql implements Iterator
         $values = $this->values;
 
         $this->setQuery(
-            'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
+            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues(),
             $this->values
         );
 
@@ -768,7 +768,7 @@ class rex_sql implements Iterator
     public function replace()
     {
         $this->setQuery(
-            'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
+            'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
         );
         return $this;
@@ -785,7 +785,7 @@ class rex_sql implements Iterator
     public function delete()
     {
         $this->setQuery(
-            'DELETE FROM `' . $this->table . '` ' . $this->getWhere(),
+            'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $this->getWhere(),
             $this->whereParams
         );
         return $this;
@@ -1028,7 +1028,7 @@ class rex_sql implements Iterator
     {
         // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
         $sql = self::factory();
-        $sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
+        $sql->setQuery('SELECT ' . $this->escapeIdentifier($field) . ' FROM ' . $this->escapeIdentifier($this->table) . ' ORDER BY ' . $this->escapeIdentifier($field) . ' DESC LIMIT 1');
         if ($sql->getRows() == 0) {
             $id = $start_id;
         } else {
@@ -1254,7 +1254,7 @@ class rex_sql implements Iterator
     public static function showColumns($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW COLUMNS FROM `' . $table . '`');
+        $sql->setQuery('SHOW COLUMNS FROM ' . $sql->escapeIdentifier($table));
 
         $columns = [];
         foreach ($sql as $col) {
