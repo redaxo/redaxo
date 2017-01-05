@@ -272,6 +272,7 @@ package_is_plugin = Das Package muss als PlugIn "<b>{1}</b>" des AddOns "<b>{0}<
 package_is_addon = Das Package muss als AddOn "<b>{0}</b>" installiert werden!
 package_install_cant_copy_files = Fehler beim Kopieren des /assets Ordners!
 package_install_cant_delete_files = Fehler beim Löschen des /assets Ordners!
+package_requirement_wrong_format = Die Abhängigkeiten in der package.yml sind nicht korrekt als Array notiert!
 package_requirement_error_redaxo_version = Die REDAXO-Version (<b>{0}</b>) entspricht nicht der geforderten Versionsbedingung <b>{1}</b>!
 package_requirement_error_php_version = Die PHP-Version (<b>{0}</b>) entspricht nicht der geforderten Versionsbedingung <b>{1}</b>!
 package_requirement_error_php_extension = Es wird die PHP-Extension <b>{0}</b> benötigt!
