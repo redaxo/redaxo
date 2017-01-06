@@ -34,8 +34,8 @@ class rex_cronjob_export extends rex_cronjob
                 }
                 $mail = new rex_mailer();
                 $mail->AddAddress($this->mailaddress);
-                $mail->Subject = rex_i18n::msg('backup_mail_subject');
-                $mail->Body = rex_i18n::msg('backup_mail_body', rex::getServerName());
+                $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
+                $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
                 $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');
