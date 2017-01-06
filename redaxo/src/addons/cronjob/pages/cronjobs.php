@@ -158,6 +158,7 @@ if ($func == '') {
     $field = $form->addSelectField('environment');
     $field->setLabel($this->i18n('environment'));
     $field->setNotice($this->i18n('environment_notice'));
+    $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_environment'));
     $field->setAttribute('multiple', 'multiple');
     $envFieldId = $field->getAttribute('id');
     $select = $field->getSelect();

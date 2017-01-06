@@ -68,7 +68,8 @@ cronjob_status_activate_error = Cronjob "{0}" could not be activated!
 cronjob_status_deactivate_success = Cronjob "{0}" was deactivated!
 cronjob_status_deactivate_error = Cronjob "{0}" could not be deactivated!
 
-cronjob_error_no_name = Please enter a name!
+cronjob_error_no_name = The name must not be empty!
+cronjob_error_no_environment = At least one environment must be selected!
 
 cronjob_not_found = Cronjob was not found!
 cronjob_not_editable = Cronjob can not be modified!
