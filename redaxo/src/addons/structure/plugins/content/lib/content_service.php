@@ -158,7 +158,13 @@ class rex_content_service
 
             $cols = rex_sql::factory();
             //$cols->setDebug();
-            $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+            $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+
+            $maxPriority = rex_sql::factory()->getArray(
+                'SELECT `ctype_id`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang AND `revision` = :revision GROUP BY `ctype_id`',
+                ['to_id' => $to_id, 'to_clang' => $to_clang, 'revision' => $revision]
+            );
+            $maxPriority = array_column($maxPriority, 'max', 'ctype_id');
 
             $user = rex::isBackend() ? null : 'frontend';
 
@@ -169,6 +175,9 @@ class rex_content_service
                         $value = $to_clang;
                     } elseif ($colname == 'article_id') {
                         $value = $to_id;
+                    } elseif ($colname == 'priority') {
+                        $ctypeId = $slice->getValue('ctype_id');
+                        $value = $slice->getValue($colname) + (isset($maxPriority[$ctypeId]) ? $maxPriority[$ctypeId] : 0);
                     } else {
                         $value = $slice->getValue($colname);
                     }
