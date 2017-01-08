@@ -45,16 +45,11 @@ class rex_form_checkbox_element extends rex_form_options_element
         $formElements = [];
 
         foreach ($options as $opt_name => $opt_value) {
-            $opt_id = $id;
-            if ($opt_value != '') {
-                $opt_id .= '-' . rex_string::normalize($opt_value, '-');
-            }
-            $opt_attr = $attr . ' id="' . htmlspecialchars($opt_id) . '"';
             $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
-            $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label">' . htmlspecialchars($opt_name) . '</label>';
+            $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $attr . $checked . ' />';
             $formElements[] = $n;
         }
 

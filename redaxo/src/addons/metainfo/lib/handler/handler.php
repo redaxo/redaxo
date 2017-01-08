@@ -64,15 +64,15 @@ abstract class rex_metainfo_handler
             }
 
             if ($title != '') {
-                $label = rex_i18n::translate($title);
+                $labelText = rex_i18n::translate($title);
             } else {
-                $label = htmlspecialchars($name);
+                $labelText = htmlspecialchars($name);
             }
 
-            $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
+            $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $labelText);
             $labelIt = true;
 
-            $label = '<label for="' . $id . '">' . $label . '</label>';
+            $label = '<label for="' . $id . '">' . $labelText . '</label>';
 
             $field = '';
 
@@ -163,8 +163,6 @@ abstract class rex_metainfo_handler
                     }
 
                     foreach ($values as $key => $value) {
-                        $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
-
                         // wenn man keine Werte angibt (Boolean Chkbox/Radio)
                         // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
                         if ($oneValue && $key == '') {
@@ -178,11 +176,11 @@ abstract class rex_metainfo_handler
 
                         $e = [];
                         if ($oneValue) {
-                            $e['label'] = $label;
+                            $e['label'] = '<label>' . $labelText . '</label>';
                         } else {
-                            $e['label'] = '<label for="' . $id . '">' . htmlspecialchars($value) . '</label>';
+                            $e['label'] = '<label>' . htmlspecialchars($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
                     }
 
