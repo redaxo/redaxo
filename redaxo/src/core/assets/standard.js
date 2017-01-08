@@ -551,7 +551,6 @@ jQuery(document).ready(function($) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
 
                 var time = xhr.getResponseHeader('X-Redaxo-Script-Time');
-                console.log(time);
                 if (time) {
                     $('.rex-js-script-time').text(time);
                 }
