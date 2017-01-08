@@ -1350,7 +1350,7 @@ class rex_form
         if ($saved) {
             $saved = rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
         } else {
-            $saved = $sql->getErrno();
+            $saved = $sql->getMysqlErrno();
         }
 
         return $saved;
@@ -1377,7 +1377,7 @@ class rex_form
         if ($deleted) {
             $deleted = rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
         } else {
-            $deleted = $deleteSql->getErrno();
+            $deleted = $deleteSql->getMysqlErrno();
         }
 
         return $deleted;
