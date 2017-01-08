@@ -178,6 +178,38 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
         $this->assertEquals('mytext', $row1[5]);
     }
 
+    public function testError()
+    {
+        $sql = rex_sql::factory();
+
+        $sql->setQuery('SELECT * FROM '.self::TABLE);
+
+        $this->assertFalse($sql->hasError());
+        $this->assertEquals(0, $sql->getErrno());
+
+        $exception = null;
+        try {
+            $sql->setQuery('SELECT '.self::TABLE);
+        } catch (rex_sql_exception $exception) {
+        }
+
+        $this->assertInstanceOf(rex_sql_exception::class, $exception);
+        $this->assertTrue($sql->hasError());
+        $this->assertEquals('42S22', $sql->getErrno());
+        $this->assertEquals("Unknown column 'rex_tests' in 'field list'", $sql->getError());
+
+        $exception = null;
+        try {
+            $sql->setQuery('SELECT * FROM '.self::TABLE.' WHERE idx = ?', [1]);
+        } catch (rex_sql_exception $exception) {
+        }
+
+        $this->assertInstanceOf(rex_sql_exception::class, $exception);
+        $this->assertTrue($sql->hasError());
+        $this->assertEquals('42S22', $sql->getErrno());
+        $this->assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+    }
+
     private function insertRow()
     {
         $sql = rex_sql::factory();

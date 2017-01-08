@@ -293,6 +293,7 @@ class rex_sql implements Iterator
         $this->flush();
         $this->query = $query;
         $this->params = $params;
+        $this->stmt = null;
 
         if (!empty($params)) {
             $this->prepareQuery($query);
@@ -972,7 +973,7 @@ class rex_sql implements Iterator
      */
     public function getErrno()
     {
-        return (int) self::$pdo[$this->DBID]->errorCode();
+        return $this->stmt ? $this->stmt->errorCode() : self::$pdo[$this->DBID]->errorCode();
     }
 
     /**
@@ -980,7 +981,7 @@ class rex_sql implements Iterator
      */
     public function getError()
     {
-        $errorInfos = self::$pdo[$this->DBID]->errorInfo();
+        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
         // idx0   SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
         // idx1   Driver-specific error code.
         // idx2   Driver-specific error message.
