@@ -418,6 +418,16 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)
     {
+        $msg  = '';
+        if ($this->slice_id == $RE_CONTS) {
+            if ($this->warning != '') {
+                $msg .= rex_view::warning($this->warning);
+            }
+            if ($this->info != '') {
+                $msg .= rex_view::success($this->info);
+            }
+        }
+
         $formElements = [];
 
         $n = [];
@@ -445,7 +455,7 @@ class rex_article_content_editor extends rex_article_content
                     <input type="hidden" name="update" value="0" />
 
                     <div class="rex-slice-input">
-                        ' . $this->getStreamOutput('module/' . $RE_MODUL_ID . '/input', $RE_MODUL_IN) . '
+                        ' . $msg . $this->getStreamOutput('module/' . $RE_MODUL_ID . '/input', $RE_MODUL_IN) . '
                     </div>
                 </fieldset>
 
