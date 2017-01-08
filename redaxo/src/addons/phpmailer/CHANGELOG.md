@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.1.2 – 08.01.2017
+--------------------------
+
+### Security
+
+* Update phpmailer auf 5.2.21 mit Security-Fixes (remote code execution vulnerability)
+  Mehr Informationen: https://github.com/PHPMailer/PHPMailer/wiki/About-the-CVE-2016-10033-and-CVE-2016-10045-vulnerabilities
+
+
 Version 2.1.1 – 15.07.2016
 --------------------------
 
