@@ -976,6 +976,13 @@ class rex_sql implements Iterator
         return $this->stmt ? $this->stmt->errorCode() : self::$pdo[$this->DBID]->errorCode();
     }
 
+    public function getMysqlErrno()
+    {
+        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
+
+        return (int) $errorInfos[1];
+    }
+
     /**
      * Gibt den zuletzt aufgetretene Fehler zurueck.
      */
