@@ -31,9 +31,7 @@
 /redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
 /redaxo/src/addons/phpmailer/vendor/autoload.php
 /redaxo/src/addons/phpmailer/vendor/composer/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/docs/
 /redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 /redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/test/
 /redaxo/src/addons/textile/vendor/autoload.php
 /redaxo/src/addons/textile/vendor/composer/
