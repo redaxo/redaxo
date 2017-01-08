@@ -2,6 +2,10 @@
 
 $curPage = rex_be_controller::getCurrentPageObject();
 
+if (rex_request::isPJAXRequest()) {
+    header('X-Redaxo-Script-Time: ' . rex_i18n::msg('footer_scripttime', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC)));
+}
+
 if (!$curPage->hasLayout()) {
     if (rex_request::isPJAXRequest()) {
         echo '</section>';

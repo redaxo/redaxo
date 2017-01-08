@@ -550,6 +550,12 @@ jQuery(document).ready(function($) {
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
 
+                var time = xhr.getResponseHeader('X-Redaxo-Script-Time');
+                console.log(time);
+                if (time) {
+                    $('.rex-js-script-time').text(time);
+                }
+
                 options.context.trigger('rex:ready', [options.context]);
             });
     }
