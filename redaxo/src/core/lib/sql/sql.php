@@ -265,6 +265,10 @@ class rex_sql implements Iterator
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage());
+        } finally {
+            if ($this->debug) {
+                $this->printError($this->query, $params);
+            }
         }
 
         return $this;
@@ -298,17 +302,19 @@ class rex_sql implements Iterator
         if (!empty($params)) {
             $this->prepareQuery($query);
             $this->execute($params);
-        } else {
-            try {
-                $this->stmt = self::$pdo[$this->DBID]->query($query);
-                $this->rows = $this->stmt->rowCount();
-            } catch (PDOException $e) {
-                throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage());
-            }
+
+            return $this;
         }
 
-        if ($this->debug) {
-            $this->printError($query, $params);
+        try {
+            $this->stmt = self::$pdo[$this->DBID]->query($query);
+            $this->rows = $this->stmt->rowCount();
+        } catch (PDOException $e) {
+            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage());
+        } finally {
+            if ($this->debug) {
+                $this->printError($query, $params);
+            }
         }
 
         return $this;
