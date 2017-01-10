@@ -241,6 +241,10 @@ body:after {
     height: 30px;
     vertical-align: middle;
 
+    @media (max-width: $grid-float-breakpoint-max) {
+        height: $line-height-computed;
+    }
+
     .rex-is-popup & {
         height: 20px;
     }

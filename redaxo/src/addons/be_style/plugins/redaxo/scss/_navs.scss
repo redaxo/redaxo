@@ -4,13 +4,13 @@
         border: 0;
 
         position: fixed;
-        top: 15px;
+        top: 10px;
         right: 0;
         z-index: 5;
         background-color: $color-a;
 
         @media (max-width: $screen-sm-max) {
-            margin-top: 4px;
+            margin-top: 2px;
         }
         > .icon-bar,
         > .sr-only  {
