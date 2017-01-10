@@ -26,6 +26,10 @@ html {
     border: 1px solid $color-a-light;
 }
 
+.navbar-brand > img {
+    display: inline;
+}
+
 .rex-redaxo-logo {
     path.rex-redaxo-logo-r,
     path.rex-redaxo-logo-e,
