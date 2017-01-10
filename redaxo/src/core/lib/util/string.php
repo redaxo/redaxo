@@ -95,7 +95,7 @@ class rex_string
         $spacer = '@@@REX_SPACER@@@';
         $quoted = [];
 
-        $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
+        $pattern = '@(?<=\s|=|^)(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1(?=\s|$)@Us';
         $callback = function ($match) use ($spacer, &$quoted) {
             $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
