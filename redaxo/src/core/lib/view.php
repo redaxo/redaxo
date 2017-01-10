@@ -299,16 +299,20 @@ class rex_view
      * Returns a clang switch.
      *
      * @param rex_context $context
+     * @param bool $drop
      *
      * @return string
      */
-    public static function clangSwitch(rex_context $context)
+    public static function clangSwitch(rex_context $context, $drop = true)
     {
         if (rex_clang::count() == 1) {
             return '';
         }
 
-        $button_label = '';
+        if ($drop && rex_clang::count() >= 4) {
+            return self::clangSwitchAsDropdown($context);
+        }
+
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
@@ -332,16 +336,20 @@ class rex_view
      * Returns a clang switch.
      *
      * @param rex_context $context
+     * @param bool $drop
      *
      * @return string
      */
-    public static function clangSwitchAsButtons(rex_context $context)
+    public static function clangSwitchAsButtons(rex_context $context, $drop = true)
     {
         if (rex_clang::count() == 1) {
             return '';
         }
 
-        $button_label = '';
+        if ($drop && rex_clang::count() >= 4) {
+            return self::clangSwitchAsDropdown($context);
+        }
+
         $items = [];
         foreach (rex_clang::getAll() as $id => $clang) {
             if (rex::getUser()->getComplexPerm('clang')->hasPerm($id)) {
