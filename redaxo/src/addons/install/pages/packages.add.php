@@ -80,14 +80,12 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     echo $content;
 } else {
     $toolbar = '
-    <div class="navbar-form">
-        <div class="form-group">
-            <div class="input-group" id="rex-js-install-addon-search">
+        <div class="form-group form-group-xs">
+            <div class="input-group input-group-xs" id="rex-js-install-addon-search">
                 <input class="form-control" type="text" placeholder="' . $this->i18n('search') . '" />
                 <span class="input-group-btn"><button class="btn btn-default">' . $this->i18n('clear') . '</button></span>
             </div>
         </div>
-    </div>
     ';
 
     $content = '

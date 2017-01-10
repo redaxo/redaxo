@@ -21,9 +21,9 @@
 
 .btn-xs,
 .btn-group-xs > .btn {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    line-height: 1;
+    padding-top: $padding-xs-vertical;
+    padding-bottom: $padding-xs-vertical;
+    line-height: $line-height-xs;
     > .rex-icon {
         font-size: $font-size-base;
     }

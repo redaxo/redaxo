@@ -1,3 +1,34 @@
+@include input-size('.input-xs', $input-height-xs, $padding-xs-vertical, $padding-xs-horizontal, $font-size-xs, $line-height-xs, $input-border-radius-small);
+.form-group-xs {
+    .form-control {
+        height: $input-height-xs;
+        padding: $padding-xs-vertical $padding-xs-horizontal;
+        font-size: $font-size-xs;
+        line-height: $line-height-xs;
+        border-radius: $input-border-radius-small;
+    }
+    select.form-control {
+        height: $input-height-xs;
+        line-height: $input-height-xs;
+    }
+    textarea.form-control,
+    select[multiple].form-control {
+        height: auto;
+    }
+    .form-control-static {
+        height: $input-height-xs;
+        min-height: ($line-height-computed + $font-size-xs);
+        padding: ($padding-xs-vertical + 1) $padding-xs-horizontal;
+        font-size: $font-size-xs;
+        line-height: $line-height-xs;
+    }
+}
+.input-group-xs > .form-control,
+.input-group-xs > .input-group-addon,
+.input-group-xs > .input-group-btn > .btn {
+    @extend .input-xs;
+}
+
 .panel > form {
     margin-bottom: 0;
 }
@@ -156,6 +187,9 @@ input[type=range] {
 }
 
 .rex-panel-options {
+    .form-group:last-child {
+        margin-bottom: 0;
+    }
     .form-control,
     .input-group .bootstrap-select .btn {
         border-color: darken($color-a-light, 10%);
