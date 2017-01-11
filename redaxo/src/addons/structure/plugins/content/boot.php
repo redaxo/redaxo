@@ -28,6 +28,11 @@ if (rex::isBackend()) {
     });
 } else {
     rex_extension::register('FE_OUTPUT', function (rex_extension_point $ep) {
+        $clangId = rex_get('clang', 'int');
+        if ($clangId && !rex_clang::exists($clangId)) {
+            rex_redirect(rex_article::getNotfoundArticleId(), rex_clang::getStartId());
+        }
+
         $content = $ep->getSubject();
 
         $article = new rex_article_content();

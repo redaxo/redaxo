@@ -97,7 +97,10 @@ rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG
 if (!rex::isSetup()) {
-    rex_clang::setCurrentId(rex_request('clang', 'int', rex_clang::getStartId()));
+    $clangId = rex_request('clang', 'int', rex_clang::getStartId());
+    if (rex::isBackend() || rex_clang::exists($clangId)) {
+        rex_clang::setCurrentId($clangId);
+    }
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
