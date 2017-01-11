@@ -450,7 +450,6 @@ class rex_article_content_editor extends rex_article_content
                 <fieldset>
                     <legend>' . rex_i18n::msg('edit_block') . '</legend>
                     <input type="hidden" name="module_id" value="' . $RE_MODUL_ID . '" />
-                    <input type="hidden" name="function" value="edit" />
                     <input type="hidden" name="save" value="1" />
                     <input type="hidden" name="update" value="0" />
 
@@ -471,7 +470,7 @@ class rex_article_content_editor extends rex_article_content
 
         $slice_content = '
             <li class="rex-slice rex-slice-edit" id="slice' . $RE_CONTS . '">
-                <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $RE_CONTS, 'ctype' => $RE_CTYPE, 'clang' => $this->clang]) . '#slice' . $RE_CONTS . '" method="post" id="REX_FORM">
+                <form enctype="multipart/form-data" action="' . rex_url::currentBackendPage(['article_id' => $this->article_id, 'slice_id' => $RE_CONTS, 'ctype' => $RE_CTYPE, 'clang' => $this->clang, 'function' => 'edit']) . '#slice' . $RE_CONTS . '" method="post" id="REX_FORM">
                     ' . $slice_content . '
                 </form>
                 <script type="text/javascript">
