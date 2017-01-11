@@ -65,6 +65,7 @@ minfo_edit_metadata = edit metainfo
 minfo_media_in_use_art = Article (metadata)
 minfo_media_in_use_cat = Categories (metadata)
 minfo_media_in_use_med = Media (metadata)
+minfo_media_in_use_med = Languages (metadata)
 
 minfo_callback_lang_indep_field = Language-independent field
 
