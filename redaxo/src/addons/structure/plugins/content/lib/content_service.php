@@ -145,74 +145,75 @@ class rex_content_service
         $gc = rex_sql::factory();
         $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang_id='$from_clang' and revision='$revision'");
 
-        if ($gc->getRows() > 0) {
-            rex_extension::registerPoint(new rex_extension_point('ART_SLICES_COPY', '', [
-                'article_id' => $to_id,
-                'clang_id' => $to_clang,
-                'slice_revision' => $revision,
-            ]));
-
-            $ins = rex_sql::factory();
-            //$ins->setDebug();
-            $ctypes = [];
-
-            $cols = rex_sql::factory();
-            //$cols->setDebug();
-            $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
-
-            $maxPriority = rex_sql::factory()->getArray(
-                'SELECT `ctype_id`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang AND `revision` = :revision GROUP BY `ctype_id`',
-                ['to_id' => $to_id, 'to_clang' => $to_clang, 'revision' => $revision]
-            );
-            $maxPriority = array_column($maxPriority, 'max', 'ctype_id');
-
-            $user = rex::isBackend() ? null : 'frontend';
-
-            foreach ($gc as $slice) {
-                foreach ($cols as $col) {
-                    $colname = $col->getValue('Field');
-                    if ($colname == 'clang_id') {
-                        $value = $to_clang;
-                    } elseif ($colname == 'article_id') {
-                        $value = $to_id;
-                    } elseif ($colname == 'priority') {
-                        $ctypeId = $slice->getValue('ctype_id');
-                        $value = $slice->getValue($colname) + (isset($maxPriority[$ctypeId]) ? $maxPriority[$ctypeId] : 0);
-                    } else {
-                        $value = $slice->getValue($colname);
-                    }
-
-                    // collect all affected ctypes
-                    if ($colname == 'ctype_id') {
-                        $ctypes[$value] = $value;
-                    }
-
-                    if ($colname != 'id') {
-                        $ins->setValue($colname, $value);
-                    }
-                }
-
-                $ins->addGlobalUpdateFields($user);
-                $ins->addGlobalCreateFields($user);
-                $ins->setTable(rex::getTablePrefix() . 'article_slice');
-                $ins->insert();
-            }
-
-            foreach ($ctypes as $ctype) {
-                // reorg slices
-                rex_sql_util::organizePriorities(
-                    rex::getTable('article_slice'),
-                    'priority',
-                    'article_id=' . $to_id . ' AND clang_id=' . $to_clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $revision,
-                    'priority, updatedate'
-                );
-            }
-
-            rex_article_cache::deleteContent($to_id, $to_clang);
+        if (!$gc->getRows()) {
             return true;
         }
 
-        return false;
+        rex_extension::registerPoint(new rex_extension_point('ART_SLICES_COPY', '', [
+            'article_id' => $to_id,
+            'clang_id' => $to_clang,
+            'slice_revision' => $revision,
+        ]));
+
+        $ins = rex_sql::factory();
+        //$ins->setDebug();
+        $ctypes = [];
+
+        $cols = rex_sql::factory();
+        //$cols->setDebug();
+        $cols->setQuery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');
+
+        $maxPriority = rex_sql::factory()->getArray(
+            'SELECT `ctype_id`, MAX(`priority`) as max FROM ' . rex::getTable('article_slice') . ' WHERE `article_id` = :to_id AND `clang_id` = :to_clang AND `revision` = :revision GROUP BY `ctype_id`',
+            ['to_id' => $to_id, 'to_clang' => $to_clang, 'revision' => $revision]
+        );
+        $maxPriority = array_column($maxPriority, 'max', 'ctype_id');
+
+        $user = rex::isBackend() ? null : 'frontend';
+
+        foreach ($gc as $slice) {
+            foreach ($cols as $col) {
+                $colname = $col->getValue('Field');
+                if ($colname == 'clang_id') {
+                    $value = $to_clang;
+                } elseif ($colname == 'article_id') {
+                    $value = $to_id;
+                } elseif ($colname == 'priority') {
+                    $ctypeId = $slice->getValue('ctype_id');
+                    $value = $slice->getValue($colname) + (isset($maxPriority[$ctypeId]) ? $maxPriority[$ctypeId] : 0);
+                } else {
+                    $value = $slice->getValue($colname);
+                }
+
+                // collect all affected ctypes
+                if ($colname == 'ctype_id') {
+                    $ctypes[$value] = $value;
+                }
+
+                if ($colname != 'id') {
+                    $ins->setValue($colname, $value);
+                }
+            }
+
+            $ins->addGlobalUpdateFields($user);
+            $ins->addGlobalCreateFields($user);
+            $ins->setTable(rex::getTablePrefix() . 'article_slice');
+            $ins->insert();
+        }
+
+        foreach ($ctypes as $ctype) {
+            // reorg slices
+            rex_sql_util::organizePriorities(
+                rex::getTable('article_slice'),
+                'priority',
+                'article_id=' . $to_id . ' AND clang_id=' . $to_clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $revision,
+                'priority, updatedate'
+            );
+        }
+
+        rex_article_cache::deleteContent($to_id, $to_clang);
+
+        return true;
     }
 
     /**
