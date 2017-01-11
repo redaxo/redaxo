@@ -36,7 +36,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             'media' => [],
             'clangs' => [],
         ];
-        $filename = addslashes($params['filename']);
+        $escapedFilename = $sql->escape($params['filename']);
         for ($i = 0; $i < $rows; ++$i) {
             $name = $sql->getValue('name');
             $prefix = rex_metainfo_meta_prefix($name);
@@ -49,10 +49,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             }
             switch ($sql->getValue('type_id')) {
                 case '6':
-                    $where[$key][] = $name . '="' . $filename . '"';
+                    $where[$key][] = $sql->escapeIdentifier($name) . ' = ' . $escapedFilename;
                     break;
                 case '7':
-                    $where[$key][] = 'FIND_IN_SET("' . $filename . '", ' . $name . ')';
+                    $where[$key][] = 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name)  . ')';
                     break;
                 default:
                     throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!');

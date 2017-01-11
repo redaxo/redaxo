@@ -339,19 +339,19 @@ function rex_mediapool_deleteMedia($filename)
 function rex_mediapool_mediaIsInUse($filename)
 {
     $sql = rex_sql::factory();
-    $filename = addslashes($filename);
 
     // FIXME move structure stuff into structure addon
     $values = [];
     for ($i = 1; $i < 21; ++$i) {
-        $values[] = 'value' . $i . ' REGEXP "(^|[^[:alnum:]+_-])' . $filename . '"';
+        $values[] = 'value' . $i . ' REGEXP ' . $sql->escape('(^|[^[:alnum:]+_-])'.$filename);
     }
 
     $files = [];
     $filelists = [];
+    $escapedFilename = $sql->escape($filename);
     for ($i = 1; $i < 11; ++$i) {
-        $files[] = 'media' . $i . '="' . $filename . '"';
-        $filelists[] = 'FIND_IN_SET("' . $filename . '",medialist' . $i . ')';
+        $files[] = 'media' . $i . ' = ' . $escapedFilename;
+        $filelists[] = 'FIND_IN_SET(' . $escapedFilename . ', medialist' . $i . ')';
     }
 
     $where = '';
