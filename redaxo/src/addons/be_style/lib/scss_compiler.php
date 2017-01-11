@@ -95,10 +95,10 @@ class rex_scss_compiler
         $string_sass = '';
         if (is_array($this->scss_file)) {
             foreach ($this->scss_file as $scss_file) {
-                $string_sass .= file_get_contents($scss_file);
+                $string_sass .= rex_file::get($scss_file);
             }
         } else {
-            $string_sass = file_get_contents($this->scss_file);
+            $string_sass = rex_file::get($this->scss_file);
         }
 
         // try/catch block to prevent script stopping when scss compiler throws an error
@@ -109,7 +109,7 @@ class rex_scss_compiler
             // $string_css = csscrush_string($string_css, $options = array('minify' => true));
 
             // write CSS into file with the same filename, but .css extension
-            file_put_contents($this->css_file, $string_css);
+            rex_file::put($this->css_file, $string_css);
         } catch (Exception $e) {
             // here we could put the exception message, but who cares ...
             echo $e->getMessage();
