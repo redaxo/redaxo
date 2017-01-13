@@ -22,7 +22,6 @@ if (rex::isBackend()) {
     });
 
     rex_extension::register('PACKAGES_INCLUDED', function () {
-
         $base_files = [$this->getPath('scss/master.scss')];
         $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', $base_files));
 

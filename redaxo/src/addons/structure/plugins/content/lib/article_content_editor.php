@@ -418,7 +418,7 @@ class rex_article_content_editor extends rex_article_content
     // ----- EDIT Slice
     protected function editSlice($RE_CONTS, $RE_MODUL_IN, $RE_CTYPE, $RE_MODUL_ID, $artDataSql)
     {
-        $msg  = '';
+        $msg = '';
         if ($this->slice_id == $RE_CONTS) {
             if ($this->warning != '') {
                 $msg .= rex_view::warning($this->warning);
