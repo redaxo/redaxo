@@ -21,6 +21,10 @@ abstract class rex_error_handler
         set_error_handler([__CLASS__, 'handleError']);
         set_exception_handler([__CLASS__, 'handleException']);
         register_shutdown_function([__CLASS__, 'shutdown']);
+
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new rex_error_page());
+        $whoops->register();
     }
 
     /**
