@@ -44,7 +44,7 @@ rex_path::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_
 
 require_once rex_path::core('lib/autoload.php');
 
-// register core-classes  as php-handlers
+// register core-classes as php-handlers
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
