@@ -21,10 +21,6 @@ abstract class rex_error_handler
         set_error_handler([__CLASS__, 'handleError']);
         set_exception_handler([__CLASS__, 'handleException']);
         register_shutdown_function([__CLASS__, 'shutdown']);
-
-        $whoops = new \Whoops\Run;
-        $whoops->pushHandler(new rex_error_page());
-        $whoops->register();
     }
 
     /**
@@ -47,9 +43,8 @@ abstract class rex_error_handler
      * Handles the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to handle
-     * @param bool                $showTrace
      */
-    public static function handleException($exception, $showTrace = true)
+    public static function handleException($exception)
     {
         rex_logger::logException($exception);
 
@@ -64,43 +59,32 @@ abstract class rex_error_handler
         rex_response::setStatus($status);
 
         if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
-            // TODO add a beautiful error page with usefull debugging info
-            $buf = '';
-            $buf .= '<pre>';
-            $buf .= '"' .  get_class($exception) . '" thrown in ' . $exception->getFile() . ' on line ' . $exception->getLine() . "\n";
-            if ($exception->getMessage()) {
-                $buf .= '<b>' . ($exception instanceof ErrorException ? self::getErrorType($exception->getSeverity()) . ': ' : '') . $exception->getMessage() . "</b>\n";
-            }
+            $whoops = new \Whoops\Run;
+            $whoops->writeToOutput(false);
+            $whoops->allowQuit(false);
+            $handler = new \Whoops\Handler\PrettyPageHandler();
+            $whoops->pushHandler($handler);
 
-            $cause = $exception->getPrevious();
-            while ($cause) {
-                $buf .= "\n";
-                $buf .= 'caused by ' . get_class($cause) . ' in ' . $cause->getFile() . ' on line ' . $cause->getLine() . "\n";
-                if ($cause->getMessage()) {
-                    $buf .= '<b>' . ($cause instanceof ErrorException ? self::getErrorType($cause->getSeverity()) . ': ' : '') . $cause->getMessage() . "</b>\n";
-                }
-
-                $cause = $cause->getPrevious();
-            }
-
-            if ($showTrace) {
-                $buf .= "\n";
-                $buf .= $exception->getTraceAsString();
-            }
-
+            $errPage = $whoops->handleException($exception);
             if (!rex::isSetup() && rex::isBackend() && !rex::isSafeMode()) {
-                $buf .= "\n\n";
-                $buf .= '<a href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
+                $errPage = str_replace(
+                    '</body>',
+                    '<a 
+                       href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '" 
+                       style="position:absolute;top:20px;right:40px;">activate safe mode</a></body>',
+                    $errPage
+                );
             }
 
-            $buf .= '</pre>';
-        } else {
-            // TODO small error page, without debug infos
-            $buf = 'Oooops, an internal error occured!';
+            rex_response::sendContent($errPage, $handler->contentType());
+            exit;
         }
 
+        // TODO small error page, without debug infos
+        $buf = 'Oooops, an internal error occured!';
         rex_response::sendContent($buf);
         exit;
+
     }
 
     /**
@@ -134,7 +118,7 @@ abstract class rex_error_handler
         if (self::$registered) {
             $error = error_get_last();
             if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
-                self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']), false);
+                self::handleException(new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']));
             }
         }
     }
