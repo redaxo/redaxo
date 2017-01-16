@@ -44,6 +44,23 @@ if ($func == 'delete_cache' && $type_id > 0) {
     $func = '';
 }
 
+//-------------- copy type
+if ($func == 'copy' && $type_id > 0) {
+    $sql = rex_sql::factory();
+    
+    try {
+        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type (status, name, description) SELECT status, CONCAT(name, \' '.rex_i18n::msg('media_manager_type_name_copy').'\'), description FROM '.rex::getTablePrefix() . 'media_manager_type WHERE id = '.$type_id);
+        $newTypeId = $sql->getLastId();
+        $sql->setQuery('INSERT INTO '.rex::getTablePrefix() . 'media_manager_type_effect (type_id, effect, parameters, priority, updatedate, updateuser, createdate, createuser) SELECT ?, effect, parameters, priority, updatedate, updateuser, createdate, createuser FROM '.rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id = '.$type_id, [$newTypeId]);
+        
+        $success = rex_i18n::msg('media_manager_type_copied');
+    } catch (rex_sql_exception $e) {
+        $error = $sql->getError();
+    }
+    
+    $func = '';
+}
+
 //-------------- output messages
 if ($success != '') {
     echo rex_view::success($success);
@@ -104,6 +121,9 @@ if ($func == '') {
         }
         return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));
     });
+
+    $list->addColumn('copyType', '<i class="rex-icon rex-icon-copy"></i> ' . rex_i18n::msg('media_manager_type_copy'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnParams('copyType', ['func' => 'copy', 'type_id' => '###id###']);
 
     $content .= $list->get();
 
