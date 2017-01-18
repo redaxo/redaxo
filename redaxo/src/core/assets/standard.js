@@ -115,6 +115,10 @@ function newWindow(name,link,width,height,type)
     winObjCounter++;
     winObj[winObjCounter] = new makeWinObj(name,link,posx,posy,width,height,extra);
 
+    if (rex.popupEvents && rex.popupEvents[name]) {
+        rex.popupEvents[name] = {};
+    }
+
     return winObj[winObjCounter].obj;
 }
 
@@ -128,6 +132,42 @@ if (opener != null)
 }else
 {
     var winObjCounter = -1;
+}
+
+function rex_retain_popup_event_handlers(eventName) {
+    if (!opener || !opener.rex || !window.name) {
+        return;
+    }
+
+    var events = opener.rex.popupEvents || {};
+
+    if (events[window.name] && events[window.name][eventName]) {
+        $.each(events[window.name][eventName], function (i, event) {
+            opener.jQuery(window).on(eventName, event);
+        });
+
+        return;
+    }
+
+    var events = opener.jQuery._data(window, 'events');
+
+    if (!events || !events[eventName]) {
+        return;
+    }
+
+    var handlers = [];
+    $.each(events[eventName], function (i, event) {
+        handlers.push(event.handler);
+    });
+
+    if (!opener.rex.popupEvents) {
+        opener.rex.popupEvents = {};
+    }
+    if (!opener.rex.popupEvents[window.name]) {
+        opener.rex.popupEvents[window.name] = {};
+    }
+
+    opener.rex.popupEvents[window.name][eventName] = handlers;
 }
 
 function setValue(id,value)

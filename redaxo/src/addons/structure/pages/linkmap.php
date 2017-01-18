@@ -62,6 +62,8 @@ JS;
 
 ?>
 <script type="text/javascript">
+    rex_retain_popup_event_handlers('rex:selectLink');
+
     function insertLink(link,name){
         <?php echo $func_body . "\n" ?>
     }

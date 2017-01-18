@@ -94,6 +94,8 @@ if ($error != '') {
 <script type="text/javascript">
 <!--
 
+rex_retain_popup_event_handlers('rex:selectMedia');
+
 function selectMedia(filename, alt)
 {
     var opener_input_field = "<?= $opener_input_field ?>";
