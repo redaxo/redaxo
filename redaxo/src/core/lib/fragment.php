@@ -215,7 +215,7 @@ class rex_fragment
      */
     public function __get($name)
     {
-        if (array_key_exists($name, $this->vars)) {
+        if (isset($this->vars[$name]) || array_key_exists($name, $this->vars)) {
             return $this->vars[$name];
         }
 
@@ -233,7 +233,7 @@ class rex_fragment
      */
     public function __isset($name)
     {
-        return array_key_exists($name, $this->vars);
+        return isset($this->vars[$name]) || array_key_exists($name, $this->vars);
     }
 
     // /-------------------------- in-fragment helpers
