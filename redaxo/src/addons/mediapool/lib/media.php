@@ -68,7 +68,7 @@ class rex_media
 
                 $media = new static();
                 foreach ($cache as $key => $value) {
-                    if (array_key_exists($key, $aliasMap)) {
+                    if (isset($aliasMap[$key])) {
                         $var_name = $aliasMap[$key];
                     } else {
                         $var_name = $key;
