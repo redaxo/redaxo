@@ -21,18 +21,3 @@
 !/redaxo/src/addons/tests/
 !/redaxo/src/addons/textile/
 !/redaxo/src/addons/users/
-
-# Composer stuff (tests, duplicate autoloader...)
-/redaxo/src/core/vendor/erusev/parsedown/test/
-/redaxo/src/core/vendor/erusev/parsedown/phpunit.xml.dist
-/redaxo/src/core/vendor/erusev/parsedown-extra/test/
-/redaxo/src/core/vendor/erusev/parsedown-extra/phpunit.xml.dist
-/redaxo/src/core/vendor/psr/log/Psr/Log/Test/
-/redaxo/src/core/vendor/symfony/yaml/Tests/
-/redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
-/redaxo/src/addons/phpmailer/vendor/autoload.php
-/redaxo/src/addons/phpmailer/vendor/composer/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
-/redaxo/src/addons/textile/vendor/autoload.php
-/redaxo/src/addons/textile/vendor/composer/

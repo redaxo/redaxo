@@ -3,11 +3,29 @@
 printf "Update redaxo/src/core/vendor\n"
 composer update --no-dev -d redaxo/src/core/
 
+rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
+rm -f redaxo/src/core/vendor/erusev/parsedown/phpunit.xml.dist
+rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
+rm -f redaxo/src/core/vendor/erusev/parsedown-extra/phpunit.xml.dist
+rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
+rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
+rm -f redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
+
+composer dumpautoload --no-dev -d redaxo/src/core/
+
 printf "\nUpdate redaxo/src/addons/textile/vendor\n"
 composer update --no-dev -d redaxo/src/addons/textile/
 
+rm -f redaxo/src/addons/textile/vendor/autoload.php
+rm -rf redaxo/src/addons/textile/vendor/composer/
+
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
+
+rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
+rm -rf redaxo/src/addons/phpmailer/vendor/composer/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# http://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js
