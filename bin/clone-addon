@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+
+if (!isset($argv[1])) {
+    exit('Missing repository URL'.PHP_EOL);
+}
+
+$url = $repo = trim($argv[1], '/ ');
+if ('https://' === substr($url, 0, 8) || 'git@' === substr($url, 0, 4)) {
+    $repo = str_replace(['https://github.com/', 'git@github.com:'], '', $url);
+    if ('.git' === substr($repo, -4)) {
+        $repo = substr($repo, 0, -4);
+    }
+    $repo = trim($repo, '/ ');
+} else {
+    $url = 'https://github.com/'.$repo.'.git';
+}
+
+$package = file_get_contents('https://github.com/'.$repo.'/raw/master/package.yml');
+if (!preg_match('/^package:\s*[\'"]?(.*?)[\'"]?$/m', $package, $match)) {
+    exit('Package ID not found'.PHP_EOL);
+}
+$package = $match[1];
+
+$path = __DIR__.'/../redaxo/src/addons/'.$package;
+if (file_exists($path)) {
+    exit('Addon "'.$package.'" already exists'.PHP_EOL);
+}
+
+passthru('git clone '.$url.' '.$path);
+
+exec('which gittower', $output, $status);
+if (0 == $status) {
+    exec('gittower '.$path);
+}
