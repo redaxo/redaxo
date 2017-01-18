@@ -48,7 +48,7 @@ $content .= '
                 </thead>
                 <tbody>';
 
-if ($file = new rex_log_file(rex_path::coreCache('system.log'))) {
+if ($file = new rex_log_file($logFile)) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         /* @var rex_log_entry $entry */
         $data = $entry->getData();
