@@ -8,6 +8,9 @@ rm -f redaxo/src/core/vendor/erusev/parsedown/phpunit.xml.dist
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
 rm -f redaxo/src/core/vendor/erusev/parsedown-extra/phpunit.xml.dist
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
+rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
+rm -f redaxo/src/core/vendor/symfony/var-dumper/phpunit.xml.dist
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
 rm -f redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
 
