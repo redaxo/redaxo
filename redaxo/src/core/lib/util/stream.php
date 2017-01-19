@@ -14,7 +14,7 @@
  *
  * @package redaxo\core
  *
- * @link http://www.php.net/manual/en/class.streamwrapper.php
+ * @see http://www.php.net/manual/en/class.streamwrapper.php
  */
 class rex_stream
 {
@@ -75,7 +75,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-open.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-open.php
      */
     public function stream_open($path, $mode, $options, &$opened_path)
     {
@@ -91,7 +91,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-read.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-read.php
      */
     public function stream_read($count)
     {
@@ -101,7 +101,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-eof.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-eof.php
      */
     public function stream_eof()
     {
@@ -109,7 +109,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-seek.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-seek.php
      */
     public function stream_seek($offset, $whence = SEEK_SET)
     {
@@ -129,7 +129,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-tell.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-tell.php
      */
     public function stream_tell()
     {
@@ -137,7 +137,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-flush.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-flush.php
      */
     public function stream_flush()
     {
@@ -145,7 +145,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.stream-stat.php
+     * @see http://www.php.net/manual/en/streamwrapper.stream-stat.php
      */
     public function stream_stat()
     {
@@ -153,7 +153,7 @@ class rex_stream
     }
 
     /**
-     * @link http://www.php.net/manual/en/streamwrapper.url-stat.php
+     * @see http://www.php.net/manual/en/streamwrapper.url-stat.php
      */
     public function url_stat()
     {

@@ -25,6 +25,16 @@ if ($exportfilename == '') {
     $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
 }
 
+if ($EXPTABLES) {
+    $tables = rex_sql::showTables();
+
+    foreach ($EXPTABLES as $k => $EXPTABLE) {
+        if (!in_array($EXPTABLE, $tables)) {
+            unset($EXPTABLES[$k]);
+        }
+    }
+}
+
 if (rex_post('export', 'bool')) {
     // ------------------------------ FUNC EXPORT
 
@@ -76,7 +86,7 @@ if (rex_post('export', 'bool')) {
             } else {
                 $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
             }
-        } else {
+        } elseif (empty($error)) { //if the user selected no files to export $error is already filled
             $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $export_path;
         }
     }

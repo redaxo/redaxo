@@ -10,6 +10,7 @@ class rex_test_factory
         // this doesn't make sense in real use-cases but eases testing
         return self::getFactoryClass();
     }
+
     public function doSomething()
     {
         return 'base';

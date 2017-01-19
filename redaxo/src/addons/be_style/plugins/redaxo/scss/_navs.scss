@@ -3,8 +3,14 @@
         background: none !important;
         border: 0;
 
+        position: fixed;
+        top: 10px;
+        right: 0;
+        z-index: 5;
+        background-color: $color-a;
+
         @media (max-width: $screen-sm-max) {
-            margin-top: 4px;
+            margin-top: 2px;
         }
         > .icon-bar,
         > .sr-only  {
@@ -46,7 +52,7 @@
             }
         }
     }
-    .rex-nav-main-is-visible .navbar-toggle > .icon-bar:nth-child(2) {
+    .rex-nav-main-is-visible ~ .navbar-toggle > .icon-bar:nth-child(2) {
         background-color: rgba(255, 255, 255, 0);
 
         &:before {

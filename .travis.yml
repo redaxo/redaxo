@@ -4,6 +4,7 @@ php:
     - 5.5
     - 5.6
     - 7.0
+    - 7.1
 
 sudo: false
 
@@ -20,7 +21,7 @@ install:
     - mysql -e 'create database redaxo_5_0;'
     - php redaxo/src/addons/tests/bin/setup.php
     - mkdir -p "$HOME/.php-cs-fixer"
-    - "echo '{\"require\": {\"fabpot/php-cs-fixer\": \"~2.0@dev\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
+    - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"^2.0\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
     - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
 
 script:

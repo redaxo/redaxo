@@ -92,7 +92,7 @@ class rex_backend_login_test extends PHPUnit_Framework_TestCase
 
         // FIXME Does not work at travis
         //sleep(rex_backend_login::RELOGIN_DELAY_1 + 2);
-        //
+
         //$login = new rex_backend_login();
         //$login->setLogin($this->login, $this->password, false);
         //$this->assertTrue($login->checkLogin(), 'after waiting the account should be unlocked');

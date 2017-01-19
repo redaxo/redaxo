@@ -118,8 +118,8 @@ body:after {
 
 }
 .rex-page-main-inner {
-    padding-left: $floor($grid-gutter-width / 2);
-    padding-right: $floor($grid-gutter-width / 2);
+    padding-left: floor($grid-gutter-width / 2);
+    padding-right: floor($grid-gutter-width / 2);
 }
 
 
@@ -240,6 +240,10 @@ body:after {
 .rex-redaxo-logo {
     height: 30px;
     vertical-align: middle;
+
+    @media (max-width: $grid-float-breakpoint-max) {
+        height: $line-height-computed;
+    }
 
     .rex-is-popup & {
         height: 20px;

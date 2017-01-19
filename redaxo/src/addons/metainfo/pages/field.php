@@ -81,7 +81,7 @@ if ($func == '') {
 
     if (in_array($prefix, ['art_', 'med_'])) {
         $defaultFields = sprintf(
-            '<div class="navbar-form"><a href="%s" class="btn btn-default">%s</a></div>',
+            '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
             rex_url::currentBackendPage(['rex-api-call' => 'metainfo_default_fields_create', 'type' => $subpage]),
             rex_i18n::msg('minfo_default_fields_create')
         );

@@ -82,7 +82,7 @@ abstract class rex_api_function
                     self::$instance = $apiImpl;
                     return $apiImpl;
                 } else {
-                    throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function!');
+                    throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "'. $apiClass .'" given!');
                 }
             } else {
                 throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
@@ -130,7 +130,7 @@ abstract class rex_api_function
                     $result = $apiFunc->execute();
 
                     if (!($result instanceof rex_api_result)) {
-                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM));
+                        throw new rex_exception('Illegal result returned from api-function ' . rex_get(self::REQ_CALL_PARAM) .'. Expected a instance of rex_api_result but got "'. (is_object($result) ? get_class($result) : gettype($result)) .'".');
                     }
 
                     $apiFunc->result = $result;
@@ -153,7 +153,8 @@ abstract class rex_api_function
     public static function hasMessage()
     {
         $apiFunc = self::factory();
-        return (bool) $apiFunc->getResult();
+        $result = $apiFunc->getResult();
+        return $result && null !== $result->getMessage();
     }
 
     public static function getMessage($formatted = true)
@@ -239,6 +240,10 @@ class rex_api_result
 
     public function getFormattedMessage()
     {
+        if (null === $this->message) {
+            return null;
+        }
+
         if ($this->isSuccessfull()) {
             return rex_view::success($this->message);
         } else {

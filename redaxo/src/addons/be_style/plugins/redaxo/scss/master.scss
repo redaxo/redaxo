@@ -4,16 +4,22 @@
 @import "../../../scss/mixins/form";
 @import "../../../scss/mixins/helper";
 
+
+@import "reset";
+
 @import "variables";
 @import "scaffolding";
 @import "alerts";
 @import "buttons";
+@import "collapse";
+@import "docs";
 @import "dropdowns";
 @import "form";
 @import "list-groups";
 @import "loader";
 @import "login";
 @import "navs";
+@import "modal";
 @import "panels";
 //@import "sticky";
 @import "tables";

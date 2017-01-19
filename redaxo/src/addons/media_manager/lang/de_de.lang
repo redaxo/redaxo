@@ -68,6 +68,10 @@ media_manager_effect_blur_repeats = Wiederholungen
 media_manager_effect_blur_type = Blur-Typ
 media_manager_effect_blur_smoothit = glätten (negative Werte schärft Bilder)
 
+media_manager_effect_colorize_r = Rot-Wert
+media_manager_effect_colorize_g = Grün-Wert
+media_manager_effect_colorize_b = Blau-Wert
+
 media_manager_effect_sharpen_amount = Schärfegrad
 media_manager_effect_sharpen_radius = Größe der Schärfematrix
 media_manager_effect_sharpen_threshold = Grenzwert
@@ -90,7 +94,7 @@ media_manager_effect_rounded_corners_bottomright = Unten Rechts
 
 media_manager_effect_flip = Richtung
 
-media_manager_error_type_name_not_unique = Ein Mediatyp mit diesem namen existiert bereits!
+media_manager_error_type_name_not_unique = Ein Mediatyp mit diesem Namen existiert bereits!
 
 media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
 media_manager_effect_mirror_background_color = Hintergrundfarbe
@@ -106,3 +110,6 @@ media_manager_effect_mediapath = Medienordner
 
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
+
+media_manager_effect_convert2img_density = Auflösungsdichte
+media_manager_effect_convert2img_convertto = Zielformat

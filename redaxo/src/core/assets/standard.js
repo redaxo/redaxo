@@ -115,6 +115,10 @@ function newWindow(name,link,width,height,type)
     winObjCounter++;
     winObj[winObjCounter] = new makeWinObj(name,link,posx,posy,width,height,extra);
 
+    if (rex.popupEvents && rex.popupEvents[name]) {
+        rex.popupEvents[name] = {};
+    }
+
     return winObj[winObjCounter].obj;
 }
 
@@ -128,6 +132,42 @@ if (opener != null)
 }else
 {
     var winObjCounter = -1;
+}
+
+function rex_retain_popup_event_handlers(eventName) {
+    if (!opener || !opener.rex || !window.name) {
+        return;
+    }
+
+    var events = opener.rex.popupEvents || {};
+
+    if (events[window.name] && events[window.name][eventName]) {
+        $.each(events[window.name][eventName], function (i, event) {
+            opener.jQuery(window).on(eventName, event);
+        });
+
+        return;
+    }
+
+    var events = opener.jQuery._data(window, 'events');
+
+    if (!events || !events[eventName]) {
+        return;
+    }
+
+    var handlers = [];
+    $.each(events[eventName], function (i, event) {
+        handlers.push(event.handler);
+    });
+
+    if (!opener.rex.popupEvents) {
+        opener.rex.popupEvents = {};
+    }
+    if (!opener.rex.popupEvents[window.name]) {
+        opener.rex.popupEvents[window.name] = {};
+    }
+
+    opener.rex.popupEvents[window.name][eventName] = handlers;
 }
 
 function setValue(id,value)
@@ -472,7 +512,7 @@ jQuery(document).ready(function($) {
     if ($.support.pjax) {
         // prevent pjax from jumping to top, see github#60
         $.pjax.defaults.scrollTo = false;
-        $.pjax.defaults.timeout = 5000;
+        $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
 
         var pjaxHandler = function(event) {
@@ -549,7 +589,11 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
-                winObjCounter = -1;
+
+                var time = xhr.getResponseHeader('X-Redaxo-Script-Time');
+                if (time) {
+                    $('.rex-js-script-time').text(time);
+                }
 
                 options.context.trigger('rex:ready', [options.context]);
             });

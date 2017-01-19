@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.1.1 – 15.07.2016
+--------------------------
+
+### Bugfixes
+
+* Wildes Auf- und Zuklapen der Vorschau beim Media-Button entfernt (@schuer)
+* SVGs wurden nicht angezeigt
+
+
 Version 2.1.0 – 24.03.2016
 --------------------------
 

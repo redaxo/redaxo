@@ -37,6 +37,8 @@ class rex_string_test extends PHPUnit_Framework_TestCase
             ['a=1 b=xyz c="hu hu" 123=\'he he\'',         ['a' => 1, 'b' => 'xyz', 'c' => 'hu hu', '123' => 'he he']],
             ['a="a \"b\" c" b=\'a \\\'b\\\'\' c="a\\\\"', ['a' => 'a "b" c', 'b' => "a 'b'", 'c' => 'a\\']],
             ["\n a=1\n b='aa\nbb'\n c='a'\n ",            ['a' => '1', 'b' => "aa\nbb", 'c' => 'a']],
+            ['"a b" c "d e',                              ['a b', 'c', '"d', 'e']],
+            ['"a"b" "c"d',                                ['a"b', '"c"d']],
         ];
     }
 

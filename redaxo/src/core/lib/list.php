@@ -713,7 +713,7 @@ class rex_list implements rex_url_provider_interface
         $startRow = $this->pager->getCursor();
 
         // prepare query for fast rowcount calculation
-        $query = preg_replace('/^SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
+        $query = preg_replace('/^\s*SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
 
         $sortColumn = $this->getSortColumn();
         if ($sortColumn != '') {

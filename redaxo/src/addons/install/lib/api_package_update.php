@@ -148,7 +148,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
                 }
                 if (isset($config['version'])) {
                     $versions[$plugin] = $plugin->getProperty('version');
-                    $plugin->setProperty('requires', $config['version']);
+                    $plugin->setProperty('version', $config['version']);
                 }
             }
         }

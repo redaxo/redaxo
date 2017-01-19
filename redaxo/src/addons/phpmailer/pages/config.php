@@ -29,6 +29,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['smtpsecure', 'string'],
         ['smtpauth', 'boolean'],
         ['priority', 'int'],
+        ['smtp_debug', 'int'],
     ]));
 
     $message = $this->i18n('config_saved_successful');
@@ -82,6 +83,15 @@ $sel_priority->setAttribute('class', 'form-control');
 $sel_priority->setSelected($this->getConfig('priority'));
 foreach ([0 => $this->i18n('disabled'), 1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
     $sel_priority->addOption($name, $no);
+}
+$sel_debug = new rex_select();
+$sel_debug->setid('phpmailer-smtp_debug');
+$sel_debug->setName('settings[smtp_debug]');
+$sel_debug->setSize(1);
+$sel_debug->setAttribute('class', 'form-control');
+$sel_debug->setSelected($this->getConfig('smtp_debug'));
+foreach ([0 => $this->i18n('smtp_debug_0'), 1 => $this->i18n('smtp_debug_1'), 2 => $this->i18n('smtp_debug_2'), 3 => $this->i18n('smtp_debug_3'), 4 => $this->i18n('smtp_debug_4')] as $no => $name) {
+    $sel_debug->addOption($name, $no);
 }
 
 if ($message != '') {
@@ -181,6 +191,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-password" type="text" name="settings[password]" value="' . $this->getConfig('password') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') . '</label>';
+$n['field'] = $sel_debug->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

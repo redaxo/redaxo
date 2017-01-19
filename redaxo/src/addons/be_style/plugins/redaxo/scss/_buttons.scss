@@ -21,9 +21,9 @@
 
 .btn-xs,
 .btn-group-xs > .btn {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    line-height: 1;
+    padding-top: $padding-xs-vertical;
+    padding-bottom: $padding-xs-vertical;
+    line-height: $line-height-xs;
     > .rex-icon {
         font-size: $font-size-base;
     }
@@ -83,6 +83,12 @@
     @include button-variant(#fff, $color-d, $color-d);
 }
 
+@media (min-width: $screen-md-min) {
+    .rex-table-action .btn-save {
+        float: right;
+    }
+}
+
 .btn-toolbar > .btn-abort {
     float: right;
 }
@@ -91,7 +97,6 @@
     .btn.dropdown-toggle {
         max-width: 200px;
         > .filter-option {
-            @extend .rex-truncate;
             text-overflow: ellipsis;
         }
     }

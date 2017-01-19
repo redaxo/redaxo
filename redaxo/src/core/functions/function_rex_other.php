@@ -40,12 +40,11 @@ function rex_ini_get($val)
 {
     $val = trim(ini_get($val));
     if ($val != '') {
-        $last = strtolower($val{
-            strlen($val) - 1
-        });
+        $last = strtolower($val[strlen($val) - 1]);
     } else {
         $last = '';
     }
+    $val = (int) $val;
     switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':

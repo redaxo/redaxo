@@ -19,9 +19,12 @@ $newConfig = rex_post('settings', [
 
 if (is_array($newConfig)) {
     $config = $newConfig;
-    rex_file::putCache($configFile, $config);
-    echo rex_view::success($this->i18n('settings_saved'));
-    rex_install_webservice::deleteCache();
+    if (rex_file::putCache($configFile, $config)) {
+        echo rex_view::success($this->i18n('settings_saved'));
+        rex_install_webservice::deleteCache();
+    } else {
+        echo rex_view::error($this->i18n('settings_error', $configFile));
+    }
 }
 
 $panel .= '

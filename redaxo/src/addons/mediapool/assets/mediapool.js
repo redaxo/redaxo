@@ -25,8 +25,9 @@ function setAllCheckBoxes(FieldName, mthis)
 
 function newPoolWindow(link)
 {
+    var counter = opener ? opener.winObjCounter + 1 : 0;
     // 1200 = $screen-lg
-    return newWindow( 'rexmediapopup'+(winObjCounter+1), link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'rexmediapopup'+counter, link, 1200,800,',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
@@ -152,7 +153,6 @@ function writeREXMedialist(id){
 $(document).ready(function () {
     // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
     function rexShowMediaPreview() {
-        console.log(1);
         var value, img_type;
         if($(this).hasClass("rex-js-widget-media"))
         {
@@ -168,7 +168,7 @@ $(document).ready(function () {
 
         var url;
         var width = 0;
-        if($(this).hasClass("rex-js-widget-preview-media-manager"))
+        if('.svg' != value.substr(value.length - 4) && $(this).hasClass("rex-js-widget-preview-media-manager"))
             url = './index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
         else
         {
@@ -189,18 +189,18 @@ $(document).ready(function () {
             if (width != 0)
                 img.attr('width', width);
 
-            div.slideDown("fast");
+            div.stop(true, false).slideDown("fast");
         }
         else
         {
-            div.slideUp("fast");
+            div.stop(true, false).slideUp("fast");
         }
     }
 
     // Medialist preview neu anzeigen, beim wechsel der auswahl
     $('body')
         .on('click', '.rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
-        .on('mousemove', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
+        .on('mouseenter', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
         .on('mouseleave', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', function() {
             var div = $('.rex-js-media-preview', this);
             if(div.css('height') != 'auto')

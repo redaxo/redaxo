@@ -151,7 +151,6 @@ class rex_backup_tar extends tar
     // Saves tar archive to a different file than the current file
     public function toTar($filename, $useGzip)
     {
-
         // Encode processed files into TAR file format
         $this->__generateTar();
 

@@ -120,7 +120,7 @@ class rex_effect_mirror extends rex_effect_abstract
         ];
     }
 
-    private function imagereflection(&$src_img, $reflection_height = 50, $trans = false, $bgcolor)
+    private function imagereflection(&$src_img, $reflection_height, $trans, $bgcolor)
     {
         $src_height = imagesy($src_img);
         $src_width = imagesx($src_img);

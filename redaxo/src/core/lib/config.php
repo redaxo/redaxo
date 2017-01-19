@@ -275,7 +275,7 @@ class rex_config
     /**
      * load the config-data from a file-cache.
      *
-     * @return bool Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE.
+     * @return bool Returns TRUE, if the data was successfully loaded from the file-cache, otherwise FALSE
      */
     private static function loadFromFile()
     {

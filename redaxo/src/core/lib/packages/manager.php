@@ -343,7 +343,6 @@ abstract class rex_package_manager
             $this->message = $this->i18n('not_deleted', $this->package->getName());
             return false;
         }
-        rex_dir::delete($this->package->getDataPath());
 
         if (!$ignoreState) {
             $this->saveConfig();
@@ -368,12 +367,19 @@ abstract class rex_package_manager
      */
     public function checkRequirements()
     {
+        $requirements = $this->package->getProperty('requires', []);
+
+        if (!is_array($requirements)) {
+            $this->message = $this->i18n('requirement_wrong_format');
+
+            return false;
+        }
+
         if (!$this->checkRedaxoRequirement(rex::getVersion())) {
             return false;
         }
 
         $state = [];
-        $requirements = $this->package->getProperty('requires', []);
 
         if (isset($requirements['php'])) {
             if (!is_array($requirements['php'])) {

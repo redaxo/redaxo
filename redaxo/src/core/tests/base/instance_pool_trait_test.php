@@ -54,8 +54,8 @@ class rex_instance_pool_trait_test extends PHPUnit_Framework_TestCase
         });
 
         rex_test_instance_pool_1::getInstance([3, 'test'], function ($key1, $key2) {
-           $this->assertEquals(3, $key1, 'getInstance passes key array as arguments to callback');
-           $this->assertEquals('test', $key2, 'getInstance passes key array as arguments to callback');
+            $this->assertEquals(3, $key1, 'getInstance passes key array as arguments to callback');
+            $this->assertEquals('test', $key2, 'getInstance passes key array as arguments to callback');
         });
     }
 

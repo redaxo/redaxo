@@ -53,7 +53,7 @@ class rex_be_navigation
                     $a_prio = (int) $a->getPrio();
                     $b_prio = (int) $b->getPrio();
                     if ($a_prio == $b_prio || ($a_prio <= 0 && $b_prio <= 0)) {
-                        return strcmp($a->getTitle(), $b->getTitle());
+                        return strnatcasecmp($a->getTitle(), $b->getTitle());
                     }
 
                     if ($a_prio <= 0) {

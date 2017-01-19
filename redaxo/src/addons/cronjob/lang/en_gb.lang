@@ -35,20 +35,28 @@ cronjob_type_parameters = Type-specific parameter
 cronjob_type_no_parameters = No other parameters are required for this type!
 
 cronjob_interval = Interval
-cronjob_interval_minutes = Minute(s)
-cronjob_interval_hour = Hour(s)
-cronjob_interval_day = Day(s)
-cronjob_interval_week = Week(s)
-cronjob_interval_month = Month(s)
-cronjob_interval_year = Year(s)
+cronjob_interval_minutes = Minutes
+cronjob_interval_minutes_all = Every 5 minutes
+cronjob_interval_hours = Hours
+cronjob_interval_hours_all = Every hour
+cronjob_interval_days = Days
+cronjob_interval_days_all = Every day
+cronjob_interval_weekdays = Weekdays
+cronjob_interval_weekdays_all = Any weekday
+cronjob_interval_months = Months
+cronjob_interval_months_all = Every month
 
 cronjob_environment = Environment
+cronjob_environment_notice = Script: Execution via <code>redaxo/src/addons/cronjob/bin/run</code>. The script should be invoked by a real cronjob.
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
+cronjob_environment_script = Script
 
 cronjob_execution = Execution
 cronjob_execution_beginning = Execution beginning
 cronjob_execution_ending = Execution ending
+
+cronjob_nexttime = Next execution
 
 cronjob_status_function = Status/Function
 cronjob_status = Status
@@ -60,7 +68,8 @@ cronjob_status_activate_error = Cronjob "{0}" could not be activated!
 cronjob_status_deactivate_success = Cronjob "{0}" was deactivated!
 cronjob_status_deactivate_error = Cronjob "{0}" could not be deactivated!
 
-cronjob_error_no_name = Please enter a name!
+cronjob_error_no_name = The name must not be empty!
+cronjob_error_no_environment = At least one environment must be selected!
 
 cronjob_not_found = Cronjob was not found!
 cronjob_not_editable = Cronjob can not be modified!

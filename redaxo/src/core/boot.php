@@ -9,7 +9,7 @@
  * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
  */
 
-define('REX_MIN_PHP_VERSION', '5.5.0');
+define('REX_MIN_PHP_VERSION', '5.5.9');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
@@ -44,7 +44,7 @@ rex_path::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_
 
 require_once rex_path::core('lib/autoload.php');
 
-// register core-classes  as php-handlers
+// register core-classes as php-handlers
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
@@ -65,7 +65,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.1.0');
+rex::setProperty('version', '5.2.0');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -97,7 +97,10 @@ rex_complex_perm::register('clang', 'rex_clang_perm');
 
 // ----- SET CLANG
 if (!rex::isSetup()) {
-    rex_clang::setCurrentId(rex_request('clang', 'int', rex_clang::getStartId()));
+    $clangId = rex_request('clang', 'int', rex_clang::getStartId());
+    if (rex::isBackend() || rex_clang::exists($clangId)) {
+        rex_clang::setCurrentId($clangId);
+    }
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {

@@ -1,16 +1,4 @@
-<?php
-
-/**
- * History.
- *
- * @author jan@kristinus.de
- *
- * @package redaxo5
- */
-
-$create_sql = rex_sql::factory();
-$create_sql->setQuery('
-CREATE TABLE IF NOT EXISTS `rex_article_slice_history` (
+CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice_history` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `slice_id` int(10) unsigned NOT NULL,
     `history_type` varchar(255) NOT NULL,
@@ -85,5 +73,6 @@ CREATE TABLE IF NOT EXISTS `rex_article_slice_history` (
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `revision` int(11) NOT NULL,
-        PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;');
+    PRIMARY KEY (`id`),
+    KEY `snapshot` (`article_id`,`clang_id`,`revision`,`history_date`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

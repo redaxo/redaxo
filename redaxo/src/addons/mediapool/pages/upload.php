@@ -6,10 +6,12 @@ $media_method = rex_request('media_method', 'string');
 
 // ----- METHOD ADD FILE
 if ($media_method == 'add_file') {
+    global $warning;
+
     if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
         if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none') {
             if (!rex_mediapool_isAllowedMediaType($_FILES['file_new']['name'], rex_post('args', 'array'))) {
-                $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name'] . '</code>');
+                $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code>';
                 $whitelist = rex_mediapool_getMediaTypeWhitelist(rex_post('args', 'array'));
                 $warning .= count($whitelist) > 0
                     ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
@@ -51,7 +53,7 @@ if ($media_method == 'add_file') {
                     echo '</script>';
                     exit;
                 } elseif ($return['ok'] == 1) {
-                    rex_response::sendRedirect(rex_url::backendPage('mediapool', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
+                    rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
                 } else {
                     $warning = rex_i18n::msg('pool_file_movefailed');
                 }

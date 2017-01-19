@@ -662,10 +662,6 @@ class rex_form
             $value = $this->sql->getValue($name);
         }
 
-        if (is_array($value)) {
-            $value = '|' . implode('|', $value) . '|';
-        }
-
         if (!isset($attributes['internal::useArraySyntax'])) {
             $attributes['internal::useArraySyntax'] = true;
         }
@@ -1268,10 +1264,6 @@ class rex_form
                 $fieldName = $element->getFieldName();
                 $fieldValue = $this->elementPostValue($fieldsetName, $fieldName);
 
-                if (is_array($fieldValue)) {
-                    $fieldValue = '|' . implode('|', $fieldValue) . '|';
-                }
-
                 $element->setValue($fieldValue);
             }
         }
@@ -1358,7 +1350,7 @@ class rex_form
         if ($saved) {
             $saved = rex_extension::registerPoint(new rex_extension_point('REX_FORM_SAVED', $saved, ['form' => $this, 'sql' => $sql]));
         } else {
-            $saved = $sql->getErrno();
+            $saved = $sql->getMysqlErrno();
         }
 
         return $saved;
@@ -1385,7 +1377,7 @@ class rex_form
         if ($deleted) {
             $deleted = rex_extension::registerPoint(new rex_extension_point('REX_FORM_DELETED', $deleted, ['form' => $this, 'sql' => $deleteSql]));
         } else {
-            $deleted = $deleteSql->getErrno();
+            $deleted = $deleteSql->getMysqlErrno();
         }
 
         return $deleted;

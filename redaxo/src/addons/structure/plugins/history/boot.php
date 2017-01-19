@@ -14,19 +14,17 @@ $history_date = rex_request('rex_history_date', 'string');
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
-
     $user = rex_backend_login::createUser();
 
     if (!$user) {
         throw new rex_exception('no permission');
     }
 
-    if ( !$user->hasPerm('history[article_rollback]') ) {
+    if (!$user->hasPerm('history[article_rollback]')) {
         throw new rex_exception('no permission for the slice version');
     }
 
     rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
-
         $article = $ep->getParam('article');
         if ($article instanceof rex_article_content) {
             $article->getContentAsQuery();
@@ -34,14 +32,12 @@ if ($history_date != '') {
         $article->setEval(true);
     });
 
-    rex_extension::register('ARTICLE_SLICES_SQL', function (rex_extension_point $ep) {
-
+    rex_extension::register('ART_SLICES_QUERY', function (rex_extension_point $ep) {
         $history_date = rex_request('rex_history_date', 'string');
         $history_revision = rex_request('history_revision', 'int', 0);
         $article = $ep->getParam('article');
 
         if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
-
             $articleLimit = '';
             if ($article->getArticleId() != 0) {
                 $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
@@ -53,42 +49,44 @@ if ($history_date != '') {
 
             $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($history_date);
 
-            $sql = 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
-                        FROM
-                            ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
-                        LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-                        LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
-                        WHERE
-                            ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
-                            " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
-                            " . rex::getTablePrefix() . "article_slice.revision='" . $history_revision . "'
-                            " . $articleLimit . '
-                            ' . $sliceLimit . '
-                            ' . $sliceDate . '
-                            ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
-
-            $artDataSql = rex_sql::factory()->setQuery($sql);
-            return $artDataSql;
-
+            return 'SELECT ' . rex::getTablePrefix() . 'module.id, ' . rex::getTablePrefix() . 'module.name, ' . rex::getTablePrefix() . 'module.output, ' . rex::getTablePrefix() . 'module.input, ' . rex::getTablePrefix() . 'article_slice.*, ' . rex::getTablePrefix() . 'article.parent_id
+                FROM
+                    ' . rex_article_slice_history::getTable() . ' as ' . rex::getTablePrefix() . 'article_slice
+                LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
+                LEFT JOIN ' . rex::getTablePrefix() . 'article ON ' . rex::getTablePrefix() . 'article_slice.article_id=' . rex::getTablePrefix() . 'article.id
+                WHERE
+                    ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
+                    " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
+                    " . rex::getTablePrefix() . "article_slice.revision='" . $history_revision . "'
+                    " . $articleLimit . '
+                    ' . $sliceLimit . '
+                    ' . $sliceDate . '
+                    ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
         }
-
     });
-
 }
 
-
 if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
+    rex_extension::register(
+        ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
+        function (rex_extension_point $ep) {
+            switch ($ep->getName()) {
+                case 'ART_SLICES_COPY':
+                    $type = 'slices_copy';
+                    break;
+                case 'SLICE_MOVE':
+                    $type = 'slice_'.$ep->getParam('direction');
+                    break;
+                default:
+                    $type = strtolower($ep->getName());
+            }
 
-    rex_extension::register('STRUCTURE_CONTENT_UPDATE', function (rex_extension_point $ep) {
+            $article_id = $ep->getParam('article_id');
+            $clang_id = $ep->getParam('clang_id');
+            $slice_revision = $ep->getParam('slice_revision');
 
-        $type = $ep->getParam('type');
-        $article_id = $ep->getParam('article_id');
-        $clang_id = $ep->getParam('clang_id');
-        $slice_revision = $ep->getParam('slice_revision');
-
-        rex_article_slice_history::makeArticleSlicesSnapshot($article_id, $clang_id, $type, $slice_revision);
-
-    }
+            rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type, $slice_revision);
+        }
     );
 
     rex_view::addCssFile($this->getAssetsUrl('history.css'));
@@ -96,14 +94,13 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     $info = '';
     switch (rex_request('rex_history_function', 'string')) {
-
         case 'snap':
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
             $revision = rex_request('history_revision', 'int', 0);
             $history_date = rex_request('history_date', 'string');
 
-            rex_article_slice_history::setVersionByDate($history_date, $article_id, $clang_id, $revision);
+            rex_article_slice_history::restoreSnapshot($history_date, $article_id, $clang_id, $revision);
 
             $info = $version['history_snapshot_history_reactivate_snapshot'];
 
@@ -115,9 +112,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $clang_id = rex_request('history_clang_id', 'int');
             $revision = rex_request('history_revision', 'int', 0);
 
-            $versions = rex_article_slice_history::getVersionsByDate($article_id, $clang_id, $revision);
+            $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id, $revision);
 
-            $select = '<option value="" selected="selected">' . rex_i18n::msg('history_current_version') . '</option>';
+            $select = '<option value="" selected="selected">' . $this->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
                 $select .= '<option value="' . $version['history_date'] . '">' . $version['history_date'] . '</option>';
             }
@@ -125,11 +122,11 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
-            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . rex_i18n::msg('history_snapshot_reactivate') . '</a>';
+            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . $this->i18n('snapshot_reactivate') . '</a>';
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
-            $fragment->setVar('title', rex_i18n::msg('history_overview_versions'));
+            $fragment->setVar('title', $this->i18n('overview_versions'));
             $fragment->setVar('info', $info, false);
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);
@@ -139,7 +136,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             echo $fragment->parse('history/layer.php');
             exit;
-
     }
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
@@ -154,5 +150,4 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         }
     }
     );
-
 }

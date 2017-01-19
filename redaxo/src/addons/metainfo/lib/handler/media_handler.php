@@ -34,21 +34,25 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $where = [
             'articles' => [],
             'media' => [],
+            'clangs' => [],
         ];
-        $filename = addslashes($params['filename']);
+        $escapedFilename = $sql->escape($params['filename']);
         for ($i = 0; $i < $rows; ++$i) {
             $name = $sql->getValue('name');
-            if (rex_metainfo_meta_prefix($name) == self::PREFIX) {
+            $prefix = rex_metainfo_meta_prefix($name);
+            if (self::PREFIX === $prefix) {
                 $key = 'media';
+            } elseif (rex_metainfo_clang_handler::PREFIX === $prefix) {
+                $key = 'clangs';
             } else {
                 $key = 'articles';
             }
             switch ($sql->getValue('type_id')) {
                 case '6':
-                    $where[$key][] = $name . '="' . $filename . '"';
+                    $where[$key][] = $sql->escapeIdentifier($name) . ' = ' . $escapedFilename;
                     break;
                 case '7':
-                    $where[$key][] = 'FIND_IN_SET("' . $filename . '", ' . $name . ')';
+                    $where[$key][] = 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($name)  . ')';
                     break;
                 default:
                     throw new rex_exception('Unexpected fieldtype "' . $sql->getValue('type_id') . '"!');
@@ -79,6 +83,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 }
             }
         }
+
         $media = '';
         if (!empty($where['media'])) {
             $sql->setQuery('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
@@ -91,6 +96,23 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                 }
                 if ($media != '') {
                     $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
+                }
+            }
+        }
+
+        $clangs = '';
+        if (!empty($where['clangs'])) {
+            $sql->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
+            if ($sql->getRows() > 0) {
+                foreach ($sql->getArray() as $clang_arr) {
+                    if (rex::getUser() && rex::getUser()->isAdmin()) {
+                        $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clang_arr['id'], 'func' => 'editclang']) . '\')">' . $clang_arr['name'] . '</a></li>';
+                    } else {
+                        $clangs .= '<li>' . $clang_arr['name'] . '</li>';
+                    }
+                }
+                if ($clangs != '') {
+                    $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
                 }
             }
         }

@@ -40,7 +40,7 @@ class rex_sql implements Iterator
     /**
      * @var PDO[]
      */
-    private static $pdo = [];
+    protected static $pdo = [];
 
     protected function __construct($DBID = 1)
     {
@@ -265,6 +265,10 @@ class rex_sql implements Iterator
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage());
+        } finally {
+            if ($this->debug) {
+                $this->printError($this->query, $params);
+            }
         }
 
         return $this;
@@ -293,21 +297,24 @@ class rex_sql implements Iterator
         $this->flush();
         $this->query = $query;
         $this->params = $params;
+        $this->stmt = null;
 
         if (!empty($params)) {
             $this->prepareQuery($query);
             $this->execute($params);
-        } else {
-            try {
-                $this->stmt = self::$pdo[$this->DBID]->query($query);
-                $this->rows = $this->stmt->rowCount();
-            } catch (PDOException $e) {
-                throw new rex_sql_exception('Error while executing statement "' . $query . '! ' . $e->getMessage());
-            }
+
+            return $this;
         }
 
-        if ($this->debug) {
-            $this->printError($query, $params);
+        try {
+            $this->stmt = self::$pdo[$this->DBID]->query($query);
+            $this->rows = $this->stmt->rowCount();
+        } catch (PDOException $e) {
+            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage());
+        } finally {
+            if ($this->debug) {
+                $this->printError($query, $params);
+            }
         }
 
         return $this;
@@ -492,7 +499,7 @@ class rex_sql implements Iterator
             if (is_array($value)) {
                 $arg = '(' . $this->buildWhereArg($value, $level + 1) . ')';
             } else {
-                $arg = '`' . $fld_name . '` = :' . $fld_name;
+                $arg = $this->escapeIdentifier($fld_name) . ' = :' . $fld_name;
             }
 
             if ($qry != '') {
@@ -663,7 +670,7 @@ class rex_sql implements Iterator
                     $qry .= ', ';
                 }
 
-                $qry .= '`' . $fld_name . '` = :' . $fld_name;
+                $qry .= $this->escapeIdentifier($fld_name) .' = :' . $fld_name;
             }
         }
         if (is_array($this->rawValues)) {
@@ -672,7 +679,7 @@ class rex_sql implements Iterator
                     $qry .= ', ';
                 }
 
-                $qry .= '`' . $fld_name . '` = ' . $value;
+                $qry .= $this->escapeIdentifier($fld_name) . ' = ' . $value;
             }
         }
 
@@ -707,7 +714,7 @@ class rex_sql implements Iterator
     public function select($fields = '*')
     {
         $this->setQuery(
-            'SELECT ' . $fields . ' FROM `' . $this->table . '` ' . $this->getWhere(),
+            'SELECT ' . $fields . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $this->getWhere(),
             $this->whereParams
         );
         return $this;
@@ -724,7 +731,7 @@ class rex_sql implements Iterator
     public function update()
     {
         $this->setQuery(
-            'UPDATE `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
+            'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
         );
         return $this;
@@ -745,7 +752,7 @@ class rex_sql implements Iterator
         $values = $this->values;
 
         $this->setQuery(
-            'INSERT INTO `' . $this->table . '` SET ' . $this->buildPreparedValues(),
+            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues(),
             $this->values
         );
 
@@ -768,7 +775,7 @@ class rex_sql implements Iterator
     public function replace()
     {
         $this->setQuery(
-            'REPLACE INTO `' . $this->table . '` SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
+            'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
         );
         return $this;
@@ -785,7 +792,7 @@ class rex_sql implements Iterator
     public function delete()
     {
         $this->setQuery(
-            'DELETE FROM `' . $this->table . '` ' . $this->getWhere(),
+            'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $this->getWhere(),
             $this->whereParams
         );
         return $this;
@@ -972,7 +979,14 @@ class rex_sql implements Iterator
      */
     public function getErrno()
     {
-        return (int) self::$pdo[$this->DBID]->errorCode();
+        return $this->stmt ? $this->stmt->errorCode() : self::$pdo[$this->DBID]->errorCode();
+    }
+
+    public function getMysqlErrno()
+    {
+        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
+
+        return (int) $errorInfos[1];
     }
 
     /**
@@ -980,7 +994,7 @@ class rex_sql implements Iterator
      */
     public function getError()
     {
-        $errorInfos = self::$pdo[$this->DBID]->errorInfo();
+        $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
         // idx0   SQLSTATE error code (a five characters alphanumeric identifier defined in the ANSI SQL standard).
         // idx1   Driver-specific error code.
         // idx2   Driver-specific error message.
@@ -1028,7 +1042,7 @@ class rex_sql implements Iterator
     {
         // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
         $sql = self::factory();
-        $sql->setQuery('SELECT `' . $field . '` FROM `' . $this->table . '` ORDER BY `' . $field . '` DESC LIMIT 1');
+        $sql->setQuery('SELECT ' . $this->escapeIdentifier($field) . ' FROM ' . $this->escapeIdentifier($this->table) . ' ORDER BY ' . $this->escapeIdentifier($field) . ' DESC LIMIT 1');
         if ($sql->getRows() == 0) {
             $id = $start_id;
         } else {
@@ -1101,7 +1115,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $user the name of the user who created the dataset. Defaults to the current user.
+     * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
      */
@@ -1118,7 +1132,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @param string $user the name of the user who updated the dataset. Defaults to the current user.
+     * @param string $user the name of the user who updated the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
      */
@@ -1178,6 +1192,7 @@ class rex_sql implements Iterator
     {
         return $this->hasNext();
     }
+
     // ----------------- /iterator interface
 
     /**
@@ -1192,7 +1207,7 @@ class rex_sql implements Iterator
     public static function showCreateTable($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW CREATE TABLE `' . $table . '`');
+        $sql->setQuery('SHOW CREATE TABLE ' . $sql->escapeIdentifier($table));
         return $sql->getValue('Create Table');
     }
 
@@ -1253,11 +1268,11 @@ class rex_sql implements Iterator
     public static function showColumns($table, $DBID = 1)
     {
         $sql = self::factory($DBID);
-        $sql->setQuery('SHOW COLUMNS FROM `' . $table . '`');
+        $sql->setQuery('SHOW COLUMNS FROM ' . $sql->escapeIdentifier($table));
 
         $columns = [];
         foreach ($sql as $col) {
-            $columns [] = [
+            $columns[] = [
                 'name' => $col->getValue('Field'),
                 'type' => $col->getValue('Type'),
                 'null' => $col->getValue('Null'),

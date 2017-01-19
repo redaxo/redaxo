@@ -7,7 +7,7 @@
                 <li><a href="http://www.redaxo.org/de/forum/" target="_blank"><?php echo rex_i18n::msg('footer_joinforum'); ?></a></li>
                 <li><a href="<?php echo(rex::getUser()) ? rex_url::backendPage('credits') : 'http://www.redaxo.org/" target="_blank' ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
                 <li><?php echo rex_i18n::msg('footer_datetime', rex_formatter::strftime(time(), 'date')); ?></li>
-                <li><!--DYN--><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?><!--/DYN--></li>
+                <li class="rex-js-script-time"><!--DYN--><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?><!--/DYN--></li>
             </ul>
         </nav>
     </footer>

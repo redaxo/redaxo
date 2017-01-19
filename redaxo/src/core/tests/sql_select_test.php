@@ -2,19 +2,27 @@
 
 class rex_sql_select_test extends PHPUnit_Framework_TestCase
 {
-    const TABLE = rex_sql_test::TABLE;
-
-    private $baseSuite;
+    const TABLE = 'rex_tests';
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->baseSuite = new rex_sql_test();
-        $this->baseSuite->setUp();
+        $sql = rex_sql::factory();
+
+        $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
+        $sql->setQuery('CREATE TABLE `' . self::TABLE . '` (
+            `id` INT NOT NULL AUTO_INCREMENT ,
+            `col_str` VARCHAR( 255 ) NOT NULL ,
+            `col_int` INT NOT NULL ,
+            `col_date` DATE NOT NULL ,
+            `col_time` DATETIME NOT NULL ,
+            `col_text` TEXT NOT NULL ,
+            PRIMARY KEY ( `id` )
+            ) ENGINE = InnoDB ;');
 
         // Insert a row for later selection tests
-        $this->baseSuite->testInsertRow();
+        $this->insertRow();
     }
 
     public function tearDown()
@@ -22,14 +30,15 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
         parent::tearDown();
 
         // Drops the table and all therefore all its rows
-        $this->baseSuite->tearDown();
+        $sql = rex_sql::factory();
+        $sql->setQuery('DROP TABLE `' . self::TABLE . '`');
     }
 
     public function testGetRow()
     {
         // we need some rows for this test
-        $this->baseSuite->testInsertRow();
-        $this->baseSuite->testInsertRow();
+        $this->insertRow();
+        $this->insertRow();
 
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = ?', [5]);
@@ -167,5 +176,50 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
         $this->assertEquals('5', $row1[2]);
         $this->assertEquals('mytext', $row1[5]);
         $this->assertEquals('mytext', $row1[5]);
+    }
+
+    public function testError()
+    {
+        $sql = rex_sql::factory();
+
+        $sql->setQuery('SELECT * FROM '.self::TABLE);
+
+        $this->assertFalse($sql->hasError());
+        $this->assertEquals(0, $sql->getErrno());
+
+        $exception = null;
+        try {
+            $sql->setQuery('SELECT '.self::TABLE);
+        } catch (rex_sql_exception $exception) {
+        }
+
+        $this->assertInstanceOf(rex_sql_exception::class, $exception);
+        $this->assertTrue($sql->hasError());
+        $this->assertEquals('42S22', $sql->getErrno());
+        $this->assertEquals(1054, $sql->getMysqlErrno());
+        $this->assertEquals("Unknown column 'rex_tests' in 'field list'", $sql->getError());
+
+        $exception = null;
+        try {
+            $sql->setQuery('SELECT * FROM '.self::TABLE.' WHERE idx = ?', [1]);
+        } catch (rex_sql_exception $exception) {
+        }
+
+        $this->assertInstanceOf(rex_sql_exception::class, $exception);
+        $this->assertTrue($sql->hasError());
+        $this->assertEquals('42S22', $sql->getErrno());
+        $this->assertEquals(1054, $sql->getMysqlErrno());
+        $this->assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
+    }
+
+    private function insertRow()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+        $sql->setValue('col_int', 5);
+        $sql->setValue('col_str', 'abc');
+        $sql->setValue('col_text', 'mytext');
+
+        $sql->insert();
     }
 }

@@ -151,7 +151,8 @@ class rex_api_install_core_update extends rex_api_function
             $message = $installAddon->i18n('info_core_updated');
             $success = true;
             rex_delete_cache();
-            rex_install_webservice::deleteCache('core');
+            rex_install_webservice::deleteCache();
+            rex_install_packages::deleteCache();
             rex::setConfig('version', $version['version']);
 
             // ---- update package order

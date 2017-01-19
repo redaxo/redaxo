@@ -41,6 +41,9 @@ class rex_form_element
 
     public function setValue($value)
     {
+        if (is_array($value)) {
+            $value = '|' . implode('|', $value) . '|';
+        }
         $this->value = $value;
     }
 
@@ -185,6 +188,9 @@ class rex_form_element
         return $this->separateEnding;
     }
 
+    /**
+     * @return rex_validator
+     */
     public function getValidator()
     {
         return $this->validator;

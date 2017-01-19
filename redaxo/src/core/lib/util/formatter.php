@@ -36,29 +36,33 @@ abstract class rex_formatter
     /**
      * Formats a string by `date()`.
      *
-     * @link http://www.php.net/manual/en/function.date.php
+     * @see http://www.php.net/manual/en/function.date.php
      *
-     * @param string $value  Value
+     * @param string $value  Unix timestamp or datetime string for `strtotime`
      * @param string $format Default format is `d.m.Y`
      *
      * @return string
      */
     public static function date($value, $format = '')
     {
+        if (empty($value)) {
+            return '';
+        }
+
         if ($format == '') {
             $format = 'd.m.Y';
         }
 
-        return date($format, $value);
+        return date($format, self::getTimestamp($value));
     }
 
     /**
      * Formats a string by `strftime()`.
      *
-     * @link http://www.php.net/manual/en/function.strftime.php
+     * @see http://www.php.net/manual/en/function.strftime.php
      *
-     * @param string $value  Value
-     * @param string $format Possible values are format strings like in `strftime` or "date" oder "datetime", default is "date"
+     * @param string $value  Unix timestamp or datetime string for `strtotime`
+     * @param string $format Possible values are format strings like in `strftime` or "date" or "datetime", default is "date"
      *
      * @return string
      */
@@ -75,13 +79,13 @@ abstract class rex_formatter
             // Default REX-Datetimeformat
             $format = rex_i18n::msg('datetimeformat');
         }
-        return strftime($format, $value);
+        return strftime($format, self::getTimestamp($value));
     }
 
     /**
      * Formats a string by `number_format()`.
      *
-     * @link http://www.php.net/manual/en/function.number-format.php
+     * @see http://www.php.net/manual/en/function.number-format.php
      *
      * @param string $value  Value
      * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
@@ -144,7 +148,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `sprintf()`.
      *
-     * @link http://www.php.net/manual/en/function.sprintf.php
+     * @see http://www.php.net/manual/en/function.sprintf.php
      *
      * @param string $value  Value
      * @param string $format
@@ -162,7 +166,7 @@ abstract class rex_formatter
     /**
      * Formats a string by `nl2br`.
      *
-     * @link http://www.php.net/manual/en/function.nl2br.php
+     * @see http://www.php.net/manual/en/function.nl2br.php
      *
      * @param string $value Value
      *
@@ -235,7 +239,7 @@ abstract class rex_formatter
     /**
      * Formats a version string by `sprintf()`.
      *
-     * @link http://www.php.net/manual/en/function.sprintf.php
+     * @see http://www.php.net/manual/en/function.sprintf.php
      *
      * @param string $value  Version
      * @param string $format Version format, e.g. "%s.%s"
@@ -345,5 +349,14 @@ abstract class rex_formatter
         }
 
         return call_user_func($format, $value);
+    }
+
+    private static function getTimestamp($value)
+    {
+        if (is_numeric($value)) {
+            return $value;
+        }
+
+        return strtotime($value);
     }
 }

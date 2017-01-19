@@ -94,11 +94,13 @@ if ($error != '') {
 <script type="text/javascript">
 <!--
 
+rex_retain_popup_event_handlers('rex:selectMedia');
+
 function selectMedia(filename, alt)
 {
     var opener_input_field = "<?= $opener_input_field ?>";
 
-    var event = jQuery.Event("rex:selectMedia");
+    var event = opener.jQuery.Event("rex:selectMedia");
     opener.jQuery(window).trigger(event, [filename, alt]);
     if (!event.isDefaultPrevented()) {
         if (opener_input_field) {
@@ -169,4 +171,4 @@ function openPage(src)
 <?php
 
 // -------------- Include Page
-rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));
+rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'args', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));

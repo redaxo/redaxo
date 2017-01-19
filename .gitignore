@@ -5,14 +5,19 @@
 /redaxo/data/
 /releases/
 
-# Composer stuff (tests, duplicate autoloader...)
-/redaxo/src/core/vendor/symfony/yaml/Tests/
-/redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
-/redaxo/src/addons/phpmailer/vendor/autoload.php
-/redaxo/src/addons/phpmailer/vendor/composer/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/docs/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
-/redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/test/
-/redaxo/src/addons/textile/vendor/autoload.php
-/redaxo/src/addons/textile/vendor/composer/
+# Addons
+/redaxo/src/addons/*
+!/redaxo/src/addons/backup/
+!/redaxo/src/addons/be_style/
+!/redaxo/src/addons/cronjob/
+!/redaxo/src/addons/debug/
+!/redaxo/src/addons/install/
+!/redaxo/src/addons/media_manager/
+!/redaxo/src/addons/mediapool/
+!/redaxo/src/addons/metainfo/
+!/redaxo/src/addons/phpmailer/
+!/redaxo/src/addons/project/
+!/redaxo/src/addons/structure/
+!/redaxo/src/addons/tests/
+!/redaxo/src/addons/textile/
+!/redaxo/src/addons/users/

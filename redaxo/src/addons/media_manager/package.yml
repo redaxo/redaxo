@@ -1,5 +1,5 @@
 package: media_manager
-version: '2.0.2'
+version: '2.1.0'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
@@ -12,7 +12,7 @@ page:
         types: { title: 'translate:media_manager_subpage_types' }
         overview: { title: 'translate:media_manager_subpage_desc' }
         settings: { title: 'translate:media_manager_subpage_config' }
-        clear_cache: { title: 'translate:media_manager_subpage_clear_cache', itemclass: 'pull-right', linkclass: 'btn btn-delete', href: { page: media_manager/overview, func: clear_cache } }
+        clear_cache: { title: 'translate:media_manager_subpage_clear_cache', itemclass: 'pull-right', linkclass: 'btn btn-delete', href: { page: media_manager/types, func: clear_cache } }
 
 requires:
     php:

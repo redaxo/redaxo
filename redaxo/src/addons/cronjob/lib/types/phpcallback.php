@@ -25,7 +25,7 @@ class rex_cronjob_phpcallback extends rex_cronjob
                 return false;
             }
             $params = [];
-            if ($matches[3] != '') {
+            if (isset($matches[3]) && $matches[3] != '') {
                 $params = explode(',', $matches[3]);
                 foreach ($params as $i => $param) {
                     $param = preg_replace('/^(\\\'|\")?(.*?)\\1$/', '$2', trim($param));

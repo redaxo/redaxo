@@ -61,6 +61,7 @@ install_settings_myredaxo_account = myREDAXO account
 install_settings_api_login = Username
 install_settings_api_key = API-Key
 install_settings_saved = Settings saved !
+install_settings_error = Settings not saved, check file permissions for: {0}
 
 install_header_function = Function
 

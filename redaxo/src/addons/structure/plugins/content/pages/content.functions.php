@@ -1,7 +1,7 @@
 <?php
 
 $content .= '
-        <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" id="REX_FORM">
+        <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" id="REX_FORM" data-pjax-container="#rex-page-main">
             <input type="hidden" name="save" value="1" />
             <input type="hidden" name="ctype" value="' . $ctype . '" />
             <input type="hidden" name="rex-api-call" id="apiField" />
@@ -227,7 +227,6 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
 // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
-
     // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
     $move_a = new rex_category_select(false, false, true, !rex::getUser()->getComplexPerm('structure')->hasMountPoints());
     $move_a->setId('category_id_new');

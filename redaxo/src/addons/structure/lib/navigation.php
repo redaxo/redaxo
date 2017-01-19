@@ -51,6 +51,9 @@ class rex_navigation
         // nichts zu tun
     }
 
+    /**
+     * @return static
+     */
     public static function factory()
     {
         $class = self::getFactoryClass();
@@ -120,7 +123,16 @@ class rex_navigation
             }
         }
 
+        $show = !$category_id;
         foreach ($path as $pathItem) {
+            if (!$show) {
+                if ($pathItem == $category_id) {
+                    $show = true;
+                } else {
+                    continue;
+                }
+            }
+
             $cat = rex_category::get($pathItem);
             $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
             ++$i;
@@ -143,9 +155,9 @@ class rex_navigation
     /**
      * @see getBreadcrumb()
      */
-    public function showBreadcrumb($includeCurrent = false, $category_id = 0)
+    public function showBreadcrumb($startPageLabel = false, $includeCurrent = false, $category_id = 0)
     {
-        echo $this->getBreadcrumb($includeCurrent, $category_id);
+        echo $this->getBreadcrumb($startPageLabel, $includeCurrent, $category_id);
     }
 
     public function setClasses($classes)
@@ -163,13 +175,14 @@ class rex_navigation
      *
      * @param string     $metafield Datenbankfeld der Kategorie
      * @param mixed      $value     Wert für den Vergleich
-     * @param string     $type      Art des Vergleichs =/</..
+     * @param string     $type      Art des Vergleichs =/</.
      * @param int|string $depth     "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')
     {
         $this->filter[] = ['metafield' => $metafield, 'value' => $value, 'type' => $type, 'depth' => $depth];
     }
+
     /**
      * Fügt einen Callback hinzu.
      *

@@ -42,7 +42,7 @@ class rex_effect_insert_image extends rex_effect_abstract
 
         // -------------------------------------- /CONFIG
         $brand = new rex_managed_media($brandimage);
-        $brand->prepare();
+        $brand->asImage();
         $gdbrand = $brand->getImage();
         $gdimage = $this->media->getImage();
 
@@ -78,7 +78,6 @@ class rex_effect_insert_image extends rex_effect_abstract
         imagealphablending($gdimage, true);
         imagecopy($gdimage, $gdbrand, $dstX + $padding_x, $dstY + $padding_y, 0, 0, $brand_width, $brand_height);
 
-        $brand->destroy();
         $this->media->setImage($gdimage);
     }
 

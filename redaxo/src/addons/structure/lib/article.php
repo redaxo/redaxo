@@ -135,8 +135,7 @@ class rex_article extends rex_structure_element
      */
     public function getValue($value)
     {
-        // alias für parent_id -> category_id
-        if (in_array($value, ['parent_id', 'category_id'])) {
+        if ('category_id' === $value) {
             // für die CatId hier den Getter verwenden,
             // da dort je nach ArtikelTyp unterscheidungen getroffen werden müssen
             return $this->getCategoryId();

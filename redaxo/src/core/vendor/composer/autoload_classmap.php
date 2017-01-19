@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Parsedown' => $vendorDir . '/erusev/parsedown/Parsedown.php',
+    'ParsedownExtra' => $vendorDir . '/erusev/parsedown-extra/ParsedownExtra.php',
     'Psr\\Log\\AbstractLogger' => $vendorDir . '/psr/log/Psr/Log/AbstractLogger.php',
     'Psr\\Log\\InvalidArgumentException' => $vendorDir . '/psr/log/Psr/Log/InvalidArgumentException.php',
     'Psr\\Log\\LogLevel' => $vendorDir . '/psr/log/Psr/Log/LogLevel.php',
@@ -14,6 +16,7 @@ return array(
     'Psr\\Log\\LoggerInterface' => $vendorDir . '/psr/log/Psr/Log/LoggerInterface.php',
     'Psr\\Log\\LoggerTrait' => $vendorDir . '/psr/log/Psr/Log/LoggerTrait.php',
     'Psr\\Log\\NullLogger' => $vendorDir . '/psr/log/Psr/Log/NullLogger.php',
+    'Symfony\\Component\\Yaml\\Command\\LintCommand' => $vendorDir . '/symfony/yaml/Command/LintCommand.php',
     'Symfony\\Component\\Yaml\\Dumper' => $vendorDir . '/symfony/yaml/Dumper.php',
     'Symfony\\Component\\Yaml\\Escaper' => $vendorDir . '/symfony/yaml/Escaper.php',
     'Symfony\\Component\\Yaml\\Exception\\DumpException' => $vendorDir . '/symfony/yaml/Exception/DumpException.php',

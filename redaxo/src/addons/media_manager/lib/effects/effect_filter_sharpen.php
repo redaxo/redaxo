@@ -54,11 +54,11 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $imgBlur = imagecreatetruecolor($w, $h);
 
         // Gaussian blur matrix:
-        //
+
         //    1    2    1
         //    2    4    2
         //    1    2    1
-        //
+
         //////////////////////////////////////////////////
 
         if (function_exists('imageconvolution')) {
@@ -71,7 +71,6 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
             imagecopy($imgBlur, $gdimage, 0, 0, 0, 0, $w, $h);
             imageconvolution($imgBlur, $matrix, 16, 0);
         } else {
-
             // Move copies of the image around one pixel at the time and merge them with weight
             // according to the matrix. The same matrix is simply repeated for higher radii.
             for ($i = 0; $i < $this->params['radius']; ++$i) {
@@ -85,7 +84,6 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         }
 
         if ($this->params['threshold'] > 0) {
-
             // Calculate the difference between the blurred pixels and the original
             // and set the pixels
             for ($x = 0; $x < $w - 1; ++$x) {

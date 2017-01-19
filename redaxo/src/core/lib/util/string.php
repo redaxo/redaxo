@@ -95,7 +95,7 @@ class rex_string
         $spacer = '@@@REX_SPACER@@@';
         $quoted = [];
 
-        $pattern = '@(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1@Us';
+        $pattern = '@(?<=\s|=|^)(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1(?=\s|$)@Us';
         $callback = function ($match) use ($spacer, &$quoted) {
             $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
@@ -136,7 +136,7 @@ class rex_string
      * In contrast to version_compare() it treats "1.0" and "1.0.0" as equal and it supports a space as separator for
      * the version parts, e.g. "1.0 beta1"
      *
-     * @link http://www.php.net/manual/en/function.version-compare.php
+     * @see http://www.php.net/manual/en/function.version-compare.php
      *
      * @param string $version1   First version number
      * @param string $version2   Second version number
@@ -174,7 +174,7 @@ class rex_string
      *
      * @return array
      *
-     * @throws rex_yml_parse_exception
+     * @throws rex_yaml_parse_exception
      */
     public static function yamlDecode($value)
     {
@@ -244,6 +244,7 @@ class rex_string
      */
     public static function highlight($string)
     {
-        return '<pre class="rex-code">' . highlight_string($string, true) . '</pre>';
+        $return = str_replace(["\r", "\n"], ['', ''], highlight_string($string, true));
+        return '<pre class="rex-code">' . $return . '</pre>';
     }
 }

@@ -1,0 +1,86 @@
+structure = Struktur
+
+title_structure = Strukturförvaltning
+homepage = Homepage
+root_level = Huvudnivå
+no_such_category = Kategorien finns inte!
+category_updated = Kategorien aktualiserades.
+category_could_not_be_deleted = Kategorien kunde inte raderas!
+category_still_contains_articles = Kategorien innehåller artiklar.
+category_still_contains_subcategories = Kategorien innehåller underkategorier.
+category_status_updated = Kategoristatus har aktualiseras!
+category_added_and_startarticle_created = Kategori tillfogades och startartikel skapades!
+article_status_updated = Artikelstatus aktualiserades.
+article_updated = Artikeln aktualiserades.
+article_added = Artikeln tillfogades.
+header_category = Kategorinamn
+header_priority = Prio
+header_status = Status/funktion
+header_id = Id
+add_category = Tillfoga kategori
+edit_category = Bearbeta kategorin
+save_category = Spara kategorin
+status_online = online
+status_offline = offline
+option_no_template = Ingen mall
+template_default_name = INGEN MALL
+header_article_name = Artikelnamn
+header_template = Mall
+header_date = Skapat den
+change = ändra
+article_add = Tillfoga artikel
+article_edit = Bearbeta artikel
+article_save = Spara artikel
+article = Artikel
+start_article = Startartikel
+no_article_available  =  Finns ingen artikel 
+structure_categories_caption = Upplistning underkategorierna av kategorien "{0}"
+structure_articles_caption = Upplistning artiklarna av kategorien "{0}"
+article_deleted = Artiken raderades!
+article_could_not_be_generated  =  Kunde inte skapa artikel.
+category_deleted  =  Kategorien raderades!
+category_doesnt_exist  =  Kategorien finns inte!
+cant_delete_sitestartarticle = Startartikeln kan inte raderas!
+cant_delete_notfoundarticle = "Inte hittat"-artikeln kan inte raderas!
+structure_copy = Kopia
+
+all_categories = Alla kategorier
+categories = Kategorier
+
+be_search_article_name = Artikelnamn
+be_search_article_id = Artikel Id
+be_search_start = sök
+be_search_jump_to_category = Gå till kategorien
+be_search_quick_navi = Snabbnavigation
+be_search_no_results = Ingen artikel motsvarar sökkriterierna
+be_search_search = Sök
+be_search_result = Sökresultat
+
+perm_options_article2category[] = Omvandla artikel till en kategori
+perm_options_article2startarticle[] = Omvandla artikel till en startartikel
+perm_options_copyArticle[] = Kopiera artikeln
+perm_options_copyContent[] = Kopiera artikelinnehållet
+perm_options_moveArticle[] = Flytta artikel
+perm_options_moveCategory[] = Flytta kategori
+perm_options_publishArticle[] = Publicera artikeln
+perm_options_publishCategory[] = Publicera kategorien
+perm_extras_editContentOnly[] = Det får bara bearbetas innehåll
+
+system_setting_start_article_id = Startartikel
+system_setting_notfound_article_id = Felartikel
+system_setting_default_template_id = Standardmall
+system_setting_start_article_id_invalid = Ogiltig startartikel!
+system_setting_notfound_article_id_invalid = Ogiltig felartikel!
+system_setting_default_template_id_invalid = Ogiltig standardmall!
+
+linkmap = Linkmap
+linkmap_categories = Kategorier
+linkmap_articles = Artiklar
+linkmap_has_no_template = har ingen mall
+
+var_link_open = Välja länk
+var_link_delete = Radera vald länk
+var_linklist_move_top = Flytta vald länk till början
+var_linklist_move_up = Flytta vald länk uppåt
+var_linklist_move_down = Flytta vald länk neråt
+var_linklist_move_bottom  = Flytta vald länk till ändan
