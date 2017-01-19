@@ -59,7 +59,7 @@ abstract class rex_error_handler
         rex_response::setStatus($status);
 
         if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
-            $whoops = new \Whoops\Run;
+            $whoops = new \Whoops\Run();
             $whoops->writeToOutput(false);
             $whoops->allowQuit(false);
             $handler = new \Whoops\Handler\PrettyPageHandler();
@@ -84,7 +84,6 @@ abstract class rex_error_handler
         $buf = 'Oooops, an internal error occured!';
         rex_response::sendContent($buf);
         exit;
-
     }
 
     /**
