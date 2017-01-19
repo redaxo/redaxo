@@ -238,7 +238,7 @@ class rex_sql implements Iterator
             $this->stmt = self::$pdo[$this->DBID]->prepare($qry);
             return $this->stmt;
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while preparing statement "' . $qry . '! ' . $e->getMessage());
+            throw new rex_sql_exception('Error while preparing statement "' . $qry . '! ' . $e->getMessage(), $e);
         }
     }
 
@@ -264,7 +264,7 @@ class rex_sql implements Iterator
             $this->stmt->execute($params);
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage());
+            throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage(), $e);
         } finally {
             if ($this->debug) {
                 $this->printError($this->query, $params);
@@ -310,7 +310,7 @@ class rex_sql implements Iterator
             $this->stmt = self::$pdo[$this->DBID]->query($query);
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage());
+            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e);
         } finally {
             if ($this->debug) {
                 $this->printError($query, $params);
