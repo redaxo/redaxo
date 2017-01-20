@@ -93,6 +93,7 @@ media_manager_effect_rounded_corners_bottomleft = Unten Links
 media_manager_effect_rounded_corners_bottomright = Unten Rechts
 
 media_manager_effect_flip = Richtung
+media_manager_effect_rotate = Drehen um (Grad)
 
 media_manager_error_type_name_not_unique = Ein Mediatyp mit diesem Namen existiert bereits!
 
