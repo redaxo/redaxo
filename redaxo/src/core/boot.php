@@ -15,10 +15,6 @@ if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
-if (!extension_loaded('mbstring')) {
-    throw new Exception('PHP extension "mbstring" needed!');
-}
-
 foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
@@ -29,8 +25,6 @@ foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
 // we can set http header whenever we want/need to
 ob_start();
 ob_implicit_flush(0);
-
-mb_internal_encoding('UTF-8');
 
 // deactivate session cache limiter
 session_cache_limiter(false);
@@ -48,6 +42,9 @@ require_once rex_path::core('lib/autoload.php');
 rex_autoload::register();
 // add core base-classpath to autoloader
 rex_autoload::addDirectory(rex_path::core('lib'));
+
+// must be called after `rex_autoload::register()` to support symfony/polyfill-mbstring
+mb_internal_encoding('UTF-8');
 
 rex_url::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false));
 
