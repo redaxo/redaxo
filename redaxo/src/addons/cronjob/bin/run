@@ -9,7 +9,8 @@ if (PHP_SAPI !== 'cli') {
 set_time_limit(0);
 
 // get "redaxo" dir
-$dir = dirname(dirname(dirname(dirname(__DIR__))));
+// do not use __DIR__ to  be compatible to lower php versions until version check in boot.php
+$dir = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 chdir($dir);
 
 $REX['REDAXO'] = true;
