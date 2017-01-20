@@ -93,6 +93,7 @@ media_manager_effect_rounded_corners_bottomleft = Bottom left
 media_manager_effect_rounded_corners_bottomright = Bottom right
 
 media_manager_effect_flip = direction
+media_manager_effect_rotate = rotate (degree)
 
 media_manager_error_type_name_not_unique = an imagetype with this name already exists!
 
