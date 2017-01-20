@@ -62,7 +62,12 @@ abstract class rex_error_handler
             $whoops = new \Whoops\Run();
             $whoops->writeToOutput(false);
             $whoops->allowQuit(false);
+
             $handler = new \Whoops\Handler\PrettyPageHandler();
+            if (ini_get('xdebug.file_link_format')) {
+                $handler->setEditor('xdebug');
+            }
+
             $whoops->pushHandler($handler);
 
             $errPage = $whoops->handleException($exception);
