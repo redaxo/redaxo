@@ -10,12 +10,14 @@
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
-            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />';
+            $path = rex_path::base(rex_path::absolute($file));
+            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '?buster='. filemtime($path) .'" />';
         }
     }
     echo "\n";
     foreach ($this->jsFiles as $file) {
-        echo "\n" . '    <script type="text/javascript" src="' . $file . '"></script>';
+        $path = rex_path::base(rex_path::absolute($file));
+        echo "\n" . '    <script type="text/javascript" src="' . $file . '?buster='. filemtime($path) .'"></script>';
     }
 ?>
 
