@@ -39,7 +39,7 @@ backup_createdate = Erstellt am
 backup_import_file = Datei importieren
 backup_delete_file = Datei l&ouml;schen
 backup_download_file = Datei herunterladen
-
+backup_check_rights_in_directory = Backup konnte auf den/die Ordner nicht zugreifen oder es wurde keiner ausgew&auml;hlt. 
 backup_file_could_not_be_generated  = Datei konnte nicht erstellt werden.
 backup_file_generated_in  = Daten wurden gesichert in
 

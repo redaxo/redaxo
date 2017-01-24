@@ -40,6 +40,7 @@ backup_import_file = Import file
 backup_delete_file = Delete file
 backup_download_file = Download file
 
+backup_check_rights_in_directory = Backup was not able to read the folder/s or it was none selected. 
 backup_file_could_not_be_generated = File could not be generated.
 backup_file_generated_in = File has been generated in
 
