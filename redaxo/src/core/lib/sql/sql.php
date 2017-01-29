@@ -798,61 +798,6 @@ class rex_sql implements Iterator
         return $this;
     }
 
-//   /**
-//    * Setzt den Query $query ab.
-//    *
-//    * Wenn die Variable $successMessage gefuellt ist, dann wird diese bei
-//    * erfolgreichem absetzen von $query zurueckgegeben, sonst die MySQL
-//    * Fehlermeldung
-//    *
-//    * Wenn die Variable $successMessage nicht gefuellt ist, verhaelt sich diese
-//    * Methode genauso wie setQuery()
-//    *
-//    * Beispiel:
-//    *
-//    * <code>
-//    * $sql = rex_sql::factory();
-//    * $message = $sql->statusQuery(
-//    *    'INSERT  INTO abc SET a="ab"',
-//    *    'Datensatz  erfolgreich eingefuegt');
-//    * </code>
-//    *
-//    *  anstatt von
-//    *
-//    * <code>
-//    * $sql = rex_sql::factory();
-//    * if($sql->setQuery('INSERT INTO abc SET a="ab"'))
-//    *   $message  = 'Datensatz erfolgreich eingefuegt');
-//    * else
-//    *   $message  = $sql- >getError();
-//    * </code>
-//    */
-//   public function statusQuery($query, $successMessage = null)
-//   {
-//     $res = $this->setQuery($query);
-//     if($successMessage)
-//     {
-//       if($res)
-//         return $successMessage;
-//       else
-//         return $this->getError();
-//     }
-//     return $res;
-//   }
-
-//   public function preparedStatusQuery($query, $params, $successMessage = null)
-//   {
-//     $res = $this->setQuery($query, $params);
-//     if($successMessage)
-//     {
-//       if($res)
-//         return $successMessage;
-//       else
-//         return $this->getError();
-//     }
-//     return $res;
-//   }
-
     /**
      * Stellt alle Werte auf den Ursprungszustand zurueck.
      *
