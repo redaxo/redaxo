@@ -12,7 +12,7 @@ class rex_effect_rotate extends rex_effect_abstract
     public function __construct()
     {
         $this->options = [
-            '0', '90', '180', '270'
+            '0', '90', '180', '270',
         ];
     }
 
