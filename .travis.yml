@@ -24,6 +24,9 @@ install:
     - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"^2.0\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
     - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
 
+before_script:
+  - if find . -name "*.php" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+  
 script:
     - php redaxo/src/addons/tests/bin/run_tests.php
     - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
