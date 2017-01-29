@@ -280,7 +280,7 @@ class rex_sql implements Iterator
      * If parameters will be provided, a prepared statement will be executed.
      *
      * example 1:
-     *    $sql->setQuery('SELECT * FROM mytable where id=:id, 'array('id' => 3));
+     *    $sql->setQuery('SELECT * FROM mytable where id=:id', ['id' => 3]);
      *
      * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
      *
@@ -439,11 +439,11 @@ class rex_sql implements Iterator
      * Setzt die WHERE Bedienung der Abfrage.
      *
      * example 1:
-     *    $sql->setWhere(array('id' => 3, 'field' => '')); // results in id = 3 AND field = ''
-     *    $sql->setWhere(array(array('id' => 3, 'field' => ''))); // results in id = 3 OR field = ''
+     *    $sql->setWhere(['id' => 3, 'field' => '']); // results in id = 3 AND field = ''
+     *    $sql->setWhere([['id' => 3, 'field' => '']]); // results in id = 3 OR field = ''
      *
      * example 2:
-     *    $sql->setWhere('myid = :id OR anotherfield = :field', array('id' => 3, 'field' => ''));
+     *    $sql->setWhere('myid = :id OR anotherfield = :field', ['id' => 3, 'field' => '']);
      *
      * example 3 (deprecated):
      *    $sql->setWhere('myid="35" OR abc="zdf"');
