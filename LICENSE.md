@@ -7,7 +7,7 @@ der Kontaktseite aufgenommen werden.
 If you use REDAXO you may add these informations in your imprint or contact page
 
 CMS: REDAXO - Open Source Content Management System
-LINK: http://www.redaxo.org
+LINK: https://www.redaxo.org
 
 
 Lizenz
@@ -59,6 +59,6 @@ mehr zu dieser Lizenz in class.smtp.inc.php
 
 
 ### Symfony Classes
-http://symfony.com/license
+https://symfony.com/license
 (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
 sfYaml* offers convenience methods to load and dump YAML.
