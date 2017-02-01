@@ -94,8 +94,8 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
     {
         $origServer = rex::getProperty('server');
 
-        rex::setProperty('server', 'http://www.redaxo.org');
-        $this->assertEquals('http://www.redaxo.org/', rex::getServer());
+        rex::setProperty('server', 'https://www.redaxo.org');
+        $this->assertEquals('https://www.redaxo.org/', rex::getServer());
         $this->assertEquals('https://www.redaxo.org/', rex::getServer('https'));
         $this->assertEquals('www.redaxo.org/', rex::getServer(''));
 

@@ -1,7 +1,7 @@
 setup: true
 debug: false
 instname: null
-server: http://www.redaxo.org/
+server: https://www.redaxo.org/
 servername: REDAXO
 error_email: null
 fileperm: '0664'

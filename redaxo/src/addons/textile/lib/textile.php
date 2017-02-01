@@ -156,8 +156,8 @@ class rex_textile
                     [rex_i18n::rawMsg('textile_link_internal_anchor') . ':redaxo://7#AGB'],
                 ],
                 'links_extern' => [
-                    [rex_i18n::rawMsg('textile_link_external') . ':http://www.redaxo.org'],
-                    [rex_i18n::rawMsg('textile_link_external_anchor') . ':http://www.redaxo.org#news'],
+                    [rex_i18n::rawMsg('textile_link_external') . ':https://www.redaxo.org'],
+                    [rex_i18n::rawMsg('textile_link_external_anchor') . ':https://www.redaxo.org#news'],
                 ],
                 'links_attributes' => [
                     [rex_i18n::rawMsg('textile_link_attr_title') . ':media/test.jpg'],

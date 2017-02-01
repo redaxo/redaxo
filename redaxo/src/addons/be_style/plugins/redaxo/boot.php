@@ -5,7 +5,7 @@
  *
  * @author Design
  * @author ralph.zumkeller[at]yakamara[dot]de Ralph Zumkeller
- * @author <a href="http://www.yakamara.de">www.yakamara.de</a>
+ * @author <a href="https://www.yakamara.de">www.yakamara.de</a>
  * @author Umsetzung
  * @author thomas[dot]blum[at]redaxo[dot]org Thomas Blum
  *
