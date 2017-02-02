@@ -116,7 +116,11 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $select = '<option value="" selected="selected">' . $this->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
-                $select .= '<option value="' . $version['history_date'] . '">' . $version['history_date'] . '</option>';
+                $history_info = $version['history_date'];
+                if ($version['history_user'] != "") {
+                    $history_info = $version['history_date'] . ' ['. $this->i18n('savedby') . ' ' . $version['history_user'].']';
+                }
+                $select .= '<option value="' . $version['history_date'] . '">' . $history_info . '</option>';
             }
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . $select . '</select>';
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
@@ -132,6 +136,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $fragment->setVar('content1iframe', $content1iframe, false);
             $fragment->setVar('content2select', $content2select, false);
             $fragment->setVar('content2iframe', $content2iframe, false);
+
             $fragment->setVar('button_restore', $button_restore, false);
 
             echo $fragment->parse('history/layer.php');

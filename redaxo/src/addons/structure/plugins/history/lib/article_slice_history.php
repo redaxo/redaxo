@@ -25,8 +25,7 @@ class rex_article_slice_history
             ]
         );
 
-        $microtime = explode(',', microtime(true));
-        $history_date = date('Y-m-d H:i:s ') . $microtime[1];
+        $history_date = date('Y-m-d H:i:s');
 
         foreach ($slices as $slice) {
             $sql = rex_sql::factory();
@@ -40,6 +39,7 @@ class rex_article_slice_history
             }
             $sql->setValue('history_type', $history_type);
             $sql->setValue('history_date', $history_date);
+            $sql->setValue('history_user', rex::getUser()->getValue('login'));
             $sql->insert();
         }
     }
@@ -47,8 +47,8 @@ class rex_article_slice_history
     public static function getSnapshots($article_id, $clang_id, $revision = 0)
     {
         return rex_sql::factory()->getArray(
-            'select distinct history_date, history_type from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
-            [$article_id, $clang_id, $revision]
+        'select distinct history_date, history_type, history_user from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
+        [$article_id, $clang_id, $revision]
         );
     }
 

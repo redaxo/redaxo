@@ -12,3 +12,5 @@ perm_options_history[article_rollback] = Artikel wiederherstellen (Historie)
 
 structure_history_button_delete_history = Historie komplett löschen
 structure_history_deleted = Historie wurde komplett gelöscht.
+structure_history_savedby = gesichert durch
+structure_history_close = Schliessen

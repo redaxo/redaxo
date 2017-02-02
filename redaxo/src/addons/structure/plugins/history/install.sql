@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice_history` (
     `slice_id` int(10) unsigned NOT NULL,
     `history_type` varchar(255) NOT NULL,
     `history_date` DATETIME NOT NULL,
+    `history_user` varchar(255) NOT NULL,
     `clang_id` int(10) unsigned NOT NULL,
     `ctype_id` int(10) unsigned NOT NULL,
     `priority` int(10) unsigned NOT NULL,

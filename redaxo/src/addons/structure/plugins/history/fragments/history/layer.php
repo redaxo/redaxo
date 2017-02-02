@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-offset-2 col-lg-2 text-center">
                 <div class="form-group">
-                    <p class="form-control-static">Aktuelle Version</p>
+                    <p class="form-control-static"><?php echo rex_i18n::msg("structure_history_current_version"); ?></p>
                     <div class="hide rex-select-style"><?php echo $this->getVar('content1select'); ?></div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-lg-6 text-right">
                 <div class="form-group">
-                    <button class="btn btn-abort" data-history-layer="close">Fertig</button>
+                    <button class="btn btn-abort" data-history-layer="close"><?php echo rex_i18n::msg("structure_history_close"); ?></button>
                 </div>
             </div>
             <div class="col-lg-6">
