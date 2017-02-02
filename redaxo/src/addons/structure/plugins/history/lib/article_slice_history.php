@@ -47,7 +47,7 @@ class rex_article_slice_history
     public static function getSnapshots($article_id, $clang_id, $revision = 0)
     {
         return rex_sql::factory()->getArray(
-            'select distinct history_date,updateuser from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
+            'select distinct history_date, history_type from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
             [$article_id, $clang_id, $revision]
         );
     }
