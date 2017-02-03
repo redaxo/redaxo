@@ -127,6 +127,7 @@ if (opener != null)
 	        var winObjCounter = opener.winObjCounter;
 	    }
 	} catch(e) {
+	    // in x-origin cases opener.winObjCounter would not be readable
 	    var winObjCounter = -1;
 	}
 }else
