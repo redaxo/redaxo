@@ -16,6 +16,13 @@ class rex_sql implements Iterator
      */
     const FORMAT_DATETIME = 'Y-m-d H:i:s';
 
+    /**
+     * Controls query buffering.
+     *
+     * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
+     */
+    const OPT_BUFFERED = 'buffered';
+
     protected $debug; // debug schalter
     protected $values; // Werte von setValue
     protected $rawValues; // Werte von setRawValue
@@ -183,14 +190,15 @@ class rex_sql implements Iterator
     /**
      * Setzt eine Abfrage (SQL) ab, wechselt die DBID falls vorhanden.
      *
-     * @param string $query  The sql-query
-     * @param array  $params An optional array of statement parameter
+     * @param string $query   The sql-query
+     * @param array  $params  An optional array of statement parameter
+     * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @return $this
      *
      * @throws rex_sql_exception on errors
      */
-    public function setDBQuery($query, $params = [])
+    public function setDBQuery($query, array $params = [], array $options = [])
     {
         // save origin connection-id
         $oldDBID = $this->DBID;
@@ -200,7 +208,7 @@ class rex_sql implements Iterator
             $this->selectDB($qryDBID);
         }
 
-        $this->setQuery($query, $params);
+        $this->setQuery($query, $params, $options);
 
         // restore connection-id
         $this->DBID = $oldDBID;
@@ -245,16 +253,23 @@ class rex_sql implements Iterator
     /**
      * Executes the prepared statement with the given input parameters.
      *
-     * @param array $params Array of input parameters
+     * @param array $params  Array of input parameters
+     * @param array $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @return $this
      *
      * @throws rex_sql_exception
      */
-    public function execute(array $params = [])
+    public function execute(array $params = [], array $options = [])
     {
         if (!$this->stmt) {
             throw new rex_sql_exception('you need to prepare a query before calling execute()');
+        }
+
+        $buffered = null;
+        if (isset($options[self::OPT_BUFFERED])) {
+            $buffered = self::$pdo[$this->DBID]->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
+            self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
         }
 
         try {
@@ -266,6 +281,10 @@ class rex_sql implements Iterator
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage(), $e);
         } finally {
+            if (null !== $buffered) {
+                self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+            }
+
             if ($this->debug) {
                 $this->printError($this->query, $params);
             }
@@ -284,14 +303,15 @@ class rex_sql implements Iterator
      *
      * NOTE: named-parameters/?-placeholders are not supported in LIMIT clause!
      *
-     * @param string $query  The sql-query
-     * @param array  $params An optional array of statement parameter
+     * @param string $query   The sql-query
+     * @param array  $params  An optional array of statement parameter
+     * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
      * @return $this
      *
      * @throws rex_sql_exception on errors
      */
-    public function setQuery($query, array $params = [])
+    public function setQuery($query, array $params = [], array $options = [])
     {
         // Alle Werte zuruecksetzen
         $this->flush();
@@ -301,9 +321,15 @@ class rex_sql implements Iterator
 
         if (!empty($params)) {
             $this->prepareQuery($query);
-            $this->execute($params);
+            $this->execute($params, $options);
 
             return $this;
+        }
+
+        $buffered = null;
+        if (isset($options[self::OPT_BUFFERED])) {
+            $buffered = self::$pdo[$this->DBID]->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
+            self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
         }
 
         try {
@@ -312,6 +338,10 @@ class rex_sql implements Iterator
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e);
         } finally {
+            if (null !== $buffered) {
+                self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+            }
+
             if ($this->debug) {
                 $this->printError($query, $params);
             }

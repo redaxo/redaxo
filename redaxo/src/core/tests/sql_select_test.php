@@ -212,6 +212,34 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
         $this->assertEquals("Unknown column 'idx' in 'where clause'", $sql->getError());
     }
 
+    public function testUnbufferedQuery()
+    {
+        $sql = rex_sql::factory();
+
+        // get DB 1 PDO object
+        $property = new ReflectionProperty(rex_sql::class, 'pdo');
+        $property->setAccessible(true);
+        /** @var PDO $pdo */
+        $pdo = $property->getValue()[1];
+
+        $this->assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+
+        $sql->setQuery('SELECT * FROM '.self::TABLE, [], [
+            rex_sql::OPT_BUFFERED => false,
+        ]);
+
+        $this->assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+
+        try {
+            $sql->setQuery('SELECT '.self::TABLE, [], [
+                rex_sql::OPT_BUFFERED => false,
+            ]);
+        } catch (rex_sql_exception $e) {
+        }
+
+        $this->assertEquals(1, $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY));
+    }
+
     private function insertRow()
     {
         $sql = rex_sql::factory();
