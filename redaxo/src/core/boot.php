@@ -88,6 +88,8 @@ if (!rex::isSetup()) {
     rex_error_handler::register();
 }
 
+rex_var_dumper::register();
+
 // ----------------- REX PERMS
 
 rex_complex_perm::register('clang', 'rex_clang_perm');
