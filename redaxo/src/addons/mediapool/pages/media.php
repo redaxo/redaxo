@@ -157,7 +157,7 @@ if ($file_id) {
     $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$file_id]);
     if ($gf->getRows() == 1) {
         $TPERM = false;
-        if ($PERMALL || rex::getUser()->hasPerm('media[' . $gf->getValue('category_id') . ']')) {
+        if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))) {
             $TPERM = true;
         }
 
