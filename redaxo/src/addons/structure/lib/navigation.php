@@ -43,10 +43,7 @@ class rex_navigation
     private $activeClass = 'rex-active';
     private $currentClass = 'rex-current';
     private $normalClass = 'rex-normal';
-    private $activeLiClass = $this->activeClass;
-    private $activeAClass = $this->activeClass;
-    private $currentLiClass = $this->activeClass;
-    private $currentAClass = $this->activeClass;
+    private $ulClass = '';
     private $filter = [];
     private $callbacks = [];
 
@@ -55,7 +52,10 @@ class rex_navigation
 
     private function __construct()
     {
-        // nichts zu tun
+        $this->activeLiClass = $this->activeClass;
+        $this->activeAClass = $this->activeClass;
+        $this->currentLiClass = $this->activeClass;
+        $this->currentAClass = $this->activeClass;
     }
 
     public static function factory()
@@ -198,6 +198,11 @@ class rex_navigation
     public function setCurrentAClass($class)
     {
         $this->currentAClass = $class;
+    }
+
+    public function setUlClass($class)
+    {
+        $this->ulClass = $class;
     }
 
     /**
@@ -389,7 +394,7 @@ class rex_navigation
             }
         }
         if (count($lis) > 0) {
-            return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements">' . implode('', $lis) . '</ul>';
+            return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements' . $this->ulClass .'">' . implode('', $lis) . '</ul>';
         }
         return '';
     }
