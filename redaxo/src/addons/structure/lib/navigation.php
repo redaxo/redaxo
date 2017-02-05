@@ -40,6 +40,13 @@ class rex_navigation
     private $path = [];
     private $classes = [];
     private $linkclasses = [];
+    private $activeClass = 'rex-active';
+    private $currentClass = 'rex-current';
+    private $normalClass = 'rex-normal';
+    private $activeLiClass = $this->$activeClass;
+    private $activeAClass = $this->$activeClass;
+    private $currentLiClass = $this->$activeClass;
+    private $currentAClass = $this->$activeClass;
     private $filter = [];
     private $callbacks = [];
 
@@ -51,9 +58,6 @@ class rex_navigation
         // nichts zu tun
     }
 
-    /**
-     * @return static
-     */
     public static function factory()
     {
         $class = self::getFactoryClass();
@@ -123,16 +127,7 @@ class rex_navigation
             }
         }
 
-        $show = !$category_id;
         foreach ($path as $pathItem) {
-            if (!$show) {
-                if ($pathItem == $category_id) {
-                    $show = true;
-                } else {
-                    continue;
-                }
-            }
-
             $cat = rex_category::get($pathItem);
             $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
             ++$i;
@@ -155,9 +150,9 @@ class rex_navigation
     /**
      * @see getBreadcrumb()
      */
-    public function showBreadcrumb($startPageLabel = false, $includeCurrent = false, $category_id = 0)
+    public function showBreadcrumb($includeCurrent = false, $category_id = 0)
     {
-        echo $this->getBreadcrumb($startPageLabel, $includeCurrent, $category_id);
+        echo $this->getBreadcrumb($includeCurrent, $category_id);
     }
 
     public function setClasses($classes)
@@ -170,6 +165,40 @@ class rex_navigation
         $this->linkclasses = $classes;
     }
 
+    public function setActiveClass($class)
+    {
+        $this->$activeClass = $class;
+    }
+
+    public function setCurrentClass($class)
+    {
+        $this->$currentClass = $class;
+    }
+
+    public function setNormalClass($class)
+    {
+        $this->$normalClass = $class;
+    }
+
+    public function setActiveAClass($class)
+    {
+        $this->$activeAClass = $class;
+    }
+
+    public function setActiveLiClass($class)
+    {
+        $this->$activeLiClass = $class;
+    }
+
+    public function setCurrentLiClass($class)
+    {
+        $this->$currentLiClass = $class;
+    }
+
+    public function setCurrentAClass($class)
+    {
+        $this->$currentAClass = $class;
+    }
     /**
      * Fügt einen Filter hinzu.
      *
@@ -182,7 +211,6 @@ class rex_navigation
     {
         $this->filter[] = ['metafield' => $metafield, 'value' => $value, 'type' => $type, 'depth' => $depth];
     }
-
     /**
      * Fügt einen Callback hinzu.
      *
@@ -322,13 +350,13 @@ class rex_navigation
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad
                 if ($nav->getId() == $this->current_category_id) {
-                    $li['class'][] = 'rex-current';
-                    $a['class'][] = 'rex-current';
+                    $li['class'][] = $this->currentLiClass;
+                    $a['class'][] = $this->currentAClass;
                 } elseif (in_array($nav->getId(), $this->path)) {
-                    $li['class'][] = 'rex-active';
-                    $a['class'][] = 'rex-active';
+                    $li['class'][] = $this->activeLiClass;
+                    $a['class'][] = $this->activeAClass;
                 } else {
-                    $li['class'][] = 'rex-normal';
+                    $li['class'][] = $this->normalClass;
                 }
                 if (isset($this->linkclasses[($depth - 1)])) {
                     $a['class'][] = $this->linkclasses[($depth - 1)];
