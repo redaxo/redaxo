@@ -165,16 +165,6 @@ class rex_navigation
         $this->linkclasses = $classes;
     }
 
-    public function setActiveClass($class)
-    {
-        $this->activeClass = $class;
-    }
-
-    public function setCurrentClass($class)
-    {
-        $this->currentClass = $class;
-    }
-
     public function setNormalClass($class)
     {
         $this->normalClass = $class;
