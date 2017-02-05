@@ -8,6 +8,7 @@
 class rex_media
 {
     use rex_instance_pool_trait;
+    use rex_instance_list_pool_trait;
 
     // id
     protected $id = '';
@@ -82,6 +83,20 @@ class rex_media
             }
 
             return null;
+        });
+    }
+
+    /**
+     * @return static[]
+     */
+    public static function getRootMedia()
+    {
+        return static::getInstanceList('root_media', 'static::get', function () {
+            $list_path = rex_path::addonCache('mediapool', '0.mlist');
+            if (!file_exists($list_path)) {
+                rex_media_cache::generateList(0);
+            }
+            return rex_file::getCache($list_path);
         });
     }
 
