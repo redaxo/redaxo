@@ -69,7 +69,7 @@ abstract class rex_metainfo_handler
                 $label = htmlspecialchars($name);
             }
 
-            $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $label);
+            $id = 'rex-metainfo-'.htmlspecialchars(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
             $labelIt = true;
 
             $label = '<label for="' . $id . '">' . $label . '</label>';
@@ -174,14 +174,16 @@ abstract class rex_metainfo_handler
                             $selected = ' checked="checked"';
                         }
 
+                        $currentId = $id;
+
                         $e = [];
                         if ($oneValue) {
                             $e['label'] = $label;
                         } else {
-                            $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $id . $key);
-                            $e['label'] = '<label for="' . $id . '">' . htmlspecialchars($value) . '</label>';
+                            $currentId .= '-'.htmlspecialchars(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key));
+                            $e['label'] = '<label for="' . $currentId . '">' . htmlspecialchars($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $id . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
                     }
 
