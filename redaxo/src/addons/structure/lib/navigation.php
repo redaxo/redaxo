@@ -394,7 +394,7 @@ class rex_navigation
             }
         }
         if (count($lis) > 0) {
-            return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements' . $this->ulClass .'">' . implode('', $lis) . '</ul>';
+            return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements ' . $this->ulClass .'">' . implode('', $lis) . '</ul>';
         }
         return '';
     }
