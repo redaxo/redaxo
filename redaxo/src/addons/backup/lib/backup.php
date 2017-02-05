@@ -318,6 +318,8 @@ class rex_backup
         fwrite($fp, '## charset utf-8' . $nl . $nl);
     //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
+        fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
+
         if (is_null($tables)) {
             $tables = [];
             foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
@@ -400,6 +402,8 @@ class rex_backup
                 fwrite($fp, $nl . 'UNLOCK TABLES;' . $nl . $nl);
             }
         }
+
+        fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 1;' . $nl);
 
         fclose($fp);
 
