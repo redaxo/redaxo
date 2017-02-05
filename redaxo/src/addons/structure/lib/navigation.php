@@ -43,10 +43,10 @@ class rex_navigation
     private $activeClass = 'rex-active';
     private $currentClass = 'rex-current';
     private $normalClass = 'rex-normal';
-    private $activeLiClass = $this->$activeClass;
-    private $activeAClass = $this->$activeClass;
-    private $currentLiClass = $this->$activeClass;
-    private $currentAClass = $this->$activeClass;
+    private $activeLiClass = $this->activeClass;
+    private $activeAClass = $this->activeClass;
+    private $currentLiClass = $this->activeClass;
+    private $currentAClass = $this->activeClass;
     private $filter = [];
     private $callbacks = [];
 
@@ -167,38 +167,39 @@ class rex_navigation
 
     public function setActiveClass($class)
     {
-        $this->$activeClass = $class;
+        $this->activeClass = $class;
     }
 
     public function setCurrentClass($class)
     {
-        $this->$currentClass = $class;
+        $this->currentClass = $class;
     }
 
     public function setNormalClass($class)
     {
-        $this->$normalClass = $class;
+        $this->normalClass = $class;
     }
 
     public function setActiveAClass($class)
     {
-        $this->$activeAClass = $class;
+        $this->activeAClass = $class;
     }
 
     public function setActiveLiClass($class)
     {
-        $this->$activeLiClass = $class;
+        $this->activeLiClass = $class;
     }
 
     public function setCurrentLiClass($class)
     {
-        $this->$currentLiClass = $class;
+        $this->currentLiClass = $class;
     }
 
     public function setCurrentAClass($class)
     {
-        $this->$currentAClass = $class;
+        $this->currentAClass = $class;
     }
+
     /**
      * Fügt einen Filter hinzu.
      *
