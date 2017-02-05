@@ -54,8 +54,8 @@ class rex_navigation
     {
         $this->activeLiClass = $this->activeClass;
         $this->activeAClass = $this->activeClass;
-        $this->currentLiClass = $this->activeClass;
-        $this->currentAClass = $this->activeClass;
+        $this->currentLiClass = $this->currentClass;
+        $this->currentAClass = $this->currentClass;
     }
 
     public static function factory()
