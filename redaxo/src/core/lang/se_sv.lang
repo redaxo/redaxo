@@ -39,6 +39,7 @@ navigation_addons = AddOns
 subnavigation = Undernavigation från {0}
 
 # redaxo/include/classes/class.login.php
+login = Login
 login_name  =  Användarnamn
 password  =  Lösenord
 new_password = Nytt lösenord
@@ -54,7 +55,7 @@ stay_logged_in = Stanna inloggat
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  inte inloggat
 logged_in_as  =  Inloggat som
-safemode_deactivate = Avaktivera safe mode 
+safemode_deactivate = Avaktivera safe mode
 
 # redaxo/include/classes/class.form.php
 form_field_first_priority = Vid början
@@ -119,7 +120,7 @@ debug_mode = Debug-modus
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Installation
 setup_restart = Installation: starta nytt
-setup_text = 
+setup_text =
 Här kan du starta installationen. Detta bör du bara göra i en nödsituation. Under normala omständigheter är det inte nödvändigt.
 setup_error1 = Installatonen aktiverad. Vänliga klicka på {0} vidare {1} och genomför installationen.
 setup_error2 = Tyvärr kunde det inte skrivas på config.yml-filen. Vänligen ändra till \"setup: true\" i config.yml.
