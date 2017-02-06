@@ -41,23 +41,34 @@ abstract class rex_var_dumper
             if ('cli' === PHP_SAPI) {
                 self::$dumper = new CliDumper();
             } else {
+                $styleAll = 'font-family: "Fira Code", Menlo, Monaco, Consolas, monospace; font-size: 14px; line-height: 1.4 !important;';
                 self::$dumper = new HtmlDumper();
                 self::$dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
                 self::$dumper->setIndentPad('    ');
                 self::$dumper->setStyles([
-                    'default' => '',
-                    'num' => '',
-                    'const' => '',
-                    'str' => '',
-                    'note' => '',
-                    'ref' => '',
-                    'public' => '',
-                    'protected' => '',
-                    'private' => '',
-                    'meta' => '',
-                    'key' => '',
-                    'index' => '',
-                    'ellipsis' => '',
+                    'default' => $styleAll . '
+                        position: relative;
+                        z-index: 99999;
+                        padding: 10px;
+                        background-color: #263238;
+                        border: 0;
+                        color: #eeffff;
+                        white-space: pre-wrap;
+                        word-break: normal;
+                        word-wrap: break-word;
+                    ',
+                    'const' => $styleAll . 'color: #F78C6C;font-weight: 700;',
+                    'ellipsis' => $styleAll . 'color: #FFA500;',
+                    'index' => $styleAll . 'color: #C3E88D;',
+                    'key' => $styleAll . 'color: #C3E88D;',
+                    'meta' => $styleAll . 'color: #800080;',
+                    'note' => $styleAll . 'color: #FFB62C;',
+                    'num' => $styleAll . 'color: #F78C6C;',
+                    'protected' => $styleAll . 'color: #C792EA;',
+                    'private' => $styleAll . 'color: #C792EA;',
+                    'public' => $styleAll . 'color: #C792EA;',
+                    'ref' => $styleAll . 'color: #eeffff;',
+                    'str' => $styleAll . 'color: #FF5370;',
                 ]);
             }
         }
