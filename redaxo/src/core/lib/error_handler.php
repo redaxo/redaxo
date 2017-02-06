@@ -76,10 +76,10 @@ abstract class rex_error_handler
                 $style = '
                     <style>
                         .Whoops {
-                            padding-top: 50px;
+                            padding-top: 70px;
                         }
                         .panel {
-                            top: 50px;
+                            top: 70px;
                             bottom: 0;
                             height: auto;
                         }
@@ -88,12 +88,12 @@ abstract class rex_error_handler
                             top: 0;
                             left: 0;
                             right: 0;
-                            height: 50px;
+                            height: 70px;
                             background: #b00;                            
                         }
                         .rex-logo {
                             padding-left: 40px;
-                            line-height: 50px;
+                            line-height: 70px;
                         }
                         .rex-logo > svg {
                             vertical-align: middle;
@@ -102,7 +102,13 @@ abstract class rex_error_handler
                             position: absolute;
                             top: 20px;
                             right: 40px;
+                            display: inline-block;
+                            padding: 10px;
+                            border-bottom: 2px solid transparent;
                             color: #fff;
+                        }
+                        .rex-safemode:hover {
+                            border-bottom-color: #fff;
                         }
                     </style>';
 
