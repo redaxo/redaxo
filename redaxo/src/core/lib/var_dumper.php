@@ -38,7 +38,28 @@ abstract class rex_var_dumper
     {
         if (!self::$cloner) {
             self::$cloner = new VarCloner();
-            self::$dumper = 'cli' === PHP_SAPI ? new CliDumper() : new HtmlDumper();
+            if ('cli' === PHP_SAPI) {
+                self::$dumper = new CliDumper();
+            } else {
+                self::$dumper = new HtmlDumper();
+                self::$dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
+                self::$dumper->setIndentPad('    ');
+                self::$dumper->setStyles([
+                    'default' => '',
+                    'num' => '',
+                    'const' => '',
+                    'str' => '',
+                    'note' => '',
+                    'ref' => '',
+                    'public' => '',
+                    'protected' => '',
+                    'private' => '',
+                    'meta' => '',
+                    'key' => '',
+                    'index' => '',
+                    'ellipsis' => '',
+                ]);
+            }
         }
 
         self::$dumper->dump(self::$cloner->cloneVar($var));
