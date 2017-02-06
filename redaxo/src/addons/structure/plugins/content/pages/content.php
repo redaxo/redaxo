@@ -226,22 +226,23 @@ if ($article->getRows() == 1) {
 
                                     $newsql->update();
                                     $info = $action_message . rex_i18n::msg('block_updated');
+                                    $epParams = [
+                                        'article_id' => $article_id,
+                                        'clang' => $clang,
+                                        'function' => $function,
+                                        'slice_id' => $slice_id,
+                                        'page' => rex_be_controller::getCurrentPage(),
+                                        'ctype' => $ctype,
+                                        'category_id' => $category_id,
+                                        'module_id' => $module_id,
+                                        'article_revision' => &$article_revision,
+                                        'slice_revision' => &$slice_revision,
+                                    ];
 
                                     // ----- EXTENSION POINT
-                                    foreach (['SLICE_UPDATED', /* deprecated */ 'STRUCTURE_CONTENT_SLICE_UPDATED'] as $ep) {
-                                        $info = rex_extension::registerPoint(new rex_extension_point($ep, $info, [
-                                            'article_id' => $article_id,
-                                            'clang' => $clang,
-                                            'function' => $function,
-                                            'slice_id' => $slice_id,
-                                            'page' => rex_be_controller::getCurrentPage(),
-                                            'ctype' => $ctype,
-                                            'category_id' => $category_id,
-                                            'module_id' => $module_id,
-                                            'article_revision' => &$article_revision,
-                                            'slice_revision' => &$slice_revision,
-                                        ]));
-                                    }
+                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
+                                    /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
+
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -268,35 +269,7 @@ if ($article->getRows() == 1) {
                                     $info = $action_message . rex_i18n::msg('block_added');
                                     $slice_id = $newsql->getLastId();
                                     $function = '';
-
-                                    // ----- EXTENSION POINT
-                                    foreach (['SLICE_ADDED', /* deprecated */ 'STRUCTURE_CONTENT_SLICE_ADDED'] as $ep) {
-                                        $info = rex_extension::registerPoint(new rex_extension_point($ep, $info, [
-                                            'article_id' => $article_id,
-                                            'clang' => $clang,
-                                            'function' => $function,
-                                            'slice_id' => $slice_id,
-                                            'page' => rex_be_controller::getCurrentPage(),
-                                            'ctype' => $ctype,
-                                            'category_id' => $category_id,
-                                            'module_id' => $module_id,
-                                            'article_revision' => &$article_revision,
-                                            'slice_revision' => &$slice_revision,
-                                        ]));
-                                    }
-                                } catch (rex_sql_exception $e) {
-                                    $warning = $action_message . $e->getMessage();
-                                }
-                            }
-                        } else {
-                            // make delete
-
-                            if (rex_content_service::deleteSlice($slice_id)) {
-                                $global_info = rex_i18n::msg('block_deleted');
-
-                                // ----- EXTENSION POINT
-                                foreach (['SLICE_DELETED', /* deprecated */ 'STRUCTURE_CONTENT_SLICE_DELETED'] as $ep) {
-                                    $global_info = rex_extension::registerPoint(new rex_extension_point($ep, $global_info, [
+                                    $epParams = [
                                         'article_id' => $article_id,
                                         'clang' => $clang,
                                         'function' => $function,
@@ -307,8 +280,38 @@ if ($article->getRows() == 1) {
                                         'module_id' => $module_id,
                                         'article_revision' => &$article_revision,
                                         'slice_revision' => &$slice_revision,
-                                    ]));
+                                    ];
+
+                                    // ----- EXTENSION POINT
+                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
+                                    /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
+
+                                } catch (rex_sql_exception $e) {
+                                    $warning = $action_message . $e->getMessage();
                                 }
+                            }
+                        } else {
+                            // make delete
+
+                            if (rex_content_service::deleteSlice($slice_id)) {
+                                $global_info = rex_i18n::msg('block_deleted');
+                                $epParams = [
+                                    'article_id' => $article_id,
+                                    'clang' => $clang,
+                                    'function' => $function,
+                                    'slice_id' => $slice_id,
+                                    'page' => rex_be_controller::getCurrentPage(),
+                                    'ctype' => $ctype,
+                                    'category_id' => $category_id,
+                                    'module_id' => $module_id,
+                                    'article_revision' => &$article_revision,
+                                    'slice_revision' => &$slice_revision,
+                                ];
+
+                                // ----- EXTENSION POINT
+                                $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, $epParams));
+                                /* deprecated */ $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, $epParams));
+
                             } else {
                                 $global_warning = rex_i18n::msg('block_not_deleted');
                             }
