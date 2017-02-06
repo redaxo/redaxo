@@ -100,15 +100,20 @@ abstract class rex_error_handler
                         }
                         .rex-safemode {
                             position: absolute;
-                            top: 20px;
+                            top: 17px;
                             right: 40px;
                             display: inline-block;
                             padding: 10px;
-                            border-bottom: 2px solid transparent;
-                            color: #fff;
+                            background-color: #f90;
+                            border-radius: 4px;
+                            color: #754600;
+                            font-size: .875rem;
+                            font-weight: 700;
+                            transition: 0.2s ease-out;
                         }
                         .rex-safemode:hover {
-                            border-bottom-color: #fff;
+                            background-color: #754600;
+                            color: #f90;
                         }
                     </style>';
 
