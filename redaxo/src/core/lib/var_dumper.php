@@ -57,11 +57,11 @@ abstract class rex_var_dumper
                         word-break: normal;
                         word-wrap: break-word;
                     ',
-                    'const' => $styleAll . 'color: #F78C6C;font-weight: 700;',
-                    'ellipsis' => $styleAll . 'color: #FFA500;',
+                    'const' => $styleAll . 'color: #F78C6C; font-weight: 700;',
+                    'ellipsis' => $styleAll . 'color: #eeffff;',
                     'index' => $styleAll . 'color: #C3E88D;',
                     'key' => $styleAll . 'color: #C3E88D;',
-                    'meta' => $styleAll . 'color: #800080;',
+                    'meta' => $styleAll . 'color: #89DDFF;',
                     'note' => $styleAll . 'color: #FFB62C;',
                     'num' => $styleAll . 'color: #F78C6C;',
                     'protected' => $styleAll . 'color: #C792EA;',
