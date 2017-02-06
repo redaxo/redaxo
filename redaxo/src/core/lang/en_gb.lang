@@ -39,6 +39,7 @@ navigation_addons = AddOns
 subnavigation = Subnavigation of {0}
 
 # redaxo/include/classes/class.login.php
+login = Login
 login_name = Username
 password = Password
 new_password = new Password

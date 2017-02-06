@@ -24,7 +24,6 @@ user_functions = Funktionen
 user_options = Optionen
 user_extras = Extras
 last_login = Letzter Login
-login = Login
 psw_encrypted = Dieses Passwort ist verschlüsselt - bei Änderungen einfach neues Passwort eingeben
 user_caption = Liste der angelegten Benutzer
 user_status = User ist aktiv
