@@ -21,7 +21,7 @@ abstract class rex_var_dumper
     {
         VarDumper::setHandler(function ($var) {
             if (rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
-                VarDumper::setHandler('self::dump');
+                VarDumper::setHandler([self::class, 'dump']);
                 self::dump($var);
 
                 return;
