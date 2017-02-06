@@ -17,7 +17,7 @@ if ($history_date != '') {
     $userSession = rex_request('rex_history_session', 'string');
     $userLogin =  rex_request('rex_history_login', 'string');
 
-    if ($userSession != '' && $userLogin != '') {
+    if ($userSession != '' && $userLogin != '' && !rex::isBackend()) {
         $login = new rex_history_login();
 
         if ($login->checkSessionLogin($userSession, $userLogin)) {
