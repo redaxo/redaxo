@@ -31,6 +31,9 @@ $body_attr['class'] = ['rex-is-logged-out'];
 if (rex::getUser()) {
     $body_attr['class'] = ['rex-is-logged-in'];
 }
+if (rex::isSafeMode()) {
+    $body_attr['class'][] = 'rex-is-safemode';
+}
 if ($curPage->isPopup()) {
     $body_attr['class'][] = 'rex-is-popup';
 }
@@ -54,6 +57,7 @@ if (rex::getUser() && $hasNavigation) {
         $item = [];
         $item['title'] = rex_i18n::msg('safemode_deactivate');
         $item['href'] = rex_url::backendController(['safemode' => 0]);
+        $item['attributes'] = 'class="btn btn-safemode-deactivate"';
         $meta_items[] = $item;
         unset($item);
     }

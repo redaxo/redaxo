@@ -1,0 +1,18 @@
+.rex-is-safemode {
+    background-color: rgba(#ff9900, .2);
+
+    .rex-nav-top {
+        background-color: #f90;
+    }
+
+    .btn-safemode-deactivate {
+        @include button-variant(#fff, #a86500, #a86500);
+
+        @media (min-width: $grid-float-breakpoint) {
+            margin-top: ($navbar-padding-vertical - $padding-base-vertical - 1); // 1px border
+            margin-right: $navbar-padding-horizontal;
+            padding-top: $padding-base-vertical;
+            padding-bottom: $padding-base-vertical;
+        }
+    }
+}
