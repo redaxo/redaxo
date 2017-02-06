@@ -125,10 +125,10 @@ abstract class rex_error_handler
             $errPage = str_replace(
                 [
                     '</head>',
-                    '</body>'
+                    '</body>',
                 ], [
                     $errPageStyle . '</head>',
-                    '<div class="rex-whoops-header"><div class="rex-logo">' . $errPageLogo . '</div>' . $errPageSaveModeLink . '</div></body>'
+                    '<div class="rex-whoops-header"><div class="rex-logo">' . $errPageLogo . '</div>' . $errPageSaveModeLink . '</div></body>',
                 ],
                 $errPage
             );

@@ -117,7 +117,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $select = '<option value="" selected="selected">' . $this->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
                 $history_info = $version['history_date'];
-                if ($version['history_user'] != "") {
+                if ($version['history_user'] != '') {
                     $history_info = $version['history_date'] . ' ['. $this->i18n('savedby') . ' ' . $version['history_user'].']';
                 }
                 $select .= '<option value="' . $version['history_date'] . '">' . $history_info . '</option>';

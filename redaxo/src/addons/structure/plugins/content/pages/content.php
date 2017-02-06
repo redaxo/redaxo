@@ -242,7 +242,6 @@ if ($article->getRows() == 1) {
                                     // ----- EXTENSION POINT
                                     $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
                                     /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
-
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -285,7 +284,6 @@ if ($article->getRows() == 1) {
                                     // ----- EXTENSION POINT
                                     $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
                                     /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
-
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -311,7 +309,6 @@ if ($article->getRows() == 1) {
                                 // ----- EXTENSION POINT
                                 $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, $epParams));
                                 /* deprecated */ $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, $epParams));
-
                             } else {
                                 $global_warning = rex_i18n::msg('block_not_deleted');
                             }
