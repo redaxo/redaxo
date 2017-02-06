@@ -14,7 +14,24 @@ $history_date = rex_request('rex_history_date', 'string');
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
-    $user = rex_backend_login::createUser();
+    $userSession = rex_request('rex_history_session', 'string');
+    $userLogin =  rex_request('rex_history_login', 'string');
+
+    if ($userSession != '' && $userLogin != '') {
+        $login = new rex_history_login();
+
+        if ($login->checkSessionLogin($userSession, $userLogin)) {
+            $user = $login->getUser();
+            rex::setProperty('user', $user);
+            rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) use ($login) {
+                $login->deleteSession();
+            });
+        }
+
+    } else {
+        $user = rex_backend_login::createUser();
+
+    }
 
     if (!$user) {
         throw new rex_exception('no permission');
@@ -75,7 +92,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                     $type = 'slices_copy';
                     break;
                 case 'SLICE_MOVE':
-                    $type = 'slice_'.$ep->getParam('direction');
+                    $type = 'slice_' . $ep->getParam('direction');
                     break;
                 default:
                     $type = strtolower($ep->getName());
@@ -118,7 +135,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             foreach ($versions as $version) {
                 $history_info = $version['history_date'];
                 if ($version['history_user'] != '') {
-                    $history_info = $version['history_date'] . ' ['. $this->i18n('savedby') . ' ' . $version['history_user'].']';
+                    $history_info = $version['history_date'] . ' [' . $this->i18n('savedby') . ' ' . $version['history_user'] . ']';
                 }
                 $select .= '<option value="' . $version['history_date'] . '">' . $history_info . '</option>';
             }
@@ -145,12 +162,17 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
         if ($ep->getParam('page') == 'content/edit') {
+
+            $user = rex::getUser();
+            $userSession = $user->getValue('session_id');
+            $userLogin = $user->getLogin();
+
             echo '<script>
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_revision = ' . rex_request('rex_set_version', 'int', 0) . ';
-                    var history_article_link = "' . rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&') . '";
+                    var history_article_link = "' . rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0), 'rex_history_login' => $userLogin, 'rex_history_session' => $userSession], '&') . '";
                     </script>';
         }
     }
