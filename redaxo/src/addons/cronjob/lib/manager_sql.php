@@ -131,7 +131,10 @@ class rex_cronjob_manager_sql
             $query .= ' LIMIT 1';
         }
 
-        $maxExecutionTime = ini_get('max_execution_time') ?: 60 * 60;
+        $maxExecutionTime = ini_get('max_execution_time');
+        if(PHP_SAPI !== 'cli' && $maxExecutionTime == 0) {
+            $maxExecutionTime = 60 * 60;
+        }
         $jobs = $sql->getArray($query, [rex_sql::datetime(time() - 2 * $maxExecutionTime), '%|' .$env. '|%', rex_sql::datetime()]);
 
         if (!$jobs) {
