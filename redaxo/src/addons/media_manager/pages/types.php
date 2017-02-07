@@ -110,6 +110,9 @@ if ($func == '') {
     $list->addColumn('editType', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('media_manager_type_edit'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('editType', ['func' => 'edit', 'type_id' => '###id###']);
 
+    $list->addColumn('copyType', '<i class="rex-icon rex-icon-copy"></i> ' . rex_i18n::msg('media_manager_type_copy'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnParams('copyType', ['func' => 'copy', 'type_id' => '###id###']);
+
     // remove delete link on internal types (status == 1)
     $list->addColumn('deleteType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
@@ -121,9 +124,6 @@ if ($func == '') {
         }
         return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));
     });
-
-    $list->addColumn('copyType', '<i class="rex-icon rex-icon-copy"></i> ' . rex_i18n::msg('media_manager_type_copy'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('copyType', ['func' => 'copy', 'type_id' => '###id###']);
 
     $content .= $list->get();
 
