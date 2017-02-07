@@ -204,9 +204,9 @@ class rex_cronjob_manager_sql
         $params = json_decode($job['parameters'], true);
         $cronjob = rex_cronjob::factory($job['type']);
 
-        $success = $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
-
         $this->setNextTime($job['id'], $job['interval'], $resetExecutionStart);
+
+        $success = $this->getManager()->tryExecute($cronjob, $job['name'], $params, $log, $job['id']);
 
         return $success;
     }
