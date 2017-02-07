@@ -14,19 +14,27 @@ $history_date = rex_request('rex_history_date', 'string');
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
-    $userSession = rex_request('rex_history_session', 'string');
-    $userLogin =  rex_request('rex_history_login', 'string');
+    $historySession = rex_request('rex_history_session', 'string');
+    $historyLogin =  rex_request('rex_history_login', 'string');
+    $historyValidtime =  rex_request('rex_history_validtime', 'string');
 
-    if ($userSession != '' && $userLogin != '' && !rex::isBackend()) {
-        $login = new rex_history_login();
+    if ($historySession != '' && $historyLogin != '' && $historyValidtime != '' && !rex::isBackend()) {
 
-        if ($login->checkSessionLogin($userSession, $userLogin)) {
-            $user = $login->getUser();
-            rex::setProperty('user', $user);
-            rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) use ($login) {
-                $login->deleteSession();
-            });
+        $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
+        $now = new DateTime();
+        if ($now < $validtill) {
+            $login = new rex_history_login();
+
+            if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
+                $user = $login->getUser();
+                rex::setProperty('user', $user);
+                rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) use ($login) {
+                    $login->deleteSession();
+                });
+            }
+
         }
+
 
     } else {
         $user = rex_backend_login::createUser();
@@ -163,16 +171,22 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
         if ($ep->getParam('page') == 'content/edit') {
 
-            $user = rex::getUser();
-            $userSession = $user->getValue('session_id');
-            $userLogin = $user->getLogin();
+            $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&');
+            if (substr($article_link, 0, 4) == 'http') {
+                $user = rex::getUser();
+                $userLogin = $user->getLogin();
+                $historyValidTime = new DateTime();
+                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
+                $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
+                $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0), 'rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
+            }
 
             echo '<script>
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_revision = ' . rex_request('rex_set_version', 'int', 0) . ';
-                    var history_article_link = "' . rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0), 'rex_history_login' => $userLogin, 'rex_history_session' => $userSession], '&') . '";
+                    var history_article_link = "' . $article_link . '";
                     </script>';
         }
     }
