@@ -127,12 +127,16 @@ class rex_cronjob_manager_sql
                 AND   nexttime <= ?
             ORDER BY  nexttime ASC, execution_moment DESC, name ASC
         ';
-        if (!$script) {
+
+        if ($script) {
+            $minExecutionStartDiff = 6 * 60 * 60;
+        } else {
             $query .= ' LIMIT 1';
+
+            $minExecutionStartDiff = 2 * (ini_get('max_execution_time') ?: 60 * 60);
         }
 
-        $maxExecutionTime = ini_get('max_execution_time') ?: 60 * 60;
-        $jobs = $sql->getArray($query, [rex_sql::datetime(time() - 2 * $maxExecutionTime), '%|' .$env. '|%', rex_sql::datetime()]);
+        $jobs = $sql->getArray($query, [rex_sql::datetime(time() - $minExecutionStartDiff), '%|' .$env. '|%', rex_sql::datetime()]);
 
         if (!$jobs) {
             $this->saveNextTime();
