@@ -17,7 +17,7 @@ class rex_media_manager
         $this->useCache(true);
     }
 
-    protected function applyEffects($type)
+    public function applyEffects($type)
     {
         $this->type = $type;
 
