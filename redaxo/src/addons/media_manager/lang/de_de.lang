@@ -34,7 +34,7 @@ media_manager_type_caption = Liste der angelegten Mediatypen
 media_manager_type_no_types = Keine Mediatypen vorhanden
 media_manager_type_create = Mediatyp erstellen
 media_manager_type_edit = editieren
-media_manager_type_copy = kopieren
+media_manager_type_copy = duplizieren
 media_manager_type_effekts_edit = Effekte bearbeiten
 media_manager_type_delete = Mediatyp löschen
 media_manager_type_name = Name
@@ -46,7 +46,7 @@ media_manager_type_cache_delete = Cache löschen
 media_manager_type_system = System Mediatyp
 media_manager_type_delete = löschen
 media_manager_type_deleted = Mediatyp gelöscht
-media_manager_type_copied = Mediatyp kopiert
+media_manager_type_copied = Mediatyp dupliziert
 
 media_manager_effect_list_header = Effekte des Mediatyps {0}
 media_manager_effect_edit_header = Mediatyp <mark>{0}</mark>: Effekt bearbeiten
