@@ -433,4 +433,9 @@ class rex_article_slice
     {
         return $this->_medialists[$index - 1];
     }
+    
+    public function getPriority()
+    {
+        return $this->_priority;
+    }
 }
