@@ -7,7 +7,7 @@ class rex_managed_media
 {
     private $media_path = '';
     private $media;
-    private $asImage = false;
+    private $isImage = false;
     private $image;
     private $header = [];
 
@@ -37,7 +37,7 @@ class rex_managed_media
         }
         $this->media_path = $media_path;
         $this->media = basename($media_path);
-        $this->asImage = false;
+        $this->isImage = false;
     }
 
     public function getMediaFilename()
@@ -50,6 +50,11 @@ class rex_managed_media
         $this->media = $filename;
     }
 
+    public function setHeaders($headers)
+    {
+        $this->header = $headers;
+    }
+
     public function setHeader($type, $content)
     {
         $this->header[$type] = $content;
@@ -60,13 +65,21 @@ class rex_managed_media
         return $this->header;
     }
 
+    public function isImage()
+    {
+        if (array_key_exists($this->header['Content-Type'], $this->mimetypeMap)) {
+            $this->isImage = false;
+            $this->asImage();
+        }
+    }
+
+
     public function asImage()
     {
-        if ($this->asImage) {
+        if ($this->isImage) {
             return;
         }
-
-        $this->asImage = true;
+        $this->isImage = true;
 
         $this->image = [];
         $this->image['format'] = strtolower(rex_file::extension($this->getMediapath()));
@@ -84,10 +97,13 @@ class rex_managed_media
         if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
             $this->image['format'] = 'jpeg';
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
+
         } elseif ($this->image['format'] == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
+
         } elseif ($this->image['format'] == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
+
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
             if ($this->image['src']) {
@@ -118,55 +134,28 @@ class rex_managed_media
 
     public function setFormat($format)
     {
+        foreach ($this->mimetypeMap as $contentType => $ext) {
+            if ($ext == $format) {
+                $this->setHeader('Content-Type', $contentType);
+                if ($format != $this->image['format']) {
+                    $this->setHeader('Fileextension', $format);
+                }
+            }
+        }
+
         $this->image['format'] = $format;
     }
 
-    public function getImageWidth()
+    public function getSource()
     {
-        return $this->image['format'];
+        if ($this->isImage) {
+            return $this->getImageSource();
+        }
+        return rex_file::get($this->getMediapath());
+
     }
 
-    public function getImageHeight()
-    {
-        return $this->image['height'];
-    }
-
-    public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
-    {
-        if ($this->asImage) {
-            $src = $this->getImageSource();
-        } else {
-            $src = rex_file::get($this->getMediapath());
-        }
-
-        $this->setHeader('Content-Length', rex_string::size($src));
-        $header = $this->getHeader();
-        if (!array_key_exists('Content-Type', $header)) {
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $content_type = finfo_file($finfo, $this->getMediapath());
-            if ($content_type != '') {
-                $this->setHeader('Content-Type', $content_type);
-            }
-        }
-        if (!array_key_exists('Content-Disposition', $header)) {
-            $this->setHeader('Content-Disposition', 'inline; filename="' . $this->getMediaFilename() . '";');
-        }
-        if (!array_key_exists('Last-Modified', $header)) {
-            $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
-        }
-
-        rex_response::cleanOutputBuffers();
-        foreach ($this->header as $t => $c) {
-            header($t . ': ' . $c);
-        }
-        echo $src;
-        if ($save) {
-            rex_file::putCache($headerCacheFilename, $this->header);
-            rex_file::put($sourceCacheFilename, $src);
-        }
-    }
-
-    protected function getImageSource()
+    public function getImageSource()
     {
         ob_start();
         if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
@@ -192,7 +181,7 @@ class rex_managed_media
     public function setImage($src)
     {
         $this->image['src'] = $src;
-        $this->asImage = true;
+        $this->isImage = true;
     }
 
     public function getWidth()
