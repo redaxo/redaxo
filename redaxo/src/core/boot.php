@@ -62,7 +62,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.2.0');
+rex::setProperty('version', '5.3.0-dev');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');

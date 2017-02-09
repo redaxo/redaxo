@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.1.2 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* htmlspecialchars fehlte an vielen Stellen, dadurch konnten teilweise die Addondetails nicht aufgerufen werden
+* Wenn die Einstellungen nicht gespeichert werden konnten, kam es trotzdem zur Erfolgsmeldung
+
+
 Version 2.1.1 – 15.07.2016
 --------------------------
 

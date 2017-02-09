@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.1.1 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Medienfelder in Sprachmetainfos wurden nicht beim Media-isInUse-Check berüchsichtigt
+* Feld-id-Attribute waren zu unspezifisch, konnten daher doppelt vorkommen
+* Bei Einzelcheckboxes stimmten id-Attribut und for-Attribut in Label nicht überein
+
+
 Version 2.1.0 – 24.03.2016
 --------------------------
 

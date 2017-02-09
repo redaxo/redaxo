@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Benutzer können mehrere Rollen bekommen
+
+
 Version 2.1.3 – 06.12.2016
 --------------------------
 

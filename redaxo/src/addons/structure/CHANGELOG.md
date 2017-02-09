@@ -1,6 +1,36 @@
 Changelog
 =========
 
+Version 2.2.1 – XX.XX.2017
+--------------------------
+
+### Security
+
+* Bei Backend-Benutzern war über die Linkmap Cross-Site-Scripting (XSS) möglich
+
+### Neu
+
+* Beim Block-Übernehmen wird die Meldung auch im Block angezeigt
+* Nach Durchführung von Artikelfunktionen bleibt man auf der Funktionsseite
+* History: Benutzer wird mit protokolliert
+* Neue Methode rex_article_slice::getPriority() (@phoebusryan)
+
+### Bugfixes
+
+* Wenn Frontend mit nicht vorhandener ID als clang-Parameter aufgerufen wurde, kam es zu einem harten Fehler, statt Umleitung auf NotFound-Artikel
+* Kategorie/Artikel verschieben: Breadcrumb wurde nicht aktualisiert
+* Inhalte kopieren: 
+    - Wenn im Zielartikel bereits Slices vorhanden waren, wurden die neuen nicht korrekt ans Ende gesetzt
+    - Wenn Ursprung keine Slices enthielt, kam es zu einer falschen Fehlermeldung
+* Bei Reload nach Block-Übernehmen blieb der Block nicht offen
+* Beim Anlegen neuer Slices funktionierten REX_MODULE_ID und REX_CTYPE_ID nicht
+* History:
+    - Teilweise wurden Versionen in Dropdown doppelt angezeigt
+    - Bei Multidomain-Lösungen konnten die Artikel der anderen Domains nicht angezeigt werden
+* rex_navigation::getBreadcrumb(): Die Start-Kategorie-ID wurden nicht berücksichtigt
+* rex_navigation::showBreadcrumb(): Die Parameter waren falsch benannt (versetzt)
+
+
 Version 2.2.0 – 15.07.2016
 --------------------------
 

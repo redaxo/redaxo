@@ -1,6 +1,24 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Neue Methode rex_media::getRootMedia()
+* Die rex_media-Klasse ist leichter erweiterbar (@DanielWeitenauer)
+
+### Bugfixes
+
+* Dateityp-Einschränkung funktionierte nicht richtig
+* Medienpool-Popup ließ sich teilweise für die gleiche Ebene mehrfach öffnen
+* Medienpool-Popup schloss sich teilweise nicht korrekt
+* REX_MEDIA[]: Vorschau für SVGs funktionierte nicht
+* Bei Nutzung des Medienpools über Editoren (redactor, markitup) konnten nach Wechsel der Subpage die Medien nicht mehr ausgewählt werden
+* Benutzer mit eingeschränkten Medienrechten konnten niemals die Metainfos der Medien bearbeiten
+
+
 Version 2.1.1 – 15.07.2016
 --------------------------
 

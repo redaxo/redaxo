@@ -1,6 +1,53 @@
 Changelog
 =========
 
+Version 5.3.0 – XX.XX.2017
+--------------------------
+
+### Security
+
+* „Security“-Abschnitte beachten in den Addons backup, structure und phpmailer
+
+### Neu
+
+* Updates: symfony/yaml (3.2.3), parsedown (1.6.1)
+* Neue Funktion dump() zur Debug-Ausgabe von Variablen (macht nur Ausgaben für im Backend eingeloggte Admins)
+* Schönere Fehlerseiten über Whoops
+* Bessere Sichtbarkeit des Safe-Modes
+* Neue Backendsprache Schwedisch (Jürgen Weiss)
+* Paginierung: Anzahl der ausgegeben Seiten wird beschränkt
+* Beim Löschen von Packages wird deren Data-Ordner nicht mehr gelöscht
+* Bei mehr als 3 Sprachen wird die Sprachauswahl als Dropdown angezeigt
+* rex_sql: 
+    - Bei Abfragen kann PDO::MYSQL_ATTR_USE_BUFFERED_QUERY deaktiviert werden
+    - Neue Methode getMysqlErrnp() um MySQL-spezifischen Error-Code abzufragen
+    - Bei Exceptions werden die PDO-Originalexception mit übergeben
+* mbstring-Extension optional (durch Polyfill)
+* Cache-Buster für Backend-Assets
+* Performance-Verbesserungen
+
+### Bugfixes
+
+* Setup:
+    - Funktionierte nicht mit PHP 7.1
+    - Reine SQL-Exporte (ohne Dateiarchiv) konnten nicht zum Import ausgewählt werden
+    - tokenizer-Extension wurde nicht überprüft
+* Autoloader: Klassen konnten teilweise nicht gefunden werden, wenn sie sehr lange Strings enthielten
+* rex_sql: 
+    - Tabellen-/Feldnamen werden korrekt escaped
+    - getErrno und getError lieferten teilweise nicht das richtige Ergebnis
+    - Debug-Infos wurden im Fehlerfall nicht ausgegeben
+* rex_form: Errorcode-spezifische Fehlermeldungen wurden nicht getriggert
+* rex_list: Bei der Query durften keine Leerzeichen vor dem Begin stehen (" SELECT ...")
+* package.yml: 
+    - `null`-Werte führten zu Fehler
+    - Bessere Fehlermeldung, wenn `requires` kein Array ist
+* Profil: Durch überflüssiges `</div>` wurde Footer falsch angezeigt (@aeberhard)
+* Beim Auslesen von `php.ini`-Werten kam es teilweise zu einer Notice
+* Bei Seitenaufrufen über pjax wurde die Skriptzeit nicht aktualisiert
+* Teilweise kam es zum JS-Fehler „Permission denied to access property winObjCounter“ (@ynamite)
+
+
 Version 5.2.0 – 15.07.2016
 --------------------------
 

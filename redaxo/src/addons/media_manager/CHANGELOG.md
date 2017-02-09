@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Neuer Effekt rotate zum Drehen der Bilder (@alexplusde)
+* Medientypen können dupliziert werden (@phoebusryan)
+
+### Bugfixes
+
+* „Cache löschen“ führte auf Anleitung statt auf Typen-Page (@ynamite)
+
+
 Version 2.1.0 – 15.07.2016
 --------------------------
 
