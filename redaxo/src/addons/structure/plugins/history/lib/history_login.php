@@ -7,7 +7,7 @@
  *
  * @internal
  */
-class _history_login extends rex_backend_login
+class rex_history_login extends rex_backend_login
 {
     public function __construct()
     {
