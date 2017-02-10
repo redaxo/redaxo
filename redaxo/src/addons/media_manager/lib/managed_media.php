@@ -73,7 +73,6 @@ class rex_managed_media
         }
     }
 
-
     public function asImage()
     {
         if ($this->isImage) {
@@ -97,13 +96,10 @@ class rex_managed_media
         if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
             $this->image['format'] = 'jpeg';
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
-
         } elseif ($this->image['format'] == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
-
         } elseif ($this->image['format'] == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
-
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
             if ($this->image['src']) {
@@ -152,7 +148,6 @@ class rex_managed_media
             return $this->getImageSource();
         }
         return rex_file::get($this->getMediapath());
-
     }
 
     public function getImageSource()
@@ -209,6 +204,4 @@ class rex_managed_media
     {
         return $this->image['height'];
     }
-
-
 }

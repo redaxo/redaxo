@@ -15,11 +15,10 @@ rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
     $historySession = rex_request('rex_history_session', 'string');
-    $historyLogin =  rex_request('rex_history_login', 'string');
-    $historyValidtime =  rex_request('rex_history_validtime', 'string');
+    $historyLogin = rex_request('rex_history_login', 'string');
+    $historyValidtime = rex_request('rex_history_validtime', 'string');
 
     if ($historySession != '' && $historyLogin != '' && $historyValidtime != '' && !rex::isBackend()) {
-
         $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
         $now = new DateTime();
         if ($now < $validtill) {
@@ -32,13 +31,9 @@ if ($history_date != '') {
                     $login->deleteSession();
                 });
             }
-
         }
-
-
     } else {
         $user = rex_backend_login::createUser();
-
     }
 
     if (!$user) {
@@ -170,7 +165,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
         if ($ep->getParam('page') == 'content/edit') {
-
             $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&');
             if (substr($article_link, 0, 4) == 'http') {
                 $user = rex::getUser();
