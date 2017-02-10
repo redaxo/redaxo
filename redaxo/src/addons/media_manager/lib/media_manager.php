@@ -52,21 +52,21 @@ class rex_media_manager
             $header = $media->getHeader();
 
             $extended = "";
-            if (array_key_exists('Fileextension', $header)) {
+            if (isset($header['Fileextension'])) {
                 $extended = ".".$header["Fileextension"];
             }
 
-            if (!array_key_exists('Content-Type', $header)) {
+            if (!isset($header['Content-Type'])) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $content_type = finfo_file($finfo, $media->getMediapath());
                 if ($content_type != '') {
                     $media->setHeader('Content-Type', $content_type);
                 }
             }
-            if (!array_key_exists('Content-Disposition', $header)) {
+            if (!isset($header['Content-Disposition'])) {
                 $media->setHeader('Content-Disposition', 'inline; filename="' . $media->getMediaFilename() . $extended . '";');
             }
-            if (!array_key_exists('Last-Modified', $header)) {
+            if (!isset($header['Last-Modified'])) {
                 $media->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
             }
 
@@ -77,7 +77,7 @@ class rex_media_manager
 
         $header = rex_file::getCache($headerCacheFilename);
         $extended = "";
-        if (array_key_exists('Fileextension', $header)) {
+        if (isset($header['Fileextension'])) {
             $extended = ".".$header["Fileextension"];
         }
         $media = new rex_managed_media($sourceCacheFilename . $extended);
@@ -224,7 +224,7 @@ class rex_media_manager
         $effects = [];
         foreach ($sql as $row) {
             $effname = $row->getValue('effect');
-            $params = json_decode($row->getValue('parameters'), true);
+            $params = $row->getArrayValue('parameters');
             $effparams = [];
 
             // extract parameter out of array
@@ -308,4 +308,13 @@ class rex_media_manager
     {
         return rex_get('rex_media_type', 'string');
     }
+
+    /*
+     * deprecated
+     */
+    public function getCacheFilename()
+    {
+        return $this->getSourceCacheFilename();
+    }
+
 }

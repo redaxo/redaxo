@@ -50,7 +50,7 @@ class rex_managed_media
         $this->media = $filename;
     }
 
-    public function setHeaders($headers)
+    public function setHeaders(array $headers)
     {
         $this->header = $headers;
     }
@@ -67,7 +67,7 @@ class rex_managed_media
 
     public function isImage()
     {
-        if (array_key_exists($this->header['Content-Type'], $this->mimetypeMap)) {
+        if (isset($this->mimetypeMap[$this->header['Content-Type']])) {
             $this->isImage = false;
             $this->asImage();
         }
@@ -193,4 +193,22 @@ class rex_managed_media
     {
         return $this->image['height'];
     }
+
+    /*
+     * deprecated
+     */
+    public function getImageWidth()
+    {
+        return $this->image['width'];
+    }
+
+    /*
+     * deprecated
+     */
+    public function getImageHeight()
+    {
+        return $this->image['height'];
+    }
+
+
 }
