@@ -11,13 +11,19 @@
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $path = rex_path::base(rex_path::absolute($file));
-            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '?buster='. filemtime($path) .'" />';
+            if (file_exists($path)) {
+                $file .= '?buster='. filemtime($path);
+            }
+            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
     }
     echo "\n";
     foreach ($this->jsFiles as $file) {
         $path = rex_path::base(rex_path::absolute($file));
-        echo "\n" . '    <script type="text/javascript" src="' . $file . '?buster='. filemtime($path) .'"></script>';
+        if (file_exists($path)) {
+            $file .= '?buster='. filemtime($path);
+        }
+        echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
 ?>
 
