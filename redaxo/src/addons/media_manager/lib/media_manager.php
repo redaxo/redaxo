@@ -88,6 +88,9 @@ class rex_media_manager
     public static function sendMedia($media)
     {
         rex_response::cleanOutputBuffers();
+        
+        // prevent session locking trough other addons
+        session_abort();
 
         if (isset($header['Last-Modified'])) {
             rex_response::sendLastModified(strtotime($header['Last-Modified']));
