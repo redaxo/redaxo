@@ -11,6 +11,10 @@ class rex_media_manager
 
     public function __construct(rex_managed_media $media)
     {
+        // prevent session locking trough other addons
+        // will not have any side effects and will even work without a started session
+        session_abort();
+        
         $this->media = $media;
     }
 
