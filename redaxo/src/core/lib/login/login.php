@@ -226,6 +226,9 @@ class rex_login
         return $ok;
     }
 
+    /**
+     * @return rex_user
+     */
     public function getUser()
     {
         return $this->user;
