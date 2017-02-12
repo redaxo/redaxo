@@ -42,6 +42,7 @@ Version 5.3.0 – XX.XX.2017
 * package.yml: 
     - `null`-Werte führten zu Fehler
     - Bessere Fehlermeldung, wenn `requires` kein Array ist
+* EP RESPONSE_SHUTDOWN blockiert nicht mehr das Beenden der Antwort und die Session
 * Profil: Durch überflüssiges `</div>` wurde Footer falsch angezeigt (@aeberhard)
 * Beim Auslesen von `php.ini`-Werten kam es teilweise zu einer Notice
 * Bei Seitenaufrufen über pjax wurde die Skriptzeit nicht aktualisiert

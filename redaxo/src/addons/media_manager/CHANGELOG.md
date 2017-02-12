@@ -9,6 +9,7 @@ Version 2.2.0 – XX.XX.2017
 * Neuer Effekt rotate zum Drehen der Bilder (@alexplusde)
 * Medientypen können dupliziert werden (@phoebusryan)
 * Einfachere Möglichkeit die Maße des resultierenden Bildes abzufragen
+* Ggf. geöffnete Sessions werden frühzeitig abgebrochen, um Session Locking zu mindern
 
 ### Bugfixes
 
