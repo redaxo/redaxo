@@ -20,6 +20,7 @@ class rex_release
     private static $addons = ['backup', 'be_style', 'cronjob', 'install', 'media_manager', 'mediapool', 'metainfo', 'phpmailer', 'structure', 'users'];
 
     private $version;
+    private $path;
 
     public function __construct($version)
     {
@@ -28,7 +29,20 @@ class rex_release
 
     public function create()
     {
+        $this->path = rex_path::base('releases/'.$this->version);
+        if (file_exists($this->path)) {
+            rex_dir::deleteFiles($this->path);
+        }
+        rex_dir::create($this->path);
+
         $this->updateVersions();
+
+        if (false === strpos($this->version, '-')) {
+            $this->setReleaseDate();
+        }
+
+        $this->createChangelog();
+
         $this->createArchives();
     }
 
@@ -60,19 +74,66 @@ class rex_release
         }
     }
 
+    private function setReleaseDate()
+    {
+        $date = date('d.m.Y');
+
+        $updateDate = function ($file) use ($date) {
+            $content = rex_file::get($file);
+            $content = preg_replace('/XX\.[x\d]{2}\.[x\d]{4}/i', $date, $content);
+            rex_file::put($file, $content);
+        };
+
+        $updateDate(rex_path::core('CHANGELOG.md'));
+        foreach (self::$addons as $addon) {
+            $updateDate(rex_path::addon($addon,'CHANGELOG.md'));
+        }
+    }
+
+    private function createChangelog()
+    {
+        $cutNextPart = function (&$changelog) {
+            if (!preg_match('/^Version .*?([x\d]{2}\.[x\d]{2}\.[x\d]{4})(?:.|\v)*?(?=^Version \d|\z)/mi', $changelog , $match, PREG_OFFSET_CAPTURE)) {
+                return null;
+            }
+
+            $changelog = substr($changelog, $match[0][1] + strlen($match[0][0]));
+
+            return [
+                'content' => rtrim($match[0][0]),
+                'date' => false === stripos($match[1][0], 'x') ? strtotime($match[1][0]) : null,
+            ];
+        };
+
+        $coreChangelog = rex_file::get(rex_path::core('CHANGELOG.md'));
+        $part = $cutNextPart($coreChangelog);
+        $changelog = substr_replace($part['content'], 'REDAXO-Core', 0, 7);
+
+        $previousDate = $cutNextPart($coreChangelog)['date'];
+
+        foreach (self::$addons as $addon) {
+            $addonChangelog = rex_file::get(rex_path::addon($addon, 'CHANGELOG.md'));
+
+            while (
+                ($part = $cutNextPart($addonChangelog)) &&
+                (!$part['date'] || $part['date'] > $previousDate)
+            ) {
+                $changelog .= "\n\n\n".substr_replace($part['content'], $addon, 0, 7);
+            }
+        }
+
+        $changelog .= "\n";
+
+        rex_file::put($this->path.'/CHANGELOG.md', $changelog);
+    }
+
     private function createArchives()
     {
-        $path = rex_path::base('releases/'.$this->version.'/');
-        if (file_exists($path)) {
-            rex_dir::deleteFiles($path);
-        }
-        rex_dir::create($path);
-
         $complete = new ZipArchive();
         $update = new ZipArchive();
 
-        $complete->open($path.'redaxo_'.$this->version.'.zip', ZipArchive::CREATE);
-        $update->open($path.'redaxo_update_'.$this->version.'.zip', ZipArchive::CREATE);
+        $complete->open($this->path.'/redaxo_'.$this->version.'.zip', ZipArchive::CREATE);
+        $update->open($this->path.'/redaxo_update_'.$this->version.'.zip', ZipArchive::CREATE);
 
         $files = [
             'assets/.redaxo',
