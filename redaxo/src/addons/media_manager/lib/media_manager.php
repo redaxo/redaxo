@@ -88,10 +88,11 @@ class rex_media_manager
     public static function sendMedia($media)
     {
         rex_response::cleanOutputBuffers();
-        
+
         // prevent session locking trough other addons
         session_abort();
 
+        $header = $media->getHeader();
         if (isset($header['Last-Modified'])) {
             rex_response::sendLastModified(strtotime($header['Last-Modified']));
             unset($header['Last-Modified']);
@@ -99,7 +100,7 @@ class rex_media_manager
         if (isset($header['Fileextension'])) {
             unset($header['Fileextension']);
         }
-        foreach ($media->getHeader() as $t => $c) {
+        foreach ($header as $t => $c) {
             header($t . ': ' . $c);
         }
         echo $media->getSource();
