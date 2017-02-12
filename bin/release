@@ -28,16 +28,36 @@ class rex_release
 
     public function create()
     {
-        $this->updateVersion();
+        $this->updateVersions();
         $this->createArchives();
     }
 
-    private function updateVersion()
+    private function updateVersions()
     {
         $file = rex_path::core('boot.php');
         $content = rex_file::get($file);
         $content = preg_replace('/(?<=^rex::setProperty\(\'version\', \').*?(?=\')/m', $this->version, $content);
         rex_file::put($file, $content);
+
+        $suffix = '';
+        if (false !== $pos = strpos($this->version, '-')) {
+            $suffix = substr($this->version, $pos);
+        }
+
+        $updateVersion = function (rex_package $package) use ($suffix) {
+            $content = rex_file::get($package->getPath(rex_package::FILE_PACKAGE));
+            $content = preg_replace('/^version: \'(.+?)-.*$/m', "version: '\\1$suffix'", $content);
+            rex_file::put($package->getPath(rex_package::FILE_PACKAGE), $content);
+        };
+
+        foreach (self::$addons as $addon) {
+            $addon = rex_addon::get($addon);
+            $updateVersion($addon);
+
+            foreach ($addon->getRegisteredPlugins() as $plugin) {
+                $updateVersion($plugin);
+            }
+        }
     }
 
     private function createArchives()
