@@ -162,9 +162,9 @@ class rex_api_install_core_update extends rex_api_function
                     foreach ($addon->getAvailablePlugins() as $plugin) {
                         $plugin->loadProperties();
                     }
-                    rex_package_manager::generatePackageOrder();
                 }
             }
+            rex_package_manager::generatePackageOrder();
         }
 
         $result = new rex_api_result($success, $message);
