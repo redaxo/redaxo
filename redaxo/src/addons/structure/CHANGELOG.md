@@ -14,6 +14,7 @@ Version 2.3.0 – XX.XX.2017
 * Nach Durchführung von Artikelfunktionen bleibt man auf der Funktionsseite
 * History: Benutzer wird mit protokolliert
 * Neue Methode rex_article_slice::getPriority() (@phoebusryan)
+* MEDIUMTEXT-Spalten für Template- und Module-Code
 
 ### Bugfixes
 

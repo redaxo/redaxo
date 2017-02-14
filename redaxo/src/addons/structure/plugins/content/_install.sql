@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%article_slice` (
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%template` (
     `id` int(10) unsigned NOT NULL  auto_increment,
     `name` varchar(255) NULL,
-    `content` text NULL,
+    `content` mediumtext NULL,
     `active` tinyint(1) NULL,
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%action` (
 CREATE TABLE IF NOT EXISTS `%TABLE_PREFIX%module` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
-    `output` text NOT NULL,
-    `input` text NOT NULL,
+    `output` mediumtext NOT NULL,
+    `input` mediumtext NOT NULL,
     `createuser` varchar(255) NOT NULL,
     `updateuser` varchar(255) NOT NULL,
     `createdate` datetime NOT NULL,
