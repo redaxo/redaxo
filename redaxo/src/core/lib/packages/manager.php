@@ -479,6 +479,21 @@ abstract class rex_package_manager
             }
         }
 
+        foreach (rex_package::getAvailablePackages() as $package) {
+            $conflicts = $package->getProperty('conflicts', []);
+
+            if (!isset($conflicts['packages'][$this->package->getPackageId()])) {
+                continue;
+            }
+
+            $constraints = $conflicts['packages'][$this->package->getPackageId()];
+            if (!is_string($constraints) || !$constraints || $constraints === '*') {
+                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
+            } elseif (self::matchVersionConstraints($this->package->getVersion(), $constraints)) {
+                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+            }
+        }
+
         if (empty($state)) {
             return true;
         }
