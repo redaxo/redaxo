@@ -60,6 +60,11 @@ class PrettyPageHandler extends Handler
     private $applicationPaths;
 
     /**
+     * @var string
+     */
+    private $applicationRootPath;
+
+    /**
      * A string identifier for a known IDE/text editor, or a closure
      * that resolves a string that can be used to open a given file
      * in an editor. If the string contains the special substrings
@@ -98,6 +103,9 @@ class PrettyPageHandler extends Handler
 
         // Add the default, local resource search path:
         $this->searchPaths[] = __DIR__ . "/../Resources";
+
+        // root path for ordinary composer projects
+        $this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
     }
 
     /**
@@ -143,6 +151,8 @@ class PrettyPageHandler extends Handler
             }]);
             $helper->setCloner($cloner);
         }
+
+        $helper->setApplicationRootPath($this->applicationRootPath);
 
         $templateFile = $this->getResource("views/layout.html.php");
         $cssFile      = $this->getResource("css/whoops.base.css");
@@ -390,7 +400,7 @@ class PrettyPageHandler extends Handler
     {
         $editor = $this->getEditor($filePath, $line);
 
-        if (!$editor) {
+        if (empty($editor)) {
             return false;
         }
 
@@ -436,42 +446,44 @@ class PrettyPageHandler extends Handler
      * act as an Ajax request. The editor must be a
      * valid callable function/closure
      *
-     * @throws UnexpectedValueException  If editor resolver does not return a boolean
-     * @param  string                   $filePath
-     * @param  int                      $line
-     * @return mixed
+     * @param  string $filePath
+     * @param  int    $line
+     * @return array
      */
     protected function getEditor($filePath, $line)
     {
-        if ($this->editor === null && !is_string($this->editor) && !is_callable($this->editor))
-        {
-            return false;
+        if (!$this->editor || (!is_string($this->editor) && !is_callable($this->editor))) {
+            return [];
         }
-        else if(is_string($this->editor) && isset($this->editors[$this->editor]) && !is_callable($this->editors[$this->editor]))
-        {
+
+        if (is_string($this->editor) && isset($this->editors[$this->editor]) && !is_callable($this->editors[$this->editor])) {
            return [
                 'ajax' => false,
                 'url' => $this->editors[$this->editor],
             ];
         }
-        else if(is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor])))
-        {
-            if(is_callable($this->editor))
-            {
+
+        if (is_callable($this->editor) || (isset($this->editors[$this->editor]) && is_callable($this->editors[$this->editor]))) {
+            if (is_callable($this->editor)) {
                 $callback = call_user_func($this->editor, $filePath, $line);
-            }
-            else
-            {
+            } else {
                 $callback = call_user_func($this->editors[$this->editor], $filePath, $line);
+            }
+
+            if (is_string($callback)) {
+                return [
+                    'ajax' => false,
+                    'url' => $callback,
+                ];
             }
 
             return [
                 'ajax' => isset($callback['ajax']) ? $callback['ajax'] : false,
-                'url' => (is_array($callback) ? $callback['url'] : $callback),
+                'url' => isset($callback['url']) ? $callback['url'] : $callback,
             ];
         }
 
-        return false;
+        return [];
     }
 
     /**
@@ -495,7 +507,7 @@ class PrettyPageHandler extends Handler
      * Adds a path to the list of paths to be searched for
      * resources.
      *
-     * @throws InvalidArgumnetException If $path is not a valid directory
+     * @throws InvalidArgumentException If $path is not a valid directory
      *
      * @param  string $path
      * @return void
@@ -610,5 +622,25 @@ class PrettyPageHandler extends Handler
     public function setApplicationPaths($applicationPaths)
     {
         $this->applicationPaths = $applicationPaths;
+    }
+
+    /**
+     * Return the application root path.
+     *
+     * @return string
+     */
+    public function getApplicationRootPath()
+    {
+        return $this->applicationRootPath;
+    }
+
+    /**
+     * Set the application root path.
+     *
+     * @param string $applicationRootPath
+     */
+    public function setApplicationRootPath($applicationRootPath)
+    {
+        $this->applicationRootPath = $applicationRootPath;
     }
 }
