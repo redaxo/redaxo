@@ -4,6 +4,8 @@ if (PHP_VERSION_ID < 50509) {
     throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '5.5.9'));
 }
 
+// Installer >= 2.1.2 required because of https://github.com/redaxo/redaxo/issues/1018
+// (Installer < 2.0.3 also works, because it does not contain the bug)
 $installerVersion = rex_addon::get('install')->getVersion();
 if (rex_string::versionCompare($installerVersion, '2.1.2-beta2', '<') && rex_string::versionCompare($installerVersion, '2.0.3', '>=')) {
     throw new rex_functional_exception('This update requires at least version <b>2.1.2</b> of the <b>install</b> addon!');
