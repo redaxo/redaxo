@@ -180,14 +180,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
                 $manager = rex_package_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
-                } elseif (!$manager->checkPackageConflict($this->addon->getPackageId())) {
-                    $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
                 } else {
                     foreach ($versions as $reqPlugin) {
                         if (!$manager->checkPackageRequirement($reqPlugin->getPackageId())) {
-                            $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
-                        }
-                        if (!$manager->checkPackageConflict($reqPlugin->getPackageId())) {
                             $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
                         }
                     }

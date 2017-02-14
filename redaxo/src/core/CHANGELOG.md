@@ -42,6 +42,7 @@ Version 5.3.0 – XX.XX.2017
 * package.yml: 
     - `null`-Werte führten zu Fehler
     - Bessere Fehlermeldung, wenn `requires` kein Array ist
+* Beim Aktivieren von Packages wurden nur deren Konflikte geprüft, aber nicht ob andere Packages Konflikte zu diesem notiert haben
 * EP RESPONSE_SHUTDOWN blockiert nicht mehr das Beenden der Antwort und die Session
 * Profil: Durch überflüssiges `</div>` wurde Footer falsch angezeigt (@aeberhard)
 * Beim Auslesen von `php.ini`-Werten kam es teilweise zu einer Notice
