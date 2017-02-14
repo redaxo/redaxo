@@ -7,7 +7,6 @@ Version 2.2.0 – XX.XX.2017
 * Update bootstrap 3.3.7
 * Update fontawesome 4.7.0
 * Update bootstrap-select 1.12.1
-* Update scssphp 0.6.6
 * REDAXO-Logo auf Loginseite sprang teilweise
 * Optimierung Header auf Mobilgeräten
 * Optimierung Bootstrap-Modals
