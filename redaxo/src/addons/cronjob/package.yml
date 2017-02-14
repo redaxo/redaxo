@@ -1,5 +1,5 @@
 package: cronjob
-version: '2.1.1-dev'
+version: '2.1.1'
 author: 'Gregor Harlan'
 supportpage: www.redaxo.org/de/forum/
 

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.3.0 – XX.XX.2017
+Version 2.3.0 – 14.02.2017
 --------------------------
 
 ### Security

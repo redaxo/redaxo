@@ -1,5 +1,5 @@
 package: mediapool
-version: '2.2.0-dev'
+version: '2.2.0'
 author: 'Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
@@ -22,4 +22,4 @@ allowed_doctypes: [bmp, css, doc, docx, eps, gif, gz, jpg, mov, mp3, ogg, pdf, p
 image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff]
 
 requires:
-    redaxo: ^5.3.0-dev
+    redaxo: ^5.3.0

@@ -1,5 +1,5 @@
 package: backup
-version: '2.0.4-dev'
+version: '2.0.4'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 

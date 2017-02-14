@@ -1,5 +1,5 @@
 package: media_manager
-version: '2.2.0-dev'
+version: '2.2.0'
 author: 'Markus Staab, Jan Kristinus'
 supportpage: www.redaxo.org/de/forum/
 
