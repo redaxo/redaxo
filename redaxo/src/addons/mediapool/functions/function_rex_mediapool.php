@@ -450,13 +450,13 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $formElements = [];
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
+    $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
+    $e['field'] = $cats_sel->get();
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
-    $e['field'] = $cats_sel->get();
+    $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();

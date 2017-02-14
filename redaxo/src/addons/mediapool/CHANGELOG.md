@@ -8,6 +8,7 @@ Version 2.2.0 – XX.XX.2017
 
 * Neue Methode rex_media::getRootMedia()
 * Die rex_media-Klasse ist leichter erweiterbar (@DanielWeitenauer)
+* Beim Upload- und Sync-Formular steht die Kategorie-Auswahl ganz oben (da bei Kategoriewechsel die Seite sich aktualisiert um die für die Kategorie richtigen Metainfos anzuzeigen)
 
 ### Bugfixes
 
