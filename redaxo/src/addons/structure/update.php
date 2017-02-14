@@ -13,7 +13,7 @@ if ($this->getPlugin('content')->isInstalled() && rex_string::versionCompare($th
 }
 
 if ($this->getPlugin('history')->isInstalled() && rex_string::versionCompare($this->getVersion(), '2.3.0', '<')) {
-    rex_sql_table::get(rex_article_slice_history::getTable())
+    rex_sql_table::get(rex::getTable('article_slice_history'))
         ->ensureColumn(new rex_sql_column('history_user', 'varchar(255)'))
         ->alter();
 }
