@@ -168,7 +168,11 @@ class rex_media_manager
         rex_response::cleanOutputBuffers();
 
         // prevent session locking trough other addons
-        session_abort();
+        if (function_exists('session_abort')) {
+            session_abort();
+        } else {
+            session_write_close();
+        }
 
         if ($this->isCached()) {
             $header = rex_file::getCache($headerCacheFilename);
