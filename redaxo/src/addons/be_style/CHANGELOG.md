@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.2.1 – 17.02.2017
+--------------------------
+
+* In Version 2.2.0 wurden die Styles aus be_style und be_style/redaxo nicht mehr als erstes geladen
+
+
 Version 2.2.0 – 14.02.2017
 --------------------------
 
