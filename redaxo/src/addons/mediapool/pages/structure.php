@@ -24,30 +24,22 @@ if ($PERMALL) {
             $success = rex_i18n::msg('pool_kat_updated', $cat_name);
             rex_media_cache::deleteCategory($edit_id);
         } elseif ($media_method == 'delete_file_cat') {
-            $gf = rex_sql::factory();
-            $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=?', [$edit_id]);
-            $gd = rex_sql::factory();
-            $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$edit_id]);
-            if ($gf->getRows() == 0 && $gd->getRows() == 0) {
-                $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$edit_id]);
-                rex_media_cache::deleteCategory($edit_id);
-                rex_media_cache::deleteLists();
-                $success = rex_i18n::msg('pool_kat_deleted');
-            } else {
-                $error = rex_i18n::msg('pool_kat_not_deleted');
+            try {
+                $success = rex_media_category_service::deleteCategory($edit_id);
+            } catch (rex_api_exception $e) {
+                $error = $e->getMessage();
             }
         } elseif ($media_method == 'add_file_cat') {
-            $db = rex_sql::factory();
-            $db->setTable(rex::getTablePrefix() . 'media_category');
-            $db->setValue('name', rex_request('catname', 'string'));
-            $db->setValue('parent_id', rex_request('cat_id', 'int'));
-            $db->setValue('path', rex_request('catpath', 'string'));
-            $db->addGlobalCreateFields();
-            $db->addGlobalUpdateFields();
+            $parent = null;
+            $parentId = rex_request('cat_id', 'int');
+            if ($parentId) {
+                $parent = rex_media_category::get($parentId);
+            }
 
-            $db->insert();
-            $success = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
-            rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
+            $success = rex_media_category_service::addCategory(
+                rex_request('catname', 'string'),
+                $parent
+            );
         }
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
