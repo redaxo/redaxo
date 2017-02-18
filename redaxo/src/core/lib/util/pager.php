@@ -79,7 +79,7 @@ class rex_pager
      */
     public function getCursor($pageNo = null)
     {
-        if (is_null($pageNo)) {
+        if (null === $pageNo) {
             $cursor = rex_request($this->cursorName, 'int', 0);
         } else {
             $cursor = $pageNo * $this->rowsPerPage;
@@ -150,7 +150,7 @@ class rex_pager
     {
         $cursor = rex_request($this->cursorName, 'int', null);
 
-        if (is_null($cursor)) {
+        if (null === $cursor) {
             return $this->getFirstPage();
         }
 

@@ -230,10 +230,9 @@ class rex_form_element
                 $attr .= ' value="1"';
             }
             return '<' . $tag . $attr . '>' . $value . '</' . $tag . '>';
-        } else {
-            $attr .= ' value="' . $value . '"';
-            return '<' . $tag . $attr . ' />';
         }
+        $attr .= ' value="' . $value . '"';
+        return '<' . $tag . $attr . ' />';
     }
 
     protected function formatNotice()

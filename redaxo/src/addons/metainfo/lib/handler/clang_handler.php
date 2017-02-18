@@ -80,9 +80,8 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         // Bei CLANG_ADDED und CLANG_UPDATED nur speichern und kein Formular zurückgeben
         if ('CLANG_UPDATED' == $ep->getName() || 'CLANG_ADDED' == $ep->getName()) {
             return $ep->getSubject();
-        } else {
-            return $ep->getSubject() . $result;
         }
+        return $ep->getSubject() . $result;
     }
 }
 

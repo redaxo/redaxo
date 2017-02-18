@@ -89,12 +89,10 @@ class rex_template
             $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
             if (rex_file::put($templateFile, $content) !== false) {
                 return true;
-            } else {
-                throw new rex_exception('Unable to generate template ' . $template_id . '!');
             }
-        } else {
-            throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
+            throw new rex_exception('Unable to generate template ' . $template_id . '!');
         }
+        throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
     }
 
     public function deleteCache()

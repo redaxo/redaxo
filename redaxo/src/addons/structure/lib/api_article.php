@@ -102,9 +102,8 @@ class rex_api_article_status extends rex_api_function
 
             $result = new rex_api_result(true, rex_i18n::msg('article_status_updated'));
             return $result;
-        } else {
-            throw new rex_api_exception('user has no permission for this article!');
         }
+        throw new rex_api_exception('user has no permission for this article!');
     }
 }
 
@@ -136,9 +135,8 @@ class rex_api_article2category extends rex_api_function
             }
 
             return $result;
-        } else {
-            throw new rex_api_exception('user has no permission for this article!');
         }
+        throw new rex_api_exception('user has no permission for this article!');
     }
 }
 
@@ -170,9 +168,8 @@ class rex_api_category2article extends rex_api_function
             }
 
             return $result;
-        } else {
-            throw new rex_api_exception('user has no permission for this article!');
         }
+        throw new rex_api_exception('user has no permission for this article!');
     }
 }
 
@@ -204,8 +201,7 @@ class rex_api_article2startarticle extends rex_api_function
             }
 
             return $result;
-        } else {
-            throw new rex_api_exception('user has no permission for this article!');
         }
+        throw new rex_api_exception('user has no permission for this article!');
     }
 }

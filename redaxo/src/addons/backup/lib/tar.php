@@ -299,9 +299,8 @@ class rex_backup_tar extends tar
         }
         if (count($this->message) > 0) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public function getMessages()

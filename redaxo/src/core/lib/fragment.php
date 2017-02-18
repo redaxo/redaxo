@@ -62,7 +62,7 @@ class rex_fragment
      */
     public function setVar($name, $value, $escape = true)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             throw new InvalidArgumentException(sprintf('Expecting $name to be not null!'));
         }
 
@@ -158,11 +158,10 @@ class rex_fragment
             return htmlspecialchars($val);
         } elseif (is_scalar($val)) {
             return $val;
-        } elseif (is_null($val)) {
+        } elseif (null === $val) {
             return $val;
-        } else {
-            throw new rex_exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
         }
+        throw new rex_exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
     }
 
     /**

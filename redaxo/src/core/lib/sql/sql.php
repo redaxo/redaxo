@@ -184,7 +184,7 @@ class rex_sql implements Iterator
      */
     public static function datetime($timestamp = null)
     {
-        return date(self::FORMAT_DATETIME, is_null($timestamp) ? time() : $timestamp);
+        return date(self::FORMAT_DATETIME, null === $timestamp ? time() : $timestamp);
     }
 
     /**
@@ -460,9 +460,8 @@ class rex_sql implements Iterator
     {
         if ($prop == '') {
             return true;
-        } else {
-            return strpos($this->getValue($feld), $prop) !== false;
         }
+        return strpos($this->getValue($feld), $prop) !== false;
     }
 
     /**
@@ -479,7 +478,7 @@ class rex_sql implements Iterator
      *    $sql->setWhere('myid="35" OR abc="zdf"');
      *
      * @param string|array $where
-     * @param array $whereParams
+     * @param array        $whereParams
      *
      * @throws rex_sql_exception
      *

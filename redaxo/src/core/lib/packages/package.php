@@ -237,7 +237,7 @@ abstract class rex_package implements rex_package_interface
     public function loadProperties()
     {
         static $cache = null;
-        if (is_null($cache)) {
+        if (null === $cache) {
             $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
         }
         $id = $this->getPackageId();

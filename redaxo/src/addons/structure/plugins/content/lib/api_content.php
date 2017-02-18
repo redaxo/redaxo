@@ -39,15 +39,14 @@ class rex_api_content_move_slice extends rex_api_function
         $CM->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice left join ' . rex::getTablePrefix() . 'module on ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id where ' . rex::getTablePrefix() . "article_slice.id='$slice_id' and clang_id=$clang");
         if ($CM->getRows() != 1) {
             throw new rex_api_exception(rex_i18n::msg('module_not_found'));
-        } else {
-            $module_id = (int) $CM->getValue(rex::getTablePrefix() . 'article_slice.module_id');
+        }
+        $module_id = (int) $CM->getValue(rex::getTablePrefix() . 'article_slice.module_id');
 
-            // ----- RECHTE AM MODUL ?
-            if ($user->getComplexPerm('modules')->hasPerm($module_id)) {
-                $message = rex_content_service::moveSlice($slice_id, $clang, $direction);
-            } else {
-                throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
-            }
+        // ----- RECHTE AM MODUL ?
+        if ($user->getComplexPerm('modules')->hasPerm($module_id)) {
+            $message = rex_content_service::moveSlice($slice_id, $clang, $direction);
+        } else {
+            throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
         }
 
         $result = new rex_api_result(true, $message);

@@ -226,7 +226,7 @@ class rex
      */
     public static function getServer($protocol = null)
     {
-        if (is_null($protocol)) {
+        if (null === $protocol) {
             return self::getProperty('server');
         }
         list(, $server) = explode('://', self::getProperty('server'), 2);

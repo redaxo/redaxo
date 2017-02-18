@@ -43,9 +43,8 @@ class rex_path_default_provider
     {
         if ($this->provideAbsolutes) {
             return strtr($this->base . $file, '/\\', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
-        } else {
-            return $this->base . $file;
         }
+        return $this->base . $file;
     }
 
     /**
@@ -81,9 +80,8 @@ class rex_path_default_provider
     {
         if ($this->provideAbsolutes) {
             return $this->base($this->backend . '/' . $file);
-        } else {
-            return $this->backend . $file;
         }
+        return $this->backend . $file;
     }
 
     /**

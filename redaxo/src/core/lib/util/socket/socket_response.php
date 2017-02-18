@@ -186,9 +186,8 @@ class rex_socket_response
                 $this->chunkLength = 0;
             }
             return $buf;
-        } else {
-            return fread($this->stream, $length);
         }
+        return fread($this->stream, $length);
     }
 
     /**

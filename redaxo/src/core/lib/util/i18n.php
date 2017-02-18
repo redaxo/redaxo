@@ -234,9 +234,8 @@ class rex_i18n
             return self::translate($array, $use_htmlspecialchars, $i18nFunction);
         } elseif (null === $array || is_scalar($array)) {
             return $array;
-        } else {
-            throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');
         }
+        throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');
     }
 
     /**

@@ -102,9 +102,8 @@ class rex_api_category_status extends rex_api_function
 
             $result = new rex_api_result(true, rex_i18n::msg('category_status_updated'));
             return $result;
-        } else {
-            throw new rex_api_exception('user has no permission for this category!');
         }
+        throw new rex_api_exception('user has no permission for this category!');
     }
 }
 
@@ -139,8 +138,7 @@ class rex_api_category_move extends rex_api_function
 
             $result = new rex_api_result(true, rex_i18n::msg('category_status_updated'));
             return $result;
-        } else {
-            throw new rex_api_exception('user has no permission for this category!');
         }
+        throw new rex_api_exception('user has no permission for this category!');
     }
 }

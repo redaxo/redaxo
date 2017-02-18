@@ -154,26 +154,26 @@ class rex_sql_util
                         break;
                     }
                     // one or more Backslashes before the presumed end of string...
-                    else {
-                        // ... first checks for escaped backslashes
-                        $j = 2;
-                        $escaped_backslash = false;
-                        while ($i - $j > 0 && $sql[$i - $j] == '\\') {
-                            $escaped_backslash = !$escaped_backslash;
-                            ++$j;
-                        }
-                        // ... if escaped backslashes: it's really the end of the
-                        // string -> exit the loop
-                        if ($escaped_backslash) {
-                            $string_start = '';
-                            $in_string = false;
-                            break;
-                        }
-                        // ... else loop
-                        else {
-                            ++$i;
-                        }
-                    } // end if...elseif...else
+
+                    // ... first checks for escaped backslashes
+                    $j = 2;
+                    $escaped_backslash = false;
+                    while ($i - $j > 0 && $sql[$i - $j] == '\\') {
+                        $escaped_backslash = !$escaped_backslash;
+                        ++$j;
+                    }
+                    // ... if escaped backslashes: it's really the end of the
+                    // string -> exit the loop
+                    if ($escaped_backslash) {
+                        $string_start = '';
+                        $in_string = false;
+                        break;
+                    }
+                    // ... else loop
+
+                    ++$i;
+
+                     // end if...elseif...else
                 } // end for
             } // end if (in string)
 

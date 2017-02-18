@@ -22,9 +22,8 @@ if ($func == 'setup') {
 
         header('Location:' . rex_url::backendController());
         exit;
-    } else {
-        $error[] = rex_i18n::msg('setup_error2');
     }
+    $error[] = rex_i18n::msg('setup_error2');
 } elseif ($func == 'generate') {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();

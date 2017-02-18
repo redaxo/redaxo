@@ -320,7 +320,7 @@ class rex_backup
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
 
-        if (is_null($tables)) {
+        if (null === $tables) {
             $tables = [];
             foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
                 if ($table != rex::getTable('user') // User Tabelle nicht exportieren

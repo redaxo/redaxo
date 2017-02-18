@@ -83,9 +83,8 @@ if (rex_post('export', 'bool')) {
                 rex_response::sendFile($export_path . $filename, $header, 'attachment');
                 rex_file::delete($export_path . $filename);
                 exit;
-            } else {
-                $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
             }
+            $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
         } elseif (empty($error)) { //if the user selected no files to export $error is already filled
             $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $export_path;
         }

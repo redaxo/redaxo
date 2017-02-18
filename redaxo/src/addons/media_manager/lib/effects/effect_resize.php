@@ -64,9 +64,8 @@ class rex_effect_resize extends rex_effect_abstract
             $this->resizeMax($w, $h);
         } elseif ($this->params['style'] == 'minimum') {
             $this->resizeMin($w, $h);
-        } else {
-            // warp => nichts tun
         }
+            // warp => nichts tun
 
         // ----- not enlarge image
         if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == 'not_enlarge') {

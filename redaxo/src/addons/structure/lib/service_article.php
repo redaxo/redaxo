@@ -321,9 +321,8 @@ class rex_article_service
             rex_article_cache::deleteLists($parent_id);
 
             return $message;
-        } else {
-            throw new rex_api_exception(rex_i18n::msg('category_doesnt_exist'));
         }
+        throw new rex_api_exception(rex_i18n::msg('category_doesnt_exist'));
     }
 
     /**

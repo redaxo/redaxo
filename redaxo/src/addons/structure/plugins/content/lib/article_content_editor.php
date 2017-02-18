@@ -71,11 +71,10 @@ class rex_article_content_editor extends rex_article_content
 
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
                     return $slice_content . $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
-                } else {
-                    // Modulinhalt ausgeben
-                    $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
-                    $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
                 }
+                // Modulinhalt ausgeben
+                $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
+                $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
             } else {
                 // ----- hat keine rechte an diesem modul, einfach ausgeben
                 $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
