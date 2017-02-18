@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.3.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Einfache Methode um an die generierte Cache-Datei zu kommen und so die Bildmaße etc. auszulesen (`rex_media_manager::create($type, $file)->getMedia()`)
+
+### Bugfixes
+
+* Mit PHP 5.5 wurden die Medien nicht mehr ausgeliefert
+
+
 Version 2.2.0 – 14.02.2017
 --------------------------
 
