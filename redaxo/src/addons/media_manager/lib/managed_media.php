@@ -10,6 +10,7 @@ class rex_managed_media
     private $asImage = false;
     private $image;
     private $header = [];
+    private $sourcePath;
     private $format;
 
     private $mimetypeMap = [
@@ -24,6 +25,8 @@ class rex_managed_media
     public function __construct($media_path)
     {
         $this->setMediapath($media_path);
+        $this->sourcePath = $media_path;
+        $this->format = strtolower(rex_file::extension($this->getMediapath()));
     }
 
     public function getMediapath()
@@ -70,7 +73,6 @@ class rex_managed_media
         $this->asImage = true;
 
         $this->image = [];
-        $this->format = strtolower(rex_file::extension($this->getMediapath()));
         $this->image['src'] = false;
 
         // if mimetype detected and in imagemap -> change format
@@ -108,8 +110,20 @@ class rex_managed_media
 
     public function refreshImageDimensions()
     {
-        $this->image['width'] = imagesx($this->image['src']);
-        $this->image['height'] = imagesy($this->image['src']);
+        if ($this->asImage) {
+            $this->image['width'] = imagesx($this->image['src']);
+            $this->image['height'] = imagesy($this->image['src']);
+
+            return;
+        }
+
+        if ('jpeg' !== $this->format && !in_array($this->format, $this->mimetypeMap)) {
+            return;
+        }
+
+        $size = getimagesize($this->sourcePath);
+        $this->image['width'] = $size[0];
+        $this->image['height'] = $size[1];
     }
 
     public function getFormat()
@@ -122,49 +136,29 @@ class rex_managed_media
         $this->format = $format;
     }
 
-    public function getImageWidth()
-    {
-        return $this->image['width'];
-    }
-
-    public function getImageHeight()
-    {
-        return $this->image['height'];
-    }
-
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
-        if ($this->asImage) {
-            $src = $this->getImageSource();
-        } else {
-            $src = rex_file::get($this->getMediapath());
-        }
+        $src = $this->getSource();
 
-        $this->setHeader('Content-Length', rex_string::size($src));
-        $header = $this->getHeader();
-        if (!array_key_exists('Content-Type', $header)) {
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $content_type = finfo_file($finfo, $this->getMediapath());
-            if ($content_type != '') {
-                $this->setHeader('Content-Type', $content_type);
-            }
-        }
-        if (!array_key_exists('Content-Disposition', $header)) {
-            $this->setHeader('Content-Disposition', 'inline; filename="' . $this->getMediaFilename() . '";');
-        }
-        if (!array_key_exists('Last-Modified', $header)) {
-            $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
-        }
+        $this->prepareHeaders($src);
 
         rex_response::cleanOutputBuffers();
         foreach ($this->header as $t => $c) {
             header($t . ': ' . $c);
         }
         echo $src;
+
         if ($save) {
-            rex_file::putCache($headerCacheFilename, $this->header);
-            rex_file::put($sourceCacheFilename, $src);
+            $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
         }
+    }
+
+    public function save($sourceCacheFilename, $headerCacheFilename)
+    {
+        $src = $this->getSource();
+
+        $this->prepareHeaders($src);
+        $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
     }
 
     protected function getImageSource()
@@ -196,6 +190,28 @@ class rex_managed_media
         $this->asImage = true;
     }
 
+    public function setSourcePath($path)
+    {
+        $this->sourcePath = $path;
+    }
+
+    public function getSourcePath()
+    {
+        return $this->sourcePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSource()
+    {
+        if ($this->asImage) {
+            return $this->getImageSource();
+        }
+
+        return rex_file::get($this->sourcePath);
+    }
+
     public function getWidth()
     {
         return $this->image['width'];
@@ -204,5 +220,59 @@ class rex_managed_media
     public function getHeight()
     {
         return $this->image['height'];
+    }
+
+    /**
+     * @deprecated sine 2.3.0, use `getWidth()` instead
+     */
+    public function getImageWidth()
+    {
+        return $this->getWidth();
+    }
+
+    /**
+     * @deprecated sine 2.3.0, use `getHeight()` instead
+     */
+    public function getImageHeight()
+    {
+        return $this->getHeight();
+    }
+
+    /**
+     * @param string $src Source content
+     */
+    private function prepareHeaders($src)
+    {
+        $this->setHeader('Content-Length', rex_string::size($src));
+
+        $header = $this->getHeader();
+        if (!isset($header['Content-Type'])) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $content_type = finfo_file($finfo, $this->getMediapath());
+            if ($content_type != '') {
+                $this->setHeader('Content-Type', $content_type);
+            }
+        }
+        if (!isset($header['Content-Disposition'])) {
+            $this->setHeader('Content-Disposition', 'inline; filename="' . $this->getMediaFilename() . '";');
+        }
+        if (!isset($header['Last-Modified'])) {
+            $this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
+        }
+    }
+
+    /**
+     * @param string $src                 Source content
+     * @param string $sourceCacheFilename
+     * @param string $headerCacheFilename
+     */
+    private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
+    {
+        rex_file::putCache($headerCacheFilename, [
+            'format' => $this->format,
+            'headers' => $this->header,
+        ]);
+
+        rex_file::put($sourceCacheFilename, $src);
     }
 }

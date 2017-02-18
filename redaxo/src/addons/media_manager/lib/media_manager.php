@@ -17,6 +17,49 @@ class rex_media_manager
         $this->useCache(true);
     }
 
+    /**
+     * @param string $type Media type
+     * @param string $file Media file
+     *
+     * @return self
+     */
+    public static function create($type, $file)
+    {
+        $mediaPath = rex_path::media($file);
+        $cachePath = rex_path::addonCache('media_manager');
+
+        $media = new rex_managed_media($mediaPath);
+        $manager = new self($media);
+        $manager->setCachePath($cachePath);
+        $manager->applyEffects($type);
+
+        if ($manager->isCached()) {
+            $media->setSourcePath($manager->getCacheFilename());
+
+            $cache = rex_file::getCache($manager->getHeaderCacheFilename());
+
+            $media->setFormat($cache['format']);
+
+            foreach ($cache['headers'] as $key => $value) {
+                $media->setHeader($key, $value);
+            }
+        } else {
+            $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
+        }
+
+        $media->refreshImageDimensions();
+
+        return $manager;
+    }
+
+    /**
+     * @return rex_managed_media
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
     protected function applyEffects($type)
     {
         $this->type = $type;
@@ -175,7 +218,7 @@ class rex_media_manager
         }
 
         if ($this->isCached()) {
-            $header = rex_file::getCache($headerCacheFilename);
+            $header = rex_file::getCache($headerCacheFilename)['headers'];
             if (isset($header['Last-Modified'])) {
                 rex_response::sendLastModified(strtotime($header['Last-Modified']));
                 unset($header['Last-Modified']);
