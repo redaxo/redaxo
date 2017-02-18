@@ -10,6 +10,7 @@ class rex_managed_media
     private $asImage = false;
     private $image;
     private $header = [];
+    private $format;
 
     private $mimetypeMap = [
         'image/jpeg' => 'jpg',
@@ -69,31 +70,31 @@ class rex_managed_media
         $this->asImage = true;
 
         $this->image = [];
-        $this->image['format'] = strtolower(rex_file::extension($this->getMediapath()));
+        $this->format = strtolower(rex_file::extension($this->getMediapath()));
         $this->image['src'] = false;
 
         // if mimetype detected and in imagemap -> change format
         if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE)) {
             if ($ftype = @$finfo->file($this->image['filepath'])) {
                 if (array_key_exists($ftype, $this->mimetypeMap)) {
-                    $this->image['format'] = $this->mimetypeMap[$ftype];
+                    $this->format = $this->mimetypeMap[$ftype];
                 }
             }
         }
 
-        if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
-            $this->image['format'] = 'jpeg';
+        if ($this->format == 'jpg' || $this->format == 'jpeg') {
+            $this->format = 'jpeg';
             $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
-        } elseif ($this->image['format'] == 'gif') {
+        } elseif ($this->format == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getMediapath());
-        } elseif ($this->image['format'] == 'wbmp') {
+        } elseif ($this->format == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getMediapath());
             if ($this->image['src']) {
                 imagealphablending($this->image['src'], false);
                 imagesavealpha($this->image['src'], true);
-                $this->image['format'] = 'png';
+                $this->format = 'png';
             }
         }
 
@@ -113,12 +114,12 @@ class rex_managed_media
 
     public function getFormat()
     {
-        return $this->image['format'];
+        return $this->format;
     }
 
     public function setFormat($format)
     {
-        $this->image['format'] = $format;
+        $this->format = $format;
     }
 
     public function getImageWidth()
@@ -169,14 +170,14 @@ class rex_managed_media
     protected function getImageSource()
     {
         ob_start();
-        if ($this->image['format'] == 'jpg' || $this->image['format'] == 'jpeg') {
+        if ($this->format == 'jpg' || $this->format == 'jpeg') {
             $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
             imagejpeg($this->image['src'], null, $this->image['quality']);
-        } elseif ($this->image['format'] == 'png') {
+        } elseif ($this->format == 'png') {
             imagepng($this->image['src']);
-        } elseif ($this->image['format'] == 'gif') {
+        } elseif ($this->format == 'gif') {
             imagegif($this->image['src']);
-        } elseif ($this->image['format'] == 'wbmp') {
+        } elseif ($this->format == 'wbmp') {
             imagewbmp($this->image['src']);
         }
         $src = ob_get_contents();
