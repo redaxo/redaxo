@@ -37,17 +37,16 @@ if ($PERMALL) {
                 $error = rex_i18n::msg('pool_kat_not_deleted');
             }
         } elseif ($media_method == 'add_file_cat') {
-            $db = rex_sql::factory();
-            $db->setTable(rex::getTablePrefix() . 'media_category');
-            $db->setValue('name', rex_request('catname', 'string'));
-            $db->setValue('parent_id', rex_request('cat_id', 'int'));
-            $db->setValue('path', rex_request('catpath', 'string'));
-            $db->addGlobalCreateFields();
-            $db->addGlobalUpdateFields();
+            $parent = null;
+            $parentId = rex_request('cat_id', 'int');
+            if ($parentId) {
+                $parent = rex_media_category::get($parentId);
+            }
 
-            $db->insert();
-            $success = rex_i18n::msg('pool_kat_saved', rex_request('catname'));
-            rex_media_cache::deleteCategoryList(rex_request('cat_id', 'int'));
+            $success = rex_media_category_service::addCategory(
+                rex_request('catname', 'string'),
+                $parent
+            );
         }
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
