@@ -478,8 +478,8 @@ class rex_sql implements Iterator
      * example 3 (deprecated):
      *    $sql->setWhere('myid="35" OR abc="zdf"');
      *
-     * @param string $where
-     * @param array  $whereParams
+     * @param string|array $where
+     * @param array $whereParams
      *
      * @throws rex_sql_exception
      *
