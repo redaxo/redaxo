@@ -123,7 +123,7 @@ class rex_managed_media
 
     public function getImageWidth()
     {
-        return $this->image['format'];
+        return $this->image['width'];
     }
 
     public function getImageHeight()
