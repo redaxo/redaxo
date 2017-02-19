@@ -2,7 +2,35 @@ h1. Changelog
 
 Here's a summary of changes in each release. The list doesn't include some small changes or updates to test cases.
 
-h2. Version 3.5.6 - upcoming
+h2. Version 3.6.x - upcoming
+
+h2. "Version 3.6.0 - 2016/11/17":https://github.com/textile/php-textile/releases/tag/v3.6.0
+
+* Fix empty-like link texts (closes "#141":https://github.com/textile/php-textile/issues/141).
+* Fix empty-like RedCloth definitions (closes "#142":https://github.com/textile/php-textile/issues/142).
+* Fix empty-like table summaries (closes "#143":https://github.com/textile/php-textile/issues/143).
+* Fix image dimension generation on Windows when doc_root can not be resolved (closes "#140":https://github.com/textile/php-textile/issues/140).
+* Fix HTTP protocol restrictions not affecting images (closes "#144":https://github.com/textile/php-textile/issues/144).
+* Add more versatile parsing method, @Parser::parse()@.
+* Add @Parser::setRestricted()@ and @Parser::isRestrictedModeEnabled()@.
+* Add @Parser::setLite()@ and @Parser::isLiteModeEnabled()@.
+* Add @Parser::setDocumentType()@ and @Parser::getDocumentType()@.
+* Add @Parser::setDocumentRootDirectory()@ and @Parser::getDocumentRootDirectory()@.
+* Add @Parser::setImages()@ and @Parser::isImageTagEnabled()@.
+* Add @Parser::setBlockTags()@ and @Parser::isBlockTagEnabled()@ (closes "#138":https://github.com/textile/php-textile/issues/138).
+* Add @Parser::setLinkRelationShip()@ and @Parser::getLinkRelationShip()@.
+* Add @Parser::setLineWrap()@ and @Parser::isLineWrapEnabled()@ (closes "#139":https://github.com/textile/php-textile/issues/139).
+* Deprecate @Parser::textileThis()@, @Parser::textileRestricted()@ and @Parser::textileCommon()@ in favour of the more versatile @Parser::parse()@.
+* Fix: relURL() now supports unicode characters (closes "#146":https://github.com/textile/php-textile/issues/146).
+* Fix: Undefined variable warning.
+* Feature/Fix: Allow link text that contains newline characters (closes "#154":https://github.com/textile/php-textile/issues/154, "#155":https://github.com/textile/php-textile/issues/155 & "#167":https://github.com/textile/php-textile/issues/167).
+* Fix: Stop encoding '+' characters in tel: links (closes "#156":https://github.com/textile/php-textile/issues/156).
+* Make dimension glyph replacements a little stricter.
+* Fix: Prevent hyphenated class on td cells adding incorrect style (closes "#164":https://github.com/textile/php-textile/issues/164).
+* Jail read of image dimensions to images within the document root path (closes "#145":https://github.com/textile/php-textile/issues/145).
+* Various code cleanups, typo corrections and refactoring.
+* Documentation fixes and extensions.
+
 
 h2. "Version 3.5.5 - 2014/01/02":https://github.com/textile/php-textile/releases/tag/v3.5.5
 
@@ -22,7 +50,7 @@ h2. "Version 3.5.5 - 2014/01/02":https://github.com/textile/php-textile/releases
 h2. "Version 3.5.4 - 2013/11/06":https://github.com/textile/php-textile/releases/tag/v3.5.4
 
 * Fix broken image alignment in HTML5 mode (closes "#123":https://github.com/textile/php-textile/issues/123).
-* Fix duplicate HTML IDs that occur when a footnote isn't referenced in the content (closes "#125":https://github.com/textile/php-textile/issues/125). 
+* Fix duplicate HTML IDs that occur when a footnote isn't referenced in the content (closes "#125":https://github.com/textile/php-textile/issues/125).
 * Don't include image alignment to the URL in restricted mode.
 * Detect and process quoted quote symbols.
 * New link parser (closes "#86":https://github.com/textile/php-textile/issues/86, "#87":https://github.com/textile/php-textile/issues/87 and "#128":https://github.com/textile/php-textile/issues/128).
