@@ -5,6 +5,7 @@
 /redaxo/cache/
 /redaxo/data/
 /releases/
+/resources/
 
 # Addons
 /redaxo/src/addons/*
