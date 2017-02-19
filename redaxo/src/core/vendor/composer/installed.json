@@ -458,17 +458,17 @@
     },
     {
         "name": "filp/whoops",
-        "version": "dev-application-root-path",
-        "version_normalized": "dev-application-root-path",
+        "version": "2.1.6",
+        "version_normalized": "2.1.6.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/gharlan/whoops.git",
-            "reference": "2e91c0181492d923a3beaa49cd54c412e93ceae6"
+            "url": "https://github.com/filp/whoops.git",
+            "reference": "92bdc6800ac6e233c9e161a1768e082389a73530"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/gharlan/whoops/zipball/2e91c0181492d923a3beaa49cd54c412e93ceae6",
-            "reference": "2e91c0181492d923a3beaa49cd54c412e93ceae6",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/92bdc6800ac6e233c9e161a1768e082389a73530",
+            "reference": "92bdc6800ac6e233c9e161a1768e082389a73530",
             "shasum": ""
         },
         "require": {
@@ -483,7 +483,7 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2017-02-09T09:51:09+00:00",
+        "time": "2017-02-18T14:22:27+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -496,11 +496,7 @@
                 "Whoops\\": "src/Whoops/"
             }
         },
-        "autoload-dev": {
-            "psr-4": {
-                "Whoops\\": "tests/Whoops/"
-            }
-        },
+        "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"
         ],
@@ -520,9 +516,6 @@
             "library",
             "whoops",
             "zf2"
-        ],
-        "support": {
-            "source": "https://github.com/gharlan/whoops/tree/application-root-path"
-        }
+        ]
     }
 ]

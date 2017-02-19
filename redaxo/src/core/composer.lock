@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "86b291d2c971655766bf1989907276ab",
+    "content-hash": "b528eb6ad7f8aa274fd9ef06821ab2d6",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -94,16 +94,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "dev-application-root-path",
+            "version": "2.1.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gharlan/whoops.git",
-                "reference": "2e91c0181492d923a3beaa49cd54c412e93ceae6"
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gharlan/whoops/zipball/2e91c0181492d923a3beaa49cd54c412e93ceae6",
-                "reference": "2e91c0181492d923a3beaa49cd54c412e93ceae6",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/92bdc6800ac6e233c9e161a1768e082389a73530",
+                "reference": "92bdc6800ac6e233c9e161a1768e082389a73530",
                 "shasum": ""
             },
             "require": {
@@ -129,11 +129,7 @@
                     "Whoops\\": "src/Whoops/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Whoops\\": "tests/Whoops/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -154,10 +150,7 @@
                 "whoops",
                 "zf2"
             ],
-            "support": {
-                "source": "https://github.com/gharlan/whoops/tree/application-root-path"
-            },
-            "time": "2017-02-09 09:51:09"
+            "time": "2017-02-18T14:22:27+00:00"
         },
         {
             "name": "psr/log",
@@ -522,7 +515,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "filp/whoops": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,

@@ -43,6 +43,12 @@ class TemplateHelper
      */
     private $applicationRootPath;
 
+    public function __construct()
+    {
+        // root path for ordinary composer projects
+        $this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+    }
+
     /**
      * Escapes a string for output in an HTML document
      *
@@ -111,7 +117,7 @@ class TemplateHelper
      */
     public function shorten($path)
     {
-        if ($this->applicationRootPath !== null && $this->applicationRootPath != "/") {
+        if ($this->applicationRootPath != "/") {
             $path = str_replace($this->applicationRootPath, '&hellip;', $path);
         }
 

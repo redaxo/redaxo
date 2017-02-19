@@ -60,9 +60,17 @@ class PrettyPageHandler extends Handler
     private $applicationPaths;
 
     /**
-     * @var string
+     * @var array[]
      */
-    private $applicationRootPath;
+    private $blacklist = [
+        '_GET' => [],
+        '_POST' => [],
+        '_FILES' => [],
+        '_COOKIE' => [],
+        '_SESSION' => [],
+        '_SERVER' => [],
+        '_ENV' => [],
+    ];
 
     /**
      * A string identifier for a known IDE/text editor, or a closure
@@ -90,6 +98,11 @@ class PrettyPageHandler extends Handler
     ];
 
     /**
+     * @var TemplateHelper
+     */
+    private $templateHelper;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -104,8 +117,29 @@ class PrettyPageHandler extends Handler
         // Add the default, local resource search path:
         $this->searchPaths[] = __DIR__ . "/../Resources";
 
-        // root path for ordinary composer projects
-        $this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+        // blacklist php provided auth based values
+        $this->blacklist('_SERVER', 'PHP_AUTH_PW');
+
+        $this->templateHelper = new TemplateHelper();
+
+        if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
+            $cloner = new VarCloner();
+            // Only dump object internals if a custom caster exists.
+            $cloner->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
+                $class = $stub->class;
+                $classes = [$class => $class] + class_parents($class) + class_implements($class);
+
+                foreach ($classes as $class) {
+                    if (isset(AbstractCloner::$defaultCasters[$class])) {
+                        return $a;
+                    }
+                }
+
+                // Remove all internals
+                return [];
+            }]);
+            $this->templateHelper->setCloner($cloner);
+        }
     }
 
     /**
@@ -129,30 +163,6 @@ class PrettyPageHandler extends Handler
                 return Handler::DONE;
             }
         }
-
-        // @todo: Make this more dynamic
-        $helper = new TemplateHelper();
-
-        if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
-            $cloner = new VarCloner();
-            // Only dump object internals if a custom caster exists.
-            $cloner->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
-                $class = $stub->class;
-                $classes = [$class => $class] + class_parents($class) + class_implements($class);
-
-                foreach ($classes as $class) {
-                    if (isset(AbstractCloner::$defaultCasters[$class])) {
-                        return $a;
-                    }
-                }
-
-                // Remove all internals
-                return [];
-            }]);
-            $helper->setCloner($cloner);
-        }
-
-        $helper->setApplicationRootPath($this->applicationRootPath);
 
         $templateFile = $this->getResource("views/layout.html.php");
         $cssFile      = $this->getResource("css/whoops.base.css");
@@ -224,13 +234,13 @@ class PrettyPageHandler extends Handler
             "has_frames_tabs"   => $this->getApplicationPaths(),
 
             "tables"      => [
-                "GET Data"              => $_GET,
-                "POST Data"             => $_POST,
-                "Files"                 => $_FILES,
-                "Cookies"               => $_COOKIE,
-                "Session"               => isset($_SESSION) ? $_SESSION :  [],
-                "Server/Request Data"   => $_SERVER,
-                "Environment Variables" => $_ENV,
+                "GET Data"              => $this->masked('_GET'),
+                "POST Data"             => $this->masked('_POST'),
+                "Files"                 => $this->masked('_FILES'),
+                "Cookies"               => $this->masked('_COOKIE'),
+                "Session"               => isset($_SESSION) ? $this->masked('_SESSION') :  [],
+                "Server/Request Data"   => $this->masked('_SERVER'),
+                "Environment Variables" => $this->masked('_ENV'),
             ],
         ];
 
@@ -250,8 +260,8 @@ class PrettyPageHandler extends Handler
         $plainTextHandler->setInspector($this->getInspector());
         $vars["preface"] = "<!--\n\n\n" . $plainTextHandler->generateResponse() . "\n\n\n\n\n\n\n\n\n\n\n-->";
 
-        $helper->setVariables($vars);
-        $helper->render($templateFile);
+        $this->templateHelper->setVariables($vars);
+        $this->templateHelper->render($templateFile);
 
         return Handler::QUIT;
     }
@@ -625,22 +635,41 @@ class PrettyPageHandler extends Handler
     }
 
     /**
-     * Return the application root path.
-     *
-     * @return string
-     */
-    public function getApplicationRootPath()
-    {
-        return $this->applicationRootPath;
-    }
-
-    /**
      * Set the application root path.
      *
      * @param string $applicationRootPath
      */
     public function setApplicationRootPath($applicationRootPath)
     {
-        $this->applicationRootPath = $applicationRootPath;
+        $this->templateHelper->setApplicationRootPath($applicationRootPath);
+    }
+
+    /**
+     * blacklist a sensitive value within one of the superglobal arrays.
+     *
+     * @param $superGlobalName string the name of the superglobal array, e.g. '_GET'
+     * @param $key string the key within the superglobal
+     */
+    public function blacklist($superGlobalName, $key) {
+        $this->blacklist[$superGlobalName][] = $key;
+    }
+
+    /**
+     * Checks all values identified by the given superGlobalName within GLOBALS.
+     * Blacklisted values will be replaced by a equal length string cointaining only '*' characters.
+     *
+     * @param $superGlobalName string the name of the superglobal array, e.g. '_GET'
+     * @return array $values without sensitive data
+     */
+    private function masked($superGlobalName) {
+        $blacklisted = $this->blacklist[$superGlobalName];
+        $values = $GLOBALS[$superGlobalName];
+
+        foreach($blacklisted as $key) {
+            if (isset($values[$key])) {
+                $values[$key] = str_repeat('*', strlen($values[$key]));
+            }
+        }
+        return $values;
     }
 }
