@@ -60,9 +60,14 @@ JS;
 
 // ------------------------ Print JS Functions
 
+$retainEventHandlers = '';
+if (!rex_request::isXmlHttpRequest()) {
+    $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectLink");';
+}
+
 ?>
 <script type="text/javascript">
-    rex_retain_popup_event_handlers('rex:selectLink');
+    <?php echo $retainEventHandlers ?>
 
     function insertLink(link,name){
         <?php echo $func_body . "\n" ?>
