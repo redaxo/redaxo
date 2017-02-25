@@ -1,16 +1,16 @@
 backup_information = Information
 backup_title = Backup
 backup_file_deleted = File has been deleted
-backup_no_import_file_chosen_or_wrong_version = No omportfile chosen or version is wrong
-backup_no_valid_import_file = Not valid import file
-backup_no_valid_charset = Not a valid charset found
+backup_no_import_file_chosen_or_wrong_version = No import file chosen or wrong version
+backup_no_valid_import_file = Not a valid import file
+backup_no_valid_charset = No matching charset found
 backup_database_imported = Database imported
 backup_entry_count = ({0} entries)
 backup_file_could_not_be_uploaded = File could not be uploaded.
-backup_you_have_no_write_permission_in = No permissions to this folder {0}.
+backup_you_have_no_write_permission_in = No write permissions for folder {0}.
 backup_no_import_file_chosen = Please choose an import file.
-backup_problem_when_extracting = Problems occured during extracting.
-backup_create_dirs_manually = Please create the following folders manually(via ftp).
+backup_problem_when_extracting = Problems occurred while extracting the file.
+backup_create_dirs_manually = Please create the following folders manually and setup write permissions (via ftp).
 backup_file_imported = File has been imported.
 backup_import = Import
 backup_to_import = import
@@ -19,53 +19,52 @@ backup_to_export = export
 backup_download = download
 backup_db_import = Import
 backup_db_export = Export
-backup_filename_updated = Filname updated because of unallowed characters. Please click again on export
-backup_please_choose_folder = Please choose the folders to be exported
-backup_intro_import = Please take care when you import a database. <b>The current database will be deleted</b>.
-backup_database = Databaseimport
+backup_filename_updated = Filname updated due to invalid characters. Please click on export again
+backup_please_choose_folder = Please choose the folders you'd like to export
+backup_intro_import = Please take not that the current database <b>will be deleted</b> when importing a new one. To be safe create a backup of the existing database by exporting it first.
+backup_database = Database import
 backup_filename = Filename
-backup_filename_notice = Variables: %REX_SERVER, %REX_VERSION and Date-Variables like strftime()
-backup_filesize = Filesizee
+backup_filename_notice = Variables: %REX_SERVER, %REX_VERSION and date variables, just like with strftime()
+backup_filesize = File size
 backup_delete = Delete
-backup_files = Fileimport
-backup_intro_export = To backup the whole website please backup database AND files.
+backup_files = File import
+backup_intro_export = Here you can backup the database and files of your current REDAXO installation. To create a full backup of everything you need to export <b>both the database AND files</b> separately. If you are planning to reimport this backup, it's useful to save the backed up files directly on the server so they can easily be imported later.
 backup_database_export = Database export
 backup_file_export = File export
-backup_save_on_server = save on server
-backup_download_as_file = download as file
+backup_save_on_server = Save on server
+backup_download_as_file = Download as file
 backup_createdate = Create date
 
 backup_import_file = Import file
 backup_delete_file = Delete file
 backup_download_file = Download file
+backup_check_rights_in_directory = Backup was not able to read the folder/s or none was selected.
+backup_file_could_not_be_generated  = File could not be created.
+backup_file_generated_in  = File has been saved in
 
-backup_check_rights_in_directory = Backup was not able to read the folder/s or it was none selected.
-backup_file_could_not_be_generated = File could not be generated.
-backup_file_generated_in = File has been generated in
-
-backup_proceed_db_import = Current data (articles, templates, modules,...) will be deleted. Are you sure ?
-backup_proceed_file_import = Current files will be deleted. Are you sure ?
+backup_proceed_db_import = Existing data (articles, templates, modules,...) will be deleted. Would you like to proceed?
+backup_proceed_file_import = Current files will be deleted. Would you like to proceed?
 
 backup_export_db_caption = Database exports
 backup_export_file_caption = File exports
 
 backup_function = Function
 
-backup_send_mail = send by mail
-backup_send_mail_notice = The addon "phpmailer" is required to use this option.
+backup_send_mail = Send by e-mail
+backup_send_mail_notice = The AddOn "phpmailer" is required to use this option.
 backup_mailaddress = E-mail address
 backup_mail_subject = New database backup
-backup_mail_body = Find attached a new database backup of the website "{0}".
+backup_mail_body = Attached you'll find the latest database backup from the website "{0}".
 
 perm_general_backup[export] = Webseite exportieren
 
-backup_export_select = Export-type
-backup_export_select_tables = select tables
-backup_export_select_dir = select directories
-backup_export_select_location = select storage location
-backup_export_select_filename = select filename
+backup_export_select = Type of export
+backup_export_select_tables = Select tables
+backup_export_select_dir = Select directories
+backup_export_select_location = Select save location
+backup_export_select_filename = Select filename
 
 backup_file = File
-backup_note = Hint
+backup_note = Notice
 backup_upload = Upload
 backup_load_from_server = Download from server
