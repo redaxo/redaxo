@@ -1,5 +1,3 @@
-# addon:install se_sv
-
 install_title = Installer
 install_subpage_packages = Core & Packages
 install_subpage_update = Aktualisiera befintliga

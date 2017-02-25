@@ -1,5 +1,3 @@
-# addon:cronjob en_gb
-
 cronjob_title = Cronjobs
 
 cronjob_add = add cronjob

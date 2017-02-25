@@ -1,5 +1,3 @@
-# addon:media_manager de_de
-
 media_manager = Media Manager
 media_manager_overview_title = Media Manager Addon <small>(Version {0})</small>
 
