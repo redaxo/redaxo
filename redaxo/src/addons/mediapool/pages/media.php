@@ -219,9 +219,9 @@ if ($file_id) {
         }
 
         if ($opener_input_field != '') {
-            $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(htmlspecialchars($gf->getValue('title'))) . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
+            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(htmlspecialchars($gf->getValue('title'))) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-                $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedialist(\'' . $encoded_fname . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
+                $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             }
         }
 
@@ -662,9 +662,9 @@ if (!$file_id) {
         // ----- opener
         $opener_link = '';
         if ($opener_input_field != '') {
-            $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedia(\'' . $file_name . '\', \'' . addslashes(htmlspecialchars($files->getValue('title'))) . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
+            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $file_name . '\', \'' . addslashes(htmlspecialchars($files->getValue('title'))) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-                $opener_link = '<a class="btn btn-xs btn-select" href="javascript:selectMedialist(\'' . $file_name . '\');">' . rex_i18n::msg('pool_file_get') . '</a>';
+                $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $file_name . '\');return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             }
         }
 
