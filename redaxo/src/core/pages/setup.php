@@ -114,8 +114,14 @@ if ($step == 3) {
     $security .= '<script>
 
     jQuery(function($){
-
-        $.each(["' . rex_url::backend('data/.redaxo') . '", "' . rex_url::backend('src/core/boot.php') . '", "' . rex_url::backend('cache/.redaxo') . '"], function (i, url) {
+        var urls = [
+            "' . rex_url::frontend('bin/release') . '", 
+            "' . rex_url::backend('data/.redaxo') . '", 
+            "' . rex_url::backend('src/core/boot.php') . '", 
+            "' . rex_url::backend('cache/.redaxo') . '"
+        ];
+        
+        $.each(urls, function (i, url) {
             $.ajax({
                 url: url,
                 cache: false,
