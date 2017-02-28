@@ -444,7 +444,7 @@ jQuery(function($){
         });
     $("[autofocus]").trigger("focus");
 
-    if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('htaccess_check') == '')
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);

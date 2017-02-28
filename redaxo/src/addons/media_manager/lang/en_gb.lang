@@ -1,103 +1,103 @@
 media_manager = Media Manager
-media_manager_overview_title = Media Manager Addon (Version {0})
+media_manager_overview_title = Media Manager AddOn (Version {0})
 
 media_manager_subpage_desc = Description
 media_manager_subpage_config = Configuration
-media_manager_subpage_types = Edit imagetypes
+media_manager_subpage_types = Edit image types
 media_manager_subpage_clear_cache = Delete cache
 
-media_manager_cache_files_removed = {0} cachefiles deleted
+media_manager_cache_files_removed = {0} cache files deleted
 
 media_manager_config_saved = configuration updated!
 media_manager_config_not_saved = configuration could not be saved!
-media_manager_config_not_writable = configurationfile "{0}" can not be written!
+media_manager_config_not_writable = configuration file "{0}" cannot be written!
 
-media_manager_max_resizekb = Maximum size of a image in kilobyte, which can be used of media-manager
-media_manager_max_resizepx = Maximum size of a image in pixel, which can be used of media-manager
-media_manager_jpg_quality = JPG/JPEG output-quality
+media_manager_max_resizekb = Maximum size of an image in kilobyte, which media-manager is allowed to process
+media_manager_max_resizepx = Maximum size of a image in pixel, which media-manager is allowed to process
+media_manager_jpg_quality = JPG/JPEG output quality
 
-media_manager_id = id
-media_manager_name = name
-media_manager_edittype = edit imagetypes
-media_manager_settings = settings
+media_manager_id = ID
+media_manager_name = Name
+media_manager_edittype = Edit image types
+media_manager_settings = Settings
 
-media_manager_yes = yes
-media_manager_no = no
-media_manager_back = back
+media_manager_yes = Yes
+media_manager_no = No
+media_manager_back = Back
 
-media_manager_error_name = please enter a namen.
-media_manager_error_settings = please check the settings.
+media_manager_error_name = Please enter a name.
+media_manager_error_settings = Please check the media-manager settings.
 
-media_manager_type_caption = list of imagetypes
-media_manager_type_no_types = no imagetypes found
-media_manager_type_create = create imagetype
-media_manager_type_edit = edit imagetype
-media_manager_type_copy = copy imagetype
-media_manager_type_effekts_edit = edit effect
-media_manager_type_delete = delete imagetype
-media_manager_type_name = name
+media_manager_type_caption = List of image types
+media_manager_type_no_types = No image types found
+media_manager_type_create = Create image type
+media_manager_type_edit = Edit image type
+media_manager_type_copy = Copy image type
+media_manager_type_effekts_edit = Edit effect
+media_manager_type_delete = Delete image type
+media_manager_type_name = Name
 media_manager_type_name_copy = Copy
-media_manager_type_priority = prio
-media_manager_type_description = description
-media_manager_type_functions = function
-media_manager_type_cache_delete = delete cache
-media_manager_type_system = system imagetype
-media_manager_type_delete = delete imagetype
-media_manager_type_deleted = imagetype deleted
-media_manager_type_copied = imagetype copied
+media_manager_type_priority = Prio
+media_manager_type_description = Description
+media_manager_type_functions = Functions
+media_manager_type_cache_delete = Delete cache
+media_manager_type_system = System image type
+media_manager_type_delete = Delete image type
+media_manager_type_deleted = Image type deleted
+media_manager_type_copied = Image type copied
 
-media_manager_effect_list_header = effect of imagetype "{0}"
-media_manager_effect_edit_header = imagetype "{0}": edit effect
-media_manager_effect_create_header = imagetype "{0}": create effect
-media_manager_effect_caption = list of effects of imagetype "{0}"
-media_manager_effect_no_effects = no effect found
-media_manager_effect_create = create effect
-media_manager_effect_edit = edit effect
-media_manager_effect_delete = delete effect
-media_manager_effect_name = effect
-media_manager_effect_priority = order
-media_manager_effect_parameters = parameter
-media_manager_effect_functions = functions
-media_manager_effect_deleted = delete effect
+media_manager_effect_list_header = Effect of image type "{0}"
+media_manager_effect_edit_header = Image type "{0}": edit effect
+media_manager_effect_create_header = Image type "{0}": create effect
+media_manager_effect_caption = List of added effects for image type "{0}"
+media_manager_effect_no_effects = No effects found
+media_manager_effect_create = Create effect
+media_manager_effect_edit = Edit effect
+media_manager_effect_delete = Delete effect
+media_manager_effect_name = Effect
+media_manager_effect_priority = Order of effects
+media_manager_effect_parameters = Parameter
+media_manager_effect_functions = Functions
+media_manager_effect_deleted = Delete effect
 
-media_manager_effect_brand_image = image
-media_manager_effect_brand_hpos = horizontal position
-media_manager_effect_brand_vpos = vertical position
-media_manager_effect_brand_padding_x = padding x
-media_manager_effect_brand_padding_y = padding y
+media_manager_effect_brand_image = Image
+media_manager_effect_brand_hpos = Horizontal position
+media_manager_effect_brand_vpos = Vertical position
+media_manager_effect_brand_padding_x = Horizontal padding
+media_manager_effect_brand_padding_y = Vertical padding
 
 media_manager_effect_blur_repeats = Repeats
 media_manager_effect_blur_type = Blur type
 media_manager_effect_blur_smoothit = smoothing (negative values for sharpening)
 
-media_manager_effect_colorize_r = Red-Value
-media_manager_effect_colorize_g = Green-Value
-media_manager_effect_colorize_b = Blue-Value
+media_manager_effect_colorize_r = Red value
+media_manager_effect_colorize_g = Green value
+media_manager_effect_colorize_b = Blue value
 
-media_manager_effect_sharpen_amount = amount
-media_manager_effect_sharpen_radius = radius
-media_manager_effect_sharpen_threshold = threshold
+media_manager_effect_sharpen_amount = Sharpen amount
+media_manager_effect_sharpen_radius = Sharpen radius
+media_manager_effect_sharpen_threshold = Threshold
 
-media_manager_effect_resize_width = width
-media_manager_effect_resize_height = height
-media_manager_effect_resize_style = mode
-media_manager_effect_resize_imgtosmall = if image is to small
+media_manager_effect_resize_width = Target width
+media_manager_effect_resize_height = Target Height
+media_manager_effect_resize_style = Mode
+media_manager_effect_resize_imgtosmall = If image is to small
 
-media_manager_effect_crop_width = width
-media_manager_effect_crop_height = height
-media_manager_effect_crop_offset_width = offset width
-media_manager_effect_crop_offset_height = offset height
-media_manager_effect_crop_position = position
+media_manager_effect_crop_width = Target width
+media_manager_effect_crop_height = Target height
+media_manager_effect_crop_offset_width = Horizontal offset
+media_manager_effect_crop_offset_height = Vertical offset
+media_manager_effect_crop_position = Crop position
 
 media_manager_effect_rounded_corners_topleft = Top left
 media_manager_effect_rounded_corners_topright = Top right
 media_manager_effect_rounded_corners_bottomleft = Bottom left
 media_manager_effect_rounded_corners_bottomright = Bottom right
 
-media_manager_effect_flip = direction
-media_manager_effect_rotate = rotate (degree)
+media_manager_effect_flip = Direction
+media_manager_effect_rotate = Rotate (degree)
 
-media_manager_error_type_name_not_unique = an imagetype with this name already exists!
+media_manager_error_type_name_not_unique = An imagetype with this name already exists!
 
 media_manager_effect_mirror_height = Refl. height (50 / 10%)
 media_manager_effect_mirror_background_color = Background color

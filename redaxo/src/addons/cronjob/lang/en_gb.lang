@@ -1,7 +1,7 @@
 cronjob_title = Cronjobs
 
-cronjob_add = add cronjob
-cronjob_edit = edit cronjob
+cronjob_add = Add cronjob
+cronjob_edit = Edit cronjob
 
 cronjob_caption = List of creaded cronjobs
 cronjob_no_cronjobs = No cronjobs created

@@ -1,24 +1,24 @@
 customizer = customizer
-customizer_features = function
+customizer_features = Functions
 
 customizer_codemirror = CodeMirror
-customizer_codemirror_check = activate CodeMirror
+customizer_codemirror_check = Activate CodeMirror
 customizer_codemirror_theme = CodeMirror Theme
 
-customizer_codemirror_info = 
+customizer_codemirror_info = When CodeMirror is activated it will automatically be used when editing templates or modules. To use CodeMirror manually for custom textarea fields, use the following syntax:<br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br> The parameters <i>codemirror-theme</i> and <i>codemirror-mode</i> are optional.
 
 customizer_labeling = Additions
-customizer_labelcolor = color (#43a047)
+customizer_labelcolor = Color (#43a047)
 customizer_labelcolor_error = No valid color code (#43a oder #43a047)
-customizer_showlink = activate link
+customizer_showlink = Show link to website?
 
-customizer_config_updated = settings have been saved
-customizer_config_update_failed = settings were not saved
+customizer_config_updated = Settings have been saved
+customizer_config_update_failed = Settings were not saved
 
-customizer_update = save settings
+customizer_update = Save settings
 
 
-customizer_projectname = project name
-customizer_textarea = wide textarea on template and module page
-customizer_liquid = liquid layout
-customizer_nav_flyout = navigation with flyout
+customizer_projectname = Project name
+customizer_textarea = Width of textarea in templates and modules
+customizer_liquid = Liquid layout
+customizer_nav_flyout = Navigation with flyout

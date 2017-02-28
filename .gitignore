@@ -1,5 +1,5 @@
-.htaccess
 .php_cs.cache
+/.htaccess
 /assets/
 /media/
 /redaxo/cache/
