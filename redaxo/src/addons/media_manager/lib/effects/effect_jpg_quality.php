@@ -7,17 +7,17 @@ class rex_effect_jpg_quality extends rex_effect_abstract
 {
     public function execute()
     {
-        $this->image->img['quality'] = $this->params['quality'];
+        $this->media->setImageAttribute('quality', $this->params['quality']);
     }
 
     public function getParams()
     {
         return array(
             array(
-                'label' => 'JPG quality',
+                'label' => rex_i18n::msg('media_manager_effect_jpg_quality'),
                 'name' => 'quality',
                 'type' => 'int',
-                'default' => 85,
+                'default' => rex_config::get('media_manager', 'jpg_quality', 85),
             ),
         );
     }
