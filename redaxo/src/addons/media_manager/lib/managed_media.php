@@ -165,7 +165,9 @@ class rex_managed_media
     {
         ob_start();
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 85);
+            if (!isset($this->image['quality'])) {
+                $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 85);
+            }
             imagejpeg($this->image['src'], null, $this->image['quality']);
         } elseif ($this->format == 'png') {
             imagepng($this->image['src']);
@@ -188,6 +190,11 @@ class rex_managed_media
     {
         $this->image['src'] = $src;
         $this->asImage = true;
+    }
+
+    public function setImageAttribute($key, $value)
+    {
+        $this->image[$key] = $value;
     }
 
     public function setSourcePath($path)
