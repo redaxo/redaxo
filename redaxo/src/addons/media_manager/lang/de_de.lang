@@ -116,3 +116,5 @@ media_manager_effect_header_cache = Cache-Control
 
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
+
+media_manager_effect_jpg_quality = JPG-Qualität
