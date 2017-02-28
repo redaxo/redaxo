@@ -165,7 +165,7 @@ class rex_managed_media
     {
         ob_start();
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 80);
+            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 85);
             imagejpeg($this->image['src'], null, $this->image['quality']);
         } elseif ($this->format == 'png') {
             imagepng($this->image['src']);
