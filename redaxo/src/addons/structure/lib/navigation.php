@@ -46,6 +46,12 @@ class rex_navigation
     private $current_article_id = -1; // Aktueller Artikel
     private $current_category_id = -1; // Aktuelle Katgorie
 
+    public $ulclass = 'rex-default-navigation';
+    public $currentclass = 'rex-current';
+    public $activeclass = 'rex-active';
+    public $defaultclass = 'rex-normal';
+
+
     private function __construct()
     {
         // nichts zu tun
@@ -316,13 +322,13 @@ class rex_navigation
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad
                 if ($nav->getId() == $this->current_category_id) {
-                    $li['class'][] = 'rex-current';
-                    $a['class'][] = 'rex-current';
+                    $li['class'][] = $this->currentclass;
+                    $a['class'][] = $this->activeclass;
                 } elseif (in_array($nav->getId(), $this->path)) {
-                    $li['class'][] = 'rex-active';
-                    $a['class'][] = 'rex-active';
+                    $li['class'][] = $this->activeclass;
+                    $a['class'][] = $this->activeclass;
                 } else {
-                    $li['class'][] = 'rex-normal';
+                    $li['class'][] = $this->defaultclass;
                 }
                 if (isset($this->linkclasses[($depth - 1)])) {
                     $a['class'][] = $this->linkclasses[($depth - 1)];
@@ -354,7 +360,7 @@ class rex_navigation
             }
         }
         if (count($lis) > 0) {
-            return '<ul class="rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements">' . implode('', $lis) . '</ul>';
+            return '<ul class="' . $this->ulclass . ' rex-navi' . $depth . ' rex-navi-depth-' . $depth . ' rex-navi-has-' . count($lis) . '-elements">' . implode('', $lis) . '</ul>';
         }
         return '';
     }
