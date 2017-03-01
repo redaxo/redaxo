@@ -23,9 +23,18 @@ function setAllCheckBoxes(FieldName, mthis)
     }
 }
 
+
 function newPoolWindow(link)
 {
-    var counter = opener ? opener.winObjCounter + 1 : 0;
+    if (window.opener) {
+        try {
+            var counter = window.opener ? window.opener.winObjCounter + 1 : 0;
+        } catch(e) {
+            var counter = 0;
+        }
+    } else {
+        var counter = 0;
+    }
     // 1200 = $screen-lg
     return newWindow( 'rexmediapopup'+counter, link, 1200,800,',status=yes,resizable=yes');
 }
