@@ -318,4 +318,16 @@ class rex_media_manager
     {
         return rex_get('rex_media_type', 'string');
     }
+    
+    public static function getUrl($filename = '', $type = '', $rewrite = true)
+    {
+        if($rewrite) {
+            $rewrite = '/images/'.$type.'/'.$filename;
+        } else {
+            $rewrite = 'index.php?rex_media_type=' . $type . '&rex_media_file='. $filename;
+        }
+
+        return $rewrite;
+    }
+    
 }
