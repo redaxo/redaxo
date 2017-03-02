@@ -318,10 +318,9 @@ class rex_media_manager
     {
         return rex_get('rex_media_type', 'string');
     }
-    
+
     public static function getUrl($filename = '', $type = '', $rewrite = true)
     {
-        
         if($rewrite) {
             $url = '/images/' . $type . '/' . $filename;
         } else {
