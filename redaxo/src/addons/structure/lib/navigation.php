@@ -51,7 +51,6 @@ class rex_navigation
     public $activeclass = 'rex-active';
     public $defaultclass = 'rex-normal';
 
-
     private function __construct()
     {
         // nichts zu tun
