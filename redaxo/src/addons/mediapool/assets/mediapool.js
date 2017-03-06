@@ -183,7 +183,7 @@ $(document).ready(function () {
 		        $triggers.push({
 			        media: $(this).text(),
 			        el: $(this),
-			        on: 'hover focus'
+			        on: 'hover'
 		        });
 	        });
         }
@@ -202,7 +202,7 @@ $(document).ready(function () {
 		            html: true,
 		            trigger: entry.on,
 		            title: img,
-		            delay: 250,
+		            delay: { "show": 250, "hide": 0 },
 		            template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="padding:0"></div></div>'
 		        });
 		        
