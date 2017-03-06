@@ -149,65 +149,69 @@ function writeREXMedialist(id){
     writeREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_');
 }
 
+function getPreviewUrl(media, mediaManager) {
+    var url = '';
+	if('.svg' != media.substr(media.length - 4) && mediaManager) {
+		url = './index.php?rex_media_type=rex_mediabutton_preview&rex_media_file='+ media;
+	}
+	else {
+		url = '../media/'+ media;
+	}	
+	return url;
+}
+
+function isMedia(media) {
+	return media && media.length != 0 && $.inArray(media.split('.').pop(), rex.imageExtensions);
+}
 
 $(document).ready(function () {
     // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
-    function rexShowMediaPreview() {
-        var value, img_type;
-        if($(this).hasClass("rex-js-widget-media"))
-        {
-            value = $("input[type=text]", this).val();
-            img_type = "rex_mediabutton_preview";
-        }else
-        {
-            value = $("select :selected", this).text();
-            img_type = "rex_medialistbutton_preview";
+    $('.rex-js-widget-preview').each(function () {
+	    
+	    var $this = $(this);
+        var mediaManager = $this.hasClass("rex-js-widget-preview-media-manager");
+        var $triggers = [];
+        
+        if($this.hasClass("rex-js-widget-media")) {
+	        $triggers.push({
+		        media: $this.find("input[type=text]").val(),
+		        el: $this,
+		        on: 'hover focus'
+	        });
+        } else {
+	        $this.find("select option").each(function(){
+		        $triggers.push({
+			        media: $(this).text(),
+			        el: $(this),
+			        on: 'hover focus'
+		        });
+	        });
         }
+                
+        $.each($triggers, function(){
+	        
+	        var entry = this;
+	        
+	        if(isMedia(entry.media)) {
+		        
+		        var url = getPreviewUrl(entry.media, mediaManager);
+	            var img = "<img src='"+url+"' width='200' />";
 
-        var div = $(".rex-js-media-preview", this);
-
-        var url;
-        var width = 0;
-        if('.svg' != value.substr(value.length - 4) && $(this).hasClass("rex-js-widget-preview-media-manager"))
-            url = './index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
-        else
-        {
-            url = '../media/'+ value;
-            width = 246;
-        }
-
-        if(value && value.length != 0 && $.inArray(value.split('.').pop(), rex.imageExtensions))
-        {
-            // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
-            var img = $('img', div);
-            if(img.length == 0)
-            {
-                div.html('<img />');
-                img = $('img', div);
-            }
-            img.attr('src', url);
-            if (width != 0)
-                img.attr('width', width);
-
-            div.stop(true, false).slideDown("fast");
-        }
-        else
-        {
-            div.stop(true, false).slideUp("fast");
-        }
-    }
-
-    // Medialist preview neu anzeigen, beim wechsel der auswahl
-    $('body')
-        .on('click', '.rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
-        .on('mouseenter', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
-        .on('mouseleave', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', function() {
-            var div = $('.rex-js-media-preview', this);
-            if(div.css('height') != 'auto')
-            {
-                div.slideUp("normal");
-            }
+		        entry.el.tooltip({
+			        container: $this,
+		            html: true,
+		            trigger: entry.on,
+		            title: img,
+		            delay: 250,
+		            template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="padding:0"></div></div>'
+		        });
+		        
+	        } else {
+		        return;
+	        }
+	        
         });
 
+    });
 
 });
