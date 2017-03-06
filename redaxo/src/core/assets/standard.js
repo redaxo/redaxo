@@ -449,6 +449,7 @@ jQuery(function($){
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('htaccess_check', '1', time.toGMTString());
+        checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
         checkHtaccess('src', 'core/boot.php');

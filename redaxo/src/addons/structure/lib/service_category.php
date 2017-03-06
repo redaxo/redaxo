@@ -66,7 +66,7 @@ class rex_category_service
             $templates = rex_template::getTemplatesForCategory($category_id);
         }
 
-        $user = rex::isBackend() ? null : 'frontend';
+        $user = rex::getUser() ? null : rex::getEnvironment();
 
         // Kategorie in allen Sprachen anlegen
         $AART = rex_sql::factory();
@@ -174,7 +174,7 @@ class rex_category_service
             $EKAT->setValue('catpriority', $data['catpriority']);
         }
 
-        $user = rex::isBackend() ? null : 'frontend';
+        $user = rex::getUser() ? null : rex::getEnvironment();
 
         $EKAT->addGlobalUpdateFields($user);
 
@@ -341,7 +341,7 @@ class rex_category_service
             $EKAT->setTable(rex::getTablePrefix() . 'article');
             $EKAT->setWhere(['id' => $category_id,  'clang_id' => $clang, 'startarticle' => 1]);
             $EKAT->setValue('status', $newstatus);
-            $EKAT->addGlobalCreateFields(rex::isBackend() ? null : 'frontend');
+            $EKAT->addGlobalCreateFields(rex::getUser() ? null : rex::getEnvironment());
 
             try {
                 $EKAT->update();

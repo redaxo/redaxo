@@ -138,6 +138,8 @@ class rex_release
         $files = [
             'assets/.redaxo',
             'media/.redaxo',
+            'redaxo/bin/.htaccess',
+            'redaxo/bin/console',
             'redaxo/cache/.htaccess',
             'redaxo/cache/.redaxo',
             'redaxo/data/.htaccess',

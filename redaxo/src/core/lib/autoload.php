@@ -102,7 +102,10 @@ class rex_autoload
 
         // Class not found, so reanalyse all directories if not already done or if $force==true
         // but only if an admin is logged in
-        if ((!self::$reloaded || $force) && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+        if (
+            (!self::$reloaded || $force) &&
+            (rex::getConsole() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
+        ) {
             self::reload($force);
             return self::autoload($class);
         }
