@@ -11,36 +11,67 @@ class rex_sql_table
 {
     use rex_instance_pool_trait;
 
+    /** @var rex_sql */
+    private $sql;
+
     /** @var string */
     private $name;
+
+    /** @var bool */
+    private $new;
 
     /** @var rex_sql_column[] */
     private $columns = [];
 
     /** @var string[] */
-    private $existing = [];
+    private $columnsExisting = [];
+
+    /** @var string[] */
+    private $primaryKey = [];
+
+    /** @var bool */
+    private $primaryKeyModified = false;
 
     private function __construct($name)
     {
+        $this->sql = rex_sql::factory();
         $this->name = $name;
 
-        foreach (rex_sql::factory()->showColumns($name) as $column) {
+        $columns = [];
+
+        try {
+            $columns = $this->sql->showColumns($name);
+            $this->new = false;
+        } catch (rex_sql_exception $exception) {
+            // Error code 42S02 means: Table does not exist
+            if ('42S02' !== $this->sql->getErrno()) {
+                throw $exception;
+            }
+
+            $this->new = true;
+        }
+
+        foreach ($columns as $column) {
             $this->columns[$column['name']] = new rex_sql_column(
                 $column['name'],
                 $column['type'],
                 'YES' === $column['null'],
                 $column['default'],
-                $column['extra']
+                $column['extra'] ?: null
             );
 
-            $this->existing[] = $column['name'];
+            $this->columnsExisting[] = $column['name'];
+
+            if ('PRI' === $column['key']) {
+                $this->primaryKey[] = $column['name'];
+            }
         }
     }
 
     /**
      * @param string $name
      *
-     * @return null|self
+     * @return self
      */
     public static function get($name)
     {
@@ -92,7 +123,7 @@ class rex_sql_table
     /**
      * @param rex_sql_column $column
      *
-     * @return $this|rex_sql_table
+     * @return $this
      */
     public function addColumn(rex_sql_column $column)
     {
@@ -110,7 +141,7 @@ class rex_sql_table
     /**
      * @param rex_sql_column $column
      *
-     * @return $this|rex_sql_table
+     * @return $this
      */
     public function ensureColumn(rex_sql_column $column)
     {
@@ -132,7 +163,7 @@ class rex_sql_table
     /**
      * @param string $name
      *
-     * @return $this|rex_sql_table
+     * @return $this
      */
     public function removeColumn($name)
     {
@@ -141,56 +172,177 @@ class rex_sql_table
         return $this;
     }
 
+    /**
+     * @return string[] Column names
+     */
+    public function getPrimaryKey()
+    {
+        return $this->primaryKey;
+    }
+
+    /**
+     * @param string|string[] $columns Column name(s)
+     *
+     * @return $this
+     */
+    public function setPrimaryKey($columns)
+    {
+        $columns = (array) $columns;
+
+        if ($this->primaryKey === $columns) {
+            return $this;
+        }
+
+        $this->primaryKey = (array) $columns;
+        $this->primaryKeyModified = true;
+
+        return $this;
+    }
+
+    /**
+     * Ensures that the table exists with the given definition.
+     */
+    public function ensure()
+    {
+        if ($this->new) {
+            $this->create();
+
+            return;
+        }
+
+        $this->alter();
+    }
+
+    /**
+     * Drops the table if it exists.
+     */
+    public function drop()
+    {
+        if (!$this->new) {
+            $this->sql->setQuery(sprintf('DROP TABLE %s', $this->sql->escapeIdentifier($this->name)));
+        }
+
+        $this->new = true;
+        $this->columnsExisting = [];
+        $this->primaryKeyModified = !empty($this->primaryKey);
+    }
+
+    /**
+     * Creates the table.
+     *
+     * @throws rex_exception
+     */
+    public function create()
+    {
+        if (!$this->new) {
+            throw new rex_exception(sprintf('Table "%s" already exists.', $this->name));
+        }
+        if (!$this->columns) {
+            throw new rex_exception('A table must have at least one column.');
+        }
+
+        $parts = [];
+
+        foreach ($this->columns as $column) {
+            $parts[] = $this->getColumnDefinition($column);
+        }
+
+        if ($this->primaryKey) {
+            $parts[] = 'PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
+        }
+
+        $query = 'CREATE TABLE '.$this->sql->escapeIdentifier($this->name)." (\n    ";
+        $query .= implode(",\n    ", $parts);
+        $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+        $this->sql->setQuery($query);
+
+        $this->resetModified();
+    }
+
+    /**
+     * Alters the table.
+     *
+     * @throws rex_exception
+     */
     public function alter()
     {
-        $queries = [];
-        $sql = rex_sql::factory();
+        if ($this->new) {
+            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->name));
+        }
 
-        $columnDefinition = function (rex_sql_column $column) use ($sql) {
-            return sprintf(
-                '%s %s %s %s',
-                $sql->escapeIdentifier($column->getName()),
-                $column->getType(),
-                $column->getDefault() ? 'DEFAULT '.$sql->escape($column->getDefault()) : '',
-                $column->isNullable() ? '' : 'NOT NULL',
-                $column->getExtra()
-            );
-        };
+        $parts = [];
+
+        if ($this->primaryKeyModified) {
+            $parts[] = 'DROP PRIMARY KEY';
+        }
 
         $columns = $this->columns;
-        foreach ($this->existing as $name) {
+        foreach ($this->columnsExisting as $name) {
             if (!isset($columns[$name])) {
-                $queries[] = 'DROP '.$sql->escapeIdentifier($name);
+                $parts[] = 'DROP '.$this->sql->escapeIdentifier($name);
                 continue;
             }
 
             $column = $columns[$name];
             if ($column->isModified()) {
-                $queries[] = 'CHANGE '.$sql->escapeIdentifier($name).' '.$columnDefinition($column);
+                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($name).' '.$this->getColumnDefinition($column);
             }
             unset($columns[$name]);
         }
         foreach ($columns as $column) {
-            $queries[] = 'ADD '.$columnDefinition($column);
+            $parts[] = 'ADD '.$this->getColumnDefinition($column);
         }
 
-        if (!$queries) {
+        if ($this->primaryKeyModified && $this->primaryKey) {
+            $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
+        }
+
+        if (!$parts) {
             return;
         }
 
-        $query = 'ALTER TABLE '.$sql->escapeIdentifier($this->name)."\n    ";
-        $query .= implode(",\n    ", $queries);
+        $query = 'ALTER TABLE '.$this->sql->escapeIdentifier($this->name)."\n    ";
+        $query .= implode(",\n    ", $parts);
         $query .= ';';
 
-        $sql->setQuery($query);
+        $this->sql->setQuery($query);
+
+        $this->resetModified();
+    }
+
+    private function getColumnDefinition(rex_sql_column $column)
+    {
+        return sprintf(
+            '%s %s %s %s',
+            $this->sql->escapeIdentifier($column->getName()),
+            $column->getType(),
+            $column->getDefault() ? 'DEFAULT '.$this->sql->escape($column->getDefault()) : '',
+            $column->isNullable() ? '' : 'NOT NULL',
+            $column->getExtra()
+        );
+    }
+
+    private function getKeyColumnsDefintion(array $columns)
+    {
+        $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
+
+        return '('.implode(', ', $columns).')';
+    }
+
+    private function resetModified()
+    {
+        $this->new = false;
 
         $columns = $this->columns;
         $this->columns = [];
-        $this->existing = [];
+        $this->columnsExisting = [];
         foreach ($columns as $column) {
             $column->setModified(false);
             $this->columns[$column->getName()] = $column;
-            $this->existing[] = $column->getName();
+            $this->columnsExisting[] = $column->getName();
         }
+
+        $this->primaryKeyModified = false;
     }
 }
