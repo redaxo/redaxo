@@ -77,6 +77,10 @@ class rex
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be an email address!');
                 }
                 break;
+            case 'console':
+                if (null !== $value && !$value instanceof rex_console_application) {
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
+                }
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -156,6 +160,20 @@ class rex
     }
 
     /**
+     * Returns the environment.
+     *
+     * @return string
+     */
+    public static function getEnvironment()
+    {
+        if (self::getConsole()) {
+            return 'console';
+        }
+
+        return self::isBackend() ? 'backend' : 'frontend';
+    }
+
+    /**
      * Returns if the debug mode is active.
      *
      * @return bool
@@ -215,6 +233,16 @@ class rex
     public static function getUser()
     {
         return self::getProperty('user');
+    }
+
+    /**
+     * Returns the console application.
+     *
+     * @return null|rex_console_application
+     */
+    public static function getConsole()
+    {
+        return self::getProperty('console', null);
     }
 
     /**

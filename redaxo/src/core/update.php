@@ -29,3 +29,32 @@ if (rex_string::versionCompare(rex::getVersion(), '5.3.0-beta1', '<')) {
         ->ensureColumn(new rex_sql_column('role', 'text', true))
         ->alter();
 }
+
+if (rex_string::versionCompare(rex::getVersion(), '5.4.0-dev', '<')) {
+    $content = <<<'PHP'
+#!/usr/bin/env php
+<?php
+
+unset($REX);
+$REX['REDAXO'] = true;
+$REX['HTDOCS_PATH'] = '../';
+$REX['BACKEND_FOLDER'] = 'redaxo';
+
+chdir(dirname(__DIR__));
+
+require __DIR__.'/../src/core/console.php';
+
+PHP;
+
+    $path = rex_path::backend('bin/console');
+    rex_file::put($path, $content);
+    @chmod($path, 0775);
+
+    $content = <<<'HTACCESS'
+order deny,allow
+deny from all
+
+HTACCESS;
+
+    rex_file::put(rex_path::backend('bin/.htaccess'), $content);
+}

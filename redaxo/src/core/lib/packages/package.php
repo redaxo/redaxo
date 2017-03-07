@@ -248,7 +248,7 @@ abstract class rex_package implements rex_package_interface
         }
         if (
             isset($cache[$id]) &&
-            (!rex::isBackend() || !($user = rex::getUser()) || !$user->isAdmin() || $cache[$id]['timestamp'] >= filemtime($file))
+            (!rex::isBackend() || !rex::getConsole() && (!rex::getUser() || !rex::getUser()->isAdmin()) || $cache[$id]['timestamp'] >= filemtime($file))
         ) {
             $properties = $cache[$id]['data'];
         } else {

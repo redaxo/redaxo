@@ -35,7 +35,7 @@ if (!preg_match('/^package:\s*[\'"]?(.*?)[\'"]?$/m', $package, $match)) {
 }
 $package = $match[1];
 
-$path = __DIR__.'/../redaxo/src/addons/'.$package;
+$path = __DIR__.'/../src/addons/'.$package;
 if (file_exists($path)) {
     exit('Addon "'.$package.'" already exists'.PHP_EOL);
 }

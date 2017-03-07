@@ -115,7 +115,7 @@ if ($step == 3) {
 
     jQuery(function($){
         var urls = [
-            "' . rex_url::frontend('bin/release') . '", 
+            "' . rex_url::backend('bin/console') . '", 
             "' . rex_url::backend('data/.redaxo') . '", 
             "' . rex_url::backend('src/core/boot.php') . '", 
             "' . rex_url::backend('cache/.redaxo') . '"
