@@ -154,7 +154,7 @@ class rex_sql_column
     }
 
     /**
-     * @params self $column
+     * @param self $column
      *
      * @return bool
      */
