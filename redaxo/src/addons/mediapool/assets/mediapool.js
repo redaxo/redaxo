@@ -175,37 +175,39 @@ $(document).ready(function () {
         if($this.hasClass("rex-js-widget-media")) {
 	        $triggers.push({
 		        media: $this.find("input[type=text]").val(),
-		        el: $this,
-		        on: 'hover focus'
+		        el: $this
 	        });
         } else {
 	        $this.find("select option").each(function(){
 		        $triggers.push({
 			        media: $(this).text(),
-			        el: $(this),
-			        on: 'hover'
+			        el: $(this)
 		        });
 	        });
         }
                 
+        var $img = $('<img style="position:absolute;left:50%;top:-90px;transform:translateX(-50%)" />'),
+    		$ct = $('<div class="preview-wrap" style="position:relative" />');
+    		
+        $this.wrapInner($ct);
+        $ct = $this.find('.preview-wrap:first');
+		$img.fadeOut(0).appendTo($ct);
+
         $.each($triggers, function(){
 	        
 	        var entry = this;
 	        
 	        if(isMedia(entry.media)) {
-		        
-		        var url = getPreviewUrl(entry.media, mediaManager);
-	            var img = "<img src='"+url+"' width='200' />";
+		        				
+				entry.el.hover(function(){
+					$img.fadeOut(0);
+			        var url = getPreviewUrl(entry.media, mediaManager);
+		            $img.attr({'src': url, 'height': 80});
+					$img.stop(true,true).delay(250).fadeIn(250);
+				}, function(){
+					$img.stop(true,true).fadeOut(250);
+				});
 
-		        entry.el.tooltip({
-			        container: $this,
-		            html: true,
-		            trigger: entry.on,
-		            title: img,
-		            delay: { "show": 250, "hide": 0 },
-		            template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner" style="padding:0"></div></div>'
-		        });
-		        
 	        } else {
 		        return;
 	        }
