@@ -14,11 +14,14 @@ class rex_sql_table
     /** @var rex_sql */
     private $sql;
 
+    /** @var bool */
+    private $new;
+
     /** @var string */
     private $name;
 
-    /** @var bool */
-    private $new;
+    /** @var string */
+    private $originalName;
 
     /** @var rex_sql_column[] */
     private $columns = [];
@@ -36,6 +39,7 @@ class rex_sql_table
     {
         $this->sql = rex_sql::factory();
         $this->name = $name;
+        $this->originalName = $name;
 
         $columns = [];
 
@@ -86,6 +90,18 @@ class rex_sql_table
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -223,6 +239,7 @@ class rex_sql_table
         }
 
         $this->new = true;
+        $this->originalName = $this->name;
         $this->columnsExisting = [];
         $this->primaryKeyModified = !empty($this->primaryKey);
     }
@@ -273,6 +290,10 @@ class rex_sql_table
 
         $parts = [];
 
+        if ($this->name !== $this->originalName) {
+            $parts[] = 'RENAME '.$this->sql->escapeIdentifier($this->name);
+        }
+
         if ($this->primaryKeyModified) {
             $parts[] = 'DROP PRIMARY KEY';
         }
@@ -302,7 +323,7 @@ class rex_sql_table
             return;
         }
 
-        $query = 'ALTER TABLE '.$this->sql->escapeIdentifier($this->name)."\n    ";
+        $query = 'ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName)."\n    ";
         $query .= implode(",\n    ", $parts);
         $query .= ';';
 
@@ -333,6 +354,13 @@ class rex_sql_table
     private function resetModified()
     {
         $this->new = false;
+
+        if ($this->originalName !== $this->name) {
+            self::clearInstance($this->originalName);
+            self::addInstance($this->name, $this);
+        }
+
+        $this->originalName = $this->name;
 
         $columns = $this->columns;
         $this->columns = [];
