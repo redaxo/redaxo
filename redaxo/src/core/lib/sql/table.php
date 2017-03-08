@@ -11,6 +11,8 @@ class rex_sql_table
 {
     use rex_instance_pool_trait;
 
+    const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+
     /** @var rex_sql */
     private $sql;
 
@@ -28,6 +30,12 @@ class rex_sql_table
 
     /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $columnsExisting = [];
+
+    /** @var string[] */
+    private $implicitOrder = [];
+
+    /** @var string[] */
+    private $positions = [];
 
     /** @var string[] */
     private $primaryKey = [];
@@ -146,10 +154,11 @@ class rex_sql_table
 
     /**
      * @param rex_sql_column $column
+     * @param null|string    $after  Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
-    public function addColumn(rex_sql_column $column)
+    public function addColumn(rex_sql_column $column, $after = null)
     {
         $name = $column->getName();
 
@@ -159,21 +168,26 @@ class rex_sql_table
 
         $this->columns[$name] = $column;
 
+        $this->setPosition($name, $after);
+
         return $this;
     }
 
     /**
      * @param rex_sql_column $column
+     * @param null|string    $after  Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
-    public function ensureColumn(rex_sql_column $column)
+    public function ensureColumn(rex_sql_column $column, $after = null)
     {
         $name = $column->getName();
 
         if (!$this->hasColumn($name)) {
-            return $this->addColumn($column);
+            return $this->addColumn($column, $after);
         }
+
+        $this->setPosition($name, $after);
 
         if ($this->getColumn($name)->equals($column)) {
             return $this;
@@ -280,6 +294,24 @@ class rex_sql_table
             return;
         }
 
+        $positions = $this->positions;
+        $this->positions = [];
+
+        $previous = self::FIRST;
+        foreach ($this->implicitOrder as $name) {
+            if (isset($this->positions[$name])) {
+                continue;
+            }
+
+            $this->positions[$name] = $previous;
+            $previous = $name;
+        }
+
+        foreach ($positions as $name => $after) {
+            unset($this->positions[$name]);
+            $this->positions[$name] = $after;
+        }
+
         $this->alter();
     }
 
@@ -295,6 +327,8 @@ class rex_sql_table
         $this->new = true;
         $this->originalName = $this->name;
         $this->columnsExisting = [];
+        $this->implicitOrder = [];
+        $this->positions = [];
         $this->primaryKeyModified = !empty($this->primaryKey);
     }
 
@@ -311,6 +345,8 @@ class rex_sql_table
         if (!$this->columns) {
             throw new rex_exception('A table must have at least one column.');
         }
+
+        $this->sortColumns();
 
         $parts = [];
 
@@ -353,20 +389,46 @@ class rex_sql_table
         }
 
         $columns = $this->columns;
-        foreach ($this->columnsExisting as $newName => $oldName) {
-            if (!isset($columns[$newName])) {
-                $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
-                continue;
+        $existing = $this->columnsExisting;
+
+        $handle = function ($name, $after = null) use (&$parts, &$columns, &$existing) {
+            $column = $columns[$name];
+            $new = !isset($existing[$name]);
+            $oldName = $new ? null : $existing[$name];
+            unset($columns[$name], $existing[$name]);
+
+            if (!$new && !$column->isModified() && null === $after) {
+                return;
             }
 
-            $column = $columns[$newName];
-            if ($column->isModified()) {
-                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($oldName).' '.$this->getColumnDefinition($column);
+            $definition = $this->getColumnDefinition($column);
+
+            if (self::FIRST === $after) {
+                $definition .= ' FIRST';
+            } elseif (null !== $after) {
+                $definition .= ' AFTER '.$this->sql->escapeIdentifier($after);
             }
-            unset($columns[$newName]);
+
+            if ($new) {
+                $parts[] = 'ADD '.$definition;
+            } else {
+                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($oldName).' '.$definition;
+            }
+        };
+
+        foreach ($columns as $name => $column) {
+            if (!isset($this->positions[$name])) {
+                $handle($name);
+            }
         }
-        foreach ($columns as $column) {
-            $parts[] = 'ADD '.$this->getColumnDefinition($column);
+        foreach ($this->positions as $name => $after) {
+            if (isset($columns[$name])) {
+                $handle($name, $after);
+            }
+        }
+
+        foreach ($existing as $oldName) {
+            $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
         }
 
         if ($this->primaryKeyModified && $this->primaryKey) {
@@ -383,7 +445,24 @@ class rex_sql_table
 
         $this->sql->setQuery($query);
 
+        $this->sortColumns();
         $this->resetModified();
+    }
+
+    private function setPosition($name, $after)
+    {
+        if (null === $after) {
+            $this->implicitOrder[] = $name;
+
+            return;
+        }
+
+        if (self::FIRST !== $after && !$this->hasColumn($after)) {
+            throw new InvalidArgumentException(sprintf('Column "%s" can not be placed after "%s", because that column does not exist.', $name, $after));
+        }
+
+        unset($this->positions[$name]);
+        $this->positions[$name] = $after;
     }
 
     private function getColumnDefinition(rex_sql_column $column)
@@ -405,6 +484,32 @@ class rex_sql_table
         return '('.implode(', ', $columns).')';
     }
 
+    private function sortColumns()
+    {
+        $columns = [];
+
+        foreach ($this->columns as $name => $column) {
+            if (!isset($this->positions[$name])) {
+                $columns[$name] = $column;
+            }
+        }
+
+        foreach ($this->positions as $name => $after) {
+            $insert = [$name => $this->columns[$name]];
+
+            if (self::FIRST === $after) {
+                $columns = $insert + $columns;
+
+                continue;
+            }
+
+            $offset = array_search($after, array_keys($columns)) + 1;
+            $columns = array_slice($columns, 0, $offset) + $insert + array_slice($columns, $offset);
+        }
+
+        $this->columns = $columns;
+    }
+
     private function resetModified()
     {
         $this->new = false;
@@ -424,6 +529,9 @@ class rex_sql_table
             $this->columns[$column->getName()] = $column;
             $this->columnsExisting[$column->getName()] = $column->getName();
         }
+
+        $this->implicitOrder = [];
+        $this->positions = [];
 
         $this->primaryKeyModified = false;
     }
