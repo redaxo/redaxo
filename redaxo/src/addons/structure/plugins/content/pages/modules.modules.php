@@ -370,6 +370,9 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
+    $list->setColumnFormat('name', 'custom', function($params) {
+        return rex_i18n::translate($params['list']->getValue('name'));
+    });
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
