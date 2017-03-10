@@ -86,13 +86,13 @@ class rex_managed_media
 
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
             $this->format = 'jpeg';
-            $this->image['src'] = @imagecreatefromjpeg($this->getMediapath());
+            $this->image['src'] = @imagecreatefromjpeg($this->getSourcePath());
         } elseif ($this->format == 'gif') {
-            $this->image['src'] = @imagecreatefromgif($this->getMediapath());
+            $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
         } elseif ($this->format == 'wbmp') {
-            $this->image['src'] = @imagecreatefromwbmp($this->getMediapath());
+            $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
         } else {
-            $this->image['src'] = @imagecreatefrompng($this->getMediapath());
+            $this->image['src'] = @imagecreatefrompng($this->getSourcePath());
             if ($this->image['src']) {
                 imagealphablending($this->image['src'], false);
                 imagesavealpha($this->image['src'], true);
@@ -101,7 +101,7 @@ class rex_managed_media
         }
 
         if (!$this->image['src']) {
-            $this->setMediapath(rex_path::addon('media_manager', 'media/warning.jpg'));
+            $this->setSourcePath(rex_path::addon('media_manager', 'media/warning.jpg'));
             $this->asImage();
         } else {
             $this->refreshImageDimensions();
@@ -193,6 +193,12 @@ class rex_managed_media
     public function setSourcePath($path)
     {
         $this->sourcePath = $path;
+
+        $this->asImage = false;
+
+        if (isset($this->image['src']) && is_resource($this->image['src'])) {
+            imagedestroy($this->image['src']);
+        }
     }
 
     public function getSourcePath()
