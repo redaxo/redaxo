@@ -57,4 +57,12 @@ deny from all
 HTACCESS;
 
     rex_file::put(rex_path::backend('bin/.htaccess'), $content);
+
+    rex_sql::factory()->setQuery('
+        ALTER TABLE '.rex::getTable('config').'
+            DROP PRIMARY KEY,
+            DROP KEY `unique_key`,
+            DROP `id`,
+            ADD PRIMARY KEY (`namespace`, `key`)
+    ');
 }
