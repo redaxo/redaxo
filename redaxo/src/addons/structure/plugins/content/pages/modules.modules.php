@@ -370,7 +370,7 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', function($params) {
+    $list->setColumnFormat('name', 'custom', function ($params) {
         return $params['list']->getColumnLink('name', rex_i18n::translate($params['list']->getValue('name')));
     });
 
