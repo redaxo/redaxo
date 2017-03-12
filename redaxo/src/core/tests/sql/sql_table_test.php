@@ -154,7 +154,6 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
 
         $table
             ->renameColumn('id', 'pid')
-            ->renameColumn('title', 'name')
             ->alter();
 
         $this->assertSame(['pid'], $table->getPrimaryKey());
@@ -163,6 +162,24 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $this->assertSame(['pid'], $table->getPrimaryKey());
+    }
+
+    /**
+     * @expectedException \rex_exception
+     */
+    public function testRenameColumnNonExisting()
+    {
+        $table = $this->createTable();
+        $table->renameColumn('foo', 'bar');
+    }
+
+    /**
+     * @expectedException \rex_exception
+     */
+    public function testRenameColumnToAlreadyExisting()
+    {
+        $table = $this->createTable();
+        $table->renameColumn('id', 'title');
     }
 
     public function testRemoveColumn()

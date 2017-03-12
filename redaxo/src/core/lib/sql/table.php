@@ -195,10 +195,6 @@ class rex_sql_table
     public function renameColumn($oldName, $newName)
     {
         if (!$this->hasColumn($oldName)) {
-            if ($this->hasColumn($newName)) {
-                return $this;
-            }
-
             throw new rex_exception(sprintf('Column with name "%s" does not exist.', $oldName));
         }
 
