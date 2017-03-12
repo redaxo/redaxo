@@ -132,6 +132,39 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertEquals($description, $table->getColumn('description'));
     }
 
+    public function testRenameColumn()
+    {
+        $table = $this->createTable();
+
+        $table->renameColumn('title', 'name');
+
+        $this->assertFalse($table->hasColumn('title'));
+        $this->assertTrue($table->hasColumn('name'));
+
+        $table->alter();
+
+        $this->assertTrue($table->hasColumn('name'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertFalse($table->hasColumn('title'));
+        $this->assertTrue($table->hasColumn('name'));
+        $this->assertSame('varchar(255)', $table->getColumn('name')->getType());
+
+        $table
+            ->renameColumn('id', 'pid')
+            ->renameColumn('title', 'name')
+            ->alter();
+
+        $this->assertSame(['pid'], $table->getPrimaryKey());
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertSame(['pid'], $table->getPrimaryKey());
+    }
+
     public function testRemoveColumn()
     {
         $table = $this->createTable();
