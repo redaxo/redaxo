@@ -77,7 +77,7 @@ class rex_managed_media
 
         // if mimetype detected and in imagemap -> change format
         if (class_exists('finfo') && $finfo = new finfo(FILEINFO_MIME_TYPE)) {
-            if ($ftype = @$finfo->file($this->image['filepath'])) {
+            if ($ftype = @$finfo->file($this->getSourcePath())) {
                 if (array_key_exists($ftype, $this->mimetypeMap)) {
                     $this->format = $this->mimetypeMap[$ftype];
                 }
@@ -248,7 +248,7 @@ class rex_managed_media
         $header = $this->getHeader();
         if (!isset($header['Content-Type'])) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $content_type = finfo_file($finfo, $this->getMediapath());
+            $content_type = finfo_file($finfo, $this->getSourcePath());
             if ($content_type != '') {
                 $this->setHeader('Content-Type', $content_type);
             }
