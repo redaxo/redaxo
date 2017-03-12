@@ -197,21 +197,21 @@ class rex_sql_table
     }
 
     /**
-     * @return string[] Column names
+     * @return null|string[] Column names
      */
     public function getPrimaryKey()
     {
-        return $this->primaryKey;
+        return $this->primaryKey ?: null;
     }
 
     /**
-     * @param string|string[] $columns Column name(s)
+     * @param null|string|string[] $columns Column name(s)
      *
      * @return $this
      */
     public function setPrimaryKey($columns)
     {
-        $columns = (array) $columns;
+        $columns = null === $columns ? [] : (array) $columns;
 
         if ($this->primaryKey === $columns) {
             return $this;
