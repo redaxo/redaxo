@@ -85,6 +85,14 @@ class rex_sql_table
     }
 
     /**
+     * @return bool
+     */
+    public function exists()
+    {
+        return !$this->new;
+    }
+
+    /**
      * @return string
      */
     public function getName()
