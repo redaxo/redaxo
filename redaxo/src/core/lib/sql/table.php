@@ -343,7 +343,7 @@ class rex_sql_table
     private function getColumnDefinition(rex_sql_column $column)
     {
         return sprintf(
-            '%s %s %s %s',
+            '%s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
             $column->getDefault() ? 'DEFAULT '.$this->sql->escape($column->getDefault()) : '',
