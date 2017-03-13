@@ -190,7 +190,7 @@ class rex_sql_table
      *
      * @return $this
      *
-     * @throw rex_exception
+     * @throws rex_exception
      */
     public function renameColumn($oldName, $newName)
     {
