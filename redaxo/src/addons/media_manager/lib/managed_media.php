@@ -29,6 +29,13 @@ class rex_managed_media
         $this->format = strtolower(rex_file::extension($this->getMediapath()));
     }
 
+    /**
+     * Returns the original path of the media.
+     *
+     * To get the current source path (can be changed by effects) use `getSourcePath` instead.
+     *
+     * @return string
+     */
     public function getMediapath()
     {
         return $this->media_path;
@@ -201,6 +208,13 @@ class rex_managed_media
         }
     }
 
+    /**
+     * Returns the current source path.
+     *
+     * To get the original media path use `getMediapath()` instead.
+     *
+     * @return string
+     */
     public function getSourcePath()
     {
         return $this->sourcePath;
