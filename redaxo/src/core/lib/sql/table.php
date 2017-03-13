@@ -208,9 +208,15 @@ class rex_sql_table
      * @param null|string|string[] $columns Column name(s)
      *
      * @return $this
+     *
+     * @throws rex_exception
      */
     public function setPrimaryKey($columns)
     {
+        if (is_array($columns) && !$columns) {
+            throw new rex_exception('The primary key column array can not be empty. To delete the primary key use `null` instead.');
+        }
+
         $columns = null === $columns ? [] : (array) $columns;
 
         if ($this->primaryKey === $columns) {
