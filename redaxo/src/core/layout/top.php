@@ -31,6 +31,9 @@ $body_attr['class'] = ['rex-is-logged-out'];
 if (rex::getUser()) {
     $body_attr['class'] = ['rex-is-logged-in'];
 }
+if (rex::isDebugMode()) {
+    $body_attr['class'][] = 'rex-is-debugmode';
+}
 if (rex::isSafeMode()) {
     $body_attr['class'][] = 'rex-is-safemode';
 }
