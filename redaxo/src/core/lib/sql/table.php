@@ -26,7 +26,7 @@ class rex_sql_table
     /** @var rex_sql_column[] */
     private $columns = [];
 
-    /** @var string[] */
+    /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $columnsExisting = [];
 
     /** @var string[] */
@@ -347,17 +347,17 @@ class rex_sql_table
         }
 
         $columns = $this->columns;
-        foreach ($this->columnsExisting as $name => $existingName) {
-            if (!isset($columns[$name])) {
-                $parts[] = 'DROP '.$this->sql->escapeIdentifier($existingName);
+        foreach ($this->columnsExisting as $newName => $oldName) {
+            if (!isset($columns[$newName])) {
+                $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
                 continue;
             }
 
-            $column = $columns[$name];
+            $column = $columns[$newName];
             if ($column->isModified()) {
-                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($existingName).' '.$this->getColumnDefinition($column);
+                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($oldName).' '.$this->getColumnDefinition($column);
             }
-            unset($columns[$name]);
+            unset($columns[$newName]);
         }
         foreach ($columns as $column) {
             $parts[] = 'ADD '.$this->getColumnDefinition($column);
