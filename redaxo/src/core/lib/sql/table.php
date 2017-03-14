@@ -26,7 +26,7 @@ class rex_sql_table
     /** @var rex_sql_column[] */
     private $columns = [];
 
-    /** @var string[] */
+    /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $columnsExisting = [];
 
     /** @var string[] */
@@ -64,7 +64,7 @@ class rex_sql_table
                 $column['extra'] ?: null
             );
 
-            $this->columnsExisting[] = $column['name'];
+            $this->columnsExisting[$column['name']] = $column['name'];
 
             if ('PRI' === $column['key']) {
                 $this->primaryKey[] = $column['name'];
@@ -180,6 +180,46 @@ class rex_sql_table
         }
 
         $this->columns[$name] = $column->setModified(true);
+
+        return $this;
+    }
+
+    /**
+     * @param string $oldName
+     * @param string $newName
+     *
+     * @return $this
+     *
+     * @throws rex_exception
+     */
+    public function renameColumn($oldName, $newName)
+    {
+        if (!$this->hasColumn($oldName)) {
+            throw new rex_exception(sprintf('Column with name "%s" does not exist.', $oldName));
+        }
+
+        if ($this->hasColumn($newName)) {
+            throw new rex_exception(sprintf('Column with the new name "%s" already exists.', $newName));
+        }
+
+        if ($oldName === $newName) {
+            return $this;
+        }
+
+        $column = $this->getColumn($oldName)->setName($newName);
+
+        unset($this->columns[$oldName]);
+        $this->columns[$newName] = $column;
+
+        if (isset($this->columnsExisting[$oldName])) {
+            $this->columnsExisting[$newName] = $this->columnsExisting[$oldName];
+            unset($this->columnsExisting[$oldName]);
+        }
+
+        if (false !== $key = array_search($oldName, $this->primaryKey)) {
+            $this->primaryKey[$key] = $newName;
+            $this->primaryKeyModified = true;
+        }
 
         return $this;
     }
@@ -307,17 +347,17 @@ class rex_sql_table
         }
 
         $columns = $this->columns;
-        foreach ($this->columnsExisting as $name) {
-            if (!isset($columns[$name])) {
-                $parts[] = 'DROP '.$this->sql->escapeIdentifier($name);
+        foreach ($this->columnsExisting as $newName => $oldName) {
+            if (!isset($columns[$newName])) {
+                $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
                 continue;
             }
 
-            $column = $columns[$name];
+            $column = $columns[$newName];
             if ($column->isModified()) {
-                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($name).' '.$this->getColumnDefinition($column);
+                $parts[] = 'CHANGE '.$this->sql->escapeIdentifier($oldName).' '.$this->getColumnDefinition($column);
             }
-            unset($columns[$name]);
+            unset($columns[$newName]);
         }
         foreach ($columns as $column) {
             $parts[] = 'ADD '.$this->getColumnDefinition($column);
@@ -376,7 +416,7 @@ class rex_sql_table
         foreach ($columns as $column) {
             $column->setModified(false);
             $this->columns[$column->getName()] = $column;
-            $this->columnsExisting[] = $column->getName();
+            $this->columnsExisting[$column->getName()] = $column->getName();
         }
 
         $this->primaryKeyModified = false;
