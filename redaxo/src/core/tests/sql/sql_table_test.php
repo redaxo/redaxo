@@ -216,13 +216,13 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
 
         $table->getColumn('id')->setExtra(null);
         $table
-            ->setPrimaryKey([])
+            ->setPrimaryKey(null)
             ->alter();
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
-        $this->assertSame([], $table->getPrimaryKey());
+        $this->assertNull($table->getPrimaryKey());
     }
 
     public function testAlter()
