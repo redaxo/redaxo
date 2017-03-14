@@ -25,12 +25,10 @@ class rex_effect_convert2img extends rex_effect_abstract
         'jpg' => [
             'ext' => 'jpg',
             'content-type' => 'image/jpeg',
-            'createfunc' => 'imagecreatefromjpeg',
         ],
         'png' => [
             'ext' => 'png',
             'content-type' => 'image/png',
-            'createfunc' => 'imagecreatefrompng',
         ],
     ];
     private static $densities = [100, 150, 200, 300, 600];
@@ -85,18 +83,15 @@ class rex_effect_convert2img extends rex_effect_abstract
             return false;
         }
 
-        $image_src = call_user_func($convert_to['createfunc'], $to_path);
-
-        if (!$image_src) {
-            return;
-        }
-
-        $this->media->setImage($image_src);
+        $this->media->setSourcePath($to_path);
         $this->media->refreshImageDimensions();
         $this->media->setFormat($convert_to['ext']);
         $this->media->setMediaFilename($filename);
         $this->media->setHeader('Content-Type', $convert_to['content-type']);
-        unlink($to_path);
+
+        register_shutdown_function(function () use ($to_path) {
+            rex_file::delete($to_path);
+        });
     }
 
     public function getParams()
