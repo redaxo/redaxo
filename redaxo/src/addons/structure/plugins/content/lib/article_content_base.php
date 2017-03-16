@@ -110,9 +110,8 @@ class rex_article_content_base
         $this->article_id = $article_id;
 
         // ---------- select article
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . "article.id='$article_id' AND clang_id='" . $this->clang . "'";
         $sql = $this->getSqlInstance();
-        $sql->setQuery($qry);
+        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$article_id, $this->clang]);
 
         if ($sql->getRows() == 1) {
             $this->template_id = $this->getValue('template_id');
@@ -257,7 +256,7 @@ class rex_article_content_base
 
         $articleLimit = '';
         if ($this->article_id != 0) {
-            $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $this->article_id;
+            $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . (int) $this->article_id;
         }
 
         $sliceLimit = '';

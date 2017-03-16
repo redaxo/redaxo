@@ -25,7 +25,7 @@ class rex_content_service
 
         // check if slice id is valid
         $CM = rex_sql::factory();
-        $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang_id=$clang");
+        $CM->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$slice_id, $clang]);
         if ($CM->getRows() == 1) {
             // origin value for later success-check
             $oldPriority = $CM->getValue('priority');
@@ -64,12 +64,12 @@ class rex_content_service
                 rex_sql_util::organizePriorities(
                     rex::getTable('article_slice'),
                     'priority',
-                    'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision,
+                    'article_id=' . (int) $article_id . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $slice_revision,
                     'priority, updatedate ' . $updSort
                 );
 
                 // check if the slice moved at all (first cannot be moved up, last not down)
-                $CM->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where id='$slice_id' and clang_id=$clang");
+                $CM->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$slice_id, $clang]);
                 $newPriority = $CM->getValue('priority');
                 if ($oldPriority == $newPriority) {
                     throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
@@ -97,7 +97,7 @@ class rex_content_service
     {
         // check if slice id is valid
         $curr = rex_sql::factory();
-        $curr->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=' . $slice_id);
+        $curr->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=?', [$slice_id]);
         if ($curr->getRows() != 1) {
             return false;
         }
@@ -111,7 +111,7 @@ class rex_content_service
 
         // delete the slice
         $del = rex_sql::factory();
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=' . $slice_id);
+        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=?', [$slice_id]);
 
         // reorg remaining slices
         rex_sql_util::organizePriorities(
@@ -143,7 +143,7 @@ class rex_content_service
         }
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$from_id' and clang_id='$from_clang' and revision='$revision'");
+        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$from_id, $from_clang, $revision]);
 
         if (!$gc->getRows()) {
             return true;
@@ -206,7 +206,7 @@ class rex_content_service
             rex_sql_util::organizePriorities(
                 rex::getTable('article_slice'),
                 'priority',
-                'article_id=' . $to_id . ' AND clang_id=' . $to_clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $revision,
+                'article_id=' . (int) $to_id . ' AND clang_id=' . (int) $to_clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $revision,
                 'priority, updatedate'
             );
         }

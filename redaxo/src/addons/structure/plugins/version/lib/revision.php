@@ -17,10 +17,10 @@ class rex_article_revision
         // clear the revision to which we will later copy all slices
         $dc = rex_sql::factory();
         // $dc->setDebug();
-        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $article_id . ' and clang_id=' . $clang . ' and revision=' . $to_revision_id);
+        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$article_id, $clang, $to_revision_id]);
 
         $gc = rex_sql::factory();
-        $gc->setQuery('select * from ' . rex::getTablePrefix() . "article_slice where article_id='$article_id' and clang_id='$clang' and revision='$from_revision_id' ORDER by ctype_id, priority");
+        $gc->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=? ORDER by ctype_id, priority', [$article_id, $clang, $from_revision_id]);
 
         $cols = rex_sql::factory();
         $cols->setquery('SHOW COLUMNS FROM ' . rex::getTablePrefix() . 'article_slice');

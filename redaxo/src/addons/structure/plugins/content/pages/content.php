@@ -37,11 +37,11 @@ $article->setQuery('
             article.*, template.attributes as template_attributes
         FROM
             ' . rex::getTablePrefix() . 'article as article
-        LEFT JOIN ' . rex::getTablePrefix() . "template as template
+        LEFT JOIN ' . rex::getTablePrefix() . 'template as template
             ON template.id=article.template_id
         WHERE
-            article.id='$article_id'
-            AND clang_id=$clang");
+            article.id=?
+            AND clang_id=?', [$article_id, $clang]);
 
 if ($article->getRows() == 1) {
     // ----- ctype holen
@@ -124,14 +124,14 @@ if ($article->getRows() == 1) {
             $CM = rex_sql::factory();
             if ($function == 'edit' || $function == 'delete') {
                 // edit/ delete
-                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang_id=$clang");
+                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$slice_id, $clang]);
                 if ($CM->getRows() == 1) {
                     $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
                 }
             } else {
                 // add
                 $module_id = rex_post('module_id', 'int');
-                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
+                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
             }
 
             if ($CM->getRows() != 1) {
@@ -199,9 +199,9 @@ if ($article->getRows() == 1) {
                                 $prevSlice = rex_sql::factory();
                                 // $prevSlice->setDebug();
                                 if ($slice_id == -1) {
-                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision);
+                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=? AND clang_id=? AND ctype_id=? AND revision=?', [$article_id, $clang, $ctype, $slice_revision]);
                                 } else {
-                                    $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=' . $slice_id);
+                                    $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=?', [$slice_id]);
                                 }
 
                                 $priority = $prevSlice->getValue('priority');
@@ -261,7 +261,7 @@ if ($article->getRows() == 1) {
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
                                         'priority',
-                                        'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision,
+                                        'article_id=' . (int) $article_id . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $slice_revision,
                                         'priority, updatedate DESC'
                                     );
 

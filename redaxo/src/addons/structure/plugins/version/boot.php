@@ -44,7 +44,7 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_poin
 
     $working_version_empty = true;
     $gw = rex_sql::factory();
-    $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=' . $params['article_id'] . ' and clang_id=' . $params['clang'] . ' and revision=1 LIMIT 1');
+    $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1', [$params['article_id'], $params['clang']]);
     if ($gw->getRows() > 0) {
         $working_version_empty = false;
     }

@@ -53,8 +53,8 @@ if ($function == 'delete') {
                         ma.module_id = m.id
                     WHERE
                         ma.action_id = a.id AND
-                        ma.action_id=' . $action_id;
-    $del->setQuery($qry); // module mit dieser aktion vorhanden ?
+                        ma.action_id=?';
+    $del->setQuery($qry, [$action_id]); // module mit dieser aktion vorhanden ?
     if ($del->getRows() > 0) {
         $action_in_use_msg = '';
         $action_name = htmlspecialchars($del->getValue('a.name'));
@@ -69,7 +69,7 @@ if ($function == 'delete') {
 
         $error = rex_i18n::msg('action_cannot_be_deleted', $action_name) . $action_in_use_msg;
     } else {
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "action WHERE id='$action_id' LIMIT 1");
+        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'action WHERE id=? LIMIT 1', [$action_id]);
         $success = rex_i18n::msg('action_deleted');
     }
 }
@@ -144,7 +144,7 @@ if ($function == 'add' || $function == 'edit') {
             $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $action_id . '</small>';
 
             $action = rex_sql::factory();
-            $action->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action WHERE id=' . $action_id);
+            $action->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'action WHERE id=?', [$action_id]);
 
             $name = $action->getValue('name');
             $previewaction = $action->getValue('preview');
