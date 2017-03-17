@@ -233,15 +233,15 @@ if ($file_id) {
         if ($TPERM) {
             $panel = '';
 
-		$cats_sel = new rex_media_category_select();
-		$cats_sel->setStyle('class="form-control"');
-		$cats_sel->setSize(1);
-		$cats_sel->setName('rex_file_category');
-		$cats_sel->setId('rex-mediapool-category');
-		$cats_sel->setAttribute('class', 'selectpicker form-control');
-		$cats_sel->setAttribute('data-live-search', 'true');
-		$cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
-		$cats_sel->setSelected($rex_file_category);
+            $cats_sel = new rex_media_category_select();
+            $cats_sel->setStyle('class="form-control"');
+            $cats_sel->setSize(1);
+            $cats_sel->setName('rex_file_category');
+            $cats_sel->setId('rex-mediapool-category');
+            $cats_sel->setAttribute('class', 'selectpicker form-control');
+            $cats_sel->setAttribute('data-live-search', 'true');
+            $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+            $cats_sel->setSelected($rex_file_category);
 
             $formElements = [];
 
