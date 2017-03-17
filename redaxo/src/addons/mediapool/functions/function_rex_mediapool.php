@@ -400,6 +400,8 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $cats_sel->setSize(1);
     $cats_sel->setName('rex_file_category');
     $cats_sel->setId('rex-mediapool-category');
+    $cats_sel->setAttribute('class', 'selectpicker form-control');
+    $cats_sel->setAttribute('data-live-search', 'true');
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     $cats_sel->setAttribute('onchange', 'this.form.submit()');
     $cats_sel->setSelected($rex_file_category);
