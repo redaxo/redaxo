@@ -105,7 +105,7 @@ $content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('email_options')
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-fromname">' . $this->i18n('sender_name') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[fromname]" value="' . $this->getConfig('fromname') . '" />';#
+$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[fromname]" value="' . $this->getConfig('fromname') . '" />';
 $formElements[] = $n;
 
 $n = [];
