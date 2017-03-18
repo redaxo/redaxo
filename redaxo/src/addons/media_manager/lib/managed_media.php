@@ -172,10 +172,14 @@ class rex_managed_media
     {
         ob_start();
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 85);
-            imagejpeg($this->image['src'], null, $this->image['quality']);
+            if (null !== $progressive = $this->getImageProperty('jpg_progressive')) {
+                imageinterlace($this->image['src'], $progressive ? 1 : 0);
+            }
+            $quality = $this->getImageProperty('jpg_quality', rex_config::get('media_manager', 'jpg_quality', 85));
+            imagejpeg($this->image['src'], null, $quality);
         } elseif ($this->format == 'png') {
-            imagepng($this->image['src']);
+            $compression = $this->getImageProperty('png_compression', -1);
+            imagepng($this->image['src'], null, $compression);
         } elseif ($this->format == 'gif') {
             imagegif($this->image['src']);
         } elseif ($this->format == 'wbmp') {
@@ -230,6 +234,16 @@ class rex_managed_media
         }
 
         return rex_file::get($this->sourcePath);
+    }
+
+    public function setImageProperty($name, $value)
+    {
+        $this->image[$name] = $value;
+    }
+
+    public function getImageProperty($name, $default = null)
+    {
+        return isset($this->image[$name]) ? $this->image[$name] : $default;
     }
 
     public function getWidth()
