@@ -191,12 +191,14 @@ if ($file_id) {
             $fragment->setVar('elements', [$e], false);
             $add_ext_info = $fragment->parse('core/form/form.php');
 
-            $imgn = rex_url::media($fname) . '" width="' . $rfwidth;
+            $imgn = rex_url::media($fname).'?buster='.$gf->getDateTimeValue('updatedate');
+            $width = ' width="'.$rfwidth.'"';
             $img_max = rex_url::media($fname);
 
             if ($media_manager && rex_file::extension($fname) != 'svg') {
-                $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname]);
-                $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname]);
+                $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname, 'buster' => $gf->getDateTimeValue('updatedate')]);
+                $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname, 'buster' => $gf->getDateTimeValue('updatedate')]);
+                $width = '';
             }
 
             if (!file_exists(rex_path::media($fname))) {
@@ -204,7 +206,7 @@ if ($file_id) {
             } else {
                 $add_image = '
                         <a href="' . $img_max . '">
-                            <img class="img-responsive" src="' . $imgn . '" alt="' . htmlspecialchars($ftitle) . '" title="' . htmlspecialchars($ftitle) . '" />
+                            <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . htmlspecialchars($ftitle) . '" title="' . htmlspecialchars($ftitle) . '" />
                         </a>';
             }
         }
@@ -643,9 +645,9 @@ if (!$file_id) {
             $thumbnail = '<i class="rex-mime' . $icon_class . '" title="' . $alt . '" data-extension="' . $file_ext . '"></i><span class="sr-only">' . $file_name . '</span>';
 
             if (rex_media::isImageType(rex_file::extension($file_name))) {
-                $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
+                $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '?buster=' . $files->getDateTimeValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
                 if ($media_manager && rex_file::extension($file_name) != 'svg') {
-                    $thumbnail = '<img class="thumbnail" src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name]) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                    $thumbnail = '<img class="thumbnail" src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name, 'buster' => $files->getDateTimeValue('updatedate')]) . '" alt="' . $alt . '" title="' . $alt . '" />';
                 }
             }
         }
