@@ -243,7 +243,7 @@ class rex_managed_media
     }
 
     /**
-     * @deprecated sine 2.3.0, use `getWidth()` instead
+     * @deprecated since 2.3.0, use `getWidth()` instead
      */
     public function getImageWidth()
     {
@@ -251,7 +251,7 @@ class rex_managed_media
     }
 
     /**
-     * @deprecated sine 2.3.0, use `getHeight()` instead
+     * @deprecated since 2.3.0, use `getHeight()` instead
      */
     public function getImageHeight()
     {
