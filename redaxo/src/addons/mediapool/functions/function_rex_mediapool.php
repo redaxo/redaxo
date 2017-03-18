@@ -193,11 +193,15 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         $ffiletype = $_FILES['file_new']['type'];
         $ffilesize = $_FILES['file_new']['size'];
 
-        $p_new = pathinfo($_FILES['file_new']['name']);
-        $p_old = pathinfo($FILEINFOS['filename']);
+        $extensionNew = mb_strtolower(pathinfo($_FILES['file_new']['name'], PATHINFO_EXTENSION));
+        $extensionOld = mb_strtolower(pathinfo($FILEINFOS['filename'], PATHINFO_EXTENSION));
 
-        // if ($ffiletype == $FILEINFOS["filetype"] || rex_media::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
-        if ($p_new['extension'] == $p_old['extension']) {
+        static $jpgExtensions = ['jpg', 'jpeg'];
+
+        if (
+            $extensionNew == $extensionOld ||
+            in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
+        ) {
             if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'])) ||
                     copy($ffilename, rex_path::media($FILEINFOS['filename']))
             ) {
