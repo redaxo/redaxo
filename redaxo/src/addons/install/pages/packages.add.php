@@ -82,7 +82,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $toolbar = '
         <div class="form-group form-group-xs">
             <div class="input-group input-group-xs" id="rex-js-install-addon-search">
-                <input class="form-control" type="text" placeholder="' . $this->i18n('search') . '" />
+                <input class="form-control" type="text" autofocus placeholder="' . $this->i18n('search') . '" />
                 <span class="input-group-btn"><button class="btn btn-default">' . $this->i18n('clear') . '</button></span>
             </div>
         </div>
