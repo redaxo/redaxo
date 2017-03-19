@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.3.1 – 19.03.2017
+--------------------------
+
+### Bugfixes
+
+* Bei Nutzung der Linkmap über Editoren (Redactor etc.) wurde der Link teilweise mehrfach eingefügt
+* In den Service-Klassen wurden teilweise Int-Parameter ungeprüft in Queries genutzt
+* Es kam zu einem Fehler beim Updaten, wenn das History-Plugin installiert, aber nicht aktiviert ist
+* In der Modulliste wurde der Name nicht übersetzt
+
+
 Version 2.3.0 – 14.02.2017
 --------------------------
 
