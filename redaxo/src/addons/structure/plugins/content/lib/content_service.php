@@ -58,7 +58,7 @@ class rex_content_service
                     $upd->setValue('priority', $CM->getValue('priority') + 1);
                     $updSort = 'ASC';
                 }
-                $upd->addGlobalUpdateFields(rex::getUser() ? null : rex::getEnvironment());
+                $upd->addGlobalUpdateFields(self::getUser());
                 $upd->update();
 
                 rex_sql_util::organizePriorities(
@@ -169,7 +169,7 @@ class rex_content_service
         );
         $maxPriority = array_column($maxPriority, 'max', 'ctype_id');
 
-        $user = rex::getUser() ? null : rex::getEnvironment();
+        $user = self::getUser();
 
         foreach ($gc as $slice) {
             foreach ($cols as $col) {
@@ -255,5 +255,18 @@ class rex_content_service
         }
 
         return true;
+    }
+
+    private static function getUser()
+    {
+        if (rex::getUser()) {
+            return rex::getUser()->getLogin();
+        }
+
+        if (method_exists(rex::class, 'getEnvironment')) {
+            return rex::getEnvironment();
+        }
+
+        return 'frontend';
     }
 }

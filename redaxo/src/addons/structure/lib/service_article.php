@@ -54,7 +54,7 @@ class rex_article_service
 
         $AART = rex_sql::factory();
         unset($id);
-        $user = rex::getUser() ? null : rex::getEnvironment();
+        $user = self::getUser();
         foreach (rex_clang::getAllIds() as $key) {
             // ------- Kategorienamen holen
             $category = rex_category::get($data['category_id'], $key);
@@ -171,7 +171,7 @@ class rex_article_service
         $EA->setValue('name', $data['name']);
         $EA->setValue('template_id', $data['template_id']);
         $EA->setValue('priority', $data['priority']);
-        $EA->addGlobalUpdateFields(rex::getUser() ? null : rex::getEnvironment());
+        $EA->addGlobalUpdateFields(self::getUser());
 
         try {
             $EA->update();
@@ -182,7 +182,7 @@ class rex_article_service
                 ->setTable(rex::getTable('article'))
                 ->setWhere('id = :id AND clang_id != :clang', ['id' => $article_id, 'clang' => $clang])
                 ->setValue('priority', $data['priority'])
-                ->addGlobalUpdateFields(rex::getUser() ? null : rex::getEnvironment())
+                ->addGlobalUpdateFields(self::getUser())
                 ->update();
 
             foreach (rex_clang::getAllIds() as $clangId) {
@@ -353,7 +353,7 @@ class rex_article_service
             $EA->setTable(rex::getTablePrefix() . 'article');
             $EA->setWhere(['id' => $article_id, 'clang_id' => $clang]);
             $EA->setValue('status', $newstatus);
-            $EA->addGlobalUpdateFields(rex::getUser() ? null : rex::getEnvironment());
+            $EA->addGlobalUpdateFields(self::getUser());
 
             try {
                 $EA->update();
@@ -682,7 +682,7 @@ class rex_article_service
             // $uc->setDebug();
             $uc->setTable(rex::getTablePrefix() . 'article');
             $uc->setWhere(['clang_id' => $to_clang, 'id' => $to_id]);
-            $uc->addGlobalUpdateFields(rex::getUser() ? null : rex::getEnvironment());
+            $uc->addGlobalUpdateFields(self::getUser());
 
             foreach ($params as $key => $value) {
                 $uc->setValue($value, $gc->getValue($value));
@@ -710,7 +710,7 @@ class rex_article_service
         $to_cat_id = (int) $to_cat_id;
         $new_id = '';
 
-        $user = rex::getUser() ? null : rex::getEnvironment();
+        $user = self::getUser();
 
         // Artikel in jeder Sprache kopieren
         foreach (rex_clang::getAllIds() as $clang) {
@@ -840,7 +840,7 @@ class rex_article_service
                     $art_sql->setValue('priority', '99999');
                     // Kopierter Artikel offline setzen
                     $art_sql->setValue('status', $from_sql->getValue('status'));
-                    $art_sql->addGlobalUpdateFields(rex::getUser() ? null : rex::getEnvironment());
+                    $art_sql->addGlobalUpdateFields(self::getUser());
 
                     $art_sql->setWhere('clang_id="' . $clang . '" and startarticle<>1 and id="' . $id . '" and parent_id="' . $from_cat_id . '"');
                     $art_sql->update();
@@ -879,5 +879,18 @@ class rex_article_service
         if (!isset($array[$keyName])) {
             throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
         }
+    }
+
+    private static function getUser()
+    {
+        if (rex::getUser()) {
+            return rex::getUser()->getLogin();
+        }
+
+        if (method_exists(rex::class, 'getEnvironment')) {
+            return rex::getEnvironment();
+        }
+
+        return 'frontend';
     }
 }
