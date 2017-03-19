@@ -14,3 +14,7 @@
 if (!$this->hasConfig('jpg_quality')) {
     $this->setConfig('jpg_quality', 85);
 }
+
+if (!$this->hasConfig('webp_quality')) {
+    $this->setConfig('webp_quality', 85);
+}
