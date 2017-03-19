@@ -33,6 +33,8 @@ abstract class rex_var
      */
     public static function parse($content, $env = null, $context = null, $contextData = null)
     {
+        $env = (int) $env;
+
         if (($env & self::ENV_INPUT) != self::ENV_INPUT) {
             $env = $env | self::ENV_OUTPUT;
         }
