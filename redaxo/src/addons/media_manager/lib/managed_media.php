@@ -181,6 +181,9 @@ class rex_managed_media
             imagepng($this->image['src']);
         } elseif ($this->format == 'gif') {
             imagegif($this->image['src']);
+        } elseif ($this->format == 'webp') {
+            $this->image['quality'] = rex_config::get('media_manager', 'webp_quality', 85);
+            imagewebp($this->image['src'], null, $this->image['webp_quality']);
         } elseif ($this->format == 'wbmp') {
             imagewbmp($this->image['src']);
         }
