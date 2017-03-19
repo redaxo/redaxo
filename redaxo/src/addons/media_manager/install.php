@@ -11,6 +11,8 @@
  * @var rex_addon $this
  */
 
-if (!$this->hasConfig('jpg_quality')) {
+if (!$this->hasConfig()) {
     $this->setConfig('jpg_quality', 85);
+    $this->setConfig('png_compression', 6);
+    $this->setConfig('interlace', false);
 }

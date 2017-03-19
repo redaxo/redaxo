@@ -170,16 +170,17 @@ class rex_managed_media
 
     protected function getImageSource()
     {
-        if (null !== $interlace = $this->getImageProperty('interlace')) {
-            imageinterlace($this->image['src'], $interlace ? 1 : 0);
-        }
+        $addon = rex_addon::get('media_manager');
+
+        $interlace = $this->getImageProperty('interlace', $addon->getConfig('interlace'));
+        imageinterlace($this->image['src'], $interlace ? 1 : 0);
 
         ob_start();
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            $quality = $this->getImageProperty('jpg_quality', rex_config::get('media_manager', 'jpg_quality', 85));
+            $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('interlace', 85));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ($this->format == 'png') {
-            $compression = $this->getImageProperty('png_compression', -1);
+            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 6));
             imagepng($this->image['src'], null, $compression);
         } elseif ($this->format == 'gif') {
             imagegif($this->image['src']);

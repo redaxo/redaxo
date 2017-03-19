@@ -14,7 +14,9 @@ media_manager_config_not_writable = Konfigurationsdatei "{0}" ist nicht beschrei
 
 media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über media-manager umgewandelt werden darf
 media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über media-manager umgewandelt werden darf
-media_manager_jpg_quality = JPG/JPEG Ausgabe-Qualität
+media_manager_jpg_quality = JPG-Qualität
+media_manager_png_compression = PNG-Kompression
+media_manager_interlace = Interlace/Progressive-Modus
 
 media_manager_id = Id
 media_manager_name = Name
@@ -117,8 +119,5 @@ media_manager_effect_header_cache = Cache-Control
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
 
-media_manager_effect_image_properties_jpg_quality = JPG-Qualität
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
-media_manager_effect_image_properties_png_compression = PNG-Kompression
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Leer lassen für Standardwert.
-media_manager_effect_image_properties_interlace = Interlace-Modus

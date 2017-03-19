@@ -26,19 +26,19 @@ class rex_effect_image_properties extends rex_effect_abstract
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_image_properties_jpg_quality'),
+                'label' => rex_i18n::msg('media_manager_jpg_quality'),
                 'notice' => rex_i18n::msg('media_manager_effect_image_properties_jpg_quality_notice'),
                 'name' => 'jpg_quality',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_image_properties_png_compression'),
+                'label' => rex_i18n::msg('media_manager_png_compression'),
                 'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice'),
                 'name' => 'png_compression',
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_image_properties_interlace'),
+                'label' => rex_i18n::msg('media_manager_interlace'),
                 'name' => 'interlace',
                 'type' => 'select',
                 'options' => ['default', 'no', 'yes'],
