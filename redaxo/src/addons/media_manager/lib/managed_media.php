@@ -177,7 +177,7 @@ class rex_managed_media
 
         ob_start();
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('interlace', 85));
+            $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ($this->format == 'png') {
             $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 6));
