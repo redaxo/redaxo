@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.3.0 – 19.03.2017
+--------------------------
+
+### Neu
+
+* Neue Klasse rex_media_category_service
+* Kategorie-Auswahl über bootstrap-select mit Suchfeld (@skerbis)
+
+### Bugfixes
+
+* Bei Nutzung über Editoren (Redactor etc.) wurde der Link teilweise mehrfach eingefügt
+* Dateien konnten nicht ausgetauscht werden, wenn die Extensions der beiden Dateien sich in der Klein-/Großschreibung unterschieden, auch jpg gegen jpeg und umgekehrt ging nicht
+* Nach dem Austauschen einer Datei wurde anschließend teilweise noch die alte Datei aus dem Cache angezeigt
+* Bei Medialists wurden die Medien im Chrome teils verzögert in die Liste übernommen
+* Teilweise kam es zum JS-Fehler „Permission denied to access property winObjCounter“ (@ynamite)
+
+
 Version 2.2.0 – 14.02.2017
 --------------------------
 
