@@ -22,7 +22,7 @@ if ($func == 'update') {
     $config = rex_post('settings', [
         ['jpg_quality', 'int'],
         ['png_compression', 'int'],
-        ['interlace', 'bool'],
+        ['interlace', 'array[string]'],
     ]);
 
     $config['jpg_quality'] = max(0, min(100, $config['jpg_quality']));
@@ -67,22 +67,22 @@ $n['label'] = '<label for="rex-js-rating-text-png-compression">' . $this->i18n('
 $n['field'] = $inputGroup;
 $formElements[] = $n;
 
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content = $fragment->parse('core/form/form.php');
-
-$formElements = [];
+$select = new rex_select();
+$select->setName('settings[interlace][]');
+$select->setId('rex-media-manager-interlace');
+$select->setAttribute('class', 'form-control selectpicker');
+$select->setMultiple(true);
+$select->addOptions(['jpg', 'png', 'gif'], true);
+$select->setSelected($this->getConfig('interlace', ['jpg']));
 
 $n = [];
-$n['reverse'] = true;
 $n['label'] = '<label for="rex-media-manager-interlace">' . $this->i18n('interlace') . '</label>';
-$checked = $this->getConfig('interlace') ? ' checked' : '';
-$n['field'] = '<input type="checkbox" id="rex-media-manager-interlace" name="settings[interlace]" value="1"'.$checked.'/>';
+$n['field'] = $select->get();
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.php');
+$content = $fragment->parse('core/form/form.php');
 
 $formElements = [];
 $n = [];

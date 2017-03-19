@@ -172,19 +172,22 @@ class rex_managed_media
     {
         $addon = rex_addon::get('media_manager');
 
-        $interlace = $this->getImageProperty('interlace', $addon->getConfig('interlace'));
-        imageinterlace($this->image['src'], $interlace ? 1 : 0);
+        $format = $this->format;
+        $format = 'jpeg' === $format ? 'jpg' : $format;
+
+        $interlace = $this->getImageProperty('interlace', $addon->getConfig('interlace', ['jpg']));
+        imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
 
         ob_start();
-        if ($this->format == 'jpg' || $this->format == 'jpeg') {
+        if ($format == 'jpg') {
             $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
-        } elseif ($this->format == 'png') {
+        } elseif ($format == 'png') {
             $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 6));
             imagepng($this->image['src'], null, $compression);
-        } elseif ($this->format == 'gif') {
+        } elseif ($format == 'gif') {
             imagegif($this->image['src']);
-        } elseif ($this->format == 'wbmp') {
+        } elseif ($format == 'wbmp') {
             imagewbmp($this->image['src']);
         }
         $src = ob_get_contents();

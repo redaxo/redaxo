@@ -14,5 +14,5 @@
 if (!$this->hasConfig()) {
     $this->setConfig('jpg_quality', 85);
     $this->setConfig('png_compression', 6);
-    $this->setConfig('interlace', false);
+    $this->setConfig('interlace', ['jpg']);
 }

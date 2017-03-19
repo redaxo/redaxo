@@ -121,3 +121,4 @@ media_manager_effect_convert2img_convertto = Zielformat
 
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Leer lassen für Standardwert.
+media_manager_effect_image_properties_interlace_notice = Leer lassen für Standardauswahl.

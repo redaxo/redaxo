@@ -17,8 +17,9 @@ class rex_effect_image_properties extends rex_effect_abstract
             $media->setImageProperty('png_compression', $this->params['png_compression']);
         }
 
-        if ('default' !== $this->params['interlace']) {
-            $media->setImageProperty('interlace', 'yes' === $this->params['interlace']);
+        if ($this->params['interlace']) {
+            $interlace = in_array('- off -', $this->params['interlace']) ? [] : $this->params['interlace'];
+            $media->setImageProperty('interlace', $interlace);
         }
     }
 
@@ -39,9 +40,32 @@ class rex_effect_image_properties extends rex_effect_abstract
             ],
             [
                 'label' => rex_i18n::msg('media_manager_interlace'),
+                'notice' => rex_i18n::msg('media_manager_effect_image_properties_interlace_notice'),
                 'name' => 'interlace',
                 'type' => 'select',
-                'options' => ['default', 'no', 'yes'],
+                'options' => ['- off -', 'jpg', 'png', 'gif'],
+                'attributes' => ['multiple' => true, 'class' => 'selectpicker form-control'],
+                'suffix' => '
+<script type="text/javascript">
+    $(function() {
+        var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
+        
+        $field.on("changed.bs.select", function (event, clickedIndex, newValue, oldValue) {
+            var off = "- off -";
+            if (0 == clickedIndex && newValue) {
+                $field.selectpicker("val", [off]);
+            }
+            if (0 != clickedIndex && newValue) {
+                var value = $field.selectpicker("val");
+                var index = value.indexOf(off);
+                if (index > -1) {
+                    value.splice(index, 1);
+                    $field.selectpicker("val", value);
+                }
+            }
+        });
+    });
+</script>',
             ],
         ];
     }
