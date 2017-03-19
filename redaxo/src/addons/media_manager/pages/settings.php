@@ -29,40 +29,40 @@ if ($func == 'update') {
     echo rex_view::info($this->i18n('config_saved'));
 }
 
-        $inputGroups = [];
-        $n = [];
-        $n['class'] = 'rex-range-input-group';
-        $n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
-        $n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" id="rex-jpg-quality" name="jpg_quality" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
-        $n['right'] = '%';
-        $inputGroups[] = $n;
+$inputGroups = [];
+$n = [];
+$n['class'] = 'rex-range-input-group';
+$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" id="rex-jpg-quality" name="jpg_quality" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
+$n['right'] = '%';
+$inputGroups[] = $n;
 
-        $fragment = new rex_fragment();
-        $fragment->setVar('elements', $inputGroups, false);
-        $inputGroup = $fragment->parse('core/form/input_group.php');
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $inputGroups, false);
+$inputGroup = $fragment->parse('core/form/input_group.php');
 
-        $formElements = [];
-        $n = [];
-        $n['label'] = '<label for="rex-js-rating-text-jpg-quality">' . $this->i18n('jpg_quality') . ' [0-100]</label>';
-        $n['field'] = $inputGroup;
-        $formElements[] = $n;
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="rex-js-rating-text-jpg-quality">' . $this->i18n('jpg_quality') . ' [0-100]</label>';
+$n['field'] = $inputGroup;
+$formElements[] = $n;
 
-        $fragment = new rex_fragment();
-        $fragment->setVar('elements', $formElements, false);
-        $content = $fragment->parse('core/form/form.php');
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content = $fragment->parse('core/form/form.php');
 
-        $formElements = [];
-        $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('form_abort') . '</a>';
-        $formElements[] = $n;
+$formElements = [];
+$n = [];
+$n['field'] = '<a class="btn btn-abort" href="' . rex_url::currentBackendPage() . '">' . rex_i18n::msg('form_abort') . '</a>';
+$formElements[] = $n;
 
-        $n = [];
-        $n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('update'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
-        $formElements[] = $n;
+$n = [];
+$n['field'] = '<button class="btn btn-apply rex-form-aligned" type="submit" name="sendit" value="1"' . rex::getAccesskey(rex_i18n::msg('update'), 'apply') . '>' . rex_i18n::msg('update') . '</button>';
+$formElements[] = $n;
 
-        $fragment = new rex_fragment();
-        $fragment->setVar('elements', $formElements, false);
-        $buttons = $fragment->parse('core/form/submit.php');
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
