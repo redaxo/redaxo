@@ -20,6 +20,7 @@ class rex_managed_media
         'image/vnd.wap.wbmp' => 'wbmp',
         'image/png' => 'png',
         'image/gif' => 'gif',
+        'image/webp' => 'webp',
     ];
 
     public function __construct($media_path)
@@ -98,6 +99,8 @@ class rex_managed_media
             $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
         } elseif ($this->format == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
+        } elseif ($this->format == 'webp') {
+            $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getSourcePath());
             if ($this->image['src']) {
