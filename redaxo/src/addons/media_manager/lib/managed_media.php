@@ -170,11 +170,12 @@ class rex_managed_media
 
     protected function getImageSource()
     {
+        if (null !== $interlace = $this->getImageProperty('interlace')) {
+            imageinterlace($this->image['src'], $interlace ? 1 : 0);
+        }
+
         ob_start();
         if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            if (null !== $progressive = $this->getImageProperty('jpg_progressive')) {
-                imageinterlace($this->image['src'], $progressive ? 1 : 0);
-            }
             $quality = $this->getImageProperty('jpg_quality', rex_config::get('media_manager', 'jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ($this->format == 'png') {

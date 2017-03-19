@@ -13,12 +13,12 @@ class rex_effect_image_properties extends rex_effect_abstract
             $media->setImageProperty('jpg_quality', $this->params['jpg_quality']);
         }
 
-        if ('default' !== $this->params['jpg_progressive']) {
-            $media->setImageProperty('jpg_progressive', 'yes' === $this->params['jpg_progressive']);
-        }
-
         if (!empty($this->params['png_compression'])) {
             $media->setImageProperty('png_compression', $this->params['png_compression']);
+        }
+
+        if ('default' !== $this->params['interlace']) {
+            $media->setImageProperty('interlace', 'yes' === $this->params['interlace']);
         }
     }
 
@@ -32,16 +32,16 @@ class rex_effect_image_properties extends rex_effect_abstract
                 'type' => 'int',
             ],
             [
-                'label' => rex_i18n::msg('media_manager_effect_image_properties_jpg_progressive'),
-                'name' => 'jpg_progressive',
-                'type' => 'select',
-                'options' => ['default', 'no', 'yes'],
-            ],
-            [
                 'label' => rex_i18n::msg('media_manager_effect_image_properties_png_compression'),
                 'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice'),
                 'name' => 'png_compression',
                 'type' => 'int',
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_image_properties_interlace'),
+                'name' => 'interlace',
+                'type' => 'select',
+                'options' => ['default', 'no', 'yes'],
             ],
         ];
     }
