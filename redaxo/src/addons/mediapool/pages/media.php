@@ -27,6 +27,7 @@ $sel_media->setSize(1);
 $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->setAttribute('class', 'selectpicker');
+$sel_media->setAttribute('data-live-search', 'true');
 $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
 
 // ----- EXTENSION POINT
@@ -239,6 +240,8 @@ if ($file_id) {
             $cats_sel->setSize(1);
             $cats_sel->setName('rex_file_category');
             $cats_sel->setId('rex-mediapool-category');
+            $cats_sel->setAttribute('class', 'selectpicker form-control');
+            $cats_sel->setAttribute('data-live-search', 'true');
             $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
             $cats_sel->setSelected($rex_file_category);
 
@@ -453,6 +456,8 @@ if (!$file_id) {
     $cats_sel->setStyle('class="form-control selectpicker"');
     $cats_sel->setName('rex_file_category');
     $cats_sel->setId('rex_file_category');
+    $cats_sel->setAttribute('class', 'selectpicker form-control');
+    $cats_sel->setAttribute('data-live-search', 'true');
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     $cats_sel->setSelected($rex_file_category);
 
