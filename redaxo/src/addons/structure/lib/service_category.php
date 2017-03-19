@@ -66,7 +66,7 @@ class rex_category_service
             $templates = rex_template::getTemplatesForCategory($category_id);
         }
 
-        $user = rex::getUser() ? null : rex::getEnvironment();
+        $user = self::getUser();
 
         // Kategorie in allen Sprachen anlegen
         $AART = rex_sql::factory();
@@ -174,7 +174,7 @@ class rex_category_service
             $EKAT->setValue('catpriority', $data['catpriority']);
         }
 
-        $user = rex::getUser() ? null : rex::getEnvironment();
+        $user = self::getUser();
 
         $EKAT->addGlobalUpdateFields($user);
 
@@ -341,7 +341,7 @@ class rex_category_service
             $EKAT->setTable(rex::getTablePrefix() . 'article');
             $EKAT->setWhere(['id' => $category_id,  'clang_id' => $clang, 'startarticle' => 1]);
             $EKAT->setValue('status', $newstatus);
-            $EKAT->addGlobalCreateFields(rex::getUser() ? null : rex::getEnvironment());
+            $EKAT->addGlobalCreateFields(self::getUser());
 
             try {
                 $EKAT->update();
@@ -557,5 +557,18 @@ class rex_category_service
         if (!isset($array[$keyName])) {
             throw new rex_api_exception('Missing required parameter "' . $keyName . '"!');
         }
+    }
+
+    private static function getUser()
+    {
+        if (rex::getUser()) {
+            return rex::getUser()->getLogin();
+        }
+
+        if (method_exists(rex::class, 'getEnvironment')) {
+            return rex::getEnvironment();
+        }
+
+        return 'frontend';
     }
 }
