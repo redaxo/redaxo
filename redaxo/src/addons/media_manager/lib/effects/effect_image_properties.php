@@ -17,6 +17,10 @@ class rex_effect_image_properties extends rex_effect_abstract
             $media->setImageProperty('png_compression', $this->params['png_compression']);
         }
 
+        if (!empty($this->params['webp_quality'])) {
+            $media->setImageProperty('webp_quality', $this->params['webp_quality']);
+        }
+
         if ($this->params['interlace']) {
             $interlace = in_array('- off -', $this->params['interlace']) ? [] : $this->params['interlace'];
             $media->setImageProperty('interlace', $interlace);
@@ -36,6 +40,12 @@ class rex_effect_image_properties extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_png_compression'),
                 'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice'),
                 'name' => 'png_compression',
+                'type' => 'int',
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_webp_quality'),
+                'notice' => rex_i18n::msg('media_manager_effect_image_properties_webp_quality_notice'),
+                'name' => 'webp_quality',
                 'type' => 'int',
             ],
             [
