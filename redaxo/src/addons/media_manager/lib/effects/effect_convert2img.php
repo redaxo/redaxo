@@ -19,7 +19,6 @@ class rex_effect_convert2img extends rex_effect_abstract
         'bmp',
         'eps',
         'ico',
-        'webp',
         // 'svg'
     ];
     private static $convert_to = [
