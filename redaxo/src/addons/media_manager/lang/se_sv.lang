@@ -104,3 +104,5 @@ media_manager_effect_mediapath = Medieamapp
 
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
+
+media_manager_effect_jpg_quality = JPEG-kvalitet
