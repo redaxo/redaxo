@@ -362,8 +362,7 @@ class rex_article_content_base
         echo $articleContent;
 
         // ----- end: article caching
-        $CONTENT = ob_get_contents();
-        ob_end_clean();
+        $CONTENT = ob_get_clean();
 
         return $CONTENT;
     }
@@ -407,9 +406,8 @@ class rex_article_content_base
             $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
             require rex_stream::factory('template/' . $this->template_id, $tplContent);
 
-            $CONTENT = ob_get_contents();
-            ob_end_clean();
-
+            $CONTENT = ob_get_clean();
+            
             $CONTENT = $this->replaceLinks($CONTENT);
         } else {
             $CONTENT = 'no template';

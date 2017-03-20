@@ -138,8 +138,7 @@ if ($page != 'login') {
 rex_be_controller::includeCurrentPage();
 
 // ----- caching end für output filter
-$CONTENT = ob_get_contents();
-ob_end_clean();
+$CONTENT = ob_get_clean();
 
 // ----- inhalt ausgeben
 rex_response::sendPage($CONTENT);
