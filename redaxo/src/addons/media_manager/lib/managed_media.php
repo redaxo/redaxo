@@ -173,19 +173,28 @@ class rex_managed_media
 
     protected function getImageSource()
     {
+        $addon = rex_addon::get('media_manager');
+
+        $format = $this->format;
+        $format = 'jpeg' === $format ? 'jpg' : $format;
+
+        $interlace = $this->getImageProperty('interlace', $addon->getConfig('interlace', ['jpg']));
+        imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
+
         ob_start();
-        if ($this->format == 'jpg' || $this->format == 'jpeg') {
-            $this->image['quality'] = rex_config::get('media_manager', 'jpg_quality', 85);
-            imagejpeg($this->image['src'], null, $this->image['quality']);
-        } elseif ($this->format == 'png') {
-            imagepng($this->image['src']);
-        } elseif ($this->format == 'gif') {
+        if ($format == 'jpg') {
+            $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
+            imagejpeg($this->image['src'], null, $quality);
+        } elseif ($format == 'png') {
+            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 6));
+            imagepng($this->image['src'], null, $compression);
+        } elseif ($format == 'gif') {
             imagegif($this->image['src']);
-        } elseif ($this->format == 'webp') {
-            $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
-            imagewebp($this->image['src'], null, $quality);
-        } elseif ($this->format == 'wbmp') {
+        } elseif ($format == 'wbmp') {
             imagewbmp($this->image['src']);
+        } elseif ($format == 'webp') {
+            $compression = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
+            imagewebp($this->image['src'], null, $compression);
         }
         $src = ob_get_contents();
         ob_end_clean();
@@ -236,6 +245,16 @@ class rex_managed_media
         }
 
         return rex_file::get($this->sourcePath);
+    }
+
+    public function setImageProperty($name, $value)
+    {
+        $this->image[$name] = $value;
+    }
+
+    public function getImageProperty($name, $default = null)
+    {
+        return isset($this->image[$name]) ? $this->image[$name] : $default;
     }
 
     public function getWidth()
