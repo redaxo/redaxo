@@ -249,7 +249,7 @@ class rex_i18n
     {
         if (
             ($content = rex_file::get($file)) &&
-            preg_match_all('/^(\S*)\V*=\h*(.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
+            preg_match_all('/^([^=\s]+)\h*=\h*(.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
         ) {
             foreach ($matches as $match) {
                 self::addMsg($match[1], $match[2]);
