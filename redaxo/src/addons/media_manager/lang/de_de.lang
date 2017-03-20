@@ -16,6 +16,7 @@ media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über
 media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über media-manager umgewandelt werden darf
 media_manager_jpg_quality = JPG-Qualität
 media_manager_png_compression = PNG-Kompression
+media_manager_webp_quality = WebP-Qualität
 media_manager_interlace = Interlace/Progressive-Modus
 
 media_manager_id = Id
