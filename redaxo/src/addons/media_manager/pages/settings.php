@@ -23,10 +23,12 @@ if ($func == 'update') {
         ['jpg_quality', 'int'],
         ['png_compression', 'int'],
         ['interlace', 'array[string]'],
+        ['webp_quality', 'int'],
     ]);
 
     $config['jpg_quality'] = max(0, min(100, $config['jpg_quality']));
     $config['png_compression'] = max(-1, min(9, $config['png_compression']));
+    $config['webp_quality'] = max(0, min(100, $config['webp_quality']));
 
     $this->setConfig($config);
     rex_media_manager::deleteCache();
@@ -54,6 +56,22 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
+$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="100" step="1" value="' . htmlspecialchars($this->getConfig('webp_quality')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[webp_quality]" value="' . htmlspecialchars($this->getConfig('webp_quality')) . '" />';
+$inputGroups[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $inputGroups, false);
+$inputGroup = $fragment->parse('core/form/input_group.php');
+
+$n = [];
+$n['label'] = '<label for="rex-js-rating-text-webp-quality">' . $this->i18n('webp_quality') . '</label>';
+$n['field'] = $inputGroup;
+$formElements[] = $n;
+
+$inputGroups = [];
+$n = [];
+$n['class'] = 'rex-range-input-group';
 $n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . htmlspecialchars($this->getConfig('png_compression', 6)) . '" />';
 $n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . htmlspecialchars($this->getConfig('png_compression', 6)) . '" />';
 $inputGroups[] = $n;
@@ -72,7 +90,7 @@ $select->setName('settings[interlace][]');
 $select->setId('rex-media-manager-interlace');
 $select->setAttribute('class', 'form-control selectpicker');
 $select->setMultiple(true);
-$select->addOptions(['jpg', 'png', 'gif'], true);
+$select->addOptions(['jpg', 'png', 'gif', 'webp'], true);
 $select->setSelected($this->getConfig('interlace', ['jpg']));
 
 $n = [];
@@ -130,6 +148,13 @@ $content = '
         $("#rex-js-rating-source-png-compression").on("input change", function(){
             $("#rex-js-rating-text-png-compression").val(this.value);
             $("#rex-js-rating-text-png-compression").trigger("change");
+        });
+        $("#rex-js-rating-text-webp-quality").on("input change", function(){
+            $("#rex-js-rating-source-webp-quality").val(this.value);
+        });
+        $("#rex-js-rating-source-webp-quality").on("input change", function(){
+            $("#rex-js-rating-text-webp-quality").val(this.value);
+            $("#rex-js-rating-text-webp-quality").trigger("change");
         });
 
     })(jQuery);
