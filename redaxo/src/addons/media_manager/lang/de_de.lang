@@ -125,3 +125,6 @@ media_manager_effect_image_properties_interlace_notice = Leer lassen für Standa
 
 media_manager_effect_brightness = Helligkeit
 media_manager_effect_brightness_notice = [-255 bis 255]. Leer lassen für Standardwert (0).
+
+media_manager_effect_brightness = Kontrast
+media_manager_effect_brightness_notice = [-100 (max) bis 100 (min)]. Richtung beachten. Leer lassen für Standardwert (0).
