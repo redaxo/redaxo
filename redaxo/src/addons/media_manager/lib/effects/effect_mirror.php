@@ -72,7 +72,7 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         if ($this->params['set_transparent'] != 'colored') {
-            if($this->media->getFormat() == 'webp') {
+            if ($this->media->getFormat() == 'webp') {
                 $this->media->setFormat('webp');
             } else {
                 $this->media->setFormat('png');
