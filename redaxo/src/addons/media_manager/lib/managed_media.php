@@ -101,6 +101,8 @@ class rex_managed_media
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
         } elseif ($this->format == 'webp') {
             $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
+            imagealphablending($this->image['src'], false);
+            imagesavealpha($this->image['src'], true);
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getSourcePath());
             if ($this->image['src']) {
