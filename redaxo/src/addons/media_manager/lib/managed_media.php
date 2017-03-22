@@ -195,8 +195,8 @@ class rex_managed_media
         } elseif ($format == 'wbmp') {
             imagewbmp($this->image['src']);
         } elseif ($format == 'webp') {
-            $compression = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
-            imagewebp($this->image['src'], null, $compression);
+            $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
+            imagewebp($this->image['src'], null, $quality);
         }
         $src = ob_get_contents();
         ob_end_clean();
