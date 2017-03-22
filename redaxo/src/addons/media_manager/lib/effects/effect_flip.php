@@ -12,7 +12,7 @@ class rex_effect_flip extends rex_effect_abstract
     public function __construct()
     {
         $this->options = [
-            'X', 'Y', 'XY'
+            'X', 'Y', 'XY',
         ];
     }
 
