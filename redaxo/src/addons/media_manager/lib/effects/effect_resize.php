@@ -96,7 +96,7 @@ class rex_effect_resize extends rex_effect_abstract
         // Transparenz erhalten
         $this->keepTransparent($des);
         imagecopyresampled($des, $gdimage, 0, 0, 0, 0, $this->params['width'], $this->params['height'], $w, $h);
-
+        imagesetinterpolation($des, IMG_BICUBIC_FIXED);
         $this->media->setImage($des);
         $this->media->refreshImageDimensions();
     }
