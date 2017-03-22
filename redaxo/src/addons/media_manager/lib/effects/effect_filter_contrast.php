@@ -17,7 +17,7 @@ class rex_effect_filter_contrast extends rex_effect_abstract
         $this->media->asImage();
         $img = $this->media->getImage();
 
-        imagefilter($img, IMG_FILTER_CONTRAST, $this->params['brightness']);
+        imagefilter($img, IMG_FILTER_CONTRAST, $this->params['contrast']);
         $this->media->setImage($img);
     }
 
