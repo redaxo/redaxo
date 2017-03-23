@@ -127,4 +127,4 @@ media_manager_effect_brightness = Brightness
 media_manager_effect_brightness_notice = [-255 to 255]. Leave empty for default value. (0).
 
 media_manager_effect_brightness = Contrast
-media_manager_effect_brightness_notice = [-100 (max) to 100 (min)]. Note the direction! Leave empty for default value (0).
+media_manager_effect_brightness_notice = [-100 to 100]. Leave empty for default value (0).
