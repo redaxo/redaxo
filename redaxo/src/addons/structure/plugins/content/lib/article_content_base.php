@@ -407,7 +407,7 @@ class rex_article_content_base
             require rex_stream::factory('template/' . $this->template_id, $tplContent);
 
             $CONTENT = ob_get_clean();
-            
+
             $CONTENT = $this->replaceLinks($CONTENT);
         } else {
             $CONTENT = 'no template';
