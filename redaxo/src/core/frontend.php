@@ -12,8 +12,7 @@ if (rex::isSetup()) {
 include_once rex_path::core('packages.php');
 
 // ----- caching end für output filter
-$CONTENT = ob_get_contents();
-ob_end_clean();
+$CONTENT = ob_get_clean();
 
 // trigger api functions
 rex_api_function::handleCall();

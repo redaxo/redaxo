@@ -190,9 +190,7 @@ class rex_managed_media
         } elseif ($format == 'wbmp') {
             imagewbmp($this->image['src']);
         }
-        $src = ob_get_contents();
-        ob_end_clean();
-        return $src;
+        return ob_get_clean();
     }
 
     public function getImage()

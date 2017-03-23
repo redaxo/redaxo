@@ -4,8 +4,7 @@
 
 ob_start();
 require __DIR__ . '/../help.php';
-$content = ob_get_contents();
-ob_end_clean();
+$content = ob_get_clean();
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::RawMsg('media_manager_overview_title', $this->getVersion()), false);
