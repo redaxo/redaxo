@@ -102,7 +102,6 @@ class rex_backup
             $charset = $matches[1];
             $conts = trim(str_replace('## charset ' . $charset, '', $conts));
 
-            // $rexCharset = rex_i18n::msg('htmlcharset');
             $rexCharset = 'utf-8';
             if ($rexCharset != $charset) {
                 $return['message'] = rex_i18n::msg('backup_no_valid_charset') . '. ' . $rexCharset . ' != ' . $charset;
@@ -314,7 +313,6 @@ class rex_backup
         // Versionsstempel hinzufügen
         fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
         fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
-        //fwrite($fp, '## charset '.rex_i18n::msg('htmlcharset').$nl.$nl);
         fwrite($fp, '## charset utf-8' . $nl . $nl);
     //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
