@@ -5,53 +5,6 @@
  */
 class rex_effect_header extends rex_effect_abstract
 {
-    private $options;
-    private $script;
-
-    public function __construct()
-    {
-        $this->options = [
-            'top',
-            'topleft',
-            'left',
-            'bottomleft',
-            'bottom',
-            'bottomright',
-            'right',
-            'topright',
-            'center',
-        ];
-
-        $this->script = '
-<script type="text/javascript">
-<!--
-
-(function($) {
-    $(function() {
-        var $fx_workspace_select_trans = $("#media_manager_rex_effect_workspace_set_transparent_select");
-        var $fx_workspace_bg_r = $("#media_manager_rex_effect_workspace_bg_r_text").parent().parent();
-        var $fx_workspace_bg_g = $("#media_manager_rex_effect_workspace_bg_g_text").parent().parent();
-        var $fx_workspace_bg_b = $("#media_manager_rex_effect_workspace_bg_b_text").parent().parent();
-
-        $fx_workspace_select_trans.change(function(){
-            if(jQuery(this).val() != "colored")
-            {
-                $fx_workspace_bg_r.hide();
-                $fx_workspace_bg_g.hide();
-                $fx_workspace_bg_b.hide();
-            }else
-            {
-                $fx_workspace_bg_r.show();
-                $fx_workspace_bg_g.show();
-                $fx_workspace_bg_b.show();
-            }
-        }).change();
-    });
-})(jQuery);
-
-//--></script>';
-    }
-
     public function execute()
     {
         if ($this->params['cache'] == 'no_cache') {
