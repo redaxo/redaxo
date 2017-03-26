@@ -122,6 +122,11 @@ class rex_managed_media
 
     public function refreshImageDimensions()
     {
+        // getimagesize does not work for webp with PHP < 7.1
+        if (!$this->asImage && 'webp' === $this->format && PHP_VERSION_ID < 70100) {
+            $this->asImage();
+        }
+        
         if ($this->asImage) {
             $this->image['width'] = imagesx($this->image['src']);
             $this->image['height'] = imagesy($this->image['src']);
