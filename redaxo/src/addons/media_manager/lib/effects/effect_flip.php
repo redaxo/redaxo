@@ -12,46 +12,34 @@ class rex_effect_flip extends rex_effect_abstract
     public function __construct()
     {
         $this->options = [
-            'X', 'Y',
+            'X', 'Y', 'XY',
         ];
     }
 
     public function execute()
     {
         $this->media->asImage();
-
         $gdimage = $this->media->getImage();
-        $w = $this->media->getWidth();
-        $h = $this->media->getHeight();
 
-        $width = imagesx($gdimage);
-        $height = imagesy($gdimage);
-        $output = imagecreatetruecolor($width, $height);
+        // transparenz erhalten (für GIF, PNG & WebP)
+        $this->keepTransparent($output);
 
         // --------------- Flip X
         if ($this->params['flip'] == 'X') {
-            $y = 0;
-            $x = 1;
-            while ($x <= $width) {
-                for ($i = 0; $i < $height; ++$i) {
-                    imagesetpixel($output, $x, $i, imagecolorat($gdimage, ($width - $x), ($i)));
-                }
-                ++$x;
-            }
-            $this->media->setImage($output);
+            imageflip($gdimage, IMG_FLIP_HORIZONTAL);
+            $this->media->setImage($gdimage);
         }
 
         // --------------- Flip Y
         if ($this->params['flip'] == 'Y') {
-            $y = 1;
-            $x = 0;
-            while ($y < $height) {
-                for ($i = 0; $i < $width; ++$i) {
-                    imagesetpixel($output, $i, $y, imagecolorat($gdimage, ($i), ($height - $y)));
-                }
-                ++$y;
-            }
-            $this->media->setImage($output);
+            imageflip($gdimage, IMG_FLIP_VERTICAL);
+            $this->media->setImage($gdimage);
+        }
+
+        // --------------- Flip X and Y
+        if ($this->params['flip'] == 'XY') {
+            imageflip($gdimage, IMG_FLIP_BOTH);
+            $this->media->setImage($gdimage);
         }
     }
 
