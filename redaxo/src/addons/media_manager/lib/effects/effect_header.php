@@ -8,8 +8,7 @@ class rex_effect_header extends rex_effect_abstract
     public function execute()
     {
         if ($this->params['cache'] == 'no_cache') {
-            $this->media->setHeader('Cache-Control', 'no-cache, must-revalidate');
-            $this->media->setHeader('Cache-Control', 'private');
+            $this->media->setHeader('Cache-Control', 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0');
             $this->media->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT'); // in the past
         }
 
