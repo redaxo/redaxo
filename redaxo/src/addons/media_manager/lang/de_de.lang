@@ -124,3 +124,9 @@ media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen 
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Leer lassen für Standardwert.
 media_manager_effect_image_properties_webp_quality_notice = [0-100]. Leer lassen für Standardwert.
 media_manager_effect_image_properties_interlace_notice = Leer lassen für Standardauswahl.
+
+media_manager_effect_brightness = Helligkeit
+media_manager_effect_brightness_notice = [-255 bis 255]. Leer lassen für Standardwert (0).
+
+media_manager_effect_contrast = Kontrast
+media_manager_effect_contrast_notice = [-100 bis 100]. Leer lassen für Standardwert (0).
