@@ -100,9 +100,11 @@ class rex_managed_media
         } elseif ($this->format == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
         } elseif ($this->format == 'webp') {
-            $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
-            imagealphablending($this->image['src'], false);
-            imagesavealpha($this->image['src'], true);
+            if (function_exists('imagecreatefromwebp')) {
+                $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
+                imagealphablending($this->image['src'], false);
+                imagesavealpha($this->image['src'], true);
+            }
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getSourcePath());
             if ($this->image['src']) {
