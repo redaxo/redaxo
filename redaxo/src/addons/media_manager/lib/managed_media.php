@@ -128,7 +128,7 @@ class rex_managed_media
         if (!$this->asImage && 'webp' === $this->format && PHP_VERSION_ID < 70100) {
             $this->asImage();
         }
-        
+
         if ($this->asImage) {
             $this->image['width'] = imagesx($this->image['src']);
             $this->image['height'] = imagesy($this->image['src']);
