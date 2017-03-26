@@ -16,6 +16,7 @@ media_manager_max_resizekb = Maximum size of an image in kilobyte, which media-m
 media_manager_max_resizepx = Maximum size of a image in pixel, which media-manager is allowed to process
 media_manager_jpg_quality = JPG quality
 media_manager_png_compression = PNG compression
+media_manager_webp_quality = WebP quality
 media_manager_interlace = Interlace/progressive mode
 
 media_manager_id = ID
@@ -121,4 +122,5 @@ media_manager_effect_convert2img_convertto = Target format
 
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leave empty for default value.
 media_manager_effect_image_properties_png_compression_notice = [0-9]. Leave empty for default value.
+media_manager_effect_image_properties_webp_quality_notice = [0-100]. Leave empty for default value.
 media_manager_effect_image_properties_interlace_notice = Leave empty for default value.

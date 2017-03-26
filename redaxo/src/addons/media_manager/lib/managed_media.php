@@ -20,6 +20,7 @@ class rex_managed_media
         'image/vnd.wap.wbmp' => 'wbmp',
         'image/png' => 'png',
         'image/gif' => 'gif',
+        'image/webp' => 'webp',
     ];
 
     public function __construct($media_path)
@@ -98,6 +99,12 @@ class rex_managed_media
             $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
         } elseif ($this->format == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
+        } elseif ($this->format == 'webp') {
+            if (function_exists('imagecreatefromwebp')) {
+                $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
+                imagealphablending($this->image['src'], false);
+                imagesavealpha($this->image['src'], true);
+            }
         } else {
             $this->image['src'] = @imagecreatefrompng($this->getSourcePath());
             if ($this->image['src']) {
@@ -117,6 +124,11 @@ class rex_managed_media
 
     public function refreshImageDimensions()
     {
+        // getimagesize does not work for webp with PHP < 7.1
+        if (!$this->asImage && 'webp' === $this->format && PHP_VERSION_ID < 70100) {
+            $this->asImage();
+        }
+
         if ($this->asImage) {
             $this->image['width'] = imagesx($this->image['src']);
             $this->image['height'] = imagesy($this->image['src']);
@@ -189,6 +201,9 @@ class rex_managed_media
             imagegif($this->image['src']);
         } elseif ($format == 'wbmp') {
             imagewbmp($this->image['src']);
+        } elseif ($format == 'webp') {
+            $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
+            imagewebp($this->image['src'], null, $quality);
         }
         return ob_get_clean();
     }
