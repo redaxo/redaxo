@@ -24,6 +24,12 @@ body:after {
     }
 }
 
+iframe, 
+img, 
+video,
+object,
+embed {max-width: 100%;}
+
 
 #rex-page-setup .bg-success,
 #rex-page-setup .bg-success > a {
