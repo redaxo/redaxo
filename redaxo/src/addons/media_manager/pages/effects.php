@@ -124,6 +124,7 @@ if ($func == '' && $type_id > 0) {
     // effect prio
     $field = $form->addPrioField('priority');
     $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
+    $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
     $field->setWhereCondition('type_id = ' . $type_id);
 
