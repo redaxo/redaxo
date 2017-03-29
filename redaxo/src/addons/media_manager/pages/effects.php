@@ -130,6 +130,8 @@ if ($func == '' && $type_id > 0) {
     // effect name als SELECT
     $field = $form->addSelectField('effect');
     $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
+    $field->setAttribute('class', 'selectpicker form-control');
+    $field->setAttribute('data-live-search', 'true');
     $select = $field->getSelect();
     foreach ($effects as $name => $effect) {
         $select->addOption($effect->getName(), $name);
