@@ -78,6 +78,11 @@ class rex_effect_rounded_corners extends rex_effect_abstract
         //$this->image->refreshDimensions();
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_rounded_corners');
+    }
+
     public function getParams()
     {
         return [

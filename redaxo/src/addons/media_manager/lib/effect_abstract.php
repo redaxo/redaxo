@@ -24,6 +24,11 @@ abstract class rex_effect_abstract
 
     abstract public function execute();
 
+    public function getName()
+    {
+        return get_class($this);
+    }
+
     public function getParams()
     {
         // NOOP

@@ -16,6 +16,11 @@ class rex_effect_filter_sepia extends rex_effect_abstract
         $this->media->setImage($img);
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_sepia');
+    }
+
     public function getParams()
     {
         return [

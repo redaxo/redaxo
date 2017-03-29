@@ -94,6 +94,11 @@ class rex_effect_convert2img extends rex_effect_abstract
         });
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_convert2img');
+    }
+
     public function getParams()
     {
         return [

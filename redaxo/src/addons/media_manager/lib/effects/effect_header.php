@@ -24,6 +24,11 @@ class rex_effect_header extends rex_effect_abstract
          */
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_header');
+    }
+
     public function getParams()
     {
         return [

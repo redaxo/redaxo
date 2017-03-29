@@ -149,6 +149,11 @@ class rex_effect_workspace extends rex_effect_abstract
         */
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_workspace');
+    }
+
     public function getParams()
     {
         return [

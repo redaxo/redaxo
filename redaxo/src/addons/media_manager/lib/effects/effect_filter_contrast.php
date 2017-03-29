@@ -21,11 +21,16 @@ class rex_effect_filter_contrast extends rex_effect_abstract
         $this->media->setImage($img);
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_contrast');
+    }
+
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_contrast'),
+                'label' => rex_i18n::msg('media_manager_effect_contrast_value'),
                 'notice' => rex_i18n::msg('media_manager_effect_contrast_notice'),
                 'name' => 'contrast',
                 'type' => 'int',
