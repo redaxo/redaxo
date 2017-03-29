@@ -308,6 +308,7 @@ class rex_sql_table
         }
 
         foreach ($positions as $name => $after) {
+            // unset is necessary to add new position as last array element
             unset($this->positions[$name]);
             $this->positions[$name] = $after;
         }
