@@ -461,6 +461,7 @@ class rex_sql_table
             throw new InvalidArgumentException(sprintf('Column "%s" can not be placed after "%s", because that column does not exist.', $name, $after));
         }
 
+        // unset is necessary to add new position as last array element
         unset($this->positions[$name]);
         $this->positions[$name] = $after;
     }

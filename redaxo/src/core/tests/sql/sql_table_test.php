@@ -135,8 +135,15 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertEquals($title, $table->getColumn('title'));
         $this->assertEquals($description, $table->getColumn('description'));
 
-        $columns = array_keys($table->getColumns());
         $this->assertSame(['id', 'description', 'title'], array_keys($table->getColumns()));
+
+        $table
+            ->ensureColumn($title, 'id')
+            ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
+            ->ensureColumn($title, 'status')
+            ->alter();
+
+        $this->assertSame(['id', 'status', 'title', 'description'], array_keys($table->getColumns()));
     }
 
     public function testRenameColumn()
