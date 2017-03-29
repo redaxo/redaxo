@@ -154,11 +154,11 @@ class rex_sql_table
 
     /**
      * @param rex_sql_column $column
-     * @param null|string    $after  Column name or `rex_sql_table::FIRST`
+     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
-    public function addColumn(rex_sql_column $column, $after = null)
+    public function addColumn(rex_sql_column $column, $afterColumn = null)
     {
         $name = $column->getName();
 
@@ -168,26 +168,26 @@ class rex_sql_table
 
         $this->columns[$name] = $column;
 
-        $this->setPosition($name, $after);
+        $this->setPosition($name, $afterColumn);
 
         return $this;
     }
 
     /**
      * @param rex_sql_column $column
-     * @param null|string    $after  Column name or `rex_sql_table::FIRST`
+     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
-    public function ensureColumn(rex_sql_column $column, $after = null)
+    public function ensureColumn(rex_sql_column $column, $afterColumn = null)
     {
         $name = $column->getName();
 
         if (!$this->hasColumn($name)) {
-            return $this->addColumn($column, $after);
+            return $this->addColumn($column, $afterColumn);
         }
 
-        $this->setPosition($name, $after);
+        $this->setPosition($name, $afterColumn);
 
         if ($this->getColumn($name)->equals($column)) {
             return $this;
@@ -450,21 +450,21 @@ class rex_sql_table
         $this->resetModified();
     }
 
-    private function setPosition($name, $after)
+    private function setPosition($name, $afterColumn)
     {
-        if (null === $after) {
+        if (null === $afterColumn) {
             $this->implicitOrder[] = $name;
 
             return;
         }
 
-        if (self::FIRST !== $after && !$this->hasColumn($after)) {
-            throw new InvalidArgumentException(sprintf('Column "%s" can not be placed after "%s", because that column does not exist.', $name, $after));
+        if (self::FIRST !== $afterColumn && !$this->hasColumn($afterColumn)) {
+            throw new InvalidArgumentException(sprintf('Column "%s" can not be placed after "%s", because that column does not exist.', $name, $afterColumn));
         }
 
         // unset is necessary to add new position as last array element
         unset($this->positions[$name]);
-        $this->positions[$name] = $after;
+        $this->positions[$name] = $afterColumn;
     }
 
     private function getColumnDefinition(rex_sql_column $column)
