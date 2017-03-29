@@ -417,15 +417,29 @@ class rex_sql_table
             }
         };
 
+        $currentOrder = [];
+        $after = self::FIRST;
         foreach ($columns as $name => $column) {
+            $currentOrder[$after] = $name;
+            $after = $name;
+
             if (!isset($this->positions[$name])) {
                 $handle($name);
             }
         }
+
         foreach ($this->positions as $name => $after) {
-            if (isset($columns[$name])) {
-                $handle($name, $after);
+            if (!isset($columns[$name])) {
+                continue;
             }
+
+            if (isset($currentOrder[$after]) && $currentOrder[$after] === $name) {
+                $after = null;
+            } else {
+                unset($currentOrder[$name]);
+            }
+
+            $handle($name, $after);
         }
 
         foreach ($existing as $oldName) {
