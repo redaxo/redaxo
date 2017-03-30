@@ -24,13 +24,10 @@ body:after {
     }
 }
 
-iframe, 
-img,
-svg,
-video,
-object,
-embed { 
+.rex-slice {
+  iframe, img, svg, video, object, embed {
     max-width: 100%;
+  }
 }
 
 
