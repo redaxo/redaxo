@@ -13,7 +13,7 @@ class rex_mailer extends PHPMailer
     public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
-
+        $this->XMailer = 'REXMailer';
         $this->From = $addon->getConfig('from');
         $this->FromName = $addon->getConfig('fromname');
         $this->ConfirmReadingTo = $addon->getConfig('confirmto');
@@ -29,7 +29,6 @@ class rex_mailer extends PHPMailer
             $this->Priority = $addon->getConfig('priority');
         }
         $this->SMTPDebug = $addon->getConfig('smtp_debug');
-
         $this->SMTPSecure = $addon->getConfig('smtpsecure');
         $this->SMTPAuth = $addon->getConfig('smtpauth');
         $this->Username = $addon->getConfig('username');
