@@ -39,7 +39,7 @@ $sel_mailer = new rex_select();
 $sel_mailer->setId('phpmailer-mailer');
 $sel_mailer->setName('settings[mailer]');
 $sel_mailer->setSize(1);
-$sel_mailer->setAttribute('class', 'form-control');
+$sel_mailer->setAttribute('class', 'form-control selectpicker');
 $sel_mailer->setSelected($this->getConfig('mailer'));
 foreach (['mail', 'sendmail', 'smtp'] as $type) {
     $sel_mailer->addOption($type, $type);
@@ -49,7 +49,7 @@ $sel_smtpauth = new rex_select();
 $sel_smtpauth->setId('phpmailer-smtpauth');
 $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
-$sel_smtpauth->setAttribute('class', 'form-control');
+$sel_smtpauth->setAttribute('class', 'form-control selectpicker');
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
 foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
     $sel_smtpauth->addOption($type, $i);
@@ -59,7 +59,7 @@ $sel_smtpsecure = new rex_select();
 $sel_smtpsecure->setId('phpmailer-smtpsecure');
 $sel_smtpsecure->setName('settings[smtpsecure]');
 $sel_smtpsecure->setSize(1);
-$sel_smtpsecure->setAttribute('class', 'form-control');
+$sel_smtpsecure->setAttribute('class', 'form-control selectpicker');
 $sel_smtpsecure->setSelected($this->getConfig('smtpsecure'));
 foreach (['' => $this->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls'] as $type => $name) {
     $sel_smtpsecure->addOption($name, $type);
@@ -69,7 +69,7 @@ $sel_encoding = new rex_select();
 $sel_encoding->setId('phpmailer-encoding');
 $sel_encoding->setName('settings[encoding]');
 $sel_encoding->setSize(1);
-$sel_encoding->setAttribute('class', 'form-control');
+$sel_encoding->setAttribute('class', 'form-control selectpicker');
 $sel_encoding->setSelected($this->getConfig('encoding'));
 foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc) {
     $sel_encoding->addOption($enc, $enc);
@@ -79,7 +79,7 @@ $sel_priority = new rex_select();
 $sel_priority->setid('phpmailer-priority');
 $sel_priority->setName('settings[priority]');
 $sel_priority->setSize(1);
-$sel_priority->setAttribute('class', 'form-control');
+$sel_priority->setAttribute('class', 'form-control selectpicker');
 $sel_priority->setSelected($this->getConfig('priority'));
 foreach ([0 => $this->i18n('disabled'), 1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
     $sel_priority->addOption($name, $no);
@@ -88,7 +88,7 @@ $sel_debug = new rex_select();
 $sel_debug->setid('phpmailer-smtp_debug');
 $sel_debug->setName('settings[smtp_debug]');
 $sel_debug->setSize(1);
-$sel_debug->setAttribute('class', 'form-control');
+$sel_debug->setAttribute('class', 'form-control selectpicker');
 $sel_debug->setSelected($this->getConfig('smtp_debug'));
 foreach ([0 => $this->i18n('smtp_debug_0'), 1 => $this->i18n('smtp_debug_1'), 2 => $this->i18n('smtp_debug_2'), 3 => $this->i18n('smtp_debug_3'), 4 => $this->i18n('smtp_debug_4')] as $no => $name) {
     $sel_debug->addOption($name, $no);
@@ -100,7 +100,7 @@ if ($message != '') {
 
 $content = '';
 
-$content .= '<fieldset><legend>' . $this->i18n('email_options') . '</legend>';
+$content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('email_options') . '</legend>';
 
 $formElements = [];
 $n = [];
@@ -127,7 +127,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '</fieldset><fieldset><legend>' . $this->i18n('dispatch_options') . '</legend>';
+$content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('dispatch_options') . '</legend>';
 
 $formElements = [];
 
@@ -170,7 +170,7 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '</fieldset><fieldset><legend>' . $this->i18n('smtp_options') . '</legend>';
+$content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('smtp_options') . '</legend>';
 
 $formElements = [];
 $n = [];
