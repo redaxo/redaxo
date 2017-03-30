@@ -10,6 +10,7 @@ class rex_select
     private $optgroups = [];
     private $options = [];
     private $option_selected;
+    private $optCount = 0;
 
     public function __construct()
     {
@@ -141,6 +142,7 @@ class rex_select
     public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
         $this->options[$this->currentOptgroup][$parent_id][] = [$name, $value, $id, $attributes];
+        $this->optCount++;
     }
 
     /**
@@ -203,7 +205,7 @@ class rex_select
 
     public function countOptions()
     {
-        return $this->options ? array_sum(array_map('count', $this->options)) : 0;
+        return $this->optCount;
     }
 
     /**
