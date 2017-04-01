@@ -291,6 +291,21 @@ class rex
     public static function getVersion($format = null)
     {
         $version = self::getProperty('version');
+
+        static $gitHash = null;
+        if (null === $gitHash && strpos($version, '-dev') !== false) {
+            $gitHash = ''; // exec only once
+
+            exec('which git 2>&1 1>/dev/null && git show --oneline -s', $output, $exitCode);
+            if ($exitCode == 0) {
+                $output = implode("",$output);
+                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
+                    $gitHash = $matches[0];
+                    $version .= '#'.$gitHash;
+                }
+            }
+        }
+
         if ($format) {
             return rex_formatter::version($version, $format);
         }
