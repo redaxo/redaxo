@@ -142,7 +142,7 @@ class rex_select
     public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
         $this->options[$this->currentOptgroup][$parent_id][] = [$name, $value, $id, $attributes];
-        $this->optCount++;
+        ++$this->optCount;
     }
 
     /**
