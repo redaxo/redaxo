@@ -39,7 +39,7 @@ class rex_socket_response
         }
         $this->header = rtrim($this->header);
         if (preg_match('@^HTTP/1\.\d ([0-9]+) (\V+)@', $this->header, $matches)) {
-            $this->statusCode = intval($matches[1]);
+            $this->statusCode = (int) ($matches[1]);
             $this->statusMessage = $matches[2];
         }
         $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;

@@ -31,12 +31,12 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
+        '@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_before_return' => false,
         'braces' => ['allow_single_line_closure' => false],
         'concat_space' => false,
         'heredoc_to_nowdoc' => true,
-        'is_null' => true,
         'no_blank_lines_after_phpdoc' => false,
         'no_php4_constructor' => true,
         'no_unreachable_default_argument_value' => true,
@@ -46,6 +46,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_no_package' => false,
         'phpdoc_to_comment' => false,
         'phpdoc_var_without_name' => false,
+        'psr4' => false,
     ])
     ->setFinder($finder)
 ;

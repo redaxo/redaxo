@@ -52,8 +52,8 @@ class rex_setup
         $errors = [];
 
         // -------------------------- VERSIONSCHECK
-        if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1) {
-            $errors[] = rex_i18n::msg('setup_301', phpversion(), self::MIN_PHP_VERSION);
+        if (version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<') == 1) {
+            $errors[] = rex_i18n::msg('setup_301', PHP_VERSION, self::MIN_PHP_VERSION);
         }
 
         // -------------------------- EXTENSION CHECK

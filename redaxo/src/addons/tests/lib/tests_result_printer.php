@@ -12,7 +12,7 @@ class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
     public function __construct($backtrace, $colors = false)
     {
         $out = null;
-        if (php_sapi_name() == 'cli') {
+        if (PHP_SAPI == 'cli') {
             // prevent headers already sent error when started from CLI
             $out = 'php://stderr';
         }
