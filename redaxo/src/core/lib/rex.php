@@ -298,7 +298,7 @@ class rex
 
             exec('which git 2>&1 1>/dev/null && git show --oneline -s', $output, $exitCode);
             if ($exitCode == 0) {
-                $output = implode("",$output);
+                $output = implode("", $output);
                 if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
                     $gitHash = $matches[0];
                     $version .= '#'.$gitHash;
