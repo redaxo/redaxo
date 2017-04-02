@@ -516,8 +516,6 @@ jQuery(document).ready(function($) {
     $(document).on('submit', 'form[data-confirm]', confDialog);
 
     if ($.support.pjax) {
-        // prevent pjax from jumping to top, see github#60
-        $.pjax.defaults.scrollTo = false;
         $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
 
@@ -554,7 +552,14 @@ jQuery(document).ready(function($) {
                 container = '#rex-page-main';
             }
 
-            var push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+            var options = {container: container, fragment: container};
+
+            options.push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+
+            options.scrollTo = self.closest('[data-pjax-scroll-to]').data('pjax-scroll-to');
+            if (typeof options.scrollTo == 'undefined') {
+                options.scrollTo = isForm ? 0 : false;
+            }
 
             if (isForm) {
                 var clicked = self.find(':submit[data-clicked]');
@@ -562,9 +567,9 @@ jQuery(document).ready(function($) {
                     // https://github.com/defunkt/jquery-pjax/issues/304
                     self.append('<input type="hidden" name="' + clicked.attr('name') + '" value="' + clicked.val() + '"/>');
                 }
-                return $.pjax.submit(event, {container: container, fragment: container, push: push });
+                return $.pjax.submit(event, options);
             }
-            return $.pjax.click(event, {container: container, fragment: container, push: push });
+            return $.pjax.click(event, options);
         };
 
         $(document)
