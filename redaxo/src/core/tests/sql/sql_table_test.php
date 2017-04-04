@@ -154,6 +154,38 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertSame($expectedOrder, array_keys($table->getColumns()));
     }
 
+    public function testEnsurePrimaryIdColumn()
+    {
+        $table = rex_sql_table::get(self::TABLE);
+        $table
+            ->ensurePrimaryIdColumn()
+            ->create();
+
+        $id = $table->getColumn('id');
+        $this->assertSame('int(10) unsigned', $id->getType());
+        $this->assertFalse($id->isNullable());
+        $this->assertNull($id->getDefault());
+        $this->assertSame('auto_increment', $id->getExtra());
+        $this->assertSame(['id'], $table->getPrimaryKey());
+    }
+
+    public function testEnsureGlobalColumns()
+    {
+        $table = $this->createTable();
+        $table
+            ->ensureGlobalColumns()
+            ->alter();
+
+        $this->assertTrue($table->hasColumn('createdate'));
+        $this->assertSame('datetime', $table->getColumn('createdate')->getType());
+        $this->assertTrue($table->hasColumn('createuser'));
+        $this->assertSame('varchar(255)', $table->getColumn('createuser')->getType());
+        $this->assertTrue($table->hasColumn('updatedate'));
+        $this->assertSame('datetime', $table->getColumn('updatedate')->getType());
+        $this->assertTrue($table->hasColumn('updateuser'));
+        $this->assertSame('varchar(255)', $table->getColumn('updateuser')->getType());
+    }
+
     public function testRenameColumn()
     {
         $table = $this->createTable();
