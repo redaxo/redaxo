@@ -145,6 +145,7 @@ $content .= $fragment->parse('core/form/form.php');
 $tableSelect = new rex_select();
 $tableSelect->setMultiple();
 $tableSelect->setId('rex-form-exporttables');
+$tableSelect->setSize(20);
 $tableSelect->setName('EXPTABLES[]');
 $tableSelect->setAttribute('class', 'form-control');
 $tables = rex_sql::showTables();
