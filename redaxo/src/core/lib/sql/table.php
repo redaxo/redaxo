@@ -199,6 +199,30 @@ class rex_sql_table
     }
 
     /**
+     * @return $this
+     */
+    public function ensurePrimaryIdColumn()
+    {
+        return $this
+            ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'auto_increment'))
+            ->setPrimaryKey('id')
+        ;
+    }
+
+    /**
+     * @return $this
+     */
+    public function ensureGlobalColumns()
+    {
+        return $this
+            ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
+            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
+            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
+            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
+        ;
+    }
+
+    /**
      * @param string $oldName
      * @param string $newName
      *
