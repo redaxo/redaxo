@@ -241,9 +241,10 @@ class rex_sql implements Iterator
      */
     public function prepareQuery($qry)
     {
+        $pdo = self::$pdo[$this->DBID];
         try {
             $this->query = $qry;
-            $this->stmt = self::$pdo[$this->DBID]->prepare($qry);
+            $this->stmt = $pdo->prepare($qry);
             return $this->stmt;
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while preparing statement "' . $qry . '! ' . $e->getMessage(), $e);
@@ -267,9 +268,10 @@ class rex_sql implements Iterator
         }
 
         $buffered = null;
+        $pdo = self::$pdo[$this->DBID];
         if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = self::$pdo[$this->DBID]->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
+            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
+            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
         }
 
         try {
@@ -282,7 +284,7 @@ class rex_sql implements Iterator
             throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage(), $e);
         } finally {
             if (null !== $buffered) {
-                self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
             }
 
             if ($this->debug) {
@@ -327,19 +329,20 @@ class rex_sql implements Iterator
         }
 
         $buffered = null;
+        $pdo = self::$pdo[$this->DBID];
         if (isset($options[self::OPT_BUFFERED])) {
-            $buffered = self::$pdo[$this->DBID]->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
-            self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
+            $buffered = $pdo->getAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY);
+            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $options[self::OPT_BUFFERED]);
         }
 
         try {
-            $this->stmt = self::$pdo[$this->DBID]->query($query);
+            $this->stmt = $pdo->query($query);
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e);
         } finally {
             if (null !== $buffered) {
-                self::$pdo[$this->DBID]->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
+                $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
             }
 
             if ($this->debug) {
@@ -916,9 +919,11 @@ class rex_sql implements Iterator
             $params = $this->params;
         }
 
-        self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+        $pdo = self::$pdo[$this->DBID];
+        
+        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
         $this->setDBQuery($query, $params);
-        self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
         return $this->stmt->fetchAll($fetchType);
     }
@@ -940,10 +945,12 @@ class rex_sql implements Iterator
             $query = $this->query;
             $params = $this->params;
         }
+        
+        $pdo = self::$pdo[$this->DBID];
 
-        self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
+        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
         $this->setQuery($query, $params);
-        self::$pdo[$this->DBID]->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
+        $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
 
         return $this->stmt->fetchAll($fetchType);
     }
