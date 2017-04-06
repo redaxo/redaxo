@@ -920,7 +920,7 @@ class rex_sql implements Iterator
         }
 
         $pdo = self::$pdo[$this->DBID];
-        
+
         $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
         $this->setDBQuery($query, $params);
         $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, true);
@@ -945,7 +945,7 @@ class rex_sql implements Iterator
             $query = $this->query;
             $params = $this->params;
         }
-        
+
         $pdo = self::$pdo[$this->DBID];
 
         $pdo->setAttribute(PDO::ATTR_FETCH_TABLE_NAMES, false);
