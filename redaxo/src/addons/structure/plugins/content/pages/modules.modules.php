@@ -384,6 +384,20 @@ if ($OUT) {
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
 
     $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));
+    
+    rex_extension::registerPoint(new rex_extension_point('EXTEND_MODULE_FUNCTIONS', $list, [
+        $function,
+        $function_action,
+        $save,
+        $module_id,
+        $action_id,
+        $iaction_id,
+        $mname,
+        $eingabe,
+        $ausgabe,
+        $goon,
+        $add_action,
+    ]));
 
     $content .= $list->get();
 
