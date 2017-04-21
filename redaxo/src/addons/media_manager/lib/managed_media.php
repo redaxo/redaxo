@@ -48,6 +48,7 @@ class rex_managed_media
             $media_path = rex_path::addon('media_manager', 'media/warning.jpg');
         }
         $this->media_path = $media_path;
+        $this->sourcePath = $media_path;
         $this->media = basename($media_path);
         $this->asImage = false;
     }
