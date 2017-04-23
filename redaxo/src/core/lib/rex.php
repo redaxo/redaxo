@@ -292,24 +292,37 @@ class rex
     {
         $version = self::getProperty('version');
 
-        static $gitHash = null;
-        if (null === $gitHash && strpos($version, '-dev') !== false) {
-            $gitHash = ''; // exec only once
-
-            exec('which git 2>&1 1>/dev/null && git show --oneline -s', $output, $exitCode);
-            if ($exitCode == 0) {
-                $output = implode("", $output);
-                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
-                    $gitHash = $matches[0];
-                    $version .= '#'.$gitHash;
-                }
-            }
-        }
-
         if ($format) {
             return rex_formatter::version($version, $format);
         }
         return $version;
+    }
+
+    /**
+     * Returns the current git version hash for the given path.
+     *
+     * @param string $path A local filesystem path
+     *
+     * @return false|string
+     */
+    public static function getVersionHash($path)
+    {
+        static $gitHash = [];
+
+        if (!isset($gitHash[$path])) {
+            $gitHash[$path] = false; // exec only once
+
+            $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            exec($command, $output, $exitCode);
+            if ($exitCode == 0) {
+                $output = implode("", $output);
+                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
+                    $gitHash[$path] = $matches[0];
+                }
+            }
+        }
+
+        return $gitHash[$path];
     }
 
     /**
