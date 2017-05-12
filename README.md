@@ -5,7 +5,7 @@ REDAXO CMS
 
 ![Screenshot](https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_01.png)
 
-[www.redaxo.org](https://www.redaxo.org) | [GitBook](https://doku.redaxo.sioweb.de/5.0/advanced/) | [Api Doc](https://www.redaxo.org/docs/)
+[www.redaxo.org](https://www.redaxo.org) | [Dokumentation](https://redaxo.org/doku/master) | [Api Doc](https://redaxo.org/api/master/)
 
 [![Build Status](https://secure.travis-ci.org/redaxo/redaxo.svg?branch=master)](https://travis-ci.org/redaxo/redaxo)
 
