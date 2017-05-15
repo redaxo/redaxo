@@ -313,7 +313,7 @@ class rex
             $gitHash[$path] = false; // exec only once
 
             $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            exec($command, $output, $exitCode);
+            @exec($command, $output, $exitCode);
             if ($exitCode == 0) {
                 $output = implode("", $output);
                 if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
