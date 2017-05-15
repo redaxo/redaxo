@@ -96,10 +96,6 @@ if ($success != '') {
 
 $dbconfig = rex::getProperty('db');
 
-$version = rex_path::src();
-if (strlen($version) > 21) {
-    $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
-}
 $content = [];
 $content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
