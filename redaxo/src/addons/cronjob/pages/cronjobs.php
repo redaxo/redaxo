@@ -311,7 +311,7 @@ if ($func == '') {
                     foreach ($visible[$name] as $value => $fieldIds) {
                         $visible_js .= '
                         var first = 1;
-                        $("#' . $field->getAttribute('id') . '_' . $value . '").change(function(){
+                        $("#' . $field->getAttribute('id') . '-' . $value . '").change(function(){
                             var checkbox = $(this);
                             $("#' . implode(',#', $fieldIds) . '").each(function(){
                                 if ($(checkbox).is(":checked"))

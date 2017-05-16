@@ -209,7 +209,7 @@ class rex_response
      */
     public static function cleanOutputBuffers()
     {
-        while (ob_get_length()) {
+        while (ob_get_level()) {
             ob_end_clean();
         }
     }

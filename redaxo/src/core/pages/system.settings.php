@@ -96,11 +96,6 @@ if ($success != '') {
 
 $dbconfig = rex::getProperty('db');
 
-$version = rex_path::src();
-if (strlen($version) > 21) {
-    $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
-}
-
 $rexVersion = rex::getVersion();
 if (strpos($rexVersion, '-dev') !== false) {
     $hash = rex::getVersionHash(rex_path::base());
@@ -108,6 +103,7 @@ if (strpos($rexVersion, '-dev') !== false) {
         $rexVersion .= '#'. $hash;
     }
 }
+
 $content = [];
 $content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
