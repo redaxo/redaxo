@@ -96,6 +96,14 @@ if ($success != '') {
 
 $dbconfig = rex::getProperty('db');
 
+$rexVersion = rex::getVersion();
+if (strpos($rexVersion, '-dev') !== false) {
+    $hash = rex::getVersionHash(rex_path::base());
+    if ($hash) {
+        $rexVersion .= '#'. $hash;
+    }
+}
+
 $content = [];
 $content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
@@ -109,7 +117,7 @@ $content[] = '
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
                         <dl class="dl-horizontal">
-                            <dt>REDAXO</dt><dd>' . rex::getVersion() . '</dd>
+                            <dt>REDAXO</dt><dd>' . $rexVersion . '</dd>
                             <dt>PHP</dt><dd>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></dd>
                         </dl>
 
