@@ -130,6 +130,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         <script type="text/javascript">
         <!--
         jQuery(function($) {
+            $("#rex-js-install-addon-search > input").focus(); // focus search-input
             var table = $("#rex-js-table-install-packages-addons");
             var tablebody = table.find("tbody");
             var replaceNumber = function replaceNumber() {
