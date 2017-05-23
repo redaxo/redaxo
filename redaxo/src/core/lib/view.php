@@ -34,7 +34,7 @@ class rex_view
      */
     public static function getCssFiles()
     {
-        return self::$cssFiles;
+        return array_unique(self::$cssFiles);;
     }
 
     /**
@@ -60,7 +60,7 @@ class rex_view
      */
     public static function getJsFiles()
     {
-        return self::$jsFiles;
+        return array_unique(self::$jsFiles);
     }
 
     /**
