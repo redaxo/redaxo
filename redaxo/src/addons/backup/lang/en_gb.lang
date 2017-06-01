@@ -38,7 +38,7 @@ backup_createdate = Create date
 backup_import_file = Import file
 backup_delete_file = Delete file
 backup_download_file = Download file
-backup_check_rights_in_directory = Backup was not able to read the folder/s or none was selected.
+backup_check_rights_in_directory = Backup was unable to read the folder/s or none were selected.
 backup_file_could_not_be_generated  = File could not be created.
 backup_file_generated_in  = File has been saved in
 
