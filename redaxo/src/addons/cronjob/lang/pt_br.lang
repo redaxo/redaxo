@@ -1,0 +1,84 @@
+cronjob_title = Cronjobs
+
+cronjob_add = Adicionar Cronjobs
+cronjob_edit = Editar Cronjobs
+
+cronjob_caption = Lista de cronjobs criados
+cronjob_no_cronjobs = Nenhum cronjob foi criado
+
+cronjob_delete = Deletar
+cronjob_really_delete = Você realmente deseja excluir este Cronjob?
+cronjob_delete_success = Cronjob "{0}" excluído com sucesso.
+cronjob_delete_error = Cronjob "{0}" não pôde ser excluído!
+
+cronjob_execute = Executar
+cronjob_execute_success = Cronjob "{0}" foi executado com sucesso!
+cronjob_execute_error = Cronjob "{0}" não foi corretamente executado!
+
+cronjob_name = Nome
+cronjob_description = Descrição
+cronjob_examples = Exemplos
+
+cronjob_type = Tipo
+cronjob_type_not_found = Cronjob "{0}" não pode ser modificado devido à falta de uma classe "{1}". Certifique-se de que o AddOn ou PlgIn associados estão ativos.
+cronjob_type_phpcode = Código PHP
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = Solicitação de URL
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = POST-Parameter
+cronjob_type_urlrequest_httpauth = HTTP-Authentification
+cronjob_type_urlrequest_user = Usuário
+cronjob_type_urlrequest_password = Senha
+cronjob_type_parameters = Parâmetro do tipo específico
+cronjob_type_no_parameters = Nnehum outro parâmetro é requerido para este tipo!
+
+cronjob_interval = Intervalo
+cronjob_interval_minutes = Minutos
+cronjob_interval_minutes_all = Cada 5 minutos
+cronjob_interval_hours = Horas
+cronjob_interval_hours_all = Cada hora
+cronjob_interval_days = Dias
+cronjob_interval_days_all = Todos os dias
+cronjob_interval_weekdays = Dias da semana
+cronjob_interval_weekdays_all = Qualquer dia da semana
+cronjob_interval_months = Meses
+cronjob_interval_months_all = Todo mês
+
+cronjob_environment = Ambiente
+cronjob_environment_notice = Script: Execução via <code>redaxo/src/addons/cronjob/bin/run</code>. O script deve ser invocado por um verdadeiro cronjob.
+cronjob_environment_frontend = Frontend
+cronjob_environment_backend = Backend
+cronjob_environment_script = Script
+
+cronjob_execution = Execução
+cronjob_execution_beginning = Execução começando
+cronjob_execution_ending = Execução terminando
+
+cronjob_nexttime = Próxima execução
+
+cronjob_status_function = Status/Função
+cronjob_status = Status
+cronjob_status_activated = ativado
+cronjob_status_deactivated = desativado
+cronjob_status_invalid = inválido
+cronjob_status_activate_success = Cronjob "{0}" foi ativado!
+cronjob_status_activate_error = Cronjob "{0}" não pôde ser ativado.
+cronjob_status_deactivate_success = Cronjob "{0}" foi desativado!
+cronjob_status_deactivate_error = Cronjob "{0}" não pôde ser desativado!
+
+cronjob_error_no_name = O campo "nome" deve ser preenchido!
+cronjob_error_no_environment = Pelo menos um ambiente tem de ser escolhido!
+
+cronjob_not_found = Cronjob não foi encontrado!
+cronjob_not_editable = Cronjob não pode ser modificado!
+
+cronjob_log = Log
+cronjob_log_date = Data
+cronjob_log_year = Ano
+cronjob_log_month = Mês
+cronjob_log_ok = OK
+cronjob_no_log_files = Não há arquivos log disponíveis.
+cronjob_log_no_data = Não há dados log disponíveis.
+cronjob_log_caption_1 = Lista de cronjobs executados em {0} {1}
+cronjob_log_caption_2 = Lista dos últimos cronjobs executados
+cronjob_log_message = Mensagem
