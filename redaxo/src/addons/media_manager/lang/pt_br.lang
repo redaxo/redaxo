@@ -1,0 +1,132 @@
+media_manager = Gerenciador de mídia
+media_manager_overview_title = Gerenciador de mídia AddOn (Version {0})
+
+media_manager_subpage_desc = Descrição
+media_manager_subpage_config = Configuração
+media_manager_subpage_types = Editar tipos de imagem
+media_manager_subpage_clear_cache = Deletar cachê
+
+media_manager_cache_files_removed = {0} CachÇes deletados
+
+media_manager_config_saved = Configuração atualizada
+media_manager_config_not_saved = A configuração não pôde ser salva!
+media_manager_config_not_writable = O arquivo de configuração "{0}" não é gravável!
+
+media_manager_max_resizekb = Tamanho máximo de uma imagem em kilobyte, que pode ser processado pelo media-manager.
+media_manager_max_resizepx = Tamanho máximo de uma imagem em pixel, que pode ser processado pelo media-manager.
+media_manager_jpg_quality = Qualdiade JPG
+media_manager_png_compression = Compressão PNG
+media_manager_webp_quality = Qualidade WebP
+media_manager_interlace = Interlace/Modo progressivo
+
+media_manager_id = Id
+media_manager_name = Nome
+media_manager_edittype = Editar tipos de imagem
+media_manager_settings = Configuração
+
+media_manager_yes = Sim
+media_manager_no = Não
+media_manager_back = Voltar
+
+media_manager_error_name = Por favor, insira um nome.
+media_manager_error_settings = Por favor, cheque as configurações do gerenciador de mídia.
+
+media_manager_type_caption = Lista do tipo de imagens.
+media_manager_type_no_types = Nenhuma imagem encontrada.
+media_manager_type_create = Criar tipo de imagem.
+media_manager_type_edit = Editar tipo de imagem.
+media_manager_type_copy = Copiar tipo de imagem.
+media_manager_type_effekts_edit = Editar efeito.
+media_manager_type_delete = Deletar tipo de imagem.
+media_manager_type_name = Nome.
+media_manager_type_name_copy = Copiar
+media_manager_type_priority = Prio
+media_manager_type_description = Descrição
+media_manager_type_functions = Funções
+media_manager_type_cache_delete = Deletar cachê
+media_manager_type_system = Sistema de tipo de imagem
+media_manager_type_delete = Deletar tipo de imagem.
+media_manager_type_deleted = Tipo de imagem deletado
+media_manager_type_copied = Tipo de imagem copiado
+
+media_manager_effect_list_header = Efeito do tipo de imagem "{0}"
+media_manager_effect_edit_header = Tipo de imagem "{0}". Efeito editado.
+media_manager_effect_create_header = Tipo de imagem "{0}". Efeito criado.
+media_manager_effect_caption = Lista de efeitos aplicados para o tipo de imagem  "{0}"
+media_manager_effect_no_effects = Nenhum efeito econtrado.
+media_manager_effect_create = Criar efeito
+media_manager_effect_edit = Editar efeito
+media_manager_effect_delete = Deletar efeito
+media_manager_effect_name = Efeito
+media_manager_effect_priority = Ordem dos efeitos
+media_manager_effect_parameters = Parâmetro
+media_manager_effect_functions = Funções
+media_manager_effect_deleted = Deletar efeito
+
+media_manager_effect_brand_image = Imagem
+media_manager_effect_brand_hpos = Posição horizontal
+media_manager_effect_brand_vpos = Posição vertical
+media_manager_effect_brand_padding_x = Preenchimento horizontal
+media_manager_effect_brand_padding_y = Preenchimento vertical
+
+media_manager_effect_blur_repeats = Repetir
+media_manager_effect_blur_type = Tipo Blur
+media_manager_effect_blur_smoothit = smoothing (valores negativos para imagens mais nítidas)
+
+media_manager_effect_colorize_r = Valor vermelho
+media_manager_effect_colorize_g = Valor verde
+media_manager_effect_colorize_b = Valor azul
+
+media_manager_effect_sharpen_amount = Grau de nitidez
+media_manager_effect_sharpen_radius = Tamanho da matriz de nitidez
+media_manager_effect_sharpen_threshold = Limite
+
+media_manager_effect_resize_width = Largura do alvo
+media_manager_effect_resize_height = Altura do alvo
+media_manager_effect_resize_style = Modo
+media_manager_effect_resize_imgtosmall = Caso a imagem seja muito pequena
+
+media_manager_effect_crop_width = Largura do alvo
+media_manager_effect_crop_height = Altura do alvo
+media_manager_effect_crop_offset_width = Offset horizontal
+media_manager_effect_crop_offset_height = Offset vertical
+media_manager_effect_crop_position = Ponto de referência
+
+media_manager_effect_rounded_corners_topleft = Superior esquerdo
+media_manager_effect_rounded_corners_topright = Superior direito
+media_manager_effect_rounded_corners_bottomleft = Inferior esquerdo
+media_manager_effect_rounded_corners_bottomright = Inferior direito
+
+media_manager_effect_flip = Direção
+media_manager_effect_rotate = Girar (graus)
+
+media_manager_error_type_name_not_unique = Um tipo de imagem com esse nome já existe.
+
+media_manager_effect_mirror_height = Refl. altura (50 / 10%)
+media_manager_effect_mirror_background_color = Cor de fundo
+media_manager_effect_mirror_background_r = Fundo R (0-255)
+media_manager_effect_mirror_background_g = Fundo G (0-255)
+media_manager_effect_mirror_background_b = Fundo B (0-255)
+
+media_manager_effect_workspace_pos = Posição
+
+media_manager_effect_folder = Padrão de pasta alternativo: "mídia"
+
+media_manager_effect_mediapath = Pasta de mídia
+
+media_manager_effect_header_download = Baixar
+media_manager_effect_header_cache = Controle do cachê
+
+media_manager_effect_convert2img_density = Densidade da resolução
+media_manager_effect_convert2img_convertto = Formato alvo
+
+media_manager_effect_image_properties_jpg_quality_notice =  [0-100].   Deixe em branco para o valor padrão.
+media_manager_effect_image_properties_png_compression_notice =  [0-9].    Deixe em branco para o valor padrão.
+media_manager_effect_image_properties_webp_quality_notice =  [0-100].  Deixe em branco para o valor padrão.
+media_manager_effect_image_properties_interlace_notice = Deixe em branco para a seleção padrão.
+
+media_manager_effect_brightness = Brilho
+media_manager_effect_brightness_notice = [-255 to 255]. Deixe em branco para o valor padrão.  (0).
+
+media_manager_effect_contrast = Contraste
+media_manager_effect_contrast_notice = [-100 to 100]. Deixe em branco para o valor padrão (0).

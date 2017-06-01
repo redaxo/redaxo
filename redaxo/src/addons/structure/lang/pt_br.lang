@@ -1,0 +1,87 @@
+structure = Estrutura
+
+title_structure = Gerenciamento de estrutura
+homepage = Página Inicial
+root_level = Nível principal
+no_such_category = Categoria não encontrada!
+category_updated = Categoria atualizada!
+category_could_not_be_deleted = Erro. Categoria não foi deletada.
+category_still_contains_articles = Categoria ainda possui produtos.
+category_still_contains_subcategories = Categoria ainda possui subcategorias.
+category_status_updated = Status da categoria atualizado.
+category_added_and_startarticle_created = Categoria adicionada e primeiro produto criado!
+article_status_updated = Status do produto atualizado.
+article_updated = Produto atualizado.
+article_added = Porudto adicionado.
+header_category = Categoria.
+header_priority = Prio
+header_status = Status/Função
+header_id = Id
+add_category = Adicionar categoria
+edit_category = Alterar categoria
+save_category = Salvar categoria
+status_online = online
+status_offline = offline
+option_no_template = Sem template
+template_default_name = SEM TEMPLATE
+header_article_name = Nome do produto
+header_template = Template
+header_date = Criado
+change = Alterar
+article_add = Adicionar produto
+article_edit = Alterar produto
+article_save = Salvar produto
+article = Produto
+start_article = Produto inicial
+no_article_available  =  Sem produtos disponíveis
+structure_categories_caption = Lista de subcategorias em "{0}"
+structure_articles_caption = Lista de produtos em "{0}"
+article_deleted = Produto deletado!
+article_could_not_be_generated  =  Produto não pôde ser gerado!
+category_deleted  =  Categoria deletada!
+category_doesnt_exist  =  Categoria inexistente!
+article_doesnt_exist  =  Produto inexistente!
+cant_delete_sitestartarticle = O produto inicial não pode ser deletado!
+cant_delete_notfoundarticle = Um "produto não encontrado" não pode ser deletado!
+structure_copy = Copiar
+
+all_categories = Todas as categorias
+categories = Categorias
+
+be_search_article_name = Nome do produto
+be_search_article_id = Id do produto
+be_search_start = Buscar
+be_search_jump_to_category = Ir para categoria
+be_search_quick_navi = Navegação rápida
+be_search_no_results = Nenhum produto corresponde a seus critérios de busca
+be_search_search = Busca
+be_search_result = Resultado da busca
+
+perm_options_article2category[] = Transformar produto em categoria
+perm_options_article2startarticle[] = Transformar produto em produto inicial
+perm_options_copyArticle[] = Copiar produto
+perm_options_copyContent[] = Copiar conteúdo do produto
+perm_options_moveArticle[] = Arrastar produto
+perm_options_moveCategory[] = Arrastar categoria
+perm_options_publishArticle[] = Divulgar produto
+perm_options_publishCategory[] = Divulgar categoria
+perm_extras_editContentOnly[] = Somente conteúdo pode ser alterado
+
+system_setting_start_article_id = Produto inicial
+system_setting_notfound_article_id = Produto não encontrado
+system_setting_default_template_id = Template modelo
+system_setting_start_article_id_invalid = Produto inicial inválido!
+system_setting_notfound_article_id_invalid = Produto não encontrado inválido!
+system_setting_default_template_id_invalid = Template modelo inválido!
+
+linkmap = Linkmap
+linkmap_categories = Categorias
+linkmap_articles = Produtos
+linkmap_has_no_template = não possui template
+
+var_link_open = Selecionar Link
+var_link_delete = Deletar link selecionado
+var_linklist_move_top = Mover link selecionado para o topo
+var_linklist_move_up = Mover link selecionado para cima
+var_linklist_move_down = Mover link selecionado para baixo
+var_linklist_move_bottom  = Mover link selecionado para o final
