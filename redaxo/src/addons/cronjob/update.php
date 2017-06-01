@@ -80,3 +80,5 @@ if (rex_string::versionCompare($this->getVersion(), '2.1-dev', '<')) {
             ->update();
     }
 }
+
+require $this->getPath('install.php');
