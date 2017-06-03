@@ -31,6 +31,10 @@ session_cache_limiter(false);
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
+// make Whoops link to the php.net manual on exception pages, when not configured differently
+if (ini_get('html_errors') && !ini_get('docref_root')) {
+    ini_set('docref_root', "https://php.net/manual/");
+}
 
 require_once __DIR__ . '/lib/util/path.php';
 require_once __DIR__ . '/lib/util/path_default_provider.php';
