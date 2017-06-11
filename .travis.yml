@@ -13,6 +13,10 @@ matrix:
       env: DB=mariadb
       addons:
          mariadb: 10.1    
+    - php: 7.1
+      env: DB=mariadb
+      addons:
+         mariadb: 10.2          
 
 sudo: false
 
