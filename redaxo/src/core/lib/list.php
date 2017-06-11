@@ -146,7 +146,7 @@ class rex_list implements rex_url_provider_interface
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT FOUND_ROWS() as rows');
+        $sql->setQuery('SELECT FOUND_ROWS() as '. $sql->escapeIdentifier('rows'));
         $this->rows = $sql->getValue('rows');
         $this->pager->setRowCount($this->rows);
 
