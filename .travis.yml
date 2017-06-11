@@ -17,7 +17,6 @@ cache:
         - $HOME/.composer/cache
 
 install:
-    - phpenv config-rm xdebug.ini
     - mysql -e 'create database redaxo_5_0;'
     - php redaxo/src/addons/tests/bin/setup.php
     - mkdir -p "$HOME/.php-cs-fixer"
