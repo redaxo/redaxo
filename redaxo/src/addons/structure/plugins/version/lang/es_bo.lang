@@ -1,0 +1,12 @@
+version = Versión
+
+version_liveversion = Versión en vivo
+version_workingversion = Versión de trabajo
+version_working_to_live = Hacer una versión en vivo
+version_preview = Avance
+version_copy_live_to_workingversion = Copiar a versión de trabajo
+version_copy_from_liveversion = Obtener versión en vivo
+version_confirm_copy_live_to_workingversion = [Missing_text] de: Liveversion en Arbeitsversion kopieren? Alle bestehenden Inhalte der Arbeitsversion werden überschrieben.
+version_info_working_version_to_live = La versión de trabajo ya está en vivo
+version_info_live_version_to_working = La versión en vivo ha sido copiada a la versión de trabajo
+version_warning_working_version_to_live = La versión de trabajo no se puede copiar porque está vacía
