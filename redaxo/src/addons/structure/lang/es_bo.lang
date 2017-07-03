@@ -1,0 +1,87 @@
+structure = Estructura
+
+title_structure = Gestión de estructuras
+homepage = Página principal
+root_level = Raíz
+no_such_category = Categoría no encontrada!
+category_updated = Categoría actualizada.
+category_could_not_be_deleted = Error. Categoría no eliminada!
+category_still_contains_articles = La categoría todavía contiene artículos.
+category_still_contains_subcategories = Categoría todavía contiene subcategorías.
+category_status_updated = Estado de categoría actualizado.
+category_added_and_startarticle_created = Categoría añadida y inicio-artículo creado!
+article_status_updated = Estado del artículo actualizado.
+article_updated = Artículo actualizado.
+article_added = Artículo añadido.
+header_category = Categoría
+header_priority = Prio
+header_status = Estado / Función
+header_id = ID
+add_category = Añadir categoría
+edit_category = Cambiar categoría
+save_category = Guardar categoría
+status_online = En línea
+status_offline = Desconectado
+option_no_template = Sin plantilla
+template_default_name = Sin plantilla
+header_article_name = Nombre del artículo
+header_template = Modelo
+header_date = Creado
+change = cambio
+article_add = Añadir artículo
+article_edit = Cambiar artículo
+article_save = Guardar artículo
+article = Artículo
+start_article = Inicio-artículo
+no_article_available = No hay artículo disponible
+structure_categories_caption = Lista de subcategorías en "{0}"
+structure_articles_caption = Lista de artículos en "{0}"
+article_deleted = Artículo suprimido!
+article_could_not_be_generated = No se pudo generar el artículo.
+category_deleted = Categoría suprimida!
+category_doesnt_exist = ¡La categoría no existe!
+article_doesnt_exist = ¡El artículo no existe!
+cant_delete_sitestartarticle = ¡El artículo de inicio no puede eliminarse!
+cant_delete_notfoundarticle = No se puede eliminar el artículo no encontrado
+structure_copy = Copia
+
+all_categories = Todas las categorías
+categories = Categorías
+
+be_search_article_name = Nombre del artículo
+be_search_article_id = ID del artículo
+be_search_start = Buscar
+be_search_jump_to_category = Ir a la categoría
+be_search_quick_navi = Navegación rápida
+be_search_no_results = No hay artículo que coincida con tus criterios de búsqueda
+be_search_search = Buscar
+be_search_result = Resultado de búsqueda
+
+perm_options_article2category[] = Convertir elementos en categorías
+perm_options_article2startarticle[] = Convertir elementos de inicio en el artículo
+perm_options_copyArticle[] = Copia del artículo
+perm_options_copyContent[] = Contenido del artículo de copia
+perm_options_moveArticle[] = Mover el artículo
+perm_options_moveCategory[] = Mover las categorías
+perm_options_publishArticle[] = Publicar artículos
+perm_options_publishCategory[] = Categorías mensaje
+perm_extras_editContentOnly[] = Se puede mantener sólo el contenido
+
+system_setting_start_article_id = Iniciar artículo
+system_setting_notfound_article_id = Artículo no encontrado
+system_setting_default_template_id = Plantilla predeterminada
+system_setting_start_article_id_invalid = Artículo de inicio no válido!
+system_setting_notfound_article_id_invalid = ¡Artículo no encontrado no válido!
+system_setting_default_template_id_invalid = ¡Plantilla predeterminada no válida!
+
+linkmap = Mapa de enlace
+linkmap_categories = Categorías
+linkmap_articles = Artículo
+linkmap_has_no_template = No tiene plantilla
+
+var_link_open = Seleccionar enlace
+var_link_delete = Eliminar el enlace seleccionado
+var_linklist_move_top = Mover el enlace seleccionado a la parte superior
+var_linklist_move_up = Mover enlace seleccionado
+var_linklist_move_down = Mover enlace seleccionado
+var_linklist_move_bottom = Mover el enlace seleccionado a la parte inferior
