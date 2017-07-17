@@ -98,7 +98,7 @@ class rex_cronjob_manager
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
             $name,
-            strip_tags($message),
+            strip_tags(nl2br($message),'<br><b>'),
         ];
         $log->add($data);
     }
