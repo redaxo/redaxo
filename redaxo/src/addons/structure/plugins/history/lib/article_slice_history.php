@@ -75,7 +75,7 @@ class rex_article_slice_history
             $sql = rex_sql::factory();
             $sql->setTable(rex::getTable('article_slice'));
 
-            $ignore_fields = ['id', 'slice_id', 'history_date', 'history_type', 'history_user];
+            $ignore_fields = ['id', 'slice_id', 'history_date', 'history_type', 'history_user'];
             foreach ($slice as $k => $v) {
                 if (in_array($k, $ignore_fields)) {
                 } else {
