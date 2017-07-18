@@ -98,6 +98,36 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
         }
+        
+        
+        // Rotate image if necessary
+        $extension = rex_file::extension($dstFile);
+        if (in_array($extension, ["jpg", "png", "jpeg", "gif"])) {
+            $exif = @exif_read_data($dstFile);
+            
+            if (!empty($exif['Orientation'])) {
+                $image = imagecreatefromstring(file_get_contents($dstFile));
+                switch($exif['Orientation']) {
+                    case 8:
+                        $image = imagerotate($image,90,0);
+                        break;
+                    case 3:
+                        $image = imagerotate($image,180,0);
+                        break;
+                    case 6:
+                        $image = imagerotate($image,-90,0);
+                        break;
+                }
+                
+                if ($extension == "jpg" || $extension == "jpeg") {
+                  imagejpeg($image, $dstFile);
+                } else if ($extension == "png") {
+                  imagepng($image, $dstFile);
+                } else if ($extension == "gif") {
+                  imagegif($image, $dstFile);
+                }
+            }
+        }
     } else { // Filesync?
         if (!@rename($srcFile, $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
@@ -193,11 +223,15 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         $ffiletype = $_FILES['file_new']['type'];
         $ffilesize = $_FILES['file_new']['size'];
 
-        $p_new = pathinfo($_FILES['file_new']['name']);
-        $p_old = pathinfo($FILEINFOS['filename']);
+        $extensionNew = mb_strtolower(pathinfo($_FILES['file_new']['name'], PATHINFO_EXTENSION));
+        $extensionOld = mb_strtolower(pathinfo($FILEINFOS['filename'], PATHINFO_EXTENSION));
 
-        // if ($ffiletype == $FILEINFOS["filetype"] || rex_media::compareImageTypes($ffiletype,$FILEINFOS["filetype"]))
-        if ($p_new['extension'] == $p_old['extension']) {
+        static $jpgExtensions = ['jpg', 'jpeg'];
+
+        if (
+            $extensionNew == $extensionOld ||
+            in_array($extensionNew, $jpgExtensions) && in_array($extensionOld, $jpgExtensions)
+        ) {
             if (move_uploaded_file($ffilename, rex_path::media($FILEINFOS['filename'])) ||
                     copy($ffilename, rex_path::media($FILEINFOS['filename']))
             ) {
@@ -400,6 +434,8 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $cats_sel->setSize(1);
     $cats_sel->setName('rex_file_category');
     $cats_sel->setId('rex-mediapool-category');
+    $cats_sel->setAttribute('class', 'selectpicker form-control');
+    $cats_sel->setAttribute('data-live-search', 'true');
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     $cats_sel->setAttribute('onchange', 'this.form.submit()');
     $cats_sel->setSelected($rex_file_category);
@@ -450,13 +486,13 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $formElements = [];
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
+    $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
+    $e['field'] = $cats_sel->get();
     $formElements[] = $e;
 
     $e = [];
-    $e['label'] = '<label for="rex-mediapool-category">' . rex_i18n::msg('pool_file_category') . '</label>';
-    $e['field'] = $cats_sel->get();
+    $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
