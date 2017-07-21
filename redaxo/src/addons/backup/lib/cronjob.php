@@ -27,6 +27,34 @@ class rex_cronjob_export extends rex_cronjob
         if (rex_backup::exportDb($dir . $file . $ext)) {
             $message = $file . $ext . ' created';
 
+            if($this->delete_interval) {
+
+                $files = (glob(rex_path::addonData('backup')."*.sql"));
+                $backups = [];
+
+                foreach($files as $file) {
+                    $backups[filemtime($file)] = $file; 
+                }
+                ksort($backups);
+
+                $limit = 60 * 24 * 7 * 31; // Generelle Vorhaltezeit: 1 Monat
+                $step = '';
+
+                foreach($backups as $timestamp => $backup) {
+                    $step_last = $step;
+                    $step = date($this->delete_interval, (int) $timestamp);
+
+                    if ($step_last != $step) { // wenn es in diesem bestimmten Zeitraum unterschreitet
+                        continue;
+                    } else if ($timestamp > (time() - $limit)) { // wenn es zu diesem Interval schon ein Backup gibt
+                        continue;
+                    } else { // dann löschen 
+                        unlink($backup);
+                    }
+                }
+
+            }
+
             if ($this->sendmail) {
                 if (!rex_addon::get('phpmailer')->isAvailable()) {
                     $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
@@ -71,6 +99,17 @@ class rex_cronjob_export extends rex_cronjob
                 'name' => 'sendmail',
                 'type' => 'checkbox',
                 'options' => [1 => rex_i18n::msg('backup_send_mail')],
+            ],
+            [
+                'label' => rex_i18n::msg('backup_delete_interval'),
+                'name' => 'delete_interval',
+                'type' => 'select',
+                'options' => [
+                    '0' => rex_i18n::msg('backup_delete_interval_off'),
+                    'YW' => rex_i18n::msg('backup_delete_interval_weekly'),
+                    'YM' => rex_i18n::msg('backup_delete_interval_monthly')],
+                'default' => 'YW',
+                'notice' => rex_i18n::msg('backup_delete_interval_notice'),
             ],
         ];
         if (rex_addon::get('phpmailer')->isAvailable()) {
