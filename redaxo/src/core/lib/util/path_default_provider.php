@@ -79,7 +79,7 @@ class rex_path_default_provider
     public function backend($file)
     {
         if ($this->provideAbsolutes) {
-            return $this->base($this->backend . '/' . $file);
+            return $this->frontend($this->backend . '/' . $file);
         }
         return $this->backend . $file;
     }
@@ -103,7 +103,7 @@ class rex_path_default_provider
      */
     public function media($file)
     {
-        return $this->base('media/' . $file);
+        return $this->frontend('media/' . $file);
     }
 
     /**
@@ -115,7 +115,7 @@ class rex_path_default_provider
      */
     public function assets($file)
     {
-        return $this->base('assets/' . $file);
+        return $this->frontend('assets/' . $file);
     }
 
     /**
@@ -159,6 +159,18 @@ class rex_path_default_provider
     public function pluginAssets($addon, $plugin, $file)
     {
         return $this->addonAssets($addon, 'plugins/' . $plugin . '/' . $file);
+    }
+
+    /**
+     * Returns the path to the bin folder.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public function bin($file)
+    {
+        return $this->backend('bin/' . $file);
     }
 
     /**

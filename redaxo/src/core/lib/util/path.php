@@ -145,6 +145,18 @@ class rex_path
     }
 
     /**
+     * Returns the path to the bin folder.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function bin($file = '')
+    {
+        return self::$pathprovider->bin($file);
+    }
+
+    /**
      * Returns the path to the data folder.
      *
      * @param string $file File
