@@ -158,7 +158,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         }
 
         $media = rex_sql::factory();
-    //  $media->setDebug();
+        //  $media->setDebug();
         $media->setTable(rex::getTablePrefix() . 'media');
         $media->setWhere('id=:mediaid', ['mediaid' => $params['id']]);
 

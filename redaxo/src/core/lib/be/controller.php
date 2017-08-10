@@ -320,7 +320,7 @@ class rex_be_controller
                     if (file_exists($path = $package->getPath($value))) {
                         $value = $path;
                     }
-                    // fall through, don't break
+                    // no break
                 default:
                     $setter = [$page, 'add' . ucfirst($key)];
                     if (is_callable($setter)) {

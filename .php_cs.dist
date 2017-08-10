@@ -33,7 +33,7 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         '@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'blank_line_before_return' => false,
+        'blank_line_before_statement' => false,
         'braces' => ['allow_single_line_closure' => false],
         'concat_space' => false,
         'heredoc_to_nowdoc' => true,

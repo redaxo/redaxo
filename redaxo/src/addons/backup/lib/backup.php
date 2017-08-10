@@ -314,7 +314,7 @@ class rex_backup
         fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
         fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
         fwrite($fp, '## charset utf-8' . $nl . $nl);
-    //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
+        //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
 

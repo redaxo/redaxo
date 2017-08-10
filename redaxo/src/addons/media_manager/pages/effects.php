@@ -22,13 +22,13 @@ if ((rex_request('func') != '' || $func == 'delete')
      && $type_id > 0
 ) {
     $counter = rex_media_manager::deleteCacheByType($type_id);
-//  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
+    //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
 
 //-------------- delete effect
 if ($func == 'delete' && $effect_id > 0) {
     $sql = rex_sql::factory();
-//  $sql->setDebug();
+    //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
     $sql->setWhere(['id' => $effect_id]);
 

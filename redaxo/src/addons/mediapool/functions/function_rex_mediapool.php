@@ -249,15 +249,15 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 
     rex_media_cache::delete($FILEINFOS['filename']);
 
-/*
-$RETURN['title'] = $FILEINFOS['title'];
-$RETURN['type'] = $FILETYPE;
-$RETURN['msg'] = $message;
-// Aus BC gruenden hier mit int 1/0
-$RETURN['ok'] = $success ? 1 : 0;
-$RETURN['filename'] = $NFILENAME;
-$RETURN['old_filename'] = $FILENAME;
-*/
+    /*
+    $RETURN['title'] = $FILEINFOS['title'];
+    $RETURN['type'] = $FILETYPE;
+    $RETURN['msg'] = $message;
+    // Aus BC gruenden hier mit int 1/0
+    $RETURN['ok'] = $success ? 1 : 0;
+    $RETURN['filename'] = $NFILENAME;
+    $RETURN['old_filename'] = $FILENAME;
+    */
 
     return $RETURN;
 }

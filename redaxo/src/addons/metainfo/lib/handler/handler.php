@@ -110,6 +110,7 @@ abstract class rex_metainfo_handler
                     }
 
                     $name .= '[]';
+                    // no break
                 case 'radio':
                     $formElements = [];
 

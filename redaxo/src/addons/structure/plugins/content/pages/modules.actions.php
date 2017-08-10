@@ -41,7 +41,7 @@ $message = '';
 
 if ($function == 'delete') {
     $del = rex_sql::factory();
-//  $del->setDebug();
+    //  $del->setDebug();
     $qry = 'SELECT
                         *
                     FROM

@@ -139,7 +139,7 @@ if ($file_id && rex_post('btn_update', 'string')) {
             if ($return['ok'] == 1) {
                 $success = $return['msg'];
                 // ----- EXTENSION POINT
-                 rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
+                rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
             } else {
                 $error = $return['msg'];
             }

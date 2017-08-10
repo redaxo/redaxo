@@ -83,7 +83,7 @@ if ($article->getRows() == 1) {
         $icon = ($article->getValue('startarticle') == 1) ? 'rex-icon-startarticle' : 'rex-icon-article';
         $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
 
-            //echo '<h2><i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small></h2>';
+        //echo '<h2><i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small></h2>';
     }
 
     // ----- Languages

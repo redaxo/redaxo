@@ -173,17 +173,17 @@ class rex_sql_util
 
                     ++$i;
 
-                     // end if...elseif...else
+                    // end if...elseif...else
                 } // end for
             } // end if (in string)
 
             // lets skip comments (/*, -- and #)
             elseif (($char == '-' && $sql_len > $i + 2 && $sql[$i + 1] == '-' && $sql[$i + 2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i + 1 && $sql[$i + 1] == '*')) {
                 $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
-                    // didn't we hit end of string?
-                    if ($i === false) {
-                        break;
-                    }
+                // didn't we hit end of string?
+                if ($i === false) {
+                    break;
+                }
                 if ($char == '/') {
                     ++$i;
                 }
@@ -192,7 +192,7 @@ class rex_sql_util
             // We are not in a string, first check for delimiter...
             elseif ($char == ';') {
                 // if delimiter found, add the parsed part to the returned array
-                    $ret[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
+                $ret[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
                 $nothing = true;
                 $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
                 $sql_len = strlen($sql);
@@ -200,7 +200,7 @@ class rex_sql_util
                     $i = -1;
                 } else {
                     // The submited statement(s) end(s) here
-                        return true;
+                    return true;
                 }
             } // end else if (is delimiter)
 

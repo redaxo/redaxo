@@ -124,6 +124,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $info = $version['history_snapshot_history_reactivate_snapshot'];
 
+            // no break
         case 'layer':
 
             // article_id und clang_id und revision noch nötig

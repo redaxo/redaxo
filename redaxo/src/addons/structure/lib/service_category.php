@@ -470,13 +470,13 @@ class rex_category_service
 
         if ($fcat->getRows() != 1 or ($tcat->getRows() != 1 && $to_cat != 0)) {
             // eine der kategorien existiert nicht
-                return false;
+            return false;
         }
         if ($to_cat > 0) {
             $tcats = explode('|', $tcat->getValue('path'));
             if (in_array($from_cat, $tcats)) {
                 // zielkategorie ist in quellkategorie -> nicht verschiebbar
-                        return false;
+                return false;
             }
         }
 

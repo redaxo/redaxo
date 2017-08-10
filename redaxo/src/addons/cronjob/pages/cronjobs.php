@@ -404,5 +404,4 @@ if ($func == '') {
     </style>
 
 <?php
-
 }
