@@ -122,14 +122,14 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_poin
     if (!rex::getUser()->hasPerm('version[live_version]')) {
         if ($rex_version_article[$params['article_id']] > 0) {
             $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '">' . rex_i18n::msg('version_copy_from_liveversion') . '</a></li>';
-            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         }
     } else {
         if ($rex_version_article[$params['article_id']] > 0) {
             if (!$working_version_empty) {
                 $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_work_to_live']) . '">' . rex_i18n::msg('version_working_to_live') . '</a></li>';
             }
-            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
+            $toolbar .= '<li><a href="' . rex_getUrl($params['article_id'], $params['clang'], ['rex_version' => 1]) . '" rel="noopener noreferrer" target="_blank">' . rex_i18n::msg('version_preview') . '</a></li>';
         } else {
             $toolbar .= '<li><a href="' . $context->getUrl(['rex_version_func' => 'copy_live_to_work']) . '" data-confirm="' . rex_i18n::msg('version_confirm_copy_live_to_workingversion') . '">' . rex_i18n::msg('version_copy_live_to_workingversion') . '</a></li>';
         }
