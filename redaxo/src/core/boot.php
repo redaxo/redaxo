@@ -37,8 +37,15 @@ if (ini_get('html_errors') && !ini_get('docref_root')) {
 }
 
 require_once __DIR__ . '/lib/util/path.php';
-require_once __DIR__ . '/lib/util/path_default_provider.php';
-rex_path::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true));
+
+if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
+    $pathProvider = $REX['PATH_PROVIDER'];
+} else {
+    require_once __DIR__ . '/lib/util/path_default_provider.php';
+    $pathProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true)
+}
+
+rex_path::init($pathProvider);
 
 require_once rex_path::core('lib/autoload.php');
 
@@ -50,7 +57,13 @@ rex_autoload::addDirectory(rex_path::core('lib'));
 // must be called after `rex_autoload::register()` to support symfony/polyfill-mbstring
 mb_internal_encoding('UTF-8');
 
-rex_url::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false));
+if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
+    $urlProvider = $REX['URL_PROVIDER'];
+} else {
+    $urlProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
+}
+
+rex_url::init($urlProvider);
 
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT']));
