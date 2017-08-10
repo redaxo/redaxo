@@ -33,7 +33,7 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns a base path.
+     * Returns the base/root path.
      *
      * @param string $file File
      *
@@ -48,7 +48,7 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the frontend.
+     * Returns the path to the frontend (the document root).
      *
      * @param string $file File
      *
@@ -70,7 +70,7 @@ class rex_path_default_provider
     }
 
     /**
-     * Returns the path to the backend.
+     * Returns the path to the backend (folder where the backend controller is placed).
      *
      * @param string $file File
      *
