@@ -55,3 +55,5 @@ jobs:
             php: 7.0
         -   <<: *TEST_MYSQL
             php: 7.1
+        -   <<: *TEST_MYSQL
+            php: 7.2
