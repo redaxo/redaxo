@@ -83,12 +83,8 @@ class rex_response
             exit;
         }
         
-        // prevent session locking trough other addons
-        if (function_exists('session_abort')) {
-            session_abort();
-        } else {
-            session_write_close();
-        }
+        // prevent session locking while sending huge files
+        session_write_close();
 
         self::sendContentType($contentType);
         header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($file) . '"');
