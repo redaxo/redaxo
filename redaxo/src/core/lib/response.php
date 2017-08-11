@@ -82,6 +82,13 @@ class rex_response
             header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
             exit;
         }
+        
+        // prevent session locking trough other addons
+        if (function_exists('session_abort')) {
+            session_abort();
+        } else {
+            session_write_close();
+        }
 
         self::sendContentType($contentType);
         header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($file) . '"');
