@@ -42,7 +42,7 @@ if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
     $pathProvider = $REX['PATH_PROVIDER'];
 } else {
     require_once __DIR__ . '/lib/util/path_default_provider.php';
-    $pathProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true)
+    $pathProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
 }
 
 rex_path::init($pathProvider);
