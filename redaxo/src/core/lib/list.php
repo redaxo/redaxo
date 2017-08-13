@@ -941,7 +941,7 @@ class rex_list implements rex_url_provider_interface
         $s = "\n";
 
         // Form vars
-        $this->addFormAttribute('action', $this->getUrl());
+        $this->addFormAttribute('action', $this->getUrl([], false));
         $this->addFormAttribute('method', 'post');
 
         // Table vars
