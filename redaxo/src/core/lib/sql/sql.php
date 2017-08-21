@@ -76,9 +76,7 @@ class rex_sql implements Iterator
                 self::$pdo[$DBID] = $conn;
 
                 // ggf. Strict Mode abschalten
-                $this->setQuery('SET SQL_MODE=""');
-                // set encoding
-                $this->setQuery('SET NAMES utf8');
+                $this->setQuery('SET SESSION SQL_MODE="", NAMES utf8');
             }
         } catch (PDOException $e) {
             throw new rex_sql_exception('Could not connect to database', $e);
