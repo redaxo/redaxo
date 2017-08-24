@@ -37,7 +37,7 @@ class rex_cronjob_export extends rex_cronjob
                 }
                 ksort($backups);
 
-                $limit = 60 * 24 * 7 * 31; // Generelle Vorhaltezeit: 1 Monat
+                $limit = 60 * 60 * 24 * 31; // Generelle Vorhaltezeit: 1 Monat
                 $step = '';
 
                 foreach($backups as $timestamp => $backup) {
@@ -50,6 +50,7 @@ class rex_cronjob_export extends rex_cronjob
                         continue;
                     } else { // dann löschen 
                         unlink($backup);
+                         $message .= '\n'.$backup.' deleted';
                     }
                 }
 
