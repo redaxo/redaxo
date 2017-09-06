@@ -8,11 +8,13 @@
 ## Über
 PHPMailer ermöglicht den Versand von E-Mails. Das AddOn stellt die Class PHPMailer zur Verfügung. 
 
-Der Aufruf erfolgt über die Class rex_mailer. Dabei werden die hier in der Konfiguration hintergeten Einstellungen berücksichtigt. 
+Der Aufruf erfolgt über die Class rex_mailer. Dabei werden die hier in der Konfiguration hinterlegten Einstellungen berücksichtigt. 
 
-Die Werte können jedoch von Fall zu Fall überschrieben überschrieben werden. (z.B. für unterschiedliche Empfänger)
+Die Werte können von Fall zu Fall überschrieben überschrieben werden. (z.B. für unterschiedliche Empfänger)
 
 Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PHPMailer/PHPMailer/wiki/Tutorial
+
+> Eine Test-Mail kann nach Speichern der Einstellungen verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden. 
 
 <a name="beispiele"></a>
 ## PHPMailer Code-Beispiele
