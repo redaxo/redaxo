@@ -129,7 +129,7 @@ class rex_template
             foreach ($t_sql as $row) {
                 $attributes = $row->getArrayValue('attributes');
                 $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
-                if (!is_array($categories) || $categories['all'] == 1) {
+                    if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
                     $templates[$row->getValue('id')] = $row->getValue('name');
                 }
             }
@@ -141,7 +141,7 @@ class rex_template
                     $attributes = $row->getArrayValue('attributes');
                     $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
                     // template ist nicht kategoriespezifisch -> includen
-                    if (!is_array($categories) || $categories['all'] == 1) {
+                    if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
                         $templates[$row->getValue('id')] = $row->getValue('name');
                     } else {
                         // template ist auf kategorien beschraenkt..
