@@ -10,7 +10,7 @@ PHPMailer ermöglicht den Versand von E-Mails. Das AddOn stellt die Class PHPMai
 
 Der Aufruf erfolgt über die Class rex_mailer. Dabei werden die hier in der Konfiguration hinterlegten Einstellungen berücksichtigt. 
 
-Die Werte können von Fall zu Fall überschrieben überschrieben werden. (z.B. für unterschiedliche Empfänger)
+Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
 
 Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PHPMailer/PHPMailer/wiki/Tutorial
 
