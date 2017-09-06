@@ -12,7 +12,7 @@ REDAXO CMS
 Installation
 ------------
 
-Entwicklungsstand installieren:
+*Entwicklungsstand* installieren:
 
 ```sh
 git clone https://github.com/redaxo/redaxo.git
@@ -20,6 +20,8 @@ git submodule init
 git submodule update
 ```
 
-Oder alternativ ein [Release herunterladen](https://github.com/redaxo/redaxo/releases)
+*Beachte:* 
+- Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten *nicht* die nötigen GIT Submodule, funktionieren daher nicht.
+- Die auf Github angebotenen REDAXO versionen sollten *nicht* im Produkiveinsatz verwendet werden!
 
-*Beachte:* Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten nicht die nötigen GIT Submodule, funktionieren daher nicht.
+[Download der offiziellen REDAXO Releases](https://github.com/redaxo/redaxo/releases)
