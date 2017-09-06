@@ -9,13 +9,19 @@
  *
  * @var rex_addon $this
  */
-$fragment = new rex_fragment();
-$fragment->setVar('title', $this->i18n('checkmail_headline'));
-$fragment->setVar('body', $body, false);
-$content = $fragment->parse('core/page/section.php');
+ echo $this->getConfig('test_adress');
+$emptymail = '1';
 
-echo $content;
-if ($this->getConfig('from')!='')
+if ($this->getConfig('from') == '')
+{
+	$emptymail ='';
+}
+if ($this->getConfig('test_adress') == '') 
+{
+    $emptymail =''; 	
+}
+
+if ($emptymail!='')
 {
   // PHPMailer-Instanz 
   $mail = new rex_mailer();
@@ -30,7 +36,7 @@ if ($this->getConfig('from')!='')
   // $mail->AddReplyTo("username@domain.com", "Software Simian");
   
   // Empfänger 
-  $mail->AddAddress($this->getConfig('from'));
+  $mail->AddAddress($this->getConfig('test_adress'));
   
   // Empfänger als CC hinzufügen - Weitere anlegen wenn mehrere erwünscht
   // $mail->AddCC("empfaenger2@domain.tld);
@@ -47,21 +53,32 @@ if ($this->getConfig('from')!='')
   //Überprüfen ob E-Mail gesendet wurde
   if(!$mail->Send())
   {
-     echo '<div class="alert alert-danger">';
-     echo '<h2>'.$this->i18n('checkmail_error_headline') . '</h2><hr>';
-     echo $this->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
-     echo '</div>';
+     $content .= '<div class="alert alert-danger">';
+     $content .=  '<h2>'.$this->i18n('checkmail_error_headline') . '</h2><hr>';
+     $content .=  $this->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
+     $content .=  '</div>';
   }
   else
   {
-     echo '<div class="alert alert-success">';
-     echo '<strong>'.$this->i18n('checkmail_send') . '</strong> ' . $this->getConfig('from') . '<br>' . $this->i18n('checkmail_info');
-     echo '</div>';
+  	
+     $content .=  '<div class="alert alert-success">';
+     $content .=  '<strong>'.$this->i18n('checkmail_send') . '</strong> ' . $this->getConfig('from') . '<br>' . $this->i18n('checkmail_info');
+     $content .=  '</div>';
   }
   
 }
+
 else {
-    echo '<div class="alert alert-warning">';
-	echo $this->i18n('checkmail_noadress');
-	echo '</div>';	
+        $content .=  '<div class="alert alert-warning">';
+	$content .=  $this->i18n('checkmail_noadress');
+	$content .=  '</div>';
+	
 }
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', $this->i18n('checkmail_headline'));
+$fragment->setVar('body', $content, false);
+$out = $fragment->parse('core/page/section.php');
+echo $out;
+
+
