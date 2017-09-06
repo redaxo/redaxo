@@ -110,7 +110,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . $this->i18n('sender_email') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" value="' . $this->getConfig('from') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" placeholder="name@example.tld" value="' . $this->getConfig('from') . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -202,6 +202,12 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
+$content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
+
+$content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
+
+$content .=  '<p><a href="'.rex_url::backendPage("phpmailer/checkmail").'" class="btn btn-save">'.$this->i18n("check_settings_btn").'</a><p>';
+
 $content .= '</fieldset>';
 
 $formElements = [];
@@ -223,8 +229,8 @@ $fragment->setVar('title', $this->i18n('config_settings'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
-
 echo '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
+    
