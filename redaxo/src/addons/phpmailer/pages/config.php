@@ -30,6 +30,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['smtpauth', 'boolean'],
         ['priority', 'int'],
         ['smtp_debug', 'int'],
+        ['test_adress', 'string'],
     ]));
 
     $message = $this->i18n('config_saved_successful');
@@ -111,6 +112,11 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . $this->i18n('sender_email') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" placeholder="name@example.tld" value="' . $this->getConfig('from') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-from">' . $this->i18n('checkmail_test_adress') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-testadress" type="text" name="settings[test_adress]" placeholder="name@example.tld" value="' . $this->getConfig('test_adress') . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -233,4 +239,3 @@ echo '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
-    
