@@ -9,7 +9,6 @@
  *
  * @var rex_addon $this
  */
- echo $this->getConfig('test_adress');
 $emptymail = '1';
 
 if ($this->getConfig('from') == '')
