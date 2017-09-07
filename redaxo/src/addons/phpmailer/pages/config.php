@@ -36,6 +36,18 @@ if (rex_post('btn_save', 'string') != '') {
     $message = $this->i18n('config_saved_successful');
 }
 
+$emptymail ='1';
+
+if ($this->getConfig('from') == '')
+{
+	$emptymail ='';
+}
+if ($this->getConfig('test_adress') == '') 
+{
+    $emptymail =''; 	
+}
+
+
 $sel_mailer = new rex_select();
 $sel_mailer->setId('phpmailer-mailer');
 $sel_mailer->setName('settings[mailer]');
@@ -208,13 +220,20 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
+$content .= '</fieldset>';
+
+if ($emptymail!='')
+{
+
+$content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
 
 $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
 
 $content .=  '<p><a href="'.rex_url::backendPage("phpmailer/checkmail").'" class="btn btn-save">'.$this->i18n("check_settings_btn").'</a><p>';
 
 $content .= '</fieldset>';
+
+}
 
 $formElements = [];
 $n = [];
@@ -239,3 +258,4 @@ echo '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
+    
