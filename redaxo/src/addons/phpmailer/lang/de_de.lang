@@ -46,4 +46,5 @@ phpmailer_checkmail_noadress = Bitte prüfen Sie Ihre Einstellungen für Absende
 phpmailer_checkmail_error_headline = Ein Fehler ist aufgetreten
 phpmailer_checkmail_error = Fehler
 phpmailer_checkmail_send = E-Mail verschickt an: 
-phpmailer_checkmail_info = Bitte überprüfen Sie Ihren Posteingang. <br><br>Achten Sie auf E-Mails mit dem Betreff: <strong>PHPMailer-Test</strong>
+phpmailer_checkmail_info = Bitte überprüfen Sie Ihren Posteingang. 
+phpmailer_checkmail_info_subject =  Achten Sie auf E-Mails mit dem Betreff: PHPMailer-Test
