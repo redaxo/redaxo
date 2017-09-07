@@ -65,7 +65,7 @@ function rex_metainfo_delete_field_type($field_type_id)
 /**
  * Fügt ein MetaFeld hinzu und legt dafür eine Spalte in der MetaTable an.
  */
-function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '')
+function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $default, $params = null, $validate = null, $restrictions = '', $callback = null)
 {
     $prefix = rex_metainfo_meta_prefix($name);
     $metaTable = rex_metainfo_meta_table($prefix);
@@ -111,6 +111,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql->setValue('params', $params);
     $sql->setValue('validate', $validate);
     $sql->setValue('restrictions', $restrictions);
+    $sql->setValue('callback', $callback);
     $sql->addGlobalUpdateFields();
     $sql->addGlobalCreateFields();
 
