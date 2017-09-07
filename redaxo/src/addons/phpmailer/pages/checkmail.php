@@ -62,7 +62,8 @@ if ($emptymail!='')
   	
      $content .=  '<div class="alert alert-success">';
      $content .=  '<strong>'.$this->i18n('checkmail_send') . '</strong> ' . $this->getConfig('from') . '<br>' . $this->i18n('checkmail_info');
-     $content .=  '</div>';
+     $content .=  '<br><br><strong>'.$this->i18n('checkmail_info_subject').'</strong>';
+	  $content .=  '</div>';
   }
   
 }
