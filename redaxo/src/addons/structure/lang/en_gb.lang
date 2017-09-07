@@ -10,6 +10,7 @@ category_still_contains_articles = Category still contains articles.
 category_still_contains_subcategories = Category still contains subcategories.
 category_status_updated = Category status updated.
 category_added_and_startarticle_created = Category added and start article created!
+article_doesnt_exist = Article doesn't exist.
 article_status_updated = Article status updated.
 article_updated = Article updated.
 article_added = Article added.
