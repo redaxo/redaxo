@@ -61,7 +61,6 @@ Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PH
   {
      echo "E-Mail has been sent";
   }
-?>
 ```
 
 
@@ -106,7 +105,6 @@ foreach($sql as $row)
     $mail->ClearAttachments();
 }
 
-?>
 ```
 
 <a name="tipps"></a>
@@ -127,6 +125,8 @@ foreach($sql as $row)
 Per Default wird der Peer verifiziert. Dies kann ggf. zu Prpblemen führen. Die nachfolgenden Einstellungen helfen das zu umgehen.  
 
 ```php
+<?php
+
 $mail = new rex_mailer();
 $mail->SMTPOptions = array(
     'ssl' => array(
