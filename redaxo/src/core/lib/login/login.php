@@ -283,7 +283,10 @@ class rex_login
      */
     protected static function regenerateSessionId()
     {
-        session_regenerate_id(true);
+        if ('' != session_id()) {
+            session_regenerate_id(true);
+        }
+
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
         $_SESSION['REX_SESSID'] = session_id();
     }
