@@ -403,7 +403,7 @@ if ($function == 'add' or $function == 'edit') {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form id="rex-form-template" action="' . rex_url::currentBackendPage() . '" method="post">
+            <form id="rex-form-template" action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
                 ' . $content . '
             </form>
 
@@ -455,7 +455,8 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
+    $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
+    $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-template"></i>';
