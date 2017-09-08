@@ -12,7 +12,7 @@
 
 if (!$this->hasConfig()) {
     $this->setConfig('from', '');
-    $this->setConfig('test_adress', '');
+    $this->setConfig('test_address', '');
     $this->setConfig('fromname', 'Mailer');
     $this->setConfig('confirmto', '');
     $this->setConfig('bcc', '');
