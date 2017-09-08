@@ -101,7 +101,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 // --------------------------------------------------- IN KATEGORIE UMWANDELN END
 
 // --------------------------------------------------- IN ARTIKEL UMWANDELN START
-if ($isStartpage && rex::getUser()->hasPerm('category2article[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
+if ($isStartpage && rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$article_id]);
     $emptyCategory = $sql->getRows() == 0;
