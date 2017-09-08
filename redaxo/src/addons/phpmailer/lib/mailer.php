@@ -28,6 +28,7 @@ class rex_mailer extends PHPMailer
         } else {
             $this->Priority = $addon->getConfig('priority');
         }
+        $this->Backup = $addon->getConfig('backup');
         $this->SMTPDebug = $addon->getConfig('smtp_debug');
         $this->SMTPSecure = $addon->getConfig('smtpsecure');
         $this->SMTPAuth = $addon->getConfig('smtpauth');
@@ -45,8 +46,15 @@ class rex_mailer extends PHPMailer
 
     public function send()
     {
-        $this->backup();
+        if (isset($this->Backup) && $this->Backup) {
+            $this->backup();
+        }
         return parent::send();
+    }
+
+    public function setBackup($status = true)
+    {
+        $this->Backup = $status;
     }
 
     private function backup()
@@ -58,7 +66,7 @@ class rex_mailer extends PHPMailer
         $content .= ' -->'.PHP_EOL;
         $content .= $this->Body;
 
-        $dir = rex_path::addonData('phpmailer', 'mail_backup/'.date('Y').'/'.date('m'));
+        $dir = self::backupFolder().'/'.date('Y').'/'.date('m');
 
         $count = 1;
         $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
@@ -67,5 +75,10 @@ class rex_mailer extends PHPMailer
         }
 
         rex_file::put($backupFile, $content);
+    }
+
+    public static function backupFolder()
+    {
+        return rex_path::addonData('phpmailer', 'mail_backup');
     }
 }
