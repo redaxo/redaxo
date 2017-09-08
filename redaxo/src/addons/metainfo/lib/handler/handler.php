@@ -57,7 +57,7 @@ abstract class rex_metainfo_handler
                     $dbvalues = explode('|+|', $activeItem->getValue($name));
                 } else {
                     // Neue Notation mit | als Trenner
-                    $dbvalues = explode('|', $activeItem->getValue($name));
+                    $dbvalues = explode('|', trim($activeItem->getValue($name), '|'));
                 }
             } else {
                 $dbvalues = (array) $sqlFields->getValue('default');
@@ -171,7 +171,7 @@ abstract class rex_metainfo_handler
                         }
 
                         $selected = '';
-                        if (in_array($key, $dbvalues)) {
+                        if (in_array((string) $key, $dbvalues, true)) {
                             $selected = ' checked="checked"';
                         }
 
