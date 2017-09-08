@@ -37,17 +37,10 @@ if (rex_post('btn_save', 'string') != '') {
 }
 
 $emptymail ='1';
-
-if ($this->getConfig('from') == '')
+if ($this->getConfig('from') == '' || $this->getConfig('test_adress') == '' )
 {
 	$emptymail ='';
 }
-if ($this->getConfig('test_adress') == '') 
-{
-    $emptymail =''; 	
-}
-
-
 $sel_mailer = new rex_select();
 $sel_mailer->setId('phpmailer-mailer');
 $sel_mailer->setName('settings[mailer]');
