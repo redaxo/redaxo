@@ -991,23 +991,23 @@ class rex_sql implements Iterator
     /**
      * Gibt die letzte Fehlermeldung aus.
      */
-protected function printError($qry, $params)
+    protected function printError($qry, $params)
     {
-		$errors['debug'] = true;
-		$errors['query'] = $qry;
+        $errors['debug'] = true;
+        $errors['query'] = $qry;
         if (!empty($params)) {
-			$errors['params'] = $params;
+            $errors['params'] = $params;
         }
         if (strlen($this->getRows()) > 0) {
-			$errors['count'] = $this->getRows();
+            $errors['count'] = $this->getRows();
         }
         if (strlen($this->getError()) > 0) {
-			$errors['error'] = $this->getError();
-			$errors['ecode'] = $this->getErrno();
+            $errors['error'] = $this->getError();
+            $errors['ecode'] = $this->getErrno();
         }
-		dump($errors);
+        dump($errors);
     }
-    
+
     /**
      * Setzt eine Spalte auf den naechst moeglich auto_increment Wert.
      *
