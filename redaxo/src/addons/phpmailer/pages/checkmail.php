@@ -31,7 +31,7 @@ if ($emptymail!='')
   // $mail->AddReplyTo("username@domain.com", "Software Simian");
   
   // Empfänger 
-  $mail->AddAddress($this->getConfig('test_adress'));
+  $mail->AddAddress($this->getConfig('test_address'));
   
   // Empfänger als CC hinzufügen - Weitere anlegen wenn mehrere erwünscht
   // $mail->AddCC("empfaenger2@domain.tld);
