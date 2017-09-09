@@ -37,7 +37,7 @@ if (rex_post('btn_save', 'string') != '') {
 }
 
 $emptymail ='1';
-if ($this->getConfig('from') == '' || $this->getConfig('test_adress') == '' )
+if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '' )
 {
 	$emptymail ='';
 }
