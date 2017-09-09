@@ -30,7 +30,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['smtpauth', 'boolean'],
         ['priority', 'int'],
         ['smtp_debug', 'int'],
-        ['test_adress', 'string'],
+        ['test_address', 'string'],
     ]));
 
     $message = $this->i18n('config_saved_successful');
@@ -120,8 +120,8 @@ $n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name=
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-from">' . $this->i18n('checkmail_test_adress') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testadress" type="text" name="settings[test_adress]" placeholder="name@example.tld" value="' . $this->getConfig('test_adress') . '" />';
+$n['label'] = '<label for="phpmailer-from">' . $this->i18n('checkmail_test_address') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-testadress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . $this->getConfig('test_adress') . '" />';
 $formElements[] = $n;
 
 $n = [];
