@@ -157,7 +157,8 @@ class rex_form_element
     {
         if ($name == 'value') {
             return $this->getValue();
-        } elseif ($this->hasAttribute($name)) {
+        }
+        if ($this->hasAttribute($name)) {
             return $this->attributes[$name];
         }
 

@@ -36,10 +36,9 @@ if (rex_post('btn_save', 'string') != '') {
     $message = $this->i18n('config_saved_successful');
 }
 
-$emptymail ='1';
-if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '' )
-{
-	$emptymail ='';
+$emptymail = '1';
+if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '') {
+    $emptymail = '';
 }
 $sel_mailer = new rex_select();
 $sel_mailer->setId('phpmailer-mailer');
@@ -215,17 +214,14 @@ $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
 
-if ($emptymail!='')
-{
+if ($emptymail != '') {
+    $content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
 
-$content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
+    $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
 
-$content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
+    $content .= '<p><a href="'.rex_url::backendPage('phpmailer/checkmail').'" class="btn btn-save">'.$this->i18n('check_settings_btn').'</a><p>';
 
-$content .=  '<p><a href="'.rex_url::backendPage("phpmailer/checkmail").'" class="btn btn-save">'.$this->i18n("check_settings_btn").'</a><p>';
-
-$content .= '</fieldset>';
-
+    $content .= '</fieldset>';
 }
 
 $formElements = [];
@@ -251,4 +247,3 @@ echo '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
-    

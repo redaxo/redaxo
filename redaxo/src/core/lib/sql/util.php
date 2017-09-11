@@ -148,7 +148,7 @@ class rex_sql_util
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string -> exit the loop
-                    elseif ($string_start == '`' || $sql[$i - 1] != '\\') {
+                    if ($string_start == '`' || $sql[$i - 1] != '\\') {
                         $string_start = '';
                         $in_string = false;
                         break;

@@ -148,17 +148,21 @@ class rex_fragment
                 $val[$k] = $this->escape($v);
             }
             return $val;
-        } elseif (is_object($val)) {
+        }
+        if (is_object($val)) {
             // iterate over all public properties
             foreach (get_object_vars($val) as $k => $v) {
                 $val->$k = $this->escape($v);
             }
             return $val;
-        } elseif (is_string($val)) {
+        }
+        if (is_string($val)) {
             return htmlspecialchars($val);
-        } elseif (is_scalar($val)) {
+        }
+        if (is_scalar($val)) {
             return $val;
-        } elseif (null === $val) {
+        }
+        if (null === $val) {
             return $val;
         }
         throw new rex_exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));

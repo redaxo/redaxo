@@ -125,7 +125,8 @@ class rex_log_file implements Iterator
                         $this->pos -= $bufferSize;
                     }
                     break 2;
-                } elseif ("\r" !== $char) {
+                }
+                if ("\r" !== $char) {
                     // build line; \r is ignored
                     $line = $char . $line;
                 }

@@ -53,7 +53,8 @@ if (rex_string::versionCompare($this->getVersion(), '2.1-dev', '<')) {
                 if ($count == 1) {
                     $interval['weekdays'] = [1];
                     break;
-                } elseif ($count == 2) {
+                }
+                if ($count == 2) {
                     $interval['days'] = [1, 15];
                     break;
                 }

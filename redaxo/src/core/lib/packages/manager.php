@@ -449,7 +449,8 @@ abstract class rex_package_manager
         if (!$package->isAvailable()) {
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
             return false;
-        } elseif (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        }
+        if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
@@ -519,7 +520,8 @@ abstract class rex_package_manager
         if (!is_string($constraints) || !$constraints || $constraints === '*') {
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
-        } elseif (self::matchVersionConstraints($package->getVersion(), $constraints)) {
+        }
+        if (self::matchVersionConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }

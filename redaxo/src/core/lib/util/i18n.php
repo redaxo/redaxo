@@ -206,7 +206,8 @@ class rex_i18n
                 $i18nFunction = $use_htmlspecialchars ? 'self::msg' : 'self::rawMsg';
             }
             return call_user_func($i18nFunction, substr($text, $transKeyLen));
-        } elseif ($use_htmlspecialchars) {
+        }
+        if ($use_htmlspecialchars) {
             return htmlspecialchars($text);
         }
         return $text;
@@ -230,9 +231,11 @@ class rex_i18n
                 $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
             }
             return $array;
-        } elseif (is_string($array)) {
+        }
+        if (is_string($array)) {
             return self::translate($array, $use_htmlspecialchars, $i18nFunction);
-        } elseif (null === $array || is_scalar($array)) {
+        }
+        if (null === $array || is_scalar($array)) {
             return $array;
         }
         throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');
