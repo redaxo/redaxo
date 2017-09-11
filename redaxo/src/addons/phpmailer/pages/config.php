@@ -200,7 +200,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-password" type="text" name="settings[password]" value="' . $this->getConfig('password') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-password" type="text" name="settings[password]" value="' . $this->getConfig('password') . '" autocomplete="new-password" />';
 $formElements[] = $n;
 
 $n = [];
