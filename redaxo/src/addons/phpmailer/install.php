@@ -11,7 +11,8 @@
  */
 
 if (!$this->hasConfig()) {
-    $this->setConfig('from', 'from@example.com');
+    $this->setConfig('from', '');
+    $this->setConfig('test_address', '');
     $this->setConfig('fromname', 'Mailer');
     $this->setConfig('confirmto', '');
     $this->setConfig('bcc', '');
