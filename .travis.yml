@@ -24,7 +24,6 @@ jobs:
             install:
                 - mysql -e 'create database redaxo_5_0;'
                 - php redaxo/src/addons/tests/bin/setup.php
-            before_script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
             script: php redaxo/src/addons/tests/bin/run_tests.php
         -   <<: *TEST
             php: 5.6
@@ -39,14 +38,18 @@ jobs:
             env: DB=mariadb
             addons:
                 mariadb: 10.1
-            before_script: skip
         -   <<: *TEST_MARIADB
             php: 7.1
             addons:
                 mariadb: 10.2
 
-        -   stage: Coding standards
-            php: 7.1
+        -   stage: Linting and coding standards
+            php: 5.5
+            env: LINTING=1
+            script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+
+        -   php: 7.1
+            env: CODING_STANDARDS=1
             install:
                 - mkdir -p "$HOME/.php-cs-fixer"
                 - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"^2.0\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
