@@ -164,6 +164,11 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $this->media->setImage($gdimage);
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_sharpen');
+    }
+
     public function getParams()
     {
         return [

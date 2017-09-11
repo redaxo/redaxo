@@ -89,6 +89,11 @@ class rex_effect_mirror extends rex_effect_abstract
         $this->media->refreshImageDimensions();
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_mirror');
+    }
+
     public function getParams()
     {
         return [

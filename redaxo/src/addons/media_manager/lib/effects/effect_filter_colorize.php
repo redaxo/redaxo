@@ -52,6 +52,11 @@ class rex_effect_filter_colorize extends rex_effect_abstract
         $this->media->setImage($dst_im);
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_colorize');
+    }
+
     public function getParams()
     {
         return [

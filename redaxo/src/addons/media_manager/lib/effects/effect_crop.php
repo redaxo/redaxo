@@ -86,6 +86,11 @@ class rex_effect_crop extends rex_effect_abstract
         $this->media->refreshImageDimensions();
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_crop');
+    }
+
     public function getParams()
     {
         return [

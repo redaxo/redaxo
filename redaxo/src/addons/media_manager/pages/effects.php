@@ -101,7 +101,14 @@ if ($func == '' && $type_id > 0) {
 
     echo $content;
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
-    $effects = rex_media_manager::getSupportedEffects();
+    /** @var rex_effect_abstract[] $effects */
+    $effects = [];
+    foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
+        $effects[$shortName] = new $class();
+    }
+    uasort($effects, function (rex_effect_abstract $a, rex_effect_abstract $b) {
+        return strnatcmp($a->getName(), $b->getName());
+    });
 
     if ($func == 'edit') {
         $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', htmlspecialchars($typeName));
@@ -117,14 +124,19 @@ if ($func == '' && $type_id > 0) {
     // effect prio
     $field = $form->addPrioField('priority');
     $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
+    $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
     $field->setWhereCondition('type_id = ' . $type_id);
 
     // effect name als SELECT
     $field = $form->addSelectField('effect');
     $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
+    $field->setAttribute('class', 'selectpicker form-control');
+    $field->setAttribute('data-live-search', 'true');
     $select = $field->getSelect();
-    $select->addOptions($effects, true);
+    foreach ($effects as $name => $effect) {
+        $select->addOption($effect->getName(), $name);
+    }
     $select->setSize(1);
 
     $script = '
@@ -149,8 +161,8 @@ if ($func == '' && $type_id > 0) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setSuffix($script);
 
-    foreach ($effects as $effectClass => $effectName) {
-        $effectObj = new $effectClass();
+    foreach ($effects as $effectObj) {
+        $effectClass = get_class($effectObj);
         $effectParams = $effectObj->getParams();
         $group = $effectClass;
 

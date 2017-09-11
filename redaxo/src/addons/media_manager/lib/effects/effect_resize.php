@@ -145,6 +145,11 @@ class rex_effect_resize extends rex_effect_abstract
         }
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_resize');
+    }
+
     public function getParams()
     {
         return [
