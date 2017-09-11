@@ -20,6 +20,9 @@ matrix:
 
 sudo: false
 
+git:
+    depth: 1
+
 notifications:
     email: false
 
