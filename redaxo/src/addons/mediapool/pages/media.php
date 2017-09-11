@@ -28,7 +28,10 @@ $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->setAttribute('class', 'selectpicker');
 $sel_media->setAttribute('data-live-search', 'true');
-$sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
+
+if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+    $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
+}
 
 // ----- EXTENSION POINT
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER', '', [
@@ -242,8 +245,11 @@ if ($file_id) {
             $cats_sel->setId('rex-mediapool-category');
             $cats_sel->setAttribute('class', 'selectpicker form-control');
             $cats_sel->setAttribute('data-live-search', 'true');
-            $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
             $cats_sel->setSelected($rex_file_category);
+
+            if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+                $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+            }
 
             $formElements = [];
 
@@ -458,8 +464,11 @@ if (!$file_id) {
     $cats_sel->setId('rex_file_category');
     $cats_sel->setAttribute('class', 'selectpicker form-control');
     $cats_sel->setAttribute('data-live-search', 'true');
-    $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     $cats_sel->setSelected($rex_file_category);
+
+    if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+        $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+    }
 
     if (is_array($error)) {
         if (count($error) > 0) {
