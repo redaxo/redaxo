@@ -131,7 +131,7 @@ media_manager_effect_header = Datei: Header anpassen
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
 
-media_manager_effect_convert2img = Datei: Als Bild rastern
+media_manager_effect_convert2img = Datei: In Bild konvertieren
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
 
