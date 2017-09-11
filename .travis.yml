@@ -1,24 +1,9 @@
 language: php
 
-php:
-    - 5.5
-    - 5.6
-    - 7.0
-    - 7.1
-    
-matrix:
-  fast_finish: true
-  include:
-    - php: 7.0
-      env: DB=mariadb
-      addons:
-         mariadb: 10.1    
-    - php: 7.1
-      env: DB=mariadb
-      addons:
-         mariadb: 10.2          
-
 sudo: false
+
+git:
+    depth: 1
 
 notifications:
     email: false
@@ -28,16 +13,42 @@ cache:
         - $HOME/.php-cs-fixer
         - $HOME/.composer/cache
 
-install:
-    - mysql -e 'create database redaxo_5_0;'
-    - php redaxo/src/addons/tests/bin/setup.php
-    - mkdir -p "$HOME/.php-cs-fixer"
-    - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"^2.0\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
-    - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
+before_install:
+    - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
-before_script:
-    - if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
-  
-script:
-    - php redaxo/src/addons/tests/bin/run_tests.php
-    - php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
+jobs:
+    include:
+        -   &TEST
+            stage: Test with MySQL
+            php: 5.5
+            install:
+                - mysql -e 'create database redaxo_5_0;'
+                - php redaxo/src/addons/tests/bin/setup.php
+            script:
+                - if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+                - php redaxo/src/addons/tests/bin/run_tests.php
+        -   <<: *TEST
+            php: 5.6
+        -   <<: *TEST
+            php: 7.0
+        -   <<: *TEST
+            php: 7.1
+        -   &TEST_MARIADB
+            <<: *TEST
+            stage: Test with MariaDB
+            php: 7.0
+            env: DB=mariadb
+            addons:
+                mariadb: 10.1
+        -   <<: *TEST_MARIADB
+            php: 7.1
+            addons:
+                mariadb: 10.2
+
+        -   stage: Coding standards
+            php: 7.1
+            install:
+                - mkdir -p "$HOME/.php-cs-fixer"
+                - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"^2.0\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
+                - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
+            script: php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
