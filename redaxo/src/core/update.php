@@ -65,4 +65,19 @@ HTACCESS;
             DROP `id`,
             ADD PRIMARY KEY (`namespace`, `key`)
     ');
+
+    if ('se_sv' === rex::getProperty('lang')) {
+        $path = rex_path::coreData('config.yml');
+        $config = rex_file::getConfig($path);
+
+        $config['lang'] = 'sv_se';
+
+        rex_file::putConfig($path, $config);
+    }
+
+    rex_sql::factory()
+        ->setTable(rex::getTable('user'))
+        ->setWhere(['language' => 'se_sv'])
+        ->setValue('language', 'sv_se')
+        ->update();
 }
