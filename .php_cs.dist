@@ -48,6 +48,8 @@ return PhpCsFixer\Config::create()
         'phpdoc_to_comment' => false,
         'phpdoc_var_without_name' => false,
         'psr4' => false,
+        'semicolon_after_instruction' => false,
+        'yoda_style' => false,
     ])
     ->setFinder($finder)
 ;
