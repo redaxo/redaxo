@@ -5,10 +5,10 @@
         "filp/whoops": "^2.0",
         "psr/log": "^1.0",
         "roave/security-advisories": "dev-master",
-        "symfony/console": "^3.2",
+        "symfony/console": "^3.4@dev",
         "symfony/polyfill-mbstring": "^1.3",
-        "symfony/var-dumper": "^3.2",
-        "symfony/yaml": "^3.2"
+        "symfony/var-dumper": "^3.3",
+        "symfony/yaml": "^3.3"
     },
 
     "config": {
