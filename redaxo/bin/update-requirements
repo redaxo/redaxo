@@ -32,6 +32,7 @@ composer update --no-dev -d redaxo/src/addons/phpmailer/
 
 rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
 rm -rf redaxo/src/addons/phpmailer/vendor/composer/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
 
