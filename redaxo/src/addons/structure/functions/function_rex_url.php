@@ -57,10 +57,21 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
 /**
  * Leitet auf einen anderen Artikel weiter.
  *
+ * @param int       $article_id
+ * @param null|int  $clang
+ * @param array     $params
+ *
+ * @throws InvalidArgumentException
+ *
  * @package redaxo\structure
  */
 function rex_redirect($article_id, $clang = null, array $params = [])
 {
+    // article id must be integer
+    if (!is_int($article_id)) {
+        throw new InvalidArgumentException('$article_id is not integer');
+    }
+
     // Alle OBs schließen
     while (@ob_end_clean());
 
