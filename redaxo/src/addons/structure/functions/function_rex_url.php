@@ -57,9 +57,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
 /**
  * Leitet auf einen anderen Artikel weiter.
  *
- * @param int       $article_id
- * @param null|int  $clang
- * @param array     $params
+ * @param null|int|string $article_id
  *
  * @throws InvalidArgumentException
  *
@@ -69,7 +67,7 @@ function rex_redirect($article_id, $clang = null, array $params = [])
 {
     // validate $article_id contain int id
     if ((int)$article_id == $article_id) {
-        throw new InvalidArgumentException(sprintf('Expecting $article_id must contain integer rex_article_id, %s is not an id!', $article_id));
+        throw new InvalidArgumentException(sprintf('Expecting $article_id must contain integer rex_article_id, %s is not a valid article_id!', $article_id));
     }
 
     // Alle OBs schließen
