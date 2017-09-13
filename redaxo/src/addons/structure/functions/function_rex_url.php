@@ -66,7 +66,6 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  */
 function rex_redirect($article_id, $clang = null, array $params = [])
 {
-    // validate $article_id contain int id
     if ((int) $article_id == $article_id) {
         throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $article_id));
     }
