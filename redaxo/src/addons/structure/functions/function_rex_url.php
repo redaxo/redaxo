@@ -9,8 +9,8 @@
 /**
  * Gibt eine Url zu einem Artikel zurück.
  *
- * @param int|null $id
- * @param int|null $clang     SprachId des Artikels
+ * @param int|string|null $id
+ * @param int|string|null $clang     SprachId des Artikels
  * @param array    $params    Array von Parametern
  * @param string   $separator
  *
@@ -58,6 +58,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  * Leitet auf einen anderen Artikel weiter.
  *
  * @param null|int|string $article_id
+ * @param null|int|string $clang     SprachId des Artikels
  *
  * @throws InvalidArgumentException
  *
@@ -67,7 +68,7 @@ function rex_redirect($article_id, $clang = null, array $params = [])
 {
     // validate $article_id contain int id
     if ((int)$article_id == $article_id) {
-        throw new InvalidArgumentException(sprintf('Expecting $article_id must contain integer rex_article_id, %s is not a valid article_id!', $article_id));
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $article_id));
     }
 
     // Alle OBs schließen
