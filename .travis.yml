@@ -9,9 +9,6 @@ branches:
     only:
         - master
 
-notifications:
-    email: false
-
 cache:
     directories:
         - $HOME/.php-cs-fixer
