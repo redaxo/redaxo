@@ -70,8 +70,5 @@ function rex_redirect($article_id, $clang = null, array $params = [])
         throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $article_id));
     }
 
-    rex_response::cleanOutputBuffers();
-
-    header('Location: ' . rex_getUrl($article_id, $clang, $params, '&'));
-    exit();
+    rex_response::sendRedirect(rex_getUrl($article_id, $clang, $params, '&'));
 }

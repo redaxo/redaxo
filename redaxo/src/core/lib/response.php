@@ -62,6 +62,8 @@ class rex_response
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
 
+        self::cleanOutputBuffers();
+
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
         exit;
