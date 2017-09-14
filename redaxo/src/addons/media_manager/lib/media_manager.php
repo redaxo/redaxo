@@ -76,6 +76,7 @@ class rex_media_manager
             // execute effects on image
             foreach ($set as $effect_params) {
                 $effect_class = 'rex_effect_' . $effect_params['effect'];
+                /** @var rex_effect_abstract $effect */
                 $effect = new $effect_class();
                 $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
