@@ -44,13 +44,15 @@ class rex_managed_media
 
     public function setMediapath($media_path)
     {
-        if (!file_exists($media_path)) {
-            $media_path = rex_path::addon('media_manager', 'media/warning.jpg');
-        }
         $this->media_path = $media_path;
-        $this->sourcePath = $media_path;
         $this->media = basename($media_path);
         $this->asImage = false;
+
+        if (file_exists($media_path)) {
+            $this->sourcePath = $media_path;
+        } else {
+            $this->sourcePath = rex_path::addon('media_manager', 'media/warning.jpg');
+        }
     }
 
     public function getMediaFilename()
