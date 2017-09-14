@@ -22,7 +22,7 @@ abstract class rex_api_install_package_download extends rex_api_function
         $packages = rex_install_packages::$function();
         $this->fileId = rex_request('file', 'int');
         if (!isset($packages[$this->addonkey]['files'][$this->fileId])) {
-            return null;
+            throw new rex_api_exception('The requested addon version can not be loaded, maybe it is already installed.');
         }
         $this->file = $packages[$this->addonkey]['files'][$this->fileId];
         $this->checkPreConditions();

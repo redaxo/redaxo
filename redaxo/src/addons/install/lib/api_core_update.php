@@ -21,7 +21,7 @@ class rex_api_install_core_update extends rex_api_function
         $versions = self::getVersions();
         $versionId = rex_request('version_id', 'int');
         if (!isset($versions[$versionId])) {
-            return null;
+            throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
         $version = $versions[$versionId];
         if (!rex_string::versionCompare($version['version'], rex::getVersion(), '>')) {
