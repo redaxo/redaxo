@@ -263,9 +263,11 @@ class rex_socket
             }
         });
 
-        $this->stream = @fsockopen($host, $this->port, $errno, $errstr);
-
-        restore_error_handler();
+        try {
+            $this->stream = @fsockopen($host, $this->port, $errno, $errstr);
+        } finally {
+            restore_error_handler();
+        }
 
         if ($this->stream) {
             stream_set_timeout($this->stream, $this->timeout);
