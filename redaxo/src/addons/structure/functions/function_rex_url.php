@@ -66,12 +66,11 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  */
 function rex_redirect($article_id, $clang = null, array $params = [])
 {
-    if ((int) $article_id == $article_id) {
+    if (null !== $article_id && '' !== $article_id && !is_int($article_id) && $article_id !== (string) (int) $article_id) {
         throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $article_id));
     }
 
-    // Alle OBs schließen
-    while (@ob_end_clean());
+    rex_response::cleanOutputBuffers();
 
     header('Location: ' . rex_getUrl($article_id, $clang, $params, '&'));
     exit();
