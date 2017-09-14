@@ -426,8 +426,7 @@ class rex_article_content_base
         ob_start();
         ob_implicit_flush(0);
         require rex_stream::factory($path, $content);
-        $CONTENT = ob_get_contents();
-        ob_end_clean();
+        $CONTENT = ob_get_clean();
 
         return $CONTENT;
     }
