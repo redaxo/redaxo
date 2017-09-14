@@ -156,7 +156,7 @@ class rex_media_manager
 
     public function getCacheFilename()
     {
-        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediapath()));
+        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediaPath()));
         return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams;
     }
 

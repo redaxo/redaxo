@@ -25,9 +25,9 @@ class rex_managed_media
 
     public function __construct($media_path)
     {
-        $this->setMediapath($media_path);
+        $this->setMediaPath($media_path);
         $this->sourcePath = $media_path;
-        $this->format = strtolower(rex_file::extension($this->getMediapath()));
+        $this->format = strtolower(rex_file::extension($this->getMediaPath()));
     }
 
     /**
@@ -37,12 +37,12 @@ class rex_managed_media
      *
      * @return string
      */
-    public function getMediapath()
+    public function getMediaPath()
     {
         return $this->media_path;
     }
 
-    public function setMediapath($media_path)
+    public function setMediaPath($media_path)
     {
         $this->media_path = $media_path;
         $this->media = basename($media_path);
@@ -236,7 +236,7 @@ class rex_managed_media
     /**
      * Returns the current source path.
      *
-     * To get the original media path use `getMediapath()` instead.
+     * To get the original media path use `getMediaPath()` instead.
      *
      * @return string
      */
