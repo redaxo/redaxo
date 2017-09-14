@@ -5,6 +5,7 @@
  */
 class rex_media_manager
 {
+    private $media;
     private $cache_path;
     private $type;
     private $use_cache;
