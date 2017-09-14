@@ -76,8 +76,8 @@ if ($func == '' && $type_id > 0) {
 
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
     $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
-        $effect = $params['value'];
-        return isset($effects[$effect]) ? $effects[$effect]->getName() : $effect;
+        $shortName = $params['value'];
+        return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
