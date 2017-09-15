@@ -16,7 +16,7 @@ if (!$this->hasConfig('jpg_quality')) {
 }
 
 if (!$this->hasConfig('png_compression')) {
-    $this->setConfig('png_compression', 6);
+    $this->setConfig('png_compression', 5);
 }
 
 if (!$this->hasConfig('webp_quality')) {

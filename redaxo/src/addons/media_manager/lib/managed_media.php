@@ -198,7 +198,7 @@ class rex_managed_media
             $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ($format == 'png') {
-            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 6));
+            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 5));
             imagepng($this->image['src'], null, $compression);
         } elseif ($format == 'gif') {
             imagegif($this->image['src']);
