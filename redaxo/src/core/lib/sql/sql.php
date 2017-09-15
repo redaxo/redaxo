@@ -245,7 +245,7 @@ class rex_sql implements Iterator
             $this->stmt = $pdo->prepare($qry);
             return $this->stmt;
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while preparing statement "' . $qry . '! ' . $e->getMessage(), $e);
+            throw new rex_sql_exception('Error while preparing statement "' . $qry . '"! ' . $e->getMessage(), $e);
         }
     }
 
@@ -279,7 +279,7 @@ class rex_sql implements Iterator
             $this->stmt->execute($params);
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement using params ' . json_encode($params) . '! ' . $e->getMessage(), $e);
+            throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e);
         } finally {
             if (null !== $buffered) {
                 $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
