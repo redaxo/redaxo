@@ -56,5 +56,4 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.1
         -   <<: *TEST_MYSQL
-            env:
             php: 7.2
