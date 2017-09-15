@@ -16,7 +16,7 @@ class rex_test_runner
         require_once 'PHPUnit/Autoload.php';
     }
 
-    public function run(rex_test_locator $locator, $colors = false)
+    public function run(rex_test_locator $locator, $colors = PHPUnit_TextUI_ResultPrinter::COLOR_DEFAULT)
     {
         $suite = new PHPUnit_Framework_TestSuite();
         // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.

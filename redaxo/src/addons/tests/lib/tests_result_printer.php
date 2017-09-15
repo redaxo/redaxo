@@ -9,7 +9,7 @@ class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
 {
     protected $backtrace;
 
-    public function __construct($backtrace, $colors = false)
+    public function __construct($backtrace, $colors = PHPUnit_TextUI_ResultPrinter::COLOR_DEFAULT)
     {
         $out = null;
         if (PHP_SAPI == 'cli') {
