@@ -5,3 +5,5 @@
 if (rex_string::versionCompare($this->getVersion(), '2.3.0-dev', '<')) {
     rex_media_manager::deleteCache();
 }
+
+include $this->getPath('install.php');
