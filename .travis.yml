@@ -57,6 +57,4 @@ jobs:
             php: 7.1
         -   <<: *TEST_MYSQL
             env:
-                # make php-cs-fixer work with php7.2 until it gets a proper release
-                - PHP_CS_FIXER_IGNORE_ENV=1
             php: 7.2
