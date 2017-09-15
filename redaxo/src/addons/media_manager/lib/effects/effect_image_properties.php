@@ -43,7 +43,7 @@ class rex_effect_image_properties extends rex_effect_abstract
             ],
             [
                 'label' => rex_i18n::msg('media_manager_png_compression'),
-                'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice'),
+                'notice' => rex_i18n::msg('media_manager_effect_image_properties_png_compression_notice').' '.rex_i18n::msg('media_manager_png_compression_note'),
                 'name' => 'png_compression',
                 'type' => 'int',
             ],

@@ -83,6 +83,7 @@ $inputGroup = $fragment->parse('core/form/input_group.php');
 $n = [];
 $n['label'] = '<label for="rex-js-rating-text-png-compression">' . $this->i18n('png_compression') . '</label>';
 $n['field'] = $inputGroup;
+$n['note'] = $this->i18n('png_compression_note');
 $formElements[] = $n;
 
 $select = new rex_select();
