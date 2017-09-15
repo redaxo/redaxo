@@ -36,6 +36,12 @@ rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
 
+printf "\nUpdate redaxo/src/addons/tests/vendor\n"
+composer update --no-dev -d redaxo/src/addons/tests/
+
+rm -f redaxo/src/addons/tests/vendor/autoload.php
+rm -rf redaxo/src/addons/tests/vendor/composer/
+
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.min.js > redaxo/src/core/assets/jquery.min.js
