@@ -9,11 +9,7 @@ class rex_test_runner
 {
     public function setUp()
     {
-        // load all required PEAR libs from vendor folder
-        $path = __DIR__ . '/../vendor/';
-        set_include_path($path . PATH_SEPARATOR . get_include_path());
-
-        require_once 'PHPUnit/Autoload.php';
+        // nothing todo, method kept for BC
     }
 
     public function run(rex_test_locator $locator, $colors = PHPUnit_TextUI_ResultPrinter::COLOR_DEFAULT)
