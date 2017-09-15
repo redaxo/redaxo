@@ -54,7 +54,10 @@ class rex_mailer extends PHPMailer
         return parent::send();
     }
 
-    public function setBackup($status = true)
+    /*
+     * @param boolean $status
+     */
+    public function setBackup($status)
     {
         $this->backup = $status;
     }
