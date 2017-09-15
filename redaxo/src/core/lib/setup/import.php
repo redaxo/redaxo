@@ -160,6 +160,9 @@ class rex_setup_importer
             }
         }
 
+        // Reload config from imported data
+        rex_config::refresh();
+
         return $err_msg;
     }
 
@@ -209,6 +212,10 @@ class rex_setup_importer
             </li>
             </ul>';
         }
+
+        // force to save config at this point
+        // otherwise it would be saved in shutdown function and maybe would replace config changes made by db import in between
+        rex_config::save();
 
         return $addonErr;
     }
