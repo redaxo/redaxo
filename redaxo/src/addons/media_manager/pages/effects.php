@@ -49,6 +49,12 @@ if ($warning != '') {
     echo rex_view::warning($warning);
 }
 
+/** @var rex_effect_abstract[] $effects */
+$effects = [];
+foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
+    $effects[$shortName] = new $class();
+}
+
 if ($func == '' && $type_id > 0) {
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
 
@@ -69,6 +75,10 @@ if ($func == '' && $type_id > 0) {
     $list->removeColumn('createuser');
 
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
+    $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
+        $shortName = $params['value'];
+        return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
+    });
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
     $list->setColumnLayout('priority', ['<th class="rex-table-priority">###VALUE###</th>', '<td class="rex-table-priority">###VALUE###</td>']);
@@ -101,11 +111,6 @@ if ($func == '' && $type_id > 0) {
 
     echo $content;
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
-    /** @var rex_effect_abstract[] $effects */
-    $effects = [];
-    foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
-        $effects[$shortName] = new $class();
-    }
     uasort($effects, function (rex_effect_abstract $a, rex_effect_abstract $b) {
         return strnatcmp($a->getName(), $b->getName());
     });

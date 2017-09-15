@@ -5,6 +5,7 @@
  */
 class rex_media_manager
 {
+    private $media;
     private $cache_path;
     private $type;
     private $use_cache;
@@ -64,7 +65,7 @@ class rex_media_manager
     {
         $this->type = $type;
 
-        if (!$this->isCached($type)) {
+        if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
@@ -75,6 +76,7 @@ class rex_media_manager
             // execute effects on image
             foreach ($set as $effect_params) {
                 $effect_class = 'rex_effect_' . $effect_params['effect'];
+                /** @var rex_effect_abstract $effect */
                 $effect = new $effect_class();
                 $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
@@ -88,11 +90,11 @@ class rex_media_manager
         $qry = '
             SELECT e.*
             FROM ' . rex::getTablePrefix() . 'media_manager_type t, ' . rex::getTablePrefix() . 'media_manager_type_effect e
-            WHERE e.type_id = t.id AND t.name="' . $type . '" order by e.priority';
+            WHERE e.type_id = t.id AND t.name=? order by e.priority';
 
         $sql = rex_sql::factory();
         // $sql->setDebug();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, [$type]);
 
         $effects = [];
         foreach ($sql as $row) {
@@ -156,7 +158,7 @@ class rex_media_manager
 
     public function getCacheFilename()
     {
-        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediapath()));
+        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediaPath()));
         return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams;
     }
 
@@ -167,10 +169,10 @@ class rex_media_manager
 
     public static function deleteCacheByType($type_id)
     {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=' . $type_id;
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, [$type_id]);
         $counter = 0;
         foreach ($sql as $row) {
             $counter += self::deleteCache(null, $row->getValue('name'));
