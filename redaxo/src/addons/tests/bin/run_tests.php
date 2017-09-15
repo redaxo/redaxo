@@ -36,6 +36,6 @@ while (ob_get_level()) {
 
 $runner = new rex_test_runner();
 $runner->setUp();
-$result = $runner->run(rex_test_locator::defaultLocator(), "auto");
+$result = $runner->run(rex_test_locator::defaultLocator(), 'auto');
 
 exit($result->wasSuccessful() ? 0 : 99);
