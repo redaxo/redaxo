@@ -20,6 +20,7 @@ class rex_console_application extends Application
         try {
             return parent::doRun($input, $output);
         } catch (\Exception $e) {
+            // catch and rethrow \Exceptions first to only catch fatal errors below (\Exception implements \Throwable)
             throw $e;
         } catch (\Throwable $e) {
             throw new FatalThrowableError($e);
