@@ -61,7 +61,13 @@ class rex_i18n
      */
     public static function addDirectory($dir)
     {
-        self::$directories[] = rtrim($dir, DIRECTORY_SEPARATOR);
+        $dir = rtrim($dir, DIRECTORY_SEPARATOR);
+
+        if (in_array($dir, self::$directories, true)) {
+            return;
+        }
+
+        self::$directories[] = $dir;
 
         if (self::$loaded) {
             self::loadFile($dir . DIRECTORY_SEPARATOR . self::$locale . '.lang');
