@@ -13,6 +13,6 @@ rex::setProperty('console', $application);
 
 require rex_path::core('packages.php');
 
-$input = new Symfony\Component\Console\Input\ArgvInput();
+$application->setCommandLoader(new rex_console_command_loader());
 
-$application->run($input);
+$application->run();
