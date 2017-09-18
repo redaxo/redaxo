@@ -192,14 +192,14 @@ class rex_setup_importer
             }
 
             if ($state !== true) {
-                $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                $addonErr .= '<li>' . htmlspecialchars($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
 
             if ($state === true && !$package->isAvailable()) {
                 $state = $manager->activate();
 
                 if ($state !== true) {
-                    $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                    $addonErr .= '<li>' . htmlspecialchars($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }
         }
@@ -230,7 +230,7 @@ class rex_setup_importer
             $manager = rex_package_manager::factory($package);
 
             if (!$manager->install()) {
-                $error .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                $error .= '<li>' . htmlspecialchars($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
         }
 
