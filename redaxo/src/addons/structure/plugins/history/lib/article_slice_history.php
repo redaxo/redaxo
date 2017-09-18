@@ -65,6 +65,8 @@ class rex_article_slice_history
 
         self::makeSnapshot($article_id, $clang_id, 'version set ' . $history_date, $revision);
 
+        $article_slices_table = rex_sql_table::get(rex::getTable('article_slice'));
+
         $sql = rex_sql::factory();
         $sql->setQuery('delete from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?', [$article_id, $clang_id, $revision]);
 
@@ -75,18 +77,17 @@ class rex_article_slice_history
             $sql = rex_sql::factory();
             $sql->setTable(rex::getTable('article_slice'));
 
-            $ignore_fields = ['id', 'slice_id', 'history_date', 'history_type', 'history_user'];
-            foreach ($slice as $k => $v) {
-                if (in_array($k, $ignore_fields)) {
-                } else {
-                    $sql->setValue($k, $v);
+            $ignoreFields = ['id', 'slice_id', 'history_date', 'history_type', 'history_user'];
+            foreach ($article_slices_table->getColumns() as $column) {
+                $columnName = $column->getName();
+                if (!in_array($columnName, $ignoreFields)) {
+                    $sql->setValue($columnName, $slice[$columnName]);
                 }
             }
+
             $sql->insert();
         }
-
         rex_article_cache::delete($article_id, $clang_id);
-
         return true;
     }
 
@@ -95,15 +96,17 @@ class rex_article_slice_history
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
     }
 
-    private static function checkTables()
+    public static function checkTables()
     {
         $slices_table = rex_sql_table::get(rex::getTable('article_slice'));
         $history_table = rex_sql_table::get(self::getTable());
 
         foreach ($slices_table->getColumns() as $column) {
             if (strtolower($column->getName()) != 'id') {
-                $history_table->ensureColumn($column)->alter();
+                $history_table->ensureColumn($column);
             }
         }
+
+        $history_table->alter();
     }
 }
