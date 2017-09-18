@@ -120,7 +120,7 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . $this->i18n('checkmail_test_address') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testadress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . $this->getConfig('test_adress') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . $this->getConfig('test_address') . '" />';
 $formElements[] = $n;
 
 $n = [];
