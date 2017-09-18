@@ -10,7 +10,7 @@
 
 class rex_mailer extends PHPMailer
 {
-    private $log = 1;
+    private $log;
 
     public function __construct($exceptions = false)
     {
