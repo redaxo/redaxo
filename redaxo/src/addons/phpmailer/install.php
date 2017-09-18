@@ -34,3 +34,9 @@ if (!$this->hasConfig()) {
         $this->setConfig('log', 1);
     }
 }
+
+$oldBackUpFolder = rex_path::addonData('phpmailer', 'mail_backup');
+$LogFolder = rex_path::addonData('phpmailer', 'mail_log');
+if (file_exists($oldBackUpFolder)) {
+    rename($oldBackUpFolder, $LogFolder);
+}
