@@ -7,6 +7,21 @@ error_email: null
 fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
+session:
+    backend:
+        cookie:
+            lifetime: null
+            path: null
+            domain: null
+            secure: null
+            httponly: true
+    frontend:
+        cookie:
+            lifetime: null
+            path: null
+            domain: null
+            secure: null
+            httponly: true
 lang: de_de
 use_gzip: true
 use_etag: true

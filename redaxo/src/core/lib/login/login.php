@@ -297,6 +297,8 @@ class rex_login
     public static function startSession()
     {
         if (session_id() == '') {
+            static::setCookieParams();
+
             if (!@session_start()) {
                 $error = error_get_last();
                 if ($error) {
@@ -306,6 +308,31 @@ class rex_login
                 }
             }
         }
+    }
+
+    /**
+     * Einstellen der Cookie Paramter bevor die session gestartet wird.
+     */
+    private static function setCookieParams()
+    {
+        $cookieParams = session_get_cookie_params();
+
+        $key = rex::isBackend() ? 'backend' : 'frontend';
+        $sessionConfig = rex::getProperty('session');
+
+        foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
+            if ($value !== null) {
+                $cookieParams[$name] = $value;
+            }
+        }
+
+        session_set_cookie_params(
+            $cookieParams['lifetime'],
+            $cookieParams['path'],
+            $cookieParams['domain'],
+            $cookieParams['secure'],
+            $cookieParams['httponly']
+        );
     }
 
     /**
