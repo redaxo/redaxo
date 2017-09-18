@@ -10,7 +10,7 @@
 
 class rex_mailer extends PHPMailer
 {
-    private $backup = 1;
+    private $log = 1;
 
     public function __construct($exceptions = false)
     {
@@ -41,15 +41,15 @@ class rex_mailer extends PHPMailer
         }
 
         $this->PluginDir = $addon->getPath('lib/phpmailer/');
-        $this->backup = $addon->getConfig('backup');
+        $this->log = $addon->getConfig('log');
 
         parent::__construct($exceptions);
     }
 
     public function send()
     {
-        if (isset($this->backup) && $this->backup) {
-            $this->backup();
+        if (isset($this->log) && $this->log) {
+            $this->log();
         }
         return parent::send();
     }
@@ -57,12 +57,12 @@ class rex_mailer extends PHPMailer
     /*
      * @param boolean $status
      */
-    public function setBackup($status)
+    public function setLog($status)
     {
-        $this->backup = $status;
+        $this->log = $status;
     }
 
-    private function backup()
+    private function log()
     {
         $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
         $content .= 'From : '.$this->From.PHP_EOL;
@@ -71,19 +71,19 @@ class rex_mailer extends PHPMailer
         $content .= ' -->'.PHP_EOL;
         $content .= $this->Body;
 
-        $dir = self::backupFolder().'/'.date('Y').'/'.date('m');
+        $dir = self::logFolder().'/'.date('Y').'/'.date('m');
 
         $count = 1;
-        $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
-        while (file_exists($backupFile)) {
-            $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
+        $logFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
+        while (file_exists($logFile)) {
+            $logFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
         }
 
-        rex_file::put($backupFile, $content);
+        rex_file::put($logFile, $content);
     }
 
-    public static function backupFolder()
+    public static function logFolder()
     {
-        return rex_path::addonData('phpmailer', 'mail_backup');
+        return rex_path::addonData('phpmailer', 'mail_log');
     }
 }

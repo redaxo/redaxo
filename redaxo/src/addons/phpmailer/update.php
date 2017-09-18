@@ -1,5 +1,5 @@
 <?php
 
-if (!$this->hasConfig('backup')) {
-    $this->setConfig('backup', 1);
+if (!$this->hasConfig('log')) {
+    $this->setConfig('log', 1);
 }

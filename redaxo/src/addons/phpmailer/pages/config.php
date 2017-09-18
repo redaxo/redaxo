@@ -31,7 +31,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['priority', 'int'],
         ['smtp_debug', 'int'],
         ['test_address', 'string'],
-        ['backup', 'int', 1],
+        ['log', 'int', 1],
     ]));
 
     $message = $this->i18n('config_saved_successful');
@@ -91,14 +91,14 @@ foreach ([0 => $this->i18n('disabled'), 1 => $this->i18n('high'), 3 => $this->i1
     $sel_priority->addOption($name, $no);
 }
 
-$sel_backup = new rex_select();
-$sel_backup->setid('phpmailer-backup');
-$sel_backup->setName('settings[backup]');
-$sel_backup->setSize(1);
-$sel_backup->setAttribute('class', 'form-control selectpicker');
-$sel_backup->setSelected($this->getConfig('backup'));
-$sel_backup->addOption($this->i18n('backup_yes'), 1);
-$sel_backup->addOption($this->i18n('backup_no'), 0);
+$sel_log = new rex_select();
+$sel_log->setid('phpmailer-log');
+$sel_log->setName('settings[log]');
+$sel_log->setSize(1);
+$sel_log->setAttribute('class', 'form-control selectpicker');
+$sel_log->setSelected($this->getConfig('log'));
+$sel_log->addOption($this->i18n('log_yes'), 1);
+$sel_log->addOption($this->i18n('log_no'), 0);
 
 $sel_debug = new rex_select();
 $sel_debug->setid('phpmailer-smtp_debug');
@@ -188,9 +188,9 @@ $n['field'] = $sel_priority->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-backup">' . $this->i18n('backup') . '</label>';
-$n['field'] = $sel_backup->get();
-$n['note'] = rex_i18n::rawMsg('phpmailer_backup_info', rex_mailer::backupFolder(), '...'.substr(rex_mailer::backupFolder(), -30));
+$n['label'] = '<label for="phpmailer-log">' . $this->i18n('log') . '</label>';
+$n['field'] = $sel_log->get();
+$n['note'] = rex_i18n::rawMsg('phpmailer_log_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

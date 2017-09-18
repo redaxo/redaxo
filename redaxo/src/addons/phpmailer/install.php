@@ -28,9 +28,9 @@ if (!$this->hasConfig()) {
     $this->setConfig('username', '');
     $this->setConfig('password', '');
     $this->setConfig('smtp_debug', '0');
-    $this->setConfig('backup', 1);
+    $this->setConfig('log', 1);
 } else {
-    if (!$this->hasConfig('backup')) {
-        $this->setConfig('backup', 1);
+    if (!$this->hasConfig('log')) {
+        $this->setConfig('log', 1);
     }
 }
