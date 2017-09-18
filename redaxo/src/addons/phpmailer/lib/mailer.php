@@ -48,7 +48,7 @@ class rex_mailer extends PHPMailer
 
     public function send()
     {
-        if (isset($this->log) && $this->log) {
+        if ($this->log) {
             $this->log();
         }
         return parent::send();
