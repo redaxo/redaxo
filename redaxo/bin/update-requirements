@@ -40,7 +40,32 @@ printf "\nUpdate redaxo/src/addons/tests/vendor\n"
 composer update --no-dev -d redaxo/src/addons/tests/
 
 rm -f redaxo/src/addons/tests/vendor/autoload.php
+rm -rf redaxo/src/addons/tests/vendor/bin/
 rm -rf redaxo/src/addons/tests/vendor/composer/
+rm -rf redaxo/src/addons/tests/vendor/doctrine/instantiator/tests/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/php-code-coverage/build/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/php-code-coverage/tests/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/php-timer/tests/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/php-token-stream/build/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/php-token-stream/tests/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit/tests/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit-mock-objects/build/
+rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit-mock-objects/tests/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/comparator/build/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/comparator/tests/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/diff/tests/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/environment/tests/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/exporter/tests/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/global-state/tests/
+rm -rf redaxo/src/addons/tests/vendor/sebastian/recursion-context/tests/
+rm -rf redaxo/src/addons/tests/vendor/symfony/yaml/
+rm -rf redaxo/src/addons/tests/vendor/webmozart/assert/tests/
+
+find redaxo/src/addons/tests/vendor -name ".php_cs" -type f -delete
+find redaxo/src/addons/tests/vendor -name ".scrutinizer.yml" -type f -delete
+find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phpunit.xml.dist" -type f -delete
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js
