@@ -41,7 +41,7 @@ if (rex::isSetup()) {
 
     if (rex_get('rex_logout', 'boolean')) {
         $login->setLogout(true);
-        rex_response::addHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+        rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
     }
 
     // the server side encryption of pw is only required
