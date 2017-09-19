@@ -72,8 +72,9 @@ curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jqu
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.min.js > redaxo/src/core/assets/jquery.min.js
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.min.map > redaxo/src/core/assets/jquery.min.map
 
-printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"
-curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js https://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
+# Currently we are using last 1.x version of pjax, so we do not want to update to 2.x
+#printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"
+#curl -#d output_info=compiled_code -d compilation_level=SIMPLE_OPTIMIZATIONS -d code_url=https://github.com/defunkt/jquery-pjax/raw/master/jquery.pjax.js https://closure-compiler.appspot.com/compile > redaxo/src/core/assets/jquery-pjax.min.js
 
 cp redaxo/src/core/assets/jquery-pjax.min.js assets/core
 cp redaxo/src/core/assets/jquery.js assets/core
