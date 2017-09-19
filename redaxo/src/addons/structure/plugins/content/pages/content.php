@@ -431,7 +431,7 @@ if ($article->getRows() == 1) {
                 $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
             }
             // If the user has none of the content function permissions the page 'functions' will not be displayed
-            if ($subpage->getKey() != 'functions' || rex::getUser()->getComplexPerm('functions')->hasPerm()) {
+            if ($subpage->getKey() != 'functions' || rex::getUser()->getComplexPerm('structure_functions')->hasPerm()) {
                 if ($subpage->getItemAttr('left')) {
                     $leftNav->addPage($subpage);
                 } else {
