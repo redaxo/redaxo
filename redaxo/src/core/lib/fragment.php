@@ -134,38 +134,16 @@ class rex_fragment
     /**
      * Escapes the value $val for proper use in the gui.
      *
-     * @param mixed $val the value to escape
+     * @param mixed  $value    The value to escape
+     * @param string $strategy One of "html", "html_attr", "css", "js", "url"
      *
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      *
      * @return mixed
      */
-    protected function escape($val)
+    protected function escape($value, $strategy = 'html')
     {
-        if (is_array($val)) {
-            // iterate over the whole array
-            foreach ($val as $k => $v) {
-                $val[$k] = $this->escape($v);
-            }
-            return $val;
-        }
-        if (is_object($val)) {
-            // iterate over all public properties
-            foreach (get_object_vars($val) as $k => $v) {
-                $val->$k = $this->escape($v);
-            }
-            return $val;
-        }
-        if (is_string($val)) {
-            return htmlspecialchars($val);
-        }
-        if (is_scalar($val)) {
-            return $val;
-        }
-        if (null === $val) {
-            return $val;
-        }
-        throw new rex_exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
+        return rex_escape($value, $strategy);
     }
 
     /**
