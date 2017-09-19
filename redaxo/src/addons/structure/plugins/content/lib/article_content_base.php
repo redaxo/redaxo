@@ -336,6 +336,7 @@ class rex_article_content_base
                     'slice_id' => $sliceId,
                     'function' => $this->function,
                     'function_slice_id' => $this->slice_id,
+                    'sql' => $artDataSql,
                 ]
             ));
 

@@ -65,6 +65,8 @@ if ($history_date != '') {
 
             $sliceLimit = '';
 
+            rex_article_slice_history::checkTables();
+
             $escapeSql = rex_sql::factory();
 
             $sliceDate = ' AND ' . rex::getTablePrefix() . 'article_slice.history_date = ' . $escapeSql->escape($history_date);
