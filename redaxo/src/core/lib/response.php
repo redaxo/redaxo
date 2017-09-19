@@ -49,12 +49,12 @@ class rex_response
     }
 
     /**
-     * Add a http response header
+     * Set a http response header. A existing header with the same name will be overridden.
      *
      * @param string $name
      * @param string $value
      */
-    public static function addHeader($name, $value) {
+    public static function setHeader($name, $value) {
         self::$additionalHeaders[$name] = $value;
     }
 
