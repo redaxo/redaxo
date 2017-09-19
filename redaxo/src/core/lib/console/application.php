@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
@@ -25,5 +26,27 @@ class rex_console_application extends Application
         } catch (\Throwable $e) {
             throw new FatalThrowableError($e);
         }
+    }
+
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output)
+    {
+        if ($command instanceof rex_console_command) {
+            $this->loadPackages($command);
+        }
+
+        return parent::doRunCommand($command, $input, $output);
+    }
+
+    private function loadPackages(rex_console_command $command)
+    {
+        if ($command->requiresOtherPackages()) {
+            require rex_path::core('packages.php');
+
+            return;
+        }
+
+        $package = $command->getPackage();
+        $package->register();
+        $package->boot();
     }
 }

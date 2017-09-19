@@ -11,7 +11,7 @@ $application = new rex_console_application();
 
 rex::setProperty('console', $application);
 
-require rex_path::core('packages.php');
+rex_addon::initialize();
 
 $application->setCommandLoader(new rex_console_command_loader());
 

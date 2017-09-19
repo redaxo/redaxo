@@ -25,6 +25,11 @@ abstract class rex_console_command extends Command
         return $this->package;
     }
 
+    public function requiresOtherPackages()
+    {
+        return true;
+    }
+
     protected function getStyle(InputInterface $input, OutputInterface $output)
     {
         return new SymfonyStyle($input, $output);

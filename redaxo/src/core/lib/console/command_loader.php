@@ -5,6 +5,8 @@ use Symfony\Component\Console\Exception\CommandNotFoundException;
 
 /**
  * @package redaxo\core
+ *
+ * @internal
  */
 class rex_console_command_loader implements CommandLoaderInterface
 {
