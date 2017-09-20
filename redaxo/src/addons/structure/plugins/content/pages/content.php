@@ -430,10 +430,13 @@ if ($article->getRows() == 1) {
             if (!$subpage->hasHref()) {
                 $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
             }
-            if ($subpage->getItemAttr('left')) {
-                $leftNav->addPage($subpage);
-            } else {
-                $rightNav->addPage($subpage);
+            // If the user has none of the content function permissions the page 'functions' will not be displayed
+            if ($subpage->getKey() != 'functions' || rex::getUser()->getComplexPerm('structure_functions')->hasPerm()) {
+                if ($subpage->getItemAttr('left')) {
+                    $leftNav->addPage($subpage);
+                } else {
+                    $rightNav->addPage($subpage);
+                }
             }
             $subpage->removeItemAttr('left');
         }
