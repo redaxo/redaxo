@@ -54,12 +54,14 @@ class rex_response
      * @param string $name
      * @param string $value
      */
-    public static function setHeader($name, $value) {
+    public static function setHeader($name, $value)
+    {
         self::$additionalHeaders[$name] = $value;
     }
 
-    private static function sendAdditionalHeaders() {
-        foreach(self::$additionalHeaders as $name => $value) {
+    private static function sendAdditionalHeaders()
+    {
+        foreach (self::$additionalHeaders as $name => $value) {
             header($name .': ' . $value);
         }
     }
@@ -221,7 +223,7 @@ class rex_response
 
         // content length schicken, damit der browser einen ladebalken anzeigen kann
         header('Content-Length: ' . rex_string::size($content));
-        
+
         self::sendAdditionalHeaders();
 
         echo $content;
