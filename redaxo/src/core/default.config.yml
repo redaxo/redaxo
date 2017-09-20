@@ -15,6 +15,7 @@ session:
             domain: null
             secure: null
             httponly: true
+            samesite: 'Strict'
     frontend:
         cookie:
             lifetime: null
@@ -22,6 +23,7 @@ session:
             domain: null
             secure: null
             httponly: true
+            samesite: 'Strict'
 lang: de_de
 use_gzip: true
 use_etag: true
