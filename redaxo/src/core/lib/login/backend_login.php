@@ -44,16 +44,16 @@ class rex_backend_login extends rex_login
     {
         $sql = rex_sql::factory();
         $userId = $this->getSessionVar('UID');
-        $cookiename = 'rex_user_' . sha1(rex::getProperty('instname'));
+        $cookiename = self::getStayLoggedInCookieName();
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
                 $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if ($sql->getRows() == 1) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
-                    setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
+                    setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365, '', '', false, true);
                 } else {
-                    setcookie($cookiename, '', time() - 3600);
+                    self::deleteStayLoggedInCookie();
                 }
             }
             $this->setSessionVar('STAMP', time());
@@ -71,7 +71,7 @@ class rex_backend_login extends rex_login
                     $cookiekey = sha1($this->systemId . time() . $this->userLogin);
                     $add = 'cookiekey = ?, ';
                     $params[] = $cookiekey;
-                    setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365);
+                    setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365, '', '', false, true);
                 }
                 if (self::passwordNeedsRehash($this->user->getValue('password'))) {
                     $add .= 'password = ?, ';
@@ -102,7 +102,7 @@ class rex_backend_login extends rex_login
 
         if ($this->isLoggedOut() && $userId != '') {
             $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE id=? LIMIT 1', [$userId]);
-            setcookie($cookiename, '', time() - 3600);
+            self::deleteStayLoggedInCookie();
         }
 
         return $check;
@@ -113,7 +113,17 @@ class rex_backend_login extends rex_login
         self::startSession();
 
         unset($_SESSION[rex::getProperty('instname')][self::SYSTEM_ID]);
-        setcookie('rex_user_' . sha1(rex::getProperty('instname')), '', time() - 3600);
+        self::deleteStayLoggedInCookie();
+    }
+
+    private static function deleteStayLoggedInCookie()
+    {
+        setcookie(self::getStayLoggedInCookieName(), '', time() - 3600);
+    }
+
+    private static function getStayLoggedInCookieName()
+    {
+        return 'rex_user_' . sha1(rex::getProperty('instname'));
     }
 
     public static function hasSession()
