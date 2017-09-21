@@ -39,7 +39,7 @@ class rex_console_application extends Application
 
     private function loadPackages(rex_console_command $command)
     {
-        if ($command->requiresOtherPackages()) {
+        if ('ydeploy:migrate' !== $command->getName()) {
             require rex_path::core('packages.php');
 
             return;
