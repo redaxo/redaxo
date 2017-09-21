@@ -356,8 +356,9 @@ class rex_login
      *
      * @param "Strict"|"Lax" $sameSite
      */
-    private static function rewriteSessionCookie($sameSite) {
-        $cookiesHeaders = array();
+    private static function rewriteSessionCookie($sameSite)
+    {
+        $cookiesHeaders = [];
 
         // since header_remove() will remove all sent cookies, we need to collect all of them,
         // rewrite only the session cookie and send all cookies again.
@@ -378,7 +379,7 @@ class rex_login
         header_remove('Set-Cookie');
 
         // re-add all (inl. the rewritten session cookie)
-        foreach($cookiesHeaders as $rawHeader) {
+        foreach ($cookiesHeaders as $rawHeader) {
             header($rawHeader);
         }
     }
