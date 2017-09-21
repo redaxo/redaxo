@@ -295,7 +295,7 @@ abstract class rex_package implements rex_package_interface
         $this->propertiesLoaded = true;
     }
 
-    public function register()
+    public function enlist()
     {
         $folder = $this->getPath();
 

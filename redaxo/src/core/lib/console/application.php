@@ -46,7 +46,7 @@ class rex_console_application extends Application
         }
 
         $package = $command->getPackage();
-        $package->register();
+        $package->enlist();
         $package->boot();
     }
 }
