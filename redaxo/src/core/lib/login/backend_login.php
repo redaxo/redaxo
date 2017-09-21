@@ -44,7 +44,7 @@ class rex_backend_login extends rex_login
     {
         $sql = rex_sql::factory();
         $userId = $this->getSessionVar('UID');
-        $cookiename = 'rex_user_' . sha1(rex::getProperty('instname'));
+        $cookiename = self::getStayLoggedInCookieName();
 
         if ($cookiekey = rex_cookie($cookiename, 'string')) {
             if (!$userId) {
@@ -53,7 +53,7 @@ class rex_backend_login extends rex_login
                     $this->setSessionVar('UID', $sql->getValue('id'));
                     setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365, '', '', false, true);
                 } else {
-                    self::deleteRexUserCookie();
+                    self::deleteStayLoggedInCookie();
                 }
             }
             $this->setSessionVar('STAMP', time());
@@ -102,7 +102,7 @@ class rex_backend_login extends rex_login
 
         if ($this->isLoggedOut() && $userId != '') {
             $sql->setQuery('UPDATE ' . $this->tableName . ' SET session_id="", cookiekey="" WHERE id=? LIMIT 1', [$userId]);
-            self::deleteRexUserCookie();
+            self::deleteStayLoggedInCookie();
         }
 
         return $check;
@@ -113,12 +113,17 @@ class rex_backend_login extends rex_login
         self::startSession();
 
         unset($_SESSION[rex::getProperty('instname')][self::SYSTEM_ID]);
-        self::deleteRexUserCookie();
+        self::deleteStayLoggedInCookie();
     }
 
-    private static function deleteRexUserCookie() {
-        $cookiename = 'rex_user_' . sha1(rex::getProperty('instname'));
-        setcookie($cookiename, '', time() - 3600);
+    private static function deleteStayLoggedInCookie()
+    {
+        setcookie(self::getStayLoggedInCookieName(), '', time() - 3600);
+    }
+
+    private static function getStayLoggedInCookieName()
+    {
+        return 'rex_user_' . sha1(rex::getProperty('instname'));
     }
 
     public static function hasSession()
