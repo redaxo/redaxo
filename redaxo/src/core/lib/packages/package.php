@@ -295,6 +295,43 @@ abstract class rex_package implements rex_package_interface
         $this->propertiesLoaded = true;
     }
 
+    public function enlist()
+    {
+        $folder = $this->getPath();
+
+        // add addon path for i18n
+        if (is_readable($folder . 'lang')) {
+            rex_i18n::addDirectory($folder . 'lang');
+        }
+        // add package path for fragment loading
+        if (is_readable($folder . 'fragments')) {
+            rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
+        }
+        // add addon path for class-loading
+        if (is_readable($folder . 'lib')) {
+            rex_autoload::addDirectory($folder . 'lib');
+        }
+        if (is_readable($folder . 'vendor')) {
+            rex_autoload::addDirectory($folder . 'vendor');
+        }
+        $autoload = $this->getProperty('autoload');
+        if (is_array($autoload) && isset($autoload['classes']) && is_array($autoload['classes'])) {
+            foreach ($autoload['classes'] as $dir) {
+                $dir = $this->getPath($dir);
+                if (is_readable($dir)) {
+                    rex_autoload::addDirectory($dir);
+                }
+            }
+        }
+    }
+
+    public function boot()
+    {
+        if (is_readable($this->getPath(self::FILE_BOOT))) {
+            $this->includeFile(self::FILE_BOOT);
+        }
+    }
+
     /**
      * Returns the registered packages.
      *
