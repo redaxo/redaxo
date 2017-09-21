@@ -10,7 +10,6 @@
 
 rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 rex_complex_perm::register('modules', 'rex_module_perm');
-rex_complex_perm::register('structure_functions', 'rex_functions_perm');
 
 if (rex::isBackend()) {
     rex_extension::register('PAGE_CHECKED', function () {
