@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.2.2 – XX.XX.2017
+--------------------------
+
+* `max-width` für iframe, img, svg, video, object und embed in Slices im Backend (@skerbis)
+
+
 Version 2.2.1 – 17.02.2017
 --------------------------
 

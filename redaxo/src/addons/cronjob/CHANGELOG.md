@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.1.2 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Bedingte typspezifische Parameter wurden nicht getoggelt (@gharlan)
+
+
 Version 2.1.1 – 14.02.2017
 --------------------------
 

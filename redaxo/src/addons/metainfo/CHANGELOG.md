@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* `rex_metainfo_add_field`: `callback` kann gesetzt werden (@DanielWeitenauer)
+
+### Bugfixes
+
+* Bei Checkboxen mit Value 0 wurde der `checked`-Status nicht richig gesetzt (@gharlan)
+
+
 Version 2.1.1 – 14.02.2017
 --------------------------
 

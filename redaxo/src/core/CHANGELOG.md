@@ -1,6 +1,48 @@
 Changelog
 =========
 
+Version 5.4.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Updates: symfony/yaml (3.3.9), symfony/var-dumper (3.3.9), filp/whoops (2.1.10), erusev/parsedown (1.6.3)
+* Integration von symfony/console für die einfache Bereitstellung von Consolen-Kommandos in Addons (@gharlan)
+* `rex_sql_table`: 
+    - Tabellen können auch neu erstellt, umbenannt und gelöscht werden (@gharlan)
+    - Spaltennamen und Spaltenreihenfolge kann geändert werden (@gharlan)
+    - Indexes können verwaltet werden (@gharlan)
+    - Es kann eine komplette Tabellendefinition angegeben werden und dann mit `ensure()` eine Überprüfung und ggf. Korrektur erreicht werden (praktisch für install.php in Addons) (@gharlan)
+* `rex_sql`: Debug-Ausgaben werden über `dump`-Funktion ausgegeben (@alexplusde)
+* Backend-Sprachen:
+    - English ergänzt (@ynamite)
+    - Portugiesisch ergänzt (Taina Soares)
+    - Spanisch ergänzt (@nandes2062)
+* Bereits in den index.php-Dateien kann ein alternativer `path_provider` gesetzt werden für tiefgreifendere Pfadänderungen (@gharlan)
+* Debug-Modus kann an der Body-Klasse `rex-is-debugmode` erkannt werden (@schuer)
+* In der Tabelle rex_config liegt der Primary Key nun direkt auf (namespace, key), Spalte id entfällt (@gharlan)
+* Bei Installation über git wird unter System bei der Version der Commit-Hash mit ausgegeben (@staabm)
+* Whoops: Links zu php.net (@staabm)
+
+### Bugfixes
+
+* Sprachdateien: 
+    - Wenn ein Wert leer war, wurde die komplette folgende Zeile als Wert genommen (@gharlan)
+    - Wenn ein Wert "=" enthielt, kam teilweise was falsches raus (@tyrant88)
+    - Sprachkey für Schwedisch korrigiert (se_sv -> sv_se) (@gharlan)
+* REX_VARs haben teilweise Warnungen geworfen in PHP 7.1 (@gharlan)
+* `rex_list`: Funktionierte nicht mit MariaDB (@staabm)
+* `rex_form`: Bei Container-Feldern wurden die Default-Werte ignoriert (@gharlan)
+* `rex_select`: `countOptions()` lieferte teilweise falsches Ergebnis (@staabm)
+* `rex_response`: Session locks in `sendFile()` werden vermieden (@staabm)
+* `rex_clang`: Clang-ID wird einheitlich als `int` behandelt und zurückgegeben (@gharlan)
+* PJAX: Beim Absenden von Formularen wird nun nach oben gescrollt (@gharlan)
+* Output Buffer wurden teilweise nicht korrekt beendet (@gharlan)
+* System-Log: HTML in Log-Messages wurde nicht escaped (@gharlan)
+* .htaccess in geschützten Ordnern: Anpassung für Apache 2.4 (@gharlan)
+* Session-ID-Neugenerierung warf teilweise Warnungen (@gharlan)
+
+
 Version 5.3.0 – 14.02.2017
 --------------------------
 

@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Möglichkeit den Versand zu testen (Testmail) (@skerbis)
+* Bessere Hilfe und Beispiele (@skerbis)
+* Einstellungen in Spalten (@skerbis)
+* X-Mailer auf "REXMailer" gesetzt (@skerbis)
+
+
 Version 2.1.2 – 08.01.2017
 --------------------------
 

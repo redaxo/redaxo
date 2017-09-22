@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.3.1 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Benutzer mit eingeschränkten MP-Kategorie-Rechten 
+    - konnte nicht die Multi-Aktionen (schieben, löschen) ausführen (@gharlan)
+    - konnten in "Keine Kategorie" hochladen (@gharlan)
+* In der Doctypes-Property fehlte "jpeg" (@IngoWinter)
+
+
 Version 2.3.0 – 19.03.2017
 --------------------------
 

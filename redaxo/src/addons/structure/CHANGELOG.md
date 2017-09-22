@@ -1,6 +1,28 @@
 Changelog
 =========
 
+Version 2.3.2 – XX.XX.2017
+--------------------------
+
+### Security
+
+* XSS-Möglichkeit in Linkmap beseitigt (@staabm)
+
+### Neu
+
+* Modul-/Template-Liste: 100 pro Seite (@gharlan)
+* `rex_redirect`: Verständliche Exception wenn fälschlich eine URL statt einer Artikel-ID übergeben wird (@joachimdoerr)
+
+### Bugfixes
+
+* history-Plugin:
+    - Wiederherstellung funktionierte nicht (@skerbis)
+* `rex_template` hat teilweise Notices geworfen (@DavidBruchmann)
+* Teilweise kam die unübersetzte Meldung "translate:article_doesnt_exist" (@TobiasKrais)
+* Modul-/Template-Liste: Beim Speichern landete man immer auf Seite 1 (@gharlan)
+* Benutzer mit `article2category[]`-Recht konnten fälschlich keine Kategorien in Artikel umwandeln (@gharlan)
+
+
 Version 2.3.1 – 19.03.2017
 --------------------------
 

@@ -1,6 +1,32 @@
 Changelog
 =========
 
+Version 2.4.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Unterstützung webp (@Hirbod)
+* Neue globale Einstellung zu Webp-Qualität, PNG-Kompression und Interlace/Progressive-Modus (@Hirbod, @gharlan)
+* JPG- und Webp-Qualität, PNG-Kompression, Interlace/Progressive-Modus können über Effekte gesetzt werden (@gharlan)
+* Neue Effekte:
+    - image_properties (JPG- und Webp-Qualität, PNG-Kompression, Interlace/Progressive-Modus) (@Hirbod, @gharlan)
+    - brightness (@Hirbod)
+    - contrast (@Hirbod)
+* Angepasste Effekte:
+    - flip: Spiegelung an X- und Y-Achse gleichzeitig möglich (@Hirbod)
+* Sprechende (übersetzte) Namen für Effekte (@gharlan)
+
+### Bugfixes
+
+* `setSourcePath()` konnte nicht in Effekten richtig genutzt werden (@gharlan)
+* Bildtyperkennung schlug teilweise fehl (@gharlan)
+* Effekte:
+    - flip: Native gd-Methode, 1px-Versatz, Transparenz-Erhaltung (@Hirbod)
+    - greyscale: Native gd-Methode, Transparenz-Erhaltung (@Hirbod)
+    - sepia: Native gd-Methode, Transparenz-Erhaltung (@Hirbod)
+    - header: Korrektur no_cache-Header (@gharlan)
+
 Version 2.3.0 – 21.02.2017
 --------------------------
 
