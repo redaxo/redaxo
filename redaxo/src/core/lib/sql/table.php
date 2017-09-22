@@ -43,13 +43,17 @@ class rex_sql_table
     /** @var bool */
     private $primaryKeyModified = false;
 
+    /** @var rex_sql_index[] */
+    private $indexes = [];
+
+    /** @var string[] mapping from current (new) name to existing (old) name in database */
+    private $indexesExisting = [];
+
     private function __construct($name)
     {
         $this->sql = rex_sql::factory();
         $this->name = $name;
         $this->originalName = $name;
-
-        $columns = [];
 
         try {
             $columns = $this->sql->showColumns($name);
@@ -61,6 +65,8 @@ class rex_sql_table
             }
 
             $this->new = true;
+
+            return;
         }
 
         foreach ($columns as $column) {
@@ -77,6 +83,32 @@ class rex_sql_table
             if ('PRI' === $column['key']) {
                 $this->primaryKey[] = $column['name'];
             }
+        }
+
+        $indexParts = $this->sql->getArray('SHOW INDEXES FROM '.$this->sql->escapeIdentifier($name));
+        $indexes = [];
+        foreach ($indexParts as $part) {
+            if ('PRIMARY' !== $part['Key_name']) {
+                $indexes[$part['Key_name']][] = $part;
+            }
+        }
+
+        foreach ($indexes as $indexName => $parts) {
+            $columns = [];
+            foreach ($parts as $part) {
+                $columns[] = $part['Column_name'];
+            }
+
+            if ('FULLTEXT' === $parts[0]['Index_type']) {
+                $type = rex_sql_index::FULLTEXT;
+            } elseif (0 === (int) $parts[0]['Non_unique']) {
+                $type = rex_sql_index::UNIQUE;
+            } else {
+                $type = rex_sql_index::INDEX;
+            }
+
+            $this->indexes[$indexName] = new rex_sql_index($indexName, $columns, $type);
+            $this->indexesExisting[$indexName] = $indexName;
         }
     }
 
@@ -308,6 +340,125 @@ class rex_sql_table
     }
 
     /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasIndex($name)
+    {
+        return isset($this->indexes[$name]);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return null|rex_sql_index
+     */
+    public function getIndex($name)
+    {
+        if (!$this->hasIndex($name)) {
+            return null;
+        }
+
+        return $this->indexes[$name];
+    }
+
+    /**
+     * @return rex_sql_index[]
+     */
+    public function getIndexes()
+    {
+        return $this->indexes;
+    }
+
+    /**
+     * @param rex_sql_index $index
+     *
+     * @return $this
+     */
+    public function addIndex(rex_sql_index $index)
+    {
+        $name = $index->getName();
+
+        if ($this->hasIndex($name)) {
+            throw new RuntimeException(sprintf('Index "%s" already exists.', $name));
+        }
+
+        $this->indexes[$name] = $index;
+
+        return $this;
+    }
+
+    /**
+     * @param rex_sql_index $index
+     *
+     * @return $this
+     */
+    public function ensureIndex(rex_sql_index $index)
+    {
+        $name = $index->getName();
+
+        if (!$this->hasIndex($name)) {
+            return $this->addIndex($index);
+        }
+
+        if ($this->getIndex($name)->equals($index)) {
+            return $this;
+        }
+
+        $this->indexes[$name] = $index->setModified(true);
+
+        return $this;
+    }
+
+    /**
+     * @param string $oldName
+     * @param string $newName
+     *
+     * @return $this
+     *
+     * @throws rex_exception
+     */
+    public function renameIndex($oldName, $newName)
+    {
+        if (!$this->hasIndex($oldName)) {
+            throw new rex_exception(sprintf('Index with name "%s" does not exist.', $oldName));
+        }
+
+        if ($this->hasIndex($newName)) {
+            throw new rex_exception(sprintf('Index with the new name "%s" already exists.', $newName));
+        }
+
+        if ($oldName === $newName) {
+            return $this;
+        }
+
+        $index = $this->getIndex($oldName)->setName($newName);
+
+        unset($this->indexes[$oldName]);
+        $this->indexes[$newName] = $index;
+
+        if (isset($this->indexesExisting[$oldName])) {
+            $this->indexesExisting[$newName] = $this->indexesExisting[$oldName];
+            unset($this->indexesExisting[$oldName]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function removeIndex($name)
+    {
+        unset($this->indexes[$name]);
+
+        return $this;
+    }
+
+    /**
      * Ensures that the table exists with the given definition.
      */
     public function ensure()
@@ -383,6 +534,10 @@ class rex_sql_table
             $parts[] = 'PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
         }
 
+        foreach ($this->indexes as $index) {
+            $parts[] = $this->getIndexDefinition($index);
+        }
+
         $query = 'CREATE TABLE '.$this->sql->escapeIdentifier($this->name)." (\n    ";
         $query .= implode(",\n    ", $parts);
         $query .= "\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -413,14 +568,20 @@ class rex_sql_table
             $parts[] = 'DROP PRIMARY KEY';
         }
 
-        $columns = $this->columns;
-        $existing = $this->columnsExisting;
+        foreach ($this->indexesExisting as $newName => $oldName) {
+            if (!isset($this->indexes[$newName]) || $this->indexes[$newName]->isModified()) {
+                $parts[] = 'DROP INDEX '.$this->sql->escapeIdentifier($oldName);
+            }
+        }
 
-        $handle = function ($name, $after = null) use (&$parts, &$columns, &$existing) {
+        $columns = $this->columns;
+        $columnsExisting = $this->columnsExisting;
+
+        $handle = function ($name, $after = null) use (&$parts, &$columns, &$columnsExisting) {
             $column = $columns[$name];
-            $new = !isset($existing[$name]);
-            $oldName = $new ? null : $existing[$name];
-            unset($columns[$name], $existing[$name]);
+            $new = !isset($columnsExisting[$name]);
+            $oldName = $new ? null : $columnsExisting[$name];
+            unset($columns[$name], $columnsExisting[$name]);
 
             if (!$new && !$column->isModified() && null === $after) {
                 return;
@@ -466,12 +627,18 @@ class rex_sql_table
             $handle($name, $after);
         }
 
-        foreach ($existing as $oldName) {
+        foreach ($columnsExisting as $oldName) {
             $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
         }
 
         if ($this->primaryKeyModified && $this->primaryKey) {
             $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
+        }
+
+        foreach ($this->indexes as $index) {
+            if ($index->isModified() || !isset($this->indexesExisting[$index->getName()])) {
+                $parts[] = 'ADD '.$this->getIndexDefinition($index);
+            }
         }
 
         if (!$parts) {
@@ -514,6 +681,16 @@ class rex_sql_table
             $column->getDefault() ? 'DEFAULT '.$this->sql->escape($column->getDefault()) : '',
             $column->isNullable() ? '' : 'NOT NULL',
             $column->getExtra()
+        );
+    }
+
+    private function getIndexDefinition(rex_sql_index $index)
+    {
+        return sprintf(
+            '%s %s %s',
+            $index->getType(),
+            $this->sql->escapeIdentifier($index->getName()),
+            $this->getKeyColumnsDefintion($index->getColumns())
         );
     }
 
@@ -574,5 +751,14 @@ class rex_sql_table
         $this->positions = [];
 
         $this->primaryKeyModified = false;
+
+        $indexes = $this->indexes;
+        $this->indexes = [];
+        $this->indexesExisting = [];
+        foreach ($indexes as $index) {
+            $index->setModified(false);
+            $this->indexes[$index->getName()] = $index;
+            $this->indexesExisting[$index->getName()] = $index->getName();
+        }
     }
 }
