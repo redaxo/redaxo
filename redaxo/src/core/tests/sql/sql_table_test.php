@@ -22,6 +22,7 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
             ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
             ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
+            ->addIndex(new rex_sql_index('i_title', ['title']))
             ->create();
 
         return $table;
@@ -60,6 +61,16 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertTrue($title->isNullable());
         $this->assertSame('Default title', $title->getDefault());
         $this->assertNull($title->getExtra());
+
+        $this->assertCount(1, $table->getIndexes());
+        $this->assertTrue($table->hasIndex('i_title'));
+        $this->assertFalse($table->hasIndex('i_foo'));
+
+        $index = $table->getIndex('i_title');
+
+        $this->assertSame('i_title', $index->getName());
+        $this->assertSame(rex_sql_index::INDEX, $index->getType());
+        $this->assertSame(['title'], $index->getColumns());
     }
 
     public function testDrop()
