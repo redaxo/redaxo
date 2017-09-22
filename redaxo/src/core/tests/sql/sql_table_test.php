@@ -290,6 +290,89 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertNull($table->getPrimaryKey());
     }
 
+    public function testAddIndex()
+    {
+        $table = $this->createTable();
+
+        $uuid = new rex_sql_index('i_uuid', ['uuid'], rex_sql_index::UNIQUE);
+        $search = new rex_sql_index('i_search', ['title', 'description'], rex_sql_index::FULLTEXT);
+
+        $table
+            ->addColumn(new rex_sql_column('uuid', 'varchar(255)'))
+            ->addColumn(new rex_sql_column('description', 'text', true))
+            ->addIndex($uuid)
+            ->addIndex($search)
+            ->alter();
+
+        $this->assertSame($uuid, $table->getIndex('i_uuid'));
+        $this->assertSame($search, $table->getIndex('i_search'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertEquals($uuid, $table->getIndex('i_uuid'));
+        $this->assertEquals($search, $table->getIndex('i_search'));
+    }
+
+    public function testEnsureIndex()
+    {
+        $table = $this->createTable();
+
+        $title = new rex_sql_index('i_title', ['title', 'title2'], rex_sql_index::UNIQUE);
+        $title2 = new rex_sql_index('i_title2', ['title2']);
+        $table
+            ->ensureColumn(new rex_sql_column('title2', 'varchar(20)'))
+            ->ensureIndex($title)
+            ->ensureIndex($title2)
+            ->alter();
+
+        $this->assertSame($title, $table->getIndex('i_title'));
+        $this->assertSame($title2, $table->getIndex('i_title2'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertEquals($title, $table->getIndex('i_title'));
+        $this->assertEquals($title2, $table->getIndex('i_title2'));
+    }
+
+    public function testRenameIndex()
+    {
+        $table = $this->createTable();
+
+        $table->renameIndex('i_title', 'index_title');
+
+        $this->assertFalse($table->hasIndex('i_title'));
+        $this->assertTrue($table->hasIndex('index_title'));
+
+        $table->alter();
+
+        $this->assertTrue($table->hasIndex('index_title'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertFalse($table->hasIndex('i_title'));
+        $this->assertTrue($table->hasIndex('index_title'));
+        $this->assertSame(['title'], $table->getIndex('index_title')->getColumns());
+    }
+
+    public function testRemoveIndex()
+    {
+        $table = $this->createTable();
+
+        $table
+            ->removeIndex('i_title')
+            ->alter();
+
+        $this->assertFalse($table->hasColumn('i_title'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertFalse($table->hasColumn('i_title'));
+    }
+
     public function testAlter()
     {
         $table = $this->createTable();
@@ -300,15 +383,19 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
             ->removeColumn('title')
             ->addColumn(new rex_sql_column('name', 'varchar(20)'))
             ->setPrimaryKey(['id', 'name'])
+            ->addIndex(new rex_sql_index('i_name', ['name']))
             ->alter();
 
         rex_sql_table::clearInstance(self::TABLE2);
         $table = rex_sql_table::get(self::TABLE2);
 
         $this->assertFalse($table->hasColumn('title'));
+        $this->assertFalse($table->hasIndex('i_title'));
         $this->assertTrue($table->hasColumn('name'));
+        $this->assertTrue($table->hasIndex('i_name'));
         $this->assertSame('int(10) unsigned', $table->getColumn('id')->getType());
         $this->assertEquals(['id', 'name'], $table->getPrimaryKey());
+        $this->assertEquals(['name'], $table->getIndex('i_name')->getColumns());
     }
 
     public function testEnsure()
@@ -321,10 +408,14 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
             ->ensureColumn(new rex_sql_column('timestamp', 'datetime', true))
             ->ensureColumn(new rex_sql_column('description', 'text', true), 'title')
             ->setPrimaryKey('id')
+            ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp']))
+            ->ensureIndex(new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT))
             ->ensure();
 
         $this->assertTrue($table->exists());
         $this->assertSame(['id', 'title', 'description', 'status', 'timestamp'], array_keys($table->getColumns()));
+        $this->assertTrue($table->hasIndex('i_status_timestamp'));
+        $this->assertTrue($table->hasIndex('i_description'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
@@ -335,11 +426,15 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'))
             ->ensureColumn(new rex_sql_column('title', 'varchar(20)', false), 'timestamp')
             ->setPrimaryKey(['id', 'title'])
+            ->ensureIndex(new rex_sql_index('i_status_timestamp', ['status', 'timestamp'], rex_sql_index::UNIQUE))
             ->ensure();
 
         $expectedOrder = ['timestamp', 'title', 'id', 'status', 'description'];
 
         $this->assertSame($expectedOrder, array_keys($table->getColumns()));
+        $this->assertTrue($table->hasIndex('i_status_timestamp'));
+        $this->assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')->getType());
+        $this->assertTrue($table->hasIndex('i_description'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
@@ -348,5 +443,8 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertTrue($table->hasColumn('description'));
         $this->assertNull($table->getColumn('title')->getDefault());
         $this->assertSame($expectedOrder, array_keys($table->getColumns()));
+        $this->assertTrue($table->hasIndex('i_status_timestamp'));
+        $this->assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')->getType());
+        $this->assertTrue($table->hasIndex('i_description'));
     }
 }
