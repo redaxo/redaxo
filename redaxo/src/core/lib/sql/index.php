@@ -34,7 +34,7 @@ class rex_sql_index
     /**
      * @param bool $modified
      *
-     * @return $this|rex_sql_index
+     * @return $this
      */
     public function setModified($modified)
     {
@@ -54,7 +54,7 @@ class rex_sql_index
     /**
      * @param string $name
      *
-     * @return $this|rex_sql_index
+     * @return $this
      */
     public function setName($name)
     {
@@ -74,7 +74,7 @@ class rex_sql_index
     /**
      * @param string $type
      *
-     * @return $this|rex_sql_index
+     * @return $this
      */
     public function setType($type)
     {
@@ -94,7 +94,7 @@ class rex_sql_index
     /**
      * @param string[] $columns
      *
-     * @return $this|rex_sql_index
+     * @return $this
      */
     public function setColumns(array $columns)
     {
