@@ -154,8 +154,6 @@ class rex_sql_column
     }
 
     /**
-     * @param self $column
-     *
      * @return bool
      */
     public function equals(self $column)

@@ -112,8 +112,6 @@ class rex_sql_index
     }
 
     /**
-     * @param self $index
-     *
      * @return bool
      */
     public function equals(self $index)
