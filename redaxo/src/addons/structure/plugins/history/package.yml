@@ -7,8 +7,11 @@ pages:
     content/history:
         title: ' '
         icon: 'fa fa-history'
-        href: 'javascript:rex_history_openLayer();'
-        itemAttr: { left: true }
+        href: '#'
+        itemAttr:
+          left: true
+        linkAttr:
+          data-history-layer: open
         perm: history[article_rollback]
     system/history:
         title: translate:history
