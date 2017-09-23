@@ -7,9 +7,14 @@ Version 2.2.0 – XX.XX.2017
 ### Neu
 
 * Möglichkeit den Versand zu testen (Testmail) (@skerbis)
+* Mail-Log kann global und pro Versand deaktiviert werden (@dergel)
 * Bessere Hilfe und Beispiele (@skerbis)
 * Einstellungen in Spalten (@skerbis)
-* X-Mailer auf "REXMailer" gesetzt (@skerbis)
+* `X-Mailer`-Header auf "REXMailer" gesetzt (@skerbis)
+
+### Bugfixes
+
+* Das SMTP-Passwort-Feld wurde teilweise vorbelegt mit dem im Browser gespeicherten Passwort (@gharlan)
 
 
 Version 2.1.2 – 08.01.2017

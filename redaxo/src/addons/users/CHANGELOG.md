@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.2.1 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Beim Anlegen neuer Benutzer wurde das Passwort teilweise vorbelegt mit dem im Browser gespeicherten Passwort (@gharlan)
+
+
 Version 2.2.0 – 14.02.2017
 --------------------------
 

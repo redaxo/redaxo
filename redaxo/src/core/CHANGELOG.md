@@ -7,6 +7,7 @@ Version 5.4.0 – XX.XX.2017
 ### Neu
 
 * Updates: symfony/yaml (3.3.9), symfony/var-dumper (3.3.9), filp/whoops (2.1.10), erusev/parsedown (1.6.3)
+* Neue Funktion `rex_escape`, diese kann und sollte statt `htmlspecialchars` für Ausgaben verwendet werden (@gharlan)
 * Integration von symfony/console für die einfache Bereitstellung von Consolen-Kommandos in Addons (@gharlan)
 * `rex_sql_table`: 
     - Tabellen können auch neu erstellt, umbenannt und gelöscht werden (@gharlan)
@@ -18,6 +19,9 @@ Version 5.4.0 – XX.XX.2017
     - English ergänzt (@ynamite)
     - Portugiesisch ergänzt (Taina Soares)
     - Spanisch ergänzt (@nandes2062)
+* Session-Cookie-Parameter können (für Frontend und Backend getrennt) in config.yml gesetzt werden (default mit httponly und SameSite=strict) (@staabm)
+* Eingeloggt-bleiben-Cookie als httponly (@staabm)
+* Beim Logout werden die Daten im Browser zu der Website gelöscht (Privatsphäre) (@staabm)
 * Bereits in den index.php-Dateien kann ein alternativer `path_provider` gesetzt werden für tiefgreifendere Pfadänderungen (@gharlan)
 * Debug-Modus kann an der Body-Klasse `rex-is-debugmode` erkannt werden (@schuer)
 * In der Tabelle rex_config liegt der Primary Key nun direkt auf (namespace, key), Spalte id entfällt (@gharlan)
@@ -26,6 +30,9 @@ Version 5.4.0 – XX.XX.2017
 
 ### Bugfixes
 
+* Setup:
+    - Nach Auswahl "Datenbank existiert bereits" und "Update aus vorheriger Version" waren anschließend fälschlich wieder nur die Standardaddons aktiviert (@gharlan)
+    - Beim Import eines vorhandenen Backups wurden nicht die Addons aus dem Backup aktiviert (@gharlan)
 * Sprachdateien: 
     - Wenn ein Wert leer war, wurde die komplette folgende Zeile als Wert genommen (@gharlan)
     - Wenn ein Wert "=" enthielt, kam teilweise was falsches raus (@tyrant88)
@@ -36,6 +43,8 @@ Version 5.4.0 – XX.XX.2017
 * `rex_select`: `countOptions()` lieferte teilweise falsches Ergebnis (@staabm)
 * `rex_response`: Session locks in `sendFile()` werden vermieden (@staabm)
 * `rex_clang`: Clang-ID wird einheitlich als `int` behandelt und zurückgegeben (@gharlan)
+* `rex_sql`: Teilweise fehlte die Query in der Exception-Message (@gharlan)
+* `rex_socket`: Die tatsächliche Ursache war bei Exceptions oft nicht ersichtlich (@gharlan)
 * PJAX: Beim Absenden von Formularen wird nun nach oben gescrollt (@gharlan)
 * Output Buffer wurden teilweise nicht korrekt beendet (@gharlan)
 * System-Log: HTML in Log-Messages wurde nicht escaped (@gharlan)
