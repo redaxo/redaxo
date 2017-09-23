@@ -324,16 +324,18 @@
          * @param useDebounce boolean
          */
         set: function (index, useDebounce) {
-            this.dates.setIndex(index);
-            debug.log('set index: ' + index);
-            this.updateUIelements();
+            if (index !== this.dates.getIndex()) {
+                this.dates.setIndex(index);
+                debug.log('set index: ' + index);
+                this.updateUIelements();
 
-            if (useDebounce) {
-                this.setFrameContentDebounce(this.targetFrame, this.dates.getIndex());
-                debug.info('debounce');
-            }
-            else {
-                this.setFrameContent(this.targetFrame, this.dates.getIndex());
+                if (useDebounce) {
+                    this.setFrameContentDebounce(this.targetFrame, this.dates.getIndex());
+                    debug.info('debounce');
+                }
+                else {
+                    this.setFrameContent(this.targetFrame, this.dates.getIndex());
+                }
             }
         },
 
