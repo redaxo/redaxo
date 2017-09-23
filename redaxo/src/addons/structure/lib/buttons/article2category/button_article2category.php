@@ -21,6 +21,6 @@ class rex_button_article2category extends rex_structure_button
             'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_tocategory').'?">'.rex_i18n::msg('content_tocategory').'</a>';
+        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_tocategory').'?" title="'.rex_i18n::msg('content_tocategory').'"><i class="rex-icon rex-icon-category"></i></a>';
     }
 }

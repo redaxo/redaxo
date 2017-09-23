@@ -19,17 +19,15 @@ class rex_button_category2Article extends rex_structure_button
             return '';
         }
 
-        if (!isset($this->edit_id)) {
-            throw new rex_exception('No article id was set!');
-        }
-
         // Check if category has children, if it does, its type cannot be changed to article
         $sql = rex_sql::factory();
         #$sql->setDebug(true);
         $sql->setQuery('SELECT pid FROM '.rex::getTable('article').' WHERE parent_id=? LIMIT 1', [$this->edit_id]);
 
+        $button = '<i class="rex-icon rex-icon-article"></i>';
+
         if ($sql->getRows() != 0) {
-            return '<span class="text-muted">'.rex_i18n::msg('content_nottoarticle').'</span>';
+            return '<span class="btn btn-default text-muted" title="'.rex_i18n::msg('content_nottoarticle').'">'.$button.'</span>';
         }
 
         // Category type can be changed to article
@@ -39,6 +37,6 @@ class rex_button_category2Article extends rex_structure_button
             'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_toarticle').'?">'.rex_i18n::msg('content_toarticle').'</a>';
+        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_toarticle').'?" title="'.rex_i18n::msg('content_toarticle').'">'.$button.'</a>';
     }
 }

@@ -47,4 +47,13 @@ abstract class rex_structure_button
      * @return string
      */
     abstract public function get();
+
+    /**
+     * This method returns an optional modal window
+     * @return string
+     */
+    public function getModal()
+    {
+        return '';
+    }
 }

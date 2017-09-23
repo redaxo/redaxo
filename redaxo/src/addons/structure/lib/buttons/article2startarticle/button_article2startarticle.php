@@ -25,6 +25,6 @@ class rex_button_article2Startarticle extends rex_structure_button
             'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_tostartarticle').'?">'.rex_i18n::msg('content_tostartarticle').'</a>';
+        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_tostartarticle').'?" title="'.rex_i18n::msg('content_tostartarticle').'"><i class="rex-icon rex-icon-sitestartarticle"></i></a>';
     }
 }

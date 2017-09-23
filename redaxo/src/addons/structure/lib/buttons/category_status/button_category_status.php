@@ -16,8 +16,11 @@ class rex_button_category_status extends rex_structure_button
         $status_class = $states[$status_index][1];
         $status_icon = $states[$status_index][2];
 
-        if (!$user->hasPerm('publishCategory[]') && !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            return '<span class="'.$status_class.' text-muted"><i class="rex-icon '.$status_icon.'"></i> '.$status.'</span>';
+        #$button = '<i class="rex-icon '.$status_icon.'"></i> '.$status;
+        $button = '<i class="rex-icon '.$status_icon.'"></i>';
+
+        if (!$user->hasPerm('publishCategory[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+            return '<span class="btn btn-default '.$status_class.' text-muted">'.$button.'</span>';
         }
 
         $url = $this->context->getUrl([
@@ -26,6 +29,6 @@ class rex_button_category_status extends rex_structure_button
             'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="'.$status_class.'" href="'.$url.'"><i class="rex-icon '.$status_icon.'"></i> '.$status.'</a>';
+        return '<a class="btn btn-default '.$status_class.'" href="'.$url.'" title="'.$status.'">'.$button.'</a>';
     }
 }

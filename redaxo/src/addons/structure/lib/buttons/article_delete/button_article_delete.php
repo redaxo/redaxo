@@ -8,8 +8,11 @@ class rex_button_article_delete extends rex_structure_button
     {
         $article = rex_article::get($this->edit_id);
 
+        #$button = '<i class="rex-icon rex-icon-delete"></i> '.rex_i18n::msg('delete');
+        $button = '<i class="rex-icon rex-icon-delete"></i>';
+
         if ($article->isStartArticle()) {
-            return '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> '.rex_i18n::msg('delete').'</span>';
+            return '<span class="btn btn-default text-muted">'.$button.'</span>';
         }
         $url = $this->context->getUrl([
             'rex-api-call' => 'article_delete',
@@ -17,6 +20,6 @@ class rex_button_article_delete extends rex_structure_button
             'artstart' => rex_request('artstart', 'int'),
         ]);
 
-        return '<a href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').' ?"><i class="rex-icon rex-icon-delete"></i> '.rex_i18n::msg('delete').'</a>';
+        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'">'.$button.'</a>';
     }
 }

@@ -26,10 +26,35 @@ if (rex::isBackend()) {
             'ctype' => $params['ctype'],
         ]);
 
-        $panel = rex_button_content_copy::init($params['article_id'], $context)->get();
+        $article_actions = [
+            'article_delete' => rex_button_article_delete::init($params['article_id'], $context),
+            'article_status' => rex_button_article_status::init($params['article_id'], $context),
+            'article2category' => rex_button_article2category::init($params['article_id'], $context),
+            'article2startarticle' => rex_button_article2Startarticle::init($params['article_id'], $context),
+            'article_move' => rex_button_article_move::init($params['article_id'], $context),
+            'article_copy' => rex_button_article_copy::init($params['article_id'], $context),
+
+            'content_copy' => rex_button_content_copy::init($params['article_id'], $context),
+        ];
+
+        $panel = '<div class="btn-group">';
+        /** @var rex_structure_button $article_action */
+        foreach ($article_actions as $article_action) {
+            if ($article_action) {
+                $panel .= $article_action->get();
+            }
+        }
+        $panel .= '</div>';
+
+        /** @var rex_structure_button $article_action */
+        foreach ($article_actions as $article_action) {
+            if ($article_action) {
+                $panel .= $article_action->getModal();
+            }
+        }
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> '.rex_i18n::msg('content_submitcopycontent'), false);
+        $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> '.rex_i18n::msg('metafuncs'), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('article_id', $params['article_id'], false);
         $fragment->setVar('clang', $params['clang'], false);
