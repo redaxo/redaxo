@@ -154,6 +154,7 @@
 .noUi-handle {
     border-radius: 3px;
     box-shadow: none;
+    outline: none !important;
 }
 
 .noUi-pips-horizontal {
