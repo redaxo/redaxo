@@ -1,5 +1,8 @@
 (function ($) {
 
+    var DEBUGMODE = false; // set debug mode
+
+
     $(document).on("rex:ready", function (event, container) {
 
         // trigger elements for opening and closing history layer
@@ -40,6 +43,29 @@
             if (callNow) func.apply(context, args);
         };
     };
+
+
+    /**
+     * debug log helper
+     *
+     * @type {{log, info, error}}
+     */
+    var debug = (function () {
+        return {
+            log: function () {
+                var args = Array.prototype.slice.call(arguments);
+                (DEBUGMODE) ? console.log.apply(console, args) : false;
+            },
+            info: function () {
+                var args = Array.prototype.slice.call(arguments);
+                (DEBUGMODE) ? console.info.apply(console, args) : false;
+            },
+            error: function () {
+                var args = Array.prototype.slice.call(arguments);
+                (DEBUGMODE) ? console.error.apply(console, args) : false;
+            }
+        }
+    })();
 
 
     /**
@@ -118,9 +144,15 @@
          * @returns {*}
          */
         load: function (articleId, clangId, revision) {
+            var url = 'index.php?rex_history_function=layer&history_article_id=' + articleId + '&history_clang_id=' + clangId + '&history_revision=' + revision;
+            debug.info('load: ' + url);
             return $.ajax({
-                url: 'index.php?rex_history_function=layer&history_article_id=' + articleId + '&history_clang_id=' + clangId + '&history_revision=' + revision,
+                url: url,
                 context: document.body
+            }).done(function () {
+                debug.info('load success');
+            }).fail(function (jqXHR, textStatus) {
+                debug.error('load failure: ' + textStatus);
             });
         },
 
@@ -132,6 +164,7 @@
         calculateContentWidth: function () {
             this.el.fadeOut(0).show();
             var width = $('.history-layer-layout', this.el).width();
+            debug.log('calculate layer content width: ' + width);
             this.el.hide().fadeIn(0);
             return width;
         },
@@ -142,6 +175,7 @@
          * @returns {Array}
          */
         fetchDatesFromSelector: function () {
+            debug.log('fetch dates from selector');
             var dates = [];
             $.each(this.selector.find('option'), function (index, option) {
                 if ($(option).val()) {
@@ -167,6 +201,7 @@
          * @param data
          */
         injectToPage: function (el, data) {
+            debug.log('inject to page');
             if ($(el).length) {
                 $(el).replaceWith(data);
             }
@@ -180,6 +215,7 @@
          * @param el
          */
         initUiElements: function (el) {
+            debug.log('init UI elements');
             this.el = $(el);
             this.selector = $('#content-history-select-date-2', this.el);
             this.selectPrev = $('[data-history-layer="prev"]', this.el);
@@ -194,6 +230,7 @@
          * bind event handlers
          */
         bindEventHandlers: function () {
+            debug.log('bind event handlers');
             this.selector.on('change', $.proxy(this.onSelect, this));
             this.selectPrev.on('click', $.proxy(this.onSelectPrev, this));
             this.selectNext.on('click', $.proxy(this.onSelectNext, this));
@@ -209,6 +246,7 @@
          * on selector change
          */
         onSelect: function () {
+            debug.log('select ' + this.selector.val());
             this.set(this.dates.getIndexForTimestamp(this.selector.val()));
         },
 
@@ -216,6 +254,7 @@
          * on previous button toggle
          */
         onSelectPrev: function () {
+            debug.log('select previous');
             this.setPrev();
         },
 
@@ -223,6 +262,7 @@
          * on next button toggle
          */
         onSelectNext: function () {
+            debug.log('select next');
             this.setNext();
         },
 
@@ -230,6 +270,7 @@
          * on slider change
          */
         onSliderSelect: function () {
+            debug.log('select slider: ' + this.slider.noUiSlider.get());
             this.set(this.dates.getIndexForTimestamp(this.slider.noUiSlider.get()));
         },
 
@@ -238,7 +279,9 @@
          */
         onSubmit: function () {
             var that = this;
-            $.when(this.snapVersion(that.selector.val()).then(function () {
+            var historyDate = that.dates.getCurrent().historyDate;
+            debug.log('submit: ' + historyDate);
+            $.when(this.snapVersion(historyDate).then(function () {
                 that.remove();
 
                 // reload redaxo page
@@ -251,6 +294,7 @@
          * on cancel button toggle
          */
         onCancel: function () {
+            debug.log('cancel');
             this.remove();
         },
 
@@ -258,6 +302,7 @@
          * update UI elements
          */
         updateUIelements: function () {
+            debug.log('update UI elements');
             if (this.dates.getIndex() === (this.dates.getAll().length - 1)) {
                 this.selector.val(''); // option value for newest history date is empty!
             }
@@ -280,10 +325,12 @@
          */
         set: function (index, useDebounce) {
             this.dates.setIndex(index);
+            debug.log('set index: ' + index);
             this.updateUIelements();
 
             if (useDebounce) {
                 this.setFrameContentDebounce(this.targetFrame, this.dates.getIndex());
+                debug.info('debounce');
             }
             else {
                 this.setFrameContent(this.targetFrame, this.dates.getIndex());
@@ -326,12 +373,14 @@
             var historyDate = index ? this.dates.get(index).historyDate : false;
             var src = historyDate ? this.link + "&rex_history_date=" + historyDate : this.link;
             el.attr("src", src);
+            debug.log('update frame content: ' + src);
         },
 
         /**
          * show history layer
          */
         show: function () {
+            debug.log('show layer');
             $('body').css('overflow-y', 'hidden'); // fix scroll position
             this.el.show();
         },
@@ -340,6 +389,7 @@
          * hide history layer
          */
         hide: function () {
+            debug.log('hide layer');
             this.el.hide();
             $('body').css('overflow-y', 'auto'); // release scroll position
         },
@@ -349,6 +399,7 @@
          */
         remove: function () {
             this.hide();
+            debug.log('remove layer');
             this.el.remove();
         },
 
@@ -359,9 +410,15 @@
          * @returns {*}
          */
         snapVersion: function (date) {
+            var url = 'index.php?rex_history_function=snap&history_article_id=' + this.articleId + '&history_clang_id=' + this.clangId + '&history_revision=' + this.revision + '&history_date=' + date;
+            debug.info('snap version: ' + url);
             return $.ajax({
-                url: 'index.php?rex_history_function=snap&history_article_id=' + this.articleId + '&history_clang_id=' + this.clangId + '&history_revision=' + this.revision + '&history_date=' + date,
+                url: url,
                 context: document.body
+            }).done(function () {
+                debug.info('snap success');
+            }).fail(function (jqXHR, textStatus) {
+                debug.error('snap failure: ' + textStatus);
             });
         }
     };
@@ -380,6 +437,8 @@
             this.all = config.dates;
         }
         this.index = this.all.length - 1; // set index to max
+        debug.log('new dates:', this.all);
+        debug.log('new index: ' + this.index);
     };
 
     Dates.prototype = {
@@ -490,9 +549,11 @@
 
         // init gaps
         this.all = this.getFromDates();
+        debug.log('new gaps: ', this.all);
 
         // equalize gaps
         this.equalize();
+        debug.log('equalized gaps: ', this.all);
     };
 
     Gaps.prototype = {
@@ -661,6 +722,7 @@
 
         // init slider
         this.noUiSlider = this.initSlider();
+        debug.log('new slider: ', this.noUiSlider);
 
         // inject HTML for range markers into slider element
         this.injectMarkersHtml();
