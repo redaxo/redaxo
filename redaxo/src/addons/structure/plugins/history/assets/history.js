@@ -105,8 +105,8 @@
                 dates: that.fetchDatesFromSelector()
             });
 
-            // Go for slider if more than 2 dates available
-            if (that.dates.getAll().length > 2) {
+            // Go for slider if more than 1 date available
+            if (that.dates.getAll().length > 1) {
 
                 // calculate gaps between dates
                 that.gaps = new Gaps({
