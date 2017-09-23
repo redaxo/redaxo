@@ -370,7 +370,7 @@
          * @param index
          */
         setFrameContent: function (el, index) {
-            var historyDate = index ? this.dates.get(index).historyDate : false;
+            var historyDate = (typeof index === 'number') ? this.dates.get(index).historyDate : false;
             var src = historyDate ? this.link + "&rex_history_date=" + historyDate : this.link;
             el.attr("src", src);
             debug.log('update frame content: ' + src);
@@ -450,7 +450,7 @@
          * @returns {Array|*}
          */
         get: function (index) {
-            return index ? this.all[index] : false;
+            return (typeof index === 'number') ? this.all[index] : false;
         },
 
         /**
