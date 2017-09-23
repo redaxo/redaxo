@@ -111,6 +111,8 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         }
     );
 
+    rex_view::addCssFile($this->getAssetsUrl('noUiSlider/nouislider.css'));
+    rex_view::addJsFile($this->getAssetsUrl('noUiSlider/nouislider.js'));
     rex_view::addCssFile($this->getAssetsUrl('history.css'));
     rex_view::addJsFile($this->getAssetsUrl('history.js'));
 
