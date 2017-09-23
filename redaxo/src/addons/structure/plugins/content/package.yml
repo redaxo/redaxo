@@ -13,7 +13,6 @@ pages:
         pjax: false
         subpages:
             edit: { title: translate:edit_mode, icon: rex-icon rex-icon-editmode, itemAttr: { left: true } }
-            functions: { title: translate:metafuncs, icon: rex-icon rex-icon-metafuncs }
     templates:
         title: translate:templates
         main: true
