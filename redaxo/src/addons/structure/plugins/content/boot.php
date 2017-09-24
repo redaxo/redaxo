@@ -27,14 +27,14 @@ if (rex::isBackend()) {
         ]);
 
         $article_actions = [
-            'article_delete' => rex_button_article_delete::init($params['article_id'], $context),
-            'article_status' => rex_button_article_status::init($params['article_id'], $context),
-            'article2category' => rex_button_article2category::init($params['article_id'], $context),
-            'article2startarticle' => rex_button_article2Startarticle::init($params['article_id'], $context),
-            'article_move' => rex_button_article_move::init($params['article_id'], $context),
-            'article_copy' => rex_button_article_copy::init($params['article_id'], $context),
+            'article_delete' => new rex_button_article_delete($params['article_id'], $context),
+            'article_status' => new rex_button_article_status($params['article_id'], $context),
+            'article2category' => new rex_button_article2category($params['article_id'], $context),
+            'article2startarticle' => new rex_button_article2Startarticle($params['article_id'], $context),
+            'article_move' => new rex_button_article_move($params['article_id'], $context),
+            'article_copy' => new rex_button_article_copy($params['article_id'], $context),
 
-            'content_copy' => rex_button_content_copy::init($params['article_id'], $context),
+            'content_copy' => new rex_button_content_copy($params['article_id'], $context),
         ];
 
         $panel = '<div class="btn-group">';

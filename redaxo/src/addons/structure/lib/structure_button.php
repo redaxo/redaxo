@@ -18,17 +18,14 @@ abstract class rex_structure_button
      * @var int
      */
     protected $edit_id;
-
     /**
-     * @param int $id
-     * @param rex_context $context
-     * @param array $params
-     * @return static
+     * @var rex_pager
      */
-    public static function init($id, rex_context $context, array $params = [])
-    {
-        return new static($id, $context, $params);
-    }
+    protected $pager;
+    /**
+     * @var rex_sql
+     */
+    protected $sql;
 
     /**
      * @param int $id
@@ -40,6 +37,28 @@ abstract class rex_structure_button
         $this->edit_id = $id;
         $this->context = $context;
         $this->params = $params;
+    }
+
+    /**
+     * @param $pager
+     * @return $this
+     */
+    public function setPager(rex_pager $pager)
+    {
+        $this->pager = $pager;
+
+        return $this;
+    }
+
+    /**
+     * @param $sql
+     * @return $this
+     */
+    public function setSql(rex_sql $sql)
+    {
+        $this->sql = $sql;
+
+        return $this;
     }
 
     /**
