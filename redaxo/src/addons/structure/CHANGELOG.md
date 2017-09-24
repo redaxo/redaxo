@@ -10,6 +10,7 @@ Version 2.3.2 – XX.XX.2017
 
 ### Neu
 
+* history-Plugin: Slider mit Visualisierung, zu welchen Zeitpunkten Snapshots gemacht wurden (@schuer)
 * Funktionen-Subpage wird nur angezeigt, wenn die Rolle für mindestens eine der Funktionen die Berechtigung hat (@DanielWeitenauer)
 * Modul-/Template-Liste: 100 pro Seite (@gharlan)
 * EP `SLICE_SHOW` enthält nun Parameter `sql` für direkten Zugriff auf alle Values (@dergel)

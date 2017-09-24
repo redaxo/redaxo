@@ -12,7 +12,7 @@ Version 5.4.0 – XX.XX.2017
 * `rex_sql_table`: 
     - Tabellen können auch neu erstellt, umbenannt und gelöscht werden (@gharlan)
     - Spaltennamen und Spaltenreihenfolge kann geändert werden (@gharlan)
-    - Indexes können verwaltet werden (@gharlan)
+    - Indexes und Fremdschlüssel können verwaltet werden (@gharlan)
     - Es kann eine komplette Tabellendefinition angegeben werden und dann mit `ensure()` eine Überprüfung und ggf. Korrektur erreicht werden (praktisch für install.php in Addons) (@gharlan)
 * `rex_sql`: Debug-Ausgaben werden über `dump`-Funktion ausgegeben (@alexplusde)
 * Backend-Sprachen:
