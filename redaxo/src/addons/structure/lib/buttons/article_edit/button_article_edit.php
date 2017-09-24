@@ -71,7 +71,7 @@ class rex_button_article_edit extends rex_structure_button
                             </dl>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-save" type="submit" name="artedit_function" '.rex::getAccesskey(rex_i18n::msg('article_save'), 'save').'>'.rex_i18n::msg('article_save').'</button>
+                            <button class="btn btn-send" type="submit" name="artedit_function" '.rex::getAccesskey(rex_i18n::msg('article_save'), 'save').'>'.rex_i18n::msg('article_save').'</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">'.rex_i18n::msg('form_abort').'</button>
                         </div>
                     </form>

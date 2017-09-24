@@ -78,7 +78,7 @@ class rex_button_category_edit extends rex_structure_button
                             '.$cat_form_edit.'
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-save" type="submit" name="category-edit-button" '.rex::getAccesskey(rex_i18n::msg('save_category'), 'save').'>'.rex_i18n::msg('save_category').'</button>
+                            <button class="btn btn-send" type="submit" name="category-edit-button" '.rex::getAccesskey(rex_i18n::msg('save_category'), 'save').'>'.rex_i18n::msg('save_category').'</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">'.rex_i18n::msg('form_abort').'</button>
                         </div>
                     </form>

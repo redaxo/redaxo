@@ -11,13 +11,13 @@ class rex_button_article2Startarticle extends rex_structure_button
         $article = rex_article::get($this->edit_id);
 
         // User has no permission or article is in root
-        if (!rex::getUser()->hasPerm('article2startarticle[]') || !$article->getParentId()) {
+        if ($article->isStartArticle() || !rex::getUser()->hasPerm('article2startarticle[]') || !$article->getParentId()) {
             return '';
         }
 
-        if ($article->isStartArticle()) {
-            return '<span class="text-muted">'.rex_i18n::msg('content_isstartarticle').'</span>';
-        }
+        /*if ($article->isStartArticle()) {
+            return '<span class="btn text-muted">'.rex_i18n::msg('content_isstartarticle').'</span>';
+        }*/
 
         $url = $this->context->getUrl([
             'rex-api-call' => 'article2startarticle',

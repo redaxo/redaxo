@@ -14,7 +14,7 @@ class rex_button_category_delete extends rex_structure_button
         $button = '<i class="rex-icon rex-icon-delete"></i>';
 
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            return '<span class="btn btn-default text-muted">'.$button.'</span>';
+            return '';#<span class="btn btn-default text-muted">'.$button.'</span>';
         }
 
         $url =  $this->context->getUrl([

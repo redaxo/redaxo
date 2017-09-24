@@ -20,7 +20,7 @@ class rex_button_article_status extends rex_structure_button
         $button = '<i class="rex-icon '.$status_icon.'"></i>';
 
         if ($article->isStartArticle() || !$user->hasPerm('publishArticle[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            return '<span class="btn btn-default text-muted">'.$button.'</span>';
+            return '';#<span class="btn btn-default text-muted">'.$button.'</span>';
         }
 
         $url = $this->context->getUrl([

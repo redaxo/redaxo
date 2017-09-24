@@ -11,9 +11,10 @@ class rex_button_article_delete extends rex_structure_button
         #$button = '<i class="rex-icon rex-icon-delete"></i> '.rex_i18n::msg('delete');
         $button = '<i class="rex-icon rex-icon-delete"></i>';
 
-        if ($article->isStartArticle()) {
-            return '<span class="btn btn-default text-muted">'.$button.'</span>';
+        if (!$article->isStartArticle()) {
+            return '';#<span class="btn text-muted">'.$button.'</span>';
         }
+
         $url = $this->context->getUrl([
             'rex-api-call' => 'article_delete',
             'article_id' => $this->edit_id,

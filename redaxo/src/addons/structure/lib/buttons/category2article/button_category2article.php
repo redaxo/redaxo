@@ -27,7 +27,7 @@ class rex_button_category2Article extends rex_structure_button
         $button = '<i class="rex-icon rex-icon-article"></i>';
 
         if ($sql->getRows() != 0) {
-            return '<span class="btn btn-default text-muted" title="'.rex_i18n::msg('content_nottoarticle').'">'.$button.'</span>';
+            return '';#<span class="btn btn-default text-muted" title="'.rex_i18n::msg('content_nottoarticle').'">'.$button.'</span>';
         }
 
         // Category type can be changed to article
