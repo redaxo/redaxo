@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.3.2 – XX.XX.2017
+Version 2.4.0 – XX.XX.2017
 --------------------------
 
 ### Security
