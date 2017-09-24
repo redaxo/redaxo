@@ -111,6 +111,8 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         }
     );
 
+    rex_view::addCssFile($this->getAssetsUrl('noUiSlider/nouislider.css'));
+    rex_view::addJsFile($this->getAssetsUrl('noUiSlider/nouislider.js'));
     rex_view::addCssFile($this->getAssetsUrl('history.css'));
     rex_view::addJsFile($this->getAssetsUrl('history.js'));
 
@@ -141,15 +143,14 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             foreach ($versions as $version) {
                 $history_info = $version['history_date'];
                 if ($version['history_user'] != '') {
-                    $history_info = $version['history_date'] . ' [' . $this->i18n('savedby') . ' ' . $version['history_user'] . ']';
+                    $history_info = $version['history_date'] . ' [' . $version['history_user'] . ']';
                 }
-                $select .= '<option value="' . $version['history_date'] . '">' . $history_info . '</option>';
+                $select .= '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $history_info . '</option>';
             }
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . $select . '</select>';
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
-            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . $this->i18n('snapshot_reactivate') . '</a>';
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
@@ -159,8 +160,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $fragment->setVar('content1iframe', $content1iframe, false);
             $fragment->setVar('content2select', $content2select, false);
             $fragment->setVar('content2iframe', $content2iframe, false);
-
-            $fragment->setVar('button_restore', $button_restore, false);
 
             echo $fragment->parse('history/layer.php');
             exit;
