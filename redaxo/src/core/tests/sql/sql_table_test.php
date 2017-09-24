@@ -8,8 +8,8 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $sql = rex_sql::factory();
-        $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
         $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE2 . '`');
+        $sql->setQuery('DROP TABLE IF EXISTS `' . self::TABLE . '`');
 
         rex_sql_table::clearInstancePool();
     }
@@ -23,6 +23,20 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
             ->addColumn(new rex_sql_column('title', 'varchar(255)', true, 'Default title'))
             ->setPrimaryKey('id')
             ->addIndex(new rex_sql_index('i_title', ['title']))
+            ->create();
+
+        return $table;
+    }
+
+    protected function createTable2()
+    {
+        $table = rex_sql_table::get(self::TABLE2);
+
+        $table
+            ->addColumn(new rex_sql_column('id', 'int(11)', false, null, 'auto_increment'))
+            ->addColumn(new rex_sql_column('test1_id', 'int(11)'))
+            ->setPrimaryKey('id')
+            ->addForeignKey(new rex_sql_foreign_key('test2_fk_test1', self::TABLE, ['test1_id' => 'id']))
             ->create();
 
         return $table;
@@ -71,6 +85,24 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertSame('i_title', $index->getName());
         $this->assertSame(rex_sql_index::INDEX, $index->getType());
         $this->assertSame(['title'], $index->getColumns());
+
+        $this->assertTrue($this->createTable2()->exists());
+
+        rex_sql_table::clearInstance(self::TABLE2);
+        $table2 = rex_sql_table::get(self::TABLE2);
+
+        $this->assertCount(1, $table2->getForeignKeys());
+        $a = $table2->hasForeignKey('test2_fk_test1');
+        $this->assertTrue($table2->hasForeignKey('test2_fk_test1'));
+        $this->assertFalse($table2->hasForeignKey('foo'));
+
+        $fk = $table2->getForeignKey('test2_fk_test1');
+
+        $this->assertSame('test2_fk_test1', $fk->getName());
+        $this->assertSame(self::TABLE, $fk->getTable());
+        $this->assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnUpdate());
+        $this->assertSame(rex_sql_foreign_key::RESTRICT, $fk->getOnDelete());
+        $this->assertSame(['test1_id' => 'id'], $fk->getColumns());
     }
 
     public function testDrop()
@@ -371,6 +403,99 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $this->assertFalse($table->hasColumn('i_title'));
+    }
+
+    public function testAddForeignKey()
+    {
+        $table = $this->createTable();
+
+        $fk = new rex_sql_foreign_key('test1_fk_config', 'rex_config', [
+            'config_namespace' => 'namespace',
+            'config_key' => 'key',
+        ], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::SET_NULL);
+
+        $table
+            ->addColumn(new rex_sql_column('config_namespace', 'varchar(75)', true))
+            ->addColumn(new rex_sql_column('config_key', 'varchar(255)', true))
+            ->addForeignKey($fk)
+            ->alter();
+
+        $this->assertSame($fk, $table->getForeignKey('test1_fk_config'));
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertEquals($fk, $table->getForeignKey('test1_fk_config'));
+    }
+
+    public function testEnsureForeignKey()
+    {
+        $table = $this->createTable();
+        $table2 = $this->createTable2();
+
+        $fk1 = new rex_sql_foreign_key('test2_fk_test1', self::TABLE, [
+            'test1_id' => 'id',
+        ], rex_sql_foreign_key::RESTRICT, rex_sql_foreign_key::CASCADE);
+
+        $fk2 = new rex_sql_foreign_key('test2_fk_config', 'rex_config', [
+            'config_namespace' => 'namespace',
+            'config_key' => 'key',
+        ], rex_sql_foreign_key::CASCADE, rex_sql_foreign_key::SET_NULL);
+
+        $table2
+            ->ensureColumn(new rex_sql_column('config_namespace', 'varchar(75)', true))
+            ->ensureColumn(new rex_sql_column('config_key', 'varchar(255)', true))
+            ->ensureForeignKey($fk1)
+            ->ensureForeignKey($fk2)
+            ->alter();
+
+        $this->assertSame($fk1, $table2->getForeignKey('test2_fk_test1'));
+        $this->assertSame($fk2, $table2->getForeignKey('test2_fk_config'));
+
+        rex_sql_table::clearInstance(self::TABLE2);
+        $table2 = rex_sql_table::get(self::TABLE2);
+
+        $this->assertEquals($fk1, $table2->getForeignKey('test2_fk_test1'));
+        $this->assertEquals($fk2, $table2->getForeignKey('test2_fk_config'));
+    }
+
+    public function testRenameForeignKey()
+    {
+        $table = $this->createTable();
+        $table2 = $this->createTable2();
+
+        $table2->renameForeignKey('test2_fk_test1', 'fk_test2_test1');
+
+        $this->assertFalse($table2->hasForeignKey('test2_fk_test1'));
+        $this->assertTrue($table2->hasForeignKey('fk_test2_test1'));
+
+        $table2->alter();
+
+        $this->assertTrue($table2->hasForeignKey('fk_test2_test1'));
+
+        rex_sql_table::clearInstance(self::TABLE2);
+        $table2 = rex_sql_table::get(self::TABLE2);
+
+        $this->assertFalse($table2->hasForeignKey('test2_fk_test1'));
+        $this->assertTrue($table2->hasForeignKey('fk_test2_test1'));
+        $this->assertSame(['test1_id' => 'id'], $table2->getForeignKey('fk_test2_test1')->getColumns());
+    }
+
+    public function testRemoveForeignKey()
+    {
+        $table = $this->createTable();
+        $table2 = $this->createTable2();
+
+        $table2
+            ->removeForeignKey('test2_fk_test1')
+            ->alter();
+
+        $this->assertFalse($table2->hasForeignKey('test2_fk_test1'));
+
+        rex_sql_table::clearInstance(self::TABLE2);
+        $table2 = rex_sql_table::get(self::TABLE2);
+
+        $this->assertFalse($table2->hasForeignKey('test2_fk_test1'));
     }
 
     public function testAlter()
