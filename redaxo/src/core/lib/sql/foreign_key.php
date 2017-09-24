@@ -13,10 +13,19 @@ class rex_sql_foreign_key
     const CASCADE = 'CASCADE';
     const SET_NULL = 'SET NULL';
 
+    /** @var string */
     private $name;
+
+    /** @var string */
     private $table;
+
+    /** @var string[] */
     private $columns;
+
+    /** @var string */
     private $onUpdate;
+
+    /** @var string */
     private $onDelete;
 
     private $modified = false;

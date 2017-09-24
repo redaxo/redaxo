@@ -519,8 +519,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_foreign_key $foreignKey
-     *
      * @return $this
      */
     public function addForeignKey(rex_sql_foreign_key $foreignKey)
@@ -537,8 +535,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_foreign_key $foreignKey
-     *
      * @return $this
      */
     public function ensureForeignKey(rex_sql_foreign_key $foreignKey)
