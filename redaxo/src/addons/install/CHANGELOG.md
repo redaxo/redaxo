@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* Autofokus auf Suchefeld (@skerbis)
+
+### Bugfixes
+
+* Bei Reload nach dem Download/Update kam es zu einer Exception (@gharlan)
+
+
 Version 2.1.2 – 14.02.2017
 --------------------------
 

@@ -1,6 +1,32 @@
 Changelog
 =========
 
+Version 2.4.0 – XX.XX.2017
+--------------------------
+
+### Security
+
+* XSS-Möglichkeit in Linkmap beseitigt (@staabm)
+
+### Neu
+
+* history-Plugin: Slider mit Visualisierung, zu welchen Zeitpunkten Snapshots gemacht wurden (@schuer)
+* Funktionen-Subpage wird nur angezeigt, wenn die Rolle für mindestens eine der Funktionen die Berechtigung hat (@DanielWeitenauer)
+* Modul-/Template-Liste: 100 pro Seite (@gharlan)
+* EP `SLICE_SHOW` enthält nun Parameter `sql` für direkten Zugriff auf alle Values (@dergel)
+* `rex_redirect`: Verständliche Exception wenn fälschlich eine URL statt einer Artikel-ID übergeben wird (@joachimdoerr)
+
+### Bugfixes
+
+* history-Plugin:
+    - Wiederherstellung funktionierte nicht (@skerbis)
+    - Besserer Spaltenabgleich zwischen History- und Haupttabelle (@dergel)
+* `rex_template` hat teilweise Notices geworfen (@DavidBruchmann)
+* Teilweise kam die unübersetzte Meldung "translate:article_doesnt_exist" (@TobiasKrais)
+* Modul-/Template-Liste: Beim Speichern landete man immer auf Seite 1 (@gharlan)
+* Benutzer mit `article2category[]`-Recht konnten fälschlich keine Kategorien in Artikel umwandeln (@gharlan)
+
+
 Version 2.3.1 – 19.03.2017
 --------------------------
 

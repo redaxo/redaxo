@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.0.5 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Multi-Select-Feld für Tabellen-Auswahl war zu klein (@alexplusde)
+
+
 Version 2.0.4 – 14.02.2017
 --------------------------
 
