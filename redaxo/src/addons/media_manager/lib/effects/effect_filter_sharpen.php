@@ -23,7 +23,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $this->media->asImage();
 
         // do not sharpen gifs, results in black image
-        if (strtolower($this->media->getFormat() === 'gif')) {
+        if (strtolower($this->media->getFormat()) === 'gif') {
             return;
         }
 
@@ -31,12 +31,12 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         if ($this->params['amount'] > 500) {
             $this->params['amount'] = 500;
         }
-        $this->params['amount'] = $this->params['amount'] * 0.016;
+        $this->params['amount'] = ((float) $this->params['amount']) * 0.016;
 
         if ($this->params['radius'] > 50) {
             $this->params['radius'] = 50;
         }
-        $this->params['radius'] = $this->params['radius'] * 2;
+        $this->params['radius'] = ((float) $this->params['radius']) * 2;
         if ($this->params['threshold'] > 255) {
             $this->params['threshold'] = 255;
         }
