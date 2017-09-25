@@ -17,4 +17,4 @@ page:
 requires:
     php:
         extensions: [gd]
-    redaxo: ^5.1.0
+    redaxo: ^5.4.0-beta1

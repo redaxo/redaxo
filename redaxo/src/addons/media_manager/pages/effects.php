@@ -131,6 +131,9 @@ if ($func == '' && $type_id > 0) {
     $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
     $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
+    $field->setLabelCallback(function ($shortName) use ($effects) {
+        return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
+    });
     $field->setWhereCondition('type_id = ' . $type_id);
 
     // effect name als SELECT
