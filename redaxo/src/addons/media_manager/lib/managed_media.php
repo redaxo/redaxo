@@ -303,16 +303,16 @@ class rex_managed_media
         $header = $this->getHeader();
         if (!isset($header['Content-Type'])) {
             $content_type = '';
-            
+
             if (!$content_type && function_exists('mime_content_type')) {
                 $content_type = mime_content_type($this->getSourcePath());
-            }            
-                
-            if (!$content_type && function_exists('finfo_open')) {
-               $finfo = finfo_open(FILEINFO_MIME_TYPE);
-               $content_type = finfo_file($finfo, $this->getSourcePath());
             }
-            
+
+            if (!$content_type && function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $content_type = finfo_file($finfo, $this->getSourcePath());
+            }
+
             if ($content_type != '') {
                 $this->setHeader('Content-Type', $content_type);
             }
