@@ -27,13 +27,11 @@ class rex_button_category2Article extends rex_structure_button
             return '';
         }
 
-        // Category type can be changed to article
-        $url = $this->context->getUrl([
+        $params = array_merge($this->params, [
             'rex-api-call' => 'category2article',
             'article_id' => $this->edit_id,
-            'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_toarticle').'?" title="'.rex_i18n::msg('content_toarticle').'"><i class="rex-icon rex-icon-article"></i></a>';
+        return '<a class="btn btn-default" href="'. $this->context->getUrl($params).'" data-confirm="'.rex_i18n::msg('content_toarticle').'?" title="'.rex_i18n::msg('content_toarticle').'"><i class="rex-icon rex-icon-article"></i></a>';
     }
 }

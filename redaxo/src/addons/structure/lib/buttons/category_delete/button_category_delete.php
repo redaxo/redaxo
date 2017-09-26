@@ -16,12 +16,11 @@ class rex_button_category_delete extends rex_structure_button
             return '';
         }
 
-        $url =  $this->context->getUrl([
+        $params = array_merge($this->params, [
             'rex-api-call' => 'category_delete',
             'category-id' => $this->edit_id,
-            'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'"><i class="rex-icon rex-icon-delete"></i></a>';
+        return '<a class="btn btn-default" href="'.$this->context->getUrl($params).'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'"><i class="rex-icon rex-icon-delete"></i></a>';
     }
 }

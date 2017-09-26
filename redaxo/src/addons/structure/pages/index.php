@@ -169,8 +169,8 @@ if ($KAT->getRows() > 0) {
                 $category_actions = [
                     'category_edit' => new rex_button_category_edit($i_category_id, $context),
                     'category_delete' => new rex_button_category_delete($i_category_id, $context),
-                    'category_status' => new rex_button_category_status($i_category_id, $context),
-                    'category2article' => new rex_button_category2Article($i_category_id, $context),
+                    'category_status' => new rex_button_category_status($i_category_id, $context, ['catstart' => $catstart, 'artstart' => $artstart]),
+                    'category2article' => new rex_button_category2Article($i_category_id, $context, ['catstart' => $catstart, 'artstart' => $artstart]),
                     'move_category' => new rex_button_category_move($i_category_id, $context),
                 ];
                 $category_actions['category_edit']->setSql($KAT);
@@ -362,10 +362,10 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         // Get article actions
         $article_actions = [
             'article_edit' => new rex_button_article_edit($sql->getValue('id'), $context),
-            'article_delete' => new rex_button_article_delete($sql->getValue('id'), $context),
-            'article_status' => new rex_button_article_status($sql->getValue('id'), $context),
-            'article2category' => new rex_button_article2category($sql->getValue('id'), $context),
-            'article2startarticle' => new rex_button_article2Startarticle($sql->getValue('id'), $context),
+            'article_delete' => new rex_button_article_delete($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
+            'article_status' => new rex_button_article_status($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
+            'article2category' => new rex_button_article2category($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
+            'article2startarticle' => new rex_button_article2Startarticle($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
             'move_article' => new rex_button_article_move($sql->getValue('id'), $context),
             'copy_article' => new rex_button_article_copy($sql->getValue('id'), $context),
         ];

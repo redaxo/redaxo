@@ -23,12 +23,11 @@ class rex_button_category_status extends rex_structure_button
         $status_class = $states[$status_index][1];
         $status_icon = $states[$status_index][2];
 
-        $url = $this->context->getUrl([
+        $params = array_merge($this->params, [
             'rex-api-call' => 'category_status',
             'category-id' => $this->edit_id,
-            'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default '.$status_class.'" href="'.$url.'" title="'.$status.'"><i class="rex-icon '.$status_icon.'"></i></a>';
+        return '<a class="btn btn-default '.$status_class.'" href="'.$this->context->getUrl($params).'" title="'.$status.'"><i class="rex-icon '.$status_icon.'"></i></a>';
     }
 }

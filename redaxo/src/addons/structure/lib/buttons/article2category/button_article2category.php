@@ -15,12 +15,11 @@ class rex_button_article2category extends rex_structure_button
             return '';
         }
 
-        $url = $this->context->getUrl([
+        $params = array_merge($this->params, [
             'rex-api-call' => 'article2Category',
             'article_id' => $this->edit_id,
-            'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('content_tocategory').'?" title="'.rex_i18n::msg('content_tocategory').'"><i class="rex-icon rex-icon-category"></i></a>';
+        return '<a class="btn btn-default" href="'.$this->context->getUrl($params).'" data-confirm="'.rex_i18n::msg('content_tocategory').'?" title="'.rex_i18n::msg('content_tocategory').'"><i class="rex-icon rex-icon-category"></i></a>';
     }
 }
