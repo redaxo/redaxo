@@ -11,7 +11,7 @@ class rex_password_policy
 
     private $options;
 
-    protected function __construct(array $options)
+    public function __construct(array $options)
     {
         $this->options = $options;
     }
