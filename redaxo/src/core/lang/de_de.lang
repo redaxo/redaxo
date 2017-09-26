@@ -339,6 +339,7 @@ backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 
 password_invalid = Das Passwort entspricht nicht den geforderten Regeln ({0})!
+password_admin_notice = Die Passwort-Regeln können über die config.yml geändert werden.
 password_rule_min = min. {0}
 password_rule_max = min. {0}
 password_rule_between = {0} bis {1}

@@ -80,7 +80,7 @@ if (rex_post('upd_psw_button', 'bool')) {
     if (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))
     ) {
         $error = rex_i18n::msg('user_psw_error');
-    } elseif (true !== $msg = rex_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1)) {
+    } elseif (true !== $msg = rex_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1, $user_id)) {
         $error = $msg;
     } else {
         $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);

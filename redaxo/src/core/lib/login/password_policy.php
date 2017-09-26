@@ -26,7 +26,15 @@ class rex_password_policy
         return new $class($options);
     }
 
-    public function check($password)
+    /**
+     * @param string   $password
+     * @param null|int $id
+     *
+     * @return bool|string `true` on success, otherwise an error message
+     *
+     * @throws rex_exception
+     */
+    public function check($password, $id = null)
     {
         if ($this->isValid($password)) {
             return true;
@@ -71,7 +79,7 @@ class rex_password_policy
                     $count = preg_match_all('/[a-z]/', $password);
                     break;
                 case 'digit':
-                    $count = preg_match_all('/\d/', $password);
+                    $count = preg_match_all('/[0-9]/', $password);
                     break;
                 case 'symbol':
                     $count = preg_match_all('/[^a-zA-Z0-9]/', $password);

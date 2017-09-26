@@ -130,7 +130,10 @@ if ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
 
-    if ($userpsw && true !== $msg = rex_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw)) {
+    if ($userpsw && (true !== $msg = rex_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw, $user_id))) {
+        if (rex::getUser()->isAdmin()) {
+            $msg .= ' '.rex_i18n::msg('password_admin_notice');
+        }
         $warnings[] = $msg;
     }
 }
