@@ -224,6 +224,20 @@
             this.targetFrame = $('#content-history-iframe-2', this.el);
             this.submit = $('[data-history-layer="snap"]', this.el);
             this.cancel = $('[data-history-layer="cancel"]', this.el);
+
+            // fix layout for browsers having flexbox issues (Safari < 11 most notably)
+            // they require a px based flex container to properly calculate childs’ height
+            // unfortunately, this results in removing the responsiveness ¯\_(ツ)_/¯
+            // see: https://github.com/philipwalton/flexbugs#14-flex-containers-with-wrapping-the-container-is-not-sized-to-contain-its-items
+            // use timeout to run late!
+            window.setTimeout(function () {
+                this.wrapper = $('.history-layer-panel-3', this.el);
+                this.target = $('.history-responsive-container', this.el);
+
+                if (this.target.height() < 1) {
+                    this.wrapper.css('height', this.wrapper.height());
+                }
+            }.bind(this), 1);
         },
 
         /**
