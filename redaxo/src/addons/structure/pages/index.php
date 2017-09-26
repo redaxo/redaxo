@@ -15,9 +15,6 @@ $catstart = rex_request('catstart', 'int');
 $edit_id = rex_request('edit_id', 'int');
 $function = rex_request('function', 'string');
 
-$info = '';
-$warning = '';
-
 $category_id = rex_category::get($category_id) ? $category_id : 0;
 $article_id = rex_article::get($article_id) ? $article_id : 0;
 $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
@@ -74,10 +71,6 @@ echo rex_view::clangSwitchAsButtons($context);
 
 // --------------------------------------------- Path
 require __DIR__ . '/../functions/function_rex_category.php';
-
-// -------------- STATUS_TYPE Map
-$catStatusTypes = rex_category_service::statusTypes();
-$artStatusTypes = rex_article_service::statusTypes();
 
 // --------------------------------------------- API MESSAGES
 echo rex_api_function::getMessage();
