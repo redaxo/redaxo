@@ -160,19 +160,23 @@ if ($KAT->getRows() > 0) {
         $i_category_id = $KAT->getValue('id');
 
         $kat_link = $context->getUrl(['category_id' => $i_category_id]);
-        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . htmlspecialchars($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
 
         // Show a category
-        if ($KATPERM) {
-            // Get category actions
-            $category_actions = [
-                'category_edit' => new rex_button_category_edit($i_category_id, $context),
-                'category_delete' => new rex_button_category_delete($i_category_id, $context),
-                'category_status' => new rex_button_category_status($i_category_id, $context),
-                'category2article' => new rex_button_category2Article($i_category_id, $context),
-                'move_category' => new rex_button_category_move($i_category_id, $context),
-            ];
-            $category_actions['category_edit']->setSql($KAT);
+        if ($KATPERM || rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
+
+            // User must have editing permissions to access category functions
+            if ($KATPERM) {
+                $category_actions = [
+                    'category_edit' => new rex_button_category_edit($i_category_id, $context),
+                    'category_delete' => new rex_button_category_delete($i_category_id, $context),
+                    'category_status' => new rex_button_category_status($i_category_id, $context),
+                    'category2article' => new rex_button_category2Article($i_category_id, $context),
+                    'move_category' => new rex_button_category_move($i_category_id, $context),
+                ];
+                $category_actions['category_edit']->setSql($KAT);
+            } else {
+                $category_actions = [];
+            }
 
             $category_actions = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_CATEGORY_ACTIONS', $category_actions, [
                 'context' => $context, // Context for url
@@ -181,11 +185,11 @@ if ($KAT->getRows() > 0) {
             ]));
 
             $echo .= '
-                <tr class="rex-structure-category-with-write">
-                    ' . $kat_icon_td . '
-                    <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
-                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . htmlspecialchars($KAT->getValue('catname')) . '</a></td>
-                    <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . htmlspecialchars($KAT->getValue('catpriority')) . '</td>
+                <tr class="rex-structure rex-structure-category">
+                    <td class="rex-table-icon"><a href="'.$kat_link.'" title="'.htmlspecialchars($KAT->getValue('catname')).'"><i class="rex-icon rex-icon-category"></i></a></td>
+                    <td class="rex-table-id" data-title="'.rex_i18n::msg('header_id') . '">'.$i_category_id.'</td>
+                    <td data-title="'.rex_i18n::msg('header_category').'"><a href="'.$kat_link.'">'.htmlspecialchars($KAT->getValue('catname')).'</a></td>
+                    <td class="rex-table-priority" data-title="'.rex_i18n::msg('header_priority').'">'.htmlspecialchars($KAT->getValue('catpriority')).'</td>
             ';
 
             // Show category actions
@@ -210,26 +214,6 @@ if ($KAT->getRows() > 0) {
 
             $echo .= '</td>';
             $echo .= '</tr>';
-        }
-        // Show a category for users without editing permission
-        elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
-            $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
-            $status_class = $catStatusTypes[$KAT->getValue('status')][1];
-            $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
-
-            $echo .= '
-                <tr class="rex-structure-category-muted">
-                    ' . $kat_icon_td . '
-                    <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
-                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . $KAT->getValue('catname') . '</a></td>
-                    <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . htmlspecialchars($KAT->getValue('catpriority')) . '</td>
-                    <td class="rex-table-action">
-                        <span class="text-muted"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</span>
-                        <span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span>
-                        <span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>
-                    </td>
-                </tr>
-            ';
         }
 
         $KAT->next();
