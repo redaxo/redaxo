@@ -1,5 +1,7 @@
 <?php
 /**
+ * Button to delete article
+ *
  * @package redaxo\structure
  */
 class rex_button_article_delete extends rex_structure_button
@@ -8,11 +10,8 @@ class rex_button_article_delete extends rex_structure_button
     {
         $article = rex_article::get($this->edit_id);
 
-        #$button = '<i class="rex-icon rex-icon-delete"></i> '.rex_i18n::msg('delete');
-        $button = '<i class="rex-icon rex-icon-delete"></i>';
-
         if (!$article->isStartArticle()) {
-            return '';#<span class="btn text-muted">'.$button.'</span>';
+            return '';
         }
 
         $url = $this->context->getUrl([
@@ -21,6 +20,6 @@ class rex_button_article_delete extends rex_structure_button
             'artstart' => rex_request('artstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'">'.$button.'</a>';
+        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'"><i class="rex-icon rex-icon-delete"></i></a>';
     }
 }

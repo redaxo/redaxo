@@ -1,9 +1,9 @@
 <?php
 /**
- * @author Daniel Weitenauer
- * @copyright (c) 2017 studio ahoi
+ * Generate button to change article type to start article
+ *
+ * @package redaxo\structure
  */
-
 class rex_button_article2Startarticle extends rex_structure_button
 {
     public function get()
@@ -14,10 +14,6 @@ class rex_button_article2Startarticle extends rex_structure_button
         if ($article->isStartArticle() || !rex::getUser()->hasPerm('article2startarticle[]') || !$article->getParentId()) {
             return '';
         }
-
-        /*if ($article->isStartArticle()) {
-            return '<span class="btn text-muted">'.rex_i18n::msg('content_isstartarticle').'</span>';
-        }*/
 
         $url = $this->context->getUrl([
             'rex-api-call' => 'article2startarticle',

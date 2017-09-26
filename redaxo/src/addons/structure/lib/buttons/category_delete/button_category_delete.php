@@ -1,5 +1,7 @@
 <?php
 /**
+ * Button to delete category
+ *
  * @package redaxo\structure
  */
 class rex_button_category_delete extends rex_structure_button
@@ -10,11 +12,8 @@ class rex_button_category_delete extends rex_structure_button
         $category_id = $article->getCategoryId();
         $user = rex::getUser();
 
-        #$button = '<i class="rex-icon rex-icon-delete"></i> '.rex_i18n::msg('delete');
-        $button = '<i class="rex-icon rex-icon-delete"></i>';
-
         if (!$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
-            return '';#<span class="btn btn-default text-muted">'.$button.'</span>';
+            return '';
         }
 
         $url =  $this->context->getUrl([
@@ -23,6 +22,6 @@ class rex_button_category_delete extends rex_structure_button
             'catstart' => rex_request('catstart', 'int'),
         ]);
 
-        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'">'.$button.'</a>';
+        return '<a class="btn btn-default" href="'.$url.'" data-confirm="'.rex_i18n::msg('delete').'?" title="'.rex_i18n::msg('delete').'"><i class="rex-icon rex-icon-delete"></i></a>';
     }
 }
