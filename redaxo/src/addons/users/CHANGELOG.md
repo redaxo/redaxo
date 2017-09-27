@@ -1,8 +1,12 @@
 Changelog
 =========
 
-Version 2.2.1 – XX.XX.2017
+Version 2.3.0 – XX.XX.2017
 --------------------------
+
+### Neu
+
+* Neue Extension Points: USER_ADDED, USER_UPDATED, USER_DELETED
 
 ### Bugfixes
 

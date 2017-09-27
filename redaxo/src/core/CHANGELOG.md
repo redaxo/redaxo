@@ -15,6 +15,8 @@ Version 5.4.0 – XX.XX.2017
     - Indexes und Fremdschlüssel können verwaltet werden (@gharlan)
     - Es kann eine komplette Tabellendefinition angegeben werden und dann mit `ensure()` eine Überprüfung und ggf. Korrektur erreicht werden (praktisch für install.php in Addons) (@gharlan)
 * `rex_sql`: Debug-Ausgaben werden über `dump`-Funktion ausgegeben (@alexplusde)
+* Neue Klasse `rex_password_policy`, für das Backend können in der config.yml Passwortregeln hinterlegt werden (Achtung: Default gelten nun die Regeln min. 8 Zeichen, und jeweils min. 1 Kleinbuchstabe, Großbuchtsabe und Ziffer)
+* Neue Extension Points: PROFILE_UPDATED, PASSWORD_UPDATED
 * Backend-Sprachen:
     - English ergänzt (@ynamite)
     - Portugiesisch ergänzt (Taina Soares)
@@ -50,6 +52,7 @@ Version 5.4.0 – XX.XX.2017
 * System-Log: HTML in Log-Messages wurde nicht escaped (@gharlan)
 * .htaccess in geschützten Ordnern: Anpassung für Apache 2.4 (@gharlan)
 * Session-ID-Neugenerierung warf teilweise Warnungen (@gharlan)
+* Im Chrome erschien beim Login nicht der Passwort-speichern-Dialog (@gharlan)
 
 
 Version 5.3.0 – 14.02.2017

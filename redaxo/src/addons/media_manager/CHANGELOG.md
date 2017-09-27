@@ -25,6 +25,7 @@ Version 2.4.0 – XX.XX.2017
     - flip: Native gd-Methode, 1px-Versatz, Transparenz-Erhaltung (@Hirbod)
     - greyscale: Native gd-Methode, Transparenz-Erhaltung (@Hirbod)
     - sepia: Native gd-Methode, Transparenz-Erhaltung (@Hirbod)
+    - sharpen: Warf teilweise Warnings (@gharlan)
     - mediapath: Teilweise kam bei eigentlich existierenden Bildern trotzdem das Error-Bild (@gharlan)
     - header: Korrektur no_cache-Header (@gharlan)
 

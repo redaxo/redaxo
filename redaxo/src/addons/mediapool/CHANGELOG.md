@@ -10,6 +10,7 @@ Version 2.3.1 – XX.XX.2017
     - konnte nicht die Multi-Aktionen (schieben, löschen) ausführen (@gharlan)
     - konnten in "Keine Kategorie" hochladen (@gharlan)
 * In der Doctypes-Property fehlte "jpeg" (@IngoWinter)
+* Abhängigkeit zur fileinfo-Extension entfernt (@staabm)
 
 
 Version 2.3.0 – 19.03.2017
