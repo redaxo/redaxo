@@ -7,23 +7,11 @@
  */
 class rex_password_policy
 {
-    use rex_factory_trait;
-
     private $options;
 
     public function __construct(array $options)
     {
         $this->options = $options;
-    }
-
-    /**
-     * @return static
-     */
-    public static function factory(array $options)
-    {
-        $class = static::getFactoryClass();
-
-        return new $class($options);
     }
 
     /**
