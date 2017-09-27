@@ -34,11 +34,15 @@ $user_id = rex_request('user_id', 'int');
 $info = '';
 $warnings = [];
 
+$user = null;
+
 if ($user_id != 0) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
     if ($sql->getRows() != 1) {
         $user_id = 0;
+    } else {
+        $user = new rex_user($sql);
     }
 }
 
@@ -173,12 +177,23 @@ if ($warnings) {
     }
 
     $info = rex_i18n::msg('user_data_updated');
+
+    rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
+        'id' => $user_id,
+        'user' => $user,
+    ], true));
 } elseif ($FUNC_DELETE != '') {
     // man kann sich selbst nicht loeschen..
     if (rex::getUser()->getId() != $user_id) {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE id = '$user_id' LIMIT 1");
         $info = rex_i18n::msg('user_deleted');
+
+        rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
+            'id' => $user_id,
+            'user' => $user,
+        ], true));
+
         $user_id = 0;
     } else {
         $warnings[] = rex_i18n::msg('user_notdeleteself');
@@ -190,12 +205,12 @@ if ($warnings) {
     if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
         // the server side encryption of pw is only required
         // when not already encrypted by client using javascript
-        $userpsw = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
+        $userpswHash = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
 
         $adduser = rex_sql::factory();
         $adduser->setTable(rex::getTablePrefix() . 'user');
         $adduser->setValue('name', $username);
-        $adduser->setValue('password', $userpsw);
+        $adduser->setValue('password', $userpswHash);
         $adduser->setValue('login', $userlogin);
         $adduser->setValue('description', $userdesc);
         $adduser->setValue('email', $useremail);
@@ -214,6 +229,12 @@ if ($warnings) {
         $user_id = 0;
         $FUNC_ADD = '';
         $info = rex_i18n::msg('user_added');
+
+        rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
+            'id' => $adduser->getLastId(),
+            'user' => new rex_user($adduser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$adduser->getLastId()])),
+            'password' => $userpsw,
+        ], true));
     } else {
         if ($useradmin == 1) {
             $adminchecked = 'checked="checked"';
