@@ -338,6 +338,18 @@ profile_save_psw = Passwort speichern
 backend_language = Backendsprache
 user_data_updated = Benutzerdaten wurden aktualisiert!
 
+password_invalid = Das Passwort entspricht nicht den geforderten Regeln ({0})!
+password_admin_notice = Die Passwort-Regeln können über die config.yml geändert werden.
+password_rule_min = min. {0}
+password_rule_max = min. {0}
+password_rule_between = {0} bis {1}
+password_rule_length = {0} Zeichen
+password_rule_letter = {0} Buchstabe(n)
+password_rule_uppercase = {0} Großbuchstabe(n)
+password_rule_lowercase = {0} Kleinbuchstabe(n)
+password_rule_digit = {0} Ziffer(n)
+password_rule_symbol = {0} Sonderzeichen
+
 # redaxo\include\classes\class.rex_list.php
 list_previous = vorherige Seite
 list_next = nächste Seite

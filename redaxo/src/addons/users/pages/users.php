@@ -129,6 +129,13 @@ if ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY) {
     if ($useremail && !rex_validator::factory()->email($useremail)) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
+
+    if ($userpsw && (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw, $user_id))) {
+        if (rex::getUser()->isAdmin()) {
+            $msg .= ' '.rex_i18n::msg('password_admin_notice');
+        }
+        $warnings[] = $msg;
+    }
 }
 
 if ($warnings) {
@@ -162,9 +169,7 @@ if ($warnings) {
     }
 
     if ($userpsw != '') {
-        // the server side encryption of pw is only required
-        // when not already encrypted by client using javascript
-        $userpsw = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
+        $userpsw = rex_login::passwordHash($userpsw);
 
         $updateuser->setValue('password', $userpsw);
     }
@@ -203,9 +208,7 @@ if ($warnings) {
     $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
 
     if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
-        // the server side encryption of pw is only required
-        // when not already encrypted by client using javascript
-        $userpswHash = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
+        $userpswHash = rex_login::passwordHash($userpsw);
 
         $adduser = rex_sql::factory();
         $adduser->setTable(rex::getTablePrefix() . 'user');
@@ -394,7 +397,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $content .= '
             <fieldset>
-                <input type="hidden" name="javascript" value="0" id="rex-js-javascript" />
                 <input type="hidden" name="subpage" value="" />
                 <input type="hidden" name="save" value="1" />
                 ' . $add_hidden;
@@ -496,23 +498,12 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         <script type="text/javascript">
         <!--
         jQuery(function($) {
-            $("#rex-form-user")
-                .submit(function(){
-                    var pwInp = $("#rex-js-user-password");
-                    if(pwInp.val() != "") {
-                        $("form#rex-form-user").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-                        pwInp.removeAttr("name");
-                    }
-            });
-
             $("#rex-js-user-admin").change(function() {
                  if ($(this).is(":checked"))
                      $("#rex-js-user-role").attr("disabled", "disabled");
                  else
                      $("#rex-js-user-role").removeAttr("disabled");
-        }).change();
-
-            $("#rex-js-javascript").val("1");
+            }).change();
         });
         //-->
         </script>';

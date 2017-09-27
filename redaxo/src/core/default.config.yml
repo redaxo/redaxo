@@ -24,6 +24,11 @@ session:
             secure: null
             httponly: true
             samesite: 'Strict'
+password_policy:
+    length: {min: 8}
+    lowercase: {min: 1}
+    uppercase: {min: 1}
+    digit: {min: 1}
 lang: de_de
 use_gzip: true
 use_etag: true
