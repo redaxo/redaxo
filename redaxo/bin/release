@@ -10,6 +10,9 @@ $REX['LOAD_PAGE'] = false;
 require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
 require $REX['BACKEND_FOLDER'] . '/src/core/packages.php';
 
+// avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
+ini_set('pcre.jit', 0);
+
 /**
  * @package redaxo\core
  *
@@ -92,9 +95,6 @@ class rex_release
 
     private function createChangelog()
     {
-        // avoid PREG_JIT_STACKLIMIT_ERROR, changelog parts can be long
-        $pcreJit = ini_set('pcre.jit', 0);
-
         $cutNextPart = function (&$changelog) {
             if (!preg_match('/^Version .*?([x\d]{2}\.[x\d]{2}\.[x\d]{4})(?:.|\v)*?(?=^Version \d|\z)/mi', $changelog , $match, PREG_OFFSET_CAPTURE)) {
                 return null;
@@ -128,8 +128,6 @@ class rex_release
         $changelog .= "\n";
 
         rex_file::put($this->path.'/CHANGELOG.md', $changelog);
-
-        ini_set('pcre.jit', $pcreJit);
     }
 
     private function createArchives()
