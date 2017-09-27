@@ -169,9 +169,7 @@ if ($warnings) {
     }
 
     if ($userpsw != '') {
-        $userpsw = rex_login::passwordHash($userpsw);
-
-        $updateuser->setValue('password', $userpsw);
+        $updateuser->setValue('password', rex_login::passwordHash($userpsw));
     }
 
     $updateuser->update();
@@ -186,6 +184,7 @@ if ($warnings) {
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
         'id' => $user_id,
         'user' => $user,
+        'password' => $userpsw,
     ], true));
 } elseif ($FUNC_DELETE != '') {
     // man kann sich selbst nicht loeschen..
