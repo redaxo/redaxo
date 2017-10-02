@@ -24,7 +24,7 @@ backup_please_choose_folder = Please choose the folders you'd like to export
 backup_intro_import = Please take not that the current database <b>will be deleted</b> when importing a new one. To be safe create a backup of the existing database by exporting it first.
 backup_database = Database import
 backup_filename = Filename
-backup_filename_notice = Variables: %REX_SERVER, %REX_VERSION and date variables, just like with strftime()
+backup_filename_notice = Variables: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> and date variables, just like with strftime(); file extension: <code>.cronjob.sql</code> (added automatically)
 backup_filesize = File size
 backup_delete = Delete
 backup_files = File import
@@ -55,6 +55,12 @@ backup_send_mail_notice = The AddOn "phpmailer" is required to use this option.
 backup_mailaddress = E-mail address
 backup_mail_subject = New database backup
 backup_mail_body = Attached you'll find the latest database backup from the website "{0}".
+
+backup_delete_interval = Delete old backups
+backup_delete_interval_off = Off
+backup_delete_interval_weekly = Keep one backup per week
+backup_delete_interval_monthly = Keep one backup per month
+backup_delete_interval_notice = Only backups older than one month will be deleted, and file name must end with <code>.cronjob.sql</code>.
 
 perm_general_backup[export] = Webseite exportieren
 
