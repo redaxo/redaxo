@@ -25,7 +25,7 @@ if (rex_post('btn_save', 'string') != '') {
     $labelcolor = $newConfig['labelcolor'];
     if ($labelcolor == '') {
         $tempConfig['labelcolor'] = '';
-    } elseif (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
+    } elseif (preg_match('^(#(?:[0-9a-f]{2}){2,4}|#[0-9a-f]{3}|(?:rgba?|hsla?)\((?:\d+%?(?:deg|rad|grad|turn)?(?:,|\s)+){2,3}[\s\/]*[\d\.]+%?\))$^', $labelcolor)) {
         $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
     } else {
         $error[] = rex_i18n::msg('customizer_labelcolor_error');
