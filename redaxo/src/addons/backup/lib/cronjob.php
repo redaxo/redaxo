@@ -15,7 +15,7 @@ class rex_cronjob_export extends rex_cronjob
         $filename = strftime($filename);
         $file = $filename;
         $dir = rex_backup::getDir() . '/';
-        $ext = '.sql';
+        $ext = '.cronjob.sql';
         if (file_exists($dir . $file . $ext)) {
             $i = 1;
             while (file_exists($dir . $file . '_' . $i . $ext)) {
@@ -28,29 +28,39 @@ class rex_cronjob_export extends rex_cronjob
             $message = $file . $ext . ' created';
 
             if ($this->delete_interval) {
-                $files = (glob(rex_path::addonData('backup').'*.sql'));
+                $files = glob(rex_path::addonData('backup', '*'.$ext));
                 $backups = [];
 
                 foreach ($files as $file) {
-                    $backups[filemtime($file)] = $file;
+                    $backups[$file] = filectime($file);
                 }
-                ksort($backups);
+                asort($backups, SORT_NUMERIC);
 
-                $limit = 60 * 60 * 24 * 31; // Generelle Vorhaltezeit: 1 Monat
+                $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
                 $step = '';
+                $countDeleted = 0;
 
-                foreach ($backups as $timestamp => $backup) {
-                    $step_last = $step;
+                foreach ($backups as $backup => $timestamp) {
+                    if ($timestamp > $limit) {
+                        // wenn es die generelle Vorhaltezeit unterschreitet
+                        break;
+                    }
+
+                    $stepLast = $step;
                     $step = date($this->delete_interval, (int) $timestamp);
 
-                    if ($step_last != $step) { // wenn es in diesem bestimmten Zeitraum unterschreitet
+                    if ($stepLast !== $step) {
+                        // wenn es zu diesem Interval schon ein Backup gibt
                         continue;
                     }
-                    if ($timestamp > (time() - $limit)) { // wenn es zu diesem Interval schon ein Backup gibt
-                        continue;
-                    }   // dann löschen
-                    unlink($backup);
-                    $message .= '\n'.$backup.' deleted';
+
+                    // dann löschen
+                    rex_file::delete($backup);
+                    ++$countDeleted;
+                }
+
+                if ($countDeleted) {
+                    $message .= ', '.$countDeleted.' old backups deleted';
                 }
             }
 
@@ -104,17 +114,6 @@ class rex_cronjob_export extends rex_cronjob
                 'type' => 'checkbox',
                 'options' => [1 => rex_i18n::msg('backup_send_mail')],
             ],
-            [
-                'label' => rex_i18n::msg('backup_delete_interval'),
-                'name' => 'delete_interval',
-                'type' => 'select',
-                'options' => [
-                    '0' => rex_i18n::msg('backup_delete_interval_off'),
-                    'YW' => rex_i18n::msg('backup_delete_interval_weekly'),
-                    'YM' => rex_i18n::msg('backup_delete_interval_monthly'), ],
-                'default' => 'YW',
-                'notice' => rex_i18n::msg('backup_delete_interval_notice'),
-            ],
         ];
         if (rex_addon::get('phpmailer')->isAvailable()) {
             $fields[] = [
@@ -127,6 +126,18 @@ class rex_cronjob_export extends rex_cronjob
             $fields[1]['notice'] = rex_i18n::msg('backup_send_mail_notice');
             $fields[1]['attributes'] = ['disabled' => 'disabled'];
         }
+
+        $fields[] = [
+            'label' => rex_i18n::msg('backup_delete_interval'),
+            'name' => 'delete_interval',
+            'type' => 'select',
+            'options' => [
+                '0' => rex_i18n::msg('backup_delete_interval_off'),
+                'YW' => rex_i18n::msg('backup_delete_interval_weekly'),
+                'YM' => rex_i18n::msg('backup_delete_interval_monthly'), ],
+            'default' => 'YW',
+            'notice' => rex_i18n::msg('backup_delete_interval_notice'),
+        ];
 
         return $fields;
     }
