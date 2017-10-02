@@ -99,7 +99,7 @@ media_manager_effect_crop_offset_width = Horizontaler Versatz/Offset
 media_manager_effect_crop_offset_height = Vertikaler Versatz/Offset
 media_manager_effect_crop_position = Bezugspunkt
 
-media_manager_effect_rounded_corners = Bild: Abgerungete Ecken
+media_manager_effect_rounded_corners = Bild: Abgerundete Ecken
 media_manager_effect_rounded_corners_topleft = Oben Links
 media_manager_effect_rounded_corners_topright = Oben Rechts
 media_manager_effect_rounded_corners_bottomleft = Unten Links
