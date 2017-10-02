@@ -30,22 +30,25 @@ class rex_cronjob_export extends rex_cronjob
             if ($this->delete_interval) {
                 $files = glob(rex_path::addonData('backup', '*'.$ext));
                 $backups = [];
+                $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
 
                 foreach ($files as $file) {
-                    $backups[$file] = filectime($file);
+                    $timestamp = filectime($file);
+
+                    if ($timestamp > $limit) {
+                        // wenn es die generelle Vorhaltezeit unterschreitet
+                        continue;
+                    }
+
+                    $backups[$file] = $timestamp;
                 }
+
                 asort($backups, SORT_NUMERIC);
 
-                $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
                 $step = '';
                 $countDeleted = 0;
 
                 foreach ($backups as $backup => $timestamp) {
-                    if ($timestamp > $limit) {
-                        // wenn es die generelle Vorhaltezeit unterschreitet
-                        break;
-                    }
-
                     $stepLast = $step;
                     $step = date($this->delete_interval, (int) $timestamp);
 
