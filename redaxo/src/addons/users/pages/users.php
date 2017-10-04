@@ -556,7 +556,7 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnFormat('login', 'custom', function ($params) {
         $list = $params['list'];
 
-        $login = $list->getValue('login');
+        $login = htmlspecialchars($list->getValue('login'));
         if (!$list->getValue('status')) {
             $login = '<span class="text-muted">' . $login . '</span>';
         }
@@ -573,7 +573,7 @@ if (isset($SHOW) and $SHOW) {
         } elseif ($list->getValue('role') != '') {
             foreach (explode(',', $list->getValue('role')) as $user_role_id) {
                 if (isset($roles[$user_role_id])) {
-                    $role_names[] = $roles[$user_role_id];
+                    $role_names[] = htmlspecialchars($roles[$user_role_id]);
                 }
             }
         }
