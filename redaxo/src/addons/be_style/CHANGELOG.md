@@ -1,10 +1,11 @@
 Changelog
 =========
 
-Version 2.2.2 – XX.XX.2017
+Version 2.3.0 – 04.10.2017
 --------------------------
 
 * `max-width` für iframe, img, svg, video, object und embed in Slices im Backend (@skerbis)
+* customizer: Bei der Erkennungsfarbe können nun auch Farbangaben wie `rgba(...)` genutzt werden (@gharlan)
 
 
 Version 2.2.1 – 17.02.2017

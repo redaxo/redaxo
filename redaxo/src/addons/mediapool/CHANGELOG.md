@@ -1,8 +1,13 @@
 Changelog
 =========
 
-Version 2.3.1 – XX.XX.2017
+Version 2.3.1 – 04.10.2017
 --------------------------
+
+### Security
+
+* Weitere Dateiendungen werden geblockt: .pht, .phar, .hh, .htaccess, .htpasswd (@gharlan)
+* Bei Dateien, die mit einem Punkt beginnen, wird dieser beim Upload durch einen Unterstrich ersetzt (@gharlan)
 
 ### Bugfixes
 

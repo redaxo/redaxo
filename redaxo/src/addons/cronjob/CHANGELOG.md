@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.1.2 – XX.XX.2017
+Version 2.1.2 – 04.10.2017
 --------------------------
 
 ### Bugfixes
