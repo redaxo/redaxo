@@ -1,8 +1,12 @@
 Changelog
 =========
 
-Version 2.0.5 – XX.XX.2017
+Version 2.1.0 – 04.10.2017
 --------------------------
+
+### Neu
+
+* Neue Option im Backup-Cronjob zum automatischen Löschen alter Backups (@alexplusde, @gharlan)
 
 ### Bugfixes
 
