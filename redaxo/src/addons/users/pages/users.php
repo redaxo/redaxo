@@ -380,7 +380,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
             $add_admin_chkbox = '';
         }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" autofocus />';
 
         $formElements = [];
 
@@ -419,7 +419,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . htmlspecialchars($username) . '" />';
     $formElements[] = $n;
 
     $n = [];
