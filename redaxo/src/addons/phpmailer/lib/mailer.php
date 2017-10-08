@@ -7,6 +7,9 @@
  *
  * @package redaxo\phpmailer
  */
+ 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class rex_mailer extends PHPMailer
 {
