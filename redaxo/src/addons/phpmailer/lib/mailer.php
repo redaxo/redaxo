@@ -10,6 +10,7 @@
  
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\smtp;
 
 class rex_mailer extends PHPMailer
 {
