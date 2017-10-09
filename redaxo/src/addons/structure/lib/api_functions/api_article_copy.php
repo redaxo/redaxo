@@ -23,7 +23,7 @@ class rex_api_article_copy extends rex_api_function
                 $result = new rex_api_result(true, rex_i18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
                     'article_id' => $new_id,
-                    'info' => $result->getMessage()
+                    'info' => $result->getMessage(),
                 ], false));
             } else {
                 $result = new rex_api_result(false, rex_i18n::msg('content_errorcopyarticle'));

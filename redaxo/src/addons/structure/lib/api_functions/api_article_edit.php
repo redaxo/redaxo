@@ -27,4 +27,3 @@ class rex_api_article_edit extends rex_api_function
         return $result;
     }
 }
-

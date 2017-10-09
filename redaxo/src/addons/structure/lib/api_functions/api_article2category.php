@@ -25,4 +25,3 @@ class rex_api_article2category extends rex_api_function
         throw new rex_api_exception('User has no permission for this article!');
     }
 }
-
