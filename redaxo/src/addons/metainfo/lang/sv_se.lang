@@ -1,4 +1,4 @@
-media = Medien
+media = Filer
 categories = Kategorier
 articles = Artiklar
 
@@ -7,7 +7,7 @@ minfo_metainfos_not_found = Inga metainformationer hittades
 
 minfo_field_list_caption = Lista av metafält
 
-minfo_field_fieldset = earbeta/skapa fält
+minfo_field_fieldset = redigera/skapa fält
 minfo_field_label_prefix = Prefix
 minfo_field_label_title = Fältbeteckning
 minfo_field_label_name = Spaltnamn
@@ -39,8 +39,7 @@ minfo_field_params_notice_8 = Exempel:<br /> <code>category="1"</code>
 minfo_field_params_notice_9 = Exempel:<br /> <code>category="1"</code>
 
 minfo_field_attributes_notice = Exempel:<br /><code>style="color:red;" multiple="multiple" class="my_css_class" perm="admin[]"</code>
-minfo_field_label_notice = Kod som körs om värdet av fältet ändras
-Code der ausgeführt wird, wenn der Wert des Feldes geändert wird.<br /> Läsbara variablar: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
+minfo_field_label_notice = Kod som utförs om värdet av fältet ändras.<br /> Läsbara variablar: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
 
 minfo_field_error_name = Vänligen ange ett spaltnamn!
 minfo_field_error_unique_name = Spaltnamnet existerar redan!
@@ -49,7 +48,7 @@ minfo_field_error_chars_name = Spaltnamnet innehåller ogiltiga tecknen (tillåt
 minfo_field_error_invalid_prefix = Den angivna präfixen är ogiltig!
 minfo_field_error_invalid_type = Den angivna typen är ogiltig!
 minfo_field_error_invalid_length = Den angivna längden av fältet är ogiltig!
-minfo_field_error_invalid_name = Der angegebene Spaltenname ist ungültig!
+minfo_field_error_invalid_name = Splatnamnet är ogiltig!
 minfo_field_error_invalid_fieldid = Den angivna fält-id är ogiltig!
 minfo_field_error_invalid_typeid = Den angivna type-id är ogiltig!
 minfo_field_error_deleted = Fältet raderades inte!
@@ -65,10 +64,11 @@ minfo_metadata_saved = Metadata sparades.
 minfo_media_in_use_art = Artiklar (Metadata)
 minfo_media_in_use_cat = Kategorier (Metadata)
 minfo_media_in_use_med = Medier (Metadata)
+minfo_media_in_use_clang = Språk (Metadata)
 
 minfo_callback_lang_indep_field = Språkoberoende fält
 
-# bc: labels från core
+# bc: labels aus dem core
 online_from = Online från
 online_to = till
 description = Beskrivning

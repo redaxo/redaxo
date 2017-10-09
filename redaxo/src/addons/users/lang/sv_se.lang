@@ -1,8 +1,8 @@
 user_management = Användare
-roles = Rollen
+roles = Roller
 user = Användare
 users = Användare
-admin = Admin
+admin = Administrator
 
 user_deleted = Användare raderades!
 user_added = Användare tillfogades!
@@ -39,5 +39,5 @@ add_user_role = Tillfoga roll
 user_role_save = Spara roll
 user_role_apply = spara roll och fortsätt
 user_role_delete = radera
-user_role_caption = Lista av alla anlagda roll
+user_role_caption = Lista av alla befintliga roll
 user_no_role = Ingen roll

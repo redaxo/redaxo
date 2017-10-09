@@ -1,0 +1,24 @@
+customizer = Customizer
+customizer_features = Funktioner
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = Aktivera CodeMirror
+customizer_codemirror_theme = CodeMirror theme
+
+customizer_codemirror_info = När CodeMirror är aktiverat används det automatiskt när du redigerar mallar eller moduler. För att använda CodeMirror manuellt för anpassade textarea-fält, använd följande syntax: <br> <br> <code> <textarea class = "codemirror" codemirror-theme = "themename" och codemirror-mode = "php / htmlmixed"> </ Textarea> </ code> <br> <br> Parametrarna <i> codemirror-tema </ i> och <i> codemirror-läge </ i> är frivilliga.
+
+customizer_labeling = Tillägg
+customizer_labelcolor = Detekteringsfärg (t.ex. #43a047)
+customizer_labelcolor_notice = Giltig CSS-färgspecifikation (som t.ex. <code> # 03f0ab </ code>, <code> rgba (255, 100, 0, 0,5) </ code> etc.)
+customizer_showlink = Visa länk till webbsidan ?
+
+customizer_config_updated = Inställningarna har sparats
+customizer_config_update_failed = Inställningarna har inte sparats
+
+customizer_update = Spara inställningar
+
+
+customizer_projectname = Projektnamn
+customizer_textarea = Bredd av textarea i mallar och moduler
+customizer_liquid = Liquid layout
+customizer_nav_flyout = Navigation med flyout
