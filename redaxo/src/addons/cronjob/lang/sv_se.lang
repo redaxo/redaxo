@@ -7,7 +7,7 @@ cronjob_caption = List av alla anlagda cronjobb
 cronjob_no_cronjobs = Inga cronjobb tillgängliga
 
 cronjob_delete = radera
-cronjob_really_delete = Vill du säkert radera cronjobbet?
+cronjob_really_delete = Är du säkert att du vill radera cronjobbet?
 cronjob_delete_success = Cronjobb "{0}" raderades!
 cronjob_delete_error = Cronjobb "{0}" kunde inte raderas!
 
@@ -20,7 +20,7 @@ cronjob_description = Beskrivning
 cronjob_examples = Exempel
 
 cronjob_type = Typ
-cronjob_type_not_found = Cronjobb "{0}" kunde inte bearbetas eftersom klass "{1}" inte kunde hittas. Kolla om det tillhöriga AddOn/PlugIn är aktiverad.
+cronjob_type_not_found = Cronjobb "{0}" kunde inte bearbetas eftersom klass "{1}" inte kunde hittas. Kolla om det tillhöriga AddOn/PlugIn:et är aktiverad.
 cronjob_type_phpcode = PHP-kod
 cronjob_type_phpcallback = PHP-callback
 cronjob_type_urlrequest = URL-upprop
@@ -34,42 +34,51 @@ cronjob_type_no_parameters = Inga vidare parametrar nödvändiga för denna typ 
 
 cronjob_interval = Intervall
 cronjob_interval_minutes = Minut(er)
-cronjob_interval_hour = Timm(ar)
-cronjob_interval_day = Dag(ar)
-cronjob_interval_week = Vecka(-or)
-cronjob_interval_month = Månad(er)
-cronjob_interval_year = År
+cronjob_interval_minutes_all = Alla 5 minuter
+cronjob_interval_hours = Timmar
+cronjob_interval_hours_all = Varje timme
+cronjob_interval_days = Dagar
+cronjob_interval_days_all = Varje dag
+cronjob_interval_weekdays = Veckodagar
+cronjob_interval_weekdays_all = Någon veckodag
+cronjob_interval_months = Månader
+cronjob_interval_months_all = Varje månad
 
 cronjob_environment = Område
+cronjob_environment_notice = Skript: Verkställning via <code>redaxo/src/addons/cronjob/bin/run</code>. Skriptet bör kallas upp regelbundet av ett riktigt cron-jobb.
 cronjob_environment_frontend = Frontend
 cronjob_environment_backend = Backend
+cronjob_environment_script = Skript
 
-cronjob_execution = Utförande
+cronjob_execution = Verkställning
 cronjob_execution_beginning = Skriptbörjan
 cronjob_execution_ending = Skriptända
+
+cronjob_nexttime = Nästa verkställning
 
 cronjob_status_function = Status/Funktion
 cronjob_status = Status
 cronjob_status_activated = aktiverad
 cronjob_status_deactivated = deaktiverad
-cronjob_status_invalid = defekt
+cronjob_status_invalid = felaktig
 cronjob_status_activate_success = Cronjobb "{0}" aktiverades!
 cronjob_status_activate_error = Cronjobb "{0}" kunde inte aktiveras!
 cronjob_status_deactivate_success = Cronjobb "{0}" deaktiverades!
 cronjob_status_deactivate_error = Cronjobb "{0}" kunde inte deaktiveras!
 
 cronjob_error_no_name = Ange ett namn!
+cronjob_error_no_environment = Minst ett område måste väljas ut!
 
-cronjob_not_found = Cronjobb hittades inte!
+cronjob_not_found = Cronjobb kunde inte hittas!
 cronjob_not_editable = Cronjobb kan inte redigeras!
 
 cronjob_log = Log
 cronjob_log_date = Datum
-cronjob_log_year = År
+cronjob_log_year = år
 cronjob_log_month = Månad
 cronjob_log_ok = OK
-cronjob_no_log_files = Inga Log-filer tillgängliga.
+cronjob_no_log_files = Inga log-filer tillgängliga.
 cronjob_log_no_data = Inga data tillgängliga.
-cronjob_log_caption_1 = Lista över körda cronjobb i {0} {1}
-cronjob_log_caption_2 = Lista över senast körda cronjobb
+cronjob_log_caption_1 = Lista över utförda cronjobb i {0} {1}
+cronjob_log_caption_2 = Lista över senast utförda cronjobb
 cronjob_log_message = Meddelande
