@@ -158,65 +158,71 @@ function writeREXMedialist(id){
     writeREX(id, 'REX_MEDIALIST_', 'REX_MEDIALIST_SELECT_');
 }
 
+function getPreviewUrl(media, mediaManager) {
+    var url = '';
+	if('.svg' != media.substr(media.length - 4) && mediaManager) {
+		url = './index.php?rex_media_type=rex_mediabutton_preview&rex_media_file='+ media;
+	}
+	else {
+		url = '../media/'+ media;
+	}	
+	return url;
+}
+
+function isMedia(media) {
+	return media && media.length != 0 && $.inArray(media.split('.').pop(), rex.imageExtensions);
+}
 
 $(document).ready(function () {
     // ------------------ Preview fuer REX_MEDIA_BUTTONS, REX_MEDIALIST_BUTTONS
-    function rexShowMediaPreview() {
-        var value, img_type;
-        if($(this).hasClass("rex-js-widget-media"))
-        {
-            value = $("input[type=text]", this).val();
-            img_type = "rex_mediabutton_preview";
-        }else
-        {
-            value = $("select :selected", this).text();
-            img_type = "rex_medialistbutton_preview";
+    $('.rex-js-widget-preview').each(function () {
+	    
+	    var $this = $(this);
+        var mediaManager = $this.hasClass("rex-js-widget-preview-media-manager");
+        var $triggers = [];
+        
+        if($this.hasClass("rex-js-widget-media")) {
+	        $triggers.push({
+		        media: $this.find("input[type=text]").val(),
+		        el: $this
+	        });
+        } else {
+	        $this.find("select option").each(function(){
+		        $triggers.push({
+			        media: $(this).text(),
+			        el: $(this)
+		        });
+	        });
         }
+                
+        var $img = $('<img style="position:absolute;left:50%;top:-90px;transform:translateX(-50%)" />'),
+    		$ct = $('<div class="preview-wrap" style="position:relative" />');
+    		
+        $this.wrapInner($ct);
+        $ct = $this.find('.preview-wrap:first');
+		$img.fadeOut(0).appendTo($ct);
 
-        var div = $(".rex-js-media-preview", this);
+        $.each($triggers, function(){
+	        
+	        var entry = this;
+	        
+	        if(isMedia(entry.media)) {
+		        				
+				entry.el.hover(function(){
+					$img.fadeOut(0);
+			        var url = getPreviewUrl(entry.media, mediaManager);
+		            $img.attr({'src': url, 'height': 80});
+					$img.stop(true,true).delay(250).fadeIn(250);
+				}, function(){
+					$img.stop(true,true).fadeOut(250);
+				});
 
-        var url;
-        var width = 0;
-        if('.svg' != value.substr(value.length - 4) && $(this).hasClass("rex-js-widget-preview-media-manager"))
-            url = './index.php?rex_media_type='+ img_type +'&rex_media_file='+ value;
-        else
-        {
-            url = '../media/'+ value;
-            width = 246;
-        }
-
-        if(value && value.length != 0 && $.inArray(value.split('.').pop(), rex.imageExtensions))
-        {
-            // img tag nur einmalig einf�gen, ggf erzeugen wenn nicht vorhanden
-            var img = $('img', div);
-            if(img.length == 0)
-            {
-                div.html('<img />');
-                img = $('img', div);
-            }
-            img.attr('src', url);
-            if (width != 0)
-                img.attr('width', width);
-
-            div.stop(true, false).slideDown("fast");
-        }
-        else
-        {
-            div.stop(true, false).slideUp("fast");
-        }
-    }
-
-    // Medialist preview neu anzeigen, beim wechsel der auswahl
-    $('body')
-        .on('click', '.rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
-        .on('mouseenter', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', rexShowMediaPreview)
-        .on('mouseleave', '.rex-js-widget-media.rex-js-widget-preview, .rex-js-widget-medialist.rex-js-widget-preview', function() {
-            var div = $('.rex-js-media-preview', this);
-            if(div.css('height') != 'auto')
-            {
-                div.slideUp("normal");
-            }
+	        } else {
+		        return;
+	        }
+	        
         });
 
+    });
 
 });
