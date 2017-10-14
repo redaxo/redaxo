@@ -14,13 +14,18 @@ Installation
 
 *Entwicklungsstand* installieren:
 
-```sh
+## WINDOWS:  ##
+cd C:\xampp\htdocs\
+
+## LINUX \ UNIX:  ##
+cd /var/www/html/
+
 git clone https://github.com/redaxo/redaxo.git
+cd redaxo
 git submodule init
 git submodule update
-```
 
-*Beachte:* 
+*Beachte:*
 - Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten *nicht* die nötigen GIT Submodule, funktionieren daher nicht.
 - Die auf Github angebotenen REDAXO versionen sollten *nicht* im Produkiveinsatz verwendet werden!
 
