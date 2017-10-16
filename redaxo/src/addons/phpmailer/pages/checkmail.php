@@ -17,10 +17,10 @@ if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '') {
 }
 if ($emptymail != '') {
     $mail = new rex_mailer();
-    $mail->AddAddress($this->getConfig('test_address'));
+    $mail->addAddress($this->getConfig('test_address'));
     $mail->Subject = 'PHPMailer-Test';
     $mail->Body = "Hi \n\n this mail was sent by PHPMailer!";
-    if (!$mail->Send()) {
+    if (!$mail->send()) {
         $content .= '<div class="alert alert-danger">';
         $content .= '<h2>'.$this->i18n('checkmail_error_headline') . '</h2><hr>';
         $content .= $this->i18n('checkmail_error') . ': ' . $mail->ErrorInfo;
