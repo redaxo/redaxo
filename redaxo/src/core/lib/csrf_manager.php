@@ -9,6 +9,11 @@ class rex_csrf_manager
 {
     const PARAM = '_token';
 
+    /**
+     * @param string $tokenId
+     *
+     * @return string
+     */
     public static function getToken($tokenId)
     {
         $tokens = self::getTokens();
@@ -24,11 +29,22 @@ class rex_csrf_manager
         return $token;
     }
 
+    /**
+     * @param string $tokenId
+     *
+     * @return string
+     */
     public static function getHiddenField($tokenId)
     {
         return sprintf('<input type="hidden" name="%s" value="%s"/>', self::PARAM, self::getToken($tokenId));
     }
 
+    /**
+     * @param string      $tokenId
+     * @param null|string $token   If `null`, the token is fetched via "_token" request param.
+     *
+     * @return bool
+     */
     public static function isValid($tokenId, $token = null)
     {
         $tokens = self::getTokens();
@@ -48,6 +64,9 @@ class rex_csrf_manager
         return $token === $tokens[$tokenId];
     }
 
+    /**
+     * @param string $tokenId
+     */
     public static function removeToken($tokenId)
     {
         $tokens = self::getTokens();
