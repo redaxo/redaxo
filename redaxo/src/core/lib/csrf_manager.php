@@ -7,7 +7,7 @@
  */
 class rex_csrf_manager
 {
-    const PARAM = '_token';
+    const PARAM = '_csrf_token';
 
     /**
      * @param string $tokenId
@@ -41,7 +41,7 @@ class rex_csrf_manager
 
     /**
      * @param string      $tokenId
-     * @param null|string $token   If `null`, the token is fetched via "_token" request param.
+     * @param null|string $token   If `null`, the token is fetched via "_csrf_token" request param.
      *
      * @return bool
      */
