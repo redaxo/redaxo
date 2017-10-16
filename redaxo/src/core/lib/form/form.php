@@ -1232,7 +1232,7 @@ class rex_form
     {
         $messages = [];
 
-        if (!rex_csrf_manager::isValid($this->getName())) {
+        if (!rex_csrf_manager::isValid('rex_form_'.$this->getName())) {
             $messages[] = rex_i18n::msg('csrf_token_invalid');
         }
 
@@ -1539,7 +1539,7 @@ class rex_form
             ++$i;
         }
 
-        $s .= rex_csrf_manager::getHiddenField($this->getName()) . "\n";
+        $s .= rex_csrf_manager::getHiddenField('rex_form_'.$this->getName()) . "\n";
         $s .= '</form>' . "\n";
 
         return $s;
