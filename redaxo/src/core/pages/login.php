@@ -110,6 +110,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
 <form id="rex-form-login" action="' . rex_url::backendController() . '" method="post">
     ' . $content . '
+    ' . rex_csrf_manager::getHiddenField('backend_login') . '
 </form>
 <script type="text/javascript">
      <!--

@@ -1231,6 +1231,11 @@ class rex_form
     protected function validate()
     {
         $messages = [];
+
+        if (!rex_csrf_manager::isValid($this->getName())) {
+            $messages[] = rex_i18n::msg('csrf_token_invalid');
+        }
+
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 /** @var rex_form_element $element */
@@ -1534,6 +1539,7 @@ class rex_form
             ++$i;
         }
 
+        $s .= rex_csrf_manager::getHiddenField($this->getName()) . "\n";
         $s .= '</form>' . "\n";
 
         return $s;

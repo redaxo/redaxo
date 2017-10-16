@@ -114,6 +114,8 @@ class rex_backend_login extends rex_login
 
         unset($_SESSION[rex::getProperty('instname')][self::SYSTEM_ID]);
         self::deleteStayLoggedInCookie();
+
+        rex_csrf_manager::removeAll();
     }
 
     private static function deleteStayLoggedInCookie()
