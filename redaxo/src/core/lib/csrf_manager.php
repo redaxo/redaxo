@@ -73,6 +73,10 @@ class rex_csrf_manager
     {
         $tokens = self::getTokens();
 
+        if (!isset($tokens[$tokenId])) {
+            return;
+        }
+
         unset($tokens[$tokenId]);
 
         rex_set_session(self::getSessionKey(), $tokens);
