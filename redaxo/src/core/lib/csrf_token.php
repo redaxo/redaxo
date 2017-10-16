@@ -1,76 +1,96 @@
 <?php
 
 /**
- * Manager for generating and validating csrf tokens.
+ * Class for generating and validating csrf tokens.
  *
  * @author gharlan
  *
  * @package redaxo\core
  */
-class rex_csrf_manager
+class rex_csrf_token
 {
+    use rex_factory_trait;
+
     const PARAM = '_csrf_token';
+
+    private $id;
+
+    private function __construct($tokenId)
+    {
+        $this->id = $tokenId;
+    }
 
     /**
      * @param string $tokenId
      *
+     * @return static
+     */
+    public static function factory($tokenId)
+    {
+        $class = static::getFactoryClass();
+
+        return new $class($tokenId);
+    }
+
+    /**
      * @return string
      */
-    public static function getToken($tokenId)
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue()
     {
         $tokens = self::getTokens();
 
-        if (isset($tokens[$tokenId])) {
-            return $tokens[$tokenId];
+        if (isset($tokens[$this->id])) {
+            return $tokens[$this->id];
         }
 
         $token = self::generateToken();
-        $tokens[$tokenId] = $token;
+        $tokens[$this->id] = $token;
         rex_set_session(self::getSessionKey(), $tokens);
 
         return $token;
     }
 
     /**
-     * @param string $tokenId
-     *
      * @return string
      */
-    public static function getHiddenField($tokenId)
+    public function getHiddenField()
     {
-        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::PARAM, self::getToken($tokenId));
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::PARAM, $this->getValue());
     }
 
     /**
-     * @param string $tokenId
-     *
      * @return bool
      */
-    public static function isValid($tokenId)
+    public function isValid()
     {
         $tokens = self::getTokens();
 
-        if (!isset($tokens[$tokenId])) {
+        if (!isset($tokens[$this->id])) {
             return false;
         }
 
         $token = rex_request(self::PARAM, 'string');
 
-        return hash_equals($tokens[$tokenId], $token);
+        return hash_equals($tokens[$this->id], $token);
     }
 
-    /**
-     * @param string $tokenId
-     */
-    public static function removeToken($tokenId)
+    public function remove()
     {
         $tokens = self::getTokens();
 
-        if (!isset($tokens[$tokenId])) {
+        if (!isset($tokens[$this->id])) {
             return;
         }
 
-        unset($tokens[$tokenId]);
+        unset($tokens[$this->id]);
 
         rex_set_session(self::getSessionKey(), $tokens);
     }
