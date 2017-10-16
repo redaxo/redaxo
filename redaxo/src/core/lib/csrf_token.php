@@ -67,6 +67,23 @@ class rex_csrf_token
     }
 
     /**
+     * @param string $url
+     * @param bool   $escape
+     *
+     * @return string
+     */
+    public function adjustUrl($url, $escape = true)
+    {
+        if (false === strpos($url, '?')) {
+            $url .= '?';
+        } else {
+            $url .= $escape ? '&amp;' : '&';
+        }
+
+        return $url.self::PARAM.'='.$this->getValue();
+    }
+
+    /**
      * @return bool
      */
     public function isValid()
