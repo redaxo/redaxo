@@ -56,11 +56,7 @@ class rex_csrf_manager
 
         $token = rex_request(self::PARAM, 'string');
 
-        if (function_exists('hash_equals')) {
-            return hash_equals($tokens[$tokenId], $token);
-        }
-
-        return $token === $tokens[$tokenId];
+        return hash_equals($tokens[$tokenId], $token);
     }
 
     /**
@@ -100,13 +96,7 @@ class rex_csrf_manager
 
     private static function generateToken()
     {
-        if (function_exists('random_bytes')) {
-            $bytes = random_bytes(32);
-        } elseif (function_exists('openssl_random_pseudo_bytes')) {
-            $bytes = openssl_random_pseudo_bytes(32);
-        } else {
-            $bytes = uniqid(mt_rand(), true);
-        }
+        $bytes = random_bytes(32);
 
         return rtrim(strtr(base64_encode($bytes), '+/', '-_'), '=');
     }
