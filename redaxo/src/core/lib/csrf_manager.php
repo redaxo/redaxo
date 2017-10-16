@@ -42,12 +42,11 @@ class rex_csrf_manager
     }
 
     /**
-     * @param string      $tokenId
-     * @param null|string $token   If `null`, the token is fetched via "_csrf_token" request param.
+     * @param string $tokenId
      *
      * @return bool
      */
-    public static function isValid($tokenId, $token = null)
+    public static function isValid($tokenId)
     {
         $tokens = self::getTokens();
 
@@ -55,9 +54,7 @@ class rex_csrf_manager
             return false;
         }
 
-        if (null === $token) {
-            $token = rex_request(self::PARAM, 'string');
-        }
+        $token = rex_request(self::PARAM, 'string');
 
         if (function_exists('hash_equals')) {
             return hash_equals($tokens[$tokenId], $token);
