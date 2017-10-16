@@ -39,7 +39,7 @@ if (rex::isSetup()) {
     $rex_user_psw = rex_post('rex_user_psw', 'string');
     $rex_user_stay_logged_in = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean')) {
+    if (rex_get('rex_logout', 'boolean') && rex_csrf_manager::isValid('backend_logout')) {
         $login->setLogout(true);
         rex_csrf_manager::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
