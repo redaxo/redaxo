@@ -72,7 +72,7 @@ class rex_csrf_token
      *
      * @return string
      */
-    public function adjustUrl($url, $escape = true)
+    public function appendToUrl($url, $escape = true)
     {
         if (false === strpos($url, '?')) {
             $url .= '?';
