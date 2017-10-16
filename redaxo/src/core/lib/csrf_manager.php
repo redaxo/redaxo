@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Manager for generating and validating csrf tokens.
+ *
  * @author gharlan
  *
  * @package redaxo\core
