@@ -27,6 +27,7 @@ function = Funktion
 no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
+csrf_token_invalid = Der CSRF-Token ist nicht gültig.
 
 # redaxo/redaxo/index.php
 system = System

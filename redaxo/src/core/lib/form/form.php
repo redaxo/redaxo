@@ -40,6 +40,9 @@ class rex_form
     protected $divId;
     protected $languageSupport;
 
+    /** @var rex_csrf_token */
+    private $csrfToken;
+
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
      */
@@ -83,6 +86,8 @@ class rex_form
         if (rex::isBackend()) {
             $this->loadBackendConfig();
         }
+
+        $this->csrfToken = rex_csrf_token::factory('rex_form_'.$this->getName());
     }
 
     /**
@@ -1231,6 +1236,11 @@ class rex_form
     protected function validate()
     {
         $messages = [];
+
+        if (!$this->csrfToken->isValid()) {
+            $messages[] = rex_i18n::msg('csrf_token_invalid');
+        }
+
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 /** @var rex_form_element $element */
@@ -1534,6 +1544,7 @@ class rex_form
             ++$i;
         }
 
+        $s .= $this->csrfToken->getHiddenField() . "\n";
         $s .= '</form>' . "\n";
 
         return $s;
