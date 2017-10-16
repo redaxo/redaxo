@@ -34,16 +34,16 @@ Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PH
   // $mail->FromName = "Vorname Nachname";
   
   // Antwortadresse festlegen 
-  // $mail->AddReplyTo("username@domain.com", "Software Simian");
+  // $mail->addReplyTo("username@domain.com", "Software Simian");
   
   // Empfänger 
-  $mail->AddAddress("empfaenger@domain.tld");
+  $mail->addAddress("empfaenger@domain.tld");
   
   // Empfänger als CC hinzufügen - Weitere anlegen wenn mehrere erwünscht
-  // $mail->AddCC("empfaenger2@domain.tld);
+  // $mail->addCC("empfaenger2@domain.tld);
   
   // Empfänger als BCC hinzufügen - Weitere anlegen wenn mehrere erwünscht
-  // $mail->AddBCC("empfaenger3@domain.tld");
+  // $mail->addBCC("empfaenger3@domain.tld");
  
   //Betreff der E-Mail 
   $mail->Subject = "PHPMailer-Test";
@@ -52,7 +52,7 @@ Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PH
   $mail->Body = "Hi \n\n this mail was sent by PHPMailer!";
   
   //Überprüfen ob E-Mail gesendet wurde
-  if(!$mail->Send())
+  if(!$mail->send())
   {
      echo "An error occurred";
      echo "Error: " . $mail->ErrorInfo;
