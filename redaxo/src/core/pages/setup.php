@@ -115,12 +115,12 @@ if ($step == 3) {
 
     jQuery(function($){
         var urls = [
-            "' . rex_url::backend('bin/console') . '", 
-            "' . rex_url::backend('data/.redaxo') . '", 
-            "' . rex_url::backend('src/core/boot.php') . '", 
+            "' . rex_url::backend('bin/console') . '",
+            "' . rex_url::backend('data/.redaxo') . '",
+            "' . rex_url::backend('src/core/boot.php') . '",
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
-        
+
         $.each(urls, function (i, url) {
             $.ajax({
                 url: url,
@@ -681,8 +681,10 @@ if ($step == 6) {
 
     $n = [];
     $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-    $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+    $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />
+                   <i class="fa fa-eye rex-form-redaxo-user-pass-eye" data-fieldid="rex-form-redaxo-user-pass" aria-hidden="true"></i>';
     $formElements[] = $n;
+
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
@@ -729,6 +731,20 @@ if ($step == 6) {
                 }
 
             }).trigger("change");
+
+            $(".rex-form-redaxo-user-pass-eye").click(function () {
+
+                $(this).toggleClass("fa-eye fa-eye-slash");
+
+                var fieldId = $(this).data("fieldid");
+                var inputField = $("#"+fieldId);
+
+                if (inputField.attr("type") === "password") {
+                    inputField.attr("type", "text");
+                } else {
+                    inputField.attr("type", "password");
+                }
+            });
 
         });
      //-->
