@@ -11,6 +11,7 @@
             </ul>
         </nav>
     </footer>
+    <?php if(rex::getProperty('session_keep_alive', 0)): ?>
     <!-- keep session alive -->
     <script type="text/javascript">
         if (!jQuery(document.body).is('#rex-page-login')) {
@@ -21,6 +22,7 @@
             }, 5 * 60 * 1000 /*extended every 5 minutes*/);
             setTimeout(function () {
                 clearInterval(keepAliveInterval);
-            }, 6 * 60 * 60 * 1000 /*max. for 6 hours after last request*/);
+            }, <?php echo rex::getProperty('session_keep_alive'); ?> * 1000 /*max. for 6 hours after last request*/);
         }
     </script>
+    <?php endif; ?>

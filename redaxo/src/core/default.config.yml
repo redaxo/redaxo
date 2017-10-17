@@ -7,6 +7,7 @@ error_email: null
 fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
+session_keep_alive: 21600
 session:
     backend:
         cookie:
