@@ -1,0 +1,64 @@
+<?php
+/**
+ * @author Daniel Weitenauer
+ * @copyright (c) 2017 studio ahoi
+ */
+
+class rex_button_category_move extends rex_structure_button
+{
+    public function get()
+    {
+        $article = rex_article::get($this->edit_id);
+        $category_id = $article->getCategoryId();
+        $user = rex::getUser();
+
+        if (!$article->isStartArticle() || !$user->hasPerm('moveCategory[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+            return '';
+        }
+
+        return '<button type="button" class="btn btn-default" data-toggle="modal" data-target="#category-move-'.$this->edit_id.'" title="'.rex_i18n::msg('content_submitmovecategory').'"><i class="rex-icon fa-cut"></i></button>';
+    }
+
+    public function getModal()
+    {
+        $article = rex_article::get($this->edit_id);
+        $category_id = $article->getCategoryId();
+        $user = rex::getUser();
+
+        if (!$article->isStartArticle() || !$user->hasPerm('moveCategory[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+            return '';
+        }
+
+        $move_a = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
+        $move_a->setId('category_id_new');
+        $move_a->setName('category_id_new');
+        $move_a->setSize('1');
+        $move_a->setAttribute('class', 'form-control');
+        $move_a->setSelected($this->edit_id);
+
+        return '  
+            <div class="modal fade" id="category-move-'.$this->edit_id.'">
+                <div class="modal-dialog">
+                    <form id="rex-form-category-move-'.$this->edit_id.'" class="modal-content form-horizontal" action="'.$this->context->getUrl().'" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title" id="myModalLabel">'.rex_i18n::msg('content_submitmovecategory').'</h3>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="rex-api-call" value="category_move" />
+                            <input type="hidden" name="category_id" value="'.$category_id.'" />
+                            <dl class="dl-horizontal text-left">
+                                <dt><label for="category_id_new">'.rex_i18n::msg('move_category').'</label></dt>
+                                <dd>'.$move_a->get().'</dd>
+                            </dl>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-send" type="submit" data-confirm="'.rex_i18n::msg('content_submitmovecategory').'?">'.rex_i18n::msg('content_submitmovecategory').'</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">'.rex_i18n::msg('form_abort').'</button>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+        ';
+    }
+}

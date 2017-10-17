@@ -12,6 +12,60 @@ rex_perm::register('moveSlice[]', null, rex_perm::OPTIONS);
 rex_complex_perm::register('modules', 'rex_module_perm');
 
 if (rex::isBackend()) {
+    /**
+     * Content sidebar
+     */
+    rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function(rex_extension_point $ep) {
+        $subject = $ep->getSubject();
+        $params = $ep->getParams();
+
+        $context = new rex_context([
+            'page' => rex_be_controller::getCurrentPage(),
+            'article_id' => $params['article_id'],
+            'clang' => $params['clang'],
+            'ctype' => $params['ctype'],
+        ]);
+
+        $article_actions = [
+            'article_delete' => new rex_button_article_delete($params['article_id'], $context),
+            'article_status' => new rex_button_article_status($params['article_id'], $context),
+            'article2category' => new rex_button_article2category($params['article_id'], $context),
+            'article2startarticle' => new rex_button_article2Startarticle($params['article_id'], $context),
+            'article_move' => new rex_button_article_move($params['article_id'], $context),
+            'article_copy' => new rex_button_article_copy($params['article_id'], $context),
+
+            'content_copy' => new rex_button_content_copy($params['article_id'], $context),
+        ];
+
+        $panel = '<div class="btn-group">';
+        /** @var rex_structure_button $article_action */
+        foreach ($article_actions as $article_action) {
+            if ($article_action) {
+                $panel .= $article_action->get();
+            }
+        }
+        $panel .= '</div>';
+
+        /** @var rex_structure_button $article_action */
+        foreach ($article_actions as $article_action) {
+            if ($article_action) {
+                $panel .= $article_action->getModal();
+            }
+        }
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> '.rex_i18n::msg('metafuncs'), false);
+        $fragment->setVar('body', $panel, false);
+        $fragment->setVar('article_id', $params['article_id'], false);
+        $fragment->setVar('clang', $params['clang'], false);
+        $fragment->setVar('ctype', $params['ctype'], false);
+        $fragment->setVar('collapse', true);
+        $fragment->setVar('collapsed', false);
+        $subject .= $fragment->parse('core/page/section.php');
+
+        return $subject;
+    });
+
     rex_extension::register('PAGE_CHECKED', function () {
         if (rex_be_controller::getCurrentPagePart(1) == 'content') {
             rex_be_controller::getPageObject('structure')->setIsActive(true);

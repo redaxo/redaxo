@@ -92,7 +92,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
             $params['activeItem']->setValue('category_id', $params['id']);
         }
 
-        $result = '
+        /*$result = '
             <tr id="' . self::CONTAINER . '" class="collapse mark">
                 <td colspan="2"></td>
                 <td colspan="5">
@@ -100,7 +100,12 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
                     ' . parent::renderFormAndSave(self::PREFIX, $params) . '
                     </div>
                 </td>
-            </tr>';
+            </tr>';*/
+        $result = '
+            <div class="rex-collapse-content">
+            ' . parent::renderFormAndSave(self::PREFIX, $params) . '
+            </div>
+            ';
 
         // Bei CAT_ADDED und CAT_UPDATED nur speichern und kein Formular zurückgeben
         if ('CAT_UPDATED' == $ep->getName() || 'CAT_ADDED' == $ep->getName()) {
