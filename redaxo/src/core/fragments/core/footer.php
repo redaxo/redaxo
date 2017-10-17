@@ -11,3 +11,16 @@
             </ul>
         </nav>
     </footer>
+    <!-- keep session alive -->
+    <script type="text/javascript">
+        if (!jQuery(document.body).is('#rex-page-login')) {
+            var keepAliveInterval = setInterval(function () {
+                jQuery.ajax('index.php?page=credits', {
+                    cache: false,
+                });
+            }, 5 * 60 * 1000 /*extended every 5 minutes*/);
+            setTimeout(function () {
+                clearInterval(keepAliveInterval);
+            }, 6 * 60 * 60 * 1000 /*max. for 6 hours after last request*/);
+        }
+    </script>
