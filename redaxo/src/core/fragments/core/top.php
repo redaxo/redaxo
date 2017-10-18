@@ -18,6 +18,11 @@
         }
     }
     echo "\n";
+    echo "\n" . '    <script type="text/javascript">';
+    echo "\n" . '    <!--';
+    echo "\n" . '    var rex = '.$this->jsProperties.';';
+    echo "\n" . '    //-->';
+    echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
         $path = rex_path::base(rex_path::absolute($file));
         if (file_exists($path)) {
@@ -26,12 +31,6 @@
         echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
 ?>
-
-    <script type="text/javascript">
-    <!--
-    var rex = <?php echo $this->jsProperties ?>;
-    //-->
-    </script>
 
     <?php echo $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 
