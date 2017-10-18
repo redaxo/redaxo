@@ -243,7 +243,7 @@ if ($step == 4) {
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="5" />
-                <input type="hidden" name="lang" value="' . $lang . '" />';
+                <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />';
 
     $timezone_sel = new rex_select();
     $timezone_sel->setId('rex-form-timezone');
@@ -261,17 +261,17 @@ if ($step == 4) {
 
     $n = [];
     $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . rex_escape($config['server']) . '" autofocus />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . rex_escape($config['servername']) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . rex_escape($config['error_email']) . '" />';
     $formElements[] = $n;
 
     $n = [];
@@ -289,22 +289,22 @@ if ($step == 4) {
 
     $n = [];
     $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
+    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-db-user-login">Login</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape($config['db'][1]['login']) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
+    $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_escape($config['db'][1]['password']) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -416,7 +416,7 @@ if ($step == 5) {
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="6" />
-                <input type="hidden" name="lang" value="' . $lang . '" />
+                <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
             ';
 
     $submit_message = rex_i18n::msg('setup_511');
@@ -648,7 +648,7 @@ if ($step == 6) {
             <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />
             <input type="hidden" name="page" value="setup" />
             <input type="hidden" name="step" value="7" />
-            <input type="hidden" name="lang" value="' . $lang . '" />
+            <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
             ';
 
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
@@ -676,12 +676,12 @@ if ($step == 6) {
 
     $n = [];
     $n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxo_user_login) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-    $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+    $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
