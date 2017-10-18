@@ -41,8 +41,8 @@ class rex_structure_category_move extends rex_fragment
         }
 
         $category_select = new rex_category_select(false, false, true, !$user->getComplexPerm('structure')->hasMountPoints());
-        $category_select->setId('new-category-id');
-        $category_select->setName('new-category-id');
+        $category_select->setId('category_id_new');
+        $category_select->setName('category_id_new');
         $category_select->setSize('1');
         $category_select->setAttribute('class', 'form-control');
         $category_select->setSelected($this->edit_id);
@@ -57,9 +57,9 @@ class rex_structure_category_move extends rex_fragment
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="rex-api-call" value="category_move" />
-                            <input type="hidden" name="category-id" value="'.$this->edit_id.'" />
+                            <input type="hidden" name="category_id" value="'.$this->edit_id.'" />
                             <dl class="dl-horizontal text-left">
-                                <dt><label for="new-category-id">'.rex_i18n::msg('move_category').'</label></dt>
+                                <dt><label for="category_id_new">'.rex_i18n::msg('move_category').'</label></dt>
                                 <dd>'.$category_select->get().'</dd>
                             </dl>
                         </div>
