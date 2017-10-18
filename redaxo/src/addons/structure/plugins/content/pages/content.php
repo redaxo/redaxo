@@ -347,16 +347,6 @@ if ($article->getRows() == 1) {
         }
         // ------------------------------------------ END: Slice add/edit/delete
 
-        // ------------------------------------------ START: COPY LANG CONTENT
-        if (rex_post('copycontent', 'boolean')) {
-            rex_action_copyContent::execute($article_id, $slice_revision);
-        }
-
-        // ------------------------------------------ START: COPY ARTICLE
-        if (rex_post('copyarticle', 'boolean')) {
-            rex_action_copyArticle::execute($article_id, $context);
-        }
-
         // ------------------------------------------ START: CONTENT HEAD MENUE
         $editPage = rex_be_controller::getPageObject('content/edit');
 
