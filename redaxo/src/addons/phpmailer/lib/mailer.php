@@ -8,6 +8,8 @@
  * @package redaxo\phpmailer
  */
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class rex_mailer extends PHPMailer
 {
     private $log;
@@ -37,10 +39,9 @@ class rex_mailer extends PHPMailer
         $this->Password = $addon->getConfig('password');
 
         if ($bcc = $addon->getConfig('bcc')) {
-            $this->AddBCC($bcc);
+            $this->addBCC($bcc);
         }
 
-        $this->PluginDir = $addon->getPath('lib/phpmailer/');
         $this->log = $addon->getConfig('log');
 
         parent::__construct($exceptions);
