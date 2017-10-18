@@ -11,18 +11,4 @@
             </ul>
         </nav>
     </footer>
-    <?php if(rex::getProperty('session_keep_alive', 0)): ?>
-    <!-- keep session alive -->
-    <script type="text/javascript">
-        if (!jQuery(document.body).is('#rex-page-login')) {
-            var keepAliveInterval = setInterval(function () {
-                jQuery.ajax('index.php?page=credits', {
-                    cache: false,
-                });
-            }, 5 * 60 * 1000 /*extended every 5 minutes*/);
-            setTimeout(function () {
-                clearInterval(keepAliveInterval);
-            }, <?php echo rex::getProperty('session_keep_alive'); ?> * 1000 /*max. for 6 hours after last request*/);
-        }
-    </script>
-    <?php endif; ?>
+

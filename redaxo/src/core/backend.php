@@ -110,6 +110,7 @@ rex_view::addJsFile(rex_url::coreAssets('sha1.js'));
 
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
+rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
