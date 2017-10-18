@@ -1,17 +1,29 @@
 <?php
 /**
- * @author Daniel Weitenauer
- * @copyright (c) 2017 studio ahoi
+ * @package redaxo\structure\content
  */
-
-class rex_button_content_copy extends rex_structure_button
+class rex_structure_content_copy extends rex_fragment
 {
-
+    /**
+     * @return string
+     */
     public function get()
     {
-        return '<button type="button" class="btn btn-default" data-toggle="modal" data-target="#content-copy">'.rex_i18n::msg('content_submitcopycontent').'</button>';
+        // Display form if necessary
+        if (rex_request('form_content_copy', 'int', -1) == $this->edit_id) {
+            echo $this->getModal();
+        }
+
+        $url_params = array_merge($this->url_params, [
+            'form_content_copy' => $this->edit_id,
+        ]);
+
+        return '<a href="'.$this->context->getUrl($url_params).'" class="btn btn-default">'.rex_i18n::msg('content_submitcopycontent').'</a>';
     }
 
+    /**
+     * @return string
+     */
     public function getModal()
     {
         $user = rex::getUser();
@@ -46,7 +58,7 @@ class rex_button_content_copy extends rex_structure_button
         $lang_b->setSelected(rex_request('clang_b', 'int', null));
 
         return '  
-            <div class="modal fade" id="content-copy">
+            <div class="modal fade" id="content-copy-'.$this->edit_id.'">
                 <div class="modal-dialog">
                     <form id="rex-form-content-content-copy" class="modal-content form-horizontal" action="'.$this->context->getUrl().'" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
                         <div class="modal-header">
@@ -73,6 +85,11 @@ class rex_button_content_copy extends rex_structure_button
                     </form>
                 </div>
             </div> 
+            <script>
+                $(document).ready(function() {
+                    $("#content-copy-'.$this->edit_id.'").modal();
+                });
+            </script>        
         ';
     }
 }

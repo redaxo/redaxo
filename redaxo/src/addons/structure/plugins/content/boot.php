@@ -19,39 +19,38 @@ if (rex::isBackend()) {
         $subject = $ep->getSubject();
         $params = $ep->getParams();
 
-        $context = new rex_context([
-            'page' => rex_be_controller::getCurrentPage(),
-            'article_id' => $params['article_id'],
+        $action_params = [
+            'edit_id' => $params['article_id'],
+            #'sql' => '',
+            #'pager' => $artPager,
             'clang' => $params['clang'],
-            'ctype' => $params['ctype'],
-        ]);
+            'context' => new rex_context([
+                'page' => rex_be_controller::getCurrentPage(),
+                'article_id' => $params['article_id'],
+                'clang' => $params['clang'],
+                'ctype' => $params['ctype'],
+            ]),
+            'url_params' => [],
+        ];
 
         $article_actions = [
-            'article_delete' => new rex_button_article_delete($params['article_id'], $context),
-            'article_status' => new rex_button_article_status($params['article_id'], $context),
-            'article2category' => new rex_button_article2category($params['article_id'], $context),
-            'article2startarticle' => new rex_button_article2Startarticle($params['article_id'], $context),
-            'article_move' => new rex_button_article_move($params['article_id'], $context),
-            'article_copy' => new rex_button_article_copy($params['article_id'], $context),
+            'article_delete' => new rex_structure_article_delete($action_params),
+            'article_status' => new rex_structure_article_status($action_params),
+            'article2category' => new rex_structure_article2category($action_params),
+            'article2startarticle' => new rex_structure_article2Startarticle($action_params),
+            'article_move' => new rex_structure_article_move($action_params),
+            'article_copy' => new rex_structure_article_copy($action_params),
 
-            'content_copy' => new rex_button_content_copy($params['article_id'], $context),
+            'content_copy' => new rex_structure_content_copy($action_params),
         ];
 
         $panel = '<div class="btn-group">';
-        /** @var rex_structure_button $article_action */
         foreach ($article_actions as $article_action) {
-            if ($article_action) {
+            if ($article_action instanceof rex_fragment && method_exists($article_action, 'get')) {
                 $panel .= $article_action->get();
             }
         }
         $panel .= '</div>';
-
-        /** @var rex_structure_button $article_action */
-        foreach ($article_actions as $article_action) {
-            if ($article_action) {
-                $panel .= $article_action->getModal();
-            }
-        }
 
         $fragment = new rex_fragment();
         $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> '.rex_i18n::msg('metafuncs'), false);

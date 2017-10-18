@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Daniel Weitenauer
- * @copyright (c) 2017 studio ahoi
+ * @package redaxo\structure\content
  */
 class rex_api_content_copy extends rex_api_function
 {
