@@ -14,12 +14,6 @@ Installation
 
 *Entwicklungsstand* installieren:
 
-## WINDOWS:  ##
-cd C:\xampp\htdocs\
-
-## LINUX \ UNIX:  ##
-cd /var/www/html/
-
 git clone https://github.com/redaxo/redaxo.git
 cd redaxo
 git submodule init
