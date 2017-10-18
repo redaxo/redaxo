@@ -51,7 +51,7 @@ class rex_button_content_copy extends rex_structure_button
                     <form id="rex-form-content-content-copy" class="modal-content form-horizontal" action="'.$this->context->getUrl().'" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                            <h3 class="modal-title" id="myModalLabel">'.rex_i18n::msg('content_submitcopycontent').'</h3>
+                            <h3 class="modal-title">'.rex_i18n::msg('content_submitcopycontent').'</h3>
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="rex-api-call" value="content_copy" />

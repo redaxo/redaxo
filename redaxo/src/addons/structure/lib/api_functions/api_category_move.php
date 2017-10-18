@@ -23,7 +23,7 @@ class rex_api_category_move extends rex_api_function
 
             // doesnt matter which clang id
             $data['catpriority'] = $newPriority;
-            rex_category_service::editCategory($catId, 0, $data);
+            rex_category_service::editCategory($catId, 1, $data);
 
             $result = new rex_api_result(true, rex_i18n::msg('category_status_updated'));
             return $result;

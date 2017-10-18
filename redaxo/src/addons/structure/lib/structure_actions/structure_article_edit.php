@@ -2,60 +2,75 @@
 /**
  * @package redaxo\structure
  */
-class rex_button_article_edit extends rex_structure_button
+class rex_structure_article_edit extends rex_fragment
 {
+    /**
+     * @return string
+     */
     public function get()
     {
         if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($this->edit_id)) {
             return '';
         }
 
-        return '<button type="button" class="btn btn-default" data-toggle="modal" data-target="#article-edit-'.$this->edit_id.'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-edit"></i></button>';
+        // Display form if necessary
+        if (rex_request('form_article_edit', 'int', -1) == $this->edit_id) {
+            echo $this->getModal();
+        }
+
+        $url_params = array_merge($this->url_params, [
+            'form_article_edit' => $this->edit_id,
+        ]);
+
+        return '<a href="'.$this->context->getUrl($url_params).'" class="btn btn-default"><i class="rex-icon rex-icon-edit"></i></a>';
     }
 
-    public function getModal()
+    /**
+     * @return string
+     */
+    protected function getModal()
     {
         if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($this->edit_id)) {
             return '';
         }
 
-        if (!isset($this->sql)) {
-            throw new rex_api_exception('No Sql set!');
-        }
-
         $category_id = rex_article::get($this->edit_id)->getCategoryId();
-        $clang = rex_request('clang', 'int');
-        $clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
 
         $template_select = '';
         if (rex_addon::get('structure')->getPlugin('content')->isAvailable()) {
-            $template_select = $this->getTemplateSelect($this->edit_id, $clang);
-            $template_select->setSelected($this->sql->getValue('template_id'));
+            $select = new rex_template_select();
+            $select->setName('template_id');
+            $select->setSize(1);
+            $select->setStyle('class="form-control"');
+            $select->setSelected($this->sql->getValue('template_id'));
 
             $template_select = '
                 <dl class="dl-horizontal text-left">
                     <dt><label for="article-name">'.rex_i18n::msg('header_template').'</label></dt>
-                    <dd>'.$template_select->get().'</dd>
+                    <dd>'.$select->get().'</dd>
                 </dl>
             ';
         }
 
-        $url = $this->context->getUrl([
+        $url_params = array_merge($this->url_params, [
             'category_id' => $category_id,
             'article_id' => $this->edit_id,
-            'artstart' => rex_request('artstart', 'int'),
         ]);
 
         return '  
             <div class="modal fade" id="article-edit-'.$this->edit_id.'">
                 <div class="modal-dialog">
-                    <form id="rex-form-article-edit-'.$this->edit_id.'" class="modal-content form-horizontal" action="'.$url.'" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
+                    <form id="rex-form-article-edit-'.$this->edit_id.'" class="modal-content form-horizontal" action="'.$this->context->getUrl($url_params).'" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                            <h3 class="modal-title" id="myModalLabel">'.rex_i18n::msg('header_article_name').'</h3>
+                            <h3 class="modal-title">'.rex_i18n::msg('article_edit').'</h3>
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="rex-api-call" value="article_edit" />
+                            <dl class="dl-horizontal text-left">
+                                <dt>'.rex_i18n::msg('header_id').'</dt>
+                                <dd>'.$this->edit_id.'</dd>
+                            </dl>
                             <dl class="dl-horizontal text-left">
                                 <dt><label for="article-name">'.rex_i18n::msg('header_article_name').'</label></dt>
                                 <dd><input class="form-control" type="text" name="article-name" value="'.htmlspecialchars($this->sql->getValue('name')).'" autofocus /></dd>
@@ -77,43 +92,11 @@ class rex_button_article_edit extends rex_structure_button
                     </form>
                 </div>
             </div> 
+            <script>
+                $(document).ready(function() {
+                    $("#article-edit-'.$this->edit_id.'").modal();
+                });
+            </script>
         ';
-    }
-
-    protected function getTemplateSelect($category_id, $clang)
-    {
-        $template_select = new rex_select();
-        $template_select->setName('template_id');
-        $template_select->setSize(1);
-        $template_select->setStyle('class="form-control"');
-
-        $templates = rex_template::getTemplatesForCategory($category_id);
-        if (count($templates) > 0) {
-            foreach ($templates as $t_id => $t_name) {
-                $template_select->addOption(rex_i18n::translate($t_name, false), $t_id);
-                $TEMPLATE_NAME[$t_id] = rex_i18n::translate($t_name);
-            }
-        } else {
-            $template_select->addOption(rex_i18n::msg('option_no_template'), '0');
-        }
-        $TEMPLATE_NAME[0] = rex_i18n::msg('template_default_name');
-
-        $selectedTemplate = 0;
-        if ($category_id) {
-            // template_id vom Startartikel erben
-            $sql2 = rex_sql::factory();
-            $sql2->setQuery('SELECT template_id FROM '.rex::getTable('article').' WHERE id='.$category_id.' AND clang_id='.$clang.' AND startarticle = 1');
-            if ($sql2->getRows() == 1) {
-                $selectedTemplate = $sql2->getValue('template_id');
-            }
-        }
-        if (!$selectedTemplate || !isset($TEMPLATE_NAME[$selectedTemplate])) {
-            $selectedTemplate = rex_template::getDefaultId();
-        }
-        if ($selectedTemplate && isset($TEMPLATE_NAME[$selectedTemplate])) {
-            $template_select->setSelected($selectedTemplate);
-        }
-
-        return $template_select;
     }
 }

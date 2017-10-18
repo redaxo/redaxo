@@ -1,18 +1,18 @@
 <?php
 /**
- * Button to change article status
- *
  * @package redaxo\structure
  */
-class rex_button_article_status extends rex_structure_button
+class rex_structure_article_status extends rex_fragment
 {
+    /**
+     * @return string
+     */
     public function get()
     {
         $article = rex_article::get($this->edit_id);
-        $category_id = $article->getCategoryId();
         $user = rex::getUser();
 
-        if ($article->isStartArticle() || !$user->hasPerm('publishArticle[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
+        if ($article->isStartArticle() || !$user->hasPerm('publishArticle[]') || !$user->getComplexPerm('structure')->hasCategoryPerm($this->edit_id)) {
             return '';
         }
 
@@ -22,11 +22,11 @@ class rex_button_article_status extends rex_structure_button
         $status_class = $states[$status_index][1];
         $status_icon = $states[$status_index][2];
 
-        $params = array_merge($this->params, [
+        $url_params = array_merge($this->url_params, [
             'rex-api-call' => 'article_status',
             'article_id' => $this->edit_id,
         ]);
 
-        return '<a class="btn btn-default '.$status_class.'" href="'.$this->context->getUrl($params).'" title="'.$status.'"><i class="rex-icon '.$status_icon.'"></i></a>';
+        return '<a class="btn btn-default '.$status_class.'" href="'.$this->context->getUrl($url_params).'" title="'.$status.'"><i class="rex-icon '.$status_icon.'"></i></a>';
     }
 }

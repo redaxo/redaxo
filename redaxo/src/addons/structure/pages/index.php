@@ -84,10 +84,6 @@ if ($category) {
     $cat_name = $category->getName();
 }
 
-$add_category = new rex_button_category_add($category_id, $context);
-
-$data_colspan = 5;
-
 // --------------------- Extension Point
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER', '', [
     'category_id' => $category_id,
@@ -127,12 +123,23 @@ if (count($mountpoints) > 0 && $category_id == 0) {
 $echo = '';
 
 // --------------------- PRINT CATS/SUBCATS
+
 // Header
+$structure_category_add = new rex_structure_category_add([
+    'edit_id' => $category_id,
+    'sql' => $KAT,
+    'pager' => $catPager,
+    'clang' => $clang,
+    'context' => $context,
+    'url_params' => ['artstart' => $artstart, 'catstart' => $catstart],
+]);
+$category_add_button = $structure_category_add->get();
+
 $echo .= '
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th class="rex-table-icon">' . $add_category->get().$add_category->setPager($catPager)->getModal() . '</th>
+                <th class="rex-table-icon">'.$category_add_button.'</th>
                 <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
                 <th>' . rex_i18n::msg('header_category') . '</th>
                 <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
@@ -163,26 +170,29 @@ if ($KAT->getRows() > 0) {
 
         // Show a category
         if ($KATPERM || rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
+            // These params are passed to the structure actions
+            $action_params = [
+                'edit_id' => $i_category_id,
+                'sql' => $KAT,
+                'pager' => $catPager,
+                'clang' => $clang,
+                'context' => $context,
+                'url_params' => ['artstart' => $artstart, 'catstart' => $catstart],
+            ];
 
-            // User must have editing permissions to access category functions
+            $category_actions = [];
             if ($KATPERM) {
                 $category_actions = [
-                    'category_edit' => new rex_button_category_edit($i_category_id, $context),
-                    'category_delete' => new rex_button_category_delete($i_category_id, $context),
-                    'category_status' => new rex_button_category_status($i_category_id, $context, ['catstart' => $catstart, 'artstart' => $artstart]),
-                    'category2article' => new rex_button_category2Article($i_category_id, $context, ['catstart' => $catstart, 'artstart' => $artstart]),
-                    'move_category' => new rex_button_category_move($i_category_id, $context),
+                    'category_edit' => new rex_structure_category_edit($action_params),
+                    'category_delete' => new rex_structure_category_delete($action_params),
+                    'category_status' => new rex_structure_category_status($action_params),
+                    'category2article' => new rex_structure_category2Article($action_params),
+                    'category_move' => new rex_structure_category_move($action_params),
                 ];
-                $category_actions['category_edit']->setSql($KAT);
-            } else {
-                $category_actions = [];
-            }
 
-            $category_actions = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_CATEGORY_ACTIONS', $category_actions, [
-                'context' => $context, // Context for url
-                'id' => $i_category_id, // Edited category
-                // ctype
-            ]));
+                // EXTENSION POINT to manipulate the action array
+                $category_actions = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_CATEGORY_ACTIONS', $category_actions, $action_params));
+            }
 
             $echo .= '
                 <tr class="rex-structure rex-structure-category">
@@ -192,27 +202,23 @@ if ($KAT->getRows() > 0) {
                     <td class="rex-table-priority" data-title="'.rex_i18n::msg('header_priority').'">'.htmlspecialchars($KAT->getValue('catpriority')).'</td>
             ';
 
-            // Show category actions
+            // Add category actions
+            // Each action must be an decendant of rex_fragment and implement the method get() to return an action trigger
+            // which is collected in this loop
             $echo .= '
                 <td class="rex-table-action">
                     <div class="btn-group">
             ';
-            /** @var rex_structure_button $category_action */
             foreach ($category_actions as $category_action) {
-                if ($category_action) {
-                    $echo .= $category_action->get();
+                if ($category_action instanceof rex_fragment && method_exists($category_action, 'get')) {
+                    $echo .= $category_action->get().PHP_EOL;
                 }
             }
-            $echo .= '</div>';
+            $echo .= '
+                    </div>
+                </td>
+            ';
 
-            /** @var rex_structure_button $category_action */
-            foreach ($category_actions as $category_action) {
-                if ($category_action) {
-                    $echo .= $category_action->getModal();
-                }
-            }
-
-            $echo .= '</td>';
             $echo .= '</tr>';
         }
 
@@ -269,8 +275,6 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     }
 
     // --------------------- ARTIKEL LIST
-    $art_add_link = new rex_button_article_add(0, $context);
-
     // ---------- COUNT DATA
     $sql = rex_sql::factory();
     // $sql->setDebug();
@@ -303,11 +307,21 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage());
 
     // ----------- PRINT OUT THE ARTICLES
+    $structure_article_add = new rex_structure_article_add([
+        'edit_id' => $category_id,
+        'sql' => $sql,
+        'pager' => $artPager,
+        'clang' => $clang,
+        'context' => $context,
+        'url_params' => ['artstart' => $artstart, 'catstart' => $catstart],
+    ]);
+    $article_add_button = $structure_article_add->get();
+
     $echo .= '
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="rex-table-icon">'.$art_add_link->get().$art_add_link->setPager($artPager)->getModal().'</th>
+                    <th class="rex-table-icon">'.$article_add_button.'</th>
                     <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
                     <th>' . rex_i18n::msg('header_article_name') . '</th>
                     ' . $tmpl_head . '
@@ -359,22 +373,29 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
             $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
         }
 
+        // These params are passed to the structure functions
+        $action_params = [
+            'edit_id' => $sql->getValue('id'),
+            'sql' => $sql,
+            'pager' => $artPager,
+            'clang' => $clang,
+            'context' => $context,
+            'url_params' => ['artstart' => $artstart, 'catstart' => $catstart],
+        ];
+
         // Get article actions
         $article_actions = [
-            'article_edit' => new rex_button_article_edit($sql->getValue('id'), $context),
-            'article_delete' => new rex_button_article_delete($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
-            'article_status' => new rex_button_article_status($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
-            'article2category' => new rex_button_article2category($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
-            'article2startarticle' => new rex_button_article2Startarticle($sql->getValue('id'), $context, ['catstart' => $catstart, 'artstart' => $artstart]),
-            'move_article' => new rex_button_article_move($sql->getValue('id'), $context),
-            'copy_article' => new rex_button_article_copy($sql->getValue('id'), $context),
+            'article_edit' => new rex_structure_article_edit($action_params),
+            'article_delete' => new rex_structure_article_delete($action_params),
+            'article_status' => new rex_structure_article_status($action_params),
+            'article2category' => new rex_structure_article2category($action_params),
+            'article2startarticle' => new rex_structure_article2Startarticle($action_params),
+            'article_move' => new rex_structure_article_move($action_params),
+            'article_copy' => new rex_structure_article_copy($action_params),
         ];
-        $article_actions['article_edit']->setSql($sql);
 
-        $article_actions = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_ARTICLE_ACTIONS', $article_actions, [
-            'context' => $context, // Context for url
-            'id' => $sql->getValue('id'), // Edited article
-        ]));
+        // EXTENSION POINT to manipulate the action array
+        $article_actions = rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_ARTICLE_ACTIONS', $article_actions, $action_params));
 
         $echo .= '
             <tr class="rex-structure-article'.(($class_startarticle != '') ? ' '.trim($class_startarticle) : '').'">
@@ -386,27 +407,23 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
                 <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority').'">'.htmlspecialchars($sql->getValue('priority')).'</td>
         ';
 
-        // Show article buttons
+        // Add category actions
+        // Each action must be an decendant of rex_fragment and implement the method get() to return an action trigger
+        // which is collected in this loop
         $echo .= '
             <td class="rex-table-action">
                 <div class="btn-group">
         ';
-        /** @var rex_structure_button $article_action */
         foreach ($article_actions as $article_action) {
-            if ($article_action) {
-                $echo .= $article_action->get();
+            if ($article_action instanceof rex_fragment && method_exists($article_action, 'get')) {
+                $echo .= $article_action->get().PHP_EOL;
             }
         }
-        $echo .= '</div>';
+        $echo .= '
+                </div>
+            </td>
+        ';
 
-        /** @var rex_structure_button $article_action */
-        foreach ($article_actions as $article_action) {
-            if ($article_action) {
-                $echo .= $article_action->getModal();
-            }
-        }
-
-        $echo .= '</td>';
         $echo .= '</tr>';
 
         $sql->next();
