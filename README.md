@@ -14,10 +14,12 @@ Installation
 
 *Entwicklungsstand* installieren:
 
+```sh
 git clone https://github.com/redaxo/redaxo.git
 cd redaxo
 git submodule init
 git submodule update
+```
 
 *Beachte:*
 - Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten *nicht* die nötigen GIT Submodule, funktionieren daher nicht.
