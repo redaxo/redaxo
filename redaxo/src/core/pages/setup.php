@@ -326,7 +326,7 @@ if ($step == 4) {
     $formElements = [];
 
     $n = [];
-    $n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_i18n::msg('system_update') . '">' . rex_escape($submit_message) . '</button>';
+    $n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_i18n::msg('system_update') . '">' . $submit_message . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -536,7 +536,7 @@ if ($step == 5) {
     $formElements = [];
 
     $n = [];
-    $n['field'] = '<button class="btn btn-setup" type="submit" value="' . rex_escape($submit_message) . '">' . rex_escape($submit_message) . '</button>';
+    $n['field'] = '<button class="btn btn-setup" type="submit" value="' . $submit_message . '">' . $submit_message . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
