@@ -7,6 +7,11 @@ rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -f redaxo/src/core/vendor/erusev/parsedown/phpunit.xml.dist
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
 rm -f redaxo/src/core/vendor/erusev/parsedown-extra/phpunit.xml.dist
+rm -rf redaxo/src/core/vendor/paragonie/random_compat/dist/
+rm -rf redaxo/src/core/vendor/paragonie/random_compat/other/
+rm -f redaxo/src/core/vendor/paragonie/random_compat/build-phar.sh
+rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm.xml
+rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm-autoload.php
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/symfony/console/Tester/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
@@ -32,7 +37,10 @@ composer update --no-dev -d redaxo/src/addons/phpmailer/
 
 rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
 rm -rf redaxo/src/addons/phpmailer/vendor/composer/
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
+rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
+rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
 rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
 
