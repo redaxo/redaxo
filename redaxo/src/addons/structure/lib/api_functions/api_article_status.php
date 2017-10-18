@@ -13,7 +13,7 @@ class rex_api_article_status extends rex_api_function
         $clang = rex_request('clang', 'int');
         $user = rex::getUser();
 
-      // check permissions
+        // check permissions
         if ($user->getComplexPerm('structure')->hasCategoryPerm($category_id) && $user->hasPerm('publishArticle[]')) {
             rex_article_service::articleStatus($article_id, $clang);
 
