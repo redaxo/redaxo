@@ -10,7 +10,7 @@ class rex_api_article_move extends rex_api_function
      */
     public function execute()
     {
-        // The category to move
+        // The article to move
         $article_id = rex_request('article_id', 'int');
         $category_id = rex_article::get($article_id)->getCategoryId();
         // The destination category in which the given category will be moved
