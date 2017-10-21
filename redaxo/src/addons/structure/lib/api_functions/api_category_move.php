@@ -12,7 +12,7 @@ class rex_api_category_move extends rex_api_function
         $article_id = rex_request('article_id', 'int');
         $category_id = rex_article::get($article_id)->getCategoryId();
         // The destination category in which the given category will be moved
-        $category_id_new = rex_post('category_id_new', 'int');
+        $category_id_new = rex_request('category_id_new', 'int');
 
         $user = rex::getUser();
 
