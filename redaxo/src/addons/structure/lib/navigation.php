@@ -359,7 +359,7 @@ class rex_navigation
                         in_array($nav->getId(), $this->path))
                     && ($this->depth >= $depth || $this->depth < 0)
                 ) {
-                    $link .= $this->_getNavigation($nav->getId(), $depth);
+                    $link .= PHP_EOL.$this->_getNavigation($nav->getId(), $depth);
                 }
                 --$depth;
                 $lis[] = $this->getListItemTag($link, $li, $nav, $depth);
@@ -384,7 +384,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListTag(array $items, array $attributes)
     {
-         return '<ul '.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
+         return '<ul'.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
     }
 
     /**
@@ -394,7 +394,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListItemTag($item, array $attributes)
     {
-        return '<li '.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
+        return '<li'.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
     }
 
     /**
@@ -409,7 +409,7 @@ class rex_navigation
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a '.rex_string::buildAttributes($attributes).'>'.$category_name.'</a>';
+        return '<a'.rex_string::buildAttributes($attributes).'>'.$category_name.'</a>';
     }
 
     /**
@@ -420,7 +420,7 @@ class rex_navigation
      */
     protected function getListTag(array $items, array $attributes, $depth)
     {
-        return '<ul '.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
+        return '<ul'.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
     }
 
     /**
@@ -432,7 +432,7 @@ class rex_navigation
      */
     protected function getListItemTag($item, array $attributes, rex_category $category, $depth)
     {
-        return '<li '.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
+        return '<li'.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
     }
 
     /**
@@ -448,6 +448,6 @@ class rex_navigation
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a '.rex_string::buildAttributes($attributes).'>'.$category_name.'</a>';
+        return '<a'.rex_string::buildAttributes($attributes).'>'.$category_name.'</a>';
     }
 }
