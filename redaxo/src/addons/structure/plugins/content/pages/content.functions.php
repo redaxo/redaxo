@@ -251,7 +251,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="movearticle" value="1" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?">' . rex_i18n::msg('content_submitmovearticle') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_move" onclick="jQuery(\'#apiField\').val(\'article_move\');" value="1" data-confirm="' . rex_i18n::msg('content_submitmovearticle') . '?">' . rex_i18n::msg('content_submitmovearticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
