@@ -396,22 +396,6 @@ if ($article->getRows() == 1) {
         }
         // ------------------------------------------ END: COPY ARTICLE
 
-        // ------------------------------------------ START: MOVE CATEGORY
-        if (rex_post('movecategory', 'boolean')) {
-            $category_id_new = rex_post('category_id_new', 'int');
-            if (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)) {
-                if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
-                    $info = rex_i18n::msg('category_moved');
-                    rex_response::sendRedirect($context->getUrl(['info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_error_movecategory');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: MOVE CATEGORY
-
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');
