@@ -380,22 +380,6 @@ if ($article->getRows() == 1) {
         }
         // ------------------------------------------ END: MOVE ARTICLE
 
-        // ------------------------------------------ START: COPY ARTICLE
-        if (rex_post('copyarticle', 'boolean')) {
-            $category_copy_id_new = rex_post('category_copy_id_new', 'int');
-            if (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)) {
-                if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
-                    $info = rex_i18n::msg('content_articlecopied');
-                    rex_response::sendRedirect($context->getUrl(['article_id' => $new_id, 'info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_errorcopyarticle');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: COPY ARTICLE
-
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');

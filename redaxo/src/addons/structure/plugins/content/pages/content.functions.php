@@ -291,7 +291,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="copyarticle" value="1" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?">' . rex_i18n::msg('content_submitcopyarticle') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="article_copy" onclick="jQuery(\'#apiField\').val(\'article_copy\');" value="1" data-confirm="' . rex_i18n::msg('content_submitcopyarticle') . '?">' . rex_i18n::msg('content_submitcopyarticle') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
