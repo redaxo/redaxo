@@ -210,7 +210,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="copycontent" value="1" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?">' . rex_i18n::msg('content_submitcopycontent') . '</button>';
+    $n['field'] = '<button class="btn btn-send rex-form-aligned" type="submit" name="content_copy" onclick="jQuery(\'#apiField\').val(\'content_copy\');" value="1" data-confirm="' . rex_i18n::msg('content_submitcopycontent') . '?">' . rex_i18n::msg('content_submitcopycontent') . '</button>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

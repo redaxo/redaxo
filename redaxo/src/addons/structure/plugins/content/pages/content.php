@@ -347,23 +347,6 @@ if ($article->getRows() == 1) {
         }
         // ------------------------------------------ END: Slice add/edit/delete
 
-        // ------------------------------------------ START: COPY LANG CONTENT
-        if (rex_post('copycontent', 'boolean')) {
-            $clang_a = rex_post('clang_a', 'int');
-            $clang_b = rex_post('clang_b', 'int');
-            $user = rex::getUser();
-            if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)) {
-                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, $slice_revision)) {
-                    $info = rex_i18n::msg('content_contentcopy');
-                } else {
-                    $warning = rex_i18n::msg('content_errorcopy');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: COPY LANG CONTENT
-
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');
