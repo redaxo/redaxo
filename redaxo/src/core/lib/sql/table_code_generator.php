@@ -74,7 +74,7 @@ class rex_sql_table_code_generator
     {
         $parameters = [
             $this->scalar($index->getName()),
-            $this->list($index->getColumns()),
+            $this->simpleArray($index->getColumns()),
         ];
 
         static $types = [
@@ -122,7 +122,7 @@ class rex_sql_table_code_generator
             return $this->scalar(reset($primaryKey));
         }
 
-        return $this->list($primaryKey);
+        return $this->simpleArray($primaryKey);
     }
 
     private function tableName($name)
@@ -145,7 +145,7 @@ class rex_sql_table_code_generator
         return var_export($scalar, true);
     }
 
-    private function list(array $list)
+    private function simpleArray(array $list)
     {
         $parts = [];
 
