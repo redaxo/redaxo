@@ -79,14 +79,14 @@ class rex_extension_debug extends rex_extension
                     $counter['ep']++;
                     $registered_eps[] = $entry['ep'];
                     $log_table[] = [
-                        'Type'              => $entry['type'],      // Type
-                        'ExtensionPoint'    => $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
-                        'Callable'          => '–',                 // Callable
-                        'Start / Dur.'      => $entry['started'] . '/ ' . $entry['duration'] . 'ms',   // Start / Dur.
-                        'Memory'            => $entry['memory'],    // Memory
-                        'subject'           => $entry['subject'],   // subject
-                        'params'            => $entry['params'],    // params
-                        'result'            => $entry['result'],    // result
+                        'Type' => $entry['type'],      // Type
+                        'ExtensionPoint' => $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
+                        'Callable' => '–',                 // Callable
+                        'Start / Dur.' => $entry['started'] . '/ ' . $entry['duration'] . 'ms',   // Start / Dur.
+                        'Memory' => $entry['memory'],    // Memory
+                        'subject' => $entry['subject'],   // subject
+                        'params' => $entry['params'],    // params
+                        'result' => $entry['result'],    // result
                     ];
                     break;
 
@@ -98,14 +98,14 @@ class rex_extension_debug extends rex_extension
                     }
 
                     $log_table[] = [
-                        'Type'              => $entry['type'],     // Type
-                        'ExtensionPoint'    => $entry['ep'],       // ExtensionPoint / readonly
-                        'Callable'          => $entry['callable'], // Callable
-                        'Start / Dur.'      => '–',                // Start / Dur.
-                        'Memory'            => '–',                // Memory
-                        'subject'           => '–',                // subject
-                        'params'            => $entry['params'],   // params
-                        'result'            => '-',                // result
+                        'Type' => $entry['type'],     // Type
+                        'ExtensionPoint' => $entry['ep'],       // ExtensionPoint / readonly
+                        'Callable' => $entry['callable'], // Callable
+                        'Start / Dur.' => '–',                // Start / Dur.
+                        'Memory' => '–',                // Memory
+                        'subject' => '–',                // subject
+                        'params' => $entry['params'],   // params
+                        'result' => '-',                // result
                     ];
                     break;
 
