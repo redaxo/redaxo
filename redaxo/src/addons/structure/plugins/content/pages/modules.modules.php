@@ -87,6 +87,9 @@ if ($function == 'delete') {
         if ($del->getRows() > 0) {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$module_id]);
             $success = rex_i18n::msg('module_deleted');
+            $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
+                'id' => $module_id
+            ]));
         } else {
             $error = rex_i18n::msg('module_not_found');
         }
@@ -108,6 +111,12 @@ if ($function == 'add' or $function == 'edit') {
 
                 $IMOD->insert();
                 $success = rex_i18n::msg('module_added');
+                $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
+                    'id' => $IMOD->getLastId(),
+                    'name' => $mname,
+                    'input' => $eingabe,
+                    'output' => $ausgabe
+                ]));
             } else {
                 $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=?', [$module_id]);
                 if ($module->getRows() == 1) {
@@ -125,6 +134,12 @@ if ($function == 'add' or $function == 'edit') {
 
                     $UMOD->update();
                     $success = rex_i18n::msg('module_updated') . ' | ' . rex_i18n::msg('articel_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
+                        'id' => $module_id,
+                        'name' => $mname,
+                        'input' => $eingabe,
+                        'output' => $ausgabe
+                    ]));
 
                     $new_ausgabe = $ausgabe;
 
