@@ -31,8 +31,8 @@ if ($function == 'delete') {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
         rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
         $success = rex_i18n::msg('template_deleted');
-        $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED',$success,[
-            'id' => $template_id
+        $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
+            'id' => $template_id,
         ]));
     }
 } elseif ($function == 'edit') {
@@ -115,7 +115,7 @@ if ($function == 'add' or $function == 'edit') {
                     'active' => $active,
                     'ctype' => $ctypes,
                     'modules' => $modules,
-                    'categories' => $categories
+                    'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
                 $error = $e->getMessage();
@@ -134,7 +134,7 @@ if ($function == 'add' or $function == 'edit') {
                     'active' => $active,
                     'ctype' => $ctypes,
                     'modules' => $modules,
-                    'categories' => $categories
+                    'categories' => $categories,
                 ]));
             } catch (rex_sql_exception $e) {
                 $error = $e->getMessage();
