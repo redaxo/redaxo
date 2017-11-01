@@ -35,7 +35,7 @@ class rex_managed_media
      *
      * To get the current source path (can be changed by effects) use `getSourcePath` instead.
      *
-     * @return string
+     * @return null|string
      */
     public function getMediaPath()
     {
@@ -45,6 +45,11 @@ class rex_managed_media
     public function setMediaPath($media_path)
     {
         $this->media_path = $media_path;
+
+        if (null === $media_path) {
+            return;
+        }
+
         $this->media = basename($media_path);
         $this->asImage = false;
 
@@ -333,6 +338,7 @@ class rex_managed_media
     private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
     {
         rex_file::putCache($headerCacheFilename, [
+            'media_path' => $this->getMediaPath(),
             'format' => $this->format,
             'headers' => $this->header,
         ]);
