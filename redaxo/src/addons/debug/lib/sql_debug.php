@@ -17,10 +17,10 @@ class rex_sql_debug extends rex_sql
     /**
      * {@inheritdoc}.
      */
-    public function setQuery($qry, array $params = [])
+    public function setQuery($qry, array $params = [], array $options = [])
     {
         try {
-            parent::setQuery($qry, $params);
+            parent::setQuery($qry, $params, $options);
         } catch (rex_exception $e) {
             $trace = debug_backtrace();
             for ($i = 0; $trace && $i < count($trace); ++$i) {
@@ -42,12 +42,12 @@ class rex_sql_debug extends rex_sql
      * {@inheritdoc}.
      */
     // TODO queries using setQuery() are not logged yet!
-    public function execute(array $params = [])
+    public function execute(array $params = [], array $options = [])
     {
         $qry = $this->stmt->queryString;
 
         $timer = new rex_timer();
-        parent::execute($params);
+        parent::execute($params, $options);
 
         $err = $errno = '';
         if ($this->hasError()) {
