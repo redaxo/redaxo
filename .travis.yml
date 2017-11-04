@@ -27,6 +27,7 @@ jobs:
             env: CODING_STANDARDS=1
             install:
                 - mkdir -p "$HOME/.php-cs-fixer"
+                # CS_FIXER_VERSION defined via travisci web interface
                 - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"'$CS_FIXER_VERSION'\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
                 - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
             script: php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
