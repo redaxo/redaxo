@@ -126,6 +126,7 @@ class rex_managed_media
             $this->setSourcePath(rex_path::addon('media_manager', 'media/warning.jpg'));
             $this->asImage();
         } else {
+            $this->fixOrientation();
             $this->refreshImageDimensions();
         }
     }
@@ -296,6 +297,31 @@ class rex_managed_media
     public function getImageHeight()
     {
         return $this->getHeight();
+    }
+
+    private function fixOrientation()
+    {
+        if (!function_exists('exif_read_data')) {
+            return;
+        }
+
+        $exif = exif_read_data($this->getSourcePath());
+
+        if (!isset($exif['Orientation']) || !in_array($exif['Orientation'], [3, 6, 8])) {
+            return;
+        }
+
+        switch ($exif['Orientation']) {
+            case 8:
+                $this->image['src'] = imagerotate($this->image['src'], 90, 0);
+                break;
+            case 3:
+                $this->image['src'] = imagerotate($this->image['src'], 180, 0);
+                break;
+            case 6:
+                $this->image['src'] = imagerotate($this->image['src'], -90, 0);
+                break;
+        }
     }
 
     /**
