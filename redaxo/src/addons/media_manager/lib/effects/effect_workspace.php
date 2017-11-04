@@ -61,12 +61,12 @@ class rex_effect_workspace extends rex_effect_abstract
         $h = $this->media->getHeight();
 
         $this->params['width'] = (int) $this->params['width'];
-        if ($this->params['width'] < 0) {
+        if ($this->params['width'] <= 0) {
             $this->params['width'] = $w;
         }
 
         $this->params['height'] = (int) $this->params['height'];
-        if ($this->params['width'] < 0) {
+        if ($this->params['height'] <= 0) {
             $this->params['height'] = $h;
         }
 
