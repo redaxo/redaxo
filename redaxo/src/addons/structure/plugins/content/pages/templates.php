@@ -31,6 +31,9 @@ if ($function == 'delete') {
         $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
         rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
         $success = rex_i18n::msg('template_deleted');
+        $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
+            'id' => $template_id,
+        ]));
     }
 } elseif ($function == 'edit') {
     $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
@@ -105,6 +108,15 @@ if ($function == 'add' or $function == 'edit') {
                 $TPL->insert();
                 $template_id = $TPL->getLastId();
                 $success = rex_i18n::msg('template_added');
+                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
+                    'id' => $template_id,
+                    'name' => $templatename,
+                    'content' => $template,
+                    'active' => $active,
+                    'ctype' => $ctypes,
+                    'modules' => $modules,
+                    'categories' => $categories,
+                ]));
             } catch (rex_sql_exception $e) {
                 $error = $e->getMessage();
             }
@@ -115,6 +127,15 @@ if ($function == 'add' or $function == 'edit') {
             try {
                 $TPL->update();
                 $success = rex_i18n::msg('template_updated');
+                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                    'id' => $template_id,
+                    'name' => $templatename,
+                    'content' => $template,
+                    'active' => $active,
+                    'ctype' => $ctypes,
+                    'modules' => $modules,
+                    'categories' => $categories,
+                ]));
             } catch (rex_sql_exception $e) {
                 $error = $e->getMessage();
             }
