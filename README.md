@@ -5,7 +5,7 @@ REDAXO CMS
 
 ![Screenshot](https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_01.png)
 
-REDAXO ist ein freies Content-Management-System (CMS).Ziel des Systems ist es ein Framwork für die Entwicklung und Pflege von Websites zu bieten. Der modulare Aufbau sorgt für eine flexible Erweiterbarkeit durch AddOns und Module. 
+REDAXO ist ein freies Content-Management-System (CMS). Ziel des Systems ist es ein Framwork für die Entwicklung und Pflege von Websites zu bieten. Der modulare Aufbau sorgt für eine flexible Erweiterbarkeit durch AddOns und Module. 
 
 [www.redaxo.org](https://www.redaxo.org) | [Dokumentation](https://redaxo.org/doku/master) | [Api Doc](https://redaxo.org/api/master/)
 
