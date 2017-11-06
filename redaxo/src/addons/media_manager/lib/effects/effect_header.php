@@ -10,8 +10,38 @@ class rex_effect_header extends rex_effect_abstract
         if ($this->params['cache'] == 'no_cache') {
             $this->media->setHeader('Cache-Control', 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0');
             $this->media->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT'); // in the past
-        } elseif (isset($this->params['expires']) && 'no' !== $this->params['expires']) {
-            $this->media->setHeader('Expires', gmdate('D, d M Y H:i:s T', strtotime('+'.$this->params['expires'])));
+        } elseif ($this->params['cache'] !== 'cache' /* bc */ && $this->params['cache'] !== 'unspecified') {
+            switch ($this->params['cache']) {
+                case '1 min':
+                    $seconds = 60;
+                    break;
+                case '1 hour':
+                    $seconds = 60 * 60;
+                    break;
+                case '1 day':
+                    $seconds = 60 * 60 * 24;
+                    break;
+                case '1 week':
+                    $seconds = 60 * 60 * 24 * 7;
+                    break;
+                case '1 month':
+                    $seconds = 60 * 60 * 24 * 30;
+                    break;
+                case '1 year':
+                case 'immutable':
+                    $seconds = 60 * 60 * 24 * 365;
+                    break;
+                default:
+                    throw new LogicException(sprintf('Unsupported cache duration "%s".', $this->params['cache']));
+            }
+
+            $cacheControl = 'proxy-revalidate, private, max-age='.$seconds;
+
+            if ('immutable' === $this->params['cache']) {
+                $cacheControl .= ', immutable';
+            }
+
+            $this->media->setHeader('Cache-Control', $cacheControl);
         }
 
         if ($this->params['download'] == 'download') {
@@ -45,31 +75,8 @@ class rex_effect_header extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_header_cache'),
                 'name' => 'cache',
                 'type' => 'select',
-                'options' => ['no_cache', 'cache'],
+                'options' => ['no_cache', 'unspecified', '1 min', '1 hour', '1 day', '1 week', '1 month', '1 year', 'immutable'],
                 'default' => 'no_cache',
-            ],
-            [
-                'label' => rex_i18n::msg('media_manager_effect_header_expires'),
-                'name' => 'expires',
-                'type' => 'select',
-                'options' => ['no', '1 min', '1 hour', '1 day', '1 week', '1 month', '1 year'],
-                'default' => 'no',
-                'suffix' => '
-<script type="text/javascript">
-<!--
-$(function() {
-    var $cache = $("#media-manager-rex-effect-header-cache-select");
-    var $expires = $("#media-manager-rex-effect-header-expires-select");
-
-    $cache.change(function() {
-        if ("no_cache" === $cache.val()) {
-            $expires.prop("disabled", true).val("no");
-        } else {
-            $expires.prop("disabled", false);
-        }
-    }).change();
-});
-//--></script>',
             ],
         ];
     }
