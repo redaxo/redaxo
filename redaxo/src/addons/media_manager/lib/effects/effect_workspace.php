@@ -26,28 +26,26 @@ class rex_effect_workspace extends rex_effect_abstract
 <script type="text/javascript">
 <!--
 
-(function($) {
-    $(function() {
-        var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
-        var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").parent().parent();
-        var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").parent().parent();
-        var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").parent().parent();
+$(function() {
+    var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
+    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").parent().parent();
+    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").parent().parent();
+    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").parent().parent();
 
-        $fx_workspace_select_trans.change(function(){
-            if(jQuery(this).val() != "colored")
-            {
-                $fx_workspace_bg_r.hide();
-                $fx_workspace_bg_g.hide();
-                $fx_workspace_bg_b.hide();
-            }else
-            {
-                $fx_workspace_bg_r.show();
-                $fx_workspace_bg_g.show();
-                $fx_workspace_bg_b.show();
-            }
-        }).change();
-    });
-})(jQuery);
+    $fx_workspace_select_trans.change(function(){
+        if(jQuery(this).val() != "colored")
+        {
+            $fx_workspace_bg_r.hide();
+            $fx_workspace_bg_g.hide();
+            $fx_workspace_bg_b.hide();
+        }else
+        {
+            $fx_workspace_bg_r.show();
+            $fx_workspace_bg_g.show();
+            $fx_workspace_bg_b.show();
+        }
+    }).change();
+});
 
 //--></script>';
     }

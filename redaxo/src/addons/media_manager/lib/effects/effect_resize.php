@@ -20,22 +20,20 @@ class rex_effect_resize extends rex_effect_abstract
 <script type="text/javascript">
 <!--
 
-(function($) {
-    $(function() {
-        var $fx_resize_select_style = $("#media-manager-rex-effect-resize-style-select");
-        var $fx_resize_enlarge = $("#media-manager-rex-effect-resize-allow-enlarge-select").parent().parent();
+$(function() {
+    var $fx_resize_select_style = $("#media-manager-rex-effect-resize-style-select");
+    var $fx_resize_enlarge = $("#media-manager-rex-effect-resize-allow-enlarge-select").parent().parent();
 
-        $fx_resize_select_style.change(function(){
-            if(jQuery(this).val() == "exact")
-            {
-                $fx_resize_enlarge.hide();
-            }else
-            {
-                $fx_resize_enlarge.show();
-            }
-        }).change();
-    });
-})(jQuery);
+    $fx_resize_select_style.change(function(){
+        if(jQuery(this).val() == "exact")
+        {
+            $fx_resize_enlarge.hide();
+        }else
+        {
+            $fx_resize_enlarge.show();
+        }
+    }).change();
+});
 
 //--></script>';
     }
