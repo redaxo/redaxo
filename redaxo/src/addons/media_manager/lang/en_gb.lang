@@ -117,6 +117,7 @@ media_manager_effect_mediapath = Media path
 
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache control
+media_manager_effect_header_expires = Expires
 
 media_manager_effect_convert2img_density = Resolution density
 media_manager_effect_convert2img_convertto = Target format
