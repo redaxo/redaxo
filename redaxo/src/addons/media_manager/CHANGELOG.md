@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.11.2017
+--------------------------
+
+### Neu
+
+* Bilder werden automatisch gemäß Exif-Orientation-Wert gedreht (@gharlan)
+* header-Effekt: max-age bzw. immutable kann gesetzt werden (@gharlan)
+* Pro Type ein eigener Cache-Ordner (@gharlan)
+
+### Bugfixes
+
+* Bei Typen mit Effekten, die den Pfad anpassen (mediapath), wurden die Bilder bei jedem Aufruf neu erzeugt (@gharlan)
+* workspace: Es kam zu Fehlern, wenn nur ein Zielwert gesetzt wurde (@gharlan)
+* workspace/resize: Bedingte Eingabefelder wurden nie ausgeblendet (@gharlan)
+
+
 Version 2.4.0 – 04.10.2017
 --------------------------
 
