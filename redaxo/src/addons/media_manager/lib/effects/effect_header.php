@@ -12,22 +12,22 @@ class rex_effect_header extends rex_effect_abstract
             $this->media->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT'); // in the past
         } elseif ($this->params['cache'] !== 'cache' /* bc */ && $this->params['cache'] !== 'unspecified') {
             switch ($this->params['cache']) {
-                case '1 min':
+                case 'max-age: 1 min':
                     $seconds = 60;
                     break;
-                case '1 hour':
+                case 'max-age: 1 hour':
                     $seconds = 60 * 60;
                     break;
-                case '1 day':
+                case 'max-age: 1 day':
                     $seconds = 60 * 60 * 24;
                     break;
-                case '1 week':
+                case 'max-age: 1 week':
                     $seconds = 60 * 60 * 24 * 7;
                     break;
-                case '1 month':
+                case 'max-age: 1 month':
                     $seconds = 60 * 60 * 24 * 30;
                     break;
-                case '1 year':
+                case 'max-age: 1 year':
                 case 'immutable':
                     $seconds = 60 * 60 * 24 * 365;
                     break;
@@ -75,7 +75,7 @@ class rex_effect_header extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_header_cache'),
                 'name' => 'cache',
                 'type' => 'select',
-                'options' => ['no_cache', 'unspecified', '1 min', '1 hour', '1 day', '1 week', '1 month', '1 year', 'immutable'],
+                'options' => ['no_cache', 'unspecified', 'max-age: 1 min', 'max-age: 1 hour', 'max-age: 1 day', 'max-age: 1 week', 'max-age: 1 month', 'max-age: 1 year', 'immutable'],
                 'default' => 'no_cache',
             ],
         ];
