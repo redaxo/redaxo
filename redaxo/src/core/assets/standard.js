@@ -657,7 +657,7 @@ jQuery(document).ready(function($) {
     // add eye-toggle to each password input
     $('input[type="password"]').each(function () {
         var $el = $(this);
-        var $eye = jQuery('<i class="fa fa-eye" aria-hidden="true"></i>');
+        var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
 
         $eye.click(function() {
             $(this).toggleClass("fa-eye fa-eye-slash");
