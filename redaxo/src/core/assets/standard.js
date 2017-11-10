@@ -669,6 +669,13 @@ jQuery(document).ready(function($) {
             }
         });
 
+        $eye
+           .wrap('<button class="btn btn-view"></button>')
+           .wrap('<span class="input-group-btn"></span>');
         $el.after($eye);
+        
+        if ($el.parent("div.input-group").length == 0) {
+           $el.wrap('<div class="input-group"></div>');
+        }
     });
 });
