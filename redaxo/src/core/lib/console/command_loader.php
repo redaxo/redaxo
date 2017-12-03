@@ -28,6 +28,11 @@ class rex_console_command_loader implements CommandLoaderInterface
                 ];
             }
         }
+
+        $this->commands['cache:clear'] = [
+            'package' => null,
+            'class' => 'rex_command_cache_clear',
+        ];
     }
 
     public function get($name)

@@ -13,7 +13,7 @@ abstract class rex_console_command extends Command
     /** @var rex_package */
     protected $package;
 
-    public function setPackage(rex_package $package)
+    public function setPackage(rex_package $package = null)
     {
         $this->package = $package;
 
