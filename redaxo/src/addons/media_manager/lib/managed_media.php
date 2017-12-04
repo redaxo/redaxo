@@ -304,8 +304,12 @@ class rex_managed_media
         if (!function_exists('exif_read_data')) {
             return;
         }
-
-        $exif = exif_read_data($this->getSourcePath());
+        // exif_read_data() only works on jpg/jpeg/tiff
+        if (!in_array($this->getFormat(), ['jpg', 'jpeg', 'tiff'])) {
+            return;
+        }
+        // suppress warning in case of corrupt/ missing exif data
+        $exif = @exif_read_data($this->getSourcePath());
 
         if (!isset($exif['Orientation']) || !in_array($exif['Orientation'], [3, 6, 8])) {
             return;
