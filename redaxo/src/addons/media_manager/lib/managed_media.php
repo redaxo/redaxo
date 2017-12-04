@@ -301,13 +301,11 @@ class rex_managed_media
 
     private function fixOrientation()
     {
-        if (!function_exists('exif_read_data'))
-        {
+        if (!function_exists('exif_read_data')) {
             return;
         }
         // exif_read_data() only works on jpg/jpeg/tiff
-        if (!in_array($this->getFormat(), ['jpg', 'jpeg', 'tiff']))
-        {
+        if (!in_array($this->getFormat(), ['jpg', 'jpeg', 'tiff'])) {
             return;
         }
         // suppress warning in case of corrupt/ missing exif data
