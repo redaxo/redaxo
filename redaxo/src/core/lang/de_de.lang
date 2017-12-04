@@ -309,6 +309,8 @@ plugin_uninstall_question = PlugIn "{0}" de-installieren?
 plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte!
+addon_deactivate = Addon deaktivieren
+addon_not_exists = Addon "{0}" existiert nicht!
 
 # redaxo\include\pages\credits.php
 credits = Credits
