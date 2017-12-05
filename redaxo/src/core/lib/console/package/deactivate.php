@@ -7,23 +7,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @package redaxo\core
  */
-class rex_command_addon_deactivate extends rex_console_command
+class rex_command_package_deactivate extends rex_console_command
 {
     protected function configure()
     {
-        $this->setName('addon:deactivate')
-            ->setDescription(rex_i18n::msg('addon_deactivate'))
-            ->addArgument('addon', InputArgument::REQUIRED, rex_i18n::msg('addon').' '.rex_i18n::msg('package_hname'));
+        $this->setName('package:deactivate')
+            ->setDescription(rex_i18n::msg('package_deactivate_help'))
+            ->addArgument('package-id', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);
 
-        $packageId = $input->getArgument('addon');
+        $packageId = $input->getArgument('package-id');
         $package = rex_package::get($packageId);
         if ($package instanceof rex_null_package) {
-            $io->error(rex_i18n::rawMsg('addon_not_exists', $packageId));
+            $io->error(rex_i18n::rawMsg('package_not_exists', $packageId));
             return;
         }
 

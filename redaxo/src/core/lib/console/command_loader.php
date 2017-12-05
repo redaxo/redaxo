@@ -34,9 +34,9 @@ class rex_console_command_loader implements CommandLoaderInterface
             'class' => 'rex_command_cache_clear',
         ];
 
-        $this->commands['addon:deactivate'] = [
+        $this->commands['package:deactivate'] = [
             'package' => null,
-            'class' => 'rex_command_addon_deactivate',
+            'class' => 'rex_command_package_deactivate',
         ];
     }
 
