@@ -391,3 +391,6 @@ created_on = erstellt am
 updated_by = aktualisiert von
 updated_on = aktualisiert am
 status = Status
+
+#cli
+package_id_help = Die Id des Packages; z.B. cronjob structure/content

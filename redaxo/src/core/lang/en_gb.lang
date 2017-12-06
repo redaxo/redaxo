@@ -391,3 +391,6 @@ created_on = created
 updated_by = updated by
 updated_on = updated
 status = Status
+
+#cli
+package_id_help = The id of the package(addon or plugin); e.g. cronjob structure/content

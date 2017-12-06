@@ -13,7 +13,7 @@ class rex_command_package_deactivate extends rex_console_command
     {
         $this->setName('package:deactivate')
             ->setDescription(rex_i18n::msg('package_deactivate_help'))
-            ->addArgument('package-id', InputArgument::REQUIRED);
+            ->addArgument('package-id', InputArgument::REQUIRED, rex_i18n::msg('package_id_help'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
