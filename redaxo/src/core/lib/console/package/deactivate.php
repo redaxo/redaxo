@@ -12,8 +12,8 @@ class rex_command_package_deactivate extends rex_console_command
     protected function configure()
     {
         $this->setName('package:deactivate')
-            ->setDescription(rex_i18n::msg('package_deactivate_help'))
-            ->addArgument('package-id', InputArgument::REQUIRED, rex_i18n::msg('package_id_help'));
+            ->setDescription('Deactivates the selected package')
+            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package(addon or plugin); e.g. "cronjob" or "structure/content"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -23,7 +23,7 @@ class rex_command_package_deactivate extends rex_console_command
         $packageId = $input->getArgument('package-id');
         $package = rex_package::get($packageId);
         if ($package instanceof rex_null_package) {
-            $io->error(rex_i18n::rawMsg('package_not_exists', $packageId));
+            $io->error('Package "'.$packageId.'" doesn\'t exists!');
             return;
         }
 
