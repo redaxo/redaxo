@@ -170,7 +170,7 @@ class rex_media_manager
 
     public function getCacheFilename()
     {
-        return $this->cache_path.$this->type.'/'.$this->media->getMediaFilename();
+        return $this->cache_path.$this->type.'/'.self::getMediaFile();
     }
 
     public function getHeaderCacheFilename()
