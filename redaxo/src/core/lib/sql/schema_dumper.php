@@ -3,6 +3,8 @@
 /**
  * Class for generating the php code for a rex_sql_table definition.
  *
+ * Especially useful to generate the code for the `install.php` of packages.
+ *
  * @author gharlan
  *
  * @package redaxo\core
