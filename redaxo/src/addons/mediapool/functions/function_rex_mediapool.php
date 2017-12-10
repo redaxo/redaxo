@@ -558,7 +558,7 @@ function rex_mediapool_Syncform($rex_file_category)
  */
 function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 {
-    $file_ext = rex_file::extension($filename);
+    $file_ext = mb_strtolower(rex_file::extension($filename));
 
     if ($filename === '' || strpos($file_ext, ' ') !== false || $file_ext === '') {
         return false;
@@ -591,6 +591,7 @@ function rex_mediapool_getMediaTypeWhitelist($args = [])
     if (isset($args['types'])) {
         foreach (explode(',', $args['types']) as $ext) {
             $ext = ltrim($ext, '.');
+            $ext = mb_strtolower($ext);
             if (!in_array($ext, $blacklist)) { // whitelist cannot override any blacklist entry from master
                 $whitelist[] = $ext;
             }
