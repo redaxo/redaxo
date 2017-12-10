@@ -11,12 +11,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_console_command_sql_table_generate_code extends rex_console_command
+class rex_command_db_dump_schema extends rex_console_command
 {
     protected function configure()
     {
         $this
-            ->setDescription('Generates the PHP code for a rex_sql_table definition')
+            ->setDescription('Dumps the schema of db tables as php code')
             ->addArgument('table', InputArgument::REQUIRED, 'Database table')
         ;
     }
@@ -25,8 +25,8 @@ class rex_console_command_sql_table_generate_code extends rex_console_command
     {
         $table = rex_sql_table::get($input->getArgument('table'));
 
-        $generator = new rex_sql_table_code_generator();
+        $generator = new rex_sql_schema_dumper();
 
-        $output->write($generator->generate($table));
+        $output->write($generator->dump($table));
     }
 }

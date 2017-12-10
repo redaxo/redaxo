@@ -7,9 +7,9 @@
  *
  * @package redaxo\core
  */
-class rex_sql_table_code_generator
+class rex_sql_schema_dumper
 {
-    public function generate(rex_sql_table $table)
+    public function dump(rex_sql_table $table)
     {
         $code = 'rex_sql_table::get('.$this->tableName($table->getName()).')';
 
