@@ -21,7 +21,7 @@ abstract class rex_console_command extends Command
     }
 
     /**
-     * @return null|rex_package
+     * @return null|rex_package In core commands it returns `null`, otherwise the corresponding package object
      */
     public function getPackage()
     {
