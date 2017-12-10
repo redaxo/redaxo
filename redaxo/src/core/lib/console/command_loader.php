@@ -14,6 +14,14 @@ class rex_console_command_loader implements CommandLoaderInterface
 
     public function __construct()
     {
+        $commands = [
+            'cache:clear' => rex_command_cache_clear::class,
+            'package:deactivate' => rex_command_package_deactivate::class,
+        ];
+        foreach ($commands as $command => $class) {
+            $this->commands[$command] = ['class' => $class];
+        }
+
         foreach (rex_package::getAvailablePackages() as $package) {
             $commands = $package->getProperty('console_commands');
 
@@ -28,16 +36,6 @@ class rex_console_command_loader implements CommandLoaderInterface
                 ];
             }
         }
-
-        $this->commands['cache:clear'] = [
-            'package' => null,
-            'class' => 'rex_command_cache_clear',
-        ];
-
-        $this->commands['package:deactivate'] = [
-            'package' => null,
-            'class' => 'rex_command_package_deactivate',
-        ];
     }
 
     public function get($name)
@@ -51,7 +49,10 @@ class rex_console_command_loader implements CommandLoaderInterface
         /** @var rex_console_command $command */
         $command = new $class();
         $command->setName($name);
-        $command->setPackage($this->commands[$name]['package']);
+
+        if (isset($this->commands[$name]['package'])) {
+            $command->setPackage($this->commands[$name]['package']);
+        }
 
         return $command;
     }

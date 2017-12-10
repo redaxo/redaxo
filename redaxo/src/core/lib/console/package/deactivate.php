@@ -11,9 +11,9 @@ class rex_command_package_deactivate extends rex_console_command
 {
     protected function configure()
     {
-        $this->setName('package:deactivate')
+        $this
             ->setDescription('Deactivates the selected package')
-            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package(addon or plugin); e.g. "cronjob" or "structure/content"');
+            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

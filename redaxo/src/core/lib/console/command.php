@@ -10,7 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 abstract class rex_console_command extends Command
 {
-    /** @var rex_package */
+    /** @var null|rex_package */
     protected $package;
 
     public function setPackage(rex_package $package = null)
@@ -20,6 +20,9 @@ abstract class rex_console_command extends Command
         return $this;
     }
 
+    /**
+     * @return null|rex_package
+     */
     public function getPackage()
     {
         return $this->package;
