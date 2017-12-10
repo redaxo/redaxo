@@ -10,7 +10,7 @@ class rex_command_cache_clear extends rex_console_command
 {
     protected function configure()
     {
-        $this->setName('cache:clear')
+        $this
             ->setDescription(rex_i18n::msg('delete_cache'))
             ->setHelp(rex_i18n::msg('delete_cache_description'));
     }
