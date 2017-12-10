@@ -6,6 +6,7 @@ class rex_api_content_copy extends rex_api_function
 {
     /**
      * @return rex_api_result
+     *
      * @throws rex_api_exception
      */
     public function execute()
