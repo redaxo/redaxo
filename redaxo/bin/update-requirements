@@ -26,12 +26,6 @@ rm -f redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
 
 composer dumpautoload --no-dev -d redaxo/src/core/
 
-printf "\nUpdate redaxo/src/addons/textile/vendor\n"
-composer update --no-dev -d redaxo/src/addons/textile/
-
-rm -f redaxo/src/addons/textile/vendor/autoload.php
-rm -rf redaxo/src/addons/textile/vendor/composer/
-
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
 
