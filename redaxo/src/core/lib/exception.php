@@ -20,6 +20,22 @@ class rex_exception extends Exception
  */
 class rex_sql_exception extends rex_exception
 {
+    private $sql;
+
+    public function __construct($message, Exception $previous = null, rex_sql $sql = null)
+    {
+        parent::__construct($message, $previous);
+
+        $this->sql = $sql;
+    }
+
+    /**
+     * @return null|rex_sql
+     */
+    public function getSql()
+    {
+        return $this->sql;
+    }
 }
 
 /**

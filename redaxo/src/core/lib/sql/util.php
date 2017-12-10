@@ -62,7 +62,7 @@ class rex_sql_util
             }
         }
         if ($error) {
-            throw new rex_sql_exception($error);
+            throw new rex_sql_exception($error, null, $sql);
         }
 
         return true;

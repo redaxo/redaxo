@@ -79,7 +79,7 @@ class rex_sql implements Iterator
                 $this->setQuery('SET SESSION SQL_MODE="", NAMES utf8');
             }
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Could not connect to database', $e);
+            throw new rex_sql_exception('Could not connect to database', $e, $this);
         }
     }
 
@@ -245,7 +245,7 @@ class rex_sql implements Iterator
             $this->stmt = $pdo->prepare($qry);
             return $this->stmt;
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while preparing statement "' . $qry . '"! ' . $e->getMessage(), $e);
+            throw new rex_sql_exception('Error while preparing statement "' . $qry . '"! ' . $e->getMessage(), $e, $this);
         }
     }
 
@@ -262,7 +262,7 @@ class rex_sql implements Iterator
     public function execute(array $params = [], array $options = [])
     {
         if (!$this->stmt) {
-            throw new rex_sql_exception('you need to prepare a query before calling execute()');
+            throw new rex_sql_exception('you need to prepare a query before calling execute()', null, $this);
         }
 
         $buffered = null;
@@ -279,7 +279,7 @@ class rex_sql implements Iterator
             $this->stmt->execute($params);
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e);
+            throw new rex_sql_exception('Error while executing statement "' . $this->query . '" using params ' . json_encode($params) . '! ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
                 $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
@@ -337,7 +337,7 @@ class rex_sql implements Iterator
             $this->stmt = $pdo->query($query);
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
-            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e);
+            throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
         } finally {
             if (null !== $buffered) {
                 $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $buffered);
@@ -501,7 +501,7 @@ class rex_sql implements Iterator
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = [];
         } else {
-            throw new rex_sql_exception('expecting $where to be an array, "' . gettype($where) . '" given!');
+            throw new rex_sql_exception('expecting $where to be an array, "' . gettype($where) . '" given!', null, $this);
         }
 
         return $this;
@@ -552,7 +552,7 @@ class rex_sql implements Iterator
     public function getValue($colName)
     {
         if (empty($colName)) {
-            throw new rex_sql_exception('parameter fieldname must not be empty!');
+            throw new rex_sql_exception('parameter fieldname must not be empty!', null, $this);
         }
 
         // fast fail,... value already set manually?
@@ -789,7 +789,7 @@ class rex_sql implements Iterator
         // provide debug infos, if insert is considered successfull, but no rows were inserted.
         // this happens when you violate against a NOTNULL constraint
         if ($this->getRows() == 0) {
-            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!');
+            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
         }
         return $this;
     }
