@@ -41,6 +41,8 @@ class rex_fragment
      *
      * @param string $name    Variable name
      * @param string $default Default value
+     *
+     * @return mixed
      */
     public function getVar($name, $default = null)
     {
@@ -59,6 +61,8 @@ class rex_fragment
      * @param bool   $escape Flag which indicates if the value should be escaped or not
      *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function setVar($name, $value, $escape = true)
     {
@@ -71,6 +75,8 @@ class rex_fragment
         } else {
             $this->vars[$name] = $value;
         }
+
+        return $this;
     }
 
     /**
@@ -122,11 +128,15 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment used for decoration
      * @param array  $params   A array of key-value pairs to pass as parameters
+     *
+     * @return $this
      */
     public function decorate($filename, array $params)
     {
         $this->decorator = new self($params);
         $this->decorator->filename = $filename;
+
+        return $this;
     }
 
     // -------------------------- in-fragment helpers
