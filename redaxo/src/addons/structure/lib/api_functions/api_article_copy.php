@@ -10,6 +10,7 @@ class rex_api_article_copy extends rex_api_function
     {
         $article_id = rex_request('article_id', 'int');
         $clang = rex_request('clang', 'int', 1);
+        // The destination category in which the given article will be copied
         $category_copy_id_new = rex_request('category_copy_id_new', 'int');
         $user = rex::getUser();
 
