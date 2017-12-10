@@ -25,6 +25,10 @@ class rex_command_db_dump_schema extends rex_console_command
     {
         $table = rex_sql_table::get($input->getArgument('table'));
 
+        if (!$table->exists()) {
+            throw new InvalidArgumentException(sprintf('Table "%s" does not exist.', $table->getName()));
+        }
+
         $generator = new rex_sql_schema_dumper();
 
         $output->write($generator->dump($table));
