@@ -94,7 +94,7 @@ class rex_backend_login extends rex_login
                         $mins = floor(($time - ($hours * 3600)) / 60);
                         $secs = $time % 60;
                         $formatted = ($hours ? $hours . 'h ' : '') . ($hours || $mins ? $mins . 'min ' : '') . $secs . 's';
-                        $this->message .= ' ' . rex_i18n::msg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
+                        $this->message .= ' ' . rex_i18n::rawMsg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
                     }
                 }
             }

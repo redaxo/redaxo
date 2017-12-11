@@ -60,7 +60,7 @@ if ($function == 'delete') {
 
     if ($del->getRows() > 0) {
         $module_in_use_message = '';
-        $modulname = htmlspecialchars($del->getValue(rex::getTablePrefix() . 'module.name'));
+        $modulname = $del->getValue(rex::getTablePrefix() . 'module.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
             $aid = $del->getValue(rex::getTablePrefix() . 'article_slice.article_id');
             $clang_id = $del->getValue(rex::getTablePrefix() . 'article_slice.clang_id');

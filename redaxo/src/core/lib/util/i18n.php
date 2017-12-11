@@ -127,11 +127,6 @@ class rex_i18n
             ));
         }
 
-        if ($htmlspecialchars) {
-            $msg = htmlspecialchars($msg);
-            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd)|br ?/?)&gt;@i', '<$1>', $msg);
-        }
-
         $patterns = [];
         $replacements = [];
         $argNum = count($args);
@@ -142,7 +137,15 @@ class rex_i18n
                 $replacements[] = $args[$i];
             }
         }
-        return preg_replace($patterns, $replacements, $msg);
+
+        $msg = preg_replace($patterns, $replacements, $msg);
+
+        if ($htmlspecialchars) {
+            $msg = htmlspecialchars($msg);
+            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $msg);
+        }
+
+        return $msg;
     }
 
     /**
