@@ -1,30 +1,40 @@
 <?php
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @package redaxo\core
  */
-class rex_command_package_install extends rex_command_package
+class rex_command_package_install extends rex_console_command
 {
-    protected function configureCommand()
+    protected function configure()
     {
         $this
             ->setDescription('Installs the selected package')
+            ->addArgument('package-id', InputArgument::REQUIRED, 'The id of the package (addon or plugin); e.g. "cronjob" or "structure/content"')
             ->addOption('re-install', '-r', InputOption::VALUE_NONE, 'Allows to reinstall the Package without asking the User');
     }
 
-    protected function executeCommand(rex_package $package, SymfonyStyle $io, InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = $this->getStyle($input, $output);
+
+        $packageId = $input->getArgument('package-id');
+        $package = rex_package::get($packageId);
+        if ($package instanceof rex_null_package) {
+            $io->error('Package "'.$packageId.'" doesn\'t exists!');
+            return 1;
+        }
+
         if ($package->isInstalled() && !$input->getOption('re-install')) {
             $helper = $this->getHelper('question');
             $question = new \Symfony\Component\Console\Question\ConfirmationQuestion('Package "'.$package->getPackageId().'" is already installed. Should it be reinstalled? (y/n) ', false);
             if (!$helper->ask($input, $output, $question)) {
                 $io->success('Package "'.$package->getPackageId().'" wasn\'t reinstalled');
-                exit(0);
+                return 0;
             }
         }
 
@@ -33,9 +43,14 @@ class rex_command_package_install extends rex_command_package
             $success = $manager->install();
         } catch (rex_functional_exception $e) {
             $io->error($e->getMessage());
-            exit(1);
+            return 1;
         }
-        $message = $manager->getMessage();
-        return ['success' => $success, 'message' => $message];
+        $message = strip_tags($manager->getMessage());
+        if ($success) {
+            $io->success($message);
+            return 0;
+        }
+        $io->error($message);
+        return 1;
     }
 }
