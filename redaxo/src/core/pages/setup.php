@@ -115,12 +115,12 @@ if ($step == 3) {
 
     jQuery(function($){
         var urls = [
-            "' . rex_url::backend('bin/console') . '", 
-            "' . rex_url::backend('data/.redaxo') . '", 
-            "' . rex_url::backend('src/core/boot.php') . '", 
+            "' . rex_url::backend('bin/console') . '",
+            "' . rex_url::backend('data/.redaxo') . '",
+            "' . rex_url::backend('src/core/boot.php') . '",
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
-        
+
         $.each(urls, function (i, url) {
             $.ajax({
                 url: url,
@@ -683,6 +683,7 @@ if ($step == 6) {
     $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
     $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
     $formElements[] = $n;
+
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);

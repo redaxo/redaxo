@@ -125,15 +125,15 @@ function newWindow(name,link,width,height,type)
 var winObj = new Array();
 if (opener != null)
 {
-	try{
-	    if (typeof(opener.winObjCounter) == "number")
-	    {
-	        var winObjCounter = opener.winObjCounter;
-	    }
-	} catch(e) {
-	    // in x-origin cases opener.winObjCounter would not be readable
-	    var winObjCounter = -1;
-	}
+    try{
+        if (typeof(opener.winObjCounter) == "number")
+        {
+            var winObjCounter = opener.winObjCounter;
+        }
+    } catch(e) {
+        // in x-origin cases opener.winObjCounter would not be readable
+        var winObjCounter = -1;
+    }
 }else
 {
     var winObjCounter = -1;
@@ -573,7 +573,7 @@ jQuery(document).ready(function($) {
         };
 
         $(document)
-            // install pjax handlers, see defunkt/jquery-pjax#142
+        // install pjax handlers, see defunkt/jquery-pjax#142
             .on('click', '[data-pjax-container] a, a[data-pjax]', pjaxHandler)
             .on('submit', '[data-pjax-container] form, form[data-pjax]', pjaxHandler)
             .on('click', '[data-pjax-container] form :submit, form[data-pjax] :submit', function() {
@@ -652,6 +652,31 @@ jQuery(document).ready(function($) {
         $(this).toggleClass('dropup',
             ((windowHeight - rect.bottom) < menuHeight) &&
             (rect.top > menuHeight));
+    });
+
+    // add eye-toggle to each password input
+    $('input[type="password"]').each(function () {
+        var $el = $(this);
+        var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
+
+        $eye.click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+
+            if ($el.attr("type") === "password") {
+                $el.attr("type", "text");
+            } else {
+                $el.attr("type", "password");
+            }
+        });
+
+        $eye
+           .wrap('<button class="btn btn-view"></button>')
+           .wrap('<span class="input-group-btn"></span>');
+        $el.after($eye);
+        
+        if ($el.parent("div.input-group").length == 0) {
+           $el.wrap('<div class="input-group"></div>');
+        }
     });
 });
 
