@@ -34,11 +34,15 @@ $user_id = rex_request('user_id', 'int');
 $info = '';
 $warnings = [];
 
+$user = null;
+
 if ($user_id != 0) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
     if ($sql->getRows() != 1) {
         $user_id = 0;
+    } else {
+        $user = new rex_user($sql);
     }
 }
 
@@ -125,6 +129,13 @@ if ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY) {
     if ($useremail && !rex_validator::factory()->email($useremail)) {
         $warnings[] = rex_i18n::msg('invalid_email');
     }
+
+    if ($userpsw && (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw, $user_id))) {
+        if (rex::getUser()->isAdmin()) {
+            $msg .= ' '.rex_i18n::msg('password_admin_notice');
+        }
+        $warnings[] = $msg;
+    }
 }
 
 if ($warnings) {
@@ -158,11 +169,7 @@ if ($warnings) {
     }
 
     if ($userpsw != '') {
-        // the server side encryption of pw is only required
-        // when not already encrypted by client using javascript
-        $userpsw = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
-
-        $updateuser->setValue('password', $userpsw);
+        $updateuser->setValue('password', rex_login::passwordHash($userpsw));
     }
 
     $updateuser->update();
@@ -173,12 +180,24 @@ if ($warnings) {
     }
 
     $info = rex_i18n::msg('user_data_updated');
+
+    rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
+        'id' => $user_id,
+        'user' => $user,
+        'password' => $userpsw,
+    ], true));
 } elseif ($FUNC_DELETE != '') {
     // man kann sich selbst nicht loeschen..
     if (rex::getUser()->getId() != $user_id) {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE id = '$user_id' LIMIT 1");
         $info = rex_i18n::msg('user_deleted');
+
+        rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
+            'id' => $user_id,
+            'user' => $user,
+        ], true));
+
         $user_id = 0;
     } else {
         $warnings[] = rex_i18n::msg('user_notdeleteself');
@@ -188,14 +207,12 @@ if ($warnings) {
     $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
 
     if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
-        // the server side encryption of pw is only required
-        // when not already encrypted by client using javascript
-        $userpsw = rex_login::passwordHash($userpsw, rex_post('javascript', 'boolean'));
+        $userpswHash = rex_login::passwordHash($userpsw);
 
         $adduser = rex_sql::factory();
         $adduser->setTable(rex::getTablePrefix() . 'user');
         $adduser->setValue('name', $username);
-        $adduser->setValue('password', $userpsw);
+        $adduser->setValue('password', $userpswHash);
         $adduser->setValue('login', $userlogin);
         $adduser->setValue('description', $userdesc);
         $adduser->setValue('email', $useremail);
@@ -214,6 +231,12 @@ if ($warnings) {
         $user_id = 0;
         $FUNC_ADD = '';
         $info = rex_i18n::msg('user_added');
+
+        rex_extension::registerPoint(new rex_extension_point('USER_ADDED', '', [
+            'id' => $adduser->getLastId(),
+            'user' => new rex_user($adduser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$adduser->getLastId()])),
+            'password' => $userpsw,
+        ], true));
     } else {
         if ($useradmin == 1) {
             $adminchecked = 'checked="checked"';
@@ -357,7 +380,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
             $add_admin_chkbox = '';
         }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" autofocus />';
 
         $formElements = [];
 
@@ -373,7 +396,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $content .= '
             <fieldset>
-                <input type="hidden" name="javascript" value="0" id="rex-js-javascript" />
                 <input type="hidden" name="subpage" value="" />
                 <input type="hidden" name="save" value="1" />
                 ' . $add_hidden;
@@ -387,7 +409,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="off" />';
+    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
 
     if (rex::getProperty('pswfunc') != '') {
         $n['note'] = rex_i18n::msg('psw_encrypted');
@@ -397,7 +419,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . htmlspecialchars($username) . '" />';
     $formElements[] = $n;
 
     $n = [];
@@ -475,23 +497,12 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         <script type="text/javascript">
         <!--
         jQuery(function($) {
-            $("#rex-form-user")
-                .submit(function(){
-                    var pwInp = $("#rex-js-user-password");
-                    if(pwInp.val() != "") {
-                        $("form#rex-form-user").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-                        pwInp.removeAttr("name");
-                    }
-            });
-
             $("#rex-js-user-admin").change(function() {
                  if ($(this).is(":checked"))
                      $("#rex-js-user-role").attr("disabled", "disabled");
                  else
                      $("#rex-js-user-role").removeAttr("disabled");
-        }).change();
-
-            $("#rex-js-javascript").val("1");
+            }).change();
         });
         //-->
         </script>';
@@ -545,7 +556,7 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnFormat('login', 'custom', function ($params) {
         $list = $params['list'];
 
-        $login = $list->getValue('login');
+        $login = htmlspecialchars($list->getValue('login'));
         if (!$list->getValue('status')) {
             $login = '<span class="text-muted">' . $login . '</span>';
         }
@@ -562,7 +573,7 @@ if (isset($SHOW) and $SHOW) {
         } elseif ($list->getValue('role') != '') {
             foreach (explode(',', $list->getValue('role')) as $user_role_id) {
                 if (isset($roles[$user_role_id])) {
-                    $role_names[] = $roles[$user_role_id];
+                    $role_names[] = htmlspecialchars($roles[$user_role_id]);
                 }
             }
         }

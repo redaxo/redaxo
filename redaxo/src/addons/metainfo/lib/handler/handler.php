@@ -57,22 +57,22 @@ abstract class rex_metainfo_handler
                     $dbvalues = explode('|+|', $activeItem->getValue($name));
                 } else {
                     // Neue Notation mit | als Trenner
-                    $dbvalues = explode('|', $activeItem->getValue($name));
+                    $dbvalues = explode('|', trim($activeItem->getValue($name), '|'));
                 }
             } else {
                 $dbvalues = (array) $sqlFields->getValue('default');
             }
 
             if ($title != '') {
-                $labelText = rex_i18n::translate($title);
+                $label = rex_i18n::translate($title);
             } else {
-                $labelText = htmlspecialchars($name);
+                $label = htmlspecialchars($name);
             }
 
-            $id = preg_replace('/[^a-zA-Z\-0-9_]/', '_', $labelText);
+            $id = 'rex-metainfo-'.htmlspecialchars(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
             $labelIt = true;
 
-            $label = '<label for="' . $id . '">' . $labelText . '</label>';
+            $label = '<label for="' . $id . '">' . $label . '</label>';
 
             $field = '';
 
@@ -110,6 +110,7 @@ abstract class rex_metainfo_handler
                     }
 
                     $name .= '[]';
+                    // no break
                 case 'radio':
                     $formElements = [];
 
@@ -170,17 +171,20 @@ abstract class rex_metainfo_handler
                         }
 
                         $selected = '';
-                        if (in_array($key, $dbvalues)) {
+                        if (in_array((string) $key, $dbvalues, true)) {
                             $selected = ' checked="checked"';
                         }
 
+                        $currentId = $id;
+
                         $e = [];
                         if ($oneValue) {
-                            $e['label'] = '<label>' . $labelText . '</label>';
+                            $e['label'] = $label;
                         } else {
-                            $e['label'] = '<label>' . htmlspecialchars($value) . '</label>';
+                            $currentId .= '-'.htmlspecialchars(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key));
+                            $e['label'] = '<label for="' . $currentId . '">' . htmlspecialchars($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . htmlspecialchars($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
                     }
 

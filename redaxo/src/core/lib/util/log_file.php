@@ -100,7 +100,7 @@ class rex_log_file implements Iterator
         // get current file
         $file = $this->second ? $this->file2 : $this->file;
 
-        if (is_null($this->pos)) {
+        if (null === $this->pos) {
             // position is not set -> set start position to start of last buffer
             fseek($file, 0, SEEK_END);
             $this->pos = (int) (ftell($file) / $bufferSize) * $bufferSize;
@@ -125,7 +125,8 @@ class rex_log_file implements Iterator
                         $this->pos -= $bufferSize;
                     }
                     break 2;
-                } elseif ("\r" !== $char) {
+                }
+                if ("\r" !== $char) {
                     // build line; \r is ignored
                     $line = $char . $line;
                 }
@@ -233,7 +234,7 @@ class rex_log_entry
      */
     public function getTimestamp($format = null)
     {
-        if (is_null($format)) {
+        if (null === $format) {
             return $this->timestamp;
         }
         return rex_formatter::strftime($this->timestamp, $format);

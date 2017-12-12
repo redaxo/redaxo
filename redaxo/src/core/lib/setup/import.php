@@ -28,7 +28,7 @@ class rex_setup_importer
         }
 
         if ($err_msg == '') {
-            $err_msg .= self::installAddons();
+            $err_msg .= self::reinstallPackages();
         }
 
         return $err_msg;
@@ -64,7 +64,7 @@ class rex_setup_importer
     public static function databaseAlreadyExists()
     {
         // ----- db schon vorhanden, nichts tun
-        return self::installAddons(false, false);
+        return self::reinstallPackages();
     }
 
     public static function overrideExisting()
@@ -160,6 +160,9 @@ class rex_setup_importer
             }
         }
 
+        // Reload config from imported data
+        rex_config::refresh();
+
         return $err_msg;
     }
 
@@ -189,14 +192,14 @@ class rex_setup_importer
             }
 
             if ($state !== true) {
-                $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                $addonErr .= '<li>' . htmlspecialchars($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
 
             if ($state === true && !$package->isAvailable()) {
                 $state = $manager->activate();
 
                 if ($state !== true) {
-                    $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+                    $addonErr .= '<li>' . htmlspecialchars($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }
         }
@@ -210,6 +213,40 @@ class rex_setup_importer
             </ul>';
         }
 
+        // force to save config at this point
+        // otherwise it would be saved in shutdown function and maybe would replace config changes made by db import in between
+        rex_config::save();
+
         return $addonErr;
+    }
+
+    private static function reinstallPackages()
+    {
+        $error = '';
+        rex_addon::initialize();
+        rex_package_manager::synchronizeWithFileSystem();
+
+        foreach (rex_package::getInstalledPackages() as $package) {
+            $manager = rex_package_manager::factory($package);
+
+            if (!$manager->install()) {
+                $error .= '<li>' . htmlspecialchars($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
+            }
+        }
+
+        if ($error) {
+            $error = '<ul class="rex-ul1">
+            <li>
+            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513', '<span class="rex-error">', '</span>') . '</h3>
+            <ul>' . $error . '</ul>
+            </li>
+            </ul>';
+        }
+
+        // force to save config at this point
+        // otherwise it would be saved in shutdown function and maybe would replace config changes made by db import in between
+        rex_config::save();
+
+        return $error;
     }
 }

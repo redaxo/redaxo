@@ -110,9 +110,8 @@ class rex_article_content_base
         $this->article_id = $article_id;
 
         // ---------- select article
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . "article.id='$article_id' AND clang_id='" . $this->clang . "'";
         $sql = $this->getSqlInstance();
-        $sql->setQuery($qry);
+        $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$article_id, $this->clang]);
 
         if ($sql->getRows() == 1) {
             $this->template_id = $this->getValue('template_id');
@@ -257,7 +256,7 @@ class rex_article_content_base
 
         $articleLimit = '';
         if ($this->article_id != 0) {
-            $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $this->article_id;
+            $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . (int) $this->article_id;
         }
 
         $sliceLimit = '';
@@ -337,6 +336,7 @@ class rex_article_content_base
                     'slice_id' => $sliceId,
                     'function' => $this->function,
                     'function_slice_id' => $this->slice_id,
+                    'sql' => $artDataSql,
                 ]
             ));
 
@@ -363,8 +363,7 @@ class rex_article_content_base
         echo $articleContent;
 
         // ----- end: article caching
-        $CONTENT = ob_get_contents();
-        ob_end_clean();
+        $CONTENT = ob_get_clean();
 
         return $CONTENT;
     }
@@ -408,8 +407,7 @@ class rex_article_content_base
             $tplContent = $this->replaceCommonVars($TEMPLATE->getTemplate());
             require rex_stream::factory('template/' . $this->template_id, $tplContent);
 
-            $CONTENT = ob_get_contents();
-            ob_end_clean();
+            $CONTENT = ob_get_clean();
 
             $CONTENT = $this->replaceLinks($CONTENT);
         } else {
@@ -429,8 +427,7 @@ class rex_article_content_base
         ob_start();
         ob_implicit_flush(0);
         require rex_stream::factory($path, $content);
-        $CONTENT = ob_get_contents();
-        ob_end_clean();
+        $CONTENT = ob_get_clean();
 
         return $CONTENT;
     }

@@ -90,9 +90,17 @@ if ($error != '') {
 }
 
 // -------------- Javascripts
+
+$retainEventHandlers = '';
+if (!rex_request::isXmlHttpRequest()) {
+    $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectMedia");';
+}
+
 ?>
 <script type="text/javascript">
 <!--
+
+<?php echo $retainEventHandlers ?>
 
 function selectMedia(filename, alt)
 {

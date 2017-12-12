@@ -1,0 +1,371 @@
+lang = Español
+htmllang = es
+htmlcharset = utf-8
+yes = si
+no = no
+general = general
+dateformat = %d-%b-%Y
+setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
+phpini_settings = Ajustes PHP.ini
+
+datetimeformat = %d-%b-%Y %H:%M
+ctrl = Selección múltiple mediante CTRL
+
+# Allgemein
+abort = Abortar
+add = Añadir
+back = Atrás
+delete = Borrar
+edit = Editar
+update = actualizar
+view = Ver
+path = Path
+id = Id
+name = Nombre
+description = Descripción
+email = E-mail
+function = Función
+no_editing_rights = Permiso denegado
+check_rights_in_directory = Compruebe los permisos de carpeta.
+error_undefined = Se ha producido un error indefinido
+
+# redaxo/redaxo/index.php
+system = Sistema
+user = Usuarios
+profile = Perfil
+logout = Salir
+navigation_system = Mainmenu
+navigation_addons = AddOns
+subnavigation = Subnavegación de {0}
+
+# redaxo/include/classes/class.login.php
+login = Iniciar sesión
+login_name = Nombre de usuario
+password = Contraseña
+new_password = Nueva contraseña
+request_new_password = Pide nueva contraseña
+login_error = Error en el inicio de sesión. Vuelve a intentarlo en {0} segundos.
+login_wait = Espere {0} antes de intentarlo.
+login_session_expired = Sesión expirada.
+login_user_not_found = El usuario no existe.
+login_welcome = Por favor Iniciar sesión.
+login_logged_out = Cerró sesión.
+stay_logged_in = Permanecer conectado
+
+# redaxo/include/layout_redaxo/top.php
+logged_out = No registrado
+logged_in_as = Conectado como
+safemode_deactivate = Desactivar el modo seguro
+
+# redaxo/include/classes/class.form.php
+form_field_first_priority = primera posición
+form_field_after_priority = después de "{0}"
+
+# redaxo\include\pages\system.php
+info_updated = ¡Información actualizada!
+delete_cache = Eliminar caché
+delete_cache_description = Plantillas y archivos de idiomas se creará, caso del artículo se eliminará. La memoria caché del artículo respectivo se recreará en la llamada de fondo del artículo.
+delete_cache_message = Se ha eliminado la caché
+system_features = Caracteristicas
+system_settings = Ajustes
+general_info_header = Información general:
+db1_can_only_be_changed_by_setup = La base de datos [1] sólo se puede cambiar durante la configuración.
+system_others = Otros
+system_update = cambio
+main_preferences = Ajustes
+language = Idioma
+languages = Idiomas
+languages_edit = Editar idiomas
+id_exists = Id existe
+enter_code = Introduzca un código.
+enter_name = Ingresa un nombre
+clang_add = Añadir idioma
+clang_edit = Editar idioma
+clang_update = Actualizar idioma
+clang_created = Idioma añadido.
+clang_edited = Idioma actualizado.
+clang_deleted = Idioma eliminado.
+clang_code = Código
+clang_name = Descripción/Nombre
+clang_priority = Prioridad
+clang_online = en línea
+clang_offline = desconectado
+clang_delete = Eliminar idioma
+clang_select = Elige lengua
+clang_caption = Lista de idiomas disponibles
+clang_function = Funciones
+version = Versión
+host = Anfitrión
+database = Base de datos
+syslog = Registro del sistema
+syslog_delete = Borrar registro sistémico
+syslog_deleted = Sistema de registro borrado
+syslog_delete_error = Error al borrar el registro del sistema
+syslog_timestamp = Hora
+syslog_type = Tipo
+syslog_message = Mensaje
+syslog_file = Archivo
+syslog_line = Fila
+server = URL del sitio web
+servername = Nombre del Sitio Web
+error_email = Dirección de correo electrónico en caso de errores
+error_email_required = ¡Se requiere Dirección de correo electrónico!
+error_email_invalid = Por favor, introduce una dirección de correo electrónico válida
+server_required = Se requiere url del sitio web
+server_invalid = Por favor, ingrese una url válida con el protocolo!
+servername_required = Se requiere el nombre del servidor
+lang_required = Se requiere idioma
+debug_mode = Modo de depuración
+
+# redaxo\include\pages\medienpool.php\setup.php
+setup = Preparar
+setup_restart = Reiniciar la configuración
+setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
+setup_error1 = Configuración activada. Haga clic en {0}> continuar <{1} y ejecute la instalación.
+setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"\$REX[SETUP] = true;\" en boot.php
+
+setup_100 = Configuración: Paso 1 de 7/Idioma
+setup_101 = Por favor, seleccione un idioma
+
+setup_199 = 1 / Idioma
+
+setup_200 = Configuración: Paso 2 de 7 / Licencia
+setup_201 = Bienvenido a REDAXO-Setup.
+setup_202 = <h3>A continuación:</h3><ol><li>Comprobar los permisos del archivo </li><li> Comprobar la configuración de la base de datos y escribir en config.yml </li> <li> Crear una cuenta de administrador </li> </ol>
+setup_203 = Aceptar términos de licencia y pasar al paso 3
+setup_299 = 2 / Licencia
+
+setup_300 = Configuración: Paso 3 de 7 / Comprobación del sistema
+setup_301 = La versión de PHP está desactualizada ({0}), actualícela (versión mínima {1}, se recomienda la última versión)
+setup_302 = No se puede encontrar la versión requerida de PHP <b>{0}</b>!
+setup_303 = Se carece de los complementos de sistema necesarios
+setup_304 = El siguiente directorio no es escribible:
+setup_305 = Los siguientes archivos no pueden escribirse:
+setup_306 = Los directorios siguientes no existen o no tienen permisos correctos:
+setup_307 = Comprobación de la versión de PHP | Comprobación de permisos
+setup_308 = Versión de PHP ok
+setup_309 = Permisos de directorio ok
+setup_310 = Continúe con el paso 4
+setup_312 = Repita el paso 3
+setup_399 = 3 / Comprobación del sistema
+
+setup_400 = Configuración: Paso 4 de 7 / Write 'data/config.yml'
+setup_401 = data/config.yml no se pudo escribir.
+setup_402 = General
+setup_403 = Información de base de datos
+setup_404 = El archivo especificado ya existe
+setup_405 = Escribiendo el archivo 'data/config.yml'
+setup_408 = Nombre de la base de datos
+setup_409 = Contraseña
+setup_410 = Continúe con el paso 5
+setup_411 = ¿Crear base de datos?
+setup_412 = Zona horaria
+setup_413 = ¡La zona horaria no es válida!
+setup_414 = Repita el paso 4
+setup_415 = Se produjo el siguiente error: {0}
+setup_416 = Ajustes REDAXO
+setup_499 = 4 / config.yml
+
+setup_500 = Configuración: Paso 5 de 7 / Base de datos
+setup_501 = Base de datos de configuración
+setup_502 = No se pudo encontrar la tabla {0}.
+setup_503 = Configure de nuevo la base de datos.
+setup_504 = Crear base de datos
+setup_505 = Configurar la base de datos y anular los datos existentes
+setup_505_note = Precaución - ¡Se perderán todos los datos!
+setup_506 = La base de datos ya existe
+setup_506_note = Continuar sin importar la base de datos
+setup_507 = Importar exportación de base de datos existente:
+setup_507_note = Importar demo
+setup_508 = ¡Elija una exportación de base de datos!
+setup_509 = ¡No se pudo encontrar archivos de exportación!
+setup_510 = No se pudo encontrar el complemento de copia de seguridad.
+setup_511 = Continúe con el paso 6
+setup_512 = Repita el paso 5
+setup_513 = Sistema AddOn(s) no se pudo instalar
+setup_514 = Actualizar base de datos
+setup_514_note = Actualización de la versión anterior
+setup_599 = 5 / Base de datos
+
+setup_600 = Configuración: Paso 6 de 7 / Administrador
+setup_601 = Por favor, ingrese un administrador login!
+setup_602 = ¡Por favor ingrese una contraseña de administrador!
+setup_603 = ¡Este inicio de sesión ya existe!
+setup_604 = No se pudo crear la cuenta de administrador.
+setup_605 = Usuario no encontrado. Por favor, cree un nuevo usuario.
+setup_606 = Crear administrador
+setup_607 = Iniciar sesión
+setup_608 = Contraseña
+setup_609 = No crear un usuario
+setup_610 = Continúe con el paso 7
+setup_611 = Repita el paso 6
+setup_699 = 6 / Admin
+
+setup_700 = Configuración: Paso 7 de 7 / Hooray
+setup_701 = Error al escribir en config.yml. Por favor, cambie el archivo manualmente por FTP.
+setup_702 = ¡Felicitaciones! REDAXO ha sido instalado.
+setup_703 = Tenga en cuenta:
+setup_704 = <ol><li>Utilice esta {0} cuenta para iniciar sesión{1}.</li><li>Importe una demostración [después de iniciar sesión]: Vaya a Importar/Exportar e instale la base de datos y los archivos de origen necesarios. </li></ol>
+setup_705 = Diviértete y suerte <br /> El equipo REDAXO
+setup_706 = Iniciar sesión
+setup_799 = 7 / Eureka
+
+setup_security_msg = La carpeta redaxo/include es insegura. Proteja esta carpeta y vuelva a ejecutar el programa de instalación.
+setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta redaxo/include están directamente accesibles. Esto debería ser imposible debido a las restricciones de seguridad!
+
+sql_database_name_missing = ¡Falta el nombre de la base de datos!
+sql_database_already_exists = ¡La base de datos ya existe!
+sql_unable_to_connect_database = ¡No se puede conectar a la base de datos!
+sql_unable_to_connect_server = ¡No se puede conectar al servidor de bases de datos!
+sql_unable_to_create_database = ¡No se puede crear la base de datos!
+sql_unable_to_find_database = ¡No se puede encontrar la base de datos definida!
+sql_unable_to_open_database = ¡No se puede abrir la base de datos definida!
+
+# redaxo\include\pages\addon.php
+addon = AddOn
+addons = AddOns
+package_help = Ayuda para
+package_no_help_file = No se encontró ningún archivo de ayuda
+package_back = espalda
+addon_no_install = AddOn <b>{0}</b> no instalado porque:
+addon_no_uninstall = AddOn <b>{0}</b> se desinstaló porque:
+package_no_reason = Ninguna razón dada.
+addon_no_activation = AddOn <b>{0}</b> activado ya que no está instalado todavía!
+package_not_installed = ¡No está instalado todavía!
+addon_no_deactivation = AddOn <b>{0}</b> no se pudo desactivar porque:
+addon_installed = AddOn <b>{0}</b> instalado y activado
+addon_reinstalled = AddOn <b>{0}</b> vuelve a instalar!
+addon_activated = AddOn <b>{0}</b> activado
+addon_deactivated = AddOn <b>{0}</b> desactivado
+addon_uninstalled = AddOn <b>{0}</b> desinstalado
+addon_deleted = AddOn <b>{0}</b> eliminado
+addon_not_deleted = ¡No se pudo eliminar AddOn <b>{0}</b>.
+addon_delete_question = Eliminar <b>{0}</b> AddOn?
+addon_uninstall_question = Desinstalar <b>{0}</b> AddOn?
+package_hname = Nombre
+package_hversion = Versión
+package_hhelp = Ayuda
+package_hinstall = Instalado
+package_hactive = Activado
+package_hdelete = Borrar
+package_reinstall = reinstalar
+package_install = instalar
+package_notinstalled = no instalado
+package_uninstall = Desinstalar
+package_delete = borrar
+package_deactivate = desactivar
+package_activate = activar
+package_yes = sí
+package_no = no
+package_caption = Lista de paquetes disponibles
+addon_systemaddon = Addon del sistema
+addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
+addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
+package_missing_yml_file = ¡Falta el archivo package.yml!
+package_invalid_yml_file = El archivo package.yml no es válido:
+package_missing_id = La configuración "paquete" falta en package.yml ("package: {0}").
+package_missing_version = Falta la configuración de la versión en package.yml!
+package_wrong_dir_name = El nombre del directorio no coincide con el nombre en package.yml "<b>{0}</b>"!
+package_is_plugin = El paquete tiene que ser instalado como complemento "<b>{1}</b>" de AddOns "<b>{0}</b>"!
+package_is_addon = El paquete tiene que ser instalado como "<b>{0}</b>"!
+package_install_cant_copy_files = Error en la copia de la carpeta /assets !
+package_install_cant_delete_files = ¡La eliminacion de la carpeta /assets ha fallado!
+package_requirement_wrong_format = ¡Los requisitos de package.yml deben estar en formato array!
+package_requirement_error_redaxo_version = [Missing_text] de: Die REDAXO-Version (<b>{0}</b>) <b>{1}</b>!
+package_requirement_error_php_version = [Missing_text] de: Version de PHP (<b>{0}</b>) <b>{1}</b>!
+package_requirement_error_php_extension = [Missing_text] de: Es wird die PHP-Extension <b>{0}</b> benötigt!
+package_requirement_error_addon = [Missing_text] de: Es wird das AddOn <b>{0}</b> benötigt!
+package_requirement_error_addon_version = [Missing_text] de: Das AddOn <b>{0}</b> (Versión <b>{1}</b>).
+package_requirement_error_plugin = [Missing_text] de: Es wird das PlugIn <b>{0}</b> benötigt!
+package_requirement_error_plugin_version = [Missing_text] de: Das PlugIn <b>{0}</b> (Versión <b>{1}</b>) <b>{2}</b>!
+package_conflict_error_addon = [Missing_text] de: Es kann nicht gemeinsam con dem AddOn <b>{0}</b> aktiviert sein!
+package_conflict_error_addon_version = [Missing_text] de: Es kann nicht gemeinsam mit dem AddOn <b>{0}</b> <b>{1}</b> aktiviert sein!
+package_conflict_error_plugin = [Missing_text] de: Es kann nicht gemeinsam con el plugin <b>{0}</b> aktiviert sein!
+package_conflict_error_plugin_version = [Missing_text] de: Es kann nicht gemeinsam mit dem PlugIn <b>{0}</b> mit der Versionsbedingung <b>{1}</b> aktiviert sein!
+package_dependencies_error_addon = [Missing_text] de: ¿Cómo puedo ayudar? AddOn <b>{0}</b> benötigt!
+package_dependencies_error_plugin = [Missing_text] de: Es un wird von dem aktivierten PlugIn <b>{0}</b> benötigt!
+plugin_plugins_installed = Plugins están instalados
+plugin_no_install = PlugIn no ha sido instalado
+plugin_no_uninstall = PlugIn <b>{0}</b> no se pudo desinstalar porque:
+plugin_no_reason =
+plugin_no_activation = PlugIn <b>{0}</b> no se pudo activar porque:
+plugin_no_deactivation = PlugIn <b>{0}</b> no se pudo desactivar porque:
+plugin_installed = PlugIn ha sido instalado
+plugin_reinstalled = PlugIn <b>{0}</b> vuelve a instalar!
+plugin_activated = PlugIn activado
+plugin_deactivated = PlugIn desactivado
+plugin_uninstalled = PlugIn <b>{0}</b> desinstalado!
+plugin_deleted = PlugIn <b>{0}</b> eliminado!
+plugin_not_deleted = PlugIn <b>{0}</b> no se pudo eliminar.
+plugin_delete_question = Eliminar PlugIn "{0}" s?
+plugin_uninstall_question = ¿Desinstalar PlugIn "{0}"?
+plugin_systemplugin = PlugIn del sistema
+plugin_systempackage_delete_not_allowed = Plugins del sistema no deben ser eliminados!
+plugin_dir_not_writable = Falta permisos de escritura para el directorio de complementos.
+
+# redaxo\include\pages\credits.php
+credits = Créditos
+credits_name = Añadir
+credits_help = Ayuda
+credits_version = Versión
+credits_author = Autor
+credits_supportpage = Ayuda
+credits_addon_inactive = Addon inactivo
+credits_caption = Lista de los paquetes usados
+credits_open_help_file = Abrir archivo de ayuda
+credits_inventor = Inventor
+credits_developer = Desarrollador
+credits_designer = Diseñador
+
+# redaxo\include\pages\profile.php
+profile_myprofile = Editar mi perfil
+profile_title = Mi perfil
+profile_save = Guardar perfil
+invalid_email = La dirección de correo electrónico es inválida.
+user_psw_updated = Se ha actualizado la contraseña.
+user_psw_error = Introduzca la contraseña antigua y la nueva dos veces.
+profile_changepsw = Cambia la contraseña
+old_password = Contraseña anterior
+new_password = Nueva contraseña
+new_password_repeat = Nueva contraseña de nuevo
+profile_save_psw = Guardar contraseña
+backend_language = Idioma de backend
+user_data_updated = ¡Datos de usuario actualizados!
+
+# redaxo\include\classes\class.rex_list.php
+list_previous = página anterior
+list_next = página siguiente
+list_rows_found = {0} documentos encontrados
+list_no_rows = No hay entradas disponibles
+
+# redaxo\include\classes\class.rex_form.php
+form_save = guardar
+form_apply = aplicar
+form_delete = borrar
+form_reset = regreso
+form_abort = abortar
+form_saved = Las entradas se ha grabado!
+form_save_error = No se pudo guardar!
+form_applied = Se tomaron las entradas!
+form_deleted = Las entradas se han eliminado!
+form_delete_error = Eliminar Error!
+form_resetted = Se han restablecido!
+
+# clang
+all_clangs = todos los idiomas
+clangs = idiomas
+clang_error_startidcanotbedeleted = Comience idioma (estruendo) con id "{0}" no se pueden borrar
+clang_error_idcanotbedeleted = IdiomaID (estruendo) con id "{0}" no existe
+
+
+# footer
+footer_joinforum = Visita el foro
+footer_datetime = {0}
+footer_scripttime = {0} seg.
+footer_credits = créditos
+
+created_by = creado por
+created_on = creado en
+updated_by = actualizado por
+updated_on = modificado el
+status = estado

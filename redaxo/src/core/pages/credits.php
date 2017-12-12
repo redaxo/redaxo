@@ -14,27 +14,27 @@ $content[] = '
     <h3>Jan Kristinus <small>jan.kristinus@redaxo.org</small></h3>
     <p>
         ' . rex_i18n::msg('credits_inventor') . ' &amp ' . rex_i18n::msg('credits_developer') . '<br />
-        Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+        Yakamara Media GmbH &amp; Co. KG, <a href="https://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>
 
     <h3>Markus Staab <small>markus.staab@redaxo.org</small></h3>
     <p>' . rex_i18n::msg('credits_developer') . '<br />
-        REDAXO, <a href="http://www.redaxo.org" onclick="window.open(this.href); return false;">www.redaxo.org</a>
+        REDAXO, <a href="https://www.redaxo.org" onclick="window.open(this.href); return false;">www.redaxo.org</a>
     </p>
 
     <h3>Gregor Harlan <small>gregor.harlan@redaxo.org</small></h3>
     <p>' . rex_i18n::msg('credits_developer') . '<br />
-        Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+        Yakamara Media GmbH &amp; Co. KG, <a href="https://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>';
 
 $content[] = '
     <h3>Ralph Zumkeller <small>info@redaxo.org</small></h3>
     <p>' . rex_i18n::msg('credits_designer') . '<br />
-        Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
+        Yakamara Media GmbH &amp; Co. KG, <a href="https://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>
 
     <h3>Thomas Blum <small>thomas.blum@redaxo.org</small></h3>
-    <p>Yakamara Media GmbH &amp; Co. KG, <a href="http://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a></p>';
+    <p>Yakamara Media GmbH &amp; Co. KG, <a href="https://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a></p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('content', $content, false);

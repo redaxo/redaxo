@@ -1,5 +1,3 @@
-# addon:media_manager de_de
-
 media_manager = Media Manager
 media_manager_overview_title = Media Manager Addon <small>(Version {0})</small>
 
@@ -16,7 +14,11 @@ media_manager_config_not_writable = Konfigurationsdatei "{0}" ist nicht beschrei
 
 media_manager_max_resizekb = Maximale Größe einer Datei in Kilobyte, die über media-manager umgewandelt werden darf
 media_manager_max_resizepx = Maximale Größe einer Datei in Pixel, die über media-manager umgewandelt werden darf
-media_manager_jpg_quality = JPG/JPEG Ausgabe-Qualität
+media_manager_jpg_quality = JPG-Qualität
+media_manager_png_compression = PNG-Kompression
+media_manager_png_compression_note = Werte über 6-7 verlangsamen die Bilderzeugung massiv.
+media_manager_webp_quality = WebP-Qualität
+media_manager_interlace = Interlace/Progressive-Modus
 
 media_manager_id = Id
 media_manager_name = Name
@@ -34,15 +36,19 @@ media_manager_type_caption = Liste der angelegten Mediatypen
 media_manager_type_no_types = Keine Mediatypen vorhanden
 media_manager_type_create = Mediatyp erstellen
 media_manager_type_edit = editieren
+media_manager_type_copy = duplizieren
 media_manager_type_effekts_edit = Effekte bearbeiten
 media_manager_type_delete = Mediatyp löschen
 media_manager_type_name = Name
+media_manager_type_name_copy = Kopie
 media_manager_type_priority = Prio
 media_manager_type_description = Beschreibung
 media_manager_type_functions = Funktionen
 media_manager_type_cache_delete = Cache löschen
 media_manager_type_system = System Mediatyp
 media_manager_type_delete = löschen
+media_manager_type_deleted = Mediatyp gelöscht
+media_manager_type_copied = Mediatyp dupliziert
 
 media_manager_effect_list_header = Effekte des Mediatyps {0}
 media_manager_effect_edit_header = Mediatyp <mark>{0}</mark>: Effekt bearbeiten
@@ -58,58 +64,92 @@ media_manager_effect_parameters = Parameter
 media_manager_effect_functions = Funktionen
 media_manager_effect_deleted = Effekt gelöscht
 
+media_manager_effect_insert_image = Bild: Bild platzieren / Wasserzeichen
 media_manager_effect_brand_image = Bild
 media_manager_effect_brand_hpos = horizontale Ausrichtung
 media_manager_effect_brand_vpos = vertikale Ausrichtung
 media_manager_effect_brand_padding_x = horizontaler Abstand zum Rand
 media_manager_effect_brand_padding_y = vertikaler Abstand zum Rand
 
+media_manager_effect_blur = Bild: Unschärfe
 media_manager_effect_blur_repeats = Wiederholungen
 media_manager_effect_blur_type = Blur-Typ
 media_manager_effect_blur_smoothit = glätten (negative Werte schärft Bilder)
 
+media_manager_effect_colorize = Bild: Einfärben
 media_manager_effect_colorize_r = Rot-Wert
 media_manager_effect_colorize_g = Grün-Wert
 media_manager_effect_colorize_b = Blau-Wert
 
+media_manager_effect_sharpen = Bild: Schärfen
 media_manager_effect_sharpen_amount = Schärfegrad
 media_manager_effect_sharpen_radius = Größe der Schärfematrix
 media_manager_effect_sharpen_threshold = Grenzwert
 
+media_manager_effect_resize = Bild: Skalieren
 media_manager_effect_resize_width = Zielbreite
 media_manager_effect_resize_height = Zielhöhe
 media_manager_effect_resize_style = Modus
 media_manager_effect_resize_imgtosmall = Wenn Bild zu klein
 
+media_manager_effect_crop = Bild: Beschneiden
 media_manager_effect_crop_width = Zielbreite
 media_manager_effect_crop_height = Zielhöhe
 media_manager_effect_crop_offset_width = Horizontaler Versatz/Offset
 media_manager_effect_crop_offset_height = Vertikaler Versatz/Offset
 media_manager_effect_crop_position = Bezugspunkt
 
+media_manager_effect_rounded_corners = Bild: Abgerundete Ecken
 media_manager_effect_rounded_corners_topleft = Oben Links
 media_manager_effect_rounded_corners_topright = Oben Rechts
 media_manager_effect_rounded_corners_bottomleft = Unten Links
 media_manager_effect_rounded_corners_bottomright = Unten Rechts
 
-media_manager_effect_flip = Richtung
+media_manager_effect_flip = Bild: Horizontal/Vertikal spiegeln
+media_manager_effect_flip_direction = Richtung
+
+media_manager_effect_rotate = Bild: Drehen
+media_manager_effect_rotate_degree = Drehen um (Grad)
 
 media_manager_error_type_name_not_unique = Ein Mediatyp mit diesem Namen existiert bereits!
 
+media_manager_effect_mirror = Bild: Wasserspiegelung hinzufügen
 media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
 media_manager_effect_mirror_background_color = Hintergrundfarbe
 media_manager_effect_mirror_background_r = Hintergrund R (0-255)
 media_manager_effect_mirror_background_g = Hintergrund G (0-255)
 media_manager_effect_mirror_background_b = Hintergrund B (0-255)
 
+media_manager_effect_workspace = Bild: Arbeitsfläche
 media_manager_effect_workspace_pos = Position
 
 media_manager_effect_folder = Alternativen Ordner default: "media"
 
-media_manager_effect_mediapath = Medienordner
+media_manager_effect_mediapath = Datei: Pfad anpassen
+media_manager_effect_mediapath_path = Medienordner
 
+media_manager_effect_header = Datei: Header anpassen
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
 
+media_manager_effect_convert2img = Datei: In Bild konvertieren
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
+
+media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Leer lassen für Standardwert.
+media_manager_effect_image_properties_webp_quality_notice = [0-100]. Leer lassen für Standardwert.
+media_manager_effect_image_properties_interlace_notice = Leer lassen für Standardauswahl.
+
+media_manager_effect_brightness = Bild: Helligkeit
+media_manager_effect_brightness_value = Helligkeit
+media_manager_effect_brightness_notice = [-255 bis 255]. Leer lassen für Standardwert (0).
+
+media_manager_effect_contrast = Bild: Kontrast
+media_manager_effect_contrast_value = Kontrast
+media_manager_effect_contrast_notice = [-100 bis 100]. Leer lassen für Standardwert (0).
+
+media_manager_effect_sepia = Bild: Sepia
+
+media_manager_effect_greyscale = Bild: Graustufen

@@ -20,6 +20,7 @@ class rex_response
     private static $sentEtag = false;
     private static $sentContentType = false;
     private static $sentCacheControl = false;
+    private static $additionalHeaders = [];
 
     /**
      * Sets the HTTP Status code.
@@ -48,6 +49,24 @@ class rex_response
     }
 
     /**
+     * Set a http response header. A existing header with the same name will be overridden.
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public static function setHeader($name, $value)
+    {
+        self::$additionalHeaders[$name] = $value;
+    }
+
+    private static function sendAdditionalHeaders()
+    {
+        foreach (self::$additionalHeaders as $name => $value) {
+            header($name .': ' . $value);
+        }
+    }
+
+    /**
      * Redirects to a URL.
      *
      * NOTE: Execution will stop within this method!
@@ -61,6 +80,9 @@ class rex_response
         if (strpos($url, "\n") !== false) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
+
+        self::cleanOutputBuffers();
+        self::sendAdditionalHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -83,6 +105,9 @@ class rex_response
             exit;
         }
 
+        // prevent session locking while sending huge files
+        session_write_close();
+
         self::sendContentType($contentType);
         header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($file) . '"');
 
@@ -97,6 +122,8 @@ class rex_response
         if (!ini_get('zlib.output_compression')) {
             header('Content-Length: ' . filesize($file));
         }
+
+        self::sendAdditionalHeaders();
 
         readfile($file);
     }
@@ -197,6 +224,8 @@ class rex_response
         // content length schicken, damit der browser einen ladebalken anzeigen kann
         header('Content-Length: ' . rex_string::size($content));
 
+        self::sendAdditionalHeaders();
+
         echo $content;
 
         if (function_exists('fastcgi_finish_request')) {
@@ -209,7 +238,7 @@ class rex_response
      */
     public static function cleanOutputBuffers()
     {
-        while (ob_get_length()) {
+        while (ob_get_level()) {
             ob_end_clean();
         }
     }

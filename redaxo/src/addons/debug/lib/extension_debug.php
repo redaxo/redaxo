@@ -3,7 +3,7 @@
 rex_extension::register('OUTPUT_FILTER', ['rex_extension_debug', 'doLog']);
 
 /**
- * Class to monitor extension points via FirePHP.
+ * Class to monitor extension points via ChromePhp.
  *
  * @author staabm
  *
@@ -14,7 +14,7 @@ class rex_extension_debug extends rex_extension
     private static $log = [];
 
     /**
-     * Extends rex_extension::register() with FirePHP logging.
+     * Extends rex_extension::register() with ChromePhp logging.
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
@@ -32,7 +32,7 @@ class rex_extension_debug extends rex_extension
     }
 
     /**
-     * Extends rex_extension::registerPoint() with FirePHP logging.
+     * Extends rex_extension::registerPoint() with ChromePhp logging.
      */
     public static function registerPoint(rex_extension_point $extensionPoint)
     {
@@ -63,26 +63,14 @@ class rex_extension_debug extends rex_extension
     }
 
     /**
-     * process log & send as FirePHP table.
+     * process log & send as ChromePhp table.
      */
     public static function doLog()
     {
-        $firephp = FirePHP::getInstance(true);
-
         $registered_eps = $log_table = [];
         $counter = [
             'ep' => 0,
             'ext' => 0,
-        ];
-        $log_table[] = [
-            'Type',
-            'ExtensionPoint',
-            'Callable',
-            'Start / Dur.',
-            'Memory',
-            'subject',
-            'params',
-            'result',
         ];
 
         foreach (self::$log as $count => $entry) {
@@ -91,14 +79,14 @@ class rex_extension_debug extends rex_extension
                     $counter['ep']++;
                     $registered_eps[] = $entry['ep'];
                     $log_table[] = [
-                        $entry['type'],      // Type
-                        $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
-                        '–',                 // Callable
-                        $entry['started'] . '/ ' . $entry['duration'] . 'ms',   // Start / Dur.
-                        $entry['memory'],    // Memory
-                        $entry['subject'],   // subject
-                        $entry['params'],    // params
-                        $entry['result'],    // result
+                        'Type' => $entry['type'],      // Type
+                        'ExtensionPoint' => $entry['ep'] . ($entry['read_only'] ? ' (readonly)' : ''),        // ExtensionPoint / readonly
+                        'Callable' => '–',                 // Callable
+                        'Start / Dur.' => $entry['started'] . '/ ' . $entry['duration'] . 'ms',   // Start / Dur.
+                        'Memory' => $entry['memory'],    // Memory
+                        'subject' => $entry['subject'],   // subject
+                        'params' => $entry['params'],    // params
+                        'result' => $entry['result'],    // result
                     ];
                     break;
 
@@ -106,18 +94,18 @@ class rex_extension_debug extends rex_extension
                     $counter['ext']++;
 
                     if (in_array($entry['ep'], $registered_eps)) {
-                        $firephp->error('EP Timing: Extension "' . $entry['callable'] . '" registered after ExtensionPoint "' . $entry['ep'] . '" !');
+                        ChromePhp::error('EP Timing: Extension "' . $entry['callable'] . '" registered after ExtensionPoint "' . $entry['ep'] . '" !');
                     }
 
                     $log_table[] = [
-                        $entry['type'],     // Type
-                        $entry['ep'],       // ExtensionPoint / readonly
-                        $entry['callable'], // Callable
-                        '–',                // Start / Dur.
-                        '–',                // Memory
-                        '–',                // subject
-                        $entry['params'],   // params
-                        '-',                // result
+                        'Type' => $entry['type'],     // Type
+                        'ExtensionPoint' => $entry['ep'],       // ExtensionPoint / readonly
+                        'Callable' => $entry['callable'], // Callable
+                        'Start / Dur.' => '–',                // Start / Dur.
+                        'Memory' => '–',                // Memory
+                        'subject' => '–',                // subject
+                        'params' => $entry['params'],   // params
+                        'result' => '-',                // result
                     ];
                     break;
 
@@ -126,6 +114,7 @@ class rex_extension_debug extends rex_extension
             }
         }
 
-        $firephp->table('EP Log ( EPs: ' . $counter['ep'] . ', Extensions: ' . $counter['ext'] . ' )', $log_table);
+        ChromePhp::log('EP Log ( EPs: ' . $counter['ep'] . ', Extensions: ' . $counter['ext'] . ' )');
+        ChromePhp::table($log_table);
     }
 }

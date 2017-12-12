@@ -41,6 +41,8 @@ class rex_fragment
      *
      * @param string $name    Variable name
      * @param string $default Default value
+     *
+     * @return mixed
      */
     public function getVar($name, $default = null)
     {
@@ -59,10 +61,12 @@ class rex_fragment
      * @param bool   $escape Flag which indicates if the value should be escaped or not
      *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function setVar($name, $value, $escape = true)
     {
-        if (is_null($name)) {
+        if (null === $name) {
             throw new InvalidArgumentException(sprintf('Expecting $name to be not null!'));
         }
 
@@ -71,6 +75,8 @@ class rex_fragment
         } else {
             $this->vars[$name] = $value;
         }
+
+        return $this;
     }
 
     /**
@@ -122,11 +128,15 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment used for decoration
      * @param array  $params   A array of key-value pairs to pass as parameters
+     *
+     * @return $this
      */
     public function decorate($filename, array $params)
     {
         $this->decorator = new self($params);
         $this->decorator->filename = $filename;
+
+        return $this;
     }
 
     // -------------------------- in-fragment helpers
@@ -134,35 +144,16 @@ class rex_fragment
     /**
      * Escapes the value $val for proper use in the gui.
      *
-     * @param mixed $val the value to escape
+     * @param mixed  $value    The value to escape
+     * @param string $strategy One of "html", "html_attr", "css", "js", "url"
      *
-     * @throws rex_exception
+     * @throws InvalidArgumentException
      *
      * @return mixed
      */
-    protected function escape($val)
+    protected function escape($value, $strategy = 'html')
     {
-        if (is_array($val)) {
-            // iterate over the whole array
-            foreach ($val as $k => $v) {
-                $val[$k] = $this->escape($v);
-            }
-            return $val;
-        } elseif (is_object($val)) {
-            // iterate over all public properties
-            foreach (get_object_vars($val) as $k => $v) {
-                $val->$k = $this->escape($v);
-            }
-            return $val;
-        } elseif (is_string($val)) {
-            return htmlspecialchars($val);
-        } elseif (is_scalar($val)) {
-            return $val;
-        } elseif (is_null($val)) {
-            return $val;
-        } else {
-            throw new rex_exception(sprintf('Unexpected type for $val, "%s" given', gettype($val)));
-        }
+        return rex_escape($value, $strategy);
     }
 
     /**
@@ -215,7 +206,7 @@ class rex_fragment
      */
     public function __get($name)
     {
-        if (array_key_exists($name, $this->vars)) {
+        if (isset($this->vars[$name]) || array_key_exists($name, $this->vars)) {
             return $this->vars[$name];
         }
 
@@ -233,7 +224,7 @@ class rex_fragment
      */
     public function __isset($name)
     {
-        return array_key_exists($name, $this->vars);
+        return isset($this->vars[$name]) || array_key_exists($name, $this->vars);
     }
 
     // /-------------------------- in-fragment helpers

@@ -2,14 +2,21 @@
     "require": {
         "erusev/parsedown": "^1.6",
         "erusev/parsedown-extra": "^0.7",
+        "filp/whoops": "^2.1",
         "psr/log": "^1.0",
-        "symfony/yaml": "^3.0",
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master",
+        "symfony/console": "^3.4",
+        "symfony/polyfill-mbstring": "^1.6",
+        "symfony/polyfill-php56": "^1.6",
+        "symfony/polyfill-php70": "^1.6",
+        "symfony/var-dumper": "^3.4",
+        "symfony/yaml": "^3.4"
     },
 
     "config": {
         "autoloader-suffix": "RedaxoCore",
         "optimize-autoloader": true,
+        "sort-packages": true,
         "platform": {
             "php": "5.5.9"
         }

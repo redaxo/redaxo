@@ -21,7 +21,7 @@ class rex_api_install_core_update extends rex_api_function
         $versions = self::getVersions();
         $versionId = rex_request('version_id', 'int');
         if (!isset($versions[$versionId])) {
-            return null;
+            throw new rex_api_exception('The requested core version can not be loaded, maybe it is already installed.');
         }
         $version = $versions[$versionId];
         if (!rex_string::versionCompare($version['version'], rex::getVersion(), '>')) {
@@ -162,9 +162,9 @@ class rex_api_install_core_update extends rex_api_function
                     foreach ($addon->getAvailablePlugins() as $plugin) {
                         $plugin->loadProperties();
                     }
-                    rex_package_manager::generatePackageOrder();
                 }
             }
+            rex_package_manager::generatePackageOrder();
         }
 
         $result = new rex_api_result($success, $message);
@@ -217,7 +217,7 @@ class rex_api_install_core_update extends rex_api_function
                     }
                     if (isset($config['version'])) {
                         $versions[$plugin] = $plugin->getProperty('version');
-                        $plugin->setProperty('requires', $config['version']);
+                        $plugin->setProperty('version', $config['version']);
                     }
                 }
             }

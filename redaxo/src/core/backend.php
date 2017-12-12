@@ -39,17 +39,24 @@ if (rex::isSetup()) {
     $rex_user_psw = rex_post('rex_user_psw', 'string');
     $rex_user_stay_logged_in = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean')) {
+    if (rex_get('rex_logout', 'boolean') && rex_csrf_token::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
+        rex_csrf_token::removeAll();
+        rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
     }
 
-    // the server side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    $login->setLogin($rex_user_login, $rex_user_psw, rex_post('javascript', 'boolean'));
-    $login->setStayLoggedIn($rex_user_stay_logged_in);
-    $loginCheck = $login->checkLogin();
-
     $rex_user_loginmessage = '';
+
+    if ($rex_user_login && !rex_csrf_token::factory('backend_login')->isValid()) {
+        $loginCheck = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        // the server side encryption of pw is only required
+        // when not already encrypted by client using javascript
+        $login->setLogin($rex_user_login, $rex_user_psw, rex_post('javascript', 'boolean'));
+        $login->setStayLoggedIn($rex_user_stay_logged_in);
+        $loginCheck = $login->checkLogin();
+    }
+
     if ($loginCheck !== true) {
         if (rex_request::isXmlHttpRequest()) {
             rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
@@ -103,6 +110,7 @@ rex_view::addJsFile(rex_url::coreAssets('sha1.js'));
 
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
+rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
@@ -138,8 +146,7 @@ if ($page != 'login') {
 rex_be_controller::includeCurrentPage();
 
 // ----- caching end für output filter
-$CONTENT = ob_get_contents();
-ob_end_clean();
+$CONTENT = ob_get_clean();
 
 // ----- inhalt ausgeben
 rex_response::sendPage($CONTENT);

@@ -48,7 +48,7 @@ class rex_form_container_element extends rex_form_element
 
         $field->setAttribute('id', $this->getAttribute('id').'-'.$group.'-'.$field->getFieldName());
         $field->setAttribute('name', $this->getAttribute('name').'['.$group.']['.$field->getFieldName().']');
-        $field->setValue(null);
+        $field->setValue($value);
 
         $this->fields[$group][] = $field;
         return $field;

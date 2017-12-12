@@ -10,20 +10,27 @@
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
-            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />';
+            $path = rex_path::base(rex_path::absolute($file));
+            if (file_exists($path)) {
+                $file .= '?buster='. filemtime($path);
+            }
+            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
     }
     echo "\n";
+    echo "\n" . '    <script type="text/javascript">';
+    echo "\n" . '    <!--';
+    echo "\n" . '    var rex = '.$this->jsProperties.';';
+    echo "\n" . '    //-->';
+    echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
-        echo "\n" . '    <script type="text/javascript" src="' . $file . '"></script>';
+        $path = rex_path::base(rex_path::absolute($file));
+        if (file_exists($path)) {
+            $file .= '?buster='. filemtime($path);
+        }
+        echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
 ?>
-
-    <script type="text/javascript">
-    <!--
-    var rex = <?php echo $this->jsProperties ?>;
-    //-->
-    </script>
 
     <?php echo $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 

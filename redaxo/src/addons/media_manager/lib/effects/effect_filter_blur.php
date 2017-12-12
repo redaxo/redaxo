@@ -43,6 +43,11 @@ class rex_effect_filter_blur extends rex_effect_abstract
         }
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_blur');
+    }
+
     public function getParams()
     {
         return [

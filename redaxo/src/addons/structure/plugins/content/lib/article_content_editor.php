@@ -71,11 +71,10 @@ class rex_article_content_editor extends rex_article_content
 
                     $moduleInput = $this->replaceVars($artDataSql, $moduleInput);
                     return $slice_content . $this->editSlice($sliceId, $moduleInput, $sliceCtype, $moduleId, $artDataSql);
-                } else {
-                    // Modulinhalt ausgeben
-                    $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
-                    $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
                 }
+                // Modulinhalt ausgeben
+                $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
+                $panel .= $this->getWrappedModuleOutput($moduleId, $moduleOutput);
             } else {
                 // ----- hat keine rechte an diesem modul, einfach ausgeben
                 $moduleOutput = $this->replaceVars($artDataSql, $moduleOutput);
@@ -342,6 +341,9 @@ class rex_article_content_editor extends rex_article_content
             $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
         } else {
             $initDataSql = rex_sql::factory();
+            $initDataSql
+                ->setValue('module_id', $moduleIdToAdd)
+                ->setValue('ctype_id', $this->ctype);
 
             // ----- PRE VIEW ACTION [ADD]
             $action = new rex_article_action($moduleIdToAdd, 'add', $initDataSql);

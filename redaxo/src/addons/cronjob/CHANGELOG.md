@@ -1,6 +1,24 @@
 Changelog
 =========
 
+Version 2.1.2 – 04.10.2017
+--------------------------
+
+### Bugfixes
+
+* Bedingte typspezifische Parameter wurden nicht getoggelt (@gharlan)
+
+
+Version 2.1.1 – 14.02.2017
+--------------------------
+
+### Bugfixes
+
+* Langlaufende Jobs (>2h) oder bei Abbrüchen wurden die Jobs nach 2 Stunden erneut gestartet
+* Wenn keine Umgebung auswählt wurde, kam es zu einem Fehler ohne sinnvolle Meldung
+* Wenn die Skript-Umgebung mit einer zu niedrigen PHP-Version genutzt wurde, wurde mit unverständlicher Meldung abgebrochen
+
+
 Version 2.1.0 – 30.09.2016
 --------------------------
 

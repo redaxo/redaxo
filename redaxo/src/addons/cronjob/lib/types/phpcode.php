@@ -16,8 +16,7 @@ class rex_cronjob_phpcode extends rex_cronjob
         $is = ini_set('display_errors', true);
         ob_start();
         $return = eval($code);
-        $output = ob_get_contents();
-        ob_end_clean();
+        $output = ob_get_clean();
         ini_set('display_errors', $is);
         if ($output) {
             $output = str_replace(["\r\n\r\n", "\n\n"], "\n", trim(strip_tags($output)));

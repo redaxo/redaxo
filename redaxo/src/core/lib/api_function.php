@@ -81,12 +81,10 @@ abstract class rex_api_function
                 if ($apiImpl instanceof self) {
                     self::$instance = $apiImpl;
                     return $apiImpl;
-                } else {
-                    throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "'. $apiClass .'" given!');
                 }
-            } else {
-                throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
+                throw new rex_exception('$apiClass is expected to define a subclass of rex_api_function, "'. $apiClass .'" given!');
             }
+            throw new rex_exception('$apiClass "' . $apiClass . '" not found!');
         }
 
         return null;
@@ -246,9 +244,8 @@ class rex_api_result
 
         if ($this->isSuccessfull()) {
             return rex_view::success($this->message);
-        } else {
-            return rex_view::error($this->message);
         }
+        return rex_view::error($this->message);
     }
 
     /**

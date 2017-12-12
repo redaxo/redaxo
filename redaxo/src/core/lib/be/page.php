@@ -620,7 +620,7 @@ class rex_be_page
      */
     public function allowsPjax()
     {
-        if (!is_null($this->pjax)) {
+        if (null !== $this->pjax) {
             return $this->pjax;
         }
         if ($this->parent) {

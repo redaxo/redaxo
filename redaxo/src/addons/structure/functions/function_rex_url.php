@@ -9,10 +9,10 @@
 /**
  * Gibt eine Url zu einem Artikel zurück.
  *
- * @param int|null $id
- * @param int|null $clang     SprachId des Artikels
- * @param array    $params    Array von Parametern
- * @param string   $separator
+ * @param int|string|null $id
+ * @param int|string|null $clang     SprachId des Artikels
+ * @param array           $params    Array von Parametern
+ * @param string          $separator
  *
  * @return string
  *
@@ -57,13 +57,18 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
 /**
  * Leitet auf einen anderen Artikel weiter.
  *
+ * @param null|int|string $article_id
+ * @param null|int|string $clang      SprachId des Artikels
+ *
+ * @throws InvalidArgumentException
+ *
  * @package redaxo\structure
  */
 function rex_redirect($article_id, $clang = null, array $params = [])
 {
-    // Alle OBs schließen
-    while (@ob_end_clean());
+    if (null !== $article_id && '' !== $article_id && !is_int($article_id) && $article_id !== (string) (int) $article_id) {
+        throw new InvalidArgumentException(sprintf('"%s" is not a valid article_id!', $article_id));
+    }
 
-    header('Location: ' . rex_getUrl($article_id, $clang, $params, '&'));
-    exit();
+    rex_response::sendRedirect(rex_getUrl($article_id, $clang, $params, '&'));
 }

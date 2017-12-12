@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/FirePHPCore/fb.php';
+require 'vendor/chromephp/ChromePhp.php';
 
 rex_sql::setFactoryClass('rex_sql_debug');
 rex_extension::setFactoryClass('rex_extension_debug');

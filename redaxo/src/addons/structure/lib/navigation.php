@@ -305,12 +305,6 @@ class rex_navigation
             $nav_obj = rex_category::get($category_id)->getChildren();
         }
 
-        $return = '';
-
-        if (count($nav_obj) > 0) {
-            $return .= '<ul class="rex-navi' . ($depth + 1) . '">';
-        }
-
         $lis = [];
         foreach ($nav_obj as $nav) {
             $li = [];

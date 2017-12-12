@@ -36,7 +36,8 @@ class rex_var_article extends rex_var
 
         if ($field) {
             return __CLASS__ . '::getArticleValue(' . $id . ', ' . $field . ', ' . $clang . ')';
-        } elseif (!$noId || !in_array($this->getContext(), ['module', 'action'])) {
+        }
+        if (!$noId || !in_array($this->getContext(), ['module', 'action'])) {
             // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
             // => endlossschleife
             if ($noId && $clang == 'null') {

@@ -70,7 +70,7 @@ if (rex::isSetup()) {
     }
     echo 'instance setup failure', PHP_EOL;
     exit(1);
-} else {
-    echo 'instance setup not necessary', PHP_EOL;
-    exit(0);
 }
+
+echo 'instance setup not necessary', PHP_EOL;
+exit(0);

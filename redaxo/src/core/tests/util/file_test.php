@@ -104,9 +104,9 @@ class rex_file_test extends PHPUnit_Framework_TestCase
     {
         $file = $this->getPath('delete.txt');
         rex_file::put($file, '');
-        $this->assertTrue(file_exists($file), 'file exists after put()');
+        $this->assertFileExists($file, 'file exists after put()');
         $this->assertTrue(rex_file::delete($file), 'delete() returns true on success');
-        $this->assertFalse(file_exists($file), 'file does not exist after delete()');
+        $this->assertFileNotExists($file, 'file does not exist after delete()');
         $this->assertTrue(rex_file::delete($file), 'delete() returns true when the file is already deleted');
     }
 

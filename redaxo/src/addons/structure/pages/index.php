@@ -277,7 +277,7 @@ if ($KAT->getRows() > 0) {
         } elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
             // --------------------- KATEGORIE WITH READ
 
-                $echo .= '
+            $echo .= '
                     <tr>
                         ' . $kat_icon_td . '
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>

@@ -1,6 +1,109 @@
 Changelog
 =========
 
+Version 5.4.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Updates: symfony/yaml (3.3.9), symfony/var-dumper (3.3.9), filp/whoops (2.1.10), erusev/parsedown (1.6.3)
+* Neue Funktion `rex_escape`, diese kann und sollte statt `htmlspecialchars` für Ausgaben verwendet werden (@gharlan)
+* Integration von symfony/console für die einfache Bereitstellung von Consolen-Kommandos in Addons (@gharlan)
+* `rex_sql_table`: 
+    - Tabellen können auch neu erstellt, umbenannt und gelöscht werden (@gharlan)
+    - Spaltennamen und Spaltenreihenfolge kann geändert werden (@gharlan)
+    - Indexes und Fremdschlüssel können verwaltet werden (@gharlan)
+    - Es kann eine komplette Tabellendefinition angegeben werden und dann mit `ensure()` eine Überprüfung und ggf. Korrektur erreicht werden (praktisch für install.php in Addons) (@gharlan)
+* `rex_sql`: Debug-Ausgaben werden über `dump`-Funktion ausgegeben (@alexplusde)
+* Neue Klasse `rex_password_policy`, für das Backend können in der config.yml Passwortregeln hinterlegt werden (Achtung: Default gelten nun die Regeln min. 8 Zeichen, und jeweils min. 1 Kleinbuchstabe, Großbuchtsabe und Ziffer)
+* Neue Extension Points: PROFILE_UPDATED, PASSWORD_UPDATED
+* Backend-Sprachen:
+    - English ergänzt (@ynamite)
+    - Portugiesisch ergänzt (Taina Soares)
+    - Spanisch ergänzt (@nandes2062)
+* Session-Cookie-Parameter können (für Frontend und Backend getrennt) in config.yml gesetzt werden (default mit httponly und SameSite=strict) (@staabm)
+* Eingeloggt-bleiben-Cookie als httponly (@staabm)
+* Beim Logout werden die Daten im Browser zu der Website gelöscht (Privatsphäre) (@staabm)
+* Bereits in den index.php-Dateien kann ein alternativer `path_provider` gesetzt werden für tiefgreifendere Pfadänderungen (@gharlan)
+* Debug-Modus kann an der Body-Klasse `rex-is-debugmode` erkannt werden (@schuer)
+* In der Tabelle rex_config liegt der Primary Key nun direkt auf (namespace, key), Spalte id entfällt (@gharlan)
+* Bei Installation über git wird unter System bei der Version der Commit-Hash mit ausgegeben (@staabm)
+* Whoops: Links zu php.net (@staabm)
+
+### Bugfixes
+
+* Setup:
+    - Nach Auswahl "Datenbank existiert bereits" und "Update aus vorheriger Version" waren anschließend fälschlich wieder nur die Standardaddons aktiviert (@gharlan)
+    - Beim Import eines vorhandenen Backups wurden nicht die Addons aus dem Backup aktiviert (@gharlan)
+* Sprachdateien: 
+    - Wenn ein Wert leer war, wurde die komplette folgende Zeile als Wert genommen (@gharlan)
+    - Wenn ein Wert "=" enthielt, kam teilweise was falsches raus (@tyrant88)
+    - Sprachkey für Schwedisch korrigiert (se_sv -> sv_se) (@gharlan)
+* REX_VARs haben teilweise Warnungen geworfen in PHP 7.1 (@gharlan)
+* `rex_list`: Funktionierte nicht mit MariaDB (@staabm)
+* `rex_form`: Bei Container-Feldern wurden die Default-Werte ignoriert (@gharlan)
+* `rex_select`: `countOptions()` lieferte teilweise falsches Ergebnis (@staabm)
+* `rex_response`: Session locks in `sendFile()` werden vermieden (@staabm)
+* `rex_clang`: Clang-ID wird einheitlich als `int` behandelt und zurückgegeben (@gharlan)
+* `rex_sql`: Teilweise fehlte die Query in der Exception-Message (@gharlan)
+* `rex_socket`: Die tatsächliche Ursache war bei Exceptions oft nicht ersichtlich (@gharlan)
+* PJAX: Beim Absenden von Formularen wird nun nach oben gescrollt (@gharlan)
+* Output Buffer wurden teilweise nicht korrekt beendet (@gharlan)
+* System-Log: HTML in Log-Messages wurde nicht escaped (@gharlan)
+* .htaccess in geschützten Ordnern: Anpassung für Apache 2.4 (@gharlan)
+* Session-ID-Neugenerierung warf teilweise Warnungen (@gharlan)
+* Im Chrome erschien beim Login nicht der Passwort-speichern-Dialog (@gharlan)
+
+
+Version 5.3.0 – 14.02.2017
+--------------------------
+
+### Security
+
+* „Security“-Abschnitte beachten in den Addons backup, structure und phpmailer
+
+### Neu
+
+* Updates: symfony/yaml (3.2.3), parsedown (1.6.1)
+* Neue Funktion dump() zur Debug-Ausgabe von Variablen (macht nur Ausgaben für im Backend eingeloggte Admins)
+* Schönere Fehlerseiten über Whoops
+* Bessere Sichtbarkeit des Safe-Modes
+* Neue Backendsprache Schwedisch (Jürgen Weiss)
+* Paginierung: Anzahl der ausgegeben Seiten wird beschränkt
+* Beim Löschen von Packages wird deren Data-Ordner nicht mehr gelöscht
+* Bei mehr als 3 Sprachen wird die Sprachauswahl als Dropdown angezeigt
+* rex_sql: 
+    - Bei Abfragen kann PDO::MYSQL_ATTR_USE_BUFFERED_QUERY deaktiviert werden
+    - Neue Methode getMysqlErrnp() um MySQL-spezifischen Error-Code abzufragen
+    - Bei Exceptions werden die PDO-Originalexception mit übergeben
+* mbstring-Extension optional (durch Polyfill)
+* Cache-Buster für Backend-Assets
+* Performance-Verbesserungen
+
+### Bugfixes
+
+* Setup:
+    - Funktionierte nicht mit PHP 7.1
+    - Reine SQL-Exporte (ohne Dateiarchiv) konnten nicht zum Import ausgewählt werden
+    - tokenizer-Extension wurde nicht überprüft
+* Autoloader: Klassen konnten teilweise nicht gefunden werden, wenn sie sehr lange Strings enthielten
+* rex_sql: 
+    - Tabellen-/Feldnamen werden korrekt escaped
+    - getErrno und getError lieferten teilweise nicht das richtige Ergebnis
+    - Debug-Infos wurden im Fehlerfall nicht ausgegeben
+* rex_form: Errorcode-spezifische Fehlermeldungen wurden nicht getriggert
+* rex_list: Bei der Query durften keine Leerzeichen vor dem Begin stehen (" SELECT ...")
+* package.yml: 
+    - `null`-Werte führten zu Fehler
+    - Bessere Fehlermeldung, wenn `requires` kein Array ist
+* Beim Aktivieren von Packages wurden nur deren Konflikte geprüft, aber nicht ob andere Packages Konflikte zu diesem notiert haben
+* EP RESPONSE_SHUTDOWN blockiert nicht mehr das Beenden der Antwort und die Session
+* Profil: Durch überflüssiges `</div>` wurde Footer falsch angezeigt (@aeberhard)
+* Beim Auslesen von `php.ini`-Werten kam es teilweise zu einer Notice
+* Bei Seitenaufrufen über pjax wurde die Skriptzeit nicht aktualisiert
+* Teilweise kam es zum JS-Fehler „Permission denied to access property winObjCounter“ (@ynamite)
+
+
 Version 5.2.0 – 15.07.2016
 --------------------------
 

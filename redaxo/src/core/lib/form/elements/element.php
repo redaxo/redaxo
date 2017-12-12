@@ -157,7 +157,8 @@ class rex_form_element
     {
         if ($name == 'value') {
             return $this->getValue();
-        } elseif ($this->hasAttribute($name)) {
+        }
+        if ($this->hasAttribute($name)) {
             return $this->attributes[$name];
         }
 
@@ -230,10 +231,9 @@ class rex_form_element
                 $attr .= ' value="1"';
             }
             return '<' . $tag . $attr . '>' . $value . '</' . $tag . '>';
-        } else {
-            $attr .= ' value="' . $value . '"';
-            return '<' . $tag . $attr . ' />';
         }
+        $attr .= ' value="' . $value . '"';
+        return '<' . $tag . $attr . ' />';
     }
 
     protected function formatNotice()

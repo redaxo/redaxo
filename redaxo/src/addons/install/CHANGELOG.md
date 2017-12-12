@@ -1,6 +1,28 @@
 Changelog
 =========
 
+Version 2.2.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Autofokus auf Suchefeld (@skerbis)
+
+### Bugfixes
+
+* Bei Reload nach dem Download/Update kam es zu einer Exception (@gharlan)
+
+
+Version 2.1.2 – 14.02.2017
+--------------------------
+
+### Bugfixes
+
+* Beim Updaten kam es teilweise zum Fehler „Cannot use string offset as an array“
+* htmlspecialchars fehlte an vielen Stellen, dadurch konnten teilweise die Addondetails nicht aufgerufen werden
+* Wenn die Einstellungen nicht gespeichert werden konnten, kam es trotzdem zur Erfolgsmeldung
+
+
 Version 2.1.1 – 15.07.2016
 --------------------------
 

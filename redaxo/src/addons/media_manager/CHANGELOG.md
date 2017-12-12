@@ -1,6 +1,76 @@
 Changelog
 =========
 
+Version 2.5.0 – 07.11.2017
+--------------------------
+
+### Neu
+
+* Bilder werden automatisch gemäß Exif-Orientation-Wert gedreht (@gharlan)
+* header-Effekt: max-age bzw. immutable kann gesetzt werden (@gharlan)
+* Pro Type ein eigener Cache-Ordner (@gharlan)
+
+### Bugfixes
+
+* Bei Typen mit Effekten, die den Pfad anpassen (mediapath), wurden die Bilder bei jedem Aufruf neu erzeugt (@gharlan)
+* workspace: Es kam zu Fehlern, wenn nur ein Zielwert gesetzt wurde (@gharlan)
+* workspace/resize: Bedingte Eingabefelder wurden nie ausgeblendet (@gharlan)
+
+
+Version 2.4.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Unterstützung webp (@Hirbod)
+* Neue globale Einstellung zu Webp-Qualität, PNG-Kompression und Interlace/Progressive-Modus (@Hirbod, @gharlan)
+* JPG- und Webp-Qualität, PNG-Kompression, Interlace/Progressive-Modus können über Effekte gesetzt werden (@gharlan)
+* Neue Effekte:
+    - image_properties (JPG- und Webp-Qualität, PNG-Kompression, Interlace/Progressive-Modus) (@Hirbod, @gharlan)
+    - brightness (@Hirbod)
+    - contrast (@Hirbod)
+* Angepasste Effekte:
+    - flip: Spiegelung an X- und Y-Achse gleichzeitig möglich (@Hirbod)
+* Sprechende (übersetzte) Namen für Effekte (@gharlan)
+
+### Bugfixes
+
+* `setSourcePath()` konnte nicht in Effekten richtig genutzt werden (@gharlan)
+* Bildtyperkennung schlug teilweise fehl (@gharlan)
+* Effekte:
+    - flip: Native gd-Methode, 1px-Versatz, Transparenz-Erhaltung (@Hirbod)
+    - greyscale: Native gd-Methode, Transparenz-Erhaltung (@Hirbod)
+    - sepia: Native gd-Methode, Transparenz-Erhaltung (@Hirbod)
+    - sharpen: Warf teilweise Warnings (@gharlan)
+    - mediapath: Teilweise kam bei eigentlich existierenden Bildern trotzdem das Error-Bild (@gharlan)
+    - header: Korrektur no_cache-Header (@gharlan)
+
+Version 2.3.0 – 21.02.2017
+--------------------------
+
+### Neu
+
+* Einfache Methode um an die generierte Cache-Datei zu kommen und so die Bildmaße etc. auszulesen (`rex_media_manager::create($type, $file)->getMedia()`)
+
+### Bugfixes
+
+* Mit PHP 5.5 wurden die Medien nicht mehr ausgeliefert
+
+
+Version 2.2.0 – 14.02.2017
+--------------------------
+
+### Neu
+
+* Neuer Effekt rotate zum Drehen der Bilder (@alexplusde)
+* Medientypen können dupliziert werden (@phoebusryan)
+* Ggf. geöffnete Sessions werden frühzeitig abgebrochen, um Session Locking zu mindern
+
+### Bugfixes
+
+* „Cache löschen“ führte auf Anleitung statt auf Typen-Page (@ynamite)
+
+
 Version 2.1.0 – 15.07.2016
 --------------------------
 

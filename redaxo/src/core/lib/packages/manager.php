@@ -112,16 +112,13 @@ abstract class rex_package_manager
             }
 
             $reinstall = $this->package->getProperty('install');
-            $available = $this->package->isAvailable();
             $this->package->setProperty('install', true);
 
             // include install.php
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
-                if (!$available) {
-                    rex_autoload::addDirectory($this->package->getPath('lib'));
-                    rex_autoload::addDirectory($this->package->getPath('vendor'));
-                    rex_i18n::addDirectory($this->package->getPath('lang'));
-                }
+                rex_autoload::addDirectory($this->package->getPath('lib'));
+                rex_autoload::addDirectory($this->package->getPath('vendor'));
+                rex_i18n::addDirectory($this->package->getPath('lang'));
 
                 $this->package->includeFile(rex_package::FILE_INSTALL);
                 if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
@@ -449,7 +446,8 @@ abstract class rex_package_manager
         if (!$package->isAvailable()) {
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
             return false;
-        } elseif (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        }
+        if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
@@ -479,6 +477,21 @@ abstract class rex_package_manager
             }
         }
 
+        foreach (rex_package::getAvailablePackages() as $package) {
+            $conflicts = $package->getProperty('conflicts', []);
+
+            if (!isset($conflicts['packages'][$this->package->getPackageId()])) {
+                continue;
+            }
+
+            $constraints = $conflicts['packages'][$this->package->getPackageId()];
+            if (!is_string($constraints) || !$constraints || $constraints === '*') {
+                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
+            } elseif (self::matchVersionConstraints($this->package->getVersion(), $constraints)) {
+                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+            }
+        }
+
         if (empty($state)) {
             return true;
         }
@@ -504,7 +517,8 @@ abstract class rex_package_manager
         if (!is_string($constraints) || !$constraints || $constraints === '*') {
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
-        } elseif (self::matchVersionConstraints($package->getVersion(), $constraints)) {
+        }
+        if (self::matchVersionConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }

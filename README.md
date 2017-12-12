@@ -5,21 +5,26 @@ REDAXO CMS
 
 ![Screenshot](https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_01.png)
 
-[www.redaxo.org](http://www.redaxo.org) | [GitBook](http://doku.redaxo.sioweb.de/5.0/advanced/) | [Api Doc](http://www.redaxo.org/docs/)
+REDAXO ist ein freies Content-Management-System (CMS). Ziel des Systems ist es ein Framwork für die Entwicklung und Pflege von Websites zu bieten. Der modulare Aufbau sorgt für eine flexible Erweiterbarkeit durch AddOns und Module. 
 
-[![Build Status](https://secure.travis-ci.org/redaxo/redaxo.png?branch=master)](http://travis-ci.org/redaxo/redaxo)
+[www.redaxo.org](https://www.redaxo.org) | [Dokumentation](https://redaxo.org/doku/master) | [Api Doc](https://redaxo.org/api/master/)
+
+[![Build Status](https://secure.travis-ci.org/redaxo/redaxo.svg?branch=master)](https://travis-ci.org/redaxo/redaxo)
 
 Installation
 ------------
 
-Entwicklungsstand installieren:
+*Entwicklungsstand* installieren:
 
 ```sh
 git clone https://github.com/redaxo/redaxo.git
+cd redaxo
 git submodule init
 git submodule update
 ```
 
-Oder alternativ ein [Release herunterladen](https://github.com/redaxo/redaxo/releases)
+*Beachte:*
+- Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten *nicht* die nötigen GIT Submodule, funktionieren daher nicht.
+- Die auf Github angebotenen REDAXO versionen sollten *nicht* im Produkiveinsatz verwendet werden!
 
-*Beachte:* Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten nicht die nötigen GIT Submodule, funktionieren daher nicht.
+[Download der offiziellen REDAXO Releases](https://github.com/redaxo/redaxo/releases)

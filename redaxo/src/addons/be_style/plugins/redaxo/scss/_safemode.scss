@@ -1,0 +1,28 @@
+.rex-is-safemode {
+    background-color: rgba(#ff9900, .2);
+
+    .rex-nav-top {
+        background-color: #f90;
+    }
+
+    .rex-nav-meta .navbar-nav > li .btn-safemode-deactivate {
+        background-color: darken(#a86500, 10%);
+        border-color: darken(#a86500, 10%);
+        color: #f90;
+        font-weight: 700;
+        transition: 0.2s ease-out;
+
+        @media (min-width: $grid-float-breakpoint) {
+            margin-top: ($navbar-padding-vertical - $padding-base-vertical - 1); // 1px border
+            margin-right: $navbar-padding-horizontal;
+            padding-top: $padding-base-vertical;
+            padding-bottom: $padding-base-vertical;
+        }
+
+        &:hover {
+            background-color: darken(#a86500, 13%);
+            border-color: darken(#a86500, 13%);
+            text-decoration: none;
+        }
+    }
+}

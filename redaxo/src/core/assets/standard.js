@@ -115,19 +115,64 @@ function newWindow(name,link,width,height,type)
     winObjCounter++;
     winObj[winObjCounter] = new makeWinObj(name,link,posx,posy,width,height,extra);
 
+    if (rex.popupEvents && rex.popupEvents[name]) {
+        rex.popupEvents[name] = {};
+    }
+
     return winObj[winObjCounter].obj;
 }
 
 var winObj = new Array();
 if (opener != null)
 {
-    if (typeof(opener.winObjCounter) == "number")
-    {
-        var winObjCounter = opener.winObjCounter;
-    }
+	try{
+	    if (typeof(opener.winObjCounter) == "number")
+	    {
+	        var winObjCounter = opener.winObjCounter;
+	    }
+	} catch(e) {
+	    // in x-origin cases opener.winObjCounter would not be readable
+	    var winObjCounter = -1;
+	}
 }else
 {
     var winObjCounter = -1;
+}
+
+function rex_retain_popup_event_handlers(eventName) {
+    if (!opener || !opener.rex || !window.name) {
+        return;
+    }
+
+    var events = opener.rex.popupEvents || {};
+
+    if (events[window.name] && events[window.name][eventName]) {
+        $.each(events[window.name][eventName], function (i, event) {
+            opener.jQuery(window).on(eventName, event);
+        });
+
+        return;
+    }
+
+    var events = opener.jQuery._data(window, 'events');
+
+    if (!events || !events[eventName]) {
+        return;
+    }
+
+    var handlers = [];
+    $.each(events[eventName], function (i, event) {
+        handlers.push(event.handler);
+    });
+
+    if (!opener.rex.popupEvents) {
+        opener.rex.popupEvents = {};
+    }
+    if (!opener.rex.popupEvents[window.name]) {
+        opener.rex.popupEvents[window.name] = {};
+    }
+
+    opener.rex.popupEvents[window.name][eventName] = handlers;
 }
 
 function setValue(id,value)
@@ -399,11 +444,12 @@ jQuery(function($){
         });
     $("[autofocus]").trigger("focus");
 
-    if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('htaccess_check') == '')
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
         setCookie('htaccess_check', '1', time.toGMTString());
+        checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
         checkHtaccess('src', 'core/boot.php');
@@ -470,8 +516,6 @@ jQuery(document).ready(function($) {
     $(document).on('submit', 'form[data-confirm]', confDialog);
 
     if ($.support.pjax) {
-        // prevent pjax from jumping to top, see github#60
-        $.pjax.defaults.scrollTo = false;
         $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
 
@@ -508,7 +552,14 @@ jQuery(document).ready(function($) {
                 container = '#rex-page-main';
             }
 
-            var push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+            var options = {container: container, fragment: container};
+
+            options.push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+
+            options.scrollTo = self.closest('[data-pjax-scroll-to]').data('pjax-scroll-to');
+            if (typeof options.scrollTo == 'undefined') {
+                options.scrollTo = isForm ? 0 : false;
+            }
 
             if (isForm) {
                 var clicked = self.find(':submit[data-clicked]');
@@ -516,9 +567,9 @@ jQuery(document).ready(function($) {
                     // https://github.com/defunkt/jquery-pjax/issues/304
                     self.append('<input type="hidden" name="' + clicked.attr('name') + '" value="' + clicked.val() + '"/>');
                 }
-                return $.pjax.submit(event, {container: container, fragment: container, push: push });
+                return $.pjax.submit(event, options);
             }
-            return $.pjax.click(event, {container: container, fragment: container, push: push });
+            return $.pjax.click(event, options);
         };
 
         $(document)
@@ -603,3 +654,15 @@ jQuery(document).ready(function($) {
             (rect.top > menuHeight));
     });
 });
+
+// keep session alive
+if ('login' !== rex.page && rex.session_keep_alive) {
+    var keepAliveInterval = setInterval(function () {
+        jQuery.ajax('index.php?page=credits', {
+            cache: false
+        });
+    }, 5 * 60 * 1000 /* make ajax request every 5 minutes */);
+    setTimeout(function () {
+        clearInterval(keepAliveInterval);
+    }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+}

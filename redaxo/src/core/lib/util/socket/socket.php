@@ -255,11 +255,35 @@ class rex_socket
     protected function openConnection()
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
-        if (!($this->stream = @fsockopen($host, $this->port, $errno, $errstr))) {
+
+        $prevError = null;
+        set_error_handler(function ($errno, $errstr) use (&$prevError) {
+            if (null === $prevError) {
+                $prevError = $errstr;
+            }
+        });
+
+        try {
+            $this->stream = @fsockopen($host, $this->port, $errno, $errstr);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($this->stream) {
+            stream_set_timeout($this->stream, $this->timeout);
+
+            return;
+        }
+
+        if ($errstr) {
             throw new rex_socket_exception($errstr . ' (' . $errno . ')');
         }
 
-        stream_set_timeout($this->stream, $this->timeout);
+        if ($prevError) {
+            throw new rex_socket_exception($prevError);
+        }
+
+        throw new rex_socket_exception('Unknown error.');
     }
 
     /**

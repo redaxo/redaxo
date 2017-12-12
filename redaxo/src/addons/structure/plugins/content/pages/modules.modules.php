@@ -56,7 +56,7 @@ if ($function == 'delete') {
     $del = rex_sql::factory();
     $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype_id, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
             LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-            WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$module_id' GROUP BY " . rex::getTablePrefix() . 'article_slice.article_id');
+            WHERE ' . rex::getTablePrefix() . 'article_slice.module_id=? GROUP BY ' . rex::getTablePrefix() . 'article_slice.article_id', [$module_id]);
 
     if ($del->getRows() > 0) {
         $module_in_use_message = '';
@@ -82,11 +82,14 @@ if ($function == 'delete') {
             $error .= '<ul>' . $module_in_use_message . '</ul>';
         }
     } else {
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module WHERE id='$module_id'");
+        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
 
         if ($del->getRows() > 0) {
-            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module_action WHERE module_id='$module_id'");
+            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$module_id]);
             $success = rex_i18n::msg('module_deleted');
+            $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
+                'id' => $module_id,
+            ]));
         } else {
             $error = rex_i18n::msg('module_not_found');
         }
@@ -108,8 +111,14 @@ if ($function == 'add' or $function == 'edit') {
 
                 $IMOD->insert();
                 $success = rex_i18n::msg('module_added');
+                $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
+                    'id' => $IMOD->getLastId(),
+                    'name' => $mname,
+                    'input' => $eingabe,
+                    'output' => $ausgabe,
+                ]));
             } else {
-                $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=' . $module_id);
+                $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=?', [$module_id]);
                 if ($module->getRows() == 1) {
                     $old_ausgabe = $module->getValue('output');
 
@@ -125,6 +134,12 @@ if ($function == 'add' or $function == 'edit') {
 
                     $UMOD->update();
                     $success = rex_i18n::msg('module_updated') . ' | ' . rex_i18n::msg('articel_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
+                        'id' => $module_id,
+                        'name' => $mname,
+                        'input' => $eingabe,
+                        'output' => $ausgabe,
+                    ]));
 
                     $new_ausgabe = $ausgabe;
 
@@ -133,7 +148,7 @@ if ($function == 'add' or $function == 'edit') {
                         $gc = rex_sql::factory();
                         $gc->setQuery('SELECT DISTINCT(' . rex::getTablePrefix() . 'article.id) FROM ' . rex::getTablePrefix() . 'article
                                 LEFT JOIN ' . rex::getTablePrefix() . 'article_slice ON ' . rex::getTablePrefix() . 'article.id=' . rex::getTablePrefix() . 'article_slice.article_id
-                                WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$module_id'");
+                                WHERE ' . rex::getTablePrefix() . 'article_slice.module_id=?', [$module_id]);
                         for ($i = 0; $i < $gc->getRows(); ++$i) {
                             rex_article_cache::delete($gc->getValue(rex::getTablePrefix() . 'article.id'));
                             $gc->next();
@@ -157,7 +172,7 @@ if ($function == 'add' or $function == 'edit') {
             $legend = rex_i18n::msg('module_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $module_id . '</small>';
 
             $hole = rex_sql::factory();
-            $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
+            $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
             $mname = $hole->getValue('name');
             $ausgabe = $hole->getValue('output');
             $eingabe = $hole->getValue('input');
@@ -247,7 +262,7 @@ if ($function == 'add' or $function == 'edit') {
 
             if ($gaa->getRows() > 0) {
                 $gma = rex_sql::factory();
-                $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . "module_action.module_id='$module_id'");
+                $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . 'module_action.module_id=?', [$module_id]);
 
                 $actions = '';
                 for ($i = 0; $i < $gma->getRows(); ++$i) {
@@ -336,7 +351,7 @@ if ($function == 'add' or $function == 'edit') {
         }
 
         $content = '
-            <form action="' . rex_url::currentBackendPage() . '" method="post">
+            <form action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
             ' . $content . '
             </form>';
 
@@ -357,7 +372,8 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name', 100);
+    $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
@@ -370,6 +386,9 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
+    $list->setColumnFormat('name', 'custom', function ($params) {
+        return $params['list']->getColumnLink('name', rex_i18n::translate($params['list']->getValue('name')));
+    });
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);

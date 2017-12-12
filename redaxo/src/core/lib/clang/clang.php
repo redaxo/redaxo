@@ -95,7 +95,7 @@ class rex_clang
         if (!self::exists($id)) {
             throw new rex_exception('Clang id "' . $id . '" doesn\'t exist');
         }
-        self::$currentId = $id;
+        self::$currentId = (int) $id;
     }
 
     /**
@@ -105,7 +105,7 @@ class rex_clang
      */
     public function getId()
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**
