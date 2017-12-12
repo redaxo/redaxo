@@ -515,6 +515,36 @@ jQuery(document).ready(function($) {
     // confirm dialog behavior for forms
     $(document).on('submit', 'form[data-confirm]', confDialog);
 
+    // add eye-toggle to each password input
+    $(document).on('rex:ready', function (event, viewRoot) {
+        $(viewRoot).find('input[type="password"]').each(function() {
+            var $el = $(this);
+            var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
+
+            if ($el.parent("div.input-group").length == 0) {
+                $el.wrap('<div class="input-group"></div>');
+            }
+
+            // insert into DOM first, as wrap() only works on DOM attached nodes.
+            $el.after($eye);
+            $eye
+                .wrap('<span class="input-group-btn"></span>')
+                .wrap('<button class="btn btn-view"></button>');
+
+            $el.next('span.input-group-btn').find('button.btn').click(function(event) {
+                $eye.toggleClass("rex-icon-view rex-icon-hide");
+
+                if ($el.attr("type") === "password") {
+                    $el.attr("type", "text");
+                } else {
+                    $el.attr("type", "password");
+                }
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    });
+
     if ($.support.pjax) {
         $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
