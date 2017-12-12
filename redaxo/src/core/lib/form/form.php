@@ -1428,7 +1428,9 @@ class rex_form
 
         rex_extension::registerPoint(new rex_extension_point('REX_FORM_GET', $this, [], true));
 
-        $this->setApplyUrl($this->getUrl(['func' => ''], false));
+        if (!$this->applyUrl) {
+            $this->setApplyUrl($this->getUrl(['func' => ''], false));
+        }
 
         if (($controlElement = $this->getControlElement()) !== null) {
             if ($controlElement->saved()) {
