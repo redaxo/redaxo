@@ -8,14 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 <?php
 
-    foreach ($this->preloadFiles as $type => $files) {
-        foreach($files as $file) {
-            echo "\n" . '    <link rel="preload" href="' . $file['file'] .'" as="' . $type . '" type="' . $file['mimeType'] . '" crossorigin="anonymous"/>';
-        }
-    }
-    echo "\n";
-
-
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $path = rex_path::base(rex_path::absolute($file));

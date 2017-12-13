@@ -8,7 +8,6 @@ class rex_view
     private static $cssFiles = [];
     private static $jsFiles = [];
     private static $jsProperties = [];
-    private static $preloadFiles = [];
     private static $favicon;
 
     /**
@@ -83,33 +82,6 @@ class rex_view
     public static function getJsProperties()
     {
         return self::$jsProperties;
-    }
-
-    /**
-     * Adds a File for preload.
-     *
-     * @param string $file
-     * @param string $type
-     *
-     * @throws rex_exception
-     */
-    public static function addPreloadFile($file, $type, $mimeType)
-    {
-        if (isset(self::$preloadFiles[$type]) && in_array($file, self::$preloadFiles[$type])) {
-            throw new rex_exception(sprintf('The preloaded file "%s" is already added to type "%s".', $file, $type));
-        }
-
-        self::$preloadFiles[$type][] = ['file' => $file, 'mimeType' => $mimeType];
-    }
-
-    /**
-     * Returns all preloaded Files.
-     *
-     * @return array[]
-     */
-    public static function getPreloadFiles()
-    {
-        return self::$preloadFiles;
     }
 
     /**

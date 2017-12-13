@@ -47,5 +47,5 @@ if (rex::isBackend()) {
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/perfect-scrollbar.jquery.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/main.js'));
-    rex_view::addPreloadFile($this->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
+    rex_response::preload($this->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
 }

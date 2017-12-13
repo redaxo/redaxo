@@ -190,7 +190,6 @@ if (!rex::getUser() && !rex::isSetup()) {
 if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
-    $fragment->setVar('preloadFiles', rex_view::getPreloadFiles());
     $fragment->setVar('cssFiles', rex_view::getCssFiles());
     $fragment->setVar('jsFiles', rex_view::getJsFiles());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
