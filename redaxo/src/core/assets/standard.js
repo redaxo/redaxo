@@ -529,7 +529,7 @@ jQuery(document).ready(function($) {
             $el.after($eye);
             $eye
                 .wrap('<span class="input-group-btn"></span>')
-                .wrap('<button class="btn btn-view"></button>');
+                .wrap('<button type="button" class="btn btn-view"></button>');
 
             $el.next('span.input-group-btn').find('button.btn').click(function(event) {
                 $eye.toggleClass("rex-icon-view rex-icon-hide");
