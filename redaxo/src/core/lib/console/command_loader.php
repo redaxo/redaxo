@@ -32,6 +32,10 @@ class rex_console_command_loader implements CommandLoaderInterface
                 continue;
             }
 
+            if (!is_array($commands)) {
+                throw new rex_exception('Expecting "console_commands" property to be an array, got "'. gettype($commands).'" from package.yml of "'. $package->getName() .'"');
+            }
+
             foreach ($commands as $command => $class) {
                 $this->commands[$command] = [
                     'package' => $package,
