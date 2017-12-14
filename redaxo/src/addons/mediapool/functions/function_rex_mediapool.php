@@ -103,6 +103,36 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
             $message[] = rex_i18n::msg('pool_file_movefailed');
             $success = false;
         }
+        
+        
+        // Rotate image if necessary
+        $extension = rex_file::extension($dstFile);
+        if (in_array($extension, ["jpg", "png", "jpeg", "gif"])) {
+            $exif = @exif_read_data($dstFile);
+            
+            if (!empty($exif['Orientation'])) {
+                $image = imagecreatefromstring(file_get_contents($dstFile));
+                switch($exif['Orientation']) {
+                    case 8:
+                        $image = imagerotate($image,90,0);
+                        break;
+                    case 3:
+                        $image = imagerotate($image,180,0);
+                        break;
+                    case 6:
+                        $image = imagerotate($image,-90,0);
+                        break;
+                }
+                
+                if ($extension == "jpg" || $extension == "jpeg") {
+                  imagejpeg($image, $dstFile);
+                } else if ($extension == "png") {
+                  imagepng($image, $dstFile);
+                } else if ($extension == "gif") {
+                  imagegif($image, $dstFile);
+                }
+            }
+        }
     } else { // Filesync?
         if (!@rename($srcFile, $dstFile)) {
             $message[] = rex_i18n::msg('pool_file_movefailed');
@@ -411,6 +441,10 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $cats_sel->setId('rex-mediapool-category');
     $cats_sel->setAttribute('class', 'selectpicker form-control');
     $cats_sel->setAttribute('data-live-search', 'true');
+<<<<<<< HEAD
+    $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+=======
+>>>>>>> redaxo/master
     $cats_sel->setAttribute('onchange', 'this.form.submit()');
     $cats_sel->setSelected($rex_file_category);
 

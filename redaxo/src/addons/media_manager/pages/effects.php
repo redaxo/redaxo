@@ -27,6 +27,10 @@ if ((rex_request('func') != '' || $func == 'delete')
 
 //-------------- delete effect
 if ($func == 'delete' && $effect_id > 0) {
+	  //  get effect by id
+	  $result = $sql = rex_sql::factory()->setTable(rex::getTablePrefix() . 'media_manager_type_effect')->setWhere(['id' => $effect_id])->select();
+	  $effect = $result->getArray();
+	  
     $sql = rex_sql::factory();
     //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
@@ -34,6 +38,11 @@ if ($func == 'delete' && $effect_id > 0) {
 
     try {
         $sql->delete();
+        
+        //update priority after delete
+        $sql->reset();
+        $sql->setQuery('UPDATE '.rex::getTablePrefix() . 'media_manager_type_effect SET priority = priority-1 WHERE type_id = ? AND priority > ?', [$effect[0]['type_id'], $effect[0]['priority']]);
+        
         $info = rex_i18n::msg('media_manager_effect_deleted');
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
