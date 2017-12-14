@@ -46,7 +46,10 @@ class rex_console_application extends Application
         }
 
         foreach (rex::getConfig('package-order') as $packageId) {
-            rex_package::get($packageId)->boot();
+            $package = rex_package::get($packageId);
+            if ($package->isAvailable()) {
+                $package->boot();
+            }
         }
 
         rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
