@@ -11,13 +11,15 @@ class rex_command_cache_clear extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription(rex_i18n::msg('delete_cache'))
-            ->setHelp(rex_i18n::msg('delete_cache_description'));
+            ->setDescription('Clears the redaxo core cache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $success = rex_delete_cache();
-        $output->writeln($success);
+        $successMsg = rex_delete_cache();
+        $io = $this->getStyle($input, $output);
+
+        $io->success($successMsg);
+        return 0;
     }
 }
