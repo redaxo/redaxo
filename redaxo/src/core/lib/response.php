@@ -21,6 +21,7 @@ class rex_response
     private static $sentContentType = false;
     private static $sentCacheControl = false;
     private static $additionalHeaders = [];
+    private static $preloadFiles = [];
 
     /**
      * Sets the HTTP Status code.
@@ -67,6 +68,29 @@ class rex_response
     }
 
     /**
+     * Set a file to be preload via http link header.
+     *
+     * @param $file
+     * @param $type
+     * @param $mimeType
+     */
+    public static function preload($file, $type, $mimeType)
+    {
+        self::$preloadFiles[] = [
+            'file' => $file,
+            'type' => $type,
+            'mimeType' => $mimeType,
+        ];
+    }
+
+    private static function sendPreloadHeaders()
+    {
+        foreach (self::$preloadFiles as $preloadFile) {
+            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; nopush', false);
+        }
+    }
+
+    /**
      * Redirects to a URL.
      *
      * NOTE: Execution will stop within this method!
@@ -83,6 +107,7 @@ class rex_response
 
         self::cleanOutputBuffers();
         self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -124,6 +149,7 @@ class rex_response
         }
 
         self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
 
         readfile($file);
     }
@@ -225,6 +251,7 @@ class rex_response
         header('Content-Length: ' . rex_string::size($content));
 
         self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
 
         echo $content;
 
