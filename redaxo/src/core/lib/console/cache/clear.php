@@ -18,7 +18,7 @@ class rex_command_cache_clear extends rex_console_command
     {
         $successMsg = rex_delete_cache();
         $io = $this->getStyle($input, $output);
-        
+
         $io->success($successMsg);
         return 0;
     }
