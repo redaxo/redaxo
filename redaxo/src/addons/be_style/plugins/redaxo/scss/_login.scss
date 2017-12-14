@@ -92,6 +92,14 @@
             background-color: darken($color-a-darker, 5%);
         }
     }
+    .btn-view {
+        background-color: $btn-primary-border;
+        color: $color-a;
+        &:hover {
+            background-color: $color-a-darker;
+            color: $color-a-light;
+        }
+    }
 
     .rex-form-group > dd:first-child {
         padding-left: 0;
@@ -111,5 +119,8 @@
     .input-group-addon {
         background-color: $color-a;
         color: $color-a-dark;
+    }
+    .input-group-btn .btn-view {
+        border-color: $input-border;
     }
 }
