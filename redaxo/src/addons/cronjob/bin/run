@@ -1,5 +1,7 @@
 #!/usr/bin/env php
 <?php
-$dir = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+// old cronjob-run script, just kept for backwards compatibility reasons.
+// you should invoke the redaxo console with "cronjob:run" directly instead.
 
+$dir = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 passthru('php '. $dir .'/bin/console cronjob:run');
