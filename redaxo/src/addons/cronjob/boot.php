@@ -14,7 +14,7 @@ define('REX_CRONJOB_LOG_FOLDER', $this->getDataPath());
 define('REX_CRONJOB_TABLE', rex::getTable('cronjob'));
 
 if (rex::getConsole()) {
-    // don't run cronjobs will running console commands
+    // don't run cronjobs while running console commands
     return;
 }
 
