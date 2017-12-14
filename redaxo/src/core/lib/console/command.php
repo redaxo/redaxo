@@ -32,4 +32,19 @@ abstract class rex_console_command extends Command
     {
         return new SymfonyStyle($input, $output);
     }
+
+    /**
+     * Decodes messages coming from rex_i18n.
+     *
+     * @param string $message
+     *
+     * @return string
+     */
+    protected function decodeMessage($message)
+    {
+        $message = preg_replace('/<br ?\/?>\r?\n?/', "\n", $message);
+        $message = strip_tags($message);
+
+        return htmlspecialchars_decode($message);
+    }
 }
