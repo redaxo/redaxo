@@ -21,14 +21,16 @@ rex_extension::register('PACKAGES_INCLUDED', function () {
     }
 });
 
-$nexttime = $this->getConfig('nexttime', 0);
+if (PHP_SAPI != "cli") {
+    $nexttime = $this->getConfig('nexttime', 0);
 
-if ($nexttime != 0 && time() >= $nexttime) {
-    $env = rex_cronjob_manager::getCurrentEnvironment();
-    $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
-    rex_extension::register($EP, function () use ($env) {
-        if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'])) {
-            rex_cronjob_manager_sql::factory()->check();
-        }
-    });
+    if ($nexttime != 0 && time() >= $nexttime) {
+        $env = rex_cronjob_manager::getCurrentEnvironment();
+        $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
+        rex_extension::register($EP, function () use ($env) {
+            if ('backend' !== $env || !in_array(rex_be_controller::getCurrentPagePart(1), ['setup', 'login', 'cronjob'])) {
+                rex_cronjob_manager_sql::factory()->check();
+            }
+        });
+    }
 }
