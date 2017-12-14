@@ -17,6 +17,9 @@ $application = new rex_console_application();
 
 rex::setProperty('console', $application);
 
+rex::setProperty('lang', 'en_gb');
+rex_i18n::setLocale('en_gb');
+
 $application->setCommandLoader(new rex_console_command_loader());
 
 $application->run();
