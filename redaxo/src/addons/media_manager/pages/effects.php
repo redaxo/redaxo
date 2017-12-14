@@ -34,6 +34,14 @@ if ($func == 'delete' && $effect_id > 0) {
 
     try {
         $sql->delete();
+
+        rex_sql_util::organizePriorities(
+            rex::getTablePrefix() . 'media_manager_type_effect',
+            'priority',
+            'type_id = '.$type_id,
+            'priority, updatedate desc'
+        );
+
         $info = rex_i18n::msg('media_manager_effect_deleted');
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
