@@ -16,15 +16,10 @@ class rex_command_cache_clear extends rex_console_command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $success = rex_delete_cache();
+        $successMsg = rex_delete_cache();
         $io = $this->getStyle($input, $output);
         
-        if ($success) {
-            $io->success('cache successfully cleared');
-            return 0;
-        }
-        
-        $io->error('clearing cache failed');
-        return 1;
+        $io->success($successMsg);
+        return 0;
     }
 }
