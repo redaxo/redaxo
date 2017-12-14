@@ -207,7 +207,7 @@ class rex_setup_importer
         if ($addonErr != '') {
             $addonErr = '<ul class="rex-ul1">
             <li>
-            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513', '<span class="rex-error">', '</span>') . '</h3>
+            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513') . '</h3>
             <ul>' . $addonErr . '</ul>
             </li>
             </ul>';
@@ -237,7 +237,7 @@ class rex_setup_importer
         if ($error) {
             $error = '<ul class="rex-ul1">
             <li>
-            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513', '<span class="rex-error">', '</span>') . '</h3>
+            <h3 class="rex-hl3">' . rex_i18n::msg('setup_513') . '</h3>
             <ul>' . $error . '</ul>
             </li>
             </ul>';

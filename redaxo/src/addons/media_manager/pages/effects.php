@@ -56,7 +56,7 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
 }
 
 if ($func == '' && $type_id > 0) {
-    echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
+    echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
 

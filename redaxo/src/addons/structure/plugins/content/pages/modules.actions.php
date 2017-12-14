@@ -57,7 +57,7 @@ if ($function == 'delete') {
     $del->setQuery($qry, [$action_id]); // module mit dieser aktion vorhanden ?
     if ($del->getRows() > 0) {
         $action_in_use_msg = '';
-        $action_name = htmlspecialchars($del->getValue('a.name'));
+        $action_name = $del->getValue('a.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
             $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
             $del->next();
