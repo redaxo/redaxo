@@ -46,9 +46,8 @@ class rex_console_application extends Application
         }
 
         foreach (rex::getConfig('package-order') as $packageId) {
-            $package = rex_package::get($packageId);
-            if ($package->isAvailable()) {
-                $package->boot();
+            if (rex_package::exists($packageId)) {
+                rex_package::get($packageId)->boot();
             }
         }
 
