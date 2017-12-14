@@ -28,6 +28,7 @@ class rex_socket
     protected $ssl;
     protected $path = '/';
     protected $timeout = 15;
+    protected $followRedirects = false;
     protected $headers = [];
     protected $stream;
 
@@ -146,6 +147,22 @@ class rex_socket
     }
 
     /**
+     * Sets number of redirects that should be followed automatically.
+     *
+     * The method only affects GET requests.
+     *
+     * @param false|int $redirects Number of max redirects
+     *
+     * @return $this Current socket
+     */
+    public function followRedirects($redirects)
+    {
+        $this->followRedirects = $redirects;
+
+        return $this;
+    }
+
+    /**
      * Makes a GET request.
      *
      * @return rex_socket_response Response
@@ -244,7 +261,28 @@ class rex_socket
         }
 
         $this->openConnection();
-        return $this->writeRequest($method, $this->path, $this->headers, $data);
+        $response = $this->writeRequest($method, $this->path, $this->headers, $data);
+
+        if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
+            return $response;
+        }
+
+        $location = $response->getHeader('location');
+
+        if (!$location) {
+            return $response;
+        }
+
+        if (false === strpos($location, '//')) {
+            $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
+        } else {
+            $socket = self::factoryUrl($location);
+        }
+
+        $socket->setTimeout($this->timeout);
+        $socket->followRedirects($this->followRedirects - 1);
+
+        return $socket->doGet();
     }
 
     /**
