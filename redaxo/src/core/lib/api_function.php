@@ -215,8 +215,8 @@ abstract class rex_api_function
     }
 
     /**
-     * This method should be overwritten in all api func classes and the return value should be changed to `true`.
-     * All links for calling the api should then be generated with `your_api_class::getUrlParams()`.
+     * Csrf validation is disabled by default for backwards compatiblity reasons. This default will change in a future version.
+     * Prepare all your api functions to work with csrf token by using your-api-class::getUrlParams(), otherwise they will stop work.
      *
      * @return bool
      */
