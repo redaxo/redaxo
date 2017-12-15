@@ -128,7 +128,9 @@ class rex_csrf_token
 
     private static function getSessionKey()
     {
-        return 'csrf_tokens_'.rex::getEnvironment();
+        $suffix = !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']) ? '_https' : '';
+
+        return 'csrf_tokens_'.rex::getEnvironment().$suffixs;
     }
 
     private static function generateToken()
