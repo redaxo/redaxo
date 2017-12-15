@@ -20,7 +20,7 @@ class rex_media_manager
     }
 
     /**
-     * Generate the cachen given file for the given mediatype.
+     * Generate the cache for the given file and mediatype.
      *
      * @param string $type Media type
      * @param string $file Media file
