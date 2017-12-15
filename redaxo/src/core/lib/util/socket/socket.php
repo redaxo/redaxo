@@ -282,6 +282,12 @@ class rex_socket
         $socket->setTimeout($this->timeout);
         $socket->followRedirects($this->followRedirects - 1);
 
+        foreach ($this->headers as $key => $value) {
+            if ('Host' !== $key) {
+                $socket->addHeader($key, $value);
+            }
+        }
+
         return $socket->doGet();
     }
 
