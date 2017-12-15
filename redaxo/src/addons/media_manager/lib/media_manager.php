@@ -20,7 +20,8 @@ class rex_media_manager
     }
 
     /**
-     * Generate the cache for the given file and mediatype.
+     * Creates a rex_managed_media object for the given file and mediatype.
+     * This object might be used to determine the dimension of a image or similar.
      *
      * @param string $type Media type
      * @param string $file Media file
