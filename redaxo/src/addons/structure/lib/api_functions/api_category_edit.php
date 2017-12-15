@@ -29,4 +29,9 @@ class rex_api_category_edit extends rex_api_function
         $result = new rex_api_result(true, rex_category_service::editCategory($catId, $clangId, $data));
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

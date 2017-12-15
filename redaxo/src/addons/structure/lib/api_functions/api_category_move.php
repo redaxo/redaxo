@@ -32,4 +32,9 @@ class rex_api_category_move extends rex_api_function
 
         throw new rex_api_exception('user has no permission for this category!');
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

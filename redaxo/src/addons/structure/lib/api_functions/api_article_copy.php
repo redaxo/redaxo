@@ -35,4 +35,9 @@ class rex_api_article_copy extends rex_api_function
 
         throw new rex_api_exception(rex_i18n::msg('no_rights_to_this_function'));
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

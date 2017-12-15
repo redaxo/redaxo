@@ -52,4 +52,9 @@ class rex_api_content_move_slice extends rex_api_function
         $result = new rex_api_result(true, $message);
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

@@ -19,4 +19,9 @@ class rex_api_article_delete extends rex_api_function
         $result = new rex_api_result(true, rex_article_service::deleteArticle($article_id));
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

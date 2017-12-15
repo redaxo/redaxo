@@ -23,4 +23,9 @@ class rex_api_category_add extends rex_api_function
         $result = new rex_api_result(true, rex_category_service::addCategory($parentId, $data));
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }
