@@ -90,6 +90,15 @@ abstract class rex_api_function
         return null;
     }
 
+    public static function getUrlParams()
+    {
+        $class = get_called_class();
+
+        $name = substr($class, 8);
+
+        return ['rex-api-call' => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+    }
+
     /**
      * checks whether an api function is bound to the current requests. If so, so the api function will be executed.
      */
@@ -124,6 +133,12 @@ abstract class rex_api_function
                 $result = rex_api_result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
+                if (!rex_csrf_token::factory(get_class($apiFunc))->isValid()) {
+                    $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
+                    $apiFunc->result = $result;
+                    return;
+                }
+
                 try {
                     $result = $apiFunc->execute();
 
