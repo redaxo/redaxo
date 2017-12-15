@@ -28,6 +28,7 @@ class rex_socket
     protected $ssl;
     protected $path = '/';
     protected $timeout = 15;
+    protected $followRedirects = false;
     protected $headers = [];
     protected $stream;
 
@@ -146,6 +147,26 @@ class rex_socket
     }
 
     /**
+     * Sets number of redirects that should be followed automatically.
+     *
+     * The method only affects GET requests.
+     *
+     * @param false|int $redirects Number of max redirects
+     *
+     * @return $this Current socket
+     */
+    public function followRedirects($redirects)
+    {
+        if ($redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        }
+
+        $this->followRedirects = $redirects;
+
+        return $this;
+    }
+
+    /**
      * Makes a GET request.
      *
      * @return rex_socket_response Response
@@ -244,7 +265,38 @@ class rex_socket
         }
 
         $this->openConnection();
-        return $this->writeRequest($method, $this->path, $this->headers, $data);
+        $response = $this->writeRequest($method, $this->path, $this->headers, $data);
+
+        if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
+            return $response;
+        }
+
+        $location = $response->getHeader('location');
+
+        if (!$location) {
+            return $response;
+        }
+
+        if (false === strpos($location, '//')) {
+            $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
+        } else {
+            $socket = self::factoryUrl($location);
+
+            if ($this->ssl && !$socket->ssl) {
+                return $response;
+            }
+        }
+
+        $socket->setTimeout($this->timeout);
+        $socket->followRedirects($this->followRedirects - 1);
+
+        foreach ($this->headers as $key => $value) {
+            if ('Host' !== $key) {
+                $socket->addHeader($key, $value);
+            }
+        }
+
+        return $socket->doGet();
     }
 
     /**
