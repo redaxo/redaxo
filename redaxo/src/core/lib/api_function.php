@@ -90,10 +90,22 @@ abstract class rex_api_function
         return null;
     }
 
+    /**
+     * Returns an array containing the `rex-api-call` and `_csrf_token` params.
+     *
+     * The method must be called on sub classes.
+     *
+     * @return array
+     */
     public static function getUrlParams()
     {
         $class = get_called_class();
 
+        if (__CLASS__ === $class) {
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.__CLASS__.'".');
+        }
+
+        // remove the `rex_api_` prefix
         $name = substr($class, 8);
 
         return ['rex-api-call' => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
@@ -133,9 +145,10 @@ abstract class rex_api_function
                 $result = rex_api_result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
-                if (!rex_csrf_token::factory(get_class($apiFunc))->isValid()) {
+                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory(get_class($apiFunc))->isValid()) {
                     $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
                     $apiFunc->result = $result;
+
                     return;
                 }
 
@@ -199,6 +212,17 @@ abstract class rex_api_function
     public function getResult()
     {
         return $this->result;
+    }
+
+    /**
+     * This method should be overwritten in all api func classes and the return value should be changed to `true`.
+     * All links for calling the api should then be generated with `your_api_class::getUrlParams()`.
+     *
+     * @return bool
+     */
+    protected function requiresCsrfProtection()
+    {
+        return false;
     }
 }
 
