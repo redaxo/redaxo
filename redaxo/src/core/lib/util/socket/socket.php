@@ -277,6 +277,10 @@ class rex_socket
             $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
         } else {
             $socket = self::factoryUrl($location);
+
+            if ($this->ssl && !$socket->ssl) {
+                return $response;
+            }
         }
 
         $socket->setTimeout($this->timeout);
