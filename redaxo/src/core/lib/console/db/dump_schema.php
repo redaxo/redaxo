@@ -32,5 +32,8 @@ class rex_command_db_dump_schema extends rex_console_command
         $generator = new rex_sql_schema_dumper();
 
         $output->write($generator->dump($table));
+
+        $io = $this->getStyle($input, $output)->getErrorStyle();
+        $io->success('Generated schema for table "'.$table->getName().'".');
     }
 }
