@@ -108,7 +108,29 @@ abstract class rex_api_function
         // remove the `rex_api_` prefix
         $name = substr($class, 8);
 
-        return ['rex-api-call' => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+        return [self::REQ_CALL_PARAM => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+    }
+
+    /**
+     * Returns the hidden fields for `rex-api-call` and `_csrf_token`.
+     *
+     * The method must be called on sub classes.
+     *
+     * @return string
+     */
+    public static function getHiddenFields()
+    {
+        $class = get_called_class();
+
+        if (__CLASS__ === $class) {
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.__CLASS__.'".');
+        }
+
+        // remove the `rex_api_` prefix
+        $name = substr($class, 8);
+
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name, 'html_attr'))
+            .rex_csrf_token::factory($class)->getHiddenField();
     }
 
     /**
