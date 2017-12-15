@@ -130,7 +130,7 @@ class rex_csrf_token
     {
         $suffix = !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']) ? '_https' : '';
 
-        return 'csrf_tokens_'.rex::getEnvironment().$suffixs;
+        return 'csrf_tokens_'.rex::getEnvironment().$suffix;
     }
 
     private static function generateToken()
