@@ -32,4 +32,19 @@ abstract class rex_console_command extends Command
     {
         return new SymfonyStyle($input, $output);
     }
+
+    /**
+     * Decodes a html message for use in the CLI, e.g. provided by rex_i18n.
+     *
+     * @param string $message A html message
+     *
+     * @return string A cli optimzed message
+     */
+    protected function decodeMessage($message)
+    {
+        $message = preg_replace('/<br ?\/?>\r?\n?/', "\n", $message);
+        $message = strip_tags($message);
+
+        return htmlspecialchars_decode($message);
+    }
 }

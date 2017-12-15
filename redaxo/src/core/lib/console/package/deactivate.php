@@ -29,11 +29,13 @@ class rex_command_package_deactivate extends rex_console_command
 
         $manager = rex_package_manager::factory($package);
         $success = $manager->deactivate();
-        $message = strip_tags($manager->getMessage());
+        $message = $this->decodeMessage($manager->getMessage());
+
         if ($success) {
             $io->success($message);
             return 0;
         }
+
         $io->error($message);
         return 1;
     }

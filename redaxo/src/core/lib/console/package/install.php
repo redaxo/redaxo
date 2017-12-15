@@ -39,17 +39,14 @@ class rex_command_package_install extends rex_console_command
         }
 
         $manager = rex_package_manager::factory($package);
-        try {
-            $success = $manager->install();
-        } catch (rex_functional_exception $e) {
-            $io->error($e->getMessage());
-            return 1;
-        }
-        $message = strip_tags($manager->getMessage());
+        $success = $manager->install();
+        $message = $this->decodeMessage($manager->getMessage());
+
         if ($success) {
             $io->success($message);
             return 0;
         }
+
         $io->error($message);
         return 1;
     }
