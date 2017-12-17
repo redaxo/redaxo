@@ -249,8 +249,7 @@ abstract class rex_package implements rex_package_interface
         
         $isCached = isset($cache[$id]);
         $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
-        if ( !$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)
-        ) {
+        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
             try {
                 $properties = rex_file::getConfig($file);
 
