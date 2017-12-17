@@ -136,7 +136,7 @@ if ($step == 3) {
 
     </script>';
 
-    if (!rex::isHttps()) {
+    if (!rex_request::isHttps()) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_no_https'));
     }
 
