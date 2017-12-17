@@ -236,17 +236,18 @@ abstract class rex_package implements rex_package_interface
      */
     public function loadProperties()
     {
-        static $cache = null;
-        if (null === $cache) {
-            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
-        }
-        $id = $this->getPackageId();
         $file = $this->getPath(self::FILE_PACKAGE);
         if (!file_exists($file)) {
             $this->propertiesLoaded = true;
             return;
         }
-        
+ 
+        static $cache = null;
+        if (null === $cache) {
+            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
+        }
+        $id = $this->getPackageId();
+
         $isCached = isset($cache[$id]);
         $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
         if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
