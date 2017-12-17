@@ -136,6 +136,10 @@ if ($step == 3) {
 
     </script>';
 
+    if (!rex::isHttps()) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_no_https'));
+    }
+
     if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
