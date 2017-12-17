@@ -264,6 +264,10 @@ class rex_socket
             throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
         }
 
+        if (!$this->ssl) {
+            rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "'. $this->host .'"!', __FILE__, __LINE__);
+        }
+
         $this->openConnection();
         $response = $this->writeRequest($method, $this->path, $this->headers, $data);
 
