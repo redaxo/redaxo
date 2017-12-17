@@ -276,7 +276,8 @@ class rex
      *
      * @return bool true when https/ssl, otherwise false.
      */
-    public static function isHttps() {
+    public static function isHttps()
+    {
         return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
     }
 
