@@ -248,12 +248,9 @@ abstract class rex_package implements rex_package_interface
         }
         $id = $this->getPackageId();
 
-        if (
-            isset($cache[$id]) &&
-            (!rex::isBackend() || !rex::getConsole() && (!rex::getUser() || !rex::getUser()->isAdmin()) || $cache[$id]['timestamp'] >= filemtime($file))
-        ) {
-            $properties = $cache[$id]['data'];
-        } else {
+        $isCached = isset($cache[$id]);
+        $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
+        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
             try {
                 $properties = rex_file::getConfig($file);
 
@@ -279,7 +276,10 @@ abstract class rex_package implements rex_package_interface
 
                 $properties = [];
             }
+        } else {
+            $properties = $cache[$id]['data'];
         }
+
         $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
         if ($properties) {
             foreach ($properties as $key => $value) {
