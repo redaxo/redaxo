@@ -208,6 +208,9 @@ class rex_log_entry
     public function __construct($timestamp, array $data)
     {
         $this->timestamp = $timestamp;
+        foreach ($data as $key => $value) {
+        	$data[$key] = str_replace('\n', "\n", $value);
+        }
         $this->data = $data;
     }
 
@@ -256,7 +259,7 @@ class rex_log_entry
     public function __toString()
     {
         $data = implode(' | ', array_map('trim', $this->data));
-        $data = str_replace(["\r", "\n"], '', $data);
+        $data = str_replace(["\r", "\n"], ['','\n'], $data);
         return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
     }
 }
