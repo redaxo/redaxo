@@ -114,13 +114,14 @@ abstract class rex_package_manager
             $reinstall = $this->package->getProperty('install');
             $this->package->setProperty('install', true);
 
+            rex_autoload::addDirectory($this->package->getPath('lib'));
+            rex_autoload::addDirectory($this->package->getPath('vendor'));
+            rex_i18n::addDirectory($this->package->getPath('lang'));
+
             // include install.php
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
-                rex_autoload::addDirectory($this->package->getPath('lib'));
-                rex_autoload::addDirectory($this->package->getPath('vendor'));
-                rex_i18n::addDirectory($this->package->getPath('lang'));
-
                 $this->package->includeFile(rex_package::FILE_INSTALL);
+
                 if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
                     throw new rex_functional_exception($instmsg);
                 }
