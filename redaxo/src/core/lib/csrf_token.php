@@ -67,20 +67,13 @@ class rex_csrf_token
     }
 
     /**
-     * @param string $url
-     * @param bool   $escape
+     * Returns an array containing the `_csrf_token` param.
      *
-     * @return string
+     * @return array
      */
-    public function appendToUrl($url, $escape = true)
+    public function getUrlParams()
     {
-        if (false === strpos($url, '?')) {
-            $url .= '?';
-        } else {
-            $url .= $escape ? '&amp;' : '&';
-        }
-
-        return $url.self::PARAM.'='.$this->getValue();
+        return [self::PARAM => $this->getValue()];
     }
 
     /**
