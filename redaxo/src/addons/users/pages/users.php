@@ -124,7 +124,11 @@ $FUNC_ADD = rex_request('FUNC_ADD', 'string');
 $save = rex_request('save', 'int');
 $adminchecked = '';
 
-if ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY) {
+if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
+    if (!rex_csrf_token::factory('user_edit')->isValid()) {
+        $warnings[] = rex_i18n::msg('csrf_token_invalid');
+    }
+
     $validator = rex_validator::factory();
     if ($useremail && !rex_validator::factory()->email($useremail)) {
         $warnings[] = rex_i18n::msg('invalid_email');
@@ -188,7 +192,11 @@ if ($warnings) {
     ], true));
 } elseif ($FUNC_DELETE != '') {
     // man kann sich selbst nicht loeschen..
-    if (rex::getUser()->getId() != $user_id) {
+    if (rex::getUser()->getId() == $user_id) {
+        $warnings[] = rex_i18n::msg('user_notdeleteself');
+    } elseif (!rex_csrf_token::factory('user_delete')->isValid()) {
+        $warnings[] = rex_i18n::msg('csrf_token_invalid');
+    } else {
         $deleteuser = rex_sql::factory();
         $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE id = '$user_id' LIMIT 1");
         $info = rex_i18n::msg('user_deleted');
@@ -197,11 +205,9 @@ if ($warnings) {
             'id' => $user_id,
             'user' => $user,
         ], true));
-
-        $user_id = 0;
-    } else {
-        $warnings[] = rex_i18n::msg('user_notdeleteself');
     }
+
+    $user_id = 0;
 } elseif ($FUNC_ADD != '' and $save == 1) {
     $adduser = rex_sql::factory();
     $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
@@ -491,6 +497,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $content = '
         <form id="rex-form-user" action="' . rex_url::currentBackendPage() . '" method="post">
+            ' . rex_csrf_token::factory('user_edit')->getHiddenField() . '
             ' . $content . '
         </form>
 
@@ -597,7 +604,7 @@ if (isset($SHOW) and $SHOW) {
 
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###']);
+    $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
     $list->setColumnFormat('funcs', 'custom', function ($params) {
         $list = $params['list'];
         if ($list->getValue('id') == rex::getUser()->getId() || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
