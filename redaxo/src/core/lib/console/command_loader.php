@@ -16,6 +16,7 @@ class rex_console_command_loader implements CommandLoaderInterface
     {
         $commands = [
             'cache:clear' => rex_command_cache_clear::class,
+            'db:dump-schema' => rex_command_db_dump_schema::class,
             'package:activate' => rex_command_package_activate::class,
             'package:deactivate' => rex_command_package_deactivate::class,
             'package:install' => rex_command_package_install::class,
