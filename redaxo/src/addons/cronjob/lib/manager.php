@@ -109,7 +109,7 @@ class rex_cronjob_manager
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
             $name,
-            str_replace("\n", '\n', strip_tags($message))
+            str_replace("\n", '\n', strip_tags($message)),
         ];
         $log->add($data);
     }
