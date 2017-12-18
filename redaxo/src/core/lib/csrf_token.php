@@ -123,7 +123,7 @@ class rex_csrf_token
     {
         // use separate tokens for http/https
         // http://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
-        $suffix = !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']) ? '_https' : '';
+        $suffix = rex_request::isHttps() ? '_https' : '';
 
         return 'csrf_tokens_'.rex::getEnvironment().$suffix;
     }
