@@ -17,7 +17,7 @@ class rex_command_cronjob_run extends rex_console_command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);
-        
+
         // indicator constant, kept for BC
         define('REX_CRONJOB_SCRIPT', true);
 
