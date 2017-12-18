@@ -6,6 +6,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package redaxo\core
+ *
+ * @internal
  */
 class rex_command_package_uninstall extends rex_console_command
 {
