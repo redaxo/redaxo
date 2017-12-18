@@ -238,7 +238,7 @@ abstract class rex_api_function
 
     /**
      * Csrf validation is disabled by default for backwards compatiblity reasons. This default will change in a future version.
-     * Prepare all your api functions to work with csrf token by using your-api-class::getUrlParams(), otherwise they will stop work.
+     * Prepare all your api functions to work with csrf token by using your-api-class::getUrlParams()/getHiddenFields(), otherwise they will stop work.
      *
      * @return bool
      */
