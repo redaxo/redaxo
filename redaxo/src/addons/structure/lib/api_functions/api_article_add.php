@@ -24,4 +24,9 @@ class rex_api_article_add extends rex_api_function
         $result = new rex_api_result(true, rex_article_service::addArticle($data));
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

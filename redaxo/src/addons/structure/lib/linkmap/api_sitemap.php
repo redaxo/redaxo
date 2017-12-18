@@ -31,4 +31,9 @@ class rex_api_sitemap_tree extends rex_api_function
         $result = new rex_api_result(true);
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

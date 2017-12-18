@@ -53,6 +53,11 @@ abstract class rex_api_install_package_download extends rex_api_function
         return new rex_api_result($success, $message);
     }
 
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
+
     protected function extractArchiveTo($dir)
     {
         if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {

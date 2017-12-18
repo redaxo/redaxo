@@ -90,9 +90,8 @@ if ($subpage == '') {
         $text = rex_i18n::msg('package_' . ($key ?: $function));
         $url = rex_url::currentBackendPage([
             'package' => $package->getPackageId(),
-            'rex-api-call' => 'package',
             'function' => $function,
-        ]);
+        ] + rex_api_package::getUrlParams());
 
         $icon = ($icon != '') ? '<i class="rex-icon ' . $icon . '"></i>' : '';
         $class = ($key ?: $function);

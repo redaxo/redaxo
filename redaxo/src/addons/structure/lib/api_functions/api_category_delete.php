@@ -19,4 +19,9 @@ class rex_api_category_delete extends rex_api_function
 
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

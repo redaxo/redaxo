@@ -91,6 +91,49 @@ abstract class rex_api_function
     }
 
     /**
+     * Returns an array containing the `rex-api-call` and `_csrf_token` params.
+     *
+     * The method must be called on sub classes.
+     *
+     * @return array
+     */
+    public static function getUrlParams()
+    {
+        $class = get_called_class();
+
+        if (__CLASS__ === $class) {
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.__CLASS__.'".');
+        }
+
+        // remove the `rex_api_` prefix
+        $name = substr($class, 8);
+
+        return [self::REQ_CALL_PARAM => $name, rex_csrf_token::PARAM => rex_csrf_token::factory($class)->getValue()];
+    }
+
+    /**
+     * Returns the hidden fields for `rex-api-call` and `_csrf_token`.
+     *
+     * The method must be called on sub classes.
+     *
+     * @return string
+     */
+    public static function getHiddenFields()
+    {
+        $class = get_called_class();
+
+        if (__CLASS__ === $class) {
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.__CLASS__.'".');
+        }
+
+        // remove the `rex_api_` prefix
+        $name = substr($class, 8);
+
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name, 'html_attr'))
+            .rex_csrf_token::factory($class)->getHiddenField();
+    }
+
+    /**
      * checks whether an api function is bound to the current requests. If so, so the api function will be executed.
      */
     public static function handleCall()
@@ -124,6 +167,13 @@ abstract class rex_api_function
                 $result = rex_api_result::fromJSON($urlResult);
                 $apiFunc->result = $result;
             } else {
+                if ($apiFunc->requiresCsrfProtection() && !rex_csrf_token::factory(get_class($apiFunc))->isValid()) {
+                    $result = new rex_api_result(false, rex_i18n::msg('csrf_token_invalid'));
+                    $apiFunc->result = $result;
+
+                    return;
+                }
+
                 try {
                     $result = $apiFunc->execute();
 
@@ -184,6 +234,17 @@ abstract class rex_api_function
     public function getResult()
     {
         return $this->result;
+    }
+
+    /**
+     * Csrf validation is disabled by default for backwards compatiblity reasons. This default will change in a future version.
+     * Prepare all your api functions to work with csrf token by using your-api-class::getUrlParams()/getHiddenFields(), otherwise they will stop work.
+     *
+     * @return bool
+     */
+    protected function requiresCsrfProtection()
+    {
+        return false;
     }
 }
 

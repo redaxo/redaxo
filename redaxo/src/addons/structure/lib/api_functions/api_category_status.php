@@ -22,4 +22,9 @@ class rex_api_category_status extends rex_api_function
 
         throw new rex_api_exception('User has no permission for this category!');
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

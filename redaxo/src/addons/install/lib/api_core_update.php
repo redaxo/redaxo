@@ -175,6 +175,11 @@ class rex_api_install_core_update extends rex_api_function
         return $result;
     }
 
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
+
     /**
      * @param string      $temppath
      * @param string      $version

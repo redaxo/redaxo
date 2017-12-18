@@ -25,4 +25,9 @@ class rex_api_article2startarticle extends rex_api_function
 
         throw new rex_api_exception('user has no permission for this article!');
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }
