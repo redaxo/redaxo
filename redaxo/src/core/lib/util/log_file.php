@@ -209,7 +209,7 @@ class rex_log_entry
     {
         $this->timestamp = $timestamp;
         foreach ($data as $key => $value) {
-        	$data[$key] = str_replace('\n', "\n", $value);
+            $data[$key] = str_replace('\n', "\n", $value);
         }
         $this->data = $data;
     }
