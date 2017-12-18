@@ -24,31 +24,46 @@ $edit_clang_save = rex_post('edit_clang_save', 'boolean');
 $error = '';
 $success = '';
 
+$csrfEdit = rex_csrf_token::factory('clang_edit');
+$csrfStatus = rex_csrf_token::factory('clang_status');
+$csrfDelete = rex_csrf_token::factory('clang_delete');
+
 // ----- delete clang
-if ($func == 'deleteclang' && $clang_id != '') {
+if ($func == 'deleteclang' && $clang_id != '' && rex_clang::exists($clang_id)) {
     try {
-        if (rex_clang::exists($clang_id)) {
-            rex_clang_service::deleteCLang($clang_id);
-            $success = rex_i18n::msg('clang_deleted');
-            $func = '';
-            unset($clang_id);
+        if (!$csrfDelete->isValid()) {
+            throw new rex_functional_exception(rex_i18n::msg('csrf_token_invalid'));
         }
+        rex_clang_service::deleteCLang($clang_id);
+        $success = rex_i18n::msg('clang_deleted');
+        $func = '';
+        unset($clang_id);
     } catch (rex_functional_exception $e) {
         echo rex_view::error($e->getMessage());
     }
 }
 
 if ('editstatus' === $func && rex_clang::exists($clang_id)) {
-    $clang = rex_clang::get($clang_id);
-    rex_clang_service::editCLang($clang_id, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clang_status);
-    $success = rex_i18n::msg('clang_edited');
-    $func = '';
-    unset($clang_id);
+    try {
+        if (!$csrfStatus->isValid()) {
+            throw new rex_functional_exception(rex_i18n::msg('csrf_token_invalid'));
+        }
+        $clang = rex_clang::get($clang_id);
+        rex_clang_service::editCLang($clang_id, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clang_status);
+        $success = rex_i18n::msg('clang_edited');
+        $func = '';
+        unset($clang_id);
+    } catch (rex_functional_exception $e) {
+        echo rex_view::error($e->getMessage());
+    }
 }
 
 // ----- add clang
 if ($add_clang_save || $edit_clang_save) {
-    if ($clang_code == '') {
+    if (!$csrfEdit->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+        $func = $add_clang_save ? 'addclang' : 'editclang';
+    } elseif ($clang_code == '') {
         $error = rex_i18n::msg('enter_code');
         $func = $add_clang_save ? 'addclang' : 'editclang';
     } elseif ($clang_name == '') {
@@ -123,7 +138,7 @@ foreach ($sql as $row) {
     if ($lang_id == rex_clang::getStartId()) {
         $delLink = '<span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</span>';
     } else {
-        $delLink = '<a href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id]) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
+        $delLink = '<a href="' . rex_url::currentBackendPage(['func' => 'deleteclang', 'clang_id' => $lang_id] + $csrfDelete->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . $delLink . '</a>';
     }
 
     // Edit form
@@ -158,7 +173,7 @@ foreach ($sql as $row) {
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '">' . htmlspecialchars($sql->getValue('priority')) . '</td>
                         <td class="rex-table-action"><a href="' . $editLink . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-table-action">' . $delLink . '</td>
-                        <td class="rex-table-action"><a class="rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $lang_id, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1]) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . rex_i18n::msg('clang_'.$status) . '</a></td>
+                        <td class="rex-table-action"><a class="rex-' . $status . '" href="' . rex_url::currentBackendPage(['clang_id' => $lang_id, 'func' => 'editstatus', 'clang_status' => $sql->getValue('status') ? 0 : 1] + $csrfStatus->getUrlParams()) . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . rex_i18n::msg('clang_'.$status) . '</a></td>
                     </tr>';
     }
 }
@@ -179,6 +194,7 @@ if ($func == 'addclang' || $func == 'editclang') {
         <form id="rex-form-system-language" action="' . rex_url::currentBackendPage() . '" method="post">
             <fieldset>
                 <input type="hidden" name="clang_id" value="' . $clang_id . '" />
+                ' . $csrfEdit->getHiddenField() . '
                 ' . $content . '
             </fieldset>
         </form>

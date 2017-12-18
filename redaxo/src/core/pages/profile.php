@@ -19,6 +19,8 @@ $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
 
+$csrfToken = rex_csrf_token::factory('profile');
+
 // --------------------------------- Title
 echo rex_view::title(rex_i18n::msg('profile_title'), '');
 
@@ -47,7 +49,9 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 $update = rex_post('upd_profile_button', 'bool');
 
 if ($update) {
-    if ($useremail && !rex_validator::factory()->email($useremail)) {
+    if (!$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } elseif ($useremail && !rex_validator::factory()->email($useremail)) {
         $error = rex_i18n::msg('invalid_email');
     }
 }
@@ -77,8 +81,9 @@ if ($update && !$error) {
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
-    if (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))
-    ) {
+    if (!$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
         $error = rex_i18n::msg('user_psw_error');
     } elseif (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1, $user_id)) {
         $error = $msg;
@@ -177,6 +182,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
 
@@ -238,6 +244,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
     <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
 
