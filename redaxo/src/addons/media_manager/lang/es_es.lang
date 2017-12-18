@@ -1,5 +1,3 @@
-# addon:media_manager es_bo
-
 media_manager = Gestor de medios
 media_manager_overview_title = Addon de Media Manager (Versión {0})
 
@@ -17,6 +15,9 @@ media_manager_config_not_writable = No se puede escribir el archivo de configura
 media_manager_max_resizekb = Tamaño máximo de una imagen en kilobyte, que se puede utilizar de media-manager
 media_manager_max_resizepx = Tamaño máximo de una imagen en píxel, que se puede utilizar de media-manager
 media_manager_jpg_quality = Calidad de salida JPG/JPEG
+media_manager_png_compression = Compresión PNG
+media_manager_webp_quality = Calidad WebP
+media_manager_interlace = Entrelazado/Modo-Progresivo
 
 media_manager_id = ID
 media_manager_name = nombre
@@ -118,3 +119,14 @@ media_manager_effect_header_cache = Control de caché
 
 media_manager_effect_convert2img_density = densidad
 media_manager_effect_convert2img_convertto = formato
+
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_webp_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_interlace_notice = Dejar en blanco para el valor por defecto.
+
+media_manager_effect_brightness = Brillo
+media_manager_effect_brightness_notice = [-255 a 255]. Dejar en blanco para el valor por defecto. (0).
+
+media_manager_effect_contrast = Contraste
+media_manager_effect_contrast_notice = [-100 a 100]. Dejar en blanco para el valor por defecto (0).
