@@ -259,7 +259,7 @@ class rex_log_entry
     public function __toString()
     {
         $data = implode(' | ', array_map('trim', $this->data));
-        $data = str_replace(["\r", "\n"], ['','\n'], $data);
+        $data = str_replace(["\r", "\n"], ['', '\n'], $data);
         return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
     }
 }
