@@ -13,6 +13,11 @@
 define('REX_CRONJOB_LOG_FOLDER', $this->getDataPath());
 define('REX_CRONJOB_TABLE', rex::getTable('cronjob'));
 
+if (rex::getConsole()) {
+    // don't run cronjobs while running console commands
+    return;
+}
+
 rex_extension::register('PACKAGES_INCLUDED', function () {
     foreach ($this->getAvailablePlugins() as $plugin) {
         if (($type = $plugin->getProperty('cronjob_type')) != '') {
