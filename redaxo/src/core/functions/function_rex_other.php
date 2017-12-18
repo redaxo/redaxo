@@ -20,6 +20,7 @@ function rex_delete_cache()
         ->recursive()
         ->childFirst()
         ->ignoreFiles(['.htaccess', '.redaxo'], false)
+        ->ignoreFiles(['system.log'])
         ->ignoreSystemStuff(false);
     rex_dir::deleteIterator($finder);
 
