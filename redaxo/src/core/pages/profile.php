@@ -68,7 +68,7 @@ if ($update && !$error) {
         $success = rex_i18n::msg('user_data_updated');
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
-            'user_id' => $id,
+            'user_id' => $user_id,
             'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
         ], true));
     } catch (rex_sql_exception $e) {
