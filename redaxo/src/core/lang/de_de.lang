@@ -215,6 +215,7 @@ setup_799 = 7 / Heureka
 
 setup_security_msg = Der Ordner redaxo ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, redaxo/data und redaxo/src direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
+setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
