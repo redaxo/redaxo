@@ -1,6 +1,5 @@
 lang = Español
 htmllang = es
-htmlcharset = utf-8
 yes = si
 no = no
 general = general
@@ -26,7 +25,7 @@ description = Descripción
 email = E-mail
 function = Función
 no_editing_rights = Permiso denegado
-check_rights_in_directory = Compruebe los permisos de carpeta.
+check_rights_in_directory  =  Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
 
 # redaxo/redaxo/index.php
@@ -40,8 +39,8 @@ subnavigation = Subnavegación de {0}
 
 # redaxo/include/classes/class.login.php
 login = Iniciar sesión
-login_name = Nombre de usuario
-password = Contraseña
+login_name  =  Nombre de usuario
+password  =  Contraseña
 new_password = Nueva contraseña
 request_new_password = Pide nueva contraseña
 login_error = Error en el inicio de sesión. Vuelve a intentarlo en {0} segundos.
@@ -53,8 +52,8 @@ login_logged_out = Cerró sesión.
 stay_logged_in = Permanecer conectado
 
 # redaxo/include/layout_redaxo/top.php
-logged_out = No registrado
-logged_in_as = Conectado como
+logged_out  =  No registrado
+logged_in_as  =  Conectado como
 safemode_deactivate = Desactivar el modo seguro
 
 # redaxo/include/classes/class.form.php
@@ -122,10 +121,13 @@ setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
 setup_error1 = Configuración activada. Haga clic en {0}> continuar <{1} y ejecute la instalación.
-setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"\$REX[SETUP] = true;\" en boot.php
+setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"$REX[SETUP] = true;\" en boot.php
+
+
 
 setup_100 = Configuración: Paso 1 de 7/Idioma
 setup_101 = Por favor, seleccione un idioma
+
 
 setup_199 = 1 / Idioma
 
@@ -231,12 +233,12 @@ addon_no_install = AddOn <b>{0}</b> no instalado porque:
 addon_no_uninstall = AddOn <b>{0}</b> se desinstaló porque:
 package_no_reason = Ninguna razón dada.
 addon_no_activation = AddOn <b>{0}</b> activado ya que no está instalado todavía!
-package_not_installed = ¡No está instalado todavía!
 addon_no_deactivation = AddOn <b>{0}</b> no se pudo desactivar porque:
+package_not_installed = ¡No está instalado todavía!
 addon_installed = AddOn <b>{0}</b> instalado y activado
 addon_reinstalled = AddOn <b>{0}</b> vuelve a instalar!
 addon_activated = AddOn <b>{0}</b> activado
-addon_deactivated = AddOn <b>{0}</b> desactivado
+addon_deactivated =  AddOn <b>{0}</b> desactivado
 addon_uninstalled = AddOn <b>{0}</b> desinstalado
 addon_deleted = AddOn <b>{0}</b> eliminado
 addon_not_deleted = ¡No se pudo eliminar AddOn <b>{0}</b>.
@@ -282,18 +284,22 @@ package_conflict_error_addon = [Missing_text] de: Es kann nicht gemeinsam con de
 package_conflict_error_addon_version = [Missing_text] de: Es kann nicht gemeinsam mit dem AddOn <b>{0}</b> <b>{1}</b> aktiviert sein!
 package_conflict_error_plugin = [Missing_text] de: Es kann nicht gemeinsam con el plugin <b>{0}</b> aktiviert sein!
 package_conflict_error_plugin_version = [Missing_text] de: Es kann nicht gemeinsam mit dem PlugIn <b>{0}</b> mit der Versionsbedingung <b>{1}</b> aktiviert sein!
-package_dependencies_error_addon = [Missing_text] de: ¿Cómo puedo ayudar? AddOn <b>{0}</b> benötigt!
-package_dependencies_error_plugin = [Missing_text] de: Es un wird von dem aktivierten PlugIn <b>{0}</b> benötigt!
+package_reverse_conflict_error_addon = No se puede activar junto con AddOn <b>{0}</ b>!
+package_reverse_conflict_error_addon_version = No se puede activar junto con AddOn <b>{0}</ b> con los requisitos de versión <b>{1}</ b>!
+package_reverse_conflict_error_plugin = No se puede activar junto con PlugIn <b>{0}</ b>!
+package_reverse_conflict_error_plugin_version = No se puede activar junto con PlugIn <b>{0}</ b> con los requisitos de versión <b>{1}</ b>!
+package_dependencies_error_addon = Es requerido por el addon <b> {0} </ b>!
+package_dependencies_error_plugin = Requerido desde el plugin <b>{0}</ b>!
 plugin_plugins_installed = Plugins están instalados
 plugin_no_install = PlugIn no ha sido instalado
 plugin_no_uninstall = PlugIn <b>{0}</b> no se pudo desinstalar porque:
-plugin_no_reason =
+plugin_no_reason = No hay ninguna razón dada.
 plugin_no_activation = PlugIn <b>{0}</b> no se pudo activar porque:
 plugin_no_deactivation = PlugIn <b>{0}</b> no se pudo desactivar porque:
 plugin_installed = PlugIn ha sido instalado
 plugin_reinstalled = PlugIn <b>{0}</b> vuelve a instalar!
 plugin_activated = PlugIn activado
-plugin_deactivated = PlugIn desactivado
+plugin_deactivated =  PlugIn desactivado
 plugin_uninstalled = PlugIn <b>{0}</b> desinstalado!
 plugin_deleted = PlugIn <b>{0}</b> eliminado!
 plugin_not_deleted = PlugIn <b>{0}</b> no se pudo eliminar.
@@ -356,6 +362,7 @@ all_clangs = todos los idiomas
 clangs = idiomas
 clang_error_startidcanotbedeleted = Comience idioma (estruendo) con id "{0}" no se pueden borrar
 clang_error_idcanotbedeleted = IdiomaID (estruendo) con id "{0}" no existe
+
 
 
 # footer
