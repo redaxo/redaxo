@@ -26,11 +26,11 @@ class rex_command_cronjob_run extends rex_console_command
         if ($nexttime != 0 && time() >= $nexttime) {
             rex_cronjob_manager_sql::factory()->check();
 
-            $io->success('cronjobs checked');
+            $io->success('Cronjobs checked.');
             return 0;
         }
 
-        $io->success('cronjobs skipped');
+        $io->success('Cronjobs skipped.');
         return 0;
     }
 }
