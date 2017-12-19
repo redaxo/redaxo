@@ -10,10 +10,9 @@ $success = '';
 
 $func = rex_request('func', 'string');
 
-// 'updateassets' is a hidden function, so we use the csrf token of the 'delete cache' link
-$csrfTokenName = 'system_'.('updateassets' === $func ? 'generate' : $func);
+$csrfToken = rex_csrf_token::factory('system');
 
-if ($func && !rex_csrf_token::factory($csrfTokenName)->isValid()) {
+if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
 } elseif ($func == 'setup') {
     // REACTIVATE SETUP
@@ -113,11 +112,11 @@ $content = [];
 $content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
                         <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + rex_csrf_token::factory('system_generate')->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
                         <h3>' . rex_i18n::msg('setup') . '</h3>
                         <p>' . rex_i18n::msg('setup_text') . '</p>
-                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + rex_csrf_token::factory('system_setup')->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
@@ -224,7 +223,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />
-    ' . rex_csrf_token::factory('system_updateinfos')->getHiddenField() . '
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
 
