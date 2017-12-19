@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.4.0 – XX.XX.2017
+--------------------------
+
+* Font-Awesome wird per preload-Header vorgeladen (@bloep)
+
+
 Version 2.3.0 – 04.10.2017
 --------------------------
 
