@@ -97,6 +97,8 @@ class rex_backend_login extends rex_login
                         $this->message .= ' ' . rex_i18n::rawMsg('login_wait', '<strong data-time="' . $time . '">' . $formatted . '</strong>');
                     }
                 }
+            } else {
+                rex_csrf_token::removeAll();
             }
         }
 
