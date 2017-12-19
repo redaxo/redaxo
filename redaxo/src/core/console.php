@@ -10,7 +10,9 @@ rex::setProperty('debug', true);
 rex_addon::initialize();
 
 foreach (rex::getConfig('package-order') as $packageId) {
-    rex_package::get($packageId)->enlist();
+    if (rex_package::exists($packageId)) {
+        rex_package::get($packageId)->enlist();
+    }
 }
 
 $application = new rex_console_application();
