@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.3.2 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Bei Einschränkung der Typen ist beim Upload die Klein/Großschreibung der Dateiendung nicht mehr relevant (@gharlan)
+* In der Doctypes-Property fehlten "svg" und "mp4" (@alexplusde)
+
+
 Version 2.3.1 – 04.10.2017
 --------------------------
 

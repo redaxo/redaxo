@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz für Api-Functions, Templates und Module (@gharlan)
+* Neue EPs `MODULE_ADDED/UPDATED/DELETED` und `TEMPLATE_ADDED/UPDATED/DELETED` (@bloep)
+* Bessere Code-Strukturierung (Api-Functions) (@DanielWeitenauer)
+
+
 Version 2.4.0 – 04.10.2017
 --------------------------
 
