@@ -20,6 +20,16 @@ class rex_logger extends AbstractLogger
     private static $file;
 
     /**
+     * Returns the path to the system.log file.
+     *
+     * @return string
+     */
+    public static function getPath()
+    {
+        return rex_path::coreData('system.log');
+    }
+
+    /**
      * Shorthand: Logs the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to log
@@ -113,8 +123,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            $file = rex_path::coreCache('system.log');
-            self::$file = new rex_log_file($file, 2000000);
+            self::$file = new rex_log_file(self::getPath(), 2000000);
         }
     }
 
