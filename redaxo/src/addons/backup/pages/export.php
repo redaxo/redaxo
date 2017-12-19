@@ -35,7 +35,12 @@ if ($EXPTABLES) {
     }
 }
 
-if (rex_post('export', 'bool')) {
+$csrfToken = rex_csrf_token::factory('backup');
+$export = rex_post('export', 'bool');
+
+if ($export && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($export) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
@@ -265,6 +270,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
 <form action="' . rex_url::currentBackendPage() . '" data-pjax="false" method="post">
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>
 

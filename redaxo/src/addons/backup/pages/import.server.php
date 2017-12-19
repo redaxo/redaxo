@@ -16,6 +16,8 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 
 @set_time_limit(0);
 
+$csrfToken = rex_csrf_token::factory('backup_import');
+
 if ($impname != '') {
     $impname = basename($impname);
 
@@ -28,13 +30,17 @@ if ($impname != '') {
     }
 }
 
-if ($function == 'delete' && $impname) {
+if ($function == 'download' && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
+    exit;
+}
+
+if ($function && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(rex_backup::getDir() . '/' . $impname));
     $success = rex_i18n::msg('backup_file_deleted');
-} elseif ($function == 'download' && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
-    exit;
 } elseif ($function == 'dbimport') {
     // ------------------------------ FUNC DBIMPORT
 
@@ -132,9 +138,9 @@ foreach ($folder as $file) {
                     <td data-title="' . rex_i18n::msg('backup_filename') . '">' . $file . '</td>
                     <td data-title="' . rex_i18n::msg('backup_filesize') . '">' . $filesize . '</td>
                     <td data-title="' . rex_i18n::msg('backup_createdate') . '">' . $filec . '</td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_import_file') . '" data-confirm="' . rex_i18n::msg('backup_proceed_db_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('backup_to_import') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'dbimport', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_import_file') . '" data-confirm="' . rex_i18n::msg('backup_proceed_db_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('backup_to_import') . '</a></td>
                     <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('backup_download') . '</a></td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_delete_file') . '" data-confirm="' . rex_i18n::msg('backup_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('backup_delete') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_delete_file') . '" data-confirm="' . rex_i18n::msg('backup_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('backup_delete') . '</a></td>
                 </tr>
     ';
 }
@@ -175,9 +181,9 @@ foreach ($folder as $file) {
                     <td data-title="' . rex_i18n::msg('backup_filename') . '">' . $file . '</td>
                     <td data-title="' . rex_i18n::msg('backup_filesize') . '">' . $filesize . '</td>
                     <td data-title="' . rex_i18n::msg('backup_createdate') . '">' . $filec . '</td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_import_file') . '" data-confirm="' . rex_i18n::msg('backup_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('backup_to_import') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'fileimport', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_import_file') . '" data-confirm="' . rex_i18n::msg('backup_proceed_file_import') . '"><i class="rex-icon rex-icon-import"></i> ' . rex_i18n::msg('backup_to_import') . '</a></td>
                     <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'download', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_download_file') . '"><i class="rex-icon rex-icon-download"></i> ' . rex_i18n::msg('backup_download') . '</a></td>
-                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file]) . '" title="' . rex_i18n::msg('backup_delete_file') . '" data-confirm="' . rex_i18n::msg('backup_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('backup_delete') . '</a></td>
+                    <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['function' => 'delete', 'impname' => $file] + $csrfToken->getUrlParams()) . '" title="' . rex_i18n::msg('backup_delete_file') . '" data-confirm="' . rex_i18n::msg('backup_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('backup_delete') . '</a></td>
                 </tr>';
 }
 

@@ -13,7 +13,12 @@
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
 
-if ($func == 'setstatus') {
+$csrfToken = rex_csrf_token::factory('cronjob');
+
+if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
+    echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+    $func = '';
+} elseif ($func == 'setstatus') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
@@ -24,9 +29,7 @@ if ($func == 'setstatus') {
         echo rex_view::error($this->i18n($msg . '_error', $name));
     }
     $func = '';
-}
-
-if ($func == 'delete') {
+} elseif ($func == 'delete') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
@@ -35,9 +38,7 @@ if ($func == 'delete') {
         echo rex_view::error($this->i18n('delete_error', $name));
     }
     $func = '';
-}
-
-if ($func == 'execute') {
+} elseif ($func == 'execute') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $success = $manager->tryExecute($oid);
@@ -118,11 +119,11 @@ if ($func == '') {
     $list->setColumnParams('edit', ['func' => 'edit', 'oid' => '###id###']);
 
     $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $this->i18n('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###']);
+    $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
 
     $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###']);
+    $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
