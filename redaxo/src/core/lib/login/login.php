@@ -193,6 +193,8 @@ class rex_login
                         $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
                     } else {
                         $this->message = rex_i18n::msg('login_session_expired');
+
+                        rex_csrf_token::removeAll();
                     }
                 } else {
                     $this->message = rex_i18n::msg('login_user_not_found');
@@ -200,6 +202,8 @@ class rex_login
             }
         } else {
             $this->message = rex_i18n::msg('login_logged_out');
+
+            rex_csrf_token::removeAll();
         }
 
         if ($ok) {
@@ -290,6 +294,8 @@ class rex_login
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);
             }
+
+            rex_csrf_token::removeAll();
         }
 
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
