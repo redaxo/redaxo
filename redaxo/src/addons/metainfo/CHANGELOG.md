@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.3.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (bei Api-Functions) (@gharlan)
+
 Version 2.2.0 – 04.10.2017
 --------------------------
 
