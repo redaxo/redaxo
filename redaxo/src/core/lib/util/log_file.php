@@ -208,9 +208,6 @@ class rex_log_entry
     public function __construct($timestamp, array $data)
     {
         $this->timestamp = $timestamp;
-        foreach ($data as $key => $value) {
-            $data[$key] = str_replace('\n', "\n", $value);
-        }
         $this->data = $data;
     }
 
@@ -223,8 +220,12 @@ class rex_log_entry
      */
     public static function createFromString($string)
     {
-        $data = array_map('trim', explode('|', $string));
+        foreach (explode('|', $string) as $part) {
+            $data[] = str_replace('\n', "\n", trim($part));
+        }
+
         $timestamp = strtotime(array_shift($data));
+
         return new self($timestamp, $data);
     }
 
