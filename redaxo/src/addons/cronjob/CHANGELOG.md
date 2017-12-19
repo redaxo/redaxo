@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 2.2.0 – XX.XX.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (@gharlan)
+* Consolen-Command `cronjob:run` für die Ausführung der Jobs der script-Umgebung (das alte Skript unter `redaxo/src/addons/cronjob/bin/run` ist deprecated) (@staabm)
+
+### Bugfixes
+
+* Fehler werden besser abgefangen, vor allem um die Ausführung weiterer Jobs in der cli nicht zu behindern (@staabm)
+
+
 Version 2.1.2 – 04.10.2017
 --------------------------
 

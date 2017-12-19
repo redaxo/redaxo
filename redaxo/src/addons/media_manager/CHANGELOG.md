@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.5.1 – XX.XX.2017
+--------------------------
+
+### Bugfixes
+
+* Bei Nutzung von `setMediaPath` in Effekten griff das Caching teilweise nicht mehr richtig (@gharlan)
+* Es kam teilweise zu Warnungen, da die Exif-Daten nicht eingelesen werden konnten (@IngoWinter)
+* Nach Effektlöschung enthielten die Prios eine Lücke (@gharlan)
+
+
 Version 2.5.0 – 07.11.2017
 --------------------------
 

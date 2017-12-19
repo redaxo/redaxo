@@ -1,6 +1,55 @@
 Changelog
 =========
 
+Version 5.5.0 – XX.XX.2017
+--------------------------
+
+### Security
+
+* CSRF-Schutz (@gharlan):
+    - für alle `rex_form` automatisch
+    - für eigene Api-Function per Opt-in
+    - für manuelle Formulare und Aktionen leicht integrierbar
+    - Im Core bei allen relevanten Stellen integriert
+
+### Neu
+
+* Update Symfony-Komponenten (3.4.2), parsedown (1.6.4), whoops (2.1.14) (@gharlan)
+* Backend-Übersetzungsdateien:
+    - Aktualisierung Schwedisch (@interweave-media)
+    - Aktualisierung Spanisch (@nandes2062)
+    - Italienisch hinzugefügt (@Fanello, @lexplatt)
+* Setup:
+    - Warnung, wenn Setup nicht über HTTPS ausgeführt wird (@staabm)
+    - Warnung, wenn Apache-Modul mod_security geladen ist (@staabm)
+* Weniger strikte Default-Passwortregeln (nur min. 8 Zeichen) (@IngoWinter)
+* Backend-Session wird duch regelmäßige Ajax-Calls erhalten (@IngoWinter)
+* Bei Passwortfeldern kann in den Klartextmodus gewechselt werden (@pwechs83, @staabm, @tbaddade)
+* Neue Consolen-Commands:
+    - `cache:clear` (@bloep)
+    - `package:install/uninstall/activate/deactivate` (@bloep)
+    - `db:dump-schema` (@gharlan)
+* In der Console ist die (Backend)Sprache fix auf englisch (@gharlan)
+* In Log-Dateien werden Zeilenumbrüche erhalten (@VIEWSION)
+* System-Log neu im Data- statt Cache-Ordner (@gharlan)
+* `rex_response`: Neue Methode `preload()` zum Setzen von preload-Headern (@bloep)
+* `rex_request`: Neue Methode `isHttps()` (@staabm)
+* `rex_socket`: 
+    - Neue Methode `followRedirects()` (@gharlan)
+    - Warnung wenn Non-SSL-Verbindung aufgebaut wird (@staabm)
+* `rex_fragment`: Method-Chaining ist möglich (@DanielWeitenauer)
+
+### Bugfixing
+
+* Setup: 
+    - Escaping fehlte an einigen Stellen (@staabm)
+    - Teilweise kam es zu Fehlern während der Reinstallation der Addons (@gharlan)
+* Profil: Beim EP `PROFILE_UPDATED` wurde die User-ID nicht korrekt übergeben (@gharlan)
+* `rex_i18n`: Die Parameter wurden nicht escaped (@gharlan)
+* `rex_form`: `setApplyUrl` hatte keine Auswirkung (@bloep)
+* `rex_sql_table`: Bei noch nicht existenter Tabelle konnte es zu einer Exception kommen (@gharlan)
+
+
 Version 5.4.0 – 04.10.2017
 --------------------------
 
