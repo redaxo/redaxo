@@ -109,7 +109,8 @@ class rex_csrf_token
     {
         rex_login::startSession();
 
-        rex_unset_session(self::getSessionKey());
+        rex_unset_session(self::getBaseSessionKey());
+        rex_unset_session(self::getBaseSessionKey().'_https');
     }
 
     private static function getTokens()
@@ -125,7 +126,12 @@ class rex_csrf_token
         // http://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
         $suffix = rex_request::isHttps() ? '_https' : '';
 
-        return 'csrf_tokens_'.rex::getEnvironment().$suffix;
+        return self::getBaseSessionKey().$suffix;
+    }
+
+    private static function getBaseSessionKey()
+    {
+        return 'csrf_tokens_'.rex::getEnvironment();
     }
 
     private static function generateToken()
