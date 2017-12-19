@@ -60,7 +60,7 @@ if ($file = new rex_log_file($logFile)) {
                     <tr class="rex-state-' . $class . '">
                         <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                         <td data-title="' . rex_i18n::msg('syslog_type') . '">' . htmlspecialchars($data[0]) . '</td>
-                        <td data-title="' . rex_i18n::msg('syslog_message') . '">' . htmlspecialchars($data[1]) . '</td>
+                        <td data-title="' . rex_i18n::msg('syslog_message') . '">' . nl2br(htmlspecialchars($data[1])) . '</td>
                         <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . (isset($data[2]) ? htmlspecialchars($data[2]) : '') . '</div></td>
                         <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? htmlspecialchars($data[3]) : '') . '</td>
                     </tr>';
