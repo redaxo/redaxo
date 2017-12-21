@@ -19,11 +19,13 @@ before_install:
 
 jobs:
     include:
-        -   php: 5.5
+        -   stage: Static Code Analysis
+            php: 5.5
             env: LINTING=1
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
 
-        -   php: 7.1
+        -   stage: Static Code Analysis
+            php: 7.1
             env: CODING_STANDARDS=1
             install:
                 - mkdir -p "$HOME/.php-cs-fixer"
@@ -33,6 +35,7 @@ jobs:
             script: php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
 
         -   &TEST
+            stage: Test Mariadb
             install:
                 - mysql -e 'create database redaxo_5_0;'
                 - php redaxo/src/addons/tests/bin/setup.php
@@ -47,6 +50,7 @@ jobs:
                 mariadb: 10.2
         -   &TEST_MYSQL
             <<: *TEST
+            stage: Test Mysql
             php: 5.5
             env: DB=mysql
             addons: ~
