@@ -79,6 +79,7 @@ $sel_lang = new rex_select();
 $sel_lang->setStyle('class="form-control"');
 $sel_lang->setName('settings[lang]');
 $sel_lang->setId('rex-id-lang');
+$sel_lang->setAttribute('class', 'form-control selectpicker');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
