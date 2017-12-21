@@ -61,7 +61,7 @@ $sel_role->setSize(1);
 $sel_role->setName('userrole[]');
 $sel_role->setId('rex-js-user-role');
 $sel_role->setMultiple();
-$sel_role->setAttribute('class', 'form-control');
+$sel_role->setAttribute('class', 'form-control selectpicker');
 // $sel_role->addOption(rex_i18n::msg('user_no_role'), 0);
 $roles = [];
 $sql_role = rex_sql::factory();
@@ -77,7 +77,7 @@ $sel_be_sprache = new rex_select();
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setName('userperm_be_sprache');
 $sel_be_sprache->setId('rex-user-perm-mylang');
-$sel_be_sprache->setAttribute('class', 'form-control');
+$sel_be_sprache->setAttribute('class', 'form-control selectpicker');
 $sel_be_sprache->addOption('default', '');
 $saveLocale = rex_i18n::getLocale();
 $langs = [];
@@ -93,7 +93,8 @@ $sel_startpage = new rex_select();
 $sel_startpage->setSize(1);
 $sel_startpage->setName('userperm_startpage');
 $sel_startpage->setId('rex-user-perm-startpage');
-$sel_startpage->setAttribute('class', 'form-control');
+$sel_startpage->setAttribute('class', 'form-control selectpicker');
+$sel_startpage->setAttribute('data-live-search', 'true');
 $sel_startpage->addOption('default', '');
 
 $startpages = [];
@@ -435,7 +436,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-email">' . rex_i18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-email" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
+    $n['field'] = '<input class="form-control" type="email" placeholder="name@domain.tld" id="rex-user-email" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
