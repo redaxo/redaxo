@@ -166,6 +166,7 @@ class rex_api_install_core_update extends rex_api_function
             }
             rex_package_manager::generatePackageOrder();
 
+            // re-generate opcache to make sure new/updated classes immediately are available
             if (function_exists('opcache_reset')) {
                 opcache_reset();
             }
