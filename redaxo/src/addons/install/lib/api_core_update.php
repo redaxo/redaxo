@@ -165,6 +165,10 @@ class rex_api_install_core_update extends rex_api_function
                 }
             }
             rex_package_manager::generatePackageOrder();
+
+            if (function_exists('opcache_reset')) {
+                opcache_reset();
+            }
         }
 
         $result = new rex_api_result($success, $message);
