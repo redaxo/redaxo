@@ -8,6 +8,10 @@ Version 2.3.0 – XX.XX.2017
 
 * CSRF-Schutz (@gharlan)
 
+### Bugfix
+
+* Der Opcache wurde nicht gelöscht nach Updates (@gharlan)
+
 
 Version 2.2.0 – 04.10.2017
 --------------------------
