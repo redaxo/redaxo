@@ -436,7 +436,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-email">' . rex_i18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-email" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
+    $n['field'] = '<input class="form-control" type="email" placeholder="name@domain.tld" id="rex-user-email" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
