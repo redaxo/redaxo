@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.5.0 – XX.XX.2017
+Version 5.5.0 – 21.12.2017
 --------------------------
 
 ### Security
