@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.5.0 – XX.XX.2017
+Version 5.5.0 – 21.12.2017
 --------------------------
 
 ### Security
@@ -32,6 +32,7 @@ Version 5.5.0 – XX.XX.2017
 * In der Console ist die (Backend)Sprache fix auf englisch (@gharlan)
 * In Log-Dateien werden Zeilenumbrüche erhalten (@VIEWSION)
 * System-Log neu im Data- statt Cache-Ordner (@gharlan)
+* bootstrap-select wird an mehr Stellen verwendet (statt normale Selects) (@skerbis)
 * `rex_response`: Neue Methode `preload()` zum Setzen von preload-Headern (@bloep)
 * `rex_request`: Neue Methode `isHttps()` (@staabm)
 * `rex_socket`: 
