@@ -6,6 +6,7 @@
 class rex_media_manager
 {
     private $media;
+    private $originalFilename;
     private $cache_path;
     private $type;
     private $use_cache;
@@ -16,6 +17,7 @@ class rex_media_manager
     public function __construct(rex_managed_media $media)
     {
         $this->media = $media;
+        $this->originalFilename = $media->getMediaFilename();
         $this->useCache(true);
     }
 
@@ -173,7 +175,7 @@ class rex_media_manager
 
     public function getCacheFilename()
     {
-        return $this->cache_path.$this->type.'/'.self::getMediaFile();
+        return $this->cache_path.$this->type.'/'.$this->originalFilename;
     }
 
     public function getHeaderCacheFilename()
