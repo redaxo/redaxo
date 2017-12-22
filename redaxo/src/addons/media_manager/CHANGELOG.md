@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.2 – 22.12.2017
+--------------------------
+
+### Bugfixes
+
+* `rex_media_manager::create()` hat einen falschen Cache-Pfad genutzt (@gharlan)
+
+
 Version 2.5.1 – 21.12.2017
 --------------------------
 
