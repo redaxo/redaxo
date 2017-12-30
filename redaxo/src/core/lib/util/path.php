@@ -114,7 +114,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the assets folder of the given addon, which contains all assets required by the addon to work properly.
+     * Returns the path to the public assets folder of the given addon.
      *
      * @param string $addon Addon
      * @param string $file  File
@@ -129,7 +129,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the assets folder of the given plugin of the given addon.
+     * Returns the path to the public assets folder of the given plugin of the given addon.
      *
      * @param string $addon  Addon
      * @param string $plugin Plugin
