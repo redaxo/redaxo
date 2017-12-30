@@ -46,9 +46,8 @@ class rex_command_setup_check extends rex_console_command
         }
 
         if ($errors) {
-            foreach($errors as $k => $err) {
-                $errors[$k] = $this->decodeMessage($errors[$k]);
-            }
+            $errors = array_map([$this, 'decodeMessage'], $errors);
+            
             throw new \Exception(implode("\n", $errors));
         }                
     }
