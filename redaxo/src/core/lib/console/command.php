@@ -45,6 +45,6 @@ abstract class rex_console_command extends Command
         $message = preg_replace('/<br ?\/?>\r?\n?/', "\n", $message);
         $message = strip_tags($message);
 
-        return htmlspecialchars_decode($message);
+        return htmlspecialchars_decode($message, ENT_QUOTES);
     }
 }
