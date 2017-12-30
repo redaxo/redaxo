@@ -15,6 +15,8 @@ class rex_console_command_loader implements CommandLoaderInterface
     public function __construct()
     {
         $commands = [
+            'assets:sync' => rex_command_assets_sync::class,
+            'cache:clear' => rex_command_cache_clear::class,
             'db:dump-schema' => rex_command_db_dump_schema::class,
             'cache:clear' => rex_command_cache_clear::class,
             'package:activate' => rex_command_package_activate::class,
