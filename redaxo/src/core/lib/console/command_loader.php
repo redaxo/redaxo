@@ -15,12 +15,13 @@ class rex_console_command_loader implements CommandLoaderInterface
     public function __construct()
     {
         $commands = [
-            'cache:clear' => rex_command_cache_clear::class,
             'db:dump-schema' => rex_command_db_dump_schema::class,
+            'cache:clear' => rex_command_cache_clear::class,
             'package:activate' => rex_command_package_activate::class,
             'package:deactivate' => rex_command_package_deactivate::class,
             'package:install' => rex_command_package_install::class,
             'package:uninstall' => rex_command_package_uninstall::class,
+            'setup:check' => rex_command_setup_check::class,            
         ];
         foreach ($commands as $command => $class) {
             $this->commands[$command] = ['class' => $class];
