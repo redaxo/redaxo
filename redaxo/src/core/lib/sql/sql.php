@@ -871,7 +871,7 @@ class rex_sql implements Iterator
      */
     public function hasNext()
     {
-        return $this->counter != $this->rows;
+        return $this->counter < $this->rows;
     }
 
     /**
