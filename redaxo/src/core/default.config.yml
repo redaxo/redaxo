@@ -8,6 +8,9 @@ fileperm: '0664'
 dirperm: '0775'
 session_duration: 7200
 session_keep_alive: 21600
+# using separate cookie domains for frontend and backend is more secure,
+# but be warned that some features like detecting a backend user in the frontend
+# will no longer work.
 session:
     backend:
         cookie:
