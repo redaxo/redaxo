@@ -36,11 +36,12 @@ if ($function == 'delete') {
             while ($del->hasNext()) {
                 $aid = $del->getValue(rex::getTablePrefix().'article.id');
                 $clang_id = $del->getValue(rex::getTablePrefix() . 'article.clang_id');
-                $OOArt = rex_article::get($aid, $clang_id);
 
-                $label = $OOArt->getName() . ' [' . $aid . ']';
                 if (rex_clang::count() > 1) {
-                    $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
+                    $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ';
+                } else {
+                    $OOArt = rex_article::get($aid, $clang_id);
+                    $label = $OOArt->getName() . ' [' . $aid . ']';
                 }
 
                 $template_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id]) . '">' . htmlspecialchars($label) . '</a></li>';
