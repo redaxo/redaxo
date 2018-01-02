@@ -23,7 +23,7 @@ jobs:
             env: LINTING=1
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
 
-        -   php: 7.1
+        -   php: 7.2
             env: CODING_STANDARDS=1
             install:
                 - mkdir -p "$HOME/.php-cs-fixer"
