@@ -67,7 +67,8 @@ templates = Templates
 
 templates_not_found = Es wurden keine Templates gefunden
 title_templates = Templates
-cant_delete_template_because_its_in_use = Template <b>{0}</b> kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.
+cant_delete_template_because_its_in_use = Template <b>{0}</b> kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
+cant_delete_template_because_its_default_template = Template <b>{0}</b> kann nicht gelöscht werden, da es als Standardtemplate festgelegt ist.
 template_deleted = Template wurde gelöscht.
 template_added = Template wurde hinzugefügt
 template_updated = Template wurde aktualisiert
