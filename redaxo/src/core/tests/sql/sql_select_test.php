@@ -178,6 +178,20 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
         $this->assertEquals('mytext', $row1[5]);
     }
 
+    public function testHasNext()
+    {
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT * FROM ' . self::TABLE);
+
+        $this->assertTrue($sql->hasNext());
+
+        $sql->next();
+        $this->assertFalse($sql->hasNext());
+
+        $sql->next();
+        $this->assertFalse($sql->hasNext());
+    }
+
     public function testError()
     {
         $sql = rex_sql::factory();
