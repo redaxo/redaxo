@@ -26,7 +26,6 @@ class rex_managed_media
     public function __construct($media_path)
     {
         $this->setMediaPath($media_path);
-        $this->sourcePath = $media_path;
         $this->format = strtolower(rex_file::extension($this->getMediaPath()));
     }
 
