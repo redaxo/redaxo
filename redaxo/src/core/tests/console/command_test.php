@@ -19,6 +19,6 @@ class rex_console_command_test extends PHPUnit_Framework_TestCase
 
         $command = $this->getMockForAbstractClass(rex_console_command::class);
 
-        $this->assertSame("Couldn't find the required PHP extension module session!", $method->invoke($command, "Couldn&#039;t find the required PHP extension module session!"));
+        $this->assertSame("Couldn't find the required PHP extension module session!", $method->invoke($command, 'Couldn&#039;t find the required PHP extension module session!'));
     }
 }
