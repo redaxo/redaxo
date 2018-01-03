@@ -48,7 +48,7 @@ if ($function == 'delete') {
             }
 
             if ($template_in_use_message != '') {
-                $error = rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
+                $error .= rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
                 $error .= '<ul>' . $template_in_use_message . '</ul>';
             }
 
