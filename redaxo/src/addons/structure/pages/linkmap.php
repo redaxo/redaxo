@@ -83,7 +83,7 @@ $navigation = [];
 if ($category) {
     foreach ($category->getParentTree() as $parent) {
         $n = [];
-        $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+        $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
         $n['href'] = $context->getUrl(['category_id' => $parent->getId()]);
         $navigation[] = $n;
     }
