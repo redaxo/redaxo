@@ -9,7 +9,7 @@
 $list_items = [];
 
 if (isset($this->title) && $this->title != '') {
-    $list_items[] = '<li class="rex-breadcrumb-title">' . $this->title . '</li>';
+    $list_items[] = '<li class="rex-breadcrumb-title">' . rex_escape($this->title) . '</li>';
 }
 
 $items = $this->items;
@@ -19,7 +19,7 @@ if (count($items) > 0) {
         $list_item = '';
 
         if (isset($item['title']) && $item['title'] != '') {
-            $list_item .= $item['title'];
+            $list_item .= rex_escape($item['title']);
         }
 
         if (isset($item['href']) && $item['href'] != '') {
