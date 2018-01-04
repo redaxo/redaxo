@@ -106,7 +106,7 @@ function rex_structure_searchbar(rex_context $context)
                             $treeLabel .= ' [' . $treeItem->getId() . ']';
                         }
 
-                        $treeLabel = htmlspecialchars($treeLabel);
+                        $treeLabel = rex_escape($treeLabel);
                         $treeLabel = $highlightHit($treeLabel, $needle);
 
                         $e = [];
@@ -115,7 +115,7 @@ function rex_structure_searchbar(rex_context $context)
                         $breadcrumb[] = $e;
                     }
 
-                    $label = htmlspecialchars($label);
+                    $label = rex_escape($label);
                     $label = $highlightHit($label, $needle);
 
                     $e = [];
