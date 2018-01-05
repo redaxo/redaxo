@@ -335,7 +335,12 @@ class rex_media_manager
     public static function getMediaFile()
     {
         $rex_media_file = rex_get('rex_media_file', 'string');
+
+        // can be used with REDAXO >= 5.5.1
+        // $rex_media_file = rex_path::basename($rex_media_file);
+        $rex_media_file = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rex_media_file);
         $rex_media_file = basename($rex_media_file);
+
         return $rex_media_file;
     }
 

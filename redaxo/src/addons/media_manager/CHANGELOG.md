@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.5.3 – 03.01.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) geschlossen (gemeldet von @patrickhafner, KNOX-IT GmbH) (@gharlan)
+
+### Bugfixes
+
+* Bei nicht existenten Bildern kam nicht das Error-Bild (@gharlan)
+
+
 Version 2.5.2 – 22.12.2017
 --------------------------
 
