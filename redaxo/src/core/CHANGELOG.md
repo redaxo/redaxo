@@ -1,6 +1,19 @@
 Changelog
 =========
 
+Version 5.5.1 – 05.01.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) im Media-Manager-Addon geschlossen (gemeldet von @patrickhafner, KNOX-IT GmbH) (@gharlan)
+
+### Bugfixes
+
+- `rex_sql::hasNext` hat teilweise fälschlich `true` geliefert (@DanielWeitenauer)
+- `rex_console_command::decodeMessage` hat Anführungszeichen nicht korrekt behandelt (@staabm)
+
+
 Version 5.5.0 – 21.12.2017
 --------------------------
 

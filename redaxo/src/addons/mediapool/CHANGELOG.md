@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.3.3 – 05.01.2018
+--------------------------
+
+### Security
+
+* Kategorie-Namen wurden in der Breadcrumb-Navi ohne Escaping ausgegeben (XSS) (@dergel)
+
+
 Version 2.3.2 – 21.12.2017
 --------------------------
 
