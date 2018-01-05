@@ -18,4 +18,13 @@ class rex_media_manager_test extends PHPUnit_Framework_TestCase
 
         $this->assertSame($cachePath.'test/foo.jpg', $manager->getCacheFilename());
     }
+
+    public function testGetMediaFile()
+    {
+        $_GET['rex_media_file'] = '../foo/bar/baz.jpg';
+        $this->assertSame('baz.jpg', rex_media_manager::getMediaFile());
+
+        $_GET['rex_media_file'] = '..\\foo\\bar\\baz.jpg';
+        $this->assertSame('baz.jpg', rex_media_manager::getMediaFile());
+    }
 }

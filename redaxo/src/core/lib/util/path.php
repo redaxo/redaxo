@@ -340,4 +340,20 @@ class rex_path
 
         return implode(DIRECTORY_SEPARATOR, $stack);
     }
+
+    /**
+     * Returns the basename (filename) of the path independent of directory separator (/ or \).
+     *
+     * This method should be used to secure incoming GET/POST parameters containing a filename.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function basename($path)
+    {
+        $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
+
+        return basename($path);
+    }
 }
