@@ -81,6 +81,11 @@ class rex_effect_insert_image extends rex_effect_abstract
         $this->media->setImage($gdimage);
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_insert_image');
+    }
+
     public function getParams()
     {
         return [

@@ -24,6 +24,12 @@ body:after {
     }
 }
 
+.rex-slice {
+  iframe, img, svg, video, object, embed {
+    max-width: 100%;
+  }
+}
+
 
 #rex-page-setup .bg-success,
 #rex-page-setup .bg-success > a {
@@ -193,6 +199,9 @@ body:after {
     @extend .btn-primary;
 }
 .btn-update {
+    @extend .btn-primary;
+}
+.btn-view {
     @extend .btn-primary;
 }
 

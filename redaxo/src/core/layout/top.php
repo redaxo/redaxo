@@ -31,6 +31,9 @@ $body_attr['class'] = ['rex-is-logged-out'];
 if (rex::getUser()) {
     $body_attr['class'] = ['rex-is-logged-in'];
 }
+if (rex::isDebugMode()) {
+    $body_attr['class'][] = 'rex-is-debugmode';
+}
 if (rex::isSafeMode()) {
     $body_attr['class'][] = 'rex-is-safemode';
 }
@@ -71,7 +74,7 @@ if (rex::getUser() && $hasNavigation) {
 
     $item = [];
     $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
-    $item['href'] = rex_url::backendController(['rex_logout' => 1]);
+    $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
     $item['attributes'] = 'class="rex-logout"';
     $meta_items[] = $item;
     unset($item);

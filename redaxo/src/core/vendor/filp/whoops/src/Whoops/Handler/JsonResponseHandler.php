@@ -27,10 +27,10 @@ class JsonResponseHandler extends Handler
 
     /**
      * Returns errors[[]] instead of error[] to be in compliance with the json:api spec
-     * @param bool Default is false
+     * @param bool $jsonApi Default is false
      * @return $this
      */
-    public function setJsonApi($jsonApi=false)
+    public function setJsonApi($jsonApi = false)
     {
         $this->jsonApi = (bool) $jsonApi;
         return $this;
@@ -55,23 +55,23 @@ class JsonResponseHandler extends Handler
      */
     public function handle()
     {
-      if ($this->jsonApi === true) {
-        $response = [
-          'errors' => [
-            Formatter::formatExceptionAsDataArray(
-                  $this->getInspector(),
-                  $this->addTraceToOutput()
-            ),
-          ]
-        ];
-      } else {
-        $response = [
-            'error' => Formatter::formatExceptionAsDataArray(
-                $this->getInspector(),
-                $this->addTraceToOutput()
-            ),
-        ];
-      }
+        if ($this->jsonApi === true) {
+            $response = [
+                'errors' => [
+                    Formatter::formatExceptionAsDataArray(
+                        $this->getInspector(),
+                        $this->addTraceToOutput()
+                    ),
+                ]
+            ];
+        } else {
+            $response = [
+                'error' => Formatter::formatExceptionAsDataArray(
+                    $this->getInspector(),
+                    $this->addTraceToOutput()
+                ),
+            ];
+        }
 
         echo json_encode($response, defined('JSON_PARTIAL_OUTPUT_ON_ERROR') ? JSON_PARTIAL_OUTPUT_ON_ERROR : 0);
 

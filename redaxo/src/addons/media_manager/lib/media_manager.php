@@ -5,183 +5,66 @@
  */
 class rex_media_manager
 {
+    private $media;
+    private $originalFilename;
     private $cache_path;
     private $type;
+    private $use_cache;
+    private $cache;
+
     private static $effects = [];
 
     public function __construct(rex_managed_media $media)
     {
         $this->media = $media;
+        $this->originalFilename = $media->getMediaFilename();
+        $this->useCache(true);
     }
 
-    public static function init()
+    /**
+     * Creates a rex_managed_media object for the given file and mediatype.
+     * This object might be used to determine the dimension of a image or similar.
+     *
+     * @param string $type Media type
+     * @param string $file Media file
+     *
+     * @return self
+     */
+    public static function create($type, $file)
     {
-        $rex_media_manager_file = self::getMediaFile();
-        $rex_media_manager_type = self::getMediaType();
+        $mediaPath = rex_path::media($file);
+        $cachePath = rex_path::addonCache('media_manager');
 
-        $media = self::getMedia($rex_media_manager_file, $rex_media_manager_type);
+        $media = new rex_managed_media($mediaPath);
+        $manager = new self($media);
+        $manager->setCachePath($cachePath);
+        $manager->applyEffects($type);
 
-        if ($media) {
-            self::sendMedia($media);
-        }
+        if ($manager->isCached()) {
+            $media->setSourcePath($manager->getCacheFilename());
 
-        return null;
-    }
+            $cache = $manager->getHeaderCache();
 
-    public static function getMedia($rex_media_manager_file, $rex_media_manager_type)
-    {
-        $media_path = rex_path::media($rex_media_manager_file);
-        $cache_path = rex_path::addonCache('media_manager');
+            $media->setFormat($cache['format']);
 
-        if ($rex_media_manager_file == '' || $rex_media_manager_type == '') {
-            return null;
-        }
-
-        $media = new rex_managed_media($media_path);
-        $media_manager = new self($media);
-        $media_manager->setCachePath($cache_path);
-        $media = $media_manager->applyEffects($rex_media_manager_type);
-
-        $headerCacheFilename = $media_manager->getHeaderCacheFilename();
-        $sourceCacheFilename = $media_manager->getSourceCacheFilename();
-
-        if (!$media_manager->isCached()) {
-            $src = $media->getSource();
-            $media->setHeader('Content-Length', rex_string::size($src));
-            $header = $media->getHeader();
-
-            $extended = '';
-            if (isset($header['Fileextension'])) {
-                $extended = '.'.$header['Fileextension'];
+            foreach ($cache['headers'] as $key => $value) {
+                $media->setHeader($key, $value);
             }
-
-            if (!isset($header['Content-Type'])) {
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $content_type = finfo_file($finfo, $media->getMediapath());
-                if ($content_type != '') {
-                    $media->setHeader('Content-Type', $content_type);
-                }
-            }
-            if (!isset($header['Content-Disposition'])) {
-                $media->setHeader('Content-Disposition', 'inline; filename="' . $media->getMediaFilename() . $extended . '";');
-            }
-            if (!isset($header['Last-Modified'])) {
-                $media->setHeader('Last-Modified', gmdate('D, d M Y H:i:s T'));
-            }
-
-            rex_file::putCache($headerCacheFilename, $media->getHeader());
-            rex_file::put($sourceCacheFilename . $extended, $src);
+        } else {
+            $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
-        $header = rex_file::getCache($headerCacheFilename);
-        $extended = '';
-        if (isset($header['Fileextension'])) {
-            $extended = '.'.$header['Fileextension'];
-        }
-        $media = new rex_managed_media($sourceCacheFilename . $extended);
-        $media->setHeaders($header);
-        $media->isImage();
+        $media->refreshImageDimensions();
 
-        return $media;
+        return $manager;
     }
 
-    public static function sendMedia($media)
+    /**
+     * @return rex_managed_media
+     */
+    public function getMedia()
     {
-        rex_response::cleanOutputBuffers();
-
-        // prevent session locking trough other addons
-        session_abort();
-
-        $header = $media->getHeader();
-        if (isset($header['Last-Modified'])) {
-            rex_response::sendLastModified(strtotime($header['Last-Modified']));
-            unset($header['Last-Modified']);
-        }
-        if (isset($header['Fileextension'])) {
-            unset($header['Fileextension']);
-        }
-        foreach ($header as $t => $c) {
-            header($t . ': ' . $c);
-        }
-        echo $media->getSource();
-        exit;
-    }
-
-    public function setCachePath($cache_path = '')
-    {
-        $this->cache_path = $cache_path;
-    }
-
-    public function getCachePath()
-    {
-        return $this->cache_path;
-    }
-
-    public function getSourceCacheFilename()
-    {
-        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediapath()));
-        return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams . '_' . $this->media->getMediaFilename();
-    }
-
-    public function getHeaderCacheFilename()
-    {
-        return $this->getSourceCacheFilename() . '.header';
-    }
-
-    public function isCached()
-    {
-        $cache_file = $this->getHeaderCacheFilename();
-
-        if (file_exists($cache_file)) {
-            // time of cache
-            $cachetime = filectime($cache_file);
-            $mediapath = $this->media->getMediaPath();
-
-            $filetime = filectime($mediapath);
-            // cache is newer?
-            if ($cachetime > $filetime) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static function deleteCacheByType($type_id)
-    {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=' . $type_id;
-        $sql = rex_sql::factory();
-        $sql->setQuery($qry);
-        $counter = 0;
-        foreach ($sql as $row) {
-            $counter += self::deleteCache(null, $row->getValue('name'));
-        }
-        return $counter;
-    }
-
-    public static function deleteCache($filename = null, $cacheParams = null)
-    {
-        if (!$filename) {
-            $filename = '*';
-        }
-
-        if (!$cacheParams) {
-            $cacheParams = '*';
-        }
-
-        $counter = 0;
-        $folder = rex_path::addonCache('media_manager');
-
-        $glob = glob($folder . $filename . '_' . $cacheParams . '*');
-        if ($glob) {
-            foreach ($glob as $file) {
-                if (rex_file::delete($file)) {
-                    ++$counter;
-                }
-            }
-        }
-
-        return $counter;
+        return $this->media;
     }
 
     protected function applyEffects($type)
@@ -192,18 +75,20 @@ class rex_media_manager
             $set = $this->effectsFromType($type);
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
-            if (count($set) > 0) {
-                foreach ($set as $effect_params) {
-                    $effect_class = 'rex_effect_' . $effect_params['effect'];
-                    $effect = new $effect_class();
-                    $effect->setMedia($this->media);
-                    $effect->setParams($effect_params['params']);
-                    $effect->execute();
-                }
+            if (count($set) == 0) {
+                return $this->media;
+            }
+
+            // execute effects on image
+            foreach ($set as $effect_params) {
+                $effect_class = 'rex_effect_' . $effect_params['effect'];
+                /** @var rex_effect_abstract $effect */
+                $effect = new $effect_class();
+                $effect->setMedia($this->media);
+                $effect->setParams($effect_params['params']);
+                $effect->execute();
             }
         }
-
-        return $this->media;
     }
 
     public function effectsFromType($type)
@@ -211,15 +96,16 @@ class rex_media_manager
         $qry = '
             SELECT e.*
             FROM ' . rex::getTablePrefix() . 'media_manager_type t, ' . rex::getTablePrefix() . 'media_manager_type_effect e
-            WHERE e.type_id = t.id AND t.name="' . $type . '" order by e.priority';
+            WHERE e.type_id = t.id AND t.name=? order by e.priority';
 
         $sql = rex_sql::factory();
-        $sql->setQuery($qry);
+        // $sql->setDebug();
+        $sql->setQuery($qry, [$type]);
 
         $effects = [];
         foreach ($sql as $row) {
             $effname = $row->getValue('effect');
-            $params = $row->getArrayValue('parameters');
+            $params = json_decode($row->getValue('parameters'), true);
             $effparams = [];
 
             // extract parameter out of array
@@ -239,6 +125,137 @@ class rex_media_manager
         }
 
         return $effects;
+    }
+
+    public function setCachePath($cache_path = '')
+    {
+        $this->cache_path = $cache_path;
+    }
+
+    public function getCachePath()
+    {
+        return $this->cache_path;
+    }
+
+    protected function useCache($t = true)
+    {
+        $this->use_cache = $t;
+    }
+
+    public function isCached()
+    {
+        $cache_file = $this->getCacheFilename();
+
+        if (!file_exists($cache_file)) {
+            return false;
+        }
+
+        $cache = $this->getHeaderCache();
+
+        if (!$cache) {
+            return false;
+        }
+
+        $mediapath = $cache['media_path'];
+
+        if (null === $mediapath) {
+            return true;
+        }
+
+        if (!file_exists($mediapath)) {
+            return false;
+        }
+
+        $cachetime = filemtime($cache_file);
+        $filetime = filemtime($mediapath);
+
+        // cache is newer?
+        return $cachetime > $filetime;
+    }
+
+    public function getCacheFilename()
+    {
+        return $this->cache_path.$this->type.'/'.$this->originalFilename;
+    }
+
+    public function getHeaderCacheFilename()
+    {
+        return $this->getCacheFilename() . '.header';
+    }
+
+    private function getHeaderCache()
+    {
+        if ($this->cache) {
+            return $this->cache;
+        }
+
+        return $this->cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+    }
+
+    public static function deleteCacheByType($type_id)
+    {
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
+        $sql = rex_sql::factory();
+        //  $sql->setDebug();
+        $sql->setQuery($qry, [$type_id]);
+        $counter = 0;
+        foreach ($sql as $row) {
+            $counter += self::deleteCache(null, $row->getValue('name'));
+        }
+        return $counter;
+    }
+
+    public static function deleteCache($filename = null, $type = null)
+    {
+        $filename = ($filename ?: '').'*';
+
+        if (!$type) {
+            $type = '*';
+        }
+
+        $counter = 0;
+        $folder = rex_path::addonCache('media_manager');
+
+        $glob = glob($folder.$type.'/'.$filename, GLOB_NOSORT);
+        if ($glob) {
+            foreach ($glob as $file) {
+                if (rex_file::delete($file)) {
+                    ++$counter;
+                }
+            }
+        }
+
+        return $counter;
+    }
+
+    public function sendMedia()
+    {
+        $headerCacheFilename = $this->getHeaderCacheFilename();
+        $CacheFilename = $this->getCacheFilename();
+
+        rex_response::cleanOutputBuffers();
+
+        // prevent session locking trough other addons
+        if (function_exists('session_abort')) {
+            session_abort();
+        } else {
+            session_write_close();
+        }
+
+        if ($this->isCached()) {
+            $header = $this->getHeaderCache()['headers'];
+            if (isset($header['Last-Modified'])) {
+                rex_response::sendLastModified(strtotime($header['Last-Modified']));
+                unset($header['Last-Modified']);
+            }
+            foreach ($header as $t => $c) {
+                header($t . ': ' . $c);
+            }
+            readfile($CacheFilename);
+        } else {
+            $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
+        }
+        exit;
     }
 
     public static function getSupportedEffects()
@@ -272,43 +289,63 @@ class rex_media_manager
     private static function getEffectName($effectFile)
     {
         return str_replace(
-        ['effect_', '.php'],
-        '',
-        basename($effectFile)
+            ['effect_', '.php'],
+            '',
+            basename($effectFile)
         );
     }
 
     private static function getEffectClass($effectFile)
     {
         return 'rex_' . str_replace(
-        '.php',
-        '',
-        basename($effectFile)
+            '.php',
+            '',
+            basename($effectFile)
         );
     }
 
+    /*
+     * For ExtensionPoints.
+     */
     public static function mediaUpdated(rex_extension_point $ep)
     {
         self::deleteCache($ep->getParam('filename'));
     }
 
+    public static function init()
+    {
+        //--- handle image request
+        $rex_media_manager_file = self::getMediaFile();
+        $rex_media_manager_type = self::getMediaType();
+
+        if ($rex_media_manager_file != '' && $rex_media_manager_type != '') {
+            $media_path = rex_path::media($rex_media_manager_file);
+            $cache_path = rex_path::addonCache('media_manager');
+
+            $media = new rex_managed_media($media_path);
+            $media_manager = new self($media);
+            $media_manager->setCachePath($cache_path);
+            $media_manager->applyEffects($rex_media_manager_type);
+            $media_manager->sendMedia();
+
+            exit();
+        }
+    }
+
     public static function getMediaFile()
     {
         $rex_media_file = rex_get('rex_media_file', 'string');
+
+        // can be used with REDAXO >= 5.5.1
+        // $rex_media_file = rex_path::basename($rex_media_file);
+        $rex_media_file = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rex_media_file);
         $rex_media_file = basename($rex_media_file);
+
         return $rex_media_file;
     }
 
     public static function getMediaType()
     {
         return rex_get('rex_media_type', 'string');
-    }
-
-    /*
-     * deprecated
-     */
-    public function getCacheFilename()
-    {
-        return $this->getSourceCacheFilename();
     }
 }

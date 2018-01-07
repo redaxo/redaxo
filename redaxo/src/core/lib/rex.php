@@ -77,6 +77,10 @@ class rex
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be an email address!');
                 }
                 break;
+            case 'console':
+                if (null !== $value && !$value instanceof rex_console_application) {
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
+                }
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -156,6 +160,20 @@ class rex
     }
 
     /**
+     * Returns the environment.
+     *
+     * @return string
+     */
+    public static function getEnvironment()
+    {
+        if (self::getConsole()) {
+            return 'console';
+        }
+
+        return self::isBackend() ? 'backend' : 'frontend';
+    }
+
+    /**
      * Returns if the debug mode is active.
      *
      * @return bool
@@ -218,6 +236,16 @@ class rex
     }
 
     /**
+     * Returns the console application.
+     *
+     * @return null|rex_console_application
+     */
+    public static function getConsole()
+    {
+        return self::getProperty('console', null);
+    }
+
+    /**
      * Returns the server URL.
      *
      * @param null|string $protocol
@@ -226,7 +254,7 @@ class rex
      */
     public static function getServer($protocol = null)
     {
-        if (is_null($protocol)) {
+        if (null === $protocol) {
             return self::getProperty('server');
         }
         list(, $server) = explode('://', self::getProperty('server'), 2);
@@ -263,10 +291,40 @@ class rex
     public static function getVersion($format = null)
     {
         $version = self::getProperty('version');
+
         if ($format) {
             return rex_formatter::version($version, $format);
         }
         return $version;
+    }
+
+    /**
+     * Returns the current git version hash for the given path.
+     *
+     * @param string $path A local filesystem path
+     *
+     * @return false|string
+     */
+    public static function getVersionHash($path)
+    {
+        static $gitHash = [];
+
+        if (!isset($gitHash[$path])) {
+            $gitHash[$path] = false; // exec only once
+            $output = '';
+            $exitCode = null;
+
+            $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            @exec($command, $output, $exitCode);
+            if ($exitCode === 0) {
+                $output = implode('', $output);
+                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
+                    $gitHash[$path] = $matches[0];
+                }
+            }
+        }
+
+        return $gitHash[$path];
     }
 
     /**

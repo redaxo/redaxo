@@ -26,28 +26,26 @@ class rex_effect_workspace extends rex_effect_abstract
 <script type="text/javascript">
 <!--
 
-(function($) {
-    $(function() {
-        var $fx_workspace_select_trans = $("#media_manager_rex_effect_workspace_set_transparent_select");
-        var $fx_workspace_bg_r = $("#media_manager_rex_effect_workspace_bg_r_text").parent().parent();
-        var $fx_workspace_bg_g = $("#media_manager_rex_effect_workspace_bg_g_text").parent().parent();
-        var $fx_workspace_bg_b = $("#media_manager_rex_effect_workspace_bg_b_text").parent().parent();
+$(function() {
+    var $fx_workspace_select_trans = $("#media-manager-rex-effect-workspace-set-transparent-select");
+    var $fx_workspace_bg_r = $("#media-manager-rex-effect-workspace-bg-r-text").parent().parent();
+    var $fx_workspace_bg_g = $("#media-manager-rex-effect-workspace-bg-g-text").parent().parent();
+    var $fx_workspace_bg_b = $("#media-manager-rex-effect-workspace-bg-b-text").parent().parent();
 
-        $fx_workspace_select_trans.change(function(){
-            if(jQuery(this).val() != "colored")
-            {
-                $fx_workspace_bg_r.hide();
-                $fx_workspace_bg_g.hide();
-                $fx_workspace_bg_b.hide();
-            }else
-            {
-                $fx_workspace_bg_r.show();
-                $fx_workspace_bg_g.show();
-                $fx_workspace_bg_b.show();
-            }
-        }).change();
-    });
-})(jQuery);
+    $fx_workspace_select_trans.change(function(){
+        if(jQuery(this).val() != "colored")
+        {
+            $fx_workspace_bg_r.hide();
+            $fx_workspace_bg_g.hide();
+            $fx_workspace_bg_b.hide();
+        }else
+        {
+            $fx_workspace_bg_r.show();
+            $fx_workspace_bg_g.show();
+            $fx_workspace_bg_b.show();
+        }
+    }).change();
+});
 
 //--></script>';
     }
@@ -61,12 +59,12 @@ class rex_effect_workspace extends rex_effect_abstract
         $h = $this->media->getHeight();
 
         $this->params['width'] = (int) $this->params['width'];
-        if ($this->params['width'] < 0) {
+        if ($this->params['width'] <= 0) {
             $this->params['width'] = $w;
         }
 
         $this->params['height'] = (int) $this->params['height'];
-        if ($this->params['width'] < 0) {
+        if ($this->params['height'] <= 0) {
             $this->params['height'] = $h;
         }
 
@@ -87,7 +85,7 @@ class rex_effect_workspace extends rex_effect_abstract
 
         $trans = false;
         if ($this->params['set_transparent'] != 'colored') {
-            if ($this->media->getFormat() != 'gif' && $this->media->getFormat() != 'png') {
+            if ($this->media->getFormat() != 'gif' && $this->media->getFormat() != 'png' && $this->media->getFormat() != 'webp') {
                 $this->media->setFormat('png');
             }
             $trans = true;
@@ -147,6 +145,11 @@ class rex_effect_workspace extends rex_effect_abstract
         $gdimage = $des;
         $this->image->refreshDimensions();
         */
+    }
+
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_workspace');
     }
 
     public function getParams()

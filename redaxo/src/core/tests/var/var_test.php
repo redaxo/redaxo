@@ -47,7 +47,7 @@ c', "a\nb\nc"],
 
     public function parseArgsSyntaxProvider()
     {
-        return [
+        $data = [
             ['REX_TEST_VAR[]', 'default'],
             ['REX_TEST_VAR[""]', ''],
             ['REX_TEST_VAR[ab]', 'ab'],
@@ -91,9 +91,15 @@ cd ef"
 ]
 EOT
                 , "ab\ncd ef"],
-            ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'],
             ['REX_TEST_VAR[REX_NON_EXISTING[]]', 'REX_NON_EXISTING[]'],
         ];
+
+        // https://bugs.php.net/bug.php?id=75173
+        if (!in_array(PHP_VERSION_ID, [70022, 70023, 70108, 70109], true)) {
+            $data[] = ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'];
+        }
+
+        return $data;
     }
 
     /**

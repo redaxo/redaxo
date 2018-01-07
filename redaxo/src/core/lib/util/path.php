@@ -22,7 +22,7 @@ class rex_path
     }
 
     /**
-     * Returns a base path.
+     * Returns the base/root path.
      *
      * @param string $file File
      *
@@ -34,7 +34,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the frontend.
+     * Returns the path to the frontend (the document root).
      *
      * @param string $file File
      *
@@ -56,7 +56,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the backend.
+     * Returns the path to the backend (folder where the backend controller is placed).
      *
      * @param string $file File
      *
@@ -142,6 +142,18 @@ class rex_path
     public static function pluginAssets($addon, $plugin, $file = '')
     {
         return self::$pathprovider->pluginAssets($addon, $plugin, $file);
+    }
+
+    /**
+     * Returns the path to the bin folder.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function bin($file = '')
+    {
+        return self::$pathprovider->bin($file);
     }
 
     /**
@@ -327,5 +339,21 @@ class rex_path
         }
 
         return implode(DIRECTORY_SEPARATOR, $stack);
+    }
+
+    /**
+     * Returns the basename (filename) of the path independent of directory separator (/ or \).
+     *
+     * This method should be used to secure incoming GET/POST parameters containing a filename.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function basename($path)
+    {
+        $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
+
+        return basename($path);
     }
 }

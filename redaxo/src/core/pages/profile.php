@@ -19,6 +19,8 @@ $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
 
+$csrfToken = rex_csrf_token::factory('profile');
+
 // --------------------------------- Title
 echo rex_view::title(rex_i18n::msg('profile_title'), '');
 
@@ -47,7 +49,9 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 $update = rex_post('upd_profile_button', 'bool');
 
 if ($update) {
-    if ($useremail && !rex_validator::factory()->email($useremail)) {
+    if (!$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } elseif ($useremail && !rex_validator::factory()->email($useremail)) {
         $error = rex_i18n::msg('invalid_email');
     }
 }
@@ -66,19 +70,25 @@ if ($update && !$error) {
     try {
         $updateuser->update();
         $success = rex_i18n::msg('user_data_updated');
+
+        rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
+            'user_id' => $user_id,
+            'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+        ], true));
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }
 }
 
 if (rex_post('upd_psw_button', 'bool')) {
-    // the server side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    $isPreHashed = rex_post('javascript', 'boolean');
-    if ($userpsw != '' && $userpsw_new_1 != '' && $userpsw_new_1 == $userpsw_new_2
-        && rex_login::passwordVerify($userpsw, $user->getValue('password'), $isPreHashed)
-    ) {
-        $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1, $isPreHashed);
+    if (!$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } elseif (!$userpsw || !$userpsw_new_1 || $userpsw_new_1 != $userpsw_new_2 || !rex_login::passwordVerify($userpsw, $user->getValue('password'))) {
+        $error = rex_i18n::msg('user_psw_error');
+    } elseif (true !== $msg = rex_backend_password_policy::factory(rex::getProperty('password_policy', []))->check($userpsw_new_1, $user_id)) {
+        $error = $msg;
+    } else {
+        $userpsw_new_1 = rex_login::passwordHash($userpsw_new_1);
 
         $updateuser = rex_sql::factory();
         $updateuser->setTable(rex::getTablePrefix() . 'user');
@@ -89,11 +99,15 @@ if (rex_post('upd_psw_button', 'bool')) {
         try {
             $updateuser->update();
             $success = rex_i18n::msg('user_psw_updated');
+
+            rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
+                'user_id' => $id,
+                'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
+                'password' => $userpsw_new_2,
+            ], true));
         } catch (rex_sql_exception $e) {
             $error = $e->getMessage();
         }
-    } else {
-        $error = rex_i18n::msg('user_psw_error');
     }
 }
 
@@ -168,6 +182,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
 
@@ -175,8 +190,7 @@ echo $content;
 
 $content = '';
 $content .= '
-    <fieldset>
-        <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />';
+    <fieldset>';
 
 $formElements = [];
 
@@ -230,36 +244,8 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
     <form class="rex-js-form-profile-password" action="' . rex_url::currentBackendPage() . '" method="post">
+        ' . $csrfToken->getHiddenField() . '
         ' . $content . '
-    </form>
-
-    <script type="text/javascript">
-         <!--
-        jQuery(function($) {
-            $(".rex-js-form-profile-password")
-                .submit(function(){
-                    var pwInp0 = $(".rex-js-userpsw");
-                    if(pwInp0.val() != "") {
-                        $(".rex-js-form-profile-password").append(\'<input type="hidden" name="\'+pwInp0.attr("name")+\'" value="\'+Sha1.hash(pwInp0.val())+\'" />\');
-                        pwInp0.removeAttr("name");
-                    }
-
-                    var pwInp1 = $(".rex-js-userpsw-new-1");
-                    if(pwInp1.val() != "") {
-                        $(".rex-js-form-profile-password").append(\'<input type="hidden" name="\'+pwInp1.attr("name")+\'" value="\'+Sha1.hash(pwInp1.val())+\'" />\');
-                        pwInp1.removeAttr("name");
-                    }
-
-                    var pwInp2 = $(".rex-js-userpsw-new-2");
-                    if(pwInp2.val() != "") {
-                        $(".rex-js-form-profile-password").append(\'<input type="hidden" name="\'+pwInp2.attr("name")+\'" value="\'+Sha1.hash(pwInp2.val())+\'" />\');
-                        pwInp2.removeAttr("name");
-                    }
-            });
-
-            $(".rex-js-javascript").val("1");
-        });
-         //-->
-    </script>';
+    </form>';
 
 echo $content;

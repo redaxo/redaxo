@@ -1,7 +1,54 @@
 Changelog
 =========
 
-Version 2.3.0 – XX.XX.2017
+Version 2.5.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz für Api-Functions, Templates und Module (@gharlan)
+* Neue EPs `MODULE_ADDED/UPDATED/DELETED` und `TEMPLATE_ADDED/UPDATED/DELETED` (@bloep)
+* Bessere Code-Strukturierung (Api-Functions) (@DanielWeitenauer)
+
+
+Version 2.4.0 – 04.10.2017
+--------------------------
+
+### Security
+
+* XSS-Möglichkeit in Linkmap beseitigt (@staabm)
+
+### Neu
+
+* history-Plugin: Slider mit Visualisierung, zu welchen Zeitpunkten Snapshots gemacht wurden (@schuer)
+* Funktionen-Subpage wird nur angezeigt, wenn die Rolle für mindestens eine der Funktionen die Berechtigung hat (@DanielWeitenauer)
+* Modul-/Template-Liste: 100 pro Seite (@gharlan)
+* EP `SLICE_SHOW` enthält nun Parameter `sql` für direkten Zugriff auf alle Values (@dergel)
+* `rex_redirect`: Verständliche Exception wenn fälschlich eine URL statt einer Artikel-ID übergeben wird (@joachimdoerr)
+
+### Bugfixes
+
+* history-Plugin:
+    - Wiederherstellung funktionierte nicht (@skerbis)
+    - Besserer Spaltenabgleich zwischen History- und Haupttabelle (@dergel)
+* `rex_template` hat teilweise Notices geworfen (@DavidBruchmann)
+* Teilweise kam die unübersetzte Meldung "translate:article_doesnt_exist" (@TobiasKrais)
+* Modul-/Template-Liste: Beim Speichern landete man immer auf Seite 1 (@gharlan)
+* Benutzer mit `article2category[]`-Recht konnten fälschlich keine Kategorien in Artikel umwandeln (@gharlan)
+
+
+Version 2.3.1 – 19.03.2017
+--------------------------
+
+### Bugfixes
+
+* Bei Nutzung der Linkmap über Editoren (Redactor etc.) wurde der Link teilweise mehrfach eingefügt
+* In den Service-Klassen wurden teilweise Int-Parameter ungeprüft in Queries genutzt
+* Es kam zu einem Fehler beim Updaten, wenn das History-Plugin installiert, aber nicht aktiviert ist
+* In der Modulliste wurde der Name nicht übersetzt
+
+
+Version 2.3.0 – 14.02.2017
 --------------------------
 
 ### Security
@@ -14,6 +61,7 @@ Version 2.3.0 – XX.XX.2017
 * Nach Durchführung von Artikelfunktionen bleibt man auf der Funktionsseite
 * History: Benutzer wird mit protokolliert
 * Neue Methode rex_article_slice::getPriority() (@phoebusryan)
+* MEDIUMTEXT-Spalten für Template- und Module-Code
 
 ### Bugfixes
 

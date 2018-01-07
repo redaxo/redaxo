@@ -33,7 +33,7 @@ if ($opener_input_field != '' && $opener_input_field_name == '') {
     $opener_input_field_name = $opener_input_field . '_NAME';
 }
 if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
-    $id = substr($opener_input_field, 13, strlen($opener_input_field));
+    $id = (int) substr($opener_input_field, 13, strlen($opener_input_field));
     $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
                  var source = opener.document.getElementById(linklist);
@@ -60,9 +60,14 @@ JS;
 
 // ------------------------ Print JS Functions
 
+$retainEventHandlers = '';
+if (!rex_request::isXmlHttpRequest()) {
+    $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectLink");';
+}
+
 ?>
 <script type="text/javascript">
-    rex_retain_popup_event_handlers('rex:selectLink');
+    <?php echo $retainEventHandlers ?>
 
     function insertLink(link,name){
         <?php echo $func_body . "\n" ?>
@@ -78,7 +83,7 @@ $navigation = [];
 if ($category) {
     foreach ($category->getParentTree() as $parent) {
         $n = [];
-        $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+        $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
         $n['href'] = $context->getUrl(['category_id' => $parent->getId()]);
         $navigation[] = $n;
     }

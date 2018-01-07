@@ -14,12 +14,10 @@ CREATE TABLE `rex_clang` (
 INSERT INTO `rex_clang` VALUES (1, 'de', 'deutsch', 1, 1, 0);
 
 CREATE TABLE `rex_config` (
-    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `namespace` varchar(75) NOT NULL,
     `key` varchar(255) NOT NULL,
     `value` text NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `unique_key` (`namespace`,`key`)
+    PRIMARY KEY (`namespace`, `key`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rex_user` (

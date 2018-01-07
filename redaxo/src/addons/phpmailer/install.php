@@ -11,7 +11,8 @@
  */
 
 if (!$this->hasConfig()) {
-    $this->setConfig('from', 'from@example.com');
+    $this->setConfig('from', '');
+    $this->setConfig('test_address', '');
     $this->setConfig('fromname', 'Mailer');
     $this->setConfig('confirmto', '');
     $this->setConfig('bcc', '');
@@ -27,4 +28,15 @@ if (!$this->hasConfig()) {
     $this->setConfig('username', '');
     $this->setConfig('password', '');
     $this->setConfig('smtp_debug', '0');
+    $this->setConfig('log', 1);
+} else {
+    if (!$this->hasConfig('log')) {
+        $this->setConfig('log', 1);
+    }
+}
+
+$oldBackUpFolder = rex_path::addonData('phpmailer', 'mail_backup');
+$logFolder = rex_path::addonData('phpmailer', 'mail_log');
+if (file_exists($oldBackUpFolder) && !file_exists($logFolder)) {
+    rename($oldBackUpFolder, $logFolder);
 }

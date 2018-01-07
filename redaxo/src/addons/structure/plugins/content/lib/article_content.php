@@ -101,8 +101,7 @@ class rex_article_content extends rex_article_content_base
             }
 
             // ----- end: article caching
-            $CONTENT = ob_get_contents();
-            ob_end_clean();
+            $CONTENT = ob_get_clean();
         } else {
             // Inhalt ueber sql generierens
             $CONTENT = parent::getArticle($curctype);

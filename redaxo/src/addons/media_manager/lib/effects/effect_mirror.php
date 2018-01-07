@@ -72,17 +72,26 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         if ($this->params['set_transparent'] != 'colored') {
-            $this->media->setFormat('png');
+            if ($this->media->getFormat() == 'webp') {
+                $this->media->setFormat('webp');
+            } else {
+                $this->media->setFormat('png');
+            }
         }
 
         $trans = false;
-        if ($this->media->getFormat() == 'png') {
+        if ($this->media->getFormat() == 'png' || $this->media->getFormat() == 'webp') {
             $trans = true;
         }
 
         $gdimage = $this->imagereflection($gdimage, $this->params['height'], $trans, [$this->params['bg_r'], $this->params['bg_g'], $this->params['bg_b']]);
         $this->media->setImage($gdimage);
         $this->media->refreshImageDimensions();
+    }
+
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_mirror');
     }
 
     public function getParams()

@@ -10,7 +10,11 @@ $success = '';
 
 $func = rex_request('func', 'string');
 
-if ($func == 'setup') {
+$csrfToken = rex_csrf_token::factory('system');
+
+if ($func && !$csrfToken->isValid()) {
+    $error[] = rex_i18n::msg('csrf_token_invalid');
+} elseif ($func == 'setup') {
     // REACTIVATE SETUP
 
     $configFile = rex_path::coreData('config.yml');
@@ -18,13 +22,12 @@ if ($func == 'setup') {
     $config['setup'] = true;
     // echo nl2br(htmlspecialchars($cont));
     if (rex_file::putConfig($configFile, $config) !== false) {
-        $info = rex_i18n::msg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
+        $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
 
         header('Location:' . rex_url::backendController());
         exit;
-    } else {
-        $error[] = rex_i18n::msg('setup_error2');
     }
+    $error[] = rex_i18n::msg('setup_error2');
 } elseif ($func == 'generate') {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();
@@ -76,6 +79,7 @@ $sel_lang = new rex_select();
 $sel_lang->setStyle('class="form-control"');
 $sel_lang->setName('settings[lang]');
 $sel_lang->setId('rex-id-lang');
+$sel_lang->setAttribute('class', 'form-control selectpicker');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
@@ -97,25 +101,29 @@ if ($success != '') {
 
 $dbconfig = rex::getProperty('db');
 
-$version = rex_path::src();
-if (strlen($version) > 21) {
-    $version = substr($version, 0, 8) . '..' . substr($version, strlen($version) - 13);
+$rexVersion = rex::getVersion();
+if (strpos($rexVersion, '-dev') !== false) {
+    $hash = rex::getVersionHash(rex_path::base());
+    if ($hash) {
+        $rexVersion .= '#'. $hash;
+    }
 }
+
 $content = [];
 $content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
                         <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate']) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
                         <h3>' . rex_i18n::msg('setup') . '</h3>
                         <p>' . rex_i18n::msg('setup_text') . '</p>
-                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup']) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
                         <dl class="dl-horizontal">
-                            <dt>REDAXO</dt><dd>' . rex::getVersion() . '</dd>
-                            <dt>PHP</dt><dd>' . phpversion() . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></dd>
+                            <dt>REDAXO</dt><dd>' . $rexVersion . '</dd>
+                            <dt>PHP</dt><dd>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></dd>
                         </dl>
 
                         <h3>' . rex_i18n::msg('database') . '</h3>
@@ -216,6 +224,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
 

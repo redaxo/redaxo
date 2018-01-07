@@ -24,11 +24,16 @@ class rex_effect_rotate extends rex_effect_abstract
         $this->media->setImage($gdimage);
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_rotate');
+    }
+
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_rotate'),
+                'label' => rex_i18n::msg('media_manager_effect_rotate_degree'),
                 'name' => 'rotate',
                 'type' => 'select',
                 'options' => $this->options,

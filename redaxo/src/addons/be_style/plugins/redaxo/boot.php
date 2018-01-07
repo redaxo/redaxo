@@ -42,10 +42,7 @@ if (rex::isBackend()) {
         });
     }
 
-    rex_extension::register('PACKAGES_INCLUDED', function () {
-        rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
-    }, rex_extension::EARLY);
-
+    rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/redaxo.js'));
 
     rex_extension::register('PAGE_HEADER', function (rex_extension_point $ep) {

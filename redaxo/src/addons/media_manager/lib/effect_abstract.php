@@ -24,6 +24,11 @@ abstract class rex_effect_abstract
 
     abstract public function execute();
 
+    public function getName()
+    {
+        return get_class($this);
+    }
+
     public function getParams()
     {
         // NOOP
@@ -32,7 +37,7 @@ abstract class rex_effect_abstract
     protected function keepTransparent($des)
     {
         $image = $this->media;
-        if ($image->getFormat() == 'png') {
+        if ($image->getFormat() == 'png' || $image->getFormat() == 'webp') {
             imagealphablending($des, false);
             imagesavealpha($des, true);
         } elseif ($image->getFormat() == 'gif') {

@@ -31,10 +31,21 @@ session_cache_limiter(false);
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
+// make Whoops link to the php.net manual on exception pages, when not configured differently
+if (ini_get('html_errors') && !ini_get('docref_root')) {
+    ini_set('docref_root', "https://php.net/manual/");
+}
 
 require_once __DIR__ . '/lib/util/path.php';
-require_once __DIR__ . '/lib/util/path_default_provider.php';
-rex_path::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true));
+
+if (isset($REX['PATH_PROVIDER']) && is_object($REX['PATH_PROVIDER'])) {
+    $pathProvider = $REX['PATH_PROVIDER'];
+} else {
+    require_once __DIR__ . '/lib/util/path_default_provider.php';
+    $pathProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], true);
+}
+
+rex_path::init($pathProvider);
 
 require_once rex_path::core('lib/autoload.php');
 
@@ -46,7 +57,13 @@ rex_autoload::addDirectory(rex_path::core('lib'));
 // must be called after `rex_autoload::register()` to support symfony/polyfill-mbstring
 mb_internal_encoding('UTF-8');
 
-rex_url::init(new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false));
+if (isset($REX['URL_PROVIDER']) && is_object($REX['URL_PROVIDER'])) {
+    $urlProvider = $REX['URL_PROVIDER'];
+} else {
+    $urlProvider = new rex_path_default_provider($REX['HTDOCS_PATH'], $REX['BACKEND_FOLDER'], false);
+}
+
+rex_url::init($urlProvider);
 
 // start timer at the very beginning
 rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT']));
@@ -58,11 +75,12 @@ rex_i18n::addDirectory(rex_path::core('lang'));
 rex_fragment::addDirectory(rex_path::core('fragments/'));
 
 // ----------------- FUNCTIONS
+require_once rex_path::core('functions/function_rex_escape.php');
 require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.3.0-dev');
+rex::setProperty('version', '5.5.1');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');

@@ -28,13 +28,19 @@ if ($impname != '') {
     }
 }
 
-if ($function == 'delete' && $impname) {
+if ($function == 'download' && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
+    exit;
+}
+
+$csrfToken = rex_csrf_token::factory('backup_import');
+
+if ($function && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(rex_backup::getDir() . '/' . $impname));
     $success = rex_i18n::msg('backup_file_deleted');
-} elseif ($function == 'download' && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
-    exit;
 } elseif ($function == 'dbimport') {
     // ------------------------------ FUNC DBIMPORT
 
@@ -140,6 +146,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
 <form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('backup_proceed_db_import') . '">
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
 
@@ -181,6 +188,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
 <form action="' . rex_url::currentBackendPage() . '" enctype="multipart/form-data" method="post" data-confirm="' . rex_i18n::msg('backup_proceed_file_import') . '" >
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
 

@@ -331,7 +331,8 @@ class rex_media
         // noch funktionieren
         if ($this->hasValue($value)) {
             return $this->$value;
-        } elseif ($this->hasValue('med_' . $value)) {
+        }
+        if ($this->hasValue('med_' . $value)) {
             return $this->getValue('med_' . $value);
         }
     }
