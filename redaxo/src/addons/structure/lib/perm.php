@@ -27,7 +27,7 @@ class rex_structure_perm extends rex_complex_perm
 
     public function getMountpoints()
     {
-        return $this->hasAll() ? null : $this->perms;
+        return $this->hasAll() ? [] : $this->perms;
     }
 
     public function hasMountpoints()
