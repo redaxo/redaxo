@@ -6,8 +6,8 @@
 class rex_structure_perm extends rex_complex_perm
 {
     /**
-     * @param $category_id
-     * 
+     * @param int $category_id
+     *
      * @return bool
      */
     public function hasCategoryPerm($category_id)
