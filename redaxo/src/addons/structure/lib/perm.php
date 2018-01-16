@@ -30,7 +30,7 @@ class rex_structure_perm extends rex_complex_perm
      */
     public function hasStructurePerm()
     {
-        return $this->hasAll() || count($this->perms) > 0;
+        return !!$this->hasAll() || count($this->perms) > 0;
     }
 
     /**
