@@ -26,12 +26,39 @@ if ($function == 'delete') {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $del = rex_sql::factory();
-        $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id,' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
+        $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id, rex_article.clang_id, ' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
         LEFT JOIN ' . rex::getTablePrefix() . 'template ON ' . rex::getTablePrefix() . 'article.template_id=' . rex::getTablePrefix() . 'template.id
         WHERE ' . rex::getTablePrefix() . 'article.template_id="' . $template_id . '" LIMIT 0,10');
 
         if ($del->getRows() > 0 || rex_template::getDefaultId() == $template_id) {
-            $error = rex_i18n::msg('cant_delete_template_because_its_in_use', rex_i18n::msg('id') . ' = ' . $template_id);
+            $template_in_use_message = '';
+            $templatename = $del->getValue(rex::getTablePrefix(). 'template.name');
+            while ($del->hasNext()) {
+                $aid = $del->getValue(rex::getTablePrefix().'article.id');
+                $clang_id = $del->getValue(rex::getTablePrefix() . 'article.clang_id');
+                $OOArt = rex_article::get($aid, $clang_id);
+
+                $label = $OOArt->getName() . ' [' . $aid . ']';
+                if (rex_clang::count() > 1) {
+                    $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
+                }
+
+                $template_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id]) . '">' . htmlspecialchars($label) . '</a></li>';
+                $del->next();
+            }
+
+            if ($template_in_use_message != '') {
+                $error .= rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
+                $error .= '<ul>' . $template_in_use_message . '</ul>';
+            }
+
+            if (rex_template::getDefaultId() == $template_id) {
+                if ($templatename == '') {
+                    $del->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$template_id);
+                    $templatename = $del->getValue('name');
+                }
+                $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
+            }
         } else {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
             rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
