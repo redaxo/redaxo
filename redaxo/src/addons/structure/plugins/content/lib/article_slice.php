@@ -365,6 +365,14 @@ class rex_article_slice
         return $this->_article_id;
     }
 
+    public function getClangId()
+    {
+        return $this->_clang;
+    }
+
+    /**
+     * @deprecated since redaxo 5.6, use getClangId() instead
+     */
     public function getClang()
     {
         return $this->_clang;
