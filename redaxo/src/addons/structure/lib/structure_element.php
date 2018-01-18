@@ -212,8 +212,19 @@ abstract class rex_structure_element
      * Returns the clang of the category.
      *
      * @return int
+     * @deprecated since redaxo 5.6, use getClangId() instead
      */
     public function getClang()
+    {
+        return $this->clang_id;
+    }
+    
+    /**
+     * Returns the clang of the category.
+     *
+     * @return int
+     */
+    public function getClangId()
     {
         return $this->clang_id;
     }
