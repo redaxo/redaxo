@@ -22,7 +22,8 @@ jobs:
         -   php: 5.5
             env: LINTING=1
             script: |
-                    composer require --dev jakub-onderka/php-parallel-lint jakub-onderka/php-console-highlighter
+                    composer require --dev jakub-onderka/php-parallel-lint
+                    composer require --dev jakub-onderka/php-console-highlighter
                     ./bin/parallel-lint --exclude app --exclude vendor .
 
         -   php: 7.2
