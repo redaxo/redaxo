@@ -81,7 +81,7 @@ class rex_command_sync_assets extends rex_console_command
             $beFile = $folder2 . $fileName;
             if (!file_exists($beFile)) {
                 $io->success("created $beFile");
-                copy($feFile, $beFile);
+                rex_file::copy($feFile, $beFile);
             } else if (is_readable($feFile) && is_readable($beFile) && is_writable($feFile) && is_writable($beFile)) {
                 if ($feFileinfo->getMtime() > filemtime($beFile)) {
                     $io->success("copied $feFile -> $beFile");
