@@ -56,15 +56,6 @@ class rex_command_sync_assets extends rex_console_command
         }
 
         $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
-
-        // XXX core
-        /*
-        foreach(rex_path::ass)
-        $successMsg = rex_delete_cache();
-        $io = $this->getStyle($input, $output);
-
-        $io->success($this->decodeMessage($successMsg));
-        */
     }
 
     private function sync(SymfonyStyle $io, $folder1, $folder2) {
@@ -94,12 +85,10 @@ class rex_command_sync_assets extends rex_console_command
             } else if (is_readable($feFile) && is_readable($beFile) && is_writable($feFile) && is_writable($beFile)) {
                 if ($feFileinfo->getMtime() > filemtime($beFile)) {
                     $io->success("copied $feFile -> $beFile");
-                    file_put_contents($beFile, file_get_contents($feFile));
-//                    copy($feFile, $beFile);
+                    rex_file::copy($feFile, $beFile);
                 } else if (filemtime($beFile) > $feFileinfo->getMtime()) {
                     $io->success("copied $beFile -> $feFile");
-                    file_put_contents($feFile, file_get_contents($beFile));
-//                    copy($beFile, $feFile);
+                    rex_file::copy($beFile, $feFile);
                 } else {
                     // equal modification time, we assume same content
                 }
