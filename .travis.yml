@@ -21,7 +21,9 @@ jobs:
     include:
         -   php: 5.5
             env: LINTING=1
-            script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+            script: |
+                    composer require --dev jakub-onderka/php-parallel-lint jakub-onderka/php-console-highlighter
+                    ./bin/parallel-lint --exclude app --exclude vendor .
 
         -   php: 7.2
             env: CODING_STANDARDS=1
