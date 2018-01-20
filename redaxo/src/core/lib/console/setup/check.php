@@ -44,6 +44,21 @@ class rex_command_setup_check extends rex_console_command
             $io->success(rex_i18n::msg('setup_309'));
         }
 
+        $configFile = rex_path::coreData('config.yml');
+        if ($configFile) {
+            $config = rex_file::getConfig($configFile);
+        }
+        try {
+            $err = rex_setup::checkDb($config, false);
+            if ($err) {
+                $errors[] = $err;
+            } else {
+                $io->success(rex_i18n::msg('setup_417'));
+            }
+        } catch (PDOException $e) {
+            $errors[] = rex_i18n::msg('setup_415', $e->getMessage());
+        }
+
         if ($errors) {
             $errors = array_map([$this, 'decodeMessage'], $errors);
             

@@ -167,6 +167,7 @@ setup_413 = Time zone is invalid!
 setup_414 = Repeat step 4
 setup_415 = The following error occurred: {0}
 setup_416 = REDAXO settings
+setup_417 = Database ok
 setup_499 = 4 / config.yml
 
 setup_500 = Setup: step 5 of 7 / Database
