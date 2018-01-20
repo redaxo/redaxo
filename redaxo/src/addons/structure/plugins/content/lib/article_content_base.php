@@ -103,7 +103,7 @@ class rex_article_content_base
     {
         return $this->clang;
     }
-    
+
     /**
      * @deprecated since redaxo 5.6, use getClangId() instead
      */
