@@ -24,7 +24,7 @@ jobs:
             script: |
                     composer require --dev jakub-onderka/php-parallel-lint
                     composer require --dev jakub-onderka/php-console-highlighter
-                    parallel-lint --exclude app --exclude vendor .
+                    vendor/bin/parallel-lint -e php,phpt --exclude vendor .
 
         -   php: 7.2
             env: CODING_STANDARDS=1
