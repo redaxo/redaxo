@@ -7,7 +7,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @package redaxo\core
  * 
- * @auth staabm
+ * @author staabm
  *
  * @internal
  */
