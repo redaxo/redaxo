@@ -1126,6 +1126,21 @@ class rex_sql implements Iterator
         return $this;
     }
 
+    public function beginTransaction()
+    {
+        return self::$pdo[$this->DBID]->beginTransaction();
+    }
+
+    public function rollBack()
+    {
+        return self::$pdo[$this->DBID]->rollBack();
+    }
+
+    public function commit()
+    {
+        return self::$pdo[$this->DBID]->commit();
+    }
+
     // ----------------- iterator interface
 
     /**
