@@ -139,7 +139,7 @@ if ($article->getRows() == 1) {
                 $global_warning = rex_i18n::msg('module_not_found');
                 $slice_id = '';
                 $function = '';
-            // ------------- END: MODUL IST NICHT VORHANDEN
+                // ------------- END: MODUL IST NICHT VORHANDEN
             } else {
                 // ------------- MODUL IST VORHANDEN
 
