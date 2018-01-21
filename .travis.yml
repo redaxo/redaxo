@@ -42,7 +42,7 @@ jobs:
             addons:
                 mariadb: 10.1
         -   <<: *TEST
-            php: 7.1
+            php: 7.2
             addons:
                 mariadb: 10.2
         -   &TEST_MYSQL
