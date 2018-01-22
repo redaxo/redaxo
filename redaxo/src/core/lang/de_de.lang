@@ -55,6 +55,9 @@ stay_logged_in = Eingeloggt bleiben
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  nicht angemeldet
 logged_in_as  =  Angemeldet als
+safemode = Safe mode
+safemode_text = Im Safe mode werden vorübergehend alle AddOns und der Autoloader deaktiviert. Falls bspw. ein AddOn nach der Installation Probleme macht, kann dieses über den Safe mode deaktiviert oder deinstalliert werden.
+safemode_activate = Safe mode aktivieren
 safemode_deactivate = Safe mode deaktivieren
 
 # redaxo/include/classes/class.form.php
