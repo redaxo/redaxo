@@ -38,7 +38,6 @@ class rex_sql implements Iterator
     protected $query; // Die Abfrage
     protected $params; // Die Abfrage-Parameter
     protected $DBID; // ID der Verbindung
-    protected $inTransaction = false; // flag ob eine transaktion gestartet wurde
 
     /**
      * @var PDOStatement
@@ -1134,7 +1133,7 @@ class rex_sql implements Iterator
      */
     public function beginTransaction()
     {
-        if ($this->inTransaction) {
+        if (self::$pdo[$this->DBID]->inTransaction()) {
             throw new SqlException("Transaction already started");
         }
         return self::$pdo[$this->DBID]->beginTransaction();
@@ -1147,7 +1146,7 @@ class rex_sql implements Iterator
      */
     public function rollBack()
     {
-        if (!$this->inTransaction) {
+        if (!self::$pdo[$this->DBID]->inTransaction()) {
             throw new SqlException("Unable to rollback, no transaction started before");
         }
         return self::$pdo[$this->DBID]->rollBack();
@@ -1160,7 +1159,7 @@ class rex_sql implements Iterator
      */
     public function commit()
     {
-        if (!$this->inTransaction) {
+        if (!self::$pdo[$this->DBID]->inTransaction()) {
             throw new SqlException("Unable to commit, no transaction started before");
         }
         return self::$pdo[$this->DBID]->commit();
@@ -1174,7 +1173,7 @@ class rex_sql implements Iterator
      */
     public function transactional(callable $callable)
     {
-        $inTransaction = $this->inTransaction;
+        $inTransaction = self::$pdo[$this->DBID]->inTransaction();
         if (!$inTransaction) {
             self::$pdo[$this->DBID]->beginTransaction();
         }
