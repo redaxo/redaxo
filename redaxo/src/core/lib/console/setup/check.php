@@ -21,11 +21,11 @@ class rex_command_setup_check extends rex_console_command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = $this->getStyle($input, $output)->getErrorStyle();
+        $io = $this->getStyle($input, $output);
         
         $errors = rex_setup::checkEnvironment();
         if (count($errors) == 0) {
-            $io->success(rex_i18n::msg('setup_308'));
+            $io->success('PHP version ok');
         }
         
         $res = rex_setup::checkFilesystem();
@@ -41,22 +41,27 @@ class rex_command_setup_check extends rex_console_command
                 }
             }
         } else {
-            $io->success(rex_i18n::msg('setup_309'));
+            $io->success('Directory permissions ok');
         }
 
+        $config = null;
         $configFile = rex_path::coreData('config.yml');
         if ($configFile) {
             $config = rex_file::getConfig($configFile);
         }
         try {
-            $err = rex_setup::checkDb($config, false);
+            if ($config) {
+                $err = rex_setup::checkDb($config, false);
+            } else {
+                $err = 'config.yml not found';
+            }
             if ($err) {
                 $errors[] = $err;
             } else {
-                $io->success(rex_i18n::msg('setup_417'));
+                $io->success('Datenbank ok');
             }
         } catch (PDOException $e) {
-            $errors[] = rex_i18n::msg('setup_415', $e->getMessage());
+            $errors[] = $e->getMessage();
         }
 
         if ($errors) {
