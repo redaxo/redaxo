@@ -38,6 +38,7 @@ class rex_sql implements Iterator
     protected $query; // Die Abfrage
     protected $params; // Die Abfrage-Parameter
     protected $DBID; // ID der Verbindung
+    protected $inTransaction = false; // flag ob eine transaktion gestartet wurde
 
     /**
      * @var PDOStatement
@@ -1126,19 +1127,74 @@ class rex_sql implements Iterator
         return $this;
     }
 
+    /**
+     * Starts a database transaction
+     *
+     * @return boolean Indicating whether the transaction was successfully started
+     */
     public function beginTransaction()
     {
+        if ($this->inTransaction) {
+            throw new SqlException("Transaction already started");
+        }
         return self::$pdo[$this->DBID]->beginTransaction();
     }
 
+    /**
+     * Rollback a already started database transaction
+     *
+     * @return boolean Indicating whether the transaction was successfully rollbacked
+     */
     public function rollBack()
     {
+        if (!$this->inTransaction) {
+            throw new SqlException("Unable to rollback, no transaction started before");
+        }
         return self::$pdo[$this->DBID]->rollBack();
     }
 
+    /**
+     * Commit a already started database transaction
+     *
+     * @return boolean Indicating whether the transaction was successfully committed
+     */
     public function commit()
     {
+        if (!$this->inTransaction) {
+            throw new SqlException("Unable to commit, no transaction started before");
+        }
         return self::$pdo[$this->DBID]->commit();
+    }
+
+    /**
+     * Convenience method which executes the given callable within a transaction.
+     *
+     * In case the callable throws, the transaction will automatically rolled back.
+     * In case no error happens, the transaction will be committed after the callable was called.
+     */
+    public function transactional(callable $callable)
+    {
+        $inTransaction = $this->inTransaction;
+        if (!$inTransaction) {
+            self::$pdo[$this->DBID]->beginTransaction();
+        }
+        try {
+            $result = $callable();
+            if (!$inTransaction) {
+                self::$pdo[$this->DBID]->commit();
+            }
+            return $result;
+        } catch(\Exception $e) {
+            if (!$inTransaction) {
+                self::$pdo[$this->DBID]->rollBack();
+            }
+            throw $e;
+        } catch(\Throwable $e) {
+            if (!$inTransaction) {
+                self::$pdo[$this->DBID]->rollBack();
+            }
+            throw $e;
+        }
     }
 
     // ----------------- iterator interface
