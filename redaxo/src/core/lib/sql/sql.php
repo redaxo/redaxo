@@ -1136,7 +1136,7 @@ class rex_sql implements Iterator
     public function beginTransaction()
     {
         if (self::$pdo[$this->DBID]->inTransaction()) {
-            throw new rex_sql_exception("Transaction already started", null, $this););
+            throw new rex_sql_exception("Transaction already started", null, $this);
         }
         return self::$pdo[$this->DBID]->beginTransaction();
     }
@@ -1166,7 +1166,7 @@ class rex_sql implements Iterator
     public function commit()
     {
         if (!self::$pdo[$this->DBID]->inTransaction()) {
-            throw new rex_sql_exception("Unable to commit, no transaction started before", null, $this););
+            throw new rex_sql_exception("Unable to commit, no transaction started before", null, $this);
         }
         return self::$pdo[$this->DBID]->commit();
     }
