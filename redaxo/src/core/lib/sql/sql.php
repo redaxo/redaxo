@@ -1134,7 +1134,7 @@ class rex_sql implements Iterator
     public function beginTransaction()
     {
         if (self::$pdo[$this->DBID]->inTransaction()) {
-            throw new SqlException("Transaction already started");
+            throw new rex_sql_exception("Transaction already started");
         }
         return self::$pdo[$this->DBID]->beginTransaction();
     }
@@ -1147,7 +1147,7 @@ class rex_sql implements Iterator
     public function rollBack()
     {
         if (!self::$pdo[$this->DBID]->inTransaction()) {
-            throw new SqlException("Unable to rollback, no transaction started before");
+            throw new rex_sql_exception("Unable to rollback, no transaction started before");
         }
         return self::$pdo[$this->DBID]->rollBack();
     }
@@ -1160,7 +1160,7 @@ class rex_sql implements Iterator
     public function commit()
     {
         if (!self::$pdo[$this->DBID]->inTransaction()) {
-            throw new SqlException("Unable to commit, no transaction started before");
+            throw new rex_sql_exception("Unable to commit, no transaction started before");
         }
         return self::$pdo[$this->DBID]->commit();
     }
