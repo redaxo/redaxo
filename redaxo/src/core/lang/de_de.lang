@@ -167,7 +167,6 @@ setup_413 = Zeitzone ist ungültig!
 setup_414 = Schritt 4 erneut durchführen
 setup_415 = Folgender Fehler wurde gemeldet: {0}
 setup_416 = REDAXO-Einstellungen
-setup_417 = Datenbank ok
 setup_499 = 4 / config.yml
 
 setup_500 = Setup: Schritt 5 von 7 / Datenbank
