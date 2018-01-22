@@ -43,11 +43,16 @@ class rex_effect_flip extends rex_effect_abstract
         }
     }
 
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_flip');
+    }
+
     public function getParams()
     {
         return [
             [
-                'label' => rex_i18n::msg('media_manager_effect_flip'),
+                'label' => rex_i18n::msg('media_manager_effect_flip_direction'),
                 'name' => 'flip',
                 'type' => 'select',
                 'options' => $this->options,

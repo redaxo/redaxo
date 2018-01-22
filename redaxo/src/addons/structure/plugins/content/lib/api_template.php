@@ -129,7 +129,7 @@ class rex_template
             foreach ($t_sql as $row) {
                 $attributes = $row->getArrayValue('attributes');
                 $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
-                    if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
+                if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
                     $templates[$row->getValue('id')] = $row->getValue('name');
                 }
             }

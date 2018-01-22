@@ -72,8 +72,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . htmlspecialchars($this->getConfig('png_compression', 6)) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . htmlspecialchars($this->getConfig('png_compression', 6)) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . htmlspecialchars($this->getConfig('png_compression')) . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . htmlspecialchars($this->getConfig('png_compression')) . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -83,6 +83,7 @@ $inputGroup = $fragment->parse('core/form/input_group.php');
 $n = [];
 $n['label'] = '<label for="rex-js-rating-text-png-compression">' . $this->i18n('png_compression') . '</label>';
 $n['field'] = $inputGroup;
+$n['note'] = $this->i18n('png_compression_note');
 $formElements[] = $n;
 
 $select = new rex_select();

@@ -5,19 +5,26 @@
  */
 class rex_media_manager
 {
+    private $media;
+    private $originalFilename;
     private $cache_path;
     private $type;
     private $use_cache;
+    private $cache;
 
     private static $effects = [];
 
     public function __construct(rex_managed_media $media)
     {
         $this->media = $media;
+        $this->originalFilename = $media->getMediaFilename();
         $this->useCache(true);
     }
 
     /**
+     * Creates a rex_managed_media object for the given file and mediatype.
+     * This object might be used to determine the dimension of a image or similar.
+     *
      * @param string $type Media type
      * @param string $file Media file
      *
@@ -36,7 +43,7 @@ class rex_media_manager
         if ($manager->isCached()) {
             $media->setSourcePath($manager->getCacheFilename());
 
-            $cache = rex_file::getCache($manager->getHeaderCacheFilename());
+            $cache = $manager->getHeaderCache();
 
             $media->setFormat($cache['format']);
 
@@ -64,7 +71,7 @@ class rex_media_manager
     {
         $this->type = $type;
 
-        if (!$this->isCached($type)) {
+        if (!$this->isCached()) {
             $set = $this->effectsFromType($type);
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
@@ -75,6 +82,7 @@ class rex_media_manager
             // execute effects on image
             foreach ($set as $effect_params) {
                 $effect_class = 'rex_effect_' . $effect_params['effect'];
+                /** @var rex_effect_abstract $effect */
                 $effect = new $effect_class();
                 $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
@@ -88,11 +96,11 @@ class rex_media_manager
         $qry = '
             SELECT e.*
             FROM ' . rex::getTablePrefix() . 'media_manager_type t, ' . rex::getTablePrefix() . 'media_manager_type_effect e
-            WHERE e.type_id = t.id AND t.name="' . $type . '" order by e.priority';
+            WHERE e.type_id = t.id AND t.name=? order by e.priority';
 
         $sql = rex_sql::factory();
         // $sql->setDebug();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, [$type]);
 
         $effects = [];
         foreach ($sql as $row) {
@@ -138,26 +146,36 @@ class rex_media_manager
     {
         $cache_file = $this->getCacheFilename();
 
-        // ----- check for cache file
-        if (file_exists($cache_file)) {
-            // time of cache
-            $cachetime = filectime($cache_file);
-            $mediapath = $this->media->getMediaPath();
-
-            $filetime = filectime($mediapath);
-            // cache is newer?
-            if ($cachetime > $filetime) {
-                return true;
-            }
+        if (!file_exists($cache_file)) {
+            return false;
         }
 
-        return false;
+        $cache = $this->getHeaderCache();
+
+        if (!$cache) {
+            return false;
+        }
+
+        $mediapath = $cache['media_path'];
+
+        if (null === $mediapath) {
+            return true;
+        }
+
+        if (!file_exists($mediapath)) {
+            return false;
+        }
+
+        $cachetime = filemtime($cache_file);
+        $filetime = filemtime($mediapath);
+
+        // cache is newer?
+        return $cachetime > $filetime;
     }
 
     public function getCacheFilename()
     {
-        $cacheParams = $this->type . '_' . md5(serialize($this->media->getMediapath()));
-        return $this->cache_path . $this->media->getMediaFilename() . '_' . $cacheParams;
+        return $this->cache_path.$this->type.'/'.$this->originalFilename;
     }
 
     public function getHeaderCacheFilename()
@@ -165,12 +183,21 @@ class rex_media_manager
         return $this->getCacheFilename() . '.header';
     }
 
+    private function getHeaderCache()
+    {
+        if ($this->cache) {
+            return $this->cache;
+        }
+
+        return $this->cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+    }
+
     public static function deleteCacheByType($type_id)
     {
-        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=' . $type_id;
+        $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type' . ' WHERE id=?';
         $sql = rex_sql::factory();
         //  $sql->setDebug();
-        $sql->setQuery($qry);
+        $sql->setQuery($qry, [$type_id]);
         $counter = 0;
         foreach ($sql as $row) {
             $counter += self::deleteCache(null, $row->getValue('name'));
@@ -178,20 +205,18 @@ class rex_media_manager
         return $counter;
     }
 
-    public static function deleteCache($filename = null, $cacheParams = null)
+    public static function deleteCache($filename = null, $type = null)
     {
-        if (!$filename) {
-            $filename = '*';
-        }
+        $filename = ($filename ?: '').'*';
 
-        if (!$cacheParams) {
-            $cacheParams = '*';
+        if (!$type) {
+            $type = '*';
         }
 
         $counter = 0;
         $folder = rex_path::addonCache('media_manager');
 
-        $glob = glob($folder . $filename . '_' . $cacheParams . '*');
+        $glob = glob($folder.$type.'/'.$filename, GLOB_NOSORT);
         if ($glob) {
             foreach ($glob as $file) {
                 if (rex_file::delete($file)) {
@@ -218,7 +243,7 @@ class rex_media_manager
         }
 
         if ($this->isCached()) {
-            $header = rex_file::getCache($headerCacheFilename)['headers'];
+            $header = $this->getHeaderCache()['headers'];
             if (isset($header['Last-Modified'])) {
                 rex_response::sendLastModified(strtotime($header['Last-Modified']));
                 unset($header['Last-Modified']);
@@ -310,7 +335,12 @@ class rex_media_manager
     public static function getMediaFile()
     {
         $rex_media_file = rex_get('rex_media_file', 'string');
+
+        // can be used with REDAXO >= 5.5.1
+        // $rex_media_file = rex_path::basename($rex_media_file);
+        $rex_media_file = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $rex_media_file);
         $rex_media_file = basename($rex_media_file);
+
         return $rex_media_file;
     }
 

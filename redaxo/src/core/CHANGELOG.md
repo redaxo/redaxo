@@ -1,6 +1,123 @@
 Changelog
 =========
 
+Version 5.5.1 – 05.01.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) im Media-Manager-Addon geschlossen (gemeldet von @patrickhafner, KNOX-IT GmbH) (@gharlan)
+
+### Bugfixes
+
+- `rex_sql::hasNext` hat teilweise fälschlich `true` geliefert (@DanielWeitenauer)
+- `rex_console_command::decodeMessage` hat Anführungszeichen nicht korrekt behandelt (@staabm)
+
+
+Version 5.5.0 – 21.12.2017
+--------------------------
+
+### Security
+
+* CSRF-Schutz (@gharlan):
+    - für alle `rex_form` automatisch
+    - für eigene Api-Function per Opt-in
+    - für manuelle Formulare und Aktionen leicht integrierbar
+    - Im Core bei allen relevanten Stellen integriert
+
+### Neu
+
+* Update Symfony-Komponenten (3.4.2), parsedown (1.6.4), whoops (2.1.14) (@gharlan)
+* Backend-Übersetzungsdateien:
+    - Aktualisierung Schwedisch (@interweave-media)
+    - Aktualisierung Spanisch (@nandes2062)
+    - Italienisch hinzugefügt (@Fanello, @lexplatt)
+* Setup:
+    - Warnung, wenn Setup nicht über HTTPS ausgeführt wird (@staabm)
+    - Warnung, wenn Apache-Modul mod_security geladen ist (@staabm)
+* Weniger strikte Default-Passwortregeln (nur min. 8 Zeichen) (@IngoWinter)
+* Backend-Session wird duch regelmäßige Ajax-Calls erhalten (@IngoWinter)
+* Bei Passwortfeldern kann in den Klartextmodus gewechselt werden (@pwechs83, @staabm, @tbaddade)
+* Neue Consolen-Commands:
+    - `cache:clear` (@bloep)
+    - `package:install/uninstall/activate/deactivate` (@bloep)
+    - `db:dump-schema` (@gharlan)
+* In der Console ist die (Backend)Sprache fix auf englisch (@gharlan)
+* In Log-Dateien werden Zeilenumbrüche erhalten (@VIEWSION)
+* System-Log neu im Data- statt Cache-Ordner (@gharlan)
+* bootstrap-select wird an mehr Stellen verwendet (statt normale Selects) (@skerbis)
+* `rex_response`: Neue Methode `preload()` zum Setzen von preload-Headern (@bloep)
+* `rex_request`: Neue Methode `isHttps()` (@staabm)
+* `rex_socket`: 
+    - Neue Methode `followRedirects()` (@gharlan)
+    - Warnung wenn Non-SSL-Verbindung aufgebaut wird (@staabm)
+* `rex_fragment`: Method-Chaining ist möglich (@DanielWeitenauer)
+
+### Bugfixing
+
+* Setup: 
+    - Escaping fehlte an einigen Stellen (@staabm)
+    - Teilweise kam es zu Fehlern während der Reinstallation der Addons (@gharlan)
+* Profil: Beim EP `PROFILE_UPDATED` wurde die User-ID nicht korrekt übergeben (@gharlan)
+* `rex_i18n`: Die Parameter wurden nicht escaped (@gharlan)
+* `rex_form`: `setApplyUrl` hatte keine Auswirkung (@bloep)
+* `rex_sql_table`: Bei noch nicht existenter Tabelle konnte es zu einer Exception kommen (@gharlan)
+
+
+Version 5.4.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Updates: symfony/yaml (3.3.9), symfony/var-dumper (3.3.9), filp/whoops (2.1.10), erusev/parsedown (1.6.3)
+* Neue Funktion `rex_escape`, diese kann und sollte statt `htmlspecialchars` für Ausgaben verwendet werden (@gharlan)
+* Integration von symfony/console für die einfache Bereitstellung von Consolen-Kommandos in Addons (@gharlan)
+* `rex_sql_table`: 
+    - Tabellen können auch neu erstellt, umbenannt und gelöscht werden (@gharlan)
+    - Spaltennamen und Spaltenreihenfolge kann geändert werden (@gharlan)
+    - Indexes und Fremdschlüssel können verwaltet werden (@gharlan)
+    - Es kann eine komplette Tabellendefinition angegeben werden und dann mit `ensure()` eine Überprüfung und ggf. Korrektur erreicht werden (praktisch für install.php in Addons) (@gharlan)
+* `rex_sql`: Debug-Ausgaben werden über `dump`-Funktion ausgegeben (@alexplusde)
+* Neue Klasse `rex_password_policy`, für das Backend können in der config.yml Passwortregeln hinterlegt werden (Achtung: Default gelten nun die Regeln min. 8 Zeichen, und jeweils min. 1 Kleinbuchstabe, Großbuchtsabe und Ziffer)
+* Neue Extension Points: PROFILE_UPDATED, PASSWORD_UPDATED
+* Backend-Sprachen:
+    - English ergänzt (@ynamite)
+    - Portugiesisch ergänzt (Taina Soares)
+    - Spanisch ergänzt (@nandes2062)
+* Session-Cookie-Parameter können (für Frontend und Backend getrennt) in config.yml gesetzt werden (default mit httponly und SameSite=strict) (@staabm)
+* Eingeloggt-bleiben-Cookie als httponly (@staabm)
+* Beim Logout werden die Daten im Browser zu der Website gelöscht (Privatsphäre) (@staabm)
+* Bereits in den index.php-Dateien kann ein alternativer `path_provider` gesetzt werden für tiefgreifendere Pfadänderungen (@gharlan)
+* Debug-Modus kann an der Body-Klasse `rex-is-debugmode` erkannt werden (@schuer)
+* In der Tabelle rex_config liegt der Primary Key nun direkt auf (namespace, key), Spalte id entfällt (@gharlan)
+* Bei Installation über git wird unter System bei der Version der Commit-Hash mit ausgegeben (@staabm)
+* Whoops: Links zu php.net (@staabm)
+
+### Bugfixes
+
+* Setup:
+    - Nach Auswahl "Datenbank existiert bereits" und "Update aus vorheriger Version" waren anschließend fälschlich wieder nur die Standardaddons aktiviert (@gharlan)
+    - Beim Import eines vorhandenen Backups wurden nicht die Addons aus dem Backup aktiviert (@gharlan)
+* Sprachdateien: 
+    - Wenn ein Wert leer war, wurde die komplette folgende Zeile als Wert genommen (@gharlan)
+    - Wenn ein Wert "=" enthielt, kam teilweise was falsches raus (@tyrant88)
+    - Sprachkey für Schwedisch korrigiert (se_sv -> sv_se) (@gharlan)
+* REX_VARs haben teilweise Warnungen geworfen in PHP 7.1 (@gharlan)
+* `rex_list`: Funktionierte nicht mit MariaDB (@staabm)
+* `rex_form`: Bei Container-Feldern wurden die Default-Werte ignoriert (@gharlan)
+* `rex_select`: `countOptions()` lieferte teilweise falsches Ergebnis (@staabm)
+* `rex_response`: Session locks in `sendFile()` werden vermieden (@staabm)
+* `rex_clang`: Clang-ID wird einheitlich als `int` behandelt und zurückgegeben (@gharlan)
+* `rex_sql`: Teilweise fehlte die Query in der Exception-Message (@gharlan)
+* `rex_socket`: Die tatsächliche Ursache war bei Exceptions oft nicht ersichtlich (@gharlan)
+* PJAX: Beim Absenden von Formularen wird nun nach oben gescrollt (@gharlan)
+* Output Buffer wurden teilweise nicht korrekt beendet (@gharlan)
+* System-Log: HTML in Log-Messages wurde nicht escaped (@gharlan)
+* .htaccess in geschützten Ordnern: Anpassung für Apache 2.4 (@gharlan)
+* Session-ID-Neugenerierung warf teilweise Warnungen (@gharlan)
+* Im Chrome erschien beim Login nicht der Passwort-speichern-Dialog (@gharlan)
+
+
 Version 5.3.0 – 14.02.2017
 --------------------------
 

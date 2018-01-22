@@ -110,6 +110,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
 <form id="rex-form-login" action="' . rex_url::backendController() . '" method="post">
     ' . $content . '
+    ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
 </form>
 <script type="text/javascript">
      <!--
@@ -119,7 +120,6 @@ $content = '
                 var pwInp = $("#rex-id-login-password");
                 if(pwInp.val() != "") {
                     $("#rex-form-login").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-                    pwInp.removeAttr("name");
                 }
         });
 

@@ -10,7 +10,11 @@ $success = '';
 
 $func = rex_request('func', 'string');
 
-if ($func == 'setup') {
+$csrfToken = rex_csrf_token::factory('system');
+
+if ($func && !$csrfToken->isValid()) {
+    $error[] = rex_i18n::msg('csrf_token_invalid');
+} elseif ($func == 'setup') {
     // REACTIVATE SETUP
 
     $configFile = rex_path::coreData('config.yml');
@@ -18,7 +22,7 @@ if ($func == 'setup') {
     $config['setup'] = true;
     // echo nl2br(htmlspecialchars($cont));
     if (rex_file::putConfig($configFile, $config) !== false) {
-        $info = rex_i18n::msg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
+        $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
 
         header('Location:' . rex_url::backendController());
         exit;
@@ -75,6 +79,7 @@ $sel_lang = new rex_select();
 $sel_lang->setStyle('class="form-control"');
 $sel_lang->setName('settings[lang]');
 $sel_lang->setId('rex-id-lang');
+$sel_lang->setAttribute('class', 'form-control selectpicker');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
@@ -108,11 +113,11 @@ $content = [];
 $content[] = '
                         <h3>' . rex_i18n::msg('delete_cache') . '</h3>
                         <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate']) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
                         <h3>' . rex_i18n::msg('setup') . '</h3>
                         <p>' . rex_i18n::msg('setup_text') . '</p>
-                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup']) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
@@ -219,6 +224,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
 

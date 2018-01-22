@@ -1,6 +1,31 @@
 Changelog
 =========
 
+Version 2.3.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* Update auf PHPMailer 6.0.2 (@skerbis)
+* SMTP-Passwort-Feld wird nicht mehr im Klartext angezeigt (@metaphon)
+
+
+Version 2.2.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Möglichkeit den Versand zu testen (Testmail) (@skerbis)
+* Mail-Log kann global und pro Versand deaktiviert werden (@dergel)
+* Bessere Hilfe und Beispiele (@skerbis)
+* Einstellungen in Spalten (@skerbis)
+* `X-Mailer`-Header auf "REXMailer" gesetzt (@skerbis)
+
+### Bugfixes
+
+* Das SMTP-Passwort-Feld wurde teilweise vorbelegt mit dem im Browser gespeicherten Passwort (@gharlan)
+
+
 Version 2.1.2 – 08.01.2017
 --------------------------
 

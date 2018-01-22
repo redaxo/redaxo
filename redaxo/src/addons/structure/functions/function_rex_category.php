@@ -23,7 +23,7 @@ if ($object) {
         $id = $parent->getId();
         if (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id)) {
             $n = [];
-            $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+            $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
             if ($parent->isStartarticle()) {
                 $n['href'] = rex_url::backendPage('structure', ['category_id' => $id, 'clang' => $clang]);
             }

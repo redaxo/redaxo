@@ -233,6 +233,26 @@ class rex_config
     }
 
     /**
+     * Refreshes rex_config by reloading config from db.
+     */
+    public static function refresh()
+    {
+        if (!self::$initialized) {
+            self::init();
+
+            return;
+        }
+
+        self::loadFromDb();
+
+        self::generateCache();
+
+        self::$changed = false;
+        self::$changedData = [];
+        self::$deletedData = [];
+    }
+
+    /**
      * initilizes the rex_config class.
      */
     protected static function init()
@@ -332,6 +352,8 @@ class rex_config
         // save all data to the db
         self::saveToDb();
         self::$changed = false;
+        self::$changedData = [];
+        self::$deletedData = [];
     }
 
     /**

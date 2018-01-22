@@ -53,7 +53,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $density = self::$density_default;
         }
 
-        $from_path = realpath($this->media->getMediapath());
+        $from_path = realpath($this->media->getMediaPath());
         $ext = rex_file::extension($from_path);
 
         if (!$ext) {
@@ -73,7 +73,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $filename = $this->media->getMediaFilename();
         $filename_wo_ext = substr($filename, 0, (strlen($filename) - strlen($ext)));
 
-        $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediapath()) . '_' . $filename_wo_ext . $convert_to['ext']);
+        $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filename_wo_ext . $convert_to['ext']);
 
         $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]" -colorspace RGB "' . $to_path . '"';
 
@@ -92,6 +92,11 @@ class rex_effect_convert2img extends rex_effect_abstract
         register_shutdown_function(function () use ($to_path) {
             rex_file::delete($to_path);
         });
+    }
+
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_convert2img');
     }
 
     public function getParams()

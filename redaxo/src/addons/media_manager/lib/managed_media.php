@@ -25,9 +25,8 @@ class rex_managed_media
 
     public function __construct($media_path)
     {
-        $this->setMediapath($media_path);
-        $this->sourcePath = $media_path;
-        $this->format = strtolower(rex_file::extension($this->getMediapath()));
+        $this->setMediaPath($media_path);
+        $this->format = strtolower(rex_file::extension($this->getMediaPath()));
     }
 
     /**
@@ -35,22 +34,29 @@ class rex_managed_media
      *
      * To get the current source path (can be changed by effects) use `getSourcePath` instead.
      *
-     * @return string
+     * @return null|string
      */
-    public function getMediapath()
+    public function getMediaPath()
     {
         return $this->media_path;
     }
 
-    public function setMediapath($media_path)
+    public function setMediaPath($media_path)
     {
-        if (!file_exists($media_path)) {
-            $media_path = rex_path::addon('media_manager', 'media/warning.jpg');
-        }
         $this->media_path = $media_path;
-        $this->sourcePath = $media_path;
+
+        if (null === $media_path) {
+            return;
+        }
+
         $this->media = basename($media_path);
         $this->asImage = false;
+
+        if (file_exists($media_path)) {
+            $this->sourcePath = $media_path;
+        } else {
+            $this->sourcePath = rex_path::addon('media_manager', 'media/warning.jpg');
+        }
     }
 
     public function getMediaFilename()
@@ -119,6 +125,7 @@ class rex_managed_media
             $this->setSourcePath(rex_path::addon('media_manager', 'media/warning.jpg'));
             $this->asImage();
         } else {
+            $this->fixOrientation();
             $this->refreshImageDimensions();
         }
     }
@@ -196,7 +203,7 @@ class rex_managed_media
             $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
         } elseif ($format == 'png') {
-            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 6));
+            $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 5));
             imagepng($this->image['src'], null, $compression);
         } elseif ($format == 'gif') {
             imagegif($this->image['src']);
@@ -234,7 +241,7 @@ class rex_managed_media
     /**
      * Returns the current source path.
      *
-     * To get the original media path use `getMediapath()` instead.
+     * To get the original media path use `getMediaPath()` instead.
      *
      * @return string
      */
@@ -291,6 +298,35 @@ class rex_managed_media
         return $this->getHeight();
     }
 
+    private function fixOrientation()
+    {
+        if (!function_exists('exif_read_data')) {
+            return;
+        }
+        // exif_read_data() only works on jpg/jpeg/tiff
+        if (!in_array($this->getFormat(), ['jpg', 'jpeg', 'tiff'])) {
+            return;
+        }
+        // suppress warning in case of corrupt/ missing exif data
+        $exif = @exif_read_data($this->getSourcePath());
+
+        if (!isset($exif['Orientation']) || !in_array($exif['Orientation'], [3, 6, 8])) {
+            return;
+        }
+
+        switch ($exif['Orientation']) {
+            case 8:
+                $this->image['src'] = imagerotate($this->image['src'], 90, 0);
+                break;
+            case 3:
+                $this->image['src'] = imagerotate($this->image['src'], 180, 0);
+                break;
+            case 6:
+                $this->image['src'] = imagerotate($this->image['src'], -90, 0);
+                break;
+        }
+    }
+
     /**
      * @param string $src Source content
      */
@@ -300,8 +336,17 @@ class rex_managed_media
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type'])) {
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $content_type = finfo_file($finfo, $this->getSourcePath());
+            $content_type = '';
+
+            if (!$content_type && function_exists('mime_content_type')) {
+                $content_type = mime_content_type($this->getSourcePath());
+            }
+
+            if (!$content_type && function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $content_type = finfo_file($finfo, $this->getSourcePath());
+            }
+
             if ($content_type != '') {
                 $this->setHeader('Content-Type', $content_type);
             }
@@ -322,6 +367,7 @@ class rex_managed_media
     private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
     {
         rex_file::putCache($headerCacheFilename, [
+            'media_path' => $this->getMediaPath(),
             'format' => $this->format,
             'headers' => $this->header,
         ]);

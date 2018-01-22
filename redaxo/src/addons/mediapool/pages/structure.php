@@ -63,14 +63,14 @@ if ($PERMALL) {
                 $icat = rex_media_category::get($iid);
 
                 $n = [];
-                $n['title'] = $icat->getName();
+                $n['title'] = rex_escape($icat->getName());
                 $n['href'] = $link . $iid;
                 $breadcrumb[] = $n;
             }
             next($paths);
         }
         $n = [];
-        $n['title'] = $OOCat->getName();
+        $n['title'] = rex_escape($OOCat->getName());
         $n['href'] = $link . $cat_id;
         $breadcrumb[] = $n;
         $catpath = $OOCat->getPath() . "$cat_id|";

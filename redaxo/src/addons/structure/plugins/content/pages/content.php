@@ -347,74 +347,6 @@ if ($article->getRows() == 1) {
         }
         // ------------------------------------------ END: Slice add/edit/delete
 
-        // ------------------------------------------ START: COPY LANG CONTENT
-        if (rex_post('copycontent', 'boolean')) {
-            $clang_a = rex_post('clang_a', 'int');
-            $clang_b = rex_post('clang_b', 'int');
-            $user = rex::getUser();
-            if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)) {
-                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, $slice_revision)) {
-                    $info = rex_i18n::msg('content_contentcopy');
-                } else {
-                    $warning = rex_i18n::msg('content_errorcopy');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: COPY LANG CONTENT
-
-        // ------------------------------------------ START: MOVE ARTICLE
-        if (rex_post('movearticle', 'boolean') && $category_id != $article_id) {
-            $category_id_new = rex_post('category_id_new', 'int');
-            if (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)) {
-                if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
-                    $info = rex_i18n::msg('content_articlemoved');
-                    ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_errormovearticle');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: MOVE ARTICLE
-
-        // ------------------------------------------ START: COPY ARTICLE
-        if (rex_post('copyarticle', 'boolean')) {
-            $category_copy_id_new = rex_post('category_copy_id_new', 'int');
-            if (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)) {
-                if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
-                    $info = rex_i18n::msg('content_articlecopied');
-                    ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['article_id' => $new_id, 'info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_errorcopyarticle');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: COPY ARTICLE
-
-        // ------------------------------------------ START: MOVE CATEGORY
-        if (rex_post('movecategory', 'boolean')) {
-            $category_id_new = rex_post('category_id_new', 'int');
-            if (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)) {
-                if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
-                    $info = rex_i18n::msg('category_moved');
-                    ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_error_movecategory');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: MOVE CATEGORY
-
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
         $editPage = rex_be_controller::getPageObject('content/edit');
@@ -429,14 +361,27 @@ if ($article->getRows() == 1) {
         $leftNav = rex_be_navigation::factory();
         $rightNav = rex_be_navigation::factory();
 
+        $user = rex::getUser();
+
         foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
             if (!$subpage->hasHref()) {
                 $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
             }
-            if ($subpage->getItemAttr('left')) {
-                $leftNav->addPage($subpage);
-            } else {
-                $rightNav->addPage($subpage);
+            // If the user has none of the content function permissions the page 'functions' will not be displayed
+            if (
+                $subpage->getKey() != 'functions' ||
+                $user->hasPerm('article2category[]') ||
+                $user->hasPerm('article2startarticle[]') ||
+                $user->hasPerm('copyArticle[]') ||
+                $user->hasPerm('moveArticle[]') ||
+                $user->hasPerm('moveCategory[]') ||
+                $user->hasPerm('copyContent[]')
+            ) {
+                if ($subpage->getItemAttr('left')) {
+                    $leftNav->addPage($subpage);
+                } else {
+                    $rightNav->addPage($subpage);
+                }
             }
             $subpage->removeItemAttr('left');
         }

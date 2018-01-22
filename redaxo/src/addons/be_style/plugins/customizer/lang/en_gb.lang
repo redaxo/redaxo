@@ -8,8 +8,8 @@ customizer_codemirror_theme = CodeMirror Theme
 customizer_codemirror_info = When CodeMirror is activated it will automatically be used when editing templates or modules. To use CodeMirror manually for custom textarea fields, use the following syntax:<br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br> The parameters <i>codemirror-theme</i> and <i>codemirror-mode</i> are optional.
 
 customizer_labeling = Additions
-customizer_labelcolor = Color (#43a047)
-customizer_labelcolor_error = No valid color code (#43a oder #43a047)
+customizer_labelcolor = Color
+customizer_labelcolor_notice = Any valid css color expression (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> etc.)
 customizer_showlink = Show link to website?
 
 customizer_config_updated = Settings have been saved

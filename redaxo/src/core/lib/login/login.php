@@ -193,6 +193,8 @@ class rex_login
                         $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
                     } else {
                         $this->message = rex_i18n::msg('login_session_expired');
+
+                        rex_csrf_token::removeAll();
                     }
                 } else {
                     $this->message = rex_i18n::msg('login_user_not_found');
@@ -200,6 +202,8 @@ class rex_login
             }
         } else {
             $this->message = rex_i18n::msg('login_logged_out');
+
+            rex_csrf_token::removeAll();
         }
 
         if ($ok) {
@@ -283,7 +287,17 @@ class rex_login
      */
     protected static function regenerateSessionId()
     {
-        session_regenerate_id(true);
+        if ('' != session_id()) {
+            session_regenerate_id(true);
+
+            $cookieParams = static::getCookieParams();
+            if ($cookieParams['samesite']) {
+                self::rewriteSessionCookie($cookieParams['samesite']);
+            }
+
+            rex_csrf_token::removeAll();
+        }
+
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
         $_SESSION['REX_SESSID'] = session_id();
     }
@@ -294,6 +308,16 @@ class rex_login
     public static function startSession()
     {
         if (session_id() == '') {
+            $cookieParams = static::getCookieParams();
+
+            session_set_cookie_params(
+                $cookieParams['lifetime'],
+                $cookieParams['path'],
+                $cookieParams['domain'],
+                $cookieParams['secure'],
+                $cookieParams['httponly']
+            );
+
             if (!@session_start()) {
                 $error = error_get_last();
                 if ($error) {
@@ -302,6 +326,67 @@ class rex_login
                     throw new rex_exception('Unable to start session!');
                 }
             }
+
+            if ($cookieParams['samesite']) {
+                self::rewriteSessionCookie($cookieParams['samesite']);
+            }
+        }
+    }
+
+    /**
+     * Einstellen der Cookie Paramter bevor die session gestartet wird.
+     *
+     * @return array
+     */
+    private static function getCookieParams()
+    {
+        $cookieParams = session_get_cookie_params();
+
+        $key = rex::isBackend() ? 'backend' : 'frontend';
+        $sessionConfig = rex::getProperty('session');
+
+        foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
+            if ($value !== null) {
+                $cookieParams[$name] = $value;
+            }
+        }
+
+        return $cookieParams;
+    }
+
+    /**
+     * php does not natively support SameSite for cookies yet,
+     * rewrite the session cookie manually.
+     *
+     * see https://wiki.php.net/rfc/same-site-cookie
+     *
+     * @param "Strict"|"Lax" $sameSite
+     */
+    private static function rewriteSessionCookie($sameSite)
+    {
+        $cookiesHeaders = [];
+
+        // since header_remove() will remove all sent cookies, we need to collect all of them,
+        // rewrite only the session cookie and send all cookies again.
+        $cookieHeadersPrefix = 'Set-Cookie: ';
+        $sessionCookiePrefix = 'Set-Cookie: '. session_name() .'=';
+        foreach (headers_list() as $rawHeader) {
+            // rewrite the session cookie
+            if (substr($rawHeader, 0, strlen($sessionCookiePrefix)) === $sessionCookiePrefix) {
+                $rawHeader .= '; SameSite='. $sameSite;
+            }
+            // collect all cookies
+            if (substr($rawHeader, 0, strlen($cookieHeadersPrefix)) === $cookieHeadersPrefix) {
+                $cookiesHeaders[] = $rawHeader;
+            }
+        }
+
+        // remove all cookies
+        header_remove('Set-Cookie');
+
+        // re-add all (inl. the rewritten session cookie)
+        foreach ($cookiesHeaders as $rawHeader) {
+            header($rawHeader);
         }
     }
 

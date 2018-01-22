@@ -20,6 +20,8 @@ class rex_response
     private static $sentEtag = false;
     private static $sentContentType = false;
     private static $sentCacheControl = false;
+    private static $additionalHeaders = [];
+    private static $preloadFiles = [];
 
     /**
      * Sets the HTTP Status code.
@@ -48,6 +50,47 @@ class rex_response
     }
 
     /**
+     * Set a http response header. A existing header with the same name will be overridden.
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public static function setHeader($name, $value)
+    {
+        self::$additionalHeaders[$name] = $value;
+    }
+
+    private static function sendAdditionalHeaders()
+    {
+        foreach (self::$additionalHeaders as $name => $value) {
+            header($name .': ' . $value);
+        }
+    }
+
+    /**
+     * Set a file to be preload via http link header.
+     *
+     * @param $file
+     * @param $type
+     * @param $mimeType
+     */
+    public static function preload($file, $type, $mimeType)
+    {
+        self::$preloadFiles[] = [
+            'file' => $file,
+            'type' => $type,
+            'mimeType' => $mimeType,
+        ];
+    }
+
+    private static function sendPreloadHeaders()
+    {
+        foreach (self::$preloadFiles as $preloadFile) {
+            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; nopush', false);
+        }
+    }
+
+    /**
      * Redirects to a URL.
      *
      * NOTE: Execution will stop within this method!
@@ -61,6 +104,10 @@ class rex_response
         if (strpos($url, "\n") !== false) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
+
+        self::cleanOutputBuffers();
+        self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -82,7 +129,7 @@ class rex_response
             header('HTTP/1.1 ' . self::HTTP_NOT_FOUND);
             exit;
         }
-        
+
         // prevent session locking while sending huge files
         session_write_close();
 
@@ -100,6 +147,9 @@ class rex_response
         if (!ini_get('zlib.output_compression')) {
             header('Content-Length: ' . filesize($file));
         }
+
+        self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
 
         readfile($file);
     }
@@ -199,6 +249,9 @@ class rex_response
 
         // content length schicken, damit der browser einen ladebalken anzeigen kann
         header('Content-Length: ' . rex_string::size($content));
+
+        self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
 
         echo $content;
 

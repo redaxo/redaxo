@@ -27,6 +27,7 @@ function = Function
 no_editing_rights = permission denied
 check_rights_in_directory  =  Please review permissions in directory
 error_undefined = An undefinied error occurred
+csrf_token_invalid = The csrf token is invalid.
 
 # redaxo/redaxo/index.php
 system = System
@@ -337,6 +338,18 @@ new_password_repeat = Repeat new password
 profile_save_psw = Save password
 backend_language = Backend language
 user_data_updated = User data updated!
+
+password_invalid = The password does not match the required rules ({0})!
+password_admin_notice = The password rules can be changed in config.yml.
+password_rule_min = min. {0}
+password_rule_max = min. {0}
+password_rule_between = {0} to {1}
+password_rule_length = {0} character(s)
+password_rule_letter = {0} letter(s)
+password_rule_uppercase = {0} uppercase letter(s)
+password_rule_lowercase = {0} lowercase letter(s)
+password_rule_digit = {0} digit(s)
+password_rule_symbol = {0} symbol(s)
 
 # redaxo\include\classes\class.rex_list.php
 list_previous = previous page

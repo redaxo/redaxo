@@ -20,22 +20,20 @@ class rex_effect_resize extends rex_effect_abstract
 <script type="text/javascript">
 <!--
 
-(function($) {
-    $(function() {
-        var $fx_resize_select_style = $("#media_manager_rex_effect_resize_style_select");
-        var $fx_resize_enlarge = $("#media_manager_rex_effect_resize_allow_enlarge_select").parent().parent();
+$(function() {
+    var $fx_resize_select_style = $("#media-manager-rex-effect-resize-style-select");
+    var $fx_resize_enlarge = $("#media-manager-rex-effect-resize-allow-enlarge-select").parent().parent();
 
-        $fx_resize_select_style.change(function(){
-            if(jQuery(this).val() == "exact")
-            {
-                $fx_resize_enlarge.hide();
-            }else
-            {
-                $fx_resize_enlarge.show();
-            }
-        }).change();
-    });
-})(jQuery);
+    $fx_resize_select_style.change(function(){
+        if(jQuery(this).val() == "exact")
+        {
+            $fx_resize_enlarge.hide();
+        }else
+        {
+            $fx_resize_enlarge.show();
+        }
+    }).change();
+});
 
 //--></script>';
     }
@@ -143,6 +141,11 @@ class rex_effect_resize extends rex_effect_abstract
             $img_factor = $w / $this->params['width'];
             $this->params['height'] = ceil($h / $img_factor);
         }
+    }
+
+    public function getName()
+    {
+        return rex_i18n::msg('media_manager_effect_resize');
     }
 
     public function getParams()

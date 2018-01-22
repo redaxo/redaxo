@@ -1,6 +1,40 @@
 Changelog
 =========
 
+Version 2.3.3 – 05.01.2018
+--------------------------
+
+### Security
+
+* Kategorie-Namen wurden in der Breadcrumb-Navi ohne Escaping ausgegeben (XSS) (@dergel)
+
+
+Version 2.3.2 – 21.12.2017
+--------------------------
+
+### Bugfixes
+
+* Bei Einschränkung der Typen ist beim Upload die Klein/Großschreibung der Dateiendung nicht mehr relevant (@gharlan)
+* In der Doctypes-Property fehlten "svg" und "mp4" (@alexplusde)
+
+
+Version 2.3.1 – 04.10.2017
+--------------------------
+
+### Security
+
+* Weitere Dateiendungen werden geblockt: .pht, .phar, .hh, .htaccess, .htpasswd (@gharlan)
+* Bei Dateien, die mit einem Punkt beginnen, wird dieser beim Upload durch einen Unterstrich ersetzt (@gharlan)
+
+### Bugfixes
+
+* Benutzer mit eingeschränkten MP-Kategorie-Rechten 
+    - konnte nicht die Multi-Aktionen (schieben, löschen) ausführen (@gharlan)
+    - konnten in "Keine Kategorie" hochladen (@gharlan)
+* In der Doctypes-Property fehlte "jpeg" (@IngoWinter)
+* Abhängigkeit zur fileinfo-Extension entfernt (@staabm)
+
+
 Version 2.3.0 – 19.03.2017
 --------------------------
 

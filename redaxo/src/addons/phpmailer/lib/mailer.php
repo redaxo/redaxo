@@ -8,8 +8,12 @@
  * @package redaxo\phpmailer
  */
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class rex_mailer extends PHPMailer
 {
+    private $log;
+
     public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
@@ -35,21 +39,31 @@ class rex_mailer extends PHPMailer
         $this->Password = $addon->getConfig('password');
 
         if ($bcc = $addon->getConfig('bcc')) {
-            $this->AddBCC($bcc);
+            $this->addBCC($bcc);
         }
 
-        $this->PluginDir = $addon->getPath('lib/phpmailer/');
+        $this->log = $addon->getConfig('log');
 
         parent::__construct($exceptions);
     }
 
     public function send()
     {
-        $this->backup();
+        if ($this->log) {
+            $this->log();
+        }
         return parent::send();
     }
 
-    private function backup()
+    /*
+     * @param boolean $status
+     */
+    public function setLog($status)
+    {
+        $this->log = $status;
+    }
+
+    private function log()
     {
         $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
         $content .= 'From : '.$this->From.PHP_EOL;
@@ -58,14 +72,19 @@ class rex_mailer extends PHPMailer
         $content .= ' -->'.PHP_EOL;
         $content .= $this->Body;
 
-        $dir = rex_path::addonData('phpmailer', 'mail_backup/'.date('Y').'/'.date('m'));
+        $dir = self::logFolder().'/'.date('Y').'/'.date('m');
 
         $count = 1;
-        $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
-        while (file_exists($backupFile)) {
-            $backupFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
+        $logFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
+        while (file_exists($logFile)) {
+            $logFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
         }
 
-        rex_file::put($backupFile, $content);
+        rex_file::put($logFile, $content);
+    }
+
+    public static function logFolder()
+    {
+        return rex_path::addonData('phpmailer', 'mail_log');
     }
 }

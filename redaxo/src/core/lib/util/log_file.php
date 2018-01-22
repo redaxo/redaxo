@@ -125,7 +125,8 @@ class rex_log_file implements Iterator
                         $this->pos -= $bufferSize;
                     }
                     break 2;
-                } elseif ("\r" !== $char) {
+                }
+                if ("\r" !== $char) {
                     // build line; \r is ignored
                     $line = $char . $line;
                 }
@@ -219,8 +220,12 @@ class rex_log_entry
      */
     public static function createFromString($string)
     {
-        $data = array_map('trim', explode('|', $string));
+        foreach (explode('|', $string) as $part) {
+            $data[] = str_replace('\n', "\n", trim($part));
+        }
+
         $timestamp = strtotime(array_shift($data));
+
         return new self($timestamp, $data);
     }
 
@@ -255,7 +260,7 @@ class rex_log_entry
     public function __toString()
     {
         $data = implode(' | ', array_map('trim', $this->data));
-        $data = str_replace(["\r", "\n"], '', $data);
+        $data = str_replace(["\r", "\n"], ['', '\n'], $data);
         return date('Y-m-d H:i:s', $this->timestamp) . ' | ' . $data;
     }
 }

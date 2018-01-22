@@ -166,7 +166,8 @@ abstract class rex_error_handler
     {
         if (in_array($errno, [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-        } elseif ((error_reporting() & $errno) == $errno) {
+        }
+        if ((error_reporting() & $errno) == $errno) {
             if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
                 echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
             }

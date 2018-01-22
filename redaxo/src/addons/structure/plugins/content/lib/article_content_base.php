@@ -99,6 +99,14 @@ class rex_article_content_base
         return $this->article_id;
     }
 
+    public function getClangId()
+    {
+        return $this->clang;
+    }
+
+    /**
+     * @deprecated since redaxo 5.6, use getClangId() instead
+     */
     public function getClang()
     {
         return $this->clang;
@@ -336,6 +344,7 @@ class rex_article_content_base
                     'slice_id' => $sliceId,
                     'function' => $this->function,
                     'function_slice_id' => $this->slice_id,
+                    'sql' => $artDataSql,
                 ]
             ));
 
@@ -426,8 +435,7 @@ class rex_article_content_base
         ob_start();
         ob_implicit_flush(0);
         require rex_stream::factory($path, $content);
-        $CONTENT = ob_get_contents();
-        ob_end_clean();
+        $CONTENT = ob_get_clean();
 
         return $CONTENT;
     }

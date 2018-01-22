@@ -61,7 +61,13 @@ class rex_i18n
      */
     public static function addDirectory($dir)
     {
-        self::$directories[] = rtrim($dir, DIRECTORY_SEPARATOR);
+        $dir = rtrim($dir, DIRECTORY_SEPARATOR);
+
+        if (in_array($dir, self::$directories, true)) {
+            return;
+        }
+
+        self::$directories[] = $dir;
 
         if (self::$loaded) {
             self::loadFile($dir . DIRECTORY_SEPARATOR . self::$locale . '.lang');
@@ -121,11 +127,6 @@ class rex_i18n
             ));
         }
 
-        if ($htmlspecialchars) {
-            $msg = htmlspecialchars($msg);
-            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd)|br ?/?)&gt;@i', '<$1>', $msg);
-        }
-
         $patterns = [];
         $replacements = [];
         $argNum = count($args);
@@ -136,7 +137,15 @@ class rex_i18n
                 $replacements[] = $args[$i];
             }
         }
-        return preg_replace($patterns, $replacements, $msg);
+
+        $msg = preg_replace($patterns, $replacements, $msg);
+
+        if ($htmlspecialchars) {
+            $msg = rex_escape($msg);
+            $msg = preg_replace('@&lt;(/?(?:b|i|code|kbd|var)|br ?/?)&gt;@i', '<$1>', $msg);
+        }
+
+        return $msg;
     }
 
     /**
@@ -206,7 +215,8 @@ class rex_i18n
                 $i18nFunction = $use_htmlspecialchars ? 'self::msg' : 'self::rawMsg';
             }
             return call_user_func($i18nFunction, substr($text, $transKeyLen));
-        } elseif ($use_htmlspecialchars) {
+        }
+        if ($use_htmlspecialchars) {
             return htmlspecialchars($text);
         }
         return $text;
@@ -230,9 +240,11 @@ class rex_i18n
                 $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
             }
             return $array;
-        } elseif (is_string($array)) {
+        }
+        if (is_string($array)) {
             return self::translate($array, $use_htmlspecialchars, $i18nFunction);
-        } elseif (null === $array || is_scalar($array)) {
+        }
+        if (null === $array || is_scalar($array)) {
             return $array;
         }
         throw new InvalidArgumentException('Expecting $text to be a String or Array of Scalar, "' . gettype($array) . '" given!');

@@ -97,7 +97,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
+        $n['field'] = '<button class="btn btn-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_delete::getUrlParams()) . '\';">' . $this->i18n('delete') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -114,7 +114,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form action="' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_upload', 'addonkey' => $addonkey, 'file' => $file_id]) . '" method="post">
+            <form action="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_upload::getUrlParams()) . '" method="post">
                 ' . $content . '
             </form>';
         echo $content;

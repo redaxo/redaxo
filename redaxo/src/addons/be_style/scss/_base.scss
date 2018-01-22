@@ -201,6 +201,9 @@ body:after {
 .btn-update {
     @extend .btn-primary;
 }
+.btn-view {
+    @extend .btn-primary;
+}
 
 .rex-nav-btn {
     margin-bottom: $line-height-computed;

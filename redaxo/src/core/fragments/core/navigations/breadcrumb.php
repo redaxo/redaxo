@@ -2,7 +2,8 @@
 
 /*
     Vars
-
+    
+    "title" of items list will not be escaped, the caller is responsible todo so.
 */
 
 // --------------------- List Items

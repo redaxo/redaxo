@@ -36,7 +36,7 @@ class rex_sql_column
     /**
      * @param bool $modified
      *
-     * @return $this|rex_sql_column
+     * @return $this
      */
     public function setModified($modified)
     {
@@ -56,7 +56,7 @@ class rex_sql_column
     /**
      * @param string $name
      *
-     * @return $this|rex_sql_column
+     * @return $this
      */
     public function setName($name)
     {
@@ -76,7 +76,7 @@ class rex_sql_column
     /**
      * @param string $type
      *
-     * @return $this|rex_sql_column
+     * @return $this
      */
     public function setType($type)
     {
@@ -96,7 +96,7 @@ class rex_sql_column
     /**
      * @param bool $nullable
      *
-     * @return $this|rex_sql_column
+     * @return $this
      */
     public function setNullable($nullable)
     {
@@ -116,7 +116,7 @@ class rex_sql_column
     /**
      * @param null|string $default
      *
-     * @return $this|rex_sql_column
+     * @return $this
      */
     public function setDefault($default)
     {
@@ -136,7 +136,7 @@ class rex_sql_column
     /**
      * @param null|string $extra
      *
-     * @return $this|rex_sql_column
+     * @return $this
      */
     public function setExtra($extra)
     {
@@ -154,8 +154,6 @@ class rex_sql_column
     }
 
     /**
-     * @param self $column
-     *
      * @return bool
      */
     public function equals(self $column)

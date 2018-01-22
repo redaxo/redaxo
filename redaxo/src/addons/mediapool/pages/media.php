@@ -28,7 +28,10 @@ $sel_media->setSelected($rex_file_category);
 $sel_media->setAttribute('onchange', 'this.form.submit();');
 $sel_media->setAttribute('class', 'selectpicker');
 $sel_media->setAttribute('data-live-search', 'true');
-$sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
+
+if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+    $sel_media->addOption(rex_i18n::msg('pool_kats_no'), '0');
+}
 
 // ----- EXTENSION POINT
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER', '', [
@@ -105,7 +108,7 @@ if ($file_id && rex_post('btn_delete', 'string')) {
 
     if ($media) {
         $filename = $media->getFileName();
-        if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+        if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
             $return = rex_mediapool_deleteMedia($filename);
             if ($return['ok']) {
                 $success = $return['msg'];
@@ -126,7 +129,7 @@ if ($file_id && rex_post('btn_update', 'string')) {
     $gf = rex_sql::factory();
     $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
     if ($gf->getRows() == 1) {
-        if ($PERMALL || (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category))) {
+        if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
             $FILEINFOS = [];
             $FILEINFOS['rex_file_category'] = $rex_file_category;
             $FILEINFOS['file_id'] = $file_id;
@@ -157,7 +160,7 @@ if ($file_id) {
     $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$file_id]);
     if ($gf->getRows() == 1) {
         $TPERM = false;
-        if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))) {
+        if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id'))) {
             $TPERM = true;
         }
 
@@ -242,8 +245,11 @@ if ($file_id) {
             $cats_sel->setId('rex-mediapool-category');
             $cats_sel->setAttribute('class', 'selectpicker form-control');
             $cats_sel->setAttribute('data-live-search', 'true');
-            $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
             $cats_sel->setSelected($rex_file_category);
+
+            if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+                $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+            }
 
             $formElements = [];
 
@@ -393,7 +399,9 @@ if ($file_id) {
 
 // *************************************** EXTRA FUNCTIONS
 
-if ($PERMALL && $media_method == 'updatecat_selectedmedia') {
+$hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
+
+if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
     $selectedmedia = rex_post('selectedmedia', 'array');
     if (isset($selectedmedia[0]) && $selectedmedia[0] != '') {
         foreach ($selectedmedia as $file_name) {
@@ -416,7 +424,7 @@ if ($PERMALL && $media_method == 'updatecat_selectedmedia') {
     }
 }
 
-if ($PERMALL && $media_method == 'delete_selectedmedia') {
+if ($hasCategoryPerm && $media_method == 'delete_selectedmedia') {
     $selectedmedia = rex_post('selectedmedia', 'array');
     if (count($selectedmedia) != 0) {
         $error = [];
@@ -426,7 +434,7 @@ if ($PERMALL && $media_method == 'delete_selectedmedia') {
         foreach ($selectedmedia as $file_name) {
             $media = rex_media::get($file_name);
             if ($media) {
-                if ($PERMALL || rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+                if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
                     $return = rex_mediapool_deleteMedia($file_name);
                     if ($return['ok']) {
                         ++$countDeleted;
@@ -458,8 +466,11 @@ if (!$file_id) {
     $cats_sel->setId('rex_file_category');
     $cats_sel->setAttribute('class', 'selectpicker form-control');
     $cats_sel->setAttribute('data-live-search', 'true');
-    $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
     $cats_sel->setSelected($rex_file_category);
+
+    if (rex::getUser()->getComplexPerm('media')->hasAll()) {
+        $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
+    }
 
     if (is_array($error)) {
         if (count($error) > 0) {
@@ -505,7 +516,7 @@ if (!$file_id) {
                             </thead>';
 
     // ----- move, delete and get selected items
-    if ($PERMALL) {
+    if ($hasCategoryPerm) {
         $add_input = '';
         $filecat = rex_sql::factory();
         $filecat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category ORDER BY name ASC LIMIT 1');
@@ -678,7 +689,7 @@ if (!$file_id) {
         $ilink = rex_url::currentBackendPage(array_merge(['file_id' => $file_id, 'rex_file_category' => $rex_file_category], $arg_url));
 
         $add_td = '<td></td>';
-        if ($PERMALL) {
+        if ($hasCategoryPerm) {
             $add_td = '<td><input type="checkbox" name="selectedmedia[]" value="' . $file_name . '" /></td>';
         }
 

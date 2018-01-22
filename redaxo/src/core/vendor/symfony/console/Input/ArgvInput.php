@@ -44,8 +44,6 @@ class ArgvInput extends Input
     private $parsed;
 
     /**
-     * Constructor.
-     *
      * @param array|null           $argv       An array of parameters from the CLI (in the argv format)
      * @param InputDefinition|null $definition A InputDefinition instance
      */
@@ -280,12 +278,22 @@ class ArgvInput extends Input
         $values = (array) $values;
 
         foreach ($this->tokens as $token) {
-            if ($onlyParams && $token === '--') {
+            if ($onlyParams && '--' === $token) {
                 return false;
             }
             foreach ($values as $value) {
                 if ($token === $value || 0 === strpos($token, $value.'=')) {
                     return true;
+                }
+
+                if (0 === strpos($token, '-') && 0 !== strpos($token, '--')) {
+                    $noValue = explode('=', $token);
+                    $token = $noValue[0];
+                    $searchableToken = str_replace('-', '', $token);
+                    $searchableValue = str_replace('-', '', $value);
+                    if ('' !== $searchableToken && '' !== $searchableValue && false !== strpos($searchableToken, $searchableValue)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -303,7 +311,7 @@ class ArgvInput extends Input
 
         while (0 < count($tokens)) {
             $token = array_shift($tokens);
-            if ($onlyParams && $token === '--') {
+            if ($onlyParams && '--' === $token) {
                 return false;
             }
 
@@ -333,7 +341,7 @@ class ArgvInput extends Input
                 return $match[1].$this->escapeToken($match[2]);
             }
 
-            if ($token && $token[0] !== '-') {
+            if ($token && '-' !== $token[0]) {
                 return $this->escapeToken($token);
             }
 

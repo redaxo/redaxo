@@ -25,10 +25,8 @@ if (rex_post('btn_save', 'string') != '') {
     $labelcolor = $newConfig['labelcolor'];
     if ($labelcolor == '') {
         $tempConfig['labelcolor'] = '';
-    } elseif (preg_match('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $labelcolor)) {
-        $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
     } else {
-        $error[] = rex_i18n::msg('customizer_labelcolor_error');
+        $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
     }
 
     $tempConfig['showlink'] = 0;
@@ -60,7 +58,8 @@ $tselect = new rex_select();
 $tselect->setId('customizer-codemirror_theme');
 $tselect->setName('settings[codemirror_theme]');
 $tselect->setSize(1);
-$tselect->setAttribute('class', 'form-control');
+$tselect->setAttribute('class', 'form-control selectpicker');
+$tselect->setAttribute('data-live-search', 'true');
 $tselect->setSelected($config['codemirror_theme']);
 foreach ($themes as $theme) {
     $tselect->addOption($theme, $theme);
@@ -120,6 +119,7 @@ $formElements = [];
 $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
 $n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />';
+$n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
 $formElements[] = $n;
 
 $n = [];

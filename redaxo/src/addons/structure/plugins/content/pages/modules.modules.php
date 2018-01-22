@@ -24,8 +24,12 @@ $error = '';
 $content = '';
 $message = '';
 
+$csrfToken = rex_csrf_token::factory('structure_content_module');
+
 // ---------------------------- ACTIONSFUNKTIONEN FUER MODULE
-if ($add_action != '') {
+if (($add_action != '' || $function_action == 'delete') && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($add_action != '') {
     $action = rex_sql::factory();
     $action->setTable(rex::getTablePrefix() . 'module_action');
     $action->setValue('module_id', $module_id);
@@ -52,7 +56,9 @@ if ($add_action != '') {
 
 // ---------------------------- FUNKTIONEN FUER MODULE
 
-if ($function == 'delete') {
+if ($function == 'delete' && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($function == 'delete') {
     $del = rex_sql::factory();
     $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype_id, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
             LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
@@ -60,7 +66,7 @@ if ($function == 'delete') {
 
     if ($del->getRows() > 0) {
         $module_in_use_message = '';
-        $modulname = htmlspecialchars($del->getValue(rex::getTablePrefix() . 'module.name'));
+        $modulname = $del->getValue(rex::getTablePrefix() . 'module.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
             $aid = $del->getValue(rex::getTablePrefix() . 'article_slice.article_id');
             $clang_id = $del->getValue(rex::getTablePrefix() . 'article_slice.clang_id');
@@ -87,6 +93,9 @@ if ($function == 'delete') {
         if ($del->getRows() > 0) {
             $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$module_id]);
             $success = rex_i18n::msg('module_deleted');
+            $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
+                'id' => $module_id,
+            ]));
         } else {
             $error = rex_i18n::msg('module_not_found');
         }
@@ -94,7 +103,10 @@ if ($function == 'delete') {
 }
 
 if ($function == 'add' or $function == 'edit') {
-    if ($save == '1') {
+    if ($save == '1' && !$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+        $save = '0';
+    } elseif ($save == '1') {
         $module = rex_sql::factory();
 
         try {
@@ -108,6 +120,12 @@ if ($function == 'add' or $function == 'edit') {
 
                 $IMOD->insert();
                 $success = rex_i18n::msg('module_added');
+                $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
+                    'id' => $IMOD->getLastId(),
+                    'name' => $mname,
+                    'input' => $eingabe,
+                    'output' => $ausgabe,
+                ]));
             } else {
                 $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=?', [$module_id]);
                 if ($module->getRows() == 1) {
@@ -125,6 +143,12 @@ if ($function == 'add' or $function == 'edit') {
 
                     $UMOD->update();
                     $success = rex_i18n::msg('module_updated') . ' | ' . rex_i18n::msg('articel_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
+                        'id' => $module_id,
+                        'name' => $mname,
+                        'input' => $eingabe,
+                        'output' => $ausgabe,
+                    ]));
 
                     $new_ausgabe = $ausgabe;
 
@@ -261,7 +285,7 @@ if ($function == 'add' or $function == 'edit') {
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $gma->getValue('id') . '</td>
                         <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
                         <td class="rex-table-action"><a href="' . $action_edit_url . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
-                        <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id]) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
+                        <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
                     </tr>';
 
                     $gma->next();
@@ -336,7 +360,8 @@ if ($function == 'add' or $function == 'edit') {
         }
 
         $content = '
-            <form action="' . rex_url::currentBackendPage() . '" method="post">
+            <form action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            ' . $csrfToken->getHiddenField() . '
             ' . $content . '
             </form>';
 
@@ -357,7 +382,8 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name', 100);
+    $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
@@ -380,7 +406,7 @@ if ($OUT) {
 
     $list->addColumn(rex_i18n::msg('delete_module'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###']);
+    $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
 
     $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));

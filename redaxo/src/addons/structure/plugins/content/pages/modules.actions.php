@@ -39,7 +39,11 @@ $error = '';
 $content = '';
 $message = '';
 
-if ($function == 'delete') {
+$csrfToken = rex_csrf_token::factory('structure_content_module_action');
+
+if ($function == 'delete' && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($function == 'delete') {
     $del = rex_sql::factory();
     //  $del->setDebug();
     $qry = 'SELECT
@@ -57,7 +61,7 @@ if ($function == 'delete') {
     $del->setQuery($qry, [$action_id]); // module mit dieser aktion vorhanden ?
     if ($del->getRows() > 0) {
         $action_in_use_msg = '';
-        $action_name = htmlspecialchars($del->getValue('a.name'));
+        $action_name = $del->getValue('a.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
             $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
             $del->next();
@@ -84,7 +88,10 @@ if ($function == 'add' || $function == 'edit') {
     $presavestatus = 255;
     $postsavestatus = 255;
 
-    if ($save == '1') {
+    if ($save == '1' && !$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+        $save = '0';
+    } elseif ($save == '1') {
         $faction = rex_sql::factory();
 
         $previewstatus = rex_post('previewstatus', 'array');
@@ -394,6 +401,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $content = '
         <form id="rex-form-action" action="' . rex_url::currentBackendPage() . '" method="post">
+            ' . $csrfToken->getHiddenField() . '
             ' . $content . '
         </form>
         <script type="text/javascript">
@@ -488,7 +496,7 @@ if ($OUT) {
                             <td data-title="' . rex_i18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_postsave') . '">' . implode('/', $postsavemode) . '</td>
                             <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
-                            <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete']) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
+                            <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'delete'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('action_delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
                         </tr>
                     ';
 

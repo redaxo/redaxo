@@ -1,6 +1,26 @@
 Changelog
 =========
 
+Version 2.2.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (@gharlan)
+
+
+Version 2.1.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Neue Option im Backup-Cronjob zum automatischen Löschen alter Backups (@alexplusde, @gharlan)
+
+### Bugfixes
+
+* Multi-Select-Feld für Tabellen-Auswahl war zu klein (@alexplusde)
+
+
 Version 2.0.4 – 14.02.2017
 --------------------------
 

@@ -75,11 +75,12 @@ rex_i18n::addDirectory(rex_path::core('lang'));
 rex_fragment::addDirectory(rex_path::core('fragments/'));
 
 // ----------------- FUNCTIONS
+require_once rex_path::core('functions/function_rex_escape.php');
 require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.4.0-dev');
+rex::setProperty('version', '5.5.1');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');

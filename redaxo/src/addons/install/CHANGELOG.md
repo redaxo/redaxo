@@ -1,6 +1,30 @@
 Changelog
 =========
 
+Version 2.3.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (@gharlan)
+
+### Bugfix
+
+* Der Opcache wurde nicht gelöscht nach Updates (@gharlan)
+
+
+Version 2.2.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Autofokus auf Suchefeld (@skerbis)
+
+### Bugfixes
+
+* Bei Reload nach dem Download/Update kam es zu einer Exception (@gharlan)
+
+
 Version 2.1.2 – 14.02.2017
 --------------------------
 

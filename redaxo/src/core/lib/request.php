@@ -243,4 +243,14 @@ class rex_request
 
         return isset($_SERVER['HTTP_X_PJAX_CONTAINER']) && $_SERVER['HTTP_X_PJAX_CONTAINER'] == $containerId;
     }
+
+    /**
+     * Returns whether the current request is served via https/ssl.
+     *
+     * @return bool true when https/ssl, otherwise false.
+     */
+    public static function isHttps()
+    {
+        return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
+    }
 }
