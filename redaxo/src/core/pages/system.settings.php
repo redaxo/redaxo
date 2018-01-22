@@ -117,7 +117,12 @@ $content[] = '
 
                         <h3>' . rex_i18n::msg('setup') . '</h3>
                         <p>' . rex_i18n::msg('setup_text') . '</p>
-                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>
+
+                        <h3>' . rex_i18n::msg('safemode') . '</h3>
+                        <p>' . rex_i18n::msg('safemode_text') . '</p>
+                        <p><a class="btn" href="' . rex_url::currentBackendPage(['safemode' => 'true'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . rex_i18n::msg('safemode_activate') . '</a></p>';
+
 
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
