@@ -622,8 +622,9 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Gibt den Wert der aktuellen Zeile im ResultSet zurueck und
-     * bewegt den internen Zeiger auf die naechste Zeile.
+     * Gibt den Wert der aktuellen Zeile im ResultSet zurueck
+     * Falls es noch keine erste Zeile (lastRow) gibt, wird der Satzzeiger
+     * initialisiert. Weitere Satzwechsel mittels next().
      */
     public function getRow($fetch_type = PDO::FETCH_ASSOC)
     {
