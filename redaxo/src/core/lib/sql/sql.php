@@ -1126,6 +1126,90 @@ class rex_sql implements Iterator
         return $this;
     }
 
+    /**
+     * Starts a database transaction.
+     *
+     * @throws rex_sql_exception when a transaction is already running
+     *
+     * @return bool Indicating whether the transaction was successfully started
+     */
+    public function beginTransaction()
+    {
+        if (self::$pdo[$this->DBID]->inTransaction()) {
+            throw new rex_sql_exception('Transaction already started', null, $this);
+        }
+        return self::$pdo[$this->DBID]->beginTransaction();
+    }
+
+    /**
+     * Rollback a already started database transaction.
+     *
+     * @throws rex_sql_exception when no transaction was started beforehand
+     *
+     * @return bool Indicating whether the transaction was successfully rollbacked
+     */
+    public function rollBack()
+    {
+        if (!self::$pdo[$this->DBID]->inTransaction()) {
+            throw new rex_sql_exception('Unable to rollback, no transaction started before', null, $this);
+        }
+        return self::$pdo[$this->DBID]->rollBack();
+    }
+
+    /**
+     * Commit a already started database transaction.
+     *
+     * @throws rex_sql_exception when no transaction was started beforehand
+     *
+     * @return bool Indicating whether the transaction was successfully committed
+     */
+    public function commit()
+    {
+        if (!self::$pdo[$this->DBID]->inTransaction()) {
+            throw new rex_sql_exception('Unable to commit, no transaction started before', null, $this);
+        }
+        return self::$pdo[$this->DBID]->commit();
+    }
+
+    /**
+     * @return bool Whether a transaction was already started/is already running.
+     */
+    public function inTransaction()
+    {
+        return self::$pdo[$this->DBID]->inTransaction();
+    }
+
+    /**
+     * Convenience method which executes the given callable within a transaction.
+     *
+     * In case the callable throws, the transaction will automatically rolled back.
+     * In case no error happens, the transaction will be committed after the callable was called.
+     */
+    public function transactional(callable $callable)
+    {
+        $inTransaction = self::$pdo[$this->DBID]->inTransaction();
+        if (!$inTransaction) {
+            self::$pdo[$this->DBID]->beginTransaction();
+        }
+        try {
+            $result = $callable();
+            if (!$inTransaction) {
+                self::$pdo[$this->DBID]->commit();
+            }
+            return $result;
+        } catch (\Exception $e) {
+            if (!$inTransaction) {
+                self::$pdo[$this->DBID]->rollBack();
+            }
+            throw $e;
+        } catch (\Throwable $e) {
+            if (!$inTransaction) {
+                self::$pdo[$this->DBID]->rollBack();
+            }
+            throw $e;
+        }
+    }
+
     // ----------------- iterator interface
 
     /**
