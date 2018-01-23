@@ -123,7 +123,6 @@ $content[] = '
                         <p>' . rex_i18n::msg('setup_text') . '</p>
                         <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
-
 $content[] = '
                         <h3>' . rex_i18n::msg('version') . '</h3>
                         <dl class="dl-horizontal">
