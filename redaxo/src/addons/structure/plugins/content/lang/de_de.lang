@@ -58,8 +58,8 @@ content_toarticle_failed = Diese Kategorie konnte nicht in einen Artikel umgewan
 content_toarticle_ok = Diese Kategorie wurde erfolgreich in einen Artikel umgewandelt
 move_category = nach
 category_moved = Kategorie wurde verschoben
-content_types = Spalten
-content_type = Spalte
+content_types = Bereiche (ctypes)
+content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
 
