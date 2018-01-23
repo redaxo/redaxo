@@ -1127,52 +1127,52 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Starts a database transaction
+     * Starts a database transaction.
      *
      * @throws rex_sql_exception when a transaction is already running
      *
-     * @return boolean Indicating whether the transaction was successfully started
+     * @return bool Indicating whether the transaction was successfully started
      */
     public function beginTransaction()
     {
         if (self::$pdo[$this->DBID]->inTransaction()) {
-            throw new rex_sql_exception("Transaction already started", null, $this);
+            throw new rex_sql_exception('Transaction already started', null, $this);
         }
         return self::$pdo[$this->DBID]->beginTransaction();
     }
 
     /**
-     * Rollback a already started database transaction
+     * Rollback a already started database transaction.
      *
      * @throws rex_sql_exception when no transaction was started beforehand
      *
-     * @return boolean Indicating whether the transaction was successfully rollbacked
+     * @return bool Indicating whether the transaction was successfully rollbacked
      */
     public function rollBack()
     {
         if (!self::$pdo[$this->DBID]->inTransaction()) {
-            throw new rex_sql_exception("Unable to rollback, no transaction started before", null, $this);
+            throw new rex_sql_exception('Unable to rollback, no transaction started before', null, $this);
         }
         return self::$pdo[$this->DBID]->rollBack();
     }
 
     /**
-     * Commit a already started database transaction
+     * Commit a already started database transaction.
      *
      * @throws rex_sql_exception when no transaction was started beforehand
      *
-     * @return boolean Indicating whether the transaction was successfully committed
+     * @return bool Indicating whether the transaction was successfully committed
      */
     public function commit()
     {
         if (!self::$pdo[$this->DBID]->inTransaction()) {
-            throw new rex_sql_exception("Unable to commit, no transaction started before", null, $this);
+            throw new rex_sql_exception('Unable to commit, no transaction started before', null, $this);
         }
         return self::$pdo[$this->DBID]->commit();
     }
-    
+
     /**
-     * @return boolean Whether a transaction was already started/is already running.
+     * @return bool Whether a transaction was already started/is already running.
      */
     public function inTransaction()
     {
@@ -1197,12 +1197,12 @@ class rex_sql implements Iterator
                 self::$pdo[$this->DBID]->commit();
             }
             return $result;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (!$inTransaction) {
                 self::$pdo[$this->DBID]->rollBack();
             }
             throw $e;
-        } catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             if (!$inTransaction) {
                 self::$pdo[$this->DBID]->rollBack();
             }
