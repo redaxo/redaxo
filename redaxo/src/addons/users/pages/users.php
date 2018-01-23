@@ -507,9 +507,10 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         jQuery(function($) {
             $("#rex-js-user-admin").change(function() {
                  if ($(this).is(":checked"))
-                     $("#rex-js-user-role").attr("disabled", "disabled");
+                     $("#rex-js-user-role").prop("disabled", true);
                  else
-                     $("#rex-js-user-role").removeAttr("disabled");
+                     $("#rex-js-user-role").prop("disabled", false);
+                 $("#rex-js-user-role").selectpicker("refresh");
             }).change();
         });
         //-->
