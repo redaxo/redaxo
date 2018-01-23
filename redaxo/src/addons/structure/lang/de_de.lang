@@ -20,6 +20,7 @@ header_id = Id
 add_category = Kategorie hinzufügen
 edit_category = Kategorie bearbeiten
 save_category = Kategorie speichern
+category_parent = zurück
 status_online = online
 status_offline = offline
 option_no_template = Kein Template
