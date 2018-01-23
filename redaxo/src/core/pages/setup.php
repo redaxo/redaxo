@@ -167,6 +167,10 @@ if ($step >= 4) {
     );
 }
 
+if($config['server'] == "https://www.redaxo.org/") {
+    $config['server'] = "https://" . $_SERVER['HTTP_HOST'];
+}
+
 if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
     $config['server'] = rex_post('serveraddress', 'string');
     $config['servername'] = rex_post('servername', 'string');
