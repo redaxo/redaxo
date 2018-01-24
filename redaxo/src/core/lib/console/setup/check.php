@@ -58,7 +58,7 @@ class rex_command_setup_check extends rex_console_command
             if ($err) {
                 $errors[] = $err;
             } else {
-                $io->success('Datenbank ok');
+                $io->success('Database ok');
             }
         } catch (PDOException $e) {
             $errors[] = $e->getMessage();
