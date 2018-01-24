@@ -21,15 +21,21 @@ class rex_command_setup_check extends rex_console_command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $exitCode = 0;
         $io = $this->getStyle($input, $output);
         
         $errors = rex_setup::checkEnvironment();
         if (count($errors) == 0) {
             $io->success('PHP version ok');
+        } else {
+            $exitCode = 1;
+            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $io->error("PHP version errors:\n" .implode("\n", $errors));
         }
         
         $res = rex_setup::checkFilesystem();
         if (count($res) > 0) {
+            $errors = array();
             $base = rex_path::base();
             foreach ($res as $key => $messages) {
                 if (count($messages) > 0) {
@@ -40,6 +46,10 @@ class rex_command_setup_check extends rex_console_command
                     $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
                 }
             }
+            
+            $exitCode = 2;
+            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $io->error("Directory permissions error:\n" .implode("\n", $errors));
         } else {
             $io->success('Directory permissions ok');
         }
@@ -56,18 +66,16 @@ class rex_command_setup_check extends rex_console_command
                 $err = 'config.yml not found';
             }
             if ($err) {
-                $errors[] = $err;
+                $exitCode = 3;
+                $io->error("Database error:\n". $this->decodeMessage($err));
             } else {
                 $io->success('Database ok');
             }
         } catch (PDOException $e) {
-            $errors[] = $e->getMessage();
+            $exitCode = 3;
+            $io->error("Database error:\n". $e->getMessage());
         }
-
-        if ($errors) {
-            $errors = array_map([$this, 'decodeMessage'], $errors);
-            
-            throw new \Exception(implode("\n", $errors));
-        }                
+        
+        return $exitCode;
     }
 }
