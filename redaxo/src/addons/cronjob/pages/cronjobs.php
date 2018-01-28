@@ -101,7 +101,7 @@ if ($func == '') {
     $list->setColumnFormat('nexttime', 'strftime', 'datetime');
 
     $list->setColumnLabel('status', $this->i18n('status_function'));
-    $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
+    $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', function ($params) {
         $list = $params['list'];
