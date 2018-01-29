@@ -7,7 +7,7 @@
  * <code>
  *     try {
  *         $socket = rex_socket::factory('www.example.com');
- *         $socket->setPath('/path/index.php?param=1');
+ *         $socket->setPath('/url/to/my/resource?param=1');
  *         $response = $socket->doGet();
  *         if($response->isOk()) {
  *             $body = $response->getBody();
