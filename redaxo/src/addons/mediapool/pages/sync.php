@@ -89,7 +89,6 @@ if ($PERMALL) {
                 $diff_count = count($diff_files);
             }
         }
-
     } elseif (rex_post('save', 'boolean')) {
         $error[] = rex_i18n::msg('pool_file_not_found');
     }
