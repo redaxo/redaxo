@@ -13,7 +13,6 @@ if ($PERMALL) {
     $edit_id = rex_request('edit_id', 'int');
 
     try {
-
         switch ($media_method) {
             case 'edit_file_cat':
             case 'delete_file_cat':
@@ -45,8 +44,6 @@ if ($PERMALL) {
                 }
                 break;
         }
-
-
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }
