@@ -7,34 +7,46 @@
 // *************************************** SUBPAGE: KATEGORIEN
 
 $media_method = rex_request('media_method', 'string');
+$csrf = rex_csrf_token::factory('mediapool_structure');
 
 if ($PERMALL) {
     $edit_id = rex_request('edit_id', 'int');
 
     try {
-        if ($media_method == 'edit_file_cat') {
-            $cat_name = rex_request('cat_name', 'string');
 
-            $data = ['name' => $cat_name];
-            $success = rex_media_category_service::editCategory($edit_id, $data);
-        } elseif ($media_method == 'delete_file_cat') {
-            try {
-                $success = rex_media_category_service::deleteCategory($edit_id);
-            } catch (rex_functional_exception $e) {
-                $error = $e->getMessage();
-            }
-        } elseif ($media_method == 'add_file_cat') {
-            $parent = null;
-            $parentId = rex_request('cat_id', 'int');
-            if ($parentId) {
-                $parent = rex_media_category::get($parentId);
-            }
-
-            $success = rex_media_category_service::addCategory(
-                rex_request('catname', 'string'),
-                $parent
-            );
+        switch($media_method) {
+            case 'edit_file_cat':
+            case 'delete_file_cat':
+            case 'add_file_cat':
+                if (!$csrf->isValid()) {
+                    $error = rex_i18n::msg('csrf_token_invalid');
+                } else {
+                    if ($media_method == 'edit_file_cat') {
+                        $cat_name = rex_request('cat_name', 'string');
+                        $data = ['name' => $cat_name];
+                        $success = rex_media_category_service::editCategory($edit_id, $data);
+                    } elseif ($media_method == 'delete_file_cat') {
+                        try {
+                            $success = rex_media_category_service::deleteCategory($edit_id);
+                        } catch (rex_functional_exception $e) {
+                            $error = $e->getMessage();
+                        }
+                    } elseif ($media_method == 'add_file_cat') {
+                        $parent = null;
+                        $parentId = rex_request('cat_id', 'int');
+                        if ($parentId) {
+                            $parent = rex_media_category::get($parentId);
+                        }
+                        $success = rex_media_category_service::addCategory(
+                            rex_request('catname', 'string'),
+                            $parent
+                        );
+                    }
+                }
+                break;
         }
+
+
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }
@@ -138,7 +150,7 @@ if ($PERMALL) {
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $iid . '</td>
                     <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><a href="' . $link . $iid . '">' . htmlspecialchars($OOCat->getName()) . '</a></td>
                     <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('pool_kat_edit') . '</a></td>
-                    <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a></td>
+                    <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '&amp;'.http_build_query($csrf->getUrlParams()).'" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a></td>
                 </tr>';
         }
     }
@@ -157,6 +169,7 @@ if ($PERMALL) {
 
         $content = '
             <form action="' . rex_url::currentBackendPage() . '" method="post">
+                ' . $csrf->getHiddenField() . '
                 <fieldset>
                     <input type="hidden" name="media_method" value="' . $method . '" />
                     <input type="hidden" name="cat_id" value="' . $cat_id . '" />

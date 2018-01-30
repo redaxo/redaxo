@@ -8,6 +8,7 @@ $subpage = rex_be_controller::getCurrentPagePart(2);
 
 $media_method = rex_request('media_method', 'string');
 $media_name = rex_request('media_name', 'string');
+$csrf = rex_csrf_token::factory('mediapool');
 
 // *************************************** CONFIG
 
@@ -100,58 +101,66 @@ $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOL
 // *************************************** Subpage: Media
 
 if ($file_id && rex_post('btn_delete', 'string')) {
-    $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
-    $media = null;
-    if ($sql->getRows() == 1) {
-        $media = rex_media::get($sql->getValue('filename'));
-    }
-
-    if ($media) {
-        $filename = $media->getFileName();
-        if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-            $return = rex_mediapool_deleteMedia($filename);
-            if ($return['ok']) {
-                $success = $return['msg'];
-            } else {
-                $error = $return['msg'];
-            }
-            $file_id = 0;
-        } else {
-            $error = rex_i18n::msg('no_permission');
-        }
+    if (!$csrf->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
     } else {
-        $error = rex_i18n::msg('pool_file_not_found');
-        $file_id = 0;
+        $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
+        $media = null;
+        if ($sql->getRows() == 1) {
+            $media = rex_media::get($sql->getValue('filename'));
+        }
+
+        if ($media) {
+            $filename = $media->getFileName();
+            if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+                $return = rex_mediapool_deleteMedia($filename);
+                if ($return['ok']) {
+                    $success = $return['msg'];
+                } else {
+                    $error = $return['msg'];
+                }
+                $file_id = 0;
+            } else {
+                $error = rex_i18n::msg('no_permission');
+            }
+        } else {
+            $error = rex_i18n::msg('pool_file_not_found');
+            $file_id = 0;
+        }
     }
 }
 
 if ($file_id && rex_post('btn_update', 'string')) {
-    $gf = rex_sql::factory();
-    $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
-    if ($gf->getRows() == 1) {
-        if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
-            $FILEINFOS = [];
-            $FILEINFOS['rex_file_category'] = $rex_file_category;
-            $FILEINFOS['file_id'] = $file_id;
-            $FILEINFOS['title'] = rex_request('ftitle', 'string');
-            $FILEINFOS['filetype'] = $gf->getValue('filetype');
-            $FILEINFOS['filename'] = $gf->getValue('filename');
+    if (!$csrf->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        $gf = rex_sql::factory();
+        $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
+        if ($gf->getRows() == 1) {
+            if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
+                $FILEINFOS = [];
+                $FILEINFOS['rex_file_category'] = $rex_file_category;
+                $FILEINFOS['file_id'] = $file_id;
+                $FILEINFOS['title'] = rex_request('ftitle', 'string');
+                $FILEINFOS['filetype'] = $gf->getValue('filetype');
+                $FILEINFOS['filename'] = $gf->getValue('filename');
 
-            $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
+                $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
 
-            if ($return['ok'] == 1) {
-                $success = $return['msg'];
-                // ----- EXTENSION POINT
-                rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
+                if ($return['ok'] == 1) {
+                    $success = $return['msg'];
+                    // ----- EXTENSION POINT
+                    rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $return));
+                } else {
+                    $error = $return['msg'];
+                }
             } else {
-                $error = $return['msg'];
+                $error = rex_i18n::msg('no_permission');
             }
         } else {
-            $error = rex_i18n::msg('no_permission');
+            $error = rex_i18n::msg('pool_file_not_found');
+            $file_id = 0;
         }
-    } else {
-        $error = rex_i18n::msg('pool_file_not_found');
-        $file_id = 0;
     }
 }
 
@@ -319,6 +328,7 @@ if ($file_id) {
 
             $body = '
                 <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
+                    ' . $csrf->getHiddenField() . '
                     <input type="hidden" name="file_id" value="' . $file_id . '" />
                     ' . $arg_fields . '
                     ' . $panel . '
@@ -402,57 +412,65 @@ if ($file_id) {
 $hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
 
 if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
-    $selectedmedia = rex_post('selectedmedia', 'array');
-    if (isset($selectedmedia[0]) && $selectedmedia[0] != '') {
-        foreach ($selectedmedia as $file_name) {
-            $db = rex_sql::factory();
-            // $db->setDebug();
-            $db->setTable(rex::getTablePrefix() . 'media');
-            $db->setWhere(['filename' => $file_name]);
-            $db->setValue('category_id', $rex_file_category);
-            $db->addGlobalUpdateFields();
-            try {
-                $db->update();
-                $success = rex_i18n::msg('pool_selectedmedia_moved');
-                rex_media_cache::delete($file_name);
-            } catch (rex_sql_exception $e) {
-                $error = rex_i18n::msg('pool_selectedmedia_error');
-            }
-        }
+    if (!$csrf->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
     } else {
-        $error = rex_i18n::msg('pool_selectedmedia_error');
+        $selectedmedia = rex_post('selectedmedia', 'array');
+        if (isset($selectedmedia[0]) && $selectedmedia[0] != '') {
+            foreach ($selectedmedia as $file_name) {
+                $db = rex_sql::factory();
+                // $db->setDebug();
+                $db->setTable(rex::getTablePrefix() . 'media');
+                $db->setWhere(['filename' => $file_name]);
+                $db->setValue('category_id', $rex_file_category);
+                $db->addGlobalUpdateFields();
+                try {
+                    $db->update();
+                    $success = rex_i18n::msg('pool_selectedmedia_moved');
+                    rex_media_cache::delete($file_name);
+                } catch (rex_sql_exception $e) {
+                    $error = rex_i18n::msg('pool_selectedmedia_error');
+                }
+            }
+        } else {
+            $error = rex_i18n::msg('pool_selectedmedia_error');
+        }
     }
 }
 
 if ($hasCategoryPerm && $media_method == 'delete_selectedmedia') {
-    $selectedmedia = rex_post('selectedmedia', 'array');
-    if (count($selectedmedia) != 0) {
-        $error = [];
-        $success = [];
+    if (!$csrf->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        $selectedmedia = rex_post('selectedmedia', 'array');
+        if (count($selectedmedia) != 0) {
+            $error = [];
+            $success = [];
 
-        $countDeleted = 0;
-        foreach ($selectedmedia as $file_name) {
-            $media = rex_media::get($file_name);
-            if ($media) {
-                if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
-                    $return = rex_mediapool_deleteMedia($file_name);
-                    if ($return['ok']) {
-                        ++$countDeleted;
+            $countDeleted = 0;
+            foreach ($selectedmedia as $file_name) {
+                $media = rex_media::get($file_name);
+                if ($media) {
+                    if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+                        $return = rex_mediapool_deleteMedia($file_name);
+                        if ($return['ok']) {
+                            ++$countDeleted;
+                        } else {
+                            $error[] = $return['msg'];
+                        }
                     } else {
-                        $error[] = $return['msg'];
+                        $error[] = rex_i18n::msg('no_permission');
                     }
                 } else {
-                    $error[] = rex_i18n::msg('no_permission');
+                    $error[] = rex_i18n::msg('pool_file_not_found');
                 }
-            } else {
-                $error[] = rex_i18n::msg('pool_file_not_found');
             }
+            if ($countDeleted) {
+                $success[] = rex_i18n::msg('pool_files_deleted', $countDeleted);
+            }
+        } else {
+            $error = rex_i18n::msg('pool_selectedmedia_error');
         }
-        if ($countDeleted) {
-            $success[] = rex_i18n::msg('pool_files_deleted', $countDeleted);
-        }
-    } else {
-        $error = rex_i18n::msg('pool_selectedmedia_error');
     }
 }
 
@@ -500,7 +518,7 @@ if (!$file_id) {
     $panel = '
              <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
                     <fieldset>
-
+                        ' . $csrf->getHiddenField() . '
                         <input type="hidden" id="media_method" name="media_method" value="" />
                         ' . $arg_fields . '
 

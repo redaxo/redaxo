@@ -518,6 +518,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
     $content = $fragment->parse('core/page/section.php');
 
     $s .= ' <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
+                ' . rex_csrf_token::factory('mediapool')->getHiddenField() . '
                 <fieldset>
                     <input type="hidden" name="media_method" value="add_file" />
                     ' . $arg_fields . '
