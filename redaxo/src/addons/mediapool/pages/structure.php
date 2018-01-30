@@ -14,7 +14,7 @@ if ($PERMALL) {
 
     try {
 
-        switch($media_method) {
+        switch ($media_method) {
             case 'edit_file_cat':
             case 'delete_file_cat':
             case 'add_file_cat':
