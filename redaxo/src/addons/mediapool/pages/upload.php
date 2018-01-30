@@ -67,7 +67,6 @@ if ($media_method == 'add_file') {
             }
         }
     }
-
 }
 
 // ----- METHOD ADD FORM
