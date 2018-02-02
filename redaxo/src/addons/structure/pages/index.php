@@ -206,7 +206,12 @@ if ($KAT->getRows() > 0) {
         $i_category_id = $KAT->getValue('id');
 
         $kat_link = $context->getUrl(['category_id' => $i_category_id]);
-        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . htmlspecialchars($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
+        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . htmlspecialchars($KAT->getValue('catname')) . '"><i class="fa fa-folder-o"></i></a></td>';
+		$kat_icon_td_has_children = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . htmlspecialchars($KAT->getValue('catname')) . '"><i class="fa fa-folder"></i></a></td>';
+		
+		if(rex_category::get($KAT->getValue('id'))->getChildren()) {
+						$kat_icon_td = $kat_icon_td_has_children;
+					}
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
@@ -260,7 +265,7 @@ if ($KAT->getRows() > 0) {
                 // --------------------- KATEGORIE WITH WRITE
 
                 $category_delete = '<a href="' . $context->getUrl(['category-id' => $i_category_id, 'catstart' => $catstart] + rex_api_category_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
-
+					
                 $echo .= '
                     <tr>
                         ' . $kat_icon_td . '
