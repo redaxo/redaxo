@@ -23,7 +23,7 @@ class rex_command_setup_check extends rex_console_command
     {
         $exitCode = 0;
         $io = $this->getStyle($input, $output);
-        
+
         $errors = rex_setup::checkEnvironment();
         if (count($errors) == 0) {
             $io->success('PHP version ok');
@@ -32,10 +32,10 @@ class rex_command_setup_check extends rex_console_command
             $errors = array_map([$this, 'decodeMessage'], $errors);
             $io->error("PHP version errors:\n" .implode("\n", $errors));
         }
-        
+
         $res = rex_setup::checkFilesystem();
         if (count($res) > 0) {
-            $errors = array();
+            $errors = [];
             $base = rex_path::base();
             foreach ($res as $key => $messages) {
                 if (count($messages) > 0) {
@@ -46,7 +46,7 @@ class rex_command_setup_check extends rex_console_command
                     $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
                 }
             }
-            
+
             $exitCode = 2;
             $errors = array_map([$this, 'decodeMessage'], $errors);
             $io->error("Directory permissions error:\n" .implode("\n", $errors));
@@ -75,7 +75,7 @@ class rex_command_setup_check extends rex_console_command
             $exitCode = 3;
             $io->error("Database error:\n". $e->getMessage());
         }
-        
+
         return $exitCode;
     }
 }
