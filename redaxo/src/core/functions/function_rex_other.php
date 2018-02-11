@@ -25,6 +25,8 @@ function rex_delete_cache()
 
     rex_clang::reset();
 
+    rex_config::refresh();
+
     // ----- EXTENSION POINT
     return rex_extension::registerPoint(new rex_extension_point('CACHE_DELETED', rex_i18n::msg('delete_cache_message')));
 }
