@@ -212,6 +212,8 @@ class rex_backup
 
         // generated neu erstellen, wenn kein Fehler aufgetreten ist
         if ($error == '') {
+            rex_delete_cache();
+
             // ----- EXTENSION POINT
             $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
                 'content' => $conts,
