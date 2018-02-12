@@ -68,7 +68,6 @@ if ($export && !$csrfToken->isValid()) {
             $header = 'plain/text';
 
             $hasContent = rex_backup::exportDb($export_path . $filename . $ext, $EXPTABLES);
-            // ------------------------------ /FUNC EXPORT SQL
         } elseif ($exporttype == 'files') {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
@@ -79,7 +78,6 @@ if ($export && !$csrfToken->isValid()) {
                 $content = rex_backup::exportFiles($EXPDIR);
                 $hasContent = rex_file::put($export_path . $filename . $ext, $content);
             }
-            // ------------------------------ /FUNC EXPORT FILES
         }
 
         if ($hasContent) {
