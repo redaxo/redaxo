@@ -130,7 +130,7 @@ class rex_backend_login extends rex_login
 
     public static function hasSession()
     {
-        if (!isset($_COOKIE['PHPSESSID'])) {
+        if (!isset($_COOKIE[session_name()])) {
             return false;
         }
         self::startSession();
