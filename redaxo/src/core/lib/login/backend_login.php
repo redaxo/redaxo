@@ -130,6 +130,10 @@ class rex_backend_login extends rex_login
 
     public static function hasSession()
     {
+        // try to fast-fail, so we dont need to start a session in all cases (which would require a session lock...)
+        if (!isset($_COOKIE[session_name()])) {
+            return false;
+        }
         self::startSession();
 
         $instname = rex::getProperty('instname');
