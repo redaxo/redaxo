@@ -789,10 +789,24 @@ class rex_sql_table
             $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
         }
 
+        $fulltextIndexes = [];
+        $fulltextAdded = false;
         foreach ($this->indexes as $index) {
-            if ($index->isModified() || !isset($this->indexesExisting[$index->getName()])) {
-                $parts[] = 'ADD '.$this->getIndexDefinition($index);
+            if (!$index->isModified() && isset($this->indexesExisting[$index->getName()])) {
+                continue;
             }
+
+            if (rex_sql_index::FULLTEXT === $index->getType()) {
+                if ($fulltextAdded) {
+                    $fulltextIndexes[] = 'ADD '.$this->getIndexDefinition($index);
+
+                    continue;
+                }
+
+                $fulltextAdded = true;
+            }
+
+            $parts[] = 'ADD '.$this->getIndexDefinition($index);
         }
 
         foreach ($this->foreignKeys as $foreignKey) {
@@ -813,6 +827,10 @@ class rex_sql_table
 
                 $this->sql->setQuery($query);
             }
+        }
+
+        foreach ($fulltextIndexes as $fulltextIndex) {
+            $this->sql->setQuery('ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName).' '.$fulltextIndex.';');
         }
 
         $this->sortColumns();
