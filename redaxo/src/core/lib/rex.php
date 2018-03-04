@@ -66,6 +66,13 @@ class rex
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         switch ($key) {
+            case 'debug':
+                if (!is_array($value)) {
+                    $debug = self::getDebugMode();
+                    $debug['enabled'] = (bool) $value;
+                    $value = $debug;
+                }
+                break;
             case 'server':
                 if (!rex_validator::factory()->url($value)) {
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a full URL!');
@@ -180,7 +187,19 @@ class rex
      */
     public static function isDebugMode()
     {
-        return (bool) self::getProperty('debug', false);
+        $debug = self::getDebugMode();
+
+        return isset($debug['enabled']) && $debug['enabled'];
+    }
+
+    /**
+     * Returns the debug mode.
+     *
+     * @return array
+     */
+    public static function getDebugMode()
+    {
+        return self::getProperty('debug', ['enabled' => false]);
     }
 
     /**
