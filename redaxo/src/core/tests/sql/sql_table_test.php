@@ -327,22 +327,26 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $table = $this->createTable();
 
         $uuid = new rex_sql_index('i_uuid', ['uuid'], rex_sql_index::UNIQUE);
+        $description = new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT);
         $search = new rex_sql_index('i_search', ['title', 'description'], rex_sql_index::FULLTEXT);
 
         $table
             ->addColumn(new rex_sql_column('uuid', 'varchar(255)'))
             ->addColumn(new rex_sql_column('description', 'text', true))
             ->addIndex($uuid)
+            ->addIndex($description)
             ->addIndex($search)
             ->alter();
 
         $this->assertSame($uuid, $table->getIndex('i_uuid'));
+        $this->assertSame($description, $table->getIndex('i_description'));
         $this->assertSame($search, $table->getIndex('i_search'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
         $this->assertEquals($uuid, $table->getIndex('i_uuid'));
+        $this->assertEquals($description, $table->getIndex('i_description'));
         $this->assertEquals($search, $table->getIndex('i_search'));
     }
 
