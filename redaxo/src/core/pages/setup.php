@@ -165,10 +165,10 @@ if ($step >= 4) {
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)
     );
-}
 
-if ($config['server'] == 'https://www.redaxo.org/') {
-    $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
+    if (isset($_SERVER['HTTP_HOST']) && $config['server'] == 'https://www.redaxo.org/') {
+        $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
+    }
 }
 
 if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
