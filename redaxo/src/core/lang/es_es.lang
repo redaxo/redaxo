@@ -367,6 +367,7 @@ clang_error_idcanotbedeleted = IdiomaID (estruendo) con id "{0}" no existe
 
 # footer
 footer_joinforum = Visita el foro
+footer_doku = Documentación
 footer_datetime = {0}
 footer_scripttime = {0} seg.
 footer_credits = créditos
