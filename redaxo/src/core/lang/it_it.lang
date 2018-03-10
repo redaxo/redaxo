@@ -367,6 +367,7 @@ clang_error_idcanotbedeleted = Lingua (clang) con ID "{0}" non esiste
 
 # footer
 footer_joinforum = Vai al forum
+footer_doku = Documentazione
 footer_datetime = {0}
 footer_scripttime = {0} sec.
 footer_credits = Crediti
