@@ -458,7 +458,7 @@ if ($step == 5) {
     $sel_export->setSize(1);
     $sel_export->setStyle('class="form-control selectpicker rex-js-import-name"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
-	$export_dir = rex_backup::getDir();
+    $export_dir = rex_backup::getDir();
     $exports_found = false;
 
     if (is_dir($export_dir)) {
