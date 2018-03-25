@@ -31,11 +31,6 @@ if ($media_method == 'add_file') {
                     $info = $return['msg'];
                     $subpage = '';
 
-                    // ----- EXTENSION POINT
-                    if ($return['ok'] == 1) {
-                        rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $return));
-                    }
-
                     if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1) {
                         $file_name = $return['filename'];
                         $ffiletype = $return['type'];
