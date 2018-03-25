@@ -31,6 +31,7 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        'array_indentation' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_before_statement' => false,
         'braces' => ['allow_single_line_closure' => false],
@@ -50,6 +51,7 @@ return PhpCsFixer\Config::create()
         'psr4' => false,
         'semicolon_after_instruction' => false,
         'space_after_semicolon' => true,
+        'string_line_ending' => true,
         'yoda_style' => false,
     ])
     ->setFinder($finder)

@@ -93,8 +93,8 @@ class rex_sql implements Iterator
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
-//      PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
-//      PDO::ATTR_EMULATE_PREPARES => true,
+            // PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL,
+            // PDO::ATTR_EMULATE_PREPARES => true,
         ];
 
         $dbh = @new PDO($dsn, $login, $password, $options);

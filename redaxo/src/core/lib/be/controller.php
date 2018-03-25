@@ -54,7 +54,7 @@ class rex_be_controller
         if ($part === null) {
             return self::$pageParts;
         }
-        $part -= 1;
+        --$part;
         return isset(self::$pageParts[$part]) ? self::$pageParts[$part] : $default;
     }
 
