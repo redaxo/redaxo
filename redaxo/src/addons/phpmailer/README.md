@@ -1,20 +1,23 @@
-## Inhalt
-- [Über](#ueber)
+# PHPMailer
+
+- [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
 - [Tipps](#tipps)
+    - [Spam-Blocker](#spam-blocker)
+    - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
 
 <a name="ueber"></a>
 
-## Über
-PHPMailer ermöglicht den Versand von E-Mails. Das AddOn stellt die Class PHPMailer zur Verfügung. 
+## Allgemeines
+Das PHPMailer-AddOn ermöglicht den Versand von E-Mails.
 
-Der Aufruf erfolgt über die Class rex_mailer. Dabei werden die hier in der Konfiguration hinterlegten Einstellungen berücksichtigt. 
+Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
 Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
 
-Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PHPMailer/PHPMailer/wiki/Tutorial
+Weitere Informationen zur Verwendung von PHPMailer unter: [https://github.com/PHPMailer/PHPMailer/wiki/Tutorial](https://github.com/PHPMailer/PHPMailer/wiki/Tutorial)
 
-> Eine Test-Mail kann nach Speichern der Einstellungen verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden. 
+> **Hinweis:** Eine Test-Mail kann nach dem Speichern der Einstellungen verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden.
 
 <a name="beispiele"></a>
 ## PHPMailer Code-Beispiele
@@ -22,35 +25,37 @@ Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PH
 
 ### 1. Beispiel
 
-```php 
-<?php 
-  // PHPMailer-Instanz 
+E-Mail an einen bestimmten Empfänger senden.
+
+```php
+<?php
+  // PHPMailer-Instanz
   $mail = new rex_mailer();
- 
+
   //Absenderadresse überschreiben
  // $mail->From = "absender@domain.tld";
-  
+
   //Absendername überschreiben
   // $mail->FromName = "Vorname Nachname";
-  
-  // Antwortadresse festlegen 
+
+  // Antwortadresse festlegen
   // $mail->addReplyTo("username@domain.com", "Software Simian");
-  
-  // Empfänger 
+
+  // Empfänger
   $mail->addAddress("empfaenger@domain.tld");
-  
+
   // Empfänger als CC hinzufügen - Weitere anlegen wenn mehrere erwünscht
   // $mail->addCC("empfaenger2@domain.tld);
-  
+
   // Empfänger als BCC hinzufügen - Weitere anlegen wenn mehrere erwünscht
   // $mail->addBCC("empfaenger3@domain.tld");
- 
-  //Betreff der E-Mail 
+
+  //Betreff der E-Mail
   $mail->Subject = "PHPMailer-Test";
- 
+
   //Text der EMail setzen
   $mail->Body = "Hi \n\n this mail was sent by PHPMailer!";
-  
+
   //Überprüfen ob E-Mail gesendet wurde
   if(!$mail->send())
   {
@@ -65,6 +70,8 @@ Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PH
 
 
 ### 2. Beispiel
+
+E-Mail an einen Empfängerkreis senden, der aus der Datenbank ausgelesen wird.
 
 
 ```php
@@ -111,18 +118,19 @@ foreach($sql as $row)
 
 ## Tipps
 
+<a name="spam-blocker"></a>
 ### Spam-Blocker
 
-- Der Server, der die E-Mails versendet sollte möglichst per SPF-Eintrag für die verwendete E-Mail-Doman als autorisierter Server im DNS hinterlegt sein. 
+- Der Server, der die E-Mails versendet, sollte möglichst per SPF-Eintrag für die verwendete E-Mail-Domain als autorisierter Server im DNS hinterlegt sein.
 
-- Prioritäts-Einstellungen können zu einem Spam-Blocking führen. 
+- Prioritäts-Einstellungen können zu einem Spam-Blocking führen.
 
-- Große E-Mail-Verteiler sollten möglichst in kleiner Zahl, und nicht als CC verschickt werden. 
+- Große E-Mail-Verteiler sollten möglichst in kleiner Zahl und nicht als CC verschickt werden.
 
-
+<a name="zertifikate"></a>
 ### Verwendung bei selbstsignierten Zertifikaten
 
-Per Default wird der Peer verifiziert. Dies kann ggf. zu Prpblemen führen. Die nachfolgenden Einstellungen helfen das zu umgehen.  
+Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die nachfolgenden Einstellungen helfen, dieses Problem zu umgehen.
 
 ```php
 <?php
@@ -141,3 +149,5 @@ $mail->SMTPOptions = array(
     ),
 );
 ```
+
+
