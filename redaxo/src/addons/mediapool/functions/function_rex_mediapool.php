@@ -266,7 +266,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
 
     // ----- EXTENSION POINT
     if ($RETURN['ok']) {
-        rex_extension::registerPoint(new rex_extension_point('MEDIA_ADDED', '', $RETURN));
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_UPDATED', '', $RETURN));
     }
 
     return $RETURN;
