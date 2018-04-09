@@ -77,7 +77,7 @@ abstract class rex_complex_perm
     public static function register($key, $class)
     {
         if (!is_subclass_of($class, __CLASS__)) {
-            throw new InvalidArgumentException(sprintf('$class must be a subclass of %s!', __CLASS__));
+            throw new InvalidArgumentException(sprintf('Class "%s" must be a subclass of "%s"!', $class, __CLASS__));
         }
         self::$classes[$key] = $class;
     }
