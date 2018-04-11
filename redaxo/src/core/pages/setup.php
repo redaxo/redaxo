@@ -259,7 +259,8 @@ if ($step == 4) {
 
     $timezone_sel = new rex_select();
     $timezone_sel->setId('rex-form-timezone');
-    $timezone_sel->setStyle('class="form-control"');
+    $timezone_sel->setStyle('class="form-control selectpicker"');
+    $timezone_sel->setAttribute('data-live-search', 'true');
     $timezone_sel->setName('timezone');
     $timezone_sel->setSize(1);
     $timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
@@ -455,7 +456,7 @@ if ($step == 5) {
     $sel_export->setName('import_name');
     $sel_export->setId('rex-form-import-name');
     $sel_export->setSize(1);
-    $sel_export->setStyle('class="form-control rex-js-import-name"');
+    $sel_export->setStyle('class="form-control selectpicker rex-js-import-name"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
     $export_dir = rex_backup::getDir();
     $exports_found = false;
