@@ -1100,12 +1100,14 @@ class rex_sql implements Iterator
      */
     public function addGlobalUpdateFields($user = null)
     {
-        if (!$user) {
+        if (!$user && rex::isBackend()) {
             $user = rex::getUser()->getValue('login');
         }
 
         $this->setDateTimeValue('updatedate', time());
-        $this->setValue('updateuser', $user);
+        if($user instanceof rex_user) {
+            $this->setValue('updateuser', $user);
+        }
 
         return $this;
     }
@@ -1117,12 +1119,14 @@ class rex_sql implements Iterator
      */
     public function addGlobalCreateFields($user = null)
     {
-        if (!$user) {
+        if (!$user && rex::isBackend()) {
             $user = rex::getUser()->getValue('login');
         }
 
         $this->setDateTimeValue('createdate', time());
-        $this->setValue('createuser', $user);
+        if($user instanceof rex_user) {
+            $this->setValue('createuser', $user);
+        }
 
         return $this;
     }
