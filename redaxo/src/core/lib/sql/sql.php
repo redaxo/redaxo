@@ -1105,7 +1105,7 @@ class rex_sql implements Iterator
         }
 
         $this->setDateTimeValue('updatedate', time());
-        if($user instanceof rex_user) {
+        if($user instanceof rex_user || $user != "") {
             $this->setValue('updateuser', $user);
         }
 
@@ -1124,7 +1124,7 @@ class rex_sql implements Iterator
         }
 
         $this->setDateTimeValue('createdate', time());
-        if($user instanceof rex_user) {
+        if($user instanceof rex_user || $user != "") {
             $this->setValue('createuser', $user);
         }
 
