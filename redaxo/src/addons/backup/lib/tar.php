@@ -18,7 +18,7 @@
 
 class rex_backup_tar extends tar
 {
-    private $message = [];
+    private $messages = [];
 
     // constructor to omit warnings
     public function __construct()
@@ -292,12 +292,12 @@ class rex_backup_tar extends tar
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {
-                    $this->message[] = dirname($item['name']);
+                    $this->messages[] = dirname($item['name']);
                     return false;
                 }
             }
         }
-        if (count($this->message) > 0) {
+        if (count($this->messages) > 0) {
             return false;
         }
         return true;
@@ -305,6 +305,6 @@ class rex_backup_tar extends tar
 
     public function getMessages()
     {
-        return $this->message;
+        return $this->messages;
     }
 }
