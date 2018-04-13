@@ -18,7 +18,7 @@
 
 class rex_backup_tar extends tar
 {
-    private $message;
+    private $message = [];
 
     // constructor to omit warnings
     public function __construct()
