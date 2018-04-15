@@ -13,7 +13,7 @@ $content = [];
 $content[] = '
     <h3>Jan Kristinus <small>jan.kristinus@redaxo.org</small></h3>
     <p>
-        ' . rex_i18n::msg('credits_inventor') . ' &amp ' . rex_i18n::msg('credits_developer') . '<br />
+        ' . rex_i18n::msg('credits_inventor') . ' &amp; ' . rex_i18n::msg('credits_developer') . '<br />
         Yakamara Media GmbH &amp; Co. KG, <a href="https://www.yakamara.de" onclick="window.open(this.href); return false;">www.yakamara.de</a>
     </p>
 
