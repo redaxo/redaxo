@@ -132,7 +132,8 @@ class rex_string_test extends PHPUnit_Framework_TestCase
                 'class' => ['a', 'b'],
                 'alt' => '',
                 'checked',
-                'data-foo' => '<foo> & "bar"'])
+                'data-foo' => '<foo> & "bar"',
+            ])
         );
     }
 }
