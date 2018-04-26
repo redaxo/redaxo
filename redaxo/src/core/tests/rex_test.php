@@ -64,6 +64,48 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
         // TODO find more appropriate tests
     }
 
+    public function testDebugFlags()
+    {
+        $debug = [
+            'enabled' => false,
+            'throw_always_exception' => false,
+        ];
+        rex::setProperty('debug', $debug);
+
+        $this->assertFalse(rex::isDebugMode());
+        $this->assertSame($debug, rex::getDebugFlags());
+
+        rex::setProperty('debug', true);
+
+        $this->assertTrue(rex::isDebugMode());
+        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+
+        rex::setProperty('debug', ['enabled' => false]);
+
+        $this->assertFalse(rex::isDebugMode());
+        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+
+        $debug = [
+            'enabled' => true,
+            'throw_always_exception' => true,
+        ];
+        rex::setProperty('debug', $debug);
+        $this->assertSame($debug, rex::getDebugFlags());
+
+        $debug = [
+            'enabled' => true,
+            'throw_always_exception' => E_WARNING | E_NOTICE,
+        ];
+        rex::setProperty('debug', $debug);
+        $this->assertSame($debug, rex::getDebugFlags());
+
+        rex::setProperty('debug', [
+            'enabled' => true,
+            'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
+        ]);
+        $this->assertSame($debug, rex::getDebugFlags());
+    }
+
     public function testGetTablePrefix()
     {
         $this->assertEquals(rex::getTablePrefix(), 'rex_', 'table prefix defauts to rex_');

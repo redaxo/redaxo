@@ -67,10 +67,24 @@ class rex
         }
         switch ($key) {
             case 'debug':
+                // bc for boolean "debug" property
                 if (!is_array($value)) {
-                    $debug = self::getDebugMode();
+                    $debug = self::getDebugFlags();
                     $debug['enabled'] = (bool) $value;
                     $value = $debug;
+                }
+                $value['enabled'] = isset($value['enabled']) && $value['enabled'];
+                if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
+                    $value['throw_always_exception'] = false;
+                } elseif (is_array($value['throw_always_exception'])) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], function ($result, $item) {
+                        if (is_string($item)) {
+                            // $item is string, e.g. "E_WARNING"
+                            $item = constant($item);
+                        }
+
+                        return $result | $item;
+                    }, 0);
                 }
                 break;
             case 'server':
@@ -187,19 +201,19 @@ class rex
      */
     public static function isDebugMode()
     {
-        $debug = self::getDebugMode();
+        $debug = self::getDebugFlags();
 
         return isset($debug['enabled']) && $debug['enabled'];
     }
 
     /**
-     * Returns the debug mode.
+     * Returns the debug flags.
      *
      * @return array
      */
-    public static function getDebugMode()
+    public static function getDebugFlags()
     {
-        return self::getProperty('debug', ['enabled' => false]);
+        return self::getProperty('debug');
     }
 
     /**
