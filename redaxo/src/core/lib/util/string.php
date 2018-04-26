@@ -223,12 +223,12 @@ class rex_string
 
         foreach ($attributes as $key => $value) {
             if (is_int($key)) {
-                $attr .= ' ' . $value;
+                $attr .= ' ' . rex_escape($value);
             } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
-                $attr .= ' ' . $key . '="' . $value . '"';
+                $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
             }
         }
 
