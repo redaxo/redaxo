@@ -860,8 +860,8 @@ class rex_article_service
 
                     rex_extension::registerPoint(new rex_extension_point('ART_MOVED', null, [
                         'id' => $id,
-                        'category_id' => $parent_id,
                         'clang' => $clang,
+                        'category_id' => $parent_id,
                     ]));
                 } else {
                     return false;
