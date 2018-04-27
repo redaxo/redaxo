@@ -777,8 +777,6 @@ class rex_article_service
                         'clang' => $clang,
                         'category_id' => $to_cat_id,
                     ]));
-
-
                 } else {
                     return false;
                 }
