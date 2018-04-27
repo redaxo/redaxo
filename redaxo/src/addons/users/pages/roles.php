@@ -21,7 +21,7 @@ if ($func == 'delete') {
 if ($func == '') {
     $title = rex_i18n::msg('user_role_caption');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
