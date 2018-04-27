@@ -28,10 +28,10 @@ if (!$this->hasConfig()) {
     $this->setConfig('username', '');
     $this->setConfig('password', '');
     $this->setConfig('smtp_debug', '0');
-    $this->setConfig('log', 1);
+    $this->setConfig('log', 0);
 } else {
     if (!$this->hasConfig('log')) {
-        $this->setConfig('log', 1);
+        $this->setConfig('log', 0);
     }
 }
 
