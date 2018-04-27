@@ -56,7 +56,10 @@ if ($func && !$csrfToken->isValid()) {
         }
     }
 
-    $config['debug'] = isset($settings['debug']) && $settings['debug'];
+    if (!is_array($config['debug'])) {
+        $config['debug'] = [];
+    }
+    $config['debug']['enabled'] = isset($settings['debug']) && $settings['debug'];
     rex::setProperty('debug', $config['debug']);
 
     foreach (rex_system_setting::getAll() as $setting) {

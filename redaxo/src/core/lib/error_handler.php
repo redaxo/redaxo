@@ -167,12 +167,30 @@ abstract class rex_error_handler
         if (in_array($errno, [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
-        if ((error_reporting() & $errno) == $errno) {
-            if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
-                echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
-            }
-            rex_logger::logError($errno, $errstr, $errfile, $errline);
+
+        // silenced errors ("@" operator)
+        if (0 === error_reporting()) {
+            return;
         }
+
+        $debug = rex::getDebugFlags();
+
+        if (
+            isset($debug['throw_always_exception']) &&
+            (true === $debug['throw_always_exception'] || $errno === ($errno & $debug['throw_always_exception']))
+        ) {
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        }
+
+        if ((error_reporting() & $errno) !== $errno) {
+            return;
+        }
+
+        if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
+            echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
+        }
+
+        rex_logger::logError($errno, $errstr, $errfile, $errline);
     }
 
     /**
