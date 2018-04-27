@@ -775,7 +775,7 @@ class rex_article_service
                         'id_source' => $id,
                         'id' => $new_id,
                         'clang' => $clang,
-                        'category_id_new' => $to_cat_id,
+                        'category_id' => $to_cat_id,
                     ]));
 
 
@@ -860,7 +860,7 @@ class rex_article_service
 
                     rex_extension::registerPoint(new rex_extension_point('ART_MOVED', null, [
                         'id' => $id,
-                        'category_id_new' => $parent_id,
+                        'category_id' => $parent_id,
                         'clang' => $clang,
                     ]));
                 } else {
