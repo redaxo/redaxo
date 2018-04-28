@@ -770,6 +770,13 @@ class rex_article_service
 
                     // Prios neu berechnen
                     self::newArtPrio($to_cat_id, $clang, 1, 0);
+
+                    rex_extension::registerPoint(new rex_extension_point('ART_COPIED', null, [
+                        'id_source' => $id,
+                        'id' => $new_id,
+                        'clang' => $clang,
+                        'category_id' => $to_cat_id,
+                    ]));
                 } else {
                     return false;
                 }
@@ -848,6 +855,12 @@ class rex_article_service
                     // Prios neu berechnen
                     self::newArtPrio($to_cat_id, $clang, 1, 0);
                     self::newArtPrio($from_cat_id, $clang, 1, 0);
+
+                    rex_extension::registerPoint(new rex_extension_point('ART_MOVED', null, [
+                        'id' => $id,
+                        'clang' => $clang,
+                        'category_id' => $parent_id,
+                    ]));
                 } else {
                     return false;
                 }
