@@ -58,7 +58,33 @@ class rex_media_category_service
             throw new rex_functional_exception(rex_i18n::msg('pool_kat_not_deleted'));
         }
 
+        if ($uses = self::categoryIsInUse($categoryId)) {
+            $gf->setQuery('SELECT name FROM ' . rex::getTableP('media_category') . ' WHERE id=?', [$categoryId]);
+            $name = "$gf->getValue('name') [id=$categoryId]";
+            return = '<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
+                . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses;
+        }
+
         return rex_i18n::msg('pool_kat_deleted');
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return bool|string false|warning-Message
+     */
+    public static function categoryIsInUse($categoryId)
+    {
+        // ----- EXTENSION POINT
+        $warning = rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_IS_IN_USE', [], [
+            'categoryId' => $categoryId,
+        ]));
+
+        if (!empty($warning)) {
+            return implode('<br />', $warning);
+        }
+
+        return false;
     }
 
     /**
