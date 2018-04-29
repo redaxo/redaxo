@@ -51,18 +51,19 @@ class rex_media_category_service
         $gd = rex_sql::factory();
         $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
         if ($gf->getRows() == 0 && $gd->getRows() == 0) {
+
+            if ($uses = self::categoryIsInUse($categoryId)) {
+                $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
+                $name = "{$gf->getValue('name')} [$categoryId]";
+                throw new rex_functional_exception( '<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
+                    . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses );
+            }
+
             $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
             rex_media_cache::deleteCategory($categoryId);
             rex_media_cache::deleteLists();
         } else {
             throw new rex_functional_exception(rex_i18n::msg('pool_kat_not_deleted'));
-        }
-
-        if ($uses = self::categoryIsInUse($categoryId)) {
-            $gf->setQuery('SELECT name FROM ' . rex::getTableP('media_category') . ' WHERE id=?', [$categoryId]);
-            $name = "$gf->getValue('name') [id=$categoryId]";
-            return = '<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
-                . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses;
         }
 
         return rex_i18n::msg('pool_kat_deleted');
