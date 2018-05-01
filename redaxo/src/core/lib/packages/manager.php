@@ -214,6 +214,12 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
+            // clear cache of package
+            $cache_dir = $this->package->getCachePath();
+            if (is_dir($cache_dir) && !rex_dir::delete($cache_dir)) {
+                throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+            }
+
             rex_config::removeNamespace($this->package->getPackageId());
 
             $this->saveConfig();
