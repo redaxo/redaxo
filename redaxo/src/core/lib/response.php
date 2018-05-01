@@ -120,8 +120,9 @@ class rex_response
      * @param string $file               File path
      * @param string $contentType        Content type
      * @param string $contentDisposition Content disposition
+     * @param string $filename           Send custom Filename
      */
-    public static function sendFile($file, $contentType, $contentDisposition = 'inline')
+    public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
     {
         self::cleanOutputBuffers();
 
@@ -133,8 +134,12 @@ class rex_response
         // prevent session locking while sending huge files
         session_write_close();
 
+        if (!$filename) {
+            $filename = basename($file);
+        }
+
         self::sendContentType($contentType);
-        header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($file) . '"');
+        header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($filename) . '"');
 
         self::sendLastModified(filemtime($file));
 
