@@ -317,9 +317,17 @@ if ($file_id) {
             $fragment->setVar('elements', $formElements, false);
             $buttons = $fragment->parse('core/form/submit.php');
 
-            if ($add_image != '') {
+            // ----- EXTENSION POINT
+            $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SIDEBAR', $add_image, [
+                'id' => $file_id,
+                'filename' => $fname,
+                'media' => $gf,
+                'isImage' => $isImage,
+            ]));
+
+            if ($sidebar != '') {
                 $fragment = new rex_fragment();
-                $fragment->setVar('content', [$panel, $add_image], false);
+                $fragment->setVar('content', [$panel, $sidebar], false);
                 $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
                 $panel = $fragment->parse('core/page/grid.php');
             }
