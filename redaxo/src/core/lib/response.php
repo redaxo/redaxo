@@ -139,7 +139,7 @@ class rex_response
         }
 
         self::sendContentType($contentType);
-        header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($filename) . '"');
+        header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
 
         self::sendLastModified(filemtime($file));
 
