@@ -298,11 +298,12 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     *  Clears the cache of the package
+     *  Clears the cache of the package.
      *
      * @throws rex_functional_exception
      */
-    public function clearCache() {
+    public function clearCache()
+    {
         $cache_dir = $this->getCachePath();
         if (is_dir($cache_dir) && !rex_dir::delete($cache_dir)) {
             throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
