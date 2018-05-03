@@ -220,6 +220,15 @@ if ($file_id) {
                             <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . htmlspecialchars($ftitle) . '" title="' . htmlspecialchars($ftitle) . '" />
                         </a>';
             }
+
+            // ----- EXTENSION POINT
+            $add_image = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SIDEBAR', $add_image, [
+                'id' => $file_id,
+                'filename' => $fname,
+                'media' => $gf,
+                'is_image' => $isImage,
+            ]));
+
         }
 
         if ($error != '') {
