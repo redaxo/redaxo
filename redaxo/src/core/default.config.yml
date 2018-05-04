@@ -43,6 +43,7 @@ start_page: structure
 timezone: Europe/Berlin
 socket_proxy: null
 setup_addons:
+    - adminer
     - backup
     - be_style
 system_addons:
