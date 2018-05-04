@@ -51,6 +51,14 @@ class rex_media_category_service
         $gd = rex_sql::factory();
         $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
         if ($gf->getRows() == 0 && $gd->getRows() == 0) {
+
+            if ($uses = self::categoryIsInUse($categoryId)) {
+                $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
+                $name = "{$gf->getValue('name')} [$categoryId]";
+                throw new rex_functional_exception( '<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
+                    . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses );
+            }
+
             $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);
             rex_media_cache::deleteCategory($categoryId);
             rex_media_cache::deleteLists();
@@ -59,6 +67,25 @@ class rex_media_category_service
         }
 
         return rex_i18n::msg('pool_kat_deleted');
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return bool|string false|warning-Message
+     */
+    public static function categoryIsInUse($categoryId)
+    {
+        // ----- EXTENSION POINT
+        $warning = rex_extension::registerPoint(new rex_extension_point('MEDIA_CATEGORY_IS_IN_USE', [], [
+            'id' => $categoryId,
+        ]));
+
+        if (!empty($warning)) {
+            return implode('<br />', $warning);
+        }
+
+        return false;
     }
 
     /**
