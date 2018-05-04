@@ -220,7 +220,6 @@ if ($file_id) {
                             <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . htmlspecialchars($ftitle) . '" title="' . htmlspecialchars($ftitle) . '" />
                         </a>';
             }
-
         }
 
         if ($error != '') {
