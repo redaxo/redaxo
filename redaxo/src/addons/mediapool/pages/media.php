@@ -190,7 +190,7 @@ if ($file_id) {
             }
         }
 
-        $add_image = '';
+        $sidebar = '';
         $add_ext_info = '';
         $encoded_fname = urlencode($fname);
         if ($isImage) {
@@ -213,9 +213,9 @@ if ($file_id) {
             }
 
             if (!file_exists(rex_path::media($fname))) {
-                $add_image = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
+                $sidebar = '<i class="rex-mime rex-mime-error"></i><span class="sr-only">' . $fname . '</span>';
             } else {
-                $add_image = '
+                $sidebar = '
                         <a href="' . $img_max . '">
                             <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . htmlspecialchars($ftitle) . '" title="' . htmlspecialchars($ftitle) . '" />
                         </a>';
@@ -241,6 +241,14 @@ if ($file_id) {
         if ($opener_link != '') {
             $opener_link = ' | ' . $opener_link;
         }
+
+        // ----- EXTENSION POINT
+        $sidebar = rex_extension::registerPoint(new rex_extension_point('MEDIA_DETAIL_SIDEBAR', $sidebar, [
+            'id' => $file_id,
+            'filename' => $fname,
+            'media' => $gf,
+            'is_image' => $isImage,
+        ]));
 
         if ($TPERM) {
             $panel = '';
@@ -317,9 +325,9 @@ if ($file_id) {
             $fragment->setVar('elements', $formElements, false);
             $buttons = $fragment->parse('core/form/submit.php');
 
-            if ($add_image != '') {
+            if ($sidebar != '') {
                 $fragment = new rex_fragment();
-                $fragment->setVar('content', [$panel, $add_image], false);
+                $fragment->setVar('content', [$panel, $sidebar], false);
                 $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
                 $panel = $fragment->parse('core/page/grid.php');
             }
@@ -384,9 +392,9 @@ if ($file_id) {
             $fragment->setVar('elements', $formElements, false);
             $panel .= $fragment->parse('core/form/form.php');
 
-            if ($add_image != '') {
+            if ($sidebar != '') {
                 $fragment = new rex_fragment();
-                $fragment->setVar('content', [$panel, $add_image], false);
+                $fragment->setVar('content', [$panel, $sidebar], false);
                 $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
                 $panel = $fragment->parse('core/page/grid.php');
             }
