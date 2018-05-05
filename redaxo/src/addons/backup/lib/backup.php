@@ -309,7 +309,7 @@ class rex_backup
         $sql = rex_sql::factory();
 
         $nl = "\n";
-        $insertSize = 5000;
+        $insertSize = 4000;
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_EXPORT'));
