@@ -214,6 +214,9 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
+            // clear cache of package
+            $this->package->clearCache();
+
             rex_config::removeNamespace($this->package->getPackageId());
 
             $this->saveConfig();
@@ -287,9 +290,10 @@ abstract class rex_package_manager
         if ($state === true) {
             $this->package->setProperty('status', false);
             $this->saveConfig();
-        }
 
-        if ($state === true) {
+            // clear cache of package
+            $this->package->clearCache();
+
             // reload autoload cache when addon is deactivated,
             // so the index doesn't contain outdated class definitions
             rex_autoload::removeCache();
