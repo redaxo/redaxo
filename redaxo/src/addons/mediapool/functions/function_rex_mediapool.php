@@ -570,6 +570,10 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
         return false;
     }
 
+    if (0 === strpos($file_ext, 'php')) {
+        return false;
+    }
+
     $blacklist = rex_mediapool_getMediaTypeBlacklist();
     $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
 
@@ -577,9 +581,6 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
         return false;
     }
     if (count($whitelist) > 0 && !in_array($file_ext, $whitelist)) {
-        return false;
-    }
-    if (preg_match('/^php\d+$/', $file_ext)) {
         return false;
     }
     return true;
