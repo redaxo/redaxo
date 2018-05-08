@@ -32,7 +32,7 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
     }
 
     // ---- ext checken - alle scriptendungen rausfiltern
-    if (in_array(ltrim($NFILE_EXT, '.'), rex_addon::get('mediapool')->getProperty('blocked_extensions'))) {
+    if (!rex_mediapool_isAllowedMediaType($NFILENAME)) {
         $NFILE_NAME .= $NFILE_EXT;
         $NFILE_EXT = '.txt';
     }
@@ -567,6 +567,10 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     $file_ext = mb_strtolower(rex_file::extension($filename));
 
     if ($filename === '' || strpos($file_ext, ' ') !== false || $file_ext === '') {
+        return false;
+    }
+
+    if (0 === strpos($file_ext, 'php')) {
         return false;
     }
 
