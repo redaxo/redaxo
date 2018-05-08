@@ -7,6 +7,8 @@ class rex_mediapool_functions_test extends PHPUnit_Framework_TestCase
      */
     public function testIsAllowedMediaType($expected, $filename, array $args = [])
     {
+        require_once rex_path::addon('mediapool', 'functions/function_rex_mediapool.php');
+
         return $this->assertSame($expected, rex_mediapool_isAllowedMediaType($filename, $args));
     }
 
