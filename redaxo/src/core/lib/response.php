@@ -14,7 +14,8 @@ class rex_response
     const HTTP_FORBIDDEN = '403 Forbidden';
     const HTTP_UNAUTHORIZED = '401 Unauthorized';
     const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
-
+    const HTTP_TEMPORARILY_UNAVAILABLE = '503 Service Temporarily Unavailable';
+    
     private static $httpStatus = self::HTTP_OK;
     private static $sentLastModified = false;
     private static $sentEtag = false;
