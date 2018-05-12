@@ -400,4 +400,14 @@ class rex_response
     {
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
     }
+
+    public static function enforceHttps()
+    {
+        if (rex_request::isHttps()) {
+            header('Strict-Transport-Security: max-age=31536000');
+        } else {
+            header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], true, self::HTTP_MOVED_PERMANENTLY);
+            exit;
+        }
+    }
 }

@@ -7,6 +7,11 @@
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 
+// ----------------- Force Backend HTTPS
+if (rex::getProperty('enforce_backend_https') === true) {
+    rex_response::enforceHttps();
+}
+
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
 $pages = [];
