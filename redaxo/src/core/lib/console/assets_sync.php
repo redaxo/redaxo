@@ -93,6 +93,23 @@ class rex_command_assets_sync extends rex_console_command
             $f1FileShort = str_replace(rex_path::base(), '', $f1File);
             $f2FileShort = str_replace(rex_path::base(), '', $f2File);
 
+            $hasError = false;
+
+            if (!is_readable($f1File)) {
+                ++$errored;
+                $hasError = true;
+                $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
+            }
+            if (file_exists($f2File) && !is_writable($f2File)) {
+                ++$errored;
+                $hasError = true;
+                $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
+            }
+
+            if ($hasError) {
+                continue;
+            }
+
             if (!file_exists($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$created;
@@ -103,27 +120,14 @@ class rex_command_assets_sync extends rex_console_command
                 continue;
             }
 
-            if (is_readable($f1File) && is_writable($f1File)) {
-                if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
-                    rex_file::copy($f1File, $f2File);
-                    ++$updated;
-                    if ($io->isVerbose()) {
-                        $io->text("Updated <comment>$f2FileShort</comment>");
-                    }
+            if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
+                rex_file::copy($f1File, $f2File);
+                ++$updated;
+                if ($io->isVerbose()) {
+                    $io->text("Updated <comment>$f2FileShort</comment>");
                 }
-                // else: $f2 is equal or newer, so no sync in this direction
-
-                continue;
             }
-
-            if (!is_readable($f1File)) {
-                ++$errored;
-                $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
-            }
-            if (!is_writable($f2File)) {
-                ++$errored;
-                $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
-            }
+            // else: $f2 is equal or newer, so no sync in this direction
         }
 
         return [$created, $updated, $errored];
