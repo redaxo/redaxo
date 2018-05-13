@@ -10,7 +10,7 @@ if (PHP_VERSION_ID < 50509) {
 $mysqlVersion = rex_sql::getServerVersion();
 $minMysqlVersion = '5.5.3';
 if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
-    // The message was added in 5.6.0, so it does not exist while updating from previous versions
+    // The message was added in REDAXO 5.6.0, so it does not exist while updating from previous versions
     $message = rex_i18n::hasMsg('sql_database_min_version')
         ? rex_i18n::msg('sql_database_min_version', $mysqlVersion, $minMysqlVersion)
         : "The MySQL version $mysqlVersion is too old, you need at least version $minMysqlVersion!";
