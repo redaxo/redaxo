@@ -6,7 +6,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @package redaxo\core
- * 
+ *
  * @author staabm
  *
  * @internal
@@ -24,7 +24,7 @@ class rex_command_assets_sync extends rex_console_command
         $created = $updated = $errored = 0;
         $io = $this->getStyle($input, $output);
 
-        foreach(rex_package::getInstalledPackages() as $package) {
+        foreach (rex_package::getInstalledPackages() as $package) {
             $assetsPublicPath = $package->getAssetsPath();
             $assetsSrcPath = $package->getPath('assets/');
 
@@ -70,14 +70,15 @@ class rex_command_assets_sync extends rex_console_command
         return 1;
     }
 
-    private function sync(SymfonyStyle $io, $folder1, $folder2) {
+    private function sync(SymfonyStyle $io, $folder1, $folder2)
+    {
         $created = $updated = $errored = 0;
-        
+
         // normalize paths
         $folder1 = realpath($folder1);
         $folder2 = realpath($folder2);
 
-        foreach(rex_finder::factory($folder1)->recursive()->filesOnly() as $f1Fileinfo) {
+        foreach (rex_finder::factory($folder1)->recursive()->filesOnly() as $f1Fileinfo) {
             $f1File = (string) $f1Fileinfo;
             $relativePath = str_replace($folder1, '', $f1File);
             $f2File = $folder2 . $relativePath;
@@ -88,54 +89,53 @@ class rex_command_assets_sync extends rex_console_command
 
             if (!file_exists($f2File)) {
                 rex_file::copy($f1File, $f2File);
-                $created++;
-                if($io->isVerbose()) {
+                ++$created;
+                if ($io->isVerbose()) {
                     $io->text("created $f1File -> $f2File");
                 }
-            } else if (is_readable($f1File) && is_readable($f2File) && is_writable($f1File) && is_writable($f2File)) {
+            } elseif (is_readable($f1File) && is_readable($f2File) && is_writable($f1File) && is_writable($f2File)) {
                 if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
                     rex_file::copy($f1File, $f2File);
-                    $updated++;
-                    if($io->isVerbose()) {
+                    ++$updated;
+                    if ($io->isVerbose()) {
                         $io->text("updated $f1File -> $f2File");
                     }
-                } else if (filemtime($f2File) > $f1Fileinfo->getMtime()) {
+                } elseif (filemtime($f2File) > $f1Fileinfo->getMtime()) {
                     rex_file::copy($f2File, $f1File);
-                    $updated++;
-                    if($io->isVerbose()) {
+                    ++$updated;
+                    if ($io->isVerbose()) {
                         $io->text("updated $f2File -> $f1File");
                     }
-                } else {
-                    // equal modification time, we assume same content
                 }
+                // equal modification time, we assume same content
             } else {
                 if (!is_readable($f1File)) {
-                    $errored++;
-                    if($io->isVerbose()) {
+                    ++$errored;
+                    if ($io->isVerbose()) {
                         $io->error("error $f1File not readable");
                     }
                 }
                 if (!is_readable($f2File)) {
-                    $errored++;
-                    if($io->isVerbose()) {
+                    ++$errored;
+                    if ($io->isVerbose()) {
                         $io->error("error $f2File not readable");
                     }
                 }
                 if (!is_writable($f1File)) {
-                    $errored++;
-                    if($io->isVerbose()) {
+                    ++$errored;
+                    if ($io->isVerbose()) {
                         $io->error("error $f1File not writable");
                     }
                 }
                 if (!is_writable($f2File)) {
-                    $errored++;
-                    if($io->isVerbose()) {
+                    ++$errored;
+                    if ($io->isVerbose()) {
                         $io->error("error $f2File not writable");
                     }
                 }
             }
         }
-        
+
         return [$created, $updated, $errored];
     }
 }
