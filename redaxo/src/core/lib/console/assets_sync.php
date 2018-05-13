@@ -27,16 +27,6 @@ class rex_command_assets_sync extends rex_console_command
             $assetsPublicPath = $package->getAssetsPath();
             $assetsSrcPath = $package->getPath('assets/');
 
-            // dont create top level "assets" folder when it doesnt exist
-            if (!file_exists($assetsPublicPath)) {
-                $io->comment("skip not existing assets/ folder: $assetsPublicPath");
-                continue;
-            }
-            if (!file_exists($assetsSrcPath)) {
-                $io->comment("skip not existing assets/ folder: $assetsSrcPath");
-                continue;
-            }
-
             // sync 1st way, copies ...
             // - existing in FE but not BE
             // - newer in FE then BE
