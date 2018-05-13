@@ -16,7 +16,7 @@ class rex_command_assets_sync extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription('Sync files of /assets with addons/assets and core/assets folders');
+            ->setDescription('Sync folders and files of /assets with addons/assets respectively core/assets folders');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -59,36 +59,20 @@ class rex_command_assets_sync extends rex_console_command
     }
 
     private function sync(SymfonyStyle $io, $folder1, $folder2) {
-        foreach(new RecursiveDirectoryIterator($folder1, RecursiveDirectoryIterator::SKIP_DOTS) as $feFileinfo) {
-            // XXX if($feFileinfo->isLink()) behandeln?
-
-            if ($feFileinfo->isDir()) {
-                /*
-                skip folders, we assume those could be somehow generated
-                $folderName = $feFileinfo->getFilename();
-
-                if (!file_exists($folder2 . $folderName )) {
-                    // mkdir($folder2 . $folderName, rex::getDirPerm());
-                    echo "mkdir $folder2$folderName\n";
-                }
-                */
-
-                continue;
-            }
-
+        foreach(rex_finder::factory($folder1)->recursive()->filesOnly() as $feFileinfo) {
             $fileName = $feFileinfo->getFilename();
             $feFile = (string) $feFileinfo;
             $beFile = $folder2 . $fileName;
             if (!file_exists($beFile)) {
-                $io->success("created $beFile");
                 rex_file::copy($feFile, $beFile);
+                $io->success("created $beFile");
             } else if (is_readable($feFile) && is_readable($beFile) && is_writable($feFile) && is_writable($beFile)) {
                 if ($feFileinfo->getMtime() > filemtime($beFile)) {
-                    $io->success("copied $feFile -> $beFile");
                     rex_file::copy($feFile, $beFile);
+                    $io->success("copied $feFile -> $beFile");
                 } else if (filemtime($beFile) > $feFileinfo->getMtime()) {
-                    $io->success("copied $beFile -> $feFile");
                     rex_file::copy($beFile, $feFile);
+                    $io->success("copied $beFile -> $feFile");
                 } else {
                     // equal modification time, we assume same content
                 }
