@@ -24,16 +24,8 @@ class rex_command_assets_sync extends rex_console_command
         $io = $this->getStyle($input, $output);
 
         foreach(rex_package::getInstalledPackages() as $package) {
-            if ($package instanceof rex_addon) {
-                $assetsPublicPath = $package->getAssetsPath();
-                $assetsSrcPath = $package->getPath('assets/');
-            } else {
-                // we assume "plugin" assets folder is a subfolder of the "addon" assets folder
-                // and will therefore already be synced when handling the addon
-                continue;
-                // $feAssetsPath = rex_path::pluginAssets($package->getAddon()->getName(), $package->getName());
-                // $beAssetsPath = rex_path::plugin($package->getAddon()->getName(), $package->getName(), 'assets/');
-            }
+            $assetsPublicPath = $package->getAssetsPath();
+            $assetsSrcPath = $package->getPath('assets/');
 
             // dont create top level "assets" folder when it doesnt exist
             if (!file_exists($assetsPublicPath)) {
