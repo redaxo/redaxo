@@ -1,7 +1,21 @@
 <?php
 
+// don't use REX_MIN_PHP_VERSION and rex_setup::MIN_MYSQL_VERSION here!
+// while updating the core, the constants contain the old min versions from previous core version
+
 if (PHP_VERSION_ID < 50509) {
     throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '5.5.9'));
+}
+
+$mysqlVersion = rex_sql::getServerVersion();
+$minMysqlVersion = '5.5.3';
+if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
+    // The message was added in REDAXO 5.6.0, so it does not exist while updating from previous versions
+    $message = rex_i18n::hasMsg('sql_database_min_version')
+        ? rex_i18n::msg('sql_database_min_version', $mysqlVersion, $minMysqlVersion)
+        : "The MySQL version $mysqlVersion is too old, you need at least version $minMysqlVersion!";
+
+    throw new rex_functional_exception($message);
 }
 
 // Installer >= 2.1.2 required because of https://github.com/redaxo/redaxo/issues/1018
