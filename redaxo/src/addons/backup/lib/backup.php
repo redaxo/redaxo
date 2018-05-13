@@ -424,6 +424,7 @@ class rex_backup
             }
         }
 
+        // Wenn das backup vollständig und erfolgreich erzeugt werden konnte, den Export 1:1 ans Ziel kopieren.
         rewind($fp);
         $destination = fopen($filename, 'w');
         if (!$destination) {
