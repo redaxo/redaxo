@@ -60,10 +60,14 @@ class rex_command_assets_sync extends rex_console_command
         $updated += $upd;
         $errored += $err;
 
-        if (!$io->isVerbose()) {
-            $io->success(sprintf('Successfully created %s, updated %s file(s) while running into %s errors.', $created, $updated, $errored));
+        $summary = sprintf('created %s, updated %s file(s) while running into %s errors.', $created, $updated, $errored);
+        if ($errored === 0) {
+            $io->success($summary);
+            return 0;
         }
-        return $errored === 0 ? 0 : 1;
+
+        $io->error($summary);
+        return 1;
     }
 
     private function sync(SymfonyStyle $io, $folder1, $folder2) {
