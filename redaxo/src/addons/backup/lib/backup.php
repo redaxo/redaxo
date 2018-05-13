@@ -300,10 +300,16 @@ class rex_backup
      */
     public static function exportDb($filename, array $tables = null)
     {
-        $fp = tmpfile();
+        $fp = @tmpfile();
+        $tempCacheFile = null;
 
+        // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
-            return false;
+            $tempCacheFile = rex_path::cache(basename($filename));
+            $fp = fopen($tempCacheFile, "w");
+            if (!$fp) {
+                return false;
+            }
         }
 
         $sql = rex_sql::factory();
@@ -425,14 +431,19 @@ class rex_backup
         }
 
         // Wenn das backup vollständig und erfolgreich erzeugt werden konnte, den Export 1:1 ans Ziel kopieren.
-        rewind($fp);
-        $destination = fopen($filename, 'w');
-        if (!$destination) {
-            return false;
+        if ($tempCacheFile) {
+            fclose($fp);
+            rename($tempCacheFile, $filename);
+        } else {
+            $destination = fopen($filename, 'w');
+            rewind($fp);
+            if (!$destination) {
+                return false;
+            }
+            stream_copy_to_stream($fp, $destination);
+            fclose($fp);
+            fclose($destination);
         }
-        stream_copy_to_stream($fp, $destination);
-        fclose($fp);
-        fclose($destination);
 
         return $hasContent;
     }
