@@ -78,15 +78,18 @@ class rex_command_assets_sync extends rex_console_command
         $folder1 = realpath($folder1);
         $folder2 = realpath($folder2);
 
+        /** @var rex_finder $finder */
+        $finder = rex_finder::factory($folder1)
+            ->recursive()
+            ->ignoreDirs('plugins')
+            ->ignoreFiles('.redaxo')
+            ->filesOnly();
+
         // make sure we dont sync plugin assets into a addons asset-dir
-        foreach (rex_finder::factory($folder1)->recursive()->ignoreDirs('plugins')->filesOnly() as $f1Fileinfo) {
+        foreach ($finder as $f1Fileinfo) {
             $f1File = (string) $f1Fileinfo;
             $relativePath = str_replace($folder1, '', $f1File);
             $f2File = $folder2 . $relativePath;
-
-            if ($f1File === '.redaxo') {
-                continue;
-            }
 
             if (!file_exists($f2File)) {
                 rex_file::copy($f1File, $f2File);
