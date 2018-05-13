@@ -107,7 +107,7 @@ class rex_command_assets_sync extends rex_console_command
                         $io->text("updated $f2File -> $f1File");
                     }
                 }
-                // equal modification time, we assume same content
+                // else: equal modification time, we assume same content
             } else {
                 if (!is_readable($f1File)) {
                     ++$errored;
