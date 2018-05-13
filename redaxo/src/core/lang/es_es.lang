@@ -11,7 +11,7 @@ datetimeformat = %d-%b-%Y %H:%M
 ctrl = Selección múltiple mediante CTRL
 
 # Allgemein
-abort = Abortar
+abort = Cancelar
 add = Añadir
 back = Atrás
 delete = Borrar
@@ -27,13 +27,14 @@ function = Función
 no_editing_rights = Permiso denegado
 check_rights_in_directory  =  Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
+csrf_token_invalid = El token csrf no es válido.
 
 # redaxo/redaxo/index.php
 system = Sistema
 user = Usuarios
 profile = Perfil
 logout = Salir
-navigation_system = Mainmenu
+navigation_system = Menú principal
 navigation_addons = AddOns
 subnavigation = Subnavegación de {0}
 
@@ -54,6 +55,9 @@ stay_logged_in = Permanecer conectado
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  No registrado
 logged_in_as  =  Conectado como
+safemode = Modo seguro
+safemode_text = En Modo a prueba de fallos, todos los Complementos están desactivados temporalmente. Si, por ejemplo, un complemento genera problemas después de la instalación, puede desactivarse o desinstalarse a través del modo seguro.
+safemode_activate = Activar modo seguro
 safemode_deactivate = Desactivar el modo seguro
 
 # redaxo/include/classes/class.form.php
@@ -214,6 +218,8 @@ setup_799 = 7 / Eureka
 
 setup_security_msg = La carpeta redaxo/include es insegura. Proteja esta carpeta y vuelva a ejecutar el programa de instalación.
 setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta redaxo/include están directamente accesibles. Esto debería ser imposible debido a las restricciones de seguridad!
+setup_security_no_https = La configuración se realiza sin HTTPS / cifrado. Se recomienda realizar todas las llamadas frontend y backend solo a través de HTTPS para garantizar su privacidad.
+setup_security_warn_mod_security = El módulo de Apache "mod_security" está cargado. Esto puede provocar problemas si se configura incorrectamente.
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
 sql_database_already_exists = ¡La base de datos ya existe!
@@ -228,7 +234,7 @@ addon = AddOn
 addons = AddOns
 package_help = Ayuda para
 package_no_help_file = No se encontró ningún archivo de ayuda
-package_back = espalda
+package_back = atrás
 addon_no_install = AddOn <b>{0}</b> no instalado porque:
 addon_no_uninstall = AddOn <b>{0}</b> se desinstaló porque:
 package_no_reason = Ninguna razón dada.
@@ -273,10 +279,10 @@ package_is_addon = El paquete tiene que ser instalado como "<b>{0}</b>"!
 package_install_cant_copy_files = Error en la copia de la carpeta /assets !
 package_install_cant_delete_files = ¡La eliminacion de la carpeta /assets ha fallado!
 package_requirement_wrong_format = ¡Los requisitos de package.yml deben estar en formato array!
-package_requirement_error_redaxo_version = [Missing_text] de: Die REDAXO-Version (<b>{0}</b>) <b>{1}</b>!
-package_requirement_error_php_version = [Missing_text] de: Version de PHP (<b>{0}</b>) <b>{1}</b>!
-package_requirement_error_php_extension = [Missing_text] de: Es wird die PHP-Extension <b>{0}</b> benötigt!
-package_requirement_error_addon = [Missing_text] de: Es wird das AddOn <b>{0}</b> benötigt!
+package_requirement_error_redaxo_version = La versión de REDAXO (<b>{0}</b>) no coincide con la condición de versión requerida <b>{1}</b>!
+package_requirement_error_php_version = La versión de PHP (<b>{0}</b>) no coincide con la condición de la versión requerida <b>{1}</b>!
+package_requirement_error_php_extension = Se requiere el módulo de extensión de PHP  <b>{0}</b> !
+package_requirement_error_addon = ¡Se requiere AddOn <b>{0}</b> !
 package_requirement_error_addon_version = [Missing_text] de: Das AddOn <b>{0}</b> (Versión <b>{1}</b>).
 package_requirement_error_plugin = [Missing_text] de: Es wird das PlugIn <b>{0}</b> benötigt!
 package_requirement_error_plugin_version = [Missing_text] de: Das PlugIn <b>{0}</b> (Versión <b>{1}</b>) <b>{2}</b>!
@@ -337,6 +343,18 @@ new_password_repeat = Nueva contraseña de nuevo
 profile_save_psw = Guardar contraseña
 backend_language = Idioma de backend
 user_data_updated = ¡Datos de usuario actualizados!
+
+password_invalid = La contraseña no coincide con las reglas requeridas ({0})!
+password_admin_notice = Las reglas de contraseña se pueden cambiar en config.yml.
+password_rule_min = min. {0}
+password_rule_max = min. {0}
+password_rule_between = {0} a {1}
+password_rule_length = {0} caracteres
+password_rule_letter = {0} letra(s)
+password_rule_uppercase = {0} letra(s) mayúscula(s)
+password_rule_lowercase = {0} letra(s) minúsculas
+password_rule_digit = {0} dígito(s)
+password_rule_symbol = {0} caracteres especiales
 
 # redaxo\include\classes\class.rex_list.php
 list_previous = página anterior
