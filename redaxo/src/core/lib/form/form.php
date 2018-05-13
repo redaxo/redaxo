@@ -1322,6 +1322,9 @@ class rex_form
                 // Callback, um die Values vor dem Speichern noch beeinflussen zu können
                 $fieldValue = $this->preSave($fieldsetName, $fieldName, $fieldValue, $sql);
 
+                if (is_string($fieldValue)) {
+                    $fieldValue = trim($fieldValue);
+                }
                 $values[$fieldName] = $fieldValue;
             }
         }
