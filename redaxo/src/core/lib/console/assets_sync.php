@@ -60,13 +60,12 @@ class rex_command_assets_sync extends rex_console_command
         $updated += $upd;
         $errored += $err;
 
-        $summary = sprintf('created %s, updated %s file(s) while running into %s errors.', $created, $updated, $errored);
         if ($errored === 0) {
-            $io->success($summary);
+            $io->success(sprintf('Created %s and updated %s file(s).', $created, $updated));
             return 0;
         }
 
-        $io->error($summary);
+        $io->error(sprintf('Created %s, updated %s file(s) while running into %s errors.', $created, $updated, $errored));
         return 1;
     }
 
@@ -91,51 +90,46 @@ class rex_command_assets_sync extends rex_console_command
             $relativePath = str_replace($folder1, '', $f1File);
             $f2File = $folder2 . $relativePath;
 
+            $f1FileShort = str_replace(rex_path::base(), '', $f1File);
+            $f2FileShort = str_replace(rex_path::base(), '', $f2File);
+
             if (!file_exists($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 ++$created;
                 if ($io->isVerbose()) {
-                    $io->text("created $f1File -> $f2File");
+                    $io->text("Created <comment>$f2FileShort</comment>");
                 }
             } elseif (is_readable($f1File) && is_readable($f2File) && is_writable($f1File) && is_writable($f2File)) {
                 if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
                     rex_file::copy($f1File, $f2File);
                     ++$updated;
                     if ($io->isVerbose()) {
-                        $io->text("updated $f1File -> $f2File");
+                        $io->text("Updated <comment>$f2FileShort</comment>");
                     }
                 } elseif (filemtime($f2File) > $f1Fileinfo->getMtime()) {
                     rex_file::copy($f2File, $f1File);
                     ++$updated;
                     if ($io->isVerbose()) {
-                        $io->text("updated $f2File -> $f1File");
+                        $io->text("Updated <comment>$f1FileShort</comment>");
                     }
                 }
                 // else: equal modification time, we assume same content
             } else {
                 if (!is_readable($f1File)) {
                     ++$errored;
-                    if ($io->isVerbose()) {
-                        $io->error("error $f1File not readable");
-                    }
+                    $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
                 }
                 if (!is_readable($f2File)) {
                     ++$errored;
-                    if ($io->isVerbose()) {
-                        $io->error("error $f2File not readable");
-                    }
+                    $io->text("<error>Not readable:</error> <comment>$f2FileShort</comment>");
                 }
                 if (!is_writable($f1File)) {
                     ++$errored;
-                    if ($io->isVerbose()) {
-                        $io->error("error $f1File not writable");
-                    }
+                    $io->text("<error>Not writable:</error> <comment>$f1FileShort</comment>");
                 }
                 if (!is_writable($f2File)) {
                     ++$errored;
-                    if ($io->isVerbose()) {
-                        $io->error("error $f2File not writable");
-                    }
+                    $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
                 }
             }
         }
