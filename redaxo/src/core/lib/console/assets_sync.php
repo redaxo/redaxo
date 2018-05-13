@@ -78,7 +78,8 @@ class rex_command_assets_sync extends rex_console_command
         $folder1 = realpath($folder1);
         $folder2 = realpath($folder2);
 
-        foreach (rex_finder::factory($folder1)->recursive()->filesOnly() as $f1Fileinfo) {
+        // make sure we dont sync plugin assets into a addons asset-dir
+        foreach (rex_finder::factory($folder1)->recursive()->ignoreDirs('plugins')->filesOnly() as $f1Fileinfo) {
             $f1File = (string) $f1Fileinfo;
             $relativePath = str_replace($folder1, '', $f1File);
             $f2File = $folder2 . $relativePath;
