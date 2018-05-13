@@ -41,7 +41,6 @@ class rex_command_assets_sync extends rex_console_command
             // sync 1st way, copies ...
             // - existing in FE but not "src"
             // - newer in FE then "src"
-            // - newer in "src" then FE
             list($ctd, $upd, $err) = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             $created += $ctd;
             $updated += $upd;
@@ -49,6 +48,7 @@ class rex_command_assets_sync extends rex_console_command
 
             // sync 2nd way, copies ...
             // - existing in "src" but not FE
+            // - newer in "src" then FE
             list($ctd, $upd, $err) = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
             $created += $ctd;
             $updated += $upd;
@@ -99,38 +99,30 @@ class rex_command_assets_sync extends rex_console_command
                 if ($io->isVerbose()) {
                     $io->text("Created <comment>$f2FileShort</comment>");
                 }
-            } elseif (is_readable($f1File) && is_readable($f2File) && is_writable($f1File) && is_writable($f2File)) {
+
+                continue;
+            }
+
+            if (is_readable($f1File) && is_writable($f1File)) {
                 if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
                     rex_file::copy($f1File, $f2File);
                     ++$updated;
                     if ($io->isVerbose()) {
                         $io->text("Updated <comment>$f2FileShort</comment>");
                     }
-                } elseif (filemtime($f2File) > $f1Fileinfo->getMtime()) {
-                    rex_file::copy($f2File, $f1File);
-                    ++$updated;
-                    if ($io->isVerbose()) {
-                        $io->text("Updated <comment>$f1FileShort</comment>");
-                    }
                 }
-                // else: equal modification time, we assume same content
-            } else {
-                if (!is_readable($f1File)) {
-                    ++$errored;
-                    $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
-                }
-                if (!is_readable($f2File)) {
-                    ++$errored;
-                    $io->text("<error>Not readable:</error> <comment>$f2FileShort</comment>");
-                }
-                if (!is_writable($f1File)) {
-                    ++$errored;
-                    $io->text("<error>Not writable:</error> <comment>$f1FileShort</comment>");
-                }
-                if (!is_writable($f2File)) {
-                    ++$errored;
-                    $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
-                }
+                // else: $f2 is equal or newer, so no sync in this direction
+
+                continue;
+            }
+
+            if (!is_readable($f1File)) {
+                ++$errored;
+                $io->text("<error>Not readable:</error> <comment>$f1FileShort</comment>");
+            }
+            if (!is_writable($f2File)) {
+                ++$errored;
+                $io->text("<error>Not writable:</error> <comment>$f2FileShort</comment>");
             }
         }
 
