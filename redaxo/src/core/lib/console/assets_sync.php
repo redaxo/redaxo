@@ -30,6 +30,12 @@ class rex_command_assets_sync extends rex_console_command
             if (!is_dir($assetsPublicPath) && !is_dir($assetsSrcPath)) {
                 continue;
             }
+            if (!is_dir($assetsPublicPath)) {
+                rex_dir::create($assetsPublicPath);
+            }
+            if (!is_dir($assetsSrcPath)) {
+                rex_dir::create($assetsSrcPath);
+            }
 
             // sync 1st way, copies ...
             // - existing in FE but not "src"
