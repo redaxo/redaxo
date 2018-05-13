@@ -16,7 +16,7 @@ class rex_command_assets_sync extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription('Sync files of /assets with addons/assets core/assets folders');
+            ->setDescription('Sync files of /assets with addons/assets and core/assets folders');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
