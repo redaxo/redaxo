@@ -9,7 +9,7 @@ class rex_i18n
 {
     private static $locales = [];
     private static $directories = [];
-    private static $loaded = false;
+    private static $loaded = [];
     private static $locale = null;
     private static $msg = [];
 
@@ -26,7 +26,9 @@ class rex_i18n
         $saveLocale = self::$locale;
         self::$locale = $locale;
 
-        self::loadAll();
+        if (empty(self::$loaded[$locale])) {
+            self::loadAll($locale);
+        }
 
         if ($phpSetLocale) {
             $locales = [];
@@ -69,8 +71,8 @@ class rex_i18n
 
         self::$directories[] = $dir;
 
-        if (self::$loaded) {
-            self::loadFile($dir . DIRECTORY_SEPARATOR . self::$locale . '.lang');
+        foreach (self::$loaded as $locale => $_) {
+            self::loadFile($dir, $locale);
         }
     }
 
@@ -109,22 +111,17 @@ class rex_i18n
      */
     private static function getMsg($key, $htmlspecialchars, array $args)
     {
-        if (!self::$loaded) {
-            self::loadAll();
+        if (!self::$locale) {
+            self::$locale = rex::getProperty('lang');
+        }
+        if (empty(self::$loaded[self::$locale])) {
+            self::loadAll(self::$locale);
         }
 
-        if (self::hasMsg($key)) {
-            $msg = self::$msg[$key];
+        if (isset(self::$msg[self::$locale][$key])) {
+            $msg = self::$msg[self::$locale][$key];
         } else {
-            $msg = "[translate:$key]";
-            $msg = rex_extension::registerPoint(new rex_extension_point(
-                'I18N_MISSING_TRANSLATION',
-                $msg,
-                [
-                    'key' => $key,
-                    'args' => $args,
-                ]
-            ));
+            $msg = self::getMsgFallback($key, $args);
         }
 
         $patterns = [];
@@ -149,6 +146,44 @@ class rex_i18n
     }
 
     /**
+     * Returns the message fallback for a missing key in main locale.
+     *
+     * @param string $key
+     * @param array  $args
+     *
+     * @return string
+     */
+    private static function getMsgFallback($key, array $args)
+    {
+        $fallback = "[translate:$key]";
+
+        $msg = rex_extension::registerPoint(new rex_extension_point('I18N_MISSING_TRANSLATION', $fallback, [
+            'key' => $key,
+            'args' => $args,
+        ]));
+
+        if ($msg !== $fallback) {
+            return $msg;
+        }
+
+        foreach (rex::getProperty('lang_fallback') as $locale) {
+            if (self::$locale === $locale) {
+                continue;
+            }
+
+            if (empty(self::$loaded[$locale])) {
+                self::loadAll($locale);
+            }
+
+            if (isset(self::$msg[$locale][$key])) {
+                return self::$msg[$locale][$key];
+            }
+        }
+
+        return $fallback;
+    }
+
+    /**
      * Checks if there is a translation for the given key.
      *
      * @param string $key Key
@@ -157,7 +192,7 @@ class rex_i18n
      */
     public static function hasMsg($key)
     {
-        return isset(self::$msg[$key]);
+        return isset(self::$msg[self::$locale][$key]);
     }
 
     /**
@@ -168,7 +203,7 @@ class rex_i18n
      */
     public static function addMsg($key, $msg)
     {
-        self::$msg[$key] = $msg;
+        self::$msg[self::$locale][$key] = $msg;
     }
 
     /**
@@ -253,34 +288,34 @@ class rex_i18n
     /**
      * Loads the translation definitions of the given file.
      *
-     * @param string $file Path to the file
-     *
-     * @return bool TRUE on success, FALSE on failure
+     * @param string $dir    Path to the directory
+     * @param string $locale Locale
      */
-    private static function loadFile($file)
+    private static function loadFile($dir, $locale)
     {
+        $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
+
         if (
             ($content = rex_file::get($file)) &&
             preg_match_all('/^([^=\s]+)\h*=\h*(.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
         ) {
             foreach ($matches as $match) {
-                self::addMsg($match[1], $match[2]);
+                self::$msg[$locale][$match[1]] = $match[2];
             }
         }
     }
 
     /**
      * Loads all translation defintions.
+     *
+     * @param string $locale Locale
      */
-    private static function loadAll()
+    private static function loadAll($locale)
     {
-        self::$msg = [];
-        if (!self::$locale) {
-            self::$locale = rex::getProperty('lang');
-        }
         foreach (self::$directories as $dir) {
-            self::loadFile($dir . DIRECTORY_SEPARATOR . self::$locale . '.lang');
+            self::loadFile($dir, $locale);
         }
-        self::$loaded = true;
+
+        self::$loaded[$locale] = true;
     }
 }
