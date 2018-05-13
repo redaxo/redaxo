@@ -388,6 +388,7 @@ clang_error_idcanotbedeleted = Sprachid (clang) mit der Id "{0}" existiert nicht
 
 # footer
 footer_joinforum = Besuche das Forum
+footer_doku = Dokumentation lesen
 footer_datetime = {0}
 footer_scripttime = {0} Sek.
 footer_credits = Credits

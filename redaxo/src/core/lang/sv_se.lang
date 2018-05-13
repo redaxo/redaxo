@@ -380,6 +380,7 @@ clang_error_idcanotbedeleted = Språkid (clang) med Id "{0}" existerar inte
 
 # footer
 footer_joinforum = Besök vår forum
+footer_doku = Dokumentation
 footer_datetime = {0}
 footer_scripttime = {0} Sek.
 footer_credits = Credits
