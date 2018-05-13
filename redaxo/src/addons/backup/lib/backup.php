@@ -300,7 +300,7 @@ class rex_backup
      */
     public static function exportDb($filename, array $tables = null)
     {
-        $fp = @fopen($filename, 'w');
+        $fp = tmpfile();
 
         if (!$fp) {
             return false;
@@ -407,8 +407,6 @@ class rex_backup
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 1;' . $nl);
 
-        fclose($fp);
-
         $hasContent = true;
 
         // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
@@ -425,6 +423,15 @@ class rex_backup
                 unset($content);
             }
         }
+
+        rewind($fp);
+        $destination = fopen($filename, 'w');
+        if (!$destination) {
+            return false;
+        }
+        stream_copy_to_stream($fp, $destination);
+        fclose($fp);
+        fclose($destination);
 
         return $hasContent;
     }
