@@ -59,35 +59,35 @@ class rex_command_assets_sync extends rex_console_command
     }
 
     private function sync(SymfonyStyle $io, $folder1, $folder2) {
-        foreach(rex_finder::factory($folder1)->recursive()->filesOnly() as $feFileinfo) {
-            $fileName = $feFileinfo->getFilename();
-            $feFile = (string) $feFileinfo;
-            $beFile = $folder2 . $fileName;
-            if (!file_exists($beFile)) {
-                rex_file::copy($feFile, $beFile);
-                $io->success("created $beFile");
-            } else if (is_readable($feFile) && is_readable($beFile) && is_writable($feFile) && is_writable($beFile)) {
-                if ($feFileinfo->getMtime() > filemtime($beFile)) {
-                    rex_file::copy($feFile, $beFile);
-                    $io->success("copied $feFile -> $beFile");
-                } else if (filemtime($beFile) > $feFileinfo->getMtime()) {
-                    rex_file::copy($beFile, $feFile);
-                    $io->success("copied $beFile -> $feFile");
+        foreach(rex_finder::factory($folder1)->recursive()->filesOnly() as $f1Fileinfo) {
+            $f1FileName = $f1Fileinfo->getFilename();
+            $f1File = (string) $f1Fileinfo;
+            $f2File = $folder2 . $f1FileName;
+            if (!file_exists($f2File)) {
+                rex_file::copy($f1File, $f2File);
+                $io->success("created $f2File");
+            } else if (is_readable($f1File) && is_readable($f2File) && is_writable($f1File) && is_writable($f2File)) {
+                if ($f1Fileinfo->getMtime() > filemtime($f2File)) {
+                    rex_file::copy($f1File, $f2File);
+                    $io->success("copied $f1File -> $f2File");
+                } else if (filemtime($f2File) > $f1Fileinfo->getMtime()) {
+                    rex_file::copy($f2File, $f1File);
+                    $io->success("copied $f2File -> $f1File");
                 } else {
                     // equal modification time, we assume same content
                 }
             } else {
-                if (!is_readable($feFile)) {
-                    $io->error("error $feFile not readable");
+                if (!is_readable($f1File)) {
+                    $io->error("error $f1File not readable");
                 }
-                if (!is_readable($beFile)) {
-                    $io->error("error $beFile not readable");
+                if (!is_readable($f2File)) {
+                    $io->error("error $f2File not readable");
                 }
-                if (!is_writable($feFile)) {
-                    $io->error("error $feFile not writable");                    
+                if (!is_writable($f1File)) {
+                    $io->error("error $f1File not writable");
                 } 
-                if (!is_writable($beFile)) {
-                    $io->error("error $beFile not writable");
+                if (!is_writable($f2File)) {
+                    $io->error("error $f2File not writable");
                 }
             }
         }
