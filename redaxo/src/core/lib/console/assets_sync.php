@@ -27,13 +27,17 @@ class rex_command_assets_sync extends rex_console_command
             $assetsPublicPath = $package->getAssetsPath();
             $assetsSrcPath = $package->getPath('assets/');
 
+            if (!is_dir($assetsPublicPath) && !is_dir($assetsSrcPath)) {
+                continue;
+            }
+
             // sync 1st way, copies ...
-            // - existing in FE but not BE
-            // - newer in FE then BE
-            // - newer in BE then FE
+            // - existing in FE but not "src"
+            // - newer in FE then "src"
+            // - newer in "src" then FE
             $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             // sync 2nd way, copies ...
-            // - existing in BE but not FE
+            // - existing in "src" but not FE
             $this->sync($io, $assetsSrcPath, $assetsPublicPath);
         }
 
@@ -41,10 +45,19 @@ class rex_command_assets_sync extends rex_console_command
     }
 
     private function sync(SymfonyStyle $io, $folder1, $folder2) {
-        foreach(rex_finder::factory($folder1)->recursive()->filesOnly() as $f1Fileinfo) {
-            $f1FileName = $f1Fileinfo->getFilename();
+        // normalize paths
+        $folder1 = realpath($folder1);
+        $folder2 = realpath($folder2);
+
+        foreach(rex_finder::factory($folder1)->recursive()->filesOnly() as $k => $f1Fileinfo) {
             $f1File = (string) $f1Fileinfo;
-            $f2File = $folder2 . $f1FileName;
+            $relativePath = str_replace($folder1, '', $f1File);
+            $f2File = $folder2 . $relativePath;
+
+            if ($f1File === '.redaxo') {
+                continue;
+            }
+
             if (!file_exists($f2File)) {
                 rex_file::copy($f1File, $f2File);
                 $io->success("created $f2File");
