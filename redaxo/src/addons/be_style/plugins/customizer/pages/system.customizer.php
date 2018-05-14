@@ -59,6 +59,7 @@ $tselect->setId('customizer-codemirror_theme');
 $tselect->setName('settings[codemirror_theme]');
 $tselect->setSize(1);
 $tselect->setAttribute('class', 'form-control selectpicker');
+$tselect->setAttribute('data-width', '50%');
 $tselect->setAttribute('data-live-search', 'true');
 $tselect->setSelected($config['codemirror_theme']);
 foreach ($themes as $theme) {
