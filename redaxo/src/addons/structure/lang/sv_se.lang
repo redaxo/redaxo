@@ -1,7 +1,7 @@
 structure = Struktur
 
 title_structure = Strukturförvaltning
-homepage = Homepage
+website = Webbplats
 root_level = Huvudnivå
 no_such_category = Kategorien finns inte!
 category_updated = Kategorien aktualiserades.

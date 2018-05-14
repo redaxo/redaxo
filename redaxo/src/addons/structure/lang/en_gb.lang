@@ -1,7 +1,7 @@
 structure = Structure
 
 title_structure = Structure management
-homepage = Homepage
+website = Website
 root_level = Root
 no_such_category = Category not found!
 category_updated = Category updated.

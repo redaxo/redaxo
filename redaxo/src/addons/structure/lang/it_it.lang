@@ -1,7 +1,7 @@
 structure = Struttura
 
 title_structure = Amminstrazione struttura
-homepage = Homepage
+website = Site web
 root_level = Livello principale
 no_such_category = Categoria inesistente!
 category_updated = Categoria aggiornata.
