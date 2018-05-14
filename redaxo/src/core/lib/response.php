@@ -351,7 +351,6 @@ class rex_response
         self::$sentEtag = true;
     }
 
-    // method inspired by https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpFoundation/Cookie.php
     /**
      * Encodes the content with GZIP/X-GZIP if the browser supports one of them.
      *
