@@ -457,7 +457,7 @@ class rex_response
             $str .= '; samesite='.$sameSite;
         }
 
-        header($str);
+        header($str, false);
     }
 
     /**
