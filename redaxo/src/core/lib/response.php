@@ -391,18 +391,27 @@ class rex_response
     /**
      * @param string                        $name     The name of the cookie
      * @param string|null                   $value    The value of the cookie
-     * @param int|string|\DateTimeInterface $expire   The time the cookie expires
-     * @param string                        $path     The path on the server in which the cookie will be available on
-     * @param string|null                   $domain   The domain that the cookie is available to
-     * @param bool                          $secure   Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     * @param bool                          $httpOnly Whether the cookie will be made accessible only through the HTTP protocol
-     * @param string|null                   $sameSite Whether the cookie will be available for cross-site requests
-     * @param bool                          $raw      Whether the cookie value should be sent with no url encoding
+     * @param array                         $options  Different cookie Options. Supported keys are:
+     * "expires" int|string|\DateTimeInterface The time the cookie expires
+     * "path" string                           The path on the server in which the cookie will be available on
+     * "domain" string|null                    The domain that the cookie is available to
+     * "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     * "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
+     * "samesite" string|null                  Whether the cookie will be available for cross-site requests
+     * "raw" bool                              Whether the cookie value should be sent with no url encoding
      *
      * @throws \InvalidArgumentException
      */
-    public static function sendCookie($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true, $sameSite = null, $raw = false)
+    public static function sendCookie($name, $value = null, array $options = array())
     {
+        $expire = $options['expires'] ?: 0;
+        $path = $options['path'] ?: '/';
+        $domain = $options['domain'] ?: null;
+        $secure = $options['secure'] ?: false;
+        $httpOnly = $options['httponly'] ?: true;
+        $sameSite = $options['samesite'] ?: null;
+        $raw = $options['raw'] ?: false;
+
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
             throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
