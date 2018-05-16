@@ -486,7 +486,9 @@ class rex_response
 
     public static function enforceHttps()
     {
-        self::setStatus(self::HTTP_MOVED_PERMANENTLY);
-        self::sendRedirect('https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
+        if (!rex_request::isHttps()) {
+            self::setStatus(self::HTTP_MOVED_PERMANENTLY);
+            self::sendRedirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        }
     }
 }

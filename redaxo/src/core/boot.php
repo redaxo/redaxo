@@ -121,9 +121,7 @@ if (!rex::isSetup()) {
 }
 
 // ----------------- HTTPS REDIRECT
-if (rex::getProperty('use_https') === true ||
-    (rex::getProperty('use_https') === 'frontend' && !rex::isBackend()) ||
-    (rex::getProperty('use_https') === 'backend' && rex::isBackend())) {
+if (rex::getProperty('use_https') === true || rex::getProperty('use_https') === rex::getEnvironment()) {
     if (!rex_request::isHttps() && !rex::isSetup()) {
         rex_response::enforceHttps();
     }
