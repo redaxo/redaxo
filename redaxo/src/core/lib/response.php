@@ -390,7 +390,7 @@ class rex_response
     // method inspired by https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpFoundation/Cookie.php
     /**
      * @param string                        $name     The name of the cookie
-     * @param string|null                   $value    The value of the cookie
+     * @param string|null                   $value    The value of the cookie, a empty value to delete the cookie.
      * @param array                         $options  Different cookie Options. Supported keys are:
      * "expires" int|string|\DateTimeInterface The time the cookie expires
      * "path" string                           The path on the server in which the cookie will be available on
@@ -402,15 +402,15 @@ class rex_response
      *
      * @throws \InvalidArgumentException
      */
-    public static function sendCookie($name, $value = null, array $options = array())
+    public static function sendCookie($name, $value, array $options = array())
     {
-        $expire = $options['expires'] ?: 0;
-        $path = $options['path'] ?: '/';
-        $domain = $options['domain'] ?: null;
-        $secure = $options['secure'] ?: false;
-        $httpOnly = $options['httponly'] ?: true;
-        $sameSite = $options['samesite'] ?: null;
-        $raw = $options['raw'] ?: false;
+        $expire = isset($options['expires']) ? $options['expires'] : 0;
+        $path = isset($options['path']) ? $options['path'] : '/';
+        $domain = isset($options['domain']) ? $options['domain'] : null;
+        $secure = isset($options['secure']) ? $options['secure'] : false;
+        $httpOnly = isset($options['httponly']) ? $options['httponly'] : true;
+        $sameSite = isset($options['samesite']) ? $options['samesite'] : null;
+        $raw = isset($options['raw']) ? $options['raw'] : false;
 
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
