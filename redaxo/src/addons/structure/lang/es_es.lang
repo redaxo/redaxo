@@ -1,7 +1,6 @@
 structure = Estructura
 
 title_structure = Gestión de estructuras
-homepage = Página principal
 root_level = Raíz
 no_such_category = Categoría no encontrada!
 category_updated = Categoría actualizada.
@@ -37,6 +36,8 @@ start_article = Inicio-artículo
 no_article_available  =  No hay artículo disponible
 structure_categories_caption = Lista de subcategorías en "{0}"
 structure_articles_caption = Lista de artículos en "{0}"
+structure_root_level_articles_caption = Lista de artículos en "Raíz"
+structure_root_level_categories_caption = Lista de categorías en "Raíz"
 article_deleted = Artículo suprimido!
 article_could_not_be_generated  =  No se pudo generar el artículo.
 category_deleted  =  Categoría suprimida!
