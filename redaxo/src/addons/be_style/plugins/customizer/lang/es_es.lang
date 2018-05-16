@@ -9,7 +9,7 @@ customizer_codemirror_info = Cuando se activa automáticamente CodeMirror que se
 
 customizer_labeling = suplementos
 customizer_labelcolor = Color (#43a047)
-customizer_labelcolor_error = Ningún código de color válido (#43 o #43a047
+customizer_labelcolor_notice = Cualquier expresión de color CSS válida (<code> # 03f0ab </ code>, <code> rgba (255, 100, 0, 0.5) </ code> etc.)
 customizer_showlink = Mostrar enlace a este sitio?
 
 customizer_config_updated = Configuración se ha guardado

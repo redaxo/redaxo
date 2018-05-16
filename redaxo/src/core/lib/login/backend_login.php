@@ -51,7 +51,7 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if ($sql->getRows() == 1) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
-                    setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365, '', '', false, true);
+                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
                 } else {
                     self::deleteStayLoggedInCookie();
                 }
@@ -71,7 +71,7 @@ class rex_backend_login extends rex_login
                     $cookiekey = sha1($this->systemId . time() . $this->userLogin);
                     $add = 'cookiekey = ?, ';
                     $params[] = $cookiekey;
-                    setcookie($cookiename, $cookiekey, time() + 60 * 60 * 24 * 365, '', '', false, true);
+                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
                 }
                 if (self::passwordNeedsRehash($this->user->getValue('password'))) {
                     $add .= 'password = ?, ';
@@ -120,7 +120,7 @@ class rex_backend_login extends rex_login
 
     private static function deleteStayLoggedInCookie()
     {
-        setcookie(self::getStayLoggedInCookieName(), '', time() - 3600);
+        rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
     }
 
     private static function getStayLoggedInCookieName()

@@ -253,7 +253,7 @@ class rex_article_content_editor extends rex_article_content
         if (isset($this->MODULESELECT[$this->ctype])) {
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
-                $item['title'] = $module['name'];
+                $item['title'] = rex_escape($module['name']);
                 $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
                 $items[] = $item;
             }

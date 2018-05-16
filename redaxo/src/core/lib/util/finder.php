@@ -185,7 +185,7 @@ class rex_finder implements IteratorAggregate, Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @return Iterator|SplFileInfo[]
      */
     public function getIterator()
     {

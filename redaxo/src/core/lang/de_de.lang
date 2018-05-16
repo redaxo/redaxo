@@ -223,6 +223,7 @@ setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. 
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
+sql_database_min_version = Die MySQL-Version {0} ist veraltet, es wird mindestens Version {1} benötigt!
 sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank hergestellt werden!
 sql_unable_to_connect_server = Es konnte keine Verbindung zum Datenbankserver hergestellt werden!
 sql_unable_to_create_database = Die angegebene Datenbank konnte nicht angelegt werden!
@@ -397,6 +398,7 @@ clang_error_idcanotbedeleted = Sprachid (clang) mit der Id "{0}" existiert nicht
 
 # footer
 footer_joinforum = Besuche das Forum
+footer_doku = Dokumentation lesen
 footer_datetime = {0}
 footer_scripttime = {0} Sek.
 footer_credits = Credits
