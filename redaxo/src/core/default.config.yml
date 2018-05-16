@@ -36,6 +36,7 @@ password_policy:
     uppercase: {min: 0}
     digit: {min: 0}
 lang: de_de
+lang_fallback: [en_gb, de_de]
 use_gzip: true
 use_etag: true
 use_last_modified: false
