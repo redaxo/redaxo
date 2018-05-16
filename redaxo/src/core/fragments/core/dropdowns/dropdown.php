@@ -26,12 +26,12 @@
     <?php endif; ?>
     <ul class="dropdown-menu<?= (isset($this->right) ? ' dropdown-menu-right' : '')?><?= (isset($this->block) ? ' btn-block' : '')?>" role="menu">
         <?php if (isset($this->header) && $this->header != ''): ?>
-            <li class="dropdown-header"><?= rex_escape($this->header) ?></li>
+            <li class="dropdown-header"><?= $this->header ?></li>
         <?php endif; ?>
         <?php
         foreach ($this->items as $item) {
             echo '<li' . ((isset($item['active']) && $item['active']) ? ' class="active"' : '') . (isset($item['attributes']) ? ' ' . trim($item['attributes']) : '') . '>';
-            echo(isset($item['href']) && $item['href'] != '') ? '<a href="' . $item['href'] . '">' . rex_escape($item['title']) . '</a>' : rex_escape($item['title']);
+            echo(isset($item['href']) && $item['href'] != '') ? '<a href="' . $item['href'] . '">' . $item['title'] . '</a>' : $item['title'];
             echo '</li>';
         }
         ?>
