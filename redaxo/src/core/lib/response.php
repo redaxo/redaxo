@@ -388,21 +388,22 @@ class rex_response
     }
 
     // method inspired by https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpFoundation/Cookie.php
+
     /**
-     * @param string                        $name     The name of the cookie
-     * @param string|null                   $value    The value of the cookie, a empty value to delete the cookie.
-     * @param array                         $options  Different cookie Options. Supported keys are:
-     * "expires" int|string|\DateTimeInterface The time the cookie expires
-     * "path" string                           The path on the server in which the cookie will be available on
-     * "domain" string|null                    The domain that the cookie is available to
-     * "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
-     * "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
-     * "samesite" string|null                  Whether the cookie will be available for cross-site requests
-     * "raw" bool                              Whether the cookie value should be sent with no url encoding
+     * @param string      $name    The name of the cookie
+     * @param string|null $value   The value of the cookie, a empty value to delete the cookie.
+     * @param array       $options Different cookie Options. Supported keys are:
+     *                             "expires" int|string|\DateTimeInterface The time the cookie expires
+     *                             "path" string                           The path on the server in which the cookie will be available on
+     *                             "domain" string|null                    The domain that the cookie is available to
+     *                             "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                             "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
+     *                             "samesite" string|null                  Whether the cookie will be available for cross-site requests
+     *                             "raw" bool                              Whether the cookie value should be sent with no url encoding
      *
      * @throws \InvalidArgumentException
      */
-    public static function sendCookie($name, $value, array $options = array())
+    public static function sendCookie($name, $value, array $options = [])
     {
         $expire = isset($options['expires']) ? $options['expires'] : 0;
         $path = isset($options['path']) ? $options['path'] : '/';
@@ -437,11 +438,11 @@ class rex_response
         if (null !== $sameSite) {
             $sameSite = strtolower($sameSite);
         }
-        if (!in_array($sameSite, array('lax', 'strict', null), true)) {
+        if (!in_array($sameSite, ['lax', 'strict', null], true)) {
             throw new \InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
 
-        $str = 'Set-Cookie: '. ($raw? $name : urlencode($name)).'=';
+        $str = 'Set-Cookie: '. ($raw ? $name : urlencode($name)).'=';
         if ('' === (string) $value) {
             $str .= 'deleted; expires='.gmdate('D, d-M-Y H:i:s T', time() - 31536001).'; Max-Age=0';
         } else {
