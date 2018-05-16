@@ -51,7 +51,7 @@ class rex_backend_login extends rex_login
                 $sql->setQuery('SELECT id FROM ' . rex::getTable('user') . ' WHERE cookiekey = ? LIMIT 1', [$cookiekey]);
                 if ($sql->getRows() == 1) {
                     $this->setSessionVar('UID', $sql->getValue('id'));
-                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime("+1 year"), 'samesite' => 'strict']);
+                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
                 } else {
                     self::deleteStayLoggedInCookie();
                 }
@@ -71,7 +71,7 @@ class rex_backend_login extends rex_login
                     $cookiekey = sha1($this->systemId . time() . $this->userLogin);
                     $add = 'cookiekey = ?, ';
                     $params[] = $cookiekey;
-                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime("+1 year"), 'samesite' => 'strict']);
+                    rex_response::sendCookie($cookiename, $cookiekey, ['expires' => strtotime('+1 year'), 'samesite' => 'strict']);
                 }
                 if (self::passwordNeedsRehash($this->user->getValue('password'))) {
                     $add .= 'password = ?, ';
