@@ -125,14 +125,12 @@ if (rex::getProperty('use_https') === true ||
     (rex::getProperty('use_https') === 'frontend' && !rex::isBackend()) ||
     (rex::getProperty('use_https') === 'backend' && rex::isBackend())) {
     if (!rex_request::isHttps() && !rex::isSetup()) {
-        header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], true, rex_response::HTTP_MOVED_PERMANENTLY);
-        exit();
+        rex_response::enforceHttps();
     }
 }
 
-// ----------------- SET HSTS
-if (rex_request::isHttps() && rex::getProperty('use_hsts') === true) {
-    rex_response::enforceHttps();
+if (rex_request::isHttps() && rex::getProperty('use_hsts') === true && !rex::isSetup()) {
+    rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {

@@ -369,6 +369,7 @@ if ($step == 4) {
     $n = [];
     $n['label'] = '<label>' . rex_i18n::msg('hsts_activate') . '</label>';
     $n['field'] = '<input type="checkbox" name="use_hsts" value="1"' . $hsts_checked . ' />';
+    $n['note'] = rex_i18n::rawMsg('hsts_more_information', '<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" rel="nofollow noreferrer">mozilla developer network</a>');
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
