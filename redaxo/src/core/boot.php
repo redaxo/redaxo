@@ -15,7 +15,7 @@ if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
-foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
+foreach (['HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO'] as $key) {
     if (!isset($REX[$key])) {
         throw new Exception('Missing required global variable $REX[\'' . $key . "']");
     }
@@ -33,7 +33,7 @@ session_cache_limiter(false);
 ini_set('arg_separator.output', '&amp;');
 // make Whoops link to the php.net manual on exception pages, when not configured differently
 if (ini_get('html_errors') && !ini_get('docref_root')) {
-    ini_set('docref_root', "https://php.net/manual/");
+    ini_set('docref_root', 'https://php.net/manual/');
 }
 
 require_once __DIR__ . '/lib/util/path.php';
@@ -94,7 +94,7 @@ if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile)
     rex_file::putCache($cacheFile, $config);
 }
 foreach ($config as $key => $value) {
-    if (in_array($key, array('fileperm', 'dirperm'))) {
+    if (in_array($key, ['fileperm', 'dirperm'])) {
         $value = octdec($value);
     }
     rex::setProperty($key, $value);
