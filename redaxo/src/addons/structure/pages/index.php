@@ -84,7 +84,7 @@ $artStatusTypes = rex_article_service::statusTypes();
 echo rex_api_function::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
-$cat_name = 'Homepage';
+$cat_name = rex_i18n::msg('root_level');
 $category = rex_category::get($category_id, $clang);
 if ($category) {
     $cat_name = $category->getName();
@@ -312,8 +312,12 @@ if ($function == 'add_cat' || $function == 'edit_cat') {
 </form>';
 }
 
+$heading = rex_i18n::msg('structure_categories_caption', $cat_name);
+if ($category_id == 0) {
+    $heading = rex_i18n::msg('structure_root_level_categories_caption');
+}
 $fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('structure_categories_caption', $cat_name), false);
+$fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');
 
@@ -569,7 +573,11 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
     }
 }
 
+$heading = rex_i18n::msg('structure_articles_caption', $cat_name);
+if ($category_id == 0) {
+    $heading = rex_i18n::msg('structure_root_level_articles_caption');
+}
 $fragment = new rex_fragment();
-$fragment->setVar('heading', rex_i18n::msg('structure_articles_caption', $cat_name), false);
+$fragment->setVar('heading', $heading, false);
 $fragment->setVar('content', $echo, false);
 echo $fragment->parse('core/page/section.php');

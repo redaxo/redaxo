@@ -1,7 +1,6 @@
 structure = Struktur
 
 title_structure = Strukturförvaltning
-website = Webbplats
 root_level = Huvudnivå
 no_such_category = Kategorien finns inte!
 category_updated = Kategorien aktualiserades.
@@ -37,6 +36,8 @@ start_article = Startartikel
 no_article_available  =  Finns ingen artikel
 structure_categories_caption = Upplistning underkategorierna av kategorien "{0}"
 structure_articles_caption = Upplistning artiklarna av kategorien "{0}"
+structure_root_level_articles_caption =
+structure_root_level_categories_caption =
 article_deleted = Artiken raderades!
 article_could_not_be_generated  =  Kunde inte skapa artikel.
 category_deleted  =  Kategorien raderades!
