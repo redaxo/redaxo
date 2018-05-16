@@ -448,7 +448,7 @@ jQuery(function($){
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        setCookie('htaccess_check', '1', time.toGMTString());
+        setCookie('htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
         checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
@@ -469,7 +469,7 @@ jQuery(function($){
 
 // cookie functions
 
-function setCookie(name, value, expires, path, domain, secure) {
+function setCookie(name, value, expires, path, domain, secure, samesite) {
     if (typeof expires != undefined && expires == "never") {
         // never expire means expires in 3000 days
         expires = new Date();
@@ -481,7 +481,8 @@ function setCookie(name, value, expires, path, domain, secure) {
         + ((expires) ? "; expires=" + expires : "")
         + ((path) ? "; path=" + path : "")
         + ((domain) ? "; domain=" + domain : "")
-        + ((secure) ? "; secure" : "");
+        + ((secure) ? "; secure" : "")
+        + ((samesite) ? "; samesite=" + samesite : "");
 }
 
 function getCookie(cookieName) {
