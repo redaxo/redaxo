@@ -35,8 +35,9 @@ password_policy:
     lowercase: {min: 0}
     uppercase: {min: 0}
     digit: {min: 0}
-enforce_backend_https: false
 lang: de_de
+use_https: true
+use_hsts: false
 use_gzip: true
 use_etag: true
 use_last_modified: false

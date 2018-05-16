@@ -120,6 +120,21 @@ if (!rex::isSetup()) {
     }
 }
 
+// ----------------- HTTPS REDIRECT
+if (rex::getProperty('use_https') === true ||
+    (rex::getProperty('use_https') === 'frontend' && !rex::isBackend()) ||
+    (rex::getProperty('use_https') === 'backend' && rex::isBackend())) {
+    if (!rex_request::isHttps() && !rex::isSetup()) {
+        header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'], true, rex_response::HTTP_MOVED_PERMANENTLY);
+        exit();
+    }
+}
+
+// ----------------- SET HSTS
+if (rex_request::isHttps() && rex::getProperty('use_hsts') === true) {
+    rex_response::enforceHttps();
+}
+
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
