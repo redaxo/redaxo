@@ -469,7 +469,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Adds a record.
+     * Adds a record for multi row/batch operations.
      *
      * This method can only be used in combination with `insert()` and `replace()`.
      *
@@ -479,7 +479,8 @@ class rex_sql implements Iterator
      *          $record->setRawValue('created', 'NOW()');
      *      });
      *
-     * @param callable $callback
+     * @param callable $callback The callback receives a new `rex_sql` instance for the new record
+     *                           and must set the values of the new record on that instance (see example above)
      *
      * @return $this
      */
