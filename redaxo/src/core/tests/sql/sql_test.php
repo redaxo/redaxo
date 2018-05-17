@@ -123,6 +123,98 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $sql->getRows());
     }
 
+    public function testInsertRecords()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('col_str', 'foo');
+            $record->setRawValue('col_date', 'NOW()');
+            $record->setValue('col_int', 3);
+        });
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('col_str', 'bar');
+            $record->setDateTimeValue('col_date', strtotime('yesterday'));
+            $record->setValue('col_text', 'lorem ipsum');
+        });
+
+        $sql->insert();
+
+        $this->assertSame(2, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+
+        $this->assertSame(2, $sql->getRows());
+
+        $this->assertSame('foo', $sql->getValue('col_str'));
+        $this->assertSame(date('Y-m-d'), $sql->getValue('col_date'));
+        $this->assertSame('3', $sql->getValue('col_int'));
+
+        $sql->next();
+
+        $this->assertSame('bar', $sql->getValue('col_str'));
+        $this->assertSame(date('Y-m-d', strtotime('yesterday')), $sql->getValue('col_date'));
+        $this->assertSame('lorem ipsum', $sql->getValue('col_text'));
+    }
+
+    public function testReplaceRecords()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 1);
+            $record->setValue('col_str', 'foo');
+        });
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 2);
+            $record->setValue('col_str', 'bar');
+        });
+
+        $sql->replace();
+
+        $this->assertSame(2, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+
+        $this->assertSame(2, $sql->getRows());
+
+        $this->assertSame('1', $sql->getValue('id'));
+        $this->assertSame('foo', $sql->getValue('col_str'));
+
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 1);
+            $record->setValue('col_str', 'abc');
+        });
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 3);
+            $record->setValue('col_str', 'baz');
+        });
+
+        $sql->replace();
+
+        $this->assertSame(3, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+
+        $this->assertSame(3, $sql->getRows());
+
+        $this->assertSame('1', $sql->getValue('id'));
+        $this->assertSame('abc', $sql->getValue('col_str'));
+
+        $sql->next();
+        $this->assertSame('2', $sql->getValue('id'));
+        $this->assertSame('bar', $sql->getValue('col_str'));
+
+        $sql->next();
+        $this->assertSame('3', $sql->getValue('id'));
+        $this->assertSame('baz', $sql->getValue('col_str'));
+    }
+
     public function testUpdateRowByWhereArray()
     {
         // create a row we later update

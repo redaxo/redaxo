@@ -39,6 +39,9 @@ class rex_sql implements Iterator
     protected $params; // Die Abfrage-Parameter
     protected $DBID; // ID der Verbindung
 
+    /** @var self[] */
+    protected $records;
+
     /**
      * @var PDOStatement
      */
@@ -466,6 +469,32 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Adds a record.
+     *
+     * This method can only be used in combination with `insert()` and `replace()`.
+     *
+     * Example:
+     *      $sql->addRecord(function (rex_sql $record) {
+     *          $record->setValue('title', 'Foo');
+     *          $record->setRawValue('created', 'NOW()');
+     *      });
+     *
+     * @param callable $callback
+     *
+     * @return $this
+     */
+    public function addRecord(callable $callback)
+    {
+        $record = self::factory($this->DBID);
+
+        $callback($record);
+
+        $this->records[] = $record;
+
+        return $this;
+    }
+
+    /**
      * Setzt die WHERE Bedienung der Abfrage.
      *
      * example 1:
@@ -778,6 +807,10 @@ class rex_sql implements Iterator
      */
     public function insert()
     {
+        if ($this->records) {
+            return $this->setMultiRecordQuery('INSERT');
+        }
+
         // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
         $tableName = $this->table;
         $values = $this->values;
@@ -805,6 +838,10 @@ class rex_sql implements Iterator
      */
     public function replace()
     {
+        if ($this->records) {
+            return $this->setMultiRecordQuery('REPLACE');
+        }
+
         $this->setQuery(
             'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
             array_merge($this->values, $this->whereParams)
@@ -838,6 +875,7 @@ class rex_sql implements Iterator
     {
         $this->values = [];
         $this->rawValues = [];
+        $this->records = [];
         $this->whereParams = [];
         $this->lastRow = [];
         $this->fieldnames = null;
@@ -1462,5 +1500,54 @@ class rex_sql implements Iterator
         $conn = null;
 
         return  $err_msg;
+    }
+
+    private function setMultiRecordQuery($verb)
+    {
+        $fields = [];
+
+        foreach ($this->records as $record) {
+            foreach ($record->values as $field => $value) {
+                $fields[$field] = true;
+            }
+            foreach ($record->rawValues as $field => $value) {
+                $fields[$field] = true;
+            }
+        }
+
+        $fields = array_keys($fields);
+
+        $rows = [];
+        $params = [];
+
+        foreach ($this->records as $record) {
+            $row = [];
+
+            foreach ($fields as $field) {
+                if (isset($record->rawValues[$field])) {
+                    $row[] = $record->rawValues[$field];
+
+                    continue;
+                }
+
+                if (!isset($record->values[$field]) && !array_key_exists($field, $this->values)) {
+                    $row[] = 'DEFAULT';
+
+                    continue;
+                }
+
+                $row[] = '?';
+                $params[] = $record->values[$field];
+            }
+
+            $rows[] = '('.implode(', ', $row).')';
+        }
+
+        $query = $verb.' INTO '.$this->escapeIdentifier($this->table)."\n";
+        $query .= '('.implode(', ', array_map([$this, 'escapeIdentifier'], $fields)).")\n";
+        $query .= "VALUES\n";
+        $query .= implode(",\n", $rows);
+
+        return $this->setQuery($query, $params);
     }
 }
