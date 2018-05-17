@@ -118,10 +118,10 @@ class rex_response
     /**
      * Sends a file to client.
      *
-     * @param string $file               File path
-     * @param string $contentType        Content type
-     * @param string $contentDisposition Content disposition
-     * @param string $filename           Send custom Filename
+     * @param string      $file               File path
+     * @param string      $contentType        Content type
+     * @param string      $contentDisposition Content disposition ("inline" or "attachment")
+     * @param null|string $filename           Custom Filename
      */
     public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
     {
@@ -163,13 +163,19 @@ class rex_response
     /**
      * Sends a resource to the client.
      *
-     * @param string $content      Content
-     * @param string $contentType  Content type
-     * @param int    $lastModified HTTP Last-Modified Timestamp
-     * @param string $etag         HTTP Cachekey to identify the cache
+     * @param string      $content            Content
+     * @param null|string $contentType        Content type
+     * @param null|int    $lastModified       HTTP Last-Modified Timestamp
+     * @param null|string $etag               HTTP Cachekey to identify the cache
+     * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
+     * @param null|string $filename           Filename
      */
-    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null)
+    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
     {
+        if ($contentDisposition) {
+            header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
+        }
+
         self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
