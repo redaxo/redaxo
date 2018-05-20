@@ -121,7 +121,7 @@ if (!rex::isSetup()) {
 }
 
 // ----------------- HTTPS REDIRECT
-if (rex::getProperty('use_https') === true || rex::getProperty('use_https') === rex::getEnvironment()) {
+if ((rex::getProperty('use_https') === true || rex::getProperty('use_https') === rex::getEnvironment()) && PHP_SAPI != 'cli') {
     if (!rex_request::isHttps() && !rex::isSetup()) {
         rex_response::enforceHttps();
     }
