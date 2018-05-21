@@ -28,19 +28,19 @@ class rex_cronjob_export extends rex_cronjob
             $message = $file . $ext . ' created';
 
             if ($this->delete_interval) {
-                $files = glob(rex_path::addonData('backup', '*'.$ext));
+                $allSqlfiles = glob(rex_path::addonData('backup', '*'.$ext));
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
 
-                foreach ($files as $file) {
-                    $timestamp = filectime($file);
+                foreach ($allSqlfiles as $sqlFile) {
+                    $timestamp = filectime($sqlFile);
 
                     if ($timestamp > $limit) {
                         // wenn es die generelle Vorhaltezeit unterschreitet
                         continue;
                     }
 
-                    $backups[$file] = $timestamp;
+                    $backups[$sqlFile] = $timestamp;
                 }
 
                 asort($backups, SORT_NUMERIC);
