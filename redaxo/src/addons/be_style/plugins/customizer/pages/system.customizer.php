@@ -20,6 +20,16 @@ if (rex_post('btn_save', 'string') != '') {
         $tempConfig['codemirror'] = 1;
     }
 
+    $tempConfig['codemirror-langs'] = 0;
+    if (isset($newConfig['codemirror-langs']) && $newConfig['codemirror'] == 1) {
+        $tempConfig['codemirror-langs'] = 1;
+    }
+
+    $tempConfig['codemirror-tools'] = 0;
+    if (isset($newConfig['codemirror-tools']) && $newConfig['codemirror'] == 1) {
+        $tempConfig['codemirror-tools'] = 1;
+    }
+
     $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
 
     $labelcolor = $newConfig['labelcolor'];
@@ -102,6 +112,18 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '';
 $n['field'] = '<p>' . rex_i18n::msg('customizer_codemirror_info') . '</p>';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="customizer-codemirror-langs">' . rex_i18n::msg('customizer_codemirror_langs') . '</label>';
+$n['field'] = '<input type="checkbox" id="customizer-codemirror-langs" name="settings[codemirror-langs]" value="1" ' . ($config['codemirror-langs'] ? 'checked="checked" ' : '') . '/>';
+$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_langs_text');
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="customizer-codemirror-tools">' . rex_i18n::msg('customizer_codemirror_tools') . '</label>';
+$n['field'] = '<input type="checkbox" id="customizer-codemirror-tools" name="settings[codemirror-tools]" value="1" ' . ($config['codemirror-tools'] ? 'checked="checked" ' : '') . '/>';
+$n['field'] .= ' '.rex_i18n::msg('customizer_codemirror_tools_text');
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
