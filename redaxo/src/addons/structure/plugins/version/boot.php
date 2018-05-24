@@ -22,7 +22,7 @@ rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
     rex_login::startSession();
 
     if (!rex_backend_login::hasSession()) {
-        throw new rex_exception('no permission for the working version');
+        throw new rex_exception('No permission for the working version. You need to be logged into the REDAXO backend at the same time.');
     }
 
     $article = $ep->getParam('article');
