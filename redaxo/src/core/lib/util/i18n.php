@@ -166,7 +166,7 @@ class rex_i18n
             return $msg;
         }
 
-        foreach (rex::getProperty('lang_fallback', array()) as $locale) {
+        foreach (rex::getProperty('lang_fallback', []) as $locale) {
             if (self::$locale === $locale) {
                 continue;
             }
