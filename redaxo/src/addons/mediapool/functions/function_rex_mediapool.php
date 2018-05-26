@@ -276,16 +276,16 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
  * Synchronisiert die Datei $physical_filename des Mediafolders in den
  * Medienpool.
  *
- * @param string $physical_filename
- * @param int    $category_id
- * @param string $title
- * @param int    $filesize
- * @param string $filetype
- * @param bool   $doSubindexing
+ * @param string      $physical_filename
+ * @param int         $category_id
+ * @param string      $title
+ * @param null|int    $filesize
+ * @param null|string $filetype
+ * @param null|string $userlogin
  *
  * @return bool|array
  */
-function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $doSubindexing = false)
+function rex_mediapool_syncFile($physical_filename, $category_id, $title, $filesize = null, $filetype = null, $userlogin = null)
 {
     $abs_file = rex_path::media($physical_filename);
 
@@ -314,7 +314,12 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
     $FILEINFOS = [];
     $FILEINFOS['title'] = $title;
 
-    $RETURN = rex_mediapool_saveMedia($FILE, $category_id, $FILEINFOS, null, false);
+    // check for previous 6th (unused) parameter $doSubindexing
+    if (is_bool($userlogin)) {
+        $userlogin = null;
+    }
+
+    $RETURN = rex_mediapool_saveMedia($FILE, $category_id, $FILEINFOS, $userlogin, false);
     return $RETURN;
 }
 
