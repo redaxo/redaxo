@@ -121,14 +121,14 @@ if (!rex::isSetup()) {
 }
 
 // ----------------- HTTPS REDIRECT
-if ((rex::getProperty('use_https') === true || rex::getProperty('use_https') === rex::getEnvironment()) && PHP_SAPI != 'cli') {
-    if (!rex_request::isHttps() && !rex::isSetup()) {
+if ('cli' !== PHP_SAPI && !rex::isSetup()) {
+    if ((true === rex::getProperty('use_https') || rex::getEnvironment() === rex::getProperty('use_https')) && !rex_request::isHttps()) {
         rex_response::enforceHttps();
     }
-}
 
-if (rex_request::isHttps() && rex::getProperty('use_hsts') === true && !rex::isSetup()) {
-    rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
+    if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
+        rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
+    }
 }
 
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
