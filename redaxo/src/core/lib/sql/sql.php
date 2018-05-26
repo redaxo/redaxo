@@ -829,6 +829,30 @@ class rex_sql implements Iterator
         return $this;
     }
 
+    public function insertOrUpdate()
+    {
+        if ($this->records) {
+            return $this->setMultiRecordQuery('INSERT', true);
+        }
+
+        // hold a copies of the query fields for later debug out (the class property will be reverted in setQuery())
+        $tableName = $this->table;
+        $values = $this->values;
+
+        $onDuplicateKeyUpdate = $this->buildOnDuplicateKeyUpdate(array_keys(array_merge($this->values, $this->rawValues)));
+        $this->setQuery(
+            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $onDuplicateKeyUpdate,
+            $this->values
+        );
+
+        // provide debug infos, if insert is considered successfull, but no rows were inserted.
+        // this happens when you violate against a NOTNULL constraint
+        if ($this->getRows() == 0) {
+            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
+        }
+        return $this;
+    }
+
     /**
      * Setzt eine Replace-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
@@ -1503,7 +1527,7 @@ class rex_sql implements Iterator
         return  $err_msg;
     }
 
-    private function setMultiRecordQuery($verb)
+    private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
     {
         $fields = [];
 
@@ -1549,6 +1573,22 @@ class rex_sql implements Iterator
         $query .= "VALUES\n";
         $query .= implode(",\n", $rows);
 
+        if ($onDuplicateKeyUpdate) {
+            $query .= "\n".$this->buildOnDuplicateKeyUpdate($fields);
+        }
+
         return $this->setQuery($query, $params);
+    }
+
+    public function buildOnDuplicateKeyUpdate($fields)
+    {
+        $updates = [];
+
+        foreach ($fields as $field) {
+            $field = $this->escapeIdentifier($field);
+            $updates[] = "$field = VALUES($field)";
+        }
+
+        return 'ON DUPLICATE KEY UPDATE '.implode(', ', $updates);
     }
 }
