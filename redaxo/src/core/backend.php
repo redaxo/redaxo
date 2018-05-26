@@ -3,7 +3,9 @@
 /**
  * @package redaxo5
  */
-
+echo '<!--';
+print_r($_SESSION);
+echo '-->';
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 
@@ -43,6 +45,7 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         rex_csrf_token::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+        rex_response::sendRedirect(rex_url::backendController());
     }
 
     $rex_user_loginmessage = '';
