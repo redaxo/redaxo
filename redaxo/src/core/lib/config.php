@@ -377,15 +377,17 @@ class rex_config
         }
 
         // update all changed data
-        foreach (self::$changedData as $namespace => $nsData) {
+        if (self::$changedData) {
             $sql->setTable(rex::getTable('config'));
 
-            foreach ($nsData as $key => $value) {
-                $sql->addRecord(function (rex_sql $record) use ($namespace, $key, $value) {
-                    $record->setValue('namespace', $namespace);
-                    $record->setValue('key', $key);
-                    $record->setValue('value', json_encode($value));
-                });
+            foreach (self::$changedData as $namespace => $nsData) {
+                foreach ($nsData as $key => $value) {
+                    $sql->addRecord(function (rex_sql $record) use ($namespace, $key, $value) {
+                        $record->setValue('namespace', $namespace);
+                        $record->setValue('key', $key);
+                        $record->setValue('value', json_encode($value));
+                    });
+                }
             }
 
             $sql->insertOrUpdate();
