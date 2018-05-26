@@ -25,7 +25,7 @@ description = Beschreibung
 email = E-Mail
 function = Funktion
 no_editing_rights = Keine Editiererlaubnis
-check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
+check_rights_in_directory = Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
 csrf_token_invalid = Der CSRF-Token ist nicht gültig.
 
@@ -40,8 +40,8 @@ subnavigation = Unternavigation von {0}
 
 # redaxo/include/classes/class.login.php
 login = Login
-login_name  =  Benutzername
-password  =  Passwort
+login_name = Benutzername
+password = Passwort
 new_password = Neues Passwort
 request_new_password = Neues Passwort anfordern
 login_error = Fehler bei der Anmeldung.
@@ -53,8 +53,8 @@ login_logged_out = Abgemeldet.
 stay_logged_in = Eingeloggt bleiben
 
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  nicht angemeldet
-logged_in_as  =  Angemeldet als
+logged_out = nicht angemeldet
+logged_in_as = Angemeldet als
 safemode = Safe mode
 safemode_text = Im Safe mode werden vorübergehend alle AddOns deaktiviert. Falls bspw. ein AddOn nach der Installation Probleme macht, kann dieses über den Safe mode deaktiviert oder deinstalliert werden.
 safemode_activate = Safe mode aktivieren
@@ -256,7 +256,7 @@ package_not_installed = Es wurde noch nicht installiert!
 addon_installed = AddOn <b>{0}</b> wurde installiert und aktiviert!
 addon_reinstalled = AddOn <b>{0}</b> wurde re-installiert!
 addon_activated = AddOn <b>{0}</b> wurde aktiviert!
-addon_deactivated =  AddOn <b>{0}</b> wurde deaktiviert!
+addon_deactivated = AddOn <b>{0}</b> wurde deaktiviert!
 addon_uninstalled = AddOn <b>{0}</b> wurde deinstalliert!
 addon_deleted = AddOn <b>{0}</b> wurde gelöscht!
 addon_not_deleted = AddOn <b>{0}</b> konnte nicht gelöscht werden!
@@ -318,7 +318,7 @@ plugin_no_deactivation = PlugIn <b>{0}</b> konnte aus folgendem Grund <b>nicht</
 plugin_installed = PlugIn <b>{0}</b> wurde installiert und aktiviert!
 plugin_reinstalled = PlugIn <b>{0}</b> wurde re-installiert!
 plugin_activated = PlugIn <b>{0}</b> wurde aktiviert!
-plugin_deactivated =  PlugIn <b>{0}</b> wurde deaktiviert!
+plugin_deactivated = PlugIn <b>{0}</b> wurde deaktiviert!
 plugin_uninstalled = PlugIn <b>{0}</b> wurde deinstalliert!
 plugin_deleted = PlugIn <b>{0}</b> wurde gelöscht!
 plugin_not_deleted = PlugIn <b>{0}</b> konnte nicht gelöscht werden!

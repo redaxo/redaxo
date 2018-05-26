@@ -45,9 +45,9 @@ phpmailer_checkmail_headline = Test-Mail Status
 phpmailer_checkmail_noadress = Bitte prüfen Sie Ihre Einstellungen für Absender- und Test-Mail
 phpmailer_checkmail_error_headline = Ein Fehler ist aufgetreten
 phpmailer_checkmail_error = Fehler
-phpmailer_checkmail_send = E-Mail verschickt an: 
-phpmailer_checkmail_info = Bitte überprüfen Sie Ihren Posteingang. 
-phpmailer_checkmail_info_subject =  Achten Sie auf E-Mails mit dem Betreff: PHPMailer-Test
+phpmailer_checkmail_send = E-Mail verschickt an:
+phpmailer_checkmail_info = Bitte überprüfen Sie Ihren Posteingang.
+phpmailer_checkmail_info_subject = Achten Sie auf E-Mails mit dem Betreff: PHPMailer-Test
 phpmailer_log = E-Mail Log
 phpmailer_log_info = Log-Ordner: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
