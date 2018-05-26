@@ -1580,7 +1580,7 @@ class rex_sql implements Iterator
         return $this->setQuery($query, $params);
     }
 
-    public function buildOnDuplicateKeyUpdate($fields)
+    private function buildOnDuplicateKeyUpdate($fields)
     {
         $updates = [];
 
