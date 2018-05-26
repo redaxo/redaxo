@@ -3,9 +3,7 @@
 /**
  * @package redaxo5
  */
-echo '<!--';
-print_r($_SESSION);
-echo '-->';
+
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 
