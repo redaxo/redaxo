@@ -365,15 +365,18 @@ class rex_config
         // $sql->setDebug();
 
         // remove all deleted data
-        foreach (self::$deletedData as $namespace => $nsData) {
-            foreach ($nsData as $key => $value) {
-                $sql->setTable(rex::getTablePrefix() . 'config');
-                $sql->setWhere([
-                    'namespace' => $namespace,
-                    'key' => $key,
-                ]);
-                $sql->delete();
+        if (self::$deletedData) {
+            $sql->setTable(rex::getTable('config'));
+
+            $where = [];
+            $params = [];
+            foreach (self::$deletedData as $namespace => $nsData) {
+                $params = array_merge($params, [$namespace], array_keys($nsData));
+                $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
             }
+
+            $sql->setWhere(implode("\n    OR ", $where), $params);
+            $sql->delete();
         }
 
         // update all changed data
