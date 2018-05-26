@@ -43,6 +43,9 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         rex_csrf_token::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+
+        // is necessary for login after logout
+        // and without the redirect, the csrf token would be invalid
         rex_response::sendRedirect(rex_url::backendController(['rex_logged_out' => 1]));
     }
 
