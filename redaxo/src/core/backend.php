@@ -43,7 +43,7 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         rex_csrf_token::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
-        rex_response::sendRedirect(rex_url::backendController());
+        rex_response::sendRedirect(rex_url::backendController(['rex_logged_out' => 1]));
     }
 
     $rex_user_loginmessage = '';
@@ -83,6 +83,10 @@ if (rex::isSetup()) {
         }
 
         rex::setProperty('user', $user);
+    }
+
+    if ($rex_user_loginmessage === '' && rex_get('rex_logged_out', 'boolean')) {
+        $rex_user_loginmessage = rex_i18n::msg('login_logged_out');
     }
 
     // Safe Mode
