@@ -120,6 +120,17 @@ if (!rex::isSetup()) {
     }
 }
 
+// ----------------- HTTPS REDIRECT
+if ('cli' !== PHP_SAPI && !rex::isSetup()) {
+    if ((true === rex::getProperty('use_https') || rex::getEnvironment() === rex::getProperty('use_https')) && !rex_request::isHttps()) {
+        rex_response::enforceHttps();
+    }
+
+    if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
+        rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
+    }
+}
+
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');

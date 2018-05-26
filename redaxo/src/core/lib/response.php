@@ -489,4 +489,12 @@ class rex_response
     {
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
     }
+
+    public static function enforceHttps()
+    {
+        if (!rex_request::isHttps()) {
+            self::setStatus(self::HTTP_MOVED_PERMANENTLY);
+            self::sendRedirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        }
+    }
 }

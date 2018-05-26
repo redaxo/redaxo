@@ -225,6 +225,17 @@ sql_unable_to_create_database = Unable to create the database!
 sql_unable_to_find_database = The specified database could not be found!
 sql_unable_to_open_database = Unable to open the specified database!
 
+setup_security = Security
+
+https_activate_redirect_for = Automatic HTTPS-Redirect
+https_disable = Deactivate
+https_only_frontend = Activate only for frontend
+https_only_backend = Activate only for backend
+https_activate = Activate for frontend and backend
+
+hsts_activate = Set <b>HTTP Strict Transport Security</b> Entry
+hsts_more_information = More Information at {0}
+
 # redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
