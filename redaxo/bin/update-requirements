@@ -60,6 +60,7 @@ rm -rf redaxo/src/addons/tests/vendor/sebastian/environment/tests/
 rm -rf redaxo/src/addons/tests/vendor/sebastian/exporter/tests/
 rm -rf redaxo/src/addons/tests/vendor/sebastian/global-state/tests/
 rm -rf redaxo/src/addons/tests/vendor/sebastian/recursion-context/tests/
+rm -rf redaxo/src/addons/tests/vendor/symfony/polyfill-ctype/
 rm -rf redaxo/src/addons/tests/vendor/symfony/yaml/
 rm -rf redaxo/src/addons/tests/vendor/webmozart/assert/tests/
 
