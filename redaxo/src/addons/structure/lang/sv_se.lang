@@ -67,7 +67,6 @@ perm_options_moveArticle[] = Flytta artikel
 perm_options_moveCategory[] = Flytta kategori
 perm_options_publishArticle[] = Publicera artikeln
 perm_options_publishCategory[] = Publicera kategorien
-perm_extras_editContentOnly[] = Bara innehållet får bearbetas
 
 system_setting_start_article_id = Startartikel
 system_setting_notfound_article_id = Felartikel [404]

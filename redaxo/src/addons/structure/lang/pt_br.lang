@@ -66,7 +66,6 @@ perm_options_moveArticle[] = Arrastar produto
 perm_options_moveCategory[] = Arrastar categoria
 perm_options_publishArticle[] = Divulgar produto
 perm_options_publishCategory[] = Divulgar categoria
-perm_extras_editContentOnly[] = Somente conteúdo pode ser alterado
 
 system_setting_start_article_id = Produto inicial
 system_setting_notfound_article_id = Produto não encontrado

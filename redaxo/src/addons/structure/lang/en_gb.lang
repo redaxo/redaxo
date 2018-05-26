@@ -59,15 +59,14 @@ be_search_no_results = No article is matching your search criteria
 be_search_search = Search
 be_search_result = Search result
 
-perm_options_article2category[] = Artikel in Kategorien umwandeln
-perm_options_article2startarticle[] = Artikel in Startartikel umwandeln
-perm_options_copyArticle[] = Artikel kopieren
-perm_options_copyContent[] = Artikelinhalte kopieren
-perm_options_moveArticle[] = Artikel verschieben
-perm_options_moveCategory[] = Kategorien verschieben
-perm_options_publishArticle[] = Artikel veröffentlichen
-perm_options_publishCategory[] = Kategorien veröffentlichen
-perm_extras_editContentOnly[] = Es dürfen nur Inhalte gepflegt werden
+perm_options_article2category[] = Convert article into category
+perm_options_article2startarticle[] = Convert article into start article
+perm_options_copyArticle[] = Copy article
+perm_options_copyContent[] = Copy article content
+perm_options_moveArticle[] = Move article
+perm_options_moveCategory[] = Move category
+perm_options_publishArticle[] = Publish article
+perm_options_publishCategory[] = Publish category
 
 system_setting_start_article_id = Start article
 system_setting_notfound_article_id = Not-found article
