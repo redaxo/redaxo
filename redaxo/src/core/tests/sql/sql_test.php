@@ -130,7 +130,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
         $sql->addRecord(function (rex_sql $record) {
             $record->setValue('col_str', 'foo');
-            $record->setRawValue('col_date', 'NOW()');
+            $record->setRawValue('col_date', 'UTC_DATE()');
             $record->setValue('col_int', 3);
         });
         $sql->addRecord(function (rex_sql $record) {
@@ -148,7 +148,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $this->assertSame(2, $sql->getRows());
 
         $this->assertSame('foo', $sql->getValue('col_str'));
-        $this->assertSame(date('Y-m-d'), $sql->getValue('col_date'));
+        $this->assertSame((new DateTime('now', new DateTimeZone('UTC')))->format('Y-m-d'), $sql->getValue('col_date'));
         $this->assertSame('3', $sql->getValue('col_int'));
 
         $sql->next();
