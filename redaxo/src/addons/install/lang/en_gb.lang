@@ -35,7 +35,7 @@ install_send = Send
 install_upload_file = Create zip file and upload
 install_replace_assets = Replace assets from root assets folder
 install_ignore_tests = Ignore "tests" folder
-install_release = Release
+install_published_on = Published on
 install_sort = Sort
 
 install_info_core_updated = Core has been updated!
