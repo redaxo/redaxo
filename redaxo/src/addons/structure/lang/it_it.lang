@@ -66,7 +66,6 @@ perm_options_moveArticle[] = Spostare articolo
 perm_options_moveCategory[] = Spostare categoria
 perm_options_publishArticle[] = Pubblicare l'articolo
 perm_options_publishCategory[] = Pubblicare la categoria
-perm_extras_editContentOnly[] = Possono essere curato solo contenuti
 
 system_setting_start_article_id = Articolo di partenza
 system_setting_notfound_article_id = Articolo d'errore
