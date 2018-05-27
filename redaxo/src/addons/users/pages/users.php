@@ -157,6 +157,7 @@ if ($warnings) {
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
+    $updateuser->setValue('login', $userlogin);
     $updateuser->setValue('role', implode(',', $userrole));
     $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
     $updateuser->setValue('language', $userperm_be_sprache);
@@ -303,7 +304,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         $form_label = rex_i18n::msg('edit_user');
         $add_hidden = '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-        $add_user_login = '<p class="form-control-static">' . htmlspecialchars($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</p>';
 
         $formElements = [];
 
@@ -341,10 +341,13 @@ if ($FUNC_ADD != '' || $user_id > 0) {
                 $userperm_startpage = $sql->getValue('startpage');
                 $userpsw = $sql->getValue(rex::getTablePrefix() . 'user.password');
                 $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
+                $userlogin = $sql->getValue(rex::getTablePrefix() . 'user.login');
                 $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
                 $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
             }
         }
+
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
 
         if ($useradmin) {
             $adminchecked = 'checked="checked"';
