@@ -158,6 +158,91 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $this->assertSame('lorem ipsum', $sql->getValue('col_text'));
     }
 
+    public function testInsertOrUpdate()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+        $sql->setValue('id', 1);
+        $sql->setValue('col_int', 5);
+        $sql->setValue('col_str', 'abc');
+
+        $sql->insertOrUpdate();
+        $this->assertEquals(1, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+        $this->assertEquals(5, $sql->getValue('col_int'));
+        $this->assertEquals('abc', $sql->getValue('col_str'));
+
+        $sql->setTable(self::TABLE);
+        $sql->setValue('id', 1);
+        $sql->setValue('col_int', 3);
+        $sql->setValue('col_str', 'foo');
+
+        $sql->insertOrUpdate();
+        $this->assertEquals(2, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+        $this->assertEquals(3, $sql->getValue('col_int'));
+        $this->assertEquals('foo', $sql->getValue('col_str'));
+    }
+
+    public function testInsertOrUpdateRecords()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 1);
+            $record->setValue('col_str', 'foo');
+        });
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 2);
+            $record->setValue('col_str', 'bar');
+        });
+
+        $sql->insertOrUpdate();
+
+        $this->assertSame(2, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+
+        $this->assertSame(2, $sql->getRows());
+
+        $this->assertSame('1', $sql->getValue('id'));
+        $this->assertSame('foo', $sql->getValue('col_str'));
+
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 1);
+            $record->setValue('col_str', 'abc');
+        });
+        $sql->addRecord(function (rex_sql $record) {
+            $record->setValue('id', 3);
+            $record->setValue('col_str', 'baz');
+        });
+
+        $sql->insertOrUpdate();
+
+        $this->assertSame(3, $sql->getRows());
+
+        $sql->setTable(self::TABLE)->select();
+
+        $this->assertSame(3, $sql->getRows());
+
+        $this->assertSame('1', $sql->getValue('id'));
+        $this->assertSame('abc', $sql->getValue('col_str'));
+
+        $sql->next();
+        $this->assertSame('2', $sql->getValue('id'));
+        $this->assertSame('bar', $sql->getValue('col_str'));
+
+        $sql->next();
+        $this->assertSame('3', $sql->getValue('id'));
+        $this->assertSame('baz', $sql->getValue('col_str'));
+    }
+
     public function testReplaceRecords()
     {
         $sql = rex_sql::factory();
