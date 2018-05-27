@@ -365,26 +365,35 @@ class rex_config
         // $sql->setDebug();
 
         // remove all deleted data
-        foreach (self::$deletedData as $namespace => $nsData) {
-            foreach ($nsData as $key => $value) {
-                $sql->setTable(rex::getTablePrefix() . 'config');
-                $sql->setWhere([
-                    'namespace' => $namespace,
-                    'key' => $key,
-                ]);
-                $sql->delete();
+        if (self::$deletedData) {
+            $sql->setTable(rex::getTable('config'));
+
+            $where = [];
+            $params = [];
+            foreach (self::$deletedData as $namespace => $nsData) {
+                $params = array_merge($params, [$namespace], array_keys($nsData));
+                $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
             }
+
+            $sql->setWhere(implode("\n    OR ", $where), $params);
+            $sql->delete();
         }
 
         // update all changed data
-        foreach (self::$changedData as $namespace => $nsData) {
-            foreach ($nsData as $key => $value) {
-                $sql->setTable(rex::getTablePrefix() . 'config');
-                $sql->setValue('namespace', $namespace);
-                $sql->setValue('key', $key);
-                $sql->setValue('value', json_encode($value));
-                $sql->replace();
+        if (self::$changedData) {
+            $sql->setTable(rex::getTable('config'));
+
+            foreach (self::$changedData as $namespace => $nsData) {
+                foreach ($nsData as $key => $value) {
+                    $sql->addRecord(function (rex_sql $record) use ($namespace, $key, $value) {
+                        $record->setValue('namespace', $namespace);
+                        $record->setValue('key', $key);
+                        $record->setValue('value', json_encode($value));
+                    });
+                }
             }
+
+            $sql->insertOrUpdate();
         }
     }
 }
