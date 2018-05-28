@@ -112,7 +112,7 @@ class rex_be_navigation
                 $n['linkAttr'][$name] = trim($value);
             }
 
-            $n['href'] = str_replace('&', '&amp;', $page->getHref());
+            $n['href'] = $page->getHref();
             $n['title'] = $page->getTitle();
             $n['active'] = $page->isActive();
 
