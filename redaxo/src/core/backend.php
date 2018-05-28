@@ -41,6 +41,7 @@ if (rex::isSetup()) {
 
     if (rex_get('rex_logout', 'boolean') && rex_csrf_token::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
+        $login->checkLogin();
         rex_csrf_token::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
 
