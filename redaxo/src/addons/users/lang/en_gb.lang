@@ -10,6 +10,7 @@ create_user = Add user
 add_user = Add user
 edit_user = Edit user
 user_reset_tries = The login has been blocked due to repeated password mismatch (max.  attempts: {0}). Activate checkbox to unblock.
+user_login_change = Changing the username does not change its references (e.g. "created by").
 user_login_exists = Login exists!
 user_missing_login = Please enter a username!
 user_missing_password = Please enter a password!

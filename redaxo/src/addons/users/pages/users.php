@@ -360,6 +360,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         }
 
         $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+        $add_user_login .= '<br />' . rex_view::warning(rex_i18n::msg('user_login_change'));
 
         if ($useradmin) {
             $adminchecked = 'checked="checked"';

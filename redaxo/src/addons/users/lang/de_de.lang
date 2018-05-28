@@ -10,6 +10,7 @@ create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzufügen
 edit_user = Benutzer bearbeiten
 user_reset_tries = Dieser Zugang ist wegen zuvieler Fehlversuche (mehr als {0}) deaktiviert worden. Durch Aktivieren der Checkbox kann der Zugang wieder freigeschaltet werden.
+user_login_change = Durch das Ändern des Benutzernamens bleiben bestehende Verweise auf diesen unverändert (z.B. "erstellt von").
 user_login_exists = Benutzerlogin existiert schon!
 user_missing_login = Bitte einen Benutzernamen eingeben!
 user_missing_password = Bitte ein Passwort eingeben!
