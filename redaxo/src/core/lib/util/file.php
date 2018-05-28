@@ -30,8 +30,28 @@ class rex_file
      */
     public static function getConfig($file, $default = [])
     {
-        $content = self::get($file);
-        return $content === null ? $default : rex_string::yamlDecode($content);
+        if (is_readable($file)) {
+            $mtime = filemtime($file);
+            $filePathMd5 = md5($file);
+
+            $cacheFile = rex_path::coreCache($filePathMd5. '.yamlcache');
+            $cacheTimestampFile = rex_path::coreCache($filePathMd5. '.yamlcache.timestamp');
+            $cacheTimestamp = self::getCache($cacheTimestampFile);
+
+            // try to read a cached config, because yaml-parsing can take some time
+            if ($mtime === $cacheTimestamp) {
+                $config = self::getCache($cacheFile);
+            } else {
+                $content = self::get($file);
+                $config = rex_string::yamlDecode($content);
+
+                self::putCache($cacheFile, $config);
+                self::putCache($cacheTimestampFile, $mtime);
+            }
+
+            return $config;
+        }
+        return $default;
     }
 
     /**
