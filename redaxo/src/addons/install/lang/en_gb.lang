@@ -37,6 +37,7 @@ install_replace_assets = Replace assets from root assets folder
 install_ignore_tests = Ignore "tests" folder
 install_published_on = Published on
 install_sort = Sort
+install_sort_default = Sort by key in ascending order
 
 install_info_core_updated = Core has been updated!
 install_warning_core_not_updated = The core could not be updated for the following reason:
