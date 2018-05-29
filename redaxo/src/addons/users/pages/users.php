@@ -154,43 +154,56 @@ if ($warnings) {
     }
 
     $updateuser = rex_sql::factory();
-    $updateuser->setTable(rex::getTablePrefix() . 'user');
-    $updateuser->setWhere(['id' => $user_id]);
-    $updateuser->setValue('name', $username);
-    $updateuser->setValue('role', implode(',', $userrole));
-    $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
-    $updateuser->setValue('language', $userperm_be_sprache);
-    $updateuser->setValue('startpage', $userperm_startpage);
-    $updateuser->addGlobalUpdateFields();
-    $updateuser->setValue('description', $userdesc);
-    $updateuser->setValue('email', $useremail);
-    if ($loginReset == 1) {
-        $updateuser->setValue('login_tries', '0');
-    }
-    if ($userstatus == 1) {
-        $updateuser->setValue('status', 1);
+    $updateuser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin' AND id != '$user_id'");
+
+    if ($updateuser->getRows() == 0 && $userlogin != '') {
+        $updateuser = rex_sql::factory();
+        $updateuser->setTable(rex::getTablePrefix() . 'user');
+        $updateuser->setWhere(['id' => $user_id]);
+        $updateuser->setValue('name', $username);
+        $updateuser->setValue('login', $userlogin);
+        $updateuser->setValue('role', implode(',', $userrole));
+        $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
+        $updateuser->setValue('language', $userperm_be_sprache);
+        $updateuser->setValue('startpage', $userperm_startpage);
+        $updateuser->addGlobalUpdateFields();
+        $updateuser->setValue('description', $userdesc);
+        $updateuser->setValue('email', $useremail);
+        if ($loginReset == 1) {
+            $updateuser->setValue('login_tries', '0');
+        }
+        if ($userstatus == 1) {
+            $updateuser->setValue('status', 1);
+        } else {
+            $updateuser->setValue('status', 0);
+        }
+
+        if ($userpsw != '') {
+            $updateuser->setValue('password', rex_login::passwordHash($userpsw));
+        }
+
+        $updateuser->update();
+
+        if (isset($FUNC_UPDATE) && $FUNC_UPDATE != '') {
+            $user_id = 0;
+            $FUNC_UPDATE = '';
+        }
+
+        $info = rex_i18n::msg('user_data_updated');
+
+        rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
+            'id' => $user_id,
+            'user' => $user,
+            'password' => $userpsw,
+        ], true));
     } else {
-        $updateuser->setValue('status', 0);
+        if ($updateuser->getRows()) {
+            $warnings[] = rex_i18n::msg('user_login_exists');
+        }
+        if (!$userlogin) {
+            $warnings[] = rex_i18n::msg('user_missing_login');
+        }
     }
-
-    if ($userpsw != '') {
-        $updateuser->setValue('password', rex_login::passwordHash($userpsw));
-    }
-
-    $updateuser->update();
-
-    if (isset($FUNC_UPDATE) && $FUNC_UPDATE != '') {
-        $user_id = 0;
-        $FUNC_UPDATE = '';
-    }
-
-    $info = rex_i18n::msg('user_data_updated');
-
-    rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
-        'id' => $user_id,
-        'user' => $user,
-        'password' => $userpsw,
-    ], true));
 } elseif ($FUNC_DELETE != '') {
     // man kann sich selbst nicht loeschen..
     if (rex::getUser()->getId() == $user_id) {
@@ -303,7 +316,6 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         $form_label = rex_i18n::msg('edit_user');
         $add_hidden = '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-        $add_user_login = '<p class="form-control-static">' . htmlspecialchars($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</p>';
 
         $formElements = [];
 
@@ -341,10 +353,14 @@ if ($FUNC_ADD != '' || $user_id > 0) {
                 $userperm_startpage = $sql->getValue('startpage');
                 $userpsw = $sql->getValue(rex::getTablePrefix() . 'user.password');
                 $username = $sql->getValue(rex::getTablePrefix() . 'user.name');
+                $userlogin = $sql->getValue(rex::getTablePrefix() . 'user.login');
                 $userdesc = $sql->getValue(rex::getTablePrefix() . 'user.description');
                 $useremail = $sql->getValue(rex::getTablePrefix() . 'user.email');
             }
         }
+
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" />';
+        $add_user_login .= '<br />' . rex_view::warning(rex_i18n::msg('user_login_change'));
 
         if ($useradmin) {
             $adminchecked = 'checked="checked"';
