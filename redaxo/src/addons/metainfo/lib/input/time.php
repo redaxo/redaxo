@@ -14,13 +14,19 @@ class rex_input_time extends rex_input
     {
         parent::__construct();
 
+        $range = function ($start, $end) {
+            return array_map(function ($number) {
+                return sprintf("%02d", $number);
+            }, range($start, $end));
+        };
+
         $this->hourSelect = new rex_select();
-        $this->hourSelect->addOptions(range(0, 23), true);
+        $this->hourSelect->addOptions($range(0, 23), true);
         $this->hourSelect->setSize(1);
         $this->hourSelect->setAttribute('class', 'rex-form-select-date');
 
         $this->minuteSelect = new rex_select();
-        $this->minuteSelect->addOptions(range(0, 59), true);
+        $this->minuteSelect->addOptions($range(0, 59), true);
         $this->minuteSelect->setSize(1);
         $this->minuteSelect->setAttribute('class', 'rex-form-select-date');
     }

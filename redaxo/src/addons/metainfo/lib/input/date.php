@@ -20,13 +20,19 @@ class rex_input_date extends rex_input
         $this->yearSelect->setAttribute('class', 'rex-form-select-year');
         $this->yearSelect->setSize(1);
 
+        $range = function ($start, $end) {
+            return array_map(function ($number) {
+                return sprintf("%02d", $number);
+            }, range($start, $end));
+        };
+
         $this->monthSelect = new rex_select();
-        $this->monthSelect->addOptions(range(1, 12), true);
+        $this->monthSelect->addOptions($range(1, 12), true);
         $this->monthSelect->setAttribute('class', 'rex-form-select-date');
         $this->monthSelect->setSize(1);
 
         $this->daySelect = new rex_select();
-        $this->daySelect->addOptions(range(1, 31), true);
+        $this->daySelect->addOptions($range(1, 31), true);
         $this->daySelect->setAttribute('class', 'rex-form-select-date');
         $this->daySelect->setSize(1);
     }
