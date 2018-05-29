@@ -22,7 +22,7 @@ class rex_input_date extends rex_input
 
         $range = function ($start, $end) {
             return array_map(function ($number) {
-                return sprintf("%02d", $number);
+                return sprintf('%02d', $number);
             }, range($start, $end));
         };
 
