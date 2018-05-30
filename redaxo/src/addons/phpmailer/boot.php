@@ -64,4 +64,3 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
         }
     });
 }
-?>
