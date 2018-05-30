@@ -29,7 +29,7 @@ if (!$this->hasConfig()) {
     $this->setConfig('password', '');
     $this->setConfig('smtp_debug', '0');
     $this->setConfig('log', 0);
-    $this->setConfig('smtpauth', false);
+    $this->setConfig('errormailer', false);
 } else {
     if (!$this->hasConfig('log')) {
         $this->setConfig('log', 0);
