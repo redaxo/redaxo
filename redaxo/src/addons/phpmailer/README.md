@@ -2,7 +2,7 @@
 
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
-- [Systemlog-Fehlermeldungen senden](#syslog)
+- [Systemlog senden](#syslog)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
@@ -117,9 +117,9 @@ foreach($sql as $row)
 
 <a name="syslog"></a>
 
-## Systemlog-Fehlermeldungen senden
+## Systemlog senden
 
-Durch Aktivieren der Checkbox *Systemlog-Fehler per E-Mail senden*, wird das Systemlog im 15 Minuten-Abstand per Email an die im System hinterlegte *E-Mail-Adresse bei Fehlern* verschickt. Um unnötige Sendungen zu vermeiden, sollte das error_reporting für PHP korrekt konfiguriert sein. 
+Durch Aktivieren der Checkbox *Systemlog per E-Mail senden*, wird das Systemlog im 15 Minuten-Abstand per Email an die im System hinterlegte *E-Mail-Adresse bei Fehlern* verschickt. Um unnötige Sendungen zu vermeiden, sollte das error_reporting für PHP korrekt konfiguriert sein. 
 
 <a name="tipps"></a>
 
