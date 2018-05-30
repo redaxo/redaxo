@@ -13,8 +13,9 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
     {
         $logFile  = rex_path::coreData('system.log');
         $sendTime = $this->getConfig('last_log_file_send_time', 0);
+        $timediff = '';
         $timediff = time() - $sendTime;
-        if (filesize($logFile) > 0 && $timediff > 900 && $file = new rex_log_file($logFile)) {
+        if ($timediff > 900 && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
             //Start - generate mailbody
             $mailBody = '';
             $mailBody .= '<table>';
