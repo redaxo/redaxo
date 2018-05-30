@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * PHPMailer Addon.
+ *
+ * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ *
+ * @package redaxo\phpmailer
+ */
+
 if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
     
     rex_extension::register('RESPONSE_SHUTDOWN', function(rex_extension_point $ep)
