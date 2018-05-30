@@ -52,7 +52,7 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
             $mail->Subject = rex::getServerName() . ' | system.log';
             $mail->Body    = $mailBody;
             $mail->AltBody = strip_tags($mailBody);
-            $mail->setFrom(rex::getErrorEmail(), 'REDAXO Errormail');
+            $mail->setFrom(rex::getErrorEmail(), 'REDAXO Errormailer');
             $mail->addAddress(rex::getErrorEmail());
             $this->setConfig('last_log_file_send_time', $fileTime);
             
