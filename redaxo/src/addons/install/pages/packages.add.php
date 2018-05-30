@@ -115,7 +115,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
                 <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
                 <th><a href="'.rex_url::currentBackendPage().'" title="'.$this->i18n('sort_default').'">' . $this->i18n('key') . '</a></th>
                 <th>' . $this->i18n('name') . ' / ' . $this->i18n('author') . '</th>
-                <th class="rex-table-min-width-3"><span class="text-nowrap">' . $this->i18n('published_on') . '</span>&nbsp;<a href="'.rex_url::currentBackendPage(['sort' => $sortNext]).'" title="' . $this->i18n('sort') . '"><span><i class="rex-icon rex-icon-sort fa-sort'.$sortClass.'"></i></span></a></th>
+                <th class="rex-table-min-width-3"><a href="'.rex_url::currentBackendPage(['sort' => $sortNext]).'" title="' . $this->i18n('sort') . '"><span class="text-nowrap">' . $this->i18n('published_on') . '</span>&nbsp;<span><i class="rex-icon rex-icon-sort fa-sort'.$sortClass.'"></i></span></a></th>
                 <th>' . $this->i18n('shortdescription') . '</th>
                 <th class="rex-table-action">' . $this->i18n('header_function') . '</th>
             </tr>
