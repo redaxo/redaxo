@@ -18,6 +18,7 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
         if ($timediff > 900 && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
             //Start - generate mailbody
             $mailBody = '';
+            $mailBody .= '<style>  td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
             $mailBody .= '<table>';
             $mailBody .= '    <thead>';
             $mailBody .= '        <tr>';
@@ -35,7 +36,7 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
                 $mailBody .= '        <tr>';
                 $mailBody .= '            <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>';
                 $mailBody .= '            <td>' . $data[0] . '</td>';
-                $mailBody .= '            <td>' . $data[1] . '</td>';
+                $mailBody .= '            <td>' . substr($data[1],0,128) . '</td>';
                 $mailBody .= '            <td>' . (isset($data[2]) ? $data[2] : '') . '</td>';
                 $mailBody .= '            <td>' . (isset($data[3]) ? $data[3] : '') . '</td>';
                 $mailBody .= '        </tr>';
