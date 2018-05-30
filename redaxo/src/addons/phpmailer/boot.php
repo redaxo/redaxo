@@ -9,7 +9,6 @@
  */
 
 if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
-
     rex_extension::register('RESPONSE_SHUTDOWN', function(rex_extension_point $ep)
     {
         $logFile  = rex_path::coreData('system.log');
@@ -29,7 +28,6 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
             $mailBody .= '        </tr>';
             $mailBody .= '    </thead>';
             $mailBody .= '    <tbody>';
-            
             foreach (new LimitIterator($file, 0, 30) as $entry) {
                 /* @var rex_log_entry $entry */
                 $data = $entry->getData();
@@ -41,11 +39,9 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
                 $mailBody .= '            <td>' . (isset($data[3]) ? $data[3] : '') . '</td>';
                 $mailBody .= '        </tr>';
             }
-            
             $mailBody .= '    </tbody>';
             $mailBody .= '</table>';
             //End - generate mailbody
-            
             //Start  send mail
             $mail          = new rex_mailer();
             $mail->Subject = rex::getServerName() . ' | system.log';
@@ -54,10 +50,10 @@ if (!rex::isBackend() && $this->getConfig('errormailer') == true) {
             $mail->setFrom(rex::getErrorEmail(), 'REDAXO Errormailer');
             $mail->addAddress(rex::getErrorEmail());
             $this->setConfig('last_log_file_send_time', $fileTime);
-
             if ($mail->Send()) {
-                // close logger, to free remaining file-handles to syslog
+               // mail has been sent
             }
+             // close logger, to free remaining file-handles to syslog
             rex_logger::close();
             //End  send mail
         }
