@@ -2,7 +2,7 @@
 
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
-- [Systemlog senden](#syslog)
+- [Systemlog via E-Mail senden](#syslog)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
