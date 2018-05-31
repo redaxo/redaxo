@@ -75,9 +75,9 @@ if (rex::getUser() && $hasNavigation) {
     }
 
     $item = [];
-    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . htmlspecialchars($user_name) . '</a>';
+    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($user_name) . '</a>';
     if ($impersonator) {
-        $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> '.$impersonator.')';
+        $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> '.rex_escape($impersonator).')';
     }
     $meta_items[] = $item;
     unset($item);
