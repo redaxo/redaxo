@@ -261,11 +261,23 @@ class rex
     /**
      * Returns the current user.
      *
-     * @return rex_user
+     * @return null|rex_user
      */
     public static function getUser()
     {
         return self::getProperty('user');
+    }
+
+    /**
+     * Returns the current impersonator user.
+     *
+     * @return null|rex_user
+     */
+    public static function getImpersonator()
+    {
+        $login = self::getProperty('login');
+
+        return $login ? $login->getImpersonator() : null;
     }
 
     /**

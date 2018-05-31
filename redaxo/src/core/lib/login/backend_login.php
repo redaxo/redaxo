@@ -2,6 +2,9 @@
 
 /**
  * @package redaxo\core
+ *
+ * @method null|rex_user getUser()
+ * @method null|rex_user getImpersonator()
  */
 class rex_backend_login extends rex_login
 {
@@ -80,7 +83,12 @@ class rex_backend_login extends rex_login
                 array_push($params, rex_sql::datetime(), rex_sql::datetime(), session_id(), $this->userLogin);
                 $sql->setQuery('UPDATE ' . $this->tableName . ' SET ' . $add . 'login_tries=0, lasttrydate=?, lastlogin=?, session_id=? WHERE login=? LIMIT 1', $params);
             }
+
             $this->user = new rex_user($this->user);
+
+            if ($this->impersonator instanceof rex_sql) {
+                $this->impersonator = new rex_user($this->impersonator);
+            }
         } else {
             // fehlversuch speichern | login_tries++
             if ($this->userLogin != '') {

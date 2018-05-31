@@ -626,6 +626,19 @@ if (isset($SHOW) and $SHOW) {
     });
     $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
 
+    if (rex::getUser()->isAdmin()) {
+        $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
+        $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
+        $list->setColumnFormat('impersonate', 'custom', function ($params) use ($list) {
+            if (rex::getImpersonator() || $list->getValue('id') == rex::getUser()->getId()) {
+                return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
+            }
+
+            $url = rex_url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
+            return sprintf('<a href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
+        });
+    }
+
     $content .= $list->get();
 
     $fragment = new rex_fragment();

@@ -40,6 +40,9 @@ if (rex::isSafeMode()) {
 if ($curPage->isPopup()) {
     $body_attr['class'][] = 'rex-is-popup';
 }
+if (rex::getImpersonator()) {
+    $body_attr['class'][] = 'rex-is-impersonated';
+}
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 
@@ -65,17 +68,30 @@ if (rex::getUser() && $hasNavigation) {
         unset($item);
     }
 
-    $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
+    $user_name = rex::getUser()->getName() ?: rex::getUser()->getLogin();
+    $impersonator = rex::getImpersonator();
+    if ($impersonator) {
+        $impersonator = $impersonator->getName() ?: $impersonator->getLogin();
+    }
 
     $item = [];
     $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . htmlspecialchars($user_name) . '</a>';
+    if ($impersonator) {
+        $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> '.$impersonator.')';
+    }
     $meta_items[] = $item;
     unset($item);
 
     $item = [];
-    $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
-    $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
     $item['attributes'] = 'class="rex-logout"';
+    if ($impersonator) {
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('login_impersonate_exit');
+        $item['href'] = rex_url::currentBackendPage(['_impersonate' => '_exit'] + rex_api_user_impersonate::getUrlParams());
+        $item['attributes'] .= ' data-pjax="false"';
+    } else {
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
+        $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
+    }
     $meta_items[] = $item;
     unset($item);
 } elseif ($hasNavigation) {
