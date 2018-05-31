@@ -52,8 +52,8 @@ login_welcome = Bitte anmelden.
 login_logged_out = Abgemeldet.
 stay_logged_in = Eingeloggt bleiben
 
-login_impersonate = Wechseln
-login_impersonate_exit = Zurückwechseln
+login_impersonate = wechseln
+login_impersonate_exit = zurückwechseln
 
 # redaxo/include/layout_redaxo/top.php
 logged_out = nicht angemeldet
