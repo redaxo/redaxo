@@ -3,6 +3,15 @@
 namespace PHPSTORM_META;
 
 override(
+    \rex::getProperty(0),
+    map([
+        'login' => \rex_backend_login::class,
+        'user' => \rex_user::class,
+        'timer' => \rex_timer::class,
+    ])
+);
+
+override(
     \rex_user::getComplexPerm(0),
     map([
         'clang' => \rex_clang_perm::class,
