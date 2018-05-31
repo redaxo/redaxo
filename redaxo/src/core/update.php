@@ -95,3 +95,9 @@ HTACCESS;
         ->setValue('language', 'sv_se')
         ->update();
 }
+
+$path = rex_path::coreData('config.yml');
+rex_file::putConfig($path, array_merge(
+    rex_file::getConfig(__DIR__.'/default.config.yml'),
+    rex_file::getConfig($path)
+));
