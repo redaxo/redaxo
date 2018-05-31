@@ -67,8 +67,12 @@ $content .= '
             $helpUrl = rex_url::backendPage('packages', ['subpage' => 'help', 'package' => $package->getPackageId()]);
 
             $license = '';
-            if (is_readable($package->getPath('LICENSE.md')) || is_readable($package->getPath('LICENSE'))) {
-                $license = '<a href="'. $helpUrl .'#license">'. rex_i18n::msg('credits_license') .'</a> / ';
+            if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
+                $f = fopen($licenseFile, 'r');
+                $firstLine = fgets($f);
+                fclose($f);
+
+                $license = '<a href="'. $helpUrl .'#license">'. rex_escape($firstLine) .'</a> / ';
             }
 
             $content .= '
