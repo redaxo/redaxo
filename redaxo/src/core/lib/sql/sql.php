@@ -1334,6 +1334,14 @@ class rex_sql implements Iterator
     {
         $sql = self::factory($DBID);
         $sql->setQuery('SHOW CREATE TABLE ' . $sql->escapeIdentifier($table));
+
+        if (!$sql->getRows()) {
+            throw new rex_sql_exception(sprintf('Table "%s" does not exist.', $table));
+        }
+        if (!$sql->hasValue('Create Table')) {
+            throw new rex_sql_exception(sprintf('Table "%s" does not exist, it is a view instead.', $table));
+        }
+
         return $sql->getValue('Create Table');
     }
 
@@ -1348,14 +1356,16 @@ class rex_sql implements Iterator
      */
     public static function showTables($DBID = 1, $tablePrefix = null)
     {
-        $qry = 'SHOW TABLES';
+        $sql = self::factory($DBID);
+
+        $qry = 'SHOW FULL TABLES WHERE Table_type = "BASE TABLE"';
         if ($tablePrefix != null) {
             // replace LIKE wildcards
             $tablePrefix = str_replace(['_', '%'], ['\_', '\%'], $tablePrefix);
-            $qry .= ' LIKE "' . $tablePrefix . '%"';
+            $column = $sql->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$DBID]['name']);
+            $qry .= ' AND '.$column.' LIKE "' . $tablePrefix . '%"';
         }
 
-        $sql = self::factory($DBID);
         $tables = $sql->getArray($qry);
         $tables = array_map('reset', $tables);
 
