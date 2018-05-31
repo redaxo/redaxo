@@ -56,8 +56,12 @@ if (rex_post('btn_save', 'string') != '') {
 // load config
 
 $config = rex_plugin::get('be_style', 'customizer')->getConfig();
-if (!isset($config['codemirror-langs'])) $config['codemirror-langs'] = 0;
-if (!isset($config['codemirror-tools'])) $config['codemirror-tools'] = 0;
+if (!isset($config['codemirror-langs'])) {
+    $config['codemirror-langs'] = 0;
+}
+if (!isset($config['codemirror-tools'])) {
+    $config['codemirror-tools'] = 0;
+}
 
 // build elements
 

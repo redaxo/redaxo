@@ -30,7 +30,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js'));
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js'));
-        
+
         // Codemirror-Addons
         if (isset($config['codemirror-tools']) and $config['codemirror-tools']) {
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js'));
@@ -44,7 +44,7 @@ if (rex::isBackend() && rex::getUser()) {
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js'));
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js'));
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js'));
-            }
+        }
 
         // Highlighters
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/xml/xml.js'));
