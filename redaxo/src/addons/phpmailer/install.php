@@ -29,9 +29,13 @@ if (!$this->hasConfig()) {
     $this->setConfig('password', '');
     $this->setConfig('smtp_debug', '0');
     $this->setConfig('log', 0);
+    $this->setConfig('errormailer', false);
 } else {
     if (!$this->hasConfig('log')) {
         $this->setConfig('log', 0);
+    }
+     if (!$this->hasConfig('errormailer')) {
+        $this->setConfig('errormailer', false);
     }
 }
 
@@ -40,3 +44,4 @@ $logFolder = rex_path::addonData('phpmailer', 'mail_log');
 if (file_exists($oldBackUpFolder) && !file_exists($logFolder)) {
     rename($oldBackUpFolder, $logFolder);
 }
+

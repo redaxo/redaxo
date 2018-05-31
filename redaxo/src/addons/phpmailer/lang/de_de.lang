@@ -52,3 +52,4 @@ phpmailer_log = E-Mail Log
 phpmailer_log_info = Log-Ordner: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
+phpmailer_errormailer = Systemlog per E-Mail senden

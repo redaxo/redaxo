@@ -32,6 +32,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['smtp_debug', 'int'],
         ['test_address', 'string'],
         ['log', 'int', 1],
+        ['errormailer', 'boolean'],
     ]));
 
     $message = $this->i18n('config_saved_successful');
@@ -118,6 +119,9 @@ $content = '';
 
 $content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('email_options') . '</legend>';
 
+
+
+
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-fromname">' . $this->i18n('sender_name') . '</label>';
@@ -187,6 +191,12 @@ $n['label'] = '<label for="phpmailer-priority">' . $this->i18n('priority') . '</
 $n['field'] = $sel_priority->get();
 $formElements[] = $n;
 
+
+
+
+
+
+
 $n = [];
 $n['label'] = '<label for="phpmailer-log">' . $this->i18n('log') . '</label>';
 $n['field'] = $sel_log->get();
@@ -196,6 +206,18 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
+
+
+$n = [];
+$n['label'] = '<label for="phpmailer-errormailer">' . $this->i18n('errormailer') . '</label>';
+$n['field'] = '<input type="checkbox" id="phpmailer-errormailer" name="settings[errormailer]"' . (!empty($this->getConfig('errormailer')) && $this->getConfig('errormailer') == true ? ' checked="checked"' : false) . ' value="1" />';
+$formElements_e[] = $n;
+$n = [];
+$fragment_e = new rex_fragment();
+$fragment->setVar('elements', $formElements_e, false);
+$content .= $fragment->parse('core/form/checkbox.php');
+
+
 
 $content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('smtp_options') . '</legend>';
 
