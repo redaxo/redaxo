@@ -552,6 +552,7 @@ if (isset($SHOW) and $SHOW) {
 
     $list->setColumnLabel('id', 'Id');
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
+    $list->setColumnSortable('id');
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
     $list->setColumnParams('name', ['user_id' => '###id###']);
@@ -560,6 +561,7 @@ if (isset($SHOW) and $SHOW) {
         $name = htmlspecialchars($list->getValue('name'));
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
     });
+    $list->setColumnSortable('name');
 
     $list->setColumnLabel('login', rex_i18n::msg('login'));
     $list->setColumnFormat('login', 'custom', function ($params) {
@@ -571,6 +573,7 @@ if (isset($SHOW) and $SHOW) {
         }
         return $login;
     });
+    $list->setColumnSortable('login');
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
     $list->setColumnFormat('role', 'custom', function ($params) {
@@ -591,9 +594,11 @@ if (isset($SHOW) and $SHOW) {
         }
         return implode('<br />', $role_names);
     }, ['roles' => $roles]);
+    $list->setColumnSortable('role');
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
     $list->setColumnFormat('lastlogin', 'strftime', 'datetime');
+    $list->setColumnSortable('lastlogin', 'desc');
 
     $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
