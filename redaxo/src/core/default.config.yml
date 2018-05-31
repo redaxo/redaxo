@@ -37,7 +37,7 @@ password_policy:
     digit: {min: 0}
 lang: de_de
 lang_fallback: [en_gb, de_de]
-use_https: true
+use_https: false
 use_hsts: false
 use_gzip: true
 use_etag: true
