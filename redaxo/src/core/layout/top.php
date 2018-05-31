@@ -85,8 +85,8 @@ if (rex::getUser() && $hasNavigation) {
     $item = [];
     $item['attributes'] = 'class="rex-logout"';
     if ($impersonator) {
-        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('login_impersonate_exit');
-        $item['href'] = rex_url::currentBackendPage(['_impersonate' => '_exit'] + rex_api_user_impersonate::getUrlParams());
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('login_depersonate');
+        $item['href'] = rex_url::currentBackendPage(['_impersonate' => '_depersonate'] + rex_api_user_impersonate::getUrlParams());
         $item['attributes'] .= ' data-pjax="false"';
     } else {
         $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');

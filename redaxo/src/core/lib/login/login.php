@@ -269,7 +269,7 @@ class rex_login
         $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
     }
 
-    public function deimpersonate()
+    public function depersonate()
     {
         if (!$this->impersonator) {
             throw new RuntimeException('There is no current impersonator.');
