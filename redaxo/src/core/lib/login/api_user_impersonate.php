@@ -12,7 +12,7 @@ class rex_api_user_impersonate extends rex_api_function
         $impersonate = rex_get('_impersonate');
 
         if ('_exit' === $impersonate) {
-            rex::getProperty('login')->unimpersonate();
+            rex::getProperty('login')->deimpersonate();
 
             rex_response::sendRedirect(rex_url::backendPage('users/users', [], false));
 
