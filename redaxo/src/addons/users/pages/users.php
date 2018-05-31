@@ -186,6 +186,9 @@ if ($warnings) {
 
     $info = rex_i18n::msg('user_data_updated');
 
+    $sql->setQuery('SELECT * FROM ' . rex::getTable('user') . ' WHERE id = ?', [$user_id]);
+    $user = new rex_user($sql);
+
     rex_extension::registerPoint(new rex_extension_point('USER_UPDATED', '', [
         'id' => $user_id,
         'user' => $user,
