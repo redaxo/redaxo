@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.3.0 – XX.XX.2018
+--------------------------
+
+### Neu
+
+* Command `cronjob:run`: Es kann ein einzelner Job direkt ausgeführt werden (`--job`) (@gharlan)
+
+### Bugfixes
+
+* Status-Toggle-Link war nicht nutzbar (CSRF-Token fehlte) (@gharlan)
+
+
 Version 2.2.0 – 21.12.2017
 --------------------------
 

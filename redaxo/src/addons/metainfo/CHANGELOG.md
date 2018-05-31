@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.3.1 – XX.XX.2018
+--------------------------
+
+### Bugfixes
+
+* Beim Bearbeiten der Artikel-Metainfos wurden updatedate und updateuser nicht aktualisiert (@gharlan)
+* Date/Time/Datetime-Felder: Tag/Monat/Stunde/Minute nun einheitlich zweistellig, aktueller Wert war vorher teils nicht selektiert (@gharlan)
+
+
 Version 2.3.0 – 21.12.2017
 --------------------------
 

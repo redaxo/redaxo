@@ -1,6 +1,31 @@
 Changelog
 =========
 
+Version 2.4.0 – XX.XX.2018
+--------------------------
+
+### Security
+
+* Es wurden nur die Dateiendungen `.php`, `.php5`, `.php7` usw. geblockt, manche Server führen aber auch `.php56`, `.php71` usw aus, daher werden nun alle Dateiendungen der Form `.php*` geblockt (gemeldet von Matthias Niedung, HackerWerkstatt) (@gharlan)
+* CSRF-Schutz (@dergel)
+
+### Neu
+
+* Lösschen von Medienkategorien kann per neuem EP `MEDIA_CATEGORY_IS_IN_USE` verhindert werden (@christophboecker)
+* Neuer EP `MEDIA_DETAIL_SIDEBAR` (@christophboecker)
+* Die Functions-Datei wird auch im Frontend eingebunden (@gharlan)
+* `rex_mediapool_syncFile`: Userlogin kann angegeben werden (für Nutzung im Frontend) (@gharlan)
+
+### Bugfixes
+
+* EP `MEDIA_ADDED` wurde doppelt ausgeführt (@gharlan)
+* Im Safari 11.1 konnten Medien nicht aktualisiert werden (ohne sie gleichzeitig auszutauschen) (@gharlan)
+* `rex_mediapool_updateMedia`:
+    - Beim Direktaufruf wurde der EP `MEDIA_UPDATED` nicht aufgerufen (@gharlan)
+    - Parameter `$FILE` und `$userlogin` wurden nicht genutzt, stattdessen wurde hartkodiert mit `$_FILES['file_new']` gearbeitet (@gharlan)
+
+
+
 Version 2.3.3 – 05.01.2018
 --------------------------
 

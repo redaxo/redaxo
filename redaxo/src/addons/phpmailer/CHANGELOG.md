@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 2.4.0 – XX.XX.2018
+--------------------------
+
+### Neu
+
+* Update phpmailer 6.0.5 (@gharlan)
+* Mail-Log ist default nicht mehr aktiviert (@skerbis)
+* Aktualisierung Hilfe/Doku (@skerbis)
+
+
 Version 2.3.0 – 21.12.2017
 --------------------------
 

@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.XX.2018
+--------------------------
+
+### Neu
+
+* Login-Fehlversuche können zurückgesetzt werden (@gharlan)
+* Benutzerliste sortierbar nach Spalten (@gharlan)
+* Rollen werden nach Name sortiert (@tbaddade)
+
+### Bugfixes
+
+* Kompatibilität zu PHP 7.2 (@gharlan)
+* Wenn man bei Admins die Admin-Checkbox abhakt, erschien nicht das Rollen-Auswahlfeld (@palber)
+* Die Perms enthielten teils sichtbare HTML-Entities (Doppel-Escaping) (@gharlan)
+
+
 Version 2.4.0 – 21.12.2017
 --------------------------
 

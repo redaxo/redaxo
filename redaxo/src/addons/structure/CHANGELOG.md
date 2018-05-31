@@ -1,6 +1,25 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.XX.2018
+--------------------------
+
+### Neu
+
+* Mountpoints werden nach Prio sortiert, wenn alle in gleicher Oberkategorie (@gharlan)
+* Neue EPs `ART_MOVED` und `ART_COPIED` (@alexwenz)
+* Template löschen: Hinweis welche Artikel es benutzen (@bloep)
+* Linklist: Artikel-IDs werden auch ausgegeben (@tbaddade)
+* Umbenennung "Homepage" in "Hauptebene" in Breadcrumb + passenderes Icon (@tbaddade)
+* Umbenennung "Spalten" in "Bereiche" (@alexplusde)
+* `rex_category`, `rex_article`, `rex_article_base`: Neue Methode `getClangId`, `getClang` als deprecated markiert (@staabm)
+
+### Bugfixes
+
+* Kompatibilität zu PHP 7.2 (@IngoWinter)
+* Bei der Ausgabe des Modulnamens fehlte teils das Escaping (@staabm)
+
+
 Version 2.5.0 – 21.12.2017
 --------------------------
 
