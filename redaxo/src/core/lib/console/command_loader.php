@@ -24,6 +24,7 @@ class rex_console_command_loader implements CommandLoaderInterface
             'package:install' => rex_command_package_install::class,
             'package:uninstall' => rex_command_package_uninstall::class,
             'setup:check' => rex_command_setup_check::class,
+            'user:set-password' => rex_command_user_set_password::class,
         ];
         foreach ($commands as $command => $class) {
             $this->commands[$command] = ['class' => $class];
