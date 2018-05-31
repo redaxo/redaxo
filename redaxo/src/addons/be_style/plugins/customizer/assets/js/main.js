@@ -9,7 +9,7 @@ Customizer.init = function (container)
     var cm_editor = {};
     var cm = 0;
 
-    container.find("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror").each(function() {
+    container.find("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror, textarea#previewaction , textarea#presaveaction, textarea#postsaveaction").each(function() {
         var t = $(this);
         var id = t.attr("id");
 
@@ -34,16 +34,20 @@ Customizer.init = function (container)
         }
 
         cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), {
+            mode: mode,
+            theme: theme,
             lineNumbers: true,
             lineWrapping: true,
             styleActiveLine: true,
             matchBrackets: true,
-            mode: mode,
+            autoCloseBrackets: true,
+            matchTags: {bothTags: true},
             indentUnit: 4,
             indentWithTabs: false,
             enterMode: "keep",
             tabMode: "shift",
-            theme: theme,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            foldGutter: true,
             extraKeys: {
                 "F11": function(cm) {
                     cm.setOption("fullScreen", !cm.getOption("fullScreen"));
