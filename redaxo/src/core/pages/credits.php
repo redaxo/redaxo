@@ -8,6 +8,20 @@
 
 echo rex_view::title(rex_i18n::msg('credits'), '');
 
+if (rex_get('license')) {
+    $license = rex_markdown::factory()->parse(rex_file::get(rex_path::base('LICENSE.md')));
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', 'REDAXO '. rex_i18n::msg('credits_license'));
+    $fragment->setVar('body', $license, false);
+    echo '<div id="license"></div>'; // scroll anchor
+    echo $fragment->parse('core/page/section.php');
+
+    echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
+
+    return;
+}
+
 $content = [];
 
 $content[] = '
@@ -41,7 +55,7 @@ $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/grid.php');
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', 'REDAXO <small>' . rex::getVersion() . '</small>', false);
+$fragment->setVar('title', 'REDAXO <small>' . rex::getVersion() . ' &ndash; <a href="'. rex_url::backendPage('credits', ['license' => 'core']) .'">'. rex_i18n::msg('credits_license') .'</a></small>', false);
 $fragment->setVar('body', $content, false);
 echo $fragment->parse('core/page/section.php');
 
