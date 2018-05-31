@@ -460,6 +460,13 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $n['field'] = $add_status_chkbox;
     $formElements[] = $n;
 
+    if ($user_id > 0 && $user->getValue('login_tries') > 0) {
+        $n = [];
+        $n['label'] = '<label for="rex-user-logintriesreset">' . rex_i18n::msg('user_reset_tries', $user->getValue('login_tries')) . '</label>';
+        $n['field'] = '<input type="checkbox" id="rex-user-logintriesreset" name="logintriesreset" value="1" />';
+        $formElements[] = $n;
+    }
+
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
     $content .= $fragment->parse('core/form/checkbox.php');
