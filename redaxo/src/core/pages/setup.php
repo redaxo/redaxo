@@ -276,11 +276,6 @@ if ($step == 4) {
 
     $db_create_checked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
-    // set https = true only in new setups
-    if (rex_file::getConfig($configFile) === []) {
-        $config['use_https'] = true;
-    }
-
     $httpsRedirectSel = new rex_select();
     $httpsRedirectSel->setId('rex-form-https');
     $httpsRedirectSel->setStyle('class="form-control selectpicker"');
