@@ -33,7 +33,6 @@ class rex_command_user_set_password extends rex_console_command
             ->setWhere(['login' => $username])
             ->select();
 
-
         if (!$user->getRows()) {
             throw new InvalidArgumentException(sprintf('User "%s" does not exist.', $username));
         }
