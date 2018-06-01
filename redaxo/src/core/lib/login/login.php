@@ -18,7 +18,12 @@ class rex_login
     protected $cache = false;
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
     protected $message = '';
+
+    /** @var rex_sql */
     protected $user;
+
+    /** @var rex_sql */
+    protected $impersonator;
 
     /**
      * Constructor.
@@ -191,6 +196,16 @@ class rex_login
                     if (($this->getSessionVar('STAMP') + $this->sessionDuration) > time()) {
                         $ok = true;
                         $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+
+                        if ($impersonator = $this->getSessionVar('impersonator')) {
+                            $this->impersonator = rex_sql::factory($this->DB);
+                            $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
+
+                            if (!$this->impersonator->getRows()) {
+                                $ok = false;
+                                $this->message = rex_i18n::msg('login_user_not_found');
+                            }
+                        }
                     } else {
                         $this->message = rex_i18n::msg('login_session_expired');
 
@@ -219,6 +234,7 @@ class rex_login
             // wenn nicht, dann UID loeschen und error seite
             $this->setSessionVar('STAMP', '');
             $this->setSessionVar('UID', '');
+            $this->setSessionVar('impersonator', null);
         }
 
         if ($ok) {
@@ -230,12 +246,56 @@ class rex_login
         return $ok;
     }
 
+    public function impersonate($id)
+    {
+        if (!$this->user) {
+            throw new RuntimeException('Can not impersonate a user without valid user session.');
+        }
+        if ($this->user->getValue($this->idColumn) == $id) {
+            throw new RuntimeException('Can not impersonate the current user.');
+        }
+
+        $user = rex_sql::factory($this->DB);
+        $user->setQuery($this->userQuery, [':id' => $id]);
+
+        if (!$user->getRows()) {
+            throw new RuntimeException(sprintf('User with id "%d" not found.', $id));
+        }
+
+        $this->impersonator = $this->user;
+        $this->user = $user;
+
+        $this->setSessionVar('UID', $id);
+        $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
+    }
+
+    public function depersonate()
+    {
+        if (!$this->impersonator) {
+            throw new RuntimeException('There is no current impersonator.');
+        }
+
+        $this->user = $this->impersonator;
+        $this->impersonator = null;
+
+        $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+        $this->setSessionVar('impersonator', null);
+    }
+
     /**
-     * @return rex_user
+     * @return null|rex_sql
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return null|rex_sql
+     */
+    public function getImpersonator()
+    {
+        return $this->impersonator;
     }
 
     /**

@@ -52,6 +52,9 @@ login_welcome = Please sign in.
 login_logged_out = Signed out.
 stay_logged_in = Stay signed in
 
+login_impersonate = switch user
+login_depersonate = switch back
+
 # redaxo/include/layout_redaxo/top.php
 logged_out  =  Not signed in
 logged_in_as  =  Signed in as

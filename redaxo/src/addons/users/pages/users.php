@@ -605,8 +605,9 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
     $list->setColumnFormat('lastlogin', 'strftime', 'datetime');
 
+    $colspan = rex::getUser()->isAdmin() ? 3 : 2;
     $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
-    $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="'.$colspan.'">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('user_functions'), ['user_id' => '###id###']);
     $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', function ($params) {
         $list = $params['list'];
@@ -625,6 +626,19 @@ if (isset($SHOW) and $SHOW) {
         return $list->getColumnLink('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete'));
     });
     $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
+
+    if (rex::getUser()->isAdmin()) {
+        $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
+        $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
+        $list->setColumnFormat('impersonate', 'custom', function ($params) use ($list) {
+            if (rex::getImpersonator() || $list->getValue('id') == rex::getUser()->getId()) {
+                return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
+            }
+
+            $url = rex_url::currentBackendPage(['_impersonate' => $list->getValue('id')] + rex_api_user_impersonate::getUrlParams());
+            return sprintf('<a href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, rex_i18n::msg('login_impersonate'));
+        });
+    }
 
     $content .= $list->get();
 
