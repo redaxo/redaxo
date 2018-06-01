@@ -25,7 +25,7 @@ description = Description
 email = E-mail
 function = Function
 no_editing_rights = permission denied
-check_rights_in_directory  =  Please review permissions in directory
+check_rights_in_directory = Please review permissions in directory
 error_undefined = An undefinied error occurred
 csrf_token_invalid = The csrf token is invalid.
 
@@ -40,8 +40,8 @@ subnavigation = Sub navigation of {0}
 
 # redaxo/include/classes/class.login.php
 login = Login
-login_name  =  Username
-password  =  Password
+login_name = Username
+password = Password
 new_password = New password
 request_new_password = Request new password
 login_error = Error signing in.
@@ -56,8 +56,11 @@ login_impersonate = switch user
 login_depersonate = switch back
 
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  Not signed in
-logged_in_as  =  Signed in as
+logged_out = Not signed in
+logged_in_as = Signed in as
+safemode = Safe mode
+safemode_text = In safe mode all AddOns are temporarily deactivated. If a specific AddOn is causing problems it can be deactivated or removed in safe mode.
+safemode_activate = Activate safe mode
 safemode_deactivate = Deactivate safe mode
 
 # redaxo/include/classes/class.form.php
@@ -218,6 +221,8 @@ setup_799 = 7 / Hooray
 
 setup_security_msg = The folder redaxo/include is not secure. Please protect this folder and start setup again.
 setup_no_js_security_msg = Please make sure that files in the folder redaxo/include are not directly accessible! Due to security concerns accessing these files should not be possible!
+setup_security_no_https = The setup will continue without SSL encryption. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
+setup_security_warn_mod_security = The Apache module "mod_security" is loaded. This can cause problems if not configured correctly.
 
 sql_database_name_missing = Enter a database name!
 sql_database_already_exists = Database already exists!
@@ -254,7 +259,7 @@ package_not_installed = Has not bee installed yet!
 addon_installed = AddOn <b>"{0}"</b> has been installed and activated
 addon_reinstalled = AddOn <b>{0}</b> has been reinstalled!
 addon_activated = AddOn <b>"{0}"</b> has been activated
-addon_deactivated =  AddOn <b>"{0}"</b> has been deactivated
+addon_deactivated = AddOn <b>"{0}"</b> has been deactivated
 addon_uninstalled = AddOn <b>"{0}"</b> has been uninstalled
 addon_deleted = AddOn <b>"{0}"</b> has been deleted
 addon_not_deleted = AddOn <b>{0}</b> could not be deleted!
@@ -318,7 +323,7 @@ plugin_no_deactivation = PlugIn <b>{0}</b> <b>could not</b> be deactivated due t
 plugin_installed = PlugIn <b>{0}</b> has been installed and activated!
 plugin_reinstalled = PlugIn <b>{0}</b> has been reinstalled!
 plugin_activated = PlugIn <b>{0}</b> has been activated!
-plugin_deactivated =  PlugIn <b>{0}</b> has been deactivated!
+plugin_deactivated = PlugIn <b>{0}</b> has been deactivated!
 plugin_uninstalled = PlugIn <b>{0}</b> has been uninstalled!
 plugin_deleted = PlugIn <b>{0}</b> has been deleted!
 plugin_not_deleted = PlugIn <b>{0}</b> could not be deleted!
@@ -342,6 +347,7 @@ credits_open_help_file = Open help file:
 credits_inventor = Inventor
 credits_developer = Developer
 credits_designer = Designer
+credits_license = Licence
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Edit my user profile
