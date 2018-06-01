@@ -63,7 +63,7 @@ if ($subpage == 'help') {
     $license = null;
     if (is_readable($package->getPath('LICENSE.md'))) {
         $license = rex_markdown::factory()->parse(rex_file::get($package->getPath('LICENSE.md')));
-    } else if (is_readable($package->getPath('LICENSE'))) {
+    } elseif (is_readable($package->getPath('LICENSE'))) {
         $license = nl2br(file_get_contents($package->getPath('LICENSE')));
     }
 
@@ -74,7 +74,6 @@ if ($subpage == 'help') {
         echo '<div id="license"></div>'; // scroll anchor
         echo $fragment->parse('core/page/section.php');
     }
-
 
     echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
 }
