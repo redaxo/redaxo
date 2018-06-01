@@ -89,8 +89,8 @@ if ($subpage == '') {
                 <tr>
                     <th class="rex-table-icon">&nbsp;</th>
                     <th>' . rex_i18n::msg('package_hname') . '</th>
-                    <th>' . rex_i18n::msg('package_hversion') . '</th>
-                    <th class="rex-table-slim">' . rex_i18n::msg('package_hhelp') . '</th>
+                    <th class="rex-table-slim">' . rex_i18n::msg('package_hversion') . '</th>
+                    <th colspan="2">' . rex_i18n::msg('package_hinformation') . '</th>
                     <th class="rex-table-action">' . rex_i18n::msg('package_hinstall') . '</th>
                     <th class="rex-table-action">' . rex_i18n::msg('package_hactive') . '</th>
                     <th class="rex-table-action" colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
@@ -166,7 +166,7 @@ if ($subpage == '') {
             $firstLine = fgets($f);
             fclose($f);
 
-            $license = '<a href="'. $helpUrl .'#license">'. rex_escape($firstLine) .'</a> / ';
+            $license = '<a href="'. $helpUrl .'#license"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
         }
 
         return $message . '
@@ -175,9 +175,9 @@ if ($subpage == '') {
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                         <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '">
-                            '. $license .'
-                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a>
+                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . htmlspecialchars($package->getName()) . '</span></a>
                         </td>
+                        <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">'. $license .'</td>
                         <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>
                         <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $status . '</td>
                         <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $uninstall . '</td>
