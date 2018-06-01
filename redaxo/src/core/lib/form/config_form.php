@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Create forms for rex_config data.
+ *
  * @package redaxo\core
  */
 class rex_config_form extends rex_form_base
@@ -16,6 +18,13 @@ class rex_config_form extends rex_form_base
         $this->namespace = $namespace;
     }
 
+    /**
+     * @param string      $namespace `rex_config` namespace, usually the package key
+     * @param null|string $fieldset
+     * @param bool        $debug
+     *
+     * @return static
+     */
     public static function factory($namespace, $fieldset = null, $debug = false)
     {
         $class = static::getFactoryClass();

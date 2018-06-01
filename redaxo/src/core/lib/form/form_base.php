@@ -5,16 +5,37 @@
  */
 abstract class rex_form_base
 {
+    /** @var string */
     protected $name;
+
+    /** @var string "get" or "post" */
     protected $method;
+
+    /** @var string */
     protected $fieldset;
+
+    /** @var array */
     protected $elements;
+
+    /** @var array */
     protected $params;
+
+    /** @var bool */
     protected $debug;
+
+    /** @var null|string */
     protected $applyUrl;
+
+    /** @var null|string */
     protected $message;
+
+    /** @var array */
     protected $errorMessages;
+
+    /** @var string */
     protected $warning;
+
+    /** @var string */
     protected $divId;
 
     /** @var rex_csrf_token */
@@ -1074,12 +1095,9 @@ abstract class rex_form_base
     }
 
     /**
-     * Speichert das Formular.
+     * Saves the form.
      *
-     * Gibt true zurück wenn alles ok war, false bei einem allgemeinen Fehler,
-     * einen String mit einer Fehlermeldung oder den von der Datenbank gelieferten ErrorCode.
-     *
-     * @return bool
+     * @return bool|string|int `true` on success, an error message or an error code otherwise
      */
     abstract protected function save();
 
