@@ -19,6 +19,8 @@ if ($media_method == 'add_file') {
                     $warning .= count($whitelist) > 0
                         ? '<br />' . rex_i18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', $whitelist), ', ') . '</code>'
                         : '<br />' . rex_i18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', rex_mediapool_getMediaTypeBlacklist()), ', ') . '</code>';
+                } elseif (!rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'])) {
+                    $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . mime_content_type($_FILES['file_new']['tmp_name']) . '</code>)';
                 } else {
                     $FILEINFOS['title'] = rex_request('ftitle', 'string');
 
