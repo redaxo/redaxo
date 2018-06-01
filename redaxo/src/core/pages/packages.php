@@ -60,6 +60,13 @@ if ($subpage == 'help') {
     $fragment->setVar('body', $credits, false);
     echo $fragment->parse('core/page/section.php');
 
+    echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
+}
+
+// ----------------- LICENSE page
+if ($subpage == 'license') {
+    $package = rex_package::get(rex_request('package', 'string'));
+
     $license = null;
     if (is_readable($package->getPath('LICENSE.md'))) {
         $license = rex_markdown::factory()->parse(rex_file::get($package->getPath('LICENSE.md')));
@@ -69,7 +76,7 @@ if ($subpage == 'help') {
 
     if ($license) {
         $fragment = new rex_fragment();
-        $fragment->setVar('title', rex_i18n::msg('credits_license'));
+        $fragment->setVar('title', rex_i18n::msg('credits_license').': '.$package->getPackageId());
         $fragment->setVar('body', $license, false);
         echo '<div id="license"></div>'; // scroll anchor
         echo $fragment->parse('core/page/section.php');
@@ -157,15 +164,13 @@ if ($subpage == '') {
 
         $version = (trim($package->getVersion()) != '') ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
 
-        $helpUrl = rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]);
-
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
             $f = fopen($licenseFile, 'r');
             $firstLine = fgets($f);
             fclose($f);
 
-            $license = '<a href="'. $helpUrl .'#license"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
+            $license = '<a href="'. rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
         }
 
         return $message . '
