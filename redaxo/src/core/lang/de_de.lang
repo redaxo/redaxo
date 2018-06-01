@@ -52,7 +52,7 @@ login_welcome = Bitte anmelden.
 login_logged_out = Abgemeldet.
 stay_logged_in = Eingeloggt bleiben
 
-login_impersonate = wechseln
+login_impersonate = Identität wechseln
 login_depersonate = zurückwechseln
 
 # redaxo/include/layout_redaxo/top.php
