@@ -25,7 +25,7 @@ description = Descripción
 email = E-mail
 function = Función
 no_editing_rights = Permiso denegado
-check_rights_in_directory  =  Compruebe los permisos de carpeta.
+check_rights_in_directory = Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
 csrf_token_invalid = El token csrf no es válido.
 
@@ -40,8 +40,8 @@ subnavigation = Subnavegación de {0}
 
 # redaxo/include/classes/class.login.php
 login = Iniciar sesión
-login_name  =  Nombre de usuario
-password  =  Contraseña
+login_name = Nombre de usuario
+password = Contraseña
 new_password = Nueva contraseña
 request_new_password = Pide nueva contraseña
 login_error = Error en el inicio de sesión. Vuelve a intentarlo en {0} segundos.
@@ -52,9 +52,12 @@ login_welcome = Por favor Iniciar sesión.
 login_logged_out = Cerró sesión.
 stay_logged_in = Permanecer conectado
 
+login_impersonate = Cambiar de usuario
+login_depersonate = Volver atrás
+
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  No registrado
-logged_in_as  =  Conectado como
+logged_out = No registrado
+logged_in_as = Conectado como
 safemode = Modo seguro
 safemode_text = En Modo a prueba de fallos, todos los Complementos están desactivados temporalmente. Si, por ejemplo, un complemento genera problemas después de la instalación, puede desactivarse o desinstalarse a través del modo seguro.
 safemode_activate = Activar modo seguro
@@ -223,11 +226,23 @@ setup_security_warn_mod_security = El módulo de Apache "mod_security" está car
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
 sql_database_already_exists = ¡La base de datos ya existe!
+sql_database_min_version = La versión de MySQL {0} está en desuso, ¡al menos se requiere la versión {1}!
 sql_unable_to_connect_database = ¡No se puede conectar a la base de datos!
 sql_unable_to_connect_server = ¡No se puede conectar al servidor de bases de datos!
 sql_unable_to_create_database = ¡No se puede crear la base de datos!
 sql_unable_to_find_database = ¡No se puede encontrar la base de datos definida!
 sql_unable_to_open_database = ¡No se puede abrir la base de datos definida!
+
+setup_security = Seguridad
+
+https_activate_redirect_for = Redirección HTTPS automática
+https_disable = Desactivar
+https_only_frontend = Activar solo para frontend
+https_only_backend = Activar solo para backend
+https_activate = Activar para frontend y backend
+
+hsts_activate = Establezca <b>Seguridad de transporte HTTP estricta </​​b>
+hsts_more_information = Más información en {0}
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -244,7 +259,7 @@ package_not_installed = ¡No está instalado todavía!
 addon_installed = AddOn <b>{0}</b> instalado y activado
 addon_reinstalled = AddOn <b>{0}</b> vuelve a instalar!
 addon_activated = AddOn <b>{0}</b> activado
-addon_deactivated =  AddOn <b>{0}</b> desactivado
+addon_deactivated = AddOn <b>{0}</b> desactivado
 addon_uninstalled = AddOn <b>{0}</b> desinstalado
 addon_deleted = AddOn <b>{0}</b> eliminado
 addon_not_deleted = ¡No se pudo eliminar AddOn <b>{0}</b>.
@@ -256,6 +271,8 @@ package_hhelp = Ayuda
 package_hinstall = Instalado
 package_hactive = Activado
 package_hdelete = Borrar
+package_hinformation = Información
+package_hlicense = Licencia
 package_reinstall = reinstalar
 package_install = instalar
 package_notinstalled = no instalado
@@ -269,6 +286,7 @@ package_caption = Lista de paquetes disponibles
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
+addon_cache_not_writable = ¡El directorio AddOn cache no tiene permisos de escritura!
 package_missing_yml_file = ¡Falta el archivo package.yml!
 package_invalid_yml_file = El archivo package.yml no es válido:
 package_missing_id = La configuración "paquete" falta en package.yml ("package: {0}").
@@ -305,7 +323,7 @@ plugin_no_deactivation = PlugIn <b>{0}</b> no se pudo desactivar porque:
 plugin_installed = PlugIn ha sido instalado
 plugin_reinstalled = PlugIn <b>{0}</b> vuelve a instalar!
 plugin_activated = PlugIn activado
-plugin_deactivated =  PlugIn desactivado
+plugin_deactivated = PlugIn desactivado
 plugin_uninstalled = PlugIn <b>{0}</b> desinstalado!
 plugin_deleted = PlugIn <b>{0}</b> eliminado!
 plugin_not_deleted = PlugIn <b>{0}</b> no se pudo eliminar.
@@ -314,6 +332,7 @@ plugin_uninstall_question = ¿Desinstalar PlugIn "{0}"?
 plugin_systemplugin = PlugIn del sistema
 plugin_systempackage_delete_not_allowed = Plugins del sistema no deben ser eliminados!
 plugin_dir_not_writable = Falta permisos de escritura para el directorio de complementos.
+plugin_cache_not_writable = ¡La carpeta de caché de Plugin no tiene permisos de escritura!
 
 # redaxo\include\pages\credits.php
 credits = Créditos
@@ -328,6 +347,7 @@ credits_open_help_file = Abrir archivo de ayuda
 credits_inventor = Inventor
 credits_developer = Desarrollador
 credits_designer = Diseñador
+credits_license = Licencia
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Editar mi perfil
