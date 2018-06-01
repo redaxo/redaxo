@@ -523,16 +523,18 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 // ---------------------------------- Userliste
 
 if (isset($SHOW) and $SHOW) {
+    $noRole = '_no_role';
+
     $list = rex_list::factory('
         SELECT
             id,
             IF(name <> "", name, login) as name,
             login,
             admin,
-            role,
+            IF(admin, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
             status,
             UNIX_TIMESTAMP(lastlogin) as lastlogin
-        FROM ' . rex::getTable('user') . '
+        FROM ' . rex::getTable('user') . ' u
         ORDER BY name
     ');
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -576,23 +578,14 @@ if (isset($SHOW) and $SHOW) {
     $list->setColumnSortable('login');
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
-    $list->setColumnFormat('role', 'custom', function ($params) {
+    $list->setColumnFormat('role', 'custom', function ($params) use ($noRole) {
         $list = $params['list'];
-        $roles = $params['params']['roles'];
-        $role_names = [];
-        if ($list->getValue('admin')) {
-            $role_names[] = 'Admin';
-        } elseif ($list->getValue('role') != '') {
-            foreach (explode(',', $list->getValue('role')) as $user_role_id) {
-                if (isset($roles[$user_role_id])) {
-                    $role_names[] = htmlspecialchars($roles[$user_role_id]);
-                }
-            }
+        $roles = $list->getValue('role');
+        if ($noRole === $roles) {
+            return rex_i18n::msg('user_no_role');
         }
-        if (count($role_names) == 0) {
-            $role_names[] = rex_i18n::msg('user_no_role');
-        }
-        return implode('<br />', $role_names);
+
+        return implode('<br />', explode(',', $roles));
     }, ['roles' => $roles]);
     $list->setColumnSortable('role');
 
