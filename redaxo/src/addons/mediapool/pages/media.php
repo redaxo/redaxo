@@ -333,7 +333,7 @@ if ($file_id) {
             }
 
             $body = '
-                <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data">
+                <form action="' . rex_url::currentBackendPage() . '" method="post" enctype="multipart/form-data" data-pjax="false">
                     ' . $csrf->getHiddenField() . '
                     <input type="hidden" name="file_id" value="' . $file_id . '" />
                     ' . $arg_fields . '
