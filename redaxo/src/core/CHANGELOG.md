@@ -1,6 +1,61 @@
 Changelog
 =========
 
+Version 5.6.0 – XX.XX.2018
+--------------------------
+
+### Security
+
+* Siehe mediapool-Changelog
+* `rex_string::buildAttributes`: Die Attribute wurden nicht escaped, wodurch unter Umständen XSS möglich war (ggf. kontrollieren, ob man dort Attribute, insbesondere URLs, übergeben hat, die bereits escaped waren) (@gharlan)
+
+### Neu
+
+* Update Symfony-Komponenten (3.4.11), Symfony-Polyfills (neu: ctype) (1.8.0), parsedown (1.7.1) (@gharlan)
+* HTTPS kann für Frontend und/oder Backend erzwungen werden (Umleitung und optional HSTS-Header) über `config.yml` und Setup (@bloep)
+* Admins können in die anderen Benutzer wechseln, ohne deren Passwort zu kennen (@gharlan)
+* Im Debug-Mode kann Whoops optional auch für Warnings/Notices aktiviert werden (@gharlan)
+* Safe-Mode kann aus System-Page heraus gestartet werden (@alexplusde, @tbaddade)
+* Setup: 
+    - Webserver-Adresse wird automatisch eingetragen (@alexplusde, @tbaddade)
+    - bootstrap-select wird verwendet (@skerbis)
+* Packages-Page: Lizenz in Kurzform wird gelistet mit Link zu kompletter Lizenz (@staabm, @tbaddade, @gharlan)
+* project-Addon wird per default spät geladen (`load: late` in package.yml, wird bei Update nicht gesetzt) (@gharlan)
+* Beim Core-Update werden in der `config.yml` alle neuen Optionen ergänzt (@gharlan)
+* Doku wird im Footer verlinkt (@olien)
+* Backend-Übersetzungsdateien:
+    - Englisch und Deutsch dienen als Fallback, wenn Übersetzungen fehlen (@gharlan)
+    - Englisch aktualisiert (@ynamite)
+    - Spanisch aktualisiert (@nandes2062)
+* Neue Consolen-Commands:
+    - `user:set-password`: Neues Passwort für Benutzer setzen (@gharlan)
+    - `setup:check`: Umgebung (Versionen, Dateirechte...) prüfen (@staabm)
+    - `assets:sync`: Assets zwischen /assets und den assets-Ordnern in `src` synchronisieren (@staabm)
+    - `db:connection-options`: Liefert die Optionen um sich mit dem `mysql` cli tool mit der DB zu verbinden (@gharlan)
+* `rex_form`:
+    - Neue abstrakte Basisklasse `rex_form_base` für alternative Speichermethoden, neue Klasse `rex_config_form` für Speicherung in `rex_config` (@gharlan)
+    - Führende/nachfolgende Leerzeichen werden nach dem Senden entfernt (@staabm)
+* `rex_sql`: 
+    - Für die Connection wird utf8mb4 genutzt (@gharlan)
+    - Neue Methoden für die Nutzung von Transactions (@staabm)
+    - Neue Methode `insertOrUpdate` für `INSERT .. ON DUPLICATE KEY UPDATE`-Queries (@gharlan)
+    - Mehrere Datensätze können gleichzeitig eingefügt/aktualisiert/ersetzt werden (`addRecord`) (@gharlan)
+* `rex_backend_login::hasSession`: Es wird nun keine Session mehr gestartet, wenn bereits der Session-Cookie nicht existiert (@VIEWSION)
+* `rex_response`:
+    - `sendFile`: Dateiname kann angegeben werden (@bloep)
+    - `sendResource`: Content-Disposition und Dateiname können angegeben werden (@gharlan)
+    - Neue Methode `sendCookie` (@staabm)
+* `rex_file::copy`: Zugriffszeit wird auch übernommen (@staabm)
+
+### Bugfixes
+
+* Nach explizitem Logout funktioniert teils der direkte erneute Login nicht (CSRF-Token-Fehler) (@bloep)
+* Cache löschen: Teils blieb der `rex_config` Cache erhalten (@gharlan, @tbaddade)
+* Beim Deaktivieren/deinstallieren von Packages wurde dessen Cache nicht gelöscht (@bloep)
+* `rex_sql`: `showTables` enthielt auch Views (@gharlan)
+* `rex_sql_table`: Es konnten nicht mehrere Fulltext-Indexe gesetzt werden (@gharlan)
+
+
 Version 5.5.1 – 05.01.2018
 --------------------------
 

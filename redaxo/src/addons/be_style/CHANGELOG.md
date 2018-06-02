@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.XX.2018
+--------------------------
+
+* Update bootstrap-select (1.12.4), scssphp (0.7.6) (@gharlan)
+* Update CodeMirror (5.38) mit neuen Optionen (@aeberhard)
+* Korrektur Suchfeld in bootstrap-select (@skerbis)
+
+
 Version 2.4.0 – 21.12.2017
 --------------------------
 

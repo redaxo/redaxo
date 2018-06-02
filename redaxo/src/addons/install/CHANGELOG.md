@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.4.0 – XX.XX.2018
+--------------------------
+
+### Neu
+
+* "Veröffentlicht am" wird ausgegeben, Addons können danach sortiert werden (@bloep)
+
+
 Version 2.3.0 – 21.12.2017
 --------------------------
 

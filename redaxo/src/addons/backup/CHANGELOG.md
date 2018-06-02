@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.2.1 – XX.XX.2018
+--------------------------
+
+### Bugfixes
+
+* Kompatibilität zu PHP 7.2 (@gharlan)
+* Speicherbedarf beim Export reduziert (@staabm)
+* Es wird sichergestellt, dass keine unvollständigen Backups erstellt werden (@staabm)
+* Backup-Cronjob: Wenn die automatische Löschung aktiviert war, funktioniert der Mailversand nicht mehr (@staabm)
+* EP `BACKUP_AFTER_DB_IMPORT`: Während der Ausführung war der Cache veraltet (@gharlan)
+
+
 Version 2.2.0 – 21.12.2017
 --------------------------
 
