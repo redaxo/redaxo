@@ -136,28 +136,28 @@ if ($file_id && rex_post('btn_update', 'string')) {
     } else {
         $gf = rex_sql::factory();
         $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
-        if ($gf->getRows() == 1) {
-            if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) && rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
-                $FILEINFOS = [];
-                $FILEINFOS['rex_file_category'] = $rex_file_category;
-                $FILEINFOS['file_id'] = $file_id;
-                $FILEINFOS['title'] = rex_request('ftitle', 'string');
-                $FILEINFOS['filetype'] = $gf->getValue('filetype');
-                $FILEINFOS['filename'] = $gf->getValue('filename');
-
-                $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
-
-                if ($return['ok'] == 1) {
-                    $success = $return['msg'];
-                } else {
-                    $error = $return['msg'];
-                }
-            } else {
-                $error = rex_i18n::msg('no_permission');
-            }
-        } else {
+        if ($gf->getRows() != 1) {
             $error = rex_i18n::msg('pool_file_not_found');
             $file_id = 0;
+        } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
+            $error = rex_i18n::msg('no_permission');
+        } elseif (!empty($_FILES['file_new']['tmp_name']) && !rex_mediapool_isAllowedMimeType($_FILES['file_new']['tmp_name'])) {
+            $error = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code> (<code>' . mime_content_type($_FILES['file_new']['tmp_name']) . '</code>)';
+        } else {
+            $FILEINFOS = [];
+            $FILEINFOS['rex_file_category'] = $rex_file_category;
+            $FILEINFOS['file_id'] = $file_id;
+            $FILEINFOS['title'] = rex_request('ftitle', 'string');
+            $FILEINFOS['filetype'] = $gf->getValue('filetype');
+            $FILEINFOS['filename'] = $gf->getValue('filename');
+
+            $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
+
+            if ($return['ok'] == 1) {
+                $success = $return['msg'];
+            } else {
+                $error = $return['msg'];
+            }
         }
     }
 }
