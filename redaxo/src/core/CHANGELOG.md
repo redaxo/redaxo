@@ -11,6 +11,7 @@ Version 5.6.0 – XX.XX.2018
 
 ### Neu
 
+* MySQL-Mindestversion 5.5.3
 * Update Symfony-Komponenten (3.4.11), Symfony-Polyfills (neu: ctype) (1.8.0), parsedown (1.7.1) (@gharlan)
 * HTTPS kann für Frontend und/oder Backend erzwungen werden (Umleitung und optional HSTS-Header) über `config.yml` und Setup (@bloep)
 * Admins können in die anderen Benutzer wechseln, ohne deren Passwort zu kennen (@gharlan)

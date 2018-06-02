@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.5.4 – XX.XX.2018
+--------------------------
+
+* Sprachdateien aktualisiert
+
+
 Version 2.5.3 – 03.01.2018
 --------------------------
 
