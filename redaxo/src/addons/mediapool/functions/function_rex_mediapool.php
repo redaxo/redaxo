@@ -193,12 +193,12 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     $FILESQL->setValue('category_id', $FILEINFOS['rex_file_category']);
 
     $updated = false;
-    if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none') {
-        $ffilename = $_FILES['file_new']['tmp_name'];
-        $ffiletype = $_FILES['file_new']['type'];
-        $ffilesize = $_FILES['file_new']['size'];
+    if ($FILE['name'] != '' && $FILE['name'] != 'none') {
+        $ffilename = $FILE['tmp_name'];
+        $ffiletype = $FILE['type'];
+        $ffilesize = $FILE['size'];
 
-        $extensionNew = mb_strtolower(pathinfo($_FILES['file_new']['name'], PATHINFO_EXTENSION));
+        $extensionNew = mb_strtolower(pathinfo($FILE['name'], PATHINFO_EXTENSION));
         $extensionOld = mb_strtolower(pathinfo($FILEINFOS['filename'], PATHINFO_EXTENSION));
 
         static $jpgExtensions = ['jpg', 'jpeg'];
@@ -249,7 +249,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
         $RETURN['id'] = $FILEINFOS['file_id'];
     }
 
-    $FILESQL->addGlobalUpdateFields();
+    $FILESQL->addGlobalUpdateFields($userlogin);
     $FILESQL->update();
 
     rex_media_cache::delete($FILEINFOS['filename']);
