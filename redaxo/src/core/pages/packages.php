@@ -170,6 +170,10 @@ if ($subpage == '') {
             $firstLine = fgets($f);
             fclose($f);
 
+            if (preg_match('/^The MIT License(?: \(MIT\))$/i', $firstLine)) {
+                $firstLine = 'MIT License';
+            }
+
             $license = '<a href="'. rex_url::currentBackendPage(['subpage' => 'license', 'package' => $packageId]) .'"><i class="rex-icon rex-icon-license"></i> '. rex_escape($firstLine) .'</a>';
         }
 
