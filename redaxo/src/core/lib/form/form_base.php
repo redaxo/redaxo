@@ -1224,7 +1224,7 @@ abstract class rex_form_base
 
         $id = '';
         if ($this->formId) {
-            $id = ' id="'.$this->formId.'"';
+            $id = ' id="'.rex_escape($this->formId).'"';
         }
 
         $s .= '<form' . $id . ' action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
