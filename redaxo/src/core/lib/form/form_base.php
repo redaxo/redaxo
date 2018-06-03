@@ -60,11 +60,6 @@ abstract class rex_form_base
 
         $this->debug = &$debug;
 
-        // --------- Load Env
-        if (rex::isBackend()) {
-            $this->loadBackendConfig();
-        }
-
         $this->csrfToken = rex_csrf_token::factory('rex_form_'.$this->getName());
     }
 

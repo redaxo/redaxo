@@ -57,6 +57,11 @@ class rex_form extends rex_form_base
         } else {
             throw new rex_exception('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
         }
+
+        // --------- Load Env
+        if (rex::isBackend()) {
+            $this->loadBackendConfig();
+        }
     }
 
     /**

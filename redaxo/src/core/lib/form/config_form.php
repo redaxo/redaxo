@@ -16,6 +16,11 @@ class rex_config_form extends rex_form_base
         parent::__construct($fieldset, md5($this->namespace.$fieldset), 'post', $debug);
 
         $this->namespace = $namespace;
+
+        // --------- Load Env
+        if (rex::isBackend()) {
+            $this->loadBackendConfig();
+        }
     }
 
     /**
