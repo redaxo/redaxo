@@ -11,8 +11,8 @@
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $path = rex_path::base(rex_path::absolute($file));
-            if (file_exists($path)) {
-                $file .= '?buster='. filemtime($path);
+            if ($mtime = @filemtime($path)) {
+                $file .= '?buster='. $mtime;
             }
             echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
@@ -25,8 +25,8 @@
     echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
         $path = rex_path::base(rex_path::absolute($file));
-        if (file_exists($path)) {
-            $file .= '?buster='. filemtime($path);
+        if ($mtime = @filemtime($path)) {
+            $file .= '?buster='. $mtime;
         }
         echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
