@@ -46,6 +46,8 @@ class rex_form extends rex_form_base
         $this->sql->setDebug($this->debug);
         $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
+        $this->setFormId('rex-addon-editmode');
+
         // --------- validate where-condition and determine editMode
         $numRows = $this->sql->getRows();
         if ($numRows == 0) {
