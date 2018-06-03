@@ -1,6 +1,9 @@
 .rex-icon {
     @extend .fa;
 }
+.rex-icon-flip-horizontal {
+    @extend .fa-flip-horizontal;
+}
 
 .rex-icon-action {
     @extend .fa-bars;
