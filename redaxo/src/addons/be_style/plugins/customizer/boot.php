@@ -17,7 +17,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css'));
         rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css'));
-        if (isset($config['codemirror-tools']) and $config['codemirror-tools']) {
+        if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
             rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css'));
         }
 
@@ -32,7 +32,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js'));
 
         // Codemirror-Addons
-        if (isset($config['codemirror-tools']) and $config['codemirror-tools']) {
+        if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js'));
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.js'));
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/brace-fold.js'));
@@ -55,7 +55,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/clike/clike.js'));
         rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/php/php.js'));
 
-        if (isset($config['codemirror-langs']) and $config['codemirror-langs']) {
+        if (isset($config['codemirror-langs']) && $config['codemirror-langs']) {
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js'));
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/textile/textile.js'));
             rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js'));

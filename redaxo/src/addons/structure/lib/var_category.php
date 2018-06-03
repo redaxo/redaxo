@@ -10,7 +10,6 @@
  *   - field    => Feld der Kategorie, das ausgegeben werden soll
  *   - clang    => ClangId der Kategorie
  *
- *
  * @package redaxo\structure
  */
 class rex_var_category extends rex_var
