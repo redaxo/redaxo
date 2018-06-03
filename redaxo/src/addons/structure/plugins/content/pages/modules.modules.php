@@ -102,7 +102,7 @@ if ($function == 'delete' && !$csrfToken->isValid()) {
     }
 }
 
-if ($function == 'add' or $function == 'edit') {
+if ($function == 'add' || $function == 'edit') {
     if ($save == '1' && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $save = '0';

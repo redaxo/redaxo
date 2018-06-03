@@ -90,7 +90,7 @@ if ($function == 'delete') {
     $legend = rex_i18n::msg('create_template');
 }
 
-if ($function == 'add' or $function == 'edit') {
+if ($function == 'add' || $function == 'edit') {
     if ($save == 'ja' && !$csrfToken->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
         $save = 'nein';
@@ -187,7 +187,7 @@ if ($function == 'add' or $function == 'edit') {
         }
     }
 
-    if (!isset($save) or $save != 'ja') {
+    if (!isset($save) || $save != 'ja') {
         // Ctype Handling
         $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
         $modules = isset($attributes['modules']) ? $attributes['modules'] : [];

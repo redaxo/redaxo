@@ -139,7 +139,7 @@ if ($function == 'add' || $function == 'edit') {
             $error = $e->getMessage();
         }
 
-        if (isset($goon) and $goon != '') {
+        if (isset($goon) && $goon != '') {
             $save = '0';
         } else {
             $function = '';

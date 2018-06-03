@@ -212,7 +212,7 @@ if ($warnings) {
     }
 
     $user_id = 0;
-} elseif ($FUNC_ADD != '' and $save == 1) {
+} elseif ($FUNC_ADD != '' && $save == 1) {
     $adduser = rex_sql::factory();
     $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = '$userlogin'");
 
@@ -231,7 +231,7 @@ if ($warnings) {
         $adduser->setValue('startpage', $userperm_startpage);
         $adduser->setValue('role', implode(',', $userrole));
         $adduser->addGlobalCreateFields();
-        if (isset($userstatus) and $userstatus == 1) {
+        if (isset($userstatus) && $userstatus == 1) {
             $adduser->setValue('status', 1);
         } else {
             $adduser->setValue('status', 0);
@@ -532,7 +532,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
 // ---------------------------------- Userliste
 
-if (isset($SHOW) and $SHOW) {
+if (isset($SHOW) && $SHOW) {
     // use string starting with "_" to have users without role at bottom when sorting by role ASC
     $noRole = '_no_role';
 
