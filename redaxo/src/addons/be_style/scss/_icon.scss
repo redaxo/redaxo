@@ -1,6 +1,9 @@
 .rex-icon {
     @extend .fa;
 }
+.rex-icon-flip-horizontal {
+    @extend .fa-flip-horizontal;
+}
 
 .rex-icon-action {
     @extend .fa-bars;
@@ -141,6 +144,9 @@
 }
 .rex-icon-last {
     @extend .fa-angle-double-right;
+}
+.rex-icon-level-up {
+    @extend .fa-level-up;
 }
 .rex-icon-license {
     @extend .fa-balance-scale;

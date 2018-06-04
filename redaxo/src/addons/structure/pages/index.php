@@ -167,7 +167,7 @@ if ($category_id != 0 && ($category = rex_category::get($category_id))) {
     $echo .= '  <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-open-category"></i></td>
                     <td class="rex-table-id">-</td>
-                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $context->getUrl(['category_id' => $category->getParentId()]) . '">..</a></td>
+                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $context->getUrl(['category_id' => $category->getParentId()]) . '"><i class="rex-icon rex-icon-level-up rex-icon-flip-horizontal"></i>&nbsp;' . rex_i18n::msg('category_parent') . '</a></td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">&nbsp;</td>
                     <td class="rex-table-action" colspan="3">&nbsp;</td>
                 </tr>';
