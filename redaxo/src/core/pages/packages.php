@@ -155,7 +155,7 @@ if ($subpage == '') {
         if ($package->getPackageId() == rex_get('package', 'string') && rex_api_function::hasMessage()) {
             $message = '
                     <tr class="rex-package-message">
-                        <td colspan="8">
+                        <td colspan="9">
                              ' . rex_api_function::getMessage() . '
                         </td>
                     </tr>';
