@@ -196,6 +196,36 @@ class rex_i18n
     }
 
     /**
+     * Checks if there is a translation for the given key in current language or any fallback language.
+     *
+     * @param string $key Key
+     *
+     * @return bool TRUE on success, else FALSE
+     */
+    public static function hasMsgOrFallback($key)
+    {
+        if (isset(self::$msg[self::$locale][$key])) {
+            return true;
+        }
+
+        foreach (rex::getProperty('lang_fallback', []) as $locale) {
+            if (self::$locale === $locale) {
+                continue;
+            }
+
+            if (empty(self::$loaded[$locale])) {
+                self::loadAll($locale);
+            }
+
+            if (isset(self::$msg[$locale][$key])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Adds a new translation to the catalogue.
      *
      * @param string $key Key
@@ -297,7 +327,7 @@ class rex_i18n
 
         if (
             ($content = rex_file::get($file)) &&
-            preg_match_all('/^([^=\s]+)\h*=\h*(.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
+            preg_match_all('/^([^=\s]+)\h*=\h*(\S.*)(?<=\S)/m', $content, $matches, PREG_SET_ORDER)
         ) {
             foreach ($matches as $match) {
                 self::$msg[$locale][$match[1]] = $match[2];

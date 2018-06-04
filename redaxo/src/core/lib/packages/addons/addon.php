@@ -134,7 +134,7 @@ class rex_addon extends rex_package implements rex_addon_interface
     {
         $args = func_get_args();
         $key = $this->getName() . '_' . $key;
-        if (rex_i18n::hasMsg($key)) {
+        if (rex_i18n::hasMsgOrFallback($key)) {
             $args[0] = $key;
         }
         return call_user_func_array('rex_i18n::msg', $args);
