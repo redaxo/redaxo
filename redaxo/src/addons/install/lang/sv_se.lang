@@ -35,6 +35,9 @@ install_send = Skicka
 install_upload_file = Skapa och ladda upp zip-fil
 install_replace_assets = Ta ut tillgånger från root-assets-mappen
 install_ignore_tests = Ignorera mappen "tests"
+install_published_on = Puhblicerad den
+install_sort = Sortera
+install_sort_default = Sortera efter nyckel i stigande ordning
 
 install_info_core_updated = Koden aktualiserades!
 install_warning_core_not_updated = Kärnan (Core) kunde av följande skäl inte aktualiseras:
