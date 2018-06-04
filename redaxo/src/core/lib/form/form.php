@@ -46,6 +46,8 @@ class rex_form extends rex_form_base
         $this->sql->setDebug($this->debug);
         $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
+        $this->setFormId('rex-addon-editmode');
+
         // --------- validate where-condition and determine editMode
         $numRows = $this->sql->getRows();
         if ($numRows == 0) {
@@ -56,6 +58,11 @@ class rex_form extends rex_form_base
             $this->setEditMode(true);
         } else {
             throw new rex_exception('rex_form: Die gegebene Where-Bedingung führt nicht zu einem eindeutigen Datensatz!');
+        }
+
+        // --------- Load Env
+        if (rex::isBackend()) {
+            $this->loadBackendConfig();
         }
     }
 

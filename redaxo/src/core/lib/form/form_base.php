@@ -35,8 +35,8 @@ abstract class rex_form_base
     /** @var string */
     protected $warning;
 
-    /** @var string */
-    protected $divId;
+    /** @var null|string */
+    protected $formId;
 
     /** @var rex_csrf_token */
     private $csrfToken;
@@ -55,15 +55,9 @@ abstract class rex_form_base
         $this->elements = [];
         $this->params = [];
         $this->addFieldset($fieldset ?: $this->name);
-        $this->divId = 'rex-addon-editmode';
         $this->setMessage('');
 
-        $this->debug = &$debug;
-
-        // --------- Load Env
-        if (rex::isBackend()) {
-            $this->loadBackendConfig();
-        }
+        $this->debug = $debug;
 
         $this->csrfToken = rex_csrf_token::factory('rex_form_'.$this->getName());
     }
@@ -82,6 +76,11 @@ abstract class rex_form_base
     protected function loadBackendConfig()
     {
         $this->addParam('page', rex_be_controller::getCurrentPage());
+    }
+
+    public function setFormId($id)
+    {
+        $this->formId = $id;
     }
 
     /**
@@ -1223,7 +1222,12 @@ abstract class rex_form_base
         $fieldsets = $this->getFieldsetElements();
         $last = count($fieldsets);
 
-        $s .= '<form id="' . $this->divId . '" action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
+        $id = '';
+        if ($this->formId) {
+            $id = ' id="'.rex_escape($this->formId).'"';
+        }
+
+        $s .= '<form' . $id . ' action="' . rex_url::backendController($actionParams) . '" method="' . $this->method . '">' . "\n";
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
