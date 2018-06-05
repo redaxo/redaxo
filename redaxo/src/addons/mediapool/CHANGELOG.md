@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.4.0 – XX.XX.2018
+Version 2.4.0 – 05.06.2018
 --------------------------
 
 ### Security
@@ -11,6 +11,7 @@ Version 2.4.0 – XX.XX.2018
 
 ### Neu
 
+* Optional kann eine Whitelist von MimeTypes definiert werden (@dergel, @gharlan)
 * Lösschen von Medienkategorien kann per neuem EP `MEDIA_CATEGORY_IS_IN_USE` verhindert werden (@christophboecker)
 * Neuer EP `MEDIA_DETAIL_SIDEBAR` (@christophboecker)
 * Die Functions-Datei wird auch im Frontend eingebunden (@gharlan)

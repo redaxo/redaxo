@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.5.0 – XX.XX.2018
+Version 2.5.0 – 05.06.2018
 --------------------------
 
 * Update bootstrap-select (1.12.4), scssphp (0.7.6) (@gharlan)

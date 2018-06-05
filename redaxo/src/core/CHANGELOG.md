@@ -1,16 +1,17 @@
 Changelog
 =========
 
-Version 5.6.0 – XX.XX.2018
+Version 5.6.0 – 05.06.2018
 --------------------------
 
 ### Security
 
 * Siehe mediapool-Changelog
-* `rex_string::buildAttributes`: Die Attribute wurden nicht escaped, wodurch unter Umständen XSS möglich war (ggf. kontrollieren, ob man dort Attribute, insbesondere URLs, übergeben hat, die bereits escaped waren) (@gharlan)
+* `rex_string::buildAttributes`: Die Attribute wurden nicht escaped, wodurch unter Umständen XSS möglich war (ggf. kontrollieren, ob man dort Attribute übergeben hat, die bereits escaped waren) (@gharlan)
 
 ### Neu
 
+* MySQL-Mindestversion 5.5.3
 * Update Symfony-Komponenten (3.4.11), Symfony-Polyfills (neu: ctype) (1.8.0), parsedown (1.7.1) (@gharlan)
 * HTTPS kann für Frontend und/oder Backend erzwungen werden (Umleitung und optional HSTS-Header) über `config.yml` und Setup (@bloep)
 * Admins können in die anderen Benutzer wechseln, ohne deren Passwort zu kennen (@gharlan)
@@ -26,6 +27,7 @@ Version 5.6.0 – XX.XX.2018
 * Backend-Übersetzungsdateien:
     - Englisch und Deutsch dienen als Fallback, wenn Übersetzungen fehlen (@gharlan)
     - Englisch aktualisiert (@ynamite)
+    - Schwedisch aktualisiert (@interweave-media)
     - Spanisch aktualisiert (@nandes2062)
 * Neue Consolen-Commands:
     - `user:set-password`: Neues Passwort für Benutzer setzen (@gharlan)

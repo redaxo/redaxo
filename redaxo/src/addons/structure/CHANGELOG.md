@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.6.0 – XX.XX.2018
+Version 2.6.0 – 05.06.2018
 --------------------------
 
 ### Neu
@@ -13,6 +13,7 @@ Version 2.6.0 – XX.XX.2018
 * Umbenennung "Homepage" in "Hauptebene" in Breadcrumb + passenderes Icon (@tbaddade)
 * Umbenennung "Spalten" in "Bereiche" (@alexplusde)
 * `rex_category`, `rex_article`, `rex_article_base`: Neue Methode `getClangId`, `getClang` als deprecated markiert (@staabm)
+* Rechtschreibprüfung in Codeeingabefeldern deaktiviert (@staabm)
 
 ### Bugfixes
 
