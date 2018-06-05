@@ -1,13 +1,13 @@
 Changelog
 =========
 
-Version 5.6.0 – XX.XX.2018
+Version 5.6.0 – 05.06.2018
 --------------------------
 
 ### Security
 
 * Siehe mediapool-Changelog
-* `rex_string::buildAttributes`: Die Attribute wurden nicht escaped, wodurch unter Umständen XSS möglich war (ggf. kontrollieren, ob man dort Attribute, insbesondere URLs, übergeben hat, die bereits escaped waren) (@gharlan)
+* `rex_string::buildAttributes`: Die Attribute wurden nicht escaped, wodurch unter Umständen XSS möglich war (ggf. kontrollieren, ob man dort Attribute übergeben hat, die bereits escaped waren) (@gharlan)
 
 ### Neu
 
