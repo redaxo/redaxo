@@ -27,6 +27,7 @@ Version 5.6.0 – XX.XX.2018
 * Backend-Übersetzungsdateien:
     - Englisch und Deutsch dienen als Fallback, wenn Übersetzungen fehlen (@gharlan)
     - Englisch aktualisiert (@ynamite)
+    - Schwedisch aktualisiert (@interweave-media)
     - Spanisch aktualisiert (@nandes2062)
 * Neue Consolen-Commands:
     - `user:set-password`: Neues Passwort für Benutzer setzen (@gharlan)
