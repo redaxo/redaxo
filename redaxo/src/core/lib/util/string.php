@@ -228,6 +228,7 @@ class rex_string
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
+                // for bc reasons avoid double escaping of "&", especially in already escaped urls
                 $value = str_replace('&amp;', '&', $value);
                 $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
             }
