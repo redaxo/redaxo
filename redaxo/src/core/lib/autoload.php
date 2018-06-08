@@ -81,7 +81,7 @@ class rex_autoload
         if (isset(self::$classes[$lowerClass])) {
             $path = rex_path::base(self::$classes[$lowerClass]);
             // we have a class path for the class, let's include it
-            if (include_once $path) {
+            if (@include_once $path) {
                 if (self::classExists($class)) {
                     return true;
                 }
