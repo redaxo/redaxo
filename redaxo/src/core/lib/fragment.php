@@ -98,17 +98,15 @@ class rex_fragment
 
         $this->filename = $filename;
 
+        ob_start();
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
-            if (is_readable($fragment)) {
-                ob_start();
-                if ($delete_whitespaces) {
-                    preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', require $fragment);
-                } else {
-                    require $fragment;
-                }
-
+            if (@include_once($fragment)) {
                 $content = ob_get_clean();
+                
+                if ($delete_whitespaces) {
+                    $content = preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', $content);
+                }     
 
                 if ($this->decorator) {
                     $this->decorator->setVar('rexDecoratedContent', $content, false);
@@ -118,6 +116,7 @@ class rex_fragment
                 return $content;
             }
         }
+        ob_end_clean();
 
         throw new rex_exception(sprintf('Fragmentfile "%s" not found!', $filename));
     }
