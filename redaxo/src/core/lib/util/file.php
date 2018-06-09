@@ -17,7 +17,7 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        return is_readable($file) ? file_get_contents($file) : $default;
+        return @file_get_contents($file) || $default;
     }
 
     /**
