@@ -101,7 +101,7 @@ class rex_fragment
         ob_start();
         foreach (self::$fragmentDirs as $fragDir) {
             $fragment = $fragDir . $filename;
-            if (@include_once($fragment)) {
+            if (@include($fragment)) {
                 $content = ob_get_clean();
                 
                 if ($delete_whitespaces) {
