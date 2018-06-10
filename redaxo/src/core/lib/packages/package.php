@@ -222,10 +222,12 @@ abstract class rex_package implements rex_package_interface
      */
     public function includeFile($__file, array $__context = [])
     {
-        extract($__context, EXTR_SKIP);
+        if ($__context) {
+            extract($__context, EXTR_SKIP);
+        }
 
-        if (file_exists($this->getPath($__file))) {
-            return include $this->getPath($__file);
+        if ($content = @include $this->getPath($__file)) {
+            return $content;
         }
 
         return include $__file;
