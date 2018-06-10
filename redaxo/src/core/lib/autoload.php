@@ -243,7 +243,7 @@ class rex_autoload
         $extWhitelist = ['php' => 1, 'inc' => 1];
         foreach ($iterator as $path => $file) {
             /** @var SplFileInfo $file */
-            if (!$file->isFile() || !isset($extWhitelist[$file->getExtension()]) {
+            if (!$file->isFile() || !isset($extWhitelist[$file->getExtension()])) {
                 continue;
             }
 
