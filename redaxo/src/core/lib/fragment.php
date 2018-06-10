@@ -82,7 +82,7 @@ class rex_fragment
     /**
      * Parses the variables of the fragment into the file $filename.
      *
-     * @param string $filename           the filename of the fragment to parse
+     * @param string $filename the filename of the fragment to parse
      *
      * @throws InvalidArgumentException
      * @throws rex_exception
