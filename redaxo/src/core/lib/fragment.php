@@ -82,15 +82,14 @@ class rex_fragment
     /**
      * Parses the variables of the fragment into the file $filename.
      *
-     * @param string $filename           the filename of the fragment to parse
-     * @param bool   $delete_whitespaces
+     * @param string $filename the filename of the fragment to parse
      *
      * @throws InvalidArgumentException
      * @throws rex_exception
      *
      * @return string
      */
-    public function parse($filename, $delete_whitespaces = true)
+    public function parse($filename)
     {
         if (!is_string($filename)) {
             throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
@@ -102,12 +101,7 @@ class rex_fragment
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
                 ob_start();
-                if ($delete_whitespaces) {
-                    preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', require $fragment);
-                } else {
-                    require $fragment;
-                }
-
+                require $fragment;
                 $content = ob_get_clean();
 
                 if ($this->decorator) {
