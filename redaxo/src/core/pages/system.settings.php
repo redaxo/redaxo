@@ -190,6 +190,7 @@ $formElements = [];
 $n = [];
 $n['label'] = '<label for="rex-id-debug">' . rex_i18n::msg('debug_mode') . '</label>';
 $n['field'] = '<input type="checkbox" id="rex-id-debug" name="settings[debug]" value="1" ' . (rex::isDebugMode() ? 'checked="checked" ' : '') . '/>';
+$n['note'] = rex_i18n::msg('debug_mode_note');
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
