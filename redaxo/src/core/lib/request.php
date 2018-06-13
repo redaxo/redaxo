@@ -180,7 +180,7 @@ class rex_request
     private static function arrayKeyCast(array $haystack, $needle, $vartype, $default = '')
     {
         if (!is_scalar($needle)) {
-            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast()!');
+            throw new InvalidArgumentException('Scalar expected for $needle in arrayKeyCast(), got '. gettype($needle) .'!');
         }
 
         if (array_key_exists($needle, $haystack)) {
