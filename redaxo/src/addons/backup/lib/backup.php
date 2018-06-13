@@ -215,6 +215,9 @@ class rex_backup
             // delete cache before EP to avoid obsolete caches while running extensions
             rex_delete_cache();
 
+            // refresh rex_config with new values from database
+            rex_config::refresh();
+
             // ----- EXTENSION POINT
             $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
                 'content' => $conts,
