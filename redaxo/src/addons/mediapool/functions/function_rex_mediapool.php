@@ -331,8 +331,8 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
 function rex_mediapool_deleteMedia($filename)
 {
     if ($uses = rex_mediapool_mediaIsInUse($filename)) {
-        $msg = '<strong>' . rex_i18n::msg('pool_file_delete_error_1', $filename) . ' '
-            . rex_i18n::msg('pool_file_delete_error_2') . '</strong><br />' . $uses;
+        $msg = '<strong>' . rex_i18n::msg('pool_file_delete_error', $filename) . ' '
+            . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses;
         return ['ok' => false, 'msg' => $msg];
     }
 
