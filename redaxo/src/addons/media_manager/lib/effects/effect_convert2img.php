@@ -128,16 +128,8 @@ class rex_effect_convert2img extends rex_effect_abstract
             $cmd = 'which convert';
             exec($cmd, $out, $ret);
 
-            if (isset($ret) && $ret !== null) {
-                switch ($ret) {
-                    case 0:
-                        $path = $out[0];
-                        break;
-                    case 1:
-                        $path = '';
-                        break;
-                    default:
-                }
+            if ($ret === 0) {
+                $path = $out[0];
             }
         }
         return $path;
