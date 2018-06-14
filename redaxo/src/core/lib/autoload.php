@@ -248,7 +248,7 @@ class rex_autoload
 
             $file = self::normalizePath($path);
             unset($files[$file]);
-            $checksum = md5_file($path);
+            $checksum = filemtime($path);
             if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
                 continue;
             }
