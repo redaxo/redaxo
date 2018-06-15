@@ -44,5 +44,5 @@ passthru('git clone '.$url.' '.$path);
 
 exec('command -v gittower || which gittower', $output, $status);
 if (0 == $status) {
-    exec('gittower '.$path);
+    exec($output[0] .' '.$path);
 }
