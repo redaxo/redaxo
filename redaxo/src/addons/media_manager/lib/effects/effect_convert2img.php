@@ -125,7 +125,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         if (function_exists('exec')) {
             $out = [];
-            $cmd = 'which convert';
+            $cmd = 'command -v convert || which convert';
             exec($cmd, $out, $ret);
 
             if ($ret === 0) {
