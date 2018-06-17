@@ -141,7 +141,7 @@ class rex_list implements rex_url_provider_interface
         $this->linkAttributes = [];
 
         // --------- Pagination Attributes
-        $this->pager = new rex_pager($rowsPerPage, $listName ."_start");
+        $this->pager = new rex_pager($rowsPerPage, $this->name ."_start");
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
@@ -1014,7 +1014,7 @@ class rex_list implements rex_url_provider_interface
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a href="' . $this->getUrl(['start' => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
+                $columnHead = '<a href="' . $this->getUrl([$this->name ."_start" => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);
