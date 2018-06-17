@@ -37,10 +37,6 @@
     .table td.rex-table-thumbnail {
         width: $helper-factor-spacing * 3;
     }
-    .table th.rex-table-action:not([colspan]),
-    .table td.rex-table-action:not([colspan]) {
-        width: $helper-factor-spacing * 4;
-    }
     .table th.rex-table-action > *,
     .table td.rex-table-action > * {
         white-space: nowrap;
