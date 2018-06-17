@@ -141,7 +141,7 @@ class rex_list implements rex_url_provider_interface
         $this->linkAttributes = [];
 
         // --------- Pagination Attributes
-        $this->pager = new rex_pager($rowsPerPage);
+        $this->pager = new rex_pager($rowsPerPage, $listName ."_start");
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
