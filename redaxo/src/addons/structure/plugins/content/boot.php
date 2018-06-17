@@ -27,7 +27,6 @@ if (rex::isBackend()) {
         $del->setQuery('delete from ' . rex::getTablePrefix() . "article_slice where clang_id='" . $ep->getParam('clang')->getId() . "'");
     });
 } else {
-    throw new Exception("waah");
     rex_extension::register('FE_OUTPUT', function (rex_extension_point $ep) {
         $clangId = rex_get('clang', 'int');
         if ($clangId && !rex_clang::exists($clangId)) {
