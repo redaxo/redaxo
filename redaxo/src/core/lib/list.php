@@ -17,7 +17,7 @@ $list->setCaption('thomas macht das css');
 $list->show();
 
 
-EXAMPLE FOR USING CUSTOM CALLBACKS WITH setColumnFormat() METHOD:
+EXAMPLE USING CUSTOM CALLBACKS WITH setColumnFormat() METHOD:
 
 function callback_func($params)
 {
