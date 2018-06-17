@@ -9,6 +9,7 @@ class rex_login
     protected $sessionDuration;
     protected $loginQuery;
     protected $userQuery;
+    protected $impersonateQuery;
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
@@ -104,6 +105,16 @@ class rex_login
     }
 
     /**
+     * Setzt den ImpersonateQuery.
+     *
+     * Dieser wird benutzt, um den User abzurufen, dessen Identität ein Admin einnehmen möchte.
+     */
+    public function setImpersonateQuery($impersonateQuery)
+    {
+        $this->impersonateQuery = $impersonateQuery;
+    }
+
+    /**
      * Setzt den LoginQuery.
      *
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
@@ -189,30 +200,34 @@ class rex_login
                 // wenn kein login und kein logout dann nach sessiontime checken
                 // message schreiben und falls falsch auf error verweisen
 
-                $this->user = rex_sql::factory($this->DB);
+                $ok = true;
 
-                $this->user->setQuery($this->userQuery, [':id' => $this->getSessionVar('UID')]);
-                if ($this->user->getRows() == 1) {
-                    if (($this->getSessionVar('STAMP') + $this->sessionDuration) > time()) {
-                        $ok = true;
-                        $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+                if (($this->getSessionVar('STAMP') + $this->sessionDuration) < time()) {
+                    $ok = false;
+                    $this->message = rex_i18n::msg('login_session_expired');
 
-                        if ($impersonator = $this->getSessionVar('impersonator')) {
-                            $this->impersonator = rex_sql::factory($this->DB);
-                            $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
+                    rex_csrf_token::removeAll();
+                }
 
-                            if (!$this->impersonator->getRows()) {
-                                $ok = false;
-                                $this->message = rex_i18n::msg('login_user_not_found');
-                            }
-                        }
-                    } else {
-                        $this->message = rex_i18n::msg('login_session_expired');
+                if ($ok && $impersonator = $this->getSessionVar('impersonator')) {
+                    $this->impersonator = rex_sql::factory($this->DB);
+                    $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
 
-                        rex_csrf_token::removeAll();
+                    if (!$this->impersonator->getRows()) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_user_not_found');
                     }
-                } else {
-                    $this->message = rex_i18n::msg('login_user_not_found');
+                }
+
+                if ($ok) {
+                    $query = $this->impersonator && $this->impersonateQuery ? $this->impersonateQuery : $this->userQuery;
+                    $this->user = rex_sql::factory($this->DB);
+                    $this->user->setQuery($query, [':id' => $this->getSessionVar('UID')]);
+
+                    if (!$this->user->getRows()) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_user_not_found');
+                    }
                 }
             }
         } else {
@@ -256,7 +271,7 @@ class rex_login
         }
 
         $user = rex_sql::factory($this->DB);
-        $user->setQuery($this->userQuery, [':id' => $id]);
+        $user->setQuery($this->impersonateQuery ?: $this->userQuery, [':id' => $id]);
 
         if (!$user->getRows()) {
             throw new RuntimeException(sprintf('User with id "%d" not found.', $id));
