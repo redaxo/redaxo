@@ -25,10 +25,12 @@ class rex_backend_login extends rex_login
         $this->setSqlDb(1);
         $this->setSystemId(self::SYSTEM_ID);
         $this->setSessionDuration(rex::getProperty('session_duration'));
-        $qry = 'SELECT * FROM ' . $tableName . ' WHERE status=1';
-        $this->setUserQuery($qry . ' AND id = :id');
+        $qry = 'SELECT * FROM ' . $tableName;
+        $this->setUserQuery($qry . ' WHERE id = :id AND status = 1');
+        $this->setImpersonateQuery($qry . ' WHERE id = :id');
         // XXX because with concat the time into the sql query, users of this class should use checkLogin() immediately after creating the object.
-        $this->setLoginQuery($qry . '
+        $this->setLoginQuery($qry . ' WHERE
+            status = 1
             AND login = :login
             AND (login_tries < ' . self::LOGIN_TRIES_1 . '
                 OR login_tries < ' . self::LOGIN_TRIES_2 . ' AND UNIX_TIMESTAMP(lasttrydate) < ' . (time() - self::RELOGIN_DELAY_1) . '
