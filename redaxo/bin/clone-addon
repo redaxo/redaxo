@@ -42,7 +42,7 @@ if (file_exists($path)) {
 
 passthru('git clone '.$url.' '.$path);
 
-exec('which gittower', $output, $status);
+exec('command -v gittower || which gittower', $output, $status);
 if (0 == $status) {
-    exec('gittower '.$path);
+    exec($output[0] .' '.$path);
 }
