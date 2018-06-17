@@ -80,5 +80,4 @@ accesskeys:
     delete: d
     add: a
     add_2: y
-whoops:
-    editor: null
+system_editor: null

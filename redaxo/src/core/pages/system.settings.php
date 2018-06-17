@@ -62,13 +62,10 @@ if ($func && !$csrfToken->isValid()) {
     $config['debug']['enabled'] = isset($settings['debug']) && $settings['debug'];
     rex::setProperty('debug', $config['debug']);
 
-    if (!is_array($config['whoops'])) {
-        $config['whoops'] = [];
+    if (empty($settings['system_editor'])) {
+        $settings['system_editor'] = null;
     }
-    if (empty($settings['whoops_editor'])) {
-        $settings['whoops_editor'] = null;
-    }
-    $config['whoops']['editor'] = $settings['whoops_editor'];
+    $config['system_editor'] = $settings['system_editor'];
 
     foreach (rex_system_setting::getAll() as $setting) {
         $key = $setting->getKey();
@@ -101,16 +98,16 @@ foreach (rex_i18n::getLocales() as $l) {
 // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
 $whoopsConfig = rex::getProperty('whoops');
 $whoopsEditor = isset($whoopsConfig['editor']) ? $whoopsConfig['editor'] : '';
-$supportedEditors = ['' => rex_i18n::msg('whoops_no_editor'), 'emacs' => 'Emacs', 'idea' => 'IDEA', 'macvim' => 'MacVim', 'phpstorm' => 'PhpStorm (macOS only)', 'sublime' => 'Sublime Text 2 and 3', 'textmate' => 'Textmate', 'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)', 'vscode' => 'Visual Studio Code', 'atom' => 'Atom'];
+$supportedEditors = ['' => rex_i18n::msg('system_editor_no_editor'), 'emacs' => 'Emacs', 'idea' => 'IDEA', 'macvim' => 'MacVim', 'phpstorm' => 'PhpStorm (macOS only)', 'sublime' => 'Sublime Text 2 and 3', 'textmate' => 'Textmate', 'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)', 'vscode' => 'Visual Studio Code', 'atom' => 'Atom'];
 
-$sel_whoops_editor = new rex_select();
-$sel_whoops_editor->setStyle('class="form-control"');
-$sel_whoops_editor->setName('settings[whoops_editor]');
-$sel_whoops_editor->setId('rex-id-whoops-editor');
-$sel_whoops_editor->setAttribute('class', 'form-control selectpicker');
-$sel_whoops_editor->setSize(1);
-$sel_whoops_editor->setSelected($whoopsEditor);
-$sel_whoops_editor->addArrayOptions($supportedEditors);
+$sel_system_editor = new rex_select();
+$sel_system_editor->setStyle('class="form-control"');
+$sel_system_editor->setName('settings[system_editor]');
+$sel_system_editor->setId('rex-id-system-editor');
+$sel_system_editor->setAttribute('class', 'form-control selectpicker');
+$sel_system_editor->setSize(1);
+$sel_system_editor->setSelected($whoopsEditor);
+$sel_system_editor->addArrayOptions($supportedEditors);
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
@@ -191,9 +188,9 @@ $n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" n
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-whoops-editor">' . rex_i18n::msg('whoops_editor') . '</label>';
-$n['field'] = $sel_whoops_editor->get();
-$n['note'] = rex_i18n::msg('whoops_editor_note');
+$n['label'] = '<label for="rex-id-system-editor">' . rex_i18n::msg('system_editor') . '</label>';
+$n['field'] = $sel_system_editor->get();
+$n['note'] = rex_i18n::msg('system_editor_note');
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
