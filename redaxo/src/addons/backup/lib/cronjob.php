@@ -63,7 +63,7 @@ class rex_cronjob_export extends rex_cronjob
                 }
 
                 if ($countDeleted) {
-                    $message .= ', '.$countDeleted.' old backups deleted';
+                    $message .= ', '.$countDeleted.' old backup(s) deleted';
                 }
             }
 
