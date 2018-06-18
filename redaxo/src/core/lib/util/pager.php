@@ -80,7 +80,8 @@ class rex_pager
     public function getCursor($pageNo = null)
     {
         if (null === $pageNo) {
-            $cursor = rex_request($this->cursorName, 'int', 0);
+            // BC: Fallback to "start"
+            $cursor = rex_request($this->cursorName, 'int', rex_request('start', 'int', 0));
         } else {
             $cursor = $pageNo * $this->rowsPerPage;
         }
@@ -148,7 +149,8 @@ class rex_pager
      */
     public function getCurrentPage()
     {
-        $cursor = rex_request($this->cursorName, 'int', null);
+        // BC: Fallback to "start"
+        $cursor = rex_request($this->cursorName, 'int', rex_request('start', 'int', null));
 
         if (null === $cursor) {
             return $this->getFirstPage();
