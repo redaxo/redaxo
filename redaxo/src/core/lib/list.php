@@ -142,6 +142,9 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Pagination Attributes
         $this->pager = new rex_pager($rowsPerPage, $listName .'_start');
+        if (!isset($_REQUEST[$this->pager->getCursoName()] && rex_request('start', 'int')) {
+            $_REQUEST[$this->pager->getCursoName()] = rex_request('start', 'int', 0);
+        }
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
