@@ -141,7 +141,7 @@ class rex_list implements rex_url_provider_interface
         $this->linkAttributes = [];
 
         // --------- Pagination Attributes
-        $cursorName = $listName .'_start'
+        $cursorName = $listName .'_start';
         if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
             // BC: Fallback to "start"
             $cursorName = 'start';
