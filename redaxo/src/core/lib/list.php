@@ -147,9 +147,6 @@ class rex_list implements rex_url_provider_interface
             $cursorName = 'start';
         }
         $this->pager = new rex_pager($rowsPerPage, $cursorName);
-        
-        if ()) {
-            $_REQUEST[$this->pager->getCursoName()] = rex_request('star
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
