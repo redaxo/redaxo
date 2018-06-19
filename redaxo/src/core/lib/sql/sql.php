@@ -1384,7 +1384,7 @@ class rex_sql implements Iterator
     public function next()
     {
         ++$this->counter;
-        $this->lastRow = $this->stmt->fetch();
+        $this->lastRow = null;
     }
 
     /**
