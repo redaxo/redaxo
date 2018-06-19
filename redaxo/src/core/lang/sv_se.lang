@@ -122,6 +122,7 @@ server_invalid = Webbadressen är ogiltig, den måste anges komplett inkl. proto
 servername_required = Ange ett servernamn!
 lang_required = Ange ett språk!
 debug_mode = Debug-modus
+debug_mode_note = Med debug-läget visas ytterligare information om felet för skriptfel i frontend och backend. Aktivera inte i live-läge, eftersom felmeddelandena även kan innehålla känslig data.
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Installation
