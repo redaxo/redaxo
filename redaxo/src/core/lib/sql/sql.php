@@ -42,16 +42,17 @@ class rex_sql implements Iterator
     /** @var self[] */
     protected $records;
 
-    /**
-     * @var PDOStatement
-     */
+    /** @var PDOStatement */
     protected $stmt;
 
-    /**
-     * @var PDO[]
-     */
+    /** @var PDO[] */
     protected static $pdo = [];
 
+    /**
+     * @param int $DBID
+     *
+     * @throws rex_sql_exception
+     */
     protected function __construct($DBID = 1)
     {
         $this->debug = false;
@@ -61,6 +62,10 @@ class rex_sql implements Iterator
 
     /**
      * Stellt die Verbindung zur Datenbank her.
+     *
+     * @param int $DBID
+     *
+     * @throws rex_sql_exception
      */
     protected function selectDB($DBID)
     {
@@ -86,6 +91,15 @@ class rex_sql implements Iterator
         }
     }
 
+    /**
+     * @param string $host
+     * @param string $database
+     * @param string $login
+     * @param string $password
+     * @param bool   $persistent
+     *
+     * @return PDO
+     */
     protected static function createConnection($host, $database, $login, $password, $persistent = false)
     {
         if (!$database) {
@@ -459,6 +473,8 @@ class rex_sql implements Iterator
      * @param string $prop Wert, der enthalten sein soll
      *
      * @return bool
+     *
+     * @throws rex_sql_exception
      */
     protected function isValueOf($feld, $prop)
     {
@@ -610,6 +626,8 @@ class rex_sql implements Iterator
      * @param string $colName Name of the column
      *
      * @return array
+     *
+     * @throws rex_sql_exception
      */
     public function getArrayValue($colName)
     {
@@ -622,6 +640,8 @@ class rex_sql implements Iterator
      * @param string $colName Name of the column
      *
      * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
+     *
+     * @throws rex_sql_exception
      */
     public function getDateTimeValue($colName)
     {
@@ -629,6 +649,11 @@ class rex_sql implements Iterator
         return $value ? strtotime($value) : null;
     }
 
+    /**
+     * @param string $feldname
+     *
+     * @return mixed
+     */
     protected function fetchValue($feldname)
     {
         if (isset($this->values[$feldname])) {
@@ -655,6 +680,10 @@ class rex_sql implements Iterator
      * Gibt den Wert der aktuellen Zeile im ResultSet zurueck
      * Falls es noch keine erste Zeile (lastRow) gibt, wird der Satzzeiger
      * initialisiert. Weitere Satzwechsel mittels next().
+     *
+     * @param int $fetch_type
+     *
+     * @return mixed
      */
     public function getRow($fetch_type = PDO::FETCH_ASSOC)
     {
@@ -690,6 +719,12 @@ class rex_sql implements Iterator
      *
      * Falls das Feld nicht vorhanden ist,
      * wird Null zurueckgegeben, sonst True/False
+     *
+     * @param string $feldname
+     *
+     * @return bool|null
+     *
+     * @throws rex_sql_exception
      */
     public function isNull($feldname)
     {
@@ -702,6 +737,8 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die Anzahl der Zeilen zurueck.
+     *
+     * @return null|int
      */
     public function getRows()
     {
@@ -710,6 +747,8 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die Anzahl der Felder/Spalten zurueck.
+     *
+     * @return int
      */
     public function getFields()
     {
@@ -721,6 +760,8 @@ class rex_sql implements Iterator
      * verfuegbaren values zusammen und gibt diesen zurueck.
      *
      * @see setValue
+     *
+     * @return string
      */
     protected function buildPreparedValues()
     {
@@ -752,6 +793,9 @@ class rex_sql implements Iterator
         return $qry;
     }
 
+    /**
+     * @return string
+     */
     public function getWhere()
     {
         // we have an custom where criteria, so we don't need to build one automatically
@@ -829,6 +873,11 @@ class rex_sql implements Iterator
         return $this;
     }
 
+    /**
+     * @return $this|rex_sql
+     *
+     * @throws rex_sql_exception
+     */
     public function insertOrUpdate()
     {
         if ($this->records) {
@@ -930,8 +979,8 @@ class rex_sql implements Iterator
         return $this;
     }
 
-    /*
-     * Prueft ob das Resultset weitere Datensaetze enthaelt
+    /**
+     * Prueft ob das Resultset weitere Datensaetze enthaelt.
      */
     public function hasNext()
     {
@@ -942,6 +991,8 @@ class rex_sql implements Iterator
      * Setzt den Cursor des Resultsets zurueck zum Anfang.
      *
      * @return $this the current rex_sql object
+     *
+     * @throws rex_sql_exception
      */
     public function reset()
     {
@@ -1019,12 +1070,17 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die zuletzt aufgetretene Fehlernummer zurueck.
+     *
+     * @return string
      */
     public function getErrno()
     {
         return $this->stmt ? $this->stmt->errorCode() : self::$pdo[$this->DBID]->errorCode();
     }
 
+    /**
+     * @return int
+     */
     public function getMysqlErrno()
     {
         $errorInfos = $this->stmt ? $this->stmt->errorInfo() : self::$pdo[$this->DBID]->errorInfo();
@@ -1046,6 +1102,8 @@ class rex_sql implements Iterator
 
     /**
      * Prueft, ob ein Fehler aufgetreten ist.
+     *
+     * @return bool
      */
     public function hasError()
     {
@@ -1054,6 +1112,9 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die letzte Fehlermeldung aus.
+     *
+     * @param string $qry
+     * @param array  $params
      */
     protected function printError($qry, $params)
     {
@@ -1079,6 +1140,8 @@ class rex_sql implements Iterator
      * @param int    $start_id
      *
      * @return int
+     *
+     * @throws rex_sql_exception
      */
     public function setNewId($field, $start_id = 0)
     {
@@ -1098,6 +1161,8 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die Spaltennamen des ResultSets zurueck.
+     *
+     * @return null|array
      */
     public function getFieldnames()
     {
@@ -1105,6 +1170,9 @@ class rex_sql implements Iterator
         return $this->fieldnames;
     }
 
+    /**
+     * @return null|array
+     */
     public function getTablenames()
     {
         $this->fetchMeta();
@@ -1248,6 +1316,12 @@ class rex_sql implements Iterator
      *
      * In case the callable throws, the transaction will automatically rolled back.
      * In case no error happens, the transaction will be committed after the callable was called.
+     *
+     * @param callable $callable
+     *
+     * @return mixed
+     *
+     * @throws Throwable
      */
     public function transactional(callable $callable)
     {
@@ -1278,6 +1352,8 @@ class rex_sql implements Iterator
 
     /**
      * @see http://www.php.net/manual/en/iterator.rewind.php
+     *
+     * @throws rex_sql_exception
      */
     public function rewind()
     {
@@ -1329,6 +1405,8 @@ class rex_sql implements Iterator
      * @param int    $DBID  Id der Datenbankverbindung
      *
      * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
+     *
+     * @throws rex_sql_exception
      */
     public static function showCreateTable($table, $DBID = 1)
     {
@@ -1353,6 +1431,8 @@ class rex_sql implements Iterator
      * @param string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
      * @return array Ein Array von Tabellennamen
+     *
+     * @throws rex_sql_exception
      */
     public static function showTables($DBID = 1, $tablePrefix = null)
     {
@@ -1400,6 +1480,8 @@ class rex_sql implements Iterator
      * @param int    $DBID  Id der Datenbankverbindung
      *
      * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
+     *
+     * @throws rex_sql_exception
      */
     public static function showColumns($table, $DBID = 1)
     {
@@ -1426,6 +1508,10 @@ class rex_sql implements Iterator
      *
      * Die Versionsinformation ist erst bekannt,
      * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
+     *
+     * @param int $DBID
+     *
+     * @return mixed
      */
     public static function getServerVersion($DBID = 1)
     {
@@ -1452,6 +1538,14 @@ class rex_sql implements Iterator
     /**
      * Prueft die uebergebenen Zugangsdaten auf gueltigkeit und legt ggf. die
      * Datenbank an.
+     *
+     * @param string $host
+     * @param string $login
+     * @param string $pw
+     * @param string $dbname
+     * @param bool   $createDb
+     *
+     * @return bool|string
      */
     public static function checkDbConnection($host, $login, $pw, $dbname, $createDb = false)
     {
@@ -1537,6 +1631,14 @@ class rex_sql implements Iterator
         return  $err_msg;
     }
 
+    /**
+     * @param string $verb
+     * @param bool   $onDuplicateKeyUpdate
+     *
+     * @return $this|rex_sql
+     *
+     * @throws rex_sql_exception
+     */
     private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
     {
         $fields = [];
@@ -1590,6 +1692,11 @@ class rex_sql implements Iterator
         return $this->setQuery($query, $params);
     }
 
+    /**
+     * @param array $fields
+     *
+     * @return string
+     */
     private function buildOnDuplicateKeyUpdate($fields)
     {
         $updates = [];
