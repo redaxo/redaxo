@@ -58,6 +58,26 @@ class rex_sql_select_test extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetRowAsObject()
+    {
+        $this->insertRow();
+        $this->insertRow();
+
+        $sql = rex_sql::factory();
+        $sql->setQuery('SELECT * FROM ' . self::TABLE . ' ORDER BY id');
+
+        $row = $sql->getRow(PDO::FETCH_OBJ);
+
+        $this->assertInstanceOf(stdClass::class, $row);
+        $this->assertEquals(1, $row->{self::TABLE.'.id'});
+
+        $sql->next();
+        $row = $sql->getRow(PDO::FETCH_OBJ);
+
+        $this->assertInstanceOf(stdClass::class, $row);
+        $this->assertEquals(2, $row->{self::TABLE.'.id'});
+    }
+
     public function testGetVariations()
     {
         $sql = rex_sql::factory();
