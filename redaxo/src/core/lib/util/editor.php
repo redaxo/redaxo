@@ -16,33 +16,20 @@ class rex_editor {
     ];
 
     public function urlFromFile($filePath, $line) {
+        // make internal urls work with parse_url()
         $filePath = str_replace('rex:///', 'rex://', $filePath);
 
-        $editor = rex_editor::factory();
-        $editor->registerUrlHandler(function($filePath, $line) {
-            var_dump($filePath);
-            if (preg_match('{^rex://template/\d+}', $filePath, $matches)) {
-                var_dump($matches);
-            }
-            exit();
-        });
-
-        foreach($this->handlers as $urlHandler) {
-            $url = $urlHandler($filePath, $line);
-            if ($url) {
-                return $url;
-            }
-        }
-
-        /*
         $parsedUrl = parse_url($filePath);
+        // rex:// internal url?
         if ($parsedUrl['scheme'] === 'rex') {
             if ($parsedUrl['host'] === 'template') {
                 $templateId = ltrim($parsedUrl['path'], '/');
-                return 'http://localhost/redaxo/redaxo/index.php?page=templates&start=0&function=edit&template_id='. $templateId;
+                return rex_url::backendPage('templates', ['function' => 'edit', 'template_id' => $templateId]);
+            } elseif($parsedUrl['host'] === 'module') {
+                $moduleId = (int) ltrim($parsedUrl['path'], '/');
+                return rex_url::backendPage('modules/modules', ['function' => 'edit', 'module_id' => $moduleId]);
             }
         }
-        */
 
         $systemEditor = rex::getProperty('system_editor');
         $editorUrl = $this->editors[$systemEditor];
