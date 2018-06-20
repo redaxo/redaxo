@@ -155,7 +155,6 @@ class rex_response
         }
 
         self::sendAdditionalHeaders();
-        self::sendPreloadHeaders();
 
         readfile($file);
     }
