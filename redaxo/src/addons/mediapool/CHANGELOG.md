@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.4.1 – XX.06.2018
+--------------------------
+
+### Bugfixes
+
+* Übersetzung bei Lösch-Fehlermeldung fehlte (falsche Keys) (@gharlan)
+
+
 Version 2.4.0 – 05.06.2018
 --------------------------
 

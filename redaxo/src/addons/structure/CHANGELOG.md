@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.1 – XX.06.2018
+--------------------------
+
+### Bugfixes
+
+* Bei der Status-Änderung von Kategorien wurde fälschlich das `publishArticle[]`-Recht statt `publishCategory[]` geprüft (@gharlan)
+
+
 Version 2.6.0 – 05.06.2018
 --------------------------
 
