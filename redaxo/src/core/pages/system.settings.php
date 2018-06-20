@@ -95,8 +95,8 @@ foreach (rex_i18n::getLocales() as $l) {
     $sel_lang->addOption($l, $l);
 }
 
-// see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
 $systemEditor = rex::getProperty('system_editor');
+// keep this list in sync with rex_editor::$editors
 $supportedEditors = [
     '' => rex_i18n::msg('system_editor_no_editor'),
     'atom' => 'Atom',
