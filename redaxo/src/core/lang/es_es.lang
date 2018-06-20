@@ -122,6 +122,7 @@ server_invalid = Por favor, ingrese una url válida con el protocolo!
 servername_required = Se requiere el nombre del servidor
 lang_required = Se requiere idioma
 debug_mode = Modo de depuración
+debug_mode_note = Con el modo de depuración, se genera información adicional sobre el error para los errores de script en la interfaz y el servidor. No lo active en modo directo, ya que los mensajes de error también pueden contener datos confidenciales.
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Preparar
