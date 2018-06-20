@@ -1,5 +1,4 @@
 <?php
-
 /**
  * REDAXO customizer.
  *
@@ -7,71 +6,96 @@
  * Marijn Haverbeke <marijnh@gmail.com>
  */
 
+// Plugin-Config
+$config = rex_plugin::get('be_style', 'customizer')->getConfig();
+
+/* Output CodeMirror-CSS */
+if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css') {
+    rex_response::cleanOutputBuffers();
+    header("Content-type: text/css");
+
+    $filenames = array();
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror.css');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
+    if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
+    }
+
+    foreach ($filenames as $filename) {
+        echo '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
+    }
+    exit;
+}
+
+/* Output CodeMirror-JavaScript */
+if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javascript') {
+    rex_response::cleanOutputBuffers();
+    header('Content-Type: application/javascript');
+
+    $filenames = array();
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js');
+
+    if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/brace-fold.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/xml-fold.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/indent-fold.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/markdown-fold.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/comment-fold.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/edit/closebrackets.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js');
+    }
+
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/xml/xml.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/htmlmixed/htmlmixed.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/htmlembedded/htmlembedded.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/javascript/javascript.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/css/css.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/clike/clike.js');
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/php/php.js');
+
+    if (isset($config['codemirror-langs']) and $config['codemirror-langs']) {
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/textile/textile.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/yaml/yaml.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/meta.js');
+    }
+
+    foreach ($filenames as $filename) {
+        echo '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
+    }
+    exit;
+}
+
 if (rex::isBackend() && rex::getUser()) {
-    $config = $this->getConfig();
-
-    rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
-
+    /* Codemirror */
     if ($config['codemirror']) {
-        // Codemirror + Theme-CSS
-        rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
-        rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css'));
-        rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css'));
-        if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
-            rex_view::addCssFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css'));
-        }
-
-        // Theme
+        // JsProperty CodeMirror-Theme
         if ($config['codemirror_theme'] != '') {
             rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
         }
-
-        // Codemirror
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js'));
-
-        // Codemirror-Addons
-        if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/brace-fold.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/xml-fold.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/indent-fold.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/markdown-fold.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/fold/comment-fold.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/edit/closebrackets.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js'));
-        }
-
-        // Highlighters
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/xml/xml.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/htmlmixed/htmlmixed.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/htmlembedded/htmlembedded.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/javascript/javascript.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/css/css.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/clike/clike.js'));
-        rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/php/php.js'));
-
-        if (isset($config['codemirror-langs']) && $config['codemirror-langs']) {
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/textile/textile.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/yaml/yaml.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js'));
-            rex_view::addJsFile($this->getAssetsUrl('vendor/codemirror/mode/meta.js'));
+        // JsProperty CodeMirror-Selectors
+        if ($config['codemirror-selectors'] != '') {
+            rex_view::setJsProperty('customizer_codemirror_selectors', $config['codemirror-selectors']);
         }
     }
+
+    /* Customizer Ergänzungen */
+    rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
+    rex_view::addJsFile($this->getAssetsUrl('js/main.js'));
 
     if ($config['labelcolor'] != '') {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
     }
-
     if ($config['showlink']) {
         rex_view::setJsProperty('customizer_showlink', '<h1 class="be-style-customizer-title"><a href="'. rex::getServer() .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex::getServerName() . '</span><i class="fa fa-external-link"></i></a></h1>');
     }
-
-    rex_view::addJsFile($this->getAssetsUrl('js/main.js'));
 }

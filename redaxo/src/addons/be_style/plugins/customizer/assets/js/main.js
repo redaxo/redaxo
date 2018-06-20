@@ -1,4 +1,20 @@
 $(document).on('rex:ready', function (event, container) {
+	if (container.find(rex.customizer_codemirror_selectors).size() > 0) {
+        if (typeof CodeMirror !== 'function') {
+            var css = document.createElement('link');
+            css.rel = 'stylesheet';
+			css.onload = function () {
+            var script = document.createElement('script');
+				script.onload = function () {
+					Customizer.init(container);
+				};
+				script.src = '?codemirror_output=javascript';
+				document.head.appendChild(script);
+			}
+            css.href = '?codemirror_output=css';
+            document.head.appendChild(css);
+        }
+	}
     Customizer.init(container);
 });
 
@@ -9,7 +25,8 @@ Customizer.init = function (container)
     var cm_editor = {};
     var cm = 0;
 
-    container.find("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror, textarea#previewaction , textarea#presaveaction, textarea#postsaveaction").each(function() {
+    //container.find("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror, textarea#previewaction , textarea#presaveaction, textarea#postsaveaction").each(function() {
+    container.find(rex.customizer_codemirror_selectors).each(function() {
         var t = $(this);
         var id = t.attr("id");
 
@@ -33,30 +50,32 @@ Customizer.init = function (container)
             theme = new_theme;
         }
 
-        cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), {
-            mode: mode,
-            theme: theme,
-            lineNumbers: true,
-            lineWrapping: true,
-            styleActiveLine: true,
-            matchBrackets: true,
-            autoCloseBrackets: true,
-            matchTags: {bothTags: true},
-            indentUnit: 4,
-            indentWithTabs: false,
-            enterMode: "keep",
-            tabMode: "shift",
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-            foldGutter: true,
-            extraKeys: {
-                "F11": function(cm) {
-                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-                },
-                "Esc": function(cm) {
-                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+        if (typeof CodeMirror === "function") {
+            cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), {
+                mode: mode,
+                theme: theme,
+                lineNumbers: true,
+                lineWrapping: true,
+                styleActiveLine: true,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                matchTags: {bothTags: true},
+                indentUnit: 4,
+                indentWithTabs: false,
+                enterMode: "keep",
+                tabMode: "shift",
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                foldGutter: true,
+                extraKeys: {
+                    "F11": function(cm) {
+                        cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                    },
+                    "Esc": function(cm) {
+                        if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     if (typeof rex.customizer_labelcolor !== "undefined" && rex.customizer_labelcolor != '') {
