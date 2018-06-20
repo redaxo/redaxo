@@ -1,19 +1,21 @@
 <?php
 
-class rex_editor {
+class rex_editor
+{
     use rex_factory_trait;
 
     private $editors = [
-        "emacs"    => "emacs://open?url=file://%file&line=%line",
-        "idea"     => "idea://open?file=%file&line=%line",
-        "macvim"   => "mvim://open/?url=file://%file&line=%line",
-        "phpstorm" => "phpstorm://open?file=%file&line=%line",
-        "sublime"  => "subl://open?url=file://%file&line=%line",
-        "textmate" => "txmt://open?url=file://%file&line=%line",
-        "vscode"   => "vscode://file/%file:%line",
+        'emacs' => 'emacs://open?url=file://%file&line=%line',
+        'idea' => 'idea://open?file=%file&line=%line',
+        'macvim' => 'mvim://open/?url=file://%file&line=%line',
+        'phpstorm' => 'phpstorm://open?file=%file&line=%line',
+        'sublime' => 'subl://open?url=file://%file&line=%line',
+        'textmate' => 'txmt://open?url=file://%file&line=%line',
+        'vscode' => 'vscode://file/%file:%line',
     ];
 
-    public function urlFromFile($filePath, $line) {
+    public function urlFromFile($filePath, $line)
+    {
         // make internal urls work with parse_url()
         $filePath = str_replace('rex:///', 'rex://', $filePath);
 
@@ -23,7 +25,8 @@ class rex_editor {
             if ($parsedUrl['host'] === 'template') {
                 $templateId = ltrim($parsedUrl['path'], '/');
                 return rex_url::backendPage('templates', ['function' => 'edit', 'template_id' => $templateId]);
-            } elseif($parsedUrl['host'] === 'module') {
+            }
+            if ($parsedUrl['host'] === 'module') {
                 $moduleId = (int) ltrim($parsedUrl['path'], '/');
                 return rex_url::backendPage('modules/modules', ['function' => 'edit', 'module_id' => $moduleId]);
             }
@@ -32,8 +35,8 @@ class rex_editor {
         $systemEditor = rex::getProperty('system_editor');
         $editorUrl = $this->editors[$systemEditor];
 
-        $editorUrl = str_replace("%line", rawurlencode($line), $editorUrl);
-        $editorUrl = str_replace("%file", rawurlencode($filePath), $editorUrl);
+        $editorUrl = str_replace('%line', rawurlencode($line), $editorUrl);
+        $editorUrl = str_replace('%file', rawurlencode($filePath), $editorUrl);
 
         return $editorUrl;
     }

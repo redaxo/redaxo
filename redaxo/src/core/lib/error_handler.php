@@ -68,7 +68,7 @@ abstract class rex_error_handler
 
             $systemEditor = rex::getProperty('system_editor');
             if (!empty($systemEditor)) {
-                $handler->setEditor(function($file, $line) {
+                $handler->setEditor(function ($file, $line) {
                     $editor = rex_editor::factory();
                     return $editor->urlFromFile($file, $line);
                 });
