@@ -96,9 +96,8 @@ foreach (rex_i18n::getLocales() as $l) {
 }
 
 // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
-$whoopsConfig = rex::getProperty('whoops');
-$whoopsEditor = isset($whoopsConfig['editor']) ? $whoopsConfig['editor'] : '';
-$supportedEditors = ['' => rex_i18n::msg('system_editor_no_editor'), 'emacs' => 'Emacs', 'idea' => 'IDEA', 'macvim' => 'MacVim', 'phpstorm' => 'PhpStorm (macOS only)', 'sublime' => 'Sublime Text 2 and 3', 'textmate' => 'Textmate', 'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)', 'vscode' => 'Visual Studio Code', 'atom' => 'Atom'];
+$systemEditor = rex::getProperty('system_editor');
+$supportedEditors = ['' => rex_i18n::msg('system_editor_no_editor'), 'emacs' => 'Emacs', 'idea' => 'IDEA', 'macvim' => 'MacVim', 'phpstorm' => 'PhpStorm', 'sublime' => 'Sublime Text 2 and 3', 'textmate' => 'Textmate', 'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)', 'vscode' => 'Visual Studio Code', 'atom' => 'Atom'];
 
 $sel_system_editor = new rex_select();
 $sel_system_editor->setStyle('class="form-control"');
@@ -106,7 +105,7 @@ $sel_system_editor->setName('settings[system_editor]');
 $sel_system_editor->setId('rex-id-system-editor');
 $sel_system_editor->setAttribute('class', 'form-control selectpicker');
 $sel_system_editor->setSize(1);
-$sel_system_editor->setSelected($whoopsEditor);
+$sel_system_editor->setSelected($systemEditor);
 $sel_system_editor->addArrayOptions($supportedEditors);
 
 if (!empty($error)) {
