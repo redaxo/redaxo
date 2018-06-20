@@ -103,7 +103,7 @@ class rex_list implements rex_url_provider_interface
         // --------- Validation
         if (!$listName) {
             // use a hopefully unique (per page) hash
-            $listName = substr(md5($query),0, 8);
+            $listName = substr(md5($query), 0, 8);
         }
 
         // --------- List Attributes
