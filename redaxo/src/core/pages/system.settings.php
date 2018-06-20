@@ -97,7 +97,18 @@ foreach (rex_i18n::getLocales() as $l) {
 
 // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
 $systemEditor = rex::getProperty('system_editor');
-$supportedEditors = ['' => rex_i18n::msg('system_editor_no_editor'), 'emacs' => 'Emacs', 'idea' => 'IDEA', 'macvim' => 'MacVim', 'phpstorm' => 'PhpStorm', 'sublime' => 'Sublime Text 2 and 3', 'textmate' => 'Textmate', 'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)', 'vscode' => 'Visual Studio Code', 'atom' => 'Atom'];
+$supportedEditors = [
+    '' => rex_i18n::msg('system_editor_no_editor'),
+    'atom' => 'Atom',
+    'emacs' => 'Emacs',
+    'idea' => 'IDEA',
+    'macvim' => 'MacVim',
+    'phpstorm' => 'PhpStorm',
+    'sublime' => 'Sublime Text 2 and 3',
+    'textmate' => 'Textmate',
+    'vscode' => 'Visual Studio Code',
+    'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
+];
 
 $sel_system_editor = new rex_select();
 $sel_system_editor->setStyle('class="form-control"');
