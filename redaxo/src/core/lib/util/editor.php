@@ -3,15 +3,13 @@
 class rex_editor {
     use rex_factory_trait;
 
-    private $handlers = [];
-
     private $editors = [
-        "sublime"  => "subl://open?url=file://%file&line=%line",
-        "textmate" => "txmt://open?url=file://%file&line=%line",
         "emacs"    => "emacs://open?url=file://%file&line=%line",
+        "idea"     => "idea://open?file=%file&line=%line",
         "macvim"   => "mvim://open/?url=file://%file&line=%line",
         "phpstorm" => "phpstorm://open?file=%file&line=%line",
-        "idea"     => "idea://open?file=%file&line=%line",
+        "sublime"  => "subl://open?url=file://%file&line=%line",
+        "textmate" => "txmt://open?url=file://%file&line=%line",
         "vscode"   => "vscode://file/%file:%line",
     ];
 
@@ -20,7 +18,7 @@ class rex_editor {
         $filePath = str_replace('rex:///', 'rex://', $filePath);
 
         $parsedUrl = parse_url($filePath);
-        // rex:// internal url?
+        // rex:// internal url mapping to backend form-edit urls
         if ($parsedUrl['scheme'] === 'rex') {
             if ($parsedUrl['host'] === 'template') {
                 $templateId = ltrim($parsedUrl['path'], '/');
@@ -38,10 +36,6 @@ class rex_editor {
         $editorUrl = str_replace("%file", rawurlencode($filePath), $editorUrl);
 
         return $editorUrl;
-    }
-
-    public function registerUrlHandler(callable $urlHandler) {
-        $this->handlers[] = $urlHandler;
     }
 
     /**
