@@ -12,7 +12,7 @@ $config = rex_plugin::get('be_style', 'customizer')->getConfig();
 /* Output CodeMirror-CSS */
 if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css') {
     rex_response::cleanOutputBuffers();
-    header("Content-type: text/css");
+    header('Content-type: text/css');
 
     $filenames = array();
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror.css');
@@ -67,7 +67,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/clike/clike.js');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/php/php.js');
 
-    if (isset($config['codemirror-langs']) and $config['codemirror-langs']) {
+    if (isset($config['codemirror-langs']) && $config['codemirror-langs']) {
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/textile/textile.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js');
