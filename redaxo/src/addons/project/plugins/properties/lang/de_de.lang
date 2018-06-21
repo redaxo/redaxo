@@ -1,0 +1,7 @@
+project_properties = Properties
+project_title_config = Projekt Properties
+project_config_title_legend = REDAXO-Properties setzen
+project_config_title_help = Hinweise / Hilfe
+project_config_project_settings = Property-Einstellungen
+project_save = Speichern
+project_config_saved = Properties wurden gespeichert
