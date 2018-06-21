@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.5 – XX.06.2018
+--------------------------
+
+### Bugfixes
+
+* Effekt `convert2img`: Der Cli-`convert`-Befehl wurde teils nicht gefunden, obwohl vorhanden (@staabm)
+
+
 Version 2.5.4 – 05.06.2018
 --------------------------
 

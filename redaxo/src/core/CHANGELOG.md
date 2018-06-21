@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 5.6.1 – XX.06.2018
+--------------------------
+
+### Neu
+
+* Erläuterung für Debug-Modus (@alexplusde; Übersetzung: @ynamite, @interweave-media, @nandes2062)
+* Performance-Optimierungen (@staabm)
+
+### Bugfixes
+
+* Identität wechseln: Beim Versuch, in einen inaktiven Benutzer zu wechseln, kam es zu einem Fehler (@gharlan)
+* `rex_delete_cache`: Wenn vor dem Aufruf `rex_config`-Werte gesetzt wurden, gingen diese verloren und wurden nicht gespeichert (@gharlan)
+* `rex_list`: Bei Nutzung mehrere Listen auf einer Page griff die Paginierung immer synchron für beide Listen (@staabm)
+* `rex_sql`: Bei Aufruf von `next()` und anschließend `getRow($fetch_type)` hatte der Parameter `$fetch_type` keine Auswirkung (@joachimdoerr)
+* `rex_fragment::parse`: Nicht funktionierenden Parameter `$delete_whitespaces` entfernt (@staabm)
+
+
 Version 5.6.0 – 05.06.2018
 --------------------------
 
