@@ -22,9 +22,16 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
     }
 
+    $content = '';
     foreach ($filenames as $filename) {
-        echo '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
+        $content .= '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
     }
+
+    header('Pragma: cache');
+    header('Cache-Control: public');
+    header('Expires: ' . date('D, j M Y', strtotime('+1 week')) . ' 00:00:00 GMT');
+    echo $content;
+
     exit;
 }
 
@@ -69,9 +76,16 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/meta.js');
     }
 
+    $content = '';
     foreach ($filenames as $filename) {
-        echo '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
+        $content .= '/* ' . $filename . ' */' . "\n" . rex_file::get($filename) . "\n";
     }
+
+    header('Pragma: cache');
+    header('Cache-Control: public');
+    header('Expires: ' . date('D, j M Y', strtotime('+1 week')) . ' 00:00:00 GMT');
+    echo $content;
+
     exit;
 }
 
@@ -86,6 +100,10 @@ if (rex::isBackend() && rex::getUser()) {
         if ($config['codemirror-selectors'] != '') {
             rex_view::setJsProperty('customizer_codemirror_selectors', $config['codemirror-selectors']);
         }
+        $mtime = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
+        rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtime);
+        $mtime = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
+        rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtime);
     }
 
     /* Customizer Ergänzungen */

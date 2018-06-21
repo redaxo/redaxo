@@ -20,7 +20,7 @@ if (rex_post('btn_save', 'string') != '') {
         $tempConfig['codemirror'] = 1;
     }
     
-    if (isset($newConfig['codemirror-selectors']) && $newConfig['codemirror-selectors'] <> '') {
+    if (isset($newConfig['codemirror-selectors']) && $newConfig['codemirror-selectors'] != '') {
         $tempConfig['codemirror-selectors'] = $newConfig['codemirror-selectors'];
     }
     

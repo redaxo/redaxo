@@ -1,20 +1,20 @@
 $(document).on('rex:ready', function (event, container) {
-	if (container.find(rex.customizer_codemirror_selectors).size() > 0) {
+    if (container.find(rex.customizer_codemirror_selectors).size() > 0) {
         if (typeof CodeMirror !== 'function') {
             var css = document.createElement('link');
             css.rel = 'stylesheet';
-			css.onload = function () {
-            var script = document.createElement('script');
-				script.onload = function () {
-					Customizer.init(container);
-				};
-				script.src = '?codemirror_output=javascript';
-				document.head.appendChild(script);
-			}
-            css.href = '?codemirror_output=css';
+            css.onload = function () {
+                var script = document.createElement('script');
+                script.onload = function () {
+                    Customizer.init(container);
+                };
+                script.src = '?codemirror_output=javascript&buster='+rex.customizer_codemirror_jsbuster;
+                document.head.appendChild(script);
+            }
+            css.href = '?codemirror_output=css&buster='+rex.customizer_codemirror_cssbuster;
             document.head.appendChild(css);
         }
-	}
+    }
     Customizer.init(container);
 });
 
@@ -25,7 +25,6 @@ Customizer.init = function (container)
     var cm_editor = {};
     var cm = 0;
 
-    //container.find("#rex-rex_cronjob_phpcode textarea, #rex-page-modules-actions textarea.form-control, textarea.rex-code, textarea.codemirror, textarea#previewaction , textarea#presaveaction, textarea#postsaveaction").each(function() {
     container.find(rex.customizer_codemirror_selectors).each(function() {
         var t = $(this);
         var id = t.attr("id");
