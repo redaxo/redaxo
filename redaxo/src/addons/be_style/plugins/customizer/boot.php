@@ -14,7 +14,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     rex_response::cleanOutputBuffers();
     header('Content-type: text/css');
 
-    $filenames = array();
+    $filenames = [];
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror.css');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
@@ -40,7 +40,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
     rex_response::cleanOutputBuffers();
     header('Content-Type: application/javascript');
 
-    $filenames = array();
+    $filenames = [];
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js');
