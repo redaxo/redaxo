@@ -23,7 +23,7 @@ if (rex::isBackend()) {
     }
 
     if (rex_be_controller::getCurrentPagePart(1) == 'content') {
-        rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function(rex_extension_point $ep) {
+        rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function (rex_extension_point $ep) {
             $params = $ep->getParams();
             $subject = $ep->getSubject();
 
