@@ -95,7 +95,11 @@ foreach (rex_i18n::getLocales() as $l) {
     $sel_lang->addOption($l, $l);
 }
 
-$systemEditor = rex::getProperty('system_editor');
+if(isset($config['system_editor'])) {
+    $systemEditor = $config['system_editor'];
+} else {
+    $systemEditor = rex::getProperty('system_editor');
+}
 // keep this list in sync with rex_editor::$editors
 $supportedEditors = [
     '' => rex_i18n::msg('system_editor_no_editor'),
