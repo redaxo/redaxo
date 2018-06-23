@@ -100,19 +100,6 @@ if(isset($config['system_editor'])) {
 } else {
     $systemEditor = rex::getProperty('system_editor');
 }
-// keep this list in sync with rex_editor::$editors
-$supportedEditors = [
-    '' => rex_i18n::msg('system_editor_no_editor'),
-    'atom' => 'Atom',
-    'emacs' => 'Emacs',
-    'idea' => 'IDEA',
-    'macvim' => 'MacVim',
-    'phpstorm' => 'PhpStorm',
-    'sublime' => 'Sublime Text 2 and 3',
-    'textmate' => 'Textmate',
-    'vscode' => 'Visual Studio Code',
-    'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
-];
 
 $sel_system_editor = new rex_select();
 $sel_system_editor->setStyle('class="form-control"');
@@ -121,7 +108,7 @@ $sel_system_editor->setId('rex-id-system-editor');
 $sel_system_editor->setAttribute('class', 'form-control selectpicker');
 $sel_system_editor->setSize(1);
 $sel_system_editor->setSelected($systemEditor);
-$sel_system_editor->addArrayOptions($supportedEditors);
+$sel_system_editor->addArrayOptions(rex_editor::factory()->getSupportedEditors());
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
