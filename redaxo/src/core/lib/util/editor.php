@@ -43,6 +43,21 @@ class rex_editor
 
         return $editorUrl;
     }
+    
+    public function getSupportedEditors() {
+        return [
+    '' => rex_i18n::msg('system_editor_no_editor'),
+    'atom' => 'Atom',
+    'emacs' => 'Emacs',
+    'idea' => 'IDEA',
+    'macvim' => 'MacVim',
+    'phpstorm' => 'PhpStorm',
+    'sublime' => 'Sublime Text 2 and 3',
+    'textmate' => 'Textmate',
+    'vscode' => 'Visual Studio Code',
+    'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
+];
+    }
 
     /**
      * Creates a rex_editor instance.
