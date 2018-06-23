@@ -46,7 +46,6 @@ class rex_editor
     
     public function getSupportedEditors() {
         return [
-    '' => rex_i18n::msg('system_editor_no_editor'),
     'atom' => 'Atom',
     'emacs' => 'Emacs',
     'idea' => 'IDEA',
