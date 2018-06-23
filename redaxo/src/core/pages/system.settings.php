@@ -108,7 +108,7 @@ $sel_system_editor->setId('rex-id-system-editor');
 $sel_system_editor->setAttribute('class', 'form-control selectpicker');
 $sel_system_editor->setSize(1);
 $sel_system_editor->setSelected($systemEditor);
-$sel_system_editor->addArrayOptions(rex_editor::factory()->getSupportedEditors());
+$sel_system_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + rex_editor::factory()->getSupportedEditors());
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
