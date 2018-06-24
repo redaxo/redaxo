@@ -51,7 +51,7 @@ class rex_editor
     'idea' => 'IDEA',
     'macvim' => 'MacVim',
     'phpstorm' => 'PhpStorm',
-    'sublime' => 'Sublime Text 2 and 3',
+    'sublime' => 'Sublime Text',
     'textmate' => 'Textmate',
     'vscode' => 'Visual Studio Code',
     'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
