@@ -21,7 +21,9 @@ class rex_editor
     ];
 
     // we expect instantiation via factory()
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     /**
      * Creates a rex_editor instance.
@@ -61,17 +63,18 @@ class rex_editor
         return $editorUrl;
     }
 
-    public function getSupportedEditors() {
+    public function getSupportedEditors()
+    {
         return [
-    'atom' => 'Atom',
-    'emacs' => 'Emacs',
-    'idea' => 'IDEA',
-    'macvim' => 'MacVim',
-    'phpstorm' => 'PhpStorm',
-    'sublime' => 'Sublime Text',
-    'textmate' => 'Textmate',
-    'vscode' => 'Visual Studio Code',
-    'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
-];
+            'atom' => 'Atom',
+            'emacs' => 'Emacs',
+            'idea' => 'IDEA',
+            'macvim' => 'MacVim',
+            'phpstorm' => 'PhpStorm',
+            'sublime' => 'Sublime Text',
+            'textmate' => 'Textmate',
+            'vscode' => 'Visual Studio Code',
+            'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
+        ];
     }
 }
