@@ -16,6 +16,20 @@ class rex_editor
         'textmate' => 'txmt://open?url=file://%file&line=%line',
         'vscode' => 'vscode://file/%file:%line',
     ];
+    
+    // we expect instantiation via factory()
+    private function __construct() {}
+    
+    /**
+     * Creates a rex_editor instance.
+     *
+     * @return static Returns a rex_editor instance
+     */
+    public static function factory()
+    {
+        $class = static::getFactoryClass();
+        return new $class();
+    }
 
     public function getUrl($filePath, $line)
     {
@@ -56,16 +70,5 @@ class rex_editor
     'vscode' => 'Visual Studio Code',
     'xdebug' => 'Xdebug via xdebug.file_link_format (php.ini)',
 ];
-    }
-
-    /**
-     * Creates a rex_editor instance.
-     *
-     * @return static Returns a rex_editor instance
-     */
-    public static function factory()
-    {
-        $class = static::getFactoryClass();
-        return new $class();
     }
 }
