@@ -17,7 +17,7 @@ class rex_editor
         'vscode' => 'vscode://file/%file:%line',
     ];
 
-    public function urlFromFile($filePath, $line)
+    public function getUrl($filePath, $line)
     {
         // make internal urls work with parse_url()
         $filePath = str_replace('rex:///', 'rex://', $filePath);
