@@ -66,6 +66,7 @@ if ($func && !$csrfToken->isValid()) {
         $settings['system_editor'] = null;
     }
     $config['system_editor'] = $settings['system_editor'];
+    rex::setProperty('system_editor', $config['system_editor']);
 
     foreach (rex_system_setting::getAll() as $setting) {
         $key = $setting->getKey();
@@ -95,19 +96,13 @@ foreach (rex_i18n::getLocales() as $l) {
     $sel_lang->addOption($l, $l);
 }
 
-if(isset($config['system_editor'])) {
-    $systemEditor = $config['system_editor'];
-} else {
-    $systemEditor = rex::getProperty('system_editor');
-}
-
 $sel_system_editor = new rex_select();
 $sel_system_editor->setStyle('class="form-control"');
 $sel_system_editor->setName('settings[system_editor]');
 $sel_system_editor->setId('rex-id-system-editor');
 $sel_system_editor->setAttribute('class', 'form-control selectpicker');
 $sel_system_editor->setSize(1);
-$sel_system_editor->setSelected($systemEditor);
+$sel_system_editor->setSelected(rex::getProperty('system_editor'));
 $sel_system_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + rex_editor::factory()->getSupportedEditors());
 
 if (!empty($error)) {
