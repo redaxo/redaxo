@@ -41,7 +41,7 @@ class rex_editor
 
         $parsedUrl = parse_url($filePath);
         // rex:// internal url mapping to backend form-edit urls
-        if ($parsedUrl['scheme'] === 'rex') {
+        if (isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'rex') {
             if ($parsedUrl['host'] === 'template') {
                 $templateId = ltrim($parsedUrl['path'], '/');
                 return rex_url::backendPage('templates', ['function' => 'edit', 'template_id' => $templateId]);
