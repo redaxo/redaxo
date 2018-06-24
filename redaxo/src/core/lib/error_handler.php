@@ -65,7 +65,14 @@ abstract class rex_error_handler
 
             $handler = new \Whoops\Handler\PrettyPageHandler();
             $handler->setApplicationRootPath(rtrim(rex_path::base(), '/\\'));
-            if (ini_get('xdebug.file_link_format')) {
+
+            $editor = rex::getProperty('editor');
+            if (!empty($editor)) {
+                $handler->setEditor(function ($file, $line) {
+                    $editor = rex_editor::factory();
+                    return $editor->getUrl($file, $line);
+                });
+            } elseif (ini_get('xdebug.file_link_format')) {
                 $handler->setEditor('xdebug');
             }
 
