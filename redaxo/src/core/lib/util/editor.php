@@ -5,7 +5,7 @@ class rex_editor
     use rex_factory_trait;
 
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
-    // keep this list in sync with $supportedEditors in system.settings.php
+    // keep this list in sync with the array in getSupportedEditors()
     private $editors = [
         'atom' => 'atom://core/open/file?filename=%file&line=%line',
         'emacs' => 'emacs://open?url=file://%file&line=%line',
