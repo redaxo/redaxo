@@ -80,4 +80,4 @@ accesskeys:
     delete: d
     add: a
     add_2: y
-system_editor: null
+editor: null

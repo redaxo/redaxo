@@ -66,8 +66,8 @@ abstract class rex_error_handler
             $handler = new \Whoops\Handler\PrettyPageHandler();
             $handler->setApplicationRootPath(rtrim(rex_path::base(), '/\\'));
 
-            $systemEditor = rex::getProperty('system_editor');
-            if (!empty($systemEditor)) {
+            $editor = rex::getProperty('editor');
+            if (!empty($editor)) {
                 $handler->setEditor(function ($file, $line) {
                     $editor = rex_editor::factory();
                     return $editor->getUrl($file, $line);

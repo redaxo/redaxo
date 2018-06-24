@@ -62,11 +62,11 @@ if ($func && !$csrfToken->isValid()) {
     $config['debug']['enabled'] = isset($settings['debug']) && $settings['debug'];
     rex::setProperty('debug', $config['debug']);
 
-    if (empty($settings['system_editor'])) {
-        $settings['system_editor'] = null;
+    if (empty($settings['editor'])) {
+        $settings['editor'] = null;
     }
-    $config['system_editor'] = $settings['system_editor'];
-    rex::setProperty('system_editor', $config['system_editor']);
+    $config['editor'] = $settings['editor'];
+    rex::setProperty('editor', $config['editor']);
 
     foreach (rex_system_setting::getAll() as $setting) {
         $key = $setting->getKey();
@@ -96,14 +96,14 @@ foreach (rex_i18n::getLocales() as $l) {
     $sel_lang->addOption($l, $l);
 }
 
-$sel_system_editor = new rex_select();
-$sel_system_editor->setStyle('class="form-control"');
-$sel_system_editor->setName('settings[system_editor]');
-$sel_system_editor->setId('rex-id-system-editor');
-$sel_system_editor->setAttribute('class', 'form-control selectpicker');
-$sel_system_editor->setSize(1);
-$sel_system_editor->setSelected(rex::getProperty('system_editor'));
-$sel_system_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + rex_editor::factory()->getSupportedEditors());
+$sel_editor = new rex_select();
+$sel_editor->setStyle('class="form-control"');
+$sel_editor->setName('settings[editor]');
+$sel_editor->setId('rex-id-editor');
+$sel_editor->setAttribute('class', 'form-control selectpicker');
+$sel_editor->setSize(1);
+$sel_editor->setSelected(rex::getProperty('editor'));
+$sel_editor->addArrayOptions(['' => rex_i18n::msg('system_editor_no_editor')] + rex_editor::factory()->getSupportedEditors());
 
 if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
@@ -184,8 +184,8 @@ $n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" n
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-system-editor">' . rex_i18n::msg('system_editor') . '</label>';
-$n['field'] = $sel_system_editor->get();
+$n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor') . '</label>';
+$n['field'] = $sel_editor->get();
 $n['note'] = rex_i18n::msg('system_editor_note');
 $formElements[] = $n;
 

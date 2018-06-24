@@ -16,10 +16,10 @@ class rex_editor
         'textmate' => 'txmt://open?url=file://%file&line=%line',
         'vscode' => 'vscode://file/%file:%line',
     ];
-    
+
     // we expect instantiation via factory()
     private function __construct() {}
-    
+
     /**
      * Creates a rex_editor instance.
      *
@@ -49,15 +49,15 @@ class rex_editor
             }
         }
 
-        $systemEditor = rex::getProperty('system_editor');
-        $editorUrl = $this->editors[$systemEditor];
+        $editor = rex::getProperty('editor');
+        $editorUrl = $this->editors[$editor];
 
         $editorUrl = str_replace('%line', rawurlencode($line), $editorUrl);
         $editorUrl = str_replace('%file', rawurlencode($filePath), $editorUrl);
 
         return $editorUrl;
     }
-    
+
     public function getSupportedEditors() {
         return [
     'atom' => 'Atom',
