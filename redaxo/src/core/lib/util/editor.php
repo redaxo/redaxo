@@ -55,8 +55,8 @@ class rex_editor
         $editor = rex::getProperty('editor');
         $editorUrl = $this->editors[$editor];
 
-        $editorUrl = str_replace('%line', rawurlencode($line), $editorUrl);
-        $editorUrl = str_replace('%file', rawurlencode($filePath), $editorUrl);
+        $editorUrl = str_replace('%line', $line, $editorUrl);
+        $editorUrl = str_replace('%file', $filePath, $editorUrl);
 
         return $editorUrl;
     }
