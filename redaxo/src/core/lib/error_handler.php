@@ -70,7 +70,7 @@ abstract class rex_error_handler
             if (!empty($systemEditor)) {
                 $handler->setEditor(function ($file, $line) {
                     $editor = rex_editor::factory();
-                    return $editor->urlFromFile($file, $line);
+                    return $editor->getUrl($file, $line);
                 });
             } elseif (ini_get('xdebug.file_link_format')) {
                 $handler->setEditor('xdebug');
