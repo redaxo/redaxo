@@ -38,27 +38,17 @@ class rex_editor
 
     public function getUrl($filePath, $line)
     {
-        // make internal urls work with parse_url()
-        $filePath = str_replace('rex:///', 'rex://', $filePath);
-
-        $parsedUrl = parse_url($filePath);
-        // rex:// internal url mapping to backend form-edit urls
-        if (isset($parsedUrl['scheme']) && $parsedUrl['scheme'] === 'rex') {
-            if ($parsedUrl['host'] === 'template') {
-                $templateId = ltrim($parsedUrl['path'], '/');
-                return rex_url::backendPage('templates', ['function' => 'edit', 'template_id' => $templateId]);
-            }
-            if ($parsedUrl['host'] === 'module') {
-                $moduleId = (int) ltrim($parsedUrl['path'], '/');
-                return rex_url::backendPage('modules/modules', ['function' => 'edit', 'module_id' => $moduleId]);
-            }
-        }
-
         $editor = rex::getProperty('editor');
         $editorUrl = $this->editors[$editor];
 
         $editorUrl = str_replace('%line', $line, $editorUrl);
         $editorUrl = str_replace('%file', $filePath, $editorUrl);
+
+        $editorUrl = rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
+            'file' => $filePath,
+            'line' => $line,
+            'editor' => $this,
+        ]));
 
         return $editorUrl;
     }
