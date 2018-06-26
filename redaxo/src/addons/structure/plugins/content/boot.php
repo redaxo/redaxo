@@ -93,3 +93,15 @@ if (rex::isBackend()) {
         rex_response::sendPage($content, $article->getValue('updatedate'));
     });
 }
+
+rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
+    static $urls = [
+        'template' => ['templates', 'template_id'],
+        'module' => ['modules/modules', 'module_id'],
+        'action' => ['modules/actions', 'action_id'],
+    ];
+
+    if (preg_match('@^rex:///(template|module|action)/(\d+)@', $ep->getParam('file'), $match)) {
+        return rex_url::backendPage($urls[$match[1]][0], ['function' => 'edit', $urls[$match[1]][1] => $match[2]]);
+    }
+});
