@@ -1,21 +1,34 @@
 $(document).on('rex:ready', function (event, container) {
     if (container.find(rex.customizer_codemirror_selectors).size() > 0) {
         if (typeof CodeMirror !== 'function') {
+            // this could better use javascript Promises, but browser support..
+            var cssLoaded = false, scriptLoaded = false;
             var css = document.createElement('link');
             css.rel = 'stylesheet';
-            css.onload = function () {
-                var script = document.createElement('script');
-                script.onload = function () {
-                    Customizer.init(container);
-                };
-                script.src = '?codemirror_output=javascript&buster='+rex.customizer_codemirror_jsbuster;
-                document.head.appendChild(script);
-            }
             css.href = '?codemirror_output=css&buster='+rex.customizer_codemirror_cssbuster;
+            css.onload = function () {
+                cssLoaded = true;
+                
+                if (cssLoaded && scriptLoaded) {
+                    Customizer.init(container);
+                }
+            }
             document.head.appendChild(css);
+
+            var script = document.createElement('script');
+            script.src = '?codemirror_output=javascript&buster='+rex.customizer_codemirror_jsbuster;
+            document.head.appendChild(script);
+            script.onload = function () {
+                scriptLoaded = true;
+
+                if (cssLoaded && scriptLoaded) {
+                    Customizer.init(container);
+                }
+            };
+        } else {
+            Customizer.init(container);
         }
     }
-    Customizer.init(container);
 });
 
 var Customizer = function () {};
