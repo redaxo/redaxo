@@ -47,7 +47,6 @@ class rex_editor
         $editorUrl = rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
             'file' => $filePath,
             'line' => $line,
-            'editor' => $this,
         ]));
 
         return $editorUrl;
