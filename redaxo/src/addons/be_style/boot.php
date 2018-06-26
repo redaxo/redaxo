@@ -47,5 +47,9 @@ if (rex::isBackend()) {
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/perfect-scrollbar.jquery.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/main.js'));
-    rex_response::preload($this->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
+
+    // make sure to send preload headers only on fullpage requests
+    if (stripos(rex_request::server('HTTP_ACCEPT'), 'text/html') !== false && !rex_request::isXmlHttpRequest()) {
+        rex_response::preload($this->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
+    }
 }
