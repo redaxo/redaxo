@@ -18,6 +18,12 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror.css');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
+    if (rex_request('themes', 'string', '') != '') {
+        $_themes = explode(',', rex_request('themes', 'string', ''));
+        foreach ($_themes as $_theme) {
+            $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+        }
+    }
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
     }
@@ -74,6 +80,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/yaml/yaml.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/meta.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/properties/properties.js');
     }
 
     $content = '';

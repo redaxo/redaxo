@@ -1,14 +1,29 @@
 $(document).on('rex:ready', function (event, container) {
     if (container.find(rex.customizer_codemirror_selectors).size() > 0) {
+        // Zusätzliche Themes?
+        themes = '';
+        container.find(rex.customizer_codemirror_selectors).each(function () {
+            $.each(this.attributes, function () {
+                if (this.specified) {
+                    if (this.name == 'data-codemirror-theme') {
+                        themes = themes + this.value + ',';
+                    }
+                }
+            });
+        });
+        if (themes != '') {
+            themes = themes.substring(0, themes.length - 1);
+        }
         if (typeof CodeMirror !== 'function') {
             // this could better use javascript Promises, but browser support..
-            var cssLoaded = false, scriptLoaded = false;
+            var cssLoaded = false,
+                scriptLoaded = false;
             var css = document.createElement('link');
             css.rel = 'stylesheet';
-            css.href = '?codemirror_output=css&buster='+rex.customizer_codemirror_cssbuster;
+            css.href = '?codemirror_output=css&buster=' + rex.customizer_codemirror_cssbuster; + '&themes=' + themes;
             css.onload = function () {
                 cssLoaded = true;
-                
+
                 if (cssLoaded && scriptLoaded) {
                     Customizer.init(container);
                 }
@@ -16,7 +31,7 @@ $(document).on('rex:ready', function (event, container) {
             document.head.appendChild(css);
 
             var script = document.createElement('script');
-            script.src = '?codemirror_output=javascript&buster='+rex.customizer_codemirror_jsbuster;
+            script.src = '?codemirror_output=javascript&buster=' + rex.customizer_codemirror_jsbuster;
             document.head.appendChild(script);
             script.onload = function () {
                 scriptLoaded = true;
@@ -33,19 +48,18 @@ $(document).on('rex:ready', function (event, container) {
 
 var Customizer = function () {};
 
-Customizer.init = function (container)
-{
+Customizer.init = function (container) {
     var cm_editor = {};
     var cm = 0;
 
-    container.find(rex.customizer_codemirror_selectors).each(function() {
+    container.find(rex.customizer_codemirror_selectors).each(function () {
         var t = $(this);
         var id = t.attr("id");
 
-        if(typeof id === "undefined") {
+        if (typeof id === "undefined") {
             cm++;
-            id = 'codemirror-id-'+cm;
-            t.attr("id",id);
+            id = 'codemirror-id-' + cm;
+            t.attr("id", id);
         }
 
         var mode = "application/x-httpd-php";
@@ -54,11 +68,11 @@ Customizer.init = function (container)
         var new_mode = t.attr("data-codemirror-mode");
         var new_theme = t.attr("data-codemirror-theme");
 
-        if(typeof new_mode !== "undefined") {
+        if (typeof new_mode !== "undefined") {
             mode = new_mode;
         }
 
-        if(typeof new_theme !== "undefined") {
+        if (typeof new_theme !== "undefined") {
             theme = new_theme;
         }
 
@@ -71,7 +85,9 @@ Customizer.init = function (container)
                 styleActiveLine: true,
                 matchBrackets: true,
                 autoCloseBrackets: true,
-                matchTags: {bothTags: true},
+                matchTags: {
+                    bothTags: true
+                },
                 indentUnit: 4,
                 indentWithTabs: false,
                 enterMode: "keep",
@@ -79,10 +95,10 @@ Customizer.init = function (container)
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
                 foldGutter: true,
                 extraKeys: {
-                    "F11": function(cm) {
+                    "F11": function (cm) {
                         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
                     },
-                    "Esc": function(cm) {
+                    "Esc": function (cm) {
                         if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
                     }
                 }
@@ -91,7 +107,7 @@ Customizer.init = function (container)
     });
 
     if (typeof rex.customizer_labelcolor !== "undefined" && rex.customizer_labelcolor != '') {
-        $('.rex-nav-top').css('border-bottom','10px solid '+rex.customizer_labelcolor)
+        $('.rex-nav-top').css('border-bottom', '10px solid ' + rex.customizer_labelcolor)
     }
 
     if (typeof rex.customizer_showlink !== "undefined" && rex.customizer_showlink != '' && !$('.be-style-customizer-title').length) {
