@@ -362,7 +362,6 @@ class rex_path
 
         $baseLength = strlen($basePath);
 
-
         $absPath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $absPath);
 
         if (substr($absPath, 0, $baseLength) !== $basePath) {
