@@ -10,14 +10,14 @@ class rex_editor
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
     // keep this list in sync with the array in getSupportedEditors()
     private $editors = [
-        'atom' => 'atom://core/open/file?filename=%file&line=%line',
-        'emacs' => 'emacs://open?url=file://%file&line=%line',
-        'idea' => 'idea://open?file=%file&line=%line',
-        'macvim' => 'mvim://open/?url=file://%file&line=%line',
-        'phpstorm' => 'phpstorm://open?file=%file&line=%line',
-        'sublime' => 'subl://open?url=file://%file&line=%line',
-        'textmate' => 'txmt://open?url=file://%file&line=%line',
-        'vscode' => 'vscode://file/%file:%line',
+        'atom' => 'atom://core/open/file?filename=%f&line=%l',
+        'emacs' => 'emacs://open?url=file://%f&line=%l',
+        'idea' => 'idea://open?file=%f&line=%l',
+        'macvim' => 'mvim://open/?url=file://%f&line=%l',
+        'phpstorm' => 'phpstorm://open?file=%f&line=%l',
+        'sublime' => 'subl://open?url=file://%f&line=%l',
+        'textmate' => 'txmt://open?url=file://%f&line=%l',
+        'vscode' => 'vscode://file/%f:%l',
     ];
 
     // we expect instantiation via factory()
@@ -40,15 +40,20 @@ class rex_editor
     {
         $editor = rex::getProperty('editor');
 
-        $editorUrl = null;
+        if (false !== strpos($filePath, '://')) {
+            // don't provide editor urls for paths containing "://", like "rex://..."
+            // but they can be converted into an url by the extension point below
+            $editorUrl = null;
+        } elseif (isset($this->editors[$editor]) || 'xdebug' === $editor) {
+            if ('xdebug' === $editor) {
+                // if xdebug is not enabled, use `get_cfg_var` to get the value directly from php.ini
+                $editorUrl = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+            } else {
+                $editorUrl = $this->editors[$editor];
+            }
 
-        // don't provide editor urls for paths containing "://", like "rex://..."
-        // but they can be converted into an url by the extension point below
-        if (isset($this->editors[$editor]) && false !== strpos($filePath, '://')) {
-            $editorUrl = $this->editors[$editor];
-
-            $editorUrl = str_replace('%line', $line, $editorUrl);
-            $editorUrl = str_replace('%file', $filePath, $editorUrl);
+            $editorUrl = str_replace('%l', $line, $editorUrl);
+            $editorUrl = str_replace('%f', $filePath, $editorUrl);
         }
 
         $editorUrl = rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
