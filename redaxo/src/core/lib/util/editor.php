@@ -42,7 +42,7 @@ class rex_editor
 
         $editorUrl = null;
 
-        if (isset($this->editors[$editor])) {
+        if (isset($this->editors[$editor]) && false !== strpos($filePath, '://')) {
             $editorUrl = $this->editors[$editor];
 
             $editorUrl = str_replace('%line', $line, $editorUrl);
