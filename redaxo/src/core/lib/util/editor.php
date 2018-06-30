@@ -39,10 +39,15 @@ class rex_editor
     public function getUrl($filePath, $line)
     {
         $editor = rex::getProperty('editor');
-        $editorUrl = $this->editors[$editor];
 
-        $editorUrl = str_replace('%line', $line, $editorUrl);
-        $editorUrl = str_replace('%file', $filePath, $editorUrl);
+        $editorUrl = null;
+
+        if (isset($this->editors[$editor])) {
+            $editorUrl = $this->editors[$editor];
+
+            $editorUrl = str_replace('%line', $line, $editorUrl);
+            $editorUrl = str_replace('%file', $filePath, $editorUrl);
+        }
 
         $editorUrl = rex_extension::registerPoint(new rex_extension_point('EDITOR_URL', $editorUrl, [
             'file' => $filePath,
