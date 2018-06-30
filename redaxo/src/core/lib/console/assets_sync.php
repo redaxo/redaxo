@@ -90,8 +90,8 @@ class rex_command_assets_sync extends rex_console_command
             $relativePath = str_replace($folder1, '', $f1File);
             $f2File = $folder2 . $relativePath;
 
-            $f1FileShort = str_replace(rex_path::base(), '', $f1File);
-            $f2FileShort = str_replace(rex_path::base(), '', $f2File);
+            $f1FileShort = rex_path::relative($f1File);
+            $f2FileShort = rex_path::relative($f2File);
 
             $hasError = false;
 
