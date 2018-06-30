@@ -191,7 +191,7 @@ class rex_autoload
     public static function addDirectory($dir)
     {
         $dir = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR;
-        $dir = self::normalizePath($dir);
+        $dir = rex_path::relative($dir);
         if (in_array($dir, self::$addedDirs)) {
             return;
         }
@@ -210,18 +210,6 @@ class rex_autoload
     public static function getClasses()
     {
         return array_keys(self::$classes);
-    }
-
-    /**
-     * Returns path relative to project root.
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    private static function normalizePath($path)
-    {
-        return substr($path, strlen(rex_path::base()));
     }
 
     /**
@@ -246,7 +234,7 @@ class rex_autoload
                 continue;
             }
 
-            $file = self::normalizePath($path);
+            $file = rex_path::relative($path);
             unset($files[$file]);
             $checksum = filemtime($path);
             if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {

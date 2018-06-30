@@ -72,12 +72,11 @@ if (count($errors) > 0) {
 
 $res = rex_setup::checkFilesystem();
 if (count($res) > 0) {
-    $base = rex_path::base();
     foreach ($res as $key => $messages) {
         if (count($messages) > 0) {
             $li = [];
             foreach ($messages as $message) {
-                $li[] = '<li>' . str_replace($base, '', $message) . '</li>';
+                $li[] = '<li>' . rex_path::relative($message) . '</li>';
             }
             $error_array[] = '<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
         }
