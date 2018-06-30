@@ -42,6 +42,8 @@ class rex_editor
 
         $editorUrl = null;
 
+        // don't provide editor urls for paths containing "://", like "rex://..."
+        // but they can be converted into an url by the extension point below
         if (isset($this->editors[$editor]) && false !== strpos($filePath, '://')) {
             $editorUrl = $this->editors[$editor];
 
