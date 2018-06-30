@@ -40,10 +40,11 @@ class rex_editor
     {
         $editor = rex::getProperty('editor');
 
+        $editorUrl = null;
+
         if (false !== strpos($filePath, '://')) {
             // don't provide editor urls for paths containing "://", like "rex://..."
             // but they can be converted into an url by the extension point below
-            $editorUrl = null;
         } elseif (isset($this->editors[$editor]) || 'xdebug' === $editor) {
             if ('xdebug' === $editor) {
                 // if xdebug is not enabled, use `get_cfg_var` to get the value directly from php.ini
