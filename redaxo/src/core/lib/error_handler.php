@@ -205,7 +205,15 @@ abstract class rex_error_handler
         }
 
         if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
-            echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
+            $file = rex_path::relative($errfile);
+            if ('cli' === PHP_SAPI) {
+                echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
+            } else {
+                if ($url = rex_editor::factory()->getUrl($errfile, $errline)) {
+                    $file = '<a href="'.$url.'">'.$file.'</a>';
+                }
+                echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$file</b> on line <b>$errline</b></div>";
+            }
         }
 
         rex_logger::logError($errno, $errstr, $errfile, $errline);
