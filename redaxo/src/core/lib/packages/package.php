@@ -16,6 +16,7 @@ abstract class rex_package implements rex_package_interface
     const FILE_UNINSTALL = 'uninstall.php';
     const FILE_UNINSTALL_SQL = 'uninstall.sql';
     const FILE_UPDATE = 'update.php';
+    const FILE_PRECHECK = 'precheck.php';
 
     /**
      * Name of the package.

@@ -31,7 +31,10 @@ class rex_api_package extends rex_api_function
         }
         $reinstall = 'install' === $function && $package->isInstalled();
         $manager = rex_package_manager::factory($package);
-        $success = $manager->$function();
+        $success = $manager->precheck( $function, $reinstall );
+        if( $success ) {
+            $success = $manager->$function();
+        }
         $message = $manager->getMessage();
         $result = new rex_api_result($success, $message);
         if ($success && !$reinstall) {

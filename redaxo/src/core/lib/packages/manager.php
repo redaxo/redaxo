@@ -768,4 +768,37 @@ abstract class rex_package_manager
 
         return $packages;
     }
+
+
+    /**
+     * Extended Pre-Check upfront to AddOn-management-actions
+     *
+     * @param string $function Requested AddOn-management-action: (un)install, (de)activate, delete
+     *
+     * @throws rex_functional_exception
+     * @throws rex_sql_exception
+     *
+     * @return bool TRUE on success, FALSE on error
+     */
+    public function precheck( $function, $reinstall )
+    {
+        try {
+            // include precheck.php
+            if (is_readable($this->package->getPath(rex_package::FILE_PRECHECK))) {
+                if( $function == 'install' && $reinstall===true ) $function = 'reinstall';
+                $this->package->includeFile(rex_package::FILE_PRECHECK, [ 'request' => $function ]);
+
+                if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
+                    $this->message =$instmsg;
+                    return false;
+                }
+            }
+
+        } catch (rex_functional_exception $e) {
+            $this->message = $e->getMessage();
+            return false;
+        }
+        return true;
+    }
+
 }
