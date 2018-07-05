@@ -27,4 +27,17 @@ class rex_media_manager_test extends PHPUnit_Framework_TestCase
         $_GET['rex_media_file'] = '..\\foo\\bar\\baz.jpg';
         $this->assertSame('baz.jpg', rex_media_manager::getMediaFile());
     }
+
+    public function testCreate()
+    {
+        $manager = rex_media_manager::create('rex_mediapool_preview', 'foo.jpg');
+
+        $this->assertFileExists($manager->getCacheFilename());
+        $this->assertFileExists($manager->getHeaderCacheFilename());
+
+        $manager = rex_media_manager::create('non_existing_type', 'foo.jpg');
+
+        $this->assertFileNotExists($manager->getCacheFilename());
+        $this->assertFileNotExists($manager->getHeaderCacheFilename());
+    }
 }
