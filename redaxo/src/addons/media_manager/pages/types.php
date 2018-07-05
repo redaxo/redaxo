@@ -162,6 +162,9 @@ if ($func == '') {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));
+    $field->getValidator()
+        ->add('notEmpty', rex_i18n::msg('media_manager_error_name'))
+        ->add('notMatch', rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}');
 
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
