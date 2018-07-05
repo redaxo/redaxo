@@ -40,7 +40,7 @@ class rex_media_manager
         $manager->setCachePath($cachePath);
         $manager->applyEffects($type);
 
-        if ($manager->isCached()) {
+        if ($manager->use_cache && $manager->isCached()) {
             $media->setSourcePath($manager->getCacheFilename());
 
             $cache = $manager->getHeaderCache();
@@ -50,7 +50,7 @@ class rex_media_manager
             foreach ($cache['headers'] as $key => $value) {
                 $media->setHeader($key, $value);
             }
-        } else {
+        } elseif ($manager->use_cache) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
@@ -76,6 +76,7 @@ class rex_media_manager
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
             if (count($set) == 0) {
+                $this->use_cache = false;
                 return $this->media;
             }
 
@@ -242,7 +243,7 @@ class rex_media_manager
             session_write_close();
         }
 
-        if ($this->isCached()) {
+        if ($this->use_cache && $this->isCached()) {
             $header = $this->getHeaderCache()['headers'];
             if (isset($header['Last-Modified'])) {
                 rex_response::sendLastModified(strtotime($header['Last-Modified']));
