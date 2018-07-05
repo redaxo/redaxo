@@ -347,6 +347,13 @@ class rex_media_manager
 
     public static function getMediaType()
     {
-        return rex_get('rex_media_type', 'string');
+        $type = rex_get('rex_media_type', 'string');
+
+        // can be used with REDAXO >= 5.5.1
+        // $type = rex_path::basename($type);
+        $type = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $type);
+        $type = basename($type);
+
+        return $type;
     }
 }
