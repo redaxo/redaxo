@@ -170,6 +170,10 @@ class rex_be_controller
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php'))
             );
+
+        if (is_readable(ini_get('error_log'))) {
+            self::$pages['system']->addSubpage((new rex_be_page('ext-log', rex_i18n::msg('extlogs')))->setSubPath(rex_path::core('pages/system.ext-logs.php')));
+        }
     }
 
     public static function appendPackagePages()
