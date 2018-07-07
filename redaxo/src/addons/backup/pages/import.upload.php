@@ -39,8 +39,11 @@ if ($function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
 } elseif ($function == 'delete' && $impname) {
     // ------------------------------ FUNC DELETE
-    if (rex_file::delete(rex_backup::getDir() . '/' . $impname));
-    $success = rex_i18n::msg('backup_file_deleted');
+    if (rex_file::delete(rex_backup::getDir() . '/' . $impname)) {
+        $success = rex_i18n::msg('backup_file_deleted');
+    } else {
+        $error = rex_i18n::msg('backup_file_error_while_delete');
+    }
 } elseif ($function == 'dbimport') {
     // ------------------------------ FUNC DBIMPORT
 
