@@ -1,6 +1,7 @@
 backup_information = Information
 backup_title = Backup
 backup_file_deleted = Datei wurde gelöscht
+backup_file_error_while_delete = Datei konnte nicht gelöscht werden
 backup_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
 backup_no_valid_import_file = Das ist keine korrekte Importdatei
 backup_no_valid_charset = Kein passender Zeichensatz.
