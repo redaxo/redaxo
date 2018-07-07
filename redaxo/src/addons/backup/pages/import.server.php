@@ -44,7 +44,6 @@ if ($function && !$csrfToken->isValid()) {
     } else {
         $error = rex_i18n::msg('backup_file_error_while_delete');
     }
-    
 } elseif ($function == 'dbimport') {
     // ------------------------------ FUNC DBIMPORT
 
