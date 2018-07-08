@@ -105,6 +105,7 @@ host = Host
 database = Datenbank
 logfiles = Logdateien
 syslog = Systemlog
+syslog_redaxo = REDAXO
 syslog_delete = Systemlog löschen
 syslog_deleted = Systemlog gelöscht
 syslog_delete_error = Fehler beim löschen des Systemlogs!
