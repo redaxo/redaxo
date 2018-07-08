@@ -48,23 +48,22 @@ $content .= '
                 </thead>
                 <tbody>';
 
-if ($file = new rex_log_file($logFile)) {
-    foreach (new LimitIterator($file, 0, 30) as $entry) {
-        /* @var rex_log_entry $entry */
-        $data = $entry->getData();
+$file = new rex_log_file($logFile);
+foreach (new LimitIterator($file, 0, 30) as $entry) {
+    /* @var rex_log_entry $entry */
+    $data = $entry->getData();
 
-        $class = strtolower($data[0]);
-        $class = ($class == 'notice' || $class == 'warning') ? $class : 'error';
+    $class = strtolower($data[0]);
+    $class = ($class == 'notice' || $class == 'warning') ? $class : 'error';
 
-        $content .= '
-                    <tr class="rex-state-' . $class . '">
-                        <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                        <td data-title="' . rex_i18n::msg('syslog_type') . '">' . htmlspecialchars($data[0]) . '</td>
-                        <td data-title="' . rex_i18n::msg('syslog_message') . '">' . nl2br(htmlspecialchars($data[1])) . '</td>
-                        <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . (isset($data[2]) ? htmlspecialchars($data[2]) : '') . '</div></td>
-                        <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? htmlspecialchars($data[3]) : '') . '</td>
-                    </tr>';
-    }
+    $content .= '
+                <tr class="rex-state-' . $class . '">
+                    <td data-title="' . rex_i18n::msg('syslog_timestamp') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                    <td data-title="' . rex_i18n::msg('syslog_type') . '">' . htmlspecialchars($data[0]) . '</td>
+                    <td data-title="' . rex_i18n::msg('syslog_message') . '">' . nl2br(htmlspecialchars($data[1])) . '</td>
+                    <td data-title="' . rex_i18n::msg('syslog_file') . '"><div class="rex-word-break">' . (isset($data[2]) ? htmlspecialchars($data[2]) : '') . '</div></td>
+                    <td class="rex-table-number" data-title="' . rex_i18n::msg('syslog_line') . '">' . (isset($data[3]) ? htmlspecialchars($data[3]) : '') . '</td>
+                </tr>';
 }
 
 $content .= '
