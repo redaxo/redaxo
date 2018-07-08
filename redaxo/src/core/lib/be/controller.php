@@ -156,7 +156,7 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
 
-        $logsPage = (new rex_be_page('logs', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.logs.php'));
+        $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.logs.php'));
         $logsPage->addSubpage((new rex_be_page('syslog', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log-system.php')));
         if (is_readable(ini_get('error_log'))) {
             $logsPage->addSubpage((new rex_be_page('ext-logs', rex_i18n::msg('extlogs_phperrors')))->setSubPath(rex_path::core('pages/system.logs-external.php')));
