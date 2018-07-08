@@ -62,7 +62,7 @@ class rex_http_exception extends rex_exception
      */
     public function __construct(Exception $cause, $httpCode)
     {
-        parent::__construct(null, $cause);
+        parent::__construct($cause->getMessage(), $cause);
         $this->httpCode = $httpCode;
     }
 
