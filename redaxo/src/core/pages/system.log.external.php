@@ -30,6 +30,10 @@ $last_line = $file->key();
 $limit = 30;
 $lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
 foreach (array_reverse($lines) as $logLine) {
+    if (empty(trim($logLine))) {
+        continue;
+    }
+
     $content .= '
         <tr>
             <td>' . htmlspecialchars($logLine) . '</td>
