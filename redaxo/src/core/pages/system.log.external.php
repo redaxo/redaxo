@@ -32,7 +32,13 @@ if (filesize($logFile) <= 0) {
     $last_line = $file->key();
 
     $limit = 30;
-    $lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
+    try {
+        $lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
+    } catch(OutOfBoundsException $exception) {
+        // handle logfiles which contain a single line of text, no newlines.
+        // "Cannot seek to 0 which is behind offset 0 plus count 0"
+        $lines = file($logFile);
+    }
     foreach (array_reverse($lines) as $logLine) {
         if (empty(trim($logLine))) {
             continue;
