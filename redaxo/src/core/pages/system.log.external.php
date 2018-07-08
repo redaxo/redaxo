@@ -25,7 +25,7 @@ $content = '
 
 $buttons = '';
 if (filesize($logFile) <= 0) {
-    $content .= '<tr><td>'. rex_i18n::msg('extlog_empty') .'</td></tr>';
+    $content .= '<tr><td>'. rex_i18n::msg('syslog_empty') .'</td></tr>';
 } else {
     // TODO make this more effienct with things like rex_log_file->next()
     $file = new SplFileObject($logFile, 'r');
@@ -69,7 +69,7 @@ $content .= '
             </table>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('extlog_title', $logFile), false);
+$fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
