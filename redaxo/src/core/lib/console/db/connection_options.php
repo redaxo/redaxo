@@ -34,7 +34,7 @@ EOF
             '--host='.escapeshellarg($db['host']),
             '--user='.escapeshellarg($db['login']),
             '--password='.escapeshellarg($db['password']),
-            '--database='.escapeshellarg($db['name']),
+            escapeshellarg($db['name']),
         ]);
     }
 }
