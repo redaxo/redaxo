@@ -189,6 +189,15 @@ $n['field'] = $sel_editor->get();
 $n['note'] = rex_i18n::msg('system_editor_note');
 $formElements[] = $n;
 
+$configYml = rex_path::coreData('config.yml');
+if ($url = rex_editor::factory()->getUrl($configYml, 0)) {
+    $n = [];
+    $n['label'] = '';
+    $n['field'] = $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($configYml)) . '</a>';
+    $n['note'] = rex_i18n::msg('system_edit_config_note');
+    $formElements[] = $n;
+}
+
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content[] = $fragment->parse('core/form/form.php');
