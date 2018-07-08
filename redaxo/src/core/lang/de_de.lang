@@ -116,6 +116,7 @@ syslog_file = Datei
 syslog_line = Zeile
 extlog_title = Logdatei "{0}"
 extlogs_phperrors = PHP Errorlog
+extlog_empty = Leeres Logfile
 server = URL der Website
 servername = Name der Website
 error_email = E-Mail-Adresse bei Fehlern

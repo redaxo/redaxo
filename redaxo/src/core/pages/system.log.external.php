@@ -15,7 +15,7 @@ if (!in_array($logFile, $availableLogs)) {
 }
 */
 
-if (!isset($logFile) || filesize($logFile) <= 0) {
+if (!isset($logFile)) {
     return;
 }
 
@@ -23,39 +23,43 @@ $content = '
             <table class="table table-hover">
                 <tbody>';
 
-$file = new SplFileObject($logFile, 'r');
-$file->seek(PHP_INT_MAX);
-$last_line = $file->key();
+$buttons = '';
+if (filesize($logFile) <= 0) {
+    $content .= '<tr><td>'. rex_i18n::msg('extlog_empty') .'</td></tr>';
+} else {
+    $file = new SplFileObject($logFile, 'r');
+    $file->seek(PHP_INT_MAX);
+    $last_line = $file->key();
 
-$limit = 30;
-$lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
-foreach (array_reverse($lines) as $logLine) {
-    if (empty(trim($logLine))) {
-        continue;
-    }
+    $limit = 30;
+    $lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
+    foreach (array_reverse($lines) as $logLine) {
+        if (empty(trim($logLine))) {
+            continue;
+        }
 
-    $content .= '
+        $content .= '
         <tr>
             <td>' . htmlspecialchars($logLine) . '</td>
         </tr>';
+    }
+
+    if ($url = rex_editor::factory()->getUrl($logFile, $last_line)) {
+        $formElements = [];
+
+        $n = [];
+        $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+        $formElements[] = $n;
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('elements', $formElements, false);
+        $buttons = $fragment->parse('core/form/submit.php');
+    }
 }
 
 $content .= '
                 </tbody>
             </table>';
-
-$buttons = '';
-if ($url = rex_editor::factory()->getUrl($logFile, $last_line)) {
-    $formElements = [];
-
-    $n = [];
-    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
-    $formElements[] = $n;
-
-    $fragment = new rex_fragment();
-    $fragment->setVar('elements', $formElements, false);
-    $buttons = $fragment->parse('core/form/submit.php');
-}
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('extlog_title', $logFile), false);
