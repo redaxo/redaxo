@@ -156,6 +156,16 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
 
+        // when at least one additional log is available, show a subnav with main title "logfiles"
+        if (is_readable(ini_get('error_log'))) {
+            $logsPage = (new rex_be_page('logs', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.logs.php'));
+            $logsPage->addSubpage((new rex_be_page('syslog', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log-system.php')));
+            $logsPage->addSubpage((new rex_be_page('ext-logs', rex_i18n::msg('extlogs_phperrors')))->setSubPath(rex_path::core('pages/system.logs-external.php')));
+        } else {
+            // no additional logs, show "syslog" titled tab like our users are used before R5.7
+            $logsPage = (new rex_be_page('syslog', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log-system.php'));
+        }
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -164,16 +174,13 @@ class rex_be_controller
             ->setIcon('rex-icon rex-icon-system')
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
-            ->addSubpage((new rex_be_page('log', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log.php')))
+            ->addSubpage($logsPage)
             ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php'))
             );
 
-        if (is_readable(ini_get('error_log'))) {
-            self::$pages['system']->addSubpage((new rex_be_page('ext-log', rex_i18n::msg('extlogs')))->setSubPath(rex_path::core('pages/system.ext-logs.php')));
-        }
     }
 
     public static function appendPackagePages()
