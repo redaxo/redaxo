@@ -15,7 +15,7 @@ if (!in_array($logFile, $availableLogs)) {
 }
 */
 
-if (!isset($logFile) || filesize( $logFile ) <= 0 ) {
+if (!isset($logFile) || filesize($logFile) <= 0) {
     return;
 }
 

@@ -176,7 +176,6 @@ class rex_be_controller
                 ->setHasLayout(false)
                 ->setPath(rex_path::core('pages/system.phpinfo.php'))
             );
-
     }
 
     public static function appendPackagePages()
