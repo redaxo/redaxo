@@ -156,8 +156,8 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
 
-        // when at least one additional log is available, show a subnav with main title "logfiles"
         if (is_readable(ini_get('error_log'))) {
+            // when at least one additional log is available, show a subnav with main title "logfiles"
             $logsPage = (new rex_be_page('logs', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.logs.php'));
             $logsPage->addSubpage((new rex_be_page('syslog', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log-system.php')));
             $logsPage->addSubpage((new rex_be_page('ext-logs', rex_i18n::msg('extlogs_phperrors')))->setSubPath(rex_path::core('pages/system.logs-external.php')));
