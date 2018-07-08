@@ -27,6 +27,7 @@ $buttons = '';
 if (filesize($logFile) <= 0) {
     $content .= '<tr><td>'. rex_i18n::msg('extlog_empty') .'</td></tr>';
 } else {
+    // TODO make this more effienct with things like rex_log_file->next()
     $file = new SplFileObject($logFile, 'r');
     $file->seek(PHP_INT_MAX);
     $last_line = $file->key();
