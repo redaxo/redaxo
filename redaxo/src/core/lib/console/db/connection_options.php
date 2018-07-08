@@ -18,9 +18,15 @@ class rex_command_db_connection_options extends rex_console_command
             ->setDescription('Dumps the db connection options for the mysql cli tool')
             ->setHelp(<<<'EOF'
 Dumps the db connection options for the <info>mysql</info> cli tool.
-Can be used like this:
 
+Example: running intactive mysql shell
   <info>%command.full_name% | xargs -o mysql</info>
+  
+Example: import a dump file
+  <info>%command.full_name% | xargs mysql < dump.sql</info>
+  
+Example: dump the database
+  <info>%command.full_name% | xargs mysqldump > dump.sql</info>
 EOF
             )
         ;
