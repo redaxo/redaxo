@@ -159,7 +159,7 @@ class rex_be_controller
         $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.logs.php'));
         $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log-system.php')));
         if (is_readable(ini_get('error_log'))) {
-            $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('extlogs_phperrors')))->setSubPath(rex_path::core('pages/system.logs-external.php')));
+            $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('extlogs_phperrors')))->setSubPath(rex_path::core('pages/system.log-external.php')));
         }
 
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
