@@ -360,9 +360,9 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $sql->getRows());
     }
 
-    public function testShowTables()
+    public function testGetTables()
     {
-        $tables = rex_sql::showTables();
+        $tables = rex_sql::factory()->getTables();
 
         $this->assertContains(self::TABLE, $tables);
         $this->assertNotContains(self::VIEW, $tables);
@@ -370,7 +370,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
     public function testShowViews()
     {
-        $views = rex_sql::showViews();
+        $views = rex_sql::factory()->getViews();
 
         $this->assertNotContains(self::TABLE, $views);
         $this->assertContains(self::VIEW, $views);
@@ -378,7 +378,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
     public function testShowTablesAndViews()
     {
-        $tables = rex_sql::showTablesAndViews();
+        $tables = rex_sql::factory()->getTablesAndViews();
 
         $this->assertContains(self::TABLE, $tables);
         $this->assertContains(self::VIEW, $tables);

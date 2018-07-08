@@ -1424,38 +1424,6 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Sucht alle Tabellen der Datenbankverbindung $DBID.
-     * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
-     *
-     * @param int         $DBID        Id der Datenbankverbindung
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
-     *
-     * @return array Ein Array von Tabellennamen
-     *
-     * @throws rex_sql_exception
-     */
-    public static function showTables($DBID = 1, $tablePrefix = null)
-    {
-        return self::factory($DBID)->getTablesAndViews($tablePrefix, 'Table_type = "BASE TABLE"');
-    }
-
-    /**
-     * Sucht alle Views der Datenbankverbindung $DBID.
-     * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Views gesucht.
-     *
-     * @param int         $DBID        Id der Datenbankverbindung
-     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
-     *
-     * @return array Ein Array von Viewnamen
-     *
-     * @throws rex_sql_exception
-     */
-    public static function showViews($DBID = 1, $tablePrefix = null)
-    {
-        return self::factory($DBID)->getTablesAndViews($tablePrefix, 'Table_type = "VIEW"');
-    }
-
-    /**
      * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
      * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
      *
@@ -1465,10 +1433,57 @@ class rex_sql implements Iterator
      * @return array Ein Array von Tabellennamen
      *
      * @throws rex_sql_exception
+     *
+     * @deprecated since 5.6.2, use non-static getTablesAndViews instead.
      */
-    public static function showTablesAndViews($DBID = 1, $tablePrefix = null)
+    public static function showTables($DBID = 1, $tablePrefix = null)
     {
         return self::factory($DBID)->getTablesAndViews($tablePrefix);
+    }
+
+    /**
+     * Sucht alle Tabellen/Views der Datenbankverbindung $DBID.
+     * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
+     *
+     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     *
+     * @return array Ein Array von Tabellennamen
+     *
+     * @throws rex_sql_exception
+     */
+    public function getTablesAndViews($tablePrefix = null)
+    {
+        return $this->fetchTablesAndViews($tablePrefix);
+    }
+
+    /**
+     * Sucht alle Tabellen der Datenbankverbindung $DBID.
+     * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Tabellen gesucht.
+     *
+     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     *
+     * @return array Ein Array von Tabellennamen
+     *
+     * @throws rex_sql_exception
+     */
+    public function getTables($tablePrefix = null)
+    {
+        return $this->fetchTablesAndViews($tablePrefix, 'Table_type = "BASE TABLE"');
+    }
+
+    /**
+     * Sucht alle Views der Datenbankverbindung $DBID.
+     * Falls $tablePrefix gesetzt ist, werden nur dem Prefix entsprechende Views gesucht.
+     *
+     * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
+     *
+     * @return array Ein Array von Viewnamen
+     *
+     * @throws rex_sql_exception
+     */
+    public function getViews($tablePrefix = null)
+    {
+        return $this->fetchTablesAndViews($tablePrefix, 'Table_type = "VIEW"');
     }
 
     /**
@@ -1479,7 +1494,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      */
-    private function getTablesAndViews($tablePrefix = null, $where = null)
+    private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
         $qry = 'SHOW FULL TABLES';
 
