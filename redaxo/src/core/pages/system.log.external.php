@@ -28,7 +28,8 @@ $file->seek(PHP_INT_MAX);
 $last_line = $file->key();
 
 $limit = 30;
-foreach (new LimitIterator($file, max(0, $last_line - $limit), $last_line) as $logLine) {
+$lines = iterator_to_array(new LimitIterator($file, max(0, $last_line - $limit), $last_line));
+foreach (array_reverse($lines) as $logLine) {
     $content .= '
         <tr>
             <td>' . htmlspecialchars($logLine) . '</td>
