@@ -28,7 +28,7 @@ $file->seek(PHP_INT_MAX);
 $last_line = $file->key();
 
 $limit = 10;
-foreach (new LimitIterator($file, $last_line - $limit, $last_line) as $logLine) {
+foreach (new LimitIterator($file, max(0, $last_line - $limit), $last_line) as $logLine) {
     $content .= '
         <tr>
             <td>' . htmlspecialchars($logLine) . '</td>
@@ -40,7 +40,17 @@ $content .= '
             </table>';
 
 $buttons = '';
-// XXX add "open with editor" button
+if ($url = rex_editor::factory()->getUrl($logFile, $last_line)) {
+    $formElements = [];
+
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $buttons = $fragment->parse('core/form/submit.php');
+}
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('extlog_title', $logFile), false);
