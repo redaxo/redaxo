@@ -104,7 +104,6 @@ version = Version
 host = Host
 database = Datenbank
 logfiles = Logdateien
-syslog = Systemlog
 syslog_redaxo = REDAXO
 syslog_delete = Systemlog löschen
 syslog_deleted = Systemlog gelöscht
