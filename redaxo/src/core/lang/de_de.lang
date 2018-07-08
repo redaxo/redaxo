@@ -123,6 +123,7 @@ servername_required = Es wird ein Servername benötigt!
 system_editor = Editor-Integration
 system_editor_note = Verknüpft REDAXO mit einem Editor um darin Quellcode-Dateien direkt öffnen zu können. Vorraussetzung: Der Quellcode der REDAXO-Installation ist lokal verfügbar.
 system_editor_no_editor = Deaktiviert
+system_editor_open_file = "{0}" im Editor öffnen
 lang_required = Es wird eine Sprache benötigt!
 debug_mode = Debug-Modus
 debug_mode_note = Mit dem Debug-Modus werden bei Skriptfehlern im Frontend und Backend zusätzliche Angaben zum Fehler ausgegeben. Im Live-Betrieb nicht aktivieren, da die Fehlermeldungen auch sensible Daten beinhalten können.

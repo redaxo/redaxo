@@ -77,6 +77,12 @@ $n = [];
 $n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('delete') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
+if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($logFile)) . '</a>';
+    $formElements[] = $n;
+}
+
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
