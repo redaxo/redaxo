@@ -49,7 +49,7 @@ $file->seek(PHP_INT_MAX);
 $last_line = $file->key();
 
 $limit = 10;
-foreach (new LimitIterator($file, $last_line - $limit, $last_line) as $logLine) {
+foreach (new LimitIterator($file, max(0, $last_line - $limit), $last_line) as $logLine) {
     $content .= '
         <tr>
             <td>' . htmlspecialchars($logLine) . '</td>
