@@ -10,8 +10,7 @@ class rex_be_style_command_compile extends rex_console_command
 {
     protected function configure()
     {
-        $this->setName('be_style:compile')
-            ->setDescription('Converts SCSS files to CSS');
+        $this->setDescription('Converts Backend SCSS files to CSS');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -30,6 +29,6 @@ class rex_be_style_command_compile extends rex_console_command
         // Compiled file to copy in frontend assets dir
         rex_file::copy($this->getPackage()->getPath('assets/css/styles.css'), $this->getPackage()->getAssetsPath('css/styles.css'));
 
-        $io->success('Styles successful compiled');
+        $io->success('Styles successfully compiled');
     }
 }
