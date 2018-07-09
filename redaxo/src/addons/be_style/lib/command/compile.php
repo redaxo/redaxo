@@ -5,6 +5,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @package redaxo\be_style
+ *
+ * @author bloep
+ *
+ * @internal
  */
 class rex_be_style_command_compile extends rex_console_command
 {
