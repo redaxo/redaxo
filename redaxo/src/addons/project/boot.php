@@ -10,7 +10,6 @@
 // register yform template path
 // rex_yform::addTemplatePath($this->getPath('yform-templates'));
 
-
 // Example of mediapool Whitelist
 /*
 rex_addon::get('mediapool')->setProperty('allowed_mime_types', [
