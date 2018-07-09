@@ -598,21 +598,22 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
  *
  * @return bool
  */
-function rex_mediapool_isAllowedMimeType($path)
+function rex_mediapool_isAllowedMimeType($file_path, $file_name)
 {
+
     $whitelist = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
 
     if (!$whitelist) {
         return true;
     }
 
-    $extension = mb_strtolower(rex_file::extension($path));
+    $extension = mb_strtolower(rex_file::extension($file_name));
 
     if (!isset($whitelist[$extension])) {
         return false;
     }
 
-    $mime_type = mime_content_type($path);
+    $mime_type = mime_content_type($file_path);
 
     return in_array($mime_type, $whitelist[$extension]);
 }
