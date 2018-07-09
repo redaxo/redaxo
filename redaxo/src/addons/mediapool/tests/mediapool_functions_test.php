@@ -7,9 +7,7 @@ class rex_mediapool_functions_test extends PHPUnit_Framework_TestCase
      */
     public function testIsAllowedMediaType($expected, $filename, array $args = [])
     {
-        require_once rex_path::addon('mediapool', 'functions/function_rex_mediapool.php');
-
-        return $this->assertSame($expected, rex_mediapool_isAllowedMediaType($filename, $args));
+        $this->assertSame($expected, rex_mediapool_isAllowedMediaType($filename, $args));
     }
 
     public function provideIsAllowedMediaType()
@@ -26,6 +24,34 @@ class rex_mediapool_functions_test extends PHPUnit_Framework_TestCase
             [true, 'foo.bar.png', ['types' => 'jpg,png,gif']],
             [false, 'foo.bar.txt', ['types' => 'jpg,png,gif']],
             [false, 'foo.bar.php', ['types' => 'jpg,png,gif,php']],
+        ];
+    }
+
+    /**
+     * @dataProvider provideIsAllowedMimeType
+     */
+    public function testIsAllowedMimeType($expected, $path, $filename = null)
+    {
+        $addon = rex_addon::get('mediapool');
+
+        $whitelist = $addon->getProperty('allowed_mime_types');
+
+        $addon->setProperty('allowed_mime_types', [
+            'md' => ['text/plain'],
+        ]);
+
+        $this->assertSame($expected, rex_mediapool_isAllowedMimeType($path, $filename));
+
+        $addon->setProperty('allowed_mime_types', $whitelist);
+    }
+
+    public function provideIsAllowedMimeType()
+    {
+        return [
+            [false, __FILE__],
+            [false, __FILE__, 'foo.md'],
+            [true, __DIR__.'/../CHANGELOG.md'],
+            [false, __DIR__.'/../CHANGELOG.md', 'foo.txt'],
         ];
     }
 }
