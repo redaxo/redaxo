@@ -11,7 +11,7 @@ class rex_be_style_command_compile extends rex_console_command
     protected function configure()
     {
         $this->setName('be_style:compile')
-            ->setDescription('Coverts SCSS files to CSS');
+            ->setDescription('Converts SCSS files to CSS');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
