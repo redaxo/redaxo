@@ -37,6 +37,10 @@
     .table td.rex-table-thumbnail {
         width: $helper-factor-spacing * 3;
     }
+    .table th.rex-table-action:not([colspan]),
+    .table td.rex-table-action:not([colspan]) {
+        width: 1px;
+    }
     .table th.rex-table-action > *,
     .table td.rex-table-action > * {
         white-space: nowrap;
@@ -162,5 +166,12 @@ tr.rex-package-is-plugin > td.rex-table-icon {
 @media (min-width: $screen-md-min) {
     #rex-page-mediapool-media td.rex-table-action:last-child {
         text-align: right;
+    }
+}
+@media (min-width: $screen-lg-min) {
+    .table th.rex-table-action,
+    .table td.rex-table-action {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }
