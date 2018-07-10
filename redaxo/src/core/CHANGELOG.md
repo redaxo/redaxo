@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 5.6.2 – 10.07.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) im Media-Manager-Addon geschlossen (gemeldet von Matthias Niedung, https://hackerwerkstatt.com) (@gharlan)
+
+### Bugfixes
+
+* `rex_sql`: BC-Break in `showTables` rückgängig gemacht, die Methode liefert nun auch wieder Views; Methode als deprecated markiert, stattdessen neue nicht-statische Methoden `getTables`, `getViews` und `getTablesAndViews` (@gharlan)
+* Command `db:connection-options` konnte nicht mit `mysqldump` genutzt werden (@gharlan)
+* `rex_http_exception`: Message der Orignal-Message nutzen statt leerer Message (@gharlan)
+
+
 Version 5.6.1 – 21.06.2018
 --------------------------
 

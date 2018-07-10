@@ -1,12 +1,12 @@
 Changelog
 =========
 
-Version 2.5.6 – XX.XX.2018
+Version 2.5.6 – 10.07.2018
 --------------------------
 
 ### Security
 
-* Kritische Sicherheitslücke (Path Traversal) geschlossen (gemeldet von Matthias Niedung, https://hackerwerkstatt.com)(@gharlan)
+* Kritische Sicherheitslücke (Path Traversal) geschlossen (gemeldet von Matthias Niedung, https://hackerwerkstatt.com) (@gharlan)
 
 ### Bugfixes
 
