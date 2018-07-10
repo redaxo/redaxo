@@ -8,6 +8,7 @@ git:
 branches:
     only:
         - master
+        - bugfix
 
 cache:
     directories:

@@ -594,11 +594,13 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
 /**
  * Checks file against optional whitelist from property `allowed_mime_types`.
  *
- * @param string $path
+ * @param string      $path     Path to the physical file
+ * @param null|string $filename Optional filename, will be used for extracting the file extension.
+ *                              If not given, the extension is extracted from `$path`.
  *
  * @return bool
  */
-function rex_mediapool_isAllowedMimeType($path)
+function rex_mediapool_isAllowedMimeType($path, $filename = null)
 {
     $whitelist = rex_addon::get('mediapool')->getProperty('allowed_mime_types');
 
@@ -606,7 +608,7 @@ function rex_mediapool_isAllowedMimeType($path)
         return true;
     }
 
-    $extension = mb_strtolower(rex_file::extension($path));
+    $extension = mb_strtolower(rex_file::extension($filename ?: $path));
 
     if (!isset($whitelist[$extension])) {
         return false;

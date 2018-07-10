@@ -2,7 +2,8 @@
 
 class rex_sql_test extends PHPUnit_Framework_TestCase
 {
-    const TABLE = 'rex_tests';
+    const TABLE = 'rex_tests_table';
+    const VIEW = 'rex_tests_view';
 
     public function setUp()
     {
@@ -20,6 +21,9 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
                 `col_text` TEXT NOT NULL ,
                 PRIMARY KEY ( `id` )
                 ) ENGINE = InnoDB ;');
+
+        $sql->setQuery('DROP VIEW IF EXISTS `' . self::VIEW . '`');
+        $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `'.self::TABLE.'`');
     }
 
     public function tearDown()
@@ -28,6 +32,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
         $sql = rex_sql::factory();
         $sql->setQuery('DROP TABLE `' . self::TABLE . '`');
+        $sql->setQuery('DROP VIEW `' . self::VIEW . '`');
     }
 
     public function testFactory()
@@ -353,5 +358,29 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
 
         $sql->delete();
         $this->assertEquals(1, $sql->getRows());
+    }
+
+    public function testGetTables()
+    {
+        $tables = rex_sql::factory()->getTables();
+
+        $this->assertContains(self::TABLE, $tables);
+        $this->assertNotContains(self::VIEW, $tables);
+    }
+
+    public function testShowViews()
+    {
+        $views = rex_sql::factory()->getViews();
+
+        $this->assertNotContains(self::TABLE, $views);
+        $this->assertContains(self::VIEW, $views);
+    }
+
+    public function testShowTablesAndViews()
+    {
+        $tables = rex_sql::factory()->getTablesAndViews();
+
+        $this->assertContains(self::TABLE, $tables);
+        $this->assertContains(self::VIEW, $tables);
     }
 }

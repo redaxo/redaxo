@@ -39,7 +39,7 @@
     }
     .table th.rex-table-action:not([colspan]),
     .table td.rex-table-action:not([colspan]) {
-        width: $helper-factor-spacing * 4;
+        width: 1px;
     }
     .table th.rex-table-action > *,
     .table td.rex-table-action > * {
@@ -166,5 +166,12 @@ tr.rex-package-is-plugin > td.rex-table-icon {
 @media (min-width: $screen-md-min) {
     #rex-page-mediapool-media td.rex-table-action:last-child {
         text-align: right;
+    }
+}
+@media (min-width: $screen-lg-min) {
+    .table th.rex-table-action,
+    .table td.rex-table-action {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }
