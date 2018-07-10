@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.4.2 – 10.07.2018
+--------------------------
+
+### Bugfixes
+
+* Optionale MimeType-Whitelist funktionierte nicht (@dergel)
+
+
 Version 2.4.1 – 21.06.2018
 --------------------------
 

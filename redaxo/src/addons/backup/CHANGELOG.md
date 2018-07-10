@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.2.2 – 10.07.2018
+--------------------------
+
+### Bugfixes
+
+* Fehlermeldung ausgeben, wenn Datei nicht gelöscht werden kann wegen fehlender Schreibrechte (@staabm)
+
+
 Version 2.2.1 – 05.06.2018
 --------------------------
 
