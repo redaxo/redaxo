@@ -103,7 +103,7 @@ class rex_autoload
 
         // clear our classloader cache in case it doesn't even provide a correct mapping for the "rex" core class.
         // we assume the redaxo installation was moved and all cached paths are wrong.
-        if (!class_exists('rex')) {
+        if (empty($_GET['_rex_forced_reload']) && !class_exists('rex')) {
             @unlink(self::$cacheFile);
 
             // reboot the current request
@@ -113,7 +113,9 @@ class rex_autoload
             // (effectively make sure there is no host/domain parts in the redirect url)
             $currentLocation = $parsedUri['path'];
             if (isset($parsedUri['query'])) {
-                $currentLocation .= '?'. $parsedUri['query'];
+                $currentLocation .= '?'. $parsedUri['query'] .'&_rex_forced_reload=1';
+            } else {
+                $currentLocation .= '?_rex_forced_reload=1';
             }
             if (isset($parsedUri['fragment'])) {
                 $currentLocation .= '#'. $parsedUri['fragment'];
