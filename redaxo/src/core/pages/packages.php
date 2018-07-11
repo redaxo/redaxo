@@ -89,21 +89,6 @@ if ($subpage == 'license') {
 if ($subpage == '') {
     rex_package_manager::synchronizeWithFileSystem();
 
-    $content .= '
-            <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="rex-table-icon">&nbsp;</th>
-                    <th>' . rex_i18n::msg('package_hname') . '</th>
-                    <th class="rex-table-slim">' . rex_i18n::msg('package_hversion') . '</th>
-                    <th colspan="2">' . rex_i18n::msg('package_hinformation') . '</th>
-                    <th class="rex-table-action">' . rex_i18n::msg('package_hinstall') . '</th>
-                    <th class="rex-table-action">' . rex_i18n::msg('package_hactive') . '</th>
-                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
-                </tr>
-            </thead>
-            <tbody>';
-
     $getLink = function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
         $onclick = '';
         if ($confirm) {
@@ -193,21 +178,47 @@ if ($subpage == '') {
                     </tr>' . "\n   ";
     };
 
+    $tableFragment = '
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="rex-table-icon">&nbsp;</th>
+                    <th>' . rex_i18n::msg('package_hname') . '</th>
+                    <th class="rex-table-slim">' . rex_i18n::msg('package_hversion') . '</th>
+                    <th colspan="2">' . rex_i18n::msg('package_hinformation') . '</th>
+                    <th class="rex-table-action">' . rex_i18n::msg('package_hinstall') . '</th>
+                    <th class="rex-table-action">' . rex_i18n::msg('package_hactive') . '</th>
+                    <th class="rex-table-action" colspan="2">' . rex_i18n::msg('package_hdelete') . '</th>
+                </tr>
+            </thead>
+            <tbody>{{ tbody }}</tbody>
+        </table>';
+
+    $availableAddons = '';
+    $otherAddons = '';
     foreach (rex_addon::getRegisteredAddons() as $addonName => $addon) {
-        $content .= $getTableRow($addon);
+        $rows = $getTableRow($addon);
 
         if ($addon->isAvailable()) {
             foreach ($addon->getRegisteredPlugins() as $pluginName => $plugin) {
-                $content .= $getTableRow($plugin);
+                $rows .= $getTableRow($plugin);
             }
+            $availableAddons .= $rows;
+        } else {
+            $otherAddons .= $rows;
         }
     }
 
-    $content .= '</tbody>
-            </table>';
+    $availableAddons = str_replace('{{ tbody }}', $availableAddons, $tableFragment);
+    $otherAddons = str_replace('{{ tbody }}', $otherAddons, $tableFragment);
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
-    $fragment->setVar('content', $content, false);
+    $fragment->setVar('content', $availableAddons, false);
+    echo $fragment->parse('core/page/section.php');
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('title', rex_i18n::msg('package_caption_others'), false);
+    $fragment->setVar('content', $otherAddons, false);
     echo $fragment->parse('core/page/section.php');
 }
