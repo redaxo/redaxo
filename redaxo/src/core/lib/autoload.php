@@ -261,7 +261,7 @@ class rex_autoload
      * Extract the classes in the given file.
      *
      * The method is copied from Composer (with little changes):
-     * https://github.com/composer/composer/blob/a2a70380c14a20b3f611d849eae7342f2e35c763/src/Composer/Autoload/ClassMapGenerator.php#L89-L146
+     * https://github.com/composer/composer/blob/f24fcea35b4e8438caa96baccec7ff932c4ac0c3/src/Composer/Autoload/ClassMapGenerator.php#L131
      *
      * @param string $path The file to check
      *
