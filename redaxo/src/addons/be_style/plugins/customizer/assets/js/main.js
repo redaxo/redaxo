@@ -20,7 +20,7 @@ $(document).on('rex:ready', function (event, container) {
                 scriptLoaded = false;
             var css = document.createElement('link');
             css.rel = 'stylesheet';
-            css.href = '?codemirror_output=css&buster=' + rex.customizer_codemirror_cssbuster; + '&themes=' + themes;
+            css.href = '?codemirror_output=css&buster=' + rex.customizer_codemirror_cssbuster + '&themes=' + themes;
             css.onload = function () {
                 cssLoaded = true;
 
