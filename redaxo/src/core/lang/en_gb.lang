@@ -122,7 +122,7 @@ server_invalid = The website URL is invalid, please enter a valid URL inluding p
 servername_required = Server name is required
 lang_required = Language is required
 debug_mode = Debug mode
-debug_mode_note = Activating debug mode will provide additional information concerning php script errors in the front and backend. Make sure to deactivate in production, as these error messages may contain sensible data.
+debug_mode_note = Activating debug mode will provide additional information concerning PHP script errors in the front and backend. Make sure to deactivate in production, as these error messages may contain sensible data.
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
