@@ -7,7 +7,7 @@ customizer_codemirror_selectors = jQuery-Selektoren für CodeMirror
 customizer_codemirror_selectors_info = Kommaseparierte Liste von jQuery-Selektoren für die der CodeMirror angewendet wird
 customizer_codemirror_theme = CodeMirror Theme
 customizer_codemirror_langs = Zusätzliche Highlighter
-customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml, sql ...)
 customizer_codemirror_tools = Zusätzliche Features
 customizer_codemirror_tools_text = (Code-Folding, Bracket-Matching, Tag-Matching, Close-Brackets)
 
