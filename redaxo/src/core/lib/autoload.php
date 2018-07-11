@@ -101,6 +101,14 @@ class rex_autoload
             return true;
         }
 
+        // clear our classloader cache in case it doesnt even provide a correct mapping for the "rex" core class.
+        // we assume the redaxo installation was moved and all cached paths are wrong.
+        if (!class_exists('rex')) {
+            unlink(self::$cacheFile);
+            echo 'REDAXO was not able to find any of its classes. The class-cache was cleared. please reload the website.';
+            exit();
+        }
+
         // Class not found, so reanalyse all directories if not already done or if $force==true
         // but only if an admin is logged in
         if (
