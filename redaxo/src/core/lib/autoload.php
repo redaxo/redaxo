@@ -81,7 +81,7 @@ class rex_autoload
         $force = false;
         $lowerClass = strtolower($class);
         if (isset(self::$classes[$lowerClass])) {
-            $path = rex_path::base(self::$classes[$lowerClass]);
+            $path = self::$classes[$lowerClass];
             // we have a class path for the class, let's include it
             if (@include_once $path) {
                 if (self::classExists($class)) {
@@ -249,7 +249,7 @@ class rex_autoload
             foreach ($classes as $class) {
                 $class = strtolower($class);
                 if (!isset(self::$classes[$class])) {
-                    self::$classes[$class] = $file;
+                    self::$classes[$class] = rex_path::base($file);
                 }
             }
         }
