@@ -288,5 +288,5 @@ $mainContent[] = '
 
 $fragment = new rex_fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
-$fragment->setVar('classes', ['col-lg-9', 'col-lg-3'], false);
+$fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');
