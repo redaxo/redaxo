@@ -110,6 +110,7 @@ class rex_autoload
             $parsedUri = parse_url($_SERVER['REQUEST_URI']);
 
             // sanitize uri, to make sure we dont get faked to redirect to an external domain/host
+            // (effectively make sure there is no host/domain parts in the redirect url)
             $currentLocation = $parsedUri['path'];
             if (isset($parsedUri['query'])) {
                 $currentLocation .= '?'. $parsedUri['query'];
