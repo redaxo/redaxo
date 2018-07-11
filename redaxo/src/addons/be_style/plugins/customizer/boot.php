@@ -81,6 +81,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/meta.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/properties/properties.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/sql/sql.js');
     }
 
     $content = '';
