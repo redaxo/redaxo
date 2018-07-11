@@ -101,11 +101,23 @@ class rex_autoload
             return true;
         }
 
-        // clear our classloader cache in case it doesnt even provide a correct mapping for the "rex" core class.
+        // clear our classloader cache in case it doesn't even provide a correct mapping for the "rex" core class.
         // we assume the redaxo installation was moved and all cached paths are wrong.
         if (!class_exists('rex')) {
-            unlink(self::$cacheFile);
-            echo 'REDAXO was not able to find any of its classes. The class-cache was cleared. please reload the website.';
+            @unlink(self::$cacheFile);
+
+            // reboot the current request
+            $parsedUri = parse_url($_SERVER['REQUEST_URI']);
+
+            // sanitize uri, to make sure we dont get faked to redirect to an external domain/host
+            $currentLocation = $parsedUri['path'];
+            if (isset($parsedUri['query'])) {
+                $currentLocation .= '?'. $parsedUri['query'];
+            }
+            if (isset($parsedUri['fragment'])) {
+                $currentLocation .= '#'. $parsedUri['fragment'];
+            }
+            header('Location: '.$currentLocation);
             exit();
         }
 
