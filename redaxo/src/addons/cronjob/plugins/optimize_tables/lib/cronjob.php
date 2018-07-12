@@ -12,7 +12,7 @@ class rex_cronjob_optimize_tables extends rex_cronjob
 {
     public function execute()
     {
-        $tables = rex_sql::showTables(1, rex::getTablePrefix());
+        $tables = rex_sql::factory()->getTables(rex::getTablePrefix());
         if (is_array($tables) && !empty($tables)) {
             $sql = rex_sql::factory();
             // $sql->setDebug();
