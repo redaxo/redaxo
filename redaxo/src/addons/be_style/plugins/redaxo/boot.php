@@ -28,17 +28,8 @@ if (rex::isBackend()) {
         rex_addon::get('be_style')->setProperty('compile', true);
 
         rex_extension::register('PACKAGES_INCLUDED', function () {
-            $compiler = new rex_scss_compiler();
-            $compiler->setRootDir($this->getPath('scss/'));
-            $compiler->setScssFile($this->getPath('scss/master.scss'));
-
-            // Compile in backend assets dir
-            $compiler->setCssFile($this->getPath('assets/css/styles.css'));
-
-            $compiler->compile();
-
-            // Compiled file to copy in frontend assets dir
-            rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
+            require_once __DIR__ . '/functions/rex_be_style_redaxo_compile.php';
+            rex_be_style_redaxo_compile();
         });
     }
 

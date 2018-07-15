@@ -23,19 +23,8 @@ if (rex::isBackend()) {
 
     rex_extension::register('PACKAGES_INCLUDED', function () {
         if (rex::getUser() && $this->getProperty('compile')) {
-            $compiler = new rex_scss_compiler();
-
-            $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', [$this->getPath('scss/master.scss')]));
-            $compiler->setScssFile($scss_files);
-            //$compiler->setScssFile($this->getPath('scss/master.scss'));
-
-            // Compile in backend assets dir
-            $compiler->setCssFile($this->getPath('assets/css/styles.css'));
-
-            $compiler->compile();
-
-            // Compiled file to copy in frontend assets dir
-            rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
+            require_once __DIR__ . '/functions/rex_be_style_compile.php';
+            rex_be_style_compile();
         }
     });
 
