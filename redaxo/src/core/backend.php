@@ -10,7 +10,7 @@ header('X-Frame-Options: SAMEORIGIN');
 // assets which are passed with a cachebuster will be cached very long,
 // as we assume their url will change when the underlying content changes
 if (rex_get('asset') && rex_get('buster')) {
-    $assetFile = ltrim(rex_get('asset'), './');
+    $assetFile = rex_get('asset');
 
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
