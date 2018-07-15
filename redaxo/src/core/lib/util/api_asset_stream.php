@@ -27,7 +27,7 @@ class rex_api_asset_stream extends rex_api_function
         }
 
         if (rex_get('buster')) {
-            // assets which contain are passed with a cachebuster will be cached very long,
+            // assets which are passed with a cachebuster will be cached very long,
             // as we assume their url will change when the underlying content changes
             rex_response::setHeader('Cache-Control', 'max-age=31536000, immutable');
         }
