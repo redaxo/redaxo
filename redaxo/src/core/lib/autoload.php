@@ -86,7 +86,7 @@ class rex_autoload
         $force = false;
         $lowerClass = strtolower($class);
 
-        // Return true if class exists after calling $composerLoader
+        // for BC reasons we use a separate redaxo classes loader, which expects classnames to be lowercase.
         if (self::$redaxoLoader->loadClass($lowerClass) && self::classExists($class)) {
             return true;
         } else {
