@@ -181,7 +181,6 @@ class rex_autoload
             self::_addDirectory($dir);
         }
         self::$reloaded = true;
-        self::$redaxoLoader->addClassMap(self::$classes);
     }
 
     /**
@@ -260,10 +259,13 @@ class rex_autoload
                 }
             }
         }
+
         foreach ($files as $file) {
             unset(self::$dirs[$file]);
             self::$cacheChanged = true;
         }
+
+        self::$redaxoLoader->addClassMap(self::$classes);
     }
 
     /**
