@@ -142,7 +142,12 @@ class rex_response
         self::sendContentType($contentType);
         header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
 
-        self::sendLastModified(filemtime($file));
+        $environment = rex::isBackend() ? 'backend' : 'frontend';
+        if (!self::$sentLastModified
+            && (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
+        ) {
+            self::sendLastModified(filemtime($file));
+        }
 
         header('HTTP/1.1 ' . self::$httpStatus);
         if (!self::$sentCacheControl) {
