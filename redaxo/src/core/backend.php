@@ -19,10 +19,6 @@ if (rex_get('asset') && rex_get('buster')) {
         throw new Exception('Assets can only be streamed from within the assets folder');
     }
 
-    // disable cache revalidation headers, so the actual long living cache headers will be taken into account
-    rex::setProperty('use_last_modified', false);
-    rex::setProperty('use_etag', false);
-
     rex_response::sendCacheControl('max-age=31536000, immutable');
     $ext = rex_file::extension($assetFile);
     if ('js' === $ext) {
