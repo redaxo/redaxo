@@ -12,8 +12,7 @@
         foreach ($files as $file) {
             $path = rex_path::base(rex_path::absolute($file));
             if ($mtime = @filemtime($path)) {
-                // use a frontend-api-function to make sure we dont have to wait for session locks.
-                $file = rex_url::frontendController(['asset' => $file, 'buster' => $mtime] + rex_api_asset_stream::getUrlParams());
+                $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
             echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
@@ -27,8 +26,7 @@
     foreach ($this->jsFiles as $file) {
         $path = rex_path::base(rex_path::absolute($file));
         if ($mtime = @filemtime($path)) {
-            // use a frontend-api-function to make sure we dont have to wait for session locks.
-            $file = rex_url::frontendController(['asset' => $file, 'buster' => $mtime] + rex_api_asset_stream::getUrlParams());
+            $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
         }
         echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
