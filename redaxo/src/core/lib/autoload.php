@@ -15,6 +15,10 @@ class rex_autoload
     /**
      * @var Composer\Autoload\ClassLoader
      */
+    protected static $redaxoLoader;
+    /**
+     * @var Composer\Autoload\ClassLoader
+     */
     protected static $composerLoader;
 
     protected static $registered = false;
@@ -43,12 +47,13 @@ class rex_autoload
             // fast exit when classes cannot be found in the classmap
             self::$composerLoader->setClassMapAuthoritative(true);
         }
+        self::$redaxoLoader = new \Composer\Autoload\ClassLoader();
 
         if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
         }
 
-        self::$cacheFile = rex_path::coreCache('autoload.cache');
+        self::$cacheFile = rex_path::coreCache('autoload.cache.php');
         self::loadCache();
         register_shutdown_function([__CLASS__, 'saveCache']);
 
@@ -80,48 +85,22 @@ class rex_autoload
 
         $force = false;
         $lowerClass = strtolower($class);
-        if (isset(self::$classes[$lowerClass])) {
-            $path = self::$classes[$lowerClass];
-            // we have a class path for the class, let's include it
-            if (@include_once $path) {
-                if (self::classExists($class)) {
-                    return true;
-                }
-            }
+
+        // Return true if class exists after calling $composerLoader
+        if (self::$redaxoLoader->loadClass($lowerClass) && self::classExists($class)) {
+            return true;
+        } else {
             // there is a class path in cache, but the file does not exist or does not contain the class any more
             // but maybe the class exists in another already known file now
             // so all files have to be analysed again => $force reload
-            $force = true;
-            unset(self::$classes[$lowerClass]);
-            self::$cacheChanged = true;
+            $rexClasses = self::$redaxoLoader->getClassMap();
+            if (isset($rexClasses[$lowerClass])) {
+                $force = true;
+                self::$cacheChanged = true;
+            }
         }
-
-        // Return true if class exists after calling $composerLoader
         if (self::$composerLoader->loadClass($class) && self::classExists($class)) {
             return true;
-        }
-
-        // clear our classloader cache in case it doesn't even provide a correct mapping for the "rex" core class.
-        // we assume the redaxo installation was moved and all cached paths are wrong.
-        if (empty($_GET['_rex_forced_reload']) && !class_exists('rex')) {
-            @unlink(self::$cacheFile);
-
-            // reboot the current request
-            $parsedUri = parse_url($_SERVER['REQUEST_URI']);
-
-            // sanitize uri, to make sure we dont get faked to redirect to an external domain/host
-            // (effectively make sure there is no host/domain parts in the redirect url)
-            $currentLocation = $parsedUri['path'];
-            if (isset($parsedUri['query'])) {
-                $currentLocation .= '?'. $parsedUri['query'] .'&_rex_forced_reload=1';
-            } else {
-                $currentLocation .= '?_rex_forced_reload=1';
-            }
-            if (isset($parsedUri['fragment'])) {
-                $currentLocation .= '#'. $parsedUri['fragment'];
-            }
-            header('Location: '.$currentLocation);
-            exit();
         }
 
         // Class not found, so reanalyse all directories if not already done or if $force==true
@@ -158,7 +137,9 @@ class rex_autoload
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
+        list(self::$classes, self::$dirs) = require self::$cacheFile;
+
+        self::$redaxoLoader->addClassMap(self::$classes);
     }
 
     /**
@@ -177,7 +158,9 @@ class rex_autoload
             }
         }
 
-        if (!rex_file::putCache(self::$cacheFile, [self::$classes, self::$dirs])) {
+        $content = "<?php return ". var_export([self::$classes, self::$dirs], true). ";";
+        // $content = str_replace(rex_path::base(), '__DIR__', $content);
+        if (!rex_file::put(self::$cacheFile, $content)) {
             throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
         }
         self::$cacheChanged = false;
@@ -198,6 +181,7 @@ class rex_autoload
             self::_addDirectory($dir);
         }
         self::$reloaded = true;
+        self::$redaxoLoader->addClassMap(self::$classes);
     }
 
     /**
