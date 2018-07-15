@@ -34,6 +34,22 @@ if ($func && !$csrfToken->isValid()) {
 } elseif ($func == 'updateassets') {
     rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
     $success = 'Updated assets';
+} elseif ($func == 'debugmode') {
+    $configFile = rex_path::coreData('config.yml');
+    $config = array_merge(
+        rex_file::getConfig(rex_path::core('default.config.yml')),
+        rex_file::getConfig($configFile)
+    );
+
+    if (!is_array($config['debug'])) {
+        $config['debug'] = [];
+    }
+
+    $config['debug']['enabled'] = (rex::isDebugMode()) ? false : true;
+    rex::setProperty('debug', $config['debug']);
+    if (rex_file::putConfig($configFile, $config) > 0) {
+        $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
+    }
 } elseif ($func == 'updateinfos') {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
@@ -55,12 +71,6 @@ if ($func && !$csrfToken->isValid()) {
             $error[] = rex_i18n::msg($key . '_invalid');
         }
     }
-
-    if (!is_array($config['debug'])) {
-        $config['debug'] = [];
-    }
-    $config['debug']['enabled'] = isset($settings['debug']) && $settings['debug'];
-    rex::setProperty('debug', $config['debug']);
 
     if (empty($settings['editor'])) {
         $settings['editor'] = null;
@@ -127,44 +137,70 @@ if (strpos($rexVersion, '-dev') !== false) {
     }
 }
 
-$content = [];
-$content[] = '
-                        <h3>' . rex_i18n::msg('delete_cache') . '</h3>
-                        <p>' . rex_i18n::msg('delete_cache_description') . '</p>
-                        <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
+$mainContent = [];
+$sideContent = [];
 
-                        <h3>' . rex_i18n::msg('safemode') . '</h3>
-                        <p>' . rex_i18n::msg('safemode_text') . '</p>
-                        <p><a class="btn btn-safemode-activate" href="' . rex_url::currentBackendPage(['safemode' => 'true'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . rex_i18n::msg('safemode_activate') . '</a></p>
-                        
-                        <h3>' . rex_i18n::msg('setup') . '</h3>
-                        <p>' . rex_i18n::msg('setup_text') . '</p>
-                        <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
+$content = '
+    <h3>' . rex_i18n::msg('delete_cache') . '</h3>    
+    <p>' . rex_i18n::msg('delete_cache_description') . '</p>
+    <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
-$content[] = '
-                        <h3>' . rex_i18n::msg('version') . '</h3>
-                        <dl class="dl-horizontal">
-                            <dt>REDAXO</dt><dd>' . $rexVersion . '</dd>
-                            <dt>PHP</dt><dd>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></dd>
-                        </dl>
-
-                        <h3>' . rex_i18n::msg('database') . '</h3>
-                        <dl class="dl-horizontal">
-                            <dt>MySQL</dt><dd>' . rex_sql::getServerVersion() . '</dd>
-                            <dt>' . rex_i18n::msg('name') . '</dt><dd>' . $dbconfig[1]['name'] . '</dd>
-                            <dt>' . rex_i18n::msg('host') . '</dt><dd>' . $dbconfig[1]['host'] . '</dd>
-                        </dl>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('content', $content, false);
-$content = $fragment->parse('core/page/grid.php');
+    <h3>' . rex_i18n::msg('debug_mode') . '</h3>
+    <p>' . rex_i18n::msg('debug_mode_note') . '</p>
+    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
+    
+    <h3>' . rex_i18n::msg('safemode') . '</h3>
+    <p>' . rex_i18n::msg('safemode_text') . '</p>
+    <p><a class="btn btn-safemode-activate" href="' . rex_url::currentBackendPage(['safemode' => 'true'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . rex_i18n::msg('safemode_activate') . '</a></p>
+    
+    <h3>' . rex_i18n::msg('setup') . '</h3>
+    <p>' . rex_i18n::msg('setup_text') . '</p>
+    <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::msg('system_features'));
 $fragment->setVar('body', $content, false);
-echo $fragment->parse('core/page/section.php');
+$sideContent[] = $fragment->parse('core/page/section.php');
 
-$content = [];
+$content = '
+    <table class="table">
+        <tr>
+            <th class="rex-table-width-3">REDAXO</th>
+            <td>' . $rexVersion . '</td>                            
+        </tr>   
+        <tr>
+            <th>PHP</th>
+            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>                            
+        </tr>
+    </table>';
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('version'));
+$fragment->setVar('content', $content, false);
+$sideContent[] = $fragment->parse('core/page/section.php');
+
+$content = '
+    <table class="table">
+        <tr>
+            <th class="rex-table-width-3">MySQL</th>
+            <td>' .  rex_sql::getServerVersion() . '</td>                            
+        </tr>
+        <tr>
+            <th>' . rex_i18n::msg('name') . '</th>
+            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>                            
+        </tr>   
+        <tr>
+            <th>' . rex_i18n::msg('host') . '</th>
+            <td>' . $dbconfig[1]['host'] . '</td>                            
+        </tr>
+    </table>';
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('database'));
+$fragment->setVar('content', $content, false);
+$sideContent[] = $fragment->parse('core/page/section.php');
+
+$content = '';
 
 $formElements = [];
 
@@ -183,26 +219,9 @@ $n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') 
 $n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 
-$n = [];
-$n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor') . '</label>';
-$n['field'] = $sel_editor->get();
-$n['note'] = rex_i18n::msg('system_editor_note');
-$formElements[] = $n;
-
-$configYml = rex_path::coreData('config.yml');
-if ($url = rex_editor::factory()->getUrl($configYml, 0)) {
-    $n = [];
-    $n['label'] = '';
-    $n['field'] = $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($configYml)) . '</a>';
-    $n['note'] = rex_i18n::msg('system_edit_config_note');
-    $formElements[] = $n;
-}
-
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$content[] = $fragment->parse('core/form/form.php');
-
-$elements = '';
+$content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 
@@ -213,19 +232,7 @@ $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
-$elements .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
-
-$n = [];
-$n['label'] = '<label for="rex-id-debug">' . rex_i18n::msg('debug_mode') . '</label>';
-$n['field'] = '<input type="checkbox" id="rex-id-debug" name="settings[debug]" value="1" ' . (rex::isDebugMode() ? 'checked="checked" ' : '') . '/>';
-$n['note'] = rex_i18n::msg('debug_mode_note');
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$elements .= $fragment->parse('core/form/checkbox.php');
+$content .= $fragment->parse('core/form/form.php');
 
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
@@ -233,14 +240,29 @@ foreach (rex_system_setting::getAll() as $setting) {
         throw new rex_exception(get_class($setting) . '::getField() must return a rex_form_element!');
     }
     $field->setAttribute('name', 'settings[' . $setting->getKey() . ']');
-    $elements .= $field->get();
+    $content .= $field->get();
 }
 
-$content[] = $elements;
+$formElements = [];
+
+$n = [];
+$n['label'] = '<label for="rex-id-editor">' . rex_i18n::msg('system_editor') . '</label>';
+$n['field'] = $sel_editor->get();
+$n['note'] = rex_i18n::msg('system_editor_note');
+$formElements[] = $n;
+
+$configYml = rex_path::coreData('config.yml');
+if ($url = rex_editor::factory()->getUrl($configYml, 0)) {
+    $n = [];
+    $n['label'] = '';
+    $n['field'] = $n['field'] = '<a class="btn btn-sm btn-primary" href="'. $url .'">' . rex_i18n::msg('system_editor_open_file', basename($configYml)) . '</a>';
+    $n['note'] = rex_i18n::msg('system_edit_config_note');
+    $formElements[] = $n;
+}
 
 $fragment = new rex_fragment();
-$fragment->setVar('content', $content, false);
-$content = $fragment->parse('core/page/grid.php');
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
 
 $formElements = [];
 
@@ -259,11 +281,14 @@ $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
-$content = '
+$mainContent[] = '
 <form id="rex-form-system-setup" action="' . rex_url::currentBackendPage() . '" method="post">
     <input type="hidden" name="func" value="updateinfos" />
     ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>';
 
-echo $content;
+$fragment = new rex_fragment();
+$fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
+$fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
+echo $fragment->parse('core/page/grid.php');
