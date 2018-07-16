@@ -10,19 +10,22 @@
  */
 function rex_be_style_compile()
 {
-    $beStyleAddon = rex_addon::get('be_style');
+    $scssFiles = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_COMPILE', []));
+    foreach ($scssFiles as $file) {
+        $compiler = new rex_scss_compiler();
 
-    $compiler = new rex_scss_compiler();
+        if (isset($file['root_dir'])) {
+            $compiler->setRootDir($file['root_dir']);
+        }
+        $compiler->setScssFile($file['scss_files']);
 
-    $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', [$beStyleAddon->getPath('scss/master.scss')]));
-    $compiler->setScssFile($scss_files);
-    //$compiler->setScssFile($this->getPath('scss/master.scss'));
+        // Compile in backend assets dir
+        $compiler->setCssFile($file['css_file']);
+        $compiler->compile();
 
-    // Compile in backend assets dir
-    $compiler->setCssFile($beStyleAddon->getPath('assets/css/styles.css'));
-
-    $compiler->compile();
-
-    // Compiled file to copy in frontend assets dir
-    rex_file::copy($beStyleAddon->getPath('assets/css/styles.css'), $beStyleAddon->getAssetsPath('css/styles.css'));
+        // Compiled file to copy in frontend assets dir
+        if (isset($file['copy_dest'])) {
+            rex_file::copy($file['css_file'], $file['copy_dest']);
+        }
+    }
 }

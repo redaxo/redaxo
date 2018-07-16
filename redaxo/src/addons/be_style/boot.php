@@ -21,6 +21,16 @@ if (rex::isBackend()) {
         }
     });
 
+    rex_extension::register('BE_STYLE_SCSS_COMPILE', function (rex_extension_point $ep) {
+        $subject = $ep->getSubject();
+        $subject[] = [
+            'scss_files' => rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', [$this->getPath('scss/master.scss')])),
+            'css_file' => $this->getPath('assets/css/styles.css'),
+            'copy_dest' => $this->getAssetsPath('css/styles.css'),
+        ];
+        return $subject;
+    });
+
     rex_extension::register('PACKAGES_INCLUDED', function () {
         if (rex::getUser() && $this->getProperty('compile')) {
             require_once __DIR__ . '/functions/rex_be_style_compile.php';
