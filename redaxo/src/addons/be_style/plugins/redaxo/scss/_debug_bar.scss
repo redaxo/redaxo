@@ -1,0 +1,133 @@
+.rex-debug-bar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100000;
+    background: $color-a-darker;
+    color: $color-a;
+    direction: ltr;
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", Arial, sans-serif;
+    text-align: left;
+
+    * {
+        box-sizing: content-box;
+        vertical-align: baseline;
+        letter-spacing: normal;
+        width: auto;
+    }
+
+    &-mini {
+        display: none;
+    }
+    &-close {
+        display: none;
+    }
+
+    &-item {
+        cursor: default;
+        display: block;
+        float: left;
+        height: 36px;
+        margin-right: 0;
+        padding: 0 10px;
+        white-space: nowrap;
+
+        &:hover {
+            position: relative;
+        }
+
+        &-right {
+            float: right;
+        }
+        span {
+            display: inline-block;
+        }
+    }
+
+    &-group {
+        display: block;
+        height: 36px;
+    }
+
+    &-info {
+        position: absolute;
+        left: 0;
+        bottom: 36px;
+        display: none;
+        background-color: $color-a-dark;
+        color: $color-a-light;
+        padding: 9px 0;
+    }
+
+    &-info-group + &-info-group {
+        margin-top: 4px;
+        padding-top: 2px;
+        border-top: 1px solid $color-a;
+    }
+    &-info-piece {
+        display: table-row;
+        margin-bottom: 4px;
+        border: 3px solid transparent;
+        border-collapse: collapse;
+
+        a:hover {
+            color: #58b5ff;
+        }
+
+        b {
+            display: table-cell;
+            border-collapse: collapse;
+            padding: 4px 8px 4px 0;
+            color: $color-a;
+            font-size: 12px;
+            vertical-align: top;
+        }
+
+        span {
+            padding-top: 3px;
+            color: $color-a-light;
+            font-size: 13px;
+        }
+    }
+
+    &-item:hover {
+        background-color: $color-a-dark;
+    }
+
+    &-item:hover &-info {
+        display: block;
+        padding: 10px;
+        max-width: 480px;
+        max-height: 480px;
+        word-wrap: break-word;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+    &-item-right &-info {
+        left: auto;
+        right: 0;
+    }
+
+    &-value {
+        color: $color-a-light;
+        font-size: 13px;
+        line-height: 36px;
+    }
+
+    &-status-danger {
+        background-color: $brand-danger;
+    }
+
+    &-status-primary {
+        background-color: $brand-primary;
+        color: #fff;
+    }
+
+    &-status-warning {
+        background-color: $brand-warning;
+    }
+
+
+}
