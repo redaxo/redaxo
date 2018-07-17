@@ -89,16 +89,16 @@ class rex_autoload
         // for BC reasons we use a separate redaxo classes loader, which expects classnames to be lowercase.
         if (self::$redaxoLoader->loadClass($lowerClass) && self::classExists($class)) {
             return true;
-        } else {
-            // there is a class path in cache, but the file does not exist or does not contain the class any more
-            // but maybe the class exists in another already known file now
-            // so all files have to be analysed again => $force reload
-            $rexClasses = self::$redaxoLoader->getClassMap();
-            if (isset($rexClasses[$lowerClass])) {
-                $force = true;
-                self::$cacheChanged = true;
-            }
         }
+        // there is a class path in cache, but the file does not exist or does not contain the class any more
+        // but maybe the class exists in another already known file now
+        // so all files have to be analysed again => $force reload
+        $rexClasses = self::$redaxoLoader->getClassMap();
+        if (isset($rexClasses[$lowerClass])) {
+            $force = true;
+            self::$cacheChanged = true;
+        }
+
         if (self::$composerLoader->loadClass($class) && self::classExists($class)) {
             return true;
         }
@@ -158,7 +158,7 @@ class rex_autoload
             }
         }
 
-        $content = "<?php\n\$vendorDir = dirname(__FILE__, 4);\nreturn ". var_export([self::$classes, self::$dirs], true). ";";
+        $content = "<?php\n\$vendorDir = dirname(__FILE__, 4);\nreturn ". var_export([self::$classes, self::$dirs], true). ';';
         $content = str_replace(rtrim(var_export(rex_path::base(), true), "'"), "\$vendorDir .'". DIRECTORY_SEPARATOR, $content);
         if (!rex_file::put(self::$cacheFile, $content)) {
             throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
