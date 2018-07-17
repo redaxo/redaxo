@@ -22,8 +22,7 @@ class rex_be_style_command_compile extends rex_console_command
         $io = $this->getStyle($input, $output);
         $io->title('be_style scss compiler');
 
-        require_once $this->package->getPath('functions/rex_be_style_compile.php');
-        rex_be_style_compile();
+        rex_be_style::compile();
 
         $io->success('Styles successfully compiled');
     }

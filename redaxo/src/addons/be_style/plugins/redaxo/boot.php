@@ -39,8 +39,7 @@ if (rex::isBackend()) {
         rex_addon::get('be_style')->setProperty('compile', true);
 
         rex_extension::register('PACKAGES_INCLUDED', function () {
-            require_once rex_path::addon('be_style', 'functions/rex_be_style_compile.php');
-            rex_be_style_compile();
+            rex_be_style::compile();
         });
     }
 

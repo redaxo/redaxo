@@ -33,8 +33,7 @@ if (rex::isBackend()) {
 
     rex_extension::register('PACKAGES_INCLUDED', function () {
         if (rex::getUser() && $this->getProperty('compile')) {
-            require_once __DIR__ . '/functions/rex_be_style_compile.php';
-            rex_be_style_compile();
+            rex_be_style::compile();
         }
     });
 
