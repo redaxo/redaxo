@@ -158,7 +158,7 @@ class rex_autoload
             }
         }
 
-        $content = "<?php\n\$vendorDir = dirname(__FILE__, 4);\nreturn ". var_export([self::$classes, self::$dirs], true). ';';
+        $content = "<?php\n\n\$vendorDir = dirname(dirname(dirname(dirname(__FILE__))));\n\nreturn ". var_export([self::$classes, self::$dirs], true). ';';
         $content = str_replace(rtrim(var_export(rex_path::base(), true), "'"), "\$vendorDir .'". DIRECTORY_SEPARATOR, $content);
         if (!rex_file::put(self::$cacheFile, $content)) {
             throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
