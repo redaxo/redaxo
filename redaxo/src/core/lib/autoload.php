@@ -40,6 +40,8 @@ class rex_autoload
             self::$composerLoader = require rex_path::core('vendor/autoload.php');
             // Unregister Composer Autoloader because we call self::$composerLoader->loadClass() manually
             self::$composerLoader->unregister();
+            // fast exit when classes cannot be found in the classmap
+            self::$composerLoader->setClassMapAuthoritative(true);
         }
 
         if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
