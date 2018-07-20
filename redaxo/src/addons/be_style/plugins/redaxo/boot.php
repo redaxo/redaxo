@@ -37,10 +37,6 @@ if (rex::isBackend()) {
 
     if (rex::getUser() && $this->getProperty('compile')) {
         rex_addon::get('be_style')->setProperty('compile', true);
-
-        rex_extension::register('PACKAGES_INCLUDED', function () {
-            rex_be_style::compile();
-        });
     }
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
