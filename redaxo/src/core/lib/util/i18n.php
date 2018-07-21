@@ -18,6 +18,7 @@ class rex_i18n
      * @var string[][]
      */
     private static $msg = [];
+    private static $cache = null;
 
     /**
      * Switches the current locale.
@@ -394,6 +395,15 @@ class rex_i18n
     private static function loadFile($dir, $locale)
     {
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
+        self::checkCache();
+
+        $timestamp = @filemtime($file);
+        if (isset(self::$cache[$file])) {
+            if ($timestamp === self::$cache[$file]) {
+                return;
+            }
+        }
+        self::$cache[$file] = $timestamp;
 
         if (
             ($content = rex_file::get($file)) &&
@@ -403,6 +413,7 @@ class rex_i18n
                 self::$msg[$locale][$match[1]] = $match[2];
             }
         }
+        self::storeCache();
     }
 
     /**
@@ -417,5 +428,37 @@ class rex_i18n
         }
 
         self::$loaded[$locale] = true;
+    }
+
+    /**
+     * Loads the cache if not already loaded.
+     */
+    private static function checkCache()
+    {
+        if (self::$cache) {
+            return;
+        }
+
+        $cacheFile = rex_path::coreCache('i18n.cache');
+        $cache = rex_file::getCache($cacheFile);
+        if ($cache) {
+            self::$msg = $cache['msg'];
+            self::$cache = $cache['files'];
+        }
+    }
+
+    /**
+     * Saves the cache.
+     */
+    private static function storeCache()
+    {
+        if (!self::$cache) {
+            return;
+        }
+
+        $cacheFile = rex_path::coreCache('i18n.cache');
+        if (rex_file::putCache($cacheFile, ['files' => self::$cache, 'msg' => self::$msg]) === false) {
+            throw new rex_exception('i18n cache file could not be generated');
+        }
     }
 }
