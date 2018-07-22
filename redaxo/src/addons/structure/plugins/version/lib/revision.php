@@ -47,13 +47,14 @@ class rex_article_revision
 
     public static function emptyContent($article_id, $clang, $from_revision_id)
     {
-        // clear the selected revision (default by code: WORK)
-        if ($from_revision_id == 1) {
-            $dc = rex_sql::factory();
-            // $dc->setDebug();
-            $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$article_id, $clang, $from_revision_id]);
-            rex_article_cache::delete($article_id);
-            return true;
+        if (self::WORK != $from_revision_id) {
+            throw new InvalidArgumentException(sprintf('Revision "%s" can not be cleared, only the working version (%d).', $from_revision_id, self::WORK));
         }
+
+        $dc = rex_sql::factory();
+        // $dc->setDebug();
+        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$article_id, $clang, $from_revision_id]);
+
+        return true;
     }
 }
