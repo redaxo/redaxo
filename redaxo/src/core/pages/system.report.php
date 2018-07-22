@@ -31,7 +31,7 @@ foreach ($report as $title => $group) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', $title);
-    $fragment->setVar('body', $content, false);
+    $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
 
