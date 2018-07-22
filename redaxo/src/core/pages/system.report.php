@@ -23,4 +23,3 @@ foreach (rex_system_report::factory()->get() as $title => $group) {
     $fragment->setVar('body', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
-
