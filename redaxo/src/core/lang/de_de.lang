@@ -138,6 +138,7 @@ debug_mode_info_on = Debug mode wurde aktiviert
 debug_mode_info_off = Debug mode wurde deaktiviert
 
 system_report = Systembericht
+system_report_markdown = Als markdown
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup

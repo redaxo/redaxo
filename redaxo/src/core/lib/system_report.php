@@ -81,8 +81,8 @@ class rex_system_report
 
         foreach ($report as $groupLabel => $group) {
             $rows = [];
-            $labelWidth = mb_strlen($groupLabel);
-            $valueWidth = 0;
+            $labelWidth = max(13, mb_strlen($groupLabel));
+            $valueWidth = 10;
 
             foreach ($group as $label => $value) {
                 if (is_bool($value)) {
@@ -91,11 +91,11 @@ class rex_system_report
 
                 $rows[$label] = $value;
                 $labelWidth = max($labelWidth, mb_strlen($label));
-                $valueWidth = max($valueWidth, mb_strlen($value));
+                $valueWidth = min(30, max($valueWidth, mb_strlen($value)));
             }
 
             $content .= '| '.str_pad($groupLabel, $labelWidth).' | '.str_repeat(' ', $valueWidth)." |\n";
-            $content .= '| '.str_repeat('-', $labelWidth - 1).': | '.str_repeat('-', $valueWidth)." |\n";
+            $content .= '| '.str_repeat('-', $labelWidth - 1).': | :'.str_repeat('-', $valueWidth - 1)." |\n";
 
             foreach ($rows as $label => $value) {
                 $content .= '| '.str_pad($label, $labelWidth, ' ', STR_PAD_LEFT).' | '.str_pad($value, $valueWidth)." |\n";
@@ -111,6 +111,7 @@ class rex_system_report
 <summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']})</summary>
 
 $content
+
 </details>
 OUTPUT;
     }
