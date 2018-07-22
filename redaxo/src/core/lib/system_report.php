@@ -63,7 +63,6 @@ class rex_system_report
             ];
         }
 
-
         $packages = [];
         foreach (rex_package::getAvailablePackages() as $package) {
             $packages[$package->getPackageId()] = $package->getVersion();

@@ -31,6 +31,12 @@ foreach ($report as $title => $group) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', $title);
+
+    if ('PHP' === $title) {
+        $phpinfo = '<a href="'.rex_url::backendPage('system/phpinfo').'" class="btn btn-primary btn-xs" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo</a>';
+        $fragment->setVar('options', $phpinfo, false);
+    }
+
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
