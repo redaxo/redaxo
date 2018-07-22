@@ -237,7 +237,8 @@ abstract class rex_package implements rex_package_interface
     public function loadProperties()
     {
         $file = $this->getPath(self::FILE_PACKAGE);
-        if (!file_exists($file)) {
+        $filemtime = @filemtime($file);
+        if (!$filemtime) {
             $this->propertiesLoaded = true;
             return;
         }
@@ -250,11 +251,11 @@ abstract class rex_package implements rex_package_interface
 
         $isCached = isset($cache[$id]);
         $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
-        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
+        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < $filemtime) {
             try {
                 $properties = rex_file::getConfig($file);
 
-                $cache[$id]['timestamp'] = filemtime($file);
+                $cache[$id]['timestamp'] = $filemtime;
                 $cache[$id]['data'] = $properties;
 
                 static $registeredShutdown = false;
