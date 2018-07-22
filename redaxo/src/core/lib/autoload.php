@@ -160,8 +160,14 @@ class rex_autoload
             }
         }
 
-        $content = "<?php\n\n\$vendorDir = dirname(dirname(dirname(dirname(__FILE__))));\n\nreturn ". var_export([self::$classes, self::$dirs], true). ';';
+        $content = "return ". var_export([self::$classes, self::$dirs], true). ';';
         $content = str_replace(rtrim(var_export(rex_path::base(), true), "'"), "\$vendorDir .'". DIRECTORY_SEPARATOR, $content);
+
+        // build a relative path from the autoload-cache-file to the vendor dir
+        // to support copying of the whole redaxo installation between servers
+        $relCache = rex_path::relative(dirname(self::$cacheFile));
+        $relInclude = str_repeat(DIRECTORY_SEPARATOR.'..', count(explode(DIRECTORY_SEPARATOR, $relCache)));
+        $content = "<?php\n\n\$vendorDir = __DIR__ .". var_export($relInclude, true) .";\n\n" . $content;
         if (!rex_file::put(self::$cacheFile, $content)) {
             throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
         }
