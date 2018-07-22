@@ -48,4 +48,46 @@ class rex_system_report
 
         return $data;
     }
+
+    public function asMarkdown()
+    {
+        $report = $this->get();
+
+        $content = '';
+
+        foreach ($report as $groupLabel => $group) {
+            $rows = [];
+            $labelWidth = mb_strlen($groupLabel);
+            $valueWidth = 0;
+
+            foreach ($group as $label => $value) {
+                if (is_bool($value)) {
+                    $value = $value ? 'yes' : 'no';
+                }
+
+                $rows[$label] = $value;
+                $labelWidth = max($labelWidth, mb_strlen($label));
+                $valueWidth = max($valueWidth, mb_strlen($value));
+            }
+
+            $content .= '| '.str_pad($groupLabel, $labelWidth).' | '.str_repeat(' ', $valueWidth)." |\n";
+            $content .= '| '.str_repeat('-', $labelWidth - 1).': | '.str_repeat('-', $valueWidth)." |\n";
+
+            foreach ($rows as $label => $value) {
+                $content .= '| '.str_pad($label, $labelWidth, ' ', STR_PAD_LEFT).' | '.str_pad($value, $valueWidth)." |\n";
+            }
+
+            $content .= "\n\n";
+        }
+
+        $content = rtrim($content);
+
+        return <<<OUTPUT
+<details>
+<summary>Systembericht (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']})</summary>
+
+$content
+</details>
+OUTPUT;
+    }
 }
