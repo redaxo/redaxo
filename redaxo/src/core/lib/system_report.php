@@ -84,7 +84,7 @@ class rex_system_report
 
         return <<<OUTPUT
 <details>
-<summary>Systembericht (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']})</summary>
+<summary>System report (REDAXO {$report['REDAXO']['Version']}, PHP {$report['PHP']['Version']})</summary>
 
 $content
 </details>
