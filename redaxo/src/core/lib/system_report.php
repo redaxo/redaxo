@@ -39,6 +39,23 @@ class rex_system_report
             'Character set' => "$dbCharacterSet[default_character_set_name] ($dbCharacterSet[default_collation_name])",
         ];
 
+        $server = [
+            'OS' => PHP_OS_FAMILY,
+            'SAPI' => PHP_SAPI,
+        ];
+
+        if (isset($_SERVER['SERVER_SOFTWARE']) && preg_match('@^[^/]+(?:/[\d.]+)?@', $_SERVER['SERVER_SOFTWARE'], $match)) {
+            $server['Webserver'] = $match[0];
+        }
+        if (isset($_SERVER['SERVER_PROTOCOL'])) {
+            $server['Protocol'] = $_SERVER['SERVER_PROTOCOL'];
+        }
+        if ('cli' !== PHP_SAPI) {
+            $server['HTTPS'] = rex_request::isHttps();
+        }
+
+        $data['Server'] = $server;
+
         $packages = [];
         foreach (rex_package::getAvailablePackages() as $package) {
             $packages[$package->getPackageId()] = $package->getVersion();
