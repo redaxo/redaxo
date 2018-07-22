@@ -8,10 +8,10 @@ Dieses Addon stellt die Styles, Skripte und Grafiken für das REDAXO Backend ber
 Bei Änderungen müssen die Styles neu kompiliert werden. Hierfür stellt **be_style** mehrere Varianten zur Verfügung.
 
 ### 1. via REDAXO Konsole
-Über die Konsole von REDAXO können die Stles neu kompiliert werden. Hierfür benutzt man den von **be_style** bereitgestellten Kompilierungsvorgang via `be_style:compile` oder `styles:compile`.
+Über die Konsole von REDAXO können die Styles neu kompiliert werden. Hierfür benutzt man den von **be_style** bereitgestellten Kompilierungsvorgang via `be_style:compile` oder `styles:compile`.
 
 ### 2. via package.yml
-In der `package.yml` von **be_style** und von den PlugIn **redaxo** kann der Wert von `compile` von `0` auf `1` gesetzt werden.
+In der `package.yml` von dem PlugIn **redaxo** kann der Wert von `compile` von `0` auf `1` gesetzt werden.
 Beim nächsten Aufruf als eingeloggter Backend Benutzer werden die Styles neu kompiliert.
 
 ##### Hinweis
@@ -43,7 +43,8 @@ rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep)
    $files[] = [
        'scss_files' => 'pfad/zu/scss/dateien',   # Quell SCSS Dateien als string oder array
        'css_file' => 'pfad/zur/ziel/css/datei',  # Pfad zum Speicherort, wo die CSS Datei abgelegt werden soll
-       'copy_dest' => 'pfad/zur/kopie',          # Wenn die Datei an einem zweiten Ort z.B. dem assets ordner abgelegt werden soll, kann dies hier angegebn werden 
+
+       'copy_dest' => 'pfad/zur/kopie',          # Optional: Wenn die Datei an einem zweiten Ort z.B. dem assets ordner abgelegt werden soll, kann dies hier angegebn werden 
    ];
    return $files;
 });
