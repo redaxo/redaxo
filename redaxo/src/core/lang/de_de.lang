@@ -137,6 +137,8 @@ debug_mode_off = Debug mode deaktivieren
 debug_mode_info_on = Debug mode wurde aktiviert
 debug_mode_info_off = Debug mode wurde deaktiviert
 
+system_report = Systembericht
+
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
 setup_restart = Setup neu starten
