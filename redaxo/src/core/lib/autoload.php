@@ -131,11 +131,11 @@ class rex_autoload
      */
     private static function loadCache()
     {
-        if (!self::$cacheFile || !is_readable(self::$cacheFile)) {
+        if (!self::$cacheFile || !($cache = @file_get_contents(self::$cacheFile))) {
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
+        list(self::$classes, self::$dirs) = json_decode($cache, true);
     }
 
     /**
