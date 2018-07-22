@@ -25,7 +25,6 @@ class rex_system_report
         $data['PHP'] = [
             'Version' => PHP_VERSION,
             'OPcache' => extension_loaded('Zend OPcache') && ini_get('opcache.enable'),
-            'APCu' => extension_loaded('apcu') && ini_get('apc.enabled'),
             'Xdebug' => extension_loaded('xdebug'),
         ];
 
