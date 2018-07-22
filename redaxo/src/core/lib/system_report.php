@@ -39,6 +39,13 @@ class rex_system_report
             'Character set' => "$dbCharacterSet[default_character_set_name] ($dbCharacterSet[default_collation_name])",
         ];
 
+        $packages = [];
+        foreach (rex_package::getAvailablePackages() as $package) {
+            $packages[$package->getPackageId()] = $package->getVersion();
+        }
+
+        $data['Packages'] = $packages;
+
         return $data;
     }
 }
