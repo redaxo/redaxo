@@ -45,7 +45,7 @@ class rex_article_revision
         return true;
     }
 
-    public static function emptyContent($article_id, $clang, $from_revision_id)
+    public static function clearContent($article_id, $clang, $from_revision_id)
     {
         if (self::WORK != $from_revision_id) {
             throw new InvalidArgumentException(sprintf('Revision "%s" can not be cleared, only the working version (%d).', $from_revision_id, self::WORK));
