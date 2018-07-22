@@ -79,7 +79,7 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_poin
         break;
         case 'empty_work':
             if (rex_article_revision::emptyContent($params['article_id'], $params['clang'], rex_article_revision::WORK)) {
-              $return .= rex_view::success(rex_i18n::msg('version_info_empty_workingversion'));
+                $return .= rex_view::success(rex_i18n::msg('version_info_empty_workingversion'));
             }
             // no need for an "else" here
         break;
