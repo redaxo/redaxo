@@ -124,6 +124,8 @@ lang_required = Language is required
 debug_mode = Debug mode
 debug_mode_note = Activating debug mode will provide additional information concerning PHP script errors in the front and backend. Make sure to deactivate in production, as these error messages may contain sensible data.
 
+system_report = System report
+
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
 setup_restart = Restart setup
