@@ -28,15 +28,21 @@ class rex_system_report
             'Xdebug' => extension_loaded('xdebug'),
         ];
 
-        $dbCharacterSet = rex_sql::factory()->getArray(
-            'SELECT default_character_set_name, default_collation_name FROM information_schema.SCHEMATA WHERE schema_name = ?',
-            [rex::getProperty('db')[1]['name']]
-        )[0];
+        foreach (rex::getProperty('db') as $dbId => $db) {
+            if (empty($db['name'])) {
+                continue;
+            }
 
-        $data['Database'] = [
-            'Version' => rex_sql::getServerVersion(),
-            'Character set' => "$dbCharacterSet[default_character_set_name] ($dbCharacterSet[default_collation_name])",
-        ];
+            $dbCharacterSet = rex_sql::factory($dbId)->getArray(
+                'SELECT default_character_set_name, default_collation_name FROM information_schema.SCHEMATA WHERE schema_name = ?',
+                [$db['name']]
+            )[0];
+
+            $data['Database'.(1 === $dbId ? '' : " $dbId")] = [
+                'Version' => rex_sql::getServerVersion(),
+                'Character set' => "$dbCharacterSet[default_character_set_name] ($dbCharacterSet[default_collation_name])",
+            ];
+        }
 
         $server = [
             'OS' => PHP_OS_FAMILY,
