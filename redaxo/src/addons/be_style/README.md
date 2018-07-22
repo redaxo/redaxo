@@ -44,7 +44,7 @@ rex_extension::register('BE_STYLE_SCSS_FILES', function(rex_extension_point $ep)
        'scss_files' => 'pfad/zu/scss/dateien',   # Quell SCSS Dateien als string oder array
        'css_file' => 'pfad/zur/ziel/css/datei',  # Pfad zum Speicherort, wo die CSS Datei abgelegt werden soll
 
-       'copy_dest' => 'pfad/zur/kopie',          # Optional: Wenn die Datei an einem zweiten Ort z.B. dem assets ordner abgelegt werden soll, kann dies hier angegebn werden 
+       'copy_dest' => 'pfad/zur/kopie',          # Optional: Wenn die Datei an einem zweiten Ort z.B. dem assets ordner abgelegt werden soll, kann dies hier angegeben werden 
    ];
    return $files;
 });
