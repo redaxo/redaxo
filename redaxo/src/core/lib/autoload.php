@@ -15,6 +15,10 @@ class rex_autoload
     /**
      * @var Composer\Autoload\ClassLoader
      */
+    protected static $redaxoLoader;
+    /**
+     * @var Composer\Autoload\ClassLoader
+     */
     protected static $composerLoader;
 
     protected static $registered = false;
@@ -43,12 +47,15 @@ class rex_autoload
             // fast exit when classes cannot be found in the classmap
             self::$composerLoader->setClassMapAuthoritative(true);
         }
+        self::$redaxoLoader = new \Composer\Autoload\ClassLoader();
+        // fast exit when classes cannot be found in the classmap
+        self::$redaxoLoader->setClassMapAuthoritative(true);
 
         if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
         }
 
-        self::$cacheFile = rex_path::coreCache('autoload.cache');
+        self::$cacheFile = rex_path::coreCache('autoload.cache.php');
         self::loadCache();
         register_shutdown_function([__CLASS__, 'saveCache']);
 
@@ -80,23 +87,20 @@ class rex_autoload
 
         $force = false;
         $lowerClass = strtolower($class);
-        if (isset(self::$classes[$lowerClass])) {
-            $path = rex_path::base(self::$classes[$lowerClass]);
-            // we have a class path for the class, let's include it
-            if (@include_once $path) {
-                if (self::classExists($class)) {
-                    return true;
-                }
-            }
-            // there is a class path in cache, but the file does not exist or does not contain the class any more
-            // but maybe the class exists in another already known file now
-            // so all files have to be analysed again => $force reload
+
+        // for BC reasons we use a separate redaxo classes loader, which expects classnames to be lowercase.
+        if (@self::$redaxoLoader->loadClass($lowerClass) && self::classExists($class)) {
+            return true;
+        }
+        // there is a class path in cache, but the file does not exist or does not contain the class any more
+        // but maybe the class exists in another already known file now
+        // so all files have to be analysed again => $force reload
+        $rexClasses = self::$redaxoLoader->getClassMap();
+        if (isset($rexClasses[$lowerClass])) {
             $force = true;
-            unset(self::$classes[$lowerClass]);
             self::$cacheChanged = true;
         }
 
-        // Return true if class exists after calling $composerLoader
         if (self::$composerLoader->loadClass($class) && self::classExists($class)) {
             return true;
         }
@@ -135,7 +139,9 @@ class rex_autoload
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode(file_get_contents(self::$cacheFile), true);
+        list(self::$classes, self::$dirs) = require self::$cacheFile;
+
+        self::$redaxoLoader->addClassMap(self::$classes);
     }
 
     /**
@@ -154,7 +160,15 @@ class rex_autoload
             }
         }
 
-        if (!rex_file::putCache(self::$cacheFile, [self::$classes, self::$dirs])) {
+        $content = "return ". var_export([self::$classes, self::$dirs], true). ';';
+        $content = str_replace(rtrim(var_export(rex_path::base(), true), "'"), "\$vendorDir .'". DIRECTORY_SEPARATOR, $content);
+
+        // build a relative path from the autoload-cache-file to the vendor dir
+        // to support copying of the whole redaxo installation between servers
+        $relCache = rex_path::relative(dirname(self::$cacheFile));
+        $relInclude = str_repeat(DIRECTORY_SEPARATOR.'..', count(explode(DIRECTORY_SEPARATOR, $relCache)));
+        $content = "<?php\n\n\$vendorDir = __DIR__ .". var_export($relInclude, true) .";\n\n" . $content;
+        if (!rex_file::put(self::$cacheFile, $content)) {
             throw new Exception("Unable to write autoload cachefile '" . self::$cacheFile . "'!");
         }
         self::$cacheChanged = false;
@@ -249,14 +263,17 @@ class rex_autoload
             foreach ($classes as $class) {
                 $class = strtolower($class);
                 if (!isset(self::$classes[$class])) {
-                    self::$classes[$class] = $file;
+                    self::$classes[$class] = rex_path::base($file);
                 }
             }
         }
+
         foreach ($files as $file) {
             unset(self::$dirs[$file]);
             self::$cacheChanged = true;
         }
+
+        self::$redaxoLoader->addClassMap(self::$classes);
     }
 
     /**
