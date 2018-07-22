@@ -151,7 +151,7 @@ class rex_backup
         unset($lines);
 
         // prüfen, ob eine user tabelle angelegt wurde
-        $tables = rex_sql::showTables();
+        $tables = rex_sql::factory()->getTables(rex::getTablePrefix());
         $user_table_found = in_array(rex::getTablePrefix() . 'user', $tables);
 
         if (!$user_table_found) {
@@ -333,7 +333,7 @@ class rex_backup
 
         if (null === $tables) {
             $tables = [];
-            foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
+            foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
                 if ($table != rex::getTable('user') // User Tabelle nicht exportieren
                     && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
                 ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
