@@ -48,6 +48,8 @@ class rex_autoload
             self::$composerLoader->setClassMapAuthoritative(true);
         }
         self::$redaxoLoader = new \Composer\Autoload\ClassLoader();
+        // fast exit when classes cannot be found in the classmap
+        self::$redaxoLoader->setClassMapAuthoritative(true);
 
         if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
             throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
@@ -87,7 +89,7 @@ class rex_autoload
         $lowerClass = strtolower($class);
 
         // for BC reasons we use a separate redaxo classes loader, which expects classnames to be lowercase.
-        if (self::$redaxoLoader->loadClass($lowerClass) && self::classExists($class)) {
+        if (@self::$redaxoLoader->loadClass($lowerClass) && self::classExists($class)) {
             return true;
         }
         // there is a class path in cache, but the file does not exist or does not contain the class any more
