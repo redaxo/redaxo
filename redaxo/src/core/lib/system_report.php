@@ -45,7 +45,7 @@ class rex_system_report
         }
 
         $server = [
-            'OS' => PHP_OS_FAMILY,
+            'OS' => PHP_OS,
             'SAPI' => PHP_SAPI,
         ];
 
