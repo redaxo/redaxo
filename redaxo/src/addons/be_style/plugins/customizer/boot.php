@@ -27,6 +27,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
     }
+    $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror-additional.css');
 
     $content = '';
     foreach ($filenames as $filename) {

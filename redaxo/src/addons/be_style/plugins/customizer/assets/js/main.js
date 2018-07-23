@@ -88,6 +88,7 @@ Customizer.init = function (container) {
                 matchTags: {
                     bothTags: true
                 },
+                tabSize: 4,
                 indentUnit: 4,
                 indentWithTabs: false,
                 enterMode: "keep",
@@ -100,6 +101,15 @@ Customizer.init = function (container) {
                     },
                     "Esc": function (cm) {
                         if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                    },
+                    "Tab": function (cm) {
+                        if (cm.doc.somethingSelected()) {
+                            return CodeMirror.Pass;
+                        }
+                        var spacesPerTab = cm.getOption("indentUnit");
+                        var spacesToInsert = spacesPerTab - (cm.doc.getCursor("start").ch % spacesPerTab);
+                        var spaces = Array(spacesToInsert + 1).join(" ");
+                        cm.replaceSelection(spaces, "end", "+input");
                     }
                 }
             });
