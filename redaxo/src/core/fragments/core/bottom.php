@@ -8,7 +8,7 @@
     </button>
 <?php endif; ?>
 <?php if (rex::isDebugMode()): ?>
-    <?= rex_debug_bar::get() ?>
+    <?= rex_minibar::get() ?>
 <?php endif; ?>
 </body>
 </html>

@@ -7,21 +7,21 @@
  *
  * @package redaxo\core
  */
-class rex_debug_bar
+class rex_minibar
 {
     public static function get()
     {
         $collectors = [
-            'rex_debug_bar_information'
+            'rex_minibar_information'
         ];
-        $collectors = rex_extension::registerPoint(new rex_extension_point('DEBUG_BAR_COLLECTOR', $collectors));
+        $collectors = rex_extension::registerPoint(new rex_extension_point('MINIBAR_COLLECTOR', $collectors));
 
         $collectorsLoaded = [];
         if (count($collectors)) {
             foreach ($collectors as $collector) {
                 $instance = new $collector();
 
-                if ($instance instanceof rex_debug_bar_collector) {
+                if ($instance instanceof rex_minibar_collector) {
                     $collectorsLoaded[] = $instance;
                 }
             }
@@ -35,6 +35,6 @@ class rex_debug_bar
             'collectors' => $collectorsLoaded,
         ]);
 
-        return $fragment->parse('core/debug_bar/debug_bar.php');
+        return $fragment->parse('core/minibar/minibar.php');
     }
 }

@@ -7,7 +7,7 @@
  *
  * @package redaxo\core
  */
-abstract class rex_debug_bar_collector
+abstract class rex_minibar_collector
 {
     /**
      * Returns the html bar item

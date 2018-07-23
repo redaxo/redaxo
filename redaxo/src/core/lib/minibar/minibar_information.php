@@ -7,7 +7,7 @@
  *
  * @package redaxo\core
  */
-class rex_debug_bar_information extends rex_debug_bar_collector
+class rex_minibar_information extends rex_minibar_collector
 {
     /**
      * Returns the html bar item
@@ -20,44 +20,44 @@ class rex_debug_bar_information extends rex_debug_bar_collector
 
         return
         '
-        <div class="rex-debug-bar-group">
+        <div class="rex-minibar-group">
             <a href="#">
-                <span class="rex-debug-bar-value">
+                <span class="rex-minibar-value">
                     '.rex::getVersion().'
                 </span>
             </a>
-            <div class="rex-debug-bar-info">
-                <div class="rex-debug-bar-info-group">
-                    <div class="rex-debug-bar-info-piece">
+            <div class="rex-minibar-info">
+                <div class="rex-minibar-info-group">
+                    <div class="rex-minibar-info-piece">
                         <b>REDAXO</b>
                         <span>'.rex::getVersion().'</span>
                     </div>
-                    <div class="rex-debug-bar-info-piece">
+                    <div class="rex-minibar-info-piece">
                         <b>PHP Version</b>
                         <span>'.PHP_VERSION.' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo()</a></span>
                     </div>
-                    <div class="rex-debug-bar-info-piece">
+                    <div class="rex-minibar-info-piece">
                         <b>MySQL</b>
                         <span>'.rex_sql::getServerVersion().'</span>
                     </div>
-                    <div class="rex-debug-bar-info-piece">
+                    <div class="rex-minibar-info-piece">
                         <b>Datenbank</b>
                         <span>'.$database[1]['name'].'</span>
                     </div>
-                    <div class="rex-debug-bar-info-piece">
+                    <div class="rex-minibar-info-piece">
                         <b>Host</b>
                         <span>'.$database[1]['host'].'</span>
                     </div>
                 </div>
-                <div class="rex-debug-bar-info-group">
-                    <div class="rex-debug-bar-info-piece">
+                <div class="rex-minibar-info-group">
+                    <div class="rex-minibar-info-piece">
                         <b>Ressourcen</b>
                         <span>
                             <a href="https://redaxo.org" rel="help">redaxo.org</a><br />
                             <a href="https://redaxo.org/doku/master" rel="help">Dokumentation lesen</a>
                         </span>
                     </div>
-                    <div class="rex-debug-bar-info-piece">
+                    <div class="rex-minibar-info-piece">
                         <b>Hilfe</b>
                         <span>
                             <a href="https://redaxo.org/forum/" rel="help">Besuche das Forum</a><br />
