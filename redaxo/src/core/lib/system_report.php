@@ -57,7 +57,7 @@ class rex_system_report
 
         if ('cli' !== PHP_SAPI) {
             $data['Request'] = [
-                'User agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '(unknown)',
+                'Browser' => $this->getBrowser(),
                 'Protocol' => $_SERVER['SERVER_PROTOCOL'],
                 'HTTPS' => rex_request::isHttps(),
             ];
@@ -114,5 +114,41 @@ $content
 
 </details>
 OUTPUT;
+    }
+
+    private function getBrowser()
+    {
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+            return '(unknown)';
+        }
+
+        $browser = $_SERVER['HTTP_USER_AGENT'];
+
+        if (preg_match('@\bSeamonkey/\S+@i', $browser, $match)) {
+            return $match[0];
+        }
+        if (preg_match('@\bFirefox/\S+@i', $browser, $match)) {
+            return $match[0];
+        }
+        if (preg_match('@\b(?:OPR|Opera)/(\S+)@i', $browser, $match)) {
+            return 'Opera/'.$match[1];
+        }
+        if (preg_match('@\bEdge/\S+@i', $browser, $match)) {
+            return $match[0];
+        }
+        if (preg_match('@\bChromium/\S+@i', $browser, $match)) {
+            return $match[0];
+        }
+        if (preg_match('@\bChrome/\S+@i', $browser, $match)) {
+            return $match[0];
+        }
+        if (preg_match('@\bVersion/(\S+) Safari/\S+@i', $browser, $match)) {
+            return 'Safari/'.$match[1];
+        }
+        if (preg_match('@\bMSIE/\S+@i', $browser, $match)) {
+            return $match[0];
+        }
+
+        return $browser;
     }
 }
