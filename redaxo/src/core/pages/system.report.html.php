@@ -22,12 +22,12 @@ foreach ($report as $title => $group) {
         $content .= '
             <tr>
                 <th width="120">'.rex_escape($label).'</th>
-                <td>'.$value.'</td>
+                <td data-title="'.rex_escape($label).'">'.$value.'</td>
             </tr>
         ';
     }
 
-    $content = '<table class="table table-hover table-bordered">'.$content.'</table>';
+    $content = '<table class="table table-hover table-bordered"><tbody>'.$content.'</tbody></table>';
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', $title);
