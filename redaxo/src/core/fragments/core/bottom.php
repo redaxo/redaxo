@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
     </button>
 <?php endif; ?>
-<?php if (rex::isDebugMode()): ?>
+<?php if (rex_minibar::isActive()): ?>
     <?= rex_minibar::get() ?>
 <?php endif; ?>
 </body>
