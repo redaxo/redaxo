@@ -274,6 +274,8 @@ abstract class rex_package_manager
             return false;
         }
 
+        rex_i18n::clearCache();
+
         $this->message = $this->i18n('activated', $this->package->getName());
         return true;
     }
@@ -297,6 +299,8 @@ abstract class rex_package_manager
             // reload autoload cache when addon is deactivated,
             // so the index doesn't contain outdated class definitions
             rex_autoload::removeCache();
+
+            rex_i18n::clearCache();
 
             if ($this->generatePackageOrder) {
                 self::generatePackageOrder();

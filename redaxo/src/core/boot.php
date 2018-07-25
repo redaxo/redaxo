@@ -69,8 +69,6 @@ rex_url::init($urlProvider);
 rex::setProperty('timer', new rex_timer($_SERVER['REQUEST_TIME_FLOAT']));
 // add backend flag to rex
 rex::setProperty('redaxo', $REX['REDAXO']);
-// add core lang directory to rex_i18n
-rex_i18n::addDirectory(rex_path::core('lang'));
 // add core base-fragmentpath to fragmentloader
 rex_fragment::addDirectory(rex_path::core('fragments/'));
 
@@ -99,6 +97,11 @@ foreach ($config as $key => $value) {
     }
     rex::setProperty($key, $value);
 }
+
+// try to load cache after rex properties are available
+rex_i18n::loadCache();
+// add core lang directory to rex_i18n
+rex_i18n::addDirectory(rex_path::core('lang'));
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 

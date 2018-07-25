@@ -143,6 +143,7 @@ class rex_autoload
      */
     public static function saveCache()
     {
+        rex_i18n::saveCache();
         if (!self::$cacheChanged) {
             return;
         }

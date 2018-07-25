@@ -113,6 +113,8 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
 
+        rex_i18n::clearCache();
+
         // re-generate opcache to make sure new/updated classes immediately are available
         if (function_exists('opcache_reset')) {
             opcache_reset();

@@ -18,7 +18,8 @@ class rex_i18n
      * @var string[][]
      */
     private static $msg = [];
-    private static $cache = null;
+    private static $cacheChanged = false;
+    private static $cacheLoaded = false;
 
     /**
      * Switches the current locale.
@@ -81,6 +82,10 @@ class rex_i18n
      */
     public static function addDirectory($dir)
     {
+        if (self::$cacheLoaded) {
+            return;
+        }
+
         $dir = rtrim($dir, DIRECTORY_SEPARATOR);
 
         if (in_array($dir, self::$directories, true)) {
@@ -92,6 +97,7 @@ class rex_i18n
         foreach (self::$loaded as $locale => $_) {
             self::loadFile($dir, $locale);
         }
+        self::$cacheChanged = true;
     }
 
     /**
@@ -395,15 +401,6 @@ class rex_i18n
     private static function loadFile($dir, $locale)
     {
         $file = $dir.DIRECTORY_SEPARATOR.$locale.'.lang';
-        self::checkCache();
-
-        $timestamp = @filemtime($file);
-        if (isset(self::$cache[$file])) {
-            if ($timestamp === self::$cache[$file]) {
-                return;
-            }
-        }
-        self::$cache[$file] = $timestamp;
 
         if (
             ($content = rex_file::get($file)) &&
@@ -413,7 +410,6 @@ class rex_i18n
                 self::$msg[$locale][$match[1]] = $match[2];
             }
         }
-        self::storeCache();
     }
 
     /**
@@ -423,42 +419,55 @@ class rex_i18n
      */
     private static function loadAll($locale)
     {
+        if (self::$cacheLoaded) {
+            return;
+        }
         foreach (self::$directories as $dir) {
             self::loadFile($dir, $locale);
         }
 
         self::$loaded[$locale] = true;
+        self::$cacheChanged = true;
     }
 
     /**
      * Loads the cache if not already loaded.
      */
-    private static function checkCache()
+    public static function loadCache()
     {
-        if (self::$cache) {
+        if (rex::getConsole() || rex_backend_login::hasSession() && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
             return;
         }
 
         $cacheFile = rex_path::coreCache('i18n.cache');
-        $cache = rex_file::getCache($cacheFile);
+        $cache = rex_file::getCache($cacheFile, null);
         if ($cache) {
-            self::$msg = $cache['msg'];
-            self::$cache = $cache['files'];
+            self::$cacheLoaded = true;
+            list(self::$msg, self::$directories) = $cache;
+            return true;
         }
+        return false;
     }
 
     /**
      * Saves the cache.
      */
-    private static function storeCache()
+    public static function saveCache()
     {
-        if (!self::$cache) {
+        if (!self::$cacheChanged) {
             return;
         }
-
         $cacheFile = rex_path::coreCache('i18n.cache');
-        if (rex_file::putCache($cacheFile, ['files' => self::$cache, 'msg' => self::$msg]) === false) {
+        if (rex_file::putCache($cacheFile, [self::$msg, self::$directories]) === false) {
             throw new rex_exception('i18n cache file could not be generated');
+        }
+    }
+
+    public static function clearCache()
+    {
+        $cacheFile = rex_path::coreCache('i18n.cache');
+        if (rex_file::delete($cacheFile) === false) {
+            throw new rex_exception('i18n cache file could not be deleted');
         }
     }
 }
