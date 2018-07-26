@@ -26,6 +26,8 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     }
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.css');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.css');
     }
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/codemirror-additional.css');
 
@@ -64,6 +66,12 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js');
         $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/search/searchcursor.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/search/search.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/scroll/annotatescrollbar.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.js');
+        $filenames[] = $this->getAssetsUrl('vendor/codemirror/addon/search/jump-to-line.js');
     }
 
     $filenames[] = $this->getAssetsUrl('vendor/codemirror/mode/xml/xml.js');
