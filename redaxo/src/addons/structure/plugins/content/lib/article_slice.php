@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The rex_article_slice class is an object wrapper over the database table rex_articel_slice.
+ * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
  * Together with rex_article and rex_category it provides an object oriented
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
