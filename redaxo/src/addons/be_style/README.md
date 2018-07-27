@@ -1,7 +1,7 @@
 be_style-Addon
 =============
 
-Dieses Addon stellt die Styles, Skripte und Grafiken für das REDAXO Backend bereit.
+Dieses Addon stellt die Styles, Skripte und Grafiken für das REDAXO-Backend bereit.
 
 ## Styles kompilieren
 
