@@ -246,31 +246,37 @@ abstract class rex_package implements rex_package_interface
 
         $isCached = isset($cache[$id]);
         $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
-        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && file_exists($file) && $cache[$id]['timestamp'] < filemtime($file)) {
-            try {
-                $properties = rex_file::getConfig($file);
+        $properties = [];
+        if (!$isCached || (rex::getConsole() || $isBackendAdmin)) {
+            if (file_exists($file) && (!$isCached || $cache[$id]['timestamp'] < filemtime($file))) {
+                try {
+                    $properties = rex_file::getConfig($file);
 
-                $cache[$id]['timestamp'] = filemtime($file);
-                $cache[$id]['data'] = $properties;
+                    $cache[$id]['timestamp'] = filemtime($file);
+                    $cache[$id]['data'] = $properties;
 
-                static $registeredShutdown = false;
-                if (!$registeredShutdown) {
-                    $registeredShutdown = true;
-                    register_shutdown_function(function () use (&$cache) {
-                        foreach ($cache as $package => $_) {
-                            if (!rex_package::exists($package)) {
-                                unset($cache[$package]);
+                    static $registeredShutdown = false;
+                    if (!$registeredShutdown) {
+                        $registeredShutdown = true;
+                        register_shutdown_function(function () use (&$cache) {
+                            foreach ($cache as $package => $_) {
+                                if (!rex_package::exists($package)) {
+                                    unset($cache[$package]);
+                                }
                             }
-                        }
-                        rex_file::putCache(rex_path::coreCache('packages.cache'), $cache);
-                    });
-                }
-            } catch (rex_yaml_parse_exception $exception) {
-                if ($this->isInstalled()) {
-                    throw $exception;
-                }
+                            rex_file::putCache(rex_path::coreCache('packages.cache'), $cache);
+                        });
+                    }
+                } catch (rex_yaml_parse_exception $exception) {
+                    if ($this->isInstalled()) {
+                        throw $exception;
+                    }
 
-                $properties = [];
+                    $properties = [];
+                }
+            } else {
+                $cache[$id]['timestamp'] = time();
+                $cache[$id]['data'] = [];
             }
         } else {
             $properties = $cache[$id]['data'];
