@@ -99,9 +99,12 @@ foreach ($config as $key => $value) {
 }
 
 // try to load cache after rex properties are available
-rex_i18n::loadCache();
+rex_i18n::init();
 // add core lang directory to rex_i18n
-rex_i18n::addDirectory(rex_path::core('lang'));
+$coreLangDir = rex_path::core('lang');
+if (!rex_i18n::isCached($coreLangDir)) {
+    rex_i18n::addDirectory($coreLangDir);
+}
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 

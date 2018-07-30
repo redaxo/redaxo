@@ -82,10 +82,6 @@ class rex_i18n
      */
     public static function addDirectory($dir)
     {
-        if (self::$cacheLoaded) {
-            return;
-        }
-
         $dir = rtrim($dir, DIRECTORY_SEPARATOR);
 
         if (in_array($dir, self::$directories, true)) {
@@ -422,6 +418,7 @@ class rex_i18n
         if (self::$cacheLoaded) {
             return;
         }
+
         foreach (self::$directories as $dir) {
             self::loadFile($dir, $locale);
         }
@@ -442,11 +439,9 @@ class rex_i18n
         $cacheFile = rex_path::coreCache('i18n.cache');
         $cache = rex_file::getCache($cacheFile, null);
         if ($cache) {
-            self::$cacheLoaded = true;
             list(self::$msg, self::$directories) = $cache;
-            return true;
+            self::$cacheLoaded = true;
         }
-        return false;
     }
 
     /**
@@ -457,10 +452,12 @@ class rex_i18n
         if (!self::$cacheChanged) {
             return;
         }
+
         $cacheFile = rex_path::coreCache('i18n.cache');
         if (rex_file::putCache($cacheFile, [self::$msg, self::$directories]) === false) {
             throw new rex_exception('i18n cache file could not be generated');
         }
+        self::$cacheChanged = false;
     }
 
     public static function clearCache()
@@ -469,5 +466,16 @@ class rex_i18n
         if (rex_file::delete($cacheFile) === false) {
             throw new rex_exception('i18n cache file could not be deleted');
         }
+    }
+
+    public static function init()
+    {
+        self::loadCache();
+        register_shutdown_function([__CLASS__, 'saveCache']);
+    }
+
+    public static function isCached($dir)
+    {
+        return self::$cacheLoaded && in_array($dir, self::$directories);
     }
 }
