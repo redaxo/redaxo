@@ -117,3 +117,9 @@ rex_extension::register('CACHE_DELETED', function () {
     rex_structure_element::clearInstanceListPool();
     rex_structure_element::resetClassVars();
 });
+
+rex_extension::register('MINIBAR_BARKEEPER', function (rex_extension_point $ep) {
+    $subject = $ep->getSubject();
+    $subject[] = 'rex_minibar_structure_content_frontend';
+    $ep->setSubject($subject);
+});
