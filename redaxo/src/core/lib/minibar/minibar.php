@@ -49,7 +49,11 @@ class rex_minibar
      */
     public static function isActive()
     {
-        return rex_backend_login::hasSession() && rex::getUser()->hasPerm('minibar') && rex::getUser()->getValue('minibar') == 1;
+        $user = rex_backend_login::createUser();
+        if (!$user) {
+            return false;
+        }
+        return rex_backend_login::hasSession() && $user->hasPerm('minibar') && $user->getValue('minibar') == 1;
     }
 
     /**

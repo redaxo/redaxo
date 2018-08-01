@@ -134,7 +134,11 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
 // ----------------- Minibar
 if (!rex::isBackend()) {
     rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
-        // $ep->setSubject(str_replace('</body>', rex_minibar::get() . '</body>', $ep->getSubject()));
+        $minibar = rex_minibar::get();
+        if ($minibar) {
+            $minibar = '<link rel="stylesheet" type="text/css" href="' . rex_plugin::get('be_style', 'redaxo')->getAssetsUrl('/css/styles.css') .'" />'. $minibar;
+        }
+        $ep->setSubject(str_replace('</body>', $minibar . '</body>', $ep->getSubject()));
     });
 }
 

@@ -6,10 +6,17 @@
  */
 class rex_api_minibar extends rex_api_function
 {
+    protected $published = true;
+
     public function execute()
     {
         rex_minibar::setVisibility(rex_get('visibility', 'bool', false));
-        rex_response::sendRedirect(rex_url::currentBackendPage([], false));
+
+        if (rex::isBackend()) {
+            rex_response::sendRedirect(rex_url::currentBackendPage([], false));
+        }
+
+        rex_response::sendRedirect(rex_getUrl('', '', [], '&'));
     }
 
     protected function requiresCsrfProtection()
