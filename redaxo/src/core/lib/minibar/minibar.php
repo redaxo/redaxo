@@ -59,8 +59,7 @@ class rex_minibar
      */
     public static function isVisible()
     {
-        $minibar = rex::getProperty('login')->getSessionVar('minibar', false);
-        return isset($minibar['visible']) && $minibar['visible'];
+        return rex_cookie('rex_minibar_visibility', 'bool', false);
     }
 
     /**
@@ -70,8 +69,11 @@ class rex_minibar
      */
     public static function setVisibility($value)
     {
-        $minibar = ['visible' => $value];
-        rex::getProperty('login')->setSessionVar('minibar', $minibar);
+        if ($value) {
+            rex_response::sendCookie('rex_minibar_visibility', '1', ['expires' => rex::getProperty('session_duration'), 'samesite' => 'strict']);
+        } else {
+            rex_response::sendCookie('rex_minibar_visibility', '');
+        }
     }
 
     /**
