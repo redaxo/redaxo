@@ -13,8 +13,7 @@ foreach ($report as $title => $group) {
 
     foreach ($group as $label => $value) {
         if (is_bool($value)) {
-            $class = $value ? 'fa-check text-success' : 'fa-times text-danger';
-            $value = '<i class="rex-icon '.$class.'"></i>';
+            $value = $value ? 'yes' : 'no';
         } else {
             $value = rex_escape($value);
         }
