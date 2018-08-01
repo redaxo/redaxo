@@ -74,7 +74,7 @@ class rex_minibar
     public static function setVisibility($value)
     {
         if ($value) {
-            rex_response::sendCookie('rex_minibar_visibility', '1', ['expires' => rex::getProperty('session_duration'), 'samesite' => 'strict']);
+            rex_response::sendCookie('rex_minibar_visibility', '1', ['expires' => time() + rex::getProperty('session_duration'), 'samesite' => 'strict']);
         } else {
             rex_response::sendCookie('rex_minibar_visibility', '');
         }
