@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for debug bar
+ * Class for minibar
  *
  * @author gharlan
  *
@@ -11,6 +11,10 @@ class rex_minibar
 {
     public static function get()
     {
+        if (!self::isActive()) {
+            return null;
+        }
+
         $collectors = [
             'rex_minibar_eggnog'
         ];
@@ -45,10 +49,7 @@ class rex_minibar
      */
     public static function isActive()
     {
-        $minibar = self::getFlags();
-
-        return true;
-        // return isset($minibar['enabled']) && $minibar['enabled'];
+        return rex_backend_login::hasSession() && rex::getUser()->hasPerm('minibar') && rex::getUser()->getValue('minibar') == 1;
     }
 
     /**

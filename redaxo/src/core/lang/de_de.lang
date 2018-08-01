@@ -432,3 +432,6 @@ created_on = erstellt am
 updated_by = aktualisiert von
 updated_on = aktualisiert am
 status = Status
+
+user_minibar = Minibar anzeigen?
+user_minibar_note = Stellt im Front- und Backend eine Toolbar mit weiteren Informationen zur Verfügung

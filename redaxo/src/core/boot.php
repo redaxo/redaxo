@@ -131,6 +131,13 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 }
 
+// ----------------- Minibar
+if (!rex::isBackend()) {
+    rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
+        // $ep->setSubject(str_replace('</body>', rex_minibar::get() . '</body>', $ep->getSubject()));
+    });
+}
+
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
