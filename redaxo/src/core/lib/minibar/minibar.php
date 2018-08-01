@@ -6,7 +6,16 @@
  */
 class rex_minibar
 {
-    public static function get()
+    private function __construct()
+    {
+    }
+
+    public static function factory()
+    {
+        return new self();
+    }
+
+    public function get()
     {
         if (!self::isActive()) {
             return null;
