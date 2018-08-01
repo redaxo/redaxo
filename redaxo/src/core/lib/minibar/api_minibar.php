@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @package redaxo\core
  *
+ * @package redaxo\core
  */
 class rex_api_minibar extends rex_api_function
 {

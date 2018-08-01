@@ -1,20 +1,17 @@
 <?php
 
 /**
- * Class for debug bar
- *
- * @author gharlan
  *
  * @package redaxo\core
  */
-class rex_minibar_eggnog extends rex_minibar_collector
+class rex_minibar_eggnog extends rex_minibar_drink
 {
     /**
      * Returns the html bar item
      *
      * @return string
      */
-    public function getBarItem()
+    public function serve()
     {
         $database = rex::getProperty('db');
 

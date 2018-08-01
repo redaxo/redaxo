@@ -1,20 +1,17 @@
 <?php
 
 /**
- * Class for debug bar
- *
- * @author gharlan
  *
  * @package redaxo\core
  */
-abstract class rex_minibar_collector
+abstract class rex_minibar_drink
 {
     /**
      * Returns the html bar item
      *
      * @return string
      */
-    abstract public function getBarItem();
+    abstract public function serve();
 
     /**
      * Returns the position in the debug bar

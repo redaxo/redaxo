@@ -1,9 +1,6 @@
 <?php
 
 /**
- * Class for minibar
- *
- * @author gharlan
  *
  * @package redaxo\core
  */
@@ -15,28 +12,28 @@ class rex_minibar
             return null;
         }
 
-        $collectors = [
+        $drinks = [
             'rex_minibar_eggnog'
         ];
-        $collectors = rex_extension::registerPoint(new rex_extension_point('MINIBAR_BARKEEPER', $collectors));
+        $drinks = rex_extension::registerPoint(new rex_extension_point('MINIBAR_BARKEEPER', $drinks));
 
-        $collectorsLoaded = [];
-        if (count($collectors)) {
-            foreach ($collectors as $collector) {
-                $instance = new $collector();
+        $drinksLoaded = [];
+        if (count($drinks)) {
+            foreach ($drinks as $drink) {
+                $instance = new $drink();
 
-                if ($instance instanceof rex_minibar_collector) {
-                    $collectorsLoaded[] = $instance;
+                if ($instance instanceof rex_minibar_drink) {
+                    $drinksLoaded[] = $instance;
                 }
             }
         }
 
-        if (!count($collectorsLoaded)) {
+        if (!count($drinksLoaded)) {
             return null;
         }
 
         $fragment = new rex_fragment([
-            'collectors' => $collectorsLoaded,
+            'drinks' => $drinksLoaded,
         ]);
 
         return $fragment->parse('core/minibar/minibar.php');

@@ -6,14 +6,14 @@
         <i class="rex-icon rex-icon-minibar-close"></i>
     </a>
     <div class="rex-minibar-items">
-        <?php foreach ($this->collectors as $collector): ?>
+        <?php foreach ($this->drinks as $drink): ?>
         <div class="rex-minibar-item
-            <?= ($collector->onLeftSide() ? '' : ' rex-minibar-item-right') ?>
-            <?= ($collector->isDanger() ? ' rex-minibar-status-danger' : '') ?>
-            <?= ($collector->isWarning() ? ' rex-minibar-status-warning' : '') ?>
-            <?= ($collector->isPrimary() ? ' rex-minibar-status-primary': '') ?>
+            <?= ($drink->onLeftSide() ? '' : ' rex-minibar-item-right') ?>
+            <?= ($drink->isDanger() ? ' rex-minibar-status-danger' : '') ?>
+            <?= ($drink->isWarning() ? ' rex-minibar-status-warning' : '') ?>
+            <?= ($drink->isPrimary() ? ' rex-minibar-status-primary': '') ?>
         ">
-            <?= $collector->getBarItem() ?>
+            <?= $drink->serve() ?>
         </div>
         <?php endforeach; ?>
     </div>
