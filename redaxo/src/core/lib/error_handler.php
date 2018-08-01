@@ -152,6 +152,10 @@ abstract class rex_error_handler
                 $errPage
             );
 
+            $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button id="copy-button" class="clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
+      COPY MARKDOWN
+    </button>', $errPage);
+
             rex_response::sendContent($errPage, $handler->contentType());
             exit;
         }
@@ -264,5 +268,55 @@ abstract class rex_error_handler
             default:
                 return 'Unknown';
         }
+    }
+
+    /**
+     * @param Throwable|Exception $exception
+     */
+    private static function getMarkdownReport($exception)
+    {
+        $file = rex_path::relative($exception->getFile());
+        $markdown = '**'.get_class($exception).":** {$exception->getMessage()}\n";
+        $markdown .= "**File:** {$file}\n";
+        $markdown .= "**Line:** {$exception->getLine()}\n\n";
+
+        $trace = [];
+
+        $headers = ['Function', 'File', 'Line'];
+        $widths = [mb_strlen($headers[0]), mb_strlen($headers[0]), mb_strlen($headers[0])];
+
+        foreach ($exception->getTrace() as $frame) {
+            $function = $frame['function'];
+            if (isset($frame['class'])) {
+                $function = $frame['class'].$frame['type'].$function;
+            }
+
+            $file = rex_path::relative($frame['file']);
+
+            $trace[] = [$function, $file, $frame['line']];
+
+            $widths[0] = max($widths[0], mb_strlen($function));
+            $widths[1] = max($widths[1], mb_strlen($file));
+            $widths[2] = max($widths[2], mb_strlen($frame['line']));
+        }
+
+        $table = '| '.str_pad($headers[0], $widths[0]).' | '.str_pad($headers[1], $widths[1]).' | '.str_pad($headers[2], $widths[2])." |\n";
+        $table .= '| '.str_repeat('-', $widths[0]).' | '.str_repeat('-', $widths[1]).' | '.str_repeat('-', $widths[2])." |\n";
+
+        foreach ($trace as $row) {
+            $table .= '| '.str_pad($row[0], $widths[0]).' | '.str_pad($row[1], $widths[1]).' | '.str_pad($row[2], $widths[2])." |\n";
+        }
+
+        $markdown .= <<<OUTPUT
+<details>
+<summary>Stacktrace</summary>
+
+$table
+</details>
+
+OUTPUT;
+        $markdown .= rex_system_report::factory()->asMarkdown();
+
+        return $markdown;
     }
 }
