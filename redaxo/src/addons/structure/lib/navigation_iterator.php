@@ -185,7 +185,10 @@ class rex_navigation_iterator implements IteratorAggregate
             $this->addFilter('status', 1, '==');
         }
 
-        yield from ($this->_getNavigation($this->startCategory));
+        // 'yield from' is not supported by our min-php version
+        foreach($this->_getNavigation($this->startCategory) as $item) {
+            yield $item;
+        }
     }
 
     private function _setActivePath()
@@ -281,7 +284,10 @@ class rex_navigation_iterator implements IteratorAggregate
 
                 ++$depth;
                 if ($this->depthLimit >= $depth || $this->depthLimit < 0) {
-                    yield from ($this->_getNavigation($nav->getId(), $depth));
+                    // 'yield from' is not supported by our min-php version
+                    foreach($this->_getNavigation($nav->getId(), $depth) as $item) {
+                        yield $item;
+                    }
                 }
                 --$depth;
 
