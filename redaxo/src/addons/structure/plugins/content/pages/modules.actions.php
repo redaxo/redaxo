@@ -246,7 +246,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" spellcheck="false" name="previewaction" id="previewaction">' . htmlspecialchars($previewaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -288,7 +288,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" spellcheck="false" name="presaveaction" id="presaveaction">' . htmlspecialchars($presaveaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -330,7 +330,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" spellcheck="false" name="postsaveaction" id="postsaveaction">' . htmlspecialchars($postsaveaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
