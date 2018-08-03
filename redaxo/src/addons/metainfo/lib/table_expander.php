@@ -106,6 +106,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addTextAreaField('callback');
         $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
+        $field->setAttribute('class', 'form-control rex-code rex-js-code');
         $notice = rex_i18n::msg('minfo_field_label_notice') . "\n";
         $field->setNotice($notice);
 
