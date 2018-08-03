@@ -40,6 +40,8 @@ $(document).on('rex:ready', function (event, container) {
                     Customizer.init(container);
                 }
             };
+        } else {
+            Customizer.init(container);
         }
     } else {
         Customizer.init(container);
