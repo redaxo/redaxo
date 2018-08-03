@@ -41,7 +41,7 @@ class rex_cronjob_phpcode extends rex_cronjob
                 'label' => rex_i18n::msg('cronjob_type_phpcode'),
                 'name' => 'code',
                 'type' => 'textarea',
-                'attributes' => ['rows' => 20],
+                'attributes' => ['rows' => 20, 'class' => 'form-control rex-code rex-js-code'],
             ],
         ];
     }

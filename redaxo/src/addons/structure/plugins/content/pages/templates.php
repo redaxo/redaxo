@@ -367,7 +367,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="rex-id-content" name="content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
