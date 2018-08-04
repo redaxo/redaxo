@@ -3,8 +3,8 @@ customizer_features = CodeMirror
 
 customizer_codemirror = CodeMirror
 customizer_codemirror_check = CodeMirror aktivieren
-customizer_codemirror_selectors = jQuery-Selektoren für CodeMirror
-customizer_codemirror_selectors_info = Kommaseparierte Liste von jQuery-Selektoren für die der CodeMirror angewendet wird
+customizer_codemirror_selectors = Zusätzliche jQuery-Selektoren für CodeMirror
+customizer_codemirror_selectors_info = Kommaseparierte Liste von jQuery-Selektoren für die der CodeMirror angewendet wird.<br>Default sind <code>textarea.rex-js-code</code> und <code>textarea.codemirror</code>.
 customizer_codemirror_theme = CodeMirror Theme
 customizer_codemirror_langs = Zusätzliche Highlighter
 customizer_codemirror_langs_text = (markdown, textile, gfm, yaml, sql ...)

@@ -3,7 +3,13 @@ customizer_features = Funzioni
 
 customizer_codemirror = CodeMirror
 customizer_codemirror_check = Attivare CodeMirror
+customizer_codemirror_selectors =
+customizer_codemirror_selectors_info =
 customizer_codemirror_theme = Thema del CodeMirror
+customizer_codemirror_langs =
+customizer_codemirror_langs_text =
+customizer_codemirror_tools =
+customizer_codemirror_tools_text =
 
 customizer_codemirror_info = Quando è attivo CodeMirror vengono usati questi template e moduli automaticamente. Se vuoi usarle, prego usare il form seguente: <br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br>I parametri <i>codemirror-theme</i> e <i>codemirror-mode</i> sono opzionali.
 
@@ -19,6 +25,6 @@ customizer_update = Impostazioni salvati
 
 
 customizer_projectname = Nome del progetto
-customizer_textarea = 
+customizer_textarea =
 customizer_liquid = Layout fluido
 customizer_nav_flyout = Navigazione con Flyout
