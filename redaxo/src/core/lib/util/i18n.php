@@ -19,7 +19,8 @@ class rex_i18n
      */
     private static $msg = [];
     private static $cacheChanged = false;
-    private static $cacheLoaded = false;
+    private static $cacheLoaded = null;
+    private static $registeredShutdown = false;
 
     /**
      * Switches the current locale.
@@ -94,6 +95,10 @@ class rex_i18n
             self::loadFile($dir, $locale);
         }
         self::$cacheChanged = true;
+        if (!self::$registeredShutdown) {
+            register_shutdown_function([__CLASS__, 'saveCache']);
+            self::$registeredShutdown = true;
+        }
     }
 
     /**
@@ -415,6 +420,10 @@ class rex_i18n
      */
     private static function loadAll($locale)
     {
+        if (self::$cacheLoaded === null) {
+            self::loadCache();
+        }
+
         if (self::$cacheLoaded) {
             return;
         }
@@ -424,7 +433,7 @@ class rex_i18n
         }
 
         self::$loaded[$locale] = true;
-        self::$cacheChanged = true;
+        self::$cacheLoaded = true;
     }
 
     /**
@@ -441,6 +450,8 @@ class rex_i18n
         if ($cache) {
             list(self::$msg, self::$directories) = $cache;
             self::$cacheLoaded = true;
+        } else {
+            self::$cacheLoaded = false;
         }
     }
 
@@ -455,7 +466,7 @@ class rex_i18n
 
         $cacheFile = rex_path::coreCache('i18n.cache');
         if (rex_file::putCache($cacheFile, [self::$msg, self::$directories]) === false) {
-            throw new rex_exception('i18n cache file could not be generated');
+            throw new rex_exception('unable to write cache file ' . $cacheFile);
         }
         self::$cacheChanged = false;
     }
@@ -464,14 +475,8 @@ class rex_i18n
     {
         $cacheFile = rex_path::coreCache('i18n.cache');
         if (rex_file::delete($cacheFile) === false) {
-            throw new rex_exception('i18n cache file could not be deleted');
+            throw new rex_exception('unable to delete cache file ' . $cacheFile);
         }
-    }
-
-    public static function init()
-    {
-        self::loadCache();
-        register_shutdown_function([__CLASS__, 'saveCache']);
     }
 
     public static function isCached($dir)

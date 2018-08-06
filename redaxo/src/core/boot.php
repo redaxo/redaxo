@@ -98,8 +98,9 @@ foreach ($config as $key => $value) {
     rex::setProperty($key, $value);
 }
 
-// try to load cache after rex properties are available
-rex_i18n::init();
+// must be after rex properties because these are
+// used to check whether the check should be enabled or not
+
 // add core lang directory to rex_i18n
 $coreLangDir = rex_path::core('lang');
 if (!rex_i18n::isCached($coreLangDir)) {
