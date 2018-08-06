@@ -3,8 +3,6 @@ customizer_features = Funktioner
 
 customizer_codemirror = CodeMirror
 customizer_codemirror_check = Aktivera CodeMirror
-customizer_codemirror_selectors = ???
-customizer_codemirror_selectors_info = ???
 customizer_codemirror_theme = CodeMirror theme
 customizer_codemirror_langs = Ytterligare highlighter
 customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)

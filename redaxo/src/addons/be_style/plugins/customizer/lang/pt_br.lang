@@ -3,13 +3,7 @@ customizer_features = Funções
 
 customizer_codemirror = CodeMirror
 customizer_codemirror_check = Ativar CodeMirror
-customizer_codemirror_selectors =
-customizer_codemirror_selectors_info =
 customizer_codemirror_theme = Tema CodeMirror
-customizer_codemirror_langs =
-customizer_codemirror_langs_text =
-customizer_codemirror_tools =
-customizer_codemirror_tools_text =
 
 customizer_codemirror_info = O CodeMirror será automaticamente utilizado na edição de templates ou módulos, se estiver ativado. Para usar o CodeMirror manualmente para personalizar campos de área de texto, use a seguinte sintax:<br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br> Os parâmetros <i>codemirror-theme</i> and <i>codemirror-mode</i> são opcionais.
 
