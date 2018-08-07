@@ -100,8 +100,6 @@ foreach ($config as $key => $value) {
 
 // must be after rex properties because these are
 // used to check whether the i18n cache should be enabled or not
-
-// add core lang directory to rex_i18n
 $coreLangDir = rex_path::core('lang');
 if (!rex_i18n::isCached($coreLangDir)) {
     rex_i18n::addDirectory($coreLangDir);
