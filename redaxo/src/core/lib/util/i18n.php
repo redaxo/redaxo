@@ -442,6 +442,7 @@ class rex_i18n
     public static function loadCache()
     {
         if (rex::getConsole() || rex_backend_login::hasSession() && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+            self::$cacheLoaded = false;
             return;
         }
 
