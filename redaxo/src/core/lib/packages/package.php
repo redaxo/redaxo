@@ -316,9 +316,7 @@ abstract class rex_package implements rex_package_interface
 
         // add addon path for i18n
         if (!rex_i18n::isCached($folder . 'lang')) {
-            if (is_readable($folder . 'lang')) {
-                rex_i18n::addDirectory($folder . 'lang');
-            }
+            rex_i18n::addDirectory($folder . 'lang');
         }
         // add package path for fragment loading
         if (is_readable($folder . 'fragments')) {

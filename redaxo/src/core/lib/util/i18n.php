@@ -91,6 +91,10 @@ class rex_i18n
 
         self::$directories[] = $dir;
 
+        if (!is_readable($dir)) {
+            return;
+        }
+
         foreach (self::$loaded as $locale => $_) {
             self::loadFile($dir, $locale);
         }
