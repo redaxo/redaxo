@@ -433,7 +433,6 @@ class rex_i18n
         }
 
         self::$loaded[$locale] = true;
-        self::$cacheLoaded = true;
     }
 
     /**
