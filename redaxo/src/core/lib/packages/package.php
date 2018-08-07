@@ -315,8 +315,8 @@ abstract class rex_package implements rex_package_interface
         $folder = $this->getPath();
 
         // add addon path for i18n
-        if (is_readable($folder . 'lang')) {
-            if (!rex_i18n::isCached($folder . 'lang')) {
+        if (!rex_i18n::isCached($folder . 'lang')) {
+            if (is_readable($folder . 'lang')) {
                 rex_i18n::addDirectory($folder . 'lang');
             }
         }
