@@ -243,10 +243,10 @@ class rex_cronjob_manager_sql
         ');
 
         if ($this->sql->getRows() == 1) {
-            $NextTime = $this->sql->getValue('nexttime');
-            $NextDateTime = DateTime::createFromFormat(rex_sql::FORMAT_DATETIME, $NextTime);
-            if ($NextDateTime) {
-                return $NextDateTime->getTimestamp();
+            $nextTime = $this->sql->getValue('nexttime');
+            $nextDateTime = DateTime::createFromFormat(rex_sql::FORMAT_DATETIME, $nextTime);
+            if ($nextDateTime) {
+                return $nextDateTime->getTimestamp();
             }
         }
         return null;
