@@ -237,12 +237,17 @@ class rex_cronjob_manager_sql
     public function getMinNextTime()
     {
         $this->sql->setQuery('
-            SELECT  UNIX_TIMESTAMP(MIN(nexttime)) AS nexttime
+            SELECT  MIN(nexttime) AS nexttime
             FROM    ' . REX_CRONJOB_TABLE . '
             WHERE   status = 1
         ');
+
         if ($this->sql->getRows() == 1) {
-            return (int) $this->sql->getValue('nexttime');
+            $NextTime = $this->sql->getValue('nexttime');
+            $NextDateTime = DateTime::createFromFormat(rex_sql::FORMAT_DATETIME, $NextTime);
+            if ($NextDateTime) {
+                return $NextDateTime->getTimestamp();
+            }
         }
         return null;
     }
