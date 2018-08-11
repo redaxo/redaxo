@@ -71,9 +71,9 @@ class rex_response
     /**
      * Set a file to be preload via http link header.
      *
-     * @param $file
-     * @param $type
-     * @param $mimeType
+     * @param string $file
+     * @param string $type
+     * @param string $mimeType
      */
     public static function preload($file, $type, $mimeType)
     {
