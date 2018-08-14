@@ -33,7 +33,7 @@ class rex_minibar_structure_content_frontend extends rex_minibar_drink
 
         $articlePath = [];
         foreach ($article->getParentTree() as $tree) {
-            $articlePath[] = '<a href="'.$tree->getUrl().'">'.$tree->getName().'</a>';
+            $articlePath[] = '<a href="'.$tree->getUrl().'">'.rex_escape($tree->getName()).'</a>';
         }
 
         return
@@ -55,7 +55,7 @@ class rex_minibar_structure_content_frontend extends rex_minibar_drink
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b>'.rex_i18n::msg('structure_path').'</b>
-                        <span>'.rex_escape(implode(' / ', $articlePath)).'</span>
+                        <span>'.implode(' / ', $articlePath).'</span>
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b></b>
