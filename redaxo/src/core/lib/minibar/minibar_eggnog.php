@@ -39,7 +39,7 @@ class rex_minibar_eggnog extends rex_minibar_drink
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b>Datenbank</b>
-                        <span>'.$database[1]['name'].'</span>
+                        <span>'.rex_escape($database[1]['name']).'</span>
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b>Host</b>

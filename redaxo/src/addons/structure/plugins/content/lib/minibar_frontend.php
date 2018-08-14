@@ -47,7 +47,7 @@ class rex_minibar_structure_content_frontend extends rex_minibar_drink
                 <div class="rex-minibar-info-group">
                     <div class="rex-minibar-info-piece">
                         <b>'.rex_i18n::msg('structure_article_name').'</b>
-                        <span>'.$article->getName().'</span>
+                        <span>'.rex_escape($article->getName()).'</span>
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b>'.rex_i18n::msg('structure_status').'</b>
@@ -55,7 +55,7 @@ class rex_minibar_structure_content_frontend extends rex_minibar_drink
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b>'.rex_i18n::msg('structure_path').'</b>
-                        <span>'.implode(' / ', $articlePath).'</span>
+                        <span>'.rex_escape(implode(' / ', $articlePath)).'</span>
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b></b>
