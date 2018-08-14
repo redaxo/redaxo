@@ -26,9 +26,9 @@ class rex_minibar_structure_content_frontend extends rex_minibar_drink
                 </div>';
         }
 
-        $articleLink = '<a href="'.rex_url::backendPage('content/edit', ['article_id' => $article->getId(), 'clang' => $article->getClangId(), 'mode' => 'edit']).'">Im Backend bearbeiten </a>';
+        $articleLink = '<a href="'.rex_url::backendPage('content/edit', ['article_id' => $article->getId(), 'clang' => $article->getClangId(), 'mode' => 'edit']).'">'.rex_i18n::msg('structure_content_minibar_article_edit').' </a>';
         if (rex::isBackend()) {
-            $articleLink = '<a href="'.rex_getUrl($article->getId(), $article->getClangId()).'">Artikel anzeigen</a>';
+            $articleLink = '<a href="'.rex_getUrl($article->getId(), $article->getClangId()).'">'.rex_i18n::msg('structure_content_minibar_article_show').'</a>';
         }
 
         $articlePath = [];

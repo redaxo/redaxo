@@ -419,3 +419,12 @@ created_on = created
 updated_by = updated by
 updated_on = updated
 status = Status
+
+user_minibar = Show minibar?
+user_minibar_note = Provides a toolbar in the front- and backend with further information
+minibar_board_link_label = Visit the forum
+minibar_database = Database
+minibar_documentation_link_label = Read the documentation
+minibar_help = Help
+minibar_resources = Resources
+minibar_slack_link_label = Slack Channel

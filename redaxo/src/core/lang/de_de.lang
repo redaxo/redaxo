@@ -435,3 +435,9 @@ status = Status
 
 user_minibar = Minibar anzeigen?
 user_minibar_note = Stellt im Front- und Backend eine Toolbar mit weiteren Informationen zur Verfügung
+minibar_board_link_label = Besuche das Forum
+minibar_database = Datenbank
+minibar_documentation_link_label = Dokumentation lesen
+minibar_help = Hilfe
+minibar_resources = Ressourcen
+minibar_slack_link_label = Slack Channel

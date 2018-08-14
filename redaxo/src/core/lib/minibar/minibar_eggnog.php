@@ -38,7 +38,7 @@ class rex_minibar_eggnog extends rex_minibar_drink
                         <span>'.rex_sql::getServerVersion().'</span>
                     </div>
                     <div class="rex-minibar-info-piece">
-                        <b>Datenbank</b>
+                        <b>'.rex_i18n::msg('minibar_database').'</b>
                         <span>'.rex_escape($database[1]['name']).'</span>
                     </div>
                     <div class="rex-minibar-info-piece">
@@ -48,17 +48,17 @@ class rex_minibar_eggnog extends rex_minibar_drink
                 </div>
                 <div class="rex-minibar-info-group">
                     <div class="rex-minibar-info-piece">
-                        <b>Ressourcen</b>
+                        <b>'.rex_i18n::msg('minibar_resources').'</b>
                         <span>
                             <a href="https://redaxo.org" rel="help">redaxo.org</a><br />
-                            <a href="https://redaxo.org/doku/master" rel="help">Dokumentation lesen</a>
+                            <a href="https://redaxo.org/doku/master" rel="help">'.rex_i18n::msg('minibar_documentation_link_label').'</a>
                         </span>
                     </div>
                     <div class="rex-minibar-info-piece">
-                        <b>Hilfe</b>
+                        <b>'.rex_i18n::msg('minibar_help').'</b>
                         <span>
-                            <a href="https://redaxo.org/forum/" rel="help">Besuche das Forum</a><br />
-                            <a href="https://redaxo.org/slack/" rel="help">Slack Channel</a>
+                            <a href="https://redaxo.org/forum/" rel="help">'.rex_i18n::msg('minibar_board_link_label').'</a><br />
+                            <a href="https://redaxo.org/slack/" rel="help">'.rex_i18n::msg('minibar_slack_link_label').'</a>
                         </span>
                     </div>
                 </div>
