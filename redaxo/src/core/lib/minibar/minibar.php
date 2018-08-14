@@ -59,7 +59,7 @@ class rex_minibar
         if (!$user) {
             return false;
         }
-        return rex_backend_login::hasSession() && $user->hasPerm('minibar') && $user->getValue('minibar') == 1;
+        return $user->hasPerm('minibar') && $user->getValue('minibar') == 1;
     }
 
     /**
