@@ -138,9 +138,12 @@ if (!rex::isBackend()) {
     rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
         $minibar = rex_minibar::factory()->get();
         if ($minibar) {
-            $minibar = '<link rel="stylesheet" type="text/css" href="' . rex_plugin::get('be_style', 'redaxo')->getAssetsUrl('/css/styles.css') .'" />'. $minibar;
+            $ep->setSubject(str_replace(
+                ['</head>', '</body>'],
+                ['<link rel="stylesheet" type="text/css" href="' . rex_addon::get('be_style')->getAssetsUrl('css/minibar.css') .'" /></head>', $minibar . '</body>'],
+                $ep->getSubject())
+            );
         }
-        $ep->setSubject(str_replace('</body>', $minibar . '</body>', $ep->getSubject()));
     });
 }
 

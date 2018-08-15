@@ -53,6 +53,7 @@
     }
     &-close {
         background: $color-a-dark;
+        color: $link-color;
     }
     &-opener {
         background: $color-a-light;
@@ -60,7 +61,7 @@
     }
 
     &[data-minibar="false"] &-close,
-    &[data-minibar="false"] &-items {
+    &[data-minibar="false"] &-elements {
         display: none;
     }
 
