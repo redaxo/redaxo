@@ -11,7 +11,7 @@ class rex_minibar_eggnog extends rex_minibar_element
      *
      * @return string
      */
-    public function serve()
+    public function render()
     {
         $database = rex::getProperty('db');
 

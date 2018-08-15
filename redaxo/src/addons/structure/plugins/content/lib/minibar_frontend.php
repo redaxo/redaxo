@@ -11,7 +11,7 @@ class rex_minibar_structure_content_frontend extends rex_minibar_element
      *
      * @return string
      */
-    public function serve()
+    public function render()
     {
         $article = rex_article::getCurrent();
 

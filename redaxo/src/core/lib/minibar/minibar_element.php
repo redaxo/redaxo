@@ -11,7 +11,7 @@ abstract class rex_minibar_element
      *
      * @return string
      */
-    abstract public function serve();
+    abstract public function render();
 
     /**
      * Returns the position in the debug bar
