@@ -6,17 +6,9 @@
  */
 class rex_minibar
 {
+    use rex_singleton_trait;
 
     private static $elements = [];
-
-    private function __construct()
-    {
-    }
-
-    public static function factory()
-    {
-        return new self();
-    }
 
     public function addElement(rex_minibar_element $instance)
     {
@@ -45,7 +37,7 @@ class rex_minibar
      *
      * @return bool
      */
-    public static function isActive()
+    public function isActive()
     {
         $user = rex_backend_login::createUser();
         if (!$user) {
@@ -59,7 +51,7 @@ class rex_minibar
      *
      * @return bool
      */
-    public static function isVisible()
+    public function isVisible()
     {
         return rex_cookie('rex_minibar_visibility', 'bool', false);
     }
@@ -69,7 +61,7 @@ class rex_minibar
      *
      * @param bool $value
      */
-    public static function setVisibility($value)
+    public function setVisibility($value)
     {
         if ($value) {
             rex_response::sendCookie('rex_minibar_visibility', '1', ['expires' => time() + rex::getProperty('session_duration'), 'samesite' => 'strict']);

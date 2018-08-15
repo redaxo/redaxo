@@ -10,7 +10,7 @@ class rex_api_minibar extends rex_api_function
 
     public function execute()
     {
-        rex_minibar::setVisibility(rex_get('visibility', 'bool', false));
+        rex_minibar::getInstance()->setVisibility(rex_get('visibility', 'bool', false));
 
         if (rex::isBackend()) {
             rex_response::sendRedirect(rex_url::currentBackendPage([], false));

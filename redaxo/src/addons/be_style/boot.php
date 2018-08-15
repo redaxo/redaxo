@@ -46,7 +46,7 @@ if (rex::isBackend()) {
     });
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
-    if (rex_minibar::isActive()) {
+    if (rex_minibar::getInstance()->isActive()) {
         rex_view::addCssFile($this->getAssetsUrl('css/minibar.css'));
     }
     rex_view::addCssFile($this->getAssetsUrl('css/bootstrap-select.min.css'));

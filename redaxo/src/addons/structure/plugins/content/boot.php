@@ -106,4 +106,4 @@ rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
     }
 });
 
-rex_minibar::factory()->addElement(new rex_minibar_structure_content_frontend());
+rex_minibar::getInstance()->addElement(new rex_minibar_structure_content_frontend());

@@ -7,9 +7,6 @@
         <span class="icon-bar"></span>
     </button>
 <?php endif; ?>
-<?php
-$minibar = rex_minibar::factory();
-echo $minibar->get();
-?>
+<?= rex_minibar::getInstance()->get(); ?>
 </body>
 </html>

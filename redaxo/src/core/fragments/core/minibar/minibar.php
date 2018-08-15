@@ -1,4 +1,4 @@
-<div class="rex-minibar" data-minibar="<?= rex_minibar::isVisible() ? 'true' : 'false' ?>">
+<div class="rex-minibar" data-minibar="<?= rex_minibar::getInstance()->isVisible() ? 'true' : 'false' ?>">
     <a class="rex-minibar-opener" href="<?= rex_context::fromGet()->getUrl(['visibility' => true] + rex_api_minibar::getUrlParams()) ?>">
         <i class="rex-icon rex-icon-minibar-open"></i>
     </a>
@@ -13,7 +13,7 @@
             <?= ($element->isWarning() ? ' rex-minibar-status-warning' : '') ?>
             <?= ($element->isPrimary() ? ' rex-minibar-status-primary': '') ?>
         ">
-            <?= $element->serve() ?>
+            <?= $element->render() ?>
         </div>
         <?php endforeach; ?>
     </div>
