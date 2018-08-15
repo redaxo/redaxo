@@ -4,7 +4,7 @@
  *
  * @package redaxo\core
  */
-class rex_minibar_structure_content_frontend extends rex_minibar_drink
+class rex_minibar_structure_content_frontend extends rex_minibar_element
 {
     /**
      * Returns the html bar item

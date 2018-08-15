@@ -4,7 +4,7 @@
  *
  * @package redaxo\core
  */
-abstract class rex_minibar_drink
+abstract class rex_minibar_element
 {
     /**
      * Returns the html bar item

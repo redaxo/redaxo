@@ -132,6 +132,8 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
 }
 
 // ----------------- Minibar
+rex_minibar::factory()->addElement(new rex_minibar_eggnog());
+
 if (!rex::isBackend()) {
     rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
         $minibar = rex_minibar::factory()->get();

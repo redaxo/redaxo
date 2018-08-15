@@ -4,7 +4,7 @@
  *
  * @package redaxo\core
  */
-class rex_minibar_eggnog extends rex_minibar_drink
+class rex_minibar_eggnog extends rex_minibar_element
 {
     /**
      * Returns the html bar item

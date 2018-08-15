@@ -6,6 +6,9 @@
  */
 class rex_minibar
 {
+
+    private static $elements = [];
+
     private function __construct()
     {
     }
@@ -15,34 +18,23 @@ class rex_minibar
         return new self();
     }
 
+    public function addElement(rex_minibar_element $instance)
+    {
+        self::$elements[] = $instance;
+    }
+
     public function get()
     {
         if (!self::isActive()) {
             return null;
         }
 
-        $drinks = [
-            'rex_minibar_eggnog'
-        ];
-        $drinks = rex_extension::registerPoint(new rex_extension_point('MINIBAR_BARKEEPER', $drinks));
-
-        $drinksLoaded = [];
-        if (count($drinks)) {
-            foreach ($drinks as $drink) {
-                $instance = new $drink();
-
-                if ($instance instanceof rex_minibar_drink) {
-                    $drinksLoaded[] = $instance;
-                }
-            }
-        }
-
-        if (!count($drinksLoaded)) {
+        if (!count(self::$elements)) {
             return null;
         }
 
         $fragment = new rex_fragment([
-            'drinks' => $drinksLoaded,
+            'elements' => self::$elements,
         ]);
 
         return $fragment->parse('core/minibar/minibar.php');
@@ -84,15 +76,5 @@ class rex_minibar
         } else {
             rex_response::sendCookie('rex_minibar_visibility', '');
         }
-    }
-
-    /**
-     * Returns the minibar flags.
-     *
-     * @return array
-     */
-    public static function getFlags()
-    {
-        return rex::getProperty('minibar', []);
     }
 }
