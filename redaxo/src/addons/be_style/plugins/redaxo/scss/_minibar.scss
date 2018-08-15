@@ -68,7 +68,7 @@
         display: none;
     }
 
-    &-items {
+    &-elements {
         width: 100%;
         background: $color-a-darker;
         &:after {
@@ -77,7 +77,7 @@
             display: table;
         }
     }
-    &-item {
+    &-element {
         cursor: default;
         display: block;
         float: left;
@@ -102,6 +102,11 @@
     &-group {
         display: block;
         height: 36px;
+
+        > a {
+            display: inline-block;
+            text-decoration: none;
+        }
     }
 
     &-info {
@@ -125,8 +130,13 @@
         border: 3px solid transparent;
         border-collapse: collapse;
 
-        a:hover {
-            color: #58b5ff;
+        a {
+            color: $link-color;
+            transition: color 200ms ease-in-out;
+
+            &:hover {
+                color: #58b5ff;
+            }
         }
 
         b {
@@ -145,11 +155,11 @@
         }
     }
 
-    &-item:hover {
+    &-element:hover {
         background-color: $color-a-dark;
     }
 
-    &-item:hover &-info {
+    &-element:hover &-info {
         display: block;
         padding: 10px;
         max-width: 480px;
@@ -158,9 +168,19 @@
         overflow: hidden;
         overflow-y: auto;
     }
-    &-item-right &-info {
+    &-element-right &-info {
         left: auto;
         right: 0;
+    }
+
+    &-icon {
+        display: inline-block;
+        color: $color-a;
+        font-size: 16px;
+    }
+
+    &-icon + &-value {
+        margin-left: 5px;
     }
 
     &-value {

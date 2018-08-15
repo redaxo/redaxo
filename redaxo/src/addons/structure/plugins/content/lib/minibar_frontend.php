@@ -19,6 +19,9 @@ class rex_minibar_structure_content_frontend extends rex_minibar_element
             return
                 '<div class="rex-minibar-group">
                     <a href="#">
+                        <span class="rex-minibar-icon">
+                            <i class="rex-icon rex-icon-article"></i>
+                        </span>
                         <span class="rex-minibar-value">
                             0
                         </span>
@@ -39,6 +42,9 @@ class rex_minibar_structure_content_frontend extends rex_minibar_element
         return
         '<div class="rex-minibar-group">
             <a href="#">
+                <span class="rex-minibar-icon">
+                    <i class="rex-icon rex-icon-article"></i>
+                </span>
                 <span class="rex-minibar-value">
                     '.$article->getId().'
                 </span>
