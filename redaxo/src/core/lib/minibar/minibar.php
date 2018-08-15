@@ -8,11 +8,11 @@ class rex_minibar
 {
     use rex_singleton_trait;
 
-    private static $elements = [];
+    private $elements = [];
 
     public function addElement(rex_minibar_element $instance)
     {
-        self::$elements[] = $instance;
+        $this->elements[] = $instance;
     }
 
     public function get()
@@ -21,12 +21,12 @@ class rex_minibar
             return null;
         }
 
-        if (!count(self::$elements)) {
+        if (!count($this->elements)) {
             return null;
         }
 
         $fragment = new rex_fragment([
-            'elements' => self::$elements,
+            'elements' => $this->elements,
         ]);
 
         return $fragment->parse('core/minibar/minibar.php');
