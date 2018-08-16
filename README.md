@@ -1,8 +1,8 @@
-<p align="center"><a href="https://redaxo.org"><img src="https://redaxo.org/media/redaxo-logo.svg" alt="REDAXO" width="250px"></a></p>
+<p align="center"><a href="https://redaxo.org"><img src="https://redaxo.org/media/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
 
 <h3 align="center">PHP CMS since 2004. Both simple and flexible.</h3>
 
-<p align="center"><a href="https://www.redaxo.org">REDAXO</a> ist ein freies Content-Management-System (CMS). Ziel des Systems ist es ein Framwork für die Entwicklung und Pflege von Websites zu bieten. Der modulare Aufbau sorgt für eine flexible Erweiterbarkeit durch AddOns und Module.</p>
+<p align="center">REDAXO provides you an easy-to-learn website framework. It lets you create content from custom modules with full control of any input and output. It is multilingual, highly extendable and adapts to your workflow.</p>
 
 <p align="center"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_01.png" width="100%"></p>
 
@@ -25,19 +25,29 @@
 
 <br>
 
-## Installation
+## Community ❤️
 
-*Entwicklungsstand* installieren:
+TODO
 
-```sh
-git clone https://github.com/redaxo/redaxo.git
-cd redaxo
-git submodule init
-git submodule update
-```
+&nbsp;
 
-*Beachte:*
-- Die von Github bereit gestellten Downloads ("Download ZIP" Button) enthalten *nicht* die nötigen GIT Submodule, funktionieren daher nicht.
-- Die auf Github angebotenen REDAXO versionen sollten *nicht* im Produkiveinsatz verwendet werden!
 
-[Download der offiziellen REDAXO Releases](https://github.com/redaxo/redaxo/releases)
+## Developer setup instructions
+
+How to setup for local development:
+
+	$ git clone https://github.com/redaxo/redaxo.git
+	$ cd redaxo
+	$ git submodule init
+	$ git submodule update
+
+__Note:__ GitHub code does not contain submodules if you download the ZIP file. Better fetch the [latest release](https://github.com/redaxo/redaxo/releases) instead!
+
+If you need help, come by the [Slack chat](https://www.redaxo.org/slack/)!
+
+&nbsp;
+
+
+## Copryright & License
+
+REDAXO was developed by [Yakamara](http://www.yakamara.de) (Frankfurt am Main/Germany 🇩🇪), is open-source since 2004 and is released under the [MIT license](LICENSE.md).
