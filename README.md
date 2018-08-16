@@ -2,7 +2,7 @@
 
 <h3 align="center">PHP CMS since 2004. Both simple and flexible.</h3>
 
-<p align="center">REDAXO provides you an easy-to-learn website framework. It lets you create content from custom modules with full control of any input and output. It is multilingual, highly extendable and adapts to your workflow.</p>
+<p align="center"><a href="https://redaxo.org">REDAXO</a> provides you an easy-to-learn website framework. It lets you create content from custom modules with full control of any input and output. It is multilingual, highly extendable and adapts to your workflow.</p>
 
 <p align="center"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_01.png" width="100%"></p>
 
@@ -27,7 +27,33 @@
 
 ## Community ❤️
 
-TODO
+REDAXO is mainly used in German-speaking countries. However, the software already comes in several languages — English, Spanish, Italian, Swedisch, Portuguese — and the community is working on translating more and more content. If you don't understand German, please don't let that stop you from trying REDAXO: The community is known for being extremely helpful and friendly, and we will support you wherever we can! ✌️
+
+__Get to know REDAXO and its community:__
+
+### 1. Install CMS and check out the demo websites
+
+This is probably the best way to get to know REDAXO: install the [latest release](https://github.com/redaxo/redaxo/releases), log in to the admin section and use the built-in _Installer_ addOn to check out one of the demo websites. If you’re new to REDAXO or don’t speak german, search for `demo_base` (»Basisdemo«) as it is fully translated into English and explains all major topics.
+
+Current demo websites: [Base](https://github.com/FriendsOfREDAXO/demo_base), [Community](https://github.com/FriendsOfREDAXO/demo_community), [OnePage](https://github.com/FriendsOfREDAXO/demo_onepage), [FullPage](https://github.com/FriendsOfREDAXO/demo_fullpage).
+
+### 2. Join our Slack
+
+You’ll find a lot of community members in the Slack chat. And also the core developers. This is probably the best option to ask questions and get to know the community.  
+—Happy to see you there, get your invite at [redaxo.org/slack](http://redaxo.org/slack/)!
+
+### 3. Connect on Twitter
+
+Follow [@REDAXO](https://twitter.com/REDAXO) on Twitter to read the latest topics (mostly in German, often in English) and ask any questions! We’ll be glad to help.
+
+### 4. Get help from the forum
+
+If you want to ask detailed questions about REDAXO, it might be helpful to use the [forum](https://redaxo.org/forum/).
+
+### 5. Find people on the Community World Map
+
+Where in the world are people using REDAXO? [The map will show you](https://friendsofredaxo.github.io/community/). 🌎  
+Your marker still missing? [Learn how to place it on the map](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
 
 &nbsp;
 
