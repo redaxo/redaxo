@@ -18,9 +18,9 @@
 </p>
 	
 <p align="center">
-	<img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt="">&nbsp;
-	<img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt="">&nbsp;
-	<img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt="">
+	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt=""></a>&nbsp;
+	<a href="https://github.com/redaxo/redaxo/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt=""></a>&nbsp;
+	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a>
 </p>
 
 <br>
