@@ -1,12 +1,12 @@
 <p align="right">🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.de_DE.md">Deutsch</a></p>
 
-<p align="center"><a href="https://redaxo.org"><img src="https://redaxo.org/media/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
+<p align="center"><a href="https://redaxo.org"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
 
 <h3 align="center">PHP CMS since 2004. Both simple and flexible.</h3>
 
 <p align="center"><a href="https://redaxo.org">REDAXO</a> provides you an easy-to-learn website framework. It lets you create content from custom modules with full control of any input and output. It is multilingual, highly extendable and adapts to your workflow.</p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/schuer/redaxo/assets/redaxo_02.png" width="100%" alt="Screenshots"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_02.png" width="100%" alt="Screenshots"></p>
 
 &nbsp;
 
