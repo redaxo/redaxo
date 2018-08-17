@@ -4,7 +4,7 @@
 
 <h3 align="center">PHP-CMS seit 2004. Einfach, flexibel, sinnvoll.</h3>
 
-<p align="center"><a href="https://redaxo.org">REDAXO</a> stellt dir ein schnell zu erlernendes Website-Framework bereit. Es ermöglicht dir, Inhalte über beliebige Module aufzubauen, deren Ein- und Ausgabe du vollständig kontrollieren kannst. Es ist mehrsprachig, enorm erweiterbar und passt sich deinem Arbeitsablauf an.</p>
+<p align="center"><a href="https://redaxo.org">REDAXO</a> bietet dir ein einfach zu erlernendes Website-Framework. Es ermöglicht, Inhalte über beliebige Module aufzubauen, deren Ein- und Ausgabe du vollständig kontrollieren kannst. Es ist mehrsprachig, enorm erweiterbar und passt sich deinem Arbeitsablauf an.</p>
 
 <p align="center"><img src="https://raw.githubusercontent.com/schuer/redaxo/assets/redaxo_02.png" width="100%" alt="Screenshots"></p>
 
@@ -37,43 +37,43 @@ __REDAXO und die Community kennenlernen:__
 
 ### 1. Das CMS installieren und die Demos testen
 
-This is probably the best way to get to know REDAXO: install the [latest release](https://github.com/redaxo/redaxo/releases), log in to the admin section and use the built-in _Installer_ addOn to check out one of the demo websites. If you’re new to REDAXO or don’t speak german, search for `demo_base` (»Basisdemo«) as it is fully translated into English and explains all major topics.
+Das ist vermutlich die beste Möglichkeit, REDAXO kennenzulernen: Installiere das [neuste Release](https://github.com/redaxo/redaxo/releases), melde dich im Adminbereich an und benutze das eingebaute _Installer_-AddOn, um eine der Demo-Websites einzurichten. Für Einsteiger bietet sich die »Basisdemo« (Suche nach `demo_base`) an, die alle wichtigen Themen im Umgang mit REDAXO erklärt.
 
-Current demo websites: [Base](https://github.com/FriendsOfREDAXO/demo_base), [Community](https://github.com/FriendsOfREDAXO/demo_community), [OnePage](https://github.com/FriendsOfREDAXO/demo_onepage), [FullPage](https://github.com/FriendsOfREDAXO/demo_fullpage).
+Aktuelle Demo-Websites: [Basis](https://github.com/FriendsOfREDAXO/demo_base), [Community](https://github.com/FriendsOfREDAXO/demo_community), [OnePage](https://github.com/FriendsOfREDAXO/demo_onepage), [FullPage](https://github.com/FriendsOfREDAXO/demo_fullpage).
 
-### 2. Join our Slack
+### 2. Besuche den Slack-Chat
 
-You’ll find a lot of community members in the Slack chat. And also the core developers. This is probably the best option to ask questions and get to know the community.  
-—Happy to see you there, get your invite at [redaxo.org/slack](http://redaxo.org/slack/)!
+Du wirst einen Haufen von Community-Mitgliedern im Slack vorfinden. Und auch die Entwickler. Hier ist die beste Möglichkeit, Fragen zu stellen und Leute kennenzulernen.  
+— Wir freuen uns, dich zu sehen. Eine Einladung bekommst du hier: [redaxo.org/slack](http://redaxo.org/slack/)!
 
-### 3. Connect on Twitter
+### 3. Kontakte uns bei Twitter
 
-Follow [@REDAXO](https://twitter.com/REDAXO) on Twitter to read the latest topics (mostly in German, often in English) and ask any questions! We’ll be glad to help.
+Folge [@REDAXO](https://twitter.com/REDAXO) bei Twitter, um aktuelle Themen zu lesen und Fragen zu stellen. Wir helfen gerne!
 
-### 4. Get help from the forum
+### 4. Erhalte Hilfe im Forum
 
-If you want to ask detailed questions about REDAXO, it might be helpful to use the [forum](https://redaxo.org/forum/).
+Wenn du spezielle Fragen zu REDAXO hast, kann das [Forum](https://redaxo.org/forum/) hilfreich sein.
 
-### 5. Find people on the Community World Map
+### 5. Finde Leute auf der Community-Weltkarte
 
-Where in the world are people using REDAXO? [The map will show you](https://friendsofredaxo.github.io/community/). 🌎  
-Your marker still missing? [Learn how to place it on the map](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
+Wo überall auf der Welt nutzen Menschen REDAXO? [Die Karte zeigt es](https://friendsofredaxo.github.io/community/). 🌎  
+Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
 
 &nbsp;
 
 
-## Developer setup instructions
+## Informationen zur Entwicklung
 
-How to setup for local development:
+Falls du bei der Entwicklung von REDAXO helfen möchtest, ist dies der Weg, um das System lokal auf deinem Computer einzurichten:
 
 	$ git clone https://github.com/redaxo/redaxo.git
 	$ cd redaxo
 	$ git submodule init
 	$ git submodule update
 
-__Note:__ GitHub code does not contain submodules if you download the ZIP file. Better fetch the [latest release](https://github.com/redaxo/redaxo/releases) instead!
+__Beachte:__ Wenn du den GitHub-Code als ZIP-Datei runterlädst, fehlen die Submodule, so dass das System nicht laufen wird. Lade besser das [aktuelle Release](https://github.com/redaxo/redaxo/releases) runter!
 
-If you need help, come by the [Slack chat](https://www.redaxo.org/slack/)!
+Falls du Hilfe benötigst, schaue am besten im [Slack-Chat](https://www.redaxo.org/slack/) vorbei!
 
 &nbsp;
 
