@@ -6,6 +6,8 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/schuer/redaxo/assets/redaxo_02.png" width="100%"></p>
 
+<hr>
+
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/blob/master/redaxo/src/core/CHANGELOG.md">Changelog</a> &nbsp;|&nbsp;
 	<a href="https://redaxo.org/doku/master">Documentation</a> &nbsp;|&nbsp;
