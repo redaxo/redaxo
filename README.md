@@ -4,7 +4,7 @@
 
 <p align="center"><a href="https://redaxo.org">REDAXO</a> provides you an easy-to-learn website framework. It lets you create content from custom modules with full control of any input and output. It is multilingual, highly extendable and adapts to your workflow.</p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo_01.png" width="100%"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/schuer/redaxo/assets/redaxo_02.png" width="100%"></p>
 
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/blob/master/redaxo/src/core/CHANGELOG.md">Changelog</a> &nbsp;|&nbsp;
