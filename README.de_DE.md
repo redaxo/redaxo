@@ -1,4 +1,4 @@
-<p align="right"><small>🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.md">English</a></small></p>
+<p align="right">🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.md">English</a></p>
 
 <p align="center"><a href="https://redaxo.org"><img src="https://redaxo.org/media/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
 
@@ -8,7 +8,7 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/schuer/redaxo/assets/redaxo_02.png" width="100%" alt="Screenshots"></p>
 
-<hr>
+&nbsp;
 
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/blob/master/redaxo/src/core/CHANGELOG.md">Changelog</a> &nbsp;|&nbsp;
