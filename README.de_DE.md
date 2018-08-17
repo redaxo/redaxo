@@ -1,10 +1,10 @@
-<p align="right"><small>🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.de_DE.md">Deutsch</a></small></p>
+<p align="right"><small>🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.md">English</a></small></p>
 
 <p align="center"><a href="https://redaxo.org"><img src="https://redaxo.org/media/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
 
-<h3 align="center">PHP CMS since 2004. Both simple and flexible.</h3>
+<h3 align="center">PHP-CMS seit 2004. Einfach, flexibel, sinnvoll.</h3>
 
-<p align="center"><a href="https://redaxo.org">REDAXO</a> provides you an easy-to-learn website framework. It lets you create content from custom modules with full control of any input and output. It is multilingual, highly extendable and adapts to your workflow.</p>
+<p align="center"><a href="https://redaxo.org">REDAXO</a> stellt dir ein schnell zu erlernendes Website-Framework bereit. Es ermöglicht dir, Inhalte über beliebige Module aufzubauen, deren Ein- und Ausgabe du vollständig kontrollieren kannst. Es ist mehrsprachig, enorm erweiterbar und passt sich deinem Arbeitsablauf an.</p>
 
 <p align="center"><img src="https://raw.githubusercontent.com/schuer/redaxo/assets/redaxo_02.png" width="100%" alt="Screenshots"></p>
 
@@ -31,11 +31,11 @@
 
 ## Community ❤️
 
-REDAXO is mainly used in German-speaking countries. However, the software already comes in several languages — English, Spanish, Italian, Swedisch, Portuguese — and the community is working on translating more and more content. If you don't understand German, please don't let that stop you from trying REDAXO: The community is known for being extremely helpful and friendly, and we will support you wherever we can! ✌️
+Die REDAXO-Community gilt als überaus hilfsbereit und freundlich, und wir werden dich unterstützen, wo wir können! ✌️
 
-__Get to know REDAXO and its community:__
+__REDAXO und die Community kennenlernen:__
 
-### 1. Install CMS and check out the demo websites
+### 1. Das CMS installieren und die Demos testen
 
 This is probably the best way to get to know REDAXO: install the [latest release](https://github.com/redaxo/redaxo/releases), log in to the admin section and use the built-in _Installer_ addOn to check out one of the demo websites. If you’re new to REDAXO or don’t speak german, search for `demo_base` (»Basisdemo«) as it is fully translated into English and explains all major topics.
 
@@ -78,6 +78,6 @@ If you need help, come by the [Slack chat](https://www.redaxo.org/slack/)!
 &nbsp;
 
 
-## Copyright & License
+## Lizenz
 
-REDAXO was developed by [Yakamara](http://www.yakamara.de) (Frankfurt am Main/Germany 🇩🇪), is open-source since 2004 and is released under the [MIT license](LICENSE.md).
+REDAXO wurde von [Yakamara](http://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
