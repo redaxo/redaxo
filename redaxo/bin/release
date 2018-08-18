@@ -152,6 +152,7 @@ class rex_release
             'index.php',
             'LICENSE.md',
             'README.md',
+            'README.de_DE.md',
         ];
 
         foreach ($files as $file) {
