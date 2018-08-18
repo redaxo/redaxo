@@ -302,7 +302,11 @@ class rex_i18n
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {
-                $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
+                if (is_string($value)) {
+                    $array[$key] = self::translate($value, $use_htmlspecialchars, $i18nFunction);
+                } else {
+                    $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
+                }
             }
             return $array;
         }
