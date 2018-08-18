@@ -1,8 +1,8 @@
 <p align="right">🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.md">English</a></p>
 
-<p align="center"><a href="https://redaxo.org"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
+<h1 align="center"><a href="https://redaxo.org"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo-logo.svg" alt="REDAXO" width="280px"></a></h1>
 
-<h3 align="center">PHP-CMS seit 2004. Einfach, flexibel, sinnvoll.</h3>
+<h3 align="center">Content-Management seit 2004. Einfach, flexibel, sinnvoll.</h3>
 
 <p align="center"><a href="https://redaxo.org">REDAXO</a> bietet dir ein einfach zu erlernendes Website-Framework. Es ermöglicht, Inhalte über beliebige Module aufzubauen, deren Ein- und Ausgabe du vollständig kontrollieren kannst. Es ist mehrsprachig, enorm erweiterbar und passt sich deinem Arbeitsablauf an.</p>
 
