@@ -1,6 +1,6 @@
 <p align="right">🌎 <a href="https://github.com/redaxo/redaxo/blob/master/README.de_DE.md">Deutsch</a></p>
 
-<h1 align="center"><a href="https://redaxo.org"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo-logo.svg" alt="REDAXO" width="280px"></a></h1>
+<p align="center"><a href="https://redaxo.org"><img src="https://raw.githubusercontent.com/redaxo/redaxo/assets/redaxo-logo.svg" alt="REDAXO" width="280px"></a></p>
 
 <h3 align="center">Content Management since 2004. Both simple and flexible.</h3>
 
