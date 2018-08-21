@@ -1,20 +1,19 @@
 <?php
 
 /**
- *
  * @package redaxo\core
  */
 abstract class rex_minibar_element
 {
     /**
-     * Returns the html bar item
+     * Returns the html bar item.
      *
      * @return string
      */
     abstract public function render();
 
     /**
-     * Returns the orientation in the minibar
+     * Returns the orientation in the minibar.
      *
      * @return string `rex_minibar::LEFT` or `rex_minibar::RIGHT`
      */
@@ -24,7 +23,7 @@ abstract class rex_minibar_element
     }
 
     /**
-     * Returns the danger status
+     * Returns the danger status.
      *
      * @return bool
      */
@@ -34,7 +33,7 @@ abstract class rex_minibar_element
     }
 
     /**
-     * Returns the primary status
+     * Returns the primary status.
      *
      * @return bool
      */
@@ -44,7 +43,7 @@ abstract class rex_minibar_element
     }
 
     /**
-     * Returns the warning status
+     * Returns the warning status.
      *
      * @return bool
      */

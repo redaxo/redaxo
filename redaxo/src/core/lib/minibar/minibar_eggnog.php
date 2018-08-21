@@ -1,15 +1,12 @@
 <?php
 
 /**
- *
  * @package redaxo\core
  */
 class rex_minibar_eggnog extends rex_minibar_element
 {
     /**
-     * Returns the html bar item
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function render()
     {
@@ -68,20 +65,15 @@ class rex_minibar_eggnog extends rex_minibar_element
     }
 
     /**
-     * Returns the orientation in the minibar
-     *
-     * @return string `rex_minibar::LEFT` or `rex_minibar::RIGHT`
+     * {@inheritdoc}
      */
     public function getOrientation()
     {
         return rex_minibar::RIGHT;
     }
 
-
     /**
-     * Returns primary status
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isPrimary()
     {

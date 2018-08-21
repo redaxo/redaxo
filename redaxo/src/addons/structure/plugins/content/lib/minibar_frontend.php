@@ -1,15 +1,12 @@
 <?php
 
 /**
- *
  * @package redaxo\core
  */
 class rex_minibar_structure_content_frontend extends rex_minibar_element
 {
     /**
-     * Returns the html bar item
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function render()
     {
@@ -72,5 +69,4 @@ class rex_minibar_structure_content_frontend extends rex_minibar_element
         </div>
         ';
     }
-
 }
