@@ -27,7 +27,7 @@ class rex_minibar_eggnog extends rex_minibar_element
                 <div class="rex-minibar-info-group">
                     <div class="rex-minibar-info-piece">
                         <b>REDAXO</b>
-                        <span>'.rex::getVersion().'</span>
+                        <span>'.rex::getVersion().' <a href="' . rex_url::backendPage('system/log') . '" title="'.rex_escape(rex_i18n::msg('logfiles')).'">'.rex_i18n::msg('logfiles').'</a></span>
                     </div>
                     <div class="rex-minibar-info-piece">
                         <b>PHP Version</b>
