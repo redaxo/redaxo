@@ -59,3 +59,6 @@ jobs:
             php: 7.1
         -   <<: *TEST_MYSQL
             php: 7.2
+        -   php: 7.2
+            install: composer require --dev roave/backward-compatibility-check
+            script: bin/roave-backward-compatibility-check --from=master --to=HEAD
