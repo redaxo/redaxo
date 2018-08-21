@@ -1,3 +1,5 @@
+$element-hover-bg: lighten($color-a-dark, 5%);
+
 .rex-minibar {
     position: fixed;
     right: 0;
@@ -71,7 +73,7 @@
 
     &-elements {
         width: 100%;
-        background: $color-a-darker;
+        background: darken($color-a-darker, 2%);
         &:after {
             content: '';
             clear: both;
@@ -86,10 +88,11 @@
         margin-right: 0;
         padding: 0 10px;
         white-space: nowrap;
-        transition: all 200ms ease-in-out;
+        //transition: all 200ms ease-in-out;
 
         &:hover {
             position: relative;
+            background-color: $element-hover-bg;
         }
 
         &-right {
@@ -115,7 +118,7 @@
         left: 0;
         bottom: 36px;
         display: none;
-        background-color: $color-a-dark;
+        background-color: $element-hover-bg;
         color: $color-a-light;
         padding: 9px 0;
     }
@@ -154,10 +157,6 @@
             color: $color-a-light;
             font-size: 13px;
         }
-    }
-
-    &-element:hover {
-        background-color: $color-a-dark;
     }
 
     &-element:hover &-info {
