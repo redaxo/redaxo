@@ -69,7 +69,7 @@ class rex_minibar_eggnog extends rex_minibar_element
      */
     public function getOrientation()
     {
-        return rex_minibar::RIGHT;
+        return rex_minibar_element::RIGHT;
     }
 
     /**

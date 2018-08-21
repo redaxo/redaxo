@@ -5,6 +5,9 @@
  */
 abstract class rex_minibar_element
 {
+    const LEFT = 'LEFT';
+    const RIGHT = 'RIGHT';
+
     /**
      * Returns the html bar item.
      *
@@ -19,7 +22,7 @@ abstract class rex_minibar_element
      */
     public function getOrientation()
     {
-        return rex_minibar::LEFT;
+        return rex_minibar_element::LEFT;
     }
 
     /**
