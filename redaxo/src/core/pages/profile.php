@@ -57,7 +57,7 @@ if ($update) {
 }
 
 if ($update && !$error) {
-    $userminibar = rex_request('minibar', 'int');
+    $userminibar = rex_request('minibar', 'bool');
 
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
