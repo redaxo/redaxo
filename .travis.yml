@@ -22,7 +22,7 @@ jobs:
     include:
         -   php: 7.2
             install: composer require --dev roave/backward-compatibility-check
-            script: vendor/bin/roave-backward-compatibility-check --sources-path redaxo/src --from=master --to=HEAD
+            script: vendor/bin/roave-backward-compatibility-check --from=master --to=HEAD -- redaxo/src
             
         -   php: 5.5
             env: LINTING=1
