@@ -14,13 +14,13 @@ abstract class rex_minibar_element
     abstract public function render();
 
     /**
-     * Returns the position in the debug bar
+     * Returns the orientation in the minibar
      *
-     * @return bool
+     * @return string `rex_minibar::LEFT` or `rex_minibar::RIGHT`
      */
-    public function onLeftSide()
+    public function getOrientation()
     {
-        return true;
+        return rex_minibar::LEFT;
     }
 
     /**

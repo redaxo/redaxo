@@ -9,6 +9,8 @@ class rex_minibar
     use rex_singleton_trait;
 
     private $elements = [];
+    const LEFT = 'LEFT';
+    const RIGHT = 'RIGHT';
 
     public function addElement(rex_minibar_element $instance)
     {
