@@ -10,7 +10,13 @@ class rex_i18n
     private static $locales = [];
     private static $directories = [];
     private static $loaded = [];
+    /**
+     * @var string|null
+     */
     private static $locale = null;
+    /**
+     * @var string[][]
+     */
     private static $msg = [];
 
     /**
@@ -47,13 +53,26 @@ class rex_i18n
     }
 
     /**
-     * Returns the current locale.
+     * Returns the current locale, e.g. de_de
      *
      * @return string The current locale
      */
     public static function getLocale()
     {
         return self::$locale;
+    }
+
+    /**
+     * Returns the current locale, e.g. de_DE.
+     *
+     * The "value" for each locale is the two letter ISO 639-1 language code (e.g. fr)
+     * code followed by an underscore (_), then the ISO 3166-1 alpha-2 country code (e.g. fr_FR for French/France).
+     *
+     * @return string The current locale
+     */
+    public static function getIsoLocale() {
+        list($lang, $country) = explode('_', self::$locale, 2);
+        return $lang .'_'. strtoupper($country);
     }
 
     /**

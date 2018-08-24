@@ -26,7 +26,7 @@ if ($subpage == 'help') {
         ob_start();
         $package->includeFile('help.php');
         $content .= ob_get_clean();
-    } elseif (is_readable($package->getPath('README.'. rex_i18n::getLocale() .'.md'))) {
+    } elseif (is_readable($package->getPath('README.'. rex_i18n::getIsoLocale() .'.md'))) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.'. rex_i18n::getLocale() .'.md'))), false);
         $content .= $fragment->parse('core/page/docs.php');
