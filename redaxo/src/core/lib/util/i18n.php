@@ -83,6 +83,10 @@ class rex_i18n
      */
     public static function addDirectory($dir)
     {
+        if (self::isCached($dir)) {
+            return;
+        }
+
         $dir = rtrim($dir, DIRECTORY_SEPARATOR);
 
         if (in_array($dir, self::$directories, true)) {
@@ -483,7 +487,7 @@ class rex_i18n
         }
     }
 
-    public static function isCached($dir)
+    private static function isCached($dir)
     {
         return self::$cacheLoaded && in_array($dir, self::$directories);
     }
