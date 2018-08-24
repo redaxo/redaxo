@@ -1,6 +1,6 @@
 package: phpmailer
 version: '2.5.0'
-author: 'Markus Staab, Brent R. Matzelle, Thomas Skerbis'
+author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
 page:
