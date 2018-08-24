@@ -318,7 +318,7 @@ if ($function == 'add' || $function == 'edit') {
                 $gaa_sel->setName('action_id');
                 $gaa_sel->setId('action_id');
                 $gaa_sel->setSize(1);
-                $gaa_sel->setAttribute('class', 'form-control');
+                $gaa_sel->setAttribute('class', 'form-control selectpicker');
 
                 for ($i = 0; $i < $gaa->getRows(); ++$i) {
                     $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), false), $gaa->getValue('id'));
@@ -420,3 +420,4 @@ if ($OUT) {
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
+
