@@ -277,9 +277,12 @@ class rex_i18n
         $transKeyLen = strlen($tranKey);
         if (substr($text, 0, $transKeyLen) == $tranKey) {
             if (!$i18nFunction) {
-                $i18nFunction = $use_htmlspecialchars ? 'self::msg' : 'self::rawMsg';
+                if ($use_htmlspecialchars) {
+                    return self::msg(substr($text, $transKeyLen));
+                }
+                return self::rawMsg(substr($text, $transKeyLen));
             }
-            return call_user_func($i18nFunction, substr($text, $transKeyLen));
+            return $i18nFunction(substr($text, $transKeyLen));
         }
         if ($use_htmlspecialchars) {
             return htmlspecialchars($text);
