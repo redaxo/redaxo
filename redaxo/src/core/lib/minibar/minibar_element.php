@@ -18,7 +18,7 @@ abstract class rex_minibar_element
     /**
      * Returns the orientation in the minibar.
      *
-     * @return string `rex_minibar::LEFT` or `rex_minibar::RIGHT`
+     * @return string `rex_minibar_element::LEFT` or `rex_minibar_element::RIGHT`
      */
     public function getOrientation()
     {
