@@ -2,7 +2,7 @@
 
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
-- [Fehlerbenachrichtigung](#errormail)
+- [E-Mail-Benachrichtigung bei Fehlern](#errormail)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
@@ -115,6 +115,9 @@ foreach($sql as $row)
 
 ```
 <a name="errormail"></a>
+
+## E-Mail-Benachrichtigung bei Fehlern
+
 PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene logevents findet. 
 Der Check und ggf. Zusendung erfolgt in festen Intervallen, die in den Systemeinstellungen definiert werde nkönnen. Empfänger ist die im System hinterlegte Fehleradresse. 
 
