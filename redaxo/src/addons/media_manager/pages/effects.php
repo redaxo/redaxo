@@ -217,6 +217,7 @@ if ($func == '' && $type_id > 0) {
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
                     $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('class', 'form-control selectpicker');
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
                     }
