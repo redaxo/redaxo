@@ -420,4 +420,3 @@ if ($OUT) {
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
-
