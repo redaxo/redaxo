@@ -2,6 +2,7 @@
 
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
+- [Fehlerbenachrichtigung](#errormail)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
@@ -9,7 +10,7 @@
 <a name="ueber"></a>
 
 ## Allgemeines
-Das PHPMailer-AddOn ermöglicht den Versand von E-Mails.
+Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
 
 Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
@@ -113,6 +114,13 @@ foreach($sql as $row)
 }
 
 ```
+<a name="errormail"></a>
+PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene logevents findet. 
+Der Check und ggf. Zusendung erfolgt in festen Intervallen, die in den Systemeinstellungen definiert werde nkönnen. Empfänger ist die im System hinterlegte Fehleradresse. 
+
+Eigene Events können den Versand ebenso auslösen dazu sollte man im Log den Event als Typ: logevent ablegen. 
+`rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
+
 
 <a name="tipps"></a>
 
@@ -149,5 +157,3 @@ $mail->SMTPOptions = array(
     ),
 );
 ```
-
-
