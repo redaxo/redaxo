@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.0 – 24.08.2018
+--------------------------
+
+### Neu
+
+* E-Mail-Benachrichtigung bei Fehlern (@phoebusryan, @skerbis)
+
+
 Version 2.4.0 – 05.06.2018
 --------------------------
 
