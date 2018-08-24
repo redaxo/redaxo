@@ -119,9 +119,9 @@ foreach($sql as $row)
 ## E-Mail-Benachrichtigung bei Fehlern
 
 PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene logevents findet. 
-Der Check und ggf. Zusendung erfolgt in festen Intervallen, die in den Systemeinstellungen definiert werde nkönnen. Empfänger ist die im System hinterlegte Fehleradresse. 
+Der Check und ggf. Zusendung erfolgt in festen Intervallen, die in den Systemeinstellungen definiert werden können. Empfänger ist die im System hinterlegte Fehleradresse. 
 
-Eigene Events können den Versand ebenso auslösen dazu sollte man im Log den Event als Typ: logevent ablegen. 
+Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Event als Typ: logevent ablegen. 
 `rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
 
 
