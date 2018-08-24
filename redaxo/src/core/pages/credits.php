@@ -82,7 +82,7 @@ $content .= '
 
             $license = '';
             if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-                $f = fopen($licenseFile, 'r');
+                $f = fopen($licenseFile, 'rb');
                 $firstLine = fgets($f);
                 fclose($f);
 
