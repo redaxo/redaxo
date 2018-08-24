@@ -53,7 +53,7 @@ class rex_i18n
     }
 
     /**
-     * Returns the current locale, e.g. de_de
+     * Returns the current locale, e.g. de_de.
      *
      * @return string The current locale
      */
@@ -70,7 +70,8 @@ class rex_i18n
      *
      * @return string The current locale
      */
-    public static function getIsoLocale() {
+    public static function getIsoLocale()
+    {
         list($lang, $country) = explode('_', self::$locale, 2);
         return $lang .'_'. strtoupper($country);
     }
