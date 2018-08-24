@@ -276,7 +276,7 @@ if ($func == '') {
                     case 'select':
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
-						$field->setAttribute('class', 'form-control selectpicker');
+                        $field->setAttribute('class', 'form-control selectpicker');
                         $select = $field->getSelect();
                         $select->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {
