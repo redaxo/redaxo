@@ -100,8 +100,7 @@ foreach ($config as $key => $value) {
 
 // must be after rex properties because these are
 // used to check whether the i18n cache should be enabled or not
-$coreLangDir = rex_path::core('lang');
-rex_i18n::addDirectory($coreLangDir);
+rex_i18n::addDirectory(rex_path::core('lang'));
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
