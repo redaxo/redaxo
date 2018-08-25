@@ -1,12 +1,9 @@
 <?php
 /**
- * PHPMailer Addon.
+ * errormail Addon.
  *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ * @author Friends of REDAXO
  *
- * @package redaxo5
- *
- * @var rex_addon $this
  */
 
 if (!$this->hasConfig('errormail'))
@@ -103,6 +100,6 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0)
 }
 if (rex_be_controller::getCurrentPagePart(1) == 'system')
 {
-    rex_system_setting::register(new rex_system_setting_phpmailer_errormail('errormail'));
+    rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 
 }
