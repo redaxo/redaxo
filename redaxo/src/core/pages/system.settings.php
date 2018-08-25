@@ -104,7 +104,7 @@ $sel_lang->setSelected(rex::getProperty('lang'));
 
 foreach (rex_i18n::getLocales() as $locale) {
     rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
-    $sel_lang->addOption(rex_i18n::msg('lang'), $locale);
+    $sel_lang->addOption(rex_i18n::msg('lang').' ('.$locale.')', $locale);
 }
 
 $sel_editor = new rex_select();
