@@ -273,7 +273,7 @@ echo '
 <script>
 $(function() {
     $('#phpmailer-mailer').change(function(){
-        $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "fadeIn" : "fadeOut" ]();  
+         $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "slideDown" : "slideUp" ]();    
     });
 });
 </script>
