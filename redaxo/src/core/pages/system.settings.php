@@ -101,13 +101,14 @@ $sel_lang->setId('rex-id-lang');
 $sel_lang->setAttribute('class', 'form-control selectpicker');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
+$savedlocale = rex_i18n::getLocale();
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-	rex_i18n::setLocale($locale, false);
+  	rex_i18n::setLocale($locale, false);
     $sel_lang->addOption(rex_i18n::msg('lang').' ('.$locale.')', $locale);
 }
-rex_i18n::setLocale(rex::getProperty('lang'), false);
+rex_i18n::setLocale($savedlocale, false);
 
 $sel_editor = new rex_select();
 $sel_editor->setStyle('class="form-control"');
