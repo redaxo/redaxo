@@ -32,6 +32,7 @@ $sel_be_sprache->setSize(1);
 $sel_be_sprache->setStyle('class="form-control"');
 $sel_be_sprache->setName('userperm_be_sprache');
 $sel_be_sprache->setId('rex-id-userperm-mylang');
+$sel_be_sprache->setAttribute('class', 'form-control selectpicker');
 $sel_be_sprache->addOption('default', '');
 
 $saveLocale = rex_i18n::getLocale();
