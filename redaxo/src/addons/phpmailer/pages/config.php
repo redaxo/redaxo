@@ -188,11 +188,6 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-$showsmtp =' style="display: none"'; 
-if ($this->getConfig('mailer')=='smtp')
-{
-	$showsmtp =' style="display: block"'; 
-}
 $content .= '</fieldset><fieldset id="smtpsettings" class="col-sm-6" '.$showsmtp.'><legend>' . $this->i18n('smtp_options') . '</legend>';
 $formElements = [];
 $n = [];
@@ -272,8 +267,9 @@ echo '
 ?>
 <script>
 $(function() {
+	 $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "show" : "hide" ]();  
     $('#phpmailer-mailer').change(function(){
-         $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "slideDown" : "slideUp" ]();    
+        $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "slideDown" : "slideUp" ]();  
     });
 });
 </script>
