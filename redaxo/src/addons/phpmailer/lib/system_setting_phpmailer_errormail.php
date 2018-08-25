@@ -44,8 +44,6 @@ class rex_system_setting_phpmailer_errormail extends rex_system_setting
     public function setValue($value)
     {
         $value = (int)$value;
-        $article = rex_article::get($value);
-
         rex_config::set('phpmailer', $this->key, $value);
         return true;
     }
