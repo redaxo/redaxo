@@ -102,8 +102,9 @@ $sel_lang->setAttribute('class', 'form-control selectpicker');
 $sel_lang->setSize(1);
 $sel_lang->setSelected(rex::getProperty('lang'));
 
-foreach (rex_i18n::getLocales() as $l) {
-    $sel_lang->addOption($l, $l);
+foreach (rex_i18n::getLocales() as $locale) {
+    rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
+    $sel_lang->addOption(rex_i18n::msg('lang'), $locale);
 }
 
 $sel_editor = new rex_select();
@@ -292,3 +293,4 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
 $fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');
+
