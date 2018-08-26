@@ -105,7 +105,7 @@ $savedlocale = rex_i18n::getLocale();
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-  	rex_i18n::setLocale($locale, false);
+    rex_i18n::setLocale($locale, false);
     $sel_lang->addOption(rex_i18n::msg('lang').' ('.$locale.')', $locale);
 }
 rex_i18n::setLocale($savedlocale, false);
