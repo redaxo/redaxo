@@ -157,7 +157,7 @@ if ($func == '') {
     $field->setLabel($this->i18n('description'));
 
     $field = $form->addSelectField('environment');
-    $field->setAttribute('class', 'form-control selectpicker');
+	$field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('environment'));
     $field->setNotice($this->i18n('environment_notice'));
     $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_environment'));
@@ -173,7 +173,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('execution_moment');
-    $field->setAttribute('class', 'form-control selectpicker');
+	$field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('execution'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -184,7 +184,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('status');
-    $field->setAttribute('class', 'form-control selectpicker');
+	$field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('status'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -195,7 +195,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('type');
-    $field->setAttribute('class', 'form-control selectpicker');
+	$field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('type'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -223,16 +223,18 @@ if ($func == '') {
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
 
-    $form->addFieldset($this->i18n('interval'));
-
-    $field = $form->addIntervalField('interval');
-
     $form->addFieldset($this->i18n('type_parameters'));
 
     $fieldContainer = $form->addContainerField('parameters');
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     $fieldContainer->setActive($activeType);
+
+    $form->addFieldset($this->i18n('interval'));
+
+    $field = $form->addIntervalField('interval');
+
+
 
     $env_js = '';
     $visible = [];
@@ -276,7 +278,7 @@ if ($func == '') {
                     case 'select':
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
-                        $field->setAttribute('class', 'form-control selectpicker');
+						$field->setAttribute('class', 'form-control selectpicker');
                         $select = $field->getSelect();
                         $select->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {
@@ -411,3 +413,4 @@ if ($func == '') {
 
 <?php
 }
+
