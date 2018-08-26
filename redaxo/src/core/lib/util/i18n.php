@@ -482,9 +482,4 @@ class rex_i18n
             throw new rex_exception('unable to delete cache file ' . $cacheFile);
         }
     }
-
-    private static function isCached($dir)
-    {
-        return self::$cacheLoaded && in_array($dir, self::$directories);
-    }
 }
