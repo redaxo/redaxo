@@ -53,8 +53,8 @@ phpmailer_log_info = Log-Ordner: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
 phpmailer_errormail_disabled = deaktiviert
-phpmailer_errormail_15min = im 15 Minuten-Interval
-phpmailer_errormail_30min = im 30 Minuten-Interval
-phpmailer_errormail_60min = im 60 Minuten-Interval
+phpmailer_errormail_15min = im 15 Minuten-Intervall
+phpmailer_errormail_30min = im 30 Minuten-Intervall
+phpmailer_errormail_60min = im 60 Minuten-Intervall
 
 system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
