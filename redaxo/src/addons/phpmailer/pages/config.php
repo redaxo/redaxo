@@ -144,6 +144,11 @@ $n['label'] = '<label for="phpmailer-bcc">' . $this->i18n('bcc') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-bcc" type="text" name="settings[bcc]" value="' . $this->getConfig('bcc') . '" />';
 $formElements[] = $n;
 
+$n = [];
+$n['label'] = '<label for="phpmailer-mailer">' . $this->i18n('mailertype') . '</label>';
+$n['field'] = $sel_mailer->get();
+$formElements[] = $n;
+
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
@@ -151,21 +156,6 @@ $content .= $fragment->parse('core/form/form.php');
 $content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('dispatch_options') . '</legend>';
 
 $formElements = [];
-
-$n = [];
-$n['label'] = '<label for="phpmailer-mailer">' . $this->i18n('mailertype') . '</label>';
-$n['field'] = $sel_mailer->get();
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-port">' . $this->i18n('port') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . $this->getConfig('port') . '" />';
-$formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-charset">' . $this->i18n('charset') . '</label>';
@@ -196,10 +186,18 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-
-$content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('smtp_options') . '</legend>';
-
+$content .= '</fieldset><fieldset id="smtpsettings" class="col-sm-6"><legend>' . $this->i18n('smtp_options') . '</legend>';
 $formElements = [];
+$n = [];
+$n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-port">' . $this->i18n('port') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . $this->getConfig('port') . '" />';
+$formElements[] = $n;
+
 $n = [];
 $n['label'] = '<label for="phpmailer-smtpsecure">' . $this->i18n('smtp_secure') . '</label>';
 $n['field'] = $sel_smtpsecure->get();
@@ -264,3 +262,17 @@ echo '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
         ' . $content . '
     </form>';
+?>
+<script>
+    $('#smtpsettings').toggle(
+        $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
+    );
+
+    $('#phpmailer-mailer').change(function(){
+        if ($(this).val() == 'smtp') {
+            $('#smtpsettings').slideDown();
+        } else {
+            $('#smtpsettings').slideUp();
+        }
+    });
+</script>
