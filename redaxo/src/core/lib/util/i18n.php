@@ -97,10 +97,6 @@ class rex_i18n
             self::loadFile($dir, $locale);
         }
         self::$cacheChanged = true;
-        if (!self::$registeredShutdown) {
-            register_shutdown_function([__CLASS__, 'saveCache']);
-            self::$registeredShutdown = true;
-        }
     }
 
     /**
@@ -454,6 +450,12 @@ class rex_i18n
             self::$cacheLoaded = true;
         } else {
             self::$cacheLoaded = false;
+        }
+
+        // we only need a cache-update in requests which actually use a cache
+        if (!self::$registeredShutdown) {
+            register_shutdown_function([__CLASS__, 'saveCache']);
+            self::$registeredShutdown = true;
         }
     }
 
