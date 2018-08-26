@@ -2,7 +2,7 @@
 
 class rex_i18n_trans_cb
 {
-    static public function mytranslate()
+    public static function mytranslate()
     {
         return 'translated';
     }
