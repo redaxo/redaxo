@@ -87,7 +87,7 @@ class rex_response
     private static function sendPreloadHeaders()
     {
         foreach (self::$preloadFiles as $preloadFile) {
-            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; nopush', false);
+            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; crossorigin; nopush', false);
         }
     }
 
