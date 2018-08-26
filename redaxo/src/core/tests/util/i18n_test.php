@@ -1,5 +1,11 @@
 <?php
 
+class rex_i18n_trans_cb {
+    static public function mytranslate() {
+        return 'translated';
+    }
+}
+
 class rex_i18n_test extends PHPUnit_Framework_TestCase
 {
     private $previousLocale;
@@ -70,5 +76,9 @@ LANG;
 
         $this->assertSame('test6', rex_i18n::msg('rex_i18n_test_6'));
         $this->assertSame('[translate:rex_i18n_test_7]', rex_i18n::msg('rex_i18n_test_7'));
+    }
+
+    public function testTranslateCallable() {
+        $this->assertSame('translated', rex_i18n::translate('translate:my_cb', false, 'rex_i18n_trans_cb::mytranslate'));
     }
 }
