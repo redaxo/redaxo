@@ -63,17 +63,14 @@ class rex_i18n
     }
 
     /**
-     * Returns the current locale, e.g. de_DE.
+     * Returns the current language, e.g. "de"
      *
-     * The "value" for each locale is the two letter ISO 639-1 language code (e.g. fr)
-     * code followed by an underscore (_), then the ISO 3166-1 alpha-2 country code (e.g. fr_FR for French/France).
-     *
-     * @return string The current locale
+     * @return string The current language
      */
-    public static function getIsoLocale()
+    public static function getLanguage()
     {
         list($lang, $country) = explode('_', self::$locale, 2);
-        return $lang .'_'. strtoupper($country);
+        return $lang;
     }
 
     /**
