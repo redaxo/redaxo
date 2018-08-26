@@ -120,6 +120,22 @@ class rex_i18n
     }
 
     /**
+     * Returns the translation for the given key and locale.
+     *
+     * @param string $key             A Language-Key
+     * @param string $locale          A Locale
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
+     *
+     * @return string Translation for the key
+     */
+    public static function rawMsgInLocale($key, $locale)
+    {
+        $args = func_get_args();
+        // for BC we need to strip the 1st arg
+        array_shift($args);
+        return self::getMsg($key, false, $args, $locale);
+    }
+    /**
      * Returns the message fallback for a missing key in main locale.
      *
      * @param string $key
