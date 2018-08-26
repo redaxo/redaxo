@@ -264,10 +264,15 @@ echo '
     </form>';
 ?>
 <script>
-$(function() {
-	 $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "show" : "hide" ]();  
+    $('#smtpsettings').toggle(
+        $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
+    );
+
     $('#phpmailer-mailer').change(function(){
-        $('#smtpsettings')[ ($("option[value='smtp']").is(":checked"))? "slideDown" : "slideUp" ]();  
+        if ($(this).val() == 'smtp') {
+            $('#smtpsettings').toggle({easing: 'slide'});
+        } else {
+            $('#smtpsettings').hide();
+        }
     });
-});
 </script>
