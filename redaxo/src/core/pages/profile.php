@@ -27,6 +27,7 @@ echo rex_view::title(rex_i18n::msg('profile_title'), '');
 // --------------------------------- BE LANG
 
 // backend sprache
+$userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
 $sel_be_sprache = new rex_select();
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setStyle('class="form-control"');
@@ -34,16 +35,14 @@ $sel_be_sprache->setName('userperm_be_sprache');
 $sel_be_sprache->setId('rex-id-userperm-mylang');
 $sel_be_sprache->setAttribute('class', 'form-control selectpicker');
 $sel_be_sprache->addOption('default', '');
-
-$saveLocale = rex_i18n::getLocale();
-$langs = [];
-foreach (rex_i18n::getLocales() as $locale) {
+$sel_be_sprache->setSelected($userperm_be_sprache);
+$locales = rex_i18n::getLocales();
+asort($locales);
+foreach ($locales as $locale) {
     rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
     $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
 }
-rex_i18n::setLocale($saveLocale, false);
-$userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
-$sel_be_sprache->setSelected($userperm_be_sprache);
+rex_i18n::setLocale($userperm_be_sprache, false);
 
 // --------------------------------- FUNCTIONS
 
