@@ -63,7 +63,7 @@ class rex_i18n
     }
 
     /**
-     * Returns the current language, e.g. "de"
+     * Returns the current language, e.g. "de".
      *
      * @return string The current language
      */
