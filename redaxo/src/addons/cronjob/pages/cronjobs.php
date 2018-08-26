@@ -157,7 +157,7 @@ if ($func == '') {
     $field->setLabel($this->i18n('description'));
 
     $field = $form->addSelectField('environment');
-	$field->setAttribute('class', 'form-control selectpicker');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('environment'));
     $field->setNotice($this->i18n('environment_notice'));
     $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_environment'));
@@ -173,7 +173,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('execution_moment');
-	$field->setAttribute('class', 'form-control selectpicker');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('execution'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -184,7 +184,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('status');
-	$field->setAttribute('class', 'form-control selectpicker');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('status'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -195,7 +195,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('type');
-	$field->setAttribute('class', 'form-control selectpicker');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('type'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -231,7 +231,6 @@ if ($func == '') {
     $fieldContainer->setActive($activeType);
 
     $form->addFieldset($this->i18n('interval'));
-
     $field = $form->addIntervalField('interval');
 
 
@@ -355,7 +354,7 @@ if ($func == '') {
                 if(currentShown) currentShown.hide();
                 var typeId = "#rex-"+ $(this).val();
                 currentShown = $(typeId);
-                currentShown.show();
+                currentShown.slideDown();
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
                 $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
