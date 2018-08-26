@@ -270,9 +270,9 @@ echo '
 
     $('#phpmailer-mailer').change(function(){
         if ($(this).val() == 'smtp') {
-            $('#smtpsettings').toggle({easing: 'slide'});
+            $('#smtpsettings').slideDown();
         } else {
-            $('#smtpsettings').hide();
+            $('#smtpsettings').slideUp();
         }
     });
 </script>
