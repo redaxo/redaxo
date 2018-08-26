@@ -113,7 +113,10 @@ class rex_i18n
      */
     public static function msgInLocale($key, $locale)
     {
-        return self::getMsg($key, true, func_get_args(), $locale);
+        $args = func_get_args();
+        // for BC we need to strip the 1st arg
+        array_shift($args);
+        return self::getMsg($key, true, $args, $locale);
     }
 
     /**
