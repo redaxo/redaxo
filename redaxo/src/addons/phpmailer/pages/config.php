@@ -153,8 +153,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-
-
 $content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('dispatch_options') . '</legend>';
 
 $formElements = [];
@@ -188,7 +186,7 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-$content .= '</fieldset><fieldset id="smtpsettings" class="col-sm-6" '.$showsmtp.'><legend>' . $this->i18n('smtp_options') . '</legend>';
+$content .= '</fieldset><fieldset id="smtpsettings" class="col-sm-6"><legend>' . $this->i18n('smtp_options') . '</legend>';
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
