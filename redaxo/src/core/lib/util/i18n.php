@@ -282,6 +282,7 @@ class rex_i18n
                 }
                 return self::rawMsg(substr($text, $transKeyLen));
             }
+            // cuf required for php5 compat
             return call_user_func($i18nFunction, substr($text, $transKeyLen));
         }
         if ($use_htmlspecialchars) {
