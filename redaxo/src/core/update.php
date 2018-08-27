@@ -98,7 +98,7 @@ HTACCESS;
 
 if (rex_string::versionCompare(rex::getVersion(), '5.7-dev', '<')) {
     rex_sql_table::get(rex::getTable('user'))
-        ->ensureColumn(new rex_sql_column('minibar', 'tinyint', false))
+        ->ensureColumn(new rex_sql_column('minibar', 'tinyint', false), 'admin')
         ->alter();
 }
 
