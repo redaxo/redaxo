@@ -12,6 +12,11 @@ class rex_minibar_system extends rex_minibar_element
     {
         $database = rex::getProperty('db');
 
+        $links = '';
+        if (rex::getUser() && rex::getUser()->isAdmin()) {
+            $links .= '<br /><a href="https://redaxo.org/doku/master" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_documentation_link_label').'</a>';
+        }
+
         return
         '<div class="rex-minibar-item">
             <span class="rex-minibar-value">
@@ -45,20 +50,21 @@ class rex_minibar_system extends rex_minibar_element
                 <div class="rex-minibar-info-piece">
                     <b>'.rex_i18n::msg('minibar_resources').'</b>
                     <span>
-                        <a href="https://redaxo.org" rel="help">redaxo.org</a><br />
-                        <a href="https://redaxo.org/doku/master" rel="help">'.rex_i18n::msg('minibar_documentation_link_label').'</a>
+                        <a href="https://www.yakamara.de" target="_blank" rel="help noreferrer noopener">yakamara.de</a>
+                        <br /><a href="https://redaxo.org" target="_blank" rel="help noreferrer noopener">redaxo.org</a>
+                        '.$links.'
+                        <br /><a href="'.(rex::getUser() ? rex_url::backendPage('credits') : 'https://www.redaxo.org/" target="_blank" rel="noreferrer noopener').'">'.rex_i18n::msg('footer_credits').'</a>
                     </span>
                 </div>
                 <div class="rex-minibar-info-piece">
                     <b>'.rex_i18n::msg('minibar_help').'</b>
                     <span>
-                        <a href="https://redaxo.org/forum/" rel="help">'.rex_i18n::msg('minibar_board_link_label').'</a><br />
-                        <a href="https://redaxo.org/slack/" rel="help">'.rex_i18n::msg('minibar_slack_link_label').'</a>
+                        <a href="https://redaxo.org/forum/" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_board_link_label').'</a><br />
+                        <a href="https://redaxo.org/slack/" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_slack_link_label').'</a>
                     </span>
                 </div>
             </div>
-        </div>
-        ';
+        </div>';
     }
 
     /**
