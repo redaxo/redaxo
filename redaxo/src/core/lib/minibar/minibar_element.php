@@ -22,7 +22,7 @@ abstract class rex_minibar_element
      */
     public function getOrientation()
     {
-        return rex_minibar_element::LEFT;
+        return self::LEFT;
     }
 
     /**

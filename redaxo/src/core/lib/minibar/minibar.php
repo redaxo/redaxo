@@ -1,7 +1,6 @@
 <?php
 
 /**
- *
  * @package redaxo\core
  */
 class rex_minibar

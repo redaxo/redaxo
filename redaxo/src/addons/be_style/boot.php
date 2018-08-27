@@ -22,7 +22,6 @@ if (rex::isBackend()) {
     });
 
     rex_extension::register('BE_STYLE_SCSS_COMPILE', function (rex_extension_point $ep) {
-
         $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
 
         $subject = $ep->getSubject();
@@ -31,7 +30,7 @@ if (rex::isBackend()) {
             'css_file' => $this->getPath('assets/css/styles.css'),
             'copy_dest' => $this->getAssetsPath('css/styles.css'),
         ];
-		$subject[] = [
+        $subject[] = [
             'scss_files' => array_merge($scss_files, [$this->getPath('scss/master_minibar.scss')]),
             'css_file' => $this->getPath('assets/css/minibar.css'),
             'copy_dest' => $this->getAssetsPath('css/minibar.css'),

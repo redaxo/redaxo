@@ -6,7 +6,7 @@
             <?= ($element->getOrientation() == rex_minibar_element::RIGHT ? ' rex-minibar-element-right' : '') ?>
             <?= ($element->isDanger() ? ' rex-minibar-status-danger' : '') ?>
             <?= ($element->isWarning() ? ' rex-minibar-status-warning' : '') ?>
-            <?= ($element->isPrimary() ? ' rex-minibar-status-primary': '') ?>
+            <?= ($element->isPrimary() ? ' rex-minibar-status-primary' : '') ?>
         ">
             <?= $element->render() ?>
         </div>
