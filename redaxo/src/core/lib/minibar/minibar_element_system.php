@@ -19,6 +19,9 @@ class rex_minibar_element_system extends rex_minibar_element
 
         return
         '<div class="rex-minibar-item">
+            <span class="rex-minibar-icon">
+                <img class="rex-js-svg rex-redaxo-logo" src="'.rex_url::coreAssets('redaxo-logo.svg').'" />
+            </span>
             <span class="rex-minibar-value">
                 '.rex::getVersion().'
             </span>
