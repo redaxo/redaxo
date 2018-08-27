@@ -98,19 +98,23 @@ $element-hover-bg: lighten($color-a-dark, 5%);
         &-right {
             float: right;
         }
+
+        > a {
+            display: inline-block;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
         span {
             display: inline-block;
         }
     }
 
-    &-group {
-        display: block;
+    &-item {
+        display: inline-block;
         height: 36px;
-
-        > a {
-            display: inline-block;
-            text-decoration: none;
-        }
     }
 
     &-info {
@@ -186,6 +190,13 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     &-value {
         color: $color-a-light;
         font-size: 13px;
+        line-height: 36px;
+    }
+
+    &-label {
+        display: inline;
+        color: $color-a;
+        font-size: 12px;
         line-height: 36px;
     }
 
