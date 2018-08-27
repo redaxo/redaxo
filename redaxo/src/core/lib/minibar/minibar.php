@@ -62,7 +62,7 @@ class rex_minibar
      */
     public function isVisible()
     {
-        return rex_cookie('rex_minibar_visibility', 'bool', false);
+        return !rex_cookie('rex_minibar_frontend_hidden', 'bool', false);
     }
 
     /**
@@ -73,9 +73,9 @@ class rex_minibar
     public function setVisibility($value)
     {
         if ($value) {
-            rex_response::sendCookie('rex_minibar_visibility', '1', ['expires' => time() + rex::getProperty('session_duration'), 'samesite' => 'strict']);
+            rex_response::sendCookie('rex_minibar_frontend_hidden', '');
         } else {
-            rex_response::sendCookie('rex_minibar_visibility', '');
+            rex_response::sendCookie('rex_minibar_frontend_hidden', '1', ['expires' => time() + rex::getProperty('session_duration'), 'samesite' => 'strict']);
         }
     }
 }
