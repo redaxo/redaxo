@@ -3,7 +3,7 @@
 /**
  * @package redaxo\core
  */
-class rex_minibar_eggnog extends rex_minibar_element
+class rex_minibar_system extends rex_minibar_element
 {
     /**
      * {@inheritdoc}
