@@ -30,11 +30,11 @@ class rex_minibar_element_system extends rex_minibar_element
             <div class="rex-minibar-info-group">
                 <div class="rex-minibar-info-piece">
                     <b>REDAXO</b>
-                    <span>'.rex::getVersion().' <a href="' . rex_url::backendPage('system/log') . '" title="'.rex_escape(rex_i18n::msg('logfiles')).'">'.rex_i18n::msg('logfiles').'</a></span>
+                    <span>'.rex::getVersion().' '.(rex::getUser()->isAdmin() ? '<a href="' . rex_url::backendPage('system/log') . '" title="'.rex_escape(rex_i18n::msg('logfiles')).'">'.rex_i18n::msg('logfiles').'</a> <a href="' . rex_url::backendPage('system/report') . '" title="'.rex_escape(rex_i18n::msg('system_report')).'">'.rex_i18n::msg('system_report').'</a>' : '') .'</span>
                 </div>
                 <div class="rex-minibar-info-piece">
                     <b>PHP Version</b>
-                    <span>'.PHP_VERSION.' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo()</a></span>
+                    <span>'.PHP_VERSION.' '.(rex::getUser()->isAdmin() ? '<a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo()</a>' : '') .'</span>
                 </div>
                 <div class="rex-minibar-info-piece">
                     <b>MySQL</b>
