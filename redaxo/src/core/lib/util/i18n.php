@@ -6,7 +6,9 @@
  * @package redaxo\core
  */
 class rex_i18n
+    
 {
+    
     private static $locales = [];
     private static $directories = [];
     private static $loaded = [];
