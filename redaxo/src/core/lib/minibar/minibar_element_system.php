@@ -17,10 +17,11 @@ class rex_minibar_element_system extends rex_minibar_element
             $links .= '<br /><a href="https://redaxo.org/doku/master" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_documentation_link_label').'</a>';
         }
 
+        $logo = str_replace('<svg ', '<svg class="rex-redaxo-logo" ', rex_file::get(rex_url::coreAssets('redaxo-logo.svg')));
         return
         '<div class="rex-minibar-item">
             <span class="rex-minibar-icon">
-                <img class="rex-js-svg rex-redaxo-logo" src="'.rex_url::coreAssets('redaxo-logo.svg').'" />
+                '.$logo.'
             </span>
             <span class="rex-minibar-value">
                 '.rex::getVersion().'
