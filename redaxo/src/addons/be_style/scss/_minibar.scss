@@ -5,7 +5,7 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     right: 0;
     bottom: 0;
     z-index: 100000;
-    padding-right: 36px;
+    padding-right: $minibar-height;
     color: $color-a;
     direction: ltr;
     font-size: 11px;
@@ -13,7 +13,7 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     text-align: left;
 
     &[data-minibar="false"] {
-        height: 36px;
+        height: $minibar-height;
     }
 
     &[data-minibar="true"],
@@ -37,8 +37,8 @@ $element-hover-bg: lighten($color-a-dark, 5%);
         right: 0;
         top: 0;
         z-index: 100001;
-        width: 36px;
-        height: 36px;
+        width: $minibar-height;
+        height: $minibar-height;
         font-size: 18px;
         cursor: pointer;
         transition: all 200ms ease-in-out;
@@ -88,7 +88,7 @@ $element-hover-bg: lighten($color-a-dark, 5%);
         cursor: default;
         display: block;
         float: left;
-        height: 36px;
+        height: $minibar-height;
         margin-right: 0;
         padding: 0 10px;
         white-space: nowrap;
@@ -118,13 +118,13 @@ $element-hover-bg: lighten($color-a-dark, 5%);
 
     &-item {
         display: inline-block;
-        height: 36px;
+        height: $minibar-height;
     }
 
     &-info {
         position: absolute;
         left: 0;
-        bottom: 36px;
+        bottom: $minibar-height;
         display: none;
         background-color: $element-hover-bg;
         color: $color-a-light;
@@ -195,14 +195,14 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     &-value {
         color: $color-a-light;
         font-size: 13px;
-        line-height: 36px;
+        line-height: $minibar-height;
     }
 
     &-label {
         display: inline;
         color: $color-a;
         font-size: 12px;
-        line-height: 36px;
+        line-height: $minibar-height;
     }
 
     &-status-danger {
