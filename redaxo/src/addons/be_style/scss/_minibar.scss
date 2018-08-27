@@ -223,9 +223,25 @@ $element-hover-bg: lighten($color-a-dark, 5%);
 .rex-minibar-element-system {
     .rex-redaxo-logo {
         height: 10px;
-        width: 60px;
+        width: 70px;
         vertical-align: middle;
-        margin-right: -14px;
+        margin-right: -62px;
+
+
+        @media (max-width: 767px) {
+            path.rex-redaxo-logo-e,
+            path.rex-redaxo-logo-d,
+            path.rex-redaxo-logo-a,
+            path.rex-redaxo-logo-x,
+            path.rex-redaxo-logo-o {
+                display: none;
+            }
+        }
+        @media (min-width: 768px) {
+            height: 10px;
+            width: 60px;
+            margin-right: -14px;
+        }
 
         path.rex-redaxo-logo-r,
         path.rex-redaxo-logo-e,
