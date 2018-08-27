@@ -3,7 +3,7 @@
 /**
  * @package redaxo\core
  */
-class rex_minibar_structure_content_frontend extends rex_minibar_element
+class rex_minibar_element_structure_content extends rex_minibar_element
 {
     /**
      * {@inheritdoc}
