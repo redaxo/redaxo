@@ -187,7 +187,8 @@ $element-hover-bg: lighten($color-a-dark, 5%);
         font-size: 16px;
     }
 
-    &-icon + &-value {
+    &-icon + &-value,
+    &-value + &-value {
         margin-left: 5px;
     }
 

@@ -132,7 +132,8 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
 }
 
 // ----------------- Minibar
-rex_minibar::getInstance()->addElement(new rex_minibar_system());
+rex_minibar::getInstance()->addElement(new rex_minibar_element_system());
+rex_minibar::getInstance()->addElement(new rex_minibar_element_time());
 
 if (!rex::isBackend()) {
     rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
