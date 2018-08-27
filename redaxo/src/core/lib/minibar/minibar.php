@@ -44,7 +44,7 @@ class rex_minibar
         if (!$user) {
             return false;
         }
-        return $user->hasPerm('minibar') && $user->getValue('minibar') == 1;
+        return $user->getValue('minibar') == 1;
     }
 
     /**
