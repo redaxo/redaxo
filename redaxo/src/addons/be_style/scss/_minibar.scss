@@ -16,8 +16,12 @@ $element-hover-bg: lighten($color-a-dark, 5%);
         height: 36px;
     }
 
-    &[data-minibar="true"] {
+    &[data-minibar="true"],
+    &.rex-minibar-backend {
         left: 0;
+    }
+    &.rex-minibar-backend {
+        padding-right: 0;
     }
 
     * {

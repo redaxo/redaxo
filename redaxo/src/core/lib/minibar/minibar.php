@@ -30,7 +30,11 @@ class rex_minibar
             'elements' => $this->elements,
         ]);
 
-        return $fragment->parse('core/minibar/minibar.php');
+        if (rex::isBackend()) {
+            return $fragment->parse('core/minibar/minibar_backend.php');
+        }
+
+        return $fragment->parse('core/minibar/minibar_frontend.php');
     }
 
     /**
@@ -40,6 +44,10 @@ class rex_minibar
      */
     public function isActive()
     {
+        if (rex::isBackend()) {
+            return true;
+        }
+
         $user = rex_backend_login::createUser();
         if (!$user) {
             return false;
