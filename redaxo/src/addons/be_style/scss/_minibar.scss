@@ -217,6 +217,28 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     &-status-warning {
         background-color: $brand-warning;
     }
+
+    &-info &-status-green,
+    &-info &-status-red {
+        min-width: 15px;
+        min-height: 13px;
+        margin: 0;
+        padding: 2px 5px;
+        color: #fff;
+        vertical-align: middle;
+        text-align: center;
+    }
+    &-info span + &-status-green,
+    &-info span + &-status-red {
+        margin-left: 4px;
+    }
+
+    &-status-green {
+        background-color: $color-online;
+    }
+    &-status-red {
+        background-color: $brand-danger;
+    }
 }
 
 
