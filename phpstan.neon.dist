@@ -1,2 +1,6 @@
 parameters:
-	bootstrap: phpstan-bootstrap.php
+    level: 0
+    paths:
+        - redaxo/src
+    bootstrap:
+        - phpstan-bootstrap.php
