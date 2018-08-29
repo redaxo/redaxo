@@ -17,9 +17,6 @@
         "vendor-dir": "redaxo/src/core/vendor",
         "autoloader-suffix": "RedaxoCore",
         "optimize-autoloader": true,
-        "sort-packages": true,
-        "platform": {
-            "php": "5.5.9"
-        }
+        "sort-packages": true
     }
 }
