@@ -1,7 +1,4 @@
 {
-   "config": {		
-        "vendor-dir": "redaxo/src/core/vendor"		
-    },
     "require": {
         "erusev/parsedown": "^1.6",
         "erusev/parsedown-extra": "^0.7",
@@ -17,6 +14,7 @@
     },
 
     "config": {
+        "vendor-dir": "redaxo/src/core/vendor",
         "autoloader-suffix": "RedaxoCore",
         "optimize-autoloader": true,
         "sort-packages": true,
