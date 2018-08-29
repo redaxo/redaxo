@@ -22,7 +22,11 @@ jobs:
         -   php: 5.5
             env: LINTING=1
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
-
+            
+        -   php: 7.2
+            install: composer require --dev phpstan/phpstan
+            script: vendor/bin/phpstan analyse redaxo/src
+            
         -   &TEST
             install:
                 - mysql -e 'create database redaxo_5_0;'
