@@ -10,7 +10,13 @@ class rex_i18n
     private static $locales = [];
     private static $directories = [];
     private static $loaded = [];
+    /**
+     * @var string|null
+     */
     private static $locale = null;
+    /**
+     * @var string[][]
+     */
     private static $msg = [];
 
     /**
@@ -47,13 +53,24 @@ class rex_i18n
     }
 
     /**
-     * Returns the current locale.
+     * Returns the current locale, e.g. de_de.
      *
      * @return string The current locale
      */
     public static function getLocale()
     {
         return self::$locale;
+    }
+
+    /**
+     * Returns the current language, e.g. "de".
+     *
+     * @return string The current language
+     */
+    public static function getLanguage()
+    {
+        list($lang, $country) = explode('_', self::$locale, 2);
+        return $lang;
     }
 
     /**
