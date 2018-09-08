@@ -51,7 +51,7 @@ class rex
     }
 
     /**
-     * Sets a property.
+     * Sets a property. Changes will not be persisted accross http request boundaries.
      *
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
