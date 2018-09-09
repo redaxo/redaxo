@@ -96,6 +96,7 @@ class PrettyPageHandler extends Handler
         "phpstorm" => "phpstorm://open?file=%file&line=%line",
         "idea"     => "idea://open?file=%file&line=%line",
         "vscode"   => "vscode://file/%file:%line",
+        "atom"     => "atom://core/open/file?filename=%file&line=%line",
     ];
 
     /**
@@ -504,6 +505,10 @@ class PrettyPageHandler extends Handler
                 $callback = call_user_func($this->editor, $filePath, $line);
             } else {
                 $callback = call_user_func($this->editors[$this->editor], $filePath, $line);
+            }
+
+            if (empty($callback)) {
+                return [];
             }
 
             if (is_string($callback)) {
