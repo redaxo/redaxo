@@ -1,7 +1,5 @@
 <?php
 
-class_alias('PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-
 /**
  * @package redaxo\tests
  *
