@@ -9,6 +9,10 @@ if (!$this->hasConfig('errormail')) {
     $this->setConfig('errormail', 0);
 }
 
+if (!$this->hasConfig('autotls')){
+    $this->setConfig('autotls', true);
+}
+
 if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
     rex_extension::register('RESPONSE_SHUTDOWN', function (rex_extension_point $ep) {
         $logFile = rex_path::coreData('system.log');
