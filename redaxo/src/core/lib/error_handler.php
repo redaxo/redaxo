@@ -291,13 +291,14 @@ abstract class rex_error_handler
                 $function = $frame['class'].$frame['type'].$function;
             }
 
-            $file = rex_path::relative($frame['file']);
+            $file = isset($frame['file']) ? rex_path::relative($frame['file']) : '';
+            $line = isset($frame['line']) ? $frame['line'] : '';
 
-            $trace[] = [$function, $file, $frame['line']];
+            $trace[] = [$function, $file, $line];
 
             $widths[0] = max($widths[0], mb_strlen($function));
             $widths[1] = max($widths[1], mb_strlen($file));
-            $widths[2] = max($widths[2], mb_strlen($frame['line']));
+            $widths[2] = max($widths[2], mb_strlen($line));
         }
 
         $table = '| '.str_pad($headers[0], $widths[0]).' | '.str_pad($headers[1], $widths[1]).' | '.str_pad($headers[2], $widths[2])." |\n";
