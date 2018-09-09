@@ -22,7 +22,8 @@ class rex_effect_image_properties extends rex_effect_abstract
         }
 
         if ($this->params['interlace']) {
-            $interlace = in_array('- off -', $this->params['interlace']) ? [] : $this->params['interlace'];
+            $interlace = explode('|', trim($this->params['interlace'], '|'));
+            $interlace = in_array('- off -', $interlace) ? [] : $interlace;
             $media->setImageProperty('interlace', $interlace);
         }
     }
