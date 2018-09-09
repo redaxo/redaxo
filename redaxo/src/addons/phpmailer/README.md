@@ -135,6 +135,8 @@ Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Even
 
 PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Dies geschieht ungeachtet davon was als Option unter Verschlüsselung ausgewählt wurde. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Die Einstellung lässt sich deaktiveren, so dass die manuelle Konfiguration akzeptiert werden kann.  
 
+> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. 
+
 <a name="spam-blocker"></a>
 ### Spam-Blocker
 
