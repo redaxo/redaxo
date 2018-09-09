@@ -6,6 +6,7 @@
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
+    - AutoTLS 
 
 <a name="ueber"></a>
 
@@ -128,6 +129,11 @@ Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Even
 <a name="tipps"></a>
 
 ## Tipps
+
+<a name="autotls"></a>
+### AutoTLS
+
+PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Dies geschieht ungeachtet davon was als Option unter Verschlüsselung ausgewählt wurde. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Die Einstellung lässt sich deaktiveren, so dass die manuelle Konfiguration akzeptiert werden kann.  
 
 <a name="spam-blocker"></a>
 ### Spam-Blocker
