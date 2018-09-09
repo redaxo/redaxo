@@ -223,16 +223,15 @@ if ($func == '') {
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
 
-    $form->addFieldset($this->i18n('interval'));
-
-    $field = $form->addIntervalField('interval');
-
     $form->addFieldset($this->i18n('type_parameters'));
 
     $fieldContainer = $form->addContainerField('parameters');
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     $fieldContainer->setActive($activeType);
+
+    $form->addFieldset($this->i18n('interval'));
+    $field = $form->addIntervalField('interval');
 
     $env_js = '';
     $visible = [];
@@ -353,7 +352,7 @@ if ($func == '') {
                 if(currentShown) currentShown.hide();
                 var typeId = "#rex-"+ $(this).val();
                 currentShown = $(typeId);
-                currentShown.show();
+                currentShown.slideDown();
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
                 $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
