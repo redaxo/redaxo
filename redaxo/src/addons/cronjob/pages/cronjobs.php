@@ -233,8 +233,6 @@ if ($func == '') {
     $form->addFieldset($this->i18n('interval'));
     $field = $form->addIntervalField('interval');
 
-
-
     $env_js = '';
     $visible = [];
     foreach ($cronjobs as $group => $cronjob) {
@@ -277,7 +275,7 @@ if ($func == '') {
                     case 'select':
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
-						$field->setAttribute('class', 'form-control selectpicker');
+                        $field->setAttribute('class', 'form-control selectpicker');
                         $select = $field->getSelect();
                         $select->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {
@@ -412,4 +410,3 @@ if ($func == '') {
 
 <?php
 }
-
