@@ -243,7 +243,7 @@ class rex_cronjob_manager_sql
         ');
 
         if ($this->sql->getRows() == 1) {
-            return $this->sql->getDateTimeValue('nexttime');
+            return (int) $this->sql->getDateTimeValue('nexttime');
         }
         return null;
     }
