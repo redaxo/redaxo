@@ -137,6 +137,7 @@ class rex_i18n
         array_shift($args);
         return self::getMsg($key, false, $args, $locale);
     }
+
     /**
      * Returns the message fallback for a missing key in main locale.
      *
