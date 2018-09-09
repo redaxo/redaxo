@@ -87,7 +87,7 @@ LANG;
         $this->assertSame('DE', rex_i18n::msgInLocale('my', 'de_de'));
         $this->assertSame('EN', rex_i18n::msgInLocale('my', 'en_gb'));
     }
-  
+
     public function testTranslateCallable()
     {
         $this->assertSame('translated', rex_i18n::translate('translate:my_cb', false, 'rex_i18n_trans_cb::mytranslate'));
