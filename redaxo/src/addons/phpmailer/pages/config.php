@@ -27,6 +27,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['username', 'string'],
         ['password', 'string'],
         ['smtpsecure', 'string'],
+        ['autotls', 'boolean'],
         ['smtpauth', 'boolean'],
         ['priority', 'int'],
         ['smtp_debug', 'int'],
@@ -49,6 +50,17 @@ $sel_mailer->setAttribute('class', 'form-control selectpicker');
 $sel_mailer->setSelected($this->getConfig('mailer'));
 foreach (['mail', 'sendmail', 'smtp'] as $type) {
     $sel_mailer->addOption($type, $type);
+}
+
+
+$sel_autotls = new rex_select();
+$sel_autotls->setId('phpmailer-autotls');
+$sel_autotls->setName('settings[autotls]');
+$sel_autotls->setSize(1);
+$sel_autotls->setAttribute('class', 'form-control selectpicker');
+$sel_autotls->setSelected($this->getConfig('autotls'));
+foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
+    $sel_autotls->addOption($type, $i);
 }
 
 $sel_smtpauth = new rex_select();
@@ -115,8 +127,8 @@ if ($message != '') {
 }
 
 $content = '';
-
-$content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('email_options') . '</legend>';
+$content .= '<div class="col-sm-6">';
+$content .= '<fieldset class="col-sm-12"><legend>' . $this->i18n('email_options') . '</legend>';
 
 $formElements = [];
 $n = [];
@@ -153,7 +165,57 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '</fieldset><fieldset class="col-sm-6"><legend>' . $this->i18n('dispatch_options') . '</legend>';
+$content .= '</fieldset>';
+$content .= '<fieldset id="smtpsettings" class="col-sm-12"><legend>' . $this->i18n('smtp_options') . '</legend>';
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-port">' . $this->i18n('port') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . $this->getConfig('port') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-smtpsecure">' . $this->i18n('smtp_secure') . '</label>';
+$n['field'] = $sel_smtpsecure->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="phpmailer-autotls">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
+$n['field'] = $sel_autotls->get();
+$formElements[] = $n;
+
+
+$n = [];
+$n['label'] = '<label for="phpmailer-smtpauth">' . $this->i18n('smtp_auth') . '</label>';
+$n['field'] = $sel_smtpauth->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-username">' . $this->i18n('smtp_username') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[username]" value="' . $this->getConfig('username') . '" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[password]" value="' . $this->getConfig('password') . '" autocomplete="new-password" />';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') . '</label>';
+$n['field'] = $sel_debug->get();
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$content .= '</fieldset></div>';
+$content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('dispatch_options') . '</legend>';
 
 $formElements = [];
 
@@ -186,48 +248,9 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-$content .= '</fieldset><fieldset id="smtpsettings" class="col-sm-6"><legend>' . $this->i18n('smtp_options') . '</legend>';
-$formElements = [];
-$n = [];
-$n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-port">' . $this->i18n('port') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . $this->getConfig('port') . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-smtpsecure">' . $this->i18n('smtp_secure') . '</label>';
-$n['field'] = $sel_smtpsecure->get();
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-smtpauth">' . $this->i18n('smtp_auth') . '</label>';
-$n['field'] = $sel_smtpauth->get();
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-username">' . $this->i18n('smtp_username') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[username]" value="' . $this->getConfig('username') . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[password]" value="' . $this->getConfig('password') . '" autocomplete="new-password" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') . '</label>';
-$n['field'] = $sel_debug->get();
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
 $content .= '</fieldset>';
+
+
 
 if ($emptymail != '') {
     $content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
@@ -264,6 +287,7 @@ echo '
     </form>';
 ?>
 <script>
+    $('[data-toggle="tooltip"]').tooltip();
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
