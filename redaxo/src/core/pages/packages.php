@@ -18,7 +18,6 @@ if ($subpage == 'help') {
     $version = $package->getVersion();
     $author = $package->getAuthor();
     $supportPage = $package->getSupportPage();
-
     if (is_readable($package->getPath('help.php'))) {
         if (!$package->isAvailable() && is_readable($package->getPath('lang'))) {
             rex_i18n::addDirectory($package->getPath('lang'));
@@ -26,6 +25,10 @@ if ($subpage == 'help') {
         ob_start();
         $package->includeFile('help.php');
         $content .= ob_get_clean();
+    } elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))), false);
+        $content .= $fragment->parse('core/page/docs.php');
     } elseif (is_readable($package->getPath('README.md'))) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.md'))), false);
