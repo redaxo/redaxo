@@ -39,10 +39,8 @@ $sel_be_sprache->setSelected($userperm_be_sprache);
 $locales = rex_i18n::getLocales();
 asort($locales);
 foreach ($locales as $locale) {
-    rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
-    $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
+    $sel_be_sprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
 }
-rex_i18n::setLocale($userperm_be_sprache, false);
 
 // --------------------------------- FUNCTIONS
 
