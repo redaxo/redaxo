@@ -18,7 +18,7 @@ class rex_system_report
     {
         $data = [];
 
-        $rexVersion = rex::getVersion();    
+        $rexVersion = rex::getVersion();
         $hash = rex::getVersionHash(rex_path::base());
         if ($hash) {
             $rexVersion .= '#' . $hash;
