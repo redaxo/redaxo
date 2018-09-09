@@ -41,7 +41,6 @@ asort($locales);
 foreach ($locales as $locale) {
     $sel_be_sprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
 }
-rex_i18n::setLocale($userperm_be_sprache);
 
 // --------------------------------- FUNCTIONS
 
