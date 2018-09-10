@@ -22,7 +22,7 @@ customizer_config_updated = Eingaben wurden gespeichert
 customizer_config_update_failed = Eingaben wurden nicht gespeichert
 
 customizer_update = Einstellungen speichern
-
+customizer_error_unzip = Beim entpacken der Assets aus dem Codemirror-Archiv ist ein Fehler aufgetreten!
 
 customizer_projectname = Projektname
 customizer_textarea = breite Textarea unter Template und Module

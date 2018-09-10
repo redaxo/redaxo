@@ -1,7 +1,5 @@
 <?php
 
-$curDir = rex_path::plugin('be_style', 'customizer');
-
 $error = [];
 $config = [];
 $info = '';
@@ -76,8 +74,10 @@ if (!isset($config['codemirror-selectors'])) {
 
 // build elements
 
+$curDir = $this->getAssetsUrl('vendor/');
+
 $themes = [];
-foreach (glob($curDir . '/assets/vendor/codemirror/theme/*.css') as $filename) {
+foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {
     $themes[] = substr(basename($filename), 0, -4);
 }
 
