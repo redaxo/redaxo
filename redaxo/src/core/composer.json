@@ -11,8 +11,8 @@
         "symfony/polyfill-php70": "^1.6",
         "symfony/var-dumper": "^3.4",
         "symfony/yaml": "^3.4",
-        "redaxo/phpmailer-addon": "dev-master",
-        "redaxo/tests-addon": "dev-master"
+        "redaxo/phpmailer-addon": "@dev",
+        "redaxo/tests-addon": "@dev"
     },
 
     "repositories": [
