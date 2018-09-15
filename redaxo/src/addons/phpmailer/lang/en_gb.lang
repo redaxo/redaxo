@@ -22,9 +22,11 @@ phpmailer_reset_info = Reset info?
 phpmailer_smtp_options = SMTP options
 phpmailer_smtp_username = Username
 phpmailer_smtp_password = Password
-phpmailer_smtp_secure = Encryption
-phpmailer_smtp_autotls = Enable AutoTLS
-phpmailer_smtp_autotls_help = If the server reports the availability of TLS, a TLS connection is established, no matter what was previously set. A valid certificate should be available.
+phpmailer_smtp_secure = Encryption type
+phpmailer_smtp_autotls = Encryption
+phpmailer_auto = auto
+phpmailer_manuell = manual selection
+phpmailer_smtp_autotls_help = on Auto: PHPMailer tries to establish a TLS connection
 phpmailer_smtp_auth = Authentification
 phpmailer_smtp_debug = Debug
 phpmailer_smtp_debug_0 = 0 (DEBUG_OFF)
@@ -54,9 +56,3 @@ phpmailer_log = E-Mail Log
 phpmailer_log_info = Log-Folder: <span title="{0}">{1}</span>
 phpmailer_log_yes = Yes
 phpmailer_log_no = No
-phpmailer_errormail_disabled = disabled
-phpmailer_errormail_15min = 15 minute interval
-phpmailer_errormail_30min = 30 minute interval
-phpmailer_errormail_60min = 60 minute interval
-
-system_setting_errormail = Send E-Mail on errors
