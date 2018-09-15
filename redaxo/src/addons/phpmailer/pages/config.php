@@ -59,7 +59,7 @@ $sel_autotls->setName('settings[autotls]');
 $sel_autotls->setSize(1);
 $sel_autotls->setAttribute('class', 'form-control selectpicker');
 $sel_autotls->setSelected($this->getConfig('autotls'));
-foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
+foreach ([0 => $this->i18n('auto'), 1 => $this->i18n('manuell')] as $i => $type) {
     $sel_autotls->addOption($type, $i);
 }
 
@@ -180,15 +180,28 @@ $n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name=
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-smtpsecure">' . $this->i18n('smtp_secure') . '</label>';
-$n['field'] = $sel_smtpsecure->get();
-$formElements[] = $n;
-
-$n = [];
 $n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="phpmailer-autotls">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
 $n['field'] = $sel_autotls->get();
 $formElements[] = $n;
 
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+
+$formElements = [];
+
+$content .= '<div id="securetype">';
+$n = [];
+$n['label'] = '<label for="phpmailer-smtpsecure">' . $this->i18n('smtp_secure') . '</label>';
+$n['field'] = $sel_smtpsecure->get();
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+$formElements = [];
+$content .= '</div>';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-smtpauth">' . $this->i18n('smtp_auth') . '</label>';
@@ -291,6 +304,9 @@ echo '
     $('#smtpsettings').toggle(
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
+     $('#securetype').toggle(
+        $('#phpmailer-autotls').find("option[value='1']").is(":checked")
+    );
 
     $('#phpmailer-mailer').change(function(){
         if ($(this).val() == 'smtp') {
@@ -299,4 +315,13 @@ echo '
             $('#smtpsettings').slideUp();
         }
     });
+    
+        $('#phpmailer-autotls').change(function(){
+        if ($(this).val() == '1') {
+            $('#securetype').slideDown();
+        } else {
+            $('#securetype').slideUp();
+        }
+    });
+
 </script>
