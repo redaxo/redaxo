@@ -49,7 +49,7 @@ phpmailer_checkmail_headline = Test mail status
 phpmailer_checkmail_noadress = No e-mail address has been entered. Please check your settings
 phpmailer_checkmail_error_headline = An error has occurred
 phpmailer_checkmail_error = Error
-phpmailer_checkmail_send = E-Mais has been sent to:
+phpmailer_checkmail_send = E-Mail has been sent to:
 phpmailer_checkmail_info = Please check your inbox
 phpmailer_checkmail_info_subject =  Pay attention to e-mails with the subject: PHPMailer-Test
 phpmailer_log = E-Mail Log
@@ -57,8 +57,8 @@ phpmailer_log_info = Log-Folder: <span title="{0}">{1}</span>
 phpmailer_log_yes = Yes
 phpmailer_log_no = No
 phpmailer_errormail_disabled = disabled
-phpmailer_errormail_15min = 15 minute interval
-phpmailer_errormail_30min = 30 minute interval
-phpmailer_errormail_60min = 60 minute interval
+phpmailer_errormail_15min = 15 minutes interval
+phpmailer_errormail_30min = 30 minutes interval
+phpmailer_errormail_60min = 60 minutes interval
 
-system_setting_errormail = Send E-Mail on errors
+system_setting_errormail = E-mail notification on errors
