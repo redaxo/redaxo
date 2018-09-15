@@ -171,7 +171,7 @@ $content .= '<fieldset id="smtpsettings" class="col-sm-12"><legend>' . $this->i1
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" placeholder="smtp.example.tld" value="' . $this->getConfig('host') . '" />';
 $formElements[] = $n;
 
 $n = [];
