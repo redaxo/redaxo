@@ -13,5 +13,10 @@ page:
         help: { title: 'translate:help' }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
+pages:
+    system/log/phpmailer:
+        title: PHPMailer
+        perm: admin
+
 requires:
     redaxo: ^5.1.0
