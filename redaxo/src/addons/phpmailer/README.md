@@ -6,7 +6,7 @@
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
-    - [AutoTLS - Automatische TLS-Verbindung](#autotls)
+    - [Verschlüsselung: Automatische TLS-Verbindung](#autotls)
 
 <a name="ueber"></a>
 
@@ -131,9 +131,9 @@ Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Even
 ## Tipps
 
 <a name="autotls"></a>
-### AutoTLS
+### Verschlüsselung: Automatische TLS-Verbindung
 
-PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Dies geschieht ungeachtet davon was als Option unter Verschlüsselung ausgewählt wurde. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Die Einstellung lässt sich deaktiveren, so dass die manuelle Konfiguration akzeptiert werden kann.  
+PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Duch Ändern der Verschlüsselung auf "manuelle Auswahl" kann diese Eigenschaft deaktiviert werden und die Verschlüsselung selbst gewählt werden. 
 
 > Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. 
 
