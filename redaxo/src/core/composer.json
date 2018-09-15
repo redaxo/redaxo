@@ -26,6 +26,9 @@
         }
     ],
 
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    
     "config": {
         "autoloader-suffix": "RedaxoCore",
         "optimize-autoloader": true,
