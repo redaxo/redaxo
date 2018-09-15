@@ -24,51 +24,45 @@ rm -f redaxo/src/core/vendor/symfony/var-dumper/phpunit.xml.dist
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
 rm -f redaxo/src/core/vendor/symfony/yaml/phpunit.xml.dist
 
+rm -f redaxo/src/core/vendor/autoload.php
+rm -rf redaxo/src/core/vendor/composer/
+rm -f redaxo/src/core/vendor/phpmailer/phpmailer/.php_cs
+rm -f redaxo/src/core/vendor/phpmailer/phpmailer/phpdoc.dist.xml
+rm -rf redaxo/src/core/vendor/phpmailer/phpmailer/.github/
+rm -rf redaxo/src/core/vendor/phpmailer/phpmailer/.phan/
+rm -rf redaxo/src/core/vendor/phpmailer/phpmailer/examples/
+rm -rf redaxo/src/core/vendor/phpmailer/phpmailer/extras/
+
+rm -f redaxo/src/core/vendor/autoload.php
+rm -rf redaxo/src/core/vendor/bin/
+rm -rf redaxo/src/core/vendor/composer/
+rm -rf redaxo/src/core/vendor/doctrine/instantiator/tests/
+rm -rf redaxo/src/core/vendor/phpunit/php-code-coverage/build/
+rm -rf redaxo/src/core/vendor/phpunit/php-code-coverage/tests/
+rm -rf redaxo/src/core/vendor/phpunit/php-timer/tests/
+rm -rf redaxo/src/core/vendor/phpunit/php-token-stream/build/
+rm -rf redaxo/src/core/vendor/phpunit/php-token-stream/tests/
+rm -rf redaxo/src/core/vendor/phpunit/phpunit/tests/
+rm -rf redaxo/src/core/vendor/phpunit/phpunit-mock-objects/build/
+rm -rf redaxo/src/core/vendor/phpunit/phpunit-mock-objects/tests/
+rm -rf redaxo/src/core/vendor/sebastian/comparator/build/
+rm -rf redaxo/src/core/vendor/sebastian/comparator/tests/
+rm -rf redaxo/src/core/vendor/sebastian/diff/tests/
+rm -rf redaxo/src/core/vendor/sebastian/environment/tests/
+rm -rf redaxo/src/core/vendor/sebastian/exporter/tests/
+rm -rf redaxo/src/core/vendor/sebastian/global-state/tests/
+rm -rf redaxo/src/core/vendor/sebastian/recursion-context/tests/
+rm -rf redaxo/src/core/vendor/symfony/polyfill-ctype/
+rm -rf redaxo/src/core/vendor/symfony/yaml/
+rm -rf redaxo/src/core/vendor/webmozart/assert/tests/
+
+find redaxo/src/core/vendor -name ".php_cs" -type f -delete
+find redaxo/src/core/vendor -name ".scrutinizer.yml" -type f -delete
+find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
+find redaxo/src/core/vendor -name "build.xml" -type f -delete
+find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
+
 composer dumpautoload --no-dev -d redaxo/src/core/
-
-printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
-composer update --no-dev -d redaxo/src/addons/phpmailer/
-
-rm -f redaxo/src/addons/phpmailer/vendor/autoload.php
-rm -rf redaxo/src/addons/phpmailer/vendor/composer/
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.php_cs
-rm -f redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/phpdoc.dist.xml
-rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.github/
-rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/.phan/
-rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/examples/
-rm -rf redaxo/src/addons/phpmailer/vendor/phpmailer/phpmailer/extras/
-
-printf "\nUpdate redaxo/src/addons/tests/vendor\n"
-composer update --no-dev -d redaxo/src/addons/tests/
-
-rm -f redaxo/src/addons/tests/vendor/autoload.php
-rm -rf redaxo/src/addons/tests/vendor/bin/
-rm -rf redaxo/src/addons/tests/vendor/composer/
-rm -rf redaxo/src/addons/tests/vendor/doctrine/instantiator/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-code-coverage/build/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-code-coverage/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-timer/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-token-stream/build/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-token-stream/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit-mock-objects/build/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit-mock-objects/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/comparator/build/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/comparator/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/diff/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/environment/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/exporter/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/global-state/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/recursion-context/tests/
-rm -rf redaxo/src/addons/tests/vendor/symfony/polyfill-ctype/
-rm -rf redaxo/src/addons/tests/vendor/symfony/yaml/
-rm -rf redaxo/src/addons/tests/vendor/webmozart/assert/tests/
-
-find redaxo/src/addons/tests/vendor -name ".php_cs" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".scrutinizer.yml" -type f -delete
-find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpunit.xml.dist" -type f -delete
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js

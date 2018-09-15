@@ -10,8 +10,21 @@
         "symfony/polyfill-php56": "^1.6",
         "symfony/polyfill-php70": "^1.6",
         "symfony/var-dumper": "^3.4",
-        "symfony/yaml": "^3.4"
+        "symfony/yaml": "^3.4",
+        "redaxo/phpmailer-addon": "dev-master",
+        "redaxo/tests-addon": "dev-master"
     },
+
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../addons/phpmailer"
+        },
+        {
+            "type": "path",
+            "url": "../addons/tests"
+        }
+    ],
 
     "config": {
         "autoloader-suffix": "RedaxoCore",

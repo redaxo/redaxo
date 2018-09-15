@@ -1,9 +1,9 @@
 {
-    "require": { "phpunit/phpunit" : "*" },
+  "name": "redaxo/tests-addon",
+  "type": "redaxo-addon",
 
-    "config": {
-        "platform": {
-            "php": "5.5.9"
-        }
-    }
+  "require": {
+    "redaxo/addon-installer-plugin": "^1.0",
+    "phpunit/phpunit": "*"
+  }
 }

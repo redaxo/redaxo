@@ -1,3 +1,8 @@
 {
-    "require": { "phpmailer/phpmailer": "~6.0" }
+  "name": "redaxo/phpmailer-addon",
+  "type": "redaxo-addon",
+  "require": {
+    "redaxo/addon-installer-plugin": "^1.0",
+    "phpmailer/phpmailer": "~6.0"
+  }
 }
