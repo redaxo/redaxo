@@ -27,7 +27,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['username', 'string'],
         ['password', 'string'],
         ['smtpsecure', 'string'],
-        ['manual_security', 'boolean'],
+        ['security_mode', 'boolean'],
         ['smtpauth', 'boolean'],
         ['priority', 'int'],
         ['smtp_debug', 'int'],
@@ -53,14 +53,14 @@ foreach (['mail', 'sendmail', 'smtp'] as $type) {
 }
 
 
-$sel_manual_security = new rex_select();
-$sel_manual_security->setId('manual_security');
-$sel_manual_security->setName('settings[manual_security]');
-$sel_manual_security->setSize(1);
-$sel_manual_security->setAttribute('class', 'form-control selectpicker');
-$sel_manual_security->setSelected($this->getConfig('manual_security'));
-foreach ([0 => $this->i18n('auto'), 1 => $this->i18n('manuell')] as $i => $type) {
-    $sel_manual_security->addOption($type, $i);
+$sel_security_mode = new rex_select();
+$sel_security_mode->setId('security_mode');
+$sel_security_mode->setName('settings[security_mode]');
+$sel_security_mode->setSize(1);
+$sel_security_mode->setAttribute('class', 'form-control selectpicker');
+$sel_security_mode->setSelected($this->getConfig('security_mode'));
+foreach ([0 => $this->i18n('manuell'), 1 => $this->i18n('auto')] as $i => $type) {
+    $sel_security_mode->addOption($type, $i);
 }
 
 $sel_smtpauth = new rex_select();
@@ -180,8 +180,8 @@ $n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name=
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="manual_security">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
-$n['field'] = $sel_manual_security->get();
+$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="security_mode">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
+$n['field'] = $sel_security_mode->get();
 $formElements[] = $n;
 
 
@@ -305,7 +305,7 @@ echo '
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
      $('#securetype').toggle(
-        $('#manual_security').find("option[value='1']").is(":checked")
+        $('#security_mode').find("option[value='0']").is(":checked")
     );
 
     $('#phpmailer-mailer').change(function(){
@@ -316,8 +316,8 @@ echo '
         }
     });
     
-        $('#manual_security').change(function(){
-        if ($(this).val() == '1') {
+        $('#security_mode').change(function(){
+        if ($(this).val() == '0') {
             $('#securetype').slideDown();
         } else {
             $('#securetype').slideUp();
