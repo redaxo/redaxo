@@ -27,7 +27,7 @@ if (rex_post('btn_save', 'string') != '') {
         ['username', 'string'],
         ['password', 'string'],
         ['smtpsecure', 'string'],
-        ['autotls', 'boolean'],
+        ['manual_security', 'boolean'],
         ['smtpauth', 'boolean'],
         ['priority', 'int'],
         ['smtp_debug', 'int'],
@@ -53,14 +53,14 @@ foreach (['mail', 'sendmail', 'smtp'] as $type) {
 }
 
 
-$sel_autotls = new rex_select();
-$sel_autotls->setId('phpmailer-autotls');
-$sel_autotls->setName('settings[autotls]');
-$sel_autotls->setSize(1);
-$sel_autotls->setAttribute('class', 'form-control selectpicker');
-$sel_autotls->setSelected($this->getConfig('autotls'));
+$sel_manual_security = new rex_select();
+$sel_manual_security->setId('manual_security');
+$sel_manual_security->setName('settings[manual_security]');
+$sel_manual_security->setSize(1);
+$sel_manual_security->setAttribute('class', 'form-control selectpicker');
+$sel_manual_security->setSelected($this->getConfig('manual_security'));
 foreach ([0 => $this->i18n('auto'), 1 => $this->i18n('manuell')] as $i => $type) {
-    $sel_autotls->addOption($type, $i);
+    $sel_manual_security->addOption($type, $i);
 }
 
 $sel_smtpauth = new rex_select();
@@ -180,8 +180,8 @@ $n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name=
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="phpmailer-autotls">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
-$n['field'] = $sel_autotls->get();
+$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="manual_security">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
+$n['field'] = $sel_manual_security->get();
 $formElements[] = $n;
 
 
@@ -305,7 +305,7 @@ echo '
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
      $('#securetype').toggle(
-        $('#phpmailer-autotls').find("option[value='1']").is(":checked")
+        $('#manual_security').find("option[value='1']").is(":checked")
     );
 
     $('#phpmailer-mailer').change(function(){
@@ -316,7 +316,7 @@ echo '
         }
     });
     
-        $('#phpmailer-autotls').change(function(){
+        $('#manual_security').change(function(){
         if ($(this).val() == '1') {
             $('#securetype').slideDown();
         } else {
