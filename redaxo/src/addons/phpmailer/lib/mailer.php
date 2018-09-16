@@ -34,8 +34,10 @@ class rex_mailer extends PHPMailer
         }
         $this->SMTPDebug = $addon->getConfig('smtp_debug');
         $this->SMTPSecure = $addon->getConfig('smtpsecure');
-        $this->SMTPAutoTLS = $addon->getConfig('autotls');
         $this->SMTPAuth = $addon->getConfig('smtpauth');
+        if ($addon->getConfig('autotls')==true){            {
+             $this->SMTPAutoTLS = false;
+            }
         $this->Username = $addon->getConfig('username');
         $this->Password = $addon->getConfig('password');
 
@@ -89,3 +91,4 @@ class rex_mailer extends PHPMailer
         return rex_path::addonData('phpmailer', 'mail_log');
     }
 }
+
