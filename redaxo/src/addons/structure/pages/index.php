@@ -74,7 +74,7 @@ echo rex_view::title(rex_i18n::msg('title_structure'));
 echo rex_view::clangSwitchAsButtons($context);
 
 // --------------------------------------------- Path
-require __DIR__ . '/../functions/function_rex_category.php';
+require $this->getPath('functions/function_rex_category.php');
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();
