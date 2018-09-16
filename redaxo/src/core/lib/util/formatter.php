@@ -27,7 +27,7 @@ abstract class rex_formatter
      */
     public static function format($value, $formatType, $format)
     {
-        if (!is_callable([__CLASS__, $formatType])) {
+        if (!is_callable([self::class, $formatType])) {
             throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
         }
         return self::$formatType($value, $format);
