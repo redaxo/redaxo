@@ -69,7 +69,7 @@ $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control selectpicker');
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
-foreach ([0 => 'false', 1 => 'true'] as $i => $type) {
+foreach ([0 => $this->i18n('false'), 1 =>  $this->i18n('true')] as $i => $type) {
     $sel_smtpauth->addOption($type, $i);
 }
 
@@ -208,15 +208,30 @@ $n['label'] = '<label for="phpmailer-smtpauth">' . $this->i18n('smtp_auth') . '<
 $n['field'] = $sel_smtpauth->get();
 $formElements[] = $n;
 
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+$formElements = [];
+$content .= '<div id="smtpauthlogin">';
+
 $n = [];
 $n['label'] = '<label for="phpmailer-username">' . $this->i18n('smtp_username') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[username]" value="' . $this->getConfig('username') . '" />';
 $formElements[] = $n;
 
+
 $n = [];
 $n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[password]" value="' . $this->getConfig('password') . '" autocomplete="new-password" />';
 $formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
+$formElements = [];
+$content .= '</div>';
+
 
 $n = [];
 $n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') . '</label>';
@@ -305,7 +320,11 @@ echo '
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
      $('#securetype').toggle(
-        $('#security_mode').find("option[value='0']").is(":checked")
+        $('#security_mode').find("option[value='1']").is(":checked")
+    );
+
+     $('#smtpauthlogin').toggle(
+        $('#phpmailer-smtpauth').find("option[value='1']").is(":checked")
     );
 
     $('#phpmailer-mailer').change(function(){
@@ -321,6 +340,14 @@ echo '
             $('#securetype').slideDown();
         } else {
             $('#securetype').slideUp();
+        }
+    });
+    
+        $('#phpmailer-smtpauth').change(function(){
+        if ($(this).val() == '1') {
+            $('#smtpauthlogin').slideDown();
+        } else {
+            $('#smtpauthlogin').slideUp();
         }
     });
 
