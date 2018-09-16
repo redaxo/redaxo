@@ -59,7 +59,7 @@ $sel_autotls->setName('settings[autotls]');
 $sel_autotls->setSize(1);
 $sel_autotls->setAttribute('class', 'form-control selectpicker');
 $sel_autotls->setSelected($this->getConfig('autotls'));
-foreach ([1 => $this->i18n('auto'), 0 => $this->i18n('manuell')] as $i => $type) {
+foreach ([0 => $this->i18n('auto'), 1 => $this->i18n('manuell')] as $i => $type) {
     $sel_autotls->addOption($type, $i);
 }
 
@@ -171,7 +171,7 @@ $content .= '<fieldset id="smtpsettings" class="col-sm-12"><legend>' . $this->i1
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" type="text" name="settings[host]" placeholder="smtp.example.tld" value="' . $this->getConfig('host') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -305,7 +305,7 @@ echo '
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
      $('#securetype').toggle(
-        $('#phpmailer-autotls').find("option[value='0']").is(":checked")
+        $('#phpmailer-autotls').find("option[value='1']").is(":checked")
     );
 
     $('#phpmailer-mailer').change(function(){
@@ -317,7 +317,7 @@ echo '
     });
     
         $('#phpmailer-autotls').change(function(){
-        if ($(this).val() == '0') {
+        if ($(this).val() == '1') {
             $('#securetype').slideDown();
         } else {
             $('#securetype').slideUp();
