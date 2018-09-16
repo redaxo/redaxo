@@ -147,7 +147,7 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = get_called_class();
+        $class = static::class;
         return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
             // generate cache if not exists
@@ -186,7 +186,7 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = get_called_class();
+        $class = static::class;
         return static::getInstanceList(
             // list key
             [$parentId, $listType],
