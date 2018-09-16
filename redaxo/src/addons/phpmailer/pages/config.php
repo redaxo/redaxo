@@ -59,7 +59,7 @@ $sel_autotls->setName('settings[autotls]');
 $sel_autotls->setSize(1);
 $sel_autotls->setAttribute('class', 'form-control selectpicker');
 $sel_autotls->setSelected($this->getConfig('autotls'));
-foreach ([0 => $this->i18n('auto'), 1 => $this->i18n('manuell')] as $i => $type) {
+foreach ([1 => $this->i18n('auto'), 0 => $this->i18n('manuell')] as $i => $type) {
     $sel_autotls->addOption($type, $i);
 }
 
