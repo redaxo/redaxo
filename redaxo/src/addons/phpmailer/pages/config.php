@@ -305,7 +305,7 @@ echo '
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
      $('#securetype').toggle(
-        $('#phpmailer-autotls').find("option[value='1']").is(":checked")
+        $('#phpmailer-autotls').find("option[value='0']").is(":checked")
     );
 
     $('#phpmailer-mailer').change(function(){
