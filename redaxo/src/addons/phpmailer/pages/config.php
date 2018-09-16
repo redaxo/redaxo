@@ -320,7 +320,7 @@ echo '
         $('#phpmailer-mailer').find("option[value='smtp']").is(":checked")
     );
      $('#securetype').toggle(
-        $('#security_mode').find("option[value='1']").is(":checked")
+        $('#security_mode').find("option[value='0']").is(":checked")
     );
 
      $('#smtpauthlogin').toggle(
@@ -342,7 +342,7 @@ echo '
             $('#securetype').slideUp();
         }
     });
-    
+
         $('#phpmailer-smtpauth').change(function(){
         if ($(this).val() == '1') {
             $('#smtpauthlogin').slideDown();
