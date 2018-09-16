@@ -317,7 +317,7 @@ echo '
     });
     
         $('#phpmailer-autotls').change(function(){
-        if ($(this).val() == '1') {
+        if ($(this).val() == '0') {
             $('#securetype').slideDown();
         } else {
             $('#securetype').slideUp();
