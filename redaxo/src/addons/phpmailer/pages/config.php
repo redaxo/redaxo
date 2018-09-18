@@ -133,27 +133,27 @@ $content .= '<fieldset class="col-sm-12"><legend>' . $this->i18n('email_options'
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-fromname">' . $this->i18n('sender_name') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[fromname]" value="' . $this->getConfig('fromname') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-fromname" type="text" name="settings[fromname]" value="' . rex_escape($this->getConfig('fromname')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . $this->i18n('sender_email') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" placeholder="name@example.tld" value="' . $this->getConfig('from') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('from')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-from">' . $this->i18n('checkmail_test_address') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . $this->getConfig('test_address') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('test_address')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . $this->i18n('confirm') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="text" name="settings[confirmto]" value="' . $this->getConfig('confirmto') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="text" name="settings[confirmto]" value="' . rex_escape($this->getConfig('confirmto')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-bcc">' . $this->i18n('bcc') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="text" name="settings[bcc]" value="' . $this->getConfig('bcc') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-bcc" type="text" name="settings[bcc]" value="' . rex_escape($this->getConfig('bcc')) . '" />';
 $formElements[] = $n;
 
 $n = [];
@@ -171,16 +171,16 @@ $content .= '<fieldset id="smtpsettings" class="col-sm-12"><legend>' . $this->i1
 $formElements = [];
 $n = [];
 $n['label'] = '<label for="phpmailer-host">' . $this->i18n('host') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[host]" value="' . $this->getConfig('host') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-host" placeholder="smtp.example.tld" type="text" name="settings[host]" value="' . rex_escape($this->getConfig('host')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-port">' . $this->i18n('port') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . $this->getConfig('port') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-port" type="text" name="settings[port]" value="' . rex_escape($this->getConfig('port')) . '" />';
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('smtp_autotls_help') . '" for="security_mode">' . $this->i18n('smtp_autotls') . ' <i class="rex-icon fa-question-circle"></i></label>';
+$n['label'] = '<label data-toggle="tooltip" title="' . $this->i18n('security_mode_help') . '" for="security_mode">' . rex_escape($this->i18n('security_mode')) . ' <i class="rex-icon fa-question-circle"></i></label>';
 $n['field'] = $sel_security_mode->get();
 $formElements[] = $n;
 
@@ -217,13 +217,13 @@ $content .= '<div id="smtpauthlogin">';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-username">' . $this->i18n('smtp_username') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[username]" value="' . $this->getConfig('username') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-username" type="text" name="settings[username]" value="' . rex_escape($this->getConfig('username')) . '" />';
 $formElements[] = $n;
 
 
 $n = [];
 $n['label'] = '<label for="phpmailer-password">' . $this->i18n('smtp_password') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[password]" value="' . $this->getConfig('password') . '" autocomplete="new-password" />';
+$n['field'] = '<input class="form-control" id="phpmailer-password" type="password" name="settings[password]" value="' . rex_escape($this->getConfig('password')) . '" autocomplete="new-password" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -249,12 +249,12 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="phpmailer-charset">' . $this->i18n('charset') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[charset]" value="' . $this->getConfig('charset') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-charset" type="text" name="settings[charset]" value="' . rex_escape($this->getConfig('charset')) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-wordwrap">' . $this->i18n('wordwrap') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="text" name="settings[wordwrap]" value="' . $this->getConfig('wordwrap') . '" />';
+$n['field'] = '<input class="form-control" id="phpmailer-wordwrap" type="text" name="settings[wordwrap]" value="' . rex_escape($this->getConfig('wordwrap')) . '" />';
 $formElements[] = $n;
 
 $n = [];
