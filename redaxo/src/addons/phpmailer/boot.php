@@ -1,12 +1,21 @@
 <?php
 /**
- * errormail Addon.
+ * PHPMailer Addon.
  *
- * @author Friends of REDAXO
+ * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
+ *
+ * @package redaxo5
+ *
+ * @var rex_addon $this
  */
 
 if (!$this->hasConfig('errormail')) {
     $this->setConfig('errormail', 0);
+}
+
+if (!$this->hasConfig('security_mode'))
+{
+    $this->setConfig('security_mode', true); // true = AutoTLS
 }
 
 if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
