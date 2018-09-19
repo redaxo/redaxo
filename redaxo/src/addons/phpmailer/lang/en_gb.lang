@@ -44,6 +44,7 @@ phpmailer_low = Low
 phpmailer_no = no
 phpmailer_check_settings_btn = Send a test mail
 phpmailer_check_settings = Check settings
+phpmailer_check_settings_inactive = No test e-mail address has been saved yet
 phpmailer_check_settings_intro = Sends a test message to the test address
 phpmailer_checkmail = Send a test mail
 phpmailer_checkmail_headline = Test mail status
