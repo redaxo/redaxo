@@ -35,7 +35,7 @@ class rex_minibar_element_system extends rex_minibar_element
                 </div>
                 <div class="rex-minibar-info-piece">
                     <b>PHP Version</b>
-                    <span>'.PHP_VERSION.' '.(rex::getUser() && rex::getUser()->isAdmin() ? '<a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo()</a>' : '') .'</span>
+                    <span>'.PHP_VERSION.' '.(rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin() ? '<a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;">phpinfo()</a>' : '') .'</span>
                 </div>
                 <div class="rex-minibar-info-piece">
                     <b>MySQL</b>
