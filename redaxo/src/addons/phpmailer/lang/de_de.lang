@@ -28,6 +28,8 @@ phpmailer_security_mode_help = Bei "Auto" versucht PHPMailer eine TLS-Verbindung
 phpmailer_auto = Auto
 phpmailer_manuell = Manuelle Auswahl
 phpmailer_smtp_auth = Authentifizierung
+phpmailer_smtp_auth_on = Aktiviert
+phpmailer_smtp_auth_off = Deaktiviert
 phpmailer_smtp_debug = Debug
 phpmailer_smtp_debug_0 = Debugging deaktiviert
 phpmailer_smtp_debug_1 = Server-Protokoll anzeigen
@@ -58,8 +60,6 @@ phpmailer_log = E-Mail Log
 phpmailer_log_info = Log-Ordner: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
-phpmailer_true = Aktiviert
-phpmailer_false = Deaktiviert
 phpmailer_errormail_disabled = deaktiviert
 phpmailer_errormail_15min = im 15 Minuten-Interval
 phpmailer_errormail_30min = im 30 Minuten-Interval
