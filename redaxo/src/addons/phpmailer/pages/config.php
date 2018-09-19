@@ -69,7 +69,7 @@ $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control selectpicker');
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
-foreach ([0 => $this->i18n('false'), 1 =>  $this->i18n('true')] as $i => $type) {
+foreach ([0 => $this->i18n('phpmailer_smtp_auth_off'), 1 =>  $this->i18n('phpmailer_smtp_auth_on')] as $i => $type) {
     $sel_smtpauth->addOption($type, $i);
 }
 
