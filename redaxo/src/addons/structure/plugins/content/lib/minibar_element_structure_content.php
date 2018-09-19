@@ -65,7 +65,7 @@ class rex_minibar_element_structure_content extends rex_minibar_element
         return
         '<div class="rex-minibar-item">
             <span class="rex-minibar-icon">
-                <i class="rex-icon rex-icon-article"></i>
+                <i class="rex-minibar-icon--fa rex-minibar-icon--fa-file-text-o"></i>
             </span>
             <span class="rex-minibar-value">
                 '.$article->getId().'

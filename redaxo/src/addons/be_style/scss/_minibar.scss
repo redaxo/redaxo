@@ -47,15 +47,6 @@ $element-hover-bg: lighten($color-a-dark, 5%);
             background: $color-a-dark;
             color: $color-a-light;
         }
-
-        .rex-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* Fix bugs ON Safari */
-            -webkit-transform: translate3d(-50%, -50%, 0);
-        }
     }
     &-close {
         background: $color-a-dark;
@@ -64,6 +55,16 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     &-opener {
         background: $color-a-light;
         color: $color-a;
+    }
+
+    &-close-icon,
+    &-opener-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* Fix bugs ON Safari */
+        -webkit-transform: translate3d(-50%, -50%, 0);
     }
 
     &[data-minibar="false"] &-close,
@@ -279,4 +280,14 @@ $element-hover-bg: lighten($color-a-dark, 5%);
             display: none;
         }
     }
+}
+
+
+.rex-minibar-close-icon {
+    @extend .rex-minibar-icon--fa;
+    @extend .rex-minibar-icon--fa-times;
+}
+.rex-minibar-opener-icon {
+    @extend .rex-minibar-icon--fa;
+    @extend .rex-minibar-icon--fa-window-minimize;
 }

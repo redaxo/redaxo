@@ -51,7 +51,7 @@ class rex_minibar
         if (rex::isBackend()) {
             return true;
         }
-        
+
         return $user->getValue('minibar') == 1;
     }
 
