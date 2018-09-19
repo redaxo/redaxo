@@ -127,8 +127,9 @@ if ($message != '') {
 }
 
 $content = '';
+$content .= '<div class="row">';
 $content .= '<div class="col-sm-6">';
-$content .= '<fieldset class="col-sm-12"><legend>' . $this->i18n('email_options') . '</legend>';
+$content .= '<fieldset><legend>' . $this->i18n('email_options') . '</legend>';
 
 $formElements = [];
 $n = [];
@@ -166,7 +167,7 @@ $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
 $content .= '</fieldset>';
-$content .= '<fieldset id="smtpsettings" class="col-sm-12"><legend>' . $this->i18n('smtp_options') . '</legend>';
+$content .= '<fieldset id="smtpsettings"><legend>' . $this->i18n('smtp_options') . '</legend>';
 
 $formElements = [];
 $n = [];
@@ -276,20 +277,15 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-$content .= '</fieldset>';
-
-
 
 if ($emptymail != '') {
-    $content .= '<fieldset class="col-sm-6"><legend>' . $this->i18n('check_settings') . '</legend>';
+    $content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
 
     $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
 
     $content .= '<p><a href="'.rex_url::backendPage('phpmailer/checkmail').'" class="btn btn-save">'.$this->i18n('check_settings_btn').'</a><p>';
-
-    $content .= '</fieldset>';
 }
-
+$content .= '</fieldset></div>';
 $formElements = [];
 $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="btn_save" value="' . $this->i18n('save') . '">' . $this->i18n('save') . '</button>';
