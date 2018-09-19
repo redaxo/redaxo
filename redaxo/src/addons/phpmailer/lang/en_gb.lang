@@ -58,6 +58,7 @@ phpmailer_checkmail_info = Please check your inbox
 phpmailer_checkmail_info_subject = Pay attention to e-mails with the subject: PHPMailer-Test
 phpmailer_checkmail_greeting = Hi, 
 phpmailer_checkmail_text = this is a test mail from PHPMailer on server:
+phpmailer_checkmail_domain_note = This test is only valid for the above listed domain. If the website can be reached under several domains, the test should be repeated after a new login under the desired domain.
 phpmailer_log = Email Log
 phpmailer_log_info = Log-Folder: <span title="{0}">{1}</span>
 phpmailer_log_yes = Yes
