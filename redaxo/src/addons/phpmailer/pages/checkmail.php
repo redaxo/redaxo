@@ -8,20 +8,21 @@
  *
  * @var rex_addon $this
  */
-$content = $security_mode = $smtpinfo = '';
-$emptymail = '1';
+$content = $smtpinfo = '';
+$emptymail = true;
 $date = new DateTime();
 if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '')
 {
-    $emptymail = '';
+    $emptymail = false;
 }
-if ($emptymail != '')
+if ($emptymail = true)
 {
     $mail = new rex_mailer();
     $mail->addAddress($this->getConfig('test_address'));
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(rex::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 
     $devider = "\n--------------------------------------------------";
+    $security_mode = '';
 
     if ($this->getConfig('mailer') == 'smtp')
     {
@@ -42,13 +43,17 @@ if ($emptymail != '')
         else
         {
             $security_mode = "Auto";
-            $security_mode = "\n".$this->i18n('security_mode')."\n" . $security_mode . $devider;
+            $security_mode = "\n".$this->i18n('security_mode').": \n" . $security_mode . $devider;
         }
 
     }
 
     $mail->Body = $this->i18n('checkmail_greeting') ."\n\n" .  $this->i18n('checkmail_text') ." ". rex::getServerName();
-    $mail->Body .= " \n\n Mailer: \n" . $this->getConfig('mailer') . $devider . $smtpinfo . $security_mode;
+    $mail->Body .= "\n\nDomain: ".  $_SERVER['HTTP_HOST'];
+
+
+    $mail->Body .= "\nMailer: " . $this->getConfig('mailer') . $devider.$security_mode;
+    $mail->Body .= "\n". $this->i18n('checkmail_domain_note'). "\n". $devider;
 
     if (!$mail->send())
     {
@@ -76,4 +81,3 @@ $fragment->setVar('title', $this->i18n('checkmail_headline'));
 $fragment->setVar('body', $content, false);
 $out = $fragment->parse('core/page/section.php');
 echo $out;
-
