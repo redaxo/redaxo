@@ -58,8 +58,8 @@ phpmailer_log = Email Log
 phpmailer_log_info = Log-Folder: <span title="{0}">{1}</span>
 phpmailer_log_yes = Yes
 phpmailer_log_no = No
-phpmailer_true = Aktiviert
-phpmailer_false = Deaktiviert
+phpmailer_true = enabled
+phpmailer_false = disabled
 phpmailer_errormail_disabled = disabled
 phpmailer_errormail_15min = 15 minute interval
 phpmailer_errormail_30min = 30 minute interval
