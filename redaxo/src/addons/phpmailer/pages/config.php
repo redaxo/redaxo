@@ -236,7 +236,7 @@ $content .= '</div>';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') . '</label>';
-$n['field'] = $sel_debug->get();
+$n['field'] = $sel_debug->get().'<p class="help-block rex-note"> ' . $this->i18n('smtp_debug_info').'</p>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -278,12 +278,17 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
+
+
+
 if ($emptymail != '') {
     $content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
 
     $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
 
     $content .= '<p><a href="'.rex_url::backendPage('phpmailer/checkmail').'" class="btn btn-save">'.$this->i18n('check_settings_btn').'</a><p>';
+
+
 }
 $content .= '</fieldset></div>';
 $formElements = [];
@@ -348,3 +353,4 @@ echo '
     });
 
 </script>
+
