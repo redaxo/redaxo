@@ -89,4 +89,3 @@ class rex_mailer extends PHPMailer
         return rex_path::addonData('phpmailer', 'mail_log');
     }
 }
-

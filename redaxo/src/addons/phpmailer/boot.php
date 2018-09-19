@@ -13,8 +13,7 @@ if (!$this->hasConfig('errormail')) {
     $this->setConfig('errormail', 0);
 }
 
-if (!$this->hasConfig('security_mode'))
-{
+if (!$this->hasConfig('security_mode')) {
     $this->setConfig('security_mode', true); // true = AutoTLS
 }
 
