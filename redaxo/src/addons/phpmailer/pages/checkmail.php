@@ -8,7 +8,7 @@
  *
  * @var rex_addon $this
  */
-$content = $smtpinfo = '';
+$content = $security_mode = $smtpinfo = '';
 $emptymail = '1';
 $date = new DateTime();
 if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '')
@@ -22,7 +22,6 @@ if ($emptymail != '')
     $mail->Subject = 'PHPMailer-Test | ' . rex_escape(rex::getServerName()) . ' | ' . date_format($date, 'Y-m-d H:i:s');
 
     $devider = "\n--------------------------------------------------";
-    $security_mode = '';
 
     if ($this->getConfig('mailer') == 'smtp')
     {
