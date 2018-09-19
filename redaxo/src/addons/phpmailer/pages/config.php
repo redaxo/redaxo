@@ -142,10 +142,6 @@ $n['label'] = '<label for="phpmailer-from">' . $this->i18n('sender_email') . '</
 $n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name="settings[from]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('from')) . '" />';
 $formElements[] = $n;
 
-$n = [];
-$n['label'] = '<label for="phpmailer-from">' . $this->i18n('checkmail_test_address') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('test_address')) . '" />';
-$formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . $this->i18n('confirm') . '</label>';
@@ -278,14 +274,26 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
+ $content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
 
+if ($emptymail == '') {
+
+    $content .= '<p>' . $this->i18n('check_settings_inactive') . '</p>';
+}
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="phpmailer-testaddress">' . $this->i18n('checkmail_test_address') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('test_address')) . '" />';
+$formElements[] = $n;
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/form.php');
 
 
 if ($emptymail != '') {
-    $content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
 
     $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
-
     $content .= '<p><a href="'.rex_url::backendPage('phpmailer/checkmail').'" class="btn btn-save">'.$this->i18n('check_settings_btn').'</a><p>';
 
 
