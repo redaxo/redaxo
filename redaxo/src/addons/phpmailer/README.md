@@ -7,7 +7,7 @@
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
     - [Verschlüsselung: Automatische TLS-Verbindung](#autotls)
-    - [Senden über multiple Domains](#multipledomains)
+    - [Senden über unterschiedliche Domains](#multidomain)
 
 <a name="ueber"></a>
 
@@ -170,8 +170,8 @@ $mail->SMTPOptions = array(
 );
 ```
 
-<a name="multipledomains"></a>
-### Senden über multiple Domains 
+<a name="multidomain"></a>
+### Senden über unterschiedliche Domains
 
 Liefert ein AddOn oder Modul keine eigenen Einstellungen für das Versenden der E-Mails, gilt:
 Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Domain in den DNS-Einstellungen den Webserver (bei sendmail und mail) oder des angegebenen SMTP-Server (z.B. a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX) als erlaubte Adressen beinhalten. Hierzu ggf. den Registrar oder DNS-Verwalter kontaktieren. 
