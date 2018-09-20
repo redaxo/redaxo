@@ -173,5 +173,5 @@ $mail->SMTPOptions = array(
 <a name="multipledomains"></a>
 ### Senden über multiple Domains 
 
-Liedert ein AddOn oder Modul keine eigenen Sende-Einstellungen für das Versenden der Mails, gilt:
+Liefert ein AddOn oder Modul keine eigenen Sende-Einstellungen für das Versenden der Mails, gilt:
 Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Domain in den DNS-Einstellungen den Webserver (bei sendmail und mail) oder den angegebenenv SMTP-Server (z.B. a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX) als erlaubte Adressen beinhalten. Hierzu ggf. den Registrar oder DNS-Verwalter kontaktieren. 
