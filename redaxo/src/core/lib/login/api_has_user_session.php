@@ -15,7 +15,7 @@ class rex_api_has_user_session extends rex_api_function
 
         $user = rex::getUser();
         if (!$user) {
-            rex_response::sendContent(json_encode('false'), 'application/json');
+            rex_response::sendContent(json_encode(false), 'application/json');
             exit();
         }
 
@@ -25,7 +25,7 @@ class rex_api_has_user_session extends rex_api_function
             exit();
         }
 
-        rex_response::sendContent(json_encode('true'), 'application/json');
+        rex_response::sendContent(json_encode(true), 'application/json');
         exit();
     }
 
