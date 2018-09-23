@@ -62,7 +62,6 @@ $effects = [];
 foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
     $effects[$shortName] = new $class();
 }
-//dump( $effects );
 
 if ($func == '' && $type_id > 0) {
     echo '<style>
