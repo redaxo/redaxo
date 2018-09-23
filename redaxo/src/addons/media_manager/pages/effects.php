@@ -96,23 +96,21 @@ if ($func == '' && $type_id > 0) {
     $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
         $shortName = $params['value'];
         $effectClass = "rex_effect_$shortName";
-        $effectParams = json_decode($params['list']->getValue('parameters'),true);
+        $effectParams = json_decode($params['list']->getValue('parameters'), true);
         $instance = new $effectClass();
         $effectLabels = [];
-        if( isset( $effectParams[$effectClass] ) )
-        {
+        if (isset($effectParams[$effectClass])) {
             $effectParams = $effectParams[$effectClass];
-            $effectLabels = array_column( $instance->getParams(),'name','label' );
-            foreach( $effectLabels as $ek=>$ev )
-            {
+            $effectLabels = array_column($instance->getParams(), 'name', 'label');
+            foreach ($effectLabels as $ek => $ev) {
                 $value = "{$effectClass}_$ev";
-                $effectLabels[$ek] = isset( $effectParams[$value] ) ? $effectParams[$value] : '?';
+                $effectLabels[$ek] = isset($effectParams[$value]) ? $effectParams[$value] : '?';
             }
         }
         $fragment = new rex_fragment();
-        $fragment->setVar( 'class', 'rex-media-manager-effect-detail' );
-        $fragment->setVar( 'visible', true, false );
-        $fragment->setVar( 'content', [['label'=>'','effects'=>$effectLabels]], false );
+        $fragment->setVar('class', 'rex-media-manager-effect-detail');
+        $fragment->setVar('visible', true, false);
+        $fragment->setVar('content', [['label' => '', 'effects' => $effectLabels]], false);
         $out = $fragment->parse('mmeffectslist.php');
         return (isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName) . $out;
     });

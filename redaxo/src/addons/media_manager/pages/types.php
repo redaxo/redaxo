@@ -185,27 +185,24 @@ function rex_mediamanager_toggleAll(dieses){
     $list->setColumnFormat('deleteType', 'custom', function ($params) {
         $list = $params['list'];
         $qry = 'SELECT effect,parameters FROM '.rex::getTable('media_manager_type_effect').' WHERE type_id=? ORDER BY priority';
-        $effects = rex_sql::factory()->getArray( $qry, [$params['list']->getValue('id')]  );
-        foreach( $effects as $k=>$v )
-        {
+        $effects = rex_sql::factory()->getArray($qry, [$params['list']->getValue('id')]);
+        foreach ($effects as $k => $v) {
             $effectClass = "rex_effect_{$v['effect']}";
-            $effectParams = json_decode($v['parameters'],true);
+            $effectParams = json_decode($v['parameters'], true);
             $instance = new $effectClass();
             $effectLabels = [];
-            if( isset( $effectParams[$effectClass] ) )
-            {
+            if (isset($effectParams[$effectClass])) {
                 $effectParams = $effectParams[$effectClass];
-                $effectLabels = array_column( $instance->getParams(),'name','label' );
-                foreach( $effectLabels as $ek=>$ev )
-                {
+                $effectLabels = array_column($instance->getParams(), 'name', 'label');
+                foreach ($effectLabels as $ek => $ev) {
                     $value = "{$effectClass}_$ev";
-                    $effectLabels[$ek] = isset( $effectParams[$value] ) ? $effectParams[$value] : '?';
+                    $effectLabels[$ek] = isset($effectParams[$value]) ? $effectParams[$value] : '?';
                 }
             }
-            $effects[$k] = ['label'=>$instance->getName(),'effects'=>$effectLabels];
+            $effects[$k] = ['label' => $instance->getName(), 'effects' => $effectLabels];
         }
         $fragment = new rex_fragment();
-        $fragment->setVar( 'content', $effects, false );
+        $fragment->setVar('content', $effects, false);
         $zusatzzeile = '</td></tr><tr class="rex-helper-line"><td></td><td colspan="6">'.
                        '<div class="hidden rex-mediamanager-list-link rex-mediamanager-list-'.$list->getValue('name').'-link">Link: <i>index.php?rex_media_type='.$list->getValue('name').'&rex_media_file=</i></div>'.
                        '<div class="rex-mediamanager-list-effect rex-mediamanager-list-'.$list->getValue('name').'-effect">'.$fragment->parse('mmeffectslist.php').'</div>';
