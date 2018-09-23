@@ -11,10 +11,12 @@ class rex_i18n_trans_cb
 class rex_i18n_test extends PHPUnit_Framework_TestCase
 {
     private $previousLocale;
+    private $previousDirs;
 
     public function setUp()
     {
         rex_i18n::clearCache();
+        $this->previousDirs = rex_i18n::reset();
         $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
         $content = <<<'LANG'
@@ -37,6 +39,11 @@ LANG;
     {
         rex_dir::delete($this->getPath());
         rex_i18n::setLocale($this->previousLocale, false);
+
+        // Restore original lang dirs for further tests
+        foreach ($this->previousDirs as $dir) {
+            rex_i18n::addDirectory($dir);
+        }
     }
 
     private function getPath()

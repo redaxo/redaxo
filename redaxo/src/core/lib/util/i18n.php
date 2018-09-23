@@ -482,4 +482,16 @@ class rex_i18n
             throw new rex_exception('unable to delete cache file ' . $cacheFile);
         }
     }
+
+    /**
+     *  Resets to the default values
+     */
+    public static function reset() {
+        $savedDirs = self::$directories;
+        self::$loaded = [];
+        self::$msg = [];
+        self::$cacheLoaded = null;
+        self::$directories = [];
+        return $savedDirs;
+    }
 }
