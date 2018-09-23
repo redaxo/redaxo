@@ -422,7 +422,7 @@ class rex_i18n
             self::loadCache();
         }
 
-        if (self::$cacheLoaded) {
+        if (self::$cacheLoaded && isset(self::$msg[$locale])) {
             return;
         }
 
