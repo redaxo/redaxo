@@ -95,7 +95,7 @@ if ($func == '') {
 function rex_mediamanager_toggle(dieses){
     var dies = jQuery(dieses);
     var das = jQuery(dies.data("target"));
-    console.log(das);
+
     if( dies.hasClass("active") ) {
         dies.removeClass("active");
         das.addClass("hidden");
