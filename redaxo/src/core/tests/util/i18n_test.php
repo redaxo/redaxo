@@ -14,6 +14,7 @@ class rex_i18n_test extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        rex_i18n::clearCache();
         $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
         $content = <<<'LANG'

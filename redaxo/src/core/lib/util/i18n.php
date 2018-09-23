@@ -438,7 +438,7 @@ class rex_i18n
      */
     private static function loadCache()
     {
-        if (rex::getConsole() || rex_backend_login::hasSession() && ($user = rex_backend_login::createUser()) && $user->isAdmin() || PHP_SAPI === 'cli') {
+        if (rex::getConsole() || rex_backend_login::hasSession() && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
             self::$cacheLoaded = false;
             return;
         }
