@@ -485,8 +485,12 @@ class rex_i18n
 
     /**
      *  Resets to the default values
+     *
+     * @internal
      */
     public static function reset() {
+        self::clearCache();
+
         $savedDirs = self::$directories;
         self::$loaded = [];
         self::$msg = [];
