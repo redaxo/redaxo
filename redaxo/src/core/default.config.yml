@@ -31,7 +31,7 @@ session:
             httponly: true
             samesite: 'Strict'
 password_policy:
-    length: {min: 8}
+    length: {min: 8, max: 4096}
     lowercase: {min: 0}
     uppercase: {min: 0}
     digit: {min: 0}
@@ -80,3 +80,4 @@ accesskeys:
     delete: d
     add: a
     add_2: y
+editor: null

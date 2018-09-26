@@ -342,6 +342,36 @@ class rex_path
     }
 
     /**
+     * Converts an absolute path to a relative one.
+     *
+     * If the path is outside of the base path, the absolute path will be kept.
+     *
+     * @param string      $absPath
+     * @param null|string $basePath Defaults to `rex_path::base()`
+     *
+     * @return string
+     */
+    public static function relative($absPath, $basePath = null)
+    {
+        if (null === $basePath) {
+            $basePath = self::base();
+        }
+
+        $basePath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $basePath);
+        $basePath = rtrim($basePath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+
+        $baseLength = strlen($basePath);
+
+        $absPath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $absPath);
+
+        if (substr($absPath, 0, $baseLength) !== $basePath) {
+            return $absPath;
+        }
+
+        return substr($absPath, $baseLength);
+    }
+
+    /**
      * Returns the basename (filename) of the path independent of directory separator (/ or \).
      *
      * This method should be used to secure incoming GET/POST parameters containing a filename.

@@ -26,7 +26,7 @@ if ($exportfilename == '') {
 }
 
 if ($EXPTABLES) {
-    $tables = rex_sql::showTables();
+    $tables = rex_sql::factory()->getTables();
 
     foreach ($EXPTABLES as $k => $EXPTABLE) {
         if (!in_array($EXPTABLE, $tables)) {
@@ -151,7 +151,7 @@ $tableSelect->setId('rex-form-exporttables');
 $tableSelect->setSize(20);
 $tableSelect->setName('EXPTABLES[]');
 $tableSelect->setAttribute('class', 'form-control');
-$tables = rex_sql::showTables();
+$tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
     if ($table != rex::getTable('user') && 0 === strpos($table, rex::getTablePrefix()) && 0 !== strpos($table, rex::getTablePrefix() . rex::getTempPrefix())) {

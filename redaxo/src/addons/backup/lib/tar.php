@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * REDAXO Tar Klasse.
  *
@@ -288,7 +287,7 @@ class rex_backup_tar extends tar
                 if (!file_exists(dirname($item['name']))) {
                     rex_dir::create(dirname($item['name']));
                 }
-                if ($h = @fopen($item['name'], 'w+')) {
+                if ($h = @fopen($item['name'], 'w+b')) {
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {

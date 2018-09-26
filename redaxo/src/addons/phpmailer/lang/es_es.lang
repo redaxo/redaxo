@@ -52,3 +52,9 @@ phpmailer_log = Registro de E-Mail
 phpmailer_log_info = Carpeta de registro: <span title="{0}"> {1}</span>
 phpmailer_log_yes = Sí
 phpmailer_log_no = No
+phpmailer_errormail_disabled = deshabilitado
+phpmailer_errormail_15min = 15 Minutos de verificación de intervalo
+phpmailer_errormail_30min = 30 Minutos de verificación de intervalo
+phpmailer_errormail_60min = 60 Minutos de verificación de intervalo
+
+system_setting_errormail = Enviar mensajes de error

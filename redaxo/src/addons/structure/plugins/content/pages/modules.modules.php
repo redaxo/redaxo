@@ -221,12 +221,12 @@ if ($function == 'add' || $function == 'edit') {
 
         $n = [];
         $n['label'] = '<label for="minput">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="minput" name="eingabe" spellcheck="false">' . htmlspecialchars($eingabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="minput" name="eingabe" spellcheck="false">' . htmlspecialchars($eingabe) . '</textarea>';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="moutput" name="ausgabe" spellcheck="false">' . htmlspecialchars($ausgabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="moutput" name="ausgabe" spellcheck="false">' . htmlspecialchars($ausgabe) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -318,7 +318,7 @@ if ($function == 'add' || $function == 'edit') {
                 $gaa_sel->setName('action_id');
                 $gaa_sel->setId('action_id');
                 $gaa_sel->setSize(1);
-                $gaa_sel->setAttribute('class', 'form-control');
+                $gaa_sel->setAttribute('class', 'form-control selectpicker');
 
                 for ($i = 0; $i < $gaa->getRows(); ++$i) {
                     $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), false), $gaa->getValue('id'));

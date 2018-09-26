@@ -96,6 +96,12 @@ HTACCESS;
         ->update();
 }
 
+if (rex_string::versionCompare(rex::getVersion(), '5.7-dev', '<')) {
+    rex_sql_table::get(rex::getTable('user'))
+        ->ensureColumn(new rex_sql_column('minibar', 'tinyint', false), 'admin')
+        ->alter();
+}
+
 $path = rex_path::coreData('config.yml');
 rex_file::putConfig($path, array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),

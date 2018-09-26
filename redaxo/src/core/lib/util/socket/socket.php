@@ -63,7 +63,7 @@ class rex_socket
      */
     public static function factory($host, $port = 80, $ssl = false)
     {
-        if (get_called_class() === __CLASS__ && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (static::class === self::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
