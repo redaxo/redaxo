@@ -34,11 +34,6 @@ if ($sidebar != '') {
 
 unset($fragment);
 
-$footerfragment = new rex_fragment();
-$footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
-echo $footerfragment->parse('core/footer.php');
-unset($footerfragment);
-
 $bottomfragment = new rex_fragment();
 echo $bottomfragment->parse('core/bottom.php');
 unset($bottomfragment);

@@ -728,6 +728,9 @@ class rex_list implements rex_url_provider_interface
             $sql = rex_sql::factory();
             $sortColumn = $sql->escapeIdentifier($sortColumn);
 
+            $sql = rex_sql::factory();
+            $sortColumn = $sql->escapeIdentifier($sortColumn);
+
             if (stripos($query, ' ORDER BY ') === false) {
                 $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
             } else {

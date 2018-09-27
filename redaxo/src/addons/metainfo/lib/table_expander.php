@@ -37,6 +37,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addSelectField('priority');
         $field->setLabel(rex_i18n::msg('minfo_field_label_priority'));
+        $field->setAttribute('class', 'form-control selectpicker');
         $select = $field->getSelect();
         $select->setSize(1);
         $select->addOption(rex_i18n::msg('minfo_field_first_priority'), 1);
@@ -76,6 +77,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addSelectField('type_id');
         $field->setLabel(rex_i18n::msg('minfo_field_label_type'));
+        $field->setAttribute('class', 'form-control selectpicker');
         $field->setAttribute('onchange', 'meta_checkConditionalFields(this, new Array(' . implode(',', $typeFields) . '), new Array(' . implode(',', $textFields) . '));');
         $select = $field->getSelect();
         $select->setSize(1);
@@ -106,6 +108,7 @@ class rex_metainfo_table_expander extends rex_form
 
         $field = $this->addTextAreaField('callback');
         $field->setLabel(rex_i18n::msg('minfo_field_label_callback'));
+        $field->setAttribute('class', 'form-control rex-code rex-js-code');
         $notice = rex_i18n::msg('minfo_field_label_notice') . "\n";
         $field->setNotice($notice);
 
