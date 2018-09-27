@@ -231,6 +231,8 @@ class rex_media_manager
 
     public function sendMedia()
     {
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
+
         $headerCacheFilename = $this->getHeaderCacheFilename();
         $CacheFilename = $this->getCacheFilename();
 
@@ -256,6 +258,9 @@ class rex_media_manager
         } else {
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
         }
+
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_AFTER_SEND', $this, []));
+
         exit;
     }
 
