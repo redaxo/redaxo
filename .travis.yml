@@ -6,8 +6,6 @@ addons:
  apt:
   packages:
    - libzip4
-   
-sudo: false
 
 git:
     depth: 3
