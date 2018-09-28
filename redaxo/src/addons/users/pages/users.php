@@ -214,7 +214,7 @@ if ($warnings) {
     $user_id = 0;
 } elseif ($FUNC_ADD != '' && $save == 1) {
     $adduser = rex_sql::factory();
-    $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = ?, [$userlogin]);
+    $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = ?", [$userlogin]);
 
     if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
         $userpswHash = rex_login::passwordHash($userpsw);
