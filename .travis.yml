@@ -1,5 +1,12 @@
 language: php
 
+dist: xenial
+
+addons:
+ apt:
+  packages:
+   - libzip4
+   
 sudo: false
 
 git:
@@ -52,4 +59,4 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
-            php: nightly
+            php: 7.3.0RC1
