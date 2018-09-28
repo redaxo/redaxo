@@ -8,6 +8,7 @@ Version 5.6.4 – xx.xx.2018
 
 * Kritische Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
 * XSS Sicherheitslücken (Cross-Site-Scripting) im Medienpool behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep)
+* XSS Sicherheitslücken (Cross-Site-Scripting) im Mediamanager behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
 
 Version 5.6.3 – 26.09.2018
 --------------------------
