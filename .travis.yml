@@ -1,11 +1,17 @@
 language: php
 
+sudo: required
+
 dist: xenial
 
 addons:
  apt:
   packages:
    - libzip4
+
+services:
+  - mysql
+  - mariadb
 
 git:
     depth: 3
