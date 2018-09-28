@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 5.6.4 – xx.xx.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung Klasse geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
 Version 5.6.3 – 26.09.2018
 --------------------------
 
