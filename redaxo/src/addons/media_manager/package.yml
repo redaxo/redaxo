@@ -5,7 +5,7 @@ supportpage: www.redaxo.org/de/forum/
 
 page:
     title: 'Media Manager'
-    perm: media_manager[]
+    perm: admin
     pjax: true
     icon: rex-icon rex-icon-media
     subpages:
