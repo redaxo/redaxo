@@ -113,12 +113,8 @@ class rex_validator
      */
     public function json($value)
     {
-        json_decode($Object->getValue('name'));
-        if (json_last_error() == JSON_ERROR_NONE) {
-            return 0;
-        } else {
-            return 1;
-        }
+        json_decode($value);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 
     /**
