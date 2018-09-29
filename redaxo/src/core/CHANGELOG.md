@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.6.4 – xx.xx.2018
+Version 5.6.4 – 01.10.2018
 --------------------------
 
 ### Security
