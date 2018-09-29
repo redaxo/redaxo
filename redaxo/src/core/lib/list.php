@@ -724,6 +724,9 @@ class rex_list implements rex_url_provider_interface
         $sortColumn = $this->getSortColumn();
         if ($sortColumn != '') {
             $sortType = $this->getSortType();
+            
+            $sql = rex_sql::factory();
+            $sortColumn = $sql->escapeIdentifier($sortColumn);
 
             $sql = rex_sql::factory();
             $sortColumn = $sql->escapeIdentifier($sortColumn);
