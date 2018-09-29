@@ -1,16 +1,6 @@
 language: php
 
-sudo: required
-
-dist: xenial
-
-addons:
- apt:
-  packages:
-   - libzip4
-
-services:
-  - mysql
+sudo: false
 
 git:
     depth: 3
@@ -62,4 +52,11 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
-            php: 7.3.0RC1
+            php: 7.3.0RC1          
+            dist: xenial
+            addons:
+                apt:
+                    packages:
+                        - libzip4
+            services:
+                - mysql
