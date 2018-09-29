@@ -24,22 +24,19 @@ if (rex::isBackend()) {
         return $subject;
     }, rex_extension::EARLY);
 
+    rex_extension::register('BE_STYLE_SCSS_COMPILE', function (rex_extension_point $ep) {
+        $subject = $ep->getSubject();
+        $subject[] = [
+            'root_dir' => $this->getPath('scss/'),
+            'scss_files' => $this->getPath('scss/master.scss'),
+            'css_file' => $this->getPath('assets/css/styles.css'),
+            'copy_dest' => $this->getAssetsPath('css/styles.css'),
+        ];
+        return $subject;
+    });
+
     if (rex::getUser() && $this->getProperty('compile')) {
         rex_addon::get('be_style')->setProperty('compile', true);
-
-        rex_extension::register('PACKAGES_INCLUDED', function () {
-            $compiler = new rex_scss_compiler();
-            $compiler->setRootDir($this->getPath('scss/'));
-            $compiler->setScssFile($this->getPath('scss/master.scss'));
-
-            // Compile in backend assets dir
-            $compiler->setCssFile($this->getPath('assets/css/styles.css'));
-
-            $compiler->compile();
-
-            // Compiled file to copy in frontend assets dir
-            rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
-        });
     }
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));

@@ -338,7 +338,7 @@ if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('s
         $template_select = new rex_select();
         $template_select->setName('template_id');
         $template_select->setSize(1);
-        $template_select->setStyle('class="form-control"');
+        $template_select->setStyle('class="form-control selectpicker"');
 
         $templates = rex_template::getTemplatesForCategory($category_id);
         if (count($templates) > 0) {

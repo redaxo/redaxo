@@ -18,9 +18,9 @@ abstract class rex_error_handler
 
         self::$registered = true;
 
-        set_error_handler([__CLASS__, 'handleError']);
-        set_exception_handler([__CLASS__, 'handleException']);
-        register_shutdown_function([__CLASS__, 'shutdown']);
+        set_error_handler([self::class, 'handleError']);
+        set_exception_handler([self::class, 'handleException']);
+        register_shutdown_function([self::class, 'shutdown']);
     }
 
     /**
@@ -65,9 +65,8 @@ abstract class rex_error_handler
 
             $handler = new \Whoops\Handler\PrettyPageHandler();
             $handler->setApplicationRootPath(rtrim(rex_path::base(), '/\\'));
-            if (ini_get('xdebug.file_link_format')) {
-                $handler->setEditor('xdebug');
-            }
+
+            $handler->setEditor([rex_editor::factory(), 'getUrl']);
 
             $whoops->pushHandler($handler);
 
@@ -153,14 +152,18 @@ abstract class rex_error_handler
                 $errPage
             );
 
+            $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button id="copy-button" class="clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
+      COPY MARKDOWN
+    </button>', $errPage);
+
             rex_response::sendContent($errPage, $handler->contentType());
-            exit;
+            exit(1);
         }
 
         // TODO small error page, without debug infos
         $buf = 'Oooops, an internal error occured!';
         rex_response::sendContent($buf);
-        exit;
+        exit(1);
     }
 
     /**
@@ -198,7 +201,16 @@ abstract class rex_error_handler
         }
 
         if (ini_get('display_errors') && (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())) {
-            echo '<div><b>' . self::getErrorType($errno) . "</b>: $errstr in <b>$errfile</b> on line <b>$errline</b></div>";
+            $file = rex_path::relative($errfile);
+            if ('cli' === PHP_SAPI) {
+                echo self::getErrorType($errno) . ": $errstr in $file on line $errline";
+            } else {
+                $file = rex_escape($file);
+                if ($url = rex_editor::factory()->getUrl($errfile, $errline)) {
+                    $file = '<a href="'.rex_escape($url).'">'.$file.'</a>';
+                }
+                echo '<div><b>' . self::getErrorType($errno) . '</b>: '.rex_escape($errstr)." in <b>$file</b> on line <b>$errline</b></div>";
+            }
         }
 
         rex_logger::logError($errno, $errstr, $errfile, $errline);
@@ -256,5 +268,56 @@ abstract class rex_error_handler
             default:
                 return 'Unknown';
         }
+    }
+
+    /**
+     * @param Throwable|Exception $exception
+     */
+    private static function getMarkdownReport($exception)
+    {
+        $file = rex_path::relative($exception->getFile());
+        $markdown = '**'.get_class($exception).":** {$exception->getMessage()}\n";
+        $markdown .= "**File:** {$file}\n";
+        $markdown .= "**Line:** {$exception->getLine()}\n\n";
+
+        $trace = [];
+
+        $headers = ['Function', 'File', 'Line'];
+        $widths = [mb_strlen($headers[0]), mb_strlen($headers[0]), mb_strlen($headers[0])];
+
+        foreach ($exception->getTrace() as $frame) {
+            $function = $frame['function'];
+            if (isset($frame['class'])) {
+                $function = $frame['class'].$frame['type'].$function;
+            }
+
+            $file = isset($frame['file']) ? rex_path::relative($frame['file']) : '';
+            $line = isset($frame['line']) ? $frame['line'] : '';
+
+            $trace[] = [$function, $file, $line];
+
+            $widths[0] = max($widths[0], mb_strlen($function));
+            $widths[1] = max($widths[1], mb_strlen($file));
+            $widths[2] = max($widths[2], mb_strlen($line));
+        }
+
+        $table = '| '.str_pad($headers[0], $widths[0]).' | '.str_pad($headers[1], $widths[1]).' | '.str_pad($headers[2], $widths[2])." |\n";
+        $table .= '| '.str_repeat('-', $widths[0]).' | '.str_repeat('-', $widths[1]).' | '.str_repeat('-', $widths[2])." |\n";
+
+        foreach ($trace as $row) {
+            $table .= '| '.str_pad($row[0], $widths[0]).' | '.str_pad($row[1], $widths[1]).' | '.str_pad($row[2], $widths[2])." |\n";
+        }
+
+        $markdown .= <<<OUTPUT
+<details>
+<summary>Stacktrace</summary>
+
+$table
+</details>
+
+OUTPUT;
+        $markdown .= rex_system_report::factory()->asMarkdown();
+
+        return $markdown;
     }
 }

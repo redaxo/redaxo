@@ -88,7 +88,7 @@
         float: right;
     }
 }
-
+.btn-debug-mode,
 .btn-safemode-activate {
     $normal: (color: darken(#a86500, 20%), background: #f90, border: darken(#f90, 3%));
     $hover: (color: darken(#a86500, 20%), background: darken(#f90, 3%), border: darken(#f90, 10%));

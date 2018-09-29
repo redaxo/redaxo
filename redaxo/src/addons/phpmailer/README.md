@@ -2,14 +2,17 @@
 
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
+- [E-Mail-Benachrichtigung bei Fehlern](#errormail)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
+    - [Verschlüsselung: Automatische TLS-Verbindung](#autotls)
+    - [Senden über unterschiedliche Domains](#multidomain)
 
 <a name="ueber"></a>
 
 ## Allgemeines
-Das PHPMailer-AddOn ermöglicht den Versand von E-Mails.
+Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
 
 Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
@@ -113,10 +116,27 @@ foreach($sql as $row)
 }
 
 ```
+<a name="errormail"></a>
+
+## E-Mail-Benachrichtigung bei Fehlern
+
+PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene logevents findet. 
+Der Check und ggf. Zusendung erfolgt in festen Intervallen, die in den Systemeinstellungen definiert werden können. Empfänger ist die im System hinterlegte Fehleradresse. 
+
+Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Event als Typ: logevent ablegen. 
+`rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
+
 
 <a name="tipps"></a>
 
 ## Tipps
+
+<a name="autotls"></a>
+### Verschlüsselung: Automatische TLS-Verbindung
+
+PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
+
+> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. 
 
 <a name="spam-blocker"></a>
 ### Spam-Blocker
@@ -150,4 +170,8 @@ $mail->SMTPOptions = array(
 );
 ```
 
+<a name="multidomain"></a>
+### Senden über unterschiedliche Domains
 
+Liefert ein AddOn oder Modul keine eigenen Einstellungen für das Versenden der E-Mails, gilt:
+Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Domain in den DNS-Einstellungen den Webserver (bei sendmail und mail) oder des angegebenen SMTP-Server (z.B. a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX) als erlaubte Adressen beinhalten. Hierzu ggf. den Registrar oder DNS-Verwalter kontaktieren. 

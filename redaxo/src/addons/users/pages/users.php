@@ -544,7 +544,7 @@ if (isset($SHOW) && $SHOW) {
             admin,
             IF(admin, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
             status,
-            UNIX_TIMESTAMP(lastlogin) as lastlogin
+            lastlogin
         FROM ' . rex::getTable('user') . ' u
         ORDER BY name
     ');
@@ -601,7 +601,9 @@ if (isset($SHOW) && $SHOW) {
     $list->setColumnSortable('role');
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
-    $list->setColumnFormat('lastlogin', 'strftime', 'datetime');
+    $list->setColumnFormat('lastlogin', 'custom', function () use ($list) {
+        return rex_formatter::strftime(strtotime($list->getValue('lastlogin')), 'datetime');
+    });
     $list->setColumnSortable('lastlogin', 'desc');
 
     $colspan = rex::getUser()->isAdmin() ? 3 : 2;

@@ -26,7 +26,7 @@ if ($function == 'delete') {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $del = rex_sql::factory();
-        $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id, rex_article.clang_id, ' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
+        $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id, ' . rex::getTablePrefix() . 'article.clang_id, ' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
         LEFT JOIN ' . rex::getTablePrefix() . 'template ON ' . rex::getTablePrefix() . 'article.template_id=' . rex::getTablePrefix() . 'template.id
         WHERE ' . rex::getTablePrefix() . 'article.template_id="' . $template_id . '" LIMIT 0,10');
 
@@ -367,7 +367,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="rex-id-content" name="content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
