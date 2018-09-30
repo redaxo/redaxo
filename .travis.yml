@@ -54,6 +54,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.3snapshot
             dist: xenial
+            sudo: required
             addons:
                 apt:
                     packages:
