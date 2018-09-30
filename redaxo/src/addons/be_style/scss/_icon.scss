@@ -170,6 +170,12 @@
 .rex-icon-metainfo {
     @extend .fa-lemon-o;
 }
+.rex-icon-minibar-close {
+    @extend .fa-times;
+}
+.rex-icon-minibar-open {
+    @extend .fa-window-minimize;
+}
 .rex-icon-module {
     @extend .fa-database;
 }

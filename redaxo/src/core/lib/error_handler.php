@@ -18,9 +18,9 @@ abstract class rex_error_handler
 
         self::$registered = true;
 
-        set_error_handler([__CLASS__, 'handleError']);
-        set_exception_handler([__CLASS__, 'handleException']);
-        register_shutdown_function([__CLASS__, 'shutdown']);
+        set_error_handler([self::class, 'handleError']);
+        set_exception_handler([self::class, 'handleException']);
+        register_shutdown_function([self::class, 'shutdown']);
     }
 
     /**
@@ -157,13 +157,13 @@ abstract class rex_error_handler
     </button>', $errPage);
 
             rex_response::sendContent($errPage, $handler->contentType());
-            exit;
+            exit(1);
         }
 
         // TODO small error page, without debug infos
         $buf = 'Oooops, an internal error occured!';
         rex_response::sendContent($buf);
-        exit;
+        exit(1);
     }
 
     /**
@@ -291,13 +291,14 @@ abstract class rex_error_handler
                 $function = $frame['class'].$frame['type'].$function;
             }
 
-            $file = rex_path::relative($frame['file']);
+            $file = isset($frame['file']) ? rex_path::relative($frame['file']) : '';
+            $line = isset($frame['line']) ? $frame['line'] : '';
 
-            $trace[] = [$function, $file, $frame['line']];
+            $trace[] = [$function, $file, $line];
 
             $widths[0] = max($widths[0], mb_strlen($function));
             $widths[1] = max($widths[1], mb_strlen($file));
-            $widths[2] = max($widths[2], mb_strlen($frame['line']));
+            $widths[2] = max($widths[2], mb_strlen($line));
         }
 
         $table = '| '.str_pad($headers[0], $widths[0]).' | '.str_pad($headers[1], $widths[1]).' | '.str_pad($headers[2], $widths[2])." |\n";

@@ -44,13 +44,13 @@ class rex_autoload
             self::$composerLoader->setClassMapAuthoritative(true);
         }
 
-        if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
-            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+        if (false === spl_autoload_register([self::class, 'autoload'])) {
+            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', self::class));
         }
 
         self::$cacheFile = rex_path::coreCache('autoload.cache');
         self::loadCache();
-        register_shutdown_function([__CLASS__, 'saveCache']);
+        register_shutdown_function([self::class, 'saveCache']);
 
         self::$registered = true;
     }
@@ -60,7 +60,7 @@ class rex_autoload
      */
     public static function unregister()
     {
-        spl_autoload_unregister([__CLASS__, 'autoload']);
+        spl_autoload_unregister([self::class, 'autoload']);
         self::$registered = false;
     }
 

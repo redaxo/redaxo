@@ -1,6 +1,6 @@
 package: phpmailer
-version: '2.4.0'
-author: 'Markus Staab, Brent R. Matzelle'
+version: '2.5.0-dev'
+author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
 page:
@@ -13,5 +13,10 @@ page:
         help: { title: 'translate:help' }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
+pages:
+    system/log/phpmailer:
+        title: PHPMailer
+        perm: admin
+
 requires:
-    redaxo: ^5.1.0
+    redaxo: ^5.4.0

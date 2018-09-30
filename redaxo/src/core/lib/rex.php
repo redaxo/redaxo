@@ -51,7 +51,7 @@ class rex
     }
 
     /**
-     * Sets a property.
+     * Sets a property. Changes will not be persisted accross http request boundaries.
      *
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
@@ -359,7 +359,12 @@ class rex
             $output = '';
             $exitCode = null;
 
-            $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            } else {
+                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            }
+
             @exec($command, $output, $exitCode);
             if ($exitCode === 0) {
                 $output = implode('', $output);
