@@ -2,7 +2,4 @@ parameters:
     level: 0
     paths:
         - redaxo/src
-    bootstrap:
-        - phpstan-bootstrap.php
-includes:
-	- redaxo/src/core/vendor/phpstan/phpstan-phpunit/extension.neon
+    bootstrap: phpstan-bootstrap.php
