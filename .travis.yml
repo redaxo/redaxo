@@ -24,7 +24,9 @@ jobs:
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
             
         -   php: 7.2
-            install: composer require --dev phpstan/phpstan-shim
+            install:
+                - composer require --dev phpstan/phpstan
+                - composer require --dev phpstan/phpstan-phpunit
             script: redaxo/src/core/vendor/bin/phpstan analyse
             
         -   &TEST
