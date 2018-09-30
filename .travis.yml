@@ -51,7 +51,7 @@ jobs:
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.2
-            script: composer require --dev phpstan/phpstan && redaxo/src/core/vendor/bin/phpstan analyse            
+            script: composer require --dev phpstan/phpstan && vendor/bin/phpstan analyse            
         -   <<: *TEST_MYSQL
             php: 7.3snapshot
             dist: xenial
