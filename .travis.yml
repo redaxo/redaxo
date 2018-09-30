@@ -52,7 +52,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
-            php: 7.3.0RC1          
+            php: 7.3snapshot
             dist: xenial
             addons:
                 apt:
