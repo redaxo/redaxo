@@ -26,6 +26,7 @@ jobs:
         -   php: 7.2
             install:
                 - composer require --dev phpstan/phpstan
+                - php redaxo/src/addons/tests/bin/setup.php
             script: redaxo/src/core/vendor/bin/phpstan analyse
             
         -   &TEST
