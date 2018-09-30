@@ -11,6 +11,10 @@
  * @package redaxo5
  */
 
+/**
+ * @var rex_addon $this
+ */
+
 $mypage = 'be_style';
 
 /* Addon Parameter */
