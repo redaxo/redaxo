@@ -18,7 +18,6 @@ $mypage = 'be_style';
 
 /* Addon Parameter */
 if (rex::isBackend()) {
-    $myAddon->getPath('scss/master.scss');
     rex_extension::register('PACKAGES_INCLUDED', function () {
         if (rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT')) {
             rex_addon::get('be_style')->setProperty('name', 'Backend Style');
