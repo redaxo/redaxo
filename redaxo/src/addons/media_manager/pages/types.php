@@ -135,24 +135,24 @@ function rex_mediamanager_toggleAll(dieses){
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
     $list->setColumnFormat('name', 'custom', function ($params) {
         $list = $params['list'];
-        $name = '<b>' . $list->getValue('name') . '</b>';
+        $name = '<b>' . htmlspecialchars($list->getValue('name')) . '</b>';
         $name .= '<div class="pull-right">
             <button
                 onclick="rex_mediamanager_toggle(this)"
                 type="button"
                 class="btn btn btn-xs rex-mediamanager-list-effect-btn"
-                data-target=".rex-mediamanager-list-'.$list->getValue('name').'-effect .panel-body">
+                data-target=".rex-mediamanager-list-'.htmlspecialchars($list->getValue('name')).'-effect .panel-body">
                 <i class="rex-icon  fa-search-plus"></i>
             </button>&nbsp;
             <button
                 onclick="rex_mediamanager_toggle(this)"
                 type="button"
                 class="btn btn btn-xs rex-mediamanager-list-link-btn"
-                data-target=".rex-mediamanager-list-'.$list->getValue('name').'-link">
+                data-target=".rex-mediamanager-list-'.htmlspecialchars($list->getValue('name')).'-link">
                 <i class="rex-icon fa-link"></i>
             </button>
             </div>';
-        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . $list->getValue('description') . '</span>' : '';
+        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . htmlspecialchars($list->getValue('description')) . '</span>' : '';
         return $name;
     });
 
@@ -204,8 +204,8 @@ function rex_mediamanager_toggleAll(dieses){
         $fragment = new rex_fragment();
         $fragment->setVar('content', $effects, false);
         $zusatzzeile = '</td></tr><tr class="rex-helper-line"><td></td><td colspan="6">'.
-                       '<div class="hidden rex-mediamanager-list-link rex-mediamanager-list-'.$list->getValue('name').'-link">Link: <i>index.php?rex_media_type='.$list->getValue('name').'&rex_media_file=</i></div>'.
-                       '<div class="rex-mediamanager-list-effect rex-mediamanager-list-'.$list->getValue('name').'-effect">'.$fragment->parse('mmeffectslist.php').'</div>';
+                       '<div class="hidden rex-mediamanager-list-link rex-mediamanager-list-'.htmlspecialchars($list->getValue('name')).'-link">Link: <i>index.php?rex_media_type='.htmlspecialchars($list->getValue('name')).'&rex_media_file=</i></div>'.
+                       '<div class="rex-mediamanager-list-effect rex-mediamanager-list-'.htmlspecialchars($list->getValue('name')).'-effect">'.$fragment->parse('mmeffectslist.php').'</div>';
         if ($list->getValue('status') == 1) {
             return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>'.$zusatzzeile;
         }
