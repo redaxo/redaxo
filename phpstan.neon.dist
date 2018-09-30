@@ -4,3 +4,5 @@ parameters:
         - redaxo/src
     bootstrap:
         - phpstan-bootstrap.php
+includes:
+	- redaxo/src/core/vendor/phpstan/phpstan-phpunit/extension.neon
