@@ -41,8 +41,8 @@ if (rex::isBackend()) {
         return $subject;
     });
 
-    rex_extension::register('PACKAGES_INCLUDED', function () {
-        if (rex::getUser() && $this->getProperty('compile')) {
+    rex_extension::register('PACKAGES_INCLUDED', function () use ($myAddon) {
+        if (rex::getUser() && $myAddon->getProperty('compile')) {
             rex_be_style::compile();
         }
     });
