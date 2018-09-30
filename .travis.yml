@@ -22,7 +22,7 @@ jobs:
         -   php: 5.5
             env: LINTING=1
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
-                        
+
         -   &TEST
             install:
                 - mysql -e 'create database redaxo_5_0;'
