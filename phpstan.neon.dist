@@ -1,5 +1,7 @@
 parameters:
     level: 0
     paths:
-        - redaxo/src
+        - redaxo/src/
     bootstrap: phpstan-bootstrap.php
+    excludes_analyse:
+        - redaxo/src/core/vendor/
