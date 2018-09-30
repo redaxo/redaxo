@@ -26,8 +26,6 @@ jobs:
         -   &TEST
             install:
                 - mysql -e 'create database redaxo_5_0;'
-                - composer config --unset platform.php -d redaxo/src/addons/tests/
-                - ./redaxo/bin/update-requirements
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.0
