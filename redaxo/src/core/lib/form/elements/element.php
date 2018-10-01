@@ -219,20 +219,20 @@ class rex_form_element
     public function formatElement()
     {
         $attr = '';
-        $value = rex_escape($this->getValue(), 'html_attr');
+        $value = $this->getValue();
         $tag = rex_escape($this->getTag(), 'html_attr');
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . htmlspecialchars($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
         }
 
         if ($this->hasSeparateEnding()) {
             if ($tag == 'button') {
                 $attr .= ' value="1"';
             }
-            return '<' . $tag . $attr . '>' . $value . '</' . $tag . '>';
+            return '<' . $tag . $attr . '>' . rex_escape($value) . '</' . $tag . '>';
         }
-        $attr .= ' value="' . $value . '"';
+        $attr .= ' value="' . rex_escape($value, 'html_attr') . '"';
         return '<' . $tag . $attr . ' />';
     }
 
