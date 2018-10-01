@@ -81,8 +81,12 @@ class rex_setup
             rex_path::data(),
             rex_path::src(),
         ];
+        
+        $getMod = function($path) {
+            return substr(sprintf('%o', fileperms($path)), -3)
+        };
 
-        $func = function ($dir) use (&$func) {
+        $func = function ($dir) use (&$func) use ($getMod) {
             if (!rex_dir::isWritable($dir)) {
                 return ['setup_304' => [$dir]];
             }
@@ -92,6 +96,8 @@ class rex_setup
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
                     $res['setup_305'][] = $path;
+                } elseif ($getMod($path) === '777') {
+                    $res['setup_311'][] = $path;                    
                 }
             }
             return $res;
