@@ -42,7 +42,7 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER
 
 $formElements = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . htmlspecialchars($media_name) . '" />';
+$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($media_name, 'html_attr') . '" />';
 $n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 //$n['right'] = $dropdown;
@@ -217,7 +217,7 @@ if ($file_id) {
             } else {
                 $sidebar = '
                         <a href="' . $img_max . '">
-                            <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . htmlspecialchars($ftitle) . '" title="' . htmlspecialchars($ftitle) . '" />
+                            <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle, 'html_attr') . '" title="' . rex_escape($ftitle, 'html_attr') . '" />
                         </a>';
             }
         }
@@ -232,7 +232,7 @@ if ($file_id) {
         }
 
         if ($opener_input_field != '') {
-            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(htmlspecialchars($gf->getValue('title'))) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . addslashes(rex_escape($gf->getValue('title'), 'html_attr')) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                 $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             }
@@ -270,7 +270,7 @@ if ($file_id) {
 
             $e = [];
             $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-            $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
+            $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle, 'html_attr') . '" />';
             $formElements[] = $e;
 
             $e = [];
@@ -290,7 +290,7 @@ if ($file_id) {
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_filename') . '</label>';
-            $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . htmlspecialchars($fname) . '</a> <span class="rex-filesize">' . $ffile_size . '</span></p>';
+            $e['field'] = '<p class="form-control-static"><a href="' . rex_url::media($encoded_fname) . '">' . rex_escape($fname) . '</a> <span class="rex-filesize">' . $ffile_size . '</span></p>';
             $formElements[] = $e;
 
             $e = [];
@@ -365,12 +365,12 @@ if ($file_id) {
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_file_title') . '</label>';
-            $e['field'] = '<p class="form-control-static">' . htmlspecialchars($ftitle) . '</p>';
+            $e['field'] = '<p class="form-control-static">' . rex_escape($ftitle) . '</p>';
             $formElements[] = $e;
 
             $e = [];
             $e['label'] = '<label>' . rex_i18n::msg('pool_file_category') . '</label>';
-            $e['field'] = '<p class="form-control-static">' . htmlspecialchars($catname) . '</p>';
+            $e['field'] = '<p class="form-control-static">' . rex_escape($catname) . '</p>';
             $formElements[] = $e;
 
             $e = [];
@@ -659,7 +659,7 @@ if (!$file_id) {
         $alt = '';
         foreach (['title'] as $col) {
             if ($files->hasValue($col) && $files->getValue($col) != '') {
-                $alt = htmlspecialchars($files->getValue($col));
+                $alt = rex_escape($files->getValue($col), 'html_attr');
                 break;
             }
         }
@@ -668,7 +668,7 @@ if (!$file_id) {
         $desc = '';
         foreach (['med_description'] as $col) {
             if ($files->hasValue($col) && $files->getValue($col) != '') {
-                $desc = '<p>' . htmlspecialchars($files->getValue($col)) . '</p>';
+                $desc = '<p>' . rex_escape($files->getValue($col)) . '</p>';
                 break;
             }
         }
@@ -704,7 +704,7 @@ if (!$file_id) {
         // ----- opener
         $opener_link = '';
         if ($opener_input_field != '') {
-            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $file_name . '\', \'' . addslashes(htmlspecialchars($files->getValue('title'))) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $file_name . '\', \'' . addslashes(rex_escape($files->getValue('title'), 'html_attr')) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                 $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $file_name . '\');return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             }
@@ -721,11 +721,11 @@ if (!$file_id) {
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
                         <td data-title="' . rex_i18n::msg('pool_file_info') . '">
-                            <h3><a href="' . $ilink . '">' . htmlspecialchars($file_title) . '</a></h3>
+                            <h3><a href="' . $ilink . '">' . rex_escape($file_title) . '</a></h3>
                             ' . $desc . '
-                            <p>' . htmlspecialchars($file_name) . ' <span class="rex-filesize">' . $file_size . '</span></p>
+                            <p>' . rex_escape($file_name) . ' <span class="rex-filesize">' . $file_size . '</span></p>
                         </td>
-                        <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . $file_stamp . '</p><p class="rex-author">' . htmlspecialchars($file_updateuser) . '</p></td>
+                        <td data-title="' . rex_i18n::msg('pool_last_update') . '"><p class="rex-date">' . $file_stamp . '</p><p class="rex-author">' . rex_escape($file_updateuser) . '</p></td>
                         <td class="rex-table-action"><a href="' . $ilink . '">' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-table-action">';
 
