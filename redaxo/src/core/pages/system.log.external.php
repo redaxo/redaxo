@@ -38,7 +38,7 @@ if (!file_exists($logFile) || filesize($logFile) <= 0) {
 
         $content .= '
         <tr>
-            <td>' . htmlspecialchars($logLine) . '</td>
+            <td>' . rex_escape($logLine) . '</td>
         </tr>';
     }
 

@@ -219,11 +219,11 @@ class rex_form_element
     public function formatElement()
     {
         $attr = '';
-        $value = htmlspecialchars($this->getValue());
-        $tag = htmlspecialchars($this->getTag());
+        $value = rex_escape($this->getValue());
+        $tag = rex_escape($this->getTag());
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . htmlspecialchars($attributeValue, 'html_attr') . '"';
         }
 
         if ($this->hasSeparateEnding()) {

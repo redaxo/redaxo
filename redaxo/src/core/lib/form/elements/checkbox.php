@@ -39,7 +39,7 @@ class rex_form_checkbox_element extends rex_form_options_element
             if ($attributeName == 'name' || $attributeName == 'id') {
                 continue;
             }
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . htmlspecialchars($attributeValue, 'html_attr') . '"';
         }
 
         $formElements = [];
@@ -49,12 +49,12 @@ class rex_form_checkbox_element extends rex_form_options_element
             if ($opt_value != '') {
                 $opt_id .= '-' . rex_string::normalize($opt_value, '-');
             }
-            $opt_attr = $attr . ' id="' . htmlspecialchars($opt_id) . '"';
+            $opt_attr = $attr . ' id="' . rex_escape($opt_id, 'html_attr') . '"';
             $checked = in_array($opt_value, $values) ? ' checked="checked"' : '';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . htmlspecialchars($opt_id) . '">' . htmlspecialchars($opt_name) . '</label>';
-            $n['field'] = '<input type="checkbox" name="' . htmlspecialchars($name) . '[' . htmlspecialchars($opt_value) . ']" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . rex_escape($opt_id, 'html_attr') . '">' . rex_escape($opt_name) . '</label>';
+            $n['field'] = '<input type="checkbox" name="' . rex_escape($name, 'html_attr') . '[' . rex_escape($opt_value, 'html_attr') . ']" value="' . rex_escape($opt_value, 'html_attr') . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
 
