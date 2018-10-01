@@ -704,7 +704,7 @@ if (!$file_id) {
         // ----- opener
         $opener_link = '';
         if ($opener_input_field != '') {
-            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $file_name . '\', \'' . addslashes(rex_escape($files->getValue('title'), 'html_attr')) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $file_name . '\', \'' . addslashes(rex_escape($files->getValue('title'), 'js')) . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                 $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $file_name . '\');return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
             }
