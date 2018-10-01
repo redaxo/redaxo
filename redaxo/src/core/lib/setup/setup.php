@@ -83,7 +83,7 @@ class rex_setup
         ];
         
         $getMod = function($path) {
-            return substr(sprintf('%o', fileperms($path)), -3)
+            return substr(sprintf('%o', fileperms($path)), -3);
         };
 
         $func = function ($dir) use (&$func) use ($getMod) {
