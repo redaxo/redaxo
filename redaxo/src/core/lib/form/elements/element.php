@@ -219,8 +219,8 @@ class rex_form_element
     public function formatElement()
     {
         $attr = '';
-        $value = rex_escape($this->getValue());
-        $tag = rex_escape($this->getTag());
+        $value = rex_escape($this->getValue(), 'html_attr');
+        $tag = rex_escape($this->getTag(), 'html_attr');
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
             $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . htmlspecialchars($attributeValue, 'html_attr') . '"';
