@@ -422,7 +422,6 @@ if ($structure_data->getCategoryId() > 0 || (0 == $structure_data->getCategoryId
         $sql->next();
     }
 
-
     $fragment = new rex_fragment();
     $fragment->setVar('structure_data', $structure_data, false);
     $fragment->setVar('tmpl_head', $tmpl_head, false);
