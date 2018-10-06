@@ -258,10 +258,6 @@ if ($structure_data->getCategoryId() > 0 || (0 == $structure_data->getCategoryId
     }
 
     // --------------------- ARTIKEL LIST
-    $art_add_link = '';
-    if ($structure_data->getCatPerm()) {
-        $art_add_link = '<a href="' . $structure_data->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structure_data->getArtStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
-    }
 
     // ---------- COUNT DATA
     $sql = rex_sql::factory();
@@ -295,35 +291,7 @@ if ($structure_data->getCategoryId() > 0 || (0 == $structure_data->getCategoryId
                     priority, name
                 LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage());
 
-    // ---------- INLINE THE EDIT/ADD FORM
-    if ('add_art' == $structure_data->getFunction() || 'edit_art' == $structure_data->getFunction()) {
-        $echo .= '
-        <form action="' . $structure_data->getContext()->getUrl(['artstart' => $structure_data->getArtStart()]) . '" method="post">
-            <fieldset>';
-    }
-
     // ----------- PRINT OUT THE ARTICLES
-
-    $echo .= '
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="rex-table-icon">' . $art_add_link . '</th>
-                        <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
-                        <th>' . rex_i18n::msg('header_article_name') . '</th>
-                        ' . $tmpl_head . '
-                        <th>' . rex_i18n::msg('header_date') . '</th>
-                        <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
-                        <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
-                    </tr>
-                </thead>
-                ';
-
-    // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $structure_data->getFunction()) {
-        $echo .= '<tbody>
-                    ';
-    }
 
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' == $structure_data->getFunction() && $structure_data->getCatPerm()) {
@@ -465,20 +433,12 @@ if ($structure_data->getCategoryId() > 0 || (0 == $structure_data->getCategoryId
         $sql->next();
     }
 
-    // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $structure_data->getFunction()) {
-        $echo .= '
-                </tbody>';
-    }
 
-    $echo .= '
-            </table>';
-
-    if ('add_art' == $structure_data->getFunction() || 'edit_art' == $structure_data->getFunction()) {
-        $echo .= '
-        </fieldset>
-    </form>';
-    }
+    $fragment = new rex_fragment();
+    $fragment->setVar('structure_data', $structure_data, false);
+    $fragment->setVar('tmpl_head', $tmpl_head, false);
+    $fragment->setVar('content', $echo, false);
+    $echo = $fragment->parse('structure/table_articles.php');
 }
 
 $heading = rex_i18n::msg('structure_articles_caption', $cat_name);
