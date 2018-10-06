@@ -39,11 +39,6 @@ if ($category) {
     $cat_name = $category->getName();
 }
 
-$add_category = '';
-if ($structure_data->getCatPerm()) {
-    $add_category = '<a href="' . $structure_data->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $structure_data->getCatStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'add') . '><i class="rex-icon rex-icon-add-category"></i></a>';
-}
-
 $data_colspan = 5;
 
 // --------------------- Extension Point
@@ -90,28 +85,8 @@ if (count($structure_data->getMountpoints()) > 0 && $structure_data->getCategory
 }
 
 $echo = '';
-// ---------- INLINE THE EDIT/ADD FORM
-if ($structure_data->getFunction() == 'add_cat' || $structure_data->getFunction() == 'edit_cat') {
-    $echo .= '
-    <form action="' . $structure_data->getContext()->getUrl(['catstart' => $structure_data->getCatStart()]) . '" method="post">
-        <fieldset>
-
-            <input type="hidden" name="edit_id" value="' . $structure_data->getEditId() . '" />';
-}
 
 // --------------------- PRINT CATS/SUBCATS
-$echo .= '
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="rex-table-icon">' . $add_category . '</th>
-                        <th class="rex-table-id">' . rex_i18n::msg('header_id') . '</th>
-                        <th>' . rex_i18n::msg('header_category') . '</th>
-                        <th class="rex-table-priority">' . rex_i18n::msg('header_priority') . '</th>
-                        <th class="rex-table-action" colspan="3">' . rex_i18n::msg('header_status') . '</th>
-                    </tr>
-                </thead>
-                <tbody>';
 if ($structure_data->getCategoryId() != 0 && ($category = rex_category::get($structure_data->getCategoryId()))) {
     $echo .= '  <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-open-category"></i></td>
@@ -242,28 +217,12 @@ if ($KAT->getRows() > 0) {
 
         $KAT->next();
     }
-} else {
-    $echo .= '
-                <tr>
-                    <td>&nbsp;</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>';
 }
 
-$echo .= '
-            </tbody>
-        </table>';
-
-if ($structure_data->getFunction() == 'add_cat' || $structure_data->getFunction() == 'edit_cat') {
-    $echo .= '
-    </fieldset>
-</form>';
-}
+$fragment = new rex_fragment();
+$fragment->setVar('structure_data', $structure_data, false);
+$fragment->setVar('content', $echo, false);
+$echo = $fragment->parse('structure/table_categories.php');
 
 $heading = rex_i18n::msg('structure_categories_caption', $cat_name);
 if ($structure_data->getCategoryId() == 0) {
