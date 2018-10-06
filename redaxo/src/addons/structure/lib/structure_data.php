@@ -61,7 +61,7 @@ class rex_structure_data
     protected $pager;
 
     /**
-     * Singleton, use getInstance() method to instantiate
+     * Singleton, use getInstance() method to instantiate.
      */
     protected function __construct()
     {
