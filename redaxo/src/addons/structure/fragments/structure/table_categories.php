@@ -22,6 +22,15 @@ $structure_data = $this->structure_data;
         </tr>
     </thead>
     <tbody>
+        <?php if ($structure_data->getCategoryId() != 0 && ($category = rex_category::get($structure_data->getCategoryId()))): ?>
+            <tr>
+                <td class="rex-table-icon"><i class="rex-icon rex-icon-open-category"></i></td>
+                <td class="rex-table-id">-</td>
+                <td data-title="<?=rex_i18n::msg('header_category');?>"><a href="<?=$structure_data->getContext()->getUrl(['category_id' => $category->getParentId()]);?>">..</a></td>
+                <td class="rex-table-priority" data-title="<?=rex_i18n::msg('header_priority');?>">&nbsp;</td>
+                <td class="rex-table-action" colspan="3">&nbsp;</td>
+            </tr>
+        <?php endif;?>
         <?=$this->content;?>
     </tbody>
 </table>

@@ -82,17 +82,6 @@ if (count($structure_data->getMountpoints()) > 0 && 0 == $structure_data->getCat
 
 $echo = '';
 
-// --------------------- PRINT CATS/SUBCATS
-if (0 != $structure_data->getCategoryId() && ($category = rex_category::get($structure_data->getCategoryId()))) {
-    $echo .= '  <tr>
-                    <td class="rex-table-icon"><i class="rex-icon rex-icon-open-category"></i></td>
-                    <td class="rex-table-id">-</td>
-                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $structure_data->getContext()->getUrl(['category_id' => $category->getParentId()]) . '">..</a></td>
-                    <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">&nbsp;</td>
-                    <td class="rex-table-action" colspan="3">&nbsp;</td>
-                </tr>';
-}
-
 // --------------------- KATEGORIE ADD FORM
 
 if ('add_cat' == $structure_data->getFunction() && $structure_data->getCatPerm()) {
