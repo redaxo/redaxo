@@ -209,7 +209,6 @@ if ($KAT->getRows() > 0) {
 }
 
 $fragment = new rex_fragment();
-$fragment->setVar('structure_data', $structure_data, false);
 $fragment->setVar('content', $echo, false);
 $echo = $fragment->parse('structure/table_categories.php');
 
@@ -427,7 +426,6 @@ if ($structure_data->getCategoryId() > 0 || ($structure_data->getCategoryId() ==
     }
 
     $fragment = new rex_fragment();
-    $fragment->setVar('structure_data', $structure_data, false);
     $fragment->setVar('tmpl_head', $tmpl_head, false);
     $fragment->setVar('content', $echo, false);
     $echo = $fragment->parse('structure/table_articles.php');

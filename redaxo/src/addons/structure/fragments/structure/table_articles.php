@@ -1,6 +1,5 @@
 <?php
-/** @var rex_structure_data $structure_data */
-$structure_data = $this->structure_data;
+$structure_data = rex_structure_data::getInstance();
 
 ?>
 <?php if ($structure_data->getFunction() == 'add_art' || $structure_data->getFunction() == 'edit_art'): ?>
