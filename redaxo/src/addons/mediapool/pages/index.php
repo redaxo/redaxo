@@ -26,7 +26,7 @@ $error = preg_replace($regex, '<$1>', $error);
 $arg_url = ['args' => $args];
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
-    $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . htmlspecialchars($arg_name) . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
@@ -120,7 +120,7 @@ function selectMedialist(filename)
 {
     <?php
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = substr($opener_input_field, 14, strlen($opener_input_field));
+            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
             echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
                         var source = opener.document.getElementById(medialist);
@@ -140,7 +140,7 @@ function selectMediaListArray(files)
 {
     <?php
         if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = substr($opener_input_field, 14, strlen($opener_input_field));
+            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
             echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
 
                         var source = opener.document.getElementById(medialist);

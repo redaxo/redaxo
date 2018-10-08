@@ -27,7 +27,7 @@ function = Funktion
 no_editing_rights = Keine Editiererlaubnis
 check_rights_in_directory = Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
-csrf_token_invalid = Der CSRF-Token ist nicht gültig.
+csrf_token_invalid = Bitte das Formular erneut absenden. (Fehler: CSRF-Token ungültig)
 
 # redaxo/redaxo/index.php
 system = System
@@ -433,3 +433,12 @@ created_on = erstellt am
 updated_by = aktualisiert von
 updated_on = aktualisiert am
 status = Status
+
+user_minibar = Minibar im Frontend anzeigen?
+user_minibar_note = Stellt eine Toolbar mit weiteren Informationen zur Verfügung
+minibar_board_link_label = Besuche das Forum
+minibar_database = Datenbank
+minibar_documentation_link_label = Dokumentation lesen
+minibar_help = Hilfe
+minibar_resources = Ressourcen
+minibar_slack_link_label = Slack Channel

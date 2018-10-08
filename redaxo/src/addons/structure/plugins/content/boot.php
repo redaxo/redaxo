@@ -105,3 +105,5 @@ rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
         return rex_url::backendPage($urls[$match[1]][0], ['function' => 'edit', $urls[$match[1]][1] => $match[2]]);
     }
 });
+
+rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_content());

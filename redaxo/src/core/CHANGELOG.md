@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 5.6.4 – 01.10.2018
+--------------------------
+
+### Security
+
+* Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+* XSS Sicherheitslücken (Cross-Site-Scripting) im Medienpool behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep)
+* XSS Sicherheitslücken (Cross-Site-Scripting) im Mediamanager behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+Version 5.6.3 – 26.09.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (SQL-Injection) in der rex_list Klasse geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
 Version 5.6.2 – 10.07.2018
 --------------------------
 

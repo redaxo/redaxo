@@ -157,13 +157,13 @@ abstract class rex_error_handler
     </button>', $errPage);
 
             rex_response::sendContent($errPage, $handler->contentType());
-            exit;
+            exit(1);
         }
 
         // TODO small error page, without debug infos
         $buf = 'Oooops, an internal error occured!';
         rex_response::sendContent($buf);
-        exit;
+        exit(1);
     }
 
     /**
