@@ -126,7 +126,7 @@ abstract class rex_package_manager
      *
      * @return bool TRUE on success, FALSE on error
      */
-    public function update($updateDump = true)
+        public function update($updateDump = true)
     {
 
         try {
@@ -146,13 +146,12 @@ abstract class rex_package_manager
             }
 
             if (array_key_exists($addonkey, $addons)) {
-                // todo is array key exists
-                foreach ($addons[$addonkey]['files'] as $fileId => $file) {
-                    $this->fileId=$fileId;
-                    $this->addonkey=$addonkey;
-                }
 
-                if ($fileId != "" && $addonkey != "") {
+                $this->fileId = array_keys($addons[$addonkey]['files'])[0];;
+                $this->addonkey = $addonkey;
+
+
+                if ($this->fileId != "" && $this->addonkey != "") {
 
                     $packages = rex_install_packages::getUpdatePackages();
 
@@ -184,8 +183,7 @@ abstract class rex_package_manager
                         $message = rex_i18n::msg('install_info_addon_updated', $this->addonkey);                                     
                     }
 
-                    //throw new rex_functional_exception($message);
-                     $this->message = $message;
+                    $this->message = $message;
 
                 }
             } else {
