@@ -59,6 +59,289 @@ abstract class rex_package_manager
         return $this->message;
     }
 
+/**
+    * Check preconditions. Ported from src/addons/install/lib/api_package_update.php
+    *
+    * @return string
+    */
+    protected function checkPreConditions()
+    {
+        if (!rex_addon::exists($this->addonkey)) {
+            throw new rex_api_exception(sprintf('AddOn "%s" does not exist!', $this->addonkey));
+        }
+        $this->addon = rex_addon::get($this->addonkey);
+        if (!rex_string::versionCompare($this->file['version'], $this->addon->getVersion(), '>')) {
+            throw new rex_api_exception(sprintf('Existing version of AddOn "%s" (%s) is newer than %s', $this->addonkey, $this->addon->getVersion(), $this->file['version']));
+        }
+    }
+
+    /**
+    * Check format. Ported from src/addons/install/lib/api_package_download.php
+    *
+    * @return bool TRUE on success, bool FALSE on error
+    */
+    private function isCorrectFormat($file)
+    {
+        if (class_exists('ZipArchive')) {
+            $success = false;
+            $zip = new ZipArchive();
+            if ($zip->open($file) === true) {
+                for ($i = 0; $i < $zip->numFiles; ++$i) {
+                    $filename = $zip->getNameIndex($i);
+                    if (substr($filename, 0, strlen($this->addonkey.'/')) != $this->addonkey.'/') {
+                        $zip->deleteIndex($i);
+                    } else {
+                        $success = true;
+                    }
+                }
+                $zip->close();
+            }
+            return $success;
+        }
+
+        return file_exists("phar://$file/" . $this->addonkey);
+    }
+
+    /**
+    * Check format. Ported from src/addons/install/lib/api_package_download.php
+    *
+    * @return bool TRUE on success, string on error
+    */
+    protected function extractArchiveTo($dir)
+    {
+
+        if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {
+            rex_dir::delete($dir);
+            return rex_i18n::msg('install_warning_addon_zip_not_extracted');
+        }
+        return true;
+    }
+
+    /**
+     * Updates a package.
+     *
+     * @param bool $updateDump When TRUE, the sql dump will be imported
+     *
+     * @throws rex_functional_exception
+     *
+     * @return bool TRUE on success, FALSE on error
+     */
+    public function update($updateDump = true)
+    {
+
+        try {
+
+            $message = '';
+            $coreVersions = [];
+            $addons = [];
+            $package = $this->package;
+            $addonkey = $package->getName();
+
+            try {
+                $coreVersions = rex_api_install_core_update::getVersions();
+                $addons = rex_install_packages::getUpdatePackages();
+            } catch (rex_functional_exception $e) {
+                $message .= $e->getMessage();
+                $addonkey = '';
+            }
+
+            if (array_key_exists($addonkey, $addons)) {
+                // todo is array key exists
+                foreach ($addons[$addonkey]['files'] as $fileId => $file) {
+                    $this->fileId=$fileId;
+                    $this->addonkey=$addonkey;
+                }
+
+                if ($fileId != "" && $addonkey != "") {
+
+                    $packages = rex_install_packages::getUpdatePackages();
+
+                    if (!isset($packages[$this->addonkey]['files'][$this->fileId])) {
+                        throw new rex_api_exception('The requested addon version can not be loaded, maybe it is already installed.');
+                    }
+                    $this->file = $packages[$this->addonkey]['files'][$this->fileId];
+                    $this->checkPreConditions();
+                    try {
+                        $archivefile = rex_install_webservice::getArchive($this->file['path']);
+                    } catch (rex_functional_exception $e) {
+                        throw new rex_api_exception($e->getMessage());
+                    }
+
+                    $message = '';
+                    $this->archive = $archivefile;
+                    if ($this->file['checksum'] != md5_file($archivefile)) {
+                        $message = rex_i18n::msg('install_warning_zip_wrong_checksum');
+                    } elseif (!$this->isCorrectFormat($archivefile)) {
+                        $message = rex_i18n::msg('install_warning_zip_wrong_format');
+                    } elseif (is_string($msg = $this->doUpdate())) {
+                        $message = $msg;
+                    }
+
+                    rex_file::delete($archivefile);
+                    if ($message) {
+                        $message = rex_i18n::msg('install_warning_addon_not_updated', $this->addonkey) . '<br />' . $message;
+                    } else {
+                        $message = rex_i18n::msg('install_info_addon_updated', $this->addonkey);                                     
+                    }
+
+                    //throw new rex_functional_exception($message);
+                     $this->message = $message;
+
+                }
+            } else {
+                throw new rex_api_exception('The requested addon version can not be updated, maybe it is already uptodate.');
+            }
+
+            return true;
+
+        } catch (rex_functional_exception $e) {
+            $this->message = $e->getMessage();
+        } catch (rex_sql_exception $e) {
+            $this->message = 'SQL error: ' . $e->getMessage();
+        }
+
+        return false;
+
+    }
+
+    /**
+     * Updates a package.
+     *
+     * @param bool $updateDump When TRUE, the sql dump will be importet
+     *
+     * @throws rex_functional_exception
+     *
+     * @return bool TRUE on success, FALSE on error
+     */
+    public function doUpdate($updateDump = true)
+    {       
+
+        try {
+
+            $message= '';
+            $coreVersions = [];
+            $addons = [];
+            $package = $this->package;
+            $addonkey = $package->getName();
+
+            try {
+                $coreVersions = rex_api_install_core_update::getVersions();
+                $addons = rex_install_packages::getUpdatePackages();
+            } catch (rex_functional_exception $e) {
+                throw new rex_functional_exception($e->getMessage());
+                $addonkey = '';
+            }
+
+            // todo is array key exists
+            foreach ($addons[$addonkey]['files'] as $fileId => $file) {
+                $this->fileId=$fileId;
+                $this->addonkey=$addonkey;
+            }
+
+            if ($fileId != "" && $addonkey != "") {
+
+                $path = rex_path::addon($addonkey);
+                $this->addon = rex_addon::get($addonkey);
+                $temppath = rex_path::addon('.new.' . $addonkey);
+
+                if (($msg = $this->extractArchiveTo($temppath)) !== true) {
+                    throw new rex_functional_exception($msg);
+                }
+
+                // ---- check package.yml
+                $packageFile = $temppath . rex_package::FILE_PACKAGE;
+                if (!file_exists($packageFile)) {
+                    throw new rex_functional_exception(rex_i18n::msg('package_missing_yml_file'));
+                }
+                try {
+                    $config = rex_file::getConfig($packageFile);
+                
+                } catch (rex_yaml_parse_exception $e) {
+                    throw new rex_functional_exception(rex_i18n::msg('package_invalid_yml_file'). ' ' . $e->getMessage());
+                }
+
+                if ($this->addon->isAvailable() && ($msg = $this->checkRequirements($config)) !== true) {
+                    throw new rex_functional_exception($msg);
+                }
+
+                // ---- include update.php
+                if ($this->addon->isInstalled() && file_exists($temppath . rex_package::FILE_UPDATE)) {
+                    try {
+                        $this->addon->includeFile('../.new.' . $this->addonkey . '/' . rex_package::FILE_UPDATE);
+                    } catch (rex_functional_exception $e) {                        
+                        throw new rex_functional_exception($e->getMessage());
+                    } catch (rex_sql_exception $e) {
+                        throw new rex_functional_exception( 'SQL error: ' . $e->getMessage());
+                    }
+                    if (($msg = $this->addon->getProperty('updatemsg', '')) != '') {
+                        throw new rex_functional_exception($msg);
+                    }
+                    if (!$this->addon->getProperty('update', true)) {
+                        throw new rex_functional_exception(rex_i18n::msg('package_no_reason'));
+                    }
+                }
+
+                // ---- backup
+                $assets = $this->addon->getAssetsPath();
+                $installConfig = rex_file::getCache(rex_addon::get('install')->getDataPath('config.json'));
+                if (isset($installConfig['backups']) && $installConfig['backups']) {
+                    $archivePath = rex_path::addonData('install', $this->addonkey . '/');
+                    rex_dir::create($archivePath);
+                    $archive = $archivePath . strtolower(preg_replace('/[^a-z0-9-_.]/i', '_', $this->addon->getVersion('0'))) . '.zip';
+                    rex_install_archive::copyDirToArchive($path, $archive);
+                    if (is_dir($assets)) {
+                        rex_install_archive::copyDirToArchive($assets, $archive, 'assets');
+                    }
+                }
+
+                // ---- copy plugins to new addon dir
+                foreach ($this->addon->getRegisteredPlugins() as $plugin) {
+                    $pluginPath = $temppath . '/plugins/' . $plugin->getName();
+                    if (!is_dir($pluginPath)) {
+                        rex_dir::copy($plugin->getPath(), $pluginPath);
+                    } elseif ($plugin->isInstalled() && is_dir($pluginPath . '/assets')) {
+                        rex_dir::copy($pluginPath . '/assets', $plugin->getAssetsPath());
+                    }
+                }
+
+                // ---- update main addon dir
+                rex_dir::delete($path);
+                rename($temppath, $path);
+
+                // ---- update assets
+                $origAssets = $this->addon->getPath('assets');
+                if ($this->addon->isInstalled() && is_dir($origAssets)) {
+                    rex_dir::copy($origAssets, $assets);
+                }
+
+                // ---- update package order
+                if ($this->addon->isAvailable()) {
+                    $this->addon->loadProperties();
+                    foreach ($this->addon->getAvailablePlugins() as $plugin) {
+                        $plugin->loadProperties();
+                    }
+                    rex_package_manager::generatePackageOrder();
+                }
+
+                $this->addon->setProperty('version', $this->file['version']);
+                rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
+
+                // re-generate opcache to make sure new/updated classes immediately are available
+                rex_delete_cache();
+
+            }
+
+            return true;
+
+        } catch (rex_functional_exception $e) {
+            $this->message = $e->getMessage();
+        } catch (rex_sql_exception $e) {
+            $this->message = 'SQL error: ' . $e->getMessage();
+        }
+
+        return false;
+    }
+
     /**
      * Installs a package.
      *
