@@ -1,5 +1,13 @@
 <?php
 
+class rex_i18n_trans_cb
+{
+    public static function mytranslate()
+    {
+        return 'translated';
+    }
+}
+
 class rex_i18n_test extends PHPUnit_Framework_TestCase
 {
     private $previousLocale;
@@ -17,11 +25,11 @@ rex_i18n_test_4=abc=def
 LANG;
         $content .= "rex_i18n_test_5   =   abc def   \n";
 
-        rex_file::put($this->getPath().'/de_de.lang', $content);
+        rex_file::put($this->getPath().'/de_de.lang', $content ."\nmy=DE");
 
         $content .= "\nrex_i18n_test_6 = test6\n";
 
-        rex_file::put($this->getPath().'/en_gb.lang', $content);
+        rex_file::put($this->getPath().'/en_gb.lang', $content."\nmy=EN");
     }
 
     public function tearDown()
@@ -70,5 +78,18 @@ LANG;
 
         $this->assertSame('test6', rex_i18n::msg('rex_i18n_test_6'));
         $this->assertSame('[translate:rex_i18n_test_7]', rex_i18n::msg('rex_i18n_test_7'));
+    }
+
+    public function testGetMsgInLocaleFallback()
+    {
+        rex_i18n::addDirectory($this->getPath());
+
+        $this->assertSame('DE', rex_i18n::msgInLocale('my', 'de_de'));
+        $this->assertSame('EN', rex_i18n::msgInLocale('my', 'en_gb'));
+    }
+
+    public function testTranslateCallable()
+    {
+        $this->assertSame('translated', rex_i18n::translate('translate:my_cb', false, 'rex_i18n_trans_cb::mytranslate'));
     }
 }

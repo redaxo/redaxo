@@ -16,14 +16,11 @@ $lang = rex_request('lang', 'string');
 if ($step == 1) {
     rex_setup::init();
 
-    $saveLocale = rex_i18n::getLocale();
     $langs = [];
     foreach (rex_i18n::getLocales() as $locale) {
-        rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
-        $label = rex_i18n::msg('lang');
+        $label = rex_i18n::msgInLocale('lang', $locale);
         $langs[$locale] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
     }
-    rex_i18n::setLocale($saveLocale, false);
 
     echo rex_view::title(rex_i18n::msg('setup_100'));
     $content = '<div class="list-group">' . implode('', $langs) . '</div>';
@@ -141,6 +138,12 @@ if ($step == 3) {
 
     if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
+    }
+
+    if (version_compare(PHP_VERSION, '5.6', '<') == 1) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (version_compare(PHP_VERSION, '7.0', '<=') == 1 && time() > strtotime('1 Jan 2019')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     }
 
     echo rex_view::title(rex_i18n::msg('setup_300'));

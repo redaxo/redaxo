@@ -5,18 +5,9 @@
  */
 
 $func = rex_request('func', 'string');
-$logFile = ini_get('error_log');
-/*
-$logFile = rex_request('file', 'string');
-$availableLogs = [ini_get('error_log')];
-
-if (!in_array($logFile, $availableLogs)) {
-    unset($logFile);
-}
-*/
 
 if (!isset($logFile)) {
-    return;
+    $logFile = ini_get('error_log');
 }
 
 $content = '
@@ -24,7 +15,7 @@ $content = '
                 <tbody>';
 
 $buttons = '';
-if (filesize($logFile) <= 0) {
+if (!file_exists($logFile) || filesize($logFile) <= 0) {
     $content .= '<tr><td>'. rex_i18n::msg('syslog_empty') .'</td></tr>';
 } else {
     // TODO make this more effienct with things like rex_log_file->next()

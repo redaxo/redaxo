@@ -725,10 +725,13 @@ class rex_list implements rex_url_provider_interface
         if ($sortColumn != '') {
             $sortType = $this->getSortType();
 
+            $sql = rex_sql::factory();
+            $sortColumn = $sql->escapeIdentifier($sortColumn);
+
             if (stripos($query, ' ORDER BY ') === false) {
-                $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
+                $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
             } else {
-                $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
+                $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY ' . $sortColumn . ' ' . $sortType, $query);
             }
         }
 

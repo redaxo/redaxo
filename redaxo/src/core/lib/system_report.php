@@ -18,8 +18,14 @@ class rex_system_report
     {
         $data = [];
 
+        $rexVersion = rex::getVersion();
+        $hash = rex::getVersionHash(rex_path::base());
+        if ($hash) {
+            $rexVersion .= '#' . $hash;
+        }
+
         $data['REDAXO'] = [
-            'Version' => rex::getVersion(),
+            'Version' => $rexVersion,
         ];
 
         $data['PHP'] = [

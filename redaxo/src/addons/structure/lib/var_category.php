@@ -27,7 +27,7 @@ class rex_var_category extends rex_var
         $category_id = $this->getParsedArg('id', '$this->getValue(\'category_id\')');
         $clang = $this->getParsedArg('clang', 'null');
 
-        return __CLASS__ . '::getCategoryValue(' . $category_id . ', ' . $field . ', ' . $clang . ')';
+        return self::class . '::getCategoryValue(' . $category_id . ', ' . $field . ', ' . $clang . ')';
     }
 
     public static function getCategoryValue($id, $field, $clang = null)

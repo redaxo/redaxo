@@ -52,3 +52,9 @@ phpmailer_log = E-Mail Log
 phpmailer_log_info = Log-mappen: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nej
+phpmailer_errormail_disabled = deaktiverad
+phpmailer_errormail_15min = 15 minuters check-interval
+phpmailer_errormail_30min = 30 minuters check-interval
+phpmailer_errormail_60min = 60 minuters check-interval
+
+system_setting_errormail = Skicka felmeddelanden

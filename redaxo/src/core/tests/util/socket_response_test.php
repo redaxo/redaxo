@@ -4,7 +4,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
 {
     private function getResponse($content)
     {
-        $stream = fopen('php://temp', 'r+');
+        $stream = fopen('php://temp', 'r+b');
         fwrite($stream, $content);
         fseek($stream, 0);
 
@@ -69,7 +69,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
 
-        $temp = fopen('php://temp', 'r+');
+        $temp = fopen('php://temp', 'r+b');
         $response->writeBodyTo($temp);
         fseek($temp, 0);
         $this->assertSame($body, fread($temp, 1024));

@@ -1,7 +1,5 @@
 <?php
 
-$curDir = rex_path::plugin('be_style', 'customizer');
-
 $error = [];
 $config = [];
 $info = '';
@@ -14,19 +12,25 @@ if (rex_post('btn_save', 'string') != '') {
     $newConfig = [];
 
     $newConfig = rex_post('settings', 'array');
+    $tempConfig = rex_plugin::get('be_style', 'customizer')->getConfig();
 
     $tempConfig['codemirror'] = 0;
     if (isset($newConfig['codemirror']) && $newConfig['codemirror'] == 1) {
         $tempConfig['codemirror'] = 1;
     }
 
+    $tempConfig['codemirror-selectors'] = '';
+    if (isset($newConfig['codemirror-selectors'])) {
+        $tempConfig['codemirror-selectors'] = $newConfig['codemirror-selectors'];
+    }
+
     $tempConfig['codemirror-langs'] = 0;
-    if (isset($newConfig['codemirror-langs']) && $newConfig['codemirror'] == 1) {
+    if (isset($newConfig['codemirror-langs']) && $newConfig['codemirror-langs'] == 1) {
         $tempConfig['codemirror-langs'] = 1;
     }
 
     $tempConfig['codemirror-tools'] = 0;
-    if (isset($newConfig['codemirror-tools']) && $newConfig['codemirror'] == 1) {
+    if (isset($newConfig['codemirror-tools']) && $newConfig['codemirror-tools'] == 1) {
         $tempConfig['codemirror-tools'] = 1;
     }
 
@@ -51,6 +55,8 @@ if (rex_post('btn_save', 'string') != '') {
     } else {
         $error[] = rex_i18n::msg('customizer_config_update_failed');
     }
+
+    $_SESSION['codemirror_reload'] = time();
 }
 
 // load config
@@ -62,11 +68,16 @@ if (!isset($config['codemirror-langs'])) {
 if (!isset($config['codemirror-tools'])) {
     $config['codemirror-tools'] = 0;
 }
+if (!isset($config['codemirror-selectors'])) {
+    $config['codemirror-selectors'] = '';
+}
 
 // build elements
 
+$curDir = $this->getAssetsUrl('vendor/');
+
 $themes = [];
-foreach (glob($curDir . '/assets/vendor/codemirror/theme/*.css') as $filename) {
+foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {
     $themes[] = substr(basename($filename), 0, -4);
 }
 
@@ -102,12 +113,21 @@ $content = '';
 // form - Funktionen
 
 $content .= '<fieldset><legend>' . rex_i18n::msg('customizer_features') . '</legend>';
+$content .= '<input type="hidden" name="settings[codemirror]" value="0"/>';
+$content .= '<input type="hidden" name="settings[codemirror-langs]" value="0"/>';
+$content .= '<input type="hidden" name="settings[codemirror-tools]" value="0"/>';
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="customizer-codemirror">' . rex_i18n::msg('customizer_codemirror_check') . '</label>';
 $n['field'] = '<input type="checkbox" id="customizer-codemirror" name="settings[codemirror]" value="1" ' . ($config['codemirror'] ? 'checked="checked" ' : '') . '/>';
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="customizer-codemirror-selectors">' . rex_i18n::msg('customizer_codemirror_selectors') . '</label>';
+$n['field'] = '<textarea rows="2" class="form-control" id="customizer-codemirror-selectors" name="settings[codemirror-selectors]">' . htmlspecialchars($config['codemirror-selectors']) . '</textarea>';
+$n['note'] = rex_i18n::msg('customizer_codemirror_selectors_info');
 $formElements[] = $n;
 
 $n = [];
