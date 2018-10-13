@@ -103,6 +103,20 @@ class rex_validator
         return 0 !== strlen($value);
     }
 
+
+    /**
+     * Checks whether the value is JSON.
+     *
+     * @param string $value
+     *
+     * @return bool
+     */
+    public function json($value)
+    {
+        json_decode($value);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+
     /**
      * Checks whether the value is from the given type.
      *
