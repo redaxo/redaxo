@@ -26,6 +26,10 @@ class rex_minibar_element_structure_content extends rex_minibar_element
             $article = rex_article::getSiteStartArticle();
         }
 
+        if (!$article instanceof rex_article) {
+            return '';
+        }
+
         // Return if user have no rights to the site start article
         if (rex::isBackend() && rex::getUser() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
             return
