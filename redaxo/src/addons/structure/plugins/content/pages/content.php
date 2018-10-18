@@ -66,8 +66,8 @@ if ($article->getRows() == 1) {
     // ----- Request Parameter
     $subpage = rex_be_controller::getCurrentPagePart(2);
     $function = rex_request('function', 'string');
-    $warning = htmlspecialchars(rex_request('warning', 'string'));
-    $info = htmlspecialchars(rex_request('info', 'string'));
+    $warning = rex_escape(rex_request('warning', 'string'));
+    $info = rex_escape(rex_request('info', 'string'));
 
     $context = new rex_context([
         'page' => rex_be_controller::getCurrentPage(),

@@ -17,7 +17,7 @@ class rex_input_textarea extends rex_input
 
     public function getHtml()
     {
-        $value = htmlspecialchars($this->value);
+        $value = rex_escape($this->value);
         return '<textarea' . $this->getAttributeString() . '>' . $value . '</textarea>';
     }
 }

@@ -10,6 +10,7 @@ class rex_response
     const HTTP_OK = '200 OK';
     const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
     const HTTP_NOT_MODIFIED = '304 Not Modified';
+    const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
     const HTTP_NOT_FOUND = '404 Not Found';
     const HTTP_FORBIDDEN = '403 Forbidden';
     const HTTP_UNAUTHORIZED = '401 Unauthorized';
@@ -71,9 +72,9 @@ class rex_response
     /**
      * Set a file to be preload via http link header.
      *
-     * @param $file
-     * @param $type
-     * @param $mimeType
+     * @param string $file
+     * @param string $type
+     * @param string $mimeType
      */
     public static function preload($file, $type, $mimeType)
     {
@@ -87,7 +88,7 @@ class rex_response
     private static function sendPreloadHeaders()
     {
         foreach (self::$preloadFiles as $preloadFile) {
-            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; nopush', false);
+            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; crossorigin; nopush', false);
         }
     }
 
@@ -233,7 +234,7 @@ class rex_response
             // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
             // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
             // https://bugs.webkit.org/show_bug.cgi?id=32829
-            (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome'))
+            (!empty($_SERVER['HTTP_USER_AGENT']) && (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')))
         ) {
             // ----- Last-Modified
             if (!self::$sentLastModified

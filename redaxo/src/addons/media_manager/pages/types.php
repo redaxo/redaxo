@@ -25,11 +25,18 @@ if ((rex_request('func') == 'edit' || $func == 'delete') && $type_id > 0) {
 if ($func == 'delete' && $type_id > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
-    $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
-    $sql->setWhere(['id' => $type_id]);
 
     try {
-        $sql->delete();
+        $sql->transactional(function () use ($sql, $type_id) {
+            $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
+            $sql->setWhere(['id' => $type_id]);
+            $sql->delete();
+
+            $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
+            $sql->setWhere(['type_id' => $type_id]);
+            $sql->delete();
+        });
+
         $success = rex_i18n::msg('media_manager_type_deleted');
     } catch (rex_sql_exception $e) {
         $error = $sql->getError();
@@ -71,12 +78,54 @@ if ($error != '') {
 }
 
 if ($func == '') {
+    echo '<style>
+<!--[if IE ]><style>.rex-media-manager-list{table-layout: fixed;}</style><![endif]-->
+<style>
+.rex-helper-line dt,dd{display:inline-block;}
+.rex-helper-line dt{width:65%;padding-right:3%;vertical-align:top;}
+.rex-helper-line dd{width:35%;}
+.rex-helper-line td{border-top:0px!important;}
+.rex-helper-line .rex-mediamanager-list-effect{display:-ms-flexbox;display:flex;-ms-flex-flow:row wrap;flex-wrap:wrap;}
+.rex-helper-line .rex-mediamanager-list-effect > div{width:20em;margin:5px 10px 5px 0;}
+.rex-helper-line .rex-mediamanager-list-effect .panel-heading{padding:5px 15px; background-color: transparent; }
+.rex-helper-line .rex-mediamanager-list-effect .panel-body{padding:0 15px;}
+.rex-helper-line .rex-mediamanager-list-effect dl{padding:0;margin:0}
+</style>
+<script>
+function rex_mediamanager_toggle(dieses){
+    var dies = jQuery(dieses);
+    var das = jQuery(dies.data("target"));
+
+    if( dies.hasClass("active") ) {
+        dies.removeClass("active");
+        das.addClass("hidden");
+    } else {
+        dies.addClass("active");
+        das.removeClass("hidden");
+    }
+}
+function rex_mediamanager_toggleAll(dieses){
+    var dies = jQuery(dieses);
+    var das = jQuery(dies.data("target"));
+    var btn = jQuery(dies.data("button"));
+
+    if( dies.hasClass("active") ) {
+        dies.removeClass("active");
+        das.addClass("hidden");
+        btn.removeClass("active");
+    } else {
+        dies.addClass("active");
+        das.removeClass("hidden");
+        btn.addClass("active");
+    }
+}
+</script>';
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
     // (werden am seltesten bearbeitet)
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
-    $list->addTableAttribute('class', 'table-striped');
+    $list->addTableAttribute('class', 'table-striped rex-media-manager-list');
     $list->setNoRowsMessage(rex_i18n::msg('media_manager_type_no_types'));
 
     $list->removeColumn('id');
@@ -86,8 +135,24 @@ if ($func == '') {
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
     $list->setColumnFormat('name', 'custom', function ($params) {
         $list = $params['list'];
-        $name = '<b>' . $list->getValue('name') . '</b>';
-        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . $list->getValue('description') . '</span>' : '';
+        $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
+        $name .= '<div class="pull-right">
+            <button
+                onclick="rex_mediamanager_toggle(this)"
+                type="button"
+                class="btn btn btn-xs rex-mediamanager-list-effect-btn"
+                data-target=".rex-mediamanager-list-'.rex_escape($list->getValue('name'), 'html_attr').'-effect .panel-body">
+                <i class="rex-icon  fa-search-plus"></i>
+            </button>&nbsp;
+            <button
+                onclick="rex_mediamanager_toggle(this)"
+                type="button"
+                class="btn btn btn-xs rex-mediamanager-list-link-btn"
+                data-target=".rex-mediamanager-list-'.rex_escape($list->getValue('name'), 'html_attr').'-link">
+                <i class="rex-icon fa-link"></i>
+            </button>
+            </div>';
+        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
         return $name;
     });
 
@@ -119,16 +184,57 @@ if ($func == '') {
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
     $list->setColumnFormat('deleteType', 'custom', function ($params) {
         $list = $params['list'];
-        if ($list->getValue('status') == 1) {
-            return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>';
+        $qry = 'SELECT effect,parameters FROM '.rex::getTable('media_manager_type_effect').' WHERE type_id=? ORDER BY priority';
+        $effects = rex_sql::factory()->getArray($qry, [$params['list']->getValue('id')]);
+        foreach ($effects as $k => $v) {
+            $effectClass = "rex_effect_{$v['effect']}";
+            $effectParams = json_decode($v['parameters'], true);
+            $instance = new $effectClass();
+            $effectLabels = [];
+            if (isset($effectParams[$effectClass])) {
+                $effectParams = $effectParams[$effectClass];
+                $effectLabels = array_column($instance->getParams(), 'name', 'label');
+                foreach ($effectLabels as $ek => $ev) {
+                    $value = "{$effectClass}_$ev";
+                    $effectLabels[$ek] = isset($effectParams[$value]) ? $effectParams[$value] : '?';
+                }
+            }
+            $effects[$k] = ['label' => $instance->getName(), 'effects' => $effectLabels];
         }
-        return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete'));
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', $effects, false);
+        $zusatzzeile = '</td></tr><tr class="rex-helper-line"><td></td><td colspan="6">'.
+                       '<div class="hidden rex-mediamanager-list-link rex-mediamanager-list-'.rex_escape($list->getValue('name'), 'html_attr').'-link">Link: <i>index.php?rex_media_type='.rex_escape($list->getValue('name'), 'html_attr').'&rex_media_file=</i></div>'.
+                       '<div class="rex-mediamanager-list-effect rex-mediamanager-list-'.rex_escape($list->getValue('name'), 'html_attr').'-effect">'.$fragment->parse('mmeffectslist.php').'</div>';
+        if ($list->getValue('status') == 1) {
+            return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>'.$zusatzzeile;
+        }
+        return $list->getColumnLink('deleteType', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('media_manager_type_delete')).$zusatzzeile;
     });
 
     $content .= $list->get();
 
+    $button = '<div class="pull-right">
+    <button
+        onclick="rex_mediamanager_toggleAll(this)"
+        type="button"
+        class="btn btn btn-xs"
+        data-target=".rex-mediamanager-list-effect .panel-body"
+        data-button=".rex-mediamanager-list-effect-btn">
+        <i class="rex-icon fa-search-plus"></i>
+    </button>&nbsp;
+    <button
+        onclick="rex_mediamanager_toggleAll(this)"
+        type="button"
+        class="btn btn btn-xs"
+        data-target=".rex-mediamanager-list-link"
+        data-button=".rex-mediamanager-list-link-btn">
+        <i class="rex-icon fa-link"></i>
+    </button>
+    </div>';
+
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('media_manager_type_caption'), false);
+    $fragment->setVar('title', rex_i18n::msg('media_manager_type_caption').$button, false);
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 
@@ -162,12 +268,14 @@ if ($func == '') {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));
+    $field->setAttribute('maxlength', 255);
     $field->getValidator()
         ->add('notEmpty', rex_i18n::msg('media_manager_error_name'))
         ->add('notMatch', rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}');
 
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
+    $field->setAttribute('maxlength', 255);
 
     $content .= $form->get();
 

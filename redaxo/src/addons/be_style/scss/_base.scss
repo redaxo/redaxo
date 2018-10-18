@@ -82,13 +82,13 @@ body:after {
         .rex-nav-main {
             display: table-cell;
             width: 250px;
-            padding-bottom: $grid-gutter-width;
+            padding-bottom: ($minibar-height * 2);
             vertical-align: top;
         }
 
         .rex-page-main {
             display: table-cell;
-            padding-bottom: $grid-gutter-width;
+            padding-bottom: ($minibar-height * 2);
             vertical-align: top;
         }
 

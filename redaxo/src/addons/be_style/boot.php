@@ -22,11 +22,18 @@ if (rex::isBackend()) {
     });
 
     rex_extension::register('BE_STYLE_SCSS_COMPILE', function (rex_extension_point $ep) {
+        $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
+
         $subject = $ep->getSubject();
         $subject[] = [
-            'scss_files' => rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', [$this->getPath('scss/master.scss')])),
+            'scss_files' => array_merge($scss_files, [$this->getPath('scss/master.scss')]),
             'css_file' => $this->getPath('assets/css/styles.css'),
             'copy_dest' => $this->getAssetsPath('css/styles.css'),
+        ];
+        $subject[] = [
+            'scss_files' => array_merge($scss_files, [$this->getPath('scss/master_minibar.scss')]),
+            'css_file' => $this->getPath('assets/css/minibar.css'),
+            'copy_dest' => $this->getAssetsPath('css/minibar.css'),
         ];
         return $subject;
     });
@@ -38,6 +45,9 @@ if (rex::isBackend()) {
     });
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
+    if (rex_minibar::getInstance()->isActive()) {
+        rex_view::addCssFile($this->getAssetsUrl('css/minibar.css'));
+    }
     rex_view::addCssFile($this->getAssetsUrl('css/bootstrap-select.min.css'));
     rex_view::addCssFile($this->getAssetsUrl('css/perfect-scrollbar.min.css'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap.js'));

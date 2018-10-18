@@ -18,7 +18,6 @@ if ($subpage == 'help') {
     $version = $package->getVersion();
     $author = $package->getAuthor();
     $supportPage = $package->getSupportPage();
-
     if (is_readable($package->getPath('help.php'))) {
         if (!$package->isAvailable() && is_readable($package->getPath('lang'))) {
             rex_i18n::addDirectory($package->getPath('lang'));
@@ -26,6 +25,10 @@ if ($subpage == 'help') {
         ob_start();
         $package->includeFile('help.php');
         $content .= ob_get_clean();
+    } elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
+        $fragment = new rex_fragment();
+        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))), false);
+        $content .= $fragment->parse('core/page/docs.php');
     } elseif (is_readable($package->getPath('README.md'))) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.md'))), false);
@@ -41,13 +44,13 @@ if ($subpage == 'help') {
 
     $credits = '';
     $credits .= '<dl class="dl-horizontal">';
-    $credits .= '<dt>' . rex_i18n::msg('credits_name') . '</dt><dd>' . htmlspecialchars($name) . '</dd>';
+    $credits .= '<dt>' . rex_i18n::msg('credits_name') . '</dt><dd>' . rex_escape($name) . '</dd>';
 
     if ($version) {
         $credits .= '<dt>' . rex_i18n::msg('credits_version') . '</dt><dd>' . $version . '</dd>';
     }
     if ($author) {
-        $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . htmlspecialchars($author) . '</dd>';
+        $credits .= '<dt>' . rex_i18n::msg('credits_author') . '</dt><dd>' . rex_escape($author) . '</dd>';
     }
     if ($supportPage) {
         $credits .= '<dt>' . rex_i18n::msg('credits_supportpage') . '</dt><dd><a href="' . $supportPage . '" onclick="window.open(this.href); return false;">' . $supportPage . '</a></dd>';
@@ -146,7 +149,7 @@ if ($subpage == '') {
         } else {
             $class .= ' rex-package-not-installed';
         }
-        $name = '<span class="rex-' . $type . '-name">' . htmlspecialchars($package->getName()) . '</span>';
+        $name = '<span class="rex-' . $type . '-name">' . rex_escape($package->getName()) . '</span>';
 
         $class .= $package->isSystemPackage() ? ' rex-system-' . $type : '';
 
@@ -166,7 +169,7 @@ if ($subpage == '') {
 
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-            $f = fopen($licenseFile, 'r');
+            $f = fopen($licenseFile, 'rb');
             $firstLine = fgets($f);
             fclose($f);
 
@@ -183,7 +186,7 @@ if ($subpage == '') {
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                         <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '">
-                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . htmlspecialchars($package->getName()) . '</span></a>
+                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName(), 'html_attr') . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                         </td>
                         <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">'. $license .'</td>
                         <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>

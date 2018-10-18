@@ -10,7 +10,13 @@ class rex_i18n
     private static $locales = [];
     private static $directories = [];
     private static $loaded = [];
+    /**
+     * @var string|null
+     */
     private static $locale = null;
+    /**
+     * @var string[][]
+     */
     private static $msg = [];
 
     /**
@@ -47,13 +53,24 @@ class rex_i18n
     }
 
     /**
-     * Returns the current locale.
+     * Returns the current locale, e.g. de_de.
      *
      * @return string The current locale
      */
     public static function getLocale()
     {
         return self::$locale;
+    }
+
+    /**
+     * Returns the current language, e.g. "de".
+     *
+     * @return string The current language
+     */
+    public static function getLanguage()
+    {
+        list($lang, $country) = explode('_', self::$locale, 2);
+        return $lang;
     }
 
     /**
@@ -79,7 +96,8 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key.
      *
-     * @param string $key Key
+     * @param string $key             A Language-Key
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
@@ -91,7 +109,8 @@ class rex_i18n
     /**
      * Returns the translation for the given key.
      *
-     * @param string $key Key
+     * @param string $key             A Language-Key
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
@@ -101,27 +120,120 @@ class rex_i18n
     }
 
     /**
+     * Returns the translation htmlspecialchared for the given key and locale.
+     *
+     * @param string $key             A Language-Key
+     * @param string $locale          A Locale
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
+     *
+     * @return string Translation for the key
+     */
+    public static function msgInLocale($key, $locale)
+    {
+        $args = func_get_args();
+        $args[1] = $key;
+        // for BC we need to strip the 1st arg
+        array_shift($args);
+        return self::getMsg($key, true, $args, $locale);
+    }
+
+    /**
+     * Returns the translation for the given key and locale.
+     *
+     * @param string $key             A Language-Key
+     * @param string $locale          A Locale
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
+     *
+     * @return string Translation for the key
+     */
+    public static function rawMsgInLocale($key, $locale)
+    {
+        $args = func_get_args();
+        $args[1] = $key;
+        // for BC we need to strip the 1st arg
+        array_shift($args);
+        return self::getMsg($key, false, $args, $locale);
+    }
+
+    /**
+     * Returns the message fallback for a missing key in main locale.
+     *
+     * @param string $key
+     * @param array  $args
+     * @param string $locale A Locale
+     *
+     * @return string
+     */
+    private static function getMsgFallback($key, array $args, $locale)
+    {
+        $fallback = "[translate:$key]";
+
+        $msg = rex_extension::registerPoint(new rex_extension_point('I18N_MISSING_TRANSLATION', $fallback, [
+            'key' => $key,
+            'args' => $args,
+        ]));
+
+        if ($msg !== $fallback) {
+            return $msg;
+        }
+
+        foreach (rex::getProperty('lang_fallback', []) as $fallbackLocale) {
+            if ($locale === $fallbackLocale) {
+                continue;
+            }
+
+            if (empty(self::$loaded[$fallbackLocale])) {
+                self::loadAll($fallbackLocale);
+            }
+
+            if (isset(self::$msg[$fallbackLocale][$key])) {
+                return self::$msg[$fallbackLocale][$key];
+            }
+        }
+
+        return $fallback;
+    }
+
+    /**
+     * Checks if there is a translation for the given key.
+     *
+     * @param string $key Key
+     *
+     * @return bool TRUE on success, else FALSE
+     */
+    public static function hasMsg($key)
+    {
+        return isset(self::$msg[self::$locale][$key]);
+    }
+
+    /**
      * Returns the translation for the given key.
      *
      * @param string $key
      * @param bool   $htmlspecialchars
      * @param array  $args
+     * @param string $locale           A Locale
      *
      * @return mixed
      */
-    private static function getMsg($key, $htmlspecialchars, array $args)
+    private static function getMsg($key, $htmlspecialchars, array $args, $locale = null)
     {
         if (!self::$locale) {
             self::$locale = rex::getProperty('lang');
         }
-        if (empty(self::$loaded[self::$locale])) {
-            self::loadAll(self::$locale);
+
+        if (!$locale) {
+            $locale = self::$locale;
         }
 
-        if (isset(self::$msg[self::$locale][$key])) {
-            $msg = self::$msg[self::$locale][$key];
+        if (empty(self::$loaded[$locale])) {
+            self::loadAll($locale);
+        }
+
+        if (isset(self::$msg[$locale][$key])) {
+            $msg = self::$msg[$locale][$key];
         } else {
-            $msg = self::getMsgFallback($key, $args);
+            $msg = self::getMsgFallback($key, $args, $locale);
         }
 
         $patterns = [];
@@ -143,56 +255,6 @@ class rex_i18n
         }
 
         return $msg;
-    }
-
-    /**
-     * Returns the message fallback for a missing key in main locale.
-     *
-     * @param string $key
-     * @param array  $args
-     *
-     * @return string
-     */
-    private static function getMsgFallback($key, array $args)
-    {
-        $fallback = "[translate:$key]";
-
-        $msg = rex_extension::registerPoint(new rex_extension_point('I18N_MISSING_TRANSLATION', $fallback, [
-            'key' => $key,
-            'args' => $args,
-        ]));
-
-        if ($msg !== $fallback) {
-            return $msg;
-        }
-
-        foreach (rex::getProperty('lang_fallback', []) as $locale) {
-            if (self::$locale === $locale) {
-                continue;
-            }
-
-            if (empty(self::$loaded[$locale])) {
-                self::loadAll($locale);
-            }
-
-            if (isset(self::$msg[$locale][$key])) {
-                return self::$msg[$locale][$key];
-            }
-        }
-
-        return $fallback;
-    }
-
-    /**
-     * Checks if there is a translation for the given key.
-     *
-     * @param string $key Key
-     *
-     * @return bool TRUE on success, else FALSE
-     */
-    public static function hasMsg($key)
-    {
-        return isset(self::$msg[self::$locale][$key]);
     }
 
     /**
@@ -277,12 +339,16 @@ class rex_i18n
         $transKeyLen = strlen($tranKey);
         if (substr($text, 0, $transKeyLen) == $tranKey) {
             if (!$i18nFunction) {
-                $i18nFunction = $use_htmlspecialchars ? 'self::msg' : 'self::rawMsg';
+                if ($use_htmlspecialchars) {
+                    return self::msg(substr($text, $transKeyLen));
+                }
+                return self::rawMsg(substr($text, $transKeyLen));
             }
+            // cuf() required for php5 compat to support 'class::method' like callables
             return call_user_func($i18nFunction, substr($text, $transKeyLen));
         }
         if ($use_htmlspecialchars) {
-            return htmlspecialchars($text);
+            return rex_escape($text);
         }
         return $text;
     }
@@ -302,7 +368,11 @@ class rex_i18n
     {
         if (is_array($array)) {
             foreach ($array as $key => $value) {
-                $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
+                if (is_string($value)) {
+                    $array[$key] = self::translate($value, $use_htmlspecialchars, $i18nFunction);
+                } else {
+                    $array[$key] = self::translateArray($value, $use_htmlspecialchars, $i18nFunction);
+                }
             }
             return $array;
         }

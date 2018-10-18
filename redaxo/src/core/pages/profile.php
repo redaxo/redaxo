@@ -18,7 +18,7 @@ $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
-
+$userminibar = $user->getValue('minibar');
 $csrfToken = rex_csrf_token::factory('profile');
 
 // --------------------------------- Title
@@ -27,22 +27,20 @@ echo rex_view::title(rex_i18n::msg('profile_title'), '');
 // --------------------------------- BE LANG
 
 // backend sprache
+$userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
 $sel_be_sprache = new rex_select();
 $sel_be_sprache->setSize(1);
 $sel_be_sprache->setStyle('class="form-control"');
 $sel_be_sprache->setName('userperm_be_sprache');
 $sel_be_sprache->setId('rex-id-userperm-mylang');
+$sel_be_sprache->setAttribute('class', 'form-control selectpicker');
 $sel_be_sprache->addOption('default', '');
-
-$saveLocale = rex_i18n::getLocale();
-$langs = [];
-foreach (rex_i18n::getLocales() as $locale) {
-    rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
-    $sel_be_sprache->addOption(rex_i18n::msg('lang'), $locale);
-}
-rex_i18n::setLocale($saveLocale, false);
-$userperm_be_sprache = rex_request('userperm_be_sprache', 'string', $user->getLanguage());
 $sel_be_sprache->setSelected($userperm_be_sprache);
+$locales = rex_i18n::getLocales();
+asort($locales);
+foreach ($locales as $locale) {
+    $sel_be_sprache->addOption(rex_i18n::msgInLocale('lang', $locale), $locale);
+}
 
 // --------------------------------- FUNCTIONS
 
@@ -57,12 +55,15 @@ if ($update) {
 }
 
 if ($update && !$error) {
+    $userminibar = rex_request('minibar', 'bool');
+
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('email', $useremail);
+    $updateuser->setValue('minibar', $userminibar);
     $updateuser->setValue('language', $userperm_be_sprache);
 
     $updateuser->addGlobalUpdateFields();
@@ -132,7 +133,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userlogin">' . rex_i18n::msg('login_name') . '</label>';
-$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . htmlspecialchars($userlogin) . '</span>';
+$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . rex_escape($userlogin) . '</span>';
 $formElements[] = $n;
 
 $n = [];
@@ -142,17 +143,17 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username, 'html_attr') . '" autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . rex_escape($userdesc, 'html_attr') . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail, 'html_attr') . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -160,6 +161,17 @@ $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
+
+$formElements = [];
+$n = [];
+$n['label'] = '<label for="rex-id-minibar">' . rex_i18n::msg('user_minibar') . '</label>';
+$n['field'] = '<input type="checkbox" id="rex-id-minibar" name="minibar" value="1"' . ($userminibar == 1 ? ' checked="checked"' : ''). ' />';
+$n['note'] = rex_i18n::msg('user_minibar_note');
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$content .= $fragment->parse('core/form/checkbox.php');
 
 $content .= '</fieldset>';
 

@@ -27,7 +27,7 @@ abstract class rex_formatter
      */
     public static function format($value, $formatType, $format)
     {
-        if (!is_callable([__CLASS__, $formatType])) {
+        if (!is_callable([self::class, $formatType])) {
             throw new InvalidArgumentException('Unknown $formatType: "' . $formatType . '"!');
         }
         return self::$formatType($value, $format);
@@ -286,7 +286,7 @@ abstract class rex_formatter
             $value = 'http://' . $value;
         }
 
-        return '<a href="' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
+        return '<a href="' . rex_escape($value . $format['params'], 'html_attr') . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
     }
 
     /**
@@ -316,7 +316,7 @@ abstract class rex_formatter
             }
         }
         // Url formatierung
-        return '<a href="mailto:' . htmlspecialchars($value . $format['params']) . '"' . $format['attr'] . '>' . htmlspecialchars($value) . '</a>';
+        return '<a href="mailto:' . rex_escape($value . $format['params'], 'html_attr') . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
     }
 
     /**

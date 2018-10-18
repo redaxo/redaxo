@@ -127,7 +127,7 @@ abstract class rex_var
     {
         if (!isset(self::$vars[$var])) {
             $class = 'rex_var_' . strtolower(substr($var, 4));
-            if (!class_exists($class) || !is_subclass_of($class, __CLASS__)) {
+            if (!class_exists($class) || !is_subclass_of($class, self::class)) {
                 return false;
             }
             self::$vars[$var] = $class;

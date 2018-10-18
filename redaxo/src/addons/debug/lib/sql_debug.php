@@ -82,7 +82,7 @@ class rex_sql_debug extends rex_sql
                 ++$i;
             }
 
-            ChromePhp::log(__CLASS__ . ' (' . count(self::$queries) . ' queries, ' . self::$errors . ' errors)');
+            ChromePhp::log(self::class . ' (' . count(self::$queries) . ' queries, ' . self::$errors . ' errors)');
             ChromePhp::table($tbl);
         }
     }

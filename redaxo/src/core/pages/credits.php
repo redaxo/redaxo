@@ -82,7 +82,7 @@ $content .= '
 
             $license = '';
             if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-                $f = fopen($licenseFile, 'r');
+                $f = fopen($licenseFile, 'rb');
                 $firstLine = fgets($f);
                 fclose($f);
 
@@ -96,7 +96,7 @@ $content .= '
                 <td data-title="' . rex_i18n::msg('credits_version') . '">' . $package->getVersion() . '</td>
                 <td class="rex-table-slim" data-title="' . rex_i18n::msg('credits_help') . '">
                     '. $license .'
-                    <a href="' . $helpUrl . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . htmlspecialchars($package->getName()) . '</span></a>
+                    <a href="' . $helpUrl . '" title="' . rex_i18n::msg('credits_open_help_file') . ' ' . $package->getName() . '"><i class="rex-icon rex-icon-help"></i> <span class="sr-only">' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '</span></a>
                 </td>
                 <td data-title="' . rex_i18n::msg('credits_author') . '">' . $package->getAuthor() . '</td>
                 <td data-title="' . rex_i18n::msg('credits_supportpage') . '">';
