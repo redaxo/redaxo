@@ -81,8 +81,8 @@ class rex_setup
             rex_path::data(),
             rex_path::src(),
         ];
-        
-        $getMod = function($path) {
+
+        $getMod = function ($path) {
             return substr(sprintf('%o', fileperms($path)), -3);
         };
 
@@ -96,7 +96,7 @@ class rex_setup
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
                     $res['setup_305'][] = $path;
-                } elseif (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') !== 0 && substr($getMod($path),-1) === '7') {
+                } elseif (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') !== 0 && substr($getMod($path), -1) === '7') {
                     // check the "other" filesystem-bit for "all" permission.
                     $res['setup_311'][] = $path;
                 }
