@@ -37,7 +37,7 @@ class rex_var_category extends rex_var
         }
         $cat = rex_category::get($id, $clang);
         if ($cat) {
-            return htmlspecialchars($cat->getValue($field));
+            return rex_escape($cat->getValue($field));
         }
     }
 }
