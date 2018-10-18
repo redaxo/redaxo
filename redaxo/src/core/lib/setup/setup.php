@@ -86,7 +86,7 @@ class rex_setup
             return substr(sprintf('%o', fileperms($path)), -3);
         };
 
-        $func = function ($dir) use (&$func) use ($getMod) {
+        $func = function ($dir) use (&$func, $getMod) {
             if (!rex_dir::isWritable($dir)) {
                 return ['setup_304' => [$dir]];
             }
