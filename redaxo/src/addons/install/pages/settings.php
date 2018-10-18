@@ -52,12 +52,12 @@ $panel .= '
 
                 $n = [];
                 $n['label'] = '<label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>';
-                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . htmlspecialchars($config['api_login']) . '" />';
+                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . rex_escape($config['api_login'], 'html_attr') . '" />';
                 $formElements[] = $n;
 
                 $n = [];
                 $n['label'] = '<label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>';
-                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . htmlspecialchars($config['api_key']) . '" />';
+                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . rex_escape($config['api_key'], 'html_attr') . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
