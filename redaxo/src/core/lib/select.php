@@ -121,7 +121,7 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = htmlspecialchars($selected);
+            $this->option_selected[] = rex_escape($selected);
         }
     }
 
@@ -239,7 +239,7 @@ class rex_select
         foreach ($this->options as $optgroup => $options) {
             $this->currentOptgroup = $optgroup;
             if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
-                $ausgabe .= '  <optgroup label="' . htmlspecialchars($optgroupLabel) . '">' . "\n";
+                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel, 'html_attr') . '">' . "\n";
             }
             if (is_array($options)) {
                 $ausgabe .= $this->outGroup(0);
@@ -290,8 +290,8 @@ class rex_select
 
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
-        $name = htmlspecialchars($name);
-        $value = htmlspecialchars($value);
+        $name = rex_escape($name);
+        $value = rex_escape($value, 'html_attr');
 
         $bsps = '';
         if ($level > 0) {

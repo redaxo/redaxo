@@ -133,7 +133,7 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-userlogin">' . rex_i18n::msg('login_name') . '</label>';
-$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . htmlspecialchars($userlogin) . '</span>';
+$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . rex_escape($userlogin) . '</span>';
 $formElements[] = $n;
 
 $n = [];
@@ -143,17 +143,17 @@ $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-username">' . rex_i18n::msg('name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . htmlspecialchars($username) . '" autofocus />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . rex_escape($username, 'html_attr') . '" autofocus />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-userdesc">' . rex_i18n::msg('description') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . rex_escape($userdesc, 'html_attr') . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-useremail">' . rex_i18n::msg('email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-useremail" name="useremail" value="' . rex_escape($useremail, 'html_attr') . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

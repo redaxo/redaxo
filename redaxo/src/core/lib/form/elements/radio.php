@@ -31,7 +31,7 @@ class rex_form_radio_element extends rex_form_options_element
             if ($attributeName == 'id') {
                 continue;
             }
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
         }
 
         $formElements = [];
@@ -42,8 +42,8 @@ class rex_form_radio_element extends rex_form_options_element
             $opt_attr = $attr . ' id="' . $opt_id . '"';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
-            $n['field'] = '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . rex_escape($opt_name) . '</label>';
+            $n['field'] = '<input type="radio" value="' . rex_escape($opt_value, 'html_attr') . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
 

@@ -96,12 +96,12 @@ class rex_form_container_element extends rex_form_element
                 continue;
             }
 
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
         }
 
         $format = '';
         foreach ($this->fields as $group => $groupFields) {
-            $format .= '<div id="rex-' . htmlspecialchars($group) . '"' . $attr . '>';
+            $format .= '<div id="rex-' . rex_escape($group, 'html_attr') . '"' . $attr . '>';
             foreach ($groupFields as $field) {
                 $format .= $field->get();
             }
