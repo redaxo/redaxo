@@ -172,7 +172,7 @@ setup_307 = PHP-Versionscheck | Rechteüberprüfung
 setup_308 = PHP-Version ok
 setup_309 = Ordnerrechte ok
 setup_310 = Weiter mit Schritt 4
-setup_311 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar (Mode 777). Die Berechtigungen sollten restriktiver sein:
+setup_311 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar ("Others"-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
 setup_312 = Schritt 3 erneut durchführen
 setup_399 = 3 / Systemcheck
 
