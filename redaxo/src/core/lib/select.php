@@ -121,7 +121,7 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = rex_escape($selected);
+            $this->option_selected[] = $selected;
         }
     }
 
@@ -290,9 +290,6 @@ class rex_select
 
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
-        $name = rex_escape($name);
-        $value = rex_escape($value, 'html_attr');
-
         $bsps = '';
         if ($level > 0) {
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
@@ -306,7 +303,9 @@ class rex_select
         foreach ($attributes as $n => $v) {
             $attr .= ' ' . $n . '="' . $v . '"';
         }
-
+        
+        $name = rex_escape($name);
+        $value = rex_escape($value, 'html_attr');
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
     }
 
