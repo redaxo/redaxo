@@ -132,7 +132,7 @@ class rex_structure_context
     /**
      * @return bool
      */
-    public function getCatPerm()
+    public function hasCategoryPermission()
     {
         return rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($this->getCategoryId());
     }
