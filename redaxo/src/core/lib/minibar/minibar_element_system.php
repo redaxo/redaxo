@@ -70,7 +70,7 @@ class rex_minibar_element_system extends rex_minibar_element
                 <div class="rex-minibar-info-piece">
                     <b>'.rex_i18n::msg('minibar_errorreport').'</b>
                     <span>
-                        <a href="https://github.com/redaxo/redaxo/issues" target="_blank" rel="help noreferrer noopener"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
+                        <a href="https://github.com/redaxo/redaxo/issues" target="_blank" rel="help noreferrer noopener">GitHub</a>
                     </span>
                 </div>
             </div>
