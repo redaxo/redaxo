@@ -441,3 +441,4 @@ minibar_documentation_link_label = Read the documentation
 minibar_help = Help
 minibar_resources = Resources
 minibar_slack_link_label = Slack Channel
+minibar_errorreport = Found an issue?
