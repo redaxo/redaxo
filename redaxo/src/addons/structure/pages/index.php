@@ -28,6 +28,9 @@ echo rex_view::title(rex_i18n::msg('title_structure'));
 echo rex_view::clangSwitchAsButtons($structure_context->getContext());
 
 // --------------------------------------------- Path
+$article_id = $structure_context->getArticleId();
+$category_id = $structure_context->getCategoryId();
+$clang = $structure_context->getClangId();
 require __DIR__ . '/../functions/function_rex_category.php';
 
 // -------------- STATUS_TYPE Map
