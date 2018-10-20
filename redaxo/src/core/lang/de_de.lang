@@ -442,4 +442,4 @@ minibar_documentation_link_label = Dokumentation lesen
 minibar_help = Hilfe
 minibar_resources = Ressourcen
 minibar_slack_link_label = Slack Channel
-minibar_errorreport = Problem entdeckt?
+minibar_errorreport = Problem bei GitHub melden
