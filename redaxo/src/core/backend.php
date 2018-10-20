@@ -19,9 +19,9 @@ if (rex_get('asset') && rex_get('buster')) {
         throw new Exception('Assets can only be streamed from within the assets folder');
     }
 
-    rex_response::sendCacheControl('max-age=31536000, immutable');
     $ext = rex_file::extension($assetFile);
     if ('js' === $ext) {
+        rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendFile($assetFile, 'application/javascript');
     } elseif ('css' === $ext) {
         $styles = rex_file::get($assetFile);
@@ -34,6 +34,7 @@ if (rex_get('asset') && rex_get('buster')) {
         $prefix = $pubroot . dirname($assetFile) . "/";
         $styles = preg_replace( '/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', "$1" . $prefix .  "$2$3", $styles );
 
+        rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($styles, 'text/css');
     } else {
         rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
