@@ -1,9 +1,5 @@
-<?php
-$structure_data = rex_structure_data::getInstance();
-
-?>
-<?php if ($structure_data->getFunction() == 'add_art' || $structure_data->getFunction() == 'edit_art'): ?>
-    <form action="<?=$structure_data->getContext()->getUrl(['artstart' => $structure_data->getArtStart()]);?>" method="post">
+<?php if ($this->structure_context->getFunction() == 'add_art' || $this->structure_context->getFunction() == 'edit_art'): ?>
+    <form action="<?=$this->structure_context->getContext()->getUrl(['artstart' => $this->structure_context->getArtStart()]);?>" method="post">
         <fieldset>
 <?php endif;?>
 
@@ -11,7 +7,7 @@ $structure_data = rex_structure_data::getInstance();
     <thead>
         <tr>
             <th class="rex-table-icon">
-                <?=$structure_data->getCatPerm() ? '<a href="'.$structure_data->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structure_data->getArtStart()]).'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-add-article"></i></a>' : '';?>
+                <?=$this->structure_context->getCatPerm() ? '<a href="'.$this->structure_context->getContext()->getUrl(['function' => 'add_art', 'artstart' => $this->structure_context->getArtStart()]).'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-add-article"></i></a>' : '';?>
             </th>
             <th class="rex-table-id"><?=rex_i18n::msg('header_id');?></th>
             <th><?=rex_i18n::msg('header_article_name');?></th>
@@ -26,7 +22,7 @@ $structure_data = rex_structure_data::getInstance();
     </tbody>
 </table>
 
-<?php if ($structure_data->getFunction() == 'add_art' || $structure_data->getFunction() == 'edit_art'): ?>
+<?php if ($this->structure_context->getFunction() == 'add_art' || $this->structure_context->getFunction() == 'edit_art'): ?>
         </fieldset>
     </form>
 <?php endif;?>
