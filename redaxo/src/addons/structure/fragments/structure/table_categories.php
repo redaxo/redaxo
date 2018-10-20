@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th class="rex-table-icon">
-                <?=$this->structure_context->getCatPerm() ? '<a href="'.$this->structure_context->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $this->structure_context->getCatStart()]).'" '.rex::getAccesskey(rex_i18n::msg('add_category'), 'add').'><i class="rex-icon rex-icon-add-category"></i></a>' : '';?>
+                <?=$this->structure_context->hasCategoryPermission() ? '<a href="'.$this->structure_context->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $this->structure_context->getCatStart()]).'" '.rex::getAccesskey(rex_i18n::msg('add_category'), 'add').'><i class="rex-icon rex-icon-add-category"></i></a>' : '';?>
             </th>
             <th class="rex-table-id"><?=rex_i18n::msg('header_id');?></th>
             <th><?=rex_i18n::msg('header_category');?></th>

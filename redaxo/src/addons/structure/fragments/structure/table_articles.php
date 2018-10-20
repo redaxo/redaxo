@@ -7,7 +7,7 @@
     <thead>
         <tr>
             <th class="rex-table-icon">
-                <?=$this->structure_context->getCatPerm() ? '<a href="'.$this->structure_context->getContext()->getUrl(['function' => 'add_art', 'artstart' => $this->structure_context->getArtStart()]).'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-add-article"></i></a>' : '';?>
+                <?=$this->structure_context->hasCategoryPermission() ? '<a href="'.$this->structure_context->getContext()->getUrl(['function' => 'add_art', 'artstart' => $this->structure_context->getArtStart()]).'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-add-article"></i></a>' : '';?>
             </th>
             <th class="rex-table-id"><?=rex_i18n::msg('header_id');?></th>
             <th><?=rex_i18n::msg('header_article_name');?></th>
