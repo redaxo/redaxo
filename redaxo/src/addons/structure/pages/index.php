@@ -125,7 +125,7 @@ if (0 != $category_id && ($category = rex_category::get($category_id))) {
 
 // --------------------- KATEGORIE ADD FORM
 
-if ('add_cat' == $structure_context->getFunction() && $structure_context->getCatPerm()) {
+if ('add_cat' == $structure_context->getFunction() && $structure_context->hasCategoryPermission()) {
     $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
         'id' => $structure_context->getCategoryId(),
         'clang' => $structure_context->getClangId(),
@@ -166,8 +166,8 @@ if ($KAT->getRows() > 0) {
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
-        if ($structure_context->getCatPerm()) {
-            if ($structure_context->getCatPerm() && rex::getUser()->hasPerm('publishCategory[]')) {
+        if ($structure_context->hasCategoryPermission()) {
+            if ($structure_context->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
                 $kat_status = '<a class="' . $status_class . '" href="' . $structure_context->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structure_context->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
             } else {
                 $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
@@ -373,7 +373,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
     }
 
     // --------------------- ARTIKEL ADD FORM
-    if ('add_art' == $structure_context->getFunction() && $structure_context->getCatPerm()) {
+    if ('add_art' == $structure_context->getFunction() && $structure_context->hasCategoryPermission()) {
         $tmpl_td = '';
         if ($withTemplates) {
             $selectedTemplate = 0;
@@ -425,7 +425,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
 
         // --------------------- ARTIKEL EDIT FORM
 
-        if ('edit_art' == $structure_context->getFunction() && $sql->getValue('id') == $structure_context->getArticleId() && $structure_context->getCatPerm()) {
+        if ('edit_art' == $structure_context->getFunction() && $sql->getValue('id') == $structure_context->getArticleId() && $structure_context->hasCategoryPermission()) {
             $tmpl_td = '';
             if ($withTemplates) {
                 $template_select->setSelected($sql->getValue('template_id'));
@@ -440,7 +440,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
                             <td class="rex-table-action" colspan="3">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
-        } elseif ($structure_context->getCatPerm()) {
+        } elseif ($structure_context->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
             $article_status = $artStatusTypes[$sql->getValue('status')][0];
@@ -452,7 +452,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                 $add_extra = '<td class="rex-table-action"><span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span></td>
                               <td class="rex-table-action"><span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span></td>';
             } else {
-                if ($structure_context->getCatPerm() && rex::getUser()->hasPerm('publishArticle[]')) {
+                if ($structure_context->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
                     $article_status = '<a class="' . $article_class . '" href="' . $structure_context->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structure_context->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</a>';
                 } else {
                     $article_status = '<span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span>';
