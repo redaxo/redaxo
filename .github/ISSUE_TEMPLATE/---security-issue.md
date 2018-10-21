@@ -1,8 +1,11 @@
 ---
 name: "❗️ Security Issue"
-about: See https://redaxo.org/support/sicherheit/ (German) to report security-related issues
+about: PLEASE DON'T DISCLOSE SECURITY-RELATED ISSUES PUBLICLY. More information, click on "Get Started"
 
 ---
+
+Deutsche Version weiter unten: 
+
 
 ❗️PLEASE DON'T DISCLOSE SECURITY-RELATED ISSUES PUBLICLY, SEE BELOW.
 
