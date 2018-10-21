@@ -1,6 +1,6 @@
 ---
 name: "❗️Security Issue"
-  on "Get Started"
+about: "click on 'Get started' to get more information "
 
 ---
 
