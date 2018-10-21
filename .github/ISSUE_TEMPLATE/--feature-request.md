@@ -1,7 +1,7 @@
 ---
 name: "\U0001F4A1Feature request"
 about: 'Suggest an idea for this project. Please, before you start, check if an related
-issue exists (https://github.com/redaxo/redaxo/issues) '
+  issue exists (https://github.com/redaxo/redaxo/issues) '
 
 ---
 
