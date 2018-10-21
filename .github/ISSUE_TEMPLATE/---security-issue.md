@@ -1,7 +1,7 @@
 ---
 name: "❗️Security Issue"
 about: "click on 'Get started' to get more information "
-
+about: „report a security related issue“
 ---
 
 🇩🇪 Deutsche Version weiter unten: 
