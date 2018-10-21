@@ -4,6 +4,7 @@ about: Report errors and problems. Please, before you start, check if an related
   exists (https://github.com/redaxo/redaxo/issues)
 
 ---
+
 Deutsche Version weiter unten
 
 **REDAXO version(s) affected**: x.y.z

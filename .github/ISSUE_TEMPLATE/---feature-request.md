@@ -5,14 +5,27 @@ about: 'Suggest an idea for this project. Please, before you start, check if an 
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Feature description.**
+Description of the feature and remarks which problem it may solve. 
 
-**Describe the solution you'd like**
+**Suggestions and ideas for implementation**
 A clear and concise description of what you want to happen.
 
-**Describe alternatives you've considered**
+**Alternative solutions and ideas**
 A clear and concise description of any alternative solutions or features you've considered.
 
 **Additional context**
-Add any other context or screenshots, layout suggestions about the feature request here.
+Add any other context e.g.: screenshots, layout suggestions, code snippets
+
+
+**Featurebeschreibung**
+Beschreibung des Features und Bemerkungen welches Problem es ggf. löst. 
+
+**Vorschläge und Ideen zur Realisierung**
+
+**Alternative Lösungsansätze und Ideen**
+Eine klare und prägnante Beschreibung aller alternativen Lösungen oder Funktionen, die 
+in Betracht gezogen werden könnten.
+
+**Weitere Informationen zum Thema**
+Weitere Information die bei der Realisierung helfen können,  z.B.: Screenshots, Layoutvorschläge, Code-Snippets
