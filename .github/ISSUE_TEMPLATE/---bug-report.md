@@ -6,7 +6,7 @@ about: Before you start, check if a related issue exists. See https://github.com
 
 **Description / Beschreibung**
 
-**Affected Versions / Verwendete Versionen**
+**Affected versions / Verwendete Versionen**
 REDAXO:
 PHP:
 Browser:
