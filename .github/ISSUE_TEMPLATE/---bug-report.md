@@ -43,4 +43,3 @@ Eine klare und prägnante Beschreibung des Problems. -->
 **Systemkonfiguration**
 <!-- Optional: Seit Version 5.7 ist es möglich, einen Systemreport zu generieren, fügen Sie hier die Markdown-Version ein -->
 
-Übersetzt mit www.DeepL.com/Translator
