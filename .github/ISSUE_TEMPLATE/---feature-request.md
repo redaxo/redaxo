@@ -4,4 +4,4 @@ about: 'Before you start, check if an related issue exists (https://github.com/r
 
 ---
 
-**Feature description. / Feature Beschreibung **
+**Feature description / Feature Beschreibung **
