@@ -303,7 +303,7 @@ class rex_select
         foreach ($attributes as $n => $v) {
             $attr .= ' ' . $n . '="' . $v . '"';
         }
-        
+
         $name = rex_escape($name);
         $value = rex_escape($value, 'html_attr');
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
