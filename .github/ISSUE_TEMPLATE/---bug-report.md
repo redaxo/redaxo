@@ -1,7 +1,7 @@
 ---
 name: "\U0001F41E Bug report"
 about: 'Report errors and problems. Please, before you start, check if an related
-  [issue](https://github.com/redaxo/redaxo/issues) exists'
+  <a href="https://github.com/redaxo/redaxo/issues">issue</a> exists'
 
 ---
 
