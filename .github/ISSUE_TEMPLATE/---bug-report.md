@@ -29,7 +29,7 @@ Deutsche Version weiter unten
 Betroffene Version(en) **REDAXO**: x.y.z
 
 **Beschreibung**  
-Eine klare und prägnante Beschreibung des Problems. -->
+<!-- Eine klare und prägnante Beschreibung des Problems. -->
 
 **Informationen um das Problem zu reproduzieren***   
 <!-- Code und/oder Konfiguration, die benötigt werden, um das Problem zu reproduzieren -->
