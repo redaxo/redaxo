@@ -4,6 +4,7 @@ about: Report errors and problems. Please, before you start, check if an related
   exists (https://github.com/redaxo/redaxo/issues)
 
 ---
+Deutsche Version weiter unten
 
 **REDAXO version(s) affected**: x.y.z
 
@@ -17,7 +18,28 @@ about: Report errors and problems. Please, before you start, check if an related
 <!--- Optional: only if you have suggestions on a fix/reason for the bug -->
 
 **Additional context**  
-<!-- Optional: any other context about the problem: system log messages, screenshots, etc. -->
+<!-- Optional: any other context about the problem: Browser version,system log messages, screenshots, etc. -->
 
 **System configuration**
 <!-- Optional: Since Version 5.7 it is possible to generate a system report, paste in here the markdown version -->
+
+
+
+Betroffene Version(en) **REDAXO**: x.y.z
+
+**Beschreibung**  
+Eine klare und prägnante Beschreibung des Problems. -->
+
+Wie man sich vermehrt.  
+<!-- Code und/oder Konfiguration, die benötigt werden, um das Problem zu reproduzieren -->
+
+Mögliche Lösung**  
+<!--- Optional: Vorschläge zu einer Behebung/Grund für den Fehler -->
+
+Zusätzlicher Informationen**  
+<!-- Optional: jeder andere Information zum Problem: Browser-Version,Systemlog-Meldungen, Screenshots, etc. -->
+
+Systemkonfiguration**
+<!-- Optional: Seit Version 5.7 ist es möglich, einen Systemreport zu generieren, fügen Sie hier die Markdown-Version ein -->
+
+Übersetzt mit www.DeepL.com/Translator
