@@ -1,6 +1,5 @@
 ---
 name: "❗️Security Issue"
-about: PLEASE DON'T DISCLOSE SECURITY-RELATED ISSUES PUBLICLY. More information, click
   on "Get Started"
 
 ---
