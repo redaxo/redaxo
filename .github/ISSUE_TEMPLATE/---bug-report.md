@@ -1,6 +1,6 @@
 ---
-name: "\U0001F41E Report errors or problems"
-about: Before you start, check if a related issue exists. See https://github.com/redaxo/redaxo/issues
+name: "\U0001F41E Report an error or problem"
+about: Before you start, check whether a similar issue was already reported. Search via https://github.com/redaxo/redaxo/issues
 
 ---
 
