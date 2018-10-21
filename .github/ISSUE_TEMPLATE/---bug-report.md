@@ -10,4 +10,4 @@ about: Before you start, check if an related issue exists. See https://github.co
 REDAXO:
 PHP:
 Browser:
-System AddOns:
+AddOns:
