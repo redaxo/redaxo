@@ -30,16 +30,16 @@ Betroffene Version(en) **REDAXO**: x.y.z
 **Beschreibung**  
 Eine klare und prägnante Beschreibung des Problems. -->
 
-Wie man sich vermehrt.  
+**Informationen um das Problem zu reproduzieren***   
 <!-- Code und/oder Konfiguration, die benötigt werden, um das Problem zu reproduzieren -->
 
-Mögliche Lösung**  
+**Mögliche Lösung**  
 <!--- Optional: Vorschläge zu einer Behebung/Grund für den Fehler -->
 
-Zusätzlicher Informationen**  
+**Zusätzlicher Informationen**  
 <!-- Optional: jeder andere Information zum Problem: Browser-Version,Systemlog-Meldungen, Screenshots, etc. -->
 
-Systemkonfiguration**
+**Systemkonfiguration**
 <!-- Optional: Seit Version 5.7 ist es möglich, einen Systemreport zu generieren, fügen Sie hier die Markdown-Version ein -->
 
 Übersetzt mit www.DeepL.com/Translator
