@@ -42,4 +42,3 @@ Betroffene Version(en) **REDAXO**: x.y.z
 
 **Systemkonfiguration**
 <!-- Optional: Ab REDAXO Version 5.7 ist es möglich, einen Systemreport zu generieren, fügen Sie hier die Markdown-Version ein -->
-
