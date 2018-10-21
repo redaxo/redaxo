@@ -5,7 +5,7 @@ about: 'Suggest an idea for this project. Please, before you start, check if an 
 
 ---
 
-**Feature description.**
+🇬🇧**Feature description.**
 Description of the feature and remarks which problem it may solve. 
 
 **Suggestions and ideas for implementation**
@@ -18,7 +18,7 @@ A clear and concise description of any alternative solutions or features you've 
 Add any other context e.g.: screenshots, layout suggestions, code snippets
 
 
-**Featurebeschreibung**
+🇩🇪 **Featurebeschreibung**
 Beschreibung des Features und Bemerkungen welches Problem es ggf. löst. 
 
 **Vorschläge und Ideen zur Realisierung**
