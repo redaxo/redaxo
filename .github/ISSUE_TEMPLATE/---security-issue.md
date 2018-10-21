@@ -1,6 +1,6 @@
 ---
 name: "❗️ Security Issue"
-about: See https://symfony.com/security to report security-related issues
+about: See https://redaxo.org/support/sicherheit/ (German) to report security-related issues
 
 ---
 
