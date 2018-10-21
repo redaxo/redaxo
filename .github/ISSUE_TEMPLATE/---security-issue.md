@@ -1,6 +1,6 @@
 ---
 name: "❗️Security Issue"
-about: report a security related issue
+about: Report a security related issue
 
 ---
 
