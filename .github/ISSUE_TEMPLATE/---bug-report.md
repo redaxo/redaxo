@@ -38,8 +38,8 @@ Betroffene Version(en) **REDAXO**: x.y.z
 <!--- Optional: Vorschläge zu einer Behebung/Grund für den Fehler -->
 
 **Zusätzlicher Informationen**  
-<!-- Optional: jeder andere Information zum Problem: Browser-Version,Systemlog-Meldungen, Screenshots, etc. -->
+<!-- Optional: jeder andere Information zum Problem: Browser-Version, Systemlog-Meldungen, Screenshots, etc. -->
 
 **Systemkonfiguration**
-<!-- Optional: Seit Version 5.7 ist es möglich, einen Systemreport zu generieren, fügen Sie hier die Markdown-Version ein -->
+<!-- Optional: Ab REDAXO Version 5.7 ist es möglich, einen Systemreport zu generieren, fügen Sie hier die Markdown-Version ein -->
 
