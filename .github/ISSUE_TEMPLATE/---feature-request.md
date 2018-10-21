@@ -1,7 +1,6 @@
 ---
 name: "\U0001F4A1 Suggest an idea for this project"
-about: 'Before you start, check if an related
-  issue exists (https://github.com/redaxo/redaxo/issues) '
+about: 'Before you start, check if an related issue exists (https://github.com/redaxo/redaxo/issues) '
 
 ---
 
