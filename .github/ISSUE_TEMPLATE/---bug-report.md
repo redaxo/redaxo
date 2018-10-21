@@ -11,9 +11,7 @@ about: 'Report errors and problems. Please, before you start, check if an relate
 <!-- A clear and concise description of the problem. -->
 
 **How to reproduce**  
-<!-- Code and/or config needed to reproduce the problem. If it's a complex bug,
-     create a "bug reproducer" as explained in:
-     https://symfony.com/doc/current/contributing/code/reproducer.html -->
+<!-- Code and/or config needed to reproduce the problem -->
 
 **Possible Solution**  
 <!--- Optional: only if you have suggestions on a fix/reason for the bug -->
@@ -21,5 +19,5 @@ about: 'Report errors and problems. Please, before you start, check if an relate
 **Additional context**  
 <!-- Optional: any other context about the problem: system log messages, screenshots, etc. -->
 
-**System report**
+**System configuration**
 <!-- Optional: Since Version 5.7 it is possible to generate a system report, paste in here the markdown version -->
