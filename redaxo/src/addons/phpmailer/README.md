@@ -18,7 +18,7 @@ Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmai
 - php mail()
 - sendmail
 - SMTP/SMTPS
-- STMP/SMTPS-Auth
+- SMTP/SMTPS-Auth
 
 Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
