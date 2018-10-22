@@ -14,7 +14,7 @@
 ## Allgemeines
 Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
 
-**Uterstützt werden folgende Sendeverfahren**
+**Unterstützt werden folgende Sendeverfahren**
 - php mail()
 - sendmail
 - SMTP/SMTPS
