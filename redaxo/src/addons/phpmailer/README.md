@@ -14,6 +14,12 @@
 ## Allgemeines
 Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
 
+**Uterstützt werden folgende Sendeverfahren**
+- php mail()
+- sendmail
+- SMTP/SMTPS
+- STMP/SMTPS-Auth
+
 Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
 Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
