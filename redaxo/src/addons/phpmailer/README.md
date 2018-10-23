@@ -164,7 +164,7 @@ Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die 
 <?php
 
 $mail = new rex_mailer();
-$maoderil->SMTPOptions = array(
+$mail->SMTPOptions = array(
     'ssl' => array(
         'verify_peer' => false,
         'verify_peer_name' => false,
