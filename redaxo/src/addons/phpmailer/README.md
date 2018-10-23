@@ -24,6 +24,8 @@ Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend b
 
 Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
 
+> Liefert ein AddOn oder Modul keine eigenen Einstellungen für das Versenden der E-Mails, gelten die Sende-Einstellungen im PHPMailer-AddOn. 
+
 Weitere Informationen zur Verwendung von PHPMailer unter: [https://github.com/PHPMailer/PHPMailer/wiki/Tutorial](https://github.com/PHPMailer/PHPMailer/wiki/Tutorial)
 
 > **Hinweis:** Eine Test-Mail kann nach dem Speichern der Einstellungen verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden.
@@ -177,7 +179,18 @@ $mail->SMTPOptions = array(
 ```
 
 <a name="multidomain"></a>
-### Senden über unterschiedliche Domains
+### Senden über unterschiedliche Domains 
 
-Liefert ein AddOn oder Modul keine eigenen Einstellungen für das Versenden der E-Mails, gilt:
-Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Domain in den DNS-Einstellungen den Webserver (bei sendmail und mail) oder des angegebenen SMTP-Server (z.B. a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX) als erlaubte Adressen beinhalten. Hierzu ggf. den Registrar oder DNS-Verwalter kontaktieren. 
+Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Absender-Domain in den DNS-Einstellungen
+
+- den Webserver (bei sendmail und mail) 
+- oder des angegebenen SMTP-Server 
+
+als erlaubte Adressen beinhalten. 
+
+z.B. `a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX`
+
+Somit wird sichergestellt, das PHPMailer E-Mails unter der angegebenen Domain versenden kann und die Mail nicht als SPAM deklariert wird.  
+
+Hierzu ggf. den Registrar oder DNS-Administrator kontaktieren. 
+
