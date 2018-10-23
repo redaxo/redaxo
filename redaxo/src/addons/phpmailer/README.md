@@ -164,7 +164,7 @@ Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die 
 <?php
 
 $mail = new rex_mailer();
-$mail->SMTPOptions = array(
+$maoderil->SMTPOptions = array(
     'ssl' => array(
         'verify_peer' => false,
         'verify_peer_name' => false,
@@ -184,11 +184,11 @@ $mail->SMTPOptions = array(
 Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Absender-Domain in den DNS-Einstellungen
 
 - den Webserver (bei sendmail und mail) 
-- oder des angegebenen SMTP-Server 
+- oder den angegebenen SMTP(S)-Server 
 
 als erlaubte Adressen beinhalten. 
 
-z.B. `a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX`
+z.B. `a:meine-domain.tld ip4:XXX.XXX.XXX.XXX`
 
 Somit wird sichergestellt, das PHPMailer E-Mails unter der angegebenen Domain versenden kann und die Mail nicht als SPAM deklariert wird.  
 
