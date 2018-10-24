@@ -26,6 +26,10 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
         $fatalerror = false;
         $logevent = false;
         $timediff = time() - $sendTime;
+        $logtypes = [
+            'error',
+            'exception',
+        ];     
         if ($timediff > $this->getConfig('errormail') && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
             //Start - generate mailbody
             $mailBody = '<h2>Error protocol for ' . rex::getServerName() . '</h2>';
@@ -45,10 +49,6 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
                 /* @var rex_log_entry $entry */
                 $data = $entry->getData();
                 $style = '';
-                $logtypes = [
-                    'error',
-                    'exception',
-                ];
 
                 foreach ($logtypes as $type) {
                     if (stripos($data[0], $type) !== false) {
