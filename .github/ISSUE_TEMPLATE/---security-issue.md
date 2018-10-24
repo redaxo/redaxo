@@ -1,6 +1,6 @@
 ---
-name: "❗️Security Issue"
-about: Report a security related issue
+name: "⛔ Security Issue"
+about: Please don't disclose security-releated issues publicy / Bitte veröffnetlichen sie keine Sicherheitsprobleme öffentlich
 
 ---
 
