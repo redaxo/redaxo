@@ -18,6 +18,7 @@ before_install:
 jobs:
     include:
         -   php: 7.2
+            name: BC Check
             install: composer require --dev roave/backward-compatibility-check
             script: vendor/bin/roave-backward-compatibility-check r:a --from=master --to=HEAD -- redaxo/src/core/
             
