@@ -114,7 +114,7 @@ class rex_navigation
         $lis = '';
 
         if ($startPageLabel) {
-            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . htmlspecialchars($startPageLabel) . '</a></li>';
+            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a></li>';
             ++$i;
 
             // StartArticle nicht doppelt anzeigen
@@ -134,18 +134,18 @@ class rex_navigation
             }
 
             $cat = rex_category::get($pathItem);
-            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . htmlspecialchars($cat->getName()) . '</a></li>';
+            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . $cat->getUrl() . '">' . rex_escape($cat->getName()) . '</a></li>';
             ++$i;
         }
 
         if ($includeCurrent) {
             if ($art = rex_article::get($this->current_article_id)) {
                 if (!$art->isStartArticle()) {
-                    $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($art->getName()) . '</li>';
+                    $lis .= '<li class="rex-lvl' . $i . '">' . rex_escape($art->getName()) . '</li>';
                 }
             } else {
                 $cat = rex_category::get($this->current_article_id);
-                $lis .= '<li class="rex-lvl' . $i . '">' . htmlspecialchars($cat->getName()) . '</li>';
+                $lis .= '<li class="rex-lvl' . $i . '">' . rex_escape($cat->getName()) . '</li>';
             }
         }
 
@@ -339,7 +339,7 @@ class rex_navigation
                     $a_attr[] = $attr . '="' . implode(' ', $v) . '"';
                 }
                 $l = '<li ' . implode(' ', $li_attr) . '>';
-                $l .= '<a ' . implode(' ', $a_attr) . '>' . htmlspecialchars($nav->getName()) . '</a>';
+                $l .= '<a ' . implode(' ', $a_attr) . '>' . rex_escape($nav->getName()) . '</a>';
                 ++$depth;
                 if (($this->open ||
                         $nav->getId() == $this->current_category_id ||

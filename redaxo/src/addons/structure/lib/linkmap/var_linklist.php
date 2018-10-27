@@ -52,7 +52,7 @@ class rex_var_linklist extends rex_var
             foreach ($linklistarray as $link) {
                 if ($link != '') {
                     if ($article = rex_article::get($link)) {
-                        $options .= '<option value="' . $link . '">' . htmlspecialchars(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
+                        $options .= '<option value="' . $link . '">' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId()))) . '</option>';
                     }
                 }
             }

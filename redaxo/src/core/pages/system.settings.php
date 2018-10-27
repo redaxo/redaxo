@@ -163,61 +163,23 @@ $fragment->setVar('title', rex_i18n::msg('system_features'));
 $fragment->setVar('body', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 
-$content = '
-    <table class="table">
-        <tr>
-            <th class="rex-table-width-3">REDAXO</th>
-            <td>' . $rexVersion . '</td>                            
-        </tr>   
-        <tr>
-            <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>                            
-        </tr>
-    </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('version'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
-$content = '
-    <table class="table">
-        <tr>
-            <th class="rex-table-width-3">MySQL</th>
-            <td>' .  rex_sql::getServerVersion() . '</td>                            
-        </tr>
-        <tr>
-            <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>                            
-        </tr>   
-        <tr>
-            <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig[1]['host'] . '</td>                            
-        </tr>
-    </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('database'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
 $content = '';
 
 $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-server">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . htmlspecialchars(rex::getServer()) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer(), 'html_attr') . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-servername">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . htmlspecialchars(rex::getServerName()) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName(), 'html_attr') . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . htmlspecialchars(rex::getErrorEmail()) . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail(), 'html_attr') . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

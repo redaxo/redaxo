@@ -10,7 +10,7 @@ $curPage = rex_be_controller::getCurrentPageObject();
 
 if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
+    echo '<title>' . rex_escape(rex_be_controller::getPageTitle()) . '</title>';
 }
 
 if (!$curPage->hasLayout()) {

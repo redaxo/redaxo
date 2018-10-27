@@ -37,13 +37,13 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $n = [];
         $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $this->i18n('version') . '</label>';
-        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . htmlspecialchars($new ? $newVersion : $file['version']) . '</p>
-                           <input type="hidden" name="upload[oldversion]" value="' . htmlspecialchars($file['version']) . '" />';
+        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . rex_escape($new ? $newVersion : $file['version']) . '</p>
+                           <input type="hidden" name="upload[oldversion]" value="' . rex_escape($file['version'], 'html_attr') . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="rex-install-packages-upload-description">' . $this->i18n('description') . '</label>';
-        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . htmlspecialchars($file['description']) . '</textarea>';
+        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . rex_escape($file['description']) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -152,19 +152,19 @@ if ($addonkey && isset($addons[$addonkey])) {
             <tbody>
             <tr>
                 <th class="rex-table-width-5">' . $this->i18n('name') . '</th>
-                <td data-title="' . $this->i18n('name') . '">' . htmlspecialchars($addon['name']) . '</td>
+                <td data-title="' . $this->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('author') . '</th>
-                <td data-title="' . $this->i18n('author') . '">' . htmlspecialchars($addon['author']) . '</td>
+                <td data-title="' . $this->i18n('author') . '">' . rex_escape($addon['author']) . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('shortdescription') . '</th>
-                <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
+                <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
             </tr>
             <tr>
                 <th>' . $this->i18n('description') . '</th>
-                <td data-title="' . $this->i18n('description') . '">' . nl2br(htmlspecialchars($addon['description'])) . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
             </tr>
             </tbody>
         </table>';
@@ -195,9 +195,9 @@ if ($addonkey && isset($addons[$addonkey])) {
             $panel .= '
             <tr>
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td data-title="' . $this->i18n('version') . '">' . htmlspecialchars($file['version']) . '</td>
-                <td data-title="REDAXO">' . htmlspecialchars(implode(', ', $file['redaxo_versions'])) . '</td>
-                <td data-title="' . $this->i18n('description') . '">' . nl2br(htmlspecialchars($file['description'])) . '</td>
+                <td data-title="' . $this->i18n('version') . '">' . rex_escape($file['version']) . '</td>
+                <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
+                <td data-title="' . $this->i18n('description') . '">' . nl2br(rex_escape($file['description'])) . '</td>
                 <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $this->i18n('file_edit') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $this->i18n($status) . '</span></td>
             </tr>';
@@ -233,8 +233,8 @@ if ($addonkey && isset($addons[$addonkey])) {
         $panel .= '
             <tr>
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td data-title="' . $this->i18n('key') . '">' . htmlspecialchars($key) . '</td>
-                <td data-title="' . $this->i18n('name') . '">' . htmlspecialchars($addon['name']) . '</td>
+                <td data-title="' . $this->i18n('key') . '">' . rex_escape($key) . '</td>
+                <td data-title="' . $this->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
                 <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
                 <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $this->i18n($status) . '</span></td>
             </tr>';

@@ -14,8 +14,8 @@ global $subpage, $ftitle, $error, $success;
 // -------------- Defaults
 $subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
-$success = htmlspecialchars(rex_request('info', 'string'));
-$error = htmlspecialchars(rex_request('warning', 'string'));
+$success = rex_escape(rex_request('info', 'string'));
+$error = rex_escape(rex_request('warning', 'string'));
 $args = rex_request('args', 'array');
 
 $regex = '@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i';
@@ -26,7 +26,7 @@ $error = preg_replace($regex, '<$1>', $error);
 $arg_url = ['args' => $args];
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
-    $arg_fields .= '<input type="hidden" name="args[' . htmlspecialchars($arg_name) . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name, 'html_attr') . ']" value="' . rex_escape($arg_value, 'html_attr') . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
@@ -35,7 +35,7 @@ $opener_input_field = rex_request('opener_input_field', 'string', '');
 
 if ($opener_input_field != '') {
     $arg_url['opener_input_field'] = $opener_input_field;
-    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" />' . "\n";
 }
 
 // -------------- CatId in Session speichern
