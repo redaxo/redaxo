@@ -211,6 +211,8 @@ class rex_release
             });
 
             $ignore = array_merge($ignore, [
+                '/.github/',
+                
                 '/redaxo/src/addons/be_style/vendor/bootstrap/lib/',
                 '/redaxo/src/addons/be_style/vendor/bootstrap/tasks/',
                 '/redaxo/src/addons/be_style/vendor/bootstrap/templates/',
