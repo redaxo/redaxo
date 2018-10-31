@@ -1118,7 +1118,6 @@ class rex_sql implements Iterator
      */
     protected function printError($qry, $params)
     {
-        $errors['debug'] = true;
         $errors['query'] = $qry;
         if (!empty($params)) {
             $errors['params'] = $params;
