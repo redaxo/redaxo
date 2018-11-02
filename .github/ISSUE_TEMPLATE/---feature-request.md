@@ -4,4 +4,4 @@ about: Before you start, check whether a similar suggestion was already made. Se
 
 ---
 
-**Feature description / Feature Beschreibung **
+**Feature description / Feature Beschreibung**

@@ -171,9 +171,9 @@ abstract class rex_var
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
-                        $variables[] = $replace . ' = ' . $output;
+                        $variables[] = '/* '. $match[0] .' */ ' . $replace . ' = ' . $output;
                     } else {
-                        $replace = $output;
+                        $replace = '/* '. $match[0] .' */ ' . $output;
                     }
                     $content = str_replace($match[0], sprintf($format, $replace), $content);
                     $replaced = true;
