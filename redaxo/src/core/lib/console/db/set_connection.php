@@ -19,7 +19,7 @@ class rex_command_db_set_connection extends rex_console_command {
             ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'database host')
             ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'database user')
             ->addOption('password', null, InputOption::VALUE_OPTIONAL, 'database password')
-            ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'Sets database name');
+            ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'database name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
