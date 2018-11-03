@@ -61,32 +61,6 @@ $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
 ]);
 
-/*
-$view_buttons = [];
-
-// symbol view
-$button = [];
-$button['url'] = $context->getUrl(['func' => 'media-view-icon']);
-$button['attributes']['class'][] = 'btn-default';
-$button['attributes']['title'] = rex_i18n::msg('mediapool_view_icon');
-$button['icon'] = 'view-icon';
-$view_buttons[] = $button;
-
-// list view
-$button = [];
-$button['url'] = $context->getUrl(['func' => 'media-view-list']);
-$button['attributes']['class'][] = 'btn-default';
-$button['attributes']['title'] = rex_i18n::msg('mediapool_view_list');
-$button['icon'] = 'view-list';
-$view_buttons[] = $button;
-
-if (count($view_buttons) > 0) {
-    $fragment = new rex_fragment();
-    $fragment->setVar('buttons', $view_buttons, false);
-    $fragment->setVar('size', 'xs', false);
-    $toolbar .= $fragment->parse('core/buttons/button_group.php');
-}
-*/
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
