@@ -10,7 +10,7 @@
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
-            $path = rex_path::base(rex_path::absolute($file));
+             $path = rex_path::frontend(rex_path::absolute($file));
             if ($mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
