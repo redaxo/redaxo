@@ -11,7 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_db_set_connection_options extends rex_console_command {
+class rex_command_db_set_connection_options extends rex_console_command
+{
     protected function configure()
     {
         $this
