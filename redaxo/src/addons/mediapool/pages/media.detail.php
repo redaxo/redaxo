@@ -204,12 +204,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -289,12 +289,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('updatedate'))) . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . strftime(rex_i18n::msg('datetimeformat'), strtotime($gf->getValue('createdate'))) . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
