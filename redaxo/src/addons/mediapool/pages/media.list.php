@@ -82,22 +82,20 @@ if (rex::getUser()->getComplexPerm('media')->hasAll()) {
     $cats_sel->addOption(rex_i18n::msg('pool_kats_no'), '0');
 }
 
-if (is_array($error)) {
-    if (count($error) > 0) {
-        echo rex_view::error(implode('<br />', $error));
+if ($error) {
+    if (is_array($error)) {
+        $error = implode('<br />', $error);
     }
-    $error = '';
-} elseif ($error != '') {
+
     echo rex_view::error($error);
     $error = '';
 }
 
-if (is_array($success)) {
-    if (count($success) > 0) {
-        echo rex_view::success(implode('<br />', $success));
+if ($success) {
+    if (is_array($success)) {
+        $success = implode('<br />', $success);
     }
-    $success = '';
-} elseif ($success != '') {
+
     echo rex_view::success($success);
     $success = '';
 }
