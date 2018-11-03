@@ -5,13 +5,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 /**
  * @package redaxo\core
  *
  * @internal
  */
-class rex_command_db_set_connection_options extends rex_console_command {
+class rex_command_db_set_connection_options extends rex_console_command
+{
     protected function configure()
     {
         $this
