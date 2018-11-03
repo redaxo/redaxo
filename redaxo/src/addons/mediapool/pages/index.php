@@ -34,6 +34,9 @@ $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
 if ($opener_input_field != '') {
+    if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $opener_input_field)) {
+        throw new Exception('invalid opener_input_field given: '. $opener_input_field);
+    }
     $arg_url['opener_input_field'] = $opener_input_field;
     $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" />' . "\n";
 }
