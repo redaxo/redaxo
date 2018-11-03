@@ -163,44 +163,6 @@ $fragment->setVar('title', rex_i18n::msg('system_features'));
 $fragment->setVar('body', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 
-$content = '
-    <table class="table">
-        <tr>
-            <th class="rex-table-width-3">REDAXO</th>
-            <td>' . $rexVersion . '</td>                            
-        </tr>   
-        <tr>
-            <th>PHP</th>
-            <td>' . PHP_VERSION . ' <a href="' . rex_url::backendPage('system/phpinfo') . '" title="phpinfo" onclick="newWindow(\'phpinfo\', this.href, 1000,800,\',status=yes,resizable=yes\');return false;"><i class="rex-icon rex-icon-phpinfo"></i></a></td>                            
-        </tr>
-    </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('version'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
-$content = '
-    <table class="table">
-        <tr>
-            <th class="rex-table-width-3">MySQL</th>
-            <td>' .  rex_sql::getServerVersion() . '</td>                            
-        </tr>
-        <tr>
-            <th>' . rex_i18n::msg('name') . '</th>
-            <td><span class="rex-word-break">' . $dbconfig[1]['name'] . '</span></td>                            
-        </tr>   
-        <tr>
-            <th>' . rex_i18n::msg('host') . '</th>
-            <td>' . $dbconfig[1]['host'] . '</td>                            
-        </tr>
-    </table>';
-
-$fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('database'));
-$fragment->setVar('content', $content, false);
-$sideContent[] = $fragment->parse('core/page/section.php');
-
 $content = '';
 
 $formElements = [];
