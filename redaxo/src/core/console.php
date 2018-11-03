@@ -7,9 +7,15 @@ require __DIR__.'/boot.php';
 // force debug mode to enable output of notices/warnings and dump() function
 rex::setProperty('debug', true);
 
-rex_addon::initialize();
+rex_addon::initialize(!rex::isSetup());
 
-foreach (rex::getConfig('package-order') as $packageId) {
+if (rex::isSetup()) {
+    $packageOrder = rex_package_manager::generatePackageOrder(!rex::isSetup());
+} else {
+    $packageOrder = rex::getConfig('package-order');
+}
+
+foreach ($packageOrder as $packageId) {
     rex_package::get($packageId)->enlist();
 }
 

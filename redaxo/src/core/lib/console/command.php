@@ -47,4 +47,8 @@ abstract class rex_console_command extends Command
 
         return htmlspecialchars_decode($message, ENT_QUOTES);
     }
+
+    public static function requiresSetup() {
+        return false;
+    }
 }

@@ -28,7 +28,9 @@ class rex_console_command_loader implements CommandLoaderInterface
             'user:set-password' => rex_command_user_set_password::class,
         ];
         foreach ($commands as $command => $class) {
-            $this->commands[$command] = ['class' => $class];
+            if (self::checkCommand($class)) {
+                $this->commands[$command] = ['class' => $class];
+            }
         }
 
         foreach (rex_package::getAvailablePackages() as $package) {
@@ -43,10 +45,12 @@ class rex_console_command_loader implements CommandLoaderInterface
             }
 
             foreach ($commands as $command => $class) {
-                $this->commands[$command] = [
-                    'package' => $package,
-                    'class' => $class,
-                ];
+                if (self::checkCommand($class)) {
+                    $this->commands[$command] = [
+                        'package' => $package,
+                        'class' => $class,
+                    ];
+                }
             }
         }
     }
@@ -78,5 +82,9 @@ class rex_console_command_loader implements CommandLoaderInterface
     public function getNames()
     {
         return array_keys($this->commands);
+    }
+
+    private function checkCommand($command) {
+        return (!rex::isSetup() && $command::requiresSetup() || rex::isSetup() && !$command::requiresSetup());
     }
 }

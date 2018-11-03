@@ -43,4 +43,9 @@ EOF
             escapeshellarg($db['name']),
         ]);
     }
+
+    public static function requiresSetup()
+    {
+        return false;
+    }
 }

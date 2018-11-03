@@ -45,7 +45,13 @@ class rex_console_application extends Application
             return;
         }
 
-        foreach (rex::getConfig('package-order') as $packageId) {
+        if (rex::isSetup()) {
+            $packageOrder = rex_package_manager::generatePackageOrder(!rex::isSetup());
+        } else {
+            $packageOrder = rex::getConfig('package-order');
+        }
+
+        foreach ($packageOrder as $packageId) {
             rex_package::get($packageId)->boot();
         }
 
