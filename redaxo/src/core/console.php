@@ -24,4 +24,8 @@ rex_i18n::setLocale('en_gb');
 
 $application->setCommandLoader(new rex_console_command_loader());
 
+$command = new rex_command_list();
+$application->add($command);
+$application->setDefaultCommand($command->getName());
+
 $application->run();
