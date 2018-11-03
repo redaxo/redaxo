@@ -28,11 +28,11 @@ if (rex_get('asset') && rex_get('buster')) {
 
         // If we are in a directory off the root, add a relative path here back to the root, like "../"
         // get the public path to this file, plus the baseurl
-        $relativeroot = "";
-        $pubroot = dirname( $_SERVER['PHP_SELF'] ) . "/" . $relativeroot;
+        $relativeroot = '';
+        $pubroot = dirname($_SERVER['PHP_SELF']) . '/' . $relativeroot;
 
-        $prefix = $pubroot . dirname($assetFile) . "/";
-        $styles = preg_replace( '/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', "$1" . $prefix .  "$2$3", $styles );
+        $prefix = $pubroot . dirname($assetFile) . '/';
+        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix .  '$2$3', $styles);
 
         rex_response::sendCacheControl('max-age=31536000, immutable');
         rex_response::sendContent($styles, 'text/css');
