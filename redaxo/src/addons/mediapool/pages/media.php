@@ -16,11 +16,6 @@ $media_manager = rex_addon::get('media_manager')->isAvailable();
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
-// ***** kategorie auswahl
-$db = rex_sql::factory();
-$file_cat = $db->getArray('SELECT * FROM ' . rex::getTablePrefix() . 'media_category ORDER BY name ASC');
-
-// ***** select bauen
 $sel_media = new rex_media_category_select($check_perm = false);
 $sel_media->setId('rex_file_category');
 $sel_media->setName('rex_file_category');
