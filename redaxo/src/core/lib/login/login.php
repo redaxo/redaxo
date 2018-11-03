@@ -418,11 +418,13 @@ class rex_login
         $cookieParams = session_get_cookie_params();
 
         $key = rex::isBackend() ? 'backend' : 'frontend';
-        $sessionConfig = rex::getProperty('session');
+        $sessionConfig = rex::getProperty('session', []);
 
-        foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
-            if ($value !== null) {
-                $cookieParams[$name] = $value;
+        if ($sessionConfig) {
+            foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
+                if ($value !== null) {
+                    $cookieParams[$name] = $value;
+                }
             }
         }
 

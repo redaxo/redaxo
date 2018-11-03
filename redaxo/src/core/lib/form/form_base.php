@@ -1232,7 +1232,7 @@ abstract class rex_form_base
             $s .= '<fieldset>' . "\n";
 
             if ($fieldsetName != '' && $fieldsetName != $this->name) {
-                $s .= '<legend>' . htmlspecialchars($fieldsetName) . '</legend>' . "\n";
+                $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
             }
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen

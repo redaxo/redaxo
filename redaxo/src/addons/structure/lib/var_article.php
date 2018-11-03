@@ -55,7 +55,7 @@ class rex_var_article extends rex_var
             $clang = rex_clang::getCurrentId();
         }
         $article = rex_article::get($id, $clang);
-        return htmlspecialchars($article->getValue($field));
+        return rex_escape($article->getValue($field));
     }
 
     public static function getArticle($id, $ctype = -1, $clang = null)

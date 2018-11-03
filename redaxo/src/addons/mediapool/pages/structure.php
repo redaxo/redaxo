@@ -129,7 +129,7 @@ if ($PERMALL) {
                 <tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-media-category"></i></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $iid . '</td>
-                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . htmlspecialchars($iname) . '" /></td>
+                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . rex_escape($iname, 'html_attr') . '" /></td>
                     <td class="rex-table-action" colspan="2">
                         <input type="hidden" name="edit_id" value="' . $edit_id . '" />
                         <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_update') . '"' . rex::getAccesskey(rex_i18n::msg('pool_kat_update'), 'save') . '>' . rex_i18n::msg('pool_kat_update') . '</button>
@@ -139,9 +139,9 @@ if ($PERMALL) {
         } else {
             $table .= '
                 <tr>
-                    <td class="rex-table-icon"><a href="' . $link . $iid . '" title="' . htmlspecialchars($OOCat->getName()) . '"><i class="rex-icon rex-icon-media-category"></i></a></td>
+                    <td class="rex-table-icon"><a href="' . $link . $iid . '" title="' . rex_escape($OOCat->getName(), 'html_attr') . '"><i class="rex-icon rex-icon-media-category"></i></a></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $iid . '</td>
-                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><a href="' . $link . $iid . '">' . htmlspecialchars($OOCat->getName()) . '</a></td>
+                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><a href="' . $link . $iid . '">' . rex_escape($OOCat->getName()) . '</a></td>
                     <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=update_file_cat&amp;edit_id=' . $iid . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('pool_kat_edit') . '</a></td>
                     <td class="rex-table-action"><a href="' . $link . $cat_id . '&amp;media_method=delete_file_cat&amp;edit_id=' . $iid . '&amp;'.http_build_query($csrf->getUrlParams()).'" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('pool_kat_delete') . '</a></td>
                 </tr>';

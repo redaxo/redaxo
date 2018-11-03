@@ -14,9 +14,17 @@
 ## Allgemeines
 Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
 
+**Unterstützt werden folgende Sendeverfahren**
+- php mail()
+- sendmail
+- SMTP/SMTPS
+- SMTP/SMTPS-Auth
+
 Der Aufruf erfolgt über die Klasse `rex_mailer`. Dabei werden die nachfolgend beschriebenen und in der Konfiguration hinterlegten Einstellungen berücksichtigt.
 
 Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
+
+> Liefert ein AddOn oder Modul keine eigenen Einstellungen für das Versenden der E-Mails, gelten die Sende-Einstellungen im PHPMailer-AddOn. 
 
 Weitere Informationen zur Verwendung von PHPMailer unter: [https://github.com/PHPMailer/PHPMailer/wiki/Tutorial](https://github.com/PHPMailer/PHPMailer/wiki/Tutorial)
 
@@ -171,7 +179,18 @@ $mail->SMTPOptions = array(
 ```
 
 <a name="multidomain"></a>
-### Senden über unterschiedliche Domains
+### Senden über unterschiedliche Domains 
 
-Liefert ein AddOn oder Modul keine eigenen Einstellungen für das Versenden der E-Mails, gilt:
-Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Domain in den DNS-Einstellungen den Webserver (bei sendmail und mail) oder des angegebenen SMTP-Server (z.B. a:meine-domain.tld oder ip4:XXX.XXX.XXX.XXX) als erlaubte Adressen beinhalten. Hierzu ggf. den Registrar oder DNS-Verwalter kontaktieren. 
+Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Absender-Domain in den DNS-Einstellungen
+
+- den Webserver (bei sendmail und mail) 
+- oder den angegebenen SMTP(S)-Server 
+
+als erlaubte Adressen beinhalten. 
+
+z.B. `a:meine-domain.tld ip4:XXX.XXX.XXX.XXX`
+
+Somit wird sichergestellt, das PHPMailer E-Mails unter der angegebenen Domain versenden kann und die Mail nicht als SPAM deklariert wird.  
+
+Hierzu ggf. den Registrar oder DNS-Administrator kontaktieren. 
+

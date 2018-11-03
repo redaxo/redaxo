@@ -4,18 +4,13 @@
  * @package redaxo5
  */
 
-// TODOS
-// - wysiwyg image pfade anschauen und kontrollieren
-// - import checken
-// - mehrere ebenen in kategorienedit  einbauen
-
 global $subpage, $ftitle, $error, $success;
 
 // -------------- Defaults
 $subpage = rex_be_controller::getCurrentPagePart(2);
 $func = rex_request('func', 'string');
-$success = htmlspecialchars(rex_request('info', 'string'));
-$error = htmlspecialchars(rex_request('warning', 'string'));
+$success = rex_escape(rex_request('info', 'string'));
+$error = rex_escape(rex_request('warning', 'string'));
 $args = rex_request('args', 'array');
 
 $regex = '@&lt;(/?(?:b|i|code)|br ?/?)&gt;@i';
@@ -26,7 +21,7 @@ $error = preg_replace($regex, '<$1>', $error);
 $arg_url = ['args' => $args];
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
-    $arg_fields .= '<input type="hidden" name="args[' . htmlspecialchars($arg_name) . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name, 'html_attr') . ']" value="' . rex_escape($arg_value, 'html_attr') . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
@@ -34,8 +29,17 @@ $opener_link = rex_request('opener_link', 'string');
 $opener_input_field = rex_request('opener_input_field', 'string', '');
 
 if ($opener_input_field != '') {
+    if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $opener_input_field)) {
+        throw new Exception('invalid opener_input_field given: '. $opener_input_field);
+    }
+
+    $opener_id = null;
+    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
+        $opener_id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
+    }
+
     $arg_url['opener_input_field'] = $opener_input_field;
-    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" id="opener_input_field" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" data-opener-id="'. $opener_id .'"/>' . "\n";
 }
 
 // -------------- CatId in Session speichern
@@ -89,92 +93,13 @@ if ($error != '') {
     $error = '';
 }
 
-// -------------- Javascripts
-
-$retainEventHandlers = '';
 if (!rex_request::isXmlHttpRequest()) {
-    $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectMedia");';
-}
-
-?>
-<script type="text/javascript">
-<!--
-
-<?php echo $retainEventHandlers ?>
-
-function selectMedia(filename, alt)
-{
-    var opener_input_field = "<?= $opener_input_field ?>";
-
-    var event = opener.jQuery.Event("rex:selectMedia");
-    opener.jQuery(window).trigger(event, [filename, alt]);
-    if (!event.isDefaultPrevented()) {
-        if (opener_input_field) {
-            opener.document.getElementById(opener_input_field).value = filename;
-        }
-        self.close();
-    }
-}
-
-function selectMedialist(filename)
-{
-    <?php
-        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
-            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
-
-                        var source = opener.document.getElementById(medialist);
-                        var sourcelength = source.options.length;
-
-                        option = opener.document.createElement("OPTION");
-                        option.text = filename;
-                        option.value = filename;
-
-                        source.options.add(option, sourcelength);
-                        opener.writeREXMedialist(' . $id . ');';
-        }
     ?>
-}
-
-function selectMediaListArray(files)
-{
+    <script type="text/javascript">
+        rex_retain_popup_event_handlers("rex:selectMedia");
+    </script>
     <?php
-        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
-            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
-
-                        var source = opener.document.getElementById(medialist);
-                        var sourcelength = source.options.length;
-
-                        var files = getObjArray(files);
-
-                        for(var i = 0; i < files.length; i++)
-                        {
-                            if (files[i].checked)
-                            {
-                                option = opener.document.createElement("OPTION");
-                                option.text = files[i].value;
-                                option.value = files[i].value;
-
-                                source.options.add(option, sourcelength);
-                                sourcelength++;
-                            }
-                        }
-
-                        opener.writeREXMedialist(' . $id . ');';
-        }
-    ?>
 }
-
-function openPage(src)
-{
-    window.opener.location.href = src;
-    self.close();
-}
-
-//-->
-</script>
-<?php
 
 // -------------- Include Page
 rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'args', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));

@@ -245,13 +245,13 @@ class rex_media
 
         if (!isset($params['alt'])) {
             if ($title != '') {
-                $params['alt'] = htmlspecialchars($title);
+                $params['alt'] = rex_escape($title, 'html_attr');
             }
         }
 
         if (!isset($params['title'])) {
             if ($title != '') {
-                $params['title'] = htmlspecialchars($title);
+                $params['title'] = rex_escape($title, 'html_attr');
             }
         }
 

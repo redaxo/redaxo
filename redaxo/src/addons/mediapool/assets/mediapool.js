@@ -220,3 +220,72 @@ $(document).ready(function () {
 
 
 });
+
+
+function selectMedia(filename, alt)
+{
+    var event = opener.jQuery.Event("rex:selectMedia");
+
+    opener.jQuery(window).trigger(event, [filename, alt]);
+    if (!event.isDefaultPrevented()) {
+        var opener_id = jQuery("#opener_input_field").val();
+        if (opener_id) {
+            opener.document.getElementById(opener_id).value = filename;
+        }
+        self.close();
+    }
+}
+
+function selectMedialist(filename)
+{
+    var opener_id = jQuery("#opener_input_field").data("opener-id");
+
+    if (opener_id) {
+        var medialist = "REX_MEDIALIST_SELECT_" + opener_id;
+
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
+
+        option = opener.document.createElement("OPTION");
+        option.text = filename;
+        option.value = filename;
+
+        source.options.add(option, sourcelength);
+        opener.writeREXMedialist(opener_id);
+    }
+}
+
+function selectMediaListArray(files)
+{
+    var opener_id = jQuery("#opener_input_field").data("opener-id");
+
+    if (opener_id) {
+        var medialist = "REX_MEDIALIST_SELECT_" + opener_id;
+
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
+
+        var files = getObjArray(files);
+
+        for(var i = 0; i < files.length; i++)
+        {
+            if (files[i].checked)
+            {
+                option = opener.document.createElement("OPTION");
+                option.text = files[i].value;
+                option.value = files[i].value;
+
+                source.options.add(option, sourcelength);
+                sourcelength++;
+            }
+        }
+
+        opener.writeREXMedialist(opener_id);
+    }
+}
+
+function openPage(src)
+{
+    window.opener.location.href = src;
+    self.close();
+}

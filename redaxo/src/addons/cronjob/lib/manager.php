@@ -87,7 +87,7 @@ class rex_cronjob_manager
             $this->log($success, $message);
         }
 
-        $this->setMessage(htmlspecialchars($message));
+        $this->setMessage(rex_escape($message));
         $this->cronjob = null;
         $this->id = null;
 

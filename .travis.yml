@@ -1,7 +1,5 @@
 language: php
 
-sudo: false
-
 git:
     depth: 3
 
@@ -33,7 +31,7 @@ jobs:
             addons:
                 mariadb: 10.1
         -   <<: *TEST
-            php: 7.2
+            php: 7.3
             addons:
                 mariadb: 10.2
         -   &TEST_MYSQL
@@ -50,12 +48,5 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
-            php: 7.3snapshot
-            dist: xenial
+            php: 7.3
             sudo: required
-            addons:
-                apt:
-                    packages:
-                        - libzip4
-            services:
-                - mysql

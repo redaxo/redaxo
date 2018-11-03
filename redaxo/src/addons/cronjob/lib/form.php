@@ -164,8 +164,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $checked = 'all' === $value ? ' checked="checked"' : '';
 
         $elements[] = [
-            'label' => '<label class="control-label" for="' . htmlspecialchars($id) . '">' . $optionAll . '</label>',
-            'field' => '<input type="checkbox" id="' . htmlspecialchars($id) . '" name="' . htmlspecialchars($name) . '" value="all"' . $checked . ' />',
+            'label' => '<label class="control-label" for="' . rex_escape($id, 'html_attr') . '">' . $optionAll . '</label>',
+            'field' => '<input type="checkbox" id="' . rex_escape($id, 'html_attr') . '" name="' . rex_escape($name, 'html_attr') . '" value="all"' . $checked . ' />',
         ];
 
         $fragment = new rex_fragment();
@@ -182,8 +182,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
             $checked = is_array($value) && in_array($key, $value) ? ' checked="checked"' : '';
 
             $elements[] = [
-                'label' => '<label class="control-label" for="' . htmlspecialchars($id) . '">' . $label . '</label>',
-                'field' => '<input type="checkbox" id="' . htmlspecialchars($id) . '" name="' . htmlspecialchars($name) . '" value="' . $key . '"' . $checked . ' />',
+                'label' => '<label class="control-label" for="' . rex_escape($id, 'html_attr') . '">' . $label . '</label>',
+                'field' => '<input type="checkbox" id="' . rex_escape($id, 'html_attr') . '" name="' . rex_escape($name, 'html_attr') . '" value="' . $key . '"' . $checked . ' />',
             ];
         }
 

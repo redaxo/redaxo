@@ -456,12 +456,12 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $arg_fields = '';
     foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
-        $arg_fields .= '<input type="hidden" name="args[' . htmlspecialchars($arg_name) . ']" value="' . htmlspecialchars($arg_value) . '" />' . "\n";
+        $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name, 'html_attr') . ']" value="' . rex_escape($arg_value, 'html_attr') . '" />' . "\n";
     }
 
     $opener_input_field = rex_request('opener_input_field', 'string');
     if ($opener_input_field != '') {
-        $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
+        $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" />' . "\n";
     }
 
     $add_submit = '';
@@ -480,7 +480,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle, 'html_attr') . '" />';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
