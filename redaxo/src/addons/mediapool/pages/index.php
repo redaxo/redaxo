@@ -4,11 +4,6 @@
  * @package redaxo5
  */
 
-// TODOS
-// - wysiwyg image pfade anschauen und kontrollieren
-// - import checken
-// - mehrere ebenen in kategorienedit  einbauen
-
 global $subpage, $ftitle, $error, $success;
 
 // -------------- Defaults
