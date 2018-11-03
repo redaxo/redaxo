@@ -6,8 +6,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class rex_command_list extends ListCommand {
-
+class rex_command_list extends ListCommand
+{
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         parent::execute($input, $output);
