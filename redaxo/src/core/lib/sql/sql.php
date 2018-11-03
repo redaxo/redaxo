@@ -1121,6 +1121,22 @@ class rex_sql implements Iterator
         $errors['query'] = $qry;
         if (!empty($params)) {
             $errors['params'] = $params;
+            $i = 0;
+            $fullqry = preg_replace_callback(
+                '/\?|((?<!:):[a-z0-9_]+)/i',
+                static function($matches) use ($params, &$i) {
+                    $key = substr($matches[0], 1);
+                    if (!array_key_exists($i, $params) && ($key === false || !array_key_exists($key, $params))) {
+                        return $matches[0];
+                    }
+                    $value = array_key_exists($i, $params) ? $params[$i] : $params[$key];
+                    $result = rex_sql::factory()->escape($value);
+                    $i++;
+                    return $result;
+                },
+                $qry
+            );
+            $errors['fullquery'] = $fullqry;
         }
         if (strlen($this->getRows()) > 0) {
             $errors['count'] = $this->getRows();
