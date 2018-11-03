@@ -16,11 +16,6 @@ $media_manager = rex_addon::get('media_manager')->isAvailable();
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
-// ***** kategorie auswahl
-$db = rex_sql::factory();
-$file_cat = $db->getArray('SELECT * FROM ' . rex::getTablePrefix() . 'media_category ORDER BY name ASC');
-
-// ***** select bauen
 $sel_media = new rex_media_category_select($check_perm = false);
 $sel_media->setId('rex_file_category');
 $sel_media->setName('rex_file_category');
@@ -45,7 +40,6 @@ $n = [];
 $n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($media_name, 'html_attr') . '" />';
 $n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
-//$n['right'] = $dropdown;
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -66,32 +60,6 @@ $context = new rex_context([
     'page' => rex_be_controller::getCurrentPage(),
 ]);
 
-/*
-$view_buttons = [];
-
-// symbol view
-$button = [];
-$button['url'] = $context->getUrl(['func' => 'media-view-icon']);
-$button['attributes']['class'][] = 'btn-default';
-$button['attributes']['title'] = rex_i18n::msg('mediapool_view_icon');
-$button['icon'] = 'view-icon';
-$view_buttons[] = $button;
-
-// list view
-$button = [];
-$button['url'] = $context->getUrl(['func' => 'media-view-list']);
-$button['attributes']['class'][] = 'btn-default';
-$button['attributes']['title'] = rex_i18n::msg('mediapool_view_list');
-$button['icon'] = 'view-list';
-$view_buttons[] = $button;
-
-if (count($view_buttons) > 0) {
-    $fragment = new rex_fragment();
-    $fragment->setVar('buttons', $view_buttons, false);
-    $fragment->setVar('size', 'xs', false);
-    $toolbar .= $fragment->parse('core/buttons/button_group.php');
-}
-*/
 // ----- EXTENSION POINT
 $toolbar = rex_extension::registerPoint(new rex_extension_point('MEDIA_LIST_TOOLBAR', $toolbar, [
     'subpage' => $subpage,
