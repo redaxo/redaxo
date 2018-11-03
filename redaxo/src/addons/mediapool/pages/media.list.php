@@ -4,6 +4,71 @@
  * @package redaxo5
  */
 
+$hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
+
+if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
+    if (!$csrf->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        $selectedmedia = rex_post('selectedmedia', 'array');
+        if (isset($selectedmedia[0]) && $selectedmedia[0] != '') {
+            foreach ($selectedmedia as $file_name) {
+                $db = rex_sql::factory();
+                // $db->setDebug();
+                $db->setTable(rex::getTablePrefix() . 'media');
+                $db->setWhere(['filename' => $file_name]);
+                $db->setValue('category_id', $rex_file_category);
+                $db->addGlobalUpdateFields();
+                try {
+                    $db->update();
+                    $success = rex_i18n::msg('pool_selectedmedia_moved');
+                    rex_media_cache::delete($file_name);
+                } catch (rex_sql_exception $e) {
+                    $error = rex_i18n::msg('pool_selectedmedia_error');
+                }
+            }
+        } else {
+            $error = rex_i18n::msg('pool_selectedmedia_error');
+        }
+    }
+}
+
+if ($hasCategoryPerm && $media_method == 'delete_selectedmedia') {
+    if (!$csrf->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        $selectedmedia = rex_post('selectedmedia', 'array');
+        if (count($selectedmedia) != 0) {
+            $error = [];
+            $success = [];
+
+            $countDeleted = 0;
+            foreach ($selectedmedia as $file_name) {
+                $media = rex_media::get($file_name);
+                if ($media) {
+                    if (rex::getUser()->getComplexPerm('media')->hasCategoryPerm($media->getCategoryId())) {
+                        $return = rex_mediapool_deleteMedia($file_name);
+                        if ($return['ok']) {
+                            ++$countDeleted;
+                        } else {
+                            $error[] = $return['msg'];
+                        }
+                    } else {
+                        $error[] = rex_i18n::msg('no_permission');
+                    }
+                } else {
+                    $error[] = rex_i18n::msg('pool_file_not_found');
+                }
+            }
+            if ($countDeleted) {
+                $success[] = rex_i18n::msg('pool_files_deleted', $countDeleted);
+            }
+        } else {
+            $error = rex_i18n::msg('pool_selectedmedia_error');
+        }
+    }
+}
+
 $cats_sel = new rex_media_category_select();
 $cats_sel->setSize(1);
 $cats_sel->setStyle('class="form-control selectpicker"');
