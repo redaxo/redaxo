@@ -35,7 +35,7 @@ if ($opener_input_field != '') {
 
     $opener_id = null;
     if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-        $opener_id = (int)substr($opener_input_field, 14, strlen($opener_input_field));
+        $opener_id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
     }
 
     $arg_url['opener_input_field'] = $opener_input_field;
@@ -93,22 +93,13 @@ if ($error != '') {
     $error = '';
 }
 
-// -------------- Javascripts
-
-$retainEventHandlers = '';
 if (!rex_request::isXmlHttpRequest()) {
-    $retainEventHandlers = 'rex_retain_popup_event_handlers("rex:selectMedia");';
+    ?>
+    <script type="text/javascript">
+        rex_retain_popup_event_handlers("rex:selectMedia");
+    </script>
+    <?php
 }
-
-?>
-<script type="text/javascript">
-<!--
-
-<?php echo $retainEventHandlers ?>
-
-//-->
-</script>
-<?php
 
 // -------------- Include Page
 rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'args', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));
