@@ -45,14 +45,10 @@ class rex_console_application extends Application
             return;
         }
 
-        if (rex::isSetup()) {
-            $packageOrder = rex_package_manager::generatePackageOrder(!rex::isSetup());
-        } else {
-            $packageOrder = rex::getConfig('package-order');
-        }
-
-        foreach ($packageOrder as $packageId) {
-            rex_package::get($packageId)->boot();
+        if (!rex::isSetup()) {
+            foreach (rex::getConfig('package-order') as $packageId) {
+                rex_package::get($packageId)->boot();
+            }
         }
 
         rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));

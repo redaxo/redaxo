@@ -9,14 +9,10 @@ rex::setProperty('debug', true);
 
 rex_addon::initialize(!rex::isSetup());
 
-if (rex::isSetup()) {
-    $packageOrder = rex_package_manager::generatePackageOrder(!rex::isSetup());
-} else {
-    $packageOrder = rex::getConfig('package-order');
-}
-
-foreach ($packageOrder as $packageId) {
-    rex_package::get($packageId)->enlist();
+if (!rex::isSetup()) {
+    foreach (rex::getConfig('package-order') as $packageId) {
+        rex_package::get($packageId)->enlist();
+    }
 }
 
 $application = new rex_console_application();

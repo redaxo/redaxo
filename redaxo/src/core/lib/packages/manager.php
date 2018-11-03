@@ -580,7 +580,7 @@ abstract class rex_package_manager
     /**
      * Generates the package order.
      */
-    public static function generatePackageOrder($dbExists = true)
+    public static function generatePackageOrder()
     {
         $early = [];
         $normal = [];
@@ -627,14 +627,7 @@ abstract class rex_package_manager
                 }
             }
         }
-
-        $packageOrder = array_merge($early, $normal, array_keys($requires), $late);
-
-        if ($dbExists) {
-            rex::setConfig('package-order', $packageOrder);
-        } else {
-            return $packageOrder;
-        }
+        rex::setConfig('package-order', array_merge($early, $normal, array_keys($requires), $late));
     }
 
     /**
