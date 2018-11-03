@@ -40,7 +40,6 @@ $n = [];
 $n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($media_name, 'html_attr') . '" />';
 $n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
-//$n['right'] = $dropdown;
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
