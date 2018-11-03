@@ -32,8 +32,14 @@ if ($opener_input_field != '') {
     if (!preg_match('{^[A-Za-z]+[\w\-\:\.]*$}', $opener_input_field)) {
         throw new Exception('invalid opener_input_field given: '. $opener_input_field);
     }
+
+    $opener_id = null;
+    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
+        $opener_id = (int)substr($opener_input_field, 14, strlen($opener_input_field));
+    }
+
     $arg_url['opener_input_field'] = $opener_input_field;
-    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" id="opener_input_field" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" data-opener-id="'. $opener_id .'"/>' . "\n";
 }
 
 // -------------- CatId in Session speichern
@@ -102,13 +108,13 @@ if (!rex_request::isXmlHttpRequest()) {
 
 function selectMedia(filename, alt)
 {
-    var opener_input_field = "<?= $opener_input_field ?>";
-
     var event = opener.jQuery.Event("rex:selectMedia");
+
     opener.jQuery(window).trigger(event, [filename, alt]);
     if (!event.isDefaultPrevented()) {
-        if (opener_input_field) {
-            opener.document.getElementById(opener_input_field).value = filename;
+        var opener_id = jQuery("#opener_input_field").val();
+        if (opener_id) {
+            opener.document.getElementById(opener_id).value = filename;
         }
         self.close();
     }
@@ -116,52 +122,50 @@ function selectMedia(filename, alt)
 
 function selectMedialist(filename)
 {
-    <?php
-        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
-            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
+    var opener_id = jQuery("#opener_input_field").data("opener-id");
 
-                        var source = opener.document.getElementById(medialist);
-                        var sourcelength = source.options.length;
+    if (opener_id) {
+        var medialist = "REX_MEDIALIST_SELECT_" + opener_id;
 
-                        option = opener.document.createElement("OPTION");
-                        option.text = filename;
-                        option.value = filename;
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
 
-                        source.options.add(option, sourcelength);
-                        opener.writeREXMedialist(' . $id . ');';
-        }
-    ?>
+        option = opener.document.createElement("OPTION");
+        option.text = filename;
+        option.value = filename;
+
+        source.options.add(option, sourcelength);
+        opener.writeREXMedialist(opener_id);
+    }
 }
 
 function selectMediaListArray(files)
 {
-    <?php
-        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-            $id = (int) substr($opener_input_field, 14, strlen($opener_input_field));
-            echo 'var medialist = "REX_MEDIALIST_SELECT_' . $id . '";
+    var opener_id = jQuery("#opener_input_field").data("opener-id");
 
-                        var source = opener.document.getElementById(medialist);
-                        var sourcelength = source.options.length;
+    if (opener_id) {
+        var medialist = "REX_MEDIALIST_SELECT_" + opener_id;
 
-                        var files = getObjArray(files);
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
 
-                        for(var i = 0; i < files.length; i++)
-                        {
-                            if (files[i].checked)
-                            {
-                                option = opener.document.createElement("OPTION");
-                                option.text = files[i].value;
-                                option.value = files[i].value;
+        var files = getObjArray(files);
 
-                                source.options.add(option, sourcelength);
-                                sourcelength++;
-                            }
-                        }
+        for(var i = 0; i < files.length; i++)
+        {
+            if (files[i].checked)
+            {
+                option = opener.document.createElement("OPTION");
+                option.text = files[i].value;
+                option.value = files[i].value;
 
-                        opener.writeREXMedialist(' . $id . ');';
+                source.options.add(option, sourcelength);
+                sourcelength++;
+            }
         }
-    ?>
+
+        opener.writeREXMedialist(opener_id);
+    }
 }
 
 function openPage(src)
