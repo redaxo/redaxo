@@ -14,7 +14,7 @@ class rex_command_list extends ListCommand {
         if (rex::isSetup()) {
             $io = new SymfonyStyle($input, $output);
 
-            $io->text('These commands are available during the setup. There are more commands after running the setup.');
+            $io->text('These commands are available during the setup. After setup completed more commands will be available.');
         }
     }
 }
