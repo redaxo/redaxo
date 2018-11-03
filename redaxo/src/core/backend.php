@@ -7,6 +7,42 @@
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
 
+// assets which are passed with a cachebuster will be cached very long,
+// as we assume their url will change when the underlying content changes
+if (rex_get('asset') && rex_get('buster')) {
+    $assetFile = rex_get('asset');
+
+    $fullPath = realpath($assetFile);
+    $assetDir = rex_path::assets();
+
+    if (strpos($fullPath, $assetDir) !== 0) {
+        throw new Exception('Assets can only be streamed from within the assets folder');
+    }
+
+    $ext = rex_file::extension($assetFile);
+    if ('js' === $ext) {
+        rex_response::sendCacheControl('max-age=31536000, immutable');
+        rex_response::sendFile($assetFile, 'application/javascript');
+    } elseif ('css' === $ext) {
+        $styles = rex_file::get($assetFile);
+
+        // If we are in a directory off the root, add a relative path here back to the root, like "../"
+        // get the public path to this file, plus the baseurl
+        $relativeroot = '';
+        $pubroot = dirname($_SERVER['PHP_SELF']) . '/' . $relativeroot;
+
+        $prefix = $pubroot . dirname($assetFile) . '/';
+        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix .  '$2$3', $styles);
+
+        rex_response::sendCacheControl('max-age=31536000, immutable');
+        rex_response::sendContent($styles, 'text/css');
+    } else {
+        rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
+        rex_response::sendContent('file not found');
+    }
+    exit();
+}
+
 // ----- pages, verfuegbare seiten
 // array(name,addon=1,htmlheader=1);
 $pages = [];
