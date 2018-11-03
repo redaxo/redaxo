@@ -17,7 +17,7 @@ class rex_command_db_set_connection extends rex_console_command {
         $this
             ->setDescription('Sets database connection credentials')
             ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'database host')
-            ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'Sets database user')
+            ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'database user')
             ->addOption('password', null, InputOption::VALUE_OPTIONAL, 'Sets database password')
             ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'Sets database name');
     }
