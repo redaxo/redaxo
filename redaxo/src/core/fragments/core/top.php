@@ -10,9 +10,9 @@
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
-            $path = rex_path::base(rex_path::absolute($file));
+             $path = rex_path::frontend(rex_path::absolute($file));
             if ($mtime = @filemtime($path)) {
-                $file .= '?buster='. $mtime;
+                $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
             echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
@@ -24,9 +24,9 @@
     echo "\n" . '    //-->';
     echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
-        $path = rex_path::base(rex_path::absolute($file));
+         $path = rex_path::frontend(rex_path::absolute($file));
         if ($mtime = @filemtime($path)) {
-            $file .= '?buster='. $mtime;
+            $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
         }
         echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
