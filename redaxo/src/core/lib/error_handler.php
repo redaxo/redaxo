@@ -48,6 +48,12 @@ abstract class rex_error_handler
     {
         rex_logger::logException($exception);
 
+        // in case exceptions happen early - before SymfonyCosnole::doRun()
+        if ('cli' === PHP_SAPI) {
+            echo $exception->__toString();
+            return 1;
+        }
+
         while (ob_get_level()) {
             ob_end_clean();
         }
