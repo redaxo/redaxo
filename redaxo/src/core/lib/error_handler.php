@@ -46,28 +46,34 @@ abstract class rex_error_handler
      */
     public static function handleException($exception)
     {
-        rex_logger::logException($exception);
+        try {
+            rex_logger::logException($exception);
 
-        // in case exceptions happen early - before symfony-console doRun()
-        if ('cli' === PHP_SAPI) {
-            echo $exception->__toString();
-            exit(1);
-        }
+            // in case exceptions happen early - before symfony-console doRun()
+            if ('cli' === PHP_SAPI) {
+                echo $exception->__toString();
+                exit(1);
+            }
 
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
 
-        $status = rex_response::HTTP_INTERNAL_ERROR;
-        if ($exception instanceof rex_http_exception && $exception->getHttpCode()) {
-            $status = $exception->getHttpCode();
-        }
-        rex_response::setStatus($status);
+            $status = rex_response::HTTP_INTERNAL_ERROR;
+            if ($exception instanceof rex_http_exception && $exception->getHttpCode()) {
+                $status = $exception->getHttpCode();
+            }
+            rex_response::setStatus($status);
 
-        if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
-            list($errPage, $contentType) = self::renderWhoops($exception);
-            rex_response::sendContent($errPage, $contentType);
-            exit(1);
+            if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
+                list($errPage, $contentType) = self::renderWhoops($exception);
+                rex_response::sendContent($errPage, $contentType);
+                exit(1);
+            }
+        } catch (Throwable $e) {
+            // fallback to the less feature rich error pages, when whoops rendering fails
+        } catch (Exception $e) {
+            // fallback to the less feature rich error pages, when whoops rendering fails
         }
 
         try {
@@ -77,6 +83,9 @@ abstract class rex_error_handler
             } else {
                 $errorPage = $fragment->parse('core/fe_ooops.php');
             }
+        } catch (Throwable $e) {
+            // we werent even able to render the error page, without an error
+            $errorPage = 'Oooops, an internal error occured!';
         } catch (Exception $e) {
             // we werent even able to render the error page, without an error
             $errorPage = 'Oooops, an internal error occured!';
