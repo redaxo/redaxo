@@ -19,6 +19,7 @@ class rex_command_config_get extends rex_console_command {
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = $this->getStyle($input, $output);
         $key = $input->getArgument('config-key');
 
         if (!$key) {
@@ -29,11 +30,13 @@ class rex_command_config_get extends rex_console_command {
 
         $propertyKey = array_shift($path);
         $config = rex::getProperty($propertyKey);
-        if (!$config) {
+        if ($config === null) {
+            $io->getErrorStyle()->error('Config key not found');
             return 1;
         }
         foreach ($path as $pathPart) {
             if (!isset($config[$pathPart])) {
+                $io->getErrorStyle()->error('Config key not found');
                 return 1;
             }
             $config = $config[$pathPart];
