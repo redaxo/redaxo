@@ -10,7 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @internal
  */
-class rex_command_config_get extends rex_console_command {
+class rex_command_config_get extends rex_console_command
+{
     protected function configure()
     {
         $this->setDescription('Get config variables')
@@ -42,13 +43,8 @@ class rex_command_config_get extends rex_console_command {
             $config = $config[$pathPart];
         }
 
-        if (is_array($config)) {
-            $config = json_encode($config);
-        }
-
-        $output->write($config);
+        $output->write(json_encode($config));
 
         return 0;
     }
-
 }
