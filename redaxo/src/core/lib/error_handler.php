@@ -48,7 +48,7 @@ abstract class rex_error_handler
     {
         rex_logger::logException($exception);
 
-        // in case exceptions happen early - before SymfonyCosnole::doRun()
+        // in case exceptions happen early - before symfony-console doRun()
         if ('cli' === PHP_SAPI) {
             echo $exception->__toString();
             exit(1);
