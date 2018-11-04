@@ -160,11 +160,16 @@ abstract class rex_error_handler
             exit(1);
         }
 
-        $fragment = new rex_fragment();
-        if (rex::isBackend()) {
-            $errorPage = $fragment->parse('core/be_ooops.php');
-        } else {
-            $errorPage = $fragment->parse('core/fe_ooops.php');
+        try {
+            $fragment = new rex_fragment();
+            if (rex::isBackend()) {
+                $errorPage = $fragment->parse('core/be_ooops.php');
+            } else {
+                $errorPage = $fragment->parse('core/fe_ooops.php');
+            }
+        } catch (Exception $e) {
+            // we werent even able to render the error page, without an error
+            $errorPage = 'Oooops, an internal error occured!';
         }
         rex_response::sendContent($errorPage);
         exit(1);
