@@ -8,6 +8,7 @@ setlocale = de_DE,de_DE@euro,deu_deu,german_germany,de,ge
 phpini_settings = PHP.ini Einstellungen
 
 datetimeformat = %d. %b. %Y - %H:%Mh
+timeformat = %H:%Mh
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
 
 # Allgemein
