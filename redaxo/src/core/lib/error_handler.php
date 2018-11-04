@@ -161,7 +161,7 @@ abstract class rex_error_handler
         }
 
         $fragment = new rex_fragment();
-        $buf = $fragment->parse('core/ooops.php');
+        $buf = $fragment->parse('core/fe_ooops.php');
         rex_response::sendContent($buf);
         exit(1);
     }
