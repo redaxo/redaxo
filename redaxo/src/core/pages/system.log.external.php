@@ -15,7 +15,7 @@ $content = '
                 <tbody>';
 
 $buttons = '';
-if (!file_exists($logFile) || filesize($logFile) <= 0) {
+if (!is_file($logFile) || !is_readable($logFile) || filesize($logFile) <= 0) {
     $content .= '<tr><td>'. rex_i18n::msg('syslog_empty') .'</td></tr>';
 } else {
     // TODO make this more effienct with things like rex_log_file->next()
