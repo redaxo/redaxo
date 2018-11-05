@@ -1,7 +1,6 @@
 <?php
 
-rex_extension::register('MINIBAR_ARTICLE', function(rex_extension_point $ep) {
-
+rex_extension::register('MINIBAR_ARTICLE', function (rex_extension_point $ep) {
     $sqlFields = rex_sql::factory();
     // $sqlFields->setDebug();
     $fields = $sqlFields->getArray('
@@ -24,16 +23,16 @@ rex_extension::register('MINIBAR_ARTICLE', function(rex_extension_point $ep) {
     foreach ($fields as $field) {
         // Durch das unterschiedliche Erstellen der Optionen (Pipe, Sql) können die dazugehörigen Labels nicht ganz so einfach aufgelöst werden
         // Ein Admin sieht daher die gespeicherten Werte, ein Redakteur kann damit weniger anfangen
-        if(!rex::getUser()->isAdmin() && in_array($field['label'], ['checkbox', 'radio', 'select'])) {
+        if (!rex::getUser()->isAdmin() && in_array($field['label'], ['checkbox', 'radio', 'select'])) {
             continue;
         }
-        if(in_array($field['label'], ['legend'])) {
+        if (in_array($field['label'], ['legend'])) {
             continue;
         }
 
         $value = $article->getValue($field['name']);
         if (trim($value) != '') {
-            switch($field['label']) {
+            switch ($field['label']) {
                 case 'REX_MEDIA_WIDGET':
                     $value = sprintf('<a href="%s" target="_blank">%s</a>', rex_url::media($value), $value);
                     break;
@@ -91,12 +90,8 @@ rex_extension::register('MINIBAR_ARTICLE', function(rex_extension_point $ep) {
         </div>';
 });
 
-
-
-
-rex_extension::register('MINIBAR_CLANG', function(rex_extension_point $ep) {
-
-    if(!rex::getUser()->isAdmin()) {
+rex_extension::register('MINIBAR_CLANG', function (rex_extension_point $ep) {
+    if (!rex::getUser()->isAdmin()) {
         return null;
     }
 
