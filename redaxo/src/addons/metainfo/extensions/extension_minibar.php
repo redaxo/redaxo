@@ -22,6 +22,8 @@ rex_extension::register('MINIBAR_ARTICLE', function(rex_extension_point $ep) {
 
     $items = [];
     foreach ($fields as $field) {
+        // Durch das unterschiedliche Erstellen der Optionen (Pipe, Sql) können die dazugehörigen Labels nicht ganz so einfach aufgelöst werden
+        // Ein Admin sieht daher die gespeicherten Werte, ein Redakteur kann damit weniger anfangen
         if(!rex::getUser()->isAdmin() && in_array($field['label'], ['checkbox', 'radio', 'select'])) {
             continue;
         }
