@@ -91,6 +91,12 @@ abstract class rex_error_handler
                         bottom: 0;
                         height: auto;
                     }
+                    .exc-message {
+                        vertical-align: middle;
+                    }
+                    .search-for-help {
+                        width: auto;
+                    }
                     .rex-whoops-header {
                         position: fixed;
                         top: 0;
@@ -122,6 +128,24 @@ abstract class rex_error_handler
                     .rex-safemode:hover {
                         background-color: #754600;
                         color: #f90;
+                    }
+                    #copy-button, 
+                    .rex-copy-button {
+                        margin: 10px 5px;
+                        padding: 0 10px;
+                        border: 0;
+                        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+                        color: #fff;
+                        font-weight: bold;
+                        line-height: 24px;
+                        vertical-align: top;
+                        cursor: pointer;
+                        transition: 0.2s ease-out;
+                    }
+                    #copy-button:hover, 
+                    .rex-copy-button:hover {
+                        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 1);
+                        color: #fff;
                     }
                 </style>';
 
