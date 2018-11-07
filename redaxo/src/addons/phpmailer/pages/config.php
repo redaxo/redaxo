@@ -12,7 +12,7 @@
 
 $message = '';
 
-if (rex_post('btn_save', 'string') != '') {
+if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '') {
     $this->setConfig(rex_post('settings', [
         ['fromname', 'string'],
         ['from', 'string'],
@@ -34,6 +34,10 @@ if (rex_post('btn_save', 'string') != '') {
         ['test_address', 'string'],
         ['log', 'int', 1],
     ]));
+
+    if (rex_post('btn_check', 'string') != ''){
+        rex_response::sendRedirect(rex_url::backendPage('phpmailer/checkmail'));
+    }
 
     $message = $this->i18n('config_saved_successful');
 }
@@ -285,7 +289,7 @@ $content .= $fragment->parse('core/form/form.php');
 
 if ($emptymail != '') {
     $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
-    $content .= '<p><a href="'.rex_url::backendPage('phpmailer/checkmail').'" class="btn btn-save">'.$this->i18n('check_settings_btn').'</a><p>';
+    $content .= '<button class="btn btn-save pull-right" type="submit" name="btn_check" value="' . $this->i18n('check_settings_btn') . '">' . $this->i18n('check_settings_btn') . '</button>';
 }
 $content .= '</fieldset></div>';
 $formElements = [];
