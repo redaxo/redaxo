@@ -289,13 +289,17 @@ $content .= $fragment->parse('core/form/form.php');
 
 if ($emptymail != '') {
     $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
-    $content .= '<button class="btn btn-save pull-right" type="submit" name="btn_check" value="' . $this->i18n('check_settings_btn') . '">' . $this->i18n('check_settings_btn') . '</button>';
 }
 $content .= '</fieldset></div>';
 $formElements = [];
 $n = [];
 $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="btn_save" value="' . $this->i18n('save') . '">' . $this->i18n('save') . '</button>';
 $formElements[] = $n;
+if ($emptymail != '') {
+    $n = [];
+    $n['field'] .= '<button class="btn btn-save prex-form-aligned" type="submit" name="btn_check" value="' . $this->i18n('check_settings_btn') . '">' . $this->i18n('check_settings_btn') . '</button>';
+    $formElements[] = $n;
+}
 $n = [];
 $n['field'] = '<button class="btn btn-reset" type="reset" name="btn_reset" value="' . $this->i18n('reset') . '" data-confirm="' . $this->i18n('reset_info') . '">' . $this->i18n('reset') . '</button>';
 $formElements[] = $n;
