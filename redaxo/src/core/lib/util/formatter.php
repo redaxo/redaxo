@@ -78,6 +78,9 @@ abstract class rex_formatter
         } elseif ($format == 'datetime') {
             // Default REX-Datetimeformat
             $format = rex_i18n::msg('datetimeformat');
+        } elseif ($format == 'time') {
+            // Default REX-Timeformat
+            $format = rex_i18n::msg('timeformat');
         }
         return strftime($format, self::getTimestamp($value));
     }
