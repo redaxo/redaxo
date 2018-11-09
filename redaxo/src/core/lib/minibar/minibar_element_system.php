@@ -63,7 +63,6 @@ class rex_minibar_element_system extends rex_minibar_element
                 <div class="rex-minibar-info-piece">
                     <b>'.rex_i18n::msg('minibar_help').'</b>
                     <span>
-                        <a href="https://redaxo.org/forum/" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_board_link_label').'</a><br />
                         <a href="https://redaxo.org/slack/" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_slack_link_label').'</a><br />
                         <a href="https://github.com/redaxo/redaxo/issues" target="_blank" rel="help noreferrer noopener">'.rex_i18n::msg('minibar_errorreport').'</a>
                     </span>
