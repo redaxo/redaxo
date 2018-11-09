@@ -47,7 +47,7 @@ class rex_command_db_set_connection_options extends rex_console_command
             $changed = true;
         }
 
-        if ($changed) {
+        if (!$changed) {
             throw new InvalidArgumentException('No database settings given.');
         }
 
