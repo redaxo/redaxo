@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Addon Framework Classes.
  *
@@ -12,38 +11,34 @@
 
 $message = '';
 
-if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '') {
-    $this->setConfig(rex_post('settings', [
-        ['fromname', 'string'],
-        ['from', 'string'],
-        ['confirmto', 'string'],
-        ['bcc', 'string'],
-        ['mailer', 'string'],
-        ['host', 'string'],
-        ['port', 'int'],
-        ['charset', 'string'],
-        ['wordwrap', 'int'],
-        ['encoding', 'string'],
-        ['username', 'string'],
-        ['password', 'string'],
-        ['smtpsecure', 'string'],
-        ['security_mode', 'boolean'],
-        ['smtpauth', 'boolean'],
-        ['priority', 'int'],
-        ['smtp_debug', 'int'],
-        ['test_address', 'string'],
-        ['log', 'int', 1],
-    ]));
+if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '')
+{
+    $this->setConfig(rex_post('settings', [['fromname', 'string'], ['from', 'string'], ['confirmto', 'string'], ['bcc', 'string'], ['mailer', 'string'], ['host', 'string'], ['port', 'int'], ['charset', 'string'], ['wordwrap', 'int'], ['encoding', 'string'], ['username', 'string'], ['password', 'string'], ['smtpsecure', 'string'], ['security_mode', 'boolean'], ['smtpauth', 'boolean'], ['priority', 'int'], ['smtp_debug', 'int'], ['test_address', 'string'], ['log', 'int', 1], ]));
 
-    if (rex_post('btn_check', 'string') != ''){
-        rex_response::sendRedirect(rex_url::backendPage('phpmailer/checkmail'));
+    if (rex_post('btn_check', 'string') != '')
+    {
+
+        $settings = rex_post('settings', 'array', []);
+
+        if (rex_validator::factory()->email($settings['from']) == false || rex_validator::factory()->email($settings['test_address']) == false)
+        {
+
+            $warning = $this->i18n('check_settings_not_tested');
+            echo rex_view::warning($warning);
+        }
+        else
+        {
+
+            rex_response::sendRedirect(rex_url::backendPage('phpmailer/checkmail'));
+        }
     }
 
     $message = $this->i18n('config_saved_successful');
 }
 
 $emptymail = '1';
-if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '') {
+if ($this->getConfig('from') == '' || $this->getConfig('test_address') == '')
+{
     $emptymail = '';
 }
 $sel_mailer = new rex_select();
@@ -52,7 +47,8 @@ $sel_mailer->setName('settings[mailer]');
 $sel_mailer->setSize(1);
 $sel_mailer->setAttribute('class', 'form-control selectpicker');
 $sel_mailer->setSelected($this->getConfig('mailer'));
-foreach (['mail', 'sendmail', 'smtp'] as $type) {
+foreach (['mail', 'sendmail', 'smtp'] as $type)
+{
     $sel_mailer->addOption($type, $type);
 }
 
@@ -62,7 +58,8 @@ $sel_security_mode->setName('settings[security_mode]');
 $sel_security_mode->setSize(1);
 $sel_security_mode->setAttribute('class', 'form-control selectpicker');
 $sel_security_mode->setSelected($this->getConfig('security_mode'));
-foreach ([0 => $this->i18n('security_mode_manual'), 1 => $this->i18n('security_mode_auto')] as $i => $type) {
+foreach ([0 => $this->i18n('security_mode_manual') , 1 => $this->i18n('security_mode_auto') ] as $i => $type)
+{
     $sel_security_mode->addOption($type, $i);
 }
 
@@ -72,7 +69,8 @@ $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control selectpicker');
 $sel_smtpauth->setSelected($this->getConfig('smtpauth'));
-foreach ([0 => $this->i18n('smtp_auth_off'), 1 => $this->i18n('smtp_auth_on')] as $i => $type) {
+foreach ([0 => $this->i18n('smtp_auth_off') , 1 => $this->i18n('smtp_auth_on') ] as $i => $type)
+{
     $sel_smtpauth->addOption($type, $i);
 }
 
@@ -82,7 +80,8 @@ $sel_smtpsecure->setName('settings[smtpsecure]');
 $sel_smtpsecure->setSize(1);
 $sel_smtpsecure->setAttribute('class', 'form-control selectpicker');
 $sel_smtpsecure->setSelected($this->getConfig('smtpsecure'));
-foreach (['' => $this->i18n('no'), 'ssl' => 'ssl', 'tls' => 'tls'] as $type => $name) {
+foreach (['' => $this->i18n('no') , 'ssl' => 'ssl', 'tls' => 'tls'] as $type => $name)
+{
     $sel_smtpsecure->addOption($name, $type);
 }
 
@@ -92,7 +91,8 @@ $sel_encoding->setName('settings[encoding]');
 $sel_encoding->setSize(1);
 $sel_encoding->setAttribute('class', 'form-control selectpicker');
 $sel_encoding->setSelected($this->getConfig('encoding'));
-foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc) {
+foreach (['7bit', '8bit', 'binary', 'base64', 'quoted-printable'] as $enc)
+{
     $sel_encoding->addOption($enc, $enc);
 }
 
@@ -102,7 +102,8 @@ $sel_priority->setName('settings[priority]');
 $sel_priority->setSize(1);
 $sel_priority->setAttribute('class', 'form-control selectpicker');
 $sel_priority->setSelected($this->getConfig('priority'));
-foreach ([0 => $this->i18n('disabled'), 1 => $this->i18n('high'), 3 => $this->i18n('normal'), 5 => $this->i18n('low')] as $no => $name) {
+foreach ([0 => $this->i18n('disabled') , 1 => $this->i18n('high') , 3 => $this->i18n('normal') , 5 => $this->i18n('low') ] as $no => $name)
+{
     $sel_priority->addOption($name, $no);
 }
 
@@ -112,8 +113,8 @@ $sel_log->setName('settings[log]');
 $sel_log->setSize(1);
 $sel_log->setAttribute('class', 'form-control selectpicker');
 $sel_log->setSelected($this->getConfig('log'));
-$sel_log->addOption($this->i18n('log_yes'), 1);
-$sel_log->addOption($this->i18n('log_no'), 0);
+$sel_log->addOption($this->i18n('log_yes') , 1);
+$sel_log->addOption($this->i18n('log_no') , 0);
 
 $sel_debug = new rex_select();
 $sel_debug->setid('phpmailer-smtp_debug');
@@ -121,11 +122,13 @@ $sel_debug->setName('settings[smtp_debug]');
 $sel_debug->setSize(1);
 $sel_debug->setAttribute('class', 'form-control selectpicker');
 $sel_debug->setSelected($this->getConfig('smtp_debug'));
-foreach ([0 => $this->i18n('smtp_debug_0'), 1 => $this->i18n('smtp_debug_1'), 2 => $this->i18n('smtp_debug_2'), 3 => $this->i18n('smtp_debug_3'), 4 => $this->i18n('smtp_debug_4')] as $no => $name) {
+foreach ([0 => $this->i18n('smtp_debug_0') , 1 => $this->i18n('smtp_debug_1') , 2 => $this->i18n('smtp_debug_2') , 3 => $this->i18n('smtp_debug_3') , 4 => $this->i18n('smtp_debug_4') ] as $no => $name)
+{
     $sel_debug->addOption($name, $no);
 }
 
-if ($message != '') {
+if ($message != '')
+{
     echo rex_view::success($message);
 }
 
@@ -230,7 +233,7 @@ $content .= '</div>';
 
 $n = [];
 $n['label'] = '<label for="phpmailer-smtp_debug">' . $this->i18n('smtp_debug') . '</label>';
-$n['field'] = $sel_debug->get().'<p class="help-block rex-note"> ' . $this->i18n('smtp_debug_info').'</p>';
+$n['field'] = $sel_debug->get() . '<p class="help-block rex-note"> ' . $this->i18n('smtp_debug_info') . '</p>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -265,18 +268,14 @@ $formElements[] = $n;
 $n = [];
 $n['label'] = '<label for="phpmailer-log">' . $this->i18n('log') . '</label>';
 $n['field'] = $sel_log->get();
-$n['note'] = rex_i18n::rawMsg('phpmailer_log_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
+$n['note'] = rex_i18n::rawMsg('phpmailer_log_info', rex_mailer::logFolder() , '...' . substr(rex_mailer::logFolder() , -30));
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
- $content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
-
-if ($emptymail == '') {
-    $content .= '<p>' . $this->i18n('check_settings_inactive') . '</p>';
-}
+$content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
 
 $formElements = [];
 $n = [];
@@ -287,9 +286,8 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-if ($emptymail != '') {
-    $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
-}
+$content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
+
 $content .= '</fieldset></div>';
 
 $formElements = [];
@@ -298,19 +296,13 @@ $n = [];
 $n['field'] = '<button class="btn btn-reset pull-right" type="reset" name="btn_reset" value="' . $this->i18n('reset') . '" data-confirm="' . $this->i18n('reset_info') . '">' . $this->i18n('reset') . '</button>';
 $formElements[] = $n;
 
-if ($emptymail != '') {
-    $n = [];
-    $n['field'] .= '<button class="btn btn-save pull-right" type="submit" name="btn_check" value="' . $this->i18n('check_settings_btn') . '">' . $this->i18n('check_settings_btn') . '</button>';
-    $formElements[] = $n;
-}
-
-
-
+$n = [];
+$n['field'] .= '<button class="btn btn-save pull-right" type="submit" name="btn_check" value="' . $this->i18n('check_settings_btn') . '">' . $this->i18n('check_settings_btn') . '</button>';
+$formElements[] = $n;
 
 $n = [];
 $n['field'] = '<button class="btn btn-save pull-right" type="submit" name="btn_save" value="' . $this->i18n('save') . '">' . $this->i18n('save') . '</button>';
 $formElements[] = $n;
-
 
 $fragment = new rex_fragment();
 $fragment->setVar('flush', true);
@@ -319,7 +311,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', $this->i18n('config_settings'), false);
+$fragment->setVar('title', $this->i18n('config_settings') , false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
