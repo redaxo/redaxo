@@ -102,10 +102,7 @@ foreach ($config as $key => $value) {
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
-if (!rex::isSetup()) {
-    rex_error_handler::register();
-}
-
+rex_error_handler::register();
 rex_var_dumper::register();
 
 // ----------------- REX PERMS

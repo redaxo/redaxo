@@ -157,7 +157,13 @@ abstract class rex_var
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
         $variables = [];
+        $replacements = [];
+
         foreach ($iterator as $match) {
+            if (isset($replacements[$match[0]])) {
+                continue;
+            }
+
             $var = self::getVar($match[1]);
             $replaced = false;
 
@@ -173,9 +179,10 @@ abstract class rex_var
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
                         $variables[] = '/* '. $match[0] .' */ ' . $replace . ' = ' . $output;
                     } else {
-                        $replace = '/* '. $match[0] .' */ ' . $output;
+                        $replace = '/* '. $match[0] .' */ '. $output;
                     }
-                    $content = str_replace($match[0], sprintf($format, $replace), $content);
+
+                    $replacements[$match[0]] = sprintf($format, $replace);
                     $replaced = true;
                 }
             }
@@ -185,9 +192,14 @@ abstract class rex_var
             }
         }
 
+        if ($replacements) {
+            $content = strtr($content, $replacements);
+        }
+
         if ($useVariables && !empty($variables)) {
             $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
+
         return $content;
     }
 

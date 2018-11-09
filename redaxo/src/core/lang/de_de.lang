@@ -438,7 +438,6 @@ status = Status
 
 user_minibar = Minibar im Frontend anzeigen?
 user_minibar_note = Stellt eine Toolbar mit weiteren Informationen zur Verfügung
-minibar_board_link_label = Besuche das Forum
 minibar_database = Datenbank
 minibar_documentation_link_label = Dokumentation lesen
 minibar_help = Hilfe
