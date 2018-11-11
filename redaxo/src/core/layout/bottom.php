@@ -3,7 +3,7 @@
 $curPage = rex_be_controller::getCurrentPageObject();
 
 if (rex_request::isPJAXRequest()) {
-    header('X-Redaxo-Script-Time: ' . rex_i18n::msg('footer_scripttime', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC)));
+    echo rex_minibar::getInstance()->get();
 }
 
 if (!$curPage->hasLayout()) {

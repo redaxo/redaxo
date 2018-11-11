@@ -66,6 +66,10 @@ class rex_minibar_element_structure_content extends rex_minibar_element
             $articlePath[] = $item;
         }
 
+        $groups = rex_extension::registerPoint(new rex_extension_point('MINIBAR_ARTICLE', '', [
+            'article' => $article,
+        ]));
+
         return
         '<div class="rex-minibar-item">
             <span class="rex-minibar-icon">
@@ -94,6 +98,7 @@ class rex_minibar_element_structure_content extends rex_minibar_element
                     <span>'.$articleLink.'</span>
                 </div>
             </div>
+            '.$groups.'
         </div>
         ';
     }
