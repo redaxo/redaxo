@@ -90,6 +90,7 @@ abstract class rex_error_handler
             // we werent even able to render the error page, without an error
             $errorPage = 'Oooops, an internal error occured!';
         }
+        header('X-Robots-Tag: noindex, nofollow');
         rex_response::sendContent($errorPage);
         exit(1);
     }
