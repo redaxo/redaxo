@@ -128,6 +128,12 @@ abstract class rex_error_handler
                         bottom: 0;
                         height: auto;
                     }
+                    .exc-message {
+                        vertical-align: middle;
+                    }
+                    .search-for-help {
+                        width: auto;
+                    }
                     .rex-whoops-header {
                         position: fixed;
                         top: 0;
@@ -160,6 +166,22 @@ abstract class rex_error_handler
                         background-color: #754600;
                         color: #f90;
                     }
+                    button.clipboard {
+                        margin: 10px 5px;
+                        padding: 0 10px;
+                        border: 0;
+                        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+                        color: #fff;
+                        font-weight: bold;
+                        line-height: 24px;
+                        vertical-align: top;
+                        cursor: pointer;
+                        transition: 0.2s ease-out;
+                    } 
+                    button.clipboard:hover {
+                        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 1);
+                        color: #fff;
+                    }
                 </style>';
 
         $saveModeLink = '';
@@ -189,9 +211,10 @@ abstract class rex_error_handler
             $errPage
         );
 
-        $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button id="copy-button" class="clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
+        $errPage = preg_replace('@<button id="copy-button" .*?</button>@s', '$0<button class="clipboard" data-clipboard-text="'.rex_escape(self::getMarkdownReport($exception)).'" title="Copy exception details and system report as markdown to clipboard">
       COPY MARKDOWN
     </button>', $errPage);
+        $errPage = str_replace('<button id="copy-button"', '<button ', $errPage);
 
         return [$errPage, $handler->contentType()];
     }
