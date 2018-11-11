@@ -74,10 +74,10 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
                 $mailBody .= '    </tbody>';
                 $mailBody .= '</table>';
                 //End - generate mailbody
-                
+
                 //Start  send mail
                 $fileTime = filemtime($logFile);
-                
+
                 $mail = new rex_mailer();
                 $mail->Subject = rex::getServerName() . ' | system.log';
                 $mail->Body = $mailBody;
