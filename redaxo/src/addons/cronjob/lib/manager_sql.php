@@ -145,6 +145,13 @@ class rex_cronjob_manager_sql
 
         ignore_user_abort(true);
         register_shutdown_function(function () use (&$jobs) {
+            // dont start jobs in errored requests. some basic infrastructure (e.g. db connection)
+            // might not be available
+            $error = error_get_last();
+            if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
+                return;
+            }
+            
             foreach ($jobs as $job) {
                 if (isset($job['finished'])) {
                     continue;
