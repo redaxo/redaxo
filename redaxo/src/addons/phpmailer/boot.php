@@ -21,7 +21,6 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
     rex_extension::register('RESPONSE_SHUTDOWN', function (rex_extension_point $ep) {
         $logFile = rex_path::coreData('system.log');
         $sendTime = $this->getConfig('last_log_file_send_time', 0);
-        $fileTime = filemtime($logFile);
         $timediff = '';
         $fatalerror = false;
         $logevent = false;
@@ -75,7 +74,10 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
                 $mailBody .= '    </tbody>';
                 $mailBody .= '</table>';
                 //End - generate mailbody
+                
                 //Start  send mail
+                $fileTime = filemtime($logFile);
+                
                 $mail = new rex_mailer();
                 $mail->Subject = rex::getServerName() . ' | system.log';
                 $mail->Body = $mailBody;
