@@ -35,18 +35,15 @@ if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '
         ['log', 'int', 1],
     ]));
 
-    if (rex_post('btn_check', 'string') != ''){
-
+    if (rex_post('btn_check', 'string') != '') {
         $settings = rex_post('settings', 'array', []);
 
-       if (rex_validator::factory()->email($settings['from'])==false || rex_validator::factory()->email($settings['test_address'])==false)
-          {
-           $warning = $this->i18n('check_settings_not_tested');
+        if (rex_validator::factory()->email($settings['from']) == false || rex_validator::factory()->email($settings['test_address']) == false) {
+            $warning = $this->i18n('check_settings_not_tested');
             echo rex_view::warning($warning);
-       }
-        else {
-             rex_response::sendRedirect(rex_url::backendPage('phpmailer/checkmail'));
-             }
+        } else {
+            rex_response::sendRedirect(rex_url::backendPage('phpmailer/checkmail'));
+        }
     }
 
     $message = $this->i18n('config_saved_successful');
@@ -292,7 +289,6 @@ $formElements[] = $n;
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-
 
 $content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
 
