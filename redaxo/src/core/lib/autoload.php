@@ -147,6 +147,13 @@ class rex_autoload
             return;
         }
 
+        // dont persist a possible incomplete cache, because requests of end-users (which are not allowed to regenerate a existing cache)
+        // can error in some crazy class-not-found errors which are hard to debug.
+        $error = error_get_last();
+        if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
+            return;
+        }
+
         // remove obsolete dirs from cache
         foreach (self::$dirs as $dir => $files) {
             if (!in_array($dir, self::$addedDirs)) {
