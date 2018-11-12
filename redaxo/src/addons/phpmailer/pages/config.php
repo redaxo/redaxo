@@ -153,6 +153,11 @@ $n['field'] = '<input class="form-control" id="phpmailer-from" type="text" name=
 $formElements[] = $n;
 
 $n = [];
+$n['label'] = '<label for="phpmailer-testaddress">' . $this->i18n('checkmail_test_address') . '</label>';
+$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('test_address')) . '" />';
+$formElements[] = $n;
+
+$n = [];
 $n['label'] = '<label for="phpmailer-confirmto">' . $this->i18n('confirm') . '</label>';
 $n['field'] = '<input class="form-control" id="phpmailer-confirmto" type="text" name="settings[confirmto]" value="' . rex_escape($this->getConfig('confirmto')) . '" />';
 $formElements[] = $n;
@@ -279,18 +284,10 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$content .= '<legend>' . $this->i18n('check_settings') . '</legend>';
 
-$formElements = [];
-$n = [];
-$n['label'] = '<label for="phpmailer-testaddress">' . $this->i18n('checkmail_test_address') . '</label>';
-$n['field'] = '<input class="form-control" id="phpmailer-testaddress" type="text" name="settings[test_address]" placeholder="name@example.tld" value="' . rex_escape($this->getConfig('test_address')) . '" />';
-$formElements[] = $n;
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
 
-$content .= '<p>' . $this->i18n('check_settings_intro') . '</p>';
+
+
 
 $content .= '</fieldset></div>';
 
@@ -362,4 +359,3 @@ echo '
     });
 
 </script>
-
