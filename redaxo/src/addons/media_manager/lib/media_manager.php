@@ -190,7 +190,7 @@ class rex_media_manager
             return $this->cache;
         }
 
-        return $this->cache = rex_file::getCache($this->getHeaderCacheFilename(), null);
+        return $this->cache = rex_file::getCache($this->getHeaderCacheFilename());
     }
 
     public static function deleteCacheByType($type_id)
