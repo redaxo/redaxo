@@ -284,11 +284,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-
-
-
-
-
 $content .= '</fieldset></div>';
 
 $formElements = [];
