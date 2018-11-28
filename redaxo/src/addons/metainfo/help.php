@@ -12,4 +12,4 @@
 <b>MetaForm Addon</b>
 
 <br /><br />
-Addon zur erweiterung der bestehenden Metadaten von Artikeln und Kategorien
+Addon zur Erweiterung der bestehenden Metadaten von Artikeln und Kategorien
