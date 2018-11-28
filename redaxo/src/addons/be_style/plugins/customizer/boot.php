@@ -114,7 +114,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
         // JsProperty CodeMirror-Selectors
         $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
-        if ($config['codemirror-selectors'] != '') {
+        if (isset($config['codemirror-selectors']) && $config['codemirror-selectors'] != '') {
             $selectors = $selectors . ', ' . $config['codemirror-selectors'];
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
