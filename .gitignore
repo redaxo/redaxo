@@ -1,3 +1,5 @@
+.DS_Store
+_notes
 .php_cs.cache
 /.htaccess
 /assets/

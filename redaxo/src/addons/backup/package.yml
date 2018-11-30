@@ -1,5 +1,5 @@
 package: backup
-version: '2.2.0'
+version: '2.2.2'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
@@ -10,6 +10,7 @@ page:
     icon: rex-icon rex-icon-backup
     subpages:
         export: { title: 'translate:backup_export' }
+        export_tables_setting:  { title: 'translate:backup_export_select_tables_setting' }
         import:
             title: 'translate:backup_import'
             perm: 'admin[]'

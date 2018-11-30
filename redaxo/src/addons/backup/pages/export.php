@@ -19,6 +19,7 @@ $exporttype = rex_post('exporttype', 'string');
 $exportdl = rex_post('exportdl', 'boolean');
 $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
+	
 
 if ($exportfilename == '') {
     $server = parse_url(rex::getServer(), PHP_URL_HOST);
@@ -68,7 +69,6 @@ if ($export && !$csrfToken->isValid()) {
             $header = 'plain/text';
 
             $hasContent = rex_backup::exportDb($export_path . $filename . $ext, $EXPTABLES);
-            // ------------------------------ /FUNC EXPORT SQL
         } elseif ($exporttype == 'files') {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
@@ -79,7 +79,6 @@ if ($export && !$csrfToken->isValid()) {
                 $content = rex_backup::exportFiles($EXPDIR);
                 $hasContent = rex_file::put($export_path . $filename . $ext, $content);
             }
-            // ------------------------------ /FUNC EXPORT FILES
         }
 
         if ($hasContent) {
@@ -153,12 +152,16 @@ $tableSelect->setId('rex-form-exporttables');
 $tableSelect->setSize(20);
 $tableSelect->setName('EXPTABLES[]');
 $tableSelect->setAttribute('class', 'form-control');
-$tables = rex_sql::showTables();
+//$tables = rex_sql::showTables();
+$sql_tables = rex_sql::factory();
+$tables = $sql_tables->getTablesAndViews();
 foreach ($tables as $table) {
-    $tableSelect->addOption($table, $table);
-    if ($table != rex::getTable('user') && 0 === strpos($table, rex::getTablePrefix()) && 0 !== strpos($table, rex::getTablePrefix() . rex::getTempPrefix())) {
-        $tableSelect->setSelected($table);
-    }
+    $tableSelect->addOption($table,$table);
+        foreach ($this->getConfig('export_tables_selected') as $table_selected) {
+            if($table == $table_selected) {
+                $tableSelect->setSelected($table);
+            } 
+        }
 }
 
 $formElements = [];

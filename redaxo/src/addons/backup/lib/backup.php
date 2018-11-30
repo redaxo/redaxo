@@ -212,6 +212,12 @@ class rex_backup
 
         // generated neu erstellen, wenn kein Fehler aufgetreten ist
         if ($error == '') {
+            // delete cache before EP to avoid obsolete caches while running extensions
+            rex_delete_cache();
+
+            // refresh rex_config with new values from database
+            rex_config::refresh();
+
             // ----- EXTENSION POINT
             $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
                 'content' => $conts,
@@ -222,6 +228,7 @@ class rex_backup
             // require import skript to do some userside-magic
             self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
 
+            // delete cache again because the extensions and the php script could have changed data again
             $msg .= rex_delete_cache();
             $return['state'] = true;
         }
@@ -296,16 +303,22 @@ class rex_backup
      */
     public static function exportDb($filename, array $tables = null)
     {
-        $fp = @fopen($filename, 'w');
+        $fp = @tmpfile();
+        $tempCacheFile = null;
 
+        // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
-            return false;
+            $tempCacheFile = rex_path::cache(basename($filename));
+            $fp = fopen($tempCacheFile, 'w');
+            if (!$fp) {
+                return false;
+            }
         }
 
         $sql = rex_sql::factory();
 
         $nl = "\n";
-        $insertSize = 5000;
+        $insertSize = 4000;
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_EXPORT'));
@@ -317,16 +330,34 @@ class rex_backup
         //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
-
+		
+		
         if (null === $tables) {
             $tables = [];
-            foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
-                if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                    && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
-                ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-                    $tables[] = $table;
-                }
-            }
+			// Wenn Backup-Addon zur Verfuegung steht und Tabellen ausgewaehlt sind
+			if(count(rex_addon::get('backup')->getConfig('export_tables_selected')) > 0) {
+					$tables = ''; //tables resetten, sonst wird doppelt exportiert, da es ans Array gehaengt wird
+					$tables = rex_addon::get('backup')->getConfig('export_tables_selected');
+					foreach ($tables as $table) {
+						if(substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) {// Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+							//$tables[] = $table;
+						}
+					}
+				//print_r( rex_addon::get('backup')->getConfig('export_tables_selected') );	
+				//print_r($tables);			
+				}
+				// Ansonsten Standard-Backup machen
+				else {
+					foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
+						if ($table != rex::getTable('user') // User Tabelle nicht exportieren
+							&& substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
+						) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+							//$tables[] = $table;
+						}
+					}
+				//echo 'Foo';	
+				}
+		//print_r($tables);		
         }
         foreach ($tables as $table) {
             //---- export metadata
@@ -403,8 +434,6 @@ class rex_backup
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 1;' . $nl);
 
-        fclose($fp);
-
         $hasContent = true;
 
         // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
@@ -420,6 +449,21 @@ class rex_backup
                 $hasContent = !empty($content);
                 unset($content);
             }
+        }
+
+        // Wenn das backup vollständig und erfolgreich erzeugt werden konnte, den Export 1:1 ans Ziel kopieren.
+        if ($tempCacheFile) {
+            fclose($fp);
+            rename($tempCacheFile, $filename);
+        } else {
+            $destination = fopen($filename, 'w');
+            rewind($fp);
+            if (!$destination) {
+                return false;
+            }
+            stream_copy_to_stream($fp, $destination);
+            fclose($fp);
+            fclose($destination);
         }
 
         return $hasContent;
