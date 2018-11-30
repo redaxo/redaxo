@@ -68,7 +68,7 @@ $sel_security_mode->setId('security_mode');
 $sel_security_mode->setName('settings[security_mode]');
 $sel_security_mode->setSize(1);
 $sel_security_mode->setAttribute('class', 'form-control selectpicker');
-$sel_security_mode->setSelected($this->getConfig('security_mode'));
+$sel_security_mode->setSelected((int)$this->getConfig('security_mode'));
 foreach ([0 => $this->i18n('security_mode_manual'), 1 => $this->i18n('security_mode_auto')] as $i => $type) {
     $sel_security_mode->addOption($type, $i);
 }
@@ -78,7 +78,7 @@ $sel_smtpauth->setId('phpmailer-smtpauth');
 $sel_smtpauth->setName('settings[smtpauth]');
 $sel_smtpauth->setSize(1);
 $sel_smtpauth->setAttribute('class', 'form-control selectpicker');
-$sel_smtpauth->setSelected($this->getConfig('smtpauth'));
+$sel_smtpauth->setSelected((int)$this->getConfig('smtpauth'));
 foreach ([0 => $this->i18n('smtp_auth_off'), 1 => $this->i18n('smtp_auth_on')] as $i => $type) {
     $sel_smtpauth->addOption($type, $i);
 }
