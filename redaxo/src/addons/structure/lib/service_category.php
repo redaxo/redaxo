@@ -541,6 +541,11 @@ class rex_category_service
             self::newCatPrio($fcat->getValue('parent_id'), $clang, 0, 1);
         }
 
+        rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
+            'id' => $from_cat,
+            'parent_id' => $to_cat,
+        ]));
+
         return true;
     }
 
