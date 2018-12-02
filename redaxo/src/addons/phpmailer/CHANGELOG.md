@@ -6,8 +6,11 @@ Version 2.5.0 – XX.XX.2018
 
 ### Neu
 
+* Vendor-Update auf 6.0.6 (@skerbis)
 * E-Mail-Benachrichtigung bei Fehlern (@phoebusryan, @skerbis)
-* AutoTLS kann aktiviert/deaktiviert werden (@skerbis)
+* AutoTLS kann aktiviert/deaktiviert werden (@skerbis) 
+* UI überarbeitet und optimiert (@skerbis) 
+* Speichern und Testen (@skerbis)
 * SMTP-Einstellungen werden erst angezeigt, wenn Option gewählt. (@skerbis)
 * Benutzername und Passwort werden erst angezeigt wenn Option gewählt (@skerbis)
 * Aktualisierung Hilfe/Doku (@skerbis)
