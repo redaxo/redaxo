@@ -539,12 +539,13 @@ class rex_category_service
 
         foreach (rex_clang::getAllIds() as $clang) {
             self::newCatPrio($fcat->getValue('parent_id'), $clang, 0, 1);
-        }
 
-        rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
-            'id' => $from_cat,
-            'parent_id' => $to_cat,
-        ]));
+            rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
+                'id' => $from_cat,
+                'clang_id' => $clang,
+                'category_id' => $to_cat,
+            ]));
+        }
 
         return true;
     }
