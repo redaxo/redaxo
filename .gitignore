@@ -1,5 +1,4 @@
 .php_cs.cache
-.DS_Store
 /.htaccess
 /assets/
 /media/
