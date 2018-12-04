@@ -33,13 +33,10 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
     // ---- ext checken - alle scriptendungen rausfiltern
     if (!rex_mediapool_isAllowedMediaType($NFILENAME)) {
-        $NFILE_NAME .= $NFILE_EXT;
+        // make sure we dont add a 2nd file-extension to the file,
+        // because some webspaces execute files like file.php.txt as a php script
+        $NFILE_NAME .= str_replace('.', '_', $NFILE_EXT);
         $NFILE_EXT = '.txt';
-    }
-
-    // ---- multiple extension check
-    foreach (rex_addon::get('mediapool')->getProperty('blocked_extensions') as $ext) {
-        $NFILE_NAME = str_replace($ext . '.', $ext . '_.', $NFILE_NAME);
     }
 
     $NFILENAME = $NFILE_NAME . $NFILE_EXT;
@@ -580,11 +577,15 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     }
 
     $blacklist = rex_mediapool_getMediaTypeBlacklist();
-    $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
-
-    if (in_array($file_ext, $blacklist)) {
-        return false;
+    foreach ($blacklist as $blackExtension) {
+        // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
+        // -> some webspaces execute files named file.php.txt as php
+        if (strpos($filename, '.'. $blackExtension) !== false) {
+            return false;
+        }
     }
+
+    $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
     if (count($whitelist) > 0 && !in_array($file_ext, $whitelist)) {
         return false;
     }
