@@ -33,13 +33,10 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
     // ---- ext checken - alle scriptendungen rausfiltern
     if (!rex_mediapool_isAllowedMediaType($NFILENAME)) {
-        $NFILE_NAME .= $NFILE_EXT;
+        // make sure we dont add a 2nd file-extension to the file,
+        // because some webspaces execute files like file.php.txt as a php script
+        $NFILE_NAME .= str_replace('.', '_', $NFILE_EXT);
         $NFILE_EXT = '.txt';
-    }
-
-    // ---- multiple extension check
-    foreach (rex_addon::get('mediapool')->getProperty('blocked_extensions') as $ext) {
-        $NFILE_NAME = str_replace($ext . '.', $ext . '_.', $NFILE_NAME);
     }
 
     $NFILENAME = $NFILE_NAME . $NFILE_EXT;
