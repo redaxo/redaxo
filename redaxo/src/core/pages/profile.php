@@ -82,7 +82,6 @@ if ($update && !$error) {
         ], true));
 
         rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true], false));
-
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }
