@@ -14,6 +14,8 @@ if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
         if (isset($selectedmedia[0]) && $selectedmedia[0] != '') {
             foreach ($selectedmedia as $file_name) {
                 $db = rex_sql::factory();
+                $db->setQuery('Select category_id from ' . rex::getTable('media') . ' where filename = ?', [$file_name]);
+                $previous_id = $db->getValue('category_id');
                 // $db->setDebug();
                 $db->setTable(rex::getTablePrefix() . 'media');
                 $db->setWhere(['filename' => $file_name]);
@@ -25,6 +27,7 @@ if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
                     rex_media_cache::delete($file_name);
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
                         'file_name' => $file_name,
+                        'previous_id' => $previous_id,
                         'category_id' => $rex_file_category,
                     ]));
                 } catch (rex_sql_exception $e) {
