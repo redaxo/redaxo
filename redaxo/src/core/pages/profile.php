@@ -54,6 +54,10 @@ if ($update) {
     }
 }
 
+if (rex_request('rex_user_updated', 'bool', false)) {
+    $success = rex_i18n::msg('user_data_updated');
+}
+
 if ($update && !$error) {
     $userminibar = rex_request('minibar', 'bool');
 
@@ -76,6 +80,9 @@ if ($update && !$error) {
             'user_id' => $user_id,
             'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
         ], true));
+
+        rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true], false));
+
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
     }
@@ -193,7 +200,7 @@ $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
 $content = '
-    <form action="' . rex_url::currentBackendPage() . '" method="post">
+    <form action="' . rex_url::currentBackendPage() . '" method="post" data-pjax="false">
         ' . $csrfToken->getHiddenField() . '
         ' . $content . '
     </form>';
