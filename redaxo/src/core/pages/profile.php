@@ -81,7 +81,8 @@ if ($update && !$error) {
             'user_id' => $user_id,
             'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
         ], true));
-// trigger a fullpage-reload which immediately reflects a possible changed language
+
+        // trigger a fullpage-reload which immediately reflects a possible changed language
         rex_response::sendRedirect(rex_url::currentBackendPage(['rex_user_updated' => true], false));
     } catch (rex_sql_exception $e) {
         $error = $e->getMessage();
