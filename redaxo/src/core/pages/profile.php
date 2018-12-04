@@ -54,6 +54,8 @@ if ($update) {
     }
 }
 
+// Restore success message after redirect
+// is necessary to show the whole page in the selected language
 if (rex_request('rex_user_updated', 'bool', false)) {
     $success = rex_i18n::msg('user_data_updated');
 }
@@ -74,7 +76,6 @@ if ($update && !$error) {
 
     try {
         $updateuser->update();
-        $success = rex_i18n::msg('user_data_updated');
 
         rex_extension::registerPoint(new rex_extension_point('PROFILE_UPDATED', '', [
             'user_id' => $user_id,
