@@ -580,11 +580,15 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     }
 
     $blacklist = rex_mediapool_getMediaTypeBlacklist();
-    $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
-
-    if (in_array($file_ext, $blacklist)) {
-        return false;
+    foreach ($blacklist as $blackExtension) {
+        // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
+        // -> some webspaces execute files named file.php.txt as php
+        if (strpos($filename, '.'. $blackExtension) !== false) {
+            return false;
+        }
     }
+
+    $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
     if (count($whitelist) > 0 && !in_array($file_ext, $whitelist)) {
         return false;
     }
