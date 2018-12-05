@@ -173,7 +173,7 @@ class rex_response
                     $handle = fopen($file, 'rb');
                     fseek($handle, $range->getStart());
                     while (ftell($handle) < $range->getEnd()) {
-                        echo fread($handle, 1024*8);
+                        echo fread($handle, 1024 * 8);
                     }
                     fclose($handle);
                 }
