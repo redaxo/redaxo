@@ -252,9 +252,9 @@ class rex_media_manager
                 unset($header['Last-Modified']);
             }
             foreach ($header as $t => $c) {
-                header($t . ': ' . $c);
+                rex_response::setHeader($t, $c);
             }
-            readfile($CacheFilename);
+            rex_response::sendFile($CacheFilename, $header['Content-Type']);
         } else {
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
         }

@@ -8,6 +8,7 @@
 class rex_response
 {
     const HTTP_OK = '200 OK';
+    const HTTP_PARTIAL_CONTENT = '206 Partial Content';
     const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
     const HTTP_NOT_MODIFIED = '304 Not Modified';
     const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
@@ -157,6 +158,28 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+
+        if (PHP_VERSION_ID >= 50600) {
+            header('Accept-Ranges: bytes');
+            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+            if ($rangeHeader) {
+                $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                $ranges = $unitFactory->getUnit(trim($rangeHeader), filesize($file))->getRanges();
+                foreach ($ranges as $range) {
+                    header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                    header('Content-Length: '.$range->getLength());
+                    header('Content-Range: bytes '.$range->getStart().'-'.$range->getEnd().'/'.filesize($file));
+
+                    $handle = fopen($file, 'rb');
+                    fseek($handle, $range->getStart());
+                    while (ftell($handle) < $range->getEnd()) {
+                        echo fread($handle, 1024*8);
+                    }
+                    fclose($handle);
+                }
+                return;
+            }
+        }
 
         readfile($file);
     }

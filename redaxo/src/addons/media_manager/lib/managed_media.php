@@ -165,18 +165,37 @@ class rex_managed_media
 
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
-        $src = $this->getSource();
-
-        $this->prepareHeaders($src);
+        if ($this->asImage) {
+            $src = $this->getSource();
+            $this->prepareHeaders($src);
+        } else {
+            // Content-Length will be overwritten by rex_response::sendFile
+            $this->prepareHeaders('');
+        }
 
         rex_response::cleanOutputBuffers();
         foreach ($this->header as $t => $c) {
-            header($t . ': ' . $c);
+            rex_response::setHeader($t, $c);
         }
-        echo $src;
 
-        if ($save) {
-            $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+        if ($this->asImage) {
+            echo $src;
+
+            if ($save) {
+                $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+            }
+        } else {
+            if ($save) {
+                rex_file::putCache($headerCacheFilename, [
+                    'media_path' => $this->getMediaPath(),
+                    'format' => $this->format,
+                    'headers' => $this->header,
+                ]);
+
+                rex_file::copy($this->getSourcePath(), $sourceCacheFilename);
+            }
+
+            rex_response::sendFile($this->getSourcePath(), $this->getHeader()['Content-Type']);
         }
     }
 
