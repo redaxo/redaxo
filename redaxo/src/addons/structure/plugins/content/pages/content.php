@@ -6,12 +6,6 @@
  * @package redaxo5
  */
 
-/*
-// TODOS:
-// - alles vereinfachen
-// - <?php ?> $ Problematik bei REX_ACTION
-*/
-
 $content = '';
 
 $article_id = rex_request('article_id', 'int');
