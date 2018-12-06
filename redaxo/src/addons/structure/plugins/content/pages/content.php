@@ -6,12 +6,6 @@
  * @package redaxo5
  */
 
-/*
-// TODOS:
-// - alles vereinfachen
-// - <?php ?> $ Problematik bei REX_ACTION
-*/
-
 $content = '';
 
 $article_id = rex_request('article_id', 'int');
@@ -57,7 +51,7 @@ if ($article->getRows() == 1) {
     $ctype = rex_request('ctype', 'int', 1);
     if (!array_key_exists($ctype, $ctypes)) {
         $ctype = 1;
-    } // default = 1
+    }
 
     // ----- Artikel wurde gefunden - Kategorie holen
     $OOArt = rex_article::get($article_id, $clang);
@@ -97,11 +91,6 @@ if ($article->getRows() == 1) {
         'article_revision' => &$article_revision,
         'slice_revision' => &$slice_revision,
     ]));
-
-    // --------------------- SEARCH BAR
-
-    //require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
-    //echo rex_structure_searchbar($context);
 
     // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
     if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
