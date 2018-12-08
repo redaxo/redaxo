@@ -66,6 +66,7 @@ if ($article->getRows() == 1) {
     $context = new rex_context([
         'page' => rex_be_controller::getCurrentPage(),
         'article_id' => $article_id,
+        'category_id' => $category_id,
         'clang' => $clang,
         'ctype' => $ctype,
     ]);
