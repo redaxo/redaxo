@@ -54,7 +54,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
         $method = $class->getMethod('writeRequest');
         $method->setAccessible(true);
 
-        $stream = fopen('php://temp', 'r+');
+        $stream = fopen('php://temp', 'r+b');
         $property->setValue($socket, $stream);
         $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 

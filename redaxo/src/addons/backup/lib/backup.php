@@ -309,7 +309,7 @@ class rex_backup
         // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
             $tempCacheFile = rex_path::cache(basename($filename));
-            $fp = fopen($tempCacheFile, 'w');
+            $fp = fopen($tempCacheFile, 'wb');
             if (!$fp) {
                 return false;
             }
@@ -438,7 +438,7 @@ class rex_backup
             fclose($fp);
             rename($tempCacheFile, $filename);
         } else {
-            $destination = fopen($filename, 'w');
+            $destination = fopen($filename, 'wb');
             rewind($fp);
             if (!$destination) {
                 return false;
