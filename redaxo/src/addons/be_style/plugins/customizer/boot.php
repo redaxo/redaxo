@@ -22,7 +22,9 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     if (rex_request('themes', 'string', '') != '') {
         $_themes = explode(',', rex_request('themes', 'string', ''));
         foreach ($_themes as $_theme) {
-            $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+            if (preg_match('/[a-z0-9\._-]+/i', $_theme)) {
+                $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+            }
         }
     }
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
