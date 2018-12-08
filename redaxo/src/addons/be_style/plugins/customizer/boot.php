@@ -141,6 +141,9 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
     }
     if ($config['showlink']) {
-        rex_view::setJsProperty('customizer_showlink', '<h1 class="be-style-customizer-title"><a href="'. rex::getServer() .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex::getServerName() . '</span><i class="fa fa-external-link"></i></a></h1>');
+        rex_view::setJsProperty(
+            'customizer_showlink',
+            '<h1 class="be-style-customizer-title"><a href="'. rex_escape(rex::getServer(), 'html_attr') .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>'
+        );
     }
 }

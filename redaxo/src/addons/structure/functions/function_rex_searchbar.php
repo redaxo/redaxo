@@ -16,6 +16,8 @@
  * @package redaxo\structure
  *
  * @internal
+ *
+ * @deprecated wird im core nicht mehr benutzt, daher deprecated
  */
 function rex_structure_searchbar(rex_context $context)
 {
