@@ -194,6 +194,7 @@ class rex_managed_media
                     }
                 } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
                     header('HTTP/1.1 ' . rex_response::HTTP_RANGE_NOT_SATISFIABLE);
+                    $outputted = true;
                 }
             }
         }
