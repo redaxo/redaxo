@@ -1225,6 +1225,16 @@ class rex_sql implements Iterator
      */
     public function escape($value)
     {
+        // fast-exit for very frequent used harmless values
+        if ($value === false || $value === true || $value === null || $value === '0' || $value === '' || $value === ' ' || $value === '|' || $value === '||') {
+            return "'". $value ."'";
+        }
+
+        // fast-exit for very frequent used harmless values
+        if (\strlen($value) <= 3 && ctype_alnum($value)) {
+            return "'". $value ."'";
+        }
+
         return self::$pdo[$this->DBID]->quote($value);
     }
 
