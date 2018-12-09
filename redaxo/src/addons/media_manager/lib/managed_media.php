@@ -175,6 +175,7 @@ class rex_managed_media
         }
 
         $outputted = false;
+        // dependency ramsey/http-range requires PHP >=5.6
         if (PHP_VERSION_ID >= 50600) {
             header('Accept-Ranges: bytes');
             $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
