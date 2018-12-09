@@ -169,17 +169,22 @@ class rex_response
                     $unitFactory = new \Ramsey\Http\Range\UnitFactory();
                     $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
                     $handle = fopen($file, 'rb');
-                    foreach ($ranges as $range) {
-                        header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
-                        header('Content-Length: ' . $range->getLength());
-                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+                    if (is_resource($handle)) {
+                        foreach ($ranges as $range) {
+                            header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                            header('Content-Length: ' . $range->getLength());
+                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
 
-                        fseek($handle, $range->getStart());
-                        while (ftell($handle) < $range->getEnd()) {
-                            echo fread($handle, 1024 * 8);
+                            fseek($handle, $range->getStart());
+                            while (ftell($handle) < $range->getEnd()) {
+                                echo fread($handle, 1024 * 8);
+                            }
                         }
+                        fclose($handle);
+                    } else {
+                        // Send Error if file couldn't be read
+                        header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                     }
-                    fclose($handle);
                 } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
                     header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
                 }
