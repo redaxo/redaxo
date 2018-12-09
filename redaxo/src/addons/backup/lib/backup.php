@@ -357,6 +357,9 @@ class rex_backup
                     $field = 'double';
                 } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
                     $field = 'string';
+                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $field['Type'])) {
+                    // types which can be passed tru 1:1 as escaping isn't necessary, because we know the mysql internal format.
+                    $field = 'raw';
                 }
                 // else ?
             }
@@ -386,6 +389,10 @@ class rex_backup
                         $column = $row[$idx];
 
                         switch ($type) {
+                            // prevent calling sql->escape() on values with a known format
+                            case 'raw':
+                                $record[] = "'". $column ."'";
+                                break;
                             case 'int':
                                 $record[] = (int) $column;
                                 break;
