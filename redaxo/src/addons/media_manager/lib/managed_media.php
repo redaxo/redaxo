@@ -173,7 +173,33 @@ class rex_managed_media
         foreach ($this->header as $t => $c) {
             header($t . ': ' . $c);
         }
-        echo $src;
+
+        $outputted = false;
+        if (PHP_VERSION_ID >= 50600) {
+            header('Accept-Ranges: bytes');
+            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+            if ($rangeHeader) {
+                try {
+                    $mediaSize = rex_string::size($src);
+
+                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $mediaSize)->getRanges();
+                    foreach ($ranges as $range) {
+                        header('HTTP/1.1 ' . rex_response::HTTP_PARTIAL_CONTENT);
+                        header('Content-Length: ' . $range->getLength());
+                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $mediaSize);
+
+                        echo substr($src, $range->getStart(), $range->getLength());
+                        $outputted = true;
+                    }
+                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                    header('HTTP/1.1 ' . rex_response::HTTP_RANGE_NOT_SATISFIABLE);
+                }
+            }
+        }
+        if (!$outputted) {
+            echo $src;
+        }
 
         if ($save) {
             $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
