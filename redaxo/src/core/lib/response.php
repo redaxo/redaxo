@@ -15,6 +15,7 @@ class rex_response
     const HTTP_NOT_FOUND = '404 Not Found';
     const HTTP_FORBIDDEN = '403 Forbidden';
     const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
     const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
     const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
@@ -163,19 +164,24 @@ class rex_response
             header('Accept-Ranges: bytes');
             $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
             if ($rangeHeader) {
-                $unitFactory = new \Ramsey\Http\Range\UnitFactory();
-                $ranges = $unitFactory->getUnit(trim($rangeHeader), filesize($file))->getRanges();
-                foreach ($ranges as $range) {
-                    header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
-                    header('Content-Length: '.$range->getLength());
-                    header('Content-Range: bytes '.$range->getStart().'-'.$range->getEnd().'/'.filesize($file));
-
+                try {
+                    $filesize = filesize($file);
+                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
                     $handle = fopen($file, 'rb');
-                    fseek($handle, $range->getStart());
-                    while (ftell($handle) < $range->getEnd()) {
-                        echo fread($handle, 1024 * 8);
+                    foreach ($ranges as $range) {
+                        header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                        header('Content-Length: ' . $range->getLength());
+                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+
+                        fseek($handle, $range->getStart());
+                        while (ftell($handle) < $range->getEnd()) {
+                            echo fread($handle, 1024 * 8);
+                        }
                     }
                     fclose($handle);
+                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                    header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
                 }
                 return;
             }
