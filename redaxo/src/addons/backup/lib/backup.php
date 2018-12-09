@@ -394,7 +394,7 @@ class rex_backup
                                 break;
                             case 'string':
                             default:
-                                $record[] = $sql->escape($column, "'");
+                                $record[] = $sql->escape($column);
                                 break;
                         }
                     }
