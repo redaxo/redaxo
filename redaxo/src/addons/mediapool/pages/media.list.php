@@ -303,7 +303,7 @@ $panel = '
 
                     $panel .= '<tr>
                     ' . $add_td . '
-                    <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
+                    <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '"><div class="lazyload" data-noscript=""><noscript>' . $thumbnail . '</noscript></div></a></td>
                     <td data-title="' . rex_i18n::msg('pool_file_info') . '">
                         <h3><a href="' . $ilink . '">' . rex_escape($file_title) . '</a></h3>
                         ' . $desc . '
