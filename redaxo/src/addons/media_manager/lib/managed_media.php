@@ -165,46 +165,68 @@ class rex_managed_media
 
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
-        $src = $this->getSource();
+        if  ($this->asImage) {
+            $src = $this->getSource();
 
-        $this->prepareHeaders($src);
+            $this->prepareHeaders($src);
 
-        rex_response::cleanOutputBuffers();
-        foreach ($this->header as $t => $c) {
-            header($t . ': ' . $c);
-        }
+            rex_response::cleanOutputBuffers();
+            foreach ($this->header as $t => $c) {
+                header($t . ': ' . $c);
+            }
 
-        $outputted = false;
-        // dependency ramsey/http-range requires PHP >=5.6
-        if (PHP_VERSION_ID >= 50600) {
-            header('Accept-Ranges: bytes');
-            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
-            if ($rangeHeader) {
-                try {
-                    $mediaSize = rex_string::size($src);
+            $outputted = false;
+            // dependency ramsey/http-range requires PHP >=5.6
+            if (PHP_VERSION_ID >= 50600) {
+                header('Accept-Ranges: bytes');
+                $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+                if ($rangeHeader) {
+                    try {
+                        $mediaSize = rex_string::size($src);
 
-                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
-                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $mediaSize)->getRanges();
-                    foreach ($ranges as $range) {
-                        header('HTTP/1.1 ' . rex_response::HTTP_PARTIAL_CONTENT);
-                        header('Content-Length: ' . $range->getLength());
-                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $mediaSize);
+                        $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                        $ranges = $unitFactory->getUnit(trim($rangeHeader), $mediaSize)->getRanges();
+                        foreach ($ranges as $range) {
+                            header('HTTP/1.1 ' . rex_response::HTTP_PARTIAL_CONTENT);
+                            header('Content-Length: ' . $range->getLength());
+                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $mediaSize);
 
-                        echo substr($src, $range->getStart(), $range->getLength());
+                            echo substr($src, $range->getStart(), $range->getLength());
+                            $outputted = true;
+                        }
+                    } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                        header('HTTP/1.1 ' . rex_response::HTTP_RANGE_NOT_SATISFIABLE);
                         $outputted = true;
                     }
-                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
-                    header('HTTP/1.1 ' . rex_response::HTTP_RANGE_NOT_SATISFIABLE);
-                    $outputted = true;
                 }
             }
-        }
-        if (!$outputted) {
-            echo $src;
-        }
+            if (!$outputted) {
+                echo $src;
+            }
 
-        if ($save) {
-            $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+            if ($save) {
+                $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+            }
+        } else {
+            // Content-Length header will be overwritten by rex_response::sendFile
+            $this->prepareHeaders('');
+
+            rex_response::cleanOutputBuffers();
+            foreach ($this->header as $t => $c) {
+                header($t . ': ' . $c);
+            }
+
+            rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
+
+            if ($save) {
+                rex_file::putCache($headerCacheFilename, [
+                    'media_path' => $this->getMediaPath(),
+                    'format' => $this->format,
+                    'headers' => $this->header,
+                ]);
+
+                rex_file::copy($this->getSourcePath(), $sourceCacheFilename);
+            }
         }
     }
 
