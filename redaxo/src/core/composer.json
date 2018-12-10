@@ -4,6 +4,7 @@
         "erusev/parsedown-extra": "^0.7",
         "filp/whoops": "^2.2.1",
         "psr/log": "^1.0",
+        "ramsey/http-range": "dev-master",
         "roave/security-advisories": "dev-master",
         "symfony/console": "^3.4",
         "symfony/polyfill-mbstring": "^1.6",
