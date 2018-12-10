@@ -238,6 +238,17 @@ class rex_media_manager
 
         rex_response::cleanOutputBuffers();
 
+        // check for a cache-buster. this needs to be done, before the session gets closed/aborted.
+        // the header is sent directly, to make sure it gets not cached with the other media related headers.
+        $cacheControl = null;
+        if (rex_get('buster')) {
+            if (PHP_SESSION_ACTIVE == session_status()) {
+                rex_response::sendCacheControl('private, max-age=31536000, immutable');
+            } else {
+                rex_response::sendCacheControl('public, max-age=31536000, immutable');
+            }
+        }
+
         // prevent session locking trough other addons
         if (function_exists('session_abort')) {
             session_abort();
