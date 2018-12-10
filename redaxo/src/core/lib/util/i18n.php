@@ -441,6 +441,12 @@ class rex_i18n
     {
         if (rex::getConsole() || rex_backend_login::hasSession() && ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
             self::$cacheLoaded = false;
+
+            // we need to write the cache file even the cache isn't used by the user
+            if (!self::$registeredShutdown) {
+                register_shutdown_function([__CLASS__, 'saveCache']);
+                self::$registeredShutdown = true;
+            }
             return;
         }
 
@@ -485,11 +491,12 @@ class rex_i18n
     }
 
     /**
-     * Resets to the default values
+     * Resets to the default values.
      *
      * @internal
      */
-    public static function reset() {
+    public static function reset()
+    {
         self::clearCache();
 
         $savedDirs = self::$directories;
