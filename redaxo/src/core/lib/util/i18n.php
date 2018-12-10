@@ -90,7 +90,8 @@ class rex_i18n
         self::$directories[] = $dir;
 
         if (!is_readable($dir)) {
-            throw new rex_exception('Directory "'.$dir.'" is not readable, check its permissions');
+            // the lang/ folder in a package is optional
+            return;
         }
 
         foreach (self::$loaded as $locale => $_) {
