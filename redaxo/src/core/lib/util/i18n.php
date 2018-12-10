@@ -485,7 +485,7 @@ class rex_i18n
     }
 
     /**
-     *  Resets to the default values
+     * Resets to the default values
      *
      * @internal
      */
