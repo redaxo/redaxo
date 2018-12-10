@@ -400,8 +400,20 @@ class rex_backup
                                 $record[] = sprintf('%.10F', (float) $column);
                                 break;
                             case 'string':
+                                // fast-exit for very frequent used harmless values
+                                if ($column === '0' || $column === '' || $column === ' ' || $column === '|' || $column === '||') {
+                                    $record[] = "'". $column ."'";
+                                    break;
+                                }
+
+                                // fast-exit for very frequent used harmless values
+                                if (\strlen($column) <= 3 && ctype_alnum($column)) {
+                                    $record[] = "'". $column ."'";
+                                    break;
+                                }
+                                // no break
                             default:
-                                $record[] = $sql->escape($column, "'");
+                                $record[] = $sql->escape($column);
                                 break;
                         }
                     }
