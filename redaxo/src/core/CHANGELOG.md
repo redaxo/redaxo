@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 5.6.5 – 10.12.2018
+--------------------------
+
+### Security
+
+* Update des phpmailers wg. Sicherheitslücken
+
 Version 5.6.4 – 01.10.2018
 --------------------------
 
