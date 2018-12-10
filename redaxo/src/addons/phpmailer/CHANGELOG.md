@@ -8,6 +8,7 @@ Version 2.4.1 – 10.12.2018
 
 * Update des phpmailers wg. Sicherheitslücken
 
+
 Version 2.4.0 – 05.06.2018
 --------------------------
 
