@@ -8,6 +8,10 @@ Version 5.6.5 – 10.12.2018
 
 * Update des phpmailers wg. Sicherheitslücken
 
+### Bugfixes
+
+* Update der externen Bibliotheken
+
 Version 5.6.4 – 01.10.2018
 --------------------------
 
