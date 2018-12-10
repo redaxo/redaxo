@@ -165,7 +165,7 @@ class rex_managed_media
 
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
-        if  ($this->asImage) {
+        if ($this->asImage) {
             $src = $this->getSource();
 
             $this->prepareHeaders($src);
