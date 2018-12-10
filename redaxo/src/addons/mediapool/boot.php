@@ -17,6 +17,7 @@ rex_complex_perm::register('media', 'rex_media_perm');
 require_once __DIR__ . '/functions/function_rex_mediapool.php';
 
 if (rex::isBackend() && rex::getUser()) {
+    rex_view::addJsFile($this->getAssetsUrl('lazysizes.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('mediapool.js'));
     rex_view::setJsProperty('imageExtensions', $this->getProperty('image_extensions'));
 }
