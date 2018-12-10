@@ -124,9 +124,9 @@ if ($func == '' && $type_id > 0) {
     });
 
     if ($func == 'edit') {
-        $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', htmlspecialchars($typeName));
+        $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', rex_escape($typeName));
     } elseif ($func == 'add') {
-        $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', htmlspecialchars($typeName));
+        $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', rex_escape($typeName));
     }
 
     $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effect_id);

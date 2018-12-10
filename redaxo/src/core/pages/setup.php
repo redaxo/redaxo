@@ -140,6 +140,12 @@ if ($step == 3) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
+    if (version_compare(PHP_VERSION, '5.6', '<') == 1) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (version_compare(PHP_VERSION, '7.0', '<=') == 1 && time() > strtotime('1 Jan 2019')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    }
+
     echo rex_view::title(rex_i18n::msg('setup_300'));
 
     $fragment = new rex_fragment();

@@ -8,6 +8,7 @@ setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
 phpini_settings = Ajustes PHP.ini
 
 datetimeformat = %d-%b-%Y %H:%M
+timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
 
 # Allgemein
@@ -27,7 +28,6 @@ function = Función
 no_editing_rights = Permiso denegado
 check_rights_in_directory = Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
-csrf_token_invalid = El token csrf no es válido.
 
 # redaxo/redaxo/index.php
 system = Sistema

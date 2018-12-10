@@ -1118,15 +1118,31 @@ class rex_sql implements Iterator
      */
     protected function printError($qry, $params)
     {
-        $errors['debug'] = true;
         $errors['query'] = $qry;
         if (!empty($params)) {
             $errors['params'] = $params;
+
+            // taken from https://github.com/doctrine/DoctrineBundle/blob/d57c1a35cd32e6b942fdda90ae3888cc1bb41e6b/Twig/DoctrineExtension.php#L290-L305
+            $i = 0;
+            $errors['fullquery'] = preg_replace_callback(
+                '/\?|((?<!:):[a-z0-9_]+)/i',
+                static function ($matches) use ($params, &$i) {
+                    $key = substr($matches[0], 1);
+                    if (!array_key_exists($i, $params) && ($key === false || !array_key_exists($key, $params))) {
+                        return $matches[0];
+                    }
+                    $value = array_key_exists($i, $params) ? $params[$i] : $params[$key];
+                    $result = self::factory()->escape($value);
+                    ++$i;
+                    return $result;
+                },
+                $qry
+            );
         }
-        if (strlen($this->getRows()) > 0) {
+        if ($this->getRows()) {
             $errors['count'] = $this->getRows();
         }
-        if (strlen($this->getError()) > 0) {
+        if ($this->getError()) {
             $errors['error'] = $this->getError();
             $errors['ecode'] = $this->getErrno();
         }

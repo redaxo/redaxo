@@ -147,7 +147,7 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = get_called_class();
+        $class = static::class;
         return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
             // generate cache if not exists
@@ -186,7 +186,7 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = get_called_class();
+        $class = static::class;
         return static::getInstanceList(
             // list key
             [$parentId, $listType],
@@ -397,8 +397,8 @@ abstract class rex_structure_element
      */
     public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = [])
     {
-        $name = htmlspecialchars($this->getName());
-        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
+        $name = $this->getName();
+        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name, 'html_attr') . '">' . rex_escape($name) . '</a>';
 
         if ($sorroundTag !== null && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';

@@ -40,8 +40,8 @@ $formElements = [];
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" name="settings[jpg_quality]" value="' . htmlspecialchars($this->getConfig('jpg_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-jpg-quality" type="range" min="0" max="100" step="1" value="' . rex_escape($this->getConfig('jpg_quality'), 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-jpg-quality" type="text" name="settings[jpg_quality]" value="' . rex_escape($this->getConfig('jpg_quality'), 'html_attr') . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -56,8 +56,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="100" step="1" value="' . htmlspecialchars($this->getConfig('webp_quality')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[webp_quality]" value="' . htmlspecialchars($this->getConfig('webp_quality')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-webp-quality" type="range" min="0" max="100" step="1" value="' . rex_escape($this->getConfig('webp_quality'), 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-webp-quality" type="text" name="settings[webp_quality]" value="' . rex_escape($this->getConfig('webp_quality'), 'html_attr') . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();
@@ -72,8 +72,8 @@ $formElements[] = $n;
 $inputGroups = [];
 $n = [];
 $n['class'] = 'rex-range-input-group';
-$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . htmlspecialchars($this->getConfig('png_compression')) . '" />';
-$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . htmlspecialchars($this->getConfig('png_compression')) . '" />';
+$n['left'] = '<input id="rex-js-rating-source-png-compression" type="range" min="0" max="9" step="1" value="' . rex_escape($this->getConfig('png_compression'), 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" id="rex-js-rating-text-png-compression" type="text" name="settings[png_compression]" value="' . rex_escape($this->getConfig('png_compression'), 'html_attr') . '" />';
 $inputGroups[] = $n;
 
 $fragment = new rex_fragment();

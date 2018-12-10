@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.XX.2018
+--------------------------
+
+### Neu
+
+* E-Mail-Benachrichtigung bei Fehlern (@phoebusryan, @skerbis)
+* AutoTLS kann aktiviert/deaktiviert werden (@skerbis)
+* SMTP-Einstellungen werden erst angezeigt, wenn Option gewählt. (@skerbis)
+* Benutzername und Passwort werden erst angezeigt wenn Option gewählt (@skerbis)
+* Aktualisierung Hilfe/Doku (@skerbis)
+
+
 Version 2.4.0 – 05.06.2018
 --------------------------
 

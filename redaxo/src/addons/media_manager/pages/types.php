@@ -25,11 +25,18 @@ if ((rex_request('func') == 'edit' || $func == 'delete') && $type_id > 0) {
 if ($func == 'delete' && $type_id > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
-    $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
-    $sql->setWhere(['id' => $type_id]);
 
     try {
-        $sql->delete();
+        $sql->transactional(function () use ($sql, $type_id) {
+            $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
+            $sql->setWhere(['id' => $type_id]);
+            $sql->delete();
+
+            $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
+            $sql->setWhere(['type_id' => $type_id]);
+            $sql->delete();
+        });
+
         $success = rex_i18n::msg('media_manager_type_deleted');
     } catch (rex_sql_exception $e) {
         $error = $sql->getError();
@@ -86,8 +93,8 @@ if ($func == '') {
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
     $list->setColumnFormat('name', 'custom', function ($params) {
         $list = $params['list'];
-        $name = '<b>' . $list->getValue('name') . '</b>';
-        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . $list->getValue('description') . '</span>' : '';
+        $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
+        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
         return $name;
     });
 
@@ -162,12 +169,14 @@ if ($func == '') {
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));
+    $field->setAttribute('maxlength', 255);
     $field->getValidator()
         ->add('notEmpty', rex_i18n::msg('media_manager_error_name'))
         ->add('notMatch', rex_i18n::msg('media_manager_error_type_name_invalid'), '{[/\\\\]}');
 
     $field = $form->addTextareaField('description');
     $field->setLabel(rex_i18n::msg('media_manager_type_description'));
+    $field->setAttribute('maxlength', 255);
 
     $content .= $form->get();
 

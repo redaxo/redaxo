@@ -354,7 +354,7 @@ class rex_i18n
             return call_user_func($i18nFunction, substr($text, $transKeyLen));
         }
         if ($use_htmlspecialchars) {
-            return htmlspecialchars($text);
+            return rex_escape($text);
         }
         return $text;
     }

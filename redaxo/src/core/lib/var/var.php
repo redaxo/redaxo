@@ -127,7 +127,7 @@ abstract class rex_var
     {
         if (!isset(self::$vars[$var])) {
             $class = 'rex_var_' . strtolower(substr($var, 4));
-            if (!class_exists($class) || !is_subclass_of($class, __CLASS__)) {
+            if (!class_exists($class) || !is_subclass_of($class, self::class)) {
                 return false;
             }
             self::$vars[$var] = $class;
@@ -157,7 +157,13 @@ abstract class rex_var
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
         $variables = [];
+        $replacements = [];
+
         foreach ($iterator as $match) {
+            if (isset($replacements[$match[0]])) {
+                continue;
+            }
+
             $var = self::getVar($match[1]);
             $replaced = false;
 
@@ -171,11 +177,12 @@ abstract class rex_var
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
-                        $variables[] = $replace . ' = ' . $output;
+                        $variables[] = '/* '. $match[0] .' */ ' . $replace . ' = ' . $output;
                     } else {
-                        $replace = $output;
+                        $replace = '/* '. $match[0] .' */ '. $output;
                     }
-                    $content = str_replace($match[0], sprintf($format, $replace), $content);
+
+                    $replacements[$match[0]] = sprintf($format, $replace);
                     $replaced = true;
                 }
             }
@@ -185,9 +192,14 @@ abstract class rex_var
             }
         }
 
+        if ($replacements) {
+            $content = strtr($content, $replacements);
+        }
+
         if ($useVariables && !empty($variables)) {
             $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
+
         return $content;
     }
 

@@ -44,13 +44,13 @@ class rex_autoload
             self::$composerLoader->setClassMapAuthoritative(true);
         }
 
-        if (false === spl_autoload_register([__CLASS__, 'autoload'])) {
-            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
+        if (false === spl_autoload_register([self::class, 'autoload'])) {
+            throw new Exception(sprintf('Unable to register %s::autoload as an autoloading method.', self::class));
         }
 
         self::$cacheFile = rex_path::coreCache('autoload.cache');
         self::loadCache();
-        register_shutdown_function([__CLASS__, 'saveCache']);
+        register_shutdown_function([self::class, 'saveCache']);
 
         self::$registered = true;
     }
@@ -60,7 +60,7 @@ class rex_autoload
      */
     public static function unregister()
     {
-        spl_autoload_unregister([__CLASS__, 'autoload']);
+        spl_autoload_unregister([self::class, 'autoload']);
         self::$registered = false;
     }
 
@@ -105,7 +105,7 @@ class rex_autoload
         // but only if an admin is logged in
         if (
             (!self::$reloaded || $force) &&
-            (rex::getConsole() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
+            (rex::isSetup() || rex::getConsole() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
         ) {
             self::reload($force);
             return self::autoload($class);
@@ -144,6 +144,13 @@ class rex_autoload
     public static function saveCache()
     {
         if (!self::$cacheChanged) {
+            return;
+        }
+
+        // dont persist a possible incomplete cache, because requests of end-users (which are not allowed to regenerate a existing cache)
+        // can error in some crazy class-not-found errors which are hard to debug.
+        $error = error_get_last();
+        if (is_array($error) && in_array($error['type'], [E_USER_ERROR, E_ERROR, E_COMPILE_ERROR, E_RECOVERABLE_ERROR, E_PARSE])) {
             return;
         }
 

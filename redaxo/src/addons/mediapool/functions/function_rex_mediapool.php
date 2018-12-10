@@ -33,13 +33,10 @@ function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 
     // ---- ext checken - alle scriptendungen rausfiltern
     if (!rex_mediapool_isAllowedMediaType($NFILENAME)) {
-        $NFILE_NAME .= $NFILE_EXT;
+        // make sure we dont add a 2nd file-extension to the file,
+        // because some webspaces execute files like file.php.txt as a php script
+        $NFILE_NAME .= str_replace('.', '_', $NFILE_EXT);
         $NFILE_EXT = '.txt';
-    }
-
-    // ---- multiple extension check
-    foreach (rex_addon::get('mediapool')->getProperty('blocked_extensions') as $ext) {
-        $NFILE_NAME = str_replace($ext . '.', $ext . '_.', $NFILE_NAME);
     }
 
     $NFILENAME = $NFILE_NAME . $NFILE_EXT;
@@ -456,12 +453,12 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $arg_fields = '';
     foreach (rex_request('args', 'array') as $arg_name => $arg_value) {
-        $arg_fields .= '<input type="hidden" name="args[' . $arg_name . ']" value="' . $arg_value . '" />' . "\n";
+        $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name, 'html_attr') . ']" value="' . rex_escape($arg_value, 'html_attr') . '" />' . "\n";
     }
 
     $opener_input_field = rex_request('opener_input_field', 'string');
     if ($opener_input_field != '') {
-        $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . htmlspecialchars($opener_input_field) . '" />' . "\n";
+        $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" />' . "\n";
     }
 
     $add_submit = '';
@@ -480,7 +477,7 @@ function rex_mediapool_Mediaform($form_title, $button_title, $rex_file_category,
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . htmlspecialchars($ftitle) . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle, 'html_attr') . '" />';
     $formElements[] = $e;
 
     $fragment = new rex_fragment();
@@ -580,11 +577,15 @@ function rex_mediapool_isAllowedMediaType($filename, array $args = [])
     }
 
     $blacklist = rex_mediapool_getMediaTypeBlacklist();
-    $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
-
-    if (in_array($file_ext, $blacklist)) {
-        return false;
+    foreach ($blacklist as $blackExtension) {
+        // blacklisted extensions are not allowed within filenames, to prevent double extension vulnerabilities:
+        // -> some webspaces execute files named file.php.txt as php
+        if (strpos($filename, '.'. $blackExtension) !== false) {
+            return false;
+        }
     }
+
+    $whitelist = rex_mediapool_getMediaTypeWhitelist($args);
     if (count($whitelist) > 0 && !in_array($file_ext, $whitelist)) {
         return false;
     }

@@ -8,6 +8,7 @@ setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 
 datetimeformat = %d. %b. %Y - %H:%Mh
+timeformat = %H:%Mh
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
 
 # Allgemein
@@ -27,7 +28,6 @@ function = Funktion
 no_editing_rights = Du har inte rätt att ändra
 check_rights_in_directory = Vänligen kolla rättigheterna i mappen
 error_undefined = Okänt fel
-csrf_token_invalid = CSRF-token är inte giltig.
 
 # redaxo/redaxo/index.php
 system = System
