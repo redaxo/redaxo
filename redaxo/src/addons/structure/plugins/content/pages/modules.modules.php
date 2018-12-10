@@ -131,8 +131,6 @@ if ($function == 'add' || $function == 'edit') {
                 if ($module->getRows() == 1) {
                     $old_ausgabe = $module->getValue('output');
 
-                    // $module->setQuery("UPDATE ".rex::getTablePrefix()."module SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$module_id'");
-
                     $UMOD = rex_sql::factory();
                     $UMOD->setTable(rex::getTablePrefix() . 'module');
                     $UMOD->setWhere(['id' => $module_id]);
