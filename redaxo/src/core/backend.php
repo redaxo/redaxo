@@ -114,6 +114,11 @@ if (rex::isSetup()) {
         $pages['login'] = rex_be_controller::getLoginPage();
         $page = 'login';
         rex_be_controller::setCurrentPage('login');
+
+        // clear in-browser data of a previous session with the same browser for security reasons.
+        // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
+        // clearing "executionContext" or "cookies" would result in a endless loop.
+        rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
     } else {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
