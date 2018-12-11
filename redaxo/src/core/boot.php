@@ -84,7 +84,9 @@ rex::setProperty('version', '5.7.0-beta1');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
-if (@filemtime($cacheFile) >= @filemtime($configFile)) {
+
+$cacheMtime = @filemtime($cacheFile);
+if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
     $config = rex_file::getCache($cacheFile);
 } else {
     $config = array_merge(
