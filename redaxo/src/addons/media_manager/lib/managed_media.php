@@ -208,8 +208,9 @@ class rex_managed_media
                 $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
             }
         } else {
-            // Content-Length header will be overwritten by rex_response::sendFile
             $this->prepareHeaders('');
+            // Override zero Content-Length with real filesize
+            $this->setHeader('Content-Length', filesize($this->getSourcePath()));
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
