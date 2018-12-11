@@ -242,7 +242,8 @@ class rex_media_manager
         // the header is sent directly, to make sure it gets not cached with the other media related headers.
         if (rex_get('buster')) {
             if (PHP_SESSION_ACTIVE == session_status()) {
-                rex_response::sendCacheControl('private, max-age=31536000, immutable');
+                // short lived cache, for resources which might be affected by e.g. permissions
+                rex_response::sendCacheControl('private, max-age=7200');
             } else {
                 rex_response::sendCacheControl('public, max-age=31536000, immutable');
             }
