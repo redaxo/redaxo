@@ -214,6 +214,10 @@ class rex_i18n
      */
     public static function hasMsg($key)
     {
+        // santiy check, shouldn't be possible
+        if (self::$cacheLoaded === null) {
+            throw new Exception('cache is not loaded - missing setLocale() beforehand?');
+        }
         return isset(self::$msg[self::$locale][$key]);
     }
 
