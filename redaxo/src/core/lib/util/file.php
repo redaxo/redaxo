@@ -45,8 +45,8 @@ class rex_file
      */
     public static function getCache($file, $default = [])
     {
-        $content = self::get($file);
-        return $content === null ? $default : json_decode($content, true);
+        $content = @include($file);
+        return is_array($content) ? $content['value'] : $default;
     }
 
     /**
@@ -95,7 +95,7 @@ class rex_file
      */
     public static function putCache($file, $content)
     {
-        return self::put($file, json_encode($content));
+        return self::put($file, '<?php return ' .var_export(array('value' => $content), true) . ';');
     }
 
     /**
