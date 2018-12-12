@@ -83,7 +83,7 @@ class rex_i18n
      */
     public static function addDirectory($dir)
     {
-        if (self::$cacheLoaded == null) {
+        if (self::$cacheLoaded === null) {
             self::loadCache();
         }
 
