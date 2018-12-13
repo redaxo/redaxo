@@ -165,56 +165,34 @@ class rex_managed_media
 
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
+        $this->prepareHeaders();
+
         if ($this->asImage) {
             $src = $this->getSource();
-
-            $this->prepareHeaders($src);
+            $this->setHeader('Content-Length', rex_string::size($src));
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
                 header($t . ': ' . $c);
             }
 
-            $outputted = false;
-            // dependency ramsey/http-range requires PHP >=5.6
-            if (PHP_VERSION_ID >= 50600) {
-                header('Accept-Ranges: bytes');
-                $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
-                if ($rangeHeader) {
-                    try {
-                        $mediaSize = rex_string::size($src);
-
-                        $unitFactory = new \Ramsey\Http\Range\UnitFactory();
-                        $ranges = $unitFactory->getUnit(trim($rangeHeader), $mediaSize)->getRanges();
-                        foreach ($ranges as $range) {
-                            header('HTTP/1.1 ' . rex_response::HTTP_PARTIAL_CONTENT);
-                            header('Content-Length: ' . $range->getLength());
-                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $mediaSize);
-
-                            echo substr($src, $range->getStart(), $range->getLength());
-                            $outputted = true;
-                        }
-                    } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
-                        header('HTTP/1.1 ' . rex_response::HTTP_RANGE_NOT_SATISFIABLE);
-                        $outputted = true;
-                    }
-                }
-            }
-            if (!$outputted) {
-                echo $src;
-            }
+            echo $src;
 
             if ($save) {
-                $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+                rex_file::putCache($headerCacheFilename, [
+                    'media_path' => $this->getMediaPath(),
+                    'format' => $this->format,
+                    'headers' => $this->header,
+                ]);
+
+                rex_file::put($sourceCacheFilename, $src);
             }
         } else {
-            $this->prepareHeaders('');
-            // Override zero Content-Length with real filesize
             $this->setHeader('Content-Length', filesize($this->getSourcePath()));
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
-                header($t . ': ' . $c);
+                rex_response::setHeader($t, $c);
             }
 
             rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
@@ -381,9 +359,11 @@ class rex_managed_media
     /**
      * @param string $src Source content
      */
-    private function prepareHeaders($src)
+    private function prepareHeaders($src = null)
     {
-        $this->setHeader('Content-Length', rex_string::size($src));
+        if ($src !== null) {
+            $this->setHeader('Content-Length', rex_string::size($src));
+        }
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type'])) {
