@@ -176,9 +176,13 @@ class rex_response
                             header('Content-Length: ' . $range->getLength());
                             header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
 
+                            // Don't output more bytes as requested
+                            // default chunk size is usually 8192 bytes
+                            $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
+
                             fseek($handle, $range->getStart());
                             while (ftell($handle) < $range->getEnd()) {
-                                echo fread($handle, 1024 * 8);
+                                echo fread($handle, $chunkSize);
                             }
                         }
                         fclose($handle);
