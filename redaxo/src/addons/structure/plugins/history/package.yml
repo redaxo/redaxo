@@ -20,4 +20,4 @@ requires:
     packages:
         structure: '^2.2.0'
         structure/content: '^2.2.0'
-    redaxo: '^5.1'
+    redaxo: '^5.4'
