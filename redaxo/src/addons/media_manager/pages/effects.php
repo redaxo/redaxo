@@ -64,15 +64,6 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
 }
 
 if ($func == '' && $type_id > 0) {
-    echo '<style>
-.rex-media-manager-effect-detail{width:20em;margin:5px 0;}
-.rex-media-manager-effect-detail .panel-body{padding:5px 15px;}
-.rex-media-manager-effect-detail dl{padding:0;margin:0}
-.rex-media-manager-effect-detail dt,dd{display:inline-block;}
-.rex-media-manager-effect-detail dt{width:65%;padding-right:3%;vertical-align:top;}
-.rex-media-manager-effect-detail dd{width:35%;}
-</style>
-';
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
@@ -94,24 +85,7 @@ if ($func == '' && $type_id > 0) {
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
     $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
         $shortName = $params['value'];
-        $effectClass = "rex_effect_$shortName";
-        $effectParams = json_decode($params['list']->getValue('parameters'), true);
-        $instance = new $effectClass();
-        $effectLabels = [];
-        if (isset($effectParams[$effectClass])) {
-            $effectParams = $effectParams[$effectClass];
-            $effectLabels = array_column($instance->getParams(), 'name', 'label');
-            foreach ($effectLabels as $ek => $ev) {
-                $value = "{$effectClass}_$ev";
-                $effectLabels[$ek] = isset($effectParams[$value]) ? $effectParams[$value] : '?';
-            }
-        }
-        $fragment = new rex_fragment();
-        $fragment->setVar('class', 'rex-media-manager-effect-detail');
-        $fragment->setVar('visible', true, false);
-        $fragment->setVar('content', [['label' => '', 'effects' => $effectLabels]], false);
-        $out = $fragment->parse('mmeffectslist.php');
-        return (isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName) . $out;
+        return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));

@@ -13,6 +13,14 @@ Version 2.5.0 – XX.XX.2018
 * Aktualisierung Hilfe/Doku (@skerbis)
 
 
+Version 2.4.1 – 10.12.2018
+--------------------------
+
+### Security
+
+* Update des phpmailers wg. Sicherheitslücken
+
+
 Version 2.4.0 – 05.06.2018
 --------------------------
 

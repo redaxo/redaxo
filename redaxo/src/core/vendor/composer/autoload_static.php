@@ -32,9 +32,15 @@ class ComposerStaticInitRedaxoCore
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
         ),
+        'R' => 
+        array (
+            'Ramsey\\Http\\Range\\' => 18,
+            'Ramsey\\Collection\\' => 18,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
         ),
     );
 
@@ -79,9 +85,21 @@ class ComposerStaticInitRedaxoCore
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Ramsey\\Http\\Range\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/http-range/src',
+        ),
+        'Ramsey\\Collection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/collection/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
     );
 
@@ -107,6 +125,13 @@ class ComposerStaticInitRedaxoCore
         'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
         'Parsedown' => __DIR__ . '/..' . '/erusev/parsedown/Parsedown.php',
         'ParsedownExtra' => __DIR__ . '/..' . '/erusev/parsedown-extra/ParsedownExtra.php',
+        'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
+        'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
+        'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
+        'Psr\\Http\\Message\\ServerRequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/ServerRequestInterface.php',
+        'Psr\\Http\\Message\\StreamInterface' => __DIR__ . '/..' . '/psr/http-message/src/StreamInterface.php',
+        'Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
+        'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
         'Psr\\Log\\AbstractLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/AbstractLogger.php',
         'Psr\\Log\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/log/Psr/Log/InvalidArgumentException.php',
         'Psr\\Log\\LogLevel' => __DIR__ . '/..' . '/psr/log/Psr/Log/LogLevel.php',
@@ -115,6 +140,37 @@ class ComposerStaticInitRedaxoCore
         'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
         'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
         'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
+        'Ramsey\\Collection\\AbstractArray' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractArray.php',
+        'Ramsey\\Collection\\AbstractCollection' => __DIR__ . '/..' . '/ramsey/collection/src/AbstractCollection.php',
+        'Ramsey\\Collection\\ArrayInterface' => __DIR__ . '/..' . '/ramsey/collection/src/ArrayInterface.php',
+        'Ramsey\\Collection\\Collection' => __DIR__ . '/..' . '/ramsey/collection/src/Collection.php',
+        'Ramsey\\Collection\\CollectionInterface' => __DIR__ . '/..' . '/ramsey/collection/src/CollectionInterface.php',
+        'Ramsey\\Collection\\GenericArray' => __DIR__ . '/..' . '/ramsey/collection/src/GenericArray.php',
+        'Ramsey\\Collection\\Map\\AbstractMap' => __DIR__ . '/..' . '/ramsey/collection/src/Map/AbstractMap.php',
+        'Ramsey\\Collection\\Map\\AssociativeArrayMap' => __DIR__ . '/..' . '/ramsey/collection/src/Map/AssociativeArrayMap.php',
+        'Ramsey\\Collection\\Map\\MapInterface' => __DIR__ . '/..' . '/ramsey/collection/src/Map/MapInterface.php',
+        'Ramsey\\Collection\\Map\\NamedParameterMap' => __DIR__ . '/..' . '/ramsey/collection/src/Map/NamedParameterMap.php',
+        'Ramsey\\Collection\\Tool\\TypeTrait' => __DIR__ . '/..' . '/ramsey/collection/src/Tool/TypeTrait.php',
+        'Ramsey\\Collection\\Tool\\ValueToStringTrait' => __DIR__ . '/..' . '/ramsey/collection/src/Tool/ValueToStringTrait.php',
+        'Ramsey\\Http\\Range\\Exception\\HttpRangeException' => __DIR__ . '/..' . '/ramsey/http-range/src/Exception/HttpRangeException.php',
+        'Ramsey\\Http\\Range\\Exception\\InvalidRangeSetException' => __DIR__ . '/..' . '/ramsey/http-range/src/Exception/InvalidRangeSetException.php',
+        'Ramsey\\Http\\Range\\Exception\\InvalidRangeUnitException' => __DIR__ . '/..' . '/ramsey/http-range/src/Exception/InvalidRangeUnitException.php',
+        'Ramsey\\Http\\Range\\Exception\\NoRangeException' => __DIR__ . '/..' . '/ramsey/http-range/src/Exception/NoRangeException.php',
+        'Ramsey\\Http\\Range\\Exception\\NotSatisfiableException' => __DIR__ . '/..' . '/ramsey/http-range/src/Exception/NotSatisfiableException.php',
+        'Ramsey\\Http\\Range\\Exception\\ParseException' => __DIR__ . '/..' . '/ramsey/http-range/src/Exception/ParseException.php',
+        'Ramsey\\Http\\Range\\Range' => __DIR__ . '/..' . '/ramsey/http-range/src/Range.php',
+        'Ramsey\\Http\\Range\\UnitFactory' => __DIR__ . '/..' . '/ramsey/http-range/src/UnitFactory.php',
+        'Ramsey\\Http\\Range\\UnitFactoryInterface' => __DIR__ . '/..' . '/ramsey/http-range/src/UnitFactoryInterface.php',
+        'Ramsey\\Http\\Range\\Unit\\AbstractUnit' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/AbstractUnit.php',
+        'Ramsey\\Http\\Range\\Unit\\AbstractUnitRange' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/AbstractUnitRange.php',
+        'Ramsey\\Http\\Range\\Unit\\BytesRange' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/BytesRange.php',
+        'Ramsey\\Http\\Range\\Unit\\BytesRangesCollection' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/BytesRangesCollection.php',
+        'Ramsey\\Http\\Range\\Unit\\BytesUnit' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/BytesUnit.php',
+        'Ramsey\\Http\\Range\\Unit\\GenericRange' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/GenericRange.php',
+        'Ramsey\\Http\\Range\\Unit\\GenericUnit' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/GenericUnit.php',
+        'Ramsey\\Http\\Range\\Unit\\UnitInterface' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/UnitInterface.php',
+        'Ramsey\\Http\\Range\\Unit\\UnitRangeInterface' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/UnitRangeInterface.php',
+        'Ramsey\\Http\\Range\\Unit\\UnitRangesCollection' => __DIR__ . '/..' . '/ramsey/http-range/src/Unit/UnitRangesCollection.php',
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
