@@ -88,6 +88,8 @@ class rex_article_content extends rex_article_content_base
             ob_implicit_flush(0);
 
             $article_content_file = rex_path::addonCache('structure', $this->article_id . '.' . $this->clang . '.content');
+
+            $generated = true;
             if (!file_exists($article_content_file)) {
                 $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
                 if ($generated !== true) {
@@ -96,7 +98,7 @@ class rex_article_content extends rex_article_content_base
                 }
             }
 
-            if (file_exists($article_content_file)) {
+            if ($generated === true) {
                 require $article_content_file;
             }
 
