@@ -176,7 +176,7 @@ class rex_managed_media
                 header($t . ': ' . $c);
             }
 
-            eco $src;
+            echo $src;
 
             if ($save) {
                 rex_file::putCache($headerCacheFilename, [
