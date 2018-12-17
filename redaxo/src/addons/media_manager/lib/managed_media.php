@@ -173,10 +173,10 @@ class rex_managed_media
 
             rex_response::cleanOutputBuffers();
             foreach ($this->header as $t => $c) {
-                header($t . ': ' . $c);
+                rex_response::setHeader($t, $c);
             }
 
-            echo $src;
+            rex_response::sendContent($src);
 
             if ($save) {
                 rex_file::putCache($headerCacheFilename, [
