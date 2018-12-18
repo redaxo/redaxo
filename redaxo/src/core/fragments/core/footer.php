@@ -1,3 +1,6 @@
+<?php
+@trigger_error("The core/footer.php is deprecated and will be removed in a future version.", E_USER_DEPRECATED);
+?>
     <footer class="rex-global-footer">
         <nav class="rex-nav-footer">
             <ul class="list-inline">
