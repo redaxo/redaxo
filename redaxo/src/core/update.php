@@ -20,7 +20,7 @@ if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
 
 // REDAXO 5.4 required because of some `rex_sql_table` usages in core addons
 if (rex_string::versionCompare(rex::getVersion(), '5.4', '<')) {
-    throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.5 before.', rex::getVersion()));
+    throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.X before.', rex::getVersion()));
 }
 
 // Installer >= 2.1.2 required because of https://github.com/redaxo/redaxo/issues/1018
