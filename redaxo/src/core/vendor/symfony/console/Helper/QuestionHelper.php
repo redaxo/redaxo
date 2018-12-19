@@ -47,13 +47,23 @@ class QuestionHelper extends Helper
         }
 
         if (!$input->isInteractive()) {
-            if ($question instanceof ChoiceQuestion) {
+            $default = $question->getDefault();
+
+            if (null !== $default && $question instanceof ChoiceQuestion) {
                 $choices = $question->getChoices();
 
-                return $choices[$question->getDefault()];
+                if (!$question->isMultiselect()) {
+                    return isset($choices[$default]) ? $choices[$default] : $default;
+                }
+
+                $default = explode(',', $default);
+                foreach ($default as $k => $v) {
+                    $v = trim($v);
+                    $default[$k] = isset($choices[$v]) ? $choices[$v] : $v;
+                }
             }
 
-            return $question->getDefault();
+            return $default;
         }
 
         if ($input instanceof StreamableInputInterface && $stream = $input->getStream()) {
@@ -130,7 +140,7 @@ class QuestionHelper extends Helper
     /**
      * Asks the question to the user.
      *
-     * @return bool|mixed|null|string
+     * @return bool|mixed|string|null
      *
      * @throws RuntimeException In case the fallback is deactivated and the response cannot be hidden
      */

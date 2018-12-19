@@ -13,6 +13,8 @@ rm -f redaxo/src/core/vendor/paragonie/random_compat/build-phar.sh
 rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm.xml
 rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm-autoload.php
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
+rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
+rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tester/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
 rm -f redaxo/src/core/vendor/symfony/console/phpunit.xml.dist

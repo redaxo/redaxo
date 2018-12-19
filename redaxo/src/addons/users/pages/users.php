@@ -4,29 +4,6 @@
  * @package redaxo5
  */
 
-/*
------------------------------ todos
-
-sprachen zugriff
-englisch / deutsch / ...
-clang
-
-allgemeine zugriffe (array + addons)
-    mediapool[]templates[] ...
-
-zugriff auf folgende categorien
-    csw[2] write
-    csr[2] read
-
-mulselect zugriff auf mediapool
-    media[2]
-
-mulselect module
-- liste der module
-    module[2]module[3]
-
-*/
-
 $message = '';
 $content = '';
 
