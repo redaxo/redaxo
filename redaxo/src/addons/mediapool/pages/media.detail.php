@@ -60,7 +60,7 @@ if (rex_post('btn_update', 'string')) {
             if ($return['ok'] == 1) {
                 if ($gf->getValue('category_id') != $rex_file_category) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
-                        'file_name' => $FILEINFOS['filename'],
+                        'filename' => $FILEINFOS['filename'],
                         'previous_id' => $gf->getValue('category_id'),
                         'category_id' => $rex_file_category,
                     ]));
