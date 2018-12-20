@@ -1,9 +1,7 @@
 <?php
-
 /**
  * @package redaxo5
  */
-
 $info = '';
 $error = [];
 $success = '';
@@ -149,11 +147,19 @@ $content = '
     <h3>' . rex_i18n::msg('debug_mode') . '</h3>
     <p>' . rex_i18n::msg('debug_mode_note') . '</p>
     <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
-    
+
     <h3>' . rex_i18n::msg('safemode') . '</h3>
-    <p>' . rex_i18n::msg('safemode_text') . '</p>
-    <p><a class="btn btn-safemode-activate" href="' . rex_url::currentBackendPage(['safemode' => 'true'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . rex_i18n::msg('safemode_activate') . '</a></p>
-    
+    <p>' . rex_i18n::msg('safemode_text') . '</p>';
+
+$safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
+if (rex::isSafeMode()) {
+    $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
+}
+
+$content .= '
+    <p><a class="btn btn-safemode-activate" href="' . $safemodeUrl . '" data-pjax="false">' . (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')) . '</a></p>
+
+
     <h3>' . rex_i18n::msg('setup') . '</h3>
     <p>' . rex_i18n::msg('setup_text') . '</p>
     <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';

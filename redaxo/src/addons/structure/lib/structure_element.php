@@ -150,15 +150,18 @@ abstract class rex_structure_element
         $class = static::class;
         return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+
+            // load metadata from cache
+            $metadata = rex_file::getCache($article_path);
+
             // generate cache if not exists
-            if (!file_exists($article_path)) {
+            if (!$metadata) {
                 rex_article_cache::generateMeta($id, $clang);
+                $metadata = rex_file::getCache($article_path);
             }
 
             // article is valid, if cache exists after generation
-            if (file_exists($article_path)) {
-                // load metadata from cache
-                $metadata = rex_file::getCache($article_path);
+            if ($metadata) {
                 // create object with the loaded metadata
                 return new $class($metadata);
             }
@@ -200,10 +203,13 @@ abstract class rex_structure_element
             // callback to create the list of IDs
             function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
-                if (!file_exists($listFile)) {
+
+                $list = rex_file::getCache($listFile);
+                if (!$list) {
                     rex_article_cache::generateLists($parentId);
+                    $list = rex_file::getCache($listFile);
                 }
-                return rex_file::getCache($listFile);
+                return $list;
             }
         );
     }

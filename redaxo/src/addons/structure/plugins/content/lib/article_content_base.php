@@ -434,7 +434,14 @@ class rex_article_content_base
 
         ob_start();
         ob_implicit_flush(0);
-        require rex_stream::factory($path, $content);
+
+        $__stream = rex_stream::factory($path, $content);
+
+        $sandbox = function () use ($__stream) {
+            require $__stream;
+        };
+        $sandbox();
+
         $CONTENT = ob_get_clean();
 
         return $CONTENT;

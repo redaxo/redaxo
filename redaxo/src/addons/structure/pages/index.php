@@ -103,10 +103,6 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER
     'clang' => $clang,
 ]));
 
-// --------------------- SEARCH BAR
-//require_once $this->getPath('functions/function_rex_searchbar.php');
-//echo rex_structure_searchbar($context);
-
 // --------------------- COUNT CATEGORY ROWS
 
 $KAT = rex_sql::factory();

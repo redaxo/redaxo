@@ -23,6 +23,11 @@ if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
                     $db->update();
                     $success = rex_i18n::msg('pool_selectedmedia_moved');
                     rex_media_cache::delete($file_name);
+
+                    rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
+                        'filename' => $file_name,
+                        'category_id' => $rex_file_category,
+                    ]));
                 } catch (rex_sql_exception $e) {
                     $error = rex_i18n::msg('pool_selectedmedia_error');
                 }
@@ -303,7 +308,7 @@ $panel = '
 
                     $panel .= '<tr>
                     ' . $add_td . '
-                    <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '">' . $thumbnail . '</a></td>
+                    <td data-title="' . rex_i18n::msg('pool_file_thumbnail') . '"><a href="' . $ilink . '"><div class="lazyload" data-noscript=""><noscript>' . $thumbnail . '</noscript></div></a></td>
                     <td data-title="' . rex_i18n::msg('pool_file_info') . '">
                         <h3><a href="' . $ilink . '">' . rex_escape($file_title) . '</a></h3>
                         ' . $desc . '

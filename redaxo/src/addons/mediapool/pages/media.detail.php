@@ -58,6 +58,12 @@ if (rex_post('btn_update', 'string')) {
             $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
 
             if ($return['ok'] == 1) {
+                if ($gf->getValue('category_id') != $rex_file_category) {
+                    rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
+                        'filename' => $FILEINFOS['filename'],
+                        'category_id' => $rex_file_category,
+                    ]));
+                }
                 $success = $return['msg'];
             } else {
                 $error = $return['msg'];

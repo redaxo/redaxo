@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 5.6.5 – 10.12.2018
+--------------------------
+
+### Security
+
+* Update des phpmailers wg. Sicherheitslücken
+
+### Bugfixes
+
+* Update der externen Bibliotheken
+
+
 Version 5.6.4 – 01.10.2018
 --------------------------
 
@@ -10,12 +22,14 @@ Version 5.6.4 – 01.10.2018
 * XSS Sicherheitslücken (Cross-Site-Scripting) im Medienpool behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep)
 * XSS Sicherheitslücken (Cross-Site-Scripting) im Mediamanager behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
 
+
 Version 5.6.3 – 26.09.2018
 --------------------------
 
 ### Security
 
 * Kritische Sicherheitslücke (SQL-Injection) in der rex_list Klasse geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
 
 Version 5.6.2 – 10.07.2018
 --------------------------
