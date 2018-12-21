@@ -160,6 +160,10 @@ abstract class rex_structure_element
                 $metadata = rex_file::getCache($article_path);
             }
 
+            if (!$metadata['startarticle'] && (rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
+                return null;
+            }
+
             // article is valid, if cache exists after generation
             if ($metadata) {
                 // create object with the loaded metadata
