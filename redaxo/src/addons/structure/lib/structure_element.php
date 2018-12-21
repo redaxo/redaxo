@@ -160,13 +160,17 @@ abstract class rex_structure_element
                 $metadata = rex_file::getCache($article_path);
             }
 
-            // article is valid, if cache exists after generation
-            if ($metadata) {
-                // create object with the loaded metadata
-                return new $class($metadata);
+            // if cache does not exist after generation, the article id is invalid
+            if (!$metadata) {
+                return null;
             }
 
-            return null;
+            // don't allow to retrieve non-categories (startarticle=0) as rex_category
+            if (!$metadata['startarticle'] && (rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
+                return null;
+            }
+
+            return new $class($metadata);
         });
     }
 
