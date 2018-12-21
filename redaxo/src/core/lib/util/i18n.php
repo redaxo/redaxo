@@ -7,8 +7,17 @@
  */
 class rex_i18n
 {
+    /**
+     * @var string[]
+     */
     private static $locales = [];
+    /**
+     * @var string[]
+     */
     private static $directories = [];
+    /**
+     * @var boolean[string] Holds which locales are loaded. keyed by locale
+     */
     private static $loaded = [];
     /**
      * @var string|null

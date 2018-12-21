@@ -2,7 +2,7 @@
 
 /* Default-Einstellungen */
 if (!$this->hasConfig()) {
-    $this->setConfig('labelcolor', '#43a047');
+    $this->setConfig('labelcolor', '#3bb594');
     $this->setConfig('codemirror_theme', 'eclipse');
     $this->setConfig('codemirror-selectors', '');
     $this->setConfig('codemirror', 1);
