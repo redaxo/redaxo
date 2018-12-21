@@ -130,6 +130,36 @@ class rex
     }
 
     /**
+     * Returns array with properties.
+     *
+     * @param string $searchkey Search Key for the properties
+     *
+     * @return array
+     *
+     * @throws InvalidArgumentException on invalid parameters
+     */
+    public static function getPropertyArray($searchkey = '')
+    {
+        if (!is_string($searchkey)) {
+            throw new InvalidArgumentException('Expecting $searchkey to be string, but ' . gettype($searchkey) . ' given!');
+        }
+        if ($searchkey === '') {
+            if (isset(self::$properties)) {
+                return self::$properties;
+            }
+        } else {
+            $rc = [];
+            foreach (self::$properties as $key => $value) {
+                if (strpos($key, $searchkey) !== false) {
+                    $rc[$key] = $value;
+                }
+            }
+            return $rc;
+        }
+        return false;
+    }
+
+    /**
      * Returns if a property is set.
      *
      * @param string $key Key of the property
