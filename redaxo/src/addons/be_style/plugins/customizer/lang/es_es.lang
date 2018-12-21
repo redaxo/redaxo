@@ -3,6 +3,8 @@ customizer_features = funciones
 
 customizer_codemirror = CodeMirror
 customizer_codemirror_check = Activar CodeMirror
+customizer_codemirror_selectors = Selectores jQuery adicionales para CodeMirror
+customizer_codemirror_selectors_info = Comma lista de selectores jQuery separó para se aplica la CodeMirror. <br> predeterminada es <code>textarea.rex-js-código</code> y <code>textarea.codemirror</code>
 customizer_codemirror_theme = CodeMirror tema
 customizer_codemirror_langs = Resaltador adicional
 customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
@@ -20,7 +22,7 @@ customizer_config_updated = Configuración se ha guardado
 customizer_config_update_failed = Los ajustes no se guardaron
 
 customizer_update = Guardar los ajustes
-
+customizer_error_unzip = ¡Desempaquetar los activos del archivo de CodeMirror falló!
 
 customizer_projectname = Nombre del proyecto
 customizer_textarea = Anchura de la caja de texto en plantillas y módulos

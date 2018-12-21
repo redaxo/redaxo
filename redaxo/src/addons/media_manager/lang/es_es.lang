@@ -31,6 +31,8 @@ media_manager_back = Volver
 
 media_manager_error_name = Por favor ingrese un nombre.
 media_manager_error_settings = Compruebe la configuración.
+media_manager_error_type_name_not_unique = Una imagen con este nombre ya existe!
+media_manager_error_type_name_invalid = ¡El nombre no puede contener los caracteres "/" y "\"!
 
 media_manager_type_caption = Lista de tipos de imagen
 media_manager_type_no_types = No se encontraron tipos de imagen
@@ -110,8 +112,6 @@ media_manager_effect_flip_direction = Dirección
 
 media_manager_effect_rotate = Rotar (grado)
 media_manager_effect_rotate_degree = Volver (grado)
-
-media_manager_error_type_name_not_unique = Una imagen con este nombre ya existe!
 
 media_manager_effect_mirror = Imagen: Añade reflejo de agua
 media_manager_effect_mirror_height = Refl. Altura (50/10%)
