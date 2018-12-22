@@ -1,13 +1,16 @@
 Changelog
 =========
 
-Version 2.2.3 – XX.XX.XXXX
+Version 2.3.0 – XX.XX.XXXX
 --------------------------
+
+### Neu
+
+* Performance-Verbesserungen beim Export (@staabm)
 
 ### Bugfixes
 
 * Views nicht exportieren (@gharlan)
-* Performance-Verbesserungen beim Export (@staabm)
 
 
 Version 2.2.2 – 10.07.2018
