@@ -33,7 +33,7 @@ Version 5.7.0 – XX.XX.XXXX
 * Setup: 
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
-* AddOn-README-Dateien werden sprachabhängig angezeigt (README.de.md etc.) (@staabm)
+* AddOn-README-Dateien werden auch sprachabhängig angezeigt (README.de.md etc.) (@staabm)
 * Verständlichere CSRF-Meldung (@alexplusde)
 * Backend-Übersetzungdateien:
     - Neu: Niederländisch (noch ohne Core-AddOns) (@MaxKorlaar)
