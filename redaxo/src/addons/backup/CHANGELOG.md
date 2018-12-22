@@ -7,6 +7,7 @@ Version 2.2.3 – XX.XX.XXXX
 ### Bugfixes
 
 * Views nicht exportieren (@gharlan)
+* Performance-Verbesserungen beim Export (@staabm)
 
 
 Version 2.2.2 – 10.07.2018

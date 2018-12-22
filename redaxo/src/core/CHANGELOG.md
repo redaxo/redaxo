@@ -42,7 +42,7 @@ Version 5.7.0 – XX.XX.XXXX
 * bootstrap-select wird an weiteren Stellen verwendet (@skerbis)
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
 * Performance:
-    - Backend-Asserts werden über index.php geladen um optimierte Cache-Header (immutable) setzen zu können (@staabm)
+    - Backend-Assets werden über index.php geladen um optimierte Cache-Header (immutable) setzen zu können (@staabm)
     - Viele kleinere und größere Performance-Optimierungen (@staabm)
 * Update der externen Bibliotheken
 
