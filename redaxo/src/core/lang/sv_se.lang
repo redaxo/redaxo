@@ -28,7 +28,6 @@ function = Funktion
 no_editing_rights = Du har inte rätt att ändra
 check_rights_in_directory = Vänligen kolla rättigheterna i mappen
 error_undefined = Okänt fel
-csrf_token_invalid = Vänligen skicka formuläret på nytt. (Fel: ogiltig CSRF-token)
 
 # redaxo/redaxo/index.php
 system = System
