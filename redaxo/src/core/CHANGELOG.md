@@ -22,7 +22,7 @@ Version 5.7.0 – XX.XX.XXXX
     - Mit der `rex_editor`-Klasse können an weiteren Stellen Editor-URLs erzeugt werden (@staabm)
     - Über den EP `EDITOR_URL` können die URLs manipuliert werden (@gharlan)
 * Console:
-    - Manche Commands können nun bereits vor dem Setup ausgeführt werden (@bloep)
+    - Manche Core Commands können nun bereits vor dem Setup ausgeführt werden (@bloep)
     - Neuer Command `config:get` (@bloep)
     - Neuer Command `db:set-connection` (@bloep)
 * `rex_i18n`: Neue Methode `msgInLocale` zum Übersetzen in andere Sprachen ohne die Default-Sprache zu ändern (@staabm)
