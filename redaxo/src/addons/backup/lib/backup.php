@@ -407,7 +407,7 @@ class rex_backup
                                 }
 
                                 // fast-exit for very frequent used harmless values
-                                if (\strlen($column) <= 3 && ctype_alnum($column)) {
+                                if (strlen($column) <= 3 && ctype_alnum($column)) {
                                     $record[] = "'". $column ."'";
                                     break;
                                 }
