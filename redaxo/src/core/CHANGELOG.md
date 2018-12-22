@@ -32,7 +32,7 @@ Version 5.7.0 – XX.XX.XXXX
 * Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
 * Setup: 
     - Warnung bei veralteter PHP-Version (@staabm)
-    - Warnung bei XX7-Berechtigungen (@staabm)
+    - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
 * AddOn-README-Dateien werden sprachabhängig angezeigt (README.de.md etc.) (@staabm)
 * Verständlichere CSRF-Meldung (@alexplusde)
 * Backend-Übersetzungdateien:
