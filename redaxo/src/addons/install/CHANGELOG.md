@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.4.1 – XX.XX.XXXX
+--------------------------
+
+### Bugfixes
+
+* Besseres Escaping mittels `rex_escape` (@bloep)
+
+
 Version 2.4.0 – 05.06.2018
 --------------------------
 

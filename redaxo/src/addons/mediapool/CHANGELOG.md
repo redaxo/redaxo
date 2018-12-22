@@ -1,6 +1,29 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.XX.XXXX
+--------------------------
+
+### Security
+
+* Double extension vulnerablility behoben (@staabm)
+* XSS Sicherheitslücken (Cross-Site-Scripting) behoben (@staabm)
+
+### Neu
+
+* Bessere Code-Struktur (@staabm)
+* Lazy-Load der Bilder in der Liste (@staabm)
+* Neuer EP: `MEDIA_MOVED` (@bloep)
+
+
+Version 2.4.2 – 01.10.2018
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken (Cross-Site-Scripting) behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep)
+
+
 Version 2.4.2 – 10.07.2018
 --------------------------
 

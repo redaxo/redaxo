@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.5.0 – XX.XX.2018
+Version 2.5.0 – XX.XX.XXXX
 --------------------------
 
 ### Neu
@@ -10,6 +10,8 @@ Version 2.5.0 – XX.XX.2018
 * AutoTLS kann aktiviert/deaktiviert werden (@skerbis)
 * SMTP-Einstellungen werden erst angezeigt, wenn Option gewählt. (@skerbis)
 * Benutzername und Passwort werden erst angezeigt wenn Option gewählt (@skerbis)
+* Bessere Test-Mails, Button-Verhalten geändert in "Speichern und testen" (@skerbis)
+* Debug-Meldungen werden in Sprache des Benutzers ausgegeben (@skerbis)
 * Aktualisierung Hilfe/Doku (@skerbis)
 
 

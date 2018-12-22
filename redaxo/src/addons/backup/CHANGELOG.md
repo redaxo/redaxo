@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.2.3 – XX.XX.XXXX
+--------------------------
+
+### Bugfixes
+
+* Views nicht exportieren (@gharlan)
+
+
 Version 2.2.2 – 10.07.2018
 --------------------------
 

@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.3.1 – XX.XX.XXXX
+--------------------------
+
+### Neu
+
+* Typabhängige Felder erscheinen direkt unterhalb der Typauswahl (@skerbis)
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurden die Cronjobs zu einem falschen Zeitpunkt ausgeführt (@dergel)
+* optimize_tables: Views wurden fälschlich versucht auch zu optimieren (@gharlan)
+* Plugins: Bei vorinstallierten Cronjobs wurde das Intervall nicht richtig gesetzt (@gharlan)
+
+
 Version 2.3.0 – 05.06.2018
 --------------------------
 
