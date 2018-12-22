@@ -8,7 +8,7 @@ Version 2.7.0 – XX.XX.XXXX
 
 * Neuer EP: `CAT_MOVED` (@bloep)
 * version-PlugIn: Arbeitsversion kann geleert werden (@dpf-dd)
-* Slice-Value-Felder als `MEDIUMTEXT` statt `TEXT` (@bloep)
+* Slice-Value-Felder als `MEDIUMTEXT` statt `TEXT` damit mehr Inhalte gespeichert werden können (@bloep)
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@bloep)
 
 ### Bugfixes:
