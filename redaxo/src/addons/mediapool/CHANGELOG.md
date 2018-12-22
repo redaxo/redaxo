@@ -16,7 +16,7 @@ Version 2.5.0 – XX.XX.XXXX
 * Neuer EP: `MEDIA_MOVED` (@bloep)
 
 
-Version 2.4.2 – 01.10.2018
+Version 2.4.3 – 01.10.2018
 --------------------------
 
 ### Security
