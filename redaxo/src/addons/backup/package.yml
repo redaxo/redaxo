@@ -18,4 +18,6 @@ page:
                 server: { title: 'translate:backup_load_from_server' }
 
 requires:
+    php:
+        extensions: [ctype]
     redaxo: ^5.6.2
