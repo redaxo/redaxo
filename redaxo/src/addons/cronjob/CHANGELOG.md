@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.3.1 – XX.XX.XXXX
+Version 2.4.0 – XX.XX.XXXX
 --------------------------
 
 ### Neu
