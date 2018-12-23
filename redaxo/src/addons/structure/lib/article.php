@@ -44,7 +44,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return self|null
      */
     public static function getSiteStartArticle($clang = null)
     {

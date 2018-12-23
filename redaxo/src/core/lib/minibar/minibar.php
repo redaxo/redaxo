@@ -15,6 +15,20 @@ class rex_minibar
         $this->elements[] = $instance;
     }
 
+    /**
+     * @param string $className
+     *
+     * @return rex_minibar_element|null
+     */
+    public function elementByClass($className)
+    {
+        foreach ($this->elements as $element) {
+            if (get_class($element) == $className) {
+                return $element;
+            }
+        }
+    }
+
     public function get()
     {
         if (!self::isActive()) {

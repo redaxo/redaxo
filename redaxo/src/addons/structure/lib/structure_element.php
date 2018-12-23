@@ -133,7 +133,7 @@ abstract class rex_structure_element
      * @param int $id    the article id
      * @param int $clang the clang id
      *
-     * @return static A rex_structure_element instance typed to the late-static binding type of the caller
+     * @return static|null A rex_structure_element instance typed to the late-static binding type of the caller
      */
     public static function get($id, $clang = null)
     {

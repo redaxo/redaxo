@@ -3,28 +3,43 @@
 /**
  * @package redaxo\core
  */
-class rex_minibar_element_structure_content extends rex_minibar_element
+class rex_minibar_element_structure_content extends rex_minibar_lazy_element
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function render()
+    protected function renderFirstView()
     {
-        $clangId = rex_request('clang', 'int');
-        $clangId = rex_clang::exists($clangId) ? $clangId : rex_clang::getStartId();
+        $article = $this->getArticle();
 
-        $article = rex_article::getCurrent();
-        if (rex::isBackend()) {
-            $article = rex_article::get(rex_request('article_id', 'int'), $clangId);
-
-            if (!$article) {
-                $article = rex_article::get(rex_request('category_id', 'int'), $clangId);
-            }
+        if (!$article instanceof rex_article) {
+            return '';
         }
 
-        if (!$article) {
-            $article = rex_article::getSiteStartArticle();
+        // Return if user have no rights to the site start article
+        if (rex::isBackend() && rex::getUser() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
+            return
+                '<div class="rex-minibar-item">
+                    <span class="rex-minibar-icon">
+                        <i class="rex-icon rex-icon-article"></i>
+                    </span>
+                    <span class="rex-minibar-value">
+                        0
+                    </span>
+                </div>';
         }
+
+        return
+        '<div class="rex-minibar-item">
+            <span class="rex-minibar-icon">
+                <i class="rex-minibar-icon--fa rex-minibar-icon--fa-file-text-o"></i>
+            </span>
+            <span class="rex-minibar-value">
+                '.$article->getId().'
+            </span>
+        </div>';
+    }
+
+    protected function renderComplete()
+    {
+        $article = $this->getArticle();
 
         if (!$article instanceof rex_article) {
             return '';
@@ -59,7 +74,7 @@ class rex_minibar_element_structure_content extends rex_minibar_element
             $id = $parent->getId();
             $item = rex_escape($parent->getName());
             if (rex::isBackend() && rex::getUser() && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id) && $parent->isStartarticle()) {
-                $item = '<a href="'.rex_url::backendPage('structure', ['category_id' => $id, 'clang' => $clangId]).'">'.rex_escape($parent->getName()).'</a>';
+                $item = '<a href="'.rex_url::backendPage('structure', ['category_id' => $id, 'clang' => $article->getClangId()]).'">'.rex_escape($parent->getName()).'</a>';
             } elseif (!rex::isBackend()) {
                 $item = '<a href="'.$parent->getUrl().'">'.rex_escape($parent->getName()).'</a>';
             }
@@ -76,7 +91,7 @@ class rex_minibar_element_structure_content extends rex_minibar_element
                 <i class="rex-minibar-icon--fa rex-minibar-icon--fa-file-text-o"></i>
             </span>
             <span class="rex-minibar-value">
-                '.$article->getId().'
+            '.$article->getId().'
             </span>
         </div>
         <div class="rex-minibar-info">
@@ -101,5 +116,26 @@ class rex_minibar_element_structure_content extends rex_minibar_element
             '.$groups.'
         </div>
         ';
+    }
+
+    private function getArticle()
+    {
+        $clangId = rex_request('clang', 'int');
+        $clangId = rex_clang::exists($clangId) ? $clangId : rex_clang::getStartId();
+
+        $article = rex_article::getCurrent();
+        if (rex::isBackend()) {
+            $article = rex_article::get(rex_request('article_id', 'int'), $clangId);
+
+            if (!$article) {
+                $article = rex_article::get(rex_request('category_id', 'int'), $clangId);
+            }
+        }
+
+        if (!$article) {
+            $article = rex_article::getSiteStartArticle();
+        }
+
+        return $article;
     }
 }
