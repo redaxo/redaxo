@@ -118,7 +118,6 @@ if ($KAT->getRows() > 0) {
         $i_category_id = $KAT->getValue('id');
 
         $kat_link = $structure_context->getContext()->getUrl(['category_id' => $i_category_id]);
-        $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
@@ -152,7 +151,6 @@ if ($KAT->getRows() > 0) {
             ]));
         } else {
             $fragment = new rex_fragment();
-            $fragment->setVar('kat_icon_td', $kat_icon_td, false);
             $fragment->setVar('i_category_id', $i_category_id);
             $fragment->setVar('kat_link', $kat_link, false);
             $fragment->setVar('KAT', $KAT, false);
