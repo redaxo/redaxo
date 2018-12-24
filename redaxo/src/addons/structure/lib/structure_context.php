@@ -138,6 +138,14 @@ class rex_structure_context
     }
 
     /**
+     * @return bool
+     */
+    public function hasTemplates()
+    {
+        return rex_plugin::get('structure', 'content')->isAvailable();
+    }
+
+    /**
      * @return rex_context
      */
     public function getContext()
