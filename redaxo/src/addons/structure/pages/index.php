@@ -200,7 +200,7 @@ if ($structure_context->getCategoryId() > 0 || ($structure_context->getCategoryI
         $TEMPLATE_NAME = $template_select->getTemplates();
         $TEMPLATE_NAME[0] = rex_i18n::msg('template_default_name');
 
-        $tmpl_head = '<th>' . rex_i18n::msg('header_template') . '</th>';
+        $tmpl_head = rex_i18n::msg('header_template');
     }
 
     // --------------------- ARTIKEL LIST
