@@ -16,11 +16,11 @@ class rex_context_test extends PHPUnit_Framework_TestCase
 
     public function testGetHiddenInputFields()
     {
-        $globalParams = ['int' => '25', 'str' => '<a b$c&?>'];
+        $globalParams = ['int' => '25', 'str' => '<a b$c&?>', '<mystr>' => 'abc'];
         $context = new rex_context($globalParams);
 
         $this->assertEquals(
-            '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a&#x20;b&#x24;c&amp;&#x3F;&gt;" />',
+            '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a&#x20;b&#x24;c&amp;&#x3F;&gt;" /><input type="hidden" name="&lt;mystr&gt;" value="abc" />',
             $context->getHiddenInputFields(),
             'parameters get properly encoded'
         );
