@@ -26,6 +26,12 @@ class rex_context_test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
+            '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a&#x20;b&#x24;c&amp;&#x3F;&gt;" /><input type="hidden" name="&lt;mystr&gt;" value="abc" />',
+            $context->getHiddenInputFields(['<mystr>' => 'abc']),
+            'names get properly encoded'
+        );
+
+        $this->assertEquals(
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="xyz" />',
             $context->getHiddenInputFields(['str' => 'xyz']),
             'local params override global params'
