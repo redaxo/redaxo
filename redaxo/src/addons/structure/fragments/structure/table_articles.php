@@ -11,7 +11,9 @@
             </th>
             <th class="rex-table-id"><?=rex_i18n::msg('header_id');?></th>
             <th><?=rex_i18n::msg('header_article_name');?></th>
-            <?=$this->tmpl_head;?>
+            <?php if ($this->tmpl_head): ?>
+                <th><?=$this->tmpl_head;?></th>
+            <?php endif;?>
             <th><?=rex_i18n::msg('header_date');?></th>
             <th class="rex-table-priority"><?=rex_i18n::msg('header_priority');?></th>
             <th class="rex-table-action" colspan="3"><?=rex_i18n::msg('header_status');?></th>
