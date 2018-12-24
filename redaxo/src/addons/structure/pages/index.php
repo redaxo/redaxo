@@ -136,79 +136,54 @@ if ($KAT->getRows() > 0) {
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
-        if ($structure_context->hasCategoryPermission()) {
-            if ($structure_context->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
-                $kat_status = '<a class="' . $status_class . '" href="' . $structure_context->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structure_context->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
-            } else {
-                $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
+        if ($structure_context->getEditId() == $i_category_id && $structure_context->getFunction() == 'edit_cat') {
+            // --------------------- KATEGORIE EDIT FORM
+
+            // ----- EXTENSION POINT
+            $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
+                'id' => $structure_context->getEditId(),
+                'clang' => $structure_context->getClangId(),
+            ]));
+
+            $add_buttons = rex_api_category_edit::getHiddenFields().'
+            <input type="hidden" name="category-id" value="' . $structure_context->getEditId() . '" />
+            <button class="btn btn-save" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
+
+            $class = 'mark';
+            if ($meta_buttons != '') {
+                $class .= ' rex-has-metainfo';
             }
-
-            if ($structure_context->getEditId() == $i_category_id && $structure_context->getFunction() == 'edit_cat') {
-                // --------------------- KATEGORIE EDIT FORM
-
-                // ----- EXTENSION POINT
-                $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
-                    'id' => $structure_context->getEditId(),
-                    'clang' => $structure_context->getClangId(),
-                ]));
-
-                $add_buttons = rex_api_category_edit::getHiddenFields().'
-                <input type="hidden" name="category-id" value="' . $structure_context->getEditId() . '" />
-                <button class="btn btn-save" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
-
-                $class = 'mark';
-                if ($meta_buttons != '') {
-                    $class .= ' rex-has-metainfo';
-                }
-
-                $echo .= '
-                    <tr class="' . $class . '">
-                        ' . $kat_icon_td . '
-                        <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
-                        <td data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
-                        <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
-                        <td class="rex-table-action">' . $meta_buttons . '</td>
-                        <td class="rex-table-action" colspan="2">' . $add_buttons . '</td>
-                    </tr>';
-
-                // ----- EXTENSION POINT
-                $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_EDIT', '', [
-                    'id' => $structure_context->getEditId(),
-                    'clang' => $structure_context->getClangId(),
-                    'category' => $KAT,
-                    'catname' => $KAT->getValue('catname'),
-                    'catpriority' => $KAT->getValue('catpriority'),
-                    'data_colspan' => ($data_colspan + 1),
-                ]));
-            } else {
-                // --------------------- KATEGORIE WITH WRITE
-
-                $category_delete = '<a href="' . $structure_context->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structure_context->getCatStart()] + rex_api_category_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
-
-                $echo .= '
-                    <tr>
-                        ' . $kat_icon_td . '
-                        <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
-                        <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . htmlspecialchars($KAT->getValue('catname')) . '</a></td>
-                        <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . htmlspecialchars($KAT->getValue('catpriority')) . '</td>
-                        <td class="rex-table-action"><a href="' . $structure_context->getContext()->getUrl(['edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $structure_context->getCatStart()]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
-                        <td class="rex-table-action">' . $category_delete . '</td>
-                        <td class="rex-table-action">' . $kat_status . '</td>
-                    </tr>';
-            }
-        } elseif (rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($i_category_id)) {
-            // --------------------- KATEGORIE WITH READ
 
             $echo .= '
-                    <tr>
-                        ' . $kat_icon_td . '
-                        <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
-                        <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . $KAT->getValue('catname') . '</a></td>
-                        <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . htmlspecialchars($KAT->getValue('catpriority')) . '</td>
-                        <td class="rex-table-action"><span class="text-muted"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</span></td>
-                        <td class="rex-table-action"><span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span></td>
-                        <td class="rex-table-action"><span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span></td>
-                    </tr>';
+                <tr class="' . $class . '">
+                    ' . $kat_icon_td . '
+                    <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
+                    <td data-title="' . rex_i18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . htmlspecialchars($KAT->getValue('catname')) . '" class="rex-js-autofocus" autofocus /></td>
+                    <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="category-position" value="' . htmlspecialchars($KAT->getValue('catpriority')) . '" /></td>
+                    <td class="rex-table-action">' . $meta_buttons . '</td>
+                    <td class="rex-table-action" colspan="2">' . $add_buttons . '</td>
+                </tr>';
+
+            // ----- EXTENSION POINT
+            $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_EDIT', '', [
+                'id' => $structure_context->getEditId(),
+                'clang' => $structure_context->getClangId(),
+                'category' => $KAT,
+                'catname' => $KAT->getValue('catname'),
+                'catpriority' => $KAT->getValue('catpriority'),
+                'data_colspan' => ($data_colspan + 1),
+            ]));
+        } else {
+            $fragment = new rex_fragment();
+            $fragment->setVar('kat_icon_td', $kat_icon_td, false);
+            $fragment->setVar('i_category_id', $i_category_id);
+            $fragment->setVar('kat_link', $kat_link, false);
+            $fragment->setVar('KAT', $KAT, false);
+            $fragment->setVar('status_class', $status_class, false);
+            $fragment->setVar('status_icon', $status_icon, false);
+            $fragment->setVar('kat_status', $kat_status, false);
+            $fragment->setVar('structure_context', $structure_context, false);
+            $echo .= $fragment->parse('structure/table_row_categories.php');
         }
 
         $KAT->next();
