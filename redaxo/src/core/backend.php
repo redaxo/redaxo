@@ -44,8 +44,7 @@ if (rex_get('asset') && rex_get('buster')) {
     exit();
 }
 
-// ----- pages, verfuegbare seiten
-// array(name,addon=1,htmlheader=1);
+// ----- verfuegbare seiten
 $pages = [];
 $page = '';
 
