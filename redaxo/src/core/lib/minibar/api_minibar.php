@@ -9,7 +9,6 @@ class rex_api_minibar extends rex_api_function
 
     public function execute()
     {
-        // TODO 1 api-function per aktion?!
 
         $visibility = rex_get('visibility', 'bool', null);
         if ($visibility !== null) {
