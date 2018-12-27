@@ -3,7 +3,7 @@
 class rex_stopwatch
 {
     /**
-     * List of already callables which exceeded MIN_DURATION.
+     * List of fired callables
      *
      * @var float[]
      */
