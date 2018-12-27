@@ -23,7 +23,7 @@ class rex_minibar
     public function elementByClass($className)
     {
         foreach ($this->elements as $element) {
-            if (get_class($element) == $className) {
+            if (get_class($element) === $className) {
                 return $element;
             }
         }
