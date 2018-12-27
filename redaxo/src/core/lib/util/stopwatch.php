@@ -3,7 +3,7 @@
 class rex_stopwatch
 {
     /**
-     * List of fired callables
+     * List of fired callables.
      *
      * @var float[]
      */
