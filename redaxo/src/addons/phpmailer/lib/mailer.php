@@ -51,10 +51,12 @@ class rex_mailer extends PHPMailer
 
     public function send()
     {
-        if ($this->log) {
-            $this->log();
-        }
-        return parent::send();
+        return rex_stopwatch::measure(__METHOD__, function() {
+            if ($this->log) {
+                $this->log();
+            }
+            return parent::send();
+        });
     }
 
     /*
