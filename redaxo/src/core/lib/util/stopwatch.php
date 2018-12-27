@@ -3,14 +3,6 @@
 class rex_stopwatch
 {
     /**
-     * The minimum duration (in milliseconds) a callable needs to consume for beeing recorded.
-     * Faster callables will not be recorded.
-     *
-     * @var int
-     */
-    const MIN_DURATION = 10;
-
-    /**
      * List of already callables which exceeded MIN_DURATION.
      *
      * @var float[]
@@ -50,16 +42,12 @@ class rex_stopwatch
 
         $durationSec = microtime(true) - $start;
         $durationMs = $durationSec * 1000;
+        $this->duration = $durationMs;
 
-        // dont record events which are fast as hell.
-        if ($durationMs > self::MIN_DURATION) {
-            $this->duration = $durationMs;
-
-            if (isset(self::$timers[$label])) {
-                $durationMs += self::$timers[$label];
-            }
-            self::$timers[$label] = $durationMs;
+        if (isset(self::$timers[$label])) {
+            $durationMs += self::$timers[$label];
         }
+        self::$timers[$label] = $durationMs;
     }
 
     public static function measure($label, callable $callable)
