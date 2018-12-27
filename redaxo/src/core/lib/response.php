@@ -94,6 +94,12 @@ class rex_response
         }
     }
 
+    private static function sendServerTimingHeaders() {
+        foreach(rex_stop_watch::$timers as $label => $durationMs) {
+            header('Server-Timing: '. $label .';dur='. $durationMs);
+        }
+    }
+
     /**
      * Redirects to a URL.
      *
@@ -112,6 +118,7 @@ class rex_response
         self::cleanOutputBuffers();
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -159,6 +166,7 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         // dependency ramsey/http-range requires PHP >=5.6
         if (PHP_VERSION_ID >= 50600) {
@@ -304,6 +312,7 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         echo $content;
 
