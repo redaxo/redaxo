@@ -6,16 +6,16 @@ class rex_stopwatch
      * The minimum duration (in milliseconds) a callable needs to consume for beeing recorded.
      * Faster callables will not be recorded.
      *
-     * @var integer
+     * @var int
      */
     const MIN_DURATION = 10;
 
     /**
-     * List of already callables which exceeded MIN_DURATION
+     * List of already callables which exceeded MIN_DURATION.
      *
      * @var float[]
      */
-    public static $timers = array();
+    public static $timers = [];
 
     private $label;
 
@@ -24,7 +24,6 @@ class rex_stopwatch
     private $duration;
 
     /**
-     *
      * @param string $label
      */
     public function __construct($label)
@@ -42,7 +41,7 @@ class rex_stopwatch
 
     public function stop()
     {
-        if (! $this->start) {
+        if (!$this->start) {
             throw new LogicException('missing start() call before stop().');
         }
 
@@ -75,7 +74,7 @@ class rex_stopwatch
     }
 
     /**
-     * Returns the measured duration in milliseconds
+     * Returns the measured duration in milliseconds.
      *
      * @return float
      */
