@@ -1,6 +1,6 @@
 <?php
 
-class rex_stop_watch
+class rex_stopwatch
 {
     /**
      * The minimum duration (in milliseconds) a callable needs to consume for beeing recorded.
@@ -13,7 +13,7 @@ class rex_stop_watch
     /**
      * List of already callables which exceeded MIN_DURATION
      *
-     * @var string[]
+     * @var float[]
      */
     public static $timers = array();
 
@@ -56,16 +56,10 @@ class rex_stop_watch
         if ($durationMs > self::MIN_DURATION) {
             $this->duration = $durationMs;
 
-            $durationMs = number_format($durationMs, 3);
-
-            $uniqueLabel = $label;
-            $i = 1;
-            while (isset(self::$timers[$uniqueLabel])) {
-                $uniqueLabel = $label . $i;
-                $i++;
+            if (isset(self::$timers[$label])) {
+                $durationMs += self::$timers[$label];
             }
-            $this->probeMarker($uniqueLabel . ' ' . $durationMs . ' ms');
-            self::$timers[$uniqueLabel] = $durationMs;
+            self::$timers[$label] = $durationMs;
         }
     }
 
@@ -78,15 +72,6 @@ class rex_stop_watch
         $watch->stop();
 
         return $result;
-    }
-
-    private function probeMarker($label)
-    {
-        // addMarker is available since ext-blackfire 1.15.0
-        // https://github.com/blackfireio/php-sdk/issues/23
-        if (class_exists('BlackfireProbe', false) && method_exists('BlackfireProbe', 'addMarker')) {
-            BlackfireProbe::addMarker($label);
-        }
     }
 
     /**
