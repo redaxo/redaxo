@@ -17,8 +17,10 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        $content = @file_get_contents($file);
-        return $content !== false ? $content : $default;
+        return rex_stop_watch::measure(__METHOD__.':'. $file, function() use ($file, $default) {
+            $content = @file_get_contents($file);
+            return $content !== false ? $content : $default;
+        });
     }
 
     /**
@@ -59,16 +61,18 @@ class rex_file
      */
     public static function put($file, $content)
     {
-        if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+        return rex_stop_watch::measure(__METHOD__.':'. $file, function() use ($file, $content) {
+            if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+                return false;
+            }
+
+            if (file_put_contents($file, $content) !== false) {
+                @chmod($file, rex::getFilePerm());
+                return true;
+            }
+
             return false;
-        }
-
-        if (file_put_contents($file, $content) !== false) {
-            @chmod($file, rex::getFilePerm());
-            return true;
-        }
-
-        return false;
+        });
     }
 
     /**
