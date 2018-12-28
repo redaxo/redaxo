@@ -14,11 +14,10 @@ if (!$this->hasConfig()) {
 /* Codemirror-Assets entpacken */
 $message = '';
 $zipArchive = new ZipArchive();
-$result = $zipArchive->open($this->getPath('assets/vendor/codemirror.zip'));
 
 try {
-    if ($result === true) {
-        $zipArchive->extractTo($this->getAssetsUrl('vendor/'));
+    if ($zipArchive->open($this->getPath('assets/vendor/codemirror.zip')) === true &&
+        $zipArchive->extractTo($this->getAssetsUrl('vendor/')) === true) {
         $zipArchive->close();
     } else {
         $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $this->getPath('assets/vendor/codemirror.zip');
