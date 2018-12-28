@@ -123,13 +123,14 @@ class rex_minibar_element_structure_content extends rex_minibar_lazy_element
         $clangId = rex_request('clang', 'int');
         $clangId = rex_clang::exists($clangId) ? $clangId : rex_clang::getStartId();
 
-        $article = rex_article::getCurrent();
         if (rex::isBackend()) {
             $article = rex_article::get(rex_request('article_id', 'int'), $clangId);
 
             if (!$article) {
                 $article = rex_article::get(rex_request('category_id', 'int'), $clangId);
             }
+        } else {
+            $article = rex_article::getCurrent();
         }
 
         if (!$article) {
