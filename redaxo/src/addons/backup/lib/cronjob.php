@@ -15,7 +15,7 @@ class rex_cronjob_export extends rex_cronjob
         $filename = strftime($filename);
         $file = $filename;
         $dir = rex_backup::getDir() . '/';
-        $ext = '.sql';
+        $ext = '.cronjob.sql';
         if (file_exists($dir . $file . $ext)) {
             $i = 1;
             while (file_exists($dir . $file . '_' . $i . $ext)) {
@@ -27,9 +27,50 @@ class rex_cronjob_export extends rex_cronjob
         if (rex_backup::exportDb($dir . $file . $ext)) {
             $message = $file . $ext . ' created';
 
+            if ($this->delete_interval) {
+                $allSqlfiles = glob(rex_path::addonData('backup', '*'.$ext));
+                $backups = [];
+                $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
+
+                foreach ($allSqlfiles as $sqlFile) {
+                    $timestamp = filectime($sqlFile);
+
+                    if ($timestamp > $limit) {
+                        // wenn es die generelle Vorhaltezeit unterschreitet
+                        continue;
+                    }
+
+                    $backups[$sqlFile] = $timestamp;
+                }
+
+                asort($backups, SORT_NUMERIC);
+
+                $step = '';
+                $countDeleted = 0;
+
+                foreach ($backups as $backup => $timestamp) {
+                    $stepLast = $step;
+                    $step = date($this->delete_interval, (int) $timestamp);
+
+                    if ($stepLast !== $step) {
+                        // wenn es zu diesem Interval schon ein Backup gibt
+                        continue;
+                    }
+
+                    // dann löschen
+                    rex_file::delete($backup);
+                    ++$countDeleted;
+                }
+
+                if ($countDeleted) {
+                    $message .= ', '.$countDeleted.' old backup(s) deleted';
+                }
+            }
+
             if ($this->sendmail) {
                 if (!rex_addon::get('phpmailer')->isAvailable()) {
                     $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
+
                     return false;
                 }
                 $mail = new rex_mailer();
@@ -39,16 +80,20 @@ class rex_cronjob_export extends rex_cronjob
                 $mail->AddAttachment($dir . $file . $ext, $filename . $ext);
                 if ($mail->Send()) {
                     $this->setMessage($message . ', mail sent');
+
                     return true;
                 }
                 $this->setMessage($message . ', mail not sent');
+
                 return false;
             }
 
             $this->setMessage($message);
+
             return true;
         }
         $this->setMessage($file . $ext . ' not created');
+
         return false;
     }
 
@@ -84,6 +129,19 @@ class rex_cronjob_export extends rex_cronjob
             $fields[1]['notice'] = rex_i18n::msg('backup_send_mail_notice');
             $fields[1]['attributes'] = ['disabled' => 'disabled'];
         }
+
+        $fields[] = [
+            'label' => rex_i18n::msg('backup_delete_interval'),
+            'name' => 'delete_interval',
+            'type' => 'select',
+            'options' => [
+                '0' => rex_i18n::msg('backup_delete_interval_off'),
+                'YW' => rex_i18n::msg('backup_delete_interval_weekly'),
+                'YM' => rex_i18n::msg('backup_delete_interval_monthly'), ],
+            'default' => 'YW',
+            'notice' => rex_i18n::msg('backup_delete_interval_notice'),
+        ];
+
         return $fields;
     }
 }

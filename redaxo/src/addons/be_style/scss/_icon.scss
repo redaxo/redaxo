@@ -97,6 +97,9 @@
 .rex-icon-download {
     @extend .fa-download;
 }
+.rex-icon-duplicate {
+    @extend .fa-clone;
+}
 .rex-icon-edit {
     @extend .fa-edit;
 }
@@ -139,6 +142,9 @@
 .rex-icon-last {
     @extend .fa-angle-double-right;
 }
+.rex-icon-license {
+    @extend .fa-balance-scale;
+}
 .rex-icon-linkmap {
     @extend .fa-sitemap;
 }
@@ -163,6 +169,12 @@
 }
 .rex-icon-metainfo {
     @extend .fa-lemon-o;
+}
+.rex-icon-minibar-close {
+    @extend .fa-times;
+}
+.rex-icon-minibar-open {
+    @extend .fa-window-minimize;
 }
 .rex-icon-module {
     @extend .fa-database;
@@ -259,6 +271,9 @@
 .collapsed .rex-icon-structure-category-metainfo {
     @extend .fa-plus;
 }
+.rex-icon-structure-root-level {
+    @extend .fa-globe;
+}
 .rex-icon-seo {
     @extend .fa-area-chart;
 }
@@ -288,6 +303,9 @@
 }
 .rex-icon-view {
     @extend .fa-eye;
+}
+.rex-icon-hide {
+    @extend .fa-eye-slash;
 }
 .rex-icon-view-icon {
     @extend .fa-th-large;

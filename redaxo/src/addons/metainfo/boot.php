@@ -38,9 +38,35 @@ $this->setProperty('metaTables', [
     'clang_' => rex::getTablePrefix() . 'clang',
 ]);
 
+require_once __DIR__.'/extensions/extension_minibar.php';
 if (rex::isBackend()) {
     $curDir = __DIR__;
     require_once $curDir . '/functions/function_metainfo.php';
 
     rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 }
+
+rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
+    if (!preg_match('@^rex:///metainfo/(\d+)@', $ep->getParam('file'), $match)) {
+        return;
+    }
+
+    $id = $match[1];
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT `name` FROM '.rex::getTable('metainfo_field').' WHERE id = ? LIMIT 1', [$id]);
+
+    if (!$sql->getRows()) {
+        return;
+    }
+
+    static $pages = [
+        'art_' => 'articles',
+        'cat_' => 'categories',
+        'med_' => 'media',
+        'clang_' => 'clangs',
+    ];
+
+    $prefix = rex_metainfo_meta_prefix($sql->getValue('name'));
+
+    return rex_url::backendPage('metainfo/'.$pages[$prefix], ['func' => 'edit', 'field_id' => $id]);
+});

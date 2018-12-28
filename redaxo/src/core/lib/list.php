@@ -17,7 +17,7 @@ $list->setCaption('thomas macht das css');
 $list->show();
 
 
-EXAMPLE FOR USING CUSTOM CALLBACKS WITH setColumnFormat() METHOD:
+EXAMPLE USING CUSTOM CALLBACKS WITH setColumnFormat() METHOD:
 
 function callback_func($params)
 {
@@ -102,7 +102,8 @@ class rex_list implements rex_url_provider_interface
     {
         // --------- Validation
         if (!$listName) {
-            $listName = md5($query);
+            // use a hopefully unique (per page) hash
+            $listName = substr(md5($query), 0, 8);
         }
 
         // --------- List Attributes
@@ -141,12 +142,17 @@ class rex_list implements rex_url_provider_interface
         $this->linkAttributes = [];
 
         // --------- Pagination Attributes
-        $this->pager = new rex_pager($rowsPerPage);
+        $cursorName = $listName .'_start';
+        if (null === rex_request($cursorName, 'int', null) && rex_request('start', 'int')) {
+            // BC: Fallback to "start"
+            $cursorName = 'start';
+        }
+        $this->pager = new rex_pager($rowsPerPage, $cursorName);
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
         $sql = rex_sql::factory();
-        $sql->setQuery('SELECT FOUND_ROWS() as rows');
+        $sql->setQuery('SELECT FOUND_ROWS() as '. $sql->escapeIdentifier('rows'));
         $this->rows = $sql->getValue('rows');
         $this->pager->setRowCount($this->rows);
 
@@ -200,7 +206,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getMessage()
     {
-        return htmlspecialchars(rex_request($this->getName() . '_msg', 'string'));
+        return rex_escape(rex_request($this->getName() . '_msg', 'string'));
     }
 
     /**
@@ -210,7 +216,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function getWarning()
     {
-        return htmlspecialchars(rex_request($this->getName() . '_warning', 'string'));
+        return rex_escape(rex_request($this->getName() . '_warning', 'string'));
     }
 
     /**
@@ -719,10 +725,13 @@ class rex_list implements rex_url_provider_interface
         if ($sortColumn != '') {
             $sortType = $this->getSortType();
 
+            $sql = rex_sql::factory();
+            $sortColumn = $sql->escapeIdentifier($sortColumn);
+
             if (stripos($query, ' ORDER BY ') === false) {
-                $query .= ' ORDER BY `' . $sortColumn . '` ' . $sortType;
+                $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
             } else {
-                $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY `' . $sortColumn . '` ' . $sortType, $query);
+                $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY ' . $sortColumn . ' ' . $sortType, $query);
             }
         }
 
@@ -833,7 +842,7 @@ class rex_list implements rex_url_provider_interface
 
     public function replaceVariable($string, $varname)
     {
-        return str_replace('###' . $varname . '###', htmlspecialchars($this->getValue($varname)), $string);
+        return str_replace('###' . $varname . '###', rex_escape($this->getValue($varname)), $string);
     }
 
     /**
@@ -897,7 +906,7 @@ class rex_list implements rex_url_provider_interface
             $format[0] != 'email' &&
             $format[0] != 'url'
         ) {
-            $value = htmlspecialchars($value);
+            $value = rex_escape($value);
         }
 
         return $value;
@@ -908,7 +917,7 @@ class rex_list implements rex_url_provider_interface
         $s = '';
 
         foreach ($array as $name => $value) {
-            $s .= ' ' . htmlspecialchars($name) . '="' . htmlspecialchars($value) . '"';
+            $s .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value, 'html_attr') . '"';
         }
 
         return $s;
@@ -941,7 +950,7 @@ class rex_list implements rex_url_provider_interface
         $s = "\n";
 
         // Form vars
-        $this->addFormAttribute('action', $this->getUrl());
+        $this->addFormAttribute('action', $this->getUrl([], false));
         $this->addFormAttribute('method', 'post');
 
         // Table vars
@@ -986,7 +995,7 @@ class rex_list implements rex_url_provider_interface
         $s .= '    <table' . $this->_getAttributeString($this->getTableAttributes()) . '>' . "\n";
 
         if ($caption != '') {
-            $s .= '        <caption>' . htmlspecialchars($caption) . '</caption>' . "\n";
+            $s .= '        <caption>' . rex_escape($caption) . '</caption>' . "\n";
         }
 
         if (count($tableColumnGroups) > 0) {
@@ -1014,7 +1023,7 @@ class rex_list implements rex_url_provider_interface
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
-                $columnHead = '<a href="' . $this->getUrl(['start' => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
+                $columnHead = '<a href="' . $this->getUrl([$this->pager->getCursorName() => $this->pager->getCursor(), 'sort' => $columnName, 'sorttype' => $columnSortType]) . '">' . $columnHead . '</a>';
             }
 
             $layout = $this->getColumnLayout($columnName);

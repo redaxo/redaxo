@@ -1,9 +1,11 @@
 .php_cs.cache
+/.htaccess
 /assets/
 /media/
 /redaxo/cache/
 /redaxo/data/
 /releases/
+/resources/
 
 # Addons
 /redaxo/src/addons/*
@@ -19,5 +21,4 @@
 !/redaxo/src/addons/project/
 !/redaxo/src/addons/structure/
 !/redaxo/src/addons/tests/
-!/redaxo/src/addons/textile/
 !/redaxo/src/addons/users/

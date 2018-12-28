@@ -35,14 +35,15 @@ class rex_var_article extends rex_var
         }
 
         if ($field) {
-            return __CLASS__ . '::getArticleValue(' . $id . ', ' . $field . ', ' . $clang . ')';
-        } elseif (!$noId || !in_array($this->getContext(), ['module', 'action'])) {
+            return self::class . '::getArticleValue(' . $id . ', ' . $field . ', ' . $clang . ')';
+        }
+        if (!$noId || !in_array($this->getContext(), ['module', 'action'])) {
             // aktueller Artikel darf nur in Templates, nicht in Modulen eingebunden werden
             // => endlossschleife
             if ($noId && $clang == 'null') {
                 return '$this->getArticle(' . $ctype . ')';
             }
-            return __CLASS__ . '::getArticle(' . $id . ', ' . $ctype . ', ' . $clang . ')';
+            return self::class . '::getArticle(' . $id . ', ' . $ctype . ', ' . $clang . ')';
         }
 
         return false;
@@ -54,7 +55,7 @@ class rex_var_article extends rex_var
             $clang = rex_clang::getCurrentId();
         }
         $article = rex_article::get($id, $clang);
-        return htmlspecialchars($article->getValue($field));
+        return rex_escape($article->getValue($field));
     }
 
     public static function getArticle($id, $ctype = -1, $clang = null)

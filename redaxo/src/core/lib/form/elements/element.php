@@ -21,7 +21,7 @@ class rex_form_element
     /** @var rex_validator */
     protected $validator;
 
-    public function __construct($tag, rex_form $table = null, array $attributes = [], $separateEnding = false)
+    public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;
         $this->label = '';
@@ -157,7 +157,8 @@ class rex_form_element
     {
         if ($name == 'value') {
             return $this->getValue();
-        } elseif ($this->hasAttribute($name)) {
+        }
+        if ($this->hasAttribute($name)) {
             return $this->attributes[$name];
         }
 
@@ -218,22 +219,21 @@ class rex_form_element
     public function formatElement()
     {
         $attr = '';
-        $value = htmlspecialchars($this->getValue());
-        $tag = htmlspecialchars($this->getTag());
+        $value = $this->getValue();
+        $tag = rex_escape($this->getTag(), 'html_attr');
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
         }
 
         if ($this->hasSeparateEnding()) {
             if ($tag == 'button') {
                 $attr .= ' value="1"';
             }
-            return '<' . $tag . $attr . '>' . $value . '</' . $tag . '>';
-        } else {
-            $attr .= ' value="' . $value . '"';
-            return '<' . $tag . $attr . ' />';
+            return '<' . $tag . $attr . '>' . rex_escape($value) . '</' . $tag . '>';
         }
+        $attr .= ' value="' . rex_escape($value, 'html_attr') . '"';
+        return '<' . $tag . $attr . ' />';
     }
 
     protected function formatNotice()

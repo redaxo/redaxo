@@ -54,7 +54,7 @@ class rex_be_controller
         if ($part === null) {
             return self::$pageParts;
         }
-        $part -= 1;
+        --$part;
         return isset(self::$pageParts[$part]) ? self::$pageParts[$part] : $default;
     }
 
@@ -156,6 +156,12 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
 
+        $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
+        $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
+        if (is_readable(ini_get('error_log'))) {
+            $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
+        }
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -164,7 +170,11 @@ class rex_be_controller
             ->setIcon('rex-icon rex-icon-system')
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
-            ->addSubpage((new rex_be_page('log', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log.php')))
+            ->addSubpage($logsPage)
+            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
+                ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
+                ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php')))
+            )
             ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
@@ -320,7 +330,7 @@ class rex_be_controller
                     if (file_exists($path = $package->getPath($value))) {
                         $value = $path;
                     }
-                    // fall through, don't break
+                    // no break
                 default:
                     $setter = [$page, 'add' . ucfirst($key)];
                     if (is_callable($setter)) {

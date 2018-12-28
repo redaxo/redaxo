@@ -8,9 +8,9 @@
 class rex_setup
 {
     const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
-    const MIN_MYSQL_VERSION = '5.0';
+    const MIN_MYSQL_VERSION = '5.5.3';
 
-    private static $MIN_PHP_EXTENSIONS = ['session', 'pdo', 'pdo_mysql', 'pcre'];
+    private static $MIN_PHP_EXTENSIONS = ['session', 'pdo', 'pdo_mysql', 'pcre', 'tokenizer'];
 
     /**
      * very basic setup steps, so everything is in place for our browser-based setup wizard.
@@ -52,8 +52,8 @@ class rex_setup
         $errors = [];
 
         // -------------------------- VERSIONSCHECK
-        if (version_compare(phpversion(), self::MIN_PHP_VERSION, '<') == 1) {
-            $errors[] = rex_i18n::msg('setup_301', phpversion(), self::MIN_PHP_VERSION);
+        if (version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<') == 1) {
+            $errors[] = rex_i18n::msg('setup_301', PHP_VERSION, self::MIN_PHP_VERSION);
         }
 
         // -------------------------- EXTENSION CHECK
@@ -82,7 +82,11 @@ class rex_setup
             rex_path::src(),
         ];
 
-        $func = function ($dir) use (&$func) {
+        $getMod = function ($path) {
+            return substr(sprintf('%o', fileperms($path)), -3);
+        };
+
+        $func = function ($dir) use (&$func, $getMod) {
             if (!rex_dir::isWritable($dir)) {
                 return ['setup_304' => [$dir]];
             }
@@ -92,6 +96,9 @@ class rex_setup
                     $res = array_merge_recursive($res, $func($path));
                 } elseif (!$file->isWritable()) {
                     $res['setup_305'][] = $path;
+                } elseif (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') !== 0 && substr($getMod($path), -1) === '7') {
+                    // check the "other" filesystem-bit for "all" permission.
+                    $res['setup_311'][] = $path;
                 }
             }
             return $res;
@@ -126,7 +133,7 @@ class rex_setup
 
         $serverVersion = rex_sql::getServerVersion();
         if (rex_string::versionCompare($serverVersion, self::MIN_MYSQL_VERSION, '<') == 1) {
-            return rex_i18n::msg('setup_404', $serverVersion, self::MIN_MYSQL_VERSION);
+            return rex_i18n::msg('sql_database_min_version', $serverVersion, self::MIN_MYSQL_VERSION);
         }
         return '';
     }

@@ -236,22 +236,21 @@ abstract class rex_package implements rex_package_interface
      */
     public function loadProperties()
     {
-        static $cache = null;
-        if (is_null($cache)) {
-            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
-        }
-        $id = $this->getPackageId();
         $file = $this->getPath(self::FILE_PACKAGE);
         if (!file_exists($file)) {
             $this->propertiesLoaded = true;
             return;
         }
-        if (
-            isset($cache[$id]) &&
-            (!rex::isBackend() || !($user = rex::getUser()) || !$user->isAdmin() || $cache[$id]['timestamp'] >= filemtime($file))
-        ) {
-            $properties = $cache[$id]['data'];
-        } else {
+
+        static $cache = null;
+        if (null === $cache) {
+            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
+        }
+        $id = $this->getPackageId();
+
+        $isCached = isset($cache[$id]);
+        $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
+        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
             try {
                 $properties = rex_file::getConfig($file);
 
@@ -263,7 +262,7 @@ abstract class rex_package implements rex_package_interface
                     $registeredShutdown = true;
                     register_shutdown_function(function () use (&$cache) {
                         foreach ($cache as $package => $_) {
-                            if (!rex_package::exists($package)) {
+                            if (!self::exists($package)) {
                                 unset($cache[$package]);
                             }
                         }
@@ -277,7 +276,10 @@ abstract class rex_package implements rex_package_interface
 
                 $properties = [];
             }
+        } else {
+            $properties = $cache[$id]['data'];
         }
+
         $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
         if ($properties) {
             foreach ($properties as $key => $value) {
@@ -287,12 +289,62 @@ abstract class rex_package implements rex_package_interface
                 if ('supportpage' !== $key) {
                     $value = rex_i18n::translateArray($value, false, [$this, 'i18n']);
                 } elseif (!preg_match('@^https?://@i', $value)) {
-                    $value = 'http://'.$value;
+                    $value = 'https://'.$value;
                 }
                 $this->properties[$key] = $value;
             }
         }
         $this->propertiesLoaded = true;
+    }
+
+    /**
+     *  Clears the cache of the package.
+     *
+     * @throws rex_functional_exception
+     */
+    public function clearCache()
+    {
+        $cache_dir = $this->getCachePath();
+        if (is_dir($cache_dir) && !rex_dir::delete($cache_dir)) {
+            throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+        }
+    }
+
+    public function enlist()
+    {
+        $folder = $this->getPath();
+
+        // add addon path for i18n
+        if (is_readable($folder . 'lang')) {
+            rex_i18n::addDirectory($folder . 'lang');
+        }
+        // add package path for fragment loading
+        if (is_readable($folder . 'fragments')) {
+            rex_fragment::addDirectory($folder . 'fragments' . DIRECTORY_SEPARATOR);
+        }
+        // add addon path for class-loading
+        if (is_readable($folder . 'lib')) {
+            rex_autoload::addDirectory($folder . 'lib');
+        }
+        if (is_readable($folder . 'vendor')) {
+            rex_autoload::addDirectory($folder . 'vendor');
+        }
+        $autoload = $this->getProperty('autoload');
+        if (is_array($autoload) && isset($autoload['classes']) && is_array($autoload['classes'])) {
+            foreach ($autoload['classes'] as $dir) {
+                $dir = $this->getPath($dir);
+                if (is_readable($dir)) {
+                    rex_autoload::addDirectory($dir);
+                }
+            }
+        }
+    }
+
+    public function boot()
+    {
+        if (is_readable($this->getPath(self::FILE_BOOT))) {
+            $this->includeFile(self::FILE_BOOT);
+        }
     }
 
     /**

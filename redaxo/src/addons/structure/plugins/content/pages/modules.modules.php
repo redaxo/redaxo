@@ -24,8 +24,12 @@ $error = '';
 $content = '';
 $message = '';
 
+$csrfToken = rex_csrf_token::factory('structure_content_module');
+
 // ---------------------------- ACTIONSFUNKTIONEN FUER MODULE
-if ($add_action != '') {
+if (($add_action != '' || $function_action == 'delete') && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($add_action != '') {
     $action = rex_sql::factory();
     $action->setTable(rex::getTablePrefix() . 'module_action');
     $action->setValue('module_id', $module_id);
@@ -52,15 +56,17 @@ if ($add_action != '') {
 
 // ---------------------------- FUNKTIONEN FUER MODULE
 
-if ($function == 'delete') {
+if ($function == 'delete' && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($function == 'delete') {
     $del = rex_sql::factory();
     $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype_id, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
             LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
-            WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$module_id' GROUP BY " . rex::getTablePrefix() . 'article_slice.article_id');
+            WHERE ' . rex::getTablePrefix() . 'article_slice.module_id=? GROUP BY ' . rex::getTablePrefix() . 'article_slice.article_id', [$module_id]);
 
     if ($del->getRows() > 0) {
         $module_in_use_message = '';
-        $modulname = htmlspecialchars($del->getValue(rex::getTablePrefix() . 'module.name'));
+        $modulname = $del->getValue(rex::getTablePrefix() . 'module.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
             $aid = $del->getValue(rex::getTablePrefix() . 'article_slice.article_id');
             $clang_id = $del->getValue(rex::getTablePrefix() . 'article_slice.clang_id');
@@ -72,7 +78,7 @@ if ($function == 'delete') {
                 $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
             }
 
-            $module_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id, 'ctype' => $ctype]) . '">' . htmlspecialchars($label) . '</a></li>';
+            $module_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id, 'ctype' => $ctype]) . '">' . rex_escape($label) . '</a></li>';
             $del->next();
         }
 
@@ -82,19 +88,25 @@ if ($function == 'delete') {
             $error .= '<ul>' . $module_in_use_message . '</ul>';
         }
     } else {
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module WHERE id='$module_id'");
+        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
 
         if ($del->getRows() > 0) {
-            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . "module_action WHERE module_id='$module_id'");
+            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'module_action WHERE module_id=?', [$module_id]);
             $success = rex_i18n::msg('module_deleted');
+            $success = rex_extension::registerPoint(new rex_extension_point('MODULE_DELETED', $success, [
+                'id' => $module_id,
+            ]));
         } else {
             $error = rex_i18n::msg('module_not_found');
         }
     }
 }
 
-if ($function == 'add' or $function == 'edit') {
-    if ($save == '1') {
+if ($function == 'add' || $function == 'edit') {
+    if ($save == '1' && !$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+        $save = '0';
+    } elseif ($save == '1') {
         $module = rex_sql::factory();
 
         try {
@@ -108,12 +120,16 @@ if ($function == 'add' or $function == 'edit') {
 
                 $IMOD->insert();
                 $success = rex_i18n::msg('module_added');
+                $success = rex_extension::registerPoint(new rex_extension_point('MODULE_ADDED', $success, [
+                    'id' => $IMOD->getLastId(),
+                    'name' => $mname,
+                    'input' => $eingabe,
+                    'output' => $ausgabe,
+                ]));
             } else {
-                $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=' . $module_id);
+                $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=?', [$module_id]);
                 if ($module->getRows() == 1) {
                     $old_ausgabe = $module->getValue('output');
-
-                    // $module->setQuery("UPDATE ".rex::getTablePrefix()."module SET name='$mname', eingabe='$eingabe', ausgabe='$ausgabe' WHERE id='$module_id'");
 
                     $UMOD = rex_sql::factory();
                     $UMOD->setTable(rex::getTablePrefix() . 'module');
@@ -125,6 +141,12 @@ if ($function == 'add' or $function == 'edit') {
 
                     $UMOD->update();
                     $success = rex_i18n::msg('module_updated') . ' | ' . rex_i18n::msg('articel_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('MODULE_UPDATED', $success, [
+                        'id' => $module_id,
+                        'name' => $mname,
+                        'input' => $eingabe,
+                        'output' => $ausgabe,
+                    ]));
 
                     $new_ausgabe = $ausgabe;
 
@@ -133,7 +155,7 @@ if ($function == 'add' or $function == 'edit') {
                         $gc = rex_sql::factory();
                         $gc->setQuery('SELECT DISTINCT(' . rex::getTablePrefix() . 'article.id) FROM ' . rex::getTablePrefix() . 'article
                                 LEFT JOIN ' . rex::getTablePrefix() . 'article_slice ON ' . rex::getTablePrefix() . 'article.id=' . rex::getTablePrefix() . 'article_slice.article_id
-                                WHERE ' . rex::getTablePrefix() . "article_slice.module_id='$module_id'");
+                                WHERE ' . rex::getTablePrefix() . 'article_slice.module_id=?', [$module_id]);
                         for ($i = 0; $i < $gc->getRows(); ++$i) {
                             rex_article_cache::delete($gc->getValue(rex::getTablePrefix() . 'article.id'));
                             $gc->next();
@@ -157,7 +179,7 @@ if ($function == 'add' or $function == 'edit') {
             $legend = rex_i18n::msg('module_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $module_id . '</small>';
 
             $hole = rex_sql::factory();
-            $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
+            $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
             $mname = $hole->getValue('name');
             $ausgabe = $hole->getValue('output');
             $eingabe = $hole->getValue('input');
@@ -192,17 +214,17 @@ if ($function == 'add' or $function == 'edit') {
 
         $n = [];
         $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . htmlspecialchars($mname) . '" />';
+        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname, 'html_attr') . '" />';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="minput">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="minput" name="eingabe">' . htmlspecialchars($eingabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="minput" name="eingabe" spellcheck="false">' . rex_escape($eingabe) . '</textarea>';
         $formElements[] = $n;
 
         $n = [];
         $n['label'] = '<label for="moutput">' . rex_i18n::msg('output') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="moutput" name="ausgabe">' . htmlspecialchars($ausgabe) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="moutput" name="ausgabe" spellcheck="false">' . rex_escape($ausgabe) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -247,7 +269,7 @@ if ($function == 'add' or $function == 'edit') {
 
             if ($gaa->getRows() > 0) {
                 $gma = rex_sql::factory();
-                $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . "module_action.module_id='$module_id'");
+                $gma->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module_action, ' . rex::getTablePrefix() . 'action WHERE ' . rex::getTablePrefix() . 'module_action.action_id=' . rex::getTablePrefix() . 'action.id and ' . rex::getTablePrefix() . 'module_action.module_id=?', [$module_id]);
 
                 $actions = '';
                 for ($i = 0; $i < $gma->getRows(); ++$i) {
@@ -257,11 +279,11 @@ if ($function == 'add' or $function == 'edit') {
                     $action_name = rex_i18n::translate($gma->getValue('name'));
 
                     $actions .= '<tr>
-                        <td class="rex-table-icon"><a href="' . $action_edit_url . '" title="' . htmlspecialchars($action_name) . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                        <td class="rex-table-icon"><a href="' . $action_edit_url . '" title="' . rex_escape($action_name, 'html_attr') . '"><i class="rex-icon rex-icon-action"></i></a></td>
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $gma->getValue('id') . '</td>
                         <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
                         <td class="rex-table-action"><a href="' . $action_edit_url . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
-                        <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id]) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
+                        <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['module_id' => $module_id, 'function_action' => 'delete', 'function' => 'edit', 'iaction_id' => $iaction_id] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('confirm_delete_action') . '"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a></td>
                     </tr>';
 
                     $gma->next();
@@ -294,7 +316,7 @@ if ($function == 'add' or $function == 'edit') {
                 $gaa_sel->setName('action_id');
                 $gaa_sel->setId('action_id');
                 $gaa_sel->setSize(1);
-                $gaa_sel->setAttribute('class', 'form-control');
+                $gaa_sel->setAttribute('class', 'form-control selectpicker');
 
                 for ($i = 0; $i < $gaa->getRows(); ++$i) {
                     $gaa_sel->addOption(rex_i18n::translate($gaa->getValue('name'), false), $gaa->getValue('id'));
@@ -336,7 +358,8 @@ if ($function == 'add' or $function == 'edit') {
         }
 
         $content = '
-            <form action="' . rex_url::currentBackendPage() . '" method="post">
+            <form action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+            ' . $csrfToken->getHiddenField() . '
             ' . $content . '
             </form>';
 
@@ -357,7 +380,8 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'module ORDER BY name', 100);
+    $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-module"></i>';
@@ -370,6 +394,9 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
+    $list->setColumnFormat('name', 'custom', function ($params) {
+        return $params['list']->getColumnLink('name', rex_i18n::translate($params['list']->getValue('name')));
+    });
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
@@ -377,7 +404,7 @@ if ($OUT) {
 
     $list->addColumn(rex_i18n::msg('delete_module'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###']);
+    $list->setColumnParams(rex_i18n::msg('delete_module'), ['function' => 'delete', 'module_id' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
 
     $list->setNoRowsMessage(rex_i18n::msg('modules_not_found'));

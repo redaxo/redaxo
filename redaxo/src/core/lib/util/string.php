@@ -223,12 +223,14 @@ class rex_string
 
         foreach ($attributes as $key => $value) {
             if (is_int($key)) {
-                $attr .= ' ' . $value;
+                $attr .= ' ' . rex_escape($value);
             } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
-                $attr .= ' ' . $key . '="' . $value . '"';
+                // for bc reasons avoid double escaping of "&", especially in already escaped urls
+                $value = str_replace('&amp;', '&', $value);
+                $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
             }
         }
 

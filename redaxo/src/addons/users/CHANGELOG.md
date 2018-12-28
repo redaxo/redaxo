@@ -1,6 +1,68 @@
 Changelog
 =========
 
+Version 2.5.2 – XX.XX.XXXX
+--------------------------
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurde der letzte Login falsch angezeigt (@gharlan)
+
+
+Version 2.5.1 – 01.10.2018
+--------------------------
+
+### Security
+
+* Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+
+Version 2.5.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Login-Fehlversuche können zurückgesetzt werden (@gharlan)
+* Benutzerliste sortierbar nach Spalten (@gharlan)
+* Rollen werden nach Name sortiert (@tbaddade)
+
+### Bugfixes
+
+* Kompatibilität zu PHP 7.2 (@gharlan)
+* Wenn man bei Admins die Admin-Checkbox abhakt, erschien nicht das Rollen-Auswahlfeld (@palber)
+* Die Perms enthielten teils sichtbare HTML-Entities (Doppel-Escaping) (@gharlan)
+
+
+Version 2.4.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (@gharlan)
+
+
+Version 2.3.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Neue Extension Points: USER_ADDED, USER_UPDATED, USER_DELETED
+
+### Bugfixes
+
+* Login-Name wurde in Liste nicht escaped (@gharlan)
+* Beim Anlegen neuer Benutzer wurde das Passwort teilweise vorbelegt mit dem im Browser gespeicherten Passwort (@gharlan)
+* Initial wurde immer das dritte Eingabefeld (Benutzername) fokussiert (@gharlan)
+
+
+Version 2.2.0 – 14.02.2017
+--------------------------
+
+### Neu
+
+* Benutzer können mehrere Rollen bekommen
+
+
 Version 2.1.3 – 06.12.2016
 --------------------------
 

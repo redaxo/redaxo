@@ -1,0 +1,15 @@
+version = Versión
+
+version_liveversion = Versión en vivo
+version_workingversion = Versión en borrador
+version_working_to_live = Hacer una versión en vivo
+version_preview = Avance
+version_clear_workingversion = Versión en borrador vacía
+version_copy_live_to_workingversion = Copiar a versión en borrador
+version_copy_from_liveversion = Obtener versión en vivo
+version_confirm_copy_live_to_workingversion = Copia la versión en vivo a la versión en borrador? Todos los contenidos existentes de la versión de borrador serán sobrescritos.
+version_info_working_version_to_live = La versión de borrador ya está en vivo
+version_info_live_version_to_working = La versión en vivo ha sido copiada a la versión de borrador
+version_warning_working_version_to_live = La versión en borrador no se puede copiar porque está vacía
+version_info_clear_workingversion = La versión en borrador se vació con éxito
+version_confirm_clear_workingversion = Versión en borrador vacía? Todo el contenido existente en el borrador se eliminará irrevocablemente.

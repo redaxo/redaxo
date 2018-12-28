@@ -8,18 +8,24 @@
 class rex_response
 {
     const HTTP_OK = '200 OK';
+    const HTTP_PARTIAL_CONTENT = '206 Partial Content';
     const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
     const HTTP_NOT_MODIFIED = '304 Not Modified';
+    const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
     const HTTP_NOT_FOUND = '404 Not Found';
     const HTTP_FORBIDDEN = '403 Forbidden';
     const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
     const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
     private static $httpStatus = self::HTTP_OK;
     private static $sentLastModified = false;
     private static $sentEtag = false;
     private static $sentContentType = false;
     private static $sentCacheControl = false;
+    private static $additionalHeaders = [];
+    private static $preloadFiles = [];
 
     /**
      * Sets the HTTP Status code.
@@ -48,6 +54,47 @@ class rex_response
     }
 
     /**
+     * Set a http response header. A existing header with the same name will be overridden.
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public static function setHeader($name, $value)
+    {
+        self::$additionalHeaders[$name] = $value;
+    }
+
+    private static function sendAdditionalHeaders()
+    {
+        foreach (self::$additionalHeaders as $name => $value) {
+            header($name .': ' . $value);
+        }
+    }
+
+    /**
+     * Set a file to be preload via http link header.
+     *
+     * @param string $file
+     * @param string $type
+     * @param string $mimeType
+     */
+    public static function preload($file, $type, $mimeType)
+    {
+        self::$preloadFiles[] = [
+            'file' => $file,
+            'type' => $type,
+            'mimeType' => $mimeType,
+        ];
+    }
+
+    private static function sendPreloadHeaders()
+    {
+        foreach (self::$preloadFiles as $preloadFile) {
+            header('Link: <' . $preloadFile['file'] . '>; rel=preload; as=' . $preloadFile['type'] . '; type="' . $preloadFile['mimeType'].'"; crossorigin; nopush', false);
+        }
+    }
+
+    /**
      * Redirects to a URL.
      *
      * NOTE: Execution will stop within this method!
@@ -62,6 +109,10 @@ class rex_response
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
 
+        self::cleanOutputBuffers();
+        self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
+
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
         exit;
@@ -70,11 +121,12 @@ class rex_response
     /**
      * Sends a file to client.
      *
-     * @param string $file               File path
-     * @param string $contentType        Content type
-     * @param string $contentDisposition Content disposition
+     * @param string      $file               File path
+     * @param string      $contentType        Content type
+     * @param string      $contentDisposition Content disposition ("inline" or "attachment")
+     * @param null|string $filename           Custom Filename
      */
-    public static function sendFile($file, $contentType, $contentDisposition = 'inline')
+    public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
     {
         self::cleanOutputBuffers();
 
@@ -83,8 +135,15 @@ class rex_response
             exit;
         }
 
+        // prevent session locking while sending huge files
+        session_write_close();
+
+        if (!$filename) {
+            $filename = basename($file);
+        }
+
         self::sendContentType($contentType);
-        header('Content-Disposition: ' . $contentDisposition . '; filename="' . basename($file) . '"');
+        header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
 
         self::sendLastModified(filemtime($file));
 
@@ -98,19 +157,65 @@ class rex_response
             header('Content-Length: ' . filesize($file));
         }
 
+        self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
+
+        // dependency ramsey/http-range requires PHP >=5.6
+        if (PHP_VERSION_ID >= 50600) {
+            header('Accept-Ranges: bytes');
+            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+            if ($rangeHeader) {
+                try {
+                    $filesize = filesize($file);
+                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
+                    $handle = fopen($file, 'rb');
+                    if (is_resource($handle)) {
+                        foreach ($ranges as $range) {
+                            header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                            header('Content-Length: ' . $range->getLength());
+                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+
+                            // Don't output more bytes as requested
+                            // default chunk size is usually 8192 bytes
+                            $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
+
+                            fseek($handle, $range->getStart());
+                            while (ftell($handle) < $range->getEnd()) {
+                                echo fread($handle, $chunkSize);
+                            }
+                        }
+                        fclose($handle);
+                    } else {
+                        // Send Error if file couldn't be read
+                        header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
+                    }
+                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                    header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
+                }
+                return;
+            }
+        }
+
         readfile($file);
     }
 
     /**
      * Sends a resource to the client.
      *
-     * @param string $content      Content
-     * @param string $contentType  Content type
-     * @param int    $lastModified HTTP Last-Modified Timestamp
-     * @param string $etag         HTTP Cachekey to identify the cache
+     * @param string      $content            Content
+     * @param null|string $contentType        Content type
+     * @param null|int    $lastModified       HTTP Last-Modified Timestamp
+     * @param null|string $etag               HTTP Cachekey to identify the cache
+     * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
+     * @param null|string $filename           Filename
      */
-    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null)
+    public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
     {
+        if ($contentDisposition) {
+            header('Content-Disposition: ' . $contentDisposition . '; filename="' . $filename . '"');
+        }
+
         self::sendCacheControl('max-age=3600, must-revalidate, proxy-revalidate, private');
         self::sendContent($content, $contentType, $lastModified, $etag);
     }
@@ -168,7 +273,7 @@ class rex_response
             // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
             // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
             // https://bugs.webkit.org/show_bug.cgi?id=32829
-            (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome'))
+            (!empty($_SERVER['HTTP_USER_AGENT']) && (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')))
         ) {
             // ----- Last-Modified
             if (!self::$sentLastModified
@@ -197,6 +302,9 @@ class rex_response
         // content length schicken, damit der browser einen ladebalken anzeigen kann
         header('Content-Length: ' . rex_string::size($content));
 
+        self::sendAdditionalHeaders();
+        self::sendPreloadHeaders();
+
         echo $content;
 
         if (function_exists('fastcgi_finish_request')) {
@@ -209,7 +317,7 @@ class rex_response
      */
     public static function cleanOutputBuffers()
     {
-        while (ob_get_length()) {
+        while (ob_get_level()) {
             ob_end_clean();
         }
     }
@@ -325,6 +433,89 @@ class rex_response
         return $content;
     }
 
+    // method inspired by https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpFoundation/Cookie.php
+
+    /**
+     * @param string      $name    The name of the cookie
+     * @param string|null $value   The value of the cookie, a empty value to delete the cookie.
+     * @param array       $options Different cookie Options. Supported keys are:
+     *                             "expires" int|string|\DateTimeInterface The time the cookie expires
+     *                             "path" string                           The path on the server in which the cookie will be available on
+     *                             "domain" string|null                    The domain that the cookie is available to
+     *                             "secure" bool                           Whether the cookie should only be transmitted over a secure HTTPS connection from the client
+     *                             "httponly" bool                         Whether the cookie will be made accessible only through the HTTP protocol
+     *                             "samesite" string|null                  Whether the cookie will be available for cross-site requests
+     *                             "raw" bool                              Whether the cookie value should be sent with no url encoding
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function sendCookie($name, $value, array $options = [])
+    {
+        $expire = isset($options['expires']) ? $options['expires'] : 0;
+        $path = isset($options['path']) ? $options['path'] : '/';
+        $domain = isset($options['domain']) ? $options['domain'] : null;
+        $secure = isset($options['secure']) ? $options['secure'] : false;
+        $httpOnly = isset($options['httponly']) ? $options['httponly'] : true;
+        $sameSite = isset($options['samesite']) ? $options['samesite'] : null;
+        $raw = isset($options['raw']) ? $options['raw'] : false;
+
+        // from PHP source code
+        if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
+            throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
+        }
+        if (empty($name)) {
+            throw new \InvalidArgumentException('The cookie name cannot be empty.');
+        }
+        // convert expiration time to a Unix timestamp
+        if ($expire instanceof \DateTimeInterface) {
+            $expire = $expire->format('U');
+        } elseif (!is_numeric($expire)) {
+            $expire = strtotime($expire);
+            if (false === $expire) {
+                throw new \InvalidArgumentException('The cookie expiration time is not valid.');
+            }
+        }
+
+        $expire = 0 < $expire ? (int) $expire : 0;
+        $maxAge = $expire - time();
+        $maxAge = 0 >= $maxAge ? 0 : $maxAge;
+        $path = empty($path) ? '/' : $path;
+
+        if (null !== $sameSite) {
+            $sameSite = strtolower($sameSite);
+        }
+        if (!in_array($sameSite, ['lax', 'strict', null], true)) {
+            throw new \InvalidArgumentException('The "sameSite" parameter value is not valid.');
+        }
+
+        $str = 'Set-Cookie: '. ($raw ? $name : urlencode($name)).'=';
+        if ('' === (string) $value) {
+            $str .= 'deleted; expires='.gmdate('D, d-M-Y H:i:s T', time() - 31536001).'; Max-Age=0';
+        } else {
+            $str .= $raw ? $value : rawurlencode($value);
+            if (0 !== $expire) {
+                $str .= '; expires='.gmdate('D, d-M-Y H:i:s T', $expire).'; Max-Age='.$maxAge;
+            }
+        }
+        if ($path) {
+            $str .= '; path='.$path;
+        }
+        if ($domain) {
+            $str .= '; domain='.$domain;
+        }
+        if ($secure) {
+            $str .= '; secure';
+        }
+        if ($httpOnly) {
+            $str .= '; httponly';
+        }
+        if ($sameSite) {
+            $str .= '; samesite='.$sameSite;
+        }
+
+        header($str, false);
+    }
+
     /**
      * Creates the md5 checksum for the content.
      *
@@ -337,5 +528,13 @@ class rex_response
     private static function md5($content)
     {
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
+    }
+
+    public static function enforceHttps()
+    {
+        if (!rex_request::isHttps()) {
+            self::setStatus(self::HTTP_MOVED_PERMANENTLY);
+            self::sendRedirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        }
     }
 }

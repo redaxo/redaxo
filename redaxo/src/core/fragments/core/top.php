@@ -10,20 +10,27 @@
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
-            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file . '" />';
+             $path = rex_path::frontend(rex_path::absolute($file));
+            if ($mtime = @filemtime($path)) {
+                $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+            }
+            echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
         }
     }
     echo "\n";
+    echo "\n" . '    <script type="text/javascript">';
+    echo "\n" . '    <!--';
+    echo "\n" . '    var rex = '.$this->jsProperties.';';
+    echo "\n" . '    //-->';
+    echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
-        echo "\n" . '    <script type="text/javascript" src="' . $file . '"></script>';
+         $path = rex_path::frontend(rex_path::absolute($file));
+        if ($mtime = @filemtime($path)) {
+            $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
+        }
+        echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
     }
 ?>
-
-    <script type="text/javascript">
-    <!--
-    var rex = <?php echo $this->jsProperties ?>;
-    //-->
-    </script>
 
     <?php echo $this->favicon ? '<link rel="shortcut icon" href="' . $this->favicon . '" />' : '' ?>
 

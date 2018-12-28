@@ -7,16 +7,21 @@ $message = '';
 $content = '';
 
 if ($func == 'delete') {
-    $sql = rex_sql::factory();
-    $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
-    $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
+    if (!rex_csrf_token::factory('user_role_delete')->isValid()) {
+        $message = rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+    } else {
+        $sql = rex_sql::factory();
+        $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
+        $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
+    }
+
     $func = '';
 }
 
 if ($func == '') {
     $title = rex_i18n::msg('user_role_caption');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
@@ -38,7 +43,7 @@ if ($func == '') {
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_role_delete'));
     $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###']);
+    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###'] + rex_csrf_token::factory('user_role_delete')->getUrlParams());
     $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
 
     $content .= $list->get();

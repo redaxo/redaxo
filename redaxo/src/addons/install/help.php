@@ -1,5 +1,5 @@
 <p>
-    Mit dem Installer können AddOns aus dem Downloadbereich auf <a href="http://www.redaxo.org">www.redaxo.org</a> heruntergeladen und aktualisiert werden.<br />
+    Mit dem Installer können AddOns aus dem Downloadbereich auf <a href="https://www.redaxo.org">www.redaxo.org</a> heruntergeladen und aktualisiert werden.<br />
     Bei der Aktualisierung wird je nach Einstellung ein Backup des alten AddOn-Ordners gemacht, ein Datenbankbackup wird jedoch nicht ausgeführt. Falls das AddOn Einstellungen direkt im AddOn-Ordner ablegt, gehen diese bei einem Update verloren.
 </p>
 
@@ -9,5 +9,5 @@
 </p>
 
 <p>
-    Wenn in den Einstellungen der Benutzer und der Api-Key für myREDAXO hinterlegt werden, können über den Installer auch die eigenen Addons in den Downloadbereich hochgeladen werden. Der Api-Key ist im eingeloggten Bereich unter <a href="http://www.redaxo.org/de/myredaxo/mein-api-key/">http://www.redaxo.org/de/myredaxo/mein-api-key/</a> einzusehen. Da mit dem Key die eigenen AddOns über die Api verändert werden können, sollte der Key nicht weitergegeben werden.
+    Wenn in den Einstellungen der Benutzer und der Api-Key für myREDAXO hinterlegt werden, können über den Installer auch die eigenen Addons in den Downloadbereich hochgeladen werden. Der Api-Key ist im eingeloggten Bereich unter <a href="https://www.redaxo.org/de/myredaxo/mein-api-key/">https://www.redaxo.org/de/myredaxo/mein-api-key/</a> einzusehen. Da mit dem Key die eigenen AddOns über die Api verändert werden können, sollte der Key nicht weitergegeben werden.
 </p>

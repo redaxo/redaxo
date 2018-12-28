@@ -7,7 +7,7 @@
  * <code>
  *     try {
  *         $socket = rex_socket::factory('www.example.com');
- *         $socket->setPath('/path/index.php?param=1');
+ *         $socket->setPath('/url/to/my/resource?param=1');
  *         $response = $socket->doGet();
  *         if($response->isOk()) {
  *             $body = $response->getBody();
@@ -28,6 +28,7 @@ class rex_socket
     protected $ssl;
     protected $path = '/';
     protected $timeout = 15;
+    protected $followRedirects = false;
     protected $headers = [];
     protected $stream;
 
@@ -62,7 +63,7 @@ class rex_socket
      */
     public static function factory($host, $port = 80, $ssl = false)
     {
-        if (get_called_class() === __CLASS__ && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (static::class === self::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
@@ -141,6 +142,26 @@ class rex_socket
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     * Sets number of redirects that should be followed automatically.
+     *
+     * The method only affects GET requests.
+     *
+     * @param false|int $redirects Number of max redirects
+     *
+     * @return $this Current socket
+     */
+    public function followRedirects($redirects)
+    {
+        if ($redirects < 0) {
+            throw new InvalidArgumentException(sprintf('$redirects must be `null` or an int >= 0, given "%s".', $redirects));
+        }
+
+        $this->followRedirects = $redirects;
 
         return $this;
     }
@@ -243,8 +264,43 @@ class rex_socket
             throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
         }
 
+        if (!$this->ssl) {
+            rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "'. $this->host .'"!', __FILE__, __LINE__);
+        }
+
         $this->openConnection();
-        return $this->writeRequest($method, $this->path, $this->headers, $data);
+        $response = $this->writeRequest($method, $this->path, $this->headers, $data);
+
+        if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
+            return $response;
+        }
+
+        $location = $response->getHeader('location');
+
+        if (!$location) {
+            return $response;
+        }
+
+        if (false === strpos($location, '//')) {
+            $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
+        } else {
+            $socket = self::factoryUrl($location);
+
+            if ($this->ssl && !$socket->ssl) {
+                return $response;
+            }
+        }
+
+        $socket->setTimeout($this->timeout);
+        $socket->followRedirects($this->followRedirects - 1);
+
+        foreach ($this->headers as $key => $value) {
+            if ('Host' !== $key) {
+                $socket->addHeader($key, $value);
+            }
+        }
+
+        return $socket->doGet();
     }
 
     /**
@@ -255,11 +311,35 @@ class rex_socket
     protected function openConnection()
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
-        if (!($this->stream = @fsockopen($host, $this->port, $errno, $errstr))) {
+
+        $prevError = null;
+        set_error_handler(function ($errno, $errstr) use (&$prevError) {
+            if (null === $prevError) {
+                $prevError = $errstr;
+            }
+        });
+
+        try {
+            $this->stream = @fsockopen($host, $this->port, $errno, $errstr);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($this->stream) {
+            stream_set_timeout($this->stream, $this->timeout);
+
+            return;
+        }
+
+        if ($errstr) {
             throw new rex_socket_exception($errstr . ' (' . $errno . ')');
         }
 
-        stream_set_timeout($this->stream, $this->timeout);
+        if ($prevError) {
+            throw new rex_socket_exception($prevError);
+        }
+
+        throw new rex_socket_exception('Unknown error.');
     }
 
     /**

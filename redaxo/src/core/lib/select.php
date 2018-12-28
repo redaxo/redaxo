@@ -10,6 +10,7 @@ class rex_select
     private $optgroups = [];
     private $options = [];
     private $option_selected;
+    private $optCount = 0;
 
     public function __construct()
     {
@@ -120,7 +121,7 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = htmlspecialchars($selected);
+            $this->option_selected[] = (string) rex_escape($selected, 'html_attr');
         }
     }
 
@@ -141,6 +142,7 @@ class rex_select
     public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
         $this->options[$this->currentOptgroup][$parent_id][] = [$name, $value, $id, $attributes];
+        ++$this->optCount;
     }
 
     /**
@@ -203,7 +205,7 @@ class rex_select
 
     public function countOptions()
     {
-        return $this->options ? array_sum(array_map('count', $this->options)) : 0;
+        return $this->optCount;
     }
 
     /**
@@ -237,7 +239,7 @@ class rex_select
         foreach ($this->options as $optgroup => $options) {
             $this->currentOptgroup = $optgroup;
             if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
-                $ausgabe .= '  <optgroup label="' . htmlspecialchars($optgroupLabel) . '">' . "\n";
+                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel, 'html_attr') . '">' . "\n";
             }
             if (is_array($options)) {
                 $ausgabe .= $this->outGroup(0);
@@ -288,8 +290,10 @@ class rex_select
 
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
-        $name = htmlspecialchars($name);
-        $value = htmlspecialchars($value);
+        $name = rex_escape($name);
+        // for BC reasons, we always expect value to be a string.
+        // this also makes sure that the strict in_array() check below works.
+        $value = (string) rex_escape($value, 'html_attr');
 
         $bsps = '';
         if ($level > 0) {

@@ -1,7 +1,7 @@
-# addon:import/export de_de
 backup_information = Information
 backup_title = Backup
 backup_file_deleted = Datei wurde gelöscht
+backup_file_error_while_delete = Datei konnte nicht gelöscht werden
 backup_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
 backup_no_valid_import_file = Das ist keine korrekte Importdatei
 backup_no_valid_charset = Kein passender Zeichensatz.
@@ -25,7 +25,7 @@ backup_please_choose_folder = Bitte wählen Sie die Verzeichnisse aus die export
 backup_intro_import = Bitte bedenken Sie das beim Importieren einer Datenbank <b>die alte Datenbank gelöscht</b> wird. Bitte speichern/exportieren Sie diese vorher wenn Sie sich unsicher sind.
 backup_database = Datenbankimport
 backup_filename = Dateiname
-backup_filename_notice = Variablen: %REX_SERVER, %REX_VERSION und Datumsvariablen wie bei strftime()
+backup_filename_notice = Variablen: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> und Datumsvariablen wie bei strftime(); Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)
 backup_filesize = Dateigröße
 backup_delete = löschen
 backup_files = Dateienimport
@@ -39,9 +39,9 @@ backup_createdate = Erstellt am
 backup_import_file = Datei importieren
 backup_delete_file = Datei l&ouml;schen
 backup_download_file = Datei herunterladen
-
-backup_file_could_not_be_generated  = Datei konnte nicht erstellt werden.
-backup_file_generated_in  = Daten wurden gesichert in
+backup_check_rights_in_directory = Backup konnte auf den/die Ordner nicht zugreifen oder es wurde keiner ausgew&auml;hlt.
+backup_file_could_not_be_generated = Datei konnte nicht erstellt werden.
+backup_file_generated_in = Daten wurden gesichert in
 
 backup_proceed_db_import = Bestehende Daten (Artikel, Templates, Module,...) gehen verloren. Fortfahren ?
 backup_proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?
@@ -56,6 +56,12 @@ backup_send_mail_notice = Für diese Option wird das Addon "phpmailer" benötigt
 backup_mailaddress = Mailadresse
 backup_mail_subject = Neue Datenbanksicherung
 backup_mail_body = Im Anhang befindet sich eine neue Datenbanksicherung der Website "{0}".
+
+backup_delete_interval = Alte Backups löschen
+backup_delete_interval_off = Aus
+backup_delete_interval_weekly = Ein Backup pro Woche behalten
+backup_delete_interval_monthly = Ein Backup pro Monat behalten
+backup_delete_interval_notice = Es werden nur Backups gelöscht, die älter als ein Monat sind und deren Dateinamen auf <code>.cronjob.sql</code> enden.
 
 perm_general_backup[export] = Webseite exportieren
 

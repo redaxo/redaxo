@@ -17,7 +17,8 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        return is_readable($file) ? file_get_contents($file) : $default;
+        $content = @file_get_contents($file);
+        return $content !== false ? $content : $default;
     }
 
     /**
@@ -118,7 +119,7 @@ class rex_file
 
             if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
                 @chmod($dstfile, rex::getFilePerm());
-                touch($dstfile, filemtime($srcfile));
+                touch($dstfile, filemtime($srcfile), fileatime($srcfile));
                 return true;
             }
         }

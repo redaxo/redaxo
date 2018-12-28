@@ -65,8 +65,19 @@ class rex_cronjob_manager
                     $cronjob->setParam(str_replace($type . '_', '', $key), $value);
                 }
             }
-            $success = $cronjob->execute();
-            $message = $cronjob->getMessage();
+
+            $message = '';
+            try {
+                $success = $cronjob->execute();
+                $message = $cronjob->getMessage();
+            } catch (Throwable $t) {
+                $success = false;
+                $message = $t->getMessage();
+            } catch (Exception $e) {
+                $success = false;
+                $message = $e->getMessage();
+            }
+
             if ($message == '' && !$success) {
                 $message = 'Unknown error';
             }
@@ -76,7 +87,7 @@ class rex_cronjob_manager
             $this->log($success, $message);
         }
 
-        $this->setMessage(htmlspecialchars($message));
+        $this->setMessage(rex_escape($message));
         $this->cronjob = null;
         $this->id = null;
 

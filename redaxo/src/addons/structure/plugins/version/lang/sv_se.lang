@@ -1,0 +1,15 @@
+version = Version
+
+version_liveversion = Live version
+version_workingversion = Utkastversion
+version_working_to_live = Publicera
+version_preview = Förhandsvisning
+version_clear_workingversion = Tömma arbetsversionen
+version_copy_live_to_workingversion = Kopiera till utkastsversion
+version_copy_from_liveversion = Få från live version
+version_confirm_copy_live_to_workingversion = Kopiera liveversion till utkastsversion? Allt befintligt innehåll i utkastet kommer att skrivas över.
+version_info_working_version_to_live = Utkastet är nu live
+version_info_live_version_to_working = Live version har kopierats till utkastsversion
+version_warning_working_version_to_live = Utkastet kan inte kopieras, eftersom det är tomt
+version_info_clear_workingversion = Arbetsversionen tömdes
+version_confirm_clear_workingversion = Återställ arbetsversion? Allt befintligt innehåll i arbetsversionen kommer att tas bort oåterkalleligt.

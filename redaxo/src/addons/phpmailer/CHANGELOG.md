@@ -1,6 +1,63 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.XX.XXXX
+--------------------------
+
+### Neu
+
+* E-Mail-Benachrichtigung bei Fehlern (@phoebusryan, @skerbis)
+* AutoTLS kann aktiviert/deaktiviert werden (@skerbis)
+* SMTP-Einstellungen werden erst angezeigt, wenn Option gewählt. (@skerbis)
+* Benutzername und Passwort werden erst angezeigt wenn Option gewählt (@skerbis)
+* Bessere Test-Mails, Button-Verhalten geändert in "Speichern und testen" (@skerbis)
+* Debug-Meldungen werden in Sprache des Benutzers ausgegeben (@skerbis)
+* Aktualisierung Hilfe/Doku (@skerbis)
+
+
+Version 2.4.1 – 10.12.2018
+--------------------------
+
+### Security
+
+* Update des phpmailers wg. Sicherheitslücken
+
+
+Version 2.4.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Update phpmailer 6.0.5 (@gharlan)
+* Mail-Log ist default nicht mehr aktiviert (@skerbis)
+* Aktualisierung Hilfe/Doku (@skerbis)
+
+
+Version 2.3.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* Update auf PHPMailer 6.0.2 (@skerbis)
+* SMTP-Passwort-Feld wird nicht mehr im Klartext angezeigt (@metaphon)
+
+
+Version 2.2.0 – 04.10.2017
+--------------------------
+
+### Neu
+
+* Möglichkeit den Versand zu testen (Testmail) (@skerbis)
+* Mail-Log kann global und pro Versand deaktiviert werden (@dergel)
+* Bessere Hilfe und Beispiele (@skerbis)
+* Einstellungen in Spalten (@skerbis)
+* `X-Mailer`-Header auf "REXMailer" gesetzt (@skerbis)
+
+### Bugfixes
+
+* Das SMTP-Passwort-Feld wurde teilweise vorbelegt mit dem im Browser gespeicherten Passwort (@gharlan)
+
+
 Version 2.1.2 – 08.01.2017
 --------------------------
 

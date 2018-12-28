@@ -41,7 +41,7 @@ abstract class rex_package_manager
      */
     public static function factory(rex_package $package)
     {
-        if (get_called_class() == __CLASS__) {
+        if (static::class == self::class) {
             $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
             return $class::factory($package);
         }
@@ -112,18 +112,16 @@ abstract class rex_package_manager
             }
 
             $reinstall = $this->package->getProperty('install');
-            $available = $this->package->isAvailable();
             $this->package->setProperty('install', true);
+
+            rex_autoload::addDirectory($this->package->getPath('lib'));
+            rex_autoload::addDirectory($this->package->getPath('vendor'));
+            rex_i18n::addDirectory($this->package->getPath('lang'));
 
             // include install.php
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
-                if (!$available) {
-                    rex_autoload::addDirectory($this->package->getPath('lib'));
-                    rex_autoload::addDirectory($this->package->getPath('vendor'));
-                    rex_i18n::addDirectory($this->package->getPath('lang'));
-                }
-
                 $this->package->includeFile(rex_package::FILE_INSTALL);
+
                 if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
                     throw new rex_functional_exception($instmsg);
                 }
@@ -216,6 +214,9 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('install_cant_delete_files'));
             }
 
+            // clear cache of package
+            $this->package->clearCache();
+
             rex_config::removeNamespace($this->package->getPackageId());
 
             $this->saveConfig();
@@ -289,9 +290,10 @@ abstract class rex_package_manager
         if ($state === true) {
             $this->package->setProperty('status', false);
             $this->saveConfig();
-        }
 
-        if ($state === true) {
+            // clear cache of package
+            $this->package->clearCache();
+
             // reload autoload cache when addon is deactivated,
             // so the index doesn't contain outdated class definitions
             rex_autoload::removeCache();
@@ -449,7 +451,8 @@ abstract class rex_package_manager
         if (!$package->isAvailable()) {
             $this->message = $this->i18n('requirement_error_' . $package->getType(), $packageId);
             return false;
-        } elseif (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
+        }
+        if (!self::matchVersionConstraints($package->getVersion(), $requirements['packages'][$packageId])) {
             $this->message = $this->i18n(
                 'requirement_error_' . $package->getType() . '_version',
                 $package->getPackageId(),
@@ -479,6 +482,21 @@ abstract class rex_package_manager
             }
         }
 
+        foreach (rex_package::getAvailablePackages() as $package) {
+            $conflicts = $package->getProperty('conflicts', []);
+
+            if (!isset($conflicts['packages'][$this->package->getPackageId()])) {
+                continue;
+            }
+
+            $constraints = $conflicts['packages'][$this->package->getPackageId()];
+            if (!is_string($constraints) || !$constraints || $constraints === '*') {
+                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
+            } elseif (self::matchVersionConstraints($this->package->getVersion(), $constraints)) {
+                $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
+            }
+        }
+
         if (empty($state)) {
             return true;
         }
@@ -504,7 +522,8 @@ abstract class rex_package_manager
         if (!is_string($constraints) || !$constraints || $constraints === '*') {
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
-        } elseif (self::matchVersionConstraints($package->getVersion(), $constraints)) {
+        }
+        if (self::matchVersionConstraints($package->getVersion(), $constraints)) {
             $this->message = $this->i18n('conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
             return false;
         }

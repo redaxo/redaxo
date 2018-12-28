@@ -112,6 +112,11 @@ class rex_api_install_package_update extends rex_api_install_package_download
 
         $this->addon->setProperty('version', $this->file['version']);
         rex_install_packages::updatedPackage($this->addonkey, $this->fileId);
+
+        // re-generate opcache to make sure new/updated classes immediately are available
+        if (function_exists('opcache_reset')) {
+            opcache_reset();
+        }
     }
 
     private function checkRequirements($config)
@@ -180,14 +185,9 @@ class rex_api_install_package_update extends rex_api_install_package_download
                 $manager = rex_package_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
                     $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
-                } elseif (!$manager->checkPackageConflict($this->addon->getPackageId())) {
-                    $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
                 } else {
                     foreach ($versions as $reqPlugin) {
                         if (!$manager->checkPackageRequirement($reqPlugin->getPackageId())) {
-                            $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
-                        }
-                        if (!$manager->checkPackageConflict($reqPlugin->getPackageId())) {
                             $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
                         }
                     }

@@ -1,0 +1,30 @@
+customizer = Personalizador
+customizer_features = funciones
+
+customizer_codemirror = CodeMirror
+customizer_codemirror_check = Activar CodeMirror
+customizer_codemirror_selectors = Selectores jQuery adicionales para CodeMirror
+customizer_codemirror_selectors_info = Comma lista de selectores jQuery separó para se aplica la CodeMirror. <br> predeterminada es <code>textarea.rex-js-código</code> y <code>textarea.codemirror</code>
+customizer_codemirror_theme = CodeMirror tema
+customizer_codemirror_langs = Resaltador adicional
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
+customizer_codemirror_tools = Características adicionales
+customizer_codemirror_tools_text = (Código plegable, Correspondencia de soportes, Coincidencia de etiquetas, Corchetes)
+
+customizer_codemirror_info = Cuando se activa automáticamente CodeMirror que se utilizará durante la edición de plantillas o módulos. Para utilizar CodeMirror manualmente para los campos de área de texto personalizado, utilice la siguiente sintaxis: <br> <code> <textarea class="codemirror" codemirror-theme="themename" y codemirror-mode="php/htmlmixed"></textarea></code> <br> Los parámetros <i>codemirror-theme</i> y <i>codemirror-mode</ i> son opcionales.
+
+customizer_labeling = suplementos
+customizer_labelcolor = Color (#43a047)
+customizer_labelcolor_notice = Cualquier expresión de color CSS válida (<code> # 03f0ab </ code>, <code> rgba (255, 100, 0, 0.5) </ code> etc.)
+customizer_showlink = Mostrar enlace a este sitio?
+
+customizer_config_updated = Configuración se ha guardado
+customizer_config_update_failed = Los ajustes no se guardaron
+
+customizer_update = Guardar los ajustes
+customizer_error_unzip = ¡Desempaquetar los activos del archivo de CodeMirror falló!
+
+customizer_projectname = Nombre del proyecto
+customizer_textarea = Anchura de la caja de texto en plantillas y módulos
+customizer_liquid = diseño líquido
+customizer_nav_flyout = Navegación con el elemento flotante

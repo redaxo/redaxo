@@ -6,12 +6,6 @@
  * @package redaxo5
  */
 
-/*
-// TODOS:
-// - alles vereinfachen
-// - <?php ?> $ Problematik bei REX_ACTION
-*/
-
 $content = '';
 
 $article_id = rex_request('article_id', 'int');
@@ -37,11 +31,11 @@ $article->setQuery('
             article.*, template.attributes as template_attributes
         FROM
             ' . rex::getTablePrefix() . 'article as article
-        LEFT JOIN ' . rex::getTablePrefix() . "template as template
+        LEFT JOIN ' . rex::getTablePrefix() . 'template as template
             ON template.id=article.template_id
         WHERE
-            article.id='$article_id'
-            AND clang_id=$clang");
+            article.id=?
+            AND clang_id=?', [$article_id, $clang]);
 
 if ($article->getRows() == 1) {
     // ----- ctype holen
@@ -57,7 +51,7 @@ if ($article->getRows() == 1) {
     $ctype = rex_request('ctype', 'int', 1);
     if (!array_key_exists($ctype, $ctypes)) {
         $ctype = 1;
-    } // default = 1
+    }
 
     // ----- Artikel wurde gefunden - Kategorie holen
     $OOArt = rex_article::get($article_id, $clang);
@@ -66,25 +60,19 @@ if ($article->getRows() == 1) {
     // ----- Request Parameter
     $subpage = rex_be_controller::getCurrentPagePart(2);
     $function = rex_request('function', 'string');
-    $warning = htmlspecialchars(rex_request('warning', 'string'));
-    $info = htmlspecialchars(rex_request('info', 'string'));
+    $warning = rex_escape(rex_request('warning', 'string'));
+    $info = rex_escape(rex_request('info', 'string'));
 
     $context = new rex_context([
         'page' => rex_be_controller::getCurrentPage(),
         'article_id' => $article_id,
+        'category_id' => $category_id,
         'clang' => $clang,
         'ctype' => $ctype,
     ]);
 
     // ----- Titel anzeigen
     echo rex_view::title(rex_i18n::msg('content'), '');
-
-    if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
-        $icon = ($article->getValue('startarticle') == 1) ? 'rex-icon-startarticle' : 'rex-icon-article';
-        $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
-
-            //echo '<h2><i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small></h2>';
-    }
 
     // ----- Languages
     echo rex_view::clangSwitchAsButtons($context);
@@ -105,11 +93,6 @@ if ($article->getRows() == 1) {
         'slice_revision' => &$slice_revision,
     ]));
 
-    // --------------------- SEARCH BAR
-
-    //require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
-    //echo rex_structure_searchbar($context);
-
     // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
     if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
         // ----- hat keine rechte an diesem artikel
@@ -124,22 +107,21 @@ if ($article->getRows() == 1) {
             $CM = rex_sql::factory();
             if ($function == 'edit' || $function == 'delete') {
                 // edit/ delete
-                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . "article_slice.id='$slice_id' AND clang_id=$clang");
+                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$slice_id, $clang]);
                 if ($CM->getRows() == 1) {
                     $module_id = $CM->getValue('' . rex::getTablePrefix() . 'article_slice.module_id');
                 }
             } else {
                 // add
                 $module_id = rex_post('module_id', 'int');
-                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=' . $module_id);
+                $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id=?', [$module_id]);
             }
 
             if ($CM->getRows() != 1) {
-                // ------------- START: MODUL IST NICHT VORHANDEN
+                // ------------- MODUL IST NICHT VORHANDEN
                 $global_warning = rex_i18n::msg('module_not_found');
                 $slice_id = '';
                 $function = '';
-                // ------------- END: MODUL IST NICHT VORHANDEN
             } else {
                 // ------------- MODUL IST VORHANDEN
 
@@ -199,9 +181,9 @@ if ($article->getRows() == 1) {
                                 $prevSlice = rex_sql::factory();
                                 // $prevSlice->setDebug();
                                 if ($slice_id == -1) {
-                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision);
+                                    $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . $sliceTable . ' WHERE article_id=? AND clang_id=? AND ctype_id=? AND revision=?', [$article_id, $clang, $ctype, $slice_revision]);
                                 } else {
-                                    $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=' . $slice_id);
+                                    $prevSlice->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=?', [$slice_id]);
                                 }
 
                                 $priority = $prevSlice->getValue('priority');
@@ -226,22 +208,22 @@ if ($article->getRows() == 1) {
 
                                     $newsql->update();
                                     $info = $action_message . rex_i18n::msg('block_updated');
+                                    $epParams = [
+                                        'article_id' => $article_id,
+                                        'clang' => $clang,
+                                        'function' => $function,
+                                        'slice_id' => $slice_id,
+                                        'page' => rex_be_controller::getCurrentPage(),
+                                        'ctype' => $ctype,
+                                        'category_id' => $category_id,
+                                        'module_id' => $module_id,
+                                        'article_revision' => &$article_revision,
+                                        'slice_revision' => &$slice_revision,
+                                    ];
 
                                     // ----- EXTENSION POINT
-                                    foreach (['SLICE_UPDATED', /* deprecated */ 'STRUCTURE_CONTENT_SLICE_UPDATED'] as $ep) {
-                                        $info = rex_extension::registerPoint(new rex_extension_point($ep, $info, [
-                                            'article_id' => $article_id,
-                                            'clang' => $clang,
-                                            'function' => $function,
-                                            'slice_id' => $slice_id,
-                                            'page' => rex_be_controller::getCurrentPage(),
-                                            'ctype' => $ctype,
-                                            'category_id' => $category_id,
-                                            'module_id' => $module_id,
-                                            'article_revision' => &$article_revision,
-                                            'slice_revision' => &$slice_revision,
-                                        ]));
-                                    }
+                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
+                                    /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -261,42 +243,14 @@ if ($article->getRows() == 1) {
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
                                         'priority',
-                                        'article_id=' . $article_id . ' AND clang_id=' . $clang . ' AND ctype_id=' . $ctype . ' AND revision=' . $slice_revision,
+                                        'article_id=' . (int) $article_id . ' AND clang_id=' . (int) $clang . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . (int) $slice_revision,
                                         'priority, updatedate DESC'
                                     );
 
                                     $info = $action_message . rex_i18n::msg('block_added');
                                     $slice_id = $newsql->getLastId();
                                     $function = '';
-
-                                    // ----- EXTENSION POINT
-                                    foreach (['SLICE_ADDED', /* deprecated */ 'STRUCTURE_CONTENT_SLICE_ADDED'] as $ep) {
-                                        $info = rex_extension::registerPoint(new rex_extension_point($ep, $info, [
-                                            'article_id' => $article_id,
-                                            'clang' => $clang,
-                                            'function' => $function,
-                                            'slice_id' => $slice_id,
-                                            'page' => rex_be_controller::getCurrentPage(),
-                                            'ctype' => $ctype,
-                                            'category_id' => $category_id,
-                                            'module_id' => $module_id,
-                                            'article_revision' => &$article_revision,
-                                            'slice_revision' => &$slice_revision,
-                                        ]));
-                                    }
-                                } catch (rex_sql_exception $e) {
-                                    $warning = $action_message . $e->getMessage();
-                                }
-                            }
-                        } else {
-                            // make delete
-
-                            if (rex_content_service::deleteSlice($slice_id)) {
-                                $global_info = rex_i18n::msg('block_deleted');
-
-                                // ----- EXTENSION POINT
-                                foreach (['SLICE_DELETED', /* deprecated */ 'STRUCTURE_CONTENT_SLICE_DELETED'] as $ep) {
-                                    $global_info = rex_extension::registerPoint(new rex_extension_point($ep, $global_info, [
+                                    $epParams = [
                                         'article_id' => $article_id,
                                         'clang' => $clang,
                                         'function' => $function,
@@ -307,8 +261,36 @@ if ($article->getRows() == 1) {
                                         'module_id' => $module_id,
                                         'article_revision' => &$article_revision,
                                         'slice_revision' => &$slice_revision,
-                                    ]));
+                                    ];
+
+                                    // ----- EXTENSION POINT
+                                    $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
+                                    /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
+                                } catch (rex_sql_exception $e) {
+                                    $warning = $action_message . $e->getMessage();
                                 }
+                            }
+                        } else {
+                            // make delete
+
+                            if (rex_content_service::deleteSlice($slice_id)) {
+                                $global_info = rex_i18n::msg('block_deleted');
+                                $epParams = [
+                                    'article_id' => $article_id,
+                                    'clang' => $clang,
+                                    'function' => $function,
+                                    'slice_id' => $slice_id,
+                                    'page' => rex_be_controller::getCurrentPage(),
+                                    'ctype' => $ctype,
+                                    'category_id' => $category_id,
+                                    'module_id' => $module_id,
+                                    'article_revision' => &$article_revision,
+                                    'slice_revision' => &$slice_revision,
+                                ];
+
+                                // ----- EXTENSION POINT
+                                $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, $epParams));
+                                /* deprecated */ $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, $epParams));
                             } else {
                                 $global_warning = rex_i18n::msg('block_not_deleted');
                             }
@@ -336,8 +318,6 @@ if ($article->getRows() == 1) {
                         // ----- / POST SAVE ACTION
 
                         // Update Button wurde gedrückt?
-                        // TODO: Workaround, da IE keine Button Namen beim
-                        // drücken der Entertaste übermittelt
                         if (rex_post('btn_save', 'string')) {
                             $function = '';
                         }
@@ -346,74 +326,6 @@ if ($article->getRows() == 1) {
             }
         }
         // ------------------------------------------ END: Slice add/edit/delete
-
-        // ------------------------------------------ START: COPY LANG CONTENT
-        if (rex_post('copycontent', 'boolean')) {
-            $clang_a = rex_post('clang_a', 'int');
-            $clang_b = rex_post('clang_b', 'int');
-            $user = rex::getUser();
-            if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->hasPerm($clang_a) && $user->getComplexPerm('clang')->hasPerm($clang_b)) {
-                if (rex_content_service::copyContent($article_id, $article_id, $clang_a, $clang_b, $slice_revision)) {
-                    $info = rex_i18n::msg('content_contentcopy');
-                } else {
-                    $warning = rex_i18n::msg('content_errorcopy');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: COPY LANG CONTENT
-
-        // ------------------------------------------ START: MOVE ARTICLE
-        if (rex_post('movearticle', 'boolean') && $category_id != $article_id) {
-            $category_id_new = rex_post('category_id_new', 'int');
-            if (rex::getUser()->hasPerm('moveArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)) {
-                if (rex_article_service::moveArticle($article_id, $category_id, $category_id_new)) {
-                    $info = rex_i18n::msg('content_articlemoved');
-                    ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_errormovearticle');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: MOVE ARTICLE
-
-        // ------------------------------------------ START: COPY ARTICLE
-        if (rex_post('copyarticle', 'boolean')) {
-            $category_copy_id_new = rex_post('category_copy_id_new', 'int');
-            if (rex::getUser()->hasPerm('copyArticle[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)) {
-                if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
-                    $info = rex_i18n::msg('content_articlecopied');
-                    ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['article_id' => $new_id, 'info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_errorcopyarticle');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: COPY ARTICLE
-
-        // ------------------------------------------ START: MOVE CATEGORY
-        if (rex_post('movecategory', 'boolean')) {
-            $category_id_new = rex_post('category_id_new', 'int');
-            if (rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id')) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id_new)) {
-                if ($category_id != $category_id_new && rex_category_service::moveCategory($category_id, $category_id_new)) {
-                    $info = rex_i18n::msg('category_moved');
-                    ob_end_clean();
-                    rex_response::sendRedirect($context->getUrl(['info' => $info], false));
-                } else {
-                    $warning = rex_i18n::msg('content_error_movecategory');
-                }
-            } else {
-                $warning = rex_i18n::msg('no_rights_to_this_function');
-            }
-        }
-        // ------------------------------------------ END: MOVE CATEGORY
 
         // ------------------------------------------ START: CONTENT HEAD MENUE
 
@@ -429,14 +341,27 @@ if ($article->getRows() == 1) {
         $leftNav = rex_be_navigation::factory();
         $rightNav = rex_be_navigation::factory();
 
+        $user = rex::getUser();
+
         foreach (rex_be_controller::getPageObject('content')->getSubpages() as $subpage) {
             if (!$subpage->hasHref()) {
                 $subpage->setHref($context->getUrl(['page' => $subpage->getFullKey()], false));
             }
-            if ($subpage->getItemAttr('left')) {
-                $leftNav->addPage($subpage);
-            } else {
-                $rightNav->addPage($subpage);
+            // If the user has none of the content function permissions the page 'functions' will not be displayed
+            if (
+                $subpage->getKey() != 'functions' ||
+                $user->hasPerm('article2category[]') ||
+                $user->hasPerm('article2startarticle[]') ||
+                $user->hasPerm('copyArticle[]') ||
+                $user->hasPerm('moveArticle[]') ||
+                $user->hasPerm('moveCategory[]') ||
+                $user->hasPerm('copyContent[]')
+            ) {
+                if ($subpage->getItemAttr('left')) {
+                    $leftNav->addPage($subpage);
+                } else {
+                    $rightNav->addPage($subpage);
+                }
             }
             $subpage->removeItemAttr('left');
         }

@@ -6,9 +6,45 @@
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
+header("Content-Security-Policy: frame-ancestors 'self'");
 
-// ----- pages, verfuegbare seiten
-// array(name,addon=1,htmlheader=1);
+// assets which are passed with a cachebuster will be cached very long,
+// as we assume their url will change when the underlying content changes
+if (rex_get('asset') && rex_get('buster')) {
+    $assetFile = rex_get('asset');
+
+    $fullPath = realpath($assetFile);
+    $assetDir = rex_path::assets();
+
+    if (strpos($fullPath, $assetDir) !== 0) {
+        throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
+    }
+
+    $ext = rex_file::extension($assetFile);
+    if ('js' === $ext) {
+        rex_response::sendCacheControl('max-age=31536000, immutable');
+        rex_response::sendFile($assetFile, 'application/javascript');
+    } elseif ('css' === $ext) {
+        $styles = rex_file::get($assetFile);
+
+        // If we are in a directory off the root, add a relative path here back to the root, like "../"
+        // get the public path to this file, plus the baseurl
+        $relativeroot = '';
+        $pubroot = dirname($_SERVER['PHP_SELF']) . '/' . $relativeroot;
+
+        $prefix = $pubroot . dirname($assetFile) . '/';
+        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix .  '$2$3', $styles);
+
+        rex_response::sendCacheControl('max-age=31536000, immutable');
+        rex_response::sendContent($styles, 'text/css');
+    } else {
+        rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
+        rex_response::sendContent('file not found');
+    }
+    exit();
+}
+
+// ----- verfuegbare seiten
 $pages = [];
 $page = '';
 
@@ -39,17 +75,29 @@ if (rex::isSetup()) {
     $rex_user_psw = rex_post('rex_user_psw', 'string');
     $rex_user_stay_logged_in = rex_post('rex_user_stay_logged_in', 'boolean', false);
 
-    if (rex_get('rex_logout', 'boolean')) {
+    if (rex_get('rex_logout', 'boolean') && rex_csrf_token::factory('backend_logout')->isValid()) {
         $login->setLogout(true);
+        $login->checkLogin();
+        rex_csrf_token::removeAll();
+        rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+
+        // is necessary for login after logout
+        // and without the redirect, the csrf token would be invalid
+        rex_response::sendRedirect(rex_url::backendController(['rex_logged_out' => 1]));
     }
 
-    // the server side encryption of pw is only required
-    // when not already encrypted by client using javascript
-    $login->setLogin($rex_user_login, $rex_user_psw, rex_post('javascript', 'boolean'));
-    $login->setStayLoggedIn($rex_user_stay_logged_in);
-    $loginCheck = $login->checkLogin();
-
     $rex_user_loginmessage = '';
+
+    if ($rex_user_login && !rex_csrf_token::factory('backend_login')->isValid()) {
+        $loginCheck = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        // the server side encryption of pw is only required
+        // when not already encrypted by client using javascript
+        $login->setLogin($rex_user_login, $rex_user_psw, rex_post('javascript', 'boolean'));
+        $login->setStayLoggedIn($rex_user_stay_logged_in);
+        $loginCheck = $login->checkLogin();
+    }
+
     if ($loginCheck !== true) {
         if (rex_request::isXmlHttpRequest()) {
             rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
@@ -66,6 +114,11 @@ if (rex::isSetup()) {
         $pages['login'] = rex_be_controller::getLoginPage();
         $page = 'login';
         rex_be_controller::setCurrentPage('login');
+
+        // clear in-browser data of a previous session with the same browser for security reasons.
+        // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
+        // clearing "executionContext" or "cookies" would result in a endless loop.
+        rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
     } else {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
@@ -75,6 +128,10 @@ if (rex::isSetup()) {
         }
 
         rex::setProperty('user', $user);
+    }
+
+    if ($rex_user_loginmessage === '' && rex_get('rex_logged_out', 'boolean')) {
+        $rex_user_loginmessage = rex_i18n::msg('login_logged_out');
     }
 
     // Safe Mode
@@ -103,6 +160,7 @@ rex_view::addJsFile(rex_url::coreAssets('sha1.js'));
 
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
+rex_view::setJsProperty('session_keep_alive', rex::getProperty('session_keep_alive', 0));
 
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
@@ -138,8 +196,7 @@ if ($page != 'login') {
 rex_be_controller::includeCurrentPage();
 
 // ----- caching end für output filter
-$CONTENT = ob_get_contents();
-ob_end_clean();
+$CONTENT = ob_get_clean();
 
 // ----- inhalt ausgeben
 rex_response::sendPage($CONTENT);

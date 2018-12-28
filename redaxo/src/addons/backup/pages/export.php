@@ -26,7 +26,7 @@ if ($exportfilename == '') {
 }
 
 if ($EXPTABLES) {
-    $tables = rex_sql::showTables();
+    $tables = rex_sql::factory()->getTables();
 
     foreach ($EXPTABLES as $k => $EXPTABLE) {
         if (!in_array($EXPTABLE, $tables)) {
@@ -35,7 +35,12 @@ if ($EXPTABLES) {
     }
 }
 
-if (rex_post('export', 'bool')) {
+$csrfToken = rex_csrf_token::factory('backup');
+$export = rex_post('export', 'bool');
+
+if ($export && !$csrfToken->isValid()) {
+    $error = rex_i18n::msg('csrf_token_invalid');
+} elseif ($export) {
     // ------------------------------ FUNC EXPORT
 
     $exportfilename = strtolower($exportfilename);
@@ -63,7 +68,6 @@ if (rex_post('export', 'bool')) {
             $header = 'plain/text';
 
             $hasContent = rex_backup::exportDb($export_path . $filename . $ext, $EXPTABLES);
-            // ------------------------------ /FUNC EXPORT SQL
         } elseif ($exporttype == 'files') {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
@@ -74,7 +78,6 @@ if (rex_post('export', 'bool')) {
                 $content = rex_backup::exportFiles($EXPDIR);
                 $hasContent = rex_file::put($export_path . $filename . $ext, $content);
             }
-            // ------------------------------ /FUNC EXPORT FILES
         }
 
         if ($hasContent) {
@@ -83,9 +86,8 @@ if (rex_post('export', 'bool')) {
                 rex_response::sendFile($export_path . $filename, $header, 'attachment');
                 rex_file::delete($export_path . $filename);
                 exit;
-            } else {
-                $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
             }
+            $success = rex_i18n::msg('backup_file_generated_in') . ' ' . strtr($filename . $ext, '\\', '/');
         } elseif (empty($error)) { //if the user selected no files to export $error is already filled
             $error = rex_i18n::msg('backup_file_could_not_be_generated') . ' ' . rex_i18n::msg('backup_check_rights_in_directory') . ' ' . $export_path;
         }
@@ -146,9 +148,10 @@ $content .= $fragment->parse('core/form/form.php');
 $tableSelect = new rex_select();
 $tableSelect->setMultiple();
 $tableSelect->setId('rex-form-exporttables');
+$tableSelect->setSize(20);
 $tableSelect->setName('EXPTABLES[]');
 $tableSelect->setAttribute('class', 'form-control');
-$tables = rex_sql::showTables();
+$tables = rex_sql::factory()->getTables();
 foreach ($tables as $table) {
     $tableSelect->addOption($table, $table);
     if ($table != rex::getTable('user') && 0 === strpos($table, rex::getTablePrefix()) && 0 !== strpos($table, rex::getTablePrefix() . rex::getTempPrefix())) {
@@ -265,6 +268,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
 <form action="' . rex_url::currentBackendPage() . '" data-pjax="false" method="post">
+    ' . $csrfToken->getHiddenField() . '
     ' . $content . '
 </form>
 

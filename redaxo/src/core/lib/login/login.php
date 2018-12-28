@@ -9,6 +9,7 @@ class rex_login
     protected $sessionDuration;
     protected $loginQuery;
     protected $userQuery;
+    protected $impersonateQuery;
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
@@ -18,7 +19,12 @@ class rex_login
     protected $cache = false;
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
     protected $message = '';
+
+    /** @var rex_sql */
     protected $user;
+
+    /** @var rex_sql */
+    protected $impersonator;
 
     /**
      * Constructor.
@@ -96,6 +102,16 @@ class rex_login
     public function setUserQuery($user_query)
     {
         $this->userQuery = $user_query;
+    }
+
+    /**
+     * Setzt den ImpersonateQuery.
+     *
+     * Dieser wird benutzt, um den User abzurufen, dessen Identität ein Admin einnehmen möchte.
+     */
+    public function setImpersonateQuery($impersonateQuery)
+    {
+        $this->impersonateQuery = $impersonateQuery;
     }
 
     /**
@@ -184,22 +200,40 @@ class rex_login
                 // wenn kein login und kein logout dann nach sessiontime checken
                 // message schreiben und falls falsch auf error verweisen
 
-                $this->user = rex_sql::factory($this->DB);
+                $ok = true;
 
-                $this->user->setQuery($this->userQuery, [':id' => $this->getSessionVar('UID')]);
-                if ($this->user->getRows() == 1) {
-                    if (($this->getSessionVar('STAMP') + $this->sessionDuration) > time()) {
-                        $ok = true;
-                        $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
-                    } else {
-                        $this->message = rex_i18n::msg('login_session_expired');
+                if (($this->getSessionVar('STAMP') + $this->sessionDuration) < time()) {
+                    $ok = false;
+                    $this->message = rex_i18n::msg('login_session_expired');
+
+                    rex_csrf_token::removeAll();
+                }
+
+                if ($ok && $impersonator = $this->getSessionVar('impersonator')) {
+                    $this->impersonator = rex_sql::factory($this->DB);
+                    $this->impersonator->setQuery($this->userQuery, [':id' => $impersonator]);
+
+                    if (!$this->impersonator->getRows()) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_user_not_found');
                     }
-                } else {
-                    $this->message = rex_i18n::msg('login_user_not_found');
+                }
+
+                if ($ok) {
+                    $query = $this->impersonator && $this->impersonateQuery ? $this->impersonateQuery : $this->userQuery;
+                    $this->user = rex_sql::factory($this->DB);
+                    $this->user->setQuery($query, [':id' => $this->getSessionVar('UID')]);
+
+                    if (!$this->user->getRows()) {
+                        $ok = false;
+                        $this->message = rex_i18n::msg('login_user_not_found');
+                    }
                 }
             }
         } else {
             $this->message = rex_i18n::msg('login_logged_out');
+
+            rex_csrf_token::removeAll();
         }
 
         if ($ok) {
@@ -215,6 +249,7 @@ class rex_login
             // wenn nicht, dann UID loeschen und error seite
             $this->setSessionVar('STAMP', '');
             $this->setSessionVar('UID', '');
+            $this->setSessionVar('impersonator', null);
         }
 
         if ($ok) {
@@ -226,9 +261,56 @@ class rex_login
         return $ok;
     }
 
+    public function impersonate($id)
+    {
+        if (!$this->user) {
+            throw new RuntimeException('Can not impersonate a user without valid user session.');
+        }
+        if ($this->user->getValue($this->idColumn) == $id) {
+            throw new RuntimeException('Can not impersonate the current user.');
+        }
+
+        $user = rex_sql::factory($this->DB);
+        $user->setQuery($this->impersonateQuery ?: $this->userQuery, [':id' => $id]);
+
+        if (!$user->getRows()) {
+            throw new RuntimeException(sprintf('User with id "%d" not found.', $id));
+        }
+
+        $this->impersonator = $this->user;
+        $this->user = $user;
+
+        $this->setSessionVar('UID', $id);
+        $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
+    }
+
+    public function depersonate()
+    {
+        if (!$this->impersonator) {
+            throw new RuntimeException('There is no current impersonator.');
+        }
+
+        $this->user = $this->impersonator;
+        $this->impersonator = null;
+
+        $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
+        $this->setSessionVar('impersonator', null);
+    }
+
+    /**
+     * @return null|rex_sql
+     */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return null|rex_sql
+     */
+    public function getImpersonator()
+    {
+        return $this->impersonator;
     }
 
     /**
@@ -280,7 +362,17 @@ class rex_login
      */
     protected static function regenerateSessionId()
     {
-        session_regenerate_id(true);
+        if ('' != session_id()) {
+            session_regenerate_id(true);
+
+            $cookieParams = static::getCookieParams();
+            if ($cookieParams['samesite']) {
+                self::rewriteSessionCookie($cookieParams['samesite']);
+            }
+
+            rex_csrf_token::removeAll();
+        }
+
         // session-id is shared between frontend/backend or even redaxo instances per server because it's the same http session
         $_SESSION['REX_SESSID'] = session_id();
     }
@@ -291,6 +383,16 @@ class rex_login
     public static function startSession()
     {
         if (session_id() == '') {
+            $cookieParams = static::getCookieParams();
+
+            session_set_cookie_params(
+                $cookieParams['lifetime'],
+                $cookieParams['path'],
+                $cookieParams['domain'],
+                $cookieParams['secure'],
+                $cookieParams['httponly']
+            );
+
             if (!@session_start()) {
                 $error = error_get_last();
                 if ($error) {
@@ -299,6 +401,69 @@ class rex_login
                     throw new rex_exception('Unable to start session!');
                 }
             }
+
+            if ($cookieParams['samesite']) {
+                self::rewriteSessionCookie($cookieParams['samesite']);
+            }
+        }
+    }
+
+    /**
+     * Einstellen der Cookie Paramter bevor die session gestartet wird.
+     *
+     * @return array
+     */
+    private static function getCookieParams()
+    {
+        $cookieParams = session_get_cookie_params();
+
+        $key = rex::isBackend() ? 'backend' : 'frontend';
+        $sessionConfig = rex::getProperty('session', []);
+
+        if ($sessionConfig) {
+            foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
+                if ($value !== null) {
+                    $cookieParams[$name] = $value;
+                }
+            }
+        }
+
+        return $cookieParams;
+    }
+
+    /**
+     * php does not natively support SameSite for cookies yet,
+     * rewrite the session cookie manually.
+     *
+     * see https://wiki.php.net/rfc/same-site-cookie
+     *
+     * @param "Strict"|"Lax" $sameSite
+     */
+    private static function rewriteSessionCookie($sameSite)
+    {
+        $cookiesHeaders = [];
+
+        // since header_remove() will remove all sent cookies, we need to collect all of them,
+        // rewrite only the session cookie and send all cookies again.
+        $cookieHeadersPrefix = 'Set-Cookie: ';
+        $sessionCookiePrefix = 'Set-Cookie: '. session_name() .'=';
+        foreach (headers_list() as $rawHeader) {
+            // rewrite the session cookie
+            if (substr($rawHeader, 0, strlen($sessionCookiePrefix)) === $sessionCookiePrefix) {
+                $rawHeader .= '; SameSite='. $sameSite;
+            }
+            // collect all cookies
+            if (substr($rawHeader, 0, strlen($cookieHeadersPrefix)) === $cookieHeadersPrefix) {
+                $cookiesHeaders[] = $rawHeader;
+            }
+        }
+
+        // remove all cookies
+        header_remove('Set-Cookie');
+
+        // re-add all (inl. the rewritten session cookie)
+        foreach ($cookiesHeaders as $rawHeader) {
+            header($rawHeader);
         }
     }
 

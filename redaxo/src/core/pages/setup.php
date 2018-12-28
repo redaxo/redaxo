@@ -16,14 +16,11 @@ $lang = rex_request('lang', 'string');
 if ($step == 1) {
     rex_setup::init();
 
-    $saveLocale = rex_i18n::getLocale();
     $langs = [];
     foreach (rex_i18n::getLocales() as $locale) {
-        rex_i18n::setLocale($locale, false); // Locale nicht neu setzen
-        $label = rex_i18n::msg('lang');
+        $label = rex_i18n::msgInLocale('lang', $locale);
         $langs[$locale] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
     }
-    rex_i18n::setLocale($saveLocale, false);
 
     echo rex_view::title(rex_i18n::msg('setup_100'));
     $content = '<div class="list-group">' . implode('', $langs) . '</div>';
@@ -72,12 +69,11 @@ if (count($errors) > 0) {
 
 $res = rex_setup::checkFilesystem();
 if (count($res) > 0) {
-    $base = rex_path::base();
     foreach ($res as $key => $messages) {
         if (count($messages) > 0) {
             $li = [];
             foreach ($messages as $message) {
-                $li[] = '<li>' . str_replace($base, '', $message) . '</li>';
+                $li[] = '<li>' . rex_path::relative($message) . '</li>';
             }
             $error_array[] = '<p>' . rex_i18n::msg($key) . '</p><ul>' . implode('', $li) . '</ul>';
         }
@@ -114,8 +110,14 @@ if ($step == 3) {
     $security .= '<script>
 
     jQuery(function($){
-
-        $.each(["' . rex_url::backend('data/.redaxo') . '", "' . rex_url::backend('src/core/boot.php') . '", "' . rex_url::backend('cache/.redaxo') . '"], function (i, url) {
+        var urls = [
+            "' . rex_url::backend('bin/console') . '", 
+            "' . rex_url::backend('data/.redaxo') . '", 
+            "' . rex_url::backend('src/core/boot.php') . '", 
+            "' . rex_url::backend('cache/.redaxo') . '"
+        ];
+        
+        $.each(urls, function (i, url) {
             $.ajax({
                 url: url,
                 cache: false,
@@ -129,6 +131,20 @@ if ($step == 3) {
     })
 
     </script>';
+
+    if (!rex_request::isHttps()) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_no_https'));
+    }
+
+    if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
+    }
+
+    if (version_compare(PHP_VERSION, '5.6', '<') == 1) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (version_compare(PHP_VERSION, '7.0', '<=') == 1 && time() > strtotime('1 Jan 2019')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    }
 
     echo rex_view::title(rex_i18n::msg('setup_300'));
 
@@ -151,6 +167,10 @@ if ($step >= 4) {
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)
     );
+
+    if (isset($_SERVER['HTTP_HOST']) && $config['server'] == 'https://www.redaxo.org/') {
+        $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
+    }
 }
 
 if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
@@ -163,6 +183,14 @@ if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
     $config['db'][1]['login'] = rex_post('redaxo_db_user_login', 'string');
     $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
     $config['db'][1]['name'] = rex_post('dbname', 'string');
+    $config['use_https'] = rex_post('use_https', 'string');
+    $config['use_hsts'] = rex_post('use_hsts', 'boolean');
+
+    if ($config['use_https'] === 'true') {
+        $config['use_https'] = true;
+    } elseif ($config['use_https'] === 'false') {
+        $config['use_https'] = false;
+    }
 }
 
 if ($step > 4) {
@@ -237,11 +265,12 @@ if ($step == 4) {
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="5" />
-                <input type="hidden" name="lang" value="' . $lang . '" />';
+                <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />';
 
     $timezone_sel = new rex_select();
     $timezone_sel->setId('rex-form-timezone');
-    $timezone_sel->setStyle('class="form-control"');
+    $timezone_sel->setStyle('class="form-control selectpicker"');
+    $timezone_sel->setAttribute('data-live-search', 'true');
     $timezone_sel->setName('timezone');
     $timezone_sel->setSize(1);
     $timezone_sel->addOptions(DateTimeZone::listIdentifiers(), true);
@@ -249,23 +278,33 @@ if ($step == 4) {
 
     $db_create_checked = rex_post('redaxo_db_create', 'boolean') ? ' checked="checked"' : '';
 
+    $httpsRedirectSel = new rex_select();
+    $httpsRedirectSel->setId('rex-form-https');
+    $httpsRedirectSel->setStyle('class="form-control selectpicker"');
+    $httpsRedirectSel->setName('use_https');
+    $httpsRedirectSel->setSize(1);
+    $httpsRedirectSel->addArrayOptions(['false' => rex_i18n::msg('https_disable'), 'backend' => rex_i18n::msg('https_only_backend'), 'frontend' => rex_i18n::msg('https_only_frontend'), 'true' => rex_i18n::msg('https_activate')]);
+    $httpsRedirectSel->setSelected($config['use_https'] === true ? 'true' : $config['use_https']);
+
+    $hsts_checked = rex_post('use_hsts', 'boolean') ? 'checked="checked"' : '';
+
     $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
 
     $formElements = [];
 
     $n = [];
     $n['label'] = '<label for="rex-form-serveraddress">' . rex_i18n::msg('server') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . $config['server'] . '" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-serveraddress" name="serveraddress" value="' . rex_escape($config['server']) . '" autofocus />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-servername">' . rex_i18n::msg('servername') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . $config['servername'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-servername" name="servername" value="' . rex_escape($config['servername']) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-error-email">' . rex_i18n::msg('error_email') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . $config['error_email'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-error-email" name="error_email" value="' . rex_escape($config['error_email']) . '" />';
     $formElements[] = $n;
 
     $n = [];
@@ -283,22 +322,22 @@ if ($step == 4) {
 
     $n = [];
     $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" value="' . $config['db'][1]['name'] . '" id="rex-form-dbname" name="dbname" />';
+    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . $config['db'][1]['host'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-db-user-login">Login</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . $config['db'][1]['login'] . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-form-db-user-login" name="redaxo_db_user_login" value="' . rex_escape($config['db'][1]['login']) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . $config['db'][1]['password'] . '" />';
+    $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_escape($config['db'][1]['password']) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -309,6 +348,30 @@ if ($step == 4) {
     $n = [];
     $n['label'] = '<label>' . rex_i18n::msg('setup_411') . '</label>';
     $n['field'] = '<input type="checkbox" name="redaxo_db_create" value="1"' . $db_create_checked . ' />';
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/checkbox.php');
+
+    $content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_security') . '</legend>';
+
+    $formElements = [];
+
+    $n = [];
+    $n['label'] = '<label>'.rex_i18n::msg('https_activate_redirect_for').'</label>';
+    $n['field'] = $httpsRedirectSel->get();
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.php');
+
+    $formElements = [];
+    $n = [];
+    $n['label'] = '<label>' . rex_i18n::msg('hsts_activate') . '</label>';
+    $n['field'] = '<input type="checkbox" name="use_hsts" value="1"' . $hsts_checked . ' />';
+    $n['note'] = rex_i18n::rawMsg('hsts_more_information', '<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" rel="nofollow noreferrer">mozilla developer network</a>');
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -410,7 +473,7 @@ if ($step == 5) {
             <fieldset>
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="6" />
-                <input type="hidden" name="lang" value="' . $lang . '" />
+                <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
             ';
 
     $submit_message = rex_i18n::msg('setup_511');
@@ -437,7 +500,7 @@ if ($step == 5) {
     $sel_export->setName('import_name');
     $sel_export->setId('rex-form-import-name');
     $sel_export->setSize(1);
-    $sel_export->setStyle('class="form-control rex-js-import-name"');
+    $sel_export->setStyle('class="form-control selectpicker rex-js-import-name"');
     $sel_export->setAttribute('onclick', 'checkInput(\'createdb_3\')');
     $export_dir = rex_backup::getDir();
     $exports_found = false;
@@ -642,7 +705,7 @@ if ($step == 6) {
             <input class="rex-js-javascript" type="hidden" name="javascript" value="0" />
             <input type="hidden" name="page" value="setup" />
             <input type="hidden" name="step" value="7" />
-            <input type="hidden" name="lang" value="' . $lang . '" />
+            <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
             ';
 
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
@@ -670,12 +733,12 @@ if ($step == 6) {
 
     $n = [];
     $n['label'] = '<label for="rex-form-redaxo-user-login">' . rex_i18n::msg('setup_607') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" value="' . $redaxo_user_login . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
+    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($redaxo_user_login) . '" id="rex-form-redaxo-user-login" name="redaxo_user_login" autofocus />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-form-redaxo-user-pass">' . rex_i18n::msg('setup_608') . '</label>';
-    $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . $redaxo_user_pass . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
+    $n['field'] = '<input class="form-control rex-js-redaxo-user-pass" type="password" value="' . rex_escape($redaxo_user_pass) . '" id="rex-form-redaxo-user-pass" name="redaxo_user_pass" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

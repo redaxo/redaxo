@@ -46,7 +46,7 @@ $formElements = [];
 
 $inputGroups = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" value="' . htmlspecialchars($rex_user_login) . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
+$n['field'] = '<input class="form-control" type="text" value="' . rex_escape($rex_user_login, 'html_attr') . '" id="rex-id-login-user" name="rex_user_login" autofocus />';
 $n['left'] = '<i class="rex-icon rex-icon-user"></i>';
 $inputGroups[] = $n;
 
@@ -110,6 +110,7 @@ $content = $fragment->parse('core/page/section.php');
 $content = '
 <form id="rex-form-login" action="' . rex_url::backendController() . '" method="post">
     ' . $content . '
+    ' . rex_csrf_token::factory('backend_login')->getHiddenField() . '
 </form>
 <script type="text/javascript">
      <!--
@@ -119,7 +120,6 @@ $content = '
                 var pwInp = $("#rex-id-login-password");
                 if(pwInp.val() != "") {
                     $("#rex-form-login").append(\'<input type="hidden" name="\'+pwInp.attr("name")+\'" value="\'+Sha1.hash(pwInp.val())+\'" />\');
-                    pwInp.removeAttr("name");
                 }
         });
 

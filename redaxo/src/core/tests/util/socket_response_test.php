@@ -4,7 +4,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
 {
     private function getResponse($content)
     {
-        $stream = fopen('php://temp', 'r+');
+        $stream = fopen('php://temp', 'r+b');
         fwrite($stream, $content);
         fseek($stream, 0);
 
@@ -52,7 +52,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $this->assertSame($header, $response->getHeader(), 'getHeader() without params returns full header');
         $this->assertSame('Value1', $response->getHeader('Key1'), 'getHeader($key) returns the value of the key');
         $this->assertSame('Value2', $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
-        $this->assertSame(null, $response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
+        $this->assertNull($response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
         $this->assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
     }
 
@@ -69,7 +69,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
 
-        $temp = fopen('php://temp', 'r+');
+        $temp = fopen('php://temp', 'r+b');
         $response->writeBodyTo($temp);
         fseek($temp, 0);
         $this->assertSame($body, fread($temp, 1024));

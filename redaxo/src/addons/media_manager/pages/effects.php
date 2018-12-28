@@ -22,18 +22,26 @@ if ((rex_request('func') != '' || $func == 'delete')
      && $type_id > 0
 ) {
     $counter = rex_media_manager::deleteCacheByType($type_id);
-//  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
+    //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
 }
 
 //-------------- delete effect
 if ($func == 'delete' && $effect_id > 0) {
     $sql = rex_sql::factory();
-//  $sql->setDebug();
+    //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
     $sql->setWhere(['id' => $effect_id]);
 
     try {
         $sql->delete();
+
+        rex_sql_util::organizePriorities(
+            rex::getTablePrefix() . 'media_manager_type_effect',
+            'priority',
+            'type_id = '.$type_id,
+            'priority, updatedate desc'
+        );
+
         $info = rex_i18n::msg('media_manager_effect_deleted');
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
@@ -49,8 +57,14 @@ if ($warning != '') {
     echo rex_view::warning($warning);
 }
 
+/** @var rex_effect_abstract[] $effects */
+$effects = [];
+foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
+    $effects[$shortName] = new $class();
+}
+
 if ($func == '' && $type_id > 0) {
-    echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', htmlspecialchars($typeName)));
+    echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
 
@@ -69,6 +83,10 @@ if ($func == '' && $type_id > 0) {
     $list->removeColumn('createuser');
 
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
+    $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
+        $shortName = $params['value'];
+        return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
+    });
 
     $list->setColumnLabel('priority', rex_i18n::msg('media_manager_type_priority'));
     $list->setColumnLayout('priority', ['<th class="rex-table-priority">###VALUE###</th>', '<td class="rex-table-priority">###VALUE###</td>']);
@@ -101,12 +119,14 @@ if ($func == '' && $type_id > 0) {
 
     echo $content;
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
-    $effects = rex_media_manager::getSupportedEffects();
+    uasort($effects, function (rex_effect_abstract $a, rex_effect_abstract $b) {
+        return strnatcmp($a->getName(), $b->getName());
+    });
 
     if ($func == 'edit') {
-        $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', htmlspecialchars($typeName));
+        $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', rex_escape($typeName));
     } elseif ($func == 'add') {
-        $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', htmlspecialchars($typeName));
+        $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', rex_escape($typeName));
     }
 
     $form = rex_form::factory(rex::getTablePrefix() . 'media_manager_type_effect', '', 'id=' . $effect_id);
@@ -117,14 +137,22 @@ if ($func == '' && $type_id > 0) {
     // effect prio
     $field = $form->addPrioField('priority');
     $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
+    $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
+    $field->setLabelCallback(function ($shortName) use ($effects) {
+        return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
+    });
     $field->setWhereCondition('type_id = ' . $type_id);
 
     // effect name als SELECT
     $field = $form->addSelectField('effect');
     $field->setLabel(rex_i18n::msg('media_manager_effect_name'));
+    $field->setAttribute('class', 'selectpicker form-control');
+    $field->setAttribute('data-live-search', 'true');
     $select = $field->getSelect();
-    $select->addOptions($effects, true);
+    foreach ($effects as $name => $effect) {
+        $select->addOption($effect->getName(), $name);
+    }
     $select->setSize(1);
 
     $script = '
@@ -149,8 +177,8 @@ if ($func == '' && $type_id > 0) {
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setSuffix($script);
 
-    foreach ($effects as $effectClass => $effectName) {
-        $effectObj = new $effectClass();
+    foreach ($effects as $effectObj) {
+        $effectClass = get_class($effectObj);
         $effectParams = $effectObj->getParams();
         $group = $effectClass;
 
@@ -189,6 +217,7 @@ if ($func == '' && $type_id > 0) {
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);
                     $field->setAttribute('id', "media_manager $name $type");
+                    $field->setAttribute('class', 'form-control selectpicker');
                     if (!empty($param['notice'])) {
                         $field->setNotice($param['notice']);
                     }

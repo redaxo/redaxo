@@ -8,6 +8,7 @@
 class rex_media
 {
     use rex_instance_pool_trait;
+    use rex_instance_list_pool_trait;
 
     // id
     protected $id = '';
@@ -54,12 +55,14 @@ class rex_media
 
         return static::getInstance($name, function ($name) {
             $media_path = rex_path::addonCache('mediapool', $name . '.media');
-            if (!file_exists($media_path)) {
+
+            $cache = rex_file::getCache($media_path);
+            if (!$cache) {
                 rex_media_cache::generate($name);
+                $cache = rex_file::getCache($media_path);
             }
 
-            if (file_exists($media_path)) {
-                $cache = rex_file::getCache($media_path);
+            if ($cache) {
                 $aliasMap = [
                     'filename' => 'name',
                     'filetype' => 'type',
@@ -82,6 +85,24 @@ class rex_media
             }
 
             return null;
+        });
+    }
+
+    /**
+     * @return static[]
+     */
+    public static function getRootMedia()
+    {
+        return static::getInstanceList('root_media', 'static::get', function () {
+            $list_path = rex_path::addonCache('mediapool', '0.mlist');
+
+            $list = rex_file::getCache($list_path);
+            if (!$list) {
+                rex_media_cache::generateList(0);
+                $list = rex_file::getCache($list_path);
+            }
+
+            return $list;
         });
     }
 
@@ -230,13 +251,13 @@ class rex_media
 
         if (!isset($params['alt'])) {
             if ($title != '') {
-                $params['alt'] = htmlspecialchars($title);
+                $params['alt'] = rex_escape($title, 'html_attr');
             }
         }
 
         if (!isset($params['title'])) {
             if ($title != '') {
-                $params['title'] = htmlspecialchars($title);
+                $params['title'] = rex_escape($title, 'html_attr');
             }
         }
 
@@ -316,7 +337,8 @@ class rex_media
         // noch funktionieren
         if ($this->hasValue($value)) {
             return $this->$value;
-        } elseif ($this->hasValue('med_' . $value)) {
+        }
+        if ($this->hasValue('med_' . $value)) {
             return $this->getValue('med_' . $value);
         }
     }

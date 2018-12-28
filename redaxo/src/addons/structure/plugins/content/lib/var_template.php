@@ -12,7 +12,7 @@ class rex_var_template extends rex_var
         $template_id = $this->getParsedArg('id', 0, true);
 
         if ($template_id > 0) {
-            return __CLASS__ . '::getTemplateOutput(require ' . __CLASS__ . '::getTemplateStream(' . $template_id . ', $this))';
+            return self::class . '::getTemplateOutput(require ' . self::class . '::getTemplateStream(' . $template_id . ', $this))';
         }
 
         return false;

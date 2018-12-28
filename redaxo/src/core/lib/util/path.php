@@ -22,7 +22,7 @@ class rex_path
     }
 
     /**
-     * Returns a base path.
+     * Returns the base/root path.
      *
      * @param string $file File
      *
@@ -34,7 +34,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the frontend.
+     * Returns the path to the frontend (the document root).
      *
      * @param string $file File
      *
@@ -56,7 +56,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the backend.
+     * Returns the path to the backend (folder where the backend controller is placed).
      *
      * @param string $file File
      *
@@ -114,7 +114,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the assets folder of the given addon, which contains all assets required by the addon to work properly.
+     * Returns the path to the public assets folder of the given addon.
      *
      * @param string $addon Addon
      * @param string $file  File
@@ -129,7 +129,7 @@ class rex_path
     }
 
     /**
-     * Returns the path to the assets folder of the given plugin of the given addon.
+     * Returns the path to the public assets folder of the given plugin of the given addon.
      *
      * @param string $addon  Addon
      * @param string $plugin Plugin
@@ -142,6 +142,18 @@ class rex_path
     public static function pluginAssets($addon, $plugin, $file = '')
     {
         return self::$pathprovider->pluginAssets($addon, $plugin, $file);
+    }
+
+    /**
+     * Returns the path to the bin folder.
+     *
+     * @param string $file File
+     *
+     * @return string
+     */
+    public static function bin($file = '')
+    {
+        return self::$pathprovider->bin($file);
     }
 
     /**
@@ -327,5 +339,51 @@ class rex_path
         }
 
         return implode(DIRECTORY_SEPARATOR, $stack);
+    }
+
+    /**
+     * Converts an absolute path to a relative one.
+     *
+     * If the path is outside of the base path, the absolute path will be kept.
+     *
+     * @param string      $absPath
+     * @param null|string $basePath Defaults to `rex_path::base()`
+     *
+     * @return string
+     */
+    public static function relative($absPath, $basePath = null)
+    {
+        if (null === $basePath) {
+            $basePath = self::base();
+        }
+
+        $basePath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $basePath);
+        $basePath = rtrim($basePath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+
+        $baseLength = strlen($basePath);
+
+        $absPath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $absPath);
+
+        if (substr($absPath, 0, $baseLength) !== $basePath) {
+            return $absPath;
+        }
+
+        return substr($absPath, $baseLength);
+    }
+
+    /**
+     * Returns the basename (filename) of the path independent of directory separator (/ or \).
+     *
+     * This method should be used to secure incoming GET/POST parameters containing a filename.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function basename($path)
+    {
+        $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
+
+        return basename($path);
     }
 }

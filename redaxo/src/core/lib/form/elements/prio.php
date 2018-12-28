@@ -6,6 +6,7 @@
 class rex_form_prio_element extends rex_form_select_element
 {
     private $labelField;
+    private $labelCallback;
     private $whereCondition;
     private $primaryKey;
     private $firstOptionMsg;
@@ -13,7 +14,7 @@ class rex_form_prio_element extends rex_form_select_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
 
@@ -35,6 +36,11 @@ class rex_form_prio_element extends rex_form_select_element
     public function setLabelField($labelField)
     {
         $this->labelField = $labelField;
+    }
+
+    public function setLabelCallback(callable $labelCallback)
+    {
+        $this->labelCallback = $labelCallback;
     }
 
     public function setWhereCondition($whereCondition)
@@ -69,10 +75,13 @@ class rex_form_prio_element extends rex_form_select_element
         $value = 1;
         foreach ($sql as $opt) {
             $value = $opt->getValue($name) + 1;
-            $this->select->addOption(
-                rex_i18n::rawMsg($this->optionMsg, $opt->getValue($this->labelField)),
-                $value
-            );
+            $label = $opt->getValue($this->labelField);
+
+            if ($this->labelCallback) {
+                $label = call_user_func($this->labelCallback, $label);
+            }
+
+            $this->select->addOption(rex_i18n::rawMsg($this->optionMsg, $label), $value);
         }
         if (!$this->table->isEditMode()) {
             $this->select->setSelected($value);

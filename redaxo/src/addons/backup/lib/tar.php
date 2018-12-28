@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * REDAXO Tar Klasse.
  *
@@ -18,7 +17,7 @@
 
 class rex_backup_tar extends tar
 {
-    private $message;
+    private $messages = [];
 
     // constructor to omit warnings
     public function __construct()
@@ -68,9 +67,9 @@ class rex_backup_tar extends tar
         $file_information = stat($filename);
 
         // Read in the file's contents
-//    $fp = fopen($filename,"rb");
-//    $file_contents = fread($fp,filesize($filename));
-//    fclose($fp);
+        //    $fp = fopen($filename,"rb");
+        //    $file_contents = fread($fp,filesize($filename));
+        //    fclose($fp);
         // STM: hier mit get_file_contents ist viel schneller
         $file_contents = rex_file::get($filename);
 
@@ -83,8 +82,8 @@ class rex_backup_tar extends tar
         $activeFile['group_id'] = $file_information['gid'];
         $activeFile['size'] = $file_information['size'];
         $activeFile['time'] = $file_information['mtime'];
-                // STM: Warnung gefixed
-//    $activeFile["checksum"]   = $checksum;
+        // STM: Warnung gefixed
+        //    $activeFile["checksum"]   = $checksum;
         $activeFile['user_name'] = '';
         $activeFile['group_name'] = '';
         $activeFile['file'] = $file_contents;
@@ -110,8 +109,8 @@ class rex_backup_tar extends tar
         $activeDir['time'] = $file_information['time'];
         $activeDir['user_id'] = $file_information['uid'];
         $activeDir['group_id'] = $file_information['gid'];
-                // STM: Warnung gefixed
-//    $activeDir["checksum"]  = $checksum;
+        // STM: Warnung gefixed
+        //    $activeDir["checksum"]  = $checksum;
 
         return true;
     }
@@ -126,9 +125,9 @@ class rex_backup_tar extends tar
         }
 
         // Read in the TAR file
-//    $fp = fopen($filename,"rb");
-//    $this->tar_file = fread($fp,filesize($filename));
-//    fclose($fp);
+        //    $fp = fopen($filename,"rb");
+        //    $this->tar_file = fread($fp,filesize($filename));
+        //    fclose($fp);
         // STM: hier mit get_file_contents ist viel schneller
         $this->tar_file = rex_file::get($filename);
 
@@ -167,9 +166,9 @@ class rex_backup_tar extends tar
         }
 
         // Write the TAR file
-//    $fp = fopen($filename,"wb");
-//    fwrite($fp,$file);
-//    fclose($fp);
+        //    $fp = fopen($filename,"wb");
+        //    fwrite($fp,$file);
+        //    fclose($fp);
 
         // kein Filename gegeben => Inhalt zurueckgeben
         if (!$filename) {
@@ -185,7 +184,7 @@ class rex_backup_tar extends tar
     protected function __generateTAR()
     {
         // Clear any data currently in $this->tar_file
-//    unset($this->tar_file);
+        //    unset($this->tar_file);
         // STM: Warnung gefixed
         $this->tar_file = '';
 
@@ -288,24 +287,23 @@ class rex_backup_tar extends tar
                 if (!file_exists(dirname($item['name']))) {
                     rex_dir::create(dirname($item['name']));
                 }
-                if ($h = @fopen($item['name'], 'w+')) {
+                if ($h = @fopen($item['name'], 'w+b')) {
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {
-                    $this->message[] = dirname($item['name']);
+                    $this->messages[] = dirname($item['name']);
                     return false;
                 }
             }
         }
-        if (count($this->message) > 0) {
+        if (count($this->messages) > 0) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public function getMessages()
     {
-        return $this->message;
+        return $this->messages;
     }
 }

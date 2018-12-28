@@ -3,6 +3,7 @@
 /*
     Vars
 
+    "title" of items list will not be escaped, the caller is responsible todo so.
 */
 
 // --------------------- List Items
@@ -28,8 +29,6 @@ if (count($items) > 0) {
 
         $list_items[] = '<li>' . $list_item . '</li>';
     }
-} else {
-    $list_items[] = '<li>' . rex_i18n::msg('root_level') . '</li>';
 }
 
 echo '<div' . ((isset($this->id) && $this->id != '') ? ' id="' .  $this->id . '"' : '') . ' class="rex-breadcrumb"><ol class="breadcrumb">' . implode('', $list_items) . '</ol></div>';

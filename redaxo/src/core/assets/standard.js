@@ -125,10 +125,15 @@ function newWindow(name,link,width,height,type)
 var winObj = new Array();
 if (opener != null)
 {
-    if (typeof(opener.winObjCounter) == "number")
-    {
-        var winObjCounter = opener.winObjCounter;
-    }
+	try{
+	    if (typeof(opener.winObjCounter) == "number")
+	    {
+	        var winObjCounter = opener.winObjCounter;
+	    }
+	} catch(e) {
+	    // in x-origin cases opener.winObjCounter would not be readable
+	    var winObjCounter = -1;
+	}
 }else
 {
     var winObjCounter = -1;
@@ -439,11 +444,12 @@ jQuery(function($){
         });
     $("[autofocus]").trigger("focus");
 
-    if ($('#rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('htaccess_check') == '')
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        setCookie('htaccess_check', '1', time.toGMTString());
+        setCookie('htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
+        checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
         checkHtaccess('src', 'core/boot.php');
@@ -463,7 +469,7 @@ jQuery(function($){
 
 // cookie functions
 
-function setCookie(name, value, expires, path, domain, secure) {
+function setCookie(name, value, expires, path, domain, secure, samesite) {
     if (typeof expires != undefined && expires == "never") {
         // never expire means expires in 3000 days
         expires = new Date();
@@ -475,7 +481,8 @@ function setCookie(name, value, expires, path, domain, secure) {
         + ((expires) ? "; expires=" + expires : "")
         + ((path) ? "; path=" + path : "")
         + ((domain) ? "; domain=" + domain : "")
-        + ((secure) ? "; secure" : "");
+        + ((secure) ? "; secure" : "")
+        + ((samesite) ? "; samesite=" + samesite : "");
 }
 
 function getCookie(cookieName) {
@@ -509,9 +516,37 @@ jQuery(document).ready(function($) {
     // confirm dialog behavior for forms
     $(document).on('submit', 'form[data-confirm]', confDialog);
 
+    // add eye-toggle to each password input
+    $(document).on('rex:ready', function (event, viewRoot) {
+        $(viewRoot).find('input[type="password"]').each(function() {
+            var $el = $(this);
+            var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
+
+            if ($el.parent("div.input-group").length == 0) {
+                $el.wrap('<div class="input-group"></div>');
+            }
+
+            // insert into DOM first, as wrap() only works on DOM attached nodes.
+            $el.after($eye);
+            $eye
+                .wrap('<span class="input-group-btn"></span>')
+                .wrap('<button type="button" class="btn btn-view" tabindex="-1"></button>');
+
+            $el.next('span.input-group-btn').find('button.btn').click(function(event) {
+                $eye.toggleClass("rex-icon-view rex-icon-hide");
+
+                if ($el.attr("type") === "password") {
+                    $el.attr("type", "text");
+                } else {
+                    $el.attr("type", "password");
+                }
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    });
+
     if ($.support.pjax) {
-        // prevent pjax from jumping to top, see github#60
-        $.pjax.defaults.scrollTo = false;
         $.pjax.defaults.timeout = 10000;
         $.pjax.defaults.maxCacheLength = 0;
 
@@ -548,7 +583,14 @@ jQuery(document).ready(function($) {
                 container = '#rex-page-main';
             }
 
-            var push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+            var options = {container: container, fragment: container};
+
+            options.push = !self.closest('[data-pjax-no-history]').data('pjax-no-history');
+
+            options.scrollTo = self.closest('[data-pjax-scroll-to]').data('pjax-scroll-to');
+            if (typeof options.scrollTo == 'undefined') {
+                options.scrollTo = isForm ? 0 : false;
+            }
 
             if (isForm) {
                 var clicked = self.find(':submit[data-clicked]');
@@ -556,9 +598,9 @@ jQuery(document).ready(function($) {
                     // https://github.com/defunkt/jquery-pjax/issues/304
                     self.append('<input type="hidden" name="' + clicked.attr('name') + '" value="' + clicked.val() + '"/>');
                 }
-                return $.pjax.submit(event, {container: container, fragment: container, push: push });
+                return $.pjax.submit(event, options);
             }
-            return $.pjax.click(event, {container: container, fragment: container, push: push });
+            return $.pjax.click(event, options);
         };
 
         $(document)
@@ -590,9 +632,9 @@ jQuery(document).ready(function($) {
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
 
-                var time = xhr.getResponseHeader('X-Redaxo-Script-Time');
-                if (time) {
-                    $('.rex-js-script-time').text(time);
+                var minibar = options.context.find('.rex-minibar');
+                if (minibar.length) {
+                    $('body > .rex-minibar').replaceWith(minibar);
                 }
 
                 options.context.trigger('rex:ready', [options.context]);
@@ -643,3 +685,15 @@ jQuery(document).ready(function($) {
             (rect.top > menuHeight));
     });
 });
+
+// keep session alive
+if ('login' !== rex.page && rex.session_keep_alive) {
+    var keepAliveInterval = setInterval(function () {
+        jQuery.ajax('index.php?page=credits', {
+            cache: false
+        });
+    }, 5 * 60 * 1000 /* make ajax request every 5 minutes */);
+    setTimeout(function () {
+        clearInterval(keepAliveInterval);
+    }, rex.session_keep_alive * 1000 /* stop request after x seconds - see config.yml */);
+}

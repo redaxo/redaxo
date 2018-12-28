@@ -51,7 +51,7 @@ class rex
     }
 
     /**
-     * Sets a property.
+     * Sets a property. Changes will not be persisted accross http request boundaries.
      *
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
@@ -66,6 +66,27 @@ class rex
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         switch ($key) {
+            case 'debug':
+                // bc for boolean "debug" property
+                if (!is_array($value)) {
+                    $debug = self::getDebugFlags();
+                    $debug['enabled'] = (bool) $value;
+                    $value = $debug;
+                }
+                $value['enabled'] = isset($value['enabled']) && $value['enabled'];
+                if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
+                    $value['throw_always_exception'] = false;
+                } elseif (is_array($value['throw_always_exception'])) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], function ($result, $item) {
+                        if (is_string($item)) {
+                            // $item is string, e.g. "E_WARNING"
+                            $item = constant($item);
+                        }
+
+                        return $result | $item;
+                    }, 0);
+                }
+                break;
             case 'server':
                 if (!rex_validator::factory()->url($value)) {
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a full URL!');
@@ -77,6 +98,10 @@ class rex
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be an email address!');
                 }
                 break;
+            case 'console':
+                if (null !== $value && !$value instanceof rex_console_application) {
+                    throw new InvalidArgumentException(sprintf('"%s" property: expecting $value to be an instance of rex_console_application, "%s" found!', $key, is_object($value) ? get_class($value) : gettype($value)));
+                }
         }
         $exists = isset(self::$properties[$key]);
         self::$properties[$key] = $value;
@@ -156,13 +181,39 @@ class rex
     }
 
     /**
+     * Returns the environment.
+     *
+     * @return string
+     */
+    public static function getEnvironment()
+    {
+        if (self::getConsole()) {
+            return 'console';
+        }
+
+        return self::isBackend() ? 'backend' : 'frontend';
+    }
+
+    /**
      * Returns if the debug mode is active.
      *
      * @return bool
      */
     public static function isDebugMode()
     {
-        return (bool) self::getProperty('debug', false);
+        $debug = self::getDebugFlags();
+
+        return isset($debug['enabled']) && $debug['enabled'];
+    }
+
+    /**
+     * Returns the debug flags.
+     *
+     * @return array
+     */
+    public static function getDebugFlags()
+    {
+        return self::getProperty('debug');
     }
 
     /**
@@ -210,11 +261,33 @@ class rex
     /**
      * Returns the current user.
      *
-     * @return rex_user
+     * @return null|rex_user
      */
     public static function getUser()
     {
         return self::getProperty('user');
+    }
+
+    /**
+     * Returns the current impersonator user.
+     *
+     * @return null|rex_user
+     */
+    public static function getImpersonator()
+    {
+        $login = self::getProperty('login');
+
+        return $login ? $login->getImpersonator() : null;
+    }
+
+    /**
+     * Returns the console application.
+     *
+     * @return null|rex_console_application
+     */
+    public static function getConsole()
+    {
+        return self::getProperty('console', null);
     }
 
     /**
@@ -226,7 +299,7 @@ class rex
      */
     public static function getServer($protocol = null)
     {
-        if (is_null($protocol)) {
+        if (null === $protocol) {
             return self::getProperty('server');
         }
         list(, $server) = explode('://', self::getProperty('server'), 2);
@@ -263,10 +336,45 @@ class rex
     public static function getVersion($format = null)
     {
         $version = self::getProperty('version');
+
         if ($format) {
             return rex_formatter::version($version, $format);
         }
         return $version;
+    }
+
+    /**
+     * Returns the current git version hash for the given path.
+     *
+     * @param string $path A local filesystem path
+     *
+     * @return false|string
+     */
+    public static function getVersionHash($path)
+    {
+        static $gitHash = [];
+
+        if (!isset($gitHash[$path])) {
+            $gitHash[$path] = false; // exec only once
+            $output = '';
+            $exitCode = null;
+
+            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            } else {
+                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            }
+
+            @exec($command, $output, $exitCode);
+            if ($exitCode === 0) {
+                $output = implode('', $output);
+                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
+                    $gitHash[$path] = $matches[0];
+                }
+            }
+        }
+
+        return $gitHash[$path];
     }
 
     /**

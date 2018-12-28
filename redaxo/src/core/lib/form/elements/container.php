@@ -11,7 +11,7 @@ class rex_form_container_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
         $this->fields = [];
@@ -48,7 +48,7 @@ class rex_form_container_element extends rex_form_element
 
         $field->setAttribute('id', $this->getAttribute('id').'-'.$group.'-'.$field->getFieldName());
         $field->setAttribute('name', $this->getAttribute('name').'['.$group.']['.$field->getFieldName().']');
-        $field->setValue(null);
+        $field->setValue($value);
 
         $this->fields[$group][] = $field;
         return $field;
@@ -96,12 +96,12 @@ class rex_form_container_element extends rex_form_element
                 continue;
             }
 
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
         }
 
         $format = '';
         foreach ($this->fields as $group => $groupFields) {
-            $format .= '<div id="rex-' . htmlspecialchars($group) . '"' . $attr . '>';
+            $format .= '<div id="rex-' . rex_escape($group, 'html_attr') . '"' . $attr . '>';
             foreach ($groupFields as $field) {
                 $format .= $field->get();
             }

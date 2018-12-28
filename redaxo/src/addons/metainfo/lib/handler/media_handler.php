@@ -158,7 +158,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         }
 
         $media = rex_sql::factory();
-    //  $media->setDebug();
+        //  $media->setDebug();
         $media->setTable(rex::getTablePrefix() . 'media');
         $media->setWhere('id=:mediaid', ['mediaid' => $params['id']]);
 
@@ -184,8 +184,6 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         if ($ep->getName() == 'MEDIA_FORM_EDIT') {
             $params['activeItem'] = $params['media'];
             unset($params['media']);
-            // Hier die category_id setzen, damit keine Warnung entsteht (REX_LINK_BUTTON)
-            // $params['activeItem']->setValue('category_id', 0);
         } elseif ($ep->getName() == 'MEDIA_ADDED') {
             $sql = rex_sql::factory();
             $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';

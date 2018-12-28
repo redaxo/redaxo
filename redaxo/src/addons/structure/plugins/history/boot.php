@@ -14,7 +14,27 @@ $history_date = rex_request('rex_history_date', 'string');
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
 if ($history_date != '') {
-    $user = rex_backend_login::createUser();
+    $historySession = rex_request('rex_history_session', 'string');
+    $historyLogin = rex_request('rex_history_login', 'string');
+    $historyValidtime = rex_request('rex_history_validtime', 'string');
+
+    if ($historySession != '' && $historyLogin != '' && $historyValidtime != '' && !rex::isBackend()) {
+        $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
+        $now = new DateTime();
+        if ($now < $validtill) {
+            $login = new rex_history_login();
+
+            if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
+                $user = $login->getUser();
+                rex::setProperty('user', $user);
+                rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) use ($login) {
+                    $login->deleteSession();
+                });
+            }
+        }
+    } else {
+        $user = rex_backend_login::createUser();
+    }
 
     if (!$user) {
         throw new rex_exception('no permission');
@@ -44,6 +64,8 @@ if ($history_date != '') {
             }
 
             $sliceLimit = '';
+
+            rex_article_slice_history::checkTables();
 
             $escapeSql = rex_sql::factory();
 
@@ -75,7 +97,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                     $type = 'slices_copy';
                     break;
                 case 'SLICE_MOVE':
-                    $type = 'slice_'.$ep->getParam('direction');
+                    $type = 'slice_' . $ep->getParam('direction');
                     break;
                 default:
                     $type = strtolower($ep->getName());
@@ -89,6 +111,8 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         }
     );
 
+    rex_view::addCssFile($this->getAssetsUrl('noUiSlider/nouislider.css'));
+    rex_view::addJsFile($this->getAssetsUrl('noUiSlider/nouislider.js'));
     rex_view::addCssFile($this->getAssetsUrl('history.css'));
     rex_view::addJsFile($this->getAssetsUrl('history.js'));
 
@@ -104,6 +128,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $info = $version['history_snapshot_history_reactivate_snapshot'];
 
+            // no break
         case 'layer':
 
             // article_id und clang_id und revision noch nötig
@@ -116,13 +141,16 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $select = '<option value="" selected="selected">' . $this->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
-                $select .= '<option value="' . $version['history_date'] . '">' . $version['history_date'] . '</option>';
+                $history_info = $version['history_date'];
+                if ($version['history_user'] != '') {
+                    $history_info = $version['history_date'] . ' [' . $version['history_user'] . ']';
+                }
+                $select .= '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $history_info . '</option>';
             }
             $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . $select . '</select>';
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
             $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
-            $button_restore = '<a class="btn btn-apply" href="javascript:rex_history_snapVersion(\'content-history-select-date-2\');">' . $this->i18n('snapshot_reactivate') . '</a>';
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
@@ -132,7 +160,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $fragment->setVar('content1iframe', $content1iframe, false);
             $fragment->setVar('content2select', $content2select, false);
             $fragment->setVar('content2iframe', $content2iframe, false);
-            $fragment->setVar('button_restore', $button_restore, false);
 
             echo $fragment->parse('history/layer.php');
             exit;
@@ -140,12 +167,22 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
         if ($ep->getParam('page') == 'content/edit') {
+            $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&');
+            if (substr($article_link, 0, 4) == 'http') {
+                $user = rex::getUser();
+                $userLogin = $user->getLogin();
+                $historyValidTime = new DateTime();
+                $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
+                $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
+                $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0), 'rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
+            }
+
             echo '<script>
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
                     var history_revision = ' . rex_request('rex_set_version', 'int', 0) . ';
-                    var history_article_link = "' . rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&') . '";
+                    var history_article_link = "' . $article_link . '";
                     </script>';
         }
     }

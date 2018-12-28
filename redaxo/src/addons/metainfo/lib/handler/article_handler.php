@@ -27,6 +27,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 
         // do the save only when metafields are defined
         if ($article->hasValues()) {
+            $article->addGlobalUpdateFields();
             $article->update();
         }
 

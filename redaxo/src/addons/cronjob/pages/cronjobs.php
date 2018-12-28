@@ -13,7 +13,12 @@
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
 
-if ($func == 'setstatus') {
+$csrfToken = rex_csrf_token::factory('cronjob');
+
+if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
+    echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+    $func = '';
+} elseif ($func == 'setstatus') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
@@ -24,9 +29,7 @@ if ($func == 'setstatus') {
         echo rex_view::error($this->i18n($msg . '_error', $name));
     }
     $func = '';
-}
-
-if ($func == 'delete') {
+} elseif ($func == 'delete') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
@@ -35,9 +38,7 @@ if ($func == 'delete') {
         echo rex_view::error($this->i18n('delete_error', $name));
     }
     $func = '';
-}
-
-if ($func == 'execute') {
+} elseif ($func == 'execute') {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $success = $manager->tryExecute($oid);
@@ -100,7 +101,7 @@ if ($func == '') {
     $list->setColumnFormat('nexttime', 'strftime', 'datetime');
 
     $list->setColumnLabel('status', $this->i18n('status_function'));
-    $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###']);
+    $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnFormat('status', 'custom', function ($params) {
         $list = $params['list'];
@@ -118,11 +119,11 @@ if ($func == '') {
     $list->setColumnParams('edit', ['func' => 'edit', 'oid' => '###id###']);
 
     $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $this->i18n('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###']);
+    $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
 
     $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###']);
+    $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', function ($params) {
         $list = $params['list'];
@@ -156,6 +157,7 @@ if ($func == '') {
     $field->setLabel($this->i18n('description'));
 
     $field = $form->addSelectField('environment');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('environment'));
     $field->setNotice($this->i18n('environment_notice'));
     $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_environment'));
@@ -171,6 +173,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('execution_moment');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('execution'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -181,6 +184,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('status');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('status'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -191,6 +195,7 @@ if ($func == '') {
     }
 
     $field = $form->addSelectField('type');
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setLabel($this->i18n('type'));
     $select = $field->getSelect();
     $select->setSize(1);
@@ -218,16 +223,15 @@ if ($func == '') {
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
 
-    $form->addFieldset($this->i18n('interval'));
-
-    $field = $form->addIntervalField('interval');
-
     $form->addFieldset($this->i18n('type_parameters'));
 
     $fieldContainer = $form->addContainerField('parameters');
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     $fieldContainer->setActive($activeType);
+
+    $form->addFieldset($this->i18n('interval'));
+    $field = $form->addIntervalField('interval');
 
     $env_js = '';
     $visible = [];
@@ -271,6 +275,7 @@ if ($func == '') {
                     case 'select':
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
+                        $field->setAttribute('class', 'form-control selectpicker');
                         $select = $field->getSelect();
                         $select->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {
@@ -311,7 +316,7 @@ if ($func == '') {
                     foreach ($visible[$name] as $value => $fieldIds) {
                         $visible_js .= '
                         var first = 1;
-                        $("#' . $field->getAttribute('id') . '_' . $value . '").change(function(){
+                        $("#' . $field->getAttribute('id') . '-' . $value . '").change(function(){
                             var checkbox = $(this);
                             $("#' . implode(',#', $fieldIds) . '").each(function(){
                                 if ($(checkbox).is(":checked"))
@@ -347,7 +352,7 @@ if ($func == '') {
                 if(currentShown) currentShown.hide();
                 var typeId = "#rex-"+ $(this).val();
                 currentShown = $(typeId);
-                currentShown.show();
+                currentShown.slideDown();
             }).change();
             $('#<?php echo $typeFieldId ?>').change(function(){
                 $('#<?php echo $envFieldId ?> option').prop('disabled','');<?php echo $env_js; ?>
@@ -404,5 +409,4 @@ if ($func == '') {
     </style>
 
 <?php
-
 }

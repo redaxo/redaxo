@@ -24,6 +24,12 @@ body:after {
     }
 }
 
+.rex-slice {
+  iframe, img, svg, video, object, embed {
+    max-width: 100%;
+  }
+}
+
 
 #rex-page-setup .bg-success,
 #rex-page-setup .bg-success > a {
@@ -76,13 +82,13 @@ body:after {
         .rex-nav-main {
             display: table-cell;
             width: 250px;
-            padding-bottom: $grid-gutter-width;
+            padding-bottom: ($minibar-height * 2);
             vertical-align: top;
         }
 
         .rex-page-main {
             display: table-cell;
-            padding-bottom: $grid-gutter-width;
+            padding-bottom: ($minibar-height * 2);
             vertical-align: top;
         }
 
@@ -175,6 +181,9 @@ body:after {
 .btn-reset {
     @extend .btn-default;
 }
+.btn-safemode-activate {
+    @extend .btn-danger;
+}
 // save and quit a form with data
 .btn-save {
     @extend .btn-primary;
@@ -193,6 +202,9 @@ body:after {
     @extend .btn-primary;
 }
 .btn-update {
+    @extend .btn-primary;
+}
+.btn-view {
     @extend .btn-primary;
 }
 

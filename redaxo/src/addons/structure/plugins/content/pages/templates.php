@@ -19,18 +19,54 @@ $error = '';
 $content = '';
 $message = '';
 
+$csrfToken = rex_csrf_token::factory('structure_content_template');
+
 if ($function == 'delete') {
-    $del = rex_sql::factory();
-    $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id,' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
+    if (!$csrfToken->isValid()) {
+        $error = rex_i18n::msg('csrf_token_invalid');
+    } else {
+        $del = rex_sql::factory();
+        $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article.id, ' . rex::getTablePrefix() . 'article.clang_id, ' . rex::getTablePrefix() . 'template.name FROM ' . rex::getTablePrefix() . 'article
         LEFT JOIN ' . rex::getTablePrefix() . 'template ON ' . rex::getTablePrefix() . 'article.template_id=' . rex::getTablePrefix() . 'template.id
         WHERE ' . rex::getTablePrefix() . 'article.template_id="' . $template_id . '" LIMIT 0,10');
 
-    if ($del->getRows() > 0 || rex_template::getDefaultId() == $template_id) {
-        $error = rex_i18n::msg('cant_delete_template_because_its_in_use', rex_i18n::msg('id') . ' = ' . $template_id);
-    } else {
-        $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
-        rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
-        $success = rex_i18n::msg('template_deleted');
+        if ($del->getRows() > 0 || rex_template::getDefaultId() == $template_id) {
+            $template_in_use_message = '';
+            $templatename = $del->getValue(rex::getTablePrefix(). 'template.name');
+            while ($del->hasNext()) {
+                $aid = $del->getValue(rex::getTablePrefix().'article.id');
+                $clang_id = $del->getValue(rex::getTablePrefix() . 'article.clang_id');
+                $OOArt = rex_article::get($aid, $clang_id);
+
+                $label = $OOArt->getName() . ' [' . $aid . ']';
+                if (rex_clang::count() > 1) {
+                    $label = '(' . rex_i18n::translate(rex_clang::get($clang_id)->getName()) . ') ' . $label;
+                }
+
+                $template_in_use_message .= '<li><a href="' . rex_url::backendPage('content', ['article_id' => $aid, 'clang' => $clang_id]) . '">' . rex_escape($label) . '</a></li>';
+                $del->next();
+            }
+
+            if ($template_in_use_message != '') {
+                $error .= rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
+                $error .= '<ul>' . $template_in_use_message . '</ul>';
+            }
+
+            if (rex_template::getDefaultId() == $template_id) {
+                if ($templatename == '') {
+                    $del->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$template_id);
+                    $templatename = $del->getValue('name');
+                }
+                $error .= rex_i18n::msg('cant_delete_template_because_its_default_template', $templatename);
+            }
+        } else {
+            $del->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '" LIMIT 1'); // max. ein Datensatz darf loeschbar sein
+            rex_file::delete(rex_path::addonCache('templates', $template_id . '.template'));
+            $success = rex_i18n::msg('template_deleted');
+            $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_DELETED', $success, [
+                'id' => $template_id,
+            ]));
+        }
     }
 } elseif ($function == 'edit') {
     $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
@@ -54,8 +90,11 @@ if ($function == 'delete') {
     $legend = rex_i18n::msg('create_template');
 }
 
-if ($function == 'add' or $function == 'edit') {
-    if ($save == 'ja') {
+if ($function == 'add' || $function == 'edit') {
+    if ($save == 'ja' && !$csrfToken->isValid()) {
+        echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+        $save = 'nein';
+    } elseif ($save == 'ja') {
         $active = rex_post('active', 'int');
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
@@ -105,6 +144,15 @@ if ($function == 'add' or $function == 'edit') {
                 $TPL->insert();
                 $template_id = $TPL->getLastId();
                 $success = rex_i18n::msg('template_added');
+                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
+                    'id' => $template_id,
+                    'name' => $templatename,
+                    'content' => $template,
+                    'active' => $active,
+                    'ctype' => $ctypes,
+                    'modules' => $modules,
+                    'categories' => $categories,
+                ]));
             } catch (rex_sql_exception $e) {
                 $error = $e->getMessage();
             }
@@ -115,6 +163,15 @@ if ($function == 'add' or $function == 'edit') {
             try {
                 $TPL->update();
                 $success = rex_i18n::msg('template_updated');
+                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                    'id' => $template_id,
+                    'name' => $templatename,
+                    'content' => $template,
+                    'active' => $active,
+                    'ctype' => $ctypes,
+                    'modules' => $modules,
+                    'categories' => $categories,
+                ]));
             } catch (rex_sql_exception $e) {
                 $error = $e->getMessage();
             }
@@ -130,7 +187,7 @@ if ($function == 'add' or $function == 'edit') {
         }
     }
 
-    if (!isset($save) or $save != 'ja') {
+    if (!isset($save) || $save != 'ja') {
         // Ctype Handling
         $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
         $modules = isset($attributes['modules']) ? $attributes['modules'] : [];
@@ -197,7 +254,7 @@ if ($function == 'add' or $function == 'edit') {
                 $formElements = [];
                 $n = [];
                 $n['label'] = '<label for="rex-id-ctype' . $i . '">' . rex_i18n::msg('name') . '</label>';
-                $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . htmlspecialchars($name) . '" />';
+                $n['field'] = '<input class="form-control" id="rex-id-ctype' . $i . '" type="text" name="ctype[' . $i . ']" value="' . rex_escape($name, 'html_attr') . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -288,7 +345,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-templatename">' . rex_i18n::msg('template_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . htmlspecialchars($templatename) . '" />';
+        $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . rex_escape($templatename, 'html_attr') . '" />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -310,7 +367,7 @@ if ($function == 'add' or $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="rex-id-content">' . rex_i18n::msg('header_template') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code" id="rex-id-content" name="content" spellcheck="false">' . htmlspecialchars($template) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" id="rex-id-content" name="content" spellcheck="false">' . rex_escape($template) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -403,7 +460,8 @@ if ($function == 'add' or $function == 'edit') {
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form id="rex-form-template" action="' . rex_url::currentBackendPage() . '" method="post">
+            <form id="rex-form-template" action="' . rex_url::currentBackendPage(['start' => rex_request('start', 'int')]) . '" method="post">
+                ' . $csrfToken->getHiddenField() . '
                 ' . $content . '
             </form>
 
@@ -455,7 +513,8 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name');
+    $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
+    $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-template"></i>';
@@ -481,7 +540,7 @@ if ($OUT) {
 
     $list->addColumn(rex_i18n::msg('template_delete'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout(rex_i18n::msg('template_delete'), ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('template_delete'), ['function' => 'delete', 'template_id' => '###id###']);
+    $list->setColumnParams(rex_i18n::msg('template_delete'), ['function' => 'delete', 'template_id' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute(rex_i18n::msg('template_delete'), 'data-confirm', rex_i18n::msg('confirm_delete_template'));
 
     $list->setNoRowsMessage(rex_i18n::msg('templates_not_found'));

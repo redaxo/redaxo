@@ -16,6 +16,8 @@
  * @package redaxo\structure
  *
  * @internal
+ *
+ * @deprecated wird im core nicht mehr benutzt, daher deprecated
  */
 function rex_structure_searchbar(rex_context $context)
 {
@@ -67,7 +69,7 @@ function rex_structure_searchbar(rex_context $context)
         }
 
         $search = rex_sql::factory();
-//    $search->setDebug();
+        //    $search->setDebug();
         $search->setQuery($qry);
         $foundRows = $search->getRows();
 
@@ -80,7 +82,7 @@ function rex_structure_searchbar(rex_context $context)
         }
         // Mehrere Suchtreffer, Liste anzeigen
         elseif ($foundRows > 0) {
-            $needle = htmlspecialchars($search_article_name);
+            $needle = rex_escape($search_article_name);
             $search_result .= '<div class="list-group">';
             for ($i = 0; $i < $foundRows; ++$i) {
                 $breadcrumb = [];
@@ -106,7 +108,7 @@ function rex_structure_searchbar(rex_context $context)
                             $treeLabel .= ' [' . $treeItem->getId() . ']';
                         }
 
-                        $treeLabel = htmlspecialchars($treeLabel);
+                        $treeLabel = rex_escape($treeLabel);
                         $treeLabel = $highlightHit($treeLabel, $needle);
 
                         $e = [];
@@ -115,7 +117,7 @@ function rex_structure_searchbar(rex_context $context)
                         $breadcrumb[] = $e;
                     }
 
-                    $label = htmlspecialchars($label);
+                    $label = rex_escape($label);
                     $label = $highlightHit($label, $needle);
 
                     $e = [];
@@ -199,7 +201,7 @@ function rex_structure_searchbar(rex_context $context)
 
     $formElements = [];
     $n = [];
-    $n['field'] = '<input class="form-control" type="text" name="search_article_name" value="' . htmlspecialchars($search_article_name) . '" placeholder="' . htmlspecialchars(rex_i18n::msg('be_search_article_name') . '/' . rex_i18n::msg('be_search_article_id')) . '" />';
+    $n['field'] = '<input class="form-control" type="text" name="search_article_name" value="' . rex_escape($search_article_name, 'html_attr') . '" placeholder="' . rex_escape(rex_i18n::msg('be_search_article_name') . '/' . rex_i18n::msg('be_search_article_id'), 'html_attr') . '" />';
     $n['right'] = '<button class="btn btn-search" type="submit" name="search_start" value="1">' . rex_i18n::msg('be_search_start') . '</button>';
     $formElements[] = $n;
 
