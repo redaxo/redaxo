@@ -121,16 +121,14 @@ if (rex::isBackend() && rex::getUser()) {
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
 
-        if (file_exists($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'))) {
-            $mtimejs = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
-            $mtimecss = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
-            if (isset($_SESSION['codemirror_reload'])) {
-                $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
-                $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
-            }
-            rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
-            rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);
+        $mtimejs = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
+        $mtimecss = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
+        if (isset($_SESSION['codemirror_reload'])) {
+            $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
+            $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
         }
+        rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
+        rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);
     }
 
     /* Customizer Ergänzungen */
