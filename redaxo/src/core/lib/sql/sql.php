@@ -351,7 +351,10 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = $pdo->query($query);
+            $this->stmt = rex_stopwatch::measure(__METHOD__, function () use ($pdo, $query) {
+                return $pdo->query($query);
+            });
+
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);

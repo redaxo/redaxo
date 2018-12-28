@@ -393,7 +393,10 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            if (!@session_start()) {
+            $started = rex_stopwatch::measure(__METHOD__, function () {
+                return @session_start();
+            });
+            if (!$started) {
                 $error = error_get_last();
                 if ($error) {
                     rex_error_handler::handleError($error['type'], $error['message'], $error['file'], $error['line']);
