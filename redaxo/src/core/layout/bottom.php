@@ -24,16 +24,6 @@ if (rex_request::isPJAXContainer('#rex-js-page-container')) {
 
 echo '</div>';
 
-$sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
-if ($sidebar != '') {
-    $sidebarfragment = new rex_fragment();
-    $sidebarfragment->content = $sidebar;
-    echo $sidebarfragment->parse('core/sidebar.php');
-    unset($sidebarfragment);
-}
-
-unset($fragment);
-
 $footerfragment = new rex_fragment();
 $footerfragment->setVar('time', rex::getProperty('timer')->getFormattedDelta(rex_timer::SEC));
 echo $footerfragment->parse('core/footer.php');
