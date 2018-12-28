@@ -13,13 +13,15 @@ $class .= ($element->isPrimary() ? ' rex-minibar-status-primary' : '');
 
 $onmouseover = '';
 if ($element instanceof rex_minibar_lazy_element && rex_minibar_lazy_element::isFirstView()) {
+    $elementId = get_class($element);
     $context = rex_context::restore();
-    $url = $context->getUrl(['async_element' => get_class($element)] + rex_api_minibar::getUrlParams());
+    $url = $context->getUrl(['async_element' => $elementId] + rex_api_minibar::getUrlParams());
     $onmouseover = <<<EOD
     var that = this;
-    var running = window._rex_minibar_request_running || false;
-    if (running) return;
-    window._rex_minibar_request_running = true;
+    window._rex_minibar_req = window._rex_minibar_req || {};
+    if (window._rex_minibar_req.$elementId) return;
+    
+    window._rex_minibar_req.$elementId = true;
     window.fetch('$url')
     .then(function(response) {
         if (!response.ok) {
@@ -29,11 +31,11 @@ if ($element instanceof rex_minibar_lazy_element && rex_minibar_lazy_element::is
     })
     .then(function(text) {
         that.outerHTML = text;
-        window._rex_minibar_request_running = false;
+        window._rex_minibar_req.$elementId = false;
     })
     .catch(function(error) {
         console.error(error)
-        window._rex_minibar_request_running = false;
+        window._rex_minibar_req.$elementId = false;
     });
 EOD;
 }
