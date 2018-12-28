@@ -15,7 +15,7 @@ $onmouseover = '';
 if ($element instanceof rex_minibar_lazy_element && rex_minibar_lazy_element::isFirstView()) {
     $elementId = get_class($element);
     $context = rex_context::restore();
-    $url = $context->getUrl(['async_element' => $elementId] + rex_api_minibar::getUrlParams());
+    $url = $context->getUrl(['lazy_element' => $elementId] + rex_api_minibar::getUrlParams());
     $onmouseover = <<<EOD
     var that = this;
     window._rex_minibar_req = window._rex_minibar_req || {};

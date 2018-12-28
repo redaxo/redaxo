@@ -20,10 +20,10 @@ class rex_api_minibar extends rex_api_function
             rex_response::sendRedirect(rex_getUrl('', '', [], '&'));
         }
 
-        $asyncElement = rex_get('async_element', 'string');
-        if ($asyncElement) {
+        $lazyElement = rex_get('lazy_element', 'string');
+        if ($lazyElement) {
             $minibar = rex_minibar::getInstance();
-            $element = $minibar->elementByClass($asyncElement);
+            $element = $minibar->elementByClass($lazyElement);
             if ($element) {
                 $fragment = new rex_fragment([
                     'element' => $element,
