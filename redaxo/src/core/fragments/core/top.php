@@ -7,11 +7,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 <?php
+    $assetDir = rex_path::assets();
 
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
-             $path = rex_path::frontend(rex_path::absolute($file));
-            if ($mtime = @filemtime($path)) {
+            $path = rex_path::frontend(rex_path::absolute($file));
+            if (strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
             echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
@@ -24,8 +25,8 @@
     echo "\n" . '    //-->';
     echo "\n" . '    </script>';
     foreach ($this->jsFiles as $file) {
-         $path = rex_path::frontend(rex_path::absolute($file));
-        if ($mtime = @filemtime($path)) {
+        $path = rex_path::frontend(rex_path::absolute($file));
+        if (strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
             $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
         }
         echo "\n" . '    <script type="text/javascript" src="' . $file .'"></script>';
