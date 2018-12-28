@@ -24,6 +24,7 @@ if (rex_request::isPJAXContainer('#rex-js-page-container')) {
 
 echo '</div>';
 
+/*
 $sidebar = rex_extension::registerPoint(new rex_extension_point('PAGE_SIDEBAR', ''));
 if ($sidebar != '') {
     $sidebarfragment = new rex_fragment();
@@ -31,6 +32,7 @@ if ($sidebar != '') {
     echo $sidebarfragment->parse('core/sidebar.php');
     unset($sidebarfragment);
 }
+*/
 
 unset($fragment);
 
