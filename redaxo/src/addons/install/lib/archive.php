@@ -30,7 +30,7 @@ class rex_install_archive
         return rex_dir::copy($archive, $dir);
     }
 
-    public static function copyDirToArchive($dir, $archive, $basename = null, $excludeDirs = null)
+    public static function copyDirToArchive($dir, $archive, $basename = null, $excludeDirs = null, $excludeFiles = null)
     {
         $dir = rtrim($dir, '/\\');
         $basename = $basename ?: basename($dir);
@@ -39,6 +39,9 @@ class rex_install_archive
         $iterator = rex_finder::factory($dir)->recursive()->filesOnly();
         if ($excludeDirs) {
             $iterator->ignoreDirs($excludeDirs, false);
+        }
+        if ($excludeFiles) {
+            $iterator->ignoreFiles($excludeFiles, false);
         }
         foreach ($iterator as $path => $file) {
             $subpath = str_replace($dir, $basename, $path);
