@@ -38,7 +38,6 @@ class rex_api_install_package_upload extends rex_api_function
                 if ($upload['ignore_tests']) {
                     $excludeDirs[] = 'tests';
                 }
-                $excludeDirs[] = '.git';
                 $excludeDirs[] = 'node_modules';
                 $excludeFiles[] = '.env';
                 rex_install_archive::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $excludeDirs, $excludeFiles);
