@@ -518,8 +518,8 @@ if (isset($SHOW) && $SHOW) {
             id,
             IF(name <> "", name, login) as name,
             login,
-            admin,
-            IF(admin, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
+            `admin`,
+            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
             status,
             lastlogin
         FROM ' . rex::getTable('user') . ' u
