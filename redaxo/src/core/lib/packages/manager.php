@@ -3,7 +3,7 @@
 /**
  * Manager class for packages.
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 abstract class rex_package_manager
 {

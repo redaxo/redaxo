@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 abstract class rex_package implements rex_package_interface
 {

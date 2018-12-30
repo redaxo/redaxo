@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 interface rex_package_interface
 {
