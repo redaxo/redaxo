@@ -51,7 +51,7 @@ class rex_mailer extends PHPMailer
 
     public function send()
     {
-        return rex_stopwatch::measure(__METHOD__, function () {
+        return rex_timer::measure(__METHOD__, function () {
             if ($this->log) {
                 $this->log();
             }

@@ -13,20 +13,50 @@ class rex_timer
     const MILLISEC = 1000;
     const MICROSEC = 1000000;
 
+    public static $timers = [];
+
+    private $label;
     private $start;
+    private $duration;
 
     /**
      * Constructor.
      *
      * @param float $start Start time
      */
-    public function __construct($start = null)
+    public function __construct($start = null, $label = null)
     {
         if ($start) {
             $this->start = $start;
         } else {
             $this->reset();
         }
+
+        $this->label = $label;
+    }
+
+    public static function measure($label, callable $callable)
+    {
+        static $enabled = false;
+
+        // we might get called very early in the process, in which case we can't determine yet whether the user is logged in.
+        // this also means, in debug-mode we get more timings in comparison to admin-only timings.
+        if (!$enabled) {
+            // dont create the user (can cause session locks), to prevent influencing the things we try to measure.
+            $enabled = rex::isDebugMode() || ($user = rex::getUser()) && $user->isAdmin();
+        }
+
+        if (!$enabled) {
+            return $callable();
+        }
+
+        $timer = new self(null, $label);
+
+        $result = $callable();
+
+        $timer->stop();
+
+        return $result;
     }
 
     /**
@@ -38,6 +68,25 @@ class rex_timer
     }
 
     /**
+     * Stops the timer.
+     */
+    public function stop()
+    {
+        $this->duration = microtime(true) - $this->start;
+
+        $label = $this->label;
+
+        if (null === $label) {
+            return;
+        }
+
+        $duration = isset(self::$timers[$label]) ? self::$timers[$label] : 0;
+        $duration += $this->duration * self::MILLISEC;
+
+        self::$timers[$label] = $duration;
+    }
+
+    /**
      * Returns the time difference.
      *
      * @param int $precision Factor which will be multiplied, for convertion into different units (e.g. 1000 for milli,...)
@@ -46,7 +95,9 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        return (microtime(true) - $this->start) * $precision;
+        $duration = null === $this->duration ? microtime(true) - $this->start : $this->duration;
+
+        return $duration * $precision;
     }
 
     /**

@@ -21,7 +21,7 @@ foreach ($packageOrder as $packageId) {
 }
 
 // now we actually include the addons logic
-rex_stopwatch::measure('packages_boot', function () use ($packageOrder) {
+rex_timer::measure('packages_boot', function () use ($packageOrder) {
     foreach ($packageOrder as $packageId) {
         rex_package::get($packageId)->boot();
     }
