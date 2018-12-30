@@ -39,7 +39,7 @@ class rex_form_checkbox_element extends rex_form_options_element
             if ($attributeName == 'name' || $attributeName == 'id') {
                 continue;
             }
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . htmlspecialchars($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
         }
 
         $formElements = [];
