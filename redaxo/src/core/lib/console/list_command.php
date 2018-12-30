@@ -7,7 +7,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @package redaxo5
+ * @package redaxo\core
+ *
+ * @internal
  */
 class rex_command_list extends ListCommand
 {
