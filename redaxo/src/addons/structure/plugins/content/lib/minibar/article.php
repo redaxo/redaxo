@@ -3,7 +3,7 @@
 /**
  * @package redaxo\core
  */
-class rex_minibar_element_structure_content extends rex_minibar_lazy_element
+class rex_minibar_element_structure_article extends rex_minibar_lazy_element
 {
     protected function renderFirstView()
     {
