@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 class rex_plugin extends rex_package implements rex_plugin_interface
 {
