@@ -5,9 +5,6 @@
  */
 class rex_minibar_element_system extends rex_minibar_element
 {
-    /**
-     * {@inheritdoc}
-     */
     public function render()
     {
         $database = rex::getProperty('db');

@@ -3,12 +3,22 @@
 /**
  * @package redaxo\core
  */
-class rex_minibar_element_structure_clang extends rex_minibar_element
+class rex_minibar_element_structure_clang extends rex_minibar_lazy_element
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function render()
+    protected function renderFirstView()
+    {
+        return
+        '<div class="rex-minibar-item">
+            <span class="rex-minibar-icon">
+                <i class="rex-minibar-icon--fa rex-minibar-icon--fa-flag"></i>
+            </span>
+            <span class="rex-minibar-value">
+                '.rex_clang::getCurrent()->getCode().'
+            </span>
+        </div>';
+    }
+
+    protected function renderComplete()
     {
         $clangId = rex_request('clang', 'int');
         $clangId = rex_clang::exists($clangId) ? $clangId : rex_clang::getStartId();

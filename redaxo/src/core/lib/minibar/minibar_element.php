@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Base minibar element. Subclass it to create your custom implementation.
+ *
  * @package redaxo\core
  */
 abstract class rex_minibar_element
