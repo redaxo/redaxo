@@ -8,6 +8,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @package redaxo\core
+ *
+ * @internal
  */
 class rex_command_list extends ListCommand
 {
