@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @package redaxo5
+ */
 class rex_stopwatch
 {
     /**
