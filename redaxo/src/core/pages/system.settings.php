@@ -18,7 +18,7 @@ if ($func && !$csrfToken->isValid()) {
     $configFile = rex_path::coreData('config.yml');
     $config = rex_file::getConfig($configFile);
     $config['setup'] = true;
-    // echo nl2br(htmlspecialchars($cont));
+
     if (rex_file::putConfig($configFile, $config) !== false) {
         $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
 

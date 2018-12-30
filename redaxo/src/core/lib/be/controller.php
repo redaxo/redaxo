@@ -430,6 +430,11 @@ class rex_be_controller
             return self::includePath($path, $context);
         }
 
+        $languagePath = substr($path, 0, -3).'.'.rex_i18n::getLanguage().'.md';
+        if (is_readable($languagePath)) {
+            $path = $languagePath;
+        }
+
         $fragment = new rex_fragment();
         $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
         $content = $fragment->parse('core/page/docs.php');
