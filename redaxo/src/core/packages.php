@@ -21,9 +21,11 @@ foreach ($packageOrder as $packageId) {
 }
 
 // now we actually include the addons logic
-foreach ($packageOrder as $packageId) {
-    rex_package::get($packageId)->boot();
-}
+rex_stopwatch::measure('packages_boot', function () use ($packageOrder) {
+    foreach ($packageOrder as $packageId) {
+        rex_package::get($packageId)->boot();
+    }
+});
 
 // ----- all addons configs included
 rex_extension::registerPoint(new rex_extension_point('PACKAGES_INCLUDED'));
