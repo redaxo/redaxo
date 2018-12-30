@@ -13,10 +13,13 @@ class rex_stopwatch
     public static $timers = [];
 
     private $label;
-
-    private $start;
-
+    private $started = false;
     private $duration;
+
+    /**
+     * @var rex_timer
+     */
+    private $timer;
 
     /**
      * @param string $label
@@ -28,23 +31,22 @@ class rex_stopwatch
 
     public function start()
     {
-        if ($this->start) {
+        if ($this->started) {
             throw new LogicException('can only be started once.');
         }
-        $this->start = microtime(true);
+        $this->started = true;
+        $this->timer = new rex_timer();
     }
 
     public function stop()
     {
-        if (!$this->start) {
+        if (!$this->started) {
             throw new LogicException('missing start() call before stop().');
         }
 
-        $start = $this->start;
         $label = $this->label;
 
-        $durationSec = microtime(true) - $start;
-        $durationMs = $durationSec * 1000;
+        $durationMs = $this->timer->getDelta();
         $this->duration = $durationMs;
 
         if (isset(self::$timers[$label])) {
