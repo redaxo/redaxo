@@ -49,7 +49,7 @@ class rex_timer
             return $callable();
         }
 
-        $timer = new self(null, $label);
+        $timer = new self();
 
         $result = $callable();
 
