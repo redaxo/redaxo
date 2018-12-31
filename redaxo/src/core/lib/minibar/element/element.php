@@ -3,7 +3,7 @@
 /**
  * Base minibar element. Subclass it to create your custom implementation.
  *
- * @package redaxo\core
+ * @package redaxo\core\minibar
  */
 abstract class rex_minibar_element
 {
