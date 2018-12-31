@@ -15,7 +15,6 @@ class rex_timer
 
     public static $serverTimings = [];
 
-    private $label;
     private $start;
     private $duration;
 
@@ -31,9 +30,18 @@ class rex_timer
         } else {
             $this->reset();
         }
-
     }
 
+    /**
+     * Measures the runtime of the given callable.
+     *
+     * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
+     *
+     * @param string   $label
+     * @param callable $callable
+     *
+     * @return mixed result of callable
+     */
     public static function measure($label, callable $callable)
     {
         static $enabled = false;
@@ -50,10 +58,13 @@ class rex_timer
         }
 
         $timer = new self();
-        $timer->label = $label;
         $result = $callable();
-
         $timer->stop();
+
+        $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
+        $duration += $timer->getDelta(self::MILLISEC);
+
+        self::$serverTimings[$label] = $duration;
 
         return $result;
     }
@@ -72,17 +83,6 @@ class rex_timer
     public function stop()
     {
         $this->duration = microtime(true) - $this->start;
-
-        $label = $this->label;
-
-        if (null === $label) {
-            return;
-        }
-
-        $duration = isset(self::$timers[$label]) ? self::$timers[$label] : 0;
-        $duration += $this->duration * self::MILLISEC;
-
-        self::$timers[$label] = $duration;
     }
 
     /**
