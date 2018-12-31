@@ -50,7 +50,7 @@ class rex_timer
         }
 
         $timer = new self();
-
+        $timer->label = $label;
         $result = $callable();
 
         $timer->stop();
