@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\minibar
  */
 class rex_minibar_element_system extends rex_minibar_element
 {
