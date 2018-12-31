@@ -3,7 +3,7 @@
 /**
  * minibar element base class which provides lazy loading abilities for resource extensive use-cases.
  *
- * @package redaxo\core
+ * @package redaxo\core\minibar
  */
 abstract class rex_minibar_lazy_element extends rex_minibar_element
 {
