@@ -32,7 +32,6 @@ class rex_timer
             $this->reset();
         }
 
-        $this->label = $label;
     }
 
     public static function measure($label, callable $callable)
