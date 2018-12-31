@@ -24,7 +24,7 @@ class rex_timer
      *
      * @param float $start Start time
      */
-    public function __construct($start = null, $label = null)
+    public function __construct($start = null)
     {
         if ($start) {
             $this->start = $start;
