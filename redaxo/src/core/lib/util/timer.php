@@ -13,7 +13,7 @@ class rex_timer
     const MILLISEC = 1000;
     const MICROSEC = 1000000;
 
-    public static $timers = [];
+    public static $serverTimings = [];
 
     private $label;
     private $start;
