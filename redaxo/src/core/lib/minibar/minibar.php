@@ -63,6 +63,12 @@ class rex_minibar
         }
 
         if (rex::isBackend()) {
+            $page = rex_be_controller::getCurrentPageObject();
+
+            if ($page && $page->isPopup()) {
+                return false;
+            }
+
             return true;
         }
 
