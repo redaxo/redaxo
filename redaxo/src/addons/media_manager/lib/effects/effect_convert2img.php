@@ -34,12 +34,10 @@ class rex_effect_convert2img extends rex_effect_abstract
     private static $densities = [100, 150, 200, 300, 600];
     private static $density_default = 150;
     private static $convert_tos = ['jpg', 'png'];
-    private static $convert_to_default = 'jpg'
-    ;
+    private static $convert_to_default = 'jpg';
 
     public function execute()
     {
-
         if (!isset(self::$convert_to[$this->params['convert_to']])) {
             $convert_to = self::$convert_to[self::$convert_to_default];
         } else {
