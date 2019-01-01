@@ -378,6 +378,15 @@ class rex_managed_media
                 $content_type = finfo_file($finfo, $this->getSourcePath());
             }
 
+            // In case mime_content_type() returns 'text/plain' for CSS / JS files:
+            if ($content_type == 'text/plain') {
+                if (pathinfo($this->getSourcePath(), PATHINFO_EXTENSION) == 'css') {
+                    $content_type = 'text/css';
+                } elseif (pathinfo($this->getSourcePath(), PATHINFO_EXTENSION) == 'js') {
+                    $content_type = 'application/javascript';
+                }
+            }
+
             if ($content_type != '') {
                 $this->setHeader('Content-Type', $content_type);
             }
