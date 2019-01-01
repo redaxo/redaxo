@@ -23,7 +23,6 @@ class rex_api_install_package_add extends rex_api_install_package_download
         if (($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey))) !== true) {
             return $msg;
         }
-        rex_set_rights::setRights(rex_path::addon($this->addonkey));
         rex_package_manager::synchronizeWithFileSystem();
         rex_install_packages::addedPackage($this->addonkey);
     }
