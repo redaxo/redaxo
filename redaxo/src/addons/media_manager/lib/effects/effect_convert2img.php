@@ -39,7 +39,6 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function execute()
     {
-        // error_reporting(E_ALL);ini_set("display_errors",1);
 
         if (!isset(self::$convert_to[$this->params['convert_to']])) {
             $convert_to = self::$convert_to[self::$convert_to_default];
