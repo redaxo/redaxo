@@ -3,7 +3,7 @@
 /**
  * Backend main page class.
  *
- * @package redaxo\core
+ * @package redaxo\core\backend
  */
 class rex_be_page_main extends rex_be_page
 {
