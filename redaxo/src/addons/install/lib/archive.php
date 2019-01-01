@@ -16,6 +16,7 @@ class rex_install_archive
             if ($zip->open($archive)) {
                 $success = $zip->extractTo($tempdir);
                 $zip->close();
+                rex_set_rights::setRights($tempdir);
                 if (is_dir($tempdir . '/' . $basename)) {
                     rename($tempdir . '/' . $basename, $dir);
                 } else {
