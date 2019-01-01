@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 class rex_plugin_manager extends rex_package_manager
 {

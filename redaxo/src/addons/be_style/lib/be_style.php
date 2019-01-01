@@ -1,6 +1,6 @@
 <?php
 /**
- * @package redaxo\be_style
+ * @package redaxo\be-style
  *
  * @author bloep
  */

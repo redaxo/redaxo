@@ -3,7 +3,7 @@
 /**
  * class implements storage of raw html(string) as rex_form object.
  *
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_raw_element extends rex_form_element
 {

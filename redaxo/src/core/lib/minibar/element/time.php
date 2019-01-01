@@ -1,13 +1,10 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\minibar
  */
 class rex_minibar_element_time extends rex_minibar_element
 {
-    /**
-     * {@inheritdoc}
-     */
     public function render()
     {
         $date = '';

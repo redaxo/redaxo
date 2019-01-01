@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Klasse zum erstellen von Listen.
- *
- * @package redaxo5
- */
-
 define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
 
 /**
@@ -17,7 +11,7 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  *
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form extends rex_form_base
 {

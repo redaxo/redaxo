@@ -5,7 +5,7 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql implements Iterator
 {
@@ -351,7 +351,7 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = rex_stopwatch::measure(__METHOD__, function () use ($pdo, $query) {
+            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
                 return $pdo->query($query);
             });
 

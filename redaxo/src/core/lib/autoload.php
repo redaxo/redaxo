@@ -105,7 +105,7 @@ class rex_autoload
         // but only if an admin is logged in
         if (
             (!self::$reloaded || $force) &&
-            (rex::isSetup() || rex::getConsole() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
+            (rex::isSetup() || rex::getConsole() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin())
         ) {
             self::reload($force);
             return self::autoload($class);

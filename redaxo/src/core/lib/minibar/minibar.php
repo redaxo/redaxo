@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\minibar
  */
 class rex_minibar
 {
@@ -13,6 +13,20 @@ class rex_minibar
     public function addElement(rex_minibar_element $instance)
     {
         $this->elements[] = $instance;
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return rex_minibar_element|null
+     */
+    public function elementByClass($className)
+    {
+        foreach ($this->elements as $element) {
+            if (get_class($element) === $className) {
+                return $element;
+            }
+        }
     }
 
     public function get()

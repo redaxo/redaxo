@@ -7,7 +7,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql_schema_dumper
 {
