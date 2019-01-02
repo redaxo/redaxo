@@ -7,6 +7,11 @@ class rex_minibar
 {
     use rex_singleton_trait;
 
+    /**
+     * @var bool|null
+     */
+    private $isActive = null;
+
     /* @var rex_minibar_element[] */
     private $elements = [];
 
@@ -31,7 +36,7 @@ class rex_minibar
 
     public function get()
     {
-        if (!self::isActive()) {
+        if (!self::shouldRender()) {
             return null;
         }
 
@@ -51,12 +56,16 @@ class rex_minibar
     }
 
     /**
-     * Returns if the minibar is active.
+     * Returns if the minibar should be rendered.
      *
      * @return bool
      */
-    public function isActive()
+    public function shouldRender()
     {
+        if (is_bool($this->isActive)) {
+            return $this->isActive;
+        }
+
         $user = rex_backend_login::createUser();
         if (!$user) {
             return false;
@@ -91,5 +100,21 @@ class rex_minibar
         } else {
             rex_response::sendCookie('rex_minibar_frontend_hidden', '1', ['expires' => time() + rex::getProperty('session_duration'), 'samesite' => 'strict']);
         }
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function isActive()
+    {
+        return $this->isActive;
     }
 }
