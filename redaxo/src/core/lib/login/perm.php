@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 abstract class rex_perm
 {
