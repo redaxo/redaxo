@@ -5,6 +5,10 @@
  */
 class rex_view
 {
+    const JS_DEFERED = 'defer';
+    const JS_ASYNC = 'async';
+    const JS_IMMUTABLE = 'immutable';
+
     private static $cssFiles = [];
     private static $jsFiles = [];
     private static $jsProperties = [];
@@ -44,13 +48,17 @@ class rex_view
      *
      * @throws rex_exception
      */
-    public static function addJsFile($file)
+    public static function addJsFile($file, array $options = [])
     {
+        if (empty($options)) {
+            $options[self::JS_IMMUTABLE] = true;
+        }
+
         if (in_array($file, self::$jsFiles)) {
             throw new rex_exception(sprintf('The JS file "%s" is already added.', $file));
         }
 
-        self::$jsFiles[] = $file;
+        self::$jsFiles[] = [$file, $options];
     }
 
     /**
@@ -59,6 +67,19 @@ class rex_view
      * @return string[]
      */
     public static function getJsFiles()
+    {
+        // transform for BC
+        return array_map(function ($jsFile) {
+            return $jsFile[0];
+        }, self::$jsFiles);
+    }
+
+    /**
+     * Returns all JS files besides their options.
+     *
+     * @return array
+     */
+    public static function getJsFilesWithOptions()
     {
         return self::$jsFiles;
     }
