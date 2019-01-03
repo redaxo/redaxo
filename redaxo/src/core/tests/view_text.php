@@ -2,7 +2,8 @@
 
 class rex_view_test extends PHPUnit_Framework_TestCase
 {
-    public function testAddGetCss() {
+    public function testAddGetCss()
+    {
         rex_view::addCssFile('my.css');
         $files = rex_view::getCssFiles()['all'];
         $this->assertTrue(end($files) == 'my.css');
@@ -12,13 +13,15 @@ class rex_view_test extends PHPUnit_Framework_TestCase
         $this->assertTrue(end($files) == 'print.css');
     }
 
-    public function testAddGetJs() {
+    public function testAddGetJs()
+    {
         rex_view::addJsFile('my.js');
         $files = rex_view::getJsFiles();
         $this->assertTrue(end($files) == 'my.js');
     }
 
-    public function testAddGetJsWithOptions() {
+    public function testAddGetJsWithOptions()
+    {
         rex_view::addJsFile('my.js');
         $files = rex_view::getJsFilesWithOptions();
         list($file, $options) = end($files);
