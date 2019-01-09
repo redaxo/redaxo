@@ -102,7 +102,7 @@ if (!rex_request::isXmlHttpRequest()) {
 }
 
 // -------------- Minibar
-if (class_exists('rex_minibar')) {
+if (class_exists('rex_minibar') && rex_minibar::getInstance()->isActive() === null) {
     $page = rex_be_controller::getCurrentPageObject();
 
     if ($page && $page->isPopup() && rex_minibar::getInstance()->isActive() === null) {
