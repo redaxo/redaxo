@@ -80,7 +80,7 @@ $isRoot = $category_id === 0;
 $category = rex_category::get($category_id);
 
 // Hide minibar (REX 5.7+)
-if (class_exists('rex_minibar')) {
+if (class_exists('rex_minibar') && rex_minibar::getInstance()->isActive() === null) {
     rex_minibar::getInstance()->setActive(false);
 }
 
