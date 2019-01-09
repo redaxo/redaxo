@@ -105,7 +105,7 @@ if (!rex_request::isXmlHttpRequest()) {
 if (class_exists('rex_minibar')) {
     $page = rex_be_controller::getCurrentPageObject();
 
-    if ($page && $page->isPopup()) {
+    if ($page && $page->isPopup() && rex_minibar::getInstance()->isActive() === null) {
         // Hide minibar if media pool is popup
         rex_minibar::getInstance()->setActive(false);
     }
