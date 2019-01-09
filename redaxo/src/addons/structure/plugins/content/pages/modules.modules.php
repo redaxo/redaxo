@@ -214,7 +214,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $n = [];
         $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
-        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname, 'html_attr') . '" />';
+        $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname) . '" />';
         $formElements[] = $n;
 
         $n = [];
@@ -279,7 +279,7 @@ if ($function == 'add' || $function == 'edit') {
                     $action_name = rex_i18n::translate($gma->getValue('name'));
 
                     $actions .= '<tr>
-                        <td class="rex-table-icon"><a href="' . $action_edit_url . '" title="' . rex_escape($action_name, 'html_attr') . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                        <td class="rex-table-icon"><a href="' . $action_edit_url . '" title="' . rex_escape($action_name) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $gma->getValue('id') . '</td>
                         <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . $action_edit_url . '">' . $action_name . '</a></td>
                         <td class="rex-table-action"><a href="' . $action_edit_url . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>

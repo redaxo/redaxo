@@ -917,7 +917,7 @@ class rex_list implements rex_url_provider_interface
         $s = '';
 
         foreach ($array as $name => $value) {
-            $s .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value, 'html_attr') . '"';
+            $s .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value) . '"';
         }
 
         return $s;

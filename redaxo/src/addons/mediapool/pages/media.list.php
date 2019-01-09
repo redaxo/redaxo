@@ -248,7 +248,7 @@ $panel = '
                     $alt = '';
                     foreach (['title'] as $col) {
                         if ($files->hasValue($col) && $files->getValue($col) != '') {
-                            $alt = rex_escape($files->getValue($col), 'html_attr');
+                            $alt = rex_escape($files->getValue($col));
                             break;
                         }
                     }
