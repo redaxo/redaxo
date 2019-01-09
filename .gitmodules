@@ -9,4 +9,4 @@
 	url = https://github.com/leafo/scssphp
 [submodule "redaxo/src/addons/be_style/vendor/bootstrap-select"]
 	path = redaxo/src/addons/be_style/vendor/bootstrap-select
-	url = https://github.com/silviomoreto/bootstrap-select.git
+	url = https://github.com/snapappointments/bootstrap-select
