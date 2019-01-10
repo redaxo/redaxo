@@ -199,8 +199,8 @@ rex_be_controller::includeCurrentPage();
 rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
     if (rex_minibar::getInstance()->isActive() === false) {
         $ep->setSubject(preg_replace(
-            '/(<body.*|<html.*)rex-minibar-is-active(.*>)/i',
-            '$1$2',
+            '/(<(body|html)[^>]*)rex-minibar-is-active/iU',
+            '$1',
             $ep->getSubject())
         );
     }
