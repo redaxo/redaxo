@@ -101,5 +101,14 @@ if (!rex_request::isXmlHttpRequest()) {
     <?php
 }
 
+// -------------- Minibar
+if (class_exists('rex_minibar') && rex_minibar::getInstance()->isActive() === null) {
+    $page = rex_be_controller::getCurrentPageObject();
+
+    if ($page && $page->isPopup()) {
+        rex_minibar::getInstance()->setActive(false);
+    }
+}
+
 // -------------- Include Page
 rex_be_controller::includeCurrentPageSubPath(compact('opener_input_field', 'opener_link', 'arg_url', 'args', 'arg_fields', 'rex_file_category', 'rex_file_category_name', 'PERMALL', 'file_id', 'error', 'success'));
