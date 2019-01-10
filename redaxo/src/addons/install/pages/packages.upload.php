@@ -38,7 +38,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $n = [];
         $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $this->i18n('version') . '</label>';
         $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . rex_escape($new ? $newVersion : $file['version']) . '</p>
-                           <input type="hidden" name="upload[oldversion]" value="' . rex_escape($file['version'], 'html_attr') . '" />';
+                           <input type="hidden" name="upload[oldversion]" value="' . rex_escape($file['version']) . '" />';
         $formElements[] = $n;
 
         $n = [];

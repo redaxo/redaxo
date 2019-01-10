@@ -21,7 +21,7 @@ $error = preg_replace($regex, '<$1>', $error);
 $arg_url = ['args' => $args];
 $arg_fields = '';
 foreach ($args as $arg_name => $arg_value) {
-    $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name, 'html_attr') . ']" value="' . rex_escape($arg_value, 'html_attr') . '" />' . "\n";
+    $arg_fields .= '<input type="hidden" name="args[' . rex_escape($arg_name) . ']" value="' . rex_escape($arg_value) . '" />' . "\n";
 }
 
 // ----- opener_input_field setzen
@@ -39,7 +39,7 @@ if ($opener_input_field != '') {
     }
 
     $arg_url['opener_input_field'] = $opener_input_field;
-    $arg_fields .= '<input type="hidden" id="opener_input_field" name="opener_input_field" value="' . rex_escape($opener_input_field, 'html_attr') . '" data-opener-id="'. $opener_id .'"/>' . "\n";
+    $arg_fields .= '<input type="hidden" id="opener_input_field" name="opener_input_field" value="' . rex_escape($opener_input_field) . '" data-opener-id="'. $opener_id .'"/>' . "\n";
 }
 
 // -------------- CatId in Session speichern
