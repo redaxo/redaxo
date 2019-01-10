@@ -856,11 +856,23 @@ class rex_sql_table
 
     private function getColumnDefinition(rex_sql_column $column)
     {
+        $default = $column->getDefault();
+        if (!$default) {
+            $default = '';
+        } elseif (
+            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
+            in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
+        ) {
+            $default = 'DEFAULT '.$default;
+        } else {
+            $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
+        }
+
         return sprintf(
             '%s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
-            $column->getDefault() ? 'DEFAULT '.$this->sql->escape($column->getDefault()) : '',
+            $default,
             $column->isNullable() ? '' : 'NOT NULL',
             $column->getExtra()
         );

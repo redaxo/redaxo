@@ -236,7 +236,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $n = [];
         $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
-        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name, 'html_attr') . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -489,7 +489,7 @@ if ($OUT) {
 
             $content .= '
                         <tr>
-                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name'), 'html_attr') . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $sql->getValue('id') . '</td>
                             <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>

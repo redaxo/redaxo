@@ -10,7 +10,12 @@
  * @package redaxo\core
  *
  * @param mixed  $value    The value to escape
- * @param string $strategy One of "html", "html_attr", "css", "js", "url"
+ * @param string $strategy Supported strategies:
+ *                         "html": escapes a string for the HTML context.
+ *                         "html_attr": escapes a string for the HTML attrubute context. It is only necessary for dynamic attribute names and attribute values without quotes (`data-foo=bar`). For attribute values within quotes you can use default strategy "html".
+ *                         "js": escapes a string for the JavaScript/JSON context.
+ *                         "css": escapes a string for the CSS context. CSS escaping can be applied to any string being inserted into CSS and escapes everything except alphanumerics.
+ *                         "url": escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted.
  *
  * @throws InvalidArgumentException
  *

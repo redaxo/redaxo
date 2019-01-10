@@ -289,7 +289,7 @@ abstract class rex_formatter
             $value = 'http://' . $value;
         }
 
-        return '<a href="' . rex_escape($value . $format['params'], 'html_attr') . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
+        return '<a href="' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
     }
 
     /**
@@ -319,7 +319,7 @@ abstract class rex_formatter
             }
         }
         // Url formatierung
-        return '<a href="mailto:' . rex_escape($value . $format['params'], 'html_attr') . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
+        return '<a href="mailto:' . rex_escape($value . $format['params']) . '"' . $format['attr'] . '>' . rex_escape($value) . '</a>';
     }
 
     /**
