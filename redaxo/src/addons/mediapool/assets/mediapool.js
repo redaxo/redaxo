@@ -36,7 +36,7 @@ function newPoolWindow(link)
         var counter = 0;
     }
     // 1200 = $screen-lg
-    return newWindow( 'rexmediapopup'+counter, link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'rexmediapopup'+counter, link, 1200, Math.max(screen.height*0.75,800), ',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
