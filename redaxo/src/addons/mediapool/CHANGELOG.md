@@ -14,6 +14,7 @@ Version 2.5.0 – XX.XX.XXXX
 * Bessere Code-Struktur (@staabm)
 * Lazy-Load der Bilder in der Liste (@staabm)
 * Neuer EP: `MEDIA_MOVED` (@bloep)
+* Popup 75% Höhe statt fixen 800px (@schuer)
 
 
 Version 2.4.3 – 01.10.2018
