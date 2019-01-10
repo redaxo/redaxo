@@ -408,7 +408,7 @@ abstract class rex_structure_element
     public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = [])
     {
         $name = $this->getName();
-        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name, 'html_attr') . '">' . rex_escape($name) . '</a>';
+        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name) . '">' . rex_escape($name) . '</a>';
 
         if ($sorroundTag !== null && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';

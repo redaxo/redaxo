@@ -132,7 +132,7 @@ if ($isImage) {
     } else {
         $sidebar = '
                 <a href="' . $img_max . '">
-                    <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle, 'html_attr') . '" title="' . rex_escape($ftitle, 'html_attr') . '" />
+                    <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle) . '" title="' . rex_escape($ftitle) . '" />
                 </a>';
     }
 }
@@ -185,7 +185,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle, 'html_attr') . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" />';
     $formElements[] = $e;
 
     $e = [];
