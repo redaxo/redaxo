@@ -197,7 +197,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
     if (!($field instanceof rex_form_element)) {
@@ -256,4 +255,3 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
 $fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');
-
