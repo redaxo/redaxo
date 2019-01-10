@@ -860,8 +860,8 @@ class rex_sql_table
         if (!$default) {
             $default = '';
         } elseif (
-            in_array(mb_strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
-            in_array(mb_strtolower($default), ['current_timestamp', 'current_timestamp()'])
+            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
+            in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
         ) {
             $default = 'DEFAULT '.$default;
         } else {
