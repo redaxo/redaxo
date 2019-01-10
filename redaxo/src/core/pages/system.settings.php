@@ -184,19 +184,13 @@ $n['field'] = '<input class="form-control" type="text" id="rex-id-servername" na
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
-
-$n = [];
 $n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
 $n['field'] = $sel_lang->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
