@@ -43,6 +43,10 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $body_attr['class'][] = 'rex-is-impersonated';
 }
+if (rex_minibar::getInstance()->isVisible()) {
+    $body_attr['class'][] = 'rex-minibar-is-visible';
+}
+
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 

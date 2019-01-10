@@ -195,6 +195,17 @@ if ($page != 'login') {
 // include the requested backend page
 rex_be_controller::includeCurrentPage();
 
+// update body class if minibar has been set inactive
+rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
+    if (rex_minibar::getInstance()->isActive() === false) {
+        $ep->setSubject(preg_replace(
+            '/(<body.*)rex-minibar-is-visible(.*>)/i',
+            '$1$2',
+            $ep->getSubject())
+        );
+    }
+});
+
 // ----- caching end für output filter
 $CONTENT = ob_get_clean();
 
