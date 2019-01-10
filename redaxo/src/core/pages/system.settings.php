@@ -184,6 +184,11 @@ $n['field'] = '<input class="form-control" type="text" id="rex-id-servername" na
 $formElements[] = $n;
 
 $n = [];
+$n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
+$n['field'] = $sel_lang->get();
+$formElements[] = $n;
+
+$n = [];
 $n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
 $n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
@@ -192,16 +197,6 @@ $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
 
-$formElements = [];
-
-$n = [];
-$n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
-$n['field'] = $sel_lang->get();
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
 
 foreach (rex_system_setting::getAll() as $setting) {
     $field = $setting->getField();
@@ -261,3 +256,4 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
 $fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');
+
