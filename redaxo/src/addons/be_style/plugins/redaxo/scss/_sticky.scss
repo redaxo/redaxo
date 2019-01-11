@@ -4,5 +4,9 @@
         position: sticky;
         bottom: 0;
         background-color: $color-a-light;
+
+        .rex-minibar-is-active & {
+            bottom: 36px;
+        }
     }
 }
