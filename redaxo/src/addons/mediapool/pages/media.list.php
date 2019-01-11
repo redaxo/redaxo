@@ -137,6 +137,7 @@ $panel = '
                 $e = [];
                 $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';
                 $e['field'] = '<input type="checkbox" name="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />';
+                $e['class'] = 'rex-form-group-no-margin';
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', [$e], false);
                 $checkbox = $fragment->parse('core/form/checkbox.php');
@@ -185,6 +186,7 @@ $panel = '
                 $e = [];
                 $e['label'] = '<label>' . rex_i18n::msg('pool_selectedmedia') . '</label>';
                 $e['field'] = $field;
+                $e['class'] = 'rex-form-group-no-margin';
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', [$e], false);
                 $field = $fragment->parse('core/form/form.php');
