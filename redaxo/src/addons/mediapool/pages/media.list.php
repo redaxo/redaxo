@@ -192,7 +192,7 @@ $panel = '
                 $field = $fragment->parse('core/form/form.php');
 
                 $panel .= '
-                <tfoot>
+                <tfoot class="rex-sticky-table-footer">
                 <tr>
                     <td colspan="2">
                         ' . $checkbox . '

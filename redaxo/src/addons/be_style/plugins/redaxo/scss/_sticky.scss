@@ -1,0 +1,8 @@
+.rex-sticky-table-footer {
+    th,
+    td {
+        position: sticky;
+        bottom: 0;
+        background-color: $color-a-light;
+    }
+}
