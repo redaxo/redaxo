@@ -175,11 +175,11 @@ $panel = '
 
                 $actionButtons = '';
                 if (count($buttons) > 0) {
-                    foreach($buttons as $button) {
+                    foreach ($buttons as $button) {
                         $fragment = new rex_fragment();
                         $fragment->setVar('buttons', [$button], false);
-                        $actionButtons.= $fragment->parse('core/buttons/button.php');
-                        $actionButtons.= ' ';
+                        $actionButtons .= $fragment->parse('core/buttons/button.php');
+                        $actionButtons .= ' ';
                     }
                 }
 
