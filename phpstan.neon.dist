@@ -9,5 +9,5 @@ parameters:
         - redaxo/src/core/vendor/
         - redaxo/src/core/tests/
     ignoreErrors:
-        - 'Using $this outside a class.'
-        - 'Undefined variable: $this'
+        - '#Using \$this outside a class\.#'
+        - '#Undefined variable: \$this#'
