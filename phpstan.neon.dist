@@ -8,6 +8,7 @@ parameters:
         - redaxo/src/addons/be_style/vendor/
         - redaxo/src/addons/phpmailer/vendor/
         - redaxo/src/addons/tests/vendor/
+        - redaxo/src/addons/debug/vendor/
         - redaxo/src/core/vendor/
         - redaxo/src/core/tests/
     ignoreErrors:
