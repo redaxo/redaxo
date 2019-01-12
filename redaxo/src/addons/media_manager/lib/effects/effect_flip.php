@@ -22,7 +22,7 @@ class rex_effect_flip extends rex_effect_abstract
         $gdimage = $this->media->getImage();
 
         // transparenz erhalten (für GIF, PNG & WebP)
-        $this->keepTransparent($output);
+        $this->keepTransparent($gdimage);
 
         // --------------- Flip X
         if ($this->params['flip'] == 'X') {
