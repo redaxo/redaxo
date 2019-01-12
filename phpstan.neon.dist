@@ -5,6 +5,7 @@ parameters:
     bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/adminer/
+        - redaxo/src/addons/be_style/vendor/
         - redaxo/src/core/vendor/
         - redaxo/src/core/tests/
     ignoreErrors:
