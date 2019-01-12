@@ -6,12 +6,6 @@
  * @package redaxo5
  */
 
-/*
-// TODOS:
-// - alles vereinfachen
-// - <?php ?> $ Problematik bei REX_ACTION
-*/
-
 $content = '';
 
 $article_id = rex_request('article_id', 'int');
@@ -57,7 +51,7 @@ if ($article->getRows() == 1) {
     $ctype = rex_request('ctype', 'int', 1);
     if (!array_key_exists($ctype, $ctypes)) {
         $ctype = 1;
-    } // default = 1
+    }
 
     // ----- Artikel wurde gefunden - Kategorie holen
     $OOArt = rex_article::get($article_id, $clang);
@@ -66,25 +60,19 @@ if ($article->getRows() == 1) {
     // ----- Request Parameter
     $subpage = rex_be_controller::getCurrentPagePart(2);
     $function = rex_request('function', 'string');
-    $warning = htmlspecialchars(rex_request('warning', 'string'));
-    $info = htmlspecialchars(rex_request('info', 'string'));
+    $warning = rex_escape(rex_request('warning', 'string'));
+    $info = rex_escape(rex_request('info', 'string'));
 
     $context = new rex_context([
         'page' => rex_be_controller::getCurrentPage(),
         'article_id' => $article_id,
+        'category_id' => $category_id,
         'clang' => $clang,
         'ctype' => $ctype,
     ]);
 
     // ----- Titel anzeigen
     echo rex_view::title(rex_i18n::msg('content'), '');
-
-    if (rex_be_controller::getCurrentPagePart(1) == 'content' && $article_id > 0) {
-        $icon = ($article->getValue('startarticle') == 1) ? 'rex-icon-startarticle' : 'rex-icon-article';
-        $term = ($article->getValue('startarticle') == 1) ? rex_i18n::msg('start_article') : rex_i18n::msg('article');
-
-        //echo '<h2><i class="rex-icon ' . $icon . '" title="' . $term . '"></i> ' . $article->getValue('name') . ' <small>' . rex_i18n::msg('id') . '=' . $article->getValue('id') . ', ' . $term . '</small></h2>';
-    }
 
     // ----- Languages
     echo rex_view::clangSwitchAsButtons($context);
@@ -104,11 +92,6 @@ if ($article->getRows() == 1) {
         'article_revision' => &$article_revision,
         'slice_revision' => &$slice_revision,
     ]));
-
-    // --------------------- SEARCH BAR
-
-    //require_once $this->getAddon()->getPath('functions/function_rex_searchbar.php');
-    //echo rex_structure_searchbar($context);
 
     // ----------------- HAT USER DIE RECHTE AN DIESEM ARTICLE ODER NICHT
     if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($category_id)) {
@@ -335,8 +318,6 @@ if ($article->getRows() == 1) {
                         // ----- / POST SAVE ACTION
 
                         // Update Button wurde gedrückt?
-                        // TODO: Workaround, da IE keine Button Namen beim
-                        // drücken der Entertaste übermittelt
                         if (rex_post('btn_save', 'string')) {
                             $function = '';
                         }

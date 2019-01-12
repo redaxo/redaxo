@@ -133,7 +133,7 @@ abstract class rex_structure_element
      * @param int $id    the article id
      * @param int $clang the clang id
      *
-     * @return static A rex_structure_element instance typed to the late-static binding type of the caller
+     * @return static|null A rex_structure_element instance typed to the late-static binding type of the caller
      */
     public static function get($id, $clang = null)
     {
@@ -150,20 +150,27 @@ abstract class rex_structure_element
         $class = static::class;
         return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+
+            // load metadata from cache
+            $metadata = rex_file::getCache($article_path);
+
             // generate cache if not exists
-            if (!file_exists($article_path)) {
+            if (!$metadata) {
                 rex_article_cache::generateMeta($id, $clang);
-            }
-
-            // article is valid, if cache exists after generation
-            if (file_exists($article_path)) {
-                // load metadata from cache
                 $metadata = rex_file::getCache($article_path);
-                // create object with the loaded metadata
-                return new $class($metadata);
             }
 
-            return null;
+            // if cache does not exist after generation, the article id is invalid
+            if (!$metadata) {
+                return null;
+            }
+
+            // don't allow to retrieve non-categories (startarticle=0) as rex_category
+            if (!$metadata['startarticle'] && (rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
+                return null;
+            }
+
+            return new $class($metadata);
         });
     }
 
@@ -200,10 +207,13 @@ abstract class rex_structure_element
             // callback to create the list of IDs
             function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
-                if (!file_exists($listFile)) {
+
+                $list = rex_file::getCache($listFile);
+                if (!$list) {
                     rex_article_cache::generateLists($parentId);
+                    $list = rex_file::getCache($listFile);
                 }
-                return rex_file::getCache($listFile);
+                return $list;
             }
         );
     }
@@ -397,8 +407,8 @@ abstract class rex_structure_element
      */
     public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = [])
     {
-        $name = htmlspecialchars($this->getName());
-        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
+        $name = $this->getName();
+        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name) . '">' . rex_escape($name) . '</a>';
 
         if ($sorroundTag !== null && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';

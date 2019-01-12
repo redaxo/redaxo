@@ -17,6 +17,7 @@ class rex_mailer extends PHPMailer
     public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
+        $this->setLanguage(rex_i18n::getLanguage(), $addon->getPath('vendor/phpmailer/phpmailer/language/'));
         $this->XMailer = 'REXMailer';
         $this->From = $addon->getConfig('from');
         $this->FromName = $addon->getConfig('fromname');
@@ -50,10 +51,12 @@ class rex_mailer extends PHPMailer
 
     public function send()
     {
-        if ($this->log) {
-            $this->log();
-        }
-        return parent::send();
+        return rex_timer::measure(__METHOD__, function () {
+            if ($this->log) {
+                $this->log();
+            }
+            return parent::send();
+        });
     }
 
     /*

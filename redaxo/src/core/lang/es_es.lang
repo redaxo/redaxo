@@ -8,6 +8,7 @@ setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
 phpini_settings = Ajustes PHP.ini
 
 datetimeformat = %d-%b-%Y %H:%M
+timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
 
 # Allgemein
@@ -27,7 +28,6 @@ function = Función
 no_editing_rights = Permiso denegado
 check_rights_in_directory = Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
-csrf_token_invalid = El token csrf no es válido.
 
 # redaxo/redaxo/index.php
 system = Sistema
@@ -103,6 +103,7 @@ clang_function = Funciones
 version = Versión
 host = Anfitrión
 database = Base de datos
+logfiles = Registros
 syslog_redaxo = REDAXO
 syslog_delete = Borrar registro sistémico
 syslog_deleted = Sistema de registro borrado
@@ -112,6 +113,9 @@ syslog_type = Tipo
 syslog_message = Mensaje
 syslog_file = Archivo
 syslog_line = Fila
+syslog_title = Archivo de registro "{0}"
+syslog_phperrors = Registro de errores de PHP
+syslog_empty = Archivo de registro vacío
 server = URL del sitio web
 servername = Nombre del Sitio Web
 error_email = Dirección de correo electrónico en caso de errores
@@ -120,9 +124,21 @@ error_email_invalid = Por favor, introduce una dirección de correo electrónico
 server_required = Se requiere url del sitio web
 server_invalid = Por favor, ingrese una url válida con el protocolo!
 servername_required = Se requiere el nombre del servidor
+system_editor = Integración del editor
+system_editor_note = Vincular a REDAXO con un editor para poder abrir directamente los archivos de código fuente. Requisito previo: el código fuente de la instalación de REDAXO está disponible localmente.
+system_editor_no_editor = Desactivado
+system_editor_open_file = Abra "{0}" en el editor
+system_edit_config_note = La configuración principal de REDAXO ofrece la posibilidad de cambiar los parámetros internos del sistema. El archivo solo debe ser editado por usuarios experimentados.
 lang_required = Se requiere idioma
 debug_mode = Modo de depuración
 debug_mode_note = Con el modo de depuración, se genera información adicional sobre el error para los errores de script en la interfaz y el servidor. No lo active en modo directo, ya que los mensajes de error también pueden contener datos confidenciales.
+debug_mode_on = Habilitar el modo de depuración
+debug_mode_off = Deshabilitar el modo de depuración
+debug_mode_info_on = El modo de depuración ha sido activado
+debug_mode_info_off = El modo de depuración ha sido desactivado
+
+system_report = Informe del sistema
+system_report_markdown = Como markdown
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Preparar
@@ -224,6 +240,7 @@ setup_security_msg = La carpeta redaxo/include es insegura. Proteja esta carpeta
 setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta redaxo/include están directamente accesibles. Esto debería ser imposible debido a las restricciones de seguridad!
 setup_security_no_https = La configuración se realiza sin HTTPS / cifrado. Se recomienda realizar todas las llamadas frontend y backend solo a través de HTTPS para garantizar su privacidad.
 setup_security_warn_mod_security = El módulo de Apache "mod_security" está cargado. Esto puede provocar problemas si se configura incorrectamente.
+setup_security_deprecated_php = La versión PHP usada {0} ya no es mantenida por el fabricante y debe actualizarse.
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
 sql_database_already_exists = ¡La base de datos ya existe!
@@ -302,19 +319,19 @@ package_requirement_error_redaxo_version = La versión de REDAXO (<b>{0}</b>) no
 package_requirement_error_php_version = La versión de PHP (<b>{0}</b>) no coincide con la condición de la versión requerida <b>{1}</b>!
 package_requirement_error_php_extension = Se requiere el módulo de extensión de PHP  <b>{0}</b> !
 package_requirement_error_addon = ¡Se requiere AddOn <b>{0}</b> !
-package_requirement_error_addon_version =
-package_requirement_error_plugin =
-package_requirement_error_plugin_version =
-package_conflict_error_addon =
-package_conflict_error_addon_version =
-package_conflict_error_plugin =
-package_conflict_error_plugin_version =
-package_reverse_conflict_error_addon = No se puede activar junto con AddOn <b>{0}</ b>!
-package_reverse_conflict_error_addon_version = No se puede activar junto con AddOn <b>{0}</ b> con los requisitos de versión <b>{1}</ b>!
-package_reverse_conflict_error_plugin = No se puede activar junto con PlugIn <b>{0}</ b>!
-package_reverse_conflict_error_plugin_version = No se puede activar junto con PlugIn <b>{0}</ b> con los requisitos de versión <b>{1}</ b>!
-package_dependencies_error_addon = Es requerido por el addon <b> {0} </ b>!
-package_dependencies_error_plugin = Requerido desde el plugin <b>{0}</ b>!
+package_requirement_error_addon_version = El complemento <b>{0}</b> (Versión <b>{1}</b>) no cumple con la condición de versión requerida <b>{2}</b>!.
+package_requirement_error_plugin = ¡Se requiere el complemento <b>{0}</ b>!
+package_requirement_error_plugin_version = El complemento <b>{0}</b> (versión <b>{1}</b>) no coincide con los requisitos de versión especificados <b>{2}</b>.
+package_conflict_error_addon = ¡No se puede activar junto con el complemento <b>{0}</b>!
+package_conflict_error_addon_version = No se puede activar junto con el complemento <b>{0}</b> con los requisitos de versión <b>{1}</b>.
+package_conflict_error_plugin = ¡No se puede activar junto con PlugIn <b>{0}</b>!
+package_conflict_error_plugin_version = No se puede activar junto con PlugIn <b>{0}</b> con los requisitos de versión <b>{1}</b>.
+package_reverse_conflict_error_addon = No se puede activar junto con AddOn <b>{0}</b>!
+package_reverse_conflict_error_addon_version = No se puede activar junto con AddOn <b>{0}</b> con los requisitos de versión <b>{1}</b>!
+package_reverse_conflict_error_plugin = No se puede activar junto con PlugIn <b>{0}</b>!
+package_reverse_conflict_error_plugin_version = No se puede activar junto con PlugIn <b>{0}</b> con los requisitos de versión <b>{1}</b>!
+package_dependencies_error_addon = Es requerido por el addon <b> {0}</b>!
+package_dependencies_error_plugin = Requerido desde el plugin <b>{0}</b>!
 plugin_plugins_installed = Plugins están instalados
 plugin_no_install = PlugIn no ha sido instalado
 plugin_no_uninstall = PlugIn <b>{0}</b> no se pudo desinstalar porque:
@@ -384,11 +401,11 @@ list_rows_found = {0} documentos encontrados
 list_no_rows = No hay entradas disponibles
 
 # redaxo\include\classes\class.rex_form.php
-form_save = guardar
-form_apply = aplicar
+form_save = Guardar
+form_apply = Aplicar
 form_delete = borrar
-form_reset = regreso
-form_abort = abortar
+form_reset = Reajustar
+form_abort = Cancelar
 form_saved = Las entradas se ha grabado!
 form_save_error = No se pudo guardar!
 form_applied = Se tomaron las entradas!
@@ -397,8 +414,8 @@ form_delete_error = Eliminar Error!
 form_resetted = Se han restablecido!
 
 # clang
-all_clangs = todos los idiomas
-clangs = idiomas
+all_clangs = Todos los idiomas
+clangs = Idiomas
 clang_error_startidcanotbedeleted = Comience idioma (estruendo) con id "{0}" no se pueden borrar
 clang_error_idcanotbedeleted = IdiomaID (estruendo) con id "{0}" no existe
 
@@ -409,10 +426,19 @@ footer_joinforum = Visita el foro
 footer_doku = Documentación
 footer_datetime = {0}
 footer_scripttime = {0} seg.
-footer_credits = créditos
+footer_credits = Créditos
 
 created_by = creado por
 created_on = creado en
 updated_by = actualizado por
 updated_on = modificado el
-status = estado
+status = Estado
+
+user_minibar = ¿Mostrar minibar en frontend?
+user_minibar_note = Proporciona una barra de herramientas con más información
+minibar_board_link_label = Visita el foro
+minibar_database = Base de datos
+minibar_documentation_link_label = Leer documentación
+minibar_help = Ayuda
+minibar_resources = Recursos
+minibar_slack_link_label = Slack Channel

@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.7.0 – XX.XX.XXXX
+--------------------------
+
+* Layout für neue Core-Komponenten und diverse kleine Optimierungen (@tbaddade)
+* Consolen-Command `be_style:compile` (@bloep)
+* CodeMirror überarbeitet/aktualisiert (@aeberhard) 
+* Customizer: Bessere Default-Erkennungsfarbe (@skerbis)
+
+
 Version 2.6.1 – 10.07.2018
 --------------------------
 

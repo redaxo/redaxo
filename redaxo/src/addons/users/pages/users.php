@@ -4,29 +4,6 @@
  * @package redaxo5
  */
 
-/*
------------------------------ todos
-
-sprachen zugriff
-englisch / deutsch / ...
-clang
-
-allgemeine zugriffe (array + addons)
-    mediapool[]templates[] ...
-
-zugriff auf folgende categorien
-    csw[2] write
-    csr[2] read
-
-mulselect zugriff auf mediapool
-    media[2]
-
-mulselect module
-- liste der module
-    module[2]module[3]
-
-*/
-
 $message = '';
 $content = '';
 
@@ -202,7 +179,7 @@ if ($warnings) {
         $warnings[] = rex_i18n::msg('csrf_token_invalid');
     } else {
         $deleteuser = rex_sql::factory();
-        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . "user WHERE id = ? LIMIT 1", [$user_id]);
+        $deleteuser->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'user WHERE id = ? LIMIT 1', [$user_id]);
         $info = rex_i18n::msg('user_deleted');
 
         rex_extension::registerPoint(new rex_extension_point('USER_DELETED', '', [
@@ -214,7 +191,7 @@ if ($warnings) {
     $user_id = 0;
 } elseif ($FUNC_ADD != '' && $save == 1) {
     $adduser = rex_sql::factory();
-    $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . "user WHERE login = ?", [$userlogin]);
+    $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE login = ?', [$userlogin]);
 
     if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
         $userpswHash = rex_login::passwordHash($userpsw);
@@ -306,7 +283,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
         $form_label = rex_i18n::msg('edit_user');
         $add_hidden = '<input type="hidden" name="user_id" value="' . $user_id . '" />';
-        $add_user_login = '<p class="form-control-static">' . htmlspecialchars($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</p>';
+        $add_user_login = '<p class="form-control-static">' . rex_escape($sql->getValue(rex::getTablePrefix() . 'user.login')) . '</p>';
 
         $formElements = [];
 
@@ -390,7 +367,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
             $add_admin_chkbox = '';
         }
         $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . htmlspecialchars($userlogin) . '" autofocus />';
+        $add_user_login = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . rex_escape($userlogin) . '" autofocus />';
 
         $formElements = [];
 
@@ -429,17 +406,17 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
     $n = [];
     $n['label'] = '<label for="rex-user-name">' . rex_i18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . htmlspecialchars($username) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . rex_escape($username) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-description">' . rex_i18n::msg('description') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . htmlspecialchars($userdesc) . '" />';
+    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . rex_escape($userdesc) . '" />';
     $formElements[] = $n;
 
     $n = [];
     $n['label'] = '<label for="rex-user-email">' . rex_i18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="email" placeholder="name@domain.tld" id="rex-user-email" name="useremail" value="' . htmlspecialchars($useremail) . '" />';
+    $n['field'] = '<input class="form-control" type="email" placeholder="name@domain.tld" id="rex-user-email" name="useremail" value="' . rex_escape($useremail) . '" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -541,8 +518,8 @@ if (isset($SHOW) && $SHOW) {
             id,
             IF(name <> "", name, login) as name,
             login,
-            admin,
-            IF(admin, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
+            `admin`,
+            IF(`admin`, "Admin", IFNULL((SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ",") FROM '.rex::getTable('user_role').' r WHERE FIND_IN_SET(r.id, u.role)), "'.$noRole.'")) as role,
             status,
             lastlogin
         FROM ' . rex::getTable('user') . ' u
@@ -571,7 +548,7 @@ if (isset($SHOW) && $SHOW) {
     $list->setColumnParams('name', ['user_id' => '###id###']);
     $list->setColumnFormat('name', 'custom', function ($params) {
         $list = $params['list'];
-        $name = htmlspecialchars($list->getValue('name'));
+        $name = rex_escape($list->getValue('name'));
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
     });
     $list->setColumnSortable('name');
@@ -580,7 +557,7 @@ if (isset($SHOW) && $SHOW) {
     $list->setColumnFormat('login', 'custom', function ($params) {
         $list = $params['list'];
 
-        $login = htmlspecialchars($list->getValue('login'));
+        $login = rex_escape($list->getValue('login'));
         if (!$list->getValue('status')) {
             $login = '<span class="text-muted">' . $login . '</span>';
         }

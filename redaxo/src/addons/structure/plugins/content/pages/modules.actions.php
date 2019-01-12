@@ -63,7 +63,7 @@ if ($function == 'delete' && !$csrfToken->isValid()) {
         $action_in_use_msg = '';
         $action_name = $del->getValue('a.name');
         for ($i = 0; $i < $del->getRows(); ++$i) {
-            $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . htmlspecialchars($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
+            $action_in_use_msg .= '<li><a href="' . rex_url::backendPage('modules', ['function' => 'edit', 'module_id' => $del->getValue('ma.module_id')]) . '">' . rex_escape($del->getValue('m.name')) . ' [' . $del->getValue('ma.module_id') . ']</a></li>';
             $del->next();
         }
 
@@ -236,7 +236,7 @@ if ($function == 'add' || $function == 'edit') {
 
         $n = [];
         $n['label'] = '<label for="name">' . rex_i18n::msg('action_name') . '</label>';
-        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . htmlspecialchars($name) . '" />';
+        $n['field'] = '<input class="form-control" type="text" id="name" name="name" value="' . rex_escape($name) . '" />';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -253,7 +253,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="previewaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="previewaction" id="previewaction" spellcheck="false">' . htmlspecialchars($previewaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="previewaction" id="previewaction" spellcheck="false">' . rex_escape($previewaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -295,7 +295,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="presaveaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="presaveaction" id="presaveaction" spellcheck="false">' . htmlspecialchars($presaveaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="presaveaction" id="presaveaction" spellcheck="false">' . rex_escape($presaveaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -337,7 +337,7 @@ if ($function == 'add' || $function == 'edit') {
         $formElements = [];
         $n = [];
         $n['label'] = '<label for="postsaveaction">' . rex_i18n::msg('input') . '</label>';
-        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="postsaveaction" id="postsaveaction" spellcheck="false">' . htmlspecialchars($postsaveaction) . '</textarea>';
+        $n['field'] = '<textarea class="form-control rex-code rex-js-code" name="postsaveaction" id="postsaveaction" spellcheck="false">' . rex_escape($postsaveaction) . '</textarea>';
         $n['note'] = rex_i18n::msg('action_hint', '<var>rex_article_action $this</var>');
         $formElements[] = $n;
 
@@ -489,9 +489,9 @@ if ($OUT) {
 
             $content .= '
                         <tr>
-                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . htmlspecialchars($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
+                            <td class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon rex-icon-action"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $sql->getValue('id') . '</td>
-                            <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . htmlspecialchars($sql->getValue('name')) . '</a></td>
+                            <td data-title="' . rex_i18n::msg('action_name') . '"><a href="' . rex_url::currentBackendPage(['action_id' => $sql->getValue('id'), 'function' => 'edit']) . '">' . rex_escape($sql->getValue('name')) . '</a></td>
                             <td data-title="' . rex_i18n::msg('action_header_preview') . '">' . implode('/', $previewmode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_presave') . '">' . implode('/', $presavemode) . '</td>
                             <td data-title="' . rex_i18n::msg('action_header_postsave') . '">' . implode('/', $postsavemode) . '</td>

@@ -118,7 +118,7 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      */
     public function offsetSet($offset, $value)
     {
-        throw new \Exception(self::class . ' is read only');
+        throw new \Exception(__CLASS__ . ' is read only');
     }
 
     /**
@@ -127,7 +127,7 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      */
     public function offsetUnset($offset)
     {
-        throw new \Exception(self::class . ' is read only');
+        throw new \Exception(__CLASS__ . ' is read only');
     }
 
     /**

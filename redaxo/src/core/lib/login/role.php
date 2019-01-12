@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 interface rex_user_role_interface
 {

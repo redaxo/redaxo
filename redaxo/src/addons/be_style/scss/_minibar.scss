@@ -137,6 +137,12 @@ $element-hover-bg: lighten($color-a-dark, 5%);
         padding-top: 2px;
         border-top: 1px solid $color-a;
     }
+    &-info-group-title {
+        color: $color-a;
+        font-size: 12px;
+        font-weight: 700;
+        vertical-align: top;
+    }
     &-info-piece {
         display: table-row;
         margin-bottom: 4px;
@@ -154,8 +160,9 @@ $element-hover-bg: lighten($color-a-dark, 5%);
 
         b {
             display: table-cell;
-            border-collapse: collapse;
+            min-width: 70px;
             padding: 4px 8px 4px 0;
+            border-collapse: collapse;
             color: $color-a;
             font-size: 12px;
             vertical-align: top;
@@ -232,6 +239,10 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     &-info span + &-status-green,
     &-info span + &-status-red {
         margin-left: 4px;
+    }
+    &-info span > &-status-green,
+    &-info span > &-status-red {
+        margin-top: -3px;
     }
 
     &-status-green {

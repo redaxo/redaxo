@@ -106,4 +106,7 @@ rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
     }
 });
 
-rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_content());
+if (!rex::isBackend() || (rex::isBackend() && (rex_be_controller::getCurrentPagePart(1) === 'content' || rex_be_controller::getCurrentPagePart(1) === 'structure'))) {
+    rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_article());
+    rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_clang());
+}

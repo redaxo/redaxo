@@ -6,9 +6,45 @@
 
 header('X-Robots-Tag: noindex, nofollow, noarchive');
 header('X-Frame-Options: SAMEORIGIN');
+header("Content-Security-Policy: frame-ancestors 'self'");
 
-// ----- pages, verfuegbare seiten
-// array(name,addon=1,htmlheader=1);
+// assets which are passed with a cachebuster will be cached very long,
+// as we assume their url will change when the underlying content changes
+if (rex_get('asset') && rex_get('buster')) {
+    $assetFile = rex_get('asset');
+
+    $fullPath = realpath($assetFile);
+    $assetDir = rex_path::assets();
+
+    if (strpos($fullPath, $assetDir) !== 0) {
+        throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
+    }
+
+    $ext = rex_file::extension($assetFile);
+    if ('js' === $ext) {
+        rex_response::sendCacheControl('max-age=31536000, immutable');
+        rex_response::sendFile($assetFile, 'application/javascript');
+    } elseif ('css' === $ext) {
+        $styles = rex_file::get($assetFile);
+
+        // If we are in a directory off the root, add a relative path here back to the root, like "../"
+        // get the public path to this file, plus the baseurl
+        $relativeroot = '';
+        $pubroot = dirname($_SERVER['PHP_SELF']) . '/' . $relativeroot;
+
+        $prefix = $pubroot . dirname($assetFile) . '/';
+        $styles = preg_replace('/(url\(["\']?)([^\/"\'])([^\:\)]+["\']?\))/i', '$1' . $prefix .  '$2$3', $styles);
+
+        rex_response::sendCacheControl('max-age=31536000, immutable');
+        rex_response::sendContent($styles, 'text/css');
+    } else {
+        rex_response::setStatus(rex_response::HTTP_NOT_FOUND);
+        rex_response::sendContent('file not found');
+    }
+    exit();
+}
+
+// ----- verfuegbare seiten
 $pages = [];
 $page = '';
 
@@ -78,6 +114,11 @@ if (rex::isSetup()) {
         $pages['login'] = rex_be_controller::getLoginPage();
         $page = 'login';
         rex_be_controller::setCurrentPage('login');
+
+        // clear in-browser data of a previous session with the same browser for security reasons.
+        // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
+        // clearing "executionContext" or "cookies" would result in a endless loop.
+        rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
     } else {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
@@ -153,6 +194,17 @@ if ($page != 'login') {
 
 // include the requested backend page
 rex_be_controller::includeCurrentPage();
+
+// update body class if minibar has been set inactive
+rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
+    if (rex_minibar::getInstance()->isActive() === false) {
+        $ep->setSubject(preg_replace(
+            '/(<(body|html)[^>]*)rex-minibar-is-active/iU',
+            '$1',
+            $ep->getSubject())
+        );
+    }
+});
 
 // ----- caching end für output filter
 $CONTENT = ob_get_clean();

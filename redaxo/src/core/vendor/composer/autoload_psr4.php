@@ -16,5 +16,8 @@ return array(
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
+    'Ramsey\\Http\\Range\\' => array($vendorDir . '/ramsey/http-range/src'),
+    'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
 );

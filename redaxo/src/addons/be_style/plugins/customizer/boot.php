@@ -22,7 +22,9 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     if (rex_request('themes', 'string', '') != '') {
         $_themes = explode(',', rex_request('themes', 'string', ''));
         foreach ($_themes as $_theme) {
-            $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+            if (preg_match('/[a-z0-9\._-]+/i', $_theme)) {
+                $filenames[] = $this->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+            }
         }
     }
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
@@ -114,21 +116,19 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
         // JsProperty CodeMirror-Selectors
         $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
-        if ($config['codemirror-selectors'] != '') {
+        if (isset($config['codemirror-selectors']) && $config['codemirror-selectors'] != '') {
             $selectors = $selectors . ', ' . $config['codemirror-selectors'];
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
 
-        if (file_exists($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'))) {
-            $mtimejs = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
-            $mtimecss = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
-            if (isset($_SESSION['codemirror_reload'])) {
-                $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
-                $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
-            }
-            rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
-            rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);
+        $mtimejs = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
+        $mtimecss = filemtime($this->getAssetsUrl('vendor/codemirror/codemirror.css'));
+        if (isset($_SESSION['codemirror_reload'])) {
+            $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
+            $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
         }
+        rex_view::setJsProperty('customizer_codemirror_jsbuster', $mtimejs);
+        rex_view::setJsProperty('customizer_codemirror_cssbuster', $mtimecss);
     }
 
     /* Customizer Ergänzungen */
@@ -139,6 +139,9 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
     }
     if ($config['showlink']) {
-        rex_view::setJsProperty('customizer_showlink', '<h1 class="be-style-customizer-title"><a href="'. rex::getServer() .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex::getServerName() . '</span><i class="fa fa-external-link"></i></a></h1>');
+        rex_view::setJsProperty(
+            'customizer_showlink',
+            '<h1 class="be-style-customizer-title"><a href="'. rex_escape(rex::getServer()) .'" target="_blank" rel="noreferrer noopener"><span class="be-style-customizer-title-name">' . rex_escape(rex::getServerName()) . '</span><i class="fa fa-external-link"></i></a></h1>'
+        );
     }
 }
