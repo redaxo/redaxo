@@ -110,7 +110,7 @@ if (rex_post('upd_psw_button', 'bool')) {
             $success = rex_i18n::msg('user_psw_updated');
 
             rex_extension::registerPoint(new rex_extension_point('PASSWORD_UPDATED', '', [
-                'user_id' => $id,
+                'user_id' => $user_id,
                 'user' => new rex_user($updateuser->setQuery('SELECT * FROM '.rex::getTable('user').' WHERE id = ?', [$user_id])),
                 'password' => $userpsw_new_2,
             ], true));
