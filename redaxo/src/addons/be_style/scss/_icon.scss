@@ -2,6 +2,10 @@
     @extend .fa;
 }
 
+.rex-icon-fw {
+    @extend .fa-fw;
+}
+
 .rex-icon-action {
     @extend .fa-bars;
 }
