@@ -53,7 +53,7 @@ jobs:
                - php redaxo/bin/console package:install phpmailer
                - php redaxo/bin/console package:activate phpmailer
                - php redaxo/bin/console package:install cronjob
-               - php redaxo/bin/console package:activate cronjob
+               - #php redaxo/bin/console package:activate cronjob
                - php redaxo/bin/console package:install cronjob/article_status
                - php redaxo/bin/console package:activate cronjob/article_status
                - php redaxo/bin/console package:install cronjob/optimize_tables
