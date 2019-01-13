@@ -58,6 +58,8 @@ jobs:
                - php redaxo/bin/console package:activate cronjob/article_status
                - php redaxo/bin/console package:install cronjob/optimize_tables
                - php redaxo/bin/console package:activate cronjob/optimize_tables
+               - php redaxo/bin/console package:install debug
+               - php redaxo/bin/console package:activate debug
                - composer require --dev phpstan/phpstan
                - vendor/bin/phpstan analyse --autoload-file=redaxo/src/core/vendor/autoload.php
         -   <<: *TEST_MYSQL
