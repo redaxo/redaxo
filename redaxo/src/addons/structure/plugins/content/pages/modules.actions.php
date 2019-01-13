@@ -155,7 +155,7 @@ if ($function == 'add' || $function == 'edit') {
             2 => $ASTATUS[1] . ' - ' . rex_i18n::msg('action_event_edit'),
         ];
 
-        $sel_preview_status = new rex_event_select($options, false);
+        $sel_preview_status = new rex_event_select($options);
         $sel_preview_status->setName('previewstatus[]');
         $sel_preview_status->setId('previewstatus');
         $sel_preview_status->setStyle('class="form-control"');
