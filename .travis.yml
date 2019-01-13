@@ -20,7 +20,8 @@ jobs:
         -   php: 7.2
             name: BC Check
             script: 
-                - cp redaxo/src/core/composer.json .
+                - mv redaxo/src/core/composer* .
+                - mv redaxo/src/core/vendor .
                 - composer require --dev roave/backward-compatibility-check
                 - vendor/bin/roave-backward-compatibility-check r:a --from=master --to=HEAD
             
