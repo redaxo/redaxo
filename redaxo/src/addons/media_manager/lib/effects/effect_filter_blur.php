@@ -2,7 +2,8 @@
 
 class rex_effect_filter_blur extends rex_effect_abstract
 {
-    protected $options, $options_smoothit;
+    protected $options;
+    protected $options_smoothit;
 
     public function __construct()
     {
