@@ -169,7 +169,7 @@ if ($subpage == '') {
 
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-            $f = fopen($licenseFile, 'rb');
+            $f = fopen($licenseFile, 'r');
             $firstLine = fgets($f);
             fclose($f);
 

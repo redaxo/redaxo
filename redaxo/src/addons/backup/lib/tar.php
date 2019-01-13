@@ -287,7 +287,7 @@ class rex_backup_tar extends tar
                 if (!file_exists(dirname($item['name']))) {
                     rex_dir::create(dirname($item['name']));
                 }
-                if ($h = @fopen($item['name'], 'w+b')) {
+                if ($h = @fopen($item['name'], 'w+')) {
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {

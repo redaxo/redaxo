@@ -180,7 +180,7 @@ class rex_response
                     $filesize = filesize($file);
                     $unitFactory = new \Ramsey\Http\Range\UnitFactory();
                     $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
-                    $handle = fopen($file, 'rb');
+                    $handle = fopen($file, 'r');
                     if (is_resource($handle)) {
                         foreach ($ranges as $range) {
                             header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);

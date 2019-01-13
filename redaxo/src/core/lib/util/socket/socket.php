@@ -218,7 +218,7 @@ class rex_socket
                 }
                 foreach ($files as $key => $file) {
                     fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
-                    $file = fopen($file['path'], 'rb');
+                    $file = fopen($file['path'], 'r');
                     while (!feof($file)) {
                         fwrite($stream, fread($file, 1024));
                     }
