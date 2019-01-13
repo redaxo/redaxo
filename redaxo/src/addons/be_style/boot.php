@@ -11,8 +11,6 @@
  * @package redaxo5
  */
 
-/** @var rex_addon $this */
-
 $mypage = 'be_style';
 
 /* Addon Parameter */
@@ -40,7 +38,7 @@ if (rex::isBackend()) {
         return $subject;
     });
 
-    rex_extension::register('PACKAGES_INCLUDED', function () use ($myAddon) {
+    rex_extension::register('PACKAGES_INCLUDED', function () {
         if (rex::getUser() && $this->getProperty('compile')) {
             rex_be_style::compile();
         }
