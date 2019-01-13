@@ -19,8 +19,10 @@ jobs:
     include:
         -   php: 7.2
             name: BC Check
-            install: composer require --dev roave/backward-compatibility-check
-            script: cd redaxo/src/core/ && ../../../vendor/bin/roave-backward-compatibility-check r:a --from=master --to=HEAD
+            script: 
+                - cp redaxo/src/core/composer.json .
+                - composer require --dev roave/backward-compatibility-check
+                - vendor/bin/roave-backward-compatibility-check r:a --from=master --to=HEAD
             
         -   php: 5.5
             env: LINTING=1
