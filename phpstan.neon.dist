@@ -5,12 +5,8 @@ parameters:
     bootstrap: phpstan-bootstrap.php
     excludes_analyse:
         - redaxo/src/addons/adminer/
-        - redaxo/src/addons/be_style/vendor/
-        - redaxo/src/addons/phpmailer/vendor/
-        - redaxo/src/addons/tests/vendor/
-        - redaxo/src/addons/debug/vendor/
-        - redaxo/src/core/vendor/
-        - redaxo/src/core/tests/
+        - redaxo/*/vendor/*
+        - redaxo/*/tests/*
     ignoreErrors:
         - '#Using \$this outside a class\.#'
         - '#Undefined variable: \$this#'
