@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_element
 {
@@ -223,7 +223,7 @@ class rex_form_element
         $tag = rex_escape($this->getTag(), 'html_attr');
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         if ($this->hasSeparateEnding()) {
@@ -232,7 +232,7 @@ class rex_form_element
             }
             return '<' . $tag . $attr . '>' . rex_escape($value) . '</' . $tag . '>';
         }
-        $attr .= ' value="' . rex_escape($value, 'html_attr') . '"';
+        $attr .= ' value="' . rex_escape($value) . '"';
         return '<' . $tag . $attr . ' />';
     }
 

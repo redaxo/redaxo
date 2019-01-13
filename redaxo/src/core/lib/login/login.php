@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 class rex_login
 {
@@ -393,7 +393,10 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            if (!@session_start()) {
+            $started = rex_timer::measure(__METHOD__, function () {
+                return @session_start();
+            });
+            if (!$started) {
                 $error = error_get_last();
                 if ($error) {
                     rex_error_handler::handleError($error['type'], $error['message'], $error['file'], $error['line']);
@@ -418,11 +421,13 @@ class rex_login
         $cookieParams = session_get_cookie_params();
 
         $key = rex::isBackend() ? 'backend' : 'frontend';
-        $sessionConfig = rex::getProperty('session');
+        $sessionConfig = rex::getProperty('session', []);
 
-        foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
-            if ($value !== null) {
-                $cookieParams[$name] = $value;
+        if ($sessionConfig) {
+            foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
+                if ($value !== null) {
+                    $cookieParams[$name] = $value;
+                }
             }
         }
 

@@ -1,9 +1,7 @@
 <?php
-
 /**
  * @package redaxo5
  */
-
 $info = '';
 $error = [];
 $success = '';
@@ -20,7 +18,7 @@ if ($func && !$csrfToken->isValid()) {
     $configFile = rex_path::coreData('config.yml');
     $config = rex_file::getConfig($configFile);
     $config['setup'] = true;
-    // echo nl2br(htmlspecialchars($cont));
+
     if (rex_file::putConfig($configFile, $config) !== false) {
         $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
 
@@ -149,11 +147,19 @@ $content = '
     <h3>' . rex_i18n::msg('debug_mode') . '</h3>
     <p>' . rex_i18n::msg('debug_mode_note') . '</p>
     <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
-    
+
     <h3>' . rex_i18n::msg('safemode') . '</h3>
-    <p>' . rex_i18n::msg('safemode_text') . '</p>
-    <p><a class="btn btn-safemode-activate" href="' . rex_url::currentBackendPage(['safemode' => 'true'] + $csrfToken->getUrlParams()) . '" data-pjax="false">' . rex_i18n::msg('safemode_activate') . '</a></p>
-    
+    <p>' . rex_i18n::msg('safemode_text') . '</p>';
+
+$safemodeUrl = rex_url::currentBackendPage(['safemode' => '1'] + $csrfToken->getUrlParams());
+if (rex::isSafeMode()) {
+    $safemodeUrl = rex_url::currentBackendPage(['safemode' => '0'] + $csrfToken->getUrlParams());
+}
+
+$content .= '
+    <p><a class="btn btn-safemode-activate" href="' . $safemodeUrl . '" data-pjax="false">' . (rex::isSafeMode() ? rex_i18n::msg('safemode_deactivate') : rex_i18n::msg('safemode_activate')) . '</a></p>
+
+
     <h3>' . rex_i18n::msg('setup') . '</h3>
     <p>' . rex_i18n::msg('setup_text') . '</p>
     <p><a class="btn btn-setup" href="' . rex_url::currentBackendPage(['func' => 'setup'] + $csrfToken->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('setup_restart') . '?" data-pjax="false">' . rex_i18n::msg('setup') . '</a></p>';
@@ -169,28 +175,22 @@ $formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-server">' . rex_i18n::msg('server') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer(), 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-server" name="settings[server]" value="' . rex_escape(rex::getServer()) . '" />';
 $formElements[] = $n;
 
 $n = [];
 $n['label'] = '<label for="rex-id-servername">' . rex_i18n::msg('servername') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName(), 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-servername" name="settings[servername]" value="' . rex_escape(rex::getServerName()) . '" />';
 $formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail(), 'html_attr') . '" />';
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
 
 $n = [];
 $n['label'] = '<label for="rex-id-lang">' . rex_i18n::msg('backend_language') . '</label>';
 $n['field'] = $sel_lang->get();
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="rex-id-error-email">' . rex_i18n::msg('error_email') . '</label>';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-error-email" name="settings[error_email]" value="' . rex_escape(rex::getErrorEmail()) . '" />';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();

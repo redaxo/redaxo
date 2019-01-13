@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_container_element extends rex_form_element
 {
@@ -96,12 +96,12 @@ class rex_form_container_element extends rex_form_element
                 continue;
             }
 
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         $format = '';
         foreach ($this->fields as $group => $groupFields) {
-            $format .= '<div id="rex-' . rex_escape($group, 'html_attr') . '"' . $attr . '>';
+            $format .= '<div id="rex-' . rex_escape($group) . '"' . $attr . '>';
             foreach ($groupFields as $field) {
                 $format .= $field->get();
             }

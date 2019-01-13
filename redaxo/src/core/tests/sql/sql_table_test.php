@@ -183,7 +183,7 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $table
             ->ensureColumn($title, 'id')
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
-            ->ensureColumn(new rex_sql_column('created', 'datetime'), 'status')
+            ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
             ->alter();
 

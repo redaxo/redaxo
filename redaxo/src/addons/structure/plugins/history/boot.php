@@ -116,7 +116,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     rex_view::addCssFile($this->getAssetsUrl('history.css'));
     rex_view::addJsFile($this->getAssetsUrl('history.js'));
 
-    $info = '';
     switch (rex_request('rex_history_function', 'string')) {
         case 'snap':
             $article_id = rex_request('history_article_id', 'int');
@@ -125,8 +124,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $history_date = rex_request('history_date', 'string');
 
             rex_article_slice_history::restoreSnapshot($history_date, $article_id, $clang_id, $revision);
-
-            $info = $version['history_snapshot_history_reactivate_snapshot'];
 
             // no break
         case 'layer':
@@ -155,7 +152,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
             $fragment->setVar('title', $this->i18n('overview_versions'));
-            $fragment->setVar('info', $info, false);
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);
             $fragment->setVar('content2select', $content2select, false);

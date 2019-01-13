@@ -45,15 +45,13 @@ if (rex::isBackend()) {
     });
 
     rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
-    if (rex_minibar::getInstance()->isActive()) {
+    if (rex_minibar::getInstance()->shouldRender()) {
         rex_view::addCssFile($this->getAssetsUrl('css/minibar.css'));
     }
     rex_view::addCssFile($this->getAssetsUrl('css/bootstrap-select.min.css'));
-    rex_view::addCssFile($this->getAssetsUrl('css/perfect-scrollbar.min.css'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/perfect-scrollbar.jquery.min.js'));
     rex_view::addJsFile($this->getAssetsUrl('javascripts/main.js'));
 
     // make sure to send preload headers only on fullpage requests

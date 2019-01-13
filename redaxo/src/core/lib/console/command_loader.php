@@ -15,18 +15,26 @@ class rex_console_command_loader implements CommandLoaderInterface
     public function __construct()
     {
         $commands = [
-            'assets:sync' => rex_command_assets_sync::class,
             'cache:clear' => rex_command_cache_clear::class,
-            'db:dump-schema' => rex_command_db_dump_schema::class,
+            'config:get' => rex_command_config_get::class,
             'db:connection-options' => rex_command_db_connection_options::class,
-            'package:activate' => rex_command_package_activate::class,
-            'package:deactivate' => rex_command_package_deactivate::class,
-            'package:install' => rex_command_package_install::class,
-            'package:uninstall' => rex_command_package_uninstall::class,
+            'db:set-connection' => rex_command_db_set_connection::class,
             'setup:check' => rex_command_setup_check::class,
-            'system:report' => rex_command_system_report::class,
-            'user:set-password' => rex_command_user_set_password::class,
         ];
+
+        if (!rex::isSetup()) {
+            $commands = array_merge($commands, [
+                'assets:sync' => rex_command_assets_sync::class,
+                'db:dump-schema' => rex_command_db_dump_schema::class,
+                'package:activate' => rex_command_package_activate::class,
+                'package:deactivate' => rex_command_package_deactivate::class,
+                'package:install' => rex_command_package_install::class,
+                'package:uninstall' => rex_command_package_uninstall::class,
+                'system:report' => rex_command_system_report::class,
+                'user:set-password' => rex_command_user_set_password::class,
+            ]);
+        }
+
         foreach ($commands as $command => $class) {
             $this->commands[$command] = ['class' => $class];
         }

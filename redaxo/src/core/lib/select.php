@@ -121,7 +121,7 @@ class rex_select
                 $this->setSelected($sectvalue);
             }
         } else {
-            $this->option_selected[] = $selected;
+            $this->option_selected[] = (string) rex_escape($selected);
         }
     }
 
@@ -239,7 +239,7 @@ class rex_select
         foreach ($this->options as $optgroup => $options) {
             $this->currentOptgroup = $optgroup;
             if ($optgroupLabel = isset($this->optgroups[$optgroup]) ? $this->optgroups[$optgroup] : null) {
-                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel, 'html_attr') . '">' . "\n";
+                $ausgabe .= '  <optgroup label="' . rex_escape($optgroupLabel) . '">' . "\n";
             }
             if (is_array($options)) {
                 $ausgabe .= $this->outGroup(0);
@@ -290,6 +290,11 @@ class rex_select
 
     protected function outOption($name, $value, $level = 0, array $attributes = [])
     {
+        $name = rex_escape($name);
+        // for BC reasons, we always expect value to be a string.
+        // this also makes sure that the strict in_array() check below works.
+        $value = (string) rex_escape($value);
+
         $bsps = '';
         if ($level > 0) {
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
@@ -304,8 +309,6 @@ class rex_select
             $attr .= ' ' . $n . '="' . $v . '"';
         }
 
-        $name = rex_escape($name);
-        $value = rex_escape($value, 'html_attr');
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
     }
 

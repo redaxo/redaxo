@@ -69,7 +69,7 @@ abstract class rex_metainfo_handler
                 $label = rex_escape($name);
             }
 
-            $id = 'rex-metainfo-'.rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name), 'html_attr');
+            $id = 'rex-metainfo-'.rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $name));
             $labelIt = true;
 
             $label = '<label for="' . $id . '">' . $label . '</label>';
@@ -181,10 +181,10 @@ abstract class rex_metainfo_handler
                         if ($oneValue) {
                             $e['label'] = $label;
                         } else {
-                            $currentId .= '-'.rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key), 'html_attr');
-                            $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value, 'html_attr') . '</label>';
+                            $currentId .= '-'.rex_escape(preg_replace('/[^a-zA-Z0-9_-]/', '_', $key));
+                            $e['label'] = '<label for="' . $currentId . '">' . rex_escape($value) . '</label>';
                         }
-                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . rex_escape($key, 'html_attr') . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
+                        $e['field'] = '<input type="' . $typeLabel . '" name="' . $name . '" value="' . rex_escape($key) . '" id="' . $currentId . '" ' . $attrStr . $selected . ' />';
                         $formElements[] = $e;
                     }
 

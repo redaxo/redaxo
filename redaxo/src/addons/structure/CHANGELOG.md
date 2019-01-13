@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.7.0 – XX.XX.XXXX
+--------------------------
+
+### Neu
+
+* Neuer EP: `CAT_MOVED` (@bloep)
+* version-PlugIn: Arbeitsversion kann geleert werden (@dpf-dd)
+* Slice-Value-Felder als `MEDIUMTEXT` statt `TEXT` damit mehr Inhalte gespeichert werden können (@bloep)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@bloep)
+
+### Bugfixes:
+
+* `rex_category::get()` lieferte auch für Nicht-Startartikel ein Kategorie-Objekt (@gharlan)
+* Template-Verwaltung: An einer Stelle wurde der Table-Prefix `rex_` fix genommen, statt `rex::getTablePrefix()` (@staabm)
+* In Modulen enthielt im Backend die Variable `$content` den Modul-PHP-Code, was zu verwirrenden Ausgaben führen konnte (@gharlan)
+
+
 Version 2.6.1 – 21.06.2018
 --------------------------
 

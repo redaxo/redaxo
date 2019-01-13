@@ -169,7 +169,7 @@ if ($subpage == '') {
 
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {
-            $f = fopen($licenseFile, 'rb');
+            $f = fopen($licenseFile, 'r');
             $firstLine = fgets($f);
             fclose($f);
 
@@ -186,7 +186,7 @@ if ($subpage == '') {
                         <td data-title="' . rex_i18n::msg('package_hname') . '">' . $name . '</td>
                         <td data-title="' . rex_i18n::msg('package_hversion') . '">' . $version . '</td>
                         <td class="rex-table-slim" data-title="' . rex_i18n::msg('package_hhelp') . '">
-                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName(), 'html_attr') . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
+                            <a href="' . rex_url::currentBackendPage(['subpage' => 'help', 'package' => $packageId]) . '" title="' . rex_i18n::msg('package_help') . ' ' . rex_escape($package->getName()) . '"><i class="rex-icon rex-icon-help"></i> ' . rex_i18n::msg('package_hhelp') . ' <span class="sr-only">' . rex_escape($package->getName()) . '</span></a>
                         </td>
                         <td class="rex-table-width-6" data-title="' . rex_i18n::msg('package_hlicense') . '">'. $license .'</td>
                         <td class="rex-table-action" data-pjax-container="#rex-js-page-container">' . $install . '</td>

@@ -218,7 +218,7 @@ class rex_socket
                 }
                 foreach ($files as $key => $file) {
                     fwrite($stream, sprintf($fileFormat, $key, basename($file['path']), $file['type']));
-                    $file = fopen($file['path'], 'rb');
+                    $file = fopen($file['path'], 'r');
                     while (!feof($file)) {
                         fwrite($stream, fread($file, 1024));
                     }
@@ -260,47 +260,49 @@ class rex_socket
      */
     public function doRequest($method, $data = '')
     {
-        if (!is_string($data) && !is_callable($data)) {
-            throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
-        }
+        return rex_timer::measure(__METHOD__, function () use ($method, $data) {
+            if (!is_string($data) && !is_callable($data)) {
+                throw new InvalidArgumentException(sprintf('Expecting $data to be a string or a callable, but %s given!', gettype($data)));
+            }
 
-        if (!$this->ssl) {
-            rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "'. $this->host .'"!', __FILE__, __LINE__);
-        }
+            if (!$this->ssl) {
+                rex_logger::logError(E_WARNING, 'You should not use non-secure socket connections while connecting to "'. $this->host .'"!', __FILE__, __LINE__);
+            }
 
-        $this->openConnection();
-        $response = $this->writeRequest($method, $this->path, $this->headers, $data);
+            $this->openConnection();
+            $response = $this->writeRequest($method, $this->path, $this->headers, $data);
 
-        if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
-            return $response;
-        }
-
-        $location = $response->getHeader('location');
-
-        if (!$location) {
-            return $response;
-        }
-
-        if (false === strpos($location, '//')) {
-            $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
-        } else {
-            $socket = self::factoryUrl($location);
-
-            if ($this->ssl && !$socket->ssl) {
+            if ('GET' !== $method || !$this->followRedirects || !$response->isRedirection()) {
                 return $response;
             }
-        }
 
-        $socket->setTimeout($this->timeout);
-        $socket->followRedirects($this->followRedirects - 1);
+            $location = $response->getHeader('location');
 
-        foreach ($this->headers as $key => $value) {
-            if ('Host' !== $key) {
-                $socket->addHeader($key, $value);
+            if (!$location) {
+                return $response;
             }
-        }
 
-        return $socket->doGet();
+            if (false === strpos($location, '//')) {
+                $socket = self::factory($this->host, $this->port, $this->ssl)->setPath($location);
+            } else {
+                $socket = self::factoryUrl($location);
+
+                if ($this->ssl && !$socket->ssl) {
+                    return $response;
+                }
+            }
+
+            $socket->setTimeout($this->timeout);
+            $socket->followRedirects($this->followRedirects - 1);
+
+            foreach ($this->headers as $key => $value) {
+                if ('Host' !== $key) {
+                    $socket->addHeader($key, $value);
+                }
+            }
+
+            return $socket->doGet();
+        });
     }
 
     /**

@@ -80,11 +80,13 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.6.4');
+rex::setProperty('version', '5.7.0-beta2');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
-if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile) >= filemtime($configFile)) {
+
+$cacheMtime = @filemtime($cacheFile);
+if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
     $config = rex_file::getCache($cacheFile);
 } else {
     $config = array_merge(
@@ -102,10 +104,7 @@ foreach ($config as $key => $value) {
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
-if (!rex::isSetup()) {
-    rex_error_handler::register();
-}
-
+rex_error_handler::register();
 rex_var_dumper::register();
 
 // ----------------- REX PERMS
