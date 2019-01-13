@@ -62,6 +62,3 @@ jobs:
                - php redaxo/bin/console package:activate debug
                - composer require --dev phpstan/phpstan
                - vendor/bin/phpstan analyse --autoload-file=redaxo/src/core/vendor/autoload.php
-        -   <<: *TEST_MYSQL
-            php: 7.3
-            sudo: required
