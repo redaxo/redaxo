@@ -50,6 +50,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.2
             script: 
+               - php redaxo/bin/console package:install cronjob
                - php redaxo/bin/console package:activate cronjob
                - composer require --dev phpstan/phpstan
                - vendor/bin/phpstan analyse --autoload-file=redaxo/src/core/vendor/autoload.php
