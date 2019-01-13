@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @internal
+ */
 class rex_event_select extends rex_select
 {
     public function __construct($options)
