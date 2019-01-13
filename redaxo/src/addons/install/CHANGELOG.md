@@ -1,8 +1,12 @@
 Changelog
 =========
 
-Version 2.4.1 – XX.XX.XXXX
+Version 2.5.0 – XX.XX.XXXX
 --------------------------
+
+### Neu
+
+* Über `installer_ignore` in der `package.yml` können Addons Ordner/Dateien angeben, die beim Upload ausgeschlossen werden sollen (@schuer)
 
 ### Bugfixes
 

@@ -6,7 +6,7 @@ Version 5.7.0 – XX.XX.XXXX
 
 ### Neu
 
-* Minibar am unteren Seitenrand (@tbaddade)
+* Minibar am unteren Seitenrand (@tbaddade, @staabm)
     - Im Backend immer sichtbar (statt bisheriger Footer)
     - Optional auch im Frontend (Profileinstellungen); mit Minimier-Option
     - Vorerst zwei Komponenten für aktuellen Artikel und aktuelle Sprache, und rechts eine mit Core/Versions-Infos
@@ -29,11 +29,12 @@ Version 5.7.0 – XX.XX.XXXX
 * `rex_path`: Neue Methode `relative()` um aus einem absoluten Pfad einen relativ zum Projekt-Root zu bekommen (@gharlan)
 * `rex_sql`: Debug-Ausgabe erweitert um aufgelöstes SQL-Statement inkl. Parametern (@aeberhard)
 * `rex_response`: Unterstützung für HTTP-Range (@bloep)
+* `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
 * Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
 * Setup: 
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
-* AddOn-README-Dateien werden auch sprachabhängig angezeigt (README.de.md etc.) (@staabm)
+* Die AddOn-README-Dateien und allgemein Markdown-Pages werden auch sprachabhängig angezeigt (README.de.md etc.) (@staabm, @gharlan)
 * Verständlichere CSRF-Meldung (@alexplusde)
 * Backend-Übersetzungdateien:
     - Neu: Niederländisch (noch ohne Core-AddOns) (@MaxKorlaar)
@@ -43,6 +44,7 @@ Version 5.7.0 – XX.XX.XXXX
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
 * Performance:
     - Backend-Assets werden über index.php geladen um optimierte Cache-Header (immutable) setzen zu können (@staabm)
+    - Per Server Timing Api werden Metriken an den Client gesendet (@staabm) 
     - Viele kleinere und größere Performance-Optimierungen (@staabm)
 * Update der externen Bibliotheken
 
@@ -50,6 +52,7 @@ Version 5.7.0 – XX.XX.XXXX
 
 * Profil: Sprachen waren nicht sortiert und Änderungen wirkten sich nicht direkt nach Speichern aus, erst nach Reload (@skerbis, @bloep)
 * Bei aktiviertem Safe-Mode blieb der Button unter "System" trotzdem bei "Safe mode aktivieren" (@skerbis)
+* `rex_sql_table`: Für `timestamp`/`datetime`-Spalten konnte nicht der Default-Wert `CURRENT_TIMESTAMP` gesetzt werden (@gharlan)
 * `rex_form`: Media-/Link-/Prio-Felder konnten nicht mit `rex_form_base` bzw. `rex_config_form` verwendet werden (@christophboecker)
 * `rex::getVersionHash` funktionierte nicht auf Windows Servern (@staabm)
 * Autoloader-Cache wird bei Fehlern nicht mehr geschrieben, und unvollständigen Cache zu vermeiden (@staabm)

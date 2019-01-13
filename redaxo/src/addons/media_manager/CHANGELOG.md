@@ -16,6 +16,7 @@ Version 2.6.0 – XX.XX.XXXX
 * Beim Löschen eines Media-Typs blieben die Effekte in der DB erhalten (@gharlan)
 * Besserer Umgang mit großen Dateien (@bloep)
 * Effekt `image_properties`: Nach Aktivierung des Interlace-Modus konnte es zu Warnings kommen, die eine korrekte Auslieferung der Bilder verhindern konnte (@gharlan)
+* CSS/JS-Dateien werden nun als `text/css`/`application/javascript` statt `text/plain` ausgeliefert (@TobiasKrais)
 
 
 Version 2.5.7 – 01.10.2018
