@@ -8,10 +8,10 @@ $REX['LOAD_PAGE'] = false;
 
 require $REX['BACKEND_FOLDER'] . '/src/core/boot.php';
 
-// include all functions, which might otherwise only be conditionally be included
+// include all functions, which might otherwise only be conditionally included
 $finder = rex_finder::factory('redaxo/src/')
     ->recursive()
-    // ignore files, which dont contain declarations execute logic
+    // ignore files, which dont contain declarations but execute logic
     ->ignoreFiles('function_rex_category.php')
     ->filesOnly();
 /** @var SplFileInfo $file */
