@@ -50,8 +50,14 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.2
             script: 
+               - php redaxo/bin/console package:install phpmailer
+               - php redaxo/bin/console package:activate phpmailer
                - php redaxo/bin/console package:install cronjob
                - php redaxo/bin/console package:activate cronjob
+               - php redaxo/bin/console package:install cronjob/article_status
+               - php redaxo/bin/console package:activate cronjob/article_status
+               - php redaxo/bin/console package:install cronjob/optimize_tables
+               - php redaxo/bin/console package:activate cronjob/optimize_tables
                - composer require --dev phpstan/phpstan
                - vendor/bin/phpstan analyse --autoload-file=redaxo/src/core/vendor/autoload.php
         -   <<: *TEST_MYSQL
