@@ -22,7 +22,7 @@ jobs:
             script: 
                 - mv redaxo/src/core/composer* .
                 - mv redaxo/src/core/vendor .
-                - composer require --dev roave/backward-compatibility-check
+                - composer require --dev roave/backward-compatibility-check --ignore-platform-reqs
                 - vendor/bin/roave-backward-compatibility-check r:a --from=master --to=HEAD
             
         -   php: 5.5
