@@ -1252,10 +1252,10 @@ class rex_sql implements Iterator
     {
         if (!$user) {
             if (rex::getUser()) {
-	            $user = rex::getUser()->getValue('login');
-	        } else {
-	            $user = rex::getEnvironment();
-	        }
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('updatedate', time());
@@ -1273,10 +1273,10 @@ class rex_sql implements Iterator
     {
         if (!$user) {
             if (rex::getUser()) {
-	            $user = rex::getUser()->getValue('login');
-	        } else {
-	            $user = rex::getEnvironment();
-	        }
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('createdate', time());
