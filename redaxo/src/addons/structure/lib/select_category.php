@@ -8,6 +8,7 @@ class rex_category_select extends rex_select
     private $ignore_offlines;
     private $clang;
     private $check_perms;
+    private $add_homepage;
 
     /**
      * @var int
