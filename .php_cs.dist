@@ -52,6 +52,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_no_package' => false,
         'phpdoc_to_comment' => false,
         'phpdoc_trim_consecutive_blank_line_separation' => true,
+        'phpdoc_types_order' => false,
         'phpdoc_var_without_name' => false,
         'psr4' => false,
         'semicolon_after_instruction' => false,
