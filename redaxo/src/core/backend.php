@@ -80,7 +80,7 @@ if (rex::isSetup()) {
         $login->checkLogin();
         rex_csrf_token::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
-        
+
         // Currently browsers like Safari do not support the header Clear-Site-Data. This ensures that all session variables are still removed.
         session_destroy();
 
@@ -122,7 +122,7 @@ if (rex::isSetup()) {
         // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
         // clearing "executionContext" or "cookies" would result in a endless loop.
         rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
-        
+
         // Currently browsers like Safari do not support the header Clear-Site-Data. This ensures that all session variables are still removed.
         session_destroy();
     } else {
