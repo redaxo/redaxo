@@ -29,7 +29,8 @@ class my_helpers {
 
 Nun kann man in jedem Modul, in dem man http(s)-Links in einem neuen Browserfenster öffnen lassen will, die Links ersetzen lassen:
 
-`echo my_helpers::links_to_blank($text)`
+```php
+echo my_helpers::links_to_blank($text)
 
 
 Weitere Verzeichnisse (`pages/`, `fragments/`, usw.) können direkt im project-AddOn angelegt werden. In der Dokumentation finden sich die entsprechenden Hinweise: https://redaxo.org/doku/master/addon-struktur
