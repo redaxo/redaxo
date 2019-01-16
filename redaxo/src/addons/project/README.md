@@ -6,7 +6,7 @@ Das project-AddOn dient als Basis für eigene projektspezifische Erweiterungen. 
 Installation
 ------------
 
-Das AddOn wird mit dem REDAXO Core mitgeliefert und muss lediglich über die AddOn-Verwaltung installiert werden.
+Das AddOn wird mit dem REDAXO-Core mitgeliefert und muss lediglich über die AddOn-Verwaltung installiert werden.
 
 Verzeichnisse
 -------------
