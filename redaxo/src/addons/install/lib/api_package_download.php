@@ -41,11 +41,11 @@ abstract class rex_api_install_package_download extends rex_api_function
         }
         rex_file::delete($archivefile);
         if ($message) {
-            $message = rex_i18n::msg('install_warning_addon_not_' . static::VERB, $this->addonkey) . '<br />' . $message;
+            $message = $this->getErrorMessage() . '<br />' . $message;
             $success = false;
         } else {
-            $message = rex_i18n::msg('install_info_addon_' . static::VERB, $this->addonkey)
-                             . (static::SHOW_LINK ? ' <a href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('install_to_addon_page') . '</a>' : '');
+            $message = $this->getSuccessMessage();
+
             $success = true;
             unset($_REQUEST['addonkey']);
         }
@@ -65,6 +65,10 @@ abstract class rex_api_install_package_download extends rex_api_function
         }
         return true;
     }
+
+    abstract protected function getSuccessMessage();
+
+    abstract protected function getErrorMessage();
 
     abstract protected function getPackages();
 

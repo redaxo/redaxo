@@ -7,13 +7,20 @@
  */
 class rex_api_install_package_update extends rex_api_install_package_download
 {
-    const VERB = 'updated';
-    const SHOW_LINK = false;
-
     /**
      * @var rex_addon
      */
     private $addon;
+
+    protected function getErrorMessage()
+    {
+        return rex_i18n::msg('install_warning_addon_not_updated', $this->addonkey);
+    }
+
+    protected function getSuccessMessage()
+    {
+        return rex_i18n::msg('install_info_addon_updated', $this->addonkey);
+    }
 
     protected function getPackages()
     {
