@@ -20,3 +20,6 @@ foreach ($finder as $path => $file) {
         require_once $file->getRealPath();
     }
 }
+
+// manually include functions which dont match the expectations of a "functions" folder
+require_once 'redaxo/redaxo/src/addons/metainfo/extensions/extension_cleanup.php';
