@@ -22,4 +22,4 @@ foreach ($finder as $path => $file) {
 }
 
 // manually include functions which dont match the expectations of a "functions" folder
-require_once 'redaxo/redaxo/src/addons/metainfo/extensions/extension_cleanup.php';
+require_once 'redaxo/src/addons/metainfo/extensions/extension_cleanup.php';
