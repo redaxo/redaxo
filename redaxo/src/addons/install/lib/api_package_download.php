@@ -18,8 +18,7 @@ abstract class rex_api_install_package_download extends rex_api_function
             throw new rex_api_exception('You do not have the permission!');
         }
         $this->addonkey = rex_request('addonkey', 'string');
-        $function = static::GET_PACKAGES_FUNCTION;
-        $packages = rex_install_packages::$function();
+        $packages = $this->getPackages();
         $this->fileId = rex_request('file', 'int');
         if (!isset($packages[$this->addonkey]['files'][$this->fileId])) {
             throw new rex_api_exception('The requested addon version can not be loaded, maybe it is already installed.');
@@ -66,6 +65,8 @@ abstract class rex_api_install_package_download extends rex_api_function
         }
         return true;
     }
+
+    abstract protected function getPackages();
 
     abstract protected function checkPreConditions();
 
