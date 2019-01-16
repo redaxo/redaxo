@@ -1,6 +1,8 @@
 <?php
 
-require 'vendor/chromephp/ChromePhp.php';
+if (rex_server('REQUEST_URI')) {
+    require 'vendor/chromephp/ChromePhp.php';
+}
 
 rex_sql::setFactoryClass('rex_sql_debug');
 rex_extension::setFactoryClass('rex_extension_debug');
