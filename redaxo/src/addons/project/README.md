@@ -44,7 +44,8 @@ Die Datei `boot.php` wird bei der Initialisierung von REDAXO ausgeführt, also n
 
 So kann hier ein zusätzlicher Pfad für yform-Templates angegeben werden:
 
-`rex_yform::addTemplatePath($this->getPath('yform-templates'));`
+```php
+rex_yform::addTemplatePath($this->getPath('yform-templates'));
 
 Nun werden Templates für die Ausgabe der yform Felder auch im Pfad `src/addons/project/yform-templates/[theme-name]` gesucht, wobei [theme-name] durch den Name des Themes (Standard ist bootstrap) ersetzt werden muss.
 
