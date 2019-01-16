@@ -11,7 +11,7 @@ Das AddOn wird mit dem REDAXO-Core mitgeliefert und muss lediglich über die Add
 Verzeichnisse
 -------------
 
-Bei der Installation wird lediglich das Verzeichnis lib angelegt. Alle dort abgelegten Klassen stehen über den REDAXO Autoloader systemweit zur Verfügung und müssen nicht zusätzlich included werden.
+Bei der Installation wird lediglich das Verzeichnis `lib/` angelegt. Alle darin abgelegten PHP-Klassen stehen dank Autoloader systemweit zur Verfügung und müssen nicht zusätzlich included werden.
 
 **Beispiel**
 
