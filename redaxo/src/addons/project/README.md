@@ -1,7 +1,7 @@
 REDAXO-AddOn: project
 =====================
 
-Das project-AddOn dient als Basis AddOn für eigene projektspezifische Erweiterungen. Es wird nicht durch ein System Update aktualisiert. Daher bleiben alle dort abgelegten Dateien erhalten.
+Das project-AddOn dient als Basis für eigene projektspezifische Erweiterungen. Es ist ein zu Beginn leeres AddOn, das mit PHP-Klassen, Stylesheets, JavaScript, Medien und sonstigen Daten ausgestattet werden kann, die im Projekt benötigt werden. REDAXO lädt das AddOn wie alle anderen auch und integriert es in seine Prozesse. Es unterscheidet sich von anderen AddOns jedoch dadurch, dass seine Dateien bei einem System-Update niemals überschrieben oder gelöscht werden.
 
 Installation
 ------------
