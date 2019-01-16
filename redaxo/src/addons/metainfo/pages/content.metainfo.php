@@ -1,5 +1,15 @@
 <?php
 
+$article_id = rex_request('article_id', 'int');
+$clang = rex_request('clang', 'int');
+$ctype = rex_request('ctype', 'int', 1);
+
+$article_id = rex_article::get($article_id) ? $article_id : 0;
+$clang = rex_clang::exists($clang) ? $clang : rex_clang::getStartId();
+if (!array_key_exists($ctype, $ctypes)) {
+    $ctype = 1;
+}
+
 $content = '';
 
 if (rex_post('savemeta', 'boolean')) {
