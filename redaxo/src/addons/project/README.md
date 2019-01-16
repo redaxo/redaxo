@@ -42,7 +42,7 @@ Dateien
 
 Die Datei `boot.php` wird bei der Initialisierung von REDAXO ausgeführt, also noch vor der Ausführung von Templates und Modulen.
 
-So kann hier ein zusätzlicher Pfad für yform Templates angegeben werden
+So kann hier ein zusätzlicher Pfad für yform-Templates angegeben werden:
 
 `rex_yform::addTemplatePath($this->getPath('yform-templates'));`
 
