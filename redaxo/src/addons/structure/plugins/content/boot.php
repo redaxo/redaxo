@@ -110,8 +110,14 @@ if (!rex::isBackend() || (rex::isBackend() && (rex_be_controller::getCurrentPage
     rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_article());
 }
 
-$page = rex_be_controller::getCurrentPageObject();
-if (!rex::isBackend() || (rex::isBackend() && $page && !$page->isPopup())) {
+if (!rex::isBackend()) {
     rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_clang());
+} elseif (rex::isBackend() && rex::getUser()) {
+    rex_extension::register('PAGE_CHECKED', function (rex_extension_point $ep) {
+        $page = rex_be_controller::getCurrentPageObject();
+        if ($page && !$page->isPopup()) {
+            rex_minibar::getInstance()->addElement(new rex_minibar_element_structure_clang());
+        }
+    });
 }
 
