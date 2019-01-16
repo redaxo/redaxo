@@ -450,7 +450,7 @@ abstract class rex_form_base
      */
     public function addRawField($html)
     {
-        $field = $this->addElement(new rex_form_raw_element($html));
+        $field = $this->addElement(new rex_form_raw_element($html, $this));
         return $field;
     }
 
