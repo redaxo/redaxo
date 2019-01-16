@@ -1,5 +1,7 @@
 <?php
 
+global $context, $article, $ctypes;
+
 $article_id = rex_request('article_id', 'int');
 $clang = rex_request('clang', 'int');
 $ctype = rex_request('ctype', 'int', 1);
