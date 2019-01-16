@@ -32,7 +32,7 @@ Nun kann man in jedem Modul, in dem man http(s)-Links in einem neuen Browserfens
 `echo my_helpers::links_to_blank($text)`
 
 
-Weitere Verzeichnisse (pages, fragments usw.) können direkt im Projekt AddOn angelegt werden. In der Dokumentation https://redaxo.org/doku/master/addon-struktur finden sich die entsprechenden Hinweise.
+Weitere Verzeichnisse (`pages/`, `fragments/`, usw.) können direkt im project-AddOn angelegt werden. In der Dokumentation finden sich die entsprechenden Hinweise: https://redaxo.org/doku/master/addon-struktur
 
 Dateien
 -------
