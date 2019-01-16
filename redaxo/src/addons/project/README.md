@@ -40,7 +40,7 @@ Dateien
 
 ### boot.php
 
-Die Datei boot.php wird bei der Initialisierung von REDAXO ausgeführt. Das heißt, dass der Code vor der Ausführung von Templates und Modulen ausgeführt wird.
+Die Datei `boot.php` wird bei der Initialisierung von REDAXO ausgeführt, also noch vor der Ausführung von Templates und Modulen.
 
 So kann hier ein zusätzlicher Pfad für yform Templates angegeben werden
 
