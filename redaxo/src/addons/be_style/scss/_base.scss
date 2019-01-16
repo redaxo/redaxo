@@ -480,6 +480,10 @@ body:after {
     .container {
         width: 100%;
     }
+    .panel-body {
+        position: relative;
+        overflow: auto;
+    }
 }
 
 .panel-heading {
