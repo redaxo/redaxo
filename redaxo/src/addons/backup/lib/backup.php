@@ -309,7 +309,7 @@ class rex_backup
         // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
             $tempCacheFile = rex_path::cache(basename($filename));
-            $fp = fopen($tempCacheFile, 'wb');
+            $fp = fopen($tempCacheFile, 'w');
             if (!$fp) {
                 return false;
             }
@@ -357,6 +357,9 @@ class rex_backup
                     $field = 'double';
                 } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
                     $field = 'string';
+                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $field['Type'])) {
+                    // types which can be passed tru 1:1 as escaping isn't necessary, because we know the mysql internal format.
+                    $field = 'raw';
                 }
                 // else ?
             }
@@ -386,6 +389,10 @@ class rex_backup
                         $column = $row[$idx];
 
                         switch ($type) {
+                            // prevent calling sql->escape() on values with a known format
+                            case 'raw':
+                                $record[] = "'". $column ."'";
+                                break;
                             case 'int':
                                 $record[] = (int) $column;
                                 break;
@@ -393,8 +400,20 @@ class rex_backup
                                 $record[] = sprintf('%.10F', (float) $column);
                                 break;
                             case 'string':
+                                // fast-exit for very frequent used harmless values
+                                if ($column === '0' || $column === '' || $column === ' ' || $column === '|' || $column === '||') {
+                                    $record[] = "'". $column ."'";
+                                    break;
+                                }
+
+                                // fast-exit for very frequent used harmless values
+                                if (strlen($column) <= 3 && ctype_alnum($column)) {
+                                    $record[] = "'". $column ."'";
+                                    break;
+                                }
+                                // no break
                             default:
-                                $record[] = $sql->escape($column, "'");
+                                $record[] = $sql->escape($column);
                                 break;
                         }
                     }
@@ -438,7 +457,7 @@ class rex_backup
             fclose($fp);
             rename($tempCacheFile, $filename);
         } else {
-            $destination = fopen($filename, 'wb');
+            $destination = fopen($filename, 'w');
             rewind($fp);
             if (!$destination) {
                 return false;

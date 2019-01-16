@@ -231,10 +231,23 @@ class rex_media_manager
 
     public function sendMedia()
     {
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
+
         $headerCacheFilename = $this->getHeaderCacheFilename();
         $CacheFilename = $this->getCacheFilename();
 
         rex_response::cleanOutputBuffers();
+
+        // check for a cache-buster. this needs to be done, before the session gets closed/aborted.
+        // the header is sent directly, to make sure it gets not cached with the other media related headers.
+        if (rex_get('buster')) {
+            if (PHP_SESSION_ACTIVE == session_status()) {
+                // short lived cache, for resources which might be affected by e.g. permissions
+                rex_response::sendCacheControl('private, max-age=7200');
+            } else {
+                rex_response::sendCacheControl('public, max-age=31536000, immutable');
+            }
+        }
 
         // prevent session locking trough other addons
         if (function_exists('session_abort')) {
@@ -250,12 +263,15 @@ class rex_media_manager
                 unset($header['Last-Modified']);
             }
             foreach ($header as $t => $c) {
-                header($t . ': ' . $c);
+                rex_response::setHeader($t, $c);
             }
-            readfile($CacheFilename);
+            rex_response::sendFile($CacheFilename, $header['Content-Type']);
         } else {
             $this->media->sendMedia($CacheFilename, $headerCacheFilename, $this->use_cache);
         }
+
+        rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_AFTER_SEND', $this, []));
+
         exit;
     }
 

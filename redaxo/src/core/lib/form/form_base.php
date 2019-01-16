@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 abstract class rex_form_base
 {
@@ -450,7 +450,7 @@ abstract class rex_form_base
      */
     public function addRawField($html)
     {
-        $field = $this->addElement(new rex_form_raw_element($html));
+        $field = $this->addElement(new rex_form_raw_element($html, $this));
         return $field;
     }
 
@@ -1232,7 +1232,7 @@ abstract class rex_form_base
             $s .= '<fieldset>' . "\n";
 
             if ($fieldsetName != '' && $fieldsetName != $this->name) {
-                $s .= '<legend>' . htmlspecialchars($fieldsetName) . '</legend>' . "\n";
+                $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
             }
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen

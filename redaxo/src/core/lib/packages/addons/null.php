@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 class rex_null_addon extends rex_null_package implements rex_addon_interface
 {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\backend
  */
 class rex_be_controller
 {
@@ -428,6 +428,11 @@ class rex_be_controller
 
         if ('.md' !== strtolower(substr($path, -3))) {
             return self::includePath($path, $context);
+        }
+
+        $languagePath = substr($path, 0, -3).'.'.rex_i18n::getLanguage().'.md';
+        if (is_readable($languagePath)) {
+            $path = $languagePath;
         }
 
         $fragment = new rex_fragment();

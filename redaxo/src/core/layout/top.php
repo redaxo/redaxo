@@ -10,7 +10,7 @@ $curPage = rex_be_controller::getCurrentPageObject();
 
 if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
+    echo '<title>' . rex_escape(rex_be_controller::getPageTitle()) . '</title>';
 }
 
 if (!$curPage->hasLayout()) {
@@ -43,6 +43,10 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $body_attr['class'][] = 'rex-is-impersonated';
 }
+if (rex_minibar::getInstance()->isActive() !== false) {
+    $body_attr['class'][] = 'rex-minibar-is-active';
+}
+
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 
@@ -207,7 +211,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
     $fragment->setVar('cssFiles', rex_view::getCssFiles());
-    $fragment->setVar('jsFiles', rex_view::getJsFiles());
+    $fragment->setVar('jsFiles', rex_view::getJsFilesWithOptions());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
     $fragment->setVar('favicon', rex_view::getFavicon());
     $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);

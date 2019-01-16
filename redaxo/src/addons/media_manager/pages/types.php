@@ -93,8 +93,8 @@ if ($func == '') {
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
     $list->setColumnFormat('name', 'custom', function ($params) {
         $list = $params['list'];
-        $name = '<b>' . $list->getValue('name') . '</b>';
-        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . $list->getValue('description') . '</span>' : '';
+        $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
+        $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
         return $name;
     });
 

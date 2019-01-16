@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\login
  *
  * @method null|rex_user getUser()
  * @method null|rex_user getImpersonator()

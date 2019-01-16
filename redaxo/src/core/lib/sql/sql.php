@@ -5,7 +5,7 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql implements Iterator
 {
@@ -351,7 +351,10 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = $pdo->query($query);
+            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
+                return $pdo->query($query);
+            });
+
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
@@ -1118,15 +1121,31 @@ class rex_sql implements Iterator
      */
     protected function printError($qry, $params)
     {
-        $errors['debug'] = true;
         $errors['query'] = $qry;
         if (!empty($params)) {
             $errors['params'] = $params;
+
+            // taken from https://github.com/doctrine/DoctrineBundle/blob/d57c1a35cd32e6b942fdda90ae3888cc1bb41e6b/Twig/DoctrineExtension.php#L290-L305
+            $i = 0;
+            $errors['fullquery'] = preg_replace_callback(
+                '/\?|((?<!:):[a-z0-9_]+)/i',
+                static function ($matches) use ($params, &$i) {
+                    $key = substr($matches[0], 1);
+                    if (!array_key_exists($i, $params) && ($key === false || !array_key_exists($key, $params))) {
+                        return $matches[0];
+                    }
+                    $value = array_key_exists($i, $params) ? $params[$i] : $params[$key];
+                    $result = self::factory()->escape($value);
+                    ++$i;
+                    return $result;
+                },
+                $qry
+            );
         }
-        if (strlen($this->getRows()) > 0) {
+        if ($this->getRows()) {
             $errors['count'] = $this->getRows();
         }
-        if (strlen($this->getError()) > 0) {
+        if ($this->getError()) {
             $errors['error'] = $this->getError();
             $errors['ecode'] = $this->getErrno();
         }
@@ -1232,7 +1251,11 @@ class rex_sql implements Iterator
     public function addGlobalUpdateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()->getValue('login');
+            if (rex::getUser()) {
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('updatedate', time());
@@ -1249,7 +1272,11 @@ class rex_sql implements Iterator
     public function addGlobalCreateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()->getValue('login');
+            if (rex::getUser()) {
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('createdate', time());

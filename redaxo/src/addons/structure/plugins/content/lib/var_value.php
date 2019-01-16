@@ -30,7 +30,7 @@ class rex_var_value extends rex_var
         } elseif ($output == 'html') {
             $value = str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $value);
         } else {
-            $value = htmlspecialchars($value);
+            $value = rex_escape($value);
             if (!$this->environmentIs(self::ENV_INPUT)) {
                 $value = nl2br($value);
             }

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.3.2 – XX.XX.XXXX
+--------------------------
+
+### Bugfixes
+
+* Metadaten in Struktur-Sidebar werden nun vom Struktur-AddOn selbst geliefert (@DanielWeitenauer)
+
+
 Version 2.3.1 – 05.06.2018
 --------------------------
 

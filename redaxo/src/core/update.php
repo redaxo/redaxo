@@ -18,6 +18,11 @@ if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
     throw new rex_functional_exception($message);
 }
 
+// Since R5.7 we require at least R5.4 because of some `rex_sql_table` usages in core addons
+if (rex_string::versionCompare(rex::getVersion(), '5.4', '<')) {
+    throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.X before.', rex::getVersion()));
+}
+
 // Installer >= 2.1.2 required because of https://github.com/redaxo/redaxo/issues/1018
 // (Installer < 2.0.3 also works, because it does not contain the bug)
 $installerVersion = rex_addon::get('install')->getVersion();
@@ -94,6 +99,12 @@ HTACCESS;
         ->setWhere(['language' => 'se_sv'])
         ->setValue('language', 'sv_se')
         ->update();
+}
+
+if (rex_string::versionCompare(rex::getVersion(), '5.7-dev', '<')) {
+    rex_sql_table::get(rex::getTable('user'))
+        ->ensureColumn(new rex_sql_column('minibar', 'tinyint', false), 'admin')
+        ->alter();
 }
 
 $path = rex_path::coreData('config.yml');

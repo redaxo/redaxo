@@ -4,6 +4,7 @@
         "erusev/parsedown-extra": "^0.7",
         "filp/whoops": "^2.2.1",
         "psr/log": "^1.0",
+        "ramsey/http-range": "dev-legacy",
         "roave/security-advisories": "dev-master",
         "symfony/console": "^3.4",
         "symfony/polyfill-mbstring": "^1.6",
@@ -18,7 +19,14 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "5.5.9"
+            "php": "5.6"
         }
-    }
+    },
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/redaxo/http-range"
+        }
+    ]
 }

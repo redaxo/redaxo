@@ -31,6 +31,8 @@ media_manager_back = Tillbaka
 
 media_manager_error_name = Vänligen ange ett namn.
 media_manager_error_settings = Vänligen mata in innehåll vid inställningar.
+media_manager_error_type_name_not_unique = Det finns redan en mediatyp med detta namnet!
+media_manager_error_type_name_invalid = Namnet kan inte innehålla tecknen "/" och "\"!
 
 media_manager_type_caption = Lista av mediatyper
 media_manager_type_no_types = Inga mediatyper tillgängliga
@@ -110,8 +112,6 @@ media_manager_effect_flip_direction = Riktning
 
 media_manager_effect_rotate = Vrida (grad)
 media_manager_effect_rotate_degree = Vrida med (vinkel)
-
-media_manager_error_type_name_not_unique = Det finns redan en mediatyp med detta namnet!
 
 media_manager_effect_mirror = Bild: tillfoga vattenspegling
 media_manager_effect_mirror_height = Refl. höjd (50 / 10%)

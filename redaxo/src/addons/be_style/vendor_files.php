@@ -27,6 +27,4 @@ return [
     'vendor/font-awesome/fonts/fontawesome-webfont.woff' => 'fonts/fontawesome-webfont.woff',
     'vendor/font-awesome/fonts/fontawesome-webfont.woff2' => 'fonts/fontawesome-webfont.woff2',
     'vendor/font-awesome/fonts/FontAwesome.otf' => 'fonts/FontAwesome.otf',
-    'vendor/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js' => 'javascripts/perfect-scrollbar.jquery.min.js',
-    'vendor/perfect-scrollbar/css/perfect-scrollbar.min.css' => 'css/perfect-scrollbar.min.css',
 ];

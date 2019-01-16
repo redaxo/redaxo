@@ -8,11 +8,14 @@
 class rex_response
 {
     const HTTP_OK = '200 OK';
+    const HTTP_PARTIAL_CONTENT = '206 Partial Content';
     const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
     const HTTP_NOT_MODIFIED = '304 Not Modified';
+    const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
     const HTTP_NOT_FOUND = '404 Not Found';
     const HTTP_FORBIDDEN = '403 Forbidden';
     const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
     const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
     const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
@@ -91,6 +94,15 @@ class rex_response
         }
     }
 
+    private static function sendServerTimingHeaders()
+    {
+        // see https://w3c.github.io/server-timing/#the-server-timing-header-field
+        foreach (rex_timer::$serverTimings as $label => $durationMs) {
+            $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
+            header('Server-Timing: '. $label .';dur='. number_format($durationMs, 3, '.', ''), false);
+        }
+    }
+
     /**
      * Redirects to a URL.
      *
@@ -109,6 +121,7 @@ class rex_response
         self::cleanOutputBuffers();
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -156,6 +169,44 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
+
+        // dependency ramsey/http-range requires PHP >=5.6
+        if (PHP_VERSION_ID >= 50600) {
+            header('Accept-Ranges: bytes');
+            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+            if ($rangeHeader) {
+                try {
+                    $filesize = filesize($file);
+                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
+                    $handle = fopen($file, 'r');
+                    if (is_resource($handle)) {
+                        foreach ($ranges as $range) {
+                            header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                            header('Content-Length: ' . $range->getLength());
+                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+
+                            // Don't output more bytes as requested
+                            // default chunk size is usually 8192 bytes
+                            $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
+
+                            fseek($handle, $range->getStart());
+                            while (ftell($handle) < $range->getEnd()) {
+                                echo fread($handle, $chunkSize);
+                            }
+                        }
+                        fclose($handle);
+                    } else {
+                        // Send Error if file couldn't be read
+                        header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
+                    }
+                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                    header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
+                }
+                return;
+            }
+        }
 
         readfile($file);
     }
@@ -233,7 +284,7 @@ class rex_response
             // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
             // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
             // https://bugs.webkit.org/show_bug.cgi?id=32829
-            (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome'))
+            (!empty($_SERVER['HTTP_USER_AGENT']) && (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')))
         ) {
             // ----- Last-Modified
             if (!self::$sentLastModified
@@ -264,6 +315,7 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         echo $content;
 

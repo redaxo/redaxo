@@ -1,6 +1,23 @@
 Changelog
 =========
 
+Version 2.5.2 – XX.XX.XXXX
+--------------------------
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurde der letzte Login falsch angezeigt (@gharlan)
+* Mit MySQL 8.0 bis 8.0.12 kam es in der Benutzerliste zu einem Fehler (@schuer)
+
+
+Version 2.5.1 – 01.10.2018
+--------------------------
+
+### Security
+
+* Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+
 Version 2.5.0 – 05.06.2018
 --------------------------
 

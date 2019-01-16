@@ -110,35 +110,37 @@ class Inline
             mb_internal_encoding('ASCII');
         }
 
-        $i = 0;
-        $tag = self::parseTag($value, $i, $flags);
-        switch ($value[$i]) {
-            case '[':
-                $result = self::parseSequence($value, $flags, $i, $references);
-                ++$i;
-                break;
-            case '{':
-                $result = self::parseMapping($value, $flags, $i, $references);
-                ++$i;
-                break;
-            default:
-                $result = self::parseScalar($value, $flags, null, $i, null === $tag, $references);
-        }
+        try {
+            $i = 0;
+            $tag = self::parseTag($value, $i, $flags);
+            switch ($value[$i]) {
+                case '[':
+                    $result = self::parseSequence($value, $flags, $i, $references);
+                    ++$i;
+                    break;
+                case '{':
+                    $result = self::parseMapping($value, $flags, $i, $references);
+                    ++$i;
+                    break;
+                default:
+                    $result = self::parseScalar($value, $flags, null, $i, null === $tag, $references);
+            }
 
-        if (null !== $tag) {
-            return new TaggedValue($tag, $result);
-        }
+            if (null !== $tag) {
+                return new TaggedValue($tag, $result);
+            }
 
-        // some comments are allowed at the end
-        if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
-            throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)), self::$parsedLineNumber + 1, $value, self::$parsedFilename);
-        }
+            // some comments are allowed at the end
+            if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
+                throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)), self::$parsedLineNumber + 1, $value, self::$parsedFilename);
+            }
 
-        if (isset($mbEncoding)) {
-            mb_internal_encoding($mbEncoding);
+            return $result;
+        } finally {
+            if (isset($mbEncoding)) {
+                mb_internal_encoding($mbEncoding);
+            }
         }
-
-        return $result;
     }
 
     /**
@@ -325,7 +327,7 @@ class Inline
             if (null !== $delimiters) {
                 $tmp = ltrim(substr($scalar, $i), ' ');
                 if ('' === $tmp) {
-                    throw new ParseException(sprintf('Unexpected end of line, expected one of "%s".', implode($delimiters)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+                    throw new ParseException(sprintf('Unexpected end of line, expected one of "%s".', implode('', $delimiters)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                 }
                 if (!\in_array($tmp[0], $delimiters)) {
                     throw new ParseException(sprintf('Unexpected characters (%s).', substr($scalar, $i)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
@@ -788,7 +790,7 @@ class Inline
      * @param int    &$i
      * @param int    $flags
      *
-     * @return null|string
+     * @return string|null
      */
     private static function parseTag($value, &$i, $flags)
     {

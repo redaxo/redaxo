@@ -149,3 +149,6 @@ action_header_postsave = Postsave-Event(s)
 action_heading_preview = Preview-Action
 action_heading_presave = Presave-Action
 action_heading_postsave = Postsave-Action
+
+structure_content_minibar_article_edit = Im Backend bearbeiten
+structure_content_minibar_article_show = Artikel anzeigen
