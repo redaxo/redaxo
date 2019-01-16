@@ -1,6 +1,6 @@
 <?php
 
-if (rex_request::server('REQUEST_URI')) {
+if (rex_server('REQUEST_URI')) {
     require 'vendor/chromephp/ChromePhp.php';
 }
 
