@@ -59,7 +59,7 @@ if (rex::isBackend()) {
 
 wird im Backend von REDAXO die Datei `/assets/addons/project/scripts/be_scripts.js` geladen.
 
-Auch der Einsatz von Extension-Points ist in der boot.php sinnvoll.
+Auch der Einsatz von Extension-Points ist in der boot.php sinnvoll:
 
 ```php
 if (!rex::isBackend()) {
