@@ -137,6 +137,7 @@ $panel = '
                 $e = [];
                 $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';
                 $e['field'] = '<input type="checkbox" name="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />';
+                $e['class'] = 'rex-form-group-no-margin';
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', [$e], false);
                 $checkbox = $fragment->parse('core/form/checkbox.php');
@@ -174,23 +175,26 @@ $panel = '
 
                 $actionButtons = '';
                 if (count($buttons) > 0) {
-                    $fragment = new rex_fragment();
-                    $fragment->setVar('buttons', $buttons, false);
-                    $fragment->setVar('vertical', true, false);
-                    $actionButtons = $fragment->parse('core/buttons/button_group.php');
+                    foreach ($buttons as $button) {
+                        $fragment = new rex_fragment();
+                        $fragment->setVar('buttons', [$button], false);
+                        $actionButtons .= $fragment->parse('core/buttons/button.php');
+                        $actionButtons .= ' ';
+                    }
                 }
 
-                $field = '<div class="row"><div class="col-sm-9">' . $field . '</div><div class="col-sm-3 text-right">' . $actionButtons . '</div>';
+                $field = '<div class="row"><div class="col-sm-7">' . $field . '</div><div class="col-sm-5 text-right">' . $actionButtons . '</div>';
 
                 $e = [];
                 $e['label'] = '<label>' . rex_i18n::msg('pool_selectedmedia') . '</label>';
                 $e['field'] = $field;
+                $e['class'] = 'rex-form-group-no-margin';
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', [$e], false);
                 $field = $fragment->parse('core/form/form.php');
 
                 $panel .= '
-                <tfoot>
+                <tfoot class="rex-sticky-table-footer">
                 <tr>
                     <td colspan="2">
                         ' . $checkbox . '
