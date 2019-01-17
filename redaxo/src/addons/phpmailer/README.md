@@ -28,7 +28,7 @@ Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben
 
 Weitere Informationen zur Verwendung von PHPMailer unter: [https://github.com/PHPMailer/PHPMailer/wiki/Tutorial](https://github.com/PHPMailer/PHPMailer/wiki/Tutorial)
 
-> **Hinweis:** Eine Test-Mail kann nach dem Speichern der Einstellungen verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden.
+> **Hinweis:** Eine Test-Mail kann mit dem Button **Speichern und testen** verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden.
 
 <a name="beispiele"></a>
 ## PHPMailer Code-Beispiele
@@ -128,10 +128,11 @@ foreach($sql as $row)
 
 ## E-Mail-Benachrichtigung bei Fehlern
 
-PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene logevents findet. 
-Der Check und ggf. Zusendung erfolgt in festen Intervallen, die in den Systemeinstellungen definiert werden können. Empfänger ist die im System hinterlegte Fehleradresse. 
+PHPMAiler versendet einen Auszug des system.log, wenn es Exceptions, Errors und eigene Logevents findet. 
+Der Check und ggf. die Zusendung erfolgen in festen Intervallen, die in den Systemeinstellungen definiert werden können. Empfänger ist die im System hinterlegte Fehleradresse. 
 
 Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Event als Typ: logevent ablegen. 
+
 `rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
 
 
@@ -181,16 +182,16 @@ $mail->SMTPOptions = array(
 <a name="multidomain"></a>
 ### Senden über unterschiedliche Domains 
 
-Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Absender-Domain in den DNS-Einstellungen
+Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Absender-Domain(s) in den DNS-Einstellungen
 
 - den Webserver (bei sendmail und mail) 
 - oder den angegebenen SMTP(S)-Server 
 
-als erlaubte Adressen beinhalten. 
+als erlaubte Server-Adressen beinhalten. 
 
 z.B. `a:meine-domain.tld ip4:XXX.XXX.XXX.XXX`
 
-Somit wird sichergestellt, das PHPMailer E-Mails unter der angegebenen Domain versenden kann und die Mail nicht als SPAM deklariert wird.  
+Somit wird sichergestellt, dass PHPMailer E-Mails unter der angegebenen Domain versenden kann und die Mail nicht als SPAM deklariert wird.  
 
 Hierzu ggf. den Registrar oder DNS-Administrator kontaktieren. 
 
