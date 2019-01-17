@@ -5,6 +5,15 @@
  */
 class rex_minibar_element_structure_clang extends rex_minibar_lazy_element
 {
+    public function render()
+    {
+        // create the backend user session, in case it is missing (e.g. in frontend).
+        // we do it once beforehand, so we can save the check on each later callsite
+        rex_backend_login::createUser();
+
+        return parent::render();
+    }
+
     protected function renderFirstView()
     {
         return
@@ -53,7 +62,7 @@ class rex_minibar_element_structure_clang extends rex_minibar_lazy_element
                         <span><span class="rex-minibar-status-'.($clang->isOnline() ? 'green' : 'red').'">'.($clang->isOnline() ? rex_i18n::msg('status_online') : rex_i18n::msg('status_offline')).'</span> '.$editLink.'</span>                    
                     </div>';
 
-                if (rex::isBackend() && rex::getUser()) {
+                if (rex::isBackend()) {
                     if ($article && in_array(rex_be_controller::getCurrentPagePart(1), ['structure', 'content']) && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
                         $context = new rex_context([
                             'page' => rex_be_controller::getCurrentPage(),

@@ -220,6 +220,7 @@ class rex_log_entry
      */
     public static function createFromString($string)
     {
+        $data = [];
         foreach (explode('|', $string) as $part) {
             $data[] = str_replace('\n', "\n", trim($part));
         }
