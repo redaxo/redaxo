@@ -509,7 +509,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
 
 // ---------------------------------- Userliste
 
-if (isset($SHOW) && $SHOW) {
+if ($SHOW) {
     // use string starting with "_" to have users without role at bottom when sorting by role ASC
     $noRole = '_no_role';
 
