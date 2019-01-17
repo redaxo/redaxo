@@ -216,7 +216,7 @@ class rex_socket_response
     {
         $close = false;
         if (is_string($resource) && rex_dir::create(dirname($resource))) {
-            $resource = fopen($resource, 'wb');
+            $resource = fopen($resource, 'w');
             $close = true;
         }
         if (!is_resource($resource)) {

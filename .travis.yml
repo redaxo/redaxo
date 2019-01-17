@@ -49,4 +49,13 @@ jobs:
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
-            sudo: required
+            script: 
+               - php redaxo/bin/console package:install phpmailer
+               - php redaxo/bin/console package:install cronjob
+               - php redaxo/bin/console package:install cronjob/article_status
+               - php redaxo/bin/console package:install cronjob/optimize_tables
+               - php redaxo/bin/console package:install debug
+               - php redaxo/bin/console package:install structure/history
+               - php redaxo/bin/console package:install structure/version
+               - composer require --dev phpstan/phpstan
+               - vendor/bin/phpstan analyse

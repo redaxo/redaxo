@@ -10,22 +10,6 @@ $ASTATUS[0] = 'ADD';
 $ASTATUS[1] = 'EDIT';
 $ASTATUS[2] = 'DELETE';
 
-class rex_event_select extends rex_select
-{
-    public function __construct($options)
-    {
-        parent::__construct();
-
-        $this->setMultiple(1);
-
-        foreach ($options as $key => $value) {
-            $this->addOption($value, $key);
-        }
-
-        $this->setSize(count($options));
-    }
-}
-
 $OUT = true;
 
 $action_id = rex_request('action_id', 'int');
@@ -171,7 +155,7 @@ if ($function == 'add' || $function == 'edit') {
             2 => $ASTATUS[1] . ' - ' . rex_i18n::msg('action_event_edit'),
         ];
 
-        $sel_preview_status = new rex_event_select($options, false);
+        $sel_preview_status = new rex_event_select($options);
         $sel_preview_status->setName('previewstatus[]');
         $sel_preview_status->setId('previewstatus');
         $sel_preview_status->setStyle('class="form-control"');

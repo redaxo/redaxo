@@ -1251,7 +1251,11 @@ class rex_sql implements Iterator
     public function addGlobalUpdateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()->getValue('login');
+            if (rex::getUser()) {
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('updatedate', time());
@@ -1268,7 +1272,11 @@ class rex_sql implements Iterator
     public function addGlobalCreateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()->getValue('login');
+            if (rex::getUser()) {
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('createdate', time());

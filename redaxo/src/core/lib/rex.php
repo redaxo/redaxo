@@ -181,6 +181,19 @@ class rex
     }
 
     /**
+     * Returns if the environment is the frontend.
+     *
+     * @return bool
+     */
+    public static function isFrontend()
+    {
+        if (self::getConsole()) {
+            return false;
+        }
+        return !self::getProperty('redaxo', false);
+    }
+
+    /**
      * Returns the environment.
      *
      * @return string

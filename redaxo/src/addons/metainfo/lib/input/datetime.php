@@ -60,12 +60,12 @@ class rex_input_datetime extends rex_input
 
     public function getHourSelect()
     {
-        return $this->hourSelect;
+        return $this->timeInput->hourSelect;
     }
 
     public function getMinuteSelect()
     {
-        return $this->minuteSelect;
+        return $this->timeInput->minuteSelect;
     }
 
     public function getHtml()
