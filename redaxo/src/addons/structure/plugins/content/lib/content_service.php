@@ -54,7 +54,7 @@ class rex_content_service
                 if ($direction == 'moveup') {
                     $upd->setValue('priority', $CM->getValue('priority') - 1);
                     $updSort = 'DESC';
-                } elseif ($direction == 'movedown') {
+                } else {
                     $upd->setValue('priority', $CM->getValue('priority') + 1);
                     $updSort = 'ASC';
                 }
