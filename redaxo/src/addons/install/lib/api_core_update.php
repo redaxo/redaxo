@@ -37,6 +37,7 @@ class rex_api_install_core_update extends rex_api_function
         $coreAddons = [];
         /** @var rex_addon[] $updateAddons */
         $updateAddons = [];
+        $updateAddonsConfig = [];
         try {
             if ($version['checksum'] != md5_file($archivefile)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_checksum'));

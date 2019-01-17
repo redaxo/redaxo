@@ -18,6 +18,7 @@ if ($history_date != '') {
     $historyLogin = rex_request('rex_history_login', 'string');
     $historyValidtime = rex_request('rex_history_validtime', 'string');
 
+    $user = null;
     if ($historySession != '' && $historyLogin != '' && $historyValidtime != '' && !rex::isBackend()) {
         $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
         $now = new DateTime();

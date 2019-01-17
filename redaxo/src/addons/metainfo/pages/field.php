@@ -21,6 +21,7 @@ if (empty($metaTable)) {
 }
 
 $Basedir = __DIR__;
+$func = rex_request('func', 'string');
 $field_id = rex_request('field_id', 'int');
 
 //------------------------------> Feld loeschen
