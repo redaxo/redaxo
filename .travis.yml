@@ -57,6 +57,6 @@ jobs:
                - php redaxo/bin/console package:install debug
                - php redaxo/bin/console package:install structure/history
                - php redaxo/bin/console package:install structure/version
-               - php redaxo/bin/console package:install install
+               - php redaxo/bin/console package:install metainfo
                - composer require --dev phpstan/phpstan
                - vendor/bin/phpstan analyse
