@@ -19,7 +19,7 @@
                 } else {
                     $item['itemAttr']['class'] = ['rex-has-icon'];
                 }
-                $icon = '<i class="' . trim($item['icon']) . ' rex-icon-fw"></i> ';
+                $icon = '<i class="' . trim($item['icon']) . '"></i> ';
             endif;
 
             $itemAttr = isset($item['itemAttr']) ? rex_string::buildAttributes($item['itemAttr']) : '';
