@@ -30,8 +30,8 @@ class my_helpers {
 Nun kann man in jedem Modul, in dem man http(s)-Links in einem neuen Browserfenster öffnen lassen will, die Links ersetzen lassen:
 
 ```php
-echo my_helpers::links_to_blank($text)
-
+echo my_helpers::links_to_blank($text);
+```
 
 Weitere Verzeichnisse (`pages/`, `fragments/`, usw.) können direkt im project-AddOn angelegt werden. In der Dokumentation finden sich die entsprechenden Hinweise: https://redaxo.org/doku/master/addon-struktur
 
@@ -46,6 +46,7 @@ So kann hier ein zusätzlicher Pfad für yform-Templates angegeben werden:
 
 ```php
 rex_yform::addTemplatePath($this->getPath('yform-templates'));
+```
 
 Nun werden Templates für die Ausgabe der yform Felder auch im Pfad `src/addons/project/yform-templates/[theme-name]` gesucht, wobei [theme-name] durch den Name des Themes (Standard ist bootstrap) ersetzt werden muss.
 
