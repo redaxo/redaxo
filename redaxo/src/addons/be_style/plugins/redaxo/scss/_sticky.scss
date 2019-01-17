@@ -1,0 +1,26 @@
+.rex-sticky-table-footer {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 1;
+    bottom: 0;
+
+    th,
+    td {
+        position: -webkit-sticky;
+        position: sticky;
+        z-index: 1;
+        bottom: 0;
+        background-color: $color-a-light;
+    }
+}
+
+.rex-minibar-is-active {
+    .rex-sticky-table-footer {
+        bottom: 36px;
+
+        th,
+        td {
+            bottom: 36px;
+        }
+    }
+}
