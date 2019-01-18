@@ -105,6 +105,7 @@ if ($article->getRows() == 1) {
             // ----- check module
 
             $CM = rex_sql::factory();
+            $module_id = null;
             if ($function == 'edit' || $function == 'delete') {
                 // edit/ delete
                 $CM->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id WHERE ' . rex::getTablePrefix() . 'article_slice.id=? AND clang_id=?', [$slice_id, $clang]);
