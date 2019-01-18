@@ -22,7 +22,7 @@ class rex_sql_debug extends rex_sql
         try {
             parent::setQuery($qry, $params, $options);
         } catch (rex_exception $e) {
-            $trace = debug_backtrace();
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
             $file = $trace[0]['file'];
             $line = $trace[0]['line'];
