@@ -24,15 +24,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
 
         // Return if user have no rights to the site start article
         if (rex::isBackend() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
-            return
-                '<div class="rex-minibar-item">
-                    <span class="rex-minibar-icon">
-                        <i class="rex-icon rex-icon-article"></i>
-                    </span>
-                    <span class="rex-minibar-value">
-                        0
-                    </span>
-                </div>';
+            return '';
         }
 
         return
@@ -41,7 +33,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
                 <i class="rex-minibar-icon--fa rex-minibar-icon--fa-file-text-o"></i>
             </span>
             <span class="rex-minibar-value">
-                '.$article->getId().'
+                Artikel "'.$article->getName() .'"
             </span>
         </div>';
     }
@@ -56,15 +48,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
 
         // Return if user have no rights to the site start article
         if (rex::isBackend() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
-            return
-                '<div class="rex-minibar-item">
-                    <span class="rex-minibar-icon">
-                        <i class="rex-icon rex-icon-article"></i>
-                    </span>
-                    <span class="rex-minibar-value">
-                        0
-                    </span>
-                </div>';
+            return '';
         }
 
         $articleLink = '<a href="'.rex_url::backendPage('content/edit', ['article_id' => $article->getId(), 'clang' => $article->getClangId(), 'mode' => 'edit']).'">'.rex_i18n::msg('structure_content_minibar_article_edit').' </a>';
@@ -100,7 +84,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
                 <i class="rex-minibar-icon--fa rex-minibar-icon--fa-file-text-o"></i>
             </span>
             <span class="rex-minibar-value">
-            '.$article->getId().'
+            Artikel "'.$article->getName() .'"
             </span>
         </div>
         <div class="rex-minibar-info">
