@@ -124,6 +124,20 @@ class rex_request
     }
 
     /**
+     * clear all redaxo session contents (the session itself stays alive)
+     *
+     * @throws rex_exception
+     */
+    public static function clearSession()
+    {
+        if (PHP_SESSION_ACTIVE != session_status()) {
+            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+        }
+
+        unset($_SESSION[rex::getProperty('instname')]);
+    }
+
+    /**
      * Returns the variable $varname of $_COOKIE and casts the value.
      *
      * @param string $varname Variable name

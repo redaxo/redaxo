@@ -79,10 +79,10 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         $login->checkLogin();
         rex_csrf_token::removeAll();
-        rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
+        rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
 
-        // Currently browsers like Safari do not support the header Clear-Site-Data. This ensures that all session variables are still removed.
-        session_destroy();
+        // we dont kill/regenerate the session so e.g. the frontend will not get logged out
+        rex_request::clearSession();
 
         // is necessary for login after logout
         // and without the redirect, the csrf token would be invalid
