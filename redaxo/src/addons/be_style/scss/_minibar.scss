@@ -302,3 +302,10 @@ $element-hover-bg: lighten($color-a-dark, 5%);
     @extend .rex-minibar-icon--fa;
     @extend .rex-minibar-icon--fa-window-minimize;
 }
+
+.rex-minibar-icon .rex-syslog-ok {
+    color: #3bb594;
+}
+.rex-minibar-icon .rex-syslog-changed {
+    color: yellow;
+}

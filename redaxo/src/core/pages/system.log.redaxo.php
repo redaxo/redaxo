@@ -13,6 +13,7 @@ $error = '';
 $success = '';
 
 $logFile = rex_logger::getPath();
+rex_set_session('rex_syslog_last_seen', time());
 if ($func == 'delLog') {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
