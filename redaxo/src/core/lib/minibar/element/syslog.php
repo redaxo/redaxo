@@ -26,12 +26,14 @@ class rex_minibar_element_syslog extends rex_minibar_element
 
         return
             '<div class="rex-minibar-item">
-            <span class="rex-minibar-icon">
-                <i class="rex-minibar-icon--fa rex-minibar-icon--fa-flag '. $status .'"></i>
-            </span>
-            <span class="rex-minibar-value">
-                <a href="'. rex_url::backendPage('system/log/redaxo') .'">System Log</a>
-            </span>
+                <a href="'. rex_url::backendPage('system/log/redaxo') .'">
+                    <span class="rex-minibar-icon">
+                        <i class="rex-minibar-icon--fa rex-minibar-icon--fa-flag '. $status .'"></i>
+                    </span>
+                    <span class="rex-minibar-value">
+                        System Log
+                    </span>
+                </a>
         </div>';
     }
 
