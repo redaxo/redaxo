@@ -117,7 +117,7 @@
 
 // highlight buttons: show animation when :active
 .btn.btn-highlight {
-    transition: all 1000ms ease-out 1000ms, outline 800ms ease-out 200ms;
+    transition: all 1000ms ease-out 1000ms, outline 800ms ease-out 100ms;
     outline: 25px solid rgba($color-b-light, 0);
 }
 .btn.btn-highlight:active {
