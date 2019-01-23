@@ -8,6 +8,8 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  * @author <a href="https://www.redaxo.org">www.redaxo.org</a>
  *
+ * @var rex_addon $this
+ *
  * @package redaxo5
  */
 
