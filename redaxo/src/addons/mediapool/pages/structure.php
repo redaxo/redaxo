@@ -129,7 +129,7 @@ if ($PERMALL) {
                 <tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-media-category"></i></td>
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">' . $iid . '</td>
-                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . rex_escape($iname) . '" /></td>
+                    <td data-title="' . rex_i18n::msg('pool_kat_name') . '"><input class="form-control" type="text" name="cat_name" value="' . rex_escape($iname) . '" autofocus /></td>
                     <td class="rex-table-action" colspan="2">
                         <input type="hidden" name="edit_id" value="' . $edit_id . '" />
                         <button class="btn btn-save" type="submit" value="' . rex_i18n::msg('pool_kat_update') . '"' . rex::getAccesskey(rex_i18n::msg('pool_kat_update'), 'save') . '>' . rex_i18n::msg('pool_kat_update') . '</button>
