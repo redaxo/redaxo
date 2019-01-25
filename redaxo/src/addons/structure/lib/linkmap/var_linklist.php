@@ -41,8 +41,10 @@ class rex_var_linklist extends rex_var
 
     public static function getWidget($id, $name, $value, array $args = [])
     {
+        $category = rex_category::getCurrent()->getId();
+
         $open_params = '&clang=' . rex_clang::getCurrentId();
-        if (isset($args['category']) && ($category = (int) $args['category'])) {
+        if ($category || isset($args['category']) && ($category = (int) $args['category'])) {
             $open_params .= '&amp;category_id=' . $category;
         }
 
