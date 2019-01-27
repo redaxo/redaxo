@@ -228,12 +228,23 @@ class rex_select
 
     public function get()
     {
+        $useRexSelectStyle = true;
+        if (strpos($this->attributes['class'], 'selectpicker') !== false) {
+            $useRexSelectStyle = false;
+        }
+        if ((int) $this->attributes['size'] > 1) {
+            $useRexSelectStyle = false;
+        }
+
         $attr = '';
         foreach ($this->attributes as $name => $value) {
             $attr .= ' ' . $name . '="' . $value . '"';
         }
 
         $ausgabe = "\n";
+        if ($useRexSelectStyle) {
+            $ausgabe .= '<div class="rex-select-style">' . "\n";
+        }
         $ausgabe .= '<select' . $attr . '>' . "\n";
 
         foreach ($this->options as $optgroup => $options) {
@@ -250,6 +261,10 @@ class rex_select
         }
 
         $ausgabe .= '</select>' . "\n";
+        if ($useRexSelectStyle) {
+            $ausgabe .= '</div>' . "\n";
+        }
+
         return $ausgabe;
     }
 
