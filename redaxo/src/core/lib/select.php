@@ -229,10 +229,10 @@ class rex_select
     public function get()
     {
         $useRexSelectStyle = true;
-        if (strpos($this->attributes['class'], 'selectpicker') !== false) {
+        if (isset($this->attributes['class']) && strpos($this->attributes['class'], 'selectpicker') !== false) {
             $useRexSelectStyle = false;
         }
-        if ((int) $this->attributes['size'] > 1) {
+        if (isset($this->attributes['size']) && (int) $this->attributes['size'] > 1) {
             $useRexSelectStyle = false;
         }
 
