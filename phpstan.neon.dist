@@ -22,7 +22,6 @@ parameters:
             # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
             message: '#Undefined variable: .+#'
             path: '*/addons/structure/functions/function_rex_category.php'
-        - '#Using \$this outside a class\.#'
         - '#Undefined variable: \$this#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag\.#'        
         # warnings which can only be fixed after php-min version is raised to 7.1+
