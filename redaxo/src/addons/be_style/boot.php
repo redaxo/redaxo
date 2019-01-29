@@ -26,36 +26,36 @@ if (rex::isBackend()) {
 
         $subject = $ep->getSubject();
         $subject[] = [
-            'scss_files' => array_merge($scss_files, [$this->getPath('scss/master.scss')]),
-            'css_file' => $this->getPath('assets/css/styles.css'),
-            'copy_dest' => $this->getAssetsPath('css/styles.css'),
+            'scss_files' => array_merge($scss_files, [rex_addon::get('be_style')->getPath('scss/master.scss')]),
+            'css_file' => rex_addon::get('be_style')->getPath('assets/css/styles.css'),
+            'copy_dest' => rex_addon::get('be_style')->getAssetsPath('css/styles.css'),
         ];
         $subject[] = [
-            'scss_files' => array_merge($scss_files, [$this->getPath('scss/master_minibar.scss')]),
-            'css_file' => $this->getPath('assets/css/minibar.css'),
-            'copy_dest' => $this->getAssetsPath('css/minibar.css'),
+            'scss_files' => array_merge($scss_files, [rex_addon::get('be_style')->getPath('scss/master_minibar.scss')]),
+            'css_file' => rex_addon::get('be_style')->getPath('assets/css/minibar.css'),
+            'copy_dest' => rex_addon::get('be_style')->getAssetsPath('css/minibar.css'),
         ];
         return $subject;
     });
 
     rex_extension::register('PACKAGES_INCLUDED', function () {
-        if (rex::getUser() && $this->getProperty('compile')) {
+        if (rex::getUser() && rex_addon::get('be_style')->getProperty('compile')) {
             rex_be_style::compile();
         }
     });
 
-    rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
+    rex_view::addCssFile(rex_addon::get('be_style')->getAssetsUrl('css/styles.css'));
     if (rex_minibar::getInstance()->shouldRender()) {
-        rex_view::addCssFile($this->getAssetsUrl('css/minibar.css'));
+        rex_view::addCssFile(rex_addon::get('be_style')->getAssetsUrl('css/minibar.css'));
     }
-    rex_view::addCssFile($this->getAssetsUrl('css/bootstrap-select.min.css'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap.js'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select.min.js'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/main.js'));
+    rex_view::addCssFile(rex_addon::get('be_style')->getAssetsUrl('css/bootstrap-select.min.css'));
+    rex_view::addJsFile(rex_addon::get('be_style')->getAssetsUrl('javascripts/bootstrap.js'));
+    rex_view::addJsFile(rex_addon::get('be_style')->getAssetsUrl('javascripts/bootstrap-select.min.js'));
+    rex_view::addJsFile(rex_addon::get('be_style')->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
+    rex_view::addJsFile(rex_addon::get('be_style')->getAssetsUrl('javascripts/main.js'));
 
     // make sure to send preload headers only on fullpage requests
     if (stripos(rex_request::server('HTTP_ACCEPT'), 'text/html') !== false && !rex_request::isXmlHttpRequest()) {
-        rex_response::preload($this->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
+        rex_response::preload(rex_addon::get('be_style')->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
     }
 }
