@@ -44,23 +44,17 @@ if (rex::isBackend()) {
 
     rex_extension::register('PAGE_HEADER', function (rex_extension_point $ep) {
         $icons = [];
-        foreach (['57', '60', '72', '76', '114', '120', '144', '152'] as $size) {
-            $size = $size . 'x' . $size;
-            $icons[] = '<link rel="apple-touch-icon-precomposed" sizes="' . $size . '" href="' . $this->getAssetsUrl('images/apple-touch-icon-' . $size . '.png') . '" />';
-        }
-        foreach (['16', '32', '96', '128', '196'] as $size) {
-            $size = $size . 'x' . $size;
-            $icons[] = '<link rel="icon" type="image/png" href="' . $this->getAssetsUrl('images/favicon-' . $size . '.png') . '" sizes="' . $size . '" />';
-        }
 
-        $icons[] = '<meta name="msapplication-TileColor" content="#FFFFFF" />';
-        $icons[] = '<meta name="msapplication-TileImage" content="' . $this->getAssetsUrl('images/mstile-144x144.png') . '" />';
-
-        foreach (['70', '150', '310'] as $size) {
-            $size = $size . 'x' . $size;
-            $icons[] = '<meta name="msapplication-square' . $size . 'logo" content="' . $this->getAssetsUrl('images/mstile-' . $size . '.png') . '" />';
-        }
-        $icons[] = '<meta name="msapplication-wide310x150logo" content="' . $this->getAssetsUrl('images/mstile-310x150.png') . '" />';
+        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $this->getAssetsUrl('icons/apple-touch-icon.png') . '" />';
+        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $this->getAssetsUrl('icons/favicon-32x32.png') . '" />';
+        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $this->getAssetsUrl('icons/favicon-16x16.png') . '" />';
+        $icons[] = '<link rel="manifest" href="' . $this->getAssetsUrl('icons/manifest.json') . '">';
+        $icons[] = '<link rel="mask-icon" href="' . $this->getAssetsUrl('icons/safari-pinned-tab.svg') . '" color="#404040">';
+        $icons[] = '<link rel="shortcut icon" href="' . $this->getAssetsUrl('icons/favicon.ico') . '">';
+        $icons[] = '<meta name="msapplication-TileColor" content="#ffffff">';
+        $icons[] = '<meta name="msapplication-TileImage" content="' . $this->getAssetsUrl('icons/mstile-144x144.png') . '">';
+        $icons[] = '<meta name="msapplication-config" content="' . $this->getAssetsUrl('icons/browserconfig.xml') . '">';
+        $icons[] = '<meta name="theme-color" content="#ffffff">';
 
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());
