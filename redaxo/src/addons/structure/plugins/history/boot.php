@@ -9,6 +9,8 @@
  */
 
 $mypage = 'history';
+$myplugin = rex_plugin::get('structure', 'history');
+
 $history_date = rex_request('rex_history_date', 'string');
 
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
@@ -112,10 +114,10 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         }
     );
 
-    rex_view::addCssFile($this->getAssetsUrl('noUiSlider/nouislider.css'));
-    rex_view::addJsFile($this->getAssetsUrl('noUiSlider/nouislider.js'));
-    rex_view::addCssFile($this->getAssetsUrl('history.css'));
-    rex_view::addJsFile($this->getAssetsUrl('history.js'));
+    rex_view::addCssFile($myplugin->getAssetsUrl('noUiSlider/nouislider.css'));
+    rex_view::addJsFile($myplugin->getAssetsUrl('noUiSlider/nouislider.js'));
+    rex_view::addCssFile($myplugin->getAssetsUrl('history.css'));
+    rex_view::addJsFile($myplugin->getAssetsUrl('history.js'));
 
     switch (rex_request('rex_history_function', 'string')) {
         case 'snap':
@@ -137,7 +139,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id, $revision);
 
-            $select = '<option value="" selected="selected">' . $this->i18n('current_version') . '</option>';
+            $select = '<option value="" selected="selected">' . $myplugin->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
                 $history_info = $version['history_date'];
                 if ($version['history_user'] != '') {
@@ -152,7 +154,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             // fragment holen und ausgeben
             $fragment = new rex_fragment();
-            $fragment->setVar('title', $this->i18n('overview_versions'));
+            $fragment->setVar('title', $myplugin->i18n('overview_versions'));
             $fragment->setVar('content1select', $content1select, false);
             $fragment->setVar('content1iframe', $content1iframe, false);
             $fragment->setVar('content2select', $content2select, false);

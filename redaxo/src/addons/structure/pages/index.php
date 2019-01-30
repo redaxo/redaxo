@@ -4,6 +4,8 @@
  * @package redaxo5
  */
 
+$myaddon = rex_addon::get('structure');
+
 // basic request vars
 $category_id = rex_request('category_id', 'int');
 $article_id = rex_request('article_id', 'int');
@@ -328,7 +330,7 @@ $echo = '';
 // --------------------- READ TEMPLATES
 
 if ($category_id > 0 || ($category_id == 0 && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
-    $withTemplates = $this->getPlugin('content')->isAvailable();
+    $withTemplates = $myaddon->getPlugin('content')->isAvailable();
     $tmpl_head = '';
     if ($withTemplates) {
         $template_select = new rex_select();
