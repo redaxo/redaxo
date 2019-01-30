@@ -9,12 +9,12 @@
  * @author <a href="https://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo\be-style
- *
- * @var rex_addon $this
  */
+
+$myaddon = rex_addon::get('be_style');
 
 $files = require __DIR__.'/vendor_files.php';
 
 foreach ($files as $source => $destination) {
-    rex_file::copy($this->getPath($source), $this->getAssetsPath($destination));
+    rex_file::copy($myaddon->getPath($source), $myaddon->getAssetsPath($destination));
 }
