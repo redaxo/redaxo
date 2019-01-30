@@ -6,9 +6,9 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
+
+$myplugin = rex_plugin::get('cronjob', 'optimize_tables');
 
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'cronjob WHERE type="rex_cronjob_optimize_tables" LIMIT 1');
@@ -25,4 +25,4 @@ if ($sql->getRows() == 0) {
     $sql->insert();
 }
 
-$this->setProperty('install', true);
+$myplugin->setProperty('install', true);
