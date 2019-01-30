@@ -5,27 +5,27 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
-if (!$this->hasConfig('errormail')) {
-    $this->setConfig('errormail', 0);
+$myaddon = rex_addon::get('phpmailer');
+
+if (!$myaddon->hasConfig('errormail')) {
+    $myaddon->setConfig('errormail', 0);
 }
 
-if (!$this->hasConfig('security_mode')) {
-    $this->setConfig('security_mode', true); // true = AutoTLS
+if (!$myaddon->hasConfig('security_mode')) {
+    $myaddon->setConfig('security_mode', true); // true = AutoTLS
 }
 
-if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
+if (!rex::isBackend() && $myaddon->getConfig('errormail') != 0) {
     rex_extension::register('RESPONSE_SHUTDOWN', function (rex_extension_point $ep) {
         $logFile = rex_path::coreData('system.log');
-        $sendTime = $this->getConfig('last_log_file_send_time', 0);
+        $sendTime = $myaddon->getConfig('last_log_file_send_time', 0);
         $timediff = '';
         $fatalerror = false;
         $logevent = false;
         $timediff = time() - $sendTime;
-        if ($timediff > $this->getConfig('errormail') && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
+        if ($timediff > $myaddon->getConfig('errormail') && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
             //Start - generate mailbody
             $mailBody = '<h2>Error protocol for ' . rex::getServerName() . '</h2>';
             $mailBody .= '<style> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
@@ -84,7 +84,7 @@ if (!rex::isBackend() && $this->getConfig('errormail') != 0) {
                 $mail->AltBody = strip_tags($mailBody);
                 $mail->setFrom(rex::getErrorEmail(), 'REDAXO Errormail');
                 $mail->addAddress(rex::getErrorEmail());
-                $this->setConfig('last_log_file_send_time', $fileTime);
+                $myaddon->setConfig('last_log_file_send_time', $fileTime);
                 if ($mail->Send()) {
                     // mail has been sent
                 }

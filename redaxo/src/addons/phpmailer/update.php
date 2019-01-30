@@ -1,5 +1,5 @@
 <?php
 
-/** @var rex_addon $this */
+$myaddon = rex_addon::get('phpmailer');
 
-include $this->getPath('install.php');
+include $myaddon->getPath('install.php');
