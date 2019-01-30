@@ -1,9 +1,9 @@
 <?php
 
-/** @var rex_addon $this */
+$myaddon = rex_addon::get('media_manager');
 
-if (rex_string::versionCompare($this->getVersion(), '2.4.1-dev', '<')) {
+if (rex_string::versionCompare($myaddon->getVersion(), '2.4.1-dev', '<')) {
     rex_media_manager::deleteCache();
 }
 
-include $this->getPath('install.php');
+include $myaddon->getPath('install.php');
