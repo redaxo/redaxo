@@ -6,8 +6,8 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
-rex_dir::delete($this->getDataPath());
+$myaddon = rex_addon::get('cronjob');
+
+rex_dir::delete($myaddon->getDataPath());
