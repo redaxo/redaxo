@@ -5,6 +5,15 @@
  */
 class rex_minibar_element_structure_article extends rex_minibar_lazy_element
 {
+    public function render()
+    {
+        // create the backend user session, in case it is missing (e.g. in frontend).
+        // we do it once beforehand, so we can save the check on each later callsite
+        rex_backend_login::createUser();
+
+        return parent::render();
+    }
+
     protected function renderFirstView()
     {
         $article = $this->getArticle();
@@ -14,7 +23,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
         }
 
         // Return if user have no rights to the site start article
-        if (rex::isBackend() && rex::getUser() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
+        if (rex::isBackend() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
             return
                 '<div class="rex-minibar-item">
                     <span class="rex-minibar-icon">
@@ -46,7 +55,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
         }
 
         // Return if user have no rights to the site start article
-        if (rex::isBackend() && rex::getUser() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
+        if (rex::isBackend() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
             return
                 '<div class="rex-minibar-item">
                     <span class="rex-minibar-icon">
@@ -59,7 +68,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
         }
 
         $articleLink = '<a href="'.rex_url::backendPage('content/edit', ['article_id' => $article->getId(), 'clang' => $article->getClangId(), 'mode' => 'edit']).'">'.rex_i18n::msg('structure_content_minibar_article_edit').' </a>';
-        if (rex::getUser() && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
+        if (!rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getCategoryId())) {
             $articleLink = rex_i18n::msg('no_rights_to_edit');
         } elseif (rex::isBackend()) {
             $articleLink = '<a href="'.rex_getUrl($article->getId(), $article->getClangId()).'">'.rex_i18n::msg('structure_content_minibar_article_show').'</a>';
@@ -73,7 +82,7 @@ class rex_minibar_element_structure_article extends rex_minibar_lazy_element
         foreach ($tree as $parent) {
             $id = $parent->getId();
             $item = rex_escape($parent->getName());
-            if (rex::isBackend() && rex::getUser() && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id) && $parent->isStartarticle()) {
+            if (rex::isBackend() && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($id) && $parent->isStartarticle()) {
                 $item = '<a href="'.rex_url::backendPage('structure', ['category_id' => $id, 'clang' => $article->getClangId()]).'">'.rex_escape($parent->getName()).'</a>';
             } elseif (!rex::isBackend()) {
                 $item = '<a href="'.$parent->getUrl().'">'.rex_escape($parent->getName()).'</a>';

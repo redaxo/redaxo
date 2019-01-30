@@ -143,7 +143,7 @@ if ($func == '') {
 } elseif ($func == 'add' || $func == 'edit' && $type_id > 0) {
     if ($func == 'edit') {
         $formLabel = rex_i18n::msg('media_manager_type_edit');
-    } elseif ($func == 'add') {
+    } else {
         $formLabel = rex_i18n::msg('media_manager_type_create');
     }
 
