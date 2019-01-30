@@ -1,14 +1,16 @@
 <?php
 
+$myplugin = rex_plugin::get('be_style', 'customizer');
+
 /* Default-Einstellungen */
-if (!$this->hasConfig()) {
-    $this->setConfig('labelcolor', '#3bb594');
-    $this->setConfig('codemirror_theme', 'eclipse');
-    $this->setConfig('codemirror-selectors', '');
-    $this->setConfig('codemirror', 1);
-    $this->setConfig('codemirror-langs', 0);
-    $this->setConfig('codemirror-tools', 0);
-    $this->setConfig('showlink', 1);
+if (!$myplugin->hasConfig()) {
+    $myplugin->setConfig('labelcolor', '#3bb594');
+    $myplugin->setConfig('codemirror_theme', 'eclipse');
+    $myplugin->setConfig('codemirror-selectors', '');
+    $myplugin->setConfig('codemirror', 1);
+    $myplugin->setConfig('codemirror-langs', 0);
+    $myplugin->setConfig('codemirror-tools', 0);
+    $myplugin->setConfig('showlink', 1);
 }
 
 /* Codemirror-Assets entpacken */
@@ -16,16 +18,16 @@ $message = '';
 $zipArchive = new ZipArchive();
 
 try {
-    if ($zipArchive->open($this->getPath('assets/vendor/codemirror.zip')) === true &&
-        $zipArchive->extractTo($this->getAssetsUrl('vendor/')) === true) {
+    if ($zipArchive->open($myplugin->getPath('assets/vendor/codemirror.zip')) === true &&
+        $zipArchive->extractTo($myplugin->getAssetsUrl('vendor/')) === true) {
         $zipArchive->close();
     } else {
-        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $this->getPath('assets/vendor/codemirror.zip');
+        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $myplugin->getPath('assets/vendor/codemirror.zip');
     }
 } catch (Exception $e) {
-    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $this->getPath('assets/vendor/codemirror.zip');
+    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $myplugin->getPath('assets/vendor/codemirror.zip');
     $message .= '<br>' . $e->getMessage();
 }
  if ($message != '') {
-     $this->setProperty('installmsg', $message);
+     $myplugin->setProperty('installmsg', $message);
  }
