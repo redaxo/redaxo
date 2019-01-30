@@ -6,11 +6,10 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
 $mypage = 'metainfo';
+$myaddon = rex_addon::get('metainfo');
 
 if (!defined('REX_METAINFO_FIELD_TEXT')) {
     // Feldtypen
@@ -30,8 +29,8 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     define('REX_METAINFO_FIELD_COUNT', 13);
 }
 
-$this->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
-$this->setProperty('metaTables', [
+$myaddon->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
+$myaddon->setProperty('metaTables', [
     'art_' => rex::getTablePrefix() . 'article',
     'cat_' => rex::getTablePrefix() . 'article',
     'med_' => rex::getTablePrefix() . 'media',
