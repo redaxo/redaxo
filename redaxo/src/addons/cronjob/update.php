@@ -1,8 +1,8 @@
 <?php
 
-$myaddon = rex_addon::get('cronjob');
+$addon = rex_addon::get('cronjob');
 
-if (rex_string::versionCompare($myaddon->getVersion(), '2.1-dev', '<')) {
+if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
     $table = rex::getTable('cronjob');
 
     rex_sql_table::get($table)

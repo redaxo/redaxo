@@ -11,10 +11,10 @@
  * @package redaxo\be-style
  */
 
-$myaddon = rex_addon::get('be_style');
+$addon = rex_addon::get('be_style');
 
 $files = require __DIR__.'/vendor_files.php';
 
 foreach ($files as $source => $destination) {
-    rex_file::copy($myaddon->getPath($source), $myaddon->getAssetsPath($destination));
+    rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination));
 }

@@ -8,8 +8,8 @@
  */
 
 // Plugin-Config
-$myplugin = rex_plugin::get('be_style', 'customizer');
-$config = $myplugin->getConfig();
+$plugin = rex_plugin::get('be_style', 'customizer');
+$config = $plugin->getConfig();
 
 /* Output CodeMirror-CSS */
 if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css') {
@@ -17,23 +17,23 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     header('Content-type: text/css');
 
     $filenames = [];
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/codemirror.css');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror.css');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
     if (rex_request('themes', 'string', '') != '') {
         $_themes = explode(',', rex_request('themes', 'string', ''));
         foreach ($_themes as $_theme) {
             if (preg_match('/[a-z0-9\._-]+/i', $_theme)) {
-                $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
+                $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$_theme.'.css');
             }
         }
     }
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.css');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.css');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.css');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.css');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.css');
     }
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/codemirror-additional.css');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror-additional.css');
 
     $content = '';
     foreach ($filenames as $filename) {
@@ -54,47 +54,47 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javas
     header('Content-Type: application/javascript');
 
     $filenames = [];
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/codemirror-compressed.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror-compressed.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js');
 
     if (isset($config['codemirror-tools']) && $config['codemirror-tools']) {
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/brace-fold.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/xml-fold.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/indent-fold.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/markdown-fold.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/fold/comment-fold.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/edit/closebrackets.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/search/searchcursor.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/search/search.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/scroll/annotatescrollbar.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/addon/search/jump-to-line.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/foldcode.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/foldgutter.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/brace-fold.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/xml-fold.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/indent-fold.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/markdown-fold.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/fold/comment-fold.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/edit/closebrackets.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/edit/matchtags.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/edit/matchbrackets.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/mode/overlay.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/dialog/dialog.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/search/searchcursor.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/search/search.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/scroll/annotatescrollbar.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/search/jump-to-line.js');
     }
 
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/xml/xml.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/htmlmixed/htmlmixed.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/htmlembedded/htmlembedded.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/javascript/javascript.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/css/css.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/clike/clike.js');
-    $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/php/php.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/xml/xml.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/htmlmixed/htmlmixed.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/htmlembedded/htmlembedded.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/javascript/javascript.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/css/css.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/clike/clike.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/php/php.js');
 
     if (isset($config['codemirror-langs']) && $config['codemirror-langs']) {
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/textile/textile.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/yaml/yaml.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/meta.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/properties/properties.js');
-        $filenames[] = $myplugin->getAssetsUrl('vendor/codemirror/mode/sql/sql.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/markdown/markdown.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/textile/textile.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/gfm/gfm.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/yaml/yaml.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/yaml-frontmatter/yaml-frontmatter.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/meta.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/properties/properties.js');
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/mode/sql/sql.js');
     }
 
     $content = '';
@@ -122,8 +122,8 @@ if (rex::isBackend() && rex::getUser()) {
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
 
-        $mtimejs = filemtime($myplugin->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
-        $mtimecss = filemtime($myplugin->getAssetsUrl('vendor/codemirror/codemirror.css'));
+        $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
+        $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.css'));
         if (isset($_SESSION['codemirror_reload'])) {
             $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
             $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
@@ -133,8 +133,8 @@ if (rex::isBackend() && rex::getUser()) {
     }
 
     /* Customizer Ergänzungen */
-    rex_view::addCssFile($myplugin->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($myplugin->getAssetsUrl('js/main.js'));
+    rex_view::addCssFile($plugin->getAssetsUrl('css/styles.css'));
+    rex_view::addJsFile($plugin->getAssetsUrl('js/main.js'));
 
     if ($config['labelcolor'] != '') {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);

@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-$myplugin = rex_plugin::get('cronjob', 'article_status');
+$plugin = rex_plugin::get('cronjob', 'article_status');
 
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'cronjob WHERE type="rex_cronjob_article_status" LIMIT 1');
@@ -25,4 +25,4 @@ if ($sql->getRows() == 0) {
     $sql->insert();
 }
 
-$myplugin->setProperty('install', true);
+$plugin->setProperty('install', true);

@@ -8,6 +8,6 @@
  * @package redaxo5
  */
 
-$myaddon = rex_addon::get('cronjob');
+$addon = rex_addon::get('cronjob');
 
-rex_dir::delete($myaddon->getDataPath());
+rex_dir::delete($addon->getDataPath());

@@ -8,9 +8,9 @@
  * @package redaxo5
  */
 
-$myaddon = rex_addon::get('metainfo');
+$addon = rex_addon::get('metainfo');
 
-rex_sql_util::importDump($myaddon->getPath('_install.sql'));
+rex_sql_util::importDump($addon->getPath('_install.sql'));
 
 $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
 $columns = ['article' => [], 'media' => [], 'clang' => []];

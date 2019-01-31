@@ -8,30 +8,30 @@
  * @package redaxo5
  */
 
-$myaddon = rex_addon::get('phpmailer');
+$addon = rex_addon::get('phpmailer');
 
-if (!$myaddon->hasConfig()) {
-    $myaddon->setConfig('from', '');
-    $myaddon->setConfig('test_address', '');
-    $myaddon->setConfig('fromname', 'Mailer');
-    $myaddon->setConfig('confirmto', '');
-    $myaddon->setConfig('bcc', '');
-    $myaddon->setConfig('mailer', 'mail');
-    $myaddon->setConfig('host', 'localhost');
-    $myaddon->setConfig('port', 25);
-    $myaddon->setConfig('charset', 'utf-8');
-    $myaddon->setConfig('wordwrap', 120);
-    $myaddon->setConfig('encoding', '8bit');
-    $myaddon->setConfig('priority', 0);
-    $myaddon->setConfig('smtpsecure', '');
-    $myaddon->setConfig('smtpauth', false);
-    $myaddon->setConfig('username', '');
-    $myaddon->setConfig('password', '');
-    $myaddon->setConfig('smtp_debug', '0');
-    $myaddon->setConfig('log', 0);
+if (!$addon->hasConfig()) {
+    $addon->setConfig('from', '');
+    $addon->setConfig('test_address', '');
+    $addon->setConfig('fromname', 'Mailer');
+    $addon->setConfig('confirmto', '');
+    $addon->setConfig('bcc', '');
+    $addon->setConfig('mailer', 'mail');
+    $addon->setConfig('host', 'localhost');
+    $addon->setConfig('port', 25);
+    $addon->setConfig('charset', 'utf-8');
+    $addon->setConfig('wordwrap', 120);
+    $addon->setConfig('encoding', '8bit');
+    $addon->setConfig('priority', 0);
+    $addon->setConfig('smtpsecure', '');
+    $addon->setConfig('smtpauth', false);
+    $addon->setConfig('username', '');
+    $addon->setConfig('password', '');
+    $addon->setConfig('smtp_debug', '0');
+    $addon->setConfig('log', 0);
 } else {
-    if (!$myaddon->hasConfig('log')) {
-        $myaddon->setConfig('log', 0);
+    if (!$addon->hasConfig('log')) {
+        $addon->setConfig('log', 0);
     }
 }
 

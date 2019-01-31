@@ -8,7 +8,7 @@
  * @package redaxo5
  */
 
-$myaddon = rex_addon::get('mediapool');
+$addon = rex_addon::get('mediapool');
 
 $mypage = 'mediapool';
 
@@ -17,7 +17,7 @@ rex_complex_perm::register('media', 'rex_media_perm');
 require_once __DIR__ . '/functions/function_rex_mediapool.php';
 
 if (rex::isBackend() && rex::getUser()) {
-    rex_view::addJsFile($myaddon->getAssetsUrl('lazysizes.min.js'));
-    rex_view::addJsFile($myaddon->getAssetsUrl('mediapool.js'));
-    rex_view::setJsProperty('imageExtensions', $myaddon->getProperty('image_extensions'));
+    rex_view::addJsFile($addon->getAssetsUrl('lazysizes.min.js'));
+    rex_view::addJsFile($addon->getAssetsUrl('mediapool.js'));
+    rex_view::setJsProperty('imageExtensions', $addon->getProperty('image_extensions'));
 }

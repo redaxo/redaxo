@@ -8,9 +8,9 @@
  * @package redaxo5
  */
 
-$myaddon = rex_addon::get('cronjob');
+$addon = rex_addon::get('cronjob');
 
-define('REX_CRONJOB_LOG_FOLDER', $myaddon->getDataPath());
+define('REX_CRONJOB_LOG_FOLDER', $addon->getDataPath());
 define('REX_CRONJOB_TABLE', rex::getTable('cronjob'));
 
 if (rex::getConsole()) {
@@ -18,15 +18,15 @@ if (rex::getConsole()) {
     return;
 }
 
-rex_extension::register('PACKAGES_INCLUDED', function () use ($myaddon) {
-    foreach ($myaddon->getAvailablePlugins() as $plugin) {
+rex_extension::register('PACKAGES_INCLUDED', function () use ($addon) {
+    foreach ($addon->getAvailablePlugins() as $plugin) {
         if (($type = $plugin->getProperty('cronjob_type')) != '') {
             rex_cronjob_manager::registerType($type);
         }
     }
 });
 
-$nexttime = $myaddon->getConfig('nexttime', 0);
+$nexttime = $addon->getConfig('nexttime', 0);
 
 if ($nexttime != 0 && time() >= $nexttime) {
     $env = rex_cronjob_manager::getCurrentEnvironment();
