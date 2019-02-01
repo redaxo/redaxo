@@ -6,11 +6,11 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
-rex_sql_util::importDump($this->getPath('_install.sql'));
+$addon = rex_addon::get('metainfo');
+
+rex_sql_util::importDump($addon->getPath('_install.sql'));
 
 $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
 $columns = ['article' => [], 'media' => [], 'clang' => []];
