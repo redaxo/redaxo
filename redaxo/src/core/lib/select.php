@@ -228,10 +228,17 @@ class rex_select
 
     public function get()
     {
-        $useRexSelectStyle = true;
+        $useRexSelectStyle = false;
+
+        // RexSelectStyle im Backend nutzen
+        if (rex::isBackend()) {
+            $useRexSelectStyle = true;
+        }
+        // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
         if (isset($this->attributes['class']) && strpos($this->attributes['class'], 'selectpicker') !== false) {
             $useRexSelectStyle = false;
         }
+        // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
         if (isset($this->attributes['size']) && (int) $this->attributes['size'] > 1) {
             $useRexSelectStyle = false;
         }
