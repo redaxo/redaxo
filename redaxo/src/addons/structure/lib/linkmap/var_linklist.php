@@ -41,12 +41,14 @@ class rex_var_linklist extends rex_var
 
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $category = rex_category::getCurrent()->getId();
+        $category = rex_category::getCurrent()->getId(); // Aktuelle Kategorie vorauswählen
 
-        $open_params = '&clang=' . rex_clang::getCurrentId();
-        if ($category || isset($args['category']) && ($category = (int) $args['category'])) {
-            $open_params .= '&amp;category_id=' . $category;
+        // Falls ein Kategorie-Parameter angegeben wurde, die Linkmap in dieser Kategorie öffnen
+        if (isset($args['category'])) {
+            $category = (int) $args['category'];
         }
+
+        $open_params = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
 
         $options = '';
         $linklistarray = explode(',', $value);
