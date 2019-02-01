@@ -12,7 +12,7 @@
     foreach ($this->cssFiles as $media => $files) {
         foreach ($files as $file) {
             $path = rex_path::frontend(rex_path::absolute($file));
-            if (strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
+            if (!rex::isDebugMode() && strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
             echo "\n" . '    <link rel="stylesheet" type="text/css" media="' . $media . '" href="' . $file .'" />';
@@ -34,7 +34,7 @@
 
         if (array_key_exists(rex_view::JS_IMMUTABLE, $options) && $options[rex_view::JS_IMMUTABLE]) {
             $path = rex_path::frontend(rex_path::absolute($file));
-            if (strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
+            if (!rex::isDebugMode() && strpos($path, $assetDir) === 0 && $mtime = @filemtime($path)) {
                 $file = rex_url::backendController(['asset' => $file, 'buster' => $mtime]);
             }
         }
