@@ -16,7 +16,7 @@ class rex_config
      * @var bool
      */
     private static $initialized = false;
-    
+
     /*
      * path to the cache file
      *
