@@ -354,7 +354,7 @@ class rex_config
         }
 
         // delete cache-file; will be regenerated on next request
-        rex_file::delete(REX_CONFIG_FILE_CACHE);
+        rex_file::delete(self::$cacheFile);
 
         // save all data to the db
         self::saveToDb();
