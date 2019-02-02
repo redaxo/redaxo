@@ -74,7 +74,8 @@ if (!isset($config['codemirror-selectors'])) {
 
 // build elements
 
-$curDir = $this->getAssetsUrl('vendor/');
+$plugin = rex_plugin::get('be_style', 'customizer');
+$curDir = $plugin->getAssetsUrl('vendor/');
 
 $themes = [];
 foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {

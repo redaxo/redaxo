@@ -7,22 +7,22 @@
  * @author jan.kristinus[at]redaxo[dot]de Jan Kristinus
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
-if (!$this->hasConfig('jpg_quality')) {
-    $this->setConfig('jpg_quality', 85);
+$addon = rex_addon::get('media_manager');
+
+if (!$addon->hasConfig('jpg_quality')) {
+    $addon->setConfig('jpg_quality', 85);
 }
 
-if (!$this->hasConfig('png_compression')) {
-    $this->setConfig('png_compression', 5);
+if (!$addon->hasConfig('png_compression')) {
+    $addon->setConfig('png_compression', 5);
 }
 
-if (!$this->hasConfig('webp_quality')) {
-    $this->setConfig('webp_quality', 85);
+if (!$addon->hasConfig('webp_quality')) {
+    $addon->setConfig('webp_quality', 85);
 }
 
-if (!$this->hasConfig('interlace')) {
-    $this->setConfig('interlace', ['jpg']);
+if (!$addon->hasConfig('interlace')) {
+    $addon->setConfig('interlace', ['jpg']);
 }
