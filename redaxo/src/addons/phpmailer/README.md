@@ -141,7 +141,7 @@ Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Even
 
 Das Setzen des Debug-Modus führt zu unterschiedlichen Ausgaben
 
-### Client-Protokoll anzeigen
+### Client-Protokoll
 
 Liefert das Protokoll für den Verbindungsaufbau durch den Client
 
@@ -153,7 +153,7 @@ Liefert zusätzlich die Informastionen vom Server. Dies ist die empfohlene Optio
 
 Liefert noch ausführlichere Informationen und ist ideal um Probleme mit STARTTLS zu analysieren. 
 
-### Low Level Protokoll anzeigen
+### Low Level Protokoll
 
 Liefert zusätzlich untergeordnete Informationen, sehr ausführlich. Nicht zum Debuggen von SMTP gedacht, nur bei Low-Level-Probleme.
 
