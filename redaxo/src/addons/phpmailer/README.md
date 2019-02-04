@@ -3,7 +3,7 @@
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
 - [E-Mail-Benachrichtigung bei Fehlern](#errormail)
-- [SMTP-Debugging](smtpdebug)
+- [SMTP-Debugging](#smtpdebug)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
@@ -136,7 +136,7 @@ Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Even
 
 `rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
 
-<a name="smtpdebugging"></a>
+<a name="smtpdebug"></a>
 ## SMTP Debuggung
 
 Das Setzen des Debug-Modus führt zu unterschiedlichen Ausgaben
