@@ -3,6 +3,7 @@
 - [Allgemeines](#allgemeines)
 - [Beispiele](#beispiele)
 - [E-Mail-Benachrichtigung bei Fehlern](#errormail)
+- [SMTP-Debugging](smtpdebug)
 - [Tipps](#tipps)
     - [Spam-Blocker](#spam-blocker)
     - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
@@ -134,6 +135,30 @@ Der Check und ggf. die Zusendung erfolgen in festen Intervallen, die in den Syst
 Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Event als Typ: logevent ablegen. 
 
 `rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
+
+<a name="smtpdebugging"></a>
+## SMTP Debuggung
+
+Das Setzen des Debug-Modus führt zu unterschiedlichen Ausgaben
+
+### Client-Protokoll anzeigen
+
+Liefert die das Protokoll für den Verbindungsaufbau durch den Client
+
+### Server-und Client-Protokoll
+
+Liefert zusätzlich die Informastionen vom Server. Dies ist die empfohlene Option.
+
+### Verbindungsprotokoll
+
+Liefert noch ausführlicher informationen und ist ideal um Probleme mit STARTTLS zu analysieren. 
+
+### Low Level Protokoll anzeigen
+
+Liefert zusätzlich untergeordnete Informationen, sehr ausführlich. Nicht zum Debuggen von SMTP verwenden, nur für Low-Level-Probleme.
+
+Meist benötigt man keinen Level  über **Server-und Client-Protokoll**, es sei denn, es liegen Schwierigkeiten bei der Verbindung vor. Die Ausgabe wird meist nur umfangreicher und schwieriger zu lesen sein.
+
 
 
 <a name="tipps"></a>
