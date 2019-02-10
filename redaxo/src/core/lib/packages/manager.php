@@ -725,7 +725,8 @@ abstract class rex_package_manager
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
                 if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
-                    $constraints[] = ['<', (int) $match['version'] + 1];
+                    // add "-foo" to get a version lower than a "-dev" version
+                    $constraints[] = ['<', ((int) $match['version'] + 1) . '-foo'];
                 } else {
                     $main = '';
                     $sub = substr($match['version'], 0, $pos);
@@ -733,7 +734,8 @@ abstract class rex_package_manager
                         $main = substr($sub, 0, $pos + 1);
                         $sub = substr($sub, $pos + 1);
                     }
-                    $constraints[] = ['<', $main . ($sub + 1)];
+                    // add "-foo" to get a version lower than a "-dev" version
+                    $constraints[] = ['<', $main . ($sub + 1) . '-foo'];
                 }
             } else {
                 $constraints[] = [$match['op'] ?: '=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
