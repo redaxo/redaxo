@@ -58,5 +58,5 @@ jobs:
                - php redaxo/bin/console package:install structure/history
                - php redaxo/bin/console package:install structure/version
                - composer require --dev vimeo/psalm
-               - vendor/bin/psalm --init
+               - vendor/bin/psalm --init redaxo/src/
                - vendor/bin/psalm 
