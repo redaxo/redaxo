@@ -457,7 +457,7 @@ jQuery(function($){
 
     function checkHtaccess(dir, file)
     {
-        $.get(dir +'/'+ file,
+        $.get(dir +'/'+ file +'?redaxo-security-self-test',
             function(data) {
                 $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
                 setCookie('htaccess_check', '');
