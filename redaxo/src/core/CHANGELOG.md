@@ -6,10 +6,6 @@ Version 5.7.0 – XX.XX.XXXX
 
 ### Neu
 
-* Minibar am unteren Seitenrand (@tbaddade, @staabm)
-    - Im Backend immer sichtbar (statt bisheriger Footer)
-    - Optional auch im Frontend (Profileinstellungen); mit Minimier-Option
-    - Vorerst zwei Komponenten für aktuellen Artikel und aktuelle Sprache, und rechts eine mit Core/Versions-Infos
 * System-Page:
     - Überarbeitung/Optimierung von System/Einstellungen (@tbaddade, @skerbis)
     - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staaabm)

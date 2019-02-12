@@ -149,6 +149,3 @@ action_header_postsave = Guardar post-evento(s)
 action_heading_preview = Previsualización en Acción
 action_heading_presave = Acción Pre-guardar
 action_heading_postsave = Mensaje Guardar acción
-
-structure_content_minibar_article_edit = Editar en el backend
-structure_content_minibar_article_show = Mostrar articulo

@@ -632,11 +632,6 @@ jQuery(document).ready(function($) {
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
 
-                var minibar = options.context.find('.rex-minibar');
-                if (minibar.length) {
-                    $('body > .rex-minibar').replaceWith(minibar);
-                }
-
                 options.context.trigger('rex:ready', [options.context]);
             });
     }
