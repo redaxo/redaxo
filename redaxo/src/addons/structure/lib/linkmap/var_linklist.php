@@ -41,7 +41,7 @@ class rex_var_linklist extends rex_var
 
     public static function getWidget($id, $name, $value, array $args = [])
     {
-        $category = rex_category::getCurrent()->getId(); // Aktuelle Kategorie vorauswählen
+        $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
         // Falls ein Kategorie-Parameter angegeben wurde, die Linkmap in dieser Kategorie öffnen
         if (isset($args['category'])) {
