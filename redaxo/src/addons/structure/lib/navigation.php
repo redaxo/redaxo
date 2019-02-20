@@ -114,7 +114,8 @@ class rex_navigation
         $lis = '';
 
         if ($startPageLabel) {
-            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . rex_escape($startPageLabel) . '</a></li>';
+            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . rex_escape(            $lis .= '<li class="rex-lvl' . $i . '"><a href="' . rex_getUrl(rex_article::getSiteStartArticleId()) . '">' . htmlspecialchars(rex_article::getSiteStartArticle()->getName()) . '</a></li>';
+) . '</a></li>';
             ++$i;
 
             // StartArticle nicht doppelt anzeigen
