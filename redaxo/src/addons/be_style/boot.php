@@ -31,6 +31,11 @@ if (rex::isBackend()) {
             'css_file' => $addon->getPath('assets/css/styles.css'),
             'copy_dest' => $addon->getAssetsPath('css/styles.css'),
         ];
+        $subject[] = [
+            'scss_files' => array_merge($scss_files, [$addon->getPath('scss/master_minibar.scss')]),
+            'css_file' => $addon->getPath('assets/css/minibar.css'),
+            'copy_dest' => $addon->getAssetsPath('css/minibar.css'),
+        ];
         return $subject;
     });
 
@@ -41,6 +46,9 @@ if (rex::isBackend()) {
     });
 
     rex_view::addCssFile($addon->getAssetsUrl('css/styles.css'));
+    if (rex_minibar::getInstance()->shouldRender()) {
+        rex_view::addCssFile($addon->getAssetsUrl('css/minibar.css'));
+    }
     rex_view::addCssFile($addon->getAssetsUrl('css/bootstrap-select.min.css'));
     rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap.js'));
     rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select.min.js'));

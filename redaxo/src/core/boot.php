@@ -130,6 +130,23 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 }
 
+// ----------------- Minibar
+rex_minibar::getInstance()->addElement(new rex_minibar_element_system());
+rex_minibar::getInstance()->addElement(new rex_minibar_element_time());
+
+if (!rex::isBackend()) {
+    rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
+        $minibar = rex_minibar::getInstance()->get();
+        if ($minibar) {
+            $ep->setSubject(str_replace(
+                ['</head>', '</body>'],
+                ['<link rel="stylesheet" type="text/css" href="' . rex_addon::get('be_style')->getAssetsUrl('css/minibar.css') .'" /></head>', $minibar . '</body>'],
+                $ep->getSubject())
+            );
+        }
+    });
+}
+
 if (isset($REX['LOAD_PAGE']) && $REX['LOAD_PAGE']) {
     unset($REX);
     require rex_path::core(rex::isBackend() ? 'backend.php' : 'frontend.php');
