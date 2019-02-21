@@ -433,12 +433,3 @@ created_on = creado en
 updated_by = actualizado por
 updated_on = modificado el
 status = Estado
-
-user_minibar = ¿Mostrar minibar en frontend?
-user_minibar_note = Proporciona una barra de herramientas con más información
-minibar_board_link_label = Visita el foro
-minibar_database = Base de datos
-minibar_documentation_link_label = Leer documentación
-minibar_help = Ayuda
-minibar_resources = Recursos
-minibar_slack_link_label = Slack Channel
