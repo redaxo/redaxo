@@ -356,7 +356,7 @@ if ($article->getRows() == 1) {
                 $user->hasPerm('copyArticle[]') ||
                 $user->hasPerm('moveArticle[]') ||
                 $user->hasPerm('moveCategory[]') ||
-                $user->hasPerm('copyContent[]')
+                ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() > 1)
             ) {
                 if ($subpage->getItemAttr('left')) {
                     $leftNav->addPage($subpage);
