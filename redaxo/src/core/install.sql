@@ -29,7 +29,6 @@ CREATE TABLE `rex_user` (
     `email` varchar(255),
     `status` tinyint(1) NOT NULL,
     `admin` tinyint(1) NOT NULL,
-    `minibar` tinyint(1) NOT NULL,
     `language` varchar(255) NOT NULL,
     `startpage` varchar(255) NOT NULL,
     `role` text,

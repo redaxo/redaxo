@@ -434,12 +434,3 @@ created_on = skapades den
 updated_by = aktualiserades av
 updated_on = aktualiserades den
 status = Status
-
-user_minibar = Visa minibar i frontend?
-user_minibar_note = Visa ett verktygsfält med mer information
-minibar_database = Databas
-minibar_documentation_link_label = Läsa dokumentationen
-minibar_help = Hjälp
-minibar_resources = Resurser
-minibar_slack_link_label = Slack Channel
-minibar_errorreport = Rapportera ett problem hos GitHub

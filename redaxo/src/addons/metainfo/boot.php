@@ -37,7 +37,6 @@ $addon->setProperty('metaTables', [
     'clang_' => rex::getTablePrefix() . 'clang',
 ]);
 
-require_once __DIR__.'/extensions/extension_minibar.php';
 if (rex::isBackend()) {
     $curDir = __DIR__;
     require_once $curDir . '/functions/function_metainfo.php';
