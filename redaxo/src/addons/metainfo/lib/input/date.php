@@ -17,7 +17,8 @@ class rex_input_date extends rex_input
 
         $this->yearSelect = new rex_select();
         $this->yearSelect->addOptions(range(2005, date('Y') + 10), true);
-        $this->yearSelect->setAttribute('class', 'rex-form-select-year');
+        $this->yearSelect->setAttribute('class', 'rex-form-select-year selectpicker');
+        $this->yearSelect->setAttribute('data-width', 'fit');
         $this->yearSelect->setSize(1);
 
         $range = function ($start, $end) {
@@ -28,12 +29,14 @@ class rex_input_date extends rex_input
 
         $this->monthSelect = new rex_select();
         $this->monthSelect->addOptions($range(1, 12), true);
-        $this->monthSelect->setAttribute('class', 'rex-form-select-date');
+        $this->monthSelect->setAttribute('class', 'rex-form-select-date selectpicker');
+        $this->monthSelect->setAttribute('data-width', 'fit');
         $this->monthSelect->setSize(1);
 
         $this->daySelect = new rex_select();
         $this->daySelect->addOptions($range(1, 31), true);
-        $this->daySelect->setAttribute('class', 'rex-form-select-date');
+        $this->daySelect->setAttribute('class', 'rex-form-select-date selectpicker');
+        $this->daySelect->setAttribute('data-width', 'fit');
         $this->daySelect->setSize(1);
     }
 

@@ -79,5 +79,3 @@ teaser = Teaser
 pool_file_copyright = Copyright
 
 metadata = Metadaten
-metainfo_minibar_article_title = Metadaten des aktuellen Artikels
-metainfo_minibar_clang_title = Metadaten der aktuellen Sprache
