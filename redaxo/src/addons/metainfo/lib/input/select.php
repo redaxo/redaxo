@@ -14,7 +14,7 @@ class rex_input_select extends rex_input
         parent::__construct();
 
         $this->select = new rex_select();
-        $this->setAttribute('class', 'form-control');
+        $this->setAttribute('class', 'form-control selectpicker');
     }
 
     public function setValue($value)

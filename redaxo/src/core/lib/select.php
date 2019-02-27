@@ -228,12 +228,30 @@ class rex_select
 
     public function get()
     {
+        $useRexSelectStyle = false;
+
+        // RexSelectStyle im Backend nutzen
+        if (rex::isBackend()) {
+            $useRexSelectStyle = true;
+        }
+        // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
+        if (isset($this->attributes['class']) && strpos($this->attributes['class'], 'selectpicker') !== false) {
+            $useRexSelectStyle = false;
+        }
+        // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
+        if (isset($this->attributes['size']) && (int) $this->attributes['size'] > 1) {
+            $useRexSelectStyle = false;
+        }
+
         $attr = '';
         foreach ($this->attributes as $name => $value) {
             $attr .= ' ' . $name . '="' . $value . '"';
         }
 
         $ausgabe = "\n";
+        if ($useRexSelectStyle) {
+            $ausgabe .= '<div class="rex-select-style">' . "\n";
+        }
         $ausgabe .= '<select' . $attr . '>' . "\n";
 
         foreach ($this->options as $optgroup => $options) {
@@ -250,6 +268,10 @@ class rex_select
         }
 
         $ausgabe .= '</select>' . "\n";
+        if ($useRexSelectStyle) {
+            $ausgabe .= '</div>' . "\n";
+        }
+
         return $ausgabe;
     }
 
