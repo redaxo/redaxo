@@ -16,8 +16,9 @@ class rex_command_user_create extends rex_console_command
     {
         $this
             ->setDescription('Create a new user')
-            ->addArgument('user', InputArgument::REQUIRED, 'Username')
+            ->addArgument('login', InputArgument::REQUIRED, 'Login')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
+            ->addArgument('username', InputArgument::OPTIONAL, 'Username')
             ->addArgument('is_admin', InputArgument::OPTIONAL, 'Grant admin permissions', false)
         ;
     }
@@ -26,16 +27,16 @@ class rex_command_user_create extends rex_console_command
     {
         $io = $this->getStyle($input, $output);
 
-        $username = $input->getArgument('user');
+        $login = $input->getArgument('login');
 
         $user = rex_sql::factory();
         $user
             ->setTable(rex::getTable('user'))
-            ->setWhere(['login' => $username])
+            ->setWhere(['login' => $login])
             ->select();
 
         if ($user->getRows()) {
-            throw new InvalidArgumentException(sprintf('User "%s" already exists.', $username));
+            throw new InvalidArgumentException(sprintf('User "%s" already exists.', $login));
         }
 
         $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
@@ -59,17 +60,22 @@ class rex_command_user_create extends rex_console_command
             throw new InvalidArgumentException('Missing password.');
         }
 
+        $username = $input->getArgument('username');
+        if (!$username) {
+            $username = $login;
+        }
+
         $user = rex_sql::factory();
         // $user->setDebug();
         $user->setTable(rex::getTablePrefix() . 'user');
-        $user->setValue('name', 'Administrator');
-        $user->setValue('login', $username);
+        $user->setValue('name', $username);
+        $user->setValue('login', $login);
         $user->setValue('password', rex_backend_login::passwordHash($password));
         $user->setValue('admin', $input->getArgument('is_admin') ? 1 : 0);
         $user->addGlobalCreateFields('console');
         $user->setValue('status', '1');
         $user->insert();
 
-        $io->success(sprintf('User "%s" successfully created.', $username));
+        $io->success(sprintf('User "%s" successfully created.', $login));
     }
 }
