@@ -72,7 +72,7 @@ class rex_markdown
             }
 
             $toc .= "<li>\n";
-            $toc .= '<a href="#'.$header['id'].'">'.$header['text']."</a>\n";
+            $toc .= '<a href="#'.rex_escape($header['id']).'">'.rex_escape($header['text'])."</a>\n";
         }
 
         for (; $previous > 1; --$previous) {
