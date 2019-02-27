@@ -42,31 +42,47 @@ class rex_markdown
     /**
      * Parses markdown code and extracts a table-of-content.
      *
-     * @param string $code Markdown code
+     * @param string $code     Markdown code
+     * @param int    $topLevel Top headline level for TOC, e.g. `1` for `<h1>`
+     * @param int    $topLevel Bottom headline level for TOC, e.g. `6` for `<h6>`
      *
      * @return array tupel of table-of-content and content
      */
-    public function parseWithToc($code)
+    public function parseWithToc($code, $topLevel = 2, $bottomLevel = 3)
     {
         $parser = new rex_parsedown_with_toc();
         $parser->setBreaksEnabled(true);
+        $parser->topLevel = $topLevel;
+        $parser->bottomLevel = $bottomLevel;
 
         $content = $parser->text($code);
         $headers = $parser->headers;
 
-        $previous = 1;
+        $previous = $topLevel - 1;
         $toc = '';
 
         foreach ($headers as $header) {
             $level = $header['level'];
 
             if ($level > $previous) {
+                if ($level > $previous + 1) {
+                    $message = 'The headline structure in the given markdown document is malformed, ';
+                    if ($previous < $topLevel) {
+                        $message .= "it starts with a h$level instead of a h$topLevel.";
+                    } else {
+                        $message .= "a h$previous is followed by a h$level, but only a h".($previous + 1).' or lower is allowed.';
+                    }
+
+                    throw new rex_exception($message);
+                }
+
                 $toc .= "<ul>\n";
                 $previous = $level;
             } elseif ($level < $previous) {
-                $toc .= "</li>\n";
-                $toc .= "</ul>\n";
-                $previous = $level;
+                for (; $level < $previous; --$previous) {
+                    $toc .= "</li>\n";
+                    $toc .= "</ul>\n";
+                }
             } else {
                 $toc .= "</li>\n";
             }
@@ -75,7 +91,7 @@ class rex_markdown
             $toc .= '<a href="#'.rex_escape($header['id']).'">'.rex_escape($header['text'])."</a>\n";
         }
 
-        for (; $previous > 1; --$previous) {
+        for (; $previous > $topLevel - 1; --$previous) {
             $toc .= "</li>\n";
             $toc .= "</ul>\n";
         }
@@ -91,6 +107,8 @@ class rex_parsedown_with_toc extends ParsedownExtra
 {
     private $ids = [];
 
+    public $topLevel = 2;
+    public $bottomLevel = 3;
     public $headers = [];
 
     protected function blockHeader($line)
@@ -115,7 +133,7 @@ class rex_parsedown_with_toc extends ParsedownExtra
 
         list($level) = sscanf($block['element']['name'], 'h%d');
 
-        if ($level < 2 || $level > 3) {
+        if ($level < $this->topLevel || $level > $this->bottomLevel) {
             return $block;
         }
 
