@@ -55,7 +55,7 @@ class rex_command_cronjob_run extends rex_console_command
         if (null === $id) {
             $jobs = rex_sql::factory()->getArray('
                 SELECT id, name
-                FROM ' . REX_CRONJOB_TABLE . '
+                FROM ' . rex::getTable('cronjob') . '
                 WHERE environment LIKE "%|script|%"
                 ORDER BY id
             ');

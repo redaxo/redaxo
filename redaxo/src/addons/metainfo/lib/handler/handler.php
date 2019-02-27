@@ -215,7 +215,7 @@ abstract class rex_metainfo_handler
                     $tag_attr = ' class="form-control"';
 
                     $select = new rex_select();
-                    $select->setStyle('class="form-control"');
+                    $select->setStyle('class="form-control selectpicker"');
                     $select->setName($name);
                     $select->setId($id);
 
