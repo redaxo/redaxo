@@ -55,7 +55,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
 }
 
 if ($func == '') {
-    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
+    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . rex::getTable('cronjob') . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
@@ -142,7 +142,7 @@ if ($func == '') {
 } elseif ($func == 'edit' || $func == 'add') {
     $fieldset = $func == 'edit' ? $addon->i18n('edit') : $addon->i18n('add');
 
-    $form = new rex_cronjob_form(REX_CRONJOB_TABLE, $fieldset, 'id = ' . $oid, 'post', false);
+    $form = new rex_cronjob_form(rex::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
     $form->setEditMode($func == 'edit');
 
