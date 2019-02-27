@@ -11,6 +11,10 @@ class rex_markdown
 {
     use rex_factory_trait;
 
+    private function __construct()
+    {
+    }
+
     /**
      * @return static
      */
@@ -44,7 +48,7 @@ class rex_markdown
      */
     public function parseWithToc($code)
     {
-        $parser = new rex_parsedown();
+        $parser = new rex_parsedown_with_toc();
         $parser->setBreaksEnabled(true);
 
         $content = $parser->text($code);
@@ -83,7 +87,7 @@ class rex_markdown
 /**
  * @internal
  */
-class rex_parsedown extends ParsedownExtra
+class rex_parsedown_with_toc extends ParsedownExtra
 {
     private $ids = [];
 
@@ -103,16 +107,20 @@ class rex_parsedown extends ParsedownExtra
         return $this->handleHeader($block);
     }
 
-    private function handleHeader(array $block)
+    private function handleHeader(array $block = null)
     {
-        [$level] = sscanf($block['element']['name'], 'h%d');
+        if (!$block) {
+            return $block;
+        }
+
+        list($level) = sscanf($block['element']['name'], 'h%d');
 
         if ($level < 2 || $level > 3) {
             return $block;
         }
 
         if (!isset($block['element']['attributes']['id'])) {
-            $baseId = $id = rex_string::normalize($block['element']['text'], '-');
+            $baseId = $id = 'header-'.rex_string::normalize($block['element']['text'], '-');
 
             for ($i = 2; isset($this->ids[$id]); ++$i) {
                 $id = $baseId.'-'.$i;
