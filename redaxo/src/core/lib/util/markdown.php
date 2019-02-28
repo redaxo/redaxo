@@ -43,7 +43,7 @@ class rex_markdown
      * Parses markdown code and extracts a table-of-content.
      *
      * @param string $code     Markdown code
-     * @param int    $topLevel Top headline level for TOC, e.g. `1` for `<h1>`
+     * @param int    $topLevel Top included headline level for TOC, e.g. `1` for `<h1>`
      * @param int    $topLevel Bottom headline level for TOC, e.g. `6` for `<h6>`
      *
      * @return array tupel of table-of-content and content
