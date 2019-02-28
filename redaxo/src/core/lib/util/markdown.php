@@ -44,7 +44,7 @@ class rex_markdown
      *
      * @param string $code     Markdown code
      * @param int    $topLevel Top included headline level for TOC, e.g. `1` for `<h1>`
-     * @param int    $topLevel Bottom headline level for TOC, e.g. `6` for `<h6>`
+     * @param int    $bottomLevel Bottom included headline level for TOC, e.g. `6` for `<h6>`
      *
      * @return array tupel of table-of-content and content
      */
