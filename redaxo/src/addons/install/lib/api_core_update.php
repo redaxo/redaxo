@@ -223,7 +223,7 @@ class rex_api_install_core_update extends rex_api_function
 
                     $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
                     $plugin->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
-                
+
                     $versions[$plugin] = $plugin->getProperty('version');
                     $plugin->setProperty('version', isset($config['version']) ? $config['version'] : null);
                 }
