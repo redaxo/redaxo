@@ -20,13 +20,14 @@ class rex_form extends rex_form_base
     protected $tableName;
     protected $whereCondition;
     protected $mode;
+    protected $db;
     protected $sql;
     protected $languageSupport;
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
      */
-    protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
         $name = md5($tableName . $whereCondition . $method);
 
@@ -36,7 +37,8 @@ class rex_form extends rex_form_base
         $this->whereCondition = $whereCondition;
         $this->languageSupport = [];
 
-        $this->sql = rex_sql::factory();
+        $this->db = $db;
+        $this->sql = rex_sql::factory($db);
         $this->sql->setDebug($this->debug);
         $this->sql->setQuery('SELECT * FROM ' . $tableName . ' WHERE ' . $this->whereCondition . ' LIMIT 2');
 
@@ -71,10 +73,10 @@ class rex_form extends rex_form_base
      *
      * @return static a rex_form instance
      */
-    public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    public static function factory($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
         $class = static::getFactoryClass();
-        return new $class($tableName, $fieldset, $whereCondition, $method, $debug);
+        return new $class($tableName, $fieldset, $whereCondition, $method, $debug, $db);
     }
 
     /**
@@ -278,7 +280,7 @@ class rex_form extends rex_form_base
      */
     protected function save()
     {
-        $sql = rex_sql::factory();
+        $sql = rex_sql::factory($this->db);
         $sql->setDebug($this->debug);
         $sql->setTable($this->tableName);
 
@@ -348,7 +350,7 @@ class rex_form extends rex_form_base
      */
     protected function delete()
     {
-        $deleteSql = rex_sql::factory();
+        $deleteSql = rex_sql::factory($this->db);
         $deleteSql->setDebug($this->debug);
         $deleteSql->setTable($this->tableName);
         $deleteSql->setWhere($this->whereCondition);
