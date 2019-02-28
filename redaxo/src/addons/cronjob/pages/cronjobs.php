@@ -125,7 +125,7 @@ if ($func == '') {
     $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
-    $list->setColumnFormat('execute', 'custom', function ($params) {
+    $list->setColumnFormat('execute', 'custom', function ($params) use ($addon) {
         $list = $params['list'];
         if (strpos($list->getValue('environment'), '|backend|') !== false && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
