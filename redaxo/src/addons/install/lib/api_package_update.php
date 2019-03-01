@@ -139,33 +139,28 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $requirements = new SplObjectStorage();
         $conflicts = new SplObjectStorage();
 
-        if (isset($config['requires'])) {
-            $requirements[$this->addon] = $this->addon->getProperty('requires');
-            $this->addon->setProperty('requires', $config['requires']);
-        }
-        if (isset($config['conflicts'])) {
-            $conflicts[$this->addon] = $this->addon->getProperty('conflicts');
-            $this->addon->setProperty('conflicts', $config['conflicts']);
-        }
+        $requirements[$this->addon] = $this->addon->getProperty('requires', []);
+        $this->addon->setProperty('requires', isset($config['requires']) ? $config['requires'] : []);
+
+        $conflicts[$this->addon] = $this->addon->getProperty('conflicts', []);
+        $this->addon->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
 
         $versions[$this->addon] = $this->addon->getVersion();
         $this->addon->setProperty('version', isset($config['version']) ? $config['version'] : $this->file['version']);
+
         $availablePlugins = $this->addon->getAvailablePlugins();
         foreach ($availablePlugins as $plugin) {
             if (is_dir($temppath . '/plugins/' . $plugin->getName())) {
                 $config = rex_file::getConfig($temppath . '/plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
-                if (isset($config['requires'])) {
-                    $requirements[$plugin] = $plugin->getProperty('requires');
-                    $plugin->setProperty('requires', $config['requires']);
-                }
-                if (isset($config['conflicts'])) {
-                    $conflicts[$plugin] = $plugin->getProperty('conflicts');
-                    $plugin->setProperty('conflicts', $config['conflicts']);
-                }
-                if (isset($config['version'])) {
-                    $versions[$plugin] = $plugin->getProperty('version');
-                    $plugin->setProperty('version', $config['version']);
-                }
+
+                $requirements[$plugin] = $plugin->getProperty('requires', []);
+                $plugin->setProperty('requires', isset($config['requires']) ? $config['requires'] : []);
+
+                $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
+                $plugin->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
+
+                $versions[$plugin] = $plugin->getProperty('version');
+                $plugin->setProperty('version', isset($config['version']) ? $config['version'] : null);
             }
         }
 
