@@ -26,16 +26,16 @@ if ($subpage == 'help') {
         $package->includeFile('help.php');
         $content .= ob_get_clean();
     } elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
-        list($readmeToc, $readmeContent) = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md')), 2, 3);
+        list($readmeToc, $readmeContent) = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md')));
         $fragment = new rex_fragment();
         $fragment->setVar('content', $readmeContent, false);
-        $fragment->setVar('sidebar', $readmeToc, false);
+        $fragment->setVar('toc', $readmeToc, false);
         $content .= $fragment->parse('core/page/docs.php');
     } elseif (is_readable($package->getPath('README.md'))) {
-        list($readmeToc, $readmeContent) = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.md')), 2, 3);
+        list($readmeToc, $readmeContent) = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.md')));
         $fragment = new rex_fragment();
         $fragment->setVar('content', $readmeContent, false);
-        $fragment->setVar('sidebar', $readmeToc, false);
+        $fragment->setVar('toc', $readmeToc, false);
         $content .= $fragment->parse('core/page/docs.php');
     } else {
         $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
