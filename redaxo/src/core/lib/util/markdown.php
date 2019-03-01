@@ -107,7 +107,7 @@ class rex_markdown
 /**
  * @internal
  */
-class rex_parsedown_with_toc extends ParsedownExtra
+final class rex_parsedown_with_toc extends ParsedownExtra
 {
     private $ids = [];
 
