@@ -435,8 +435,10 @@ class rex_be_controller
             $path = $languagePath;
         }
 
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path), 2, 3);
         $fragment = new rex_fragment();
-        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
+        $fragment->setVar('content', $content, false);
+        $fragment->setVar('sidebar', $toc, false);
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
