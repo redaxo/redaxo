@@ -25,6 +25,9 @@ parameters:
         -
             message: '#Using \$this outside a class\.#'
             path: '*/fragments/*'
+        -
+            message: '#Variable \$this might not be defined\.#'
+            path: '*/fragments/*'
         - '#Undefined variable: \$this#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag\.#'        
         # warnings which can only be fixed after php-min version is raised to 7.1+
