@@ -175,6 +175,7 @@ class rex_list implements rex_url_provider_interface
      * @param int    $rowsPerPage
      * @param null   $listName
      * @param bool   $debug
+     * @param int    $db          DB connection ID
      *
      * @return static
      */
