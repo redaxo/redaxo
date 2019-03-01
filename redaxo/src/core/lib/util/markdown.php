@@ -96,6 +96,10 @@ class rex_markdown
             $toc .= "</ul>\n";
         }
 
+        if ($toc != '') {
+            $toc = sprintf('<nav class="rex-nav-toc">%s</nav>', $toc);
+        }
+
         return [$toc, $content];
     }
 }
