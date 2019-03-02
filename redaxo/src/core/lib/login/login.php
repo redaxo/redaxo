@@ -330,7 +330,7 @@ class rex_login
      */
     public function setSessionVar($varname, $value)
     {
-        $_SESSION[rex::getProperty('instname')][$this->systemId][$varname] = $value;
+        $_SESSION[rex_request::getSessionNamespace()][$this->systemId][$varname] = $value;
     }
 
     /**
@@ -345,13 +345,13 @@ class rex_login
 
             if (!empty($rexSessId) && $rexSessId !== session_id()) {
                 // clear redaxo related session properties on a possible attack
-                $_SESSION[rex::getProperty('instname')][$this->systemId] = [];
+                $_SESSION[rex_request::getSessionNamespace()][$this->systemId] = [];
             }
             $sessChecked = true;
         }
 
-        if (isset($_SESSION[rex::getProperty('instname')][$this->systemId][$varname])) {
-            return $_SESSION[rex::getProperty('instname')][$this->systemId][$varname];
+        if (isset($_SESSION[rex_request::getSessionNamespace()][$this->systemId][$varname])) {
+            return $_SESSION[rex_request::getSessionNamespace()][$this->systemId][$varname];
         }
 
         return $default;
