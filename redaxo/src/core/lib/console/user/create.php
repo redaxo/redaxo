@@ -19,8 +19,8 @@ class rex_command_user_create extends rex_console_command
             ->setDescription('Create a new user')
             ->addArgument('login', InputArgument::REQUIRED, 'Login')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
-            ->addOption('username', null, InputOption::VALUE_OPTIONAL, 'Username')
-            ->addOption('is_admin', null, InputOption::VALUE_OPTIONAL, 'Grant admin permissions', false)
+            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Name')
+            ->addOption('admin', null, InputOption::VALUE_OPTIONAL, 'Grant admin permissions', false)
         ;
     }
 
@@ -74,6 +74,7 @@ class rex_command_user_create extends rex_console_command
         $user->setValue('password', rex_backend_login::passwordHash($password));
         $user->setValue('admin', $input->getOption('is_admin') ? 1 : 0);
         $user->addGlobalCreateFields('console');
+        $user->addGlobalUpdateFields('console');
         $user->setValue('status', '1');
         $user->insert();
 
