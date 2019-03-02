@@ -20,7 +20,7 @@ class rex_command_user_create extends rex_console_command
             ->addArgument('login', InputArgument::REQUIRED, 'Login')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Name')
-            ->addOption('admin', null, InputOption::VALUE_NONE, 'Grant admin permissions', false)
+            ->addOption('admin', null, InputOption::VALUE_NONE, 'Grant admin permissions')
         ;
     }
 
