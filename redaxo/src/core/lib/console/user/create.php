@@ -2,6 +2,7 @@
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,8 +19,8 @@ class rex_command_user_create extends rex_console_command
             ->setDescription('Create a new user')
             ->addArgument('login', InputArgument::REQUIRED, 'Login')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
-            ->addArgument('username', InputArgument::OPTIONAL, 'Username')
-            ->addArgument('is_admin', InputArgument::OPTIONAL, 'Grant admin permissions', false)
+            ->addOption('username', null, InputOption::VALUE_OPTIONAL, 'Username')
+            ->addOption('is_admin', null, InputOption::VALUE_OPTIONAL, 'Grant admin permissions', false)
         ;
     }
 
@@ -60,7 +61,7 @@ class rex_command_user_create extends rex_console_command
             throw new InvalidArgumentException('Missing password.');
         }
 
-        $username = $input->getArgument('username');
+        $username = $input->getOption('username');
         if (!$username) {
             $username = $login;
         }
@@ -71,7 +72,7 @@ class rex_command_user_create extends rex_console_command
         $user->setValue('name', $username);
         $user->setValue('login', $login);
         $user->setValue('password', rex_backend_login::passwordHash($password));
-        $user->setValue('admin', $input->getArgument('is_admin') ? 1 : 0);
+        $user->setValue('admin', $input->getOption('is_admin') ? 1 : 0);
         $user->addGlobalCreateFields('console');
         $user->setValue('status', '1');
         $user->insert();
