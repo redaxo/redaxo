@@ -1,17 +1,5 @@
 # PHPMailer
 
-- [Allgemeines](#allgemeines)
-- [Beispiele](#beispiele)
-- [E-Mail-Benachrichtigung bei Fehlern](#errormail)
-- [SMTP-Debug](#smtpdebug)
-- [Tipps](#tipps)
-    - [Spam-Blocker](#spam-blocker)
-    - [Verwendung bei selbstsignierten Zertifikaten](#zertifikate)
-    - [Verschlüsselung: Automatische TLS-Verbindung](#autotls)
-    - [Senden über unterschiedliche Domains](#multidomain)
-
-<a name="ueber"></a>
-
 ## Allgemeines
 Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
 
@@ -31,7 +19,6 @@ Weitere Informationen zur Verwendung von PHPMailer unter: [https://github.com/PH
 
 > **Hinweis:** Eine Test-Mail kann mit dem Button **Speichern und testen** verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden.
 
-<a name="beispiele"></a>
 ## PHPMailer Code-Beispiele
 
 
@@ -125,7 +112,6 @@ foreach($sql as $row)
 }
 
 ```
-<a name="errormail"></a>
 
 ## E-Mail-Benachrichtigung bei Fehlern
 
@@ -136,7 +122,6 @@ Eigene Events können den Versand ebenso auslösen dazu kann man im Log den Even
 
 `rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
 
-<a name="smtpdebug"></a>
 ## SMTP-Debug
 
 Das Setzen des Debug-Modus führt zu unterschiedlichen Ausgaben
@@ -161,18 +146,14 @@ Meist benötigt man keinen Level über **Server-und Client-Protokoll**, es sei d
 
 
 
-<a name="tipps"></a>
-
 ## Tipps
 
-<a name="autotls"></a>
 ### Verschlüsselung: Automatische TLS-Verbindung
 
 PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
 
 > Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. 
 
-<a name="spam-blocker"></a>
 ### Spam-Blocker
 
 - Der Server, der die E-Mails versendet, sollte möglichst per SPF-Eintrag für die verwendete E-Mail-Domain als autorisierter Server im DNS hinterlegt sein.
@@ -181,7 +162,6 @@ PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschl
 
 - Große E-Mail-Verteiler sollten möglichst in kleiner Zahl und nicht als CC verschickt werden.
 
-<a name="zertifikate"></a>
 ### Verwendung bei selbstsignierten Zertifikaten
 
 Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die nachfolgenden Einstellungen helfen, dieses Problem zu umgehen.
@@ -204,7 +184,6 @@ $mail->SMTPOptions = array(
 );
 ```
 
-<a name="multidomain"></a>
 ### Senden über unterschiedliche Domains 
 
 Werden E-Mails über unterschiedliche Absender-Domains verschickt, sollte der SPF-Eintrag der Absender-Domain(s) in den DNS-Einstellungen
