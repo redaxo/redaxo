@@ -179,6 +179,7 @@ class rex_backend_login extends rex_login
     
         /**
          * returns the backends session namespace
+         *
 	     * @return string
 	     */
 	    private static function getSessionNamespace() {
