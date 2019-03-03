@@ -269,6 +269,8 @@ class rex_request
     }
 
     /**
+     * Returns the session namespace for the current http request
+     *
      * @return string
      */
     public static function getSessionNamespace() {
