@@ -122,7 +122,7 @@ class rex_backend_login extends rex_login
     {
         self::startSession();
 
-        unset($_SESSION[rex_request::getSessionNamespace()][self::SYSTEM_ID]);
+        unset($_SESSION[self::getSessionNamespace()][self::SYSTEM_ID]);
         self::deleteStayLoggedInCookie();
 
         rex_csrf_token::removeAll();
@@ -146,7 +146,7 @@ class rex_backend_login extends rex_login
         }
         self::startSession();
 
-        $sessionNs = rex_request::getSessionNamespace();
+        $sessionNs = self::getSessionNamespace();
         return isset($_SESSION[$sessionNs][self::SYSTEM_ID]['UID']) && $_SESSION[$sessionNs][self::SYSTEM_ID]['UID'] > 0;
     }
 
@@ -176,4 +176,12 @@ class rex_backend_login extends rex_login
         }
         return null;
     }
+    
+        /**
+         * returns the backends session namespace
+	     * @return string
+	     */
+	    private static function getSessionNamespace() {
+	        return rex::getProperty('instname'). '_backend';
+	    }
 }
