@@ -6,9 +6,9 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
+
+$addon = rex_addon::get('structure');
 
 rex_perm::register('moveArticle[]', null, rex_perm::OPTIONS);
 rex_perm::register('moveCategory[]', null, rex_perm::OPTIONS);
@@ -23,19 +23,19 @@ rex_complex_perm::register('structure', 'rex_structure_perm');
 
 require_once __DIR__ . '/functions/function_rex_url.php';
 
-$this->setProperty('start_article_id', $this->getConfig('start_article_id', 1));
-$this->setProperty('notfound_article_id', $this->getConfig('notfound_article_id', 1));
+$addon->setProperty('start_article_id', $addon->getConfig('start_article_id', 1));
+$addon->setProperty('notfound_article_id', $addon->getConfig('notfound_article_id', 1));
 
 if (rex_request('article_id', 'int') == 0) {
-    $this->setProperty('article_id', rex_article::getSiteStartArticleId());
+    $addon->setProperty('article_id', rex_article::getSiteStartArticleId());
 } else {
     $article_id = rex_request('article_id', 'int');
     $article_id = rex_article::get($article_id) ? $article_id : rex_article::getNotfoundArticleId();
-    $this->setProperty('article_id', $article_id);
+    $addon->setProperty('article_id', $article_id);
 }
 
 if (rex::isBackend() && rex::getUser()) {
-    rex_view::addJsFile($this->getAssetsUrl('linkmap.js'));
+    rex_view::addJsFile($addon->getAssetsUrl('linkmap.js'));
 
     if (rex_be_controller::getCurrentPagePart(1) == 'system') {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));

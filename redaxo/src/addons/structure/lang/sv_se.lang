@@ -86,7 +86,3 @@ var_linklist_move_top = Flytta vald länk till början
 var_linklist_move_up = Flytta vald länk uppåt
 var_linklist_move_down = Flytta vald länk neråt
 var_linklist_move_bottom = Flytta vald länk fram till ändan
-
-structure_article_name = Artikelnamn
-structure_path = Bana
-structure_status = Status

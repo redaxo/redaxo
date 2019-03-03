@@ -292,7 +292,6 @@ $panel = '
                     if ($file_title == '') {
                         $file_title = '[' . rex_i18n::msg('pool_file_notitle') . ']';
                     }
-                    $file_title .= ' [' . $file_id . ']';
 
                     // ----- opener
                     $opener_link = '';

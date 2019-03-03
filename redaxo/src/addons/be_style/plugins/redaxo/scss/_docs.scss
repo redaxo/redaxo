@@ -166,14 +166,22 @@
         border-radius: 3px;
     }
 }
-.rex-docs-sidebar {
-    float: left;
-    width: 230px;
-}
-.rex-docs-content {
-    max-width: 900px;
 
-    .rex-docs-sidebar + & {
-        margin-left: 280px;
+.rex-docs {
+    display: flex;
+
+    &-sidebar {
+        flex-basis: 230px;
+        flex-shrink: 0;
+    }
+    &-content {
+        padding-left: $grid-gutter-width;
     }
 }
+//.rex-docs-content {
+//    max-width: 900px;
+//
+//    .rex-docs-sidebar + & {
+//        margin-left: 280px;
+//    }
+//}
