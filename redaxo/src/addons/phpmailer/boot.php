@@ -82,7 +82,7 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $mail->Subject = rex::getServerName() . ' - error report ';
                 $mail->Body = $mailBody;
                 $mail->AltBody = strip_tags($mailBody);
-                $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report: '.rex::getServerName());
+                $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
                 $mail->addAddress(rex::getErrorEmail());
                 $addon->setConfig('last_log_file_send_time', $fileTime);
                 if ($mail->Send()) {
