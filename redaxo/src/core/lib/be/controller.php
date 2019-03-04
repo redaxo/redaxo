@@ -442,6 +442,7 @@ class rex_be_controller
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
+        $fragment->setVar('title', self::getCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
     }
