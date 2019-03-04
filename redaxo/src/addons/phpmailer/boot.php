@@ -27,7 +27,7 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
         $timediff = time() - $sendTime;
         if ($timediff > $addon->getConfig('errormail') && filesize($logFile) > 0 && $file = new rex_log_file($logFile)) {
             //Start - generate mailbody
-            $mailBody = '<h2>Error protocol for ' . rex::getServerName() . ' |  REDAXO v.'.rex::getVersion() . '</h2>';
+            $mailBody = '<h2>Error protocol for: ' . rex::getServerName() . '</h2>';
             $mailBody .= '<style> .errorbg {background: #F6C4AF; } .eventbg {background: #E1E1E1; } td, th {padding: 5px;} table {width: 100%; border: 1px solid #ccc; } th {background: #b00; color: #fff;} td { border: 0; border-bottom: 1px solid #b00;} </style> ';
             $mailBody .= '<table>';
             $mailBody .= '    <thead>';
@@ -79,7 +79,7 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $fileTime = filemtime($logFile);
 
                 $mail = new rex_mailer();
-                $mail->Subject = rex::getServerName() . ' | REDAXO v.'.rex::getVersion(). '- error report ';
+                $mail->Subject = rex::getServerName() . ' - error report ';
                 $mail->Body = $mailBody;
                 $mail->AltBody = strip_tags($mailBody);
                 $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report: '.rex::getServerName());
