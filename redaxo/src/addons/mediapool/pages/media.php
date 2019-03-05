@@ -10,10 +10,6 @@ $media_method = rex_request('media_method', 'string');
 $media_name = rex_request('media_name', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
-// *************************************** CONFIG
-
-$media_manager = rex_addon::get('media_manager')->isAvailable();
-
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
 $sel_media = new rex_media_category_select($check_perm = false);

@@ -77,7 +77,7 @@ if ($error != '') {
 if ($func == '') {
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
     // (werden am seltesten bearbeitet)
-    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
+    $query = 'SELECT id, status, name, description FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
     $list->addTableAttribute('class', 'table-striped');

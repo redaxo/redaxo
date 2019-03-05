@@ -33,6 +33,7 @@ rex_sql_table::get(rex::getTable('media_manager_type'))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)'))
     ->ensureColumn(new rex_sql_column('description', 'varchar(255)'))
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
+    ->ensureGlobalColumns()
     ->ensure();
 
 rex_sql_table::get(rex::getTable('media_manager_type_effect'))
@@ -59,7 +60,9 @@ foreach ($data as $row) {
     $sql->addRecord(function (rex_sql $record) use ($row) {
         $record
             ->setValues($row)
-            ->setValue('status', 1);
+            ->setValue('status', 1)
+            ->addGlobalCreateFields()
+            ->addGlobalUpdateFields();
     });
 }
 
