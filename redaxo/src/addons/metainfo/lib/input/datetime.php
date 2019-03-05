@@ -7,7 +7,10 @@
  */
 class rex_input_datetime extends rex_input
 {
+    /** @var rex_input_date */
     private $dateInput;
+
+    /** @var rex_input_time */
     private $timeInput;
 
     public function __construct()
@@ -16,6 +19,16 @@ class rex_input_datetime extends rex_input
 
         $this->dateInput = rex_input::factory('date');
         $this->timeInput = rex_input::factory('time');
+    }
+
+    public function setStart($start)
+    {
+        $this->dateInput->setStart($start);
+    }
+
+    public function setEnd($end)
+    {
+        $this->dateInput->setEnd($end);
     }
 
     public function setValue($value)

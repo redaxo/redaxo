@@ -298,6 +298,18 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
+
+                    if ('time' !== $typeLabel) {
+                        $paramArray = rex_string::split($params);
+
+                        if (isset($paramArray['start'])) {
+                            $rexInput->setStart($paramArray['start']);
+                        }
+                        if (isset($paramArray['end'])) {
+                            $rexInput->setEnd($paramArray['end']);
+                        }
+                    }
+
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
