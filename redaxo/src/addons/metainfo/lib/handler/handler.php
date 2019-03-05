@@ -302,11 +302,11 @@ abstract class rex_metainfo_handler
                     if ('time' !== $typeLabel) {
                         $paramArray = rex_string::split($params);
 
-                        if (isset($paramArray['start'])) {
-                            $rexInput->setStart($paramArray['start']);
+                        if (isset($paramArray['start-year'])) {
+                            $rexInput->setStartYear($paramArray['start-year']);
                         }
-                        if (isset($paramArray['end'])) {
-                            $rexInput->setEnd($paramArray['end']);
+                        if (isset($paramArray['end-year'])) {
+                            $rexInput->setEndYear($paramArray['end-year']);
                         }
                     }
 

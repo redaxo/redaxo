@@ -7,8 +7,8 @@
  */
 class rex_input_date extends rex_input
 {
-    private $start;
-    private $end;
+    private $startYear;
+    private $endYear;
 
     private $yearSelect;
     private $monthSelect;
@@ -42,14 +42,14 @@ class rex_input_date extends rex_input
         $this->daySelect->setSize(1);
     }
 
-    public function setStart($start)
+    public function setStartYear($startYear)
     {
-        $this->start = $start;
+        $this->startYear = $startYear;
     }
 
-    public function setEnd($end)
+    public function setEndYear($endYear)
     {
-        $this->end = $end;
+        $this->endYear = $endYear;
     }
 
     public function setValue($value)
@@ -108,7 +108,7 @@ class rex_input_date extends rex_input
     public function getHtml()
     {
         $yearSelect = clone $this->yearSelect;
-        $yearSelect->addOptions(range($this->start ?: 2005, $this->end ?: date('Y') + 10), true);
+        $yearSelect->addOptions(range($this->startYear ?: 2005, $this->endYear ?: date('Y') + 10), true);
 
         return $this->daySelect->get() . $this->monthSelect->get() . $yearSelect->get();
     }

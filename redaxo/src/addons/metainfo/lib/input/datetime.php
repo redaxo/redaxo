@@ -21,14 +21,14 @@ class rex_input_datetime extends rex_input
         $this->timeInput = rex_input::factory('time');
     }
 
-    public function setStart($start)
+    public function setStartYear($startYear)
     {
-        $this->dateInput->setStart($start);
+        $this->dateInput->setStartYear($startYear);
     }
 
-    public function setEnd($end)
+    public function setEndYear($endYear)
     {
-        $this->dateInput->setEnd($end);
+        $this->dateInput->setEndYear($endYear);
     }
 
     public function setValue($value)
