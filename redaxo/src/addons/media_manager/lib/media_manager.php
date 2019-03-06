@@ -382,6 +382,8 @@ class rex_media_manager
      * @param null|int         $timestamp Last change timestamp of given file, for cache buster parameter
      *                                    (not nessary when the file is given by a `rex_media` object)
      * @param bool             $escape
+     *
+     * @return string
      */
     public static function url($type, $file, $timestamp = null, $escape = true)
     {
