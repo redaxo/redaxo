@@ -17,14 +17,6 @@ $typeName = $sql->getValue('name');
 $info = '';
 $warning = '';
 
-//-------------- delete cache on effect changes or deletion
-if ((rex_request('func') != '' || $func == 'delete')
-     && $type_id > 0
-) {
-    $counter = rex_media_manager::deleteCacheByType($type_id);
-    //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
-}
-
 //-------------- delete effect
 if ($func == 'delete' && $effect_id > 0) {
     $sql = rex_sql::factory();
@@ -43,6 +35,8 @@ if ($func == 'delete' && $effect_id > 0) {
         );
 
         $info = rex_i18n::msg('media_manager_effect_deleted');
+
+        rex_media_manager::deleteCacheByType($type_id);
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
     }
@@ -261,6 +255,14 @@ if ($func == '' && $type_id > 0) {
     if ($func == 'edit') {
         $form->addParam('effect_id', $effect_id);
     }
+
+    rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) use ($form, $type_id) {
+        if ($form !== $ep->getParam('form')) {
+            return;
+        }
+
+        rex_media_manager::deleteCacheByType($type_id);
+    });
 
     $content = $form->get();
 
