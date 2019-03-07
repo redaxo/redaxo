@@ -17,7 +17,7 @@
 function rex_mediapool_filename($FILENAME, $doSubindexing = true)
 {
     // ----- neuer filename und extension holen
-    $NFILENAME = rex_string::normalize($FILENAME, '_', '.-');
+    $NFILENAME = rex_string::normalize($FILENAME, '_', '.-@');
 
     if ('.' === $NFILENAME[0]) {
         $NFILENAME[0] = '_';
