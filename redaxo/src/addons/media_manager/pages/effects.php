@@ -37,6 +37,12 @@ if ($func == 'delete' && $effect_id > 0) {
         $info = rex_i18n::msg('media_manager_effect_deleted');
 
         rex_media_manager::deleteCacheByType($type_id);
+
+        rex_sql::factory()
+            ->setTable(rex::getTable('media_manager_type'))
+            ->setWhere(['id' => $type_id])
+            ->addGlobalUpdateFields()
+            ->update();
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
     }
@@ -262,6 +268,12 @@ if ($func == '' && $type_id > 0) {
         }
 
         rex_media_manager::deleteCacheByType($type_id);
+
+        rex_sql::factory()
+            ->setTable(rex::getTable('media_manager_type'))
+            ->setWhere(['id' => $type_id])
+            ->addGlobalUpdateFields()
+            ->update();
     });
 
     $content = $form->get();

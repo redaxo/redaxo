@@ -235,6 +235,16 @@ $panel = '
                 ]));
                 $files->setQuery($qry);
 
+                if (!rex_addon::get('media_manager')->isAvailable()) {
+                    $media_manager_url = null;
+                } elseif (method_exists(rex_media_manager::class, 'url')) {
+                    $media_manager_url = [rex_media_manager::class, 'url'];
+                } else {
+                    $media_manager_url = function ($type, $file) {
+                        return rex_url::backendController(['rex_media_type' => $type, 'rex_media_file' => $file]);
+                    };
+                }
+
                 $panel .= '<tbody>';
                 for ($i = 0; $i < $files->getRows(); ++$i) {
                     $file_id = $files->getValue('id');
@@ -279,8 +289,8 @@ $panel = '
 
                         if (rex_media::isImageType(rex_file::extension($file_name))) {
                             $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '?buster=' . $files->getDateTimeValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
-                            if ($media_manager && rex_file::extension($file_name) != 'svg') {
-                                $thumbnail = '<img class="thumbnail" src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name, 'buster' => $files->getDateTimeValue('updatedate')]) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                            if ($media_manager_url && rex_file::extension($file_name) != 'svg') {
+                                $thumbnail = '<img class="thumbnail" src="' . $media_manager_url('rex_mediapool_preview', $encoded_file_name, $files->getDateTimeValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" />';
                             }
                         }
                     }
