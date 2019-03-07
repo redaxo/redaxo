@@ -42,11 +42,11 @@ class rex_media_manager_test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataUrl
+     * @dataProvider dataGetUrl
      */
-    public function testUrl($expectedBuster, $type, $file, $timestamp = null)
+    public function testGetUrl($expectedBuster, $type, $file, $timestamp = null)
     {
-        $url = rex_media_manager::url($type, $file, $timestamp);
+        $url = rex_media_manager::getUrl($type, $file, $timestamp);
 
         if (false === $expectedBuster) {
             $this->assertNotContains('buster=', $url);
@@ -55,7 +55,7 @@ class rex_media_manager_test extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function dataUrl()
+    public function dataGetUrl()
     {
         yield [false, 'non_existing', 'test.jpg', time()];
 
