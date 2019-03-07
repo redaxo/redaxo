@@ -20,10 +20,12 @@ if (rex_post('btn_delete', 'string')) {
                 $return = rex_mediapool_deleteMedia($filename);
                 if ($return['ok']) {
                     $success = $return['msg'];
-                } else {
-                    $error = $return['msg'];
+                    $file_id = 0;
+
+                    return;
                 }
-                $file_id = 0;
+
+                $error = $return['msg'];
             } else {
                 $error = rex_i18n::msg('no_permission');
             }
