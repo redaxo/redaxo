@@ -11,7 +11,7 @@ override(
         'user' => \rex_user::class,
     ])
 );
-
+// https://blog.jetbrains.com/phpstorm/2019/02/new-phpstorm-meta-php-features/
 expectedReturnValues(\rex::getEnvironment(), 'frontend', 'backend', 'console');
 
 expectedArguments(\rex_extension::register(), 2, \rex_extension::EARLY, \rex_extension::NORMAL, \rex_extension::LATE);
