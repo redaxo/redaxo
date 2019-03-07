@@ -58,6 +58,10 @@ if ($core && !empty($coreVersions)) {
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
             </tr>
             <tr>
+                <th>' . $package->i18n('existing_version') . '</th>
+                <td data-title="' . $package->i18n('existing_version') . '">' . rex_escape(rex_addon::get($addonkey)->getVersion()) . '</td>
+            </tr>
+            <tr>
                 <th>' . $package->i18n('author') . '</th>
                 <td data-title="' . $package->i18n('author') . '">' . rex_escape($addon['author']) . '</td>
             </tr>
@@ -94,7 +98,7 @@ if ($core && !empty($coreVersions)) {
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($file['description'])) . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . rex_markdown::factory()->parse(rex_escape($file['description'])) . '</td>
                 <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
             </tr>';
     }
