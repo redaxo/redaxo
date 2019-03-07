@@ -31,12 +31,13 @@ if ($core && !empty($coreVersions)) {
             </thead>
             <tbody>';
 
+    $markdown = rex_markdown::factory();
     foreach ($coreVersions as $id => $version) {
         $panel .= '
                 <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                     <td data-title="' . $package->i18n('version') . '">' . rex_escape($version['version']) . '</td>
-                    <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($version['description'])) . '</td>
+                    <td data-title="' . $package->i18n('description') . '">' . $markdown->parse($version['description']) . '</td>
                     <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'version_id' => $id] + rex_api_install_core_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
                 </tr>';
     }
