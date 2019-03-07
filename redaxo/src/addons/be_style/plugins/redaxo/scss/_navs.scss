@@ -279,6 +279,9 @@
         padding-bottom: 12px;
         color: $color-b;
     }
+    .navbar-default .navbar-nav > .empty > a {
+        color: $color-a;
+    }
     .navbar-default .navbar-nav > li > a:hover,
     .navbar-default .navbar-nav > .active > a,
     .navbar-default .navbar-nav > .active > a:hover,
