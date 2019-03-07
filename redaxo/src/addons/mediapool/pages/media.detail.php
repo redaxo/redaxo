@@ -124,9 +124,9 @@ if ($isImage) {
     $img_max = rex_url::media($fname);
 
     if (rex_addon::get('media_manager')->isAvailable() && rex_file::extension($fname) != 'svg') {
-        if (method_exists(rex_media_manager::class, 'url')) {
-            $imgn = rex_media_manager::url('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
-            $img_max = rex_media_manager::url('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+        if (method_exists(rex_media_manager::class, 'getUrl')) {
+            $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+            $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
         } else {
             $imgn = rex_url::backendController(['rex_mediapool_detail' => $type, 'rex_media_file' => $encoded_fname]);
             $img_max = rex_url::backendController(['rex_mediapool_maximized' => $type, 'rex_media_file' => $encoded_fname]);

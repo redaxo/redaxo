@@ -385,7 +385,7 @@ class rex_media_manager
      *
      * @return string
      */
-    public static function url($type, $file, $timestamp = null, $escape = true)
+    public static function getUrl($type, $file, $timestamp = null, $escape = true)
     {
         if ($file instanceof rex_media) {
             if (null === $timestamp) {
