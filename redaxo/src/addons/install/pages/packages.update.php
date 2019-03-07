@@ -93,12 +93,13 @@ if ($core && !empty($coreVersions)) {
             </thead>
             <tbody>';
 
+    $markdown = rex_markdown::factory();
     foreach ($addon['files'] as $fileId => $file) {
         $panel .= '
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . rex_markdown::factory()->parse(rex_escape($file['description'])) . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $markdown->parse($file['description']) . '</td>
                 <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
             </tr>';
     }
