@@ -31,12 +31,14 @@ if ($core && !empty($coreVersions)) {
             </thead>
             <tbody>';
 
+    $markdown = rex_markdown::factory();
+    $fragment = new rex_fragment();
     foreach ($coreVersions as $id => $version) {
         $panel .= '
                 <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                     <td data-title="' . $package->i18n('version') . '">' . rex_escape($version['version']) . '</td>
-                    <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($version['description'])) . '</td>
+                    <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php') . '</td>
                     <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'version_id' => $id] + rex_api_install_core_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
                 </tr>';
     }
@@ -56,6 +58,10 @@ if ($core && !empty($coreVersions)) {
             <tr>
                 <th class="rex-table-width-5">' . $package->i18n('name') . '</th>
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
+            </tr>
+            <tr>
+                <th>' . $package->i18n('existing_version') . '</th>
+                <td data-title="' . $package->i18n('existing_version') . '">' . rex_escape(rex_addon::get($addonkey)->getVersion()) . '</td>
             </tr>
             <tr>
                 <th>' . $package->i18n('author') . '</th>
@@ -89,12 +95,14 @@ if ($core && !empty($coreVersions)) {
             </thead>
             <tbody>';
 
+    $markdown = rex_markdown::factory();
+    $fragment = new rex_fragment();
     foreach ($addon['files'] as $fileId => $file) {
         $panel .= '
             <tr>
                 <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
-                <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($file['description'])) . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
                 <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId] + rex_api_install_package_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
             </tr>';
     }
