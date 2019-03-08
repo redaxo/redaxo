@@ -38,7 +38,7 @@ if ($core && !empty($coreVersions)) {
                 <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                     <td data-title="' . $package->i18n('version') . '">' . rex_escape($version['version']) . '</td>
-                    <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                    <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php') . '</td>
                     <td class="rex-table-action"><a href="' . rex_url::currentBackendPage(['core' => 1, 'version_id' => $id] + rex_api_install_core_update::getUrlParams()) . '" data-pjax="false">' . $package->i18n('update') . '</a></td>
                 </tr>';
     }
