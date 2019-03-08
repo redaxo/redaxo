@@ -333,7 +333,10 @@ if ($article->getRows() == 1) {
         $editPage = rex_be_controller::getPageObject('content/edit');
 
         foreach ($ctypes as $key => $val) {
-            $hasSlice = rex_article_slice::getFirstSliceForCtype($key, $article_id, $clang);
+            $hasSlice = true;
+            if ($ctype != $key) {
+                $hasSlice = rex_article_slice::getFirstSliceForCtype($key, $article_id, $clang) !== null;
+            }
             $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
                 ->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key], false)
                 ->setIsActive($ctype == $key)
