@@ -20,10 +20,12 @@ if (rex_post('btn_delete', 'string')) {
                 $return = rex_mediapool_deleteMedia($filename);
                 if ($return['ok']) {
                     $success = $return['msg'];
-                } else {
-                    $error = $return['msg'];
+                    $file_id = 0;
+
+                    return;
                 }
-                $file_id = 0;
+
+                $error = $return['msg'];
             } else {
                 $error = rex_i18n::msg('no_permission');
             }
@@ -121,9 +123,15 @@ if ($isImage) {
     $width = ' width="'.$rfwidth.'"';
     $img_max = rex_url::media($fname);
 
-    if ($media_manager && rex_file::extension($fname) != 'svg') {
-        $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname, 'buster' => $gf->getDateTimeValue('updatedate')]);
-        $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname, 'buster' => $gf->getDateTimeValue('updatedate')]);
+    if (rex_addon::get('media_manager')->isAvailable() && rex_file::extension($fname) != 'svg') {
+        if (method_exists(rex_media_manager::class, 'getUrl')) {
+            $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+            $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+        } else {
+            $imgn = rex_url::backendController(['rex_mediapool_detail' => $type, 'rex_media_file' => $encoded_fname]);
+            $img_max = rex_url::backendController(['rex_mediapool_maximized' => $type, 'rex_media_file' => $encoded_fname]);
+        }
+
         $width = '';
     }
 
@@ -149,7 +157,7 @@ if ($success != '') {
 if ($opener_input_field != '') {
     $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
     if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-        $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+        $opener_link = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
     }
 }
 

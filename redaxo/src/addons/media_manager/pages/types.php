@@ -15,14 +15,11 @@ if (rex_request('effects', 'boolean')) {
 $success = '';
 $error = '';
 
-//-------------- delete cache on type_name change or type deletion
-if ((rex_request('func') == 'edit' || $func == 'delete') && $type_id > 0) {
-    $counter = rex_media_manager::deleteCacheByType($type_id);
-    //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
-}
-
 //-------------- delete type
 if ($func == 'delete' && $type_id > 0) {
+    // must be called before deletion, otherwise the method can not resolve the id to type name
+    rex_media_manager::deleteCacheByType($type_id);
+
     $sql = rex_sql::factory();
     //  $sql->setDebug();
 
@@ -80,7 +77,7 @@ if ($error != '') {
 if ($func == '') {
     // Nach Status sortieren, damit Systemtypen immer zuletzt stehen
     // (werden am seltesten bearbeitet)
-    $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
+    $query = 'SELECT id, status, name, description FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
     $list = rex_list::factory($query);
     $list->addTableAttribute('class', 'table-striped');
@@ -163,6 +160,14 @@ if ($func == '') {
     $form->addParam('type_id', $type_id);
     if ($func == 'edit') {
         $form->setEditMode($func == 'edit');
+
+        rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) use ($form, $type_id) {
+            if ($form !== $ep->getParam('form')) {
+                return;
+            }
+
+            rex_media_manager::deleteCacheByType($type_id);
+        });
     }
 
     $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));

@@ -7,6 +7,9 @@
  */
 class rex_input_date extends rex_input
 {
+    private $startYear;
+    private $endYear;
+
     private $yearSelect;
     private $monthSelect;
     private $daySelect;
@@ -16,7 +19,6 @@ class rex_input_date extends rex_input
         parent::__construct();
 
         $this->yearSelect = new rex_select();
-        $this->yearSelect->addOptions(range(2005, date('Y') + 10), true);
         $this->yearSelect->setAttribute('class', 'rex-form-select-year selectpicker');
         $this->yearSelect->setAttribute('data-width', 'fit');
         $this->yearSelect->setSize(1);
@@ -38,6 +40,16 @@ class rex_input_date extends rex_input
         $this->daySelect->setAttribute('class', 'rex-form-select-date selectpicker');
         $this->daySelect->setAttribute('data-width', 'fit');
         $this->daySelect->setSize(1);
+    }
+
+    public function setStartYear($startYear)
+    {
+        $this->startYear = $startYear;
+    }
+
+    public function setEndYear($endYear)
+    {
+        $this->endYear = $endYear;
     }
 
     public function setValue($value)
@@ -95,8 +107,9 @@ class rex_input_date extends rex_input
 
     public function getHtml()
     {
-        return $this->daySelect->get() .
-                     $this->monthSelect->get() .
-                     $this->yearSelect->get();
+        $yearSelect = clone $this->yearSelect;
+        $yearSelect->addOptions(range($this->startYear ?: 2005, $this->endYear ?: date('Y') + 10), true);
+
+        return $this->daySelect->get() . $this->monthSelect->get() . $yearSelect->get();
     }
 }
