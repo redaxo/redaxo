@@ -337,7 +337,7 @@ if ($article->getRows() == 1) {
             $editPage->addSubpage((new rex_be_page('ctype' . $key, rex_i18n::translate($val)))
                 ->setHref(['page' => 'content/edit', 'article_id' => $article_id, 'clang' => $clang, 'ctype' => $key], false)
                 ->setIsActive($ctype == $key)
-                ->setItemAttr('class', $hasSlice ? '' : 'empty')
+                ->setItemAttr('class', $hasSlice ? '' : 'rex-empty')
             );
         }
 
