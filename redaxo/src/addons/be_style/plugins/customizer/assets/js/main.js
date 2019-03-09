@@ -122,6 +122,7 @@ Customizer.init = function (container) {
         $('.rex-nav-top').css('border-bottom', '7px solid ' + rex.customizer_labelcolor)
     }
 
+    // inspired by https://blog.roomanna.com/09-24-2011/dynamically-coloring-a-favicon
     if (typeof rex.customizer_inkfavicon !== "undefined" && rex.customizer_inkfavicon != '') {
         var link = document.querySelector("link[rel~='icon']");
         if (!link) {
