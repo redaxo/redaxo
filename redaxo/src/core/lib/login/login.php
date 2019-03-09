@@ -330,7 +330,7 @@ class rex_login
      */
     public function setSessionVar($varname, $value)
     {
-        $_SESSION[rex::getProperty('instname')][$this->systemId][$varname] = $value;
+        $_SESSION[static::getSessionNamespace()][$this->systemId][$varname] = $value;
     }
 
     /**
@@ -345,13 +345,13 @@ class rex_login
 
             if (!empty($rexSessId) && $rexSessId !== session_id()) {
                 // clear redaxo related session properties on a possible attack
-                $_SESSION[rex::getProperty('instname')][$this->systemId] = [];
+                $_SESSION[static::getSessionNamespace()][$this->systemId] = [];
             }
             $sessChecked = true;
         }
 
-        if (isset($_SESSION[rex::getProperty('instname')][$this->systemId][$varname])) {
-            return $_SESSION[rex::getProperty('instname')][$this->systemId][$varname];
+        if (isset($_SESSION[static::getSessionNamespace()][$this->systemId][$varname])) {
+            return $_SESSION[static::getSessionNamespace()][$this->systemId][$varname];
         }
 
         return $default;
@@ -488,5 +488,15 @@ class rex_login
     public static function passwordNeedsRehash($hash)
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);
+    }
+
+    /**
+     * returns the current session namespace.
+     *
+     * @return string
+     */
+    protected static function getSessionNamespace()
+    {
+        return rex_request::getSessionNamespace();
     }
 }
