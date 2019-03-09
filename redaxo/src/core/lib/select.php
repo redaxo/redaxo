@@ -245,7 +245,7 @@ class rex_select
 
         $attr = '';
         foreach ($this->attributes as $name => $value) {
-            $attr .= ' ' . $name . '="' . $value . '"';
+            $attr .= ' ' . rex_escape($name, 'html_attr') . '="' . rex_escape($value) . '"';
         }
 
         $ausgabe = "\n";
@@ -328,7 +328,7 @@ class rex_select
 
         $attr = '';
         foreach ($attributes as $n => $v) {
-            $attr .= ' ' . $n . '="' . $v . '"';
+            $attr .= ' ' . rex_escape($n, 'html_attr') . '="' . rex_escape($v) . '"';
         }
 
         return '        <option value="' . $value . '"' . $attr . '>' . $bsps . $name . '</option>' . "\n";
