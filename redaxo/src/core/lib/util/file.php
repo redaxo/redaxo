@@ -66,10 +66,13 @@ class rex_file
                 return false;
             }
 
-            if (file_put_contents($file, $content) !== false) {
+            // mimic a atomic write
+            $tmpFile = @tempnam(dirname($file), basename($file));
+            if (file_put_contents($tmpFile, $content) !== false && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
+            @unlink($tmpFile);
 
             return false;
         });

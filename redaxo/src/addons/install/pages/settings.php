@@ -37,6 +37,7 @@ $panel .= '
                 $n['reverse'] = true;
                 $n['label'] = '<label>' . $addon->i18n('settings_backups') . '</label>';
                 $n['field'] = '<input type="checkbox"  name="settings[backups]" value="1" ' . ($config['backups'] ? 'checked="checked" ' : '') . '/>';
+                $n['note'] = $addon->i18n('settings_backups_note');
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
