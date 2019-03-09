@@ -5,9 +5,13 @@ Version 2.7.0 – XX.XX.XXXX
 --------------------------
 
 * Layout für neue Core-Komponenten und diverse kleine Optimierungen (@tbaddade)
+* Hauptnavi: Weniger Padding (top/bottom) (@schuer)
+* Neue Favicons (@schuer)
 * Consolen-Command `be_style:compile` (@bloep)
 * CodeMirror überarbeitet/aktualisiert (@aeberhard) 
-* Customizer: Bessere Default-Erkennungsfarbe (@skerbis)
+* Customizer: 
+    - Bessere Default-Erkennungsfarbe (@skerbis)
+    - Bessere Darstellung des Links zur Website im Header (@schuer)
 
 
 Version 2.6.1 – 10.07.2018
