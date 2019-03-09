@@ -23,6 +23,10 @@ if (rex_string::versionCompare(rex::getVersion(), '5.4', '<')) {
     throw new rex_functional_exception(sprintf('The REDAXO version "%s" is too old for this update, please update to 5.6.X before.', rex::getVersion()));
 }
 
+if (rex_string::versionCompare(rex::getVersion(), '5.7-beta3', '<')) {
+    $_SESSION[rex::getProperty('instname').'_backend']['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
+}
+
 $path = rex_path::coreData('config.yml');
 rex_file::putConfig($path, array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),
