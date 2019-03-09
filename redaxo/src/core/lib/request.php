@@ -80,8 +80,8 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        if (isset($_SESSION[rex::getProperty('instname')][$varname])) {
-            return rex_type::cast($_SESSION[rex::getProperty('instname')][$varname], $vartype);
+        if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
+            return rex_type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
         }
 
         if ($default === '') {
@@ -104,7 +104,7 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        $_SESSION[rex::getProperty('instname')][$varname] = $value;
+        $_SESSION[self::getSessionNamespace()][$varname] = $value;
     }
 
     /**
@@ -120,7 +120,21 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        unset($_SESSION[rex::getProperty('instname')][$varname]);
+        unset($_SESSION[self::getSessionNamespace()][$varname]);
+    }
+
+    /**
+     * clear redaxo session contents within the current namespace (the session itself stays alive).
+     *
+     * @throws rex_exception
+     */
+    public static function clearSession()
+    {
+        if (PHP_SESSION_ACTIVE != session_status()) {
+            throw new rex_exception('Session not started, call rex_login::startSession() before!');
+        }
+
+        unset($_SESSION[self::getSessionNamespace()]);
     }
 
     /**
@@ -252,5 +266,19 @@ class rex_request
     public static function isHttps()
     {
         return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
+    }
+
+    /**
+     * Returns the session namespace for the current http request.
+     *
+     * @return string
+     */
+    public static function getSessionNamespace()
+    {
+        // separate backend from frontend namespace,
+        // so we can e.g. clear the backend session without
+        // logging out the users from the frontend
+        $suffix = rex::isBackend() ? '_backend' : '';
+        return rex::getProperty('instname'). $suffix;
     }
 }
