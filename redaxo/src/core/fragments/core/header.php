@@ -9,7 +9,7 @@
                     <?php endif; ?>
                     <?php if (rex::getUser() && rex::getUser()->isAdmin() && rex::isDebugMode()): ?>
                         <a class="rex-marker-debugmode" href="<?= rex_url::backendPage('system/settings') ?>" title="<?= rex_i18n::msg('debug_mode_marker') ?>">
-                            <i class="rex-icon fa-heartbeat"></i>
+                            <i class="rex-icon rex-icon-heartbeat"></i>
                         </a>
                     <?php endif; ?>
                 </div>
