@@ -398,6 +398,21 @@ if ($OUT) {
         return $params['list']->getColumnLink('name', rex_i18n::translate($params['list']->getValue('name')));
     });
 
+    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM '.rex::getTable('article_slice').' GROUP BY `module_id`');
+    if (count($slices) > 0) {
+        $usedIds = array_flip(array_map(function ($slice) {
+            return $slice['module_id'];
+        }, $slices));
+
+        $list->addColumn('use', '');
+        $list->setColumnLabel('use', rex_i18n::msg('module_in_use'));
+        $list->setColumnFormat('use', 'custom', function ($params) use ($usedIds) {
+            /** @var rex_list $list */
+            $list = $params['list'];
+            return isset($usedIds[$list->getValue('id')]) ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
+        });
+    }
+
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('module_functions'), ['function' => 'edit', 'module_id' => '###id###']);
