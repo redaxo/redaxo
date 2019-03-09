@@ -58,7 +58,7 @@ install_to_addon_page = Go to AddOn management
 
 install_settings_general = General
 install_settings_backups = Create backup
-install_settings_backups_note = Before updating a package, the installer saves a copy of the previously installed version in <code>redaxo/data/addons/install/</code>. This copy can be restored in case of errors.
+install_settings_backups_note = Before updating a package, the installer saves a copy of the previously installed version in <code>redaxo/data/addons/install/</code>. This copy can be restored in case of errors.<br>Please note that the database will not be backed up!
 install_settings_myredaxo_account = myREDAXO account
 install_settings_api_login = Username
 install_settings_api_key = API-Key
