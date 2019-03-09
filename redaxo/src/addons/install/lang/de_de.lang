@@ -58,6 +58,7 @@ install_to_addon_page = Zur AddOn-Verwaltung
 
 install_settings_general = Allgemein
 install_settings_backups = Backups erstellen
+install_settings_backups_note = Vor dem Update eines AddOns durch den Installer wird in <code>/redaxo/data/addons/install/</code> eine Kopie der bisher installierten Version abgelegt. Diese kann bei Fehlern wieder eingespielt werden.
 install_settings_myredaxo_account = myREDAXO-Account
 install_settings_api_login = Nutzername
 install_settings_api_key = API-Key
