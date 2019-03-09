@@ -48,6 +48,10 @@ if (rex_post('btn_save', 'string') != '') {
         $tempConfig['showlink'] = 1;
     }
 
+    $tempConfig['inkfavicon'] = 0;
+    if (isset($newConfig['inkfavicon']) && $newConfig['inkfavicon'] == 1) {
+        $tempConfig['inkfavicon'] = 1;
+    }
     // save config
 
     if (empty($error) && rex_plugin::get('be_style', 'customizer')->setConfig($tempConfig)) {
@@ -169,6 +173,12 @@ $n = [];
 $n['label'] = '<label for="customizer-labelcolor">' . rex_i18n::msg('customizer_labelcolor') . '</label>';
 $n['field'] = '<input class="form-control" id="customizer-labelcolor" type="text" name="settings[labelcolor]" value="' . htmlspecialchars($config['labelcolor']) . '" />';
 $n['note'] = rex_i18n::msg('customizer_labelcolor_notice');
+$formElements[] = $n;
+
+$n = [];
+$n['label'] = '<label for="customizer-inkfavicon">' . rex_i18n::msg('customizer_inkfavicon') . '</label>';
+$n['field'] = '<input type="checkbox" id="customizer-inkfavicon" name="settings[inkfavicon]" value="1" ' . ($config['inkfavicon'] ? 'checked="checked" ' : '') . ' />';
+$n['field'] .= ' '.rex_i18n::msg('customizer_inkfavicon_text');
 $formElements[] = $n;
 
 $n = [];

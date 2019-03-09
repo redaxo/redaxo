@@ -122,6 +122,31 @@ Customizer.init = function (container) {
         $('.rex-nav-top').css('border-bottom', '7px solid ' + rex.customizer_labelcolor)
     }
 
+    if (typeof rex.customizer_inkfavicon !== "undefined" && rex.customizer_inkfavicon != '') {
+        var link = document.querySelector("link[rel~='icon']");
+        if (!link) {
+            link = document.createElement("link");
+            link.setAttribute("rel", "shortcut icon");
+            document.head.appendChild(link);
+        }
+        var faviconUrl = link.href || window.location.origin + "/favicon.ico";
+
+        var img = document.createElement("img");
+        img.addEventListener("load", function () {
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            var context = canvas.getContext("2d");
+            context.fillStyle = rex.customizer_labelcolor;
+            context.fillRect(0, 0, img.width, img.height);
+            context.drawImage(img, 0, 0);
+            context.fill();
+            link.type = "image/x-icon";
+            link.href = canvas.toDataURL();
+        });
+        img.src = faviconUrl;
+    }
+
     if (typeof rex.customizer_showlink !== "undefined" && rex.customizer_showlink != '' && !$('.be-style-customizer-title').length) {
         $('.rex-nav-top .navbar-header').append(rex.customizer_showlink);
     }

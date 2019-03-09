@@ -16,6 +16,8 @@ customizer_codemirror_info = Sobald CodeMirror aktiviert ist, wird dieser bei Te
 customizer_labeling = Ergänzungen
 customizer_labelcolor = Erkennungsfarbe
 customizer_labelcolor_notice = Beliebige valide CSS-Farbangabe (<code>#03f0ab</code>, <code>rgba(255, 100, 0, 0.5)</code> etc.)
+customizer_inkfavicon = Backend-Favicon einfärben?
+customizer_inkfavicon_text = Backend-Favicon mit der Erkennungsfarbe einfärben. Nach Änderung einmal die Webseite mit <kbd>STRG+R</kbd> bzw. <kbd>CMD+R</kbd> neuladen.
 customizer_showlink = Link zur Webseite anzeigen ?
 
 customizer_config_updated = Eingaben wurden gespeichert

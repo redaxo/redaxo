@@ -138,6 +138,7 @@ if (rex::isBackend() && rex::getUser()) {
 
     if ($config['labelcolor'] != '') {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
+        rex_view::setJsProperty('customizer_inkfavicon', $config['inkfavicon']);
     }
     if ($config['showlink']) {
         rex_view::setJsProperty(

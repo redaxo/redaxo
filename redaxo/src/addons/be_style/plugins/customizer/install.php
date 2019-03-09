@@ -12,6 +12,10 @@ if (!$plugin->hasConfig()) {
     $plugin->setConfig('codemirror-tools', 0);
     $plugin->setConfig('showlink', 1);
 }
+/* Spaeter dazugekommene configs */
+if (!$plugin->hasConfig('inkfavicon')) {
+    $plugin->setConfig('inkfavicon', 1);
+}
 
 /* Codemirror-Assets entpacken */
 $message = '';
