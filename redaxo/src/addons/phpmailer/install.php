@@ -6,32 +6,32 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
-if (!$this->hasConfig()) {
-    $this->setConfig('from', '');
-    $this->setConfig('test_address', '');
-    $this->setConfig('fromname', 'Mailer');
-    $this->setConfig('confirmto', '');
-    $this->setConfig('bcc', '');
-    $this->setConfig('mailer', 'mail');
-    $this->setConfig('host', 'localhost');
-    $this->setConfig('port', 25);
-    $this->setConfig('charset', 'utf-8');
-    $this->setConfig('wordwrap', 120);
-    $this->setConfig('encoding', '8bit');
-    $this->setConfig('priority', 0);
-    $this->setConfig('smtpsecure', '');
-    $this->setConfig('smtpauth', false);
-    $this->setConfig('username', '');
-    $this->setConfig('password', '');
-    $this->setConfig('smtp_debug', '0');
-    $this->setConfig('log', 0);
+$addon = rex_addon::get('phpmailer');
+
+if (!$addon->hasConfig()) {
+    $addon->setConfig('from', '');
+    $addon->setConfig('test_address', '');
+    $addon->setConfig('fromname', 'Mailer');
+    $addon->setConfig('confirmto', '');
+    $addon->setConfig('bcc', '');
+    $addon->setConfig('mailer', 'mail');
+    $addon->setConfig('host', 'localhost');
+    $addon->setConfig('port', 25);
+    $addon->setConfig('charset', 'utf-8');
+    $addon->setConfig('wordwrap', 120);
+    $addon->setConfig('encoding', '8bit');
+    $addon->setConfig('priority', 0);
+    $addon->setConfig('smtpsecure', '');
+    $addon->setConfig('smtpauth', false);
+    $addon->setConfig('username', '');
+    $addon->setConfig('password', '');
+    $addon->setConfig('smtp_debug', '0');
+    $addon->setConfig('log', 0);
 } else {
-    if (!$this->hasConfig('log')) {
-        $this->setConfig('log', 0);
+    if (!$addon->hasConfig('log')) {
+        $addon->setConfig('log', 0);
     }
 }
 

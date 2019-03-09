@@ -215,7 +215,7 @@ abstract class rex_metainfo_handler
                     $tag_attr = ' class="form-control"';
 
                     $select = new rex_select();
-                    $select->setStyle('class="form-control"');
+                    $select->setStyle('class="form-control selectpicker"');
                     $select->setName($name);
                     $select->setId($id);
 
@@ -298,6 +298,18 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
+
+                    if ('time' !== $typeLabel) {
+                        $paramArray = rex_string::split($params);
+
+                        if (isset($paramArray['start-year'])) {
+                            $rexInput->setStartYear($paramArray['start-year']);
+                        }
+                        if (isset($paramArray['end-year'])) {
+                            $rexInput->setEndYear($paramArray['end-year']);
+                        }
+                    }
+
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';

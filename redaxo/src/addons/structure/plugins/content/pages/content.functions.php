@@ -164,7 +164,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $lang_a->setId('clang_a');
     $lang_a->setName('clang_a');
     $lang_a->setSize('1');
-    $lang_a->setAttribute('class', 'form-control');
+    $lang_a->setAttribute('class', 'form-control selectpicker');
     foreach ($clang_perm as $key) {
         $val = rex_i18n::translate(rex_clang::get($key)->getName());
         $lang_a->addOption($val, $key);
@@ -174,7 +174,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('clang')->count() >
     $lang_b->setId('clang_b');
     $lang_b->setName('clang_b');
     $lang_b->setSize('1');
-    $lang_b->setAttribute('class', 'form-control');
+    $lang_b->setAttribute('class', 'form-control selectpicker');
     foreach ($clang_perm as $key) {
         $val = rex_i18n::translate(rex_clang::get($key)->getName());
         $lang_b->addOption($val, $key);
@@ -235,7 +235,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('moveArticle[]')) {
     $move_a->setId('category_id_new');
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control');
+    $move_a->setAttribute('class', 'form-control selectpicker');
     $move_a->setSelected($category_id);
 
     $panel = '<fieldset>';
@@ -275,7 +275,7 @@ if (rex::getUser()->hasPerm('copyArticle[]')) {
     $move_a->setName('category_copy_id_new');
     $move_a->setId('category_copy_id_new');
     $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control');
+    $move_a->setAttribute('class', 'form-control selectpicker');
     $move_a->setSelected($category_id);
 
     $panel = '<fieldset>';
@@ -315,7 +315,7 @@ if ($isStartpage && rex::getUser()->hasPerm('moveCategory[]') && rex::getUser()-
     $move_a->setId('category_id_new');
     $move_a->setName('category_id_new');
     $move_a->setSize('1');
-    $move_a->setAttribute('class', 'form-control');
+    $move_a->setAttribute('class', 'form-control selectpicker');
     $move_a->setSelected($article_id);
 
     $panel = '<fieldset>';

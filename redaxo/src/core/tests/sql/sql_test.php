@@ -128,6 +128,15 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $sql->getRows());
     }
 
+    public function testInsertWithoutValues()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->insert();
+        $this->assertEquals(1, $sql->getRows());
+    }
+
     public function testInsertRecords()
     {
         $sql = rex_sql::factory();

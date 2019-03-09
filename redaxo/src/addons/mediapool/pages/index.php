@@ -39,7 +39,7 @@ if ($opener_input_field != '') {
     }
 
     $arg_url['opener_input_field'] = $opener_input_field;
-    $arg_fields .= '<input type="hidden" id="opener_input_field" name="opener_input_field" value="' . rex_escape($opener_input_field) . '" data-opener-id="'. $opener_id .'"/>' . "\n";
+    $arg_fields .= '<input type="hidden" name="opener_input_field" value="' . rex_escape($opener_input_field) . '"/>' . "\n";
 }
 
 // -------------- CatId in Session speichern
@@ -97,17 +97,9 @@ if (!rex_request::isXmlHttpRequest()) {
     ?>
     <script type="text/javascript">
         rex_retain_popup_event_handlers("rex:selectMedia");
+        <?= $opener_input_field ? 'rex.mediapoolOpenerInputField = "'.rex_escape($opener_input_field, 'js').'";' : '' ?>
     </script>
     <?php
-}
-
-// -------------- Minibar
-if (class_exists('rex_minibar') && rex_minibar::getInstance()->isActive() === null) {
-    $page = rex_be_controller::getCurrentPageObject();
-
-    if ($page && $page->isPopup()) {
-        rex_minibar::getInstance()->setActive(false);
-    }
 }
 
 // -------------- Include Page

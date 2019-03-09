@@ -6,9 +6,9 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
+
+$addon = rex_addon::get('cronjob');
 
 $content = '';
 
@@ -24,7 +24,7 @@ $content .= '
                 </thead>
                 <tbody>';
 
-if ($file = new rex_log_file($this->getDataPath('cronjob.log'))) {
+if ($file = new rex_log_file($addon->getDataPath('cronjob.log'))) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         /* @var rex_log_entry $entry */
         $data = $entry->getData();

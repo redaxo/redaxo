@@ -863,8 +863,14 @@ class rex_sql implements Iterator
         $tableName = $this->table;
         $values = $this->values;
 
+        if ($this->values || $this->rawValues) {
+            $setValues = 'SET '.$this->buildPreparedValues();
+        } else {
+            $setValues = 'VALUES ()';
+        }
+
         $this->setQuery(
-            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues(),
+            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' ' . $setValues,
             $this->values
         );
 

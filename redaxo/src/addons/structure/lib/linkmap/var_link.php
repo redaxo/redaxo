@@ -47,18 +47,20 @@ class rex_var_link extends rex_var
     {
         $art_name = '';
         $art = rex_article::get($value);
-        $category = 0;
+        $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
-        // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim öffnen der Linkmap dessen Kategorie anzeigen
+        // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim Öffnen der Linkmap dessen Kategorie anzeigen
         if ($art instanceof rex_article) {
             $art_name = trim(sprintf('%s [%s]', $art->getName(), $art->getId()));
             $category = $art->getCategoryId();
         }
 
-        $open_params = '&clang=' . rex_clang::getCurrentId();
-        if ($category || isset($args['category']) && ($category = (int) $args['category'])) {
-            $open_params .= '&category_id=' . $category;
+        // Falls ein Kategorie-Parameter angegeben wurde, die Linkmap in dieser Kategorie öffnen
+        if (isset($args['category'])) {
+            $category = (int) $args['category'];
         }
+
+        $open_params = '&clang=' . rex_clang::getCurrentId() . '&category_id=' . $category;
 
         $class = ' rex-disabled';
         $open_func = '';

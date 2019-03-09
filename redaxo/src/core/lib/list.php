@@ -52,6 +52,7 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
+    private $db;
     private $query;
     private $sql;
     private $debug;
@@ -98,7 +99,7 @@ class rex_list implements rex_url_provider_interface
      * @param string $listName    Name der Liste
      * @param bool   $debug
      */
-    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
+    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
         // --------- Validation
         if (!$listName) {
@@ -107,8 +108,9 @@ class rex_list implements rex_url_provider_interface
         }
 
         // --------- List Attributes
+        $this->db = $db;
         $this->query = $query;
-        $this->sql = rex_sql::factory();
+        $this->sql = rex_sql::factory($db);
         $this->debug = $debug;
         $this->sql->setDebug($this->debug);
         $this->name = $listName;
@@ -151,7 +153,7 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
-        $sql = rex_sql::factory();
+        $sql = rex_sql::factory($db);
         $sql->setQuery('SELECT FOUND_ROWS() as '. $sql->escapeIdentifier('rows'));
         $this->rows = $sql->getValue('rows');
         $this->pager->setRowCount($this->rows);
@@ -173,13 +175,14 @@ class rex_list implements rex_url_provider_interface
      * @param int    $rowsPerPage
      * @param null   $listName
      * @param bool   $debug
+     * @param int    $db          DB connection ID
      *
      * @return static
      */
-    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
+    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
         $class = static::getFactoryClass();
-        return new $class($query, $rowsPerPage, $listName, $debug);
+        return new $class($query, $rowsPerPage, $listName, $debug, $db);
     }
 
     public function init()
@@ -725,7 +728,7 @@ class rex_list implements rex_url_provider_interface
         if ($sortColumn != '') {
             $sortType = $this->getSortType();
 
-            $sql = rex_sql::factory();
+            $sql = rex_sql::factory($this->db);
             $sortColumn = $sql->escapeIdentifier($sortColumn);
 
             if (stripos($query, ' ORDER BY ') === false) {
