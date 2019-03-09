@@ -176,13 +176,14 @@ class rex_backend_login extends rex_login
         }
         return null;
     }
-    
-        /**
-         * returns the backends session namespace
-         *
-	     * @return string
-	     */
-	    private static function getBackendSessionNamespace() {
-	        return rex::getProperty('instname'). '_backend';
-	    }
+
+    /**
+     * returns the backends session namespace.
+     *
+     * @return string
+     */
+    private static function getBackendSessionNamespace()
+    {
+        return rex::getProperty('instname'). '_backend';
+    }
 }

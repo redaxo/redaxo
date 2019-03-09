@@ -124,7 +124,7 @@ class rex_request
     }
 
     /**
-     * clear redaxo session contents within the current namespace (the session itself stays alive)
+     * clear redaxo session contents within the current namespace (the session itself stays alive).
      *
      * @throws rex_exception
      */
@@ -269,11 +269,12 @@ class rex_request
     }
 
     /**
-     * Returns the session namespace for the current http request
+     * Returns the session namespace for the current http request.
      *
      * @return string
      */
-    public static function getSessionNamespace() {
+    public static function getSessionNamespace()
+    {
         // separate backend from frontend namespace,
         // so we can e.g. clear the backend session without
         // logging out the users from the frontend
