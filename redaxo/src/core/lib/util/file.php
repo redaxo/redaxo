@@ -67,6 +67,7 @@ class rex_file
             }
 
             // mimic a atomic write
+            rex_dir::create(rex_path::coreCache());
             $tmpFile = rex_path::coreCache(uniqid('rex_file', true));
             if (file_put_contents($tmpFile, $content) !== false && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
