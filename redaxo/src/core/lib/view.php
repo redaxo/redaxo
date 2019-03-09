@@ -51,7 +51,7 @@ class rex_view
     public static function addJsFile($file, array $options = [])
     {
         if (empty($options)) {
-            $options[self::JS_IMMUTABLE] = true;
+            $options[self::JS_IMMUTABLE] = false;
         }
 
         if (in_array($file, self::$jsFiles)) {
