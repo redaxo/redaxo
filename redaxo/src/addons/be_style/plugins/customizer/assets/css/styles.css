@@ -37,7 +37,7 @@
 @media (max-width: 991px) {
     .be-style-customizer-title {
         left: auto;
-        top: 5px;
+        top: -4px;
         right: 40px;
         font-size: 20px;
     }
