@@ -81,6 +81,7 @@ if (rex::isSetup()) {
         rex_csrf_token::removeAll();
         rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
 
+        // Currently browsers like Safari do not support the header Clear-Site-Data.
         // we dont kill/regenerate the session so e.g. the frontend will not get logged out
         rex_request::clearSession();
 
@@ -123,8 +124,9 @@ if (rex::isSetup()) {
         // clearing "executionContext" or "cookies" would result in a endless loop.
         rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
 
-        // Currently browsers like Safari do not support the header Clear-Site-Data. This ensures that all session variables are still removed.
-        session_destroy();
+        // Currently browsers like Safari do not support the header Clear-Site-Data.
+        // we dont kill/regenerate the session so e.g. the frontend will not get logged out
+        rex_request::clearSession();
     } else {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
