@@ -35,6 +35,8 @@ include_once rex_path::core('packages.php');
 // run setup, if instance not already prepared
 if (rex::isSetup()) {
     $err = '';
+    
+    rex_dir::create(rex_path::coreCache());
 
     // read initial config
     $configFile = rex_path::coreData('config.yml');
