@@ -68,7 +68,7 @@ class rex_file
 
             // mimic a atomic write
             $tmpFile = @tempnam(\dirname($file), basename($file));
-            if (file_put_contents($tmpFile, $content) !== false && @rename($tmpFile, $file)) {
+            if (file_put_contents($tmpFile, $content) !== false && chmod($tmpFile, 0777) && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
