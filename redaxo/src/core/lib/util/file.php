@@ -65,11 +65,14 @@ class rex_file
             if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
                 return false;
             }
-
-            if (file_put_contents($file, $content) !== false) {
+            
+            // mimic a atomic write via write+rename
+            $tmpFile = rex_path::cache(uniqid('rex_file', true));
+            if (file_put_contents($tmpFile, $content) !== false && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
+            @unlink($tmpFile);
 
             return false;
         });
