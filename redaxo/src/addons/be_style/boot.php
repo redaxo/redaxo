@@ -42,10 +42,10 @@ if (rex::isBackend()) {
 
     rex_view::addCssFile($addon->getAssetsUrl('css/styles.css'));
     rex_view::addCssFile($addon->getAssetsUrl('css/bootstrap-select.min.css'));
-    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap.js'));
-    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select.min.js'));
-    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'));
-    rex_view::addJsFile($addon->getAssetsUrl('javascripts/main.js'));
+    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap.js'), [rex_view::JS_IMMUTABLE => true]);
+    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select.min.js'), [rex_view::JS_IMMUTABLE => true]);
+    rex_view::addJsFile($addon->getAssetsUrl('javascripts/bootstrap-select-defaults-de_DE.min.js'), [rex_view::JS_IMMUTABLE => true]);
+    rex_view::addJsFile($addon->getAssetsUrl('javascripts/main.js'), [rex_view::JS_IMMUTABLE => true]);
 
     // make sure to send preload headers only on fullpage requests
     if (stripos(rex_request::server('HTTP_ACCEPT'), 'text/html') !== false && !rex_request::isXmlHttpRequest()) {
