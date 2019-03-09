@@ -26,7 +26,7 @@ class rex_view_test extends PHPUnit_Framework_TestCase
         $files = rex_view::getJsFilesWithOptions();
         list($file, $options) = end($files);
         $this->assertTrue($file == 'my.js');
-        $this->assertTrue($options == [rex_view::JS_IMMUTABLE => true], 'options default to JS_IMMUTABLE');
+        $this->assertTrue($options == [rex_view::JS_IMMUTABLE => false], 'options default to JS_IMMUTABLE');
 
         rex_view::addJsFile('my.js', [rex_view::JS_IMMUTABLE => true]);
         $files = rex_view::getJsFilesWithOptions();
