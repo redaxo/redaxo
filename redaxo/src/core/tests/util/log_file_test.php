@@ -2,11 +2,6 @@
 
 class rex_log_file_test extends PHPUnit_Framework_TestCase
 {
-    public function __construct() {
-        rex_dir::create(rex_path::coreCache());
-        parent::__construct();
-    }
-    
     public function tearDown()
     {
         rex_dir::delete($this->getPath());
