@@ -67,8 +67,15 @@ class rex_file
             }
 
             // mimic a atomic write
-            $tmpFile = @tempnam(\dirname($file), basename($file));
-            if (file_put_contents($tmpFile, $content) !== false && chmod($tmpFile, 0777) && rename($tmpFile, $file)) {
+            $tmpFile = @tempnam(dirname($file), basename($file));
+            if (file_put_contents($tmpFile, $content) !== false) {
+                if (!@rename($tmpFile, $file)) {
+                    // in case there exist open handles to the destination file,
+                    // use copy() instead, which will work nevertheless
+                    if (@copy($tmpFile, $file)) {
+                        unlink($tmpFile);
+                    }
+                }
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
