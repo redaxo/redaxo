@@ -71,7 +71,7 @@ class rex_file
             if (file_put_contents($tmpFile, $content) !== false) {
                 if (!@rename($tmpFile, $file)) {
                     // in case there exist open handles to the destination file,
-                    // use copy() instead, which will work nevertheless
+                    // use copy() instead, which will work nevertheless (on windows)
                     if (@copy($tmpFile, $file)) {
                         unlink($tmpFile);
                     }
