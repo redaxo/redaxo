@@ -79,7 +79,10 @@ if (rex::isBackend()) {
         if ($article->setArticleId(rex_article::getCurrentId())) {
             $content .= $article->getArticleTemplate();
         } else {
-            $content .= 'Kein Startartikel selektiert / No starting Article selected. Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>';
+            $fragment = new rex_fragment([
+                'content' => '<p><b>Kein Startartikel selektiert - No starting Article selected.</b><br />Please click here to enter <a href="' . rex_url::backendController() . '">redaxo</a>.</p>',
+            ]);
+            $content .= $fragment->parse('core/fe_ooops.php');
             rex_response::sendPage($content);
             exit;
         }
