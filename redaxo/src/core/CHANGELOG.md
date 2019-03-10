@@ -35,7 +35,7 @@ Version 5.7.0 – XX.XX.XXXX
 * `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
 * Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
 * Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
-* Setup: 
+ * Setup-Hinweise bzgl. Sicherheit: 
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
 * README-Ausgabe, Markdown-Pages:
