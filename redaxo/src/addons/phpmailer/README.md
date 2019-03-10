@@ -1,11 +1,11 @@
 # PHPMailer
 
 ## Allgemeines
-Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann phpmailer den Administrator bei aufgetretenen Fehlern per E-Mail benachrichtigen. 
+Das PHPMailer-AddOn ermöglicht den Versand von E-Mails. Zusätzlich kann PHPMailer den Administrator bei aufgetretenen Fehlern im System per E-Mail benachrichtigen. 
 
 **Unterstützt werden folgende Sendeverfahren**
 - php mail()
-- sendmail
+- sendmail 
 - SMTP/SMTPS
 - SMTP/SMTPS-Auth
 
@@ -132,7 +132,7 @@ Liefert das Protokoll für den Verbindungsaufbau durch den Client
 
 ### Server-und Client-Protokoll
 
-Liefert zusätzlich die Informastionen vom Server. Dies ist die empfohlene Option.
+Liefert zusätzlich die Informationen vom Server. Das ist die empfohlene Option.
 
 ### Verbindungsprotokoll
 
@@ -140,7 +140,7 @@ Liefert noch ausführlichere Informationen und ist ideal um Probleme mit STARTTL
 
 ### Low Level Protokoll
 
-Liefert zusätzlich untergeordnete Informationen, sehr ausführlich. Nicht zum Debuggen von SMTP gedacht, nur bei Low-Level-Probleme.
+Liefert zusätzlich untergeordnete Informationen, sehr ausführlich. Nicht zum Debuggen von SMTP gedacht, nur bei Low-Level-Problemen.
 
 Meist benötigt man keinen Level über **Server-und Client-Protokoll**, es sei denn, es liegen Schwierigkeiten bei der Verbindung vor. Die Ausgabe wird meist nur umfangreicher und schwieriger zu lesen sein.
 
@@ -152,7 +152,7 @@ Meist benötigt man keinen Level über **Server-und Client-Protokoll**, es sei d
 
 PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschlüsselte TLS-Verbindung auf. Erlaubt der Server keine Verschlüsselung, wird eine unsichere Verbindung aufgebaut. Sollte es zu Problemen beim Versand kommen, liegt es häufig daran, dass das hinterlegte Zertifikat nicht mit dem angegebenen Host übereinstimmt oder kein gültiges Zertifikat gefunden wurde. Durch Ändern der Verschlüsselung auf "manuelle Auswahl" kann die automatische Erkennung deaktiviert werden und die Verschlüsselung manuell gewählt werden. 
 
-> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. 
+> Diese Einstellung kann zu unsicheren Verbindungen führen, sollte keine TLS-Unterstützung gefunden werden. Eine Überprüfung per Debug-Modus **Verbindungsprotokoll** sollte durchgeführt werden.
 
 ### Spam-Blocker
 
@@ -160,7 +160,7 @@ PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschl
 
 - Prioritäts-Einstellungen können zu einem Spam-Blocking führen.
 
-- Große E-Mail-Verteiler sollten möglichst in kleiner Zahl und nicht als CC verschickt werden.
+- Große E-Mail-Verteiler sollten möglichst in kleiner Zahl und als BCC verschickt werden.
 
 ### Verwendung bei selbstsignierten Zertifikaten
 
