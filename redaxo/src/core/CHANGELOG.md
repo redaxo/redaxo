@@ -9,6 +9,7 @@ Version 5.7.0 – XX.XX.XXXX
 * System-Page:
     - Überarbeitung/Optimierung von System/Einstellungen (@tbaddade, @skerbis)
     - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staabm)
+    - Packages können eigene Logfiles in der neuen zentralen System-Log-Seite einbinden (@staabm)
     - Systembericht mit Infos zu REDAXO, AddOns, PHP, Server (auch als Markdown zum Kopieren und Verwenden in GitHub-Issues etc.) (@gharlan)
 * Fehlerbehandlung:
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
