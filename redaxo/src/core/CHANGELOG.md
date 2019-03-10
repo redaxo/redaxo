@@ -62,6 +62,7 @@ Version 5.7.0 – XX.XX.XXXX
     - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
     - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm)
     - Weniger Dateioperationen im Backend um Datei-basiertes Cachen zu beschleunigen (@staabm)
+    - Übersetzungen können schneller verarbeitet/dargestellt werden (@staabm)
     - Viele kleinere und größere Performance-Optimierungen (@staabm)
 * Update der externen Bibliotheken
 * API-Dokumentation unter https://www.redaxo.org/api/master/ übersichtlicher durch neue subpackages (@staabm)
