@@ -54,6 +54,7 @@ Version 5.7.0 – XX.XX.XXXX
 * bootstrap-select wird an weiteren Stellen verwendet (@skerbis, @schuer)
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
 * Datum aus Footer entfernt (@staabm)
+* Browser-Native Rechtschreibkorrekturen werden in Code-Textareas deaktiviert (@staabm)
 * htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
 * Sicherheit:
     - Bei Logout aus dem Backend werden temporäre Daten im Browser und auf dem Server sofort gelöscht (@staabm)
