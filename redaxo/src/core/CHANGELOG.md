@@ -20,7 +20,6 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
     - Schönere Fehlerseite im Frontend und Backend (wenn nicht als Admin eingeloggt) (@elricco, @staabm, @tbaddade)
     - Die neuen Fehlerseiten können via Fragment angepasst werden (@tbaddade, @staabm)
-    - Sehr grundsätzliche PHP-Fehler können nun auch in schönen Fehlerseiten dargestellt werden (@staabm)
 * Editor-Integration: 
     - Unter System kann ein Editor ausgewählt werden; Quellcode-Dateien werden dann (z.B. in Whoops) so verlinkt, dass man sie direkt in dem Editor öffnen kann (@staabm, @gharlan)
     - Mit der `rex_editor`-Klasse können an weiteren Stellen Editor-URLs erzeugt werden (@staabm)
