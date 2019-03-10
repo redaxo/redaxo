@@ -136,7 +136,9 @@
             padding-top: 0;
         }
     }
-
+}
+.navbar-header {
+    position: relative;
 }
 .rex-nav-main-title {
     margin-top: floor($line-height-computed * 2);
