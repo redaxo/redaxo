@@ -4,6 +4,11 @@ Changelog
 Version 5.7.0 – XX.XX.XXXX
 --------------------------
 
+### Wichtig
+
+REDAXO 5.7.x ist die letzte Version die mit PHP 7.0 oder älter kompatibel ist.
+Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
+
 ### Neu
 
 * System-Page:
