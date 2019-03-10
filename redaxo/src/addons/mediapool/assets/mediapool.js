@@ -278,6 +278,7 @@ function selectMediaListArray(files)
         }
 
         opener.writeREXMedialist(openerId);
+        self.close();
     }
 }
 
