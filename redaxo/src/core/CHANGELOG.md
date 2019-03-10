@@ -8,7 +8,7 @@ Version 5.7.0 – XX.XX.XXXX
 
 * System-Page:
     - Überarbeitung/Optimierung von System/Einstellungen (@tbaddade, @skerbis)
-    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staaabm)
+    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staabm)
     - Systembericht mit Infos zu REDAXO, AddOns, PHP, Server (auch als Markdown zum Kopieren und Verwenden in GitHub-Issues etc.) (@gharlan)
 * Fehlerbehandlung:
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
@@ -33,7 +33,7 @@ Version 5.7.0 – XX.XX.XXXX
 * `rex_clang`: Methode `count` hat optionalen Parameter `$ignoreOffline` (@tbaddade)
 * `rex_response`: Unterstützung für HTTP-Range (@bloep)
 * `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
-* Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können die getrennt voneinander gelöscht werden (@staabm)
+* Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
 * Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
 * Setup: 
     - Warnung bei veralteter PHP-Version (@staabm)
