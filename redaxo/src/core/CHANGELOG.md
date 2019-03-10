@@ -60,7 +60,7 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
 * Datum aus Footer entfernt (@staabm)
 * htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
 * Sicherheit:
-    - Bei Logout aus dem Backend werden temporäre Daten im Browser und auf dem Server sofort gelöscht (@staabm)
+    - Bei Logout aus dem Backend werden temporäre Daten auf dem Server sofort gelöscht (@staabm)
     - Im Backend wird eine rudimentäre HTTP Content-Security-Policy verwendet (@staabm)
 * Performance:
     - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
