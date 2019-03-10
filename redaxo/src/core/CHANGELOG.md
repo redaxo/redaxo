@@ -35,7 +35,7 @@ Version 5.7.0 – XX.XX.XXXX
 * `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
 * Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
 * Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
- * Setup-Hinweise bzgl. Sicherheit: 
+* Setup-Hinweise bzgl. Sicherheit:
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
 * README-Ausgabe, Markdown-Pages:
@@ -52,6 +52,8 @@ Version 5.7.0 – XX.XX.XXXX
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
 * Datum aus Footer entfernt (@staabm)
 * htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
+* Sicherheit:
+    - Bei Logout aus dem Backend werden temporäre Daten im Browser und auf dem Server sofort gelöscht (@staabm)
 * Performance:
     - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
     - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm) 
