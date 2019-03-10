@@ -57,6 +57,7 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
 * Default-Passwortregeln: Max. Länge von 4096 Zeichen (@staabm)
 * bootstrap-select wird an weiteren Stellen verwendet (@skerbis, @schuer)
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
+* Verbesserung der Usability durch neue Beschreibungstexte, oder präzisierung vorhandener (@schuer, @alexplus)
 * Datum aus Footer entfernt (@staabm)
 * htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
 * Sicherheit:
