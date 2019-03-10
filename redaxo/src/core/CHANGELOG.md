@@ -56,7 +56,8 @@ Version 5.7.0 – XX.XX.XXXX
     - Bei Logout aus dem Backend werden temporäre Daten im Browser und auf dem Server sofort gelöscht (@staabm)
 * Performance:
     - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
-    - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm) 
+    - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm)
+    - Weniger Dateioperationen im Backend um Datei-basiertes Cachen zu beschleunigen (@staabm)
     - Viele kleinere und größere Performance-Optimierungen (@staabm)
 * Update der externen Bibliotheken
 * API-Dokumentation unter https://www.redaxo.org/api/master/ übersichtlicher durch neue subpackages (@staabm)
