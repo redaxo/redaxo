@@ -14,7 +14,7 @@ Version 5.7.0 – XX.XX.XXXX
 * Fehlerbehandlung:
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
     - Schönere Fehlerseite im Frontend und Backend (wenn nicht als Admin eingeloggt) (@elricco, @staabm, @tbaddade)
-    - Die neuen Fehlerseiten können via Fragment angepasst werden (@staabm)
+    - Die neuen Fehlerseiten können via Fragment angepasst werden (@tbaddade, @staabm)
     - Sehr grundsätzliche PHP-Fehler können nun auch in schönen Fehlerseiten dargestellt werden (@staabm)
 * Editor-Integration: 
     - Unter System kann ein Editor ausgewählt werden; Quellcode-Dateien werden dann (z.B. in Whoops) so verlinkt, dass man sie direkt in dem Editor öffnen kann (@staabm, @gharlan)
