@@ -42,7 +42,7 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
 * `rex_response`: Unterstützung für HTTP-Range (@bloep)
 * `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
 * Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
-* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
+* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen. Damit können u.a. Single-Sign-On Mechanismen realisiert werden. (@staabm)
 * Setup-Hinweise bzgl. Sicherheit:
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
