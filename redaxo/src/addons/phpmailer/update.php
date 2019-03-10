@@ -2,4 +2,5 @@
 
 $addon = rex_addon::get('phpmailer');
 
-include $addon->getPath('install.php');
+// use path relative to __DIR__ to get correct path in update temp dir
+$addon->includeFile(__DIR__.'/install.php');
