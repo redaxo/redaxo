@@ -25,6 +25,12 @@ parameters:
         -
             message: '#Using \$this outside a class\.#'
             path: '*/fragments/*'
+        -
+            message: '#Access to an undefined property object.+#'
+            path: '*/fragments/*'
+        -
+            message: '#Call to an undefined method object::subfragment\(\)\.#'
+            path: '*/fragments/*'
         - '#Undefined variable: \$this#'
         - '#Constructor of class rex_form_.*_element has an unused parameter \$tag\.#'        
         # warnings which can only be fixed after php-min version is raised to 7.1+
