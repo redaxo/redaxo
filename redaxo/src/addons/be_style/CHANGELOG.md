@@ -9,10 +9,10 @@ Version 2.7.0 – XX.XX.XXXX
 * Neue Favicons (@schuer)
 * Consolen-Command `be_style:compile` (@bloep)
 * Codemirror-Intergration verbessert @aeberhard)
-- Sourcen verkleinert @aeberhard, @staabm)
-- Ergänzt um Suche @aeberhard)
-- Vereinfachte Einbindung systemweit @aeberhard)
-- CodeMirror wird nur geladen wenn er auch benötigt wird @aeberhard, @staabm
+    - Sourcen verkleinert @aeberhard, @staabm)
+    - Ergänzt um Suche @aeberhard)
+    - Vereinfachte Einbindung systemweit @aeberhard)
+    - CodeMirror wird nur geladen wenn er auch benötigt wird @aeberhard, @staabm
 * Customizer: 
     - Bessere Default-Erkennungsfarbe (@skerbis)
     - Bessere Darstellung des Links zur Website im Header (@schuer)
