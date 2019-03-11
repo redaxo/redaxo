@@ -30,7 +30,7 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
         $badgeCat = ($countChildren > 0) ? '<span class="badge">' . $countChildren . '</span>' : '';
         $li = '';
         $li .= '<li' . $liClasses . '>';
-        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . $liIcon . rex_escape($label) . '</a>';
+        $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . $liIcon . rex_escape($label) . '</a> <span class="rex-linkmap-id rex-linkmap-category-tree-id">' . $cat->getId() . '</span>';
         $li .= $badgeCat;
         $li .= $subHtml;
         $li .= '</li>' . "\n";
@@ -57,6 +57,6 @@ class rex_linkmap_article_list extends rex_linkmap_article_list_renderer
     {
         $liAttr = ' class="list-group-item"';
         $url = 'javascript:insertLink(\'redaxo://' . $article->getId() . '\',\'' . rex_escape(trim(sprintf('%s [%s]', $article->getName(), $article->getId())), 'js') . '\');';
-        return rex_linkmap_tree_renderer::formatLi($article, $category_id, $this->context, $liAttr, ' href="' . $url . '"') . '</li>' . "\n";
+        return rex_linkmap_tree_renderer::formatLi($article, $category_id, $this->context, $liAttr, ' href="' . $url . '"') . ' <span class="rex-linkmap-id rex-linkmap-article-list-id">' . $article->getId() . '</span></li>' . "\n";
     }
 }

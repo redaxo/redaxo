@@ -91,8 +91,6 @@ abstract class rex_linkmap_tree_renderer
             $label = '&nbsp;';
         }
 
-        $label .= ' [' . $OOobject->getId() . ']';
-
         if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
             $label .= ' [' . rex_i18n::msg('linkmap_has_no_template') . ']';
         }
