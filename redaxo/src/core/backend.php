@@ -119,8 +119,7 @@ if (rex::isSetup()) {
         $page = 'login';
         rex_be_controller::setCurrentPage('login');
 
-        $requestedPage = rex_request('page', 'string', 'login');
-        if ($requestedPage != 'login') {         
+        if ('login' !== rex_request('page', 'string', 'login')) {
             // clear in-browser data of a previous session with the same browser for security reasons.
             // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
             // clearing "executionContext" or "cookies" would result in a endless loop.
