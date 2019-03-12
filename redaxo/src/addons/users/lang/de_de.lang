@@ -29,7 +29,7 @@ user_caption = Liste der angelegten Benutzer
 user_status = User ist aktiv
 startpage = Startseite
 
-user_role = Rolle
+user_role = Rolle(n)
 user_role_data_updated = Rolle wurde aktualisiert!
 user_role_deleted = Rolle wurde gelöscht!
 user_role_added = Rolle wurde hinzugefügt!
