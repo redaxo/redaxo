@@ -8,6 +8,7 @@ Version 2.5.2 – XX.XX.XXXX
 
 * Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurde der letzte Login falsch angezeigt (@gharlan)
 * Mit MySQL 8.0 bis 8.0.12 kam es in der Benutzerliste zu einem Fehler (@schuer)
+* "Rolle(n)" statt "Rolle" als Label, da mehrere ausgewählt werden können (@skerbis)
 
 
 Version 2.5.1 – 01.10.2018

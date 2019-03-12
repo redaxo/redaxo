@@ -53,7 +53,7 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
 * Verständlichere CSRF-Meldung (@alexplusde)
 * Backend-Übersetzungdateien:
     - Neu: Niederländisch (noch ohne Core-AddOns) (@MaxKorlaar)
-    - Aktualisierung: Englisch (@skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
+    - Aktualisierung: Englisch (@ynamite, @skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
 * Default-Passwortregeln: Max. Länge von 4096 Zeichen (@staabm)
 * bootstrap-select wird an weiteren Stellen verwendet (@skerbis, @schuer)
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)

@@ -14,6 +14,7 @@ Version 2.7.0 – XX.XX.XXXX
 * Sliceausgabe mit Scrollbar bei zu breiten Inhalten (@schuer)
 * In Moduleverwaltung wird angezeigt, ob die Module jeweils in Verwendung sind (@tbaddade)
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@bloep)
+* "Kein Startartikel selektiert"-Fehler nutzt Frontend-Ooops-Seite (@tbaddade)
 
 ### Bugfixes:
 
