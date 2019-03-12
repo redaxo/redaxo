@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.6.0 – XX.XX.XXXX
+Version 2.6.0 – 12.03.2019
 --------------------------
 
 ### Neu

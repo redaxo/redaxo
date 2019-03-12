@@ -1,18 +1,25 @@
 Changelog
 =========
 
-Version 5.7.0 – XX.XX.XXXX
+Version 5.7.0 – 12.03.2019
 --------------------------
+
+### Wichtig
+
+REDAXO 5.7.x ist die letzte Version die mit PHP 7.0 oder älter kompatibel ist.
+Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
 
 ### Neu
 
 * System-Page:
     - Überarbeitung/Optimierung von System/Einstellungen (@tbaddade, @skerbis)
-    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staaabm)
+    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staabm)
+    - Packages können eigene Logfiles in der neuen zentralen System-Log-Seite einbinden (@staabm)
     - Systembericht mit Infos zu REDAXO, AddOns, PHP, Server (auch als Markdown zum Kopieren und Verwenden in GitHub-Issues etc.) (@gharlan)
 * Fehlerbehandlung:
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
     - Schönere Fehlerseite im Frontend und Backend (wenn nicht als Admin eingeloggt) (@elricco, @staabm, @tbaddade)
+    - Die neuen Fehlerseiten können via Fragment angepasst werden (@tbaddade, @staabm)
 * Editor-Integration: 
     - Unter System kann ein Editor ausgewählt werden; Quellcode-Dateien werden dann (z.B. in Whoops) so verlinkt, dass man sie direkt in dem Editor öffnen kann (@staabm, @gharlan)
     - Mit der `rex_editor`-Klasse können an weiteren Stellen Editor-URLs erzeugt werden (@staabm)
@@ -33,9 +40,9 @@ Version 5.7.0 – XX.XX.XXXX
 * `rex_clang`: Methode `count` hat optionalen Parameter `$ignoreOffline` (@tbaddade)
 * `rex_response`: Unterstützung für HTTP-Range (@bloep)
 * `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
-* Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können die getrennt voneinander gelöscht werden (@staabm)
-* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
-* Setup: 
+* Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
+* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen. Damit können u.a. Single-Sign-On Mechanismen realisiert werden. (@staabm)
+* Setup-Hinweise bzgl. Sicherheit:
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
 * README-Ausgabe, Markdown-Pages:
@@ -46,17 +53,24 @@ Version 5.7.0 – XX.XX.XXXX
 * Verständlichere CSRF-Meldung (@alexplusde)
 * Backend-Übersetzungdateien:
     - Neu: Niederländisch (noch ohne Core-AddOns) (@MaxKorlaar)
-    - Aktualisierung: Englisch (@skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
+    - Aktualisierung: Englisch (@ynamite, @skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
 * Default-Passwortregeln: Max. Länge von 4096 Zeichen (@staabm)
 * bootstrap-select wird an weiteren Stellen verwendet (@skerbis, @schuer)
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
+* Verbesserung der Usability durch neue Beschreibungstexte, oder Präzisierung vorhandener (@schuer, @alexplusde)
 * Datum aus Footer entfernt (@staabm)
 * htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
+* Sicherheit:
+    - Bei Logout aus dem Backend werden temporäre Daten auf dem Server sofort gelöscht (@staabm)
+    - Im Backend wird eine rudimentäre HTTP Content-Security-Policy verwendet (@staabm)
 * Performance:
     - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
-    - Per Server Timing Api werden Metriken an den Client gesendet (@staabm) 
+    - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm)
+    - Weniger Dateioperationen im Backend um Datei-basiertes Cachen zu beschleunigen (@staabm)
+    - Übersetzungen können schneller verarbeitet/dargestellt werden (@staabm)
     - Viele kleinere und größere Performance-Optimierungen (@staabm)
 * Update der externen Bibliotheken
+* API-Dokumentation unter https://www.redaxo.org/api/master/ übersichtlicher durch neue subpackages (@staabm)
 
 ### Bugfixes
 
