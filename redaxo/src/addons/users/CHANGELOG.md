@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.5.2 – XX.XX.XXXX
+Version 2.5.2 – 12.03.2019
 --------------------------
 
 ### Bugfixes

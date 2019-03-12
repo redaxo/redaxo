@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.7.0 – XX.XX.XXXX
+Version 5.7.0 – 12.03.2019
 --------------------------
 
 ### Wichtig

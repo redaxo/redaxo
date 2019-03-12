@@ -1,5 +1,5 @@
 package: phpmailer
-version: '2.5.0-beta3'
+version: '2.5.0'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
@@ -19,4 +19,4 @@ pages:
         perm: admin
 
 requires:
-    redaxo: ^5.7.0-beta3
+    redaxo: ^5.7.0
