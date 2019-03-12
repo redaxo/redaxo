@@ -29,7 +29,7 @@ user_caption = Lista de usuarios
 user_status = Estado
 startpage = Página de inicio
 
-user_role = Papel
+user_role = Papel(es)
 user_role_data_updated = El rol ha sido actualizado!
 user_role_deleted = ¡El rol ha sido eliminado!
 user_role_added = Se ha añadido el rol!
