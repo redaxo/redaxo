@@ -119,7 +119,7 @@ class rex_socket_test extends TestCase
 
     /**
      * @dataProvider parseUrlExceptionProvider
-     * @expectedException rex_socket_exception
+     * @expectedException \rex_socket_exception
      */
     public function testParseUrlException($url)
     {
