@@ -1,10 +1,10 @@
 <?php
 
-// don't use REX_MIN_PHP_VERSION and rex_setup::MIN_MYSQL_VERSION here!
+// don't use REX_MIN_PHP_VERSION or rex_setup::MIN_MYSQL_VERSION here!
 // while updating the core, the constants contain the old min versions from previous core version
 
-if (PHP_VERSION_ID < 50509) {
-    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '5.5.9'));
+if (PHP_VERSION_ID < 70103) {
+    throw new rex_functional_exception(rex_i18n::msg('setup_301', PHP_VERSION, '7.1.3'));
 }
 
 $mysqlVersion = rex_sql::getServerVersion();

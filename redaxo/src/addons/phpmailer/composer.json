@@ -1,3 +1,9 @@
 {
-    "require": { "phpmailer/phpmailer": "~6.0" }
+    "require": { "phpmailer/phpmailer": "~6.0" },
+
+    "config": {
+        "platform": {
+            "php": "7.1.3"
+        }
+    }
 }
