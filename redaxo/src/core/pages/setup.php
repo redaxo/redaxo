@@ -140,9 +140,11 @@ if ($step == 3) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
-    if (version_compare(PHP_VERSION, '5.6', '<') == 1) {
+    if (version_compare(PHP_VERSION, '7.2', '<') == 1 && time() > strtotime('1 Dec 2019')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
-    } elseif (version_compare(PHP_VERSION, '7.0', '<=') == 1 && time() > strtotime('1 Jan 2019')) {
+    } elseif (version_compare(PHP_VERSION, '7.3', '<') == 1 && time() > strtotime('30 Nov 2020')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (version_compare(PHP_VERSION, '7.4', '<') == 1 && time() > strtotime('6 Dec 2021')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     }
 
