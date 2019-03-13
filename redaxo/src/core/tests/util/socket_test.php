@@ -119,11 +119,10 @@ class rex_socket_test extends TestCase
 
     /**
      * @dataProvider parseUrlExceptionProvider
+     * @expectedException rex_socket_exception
      */
     public function testParseUrlException($url)
     {
-        $this->setExpectedException('rex_socket_exception');
-
         $method = new ReflectionMethod('rex_socket', 'parseUrl');
         $method->setAccessible(true);
         $method->invoke(null, $url);
