@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 class rex_test_instance_pool_base
 {
     use rex_instance_pool_trait {
@@ -22,7 +24,7 @@ class rex_test_instance_pool_2 extends rex_test_instance_pool_base
 {
 }
 
-class rex_instance_pool_trait_test extends PHPUnit_Framework_TestCase
+class rex_instance_pool_trait_test extends TestCase
 {
     public function testAddHasInstance()
     {

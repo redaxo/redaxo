@@ -1,6 +1,8 @@
 <?php
 
-class rex_stream_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_stream_test extends TestCase
 {
     public function testStreamInclude()
     {

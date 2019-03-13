@@ -1,6 +1,8 @@
 <?php
 
-class rex_sql_select_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_sql_select_test extends TestCase
 {
     const TABLE = 'rex_tests';
 

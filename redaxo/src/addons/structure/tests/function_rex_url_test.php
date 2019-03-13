@@ -1,6 +1,8 @@
 <?php
 
-class rex_structure_function_url_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_structure_function_url_test extends TestCase
 {
     /**
      * @dataProvider provideRedirectException

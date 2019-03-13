@@ -1,6 +1,8 @@
 <?php
 
-class rex_backend_login_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_backend_login_test extends TestCase
 {
     private $skipped = false;
 

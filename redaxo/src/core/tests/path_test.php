@@ -1,6 +1,8 @@
 <?php
 
-class rex_path_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_path_test extends TestCase
 {
     public function testAbsoluteConversion()
     {

@@ -1,6 +1,8 @@
 <?php
 
-class rex_dir_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_dir_test extends TestCase
 {
     public function setUp()
     {
