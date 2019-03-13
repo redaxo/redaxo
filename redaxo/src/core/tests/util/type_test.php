@@ -59,10 +59,11 @@ class rex_type_test extends TestCase
 
     /**
      * @dataProvider castWrongVartypeProvider
-     * @expectedException \InvalidArgumentException
      */
     public function testCastWrongVartype($vartype)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         rex_type::cast(1, $vartype);
     }
 }

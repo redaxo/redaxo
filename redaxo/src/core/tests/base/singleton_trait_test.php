@@ -16,11 +16,10 @@ class rex_singleton_trait_test extends TestCase
         $this->assertTrue(rex_test_singleton::getInstance() === rex_test_singleton::getInstance(), 'the very same instance is returned on every invocation');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testClone()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         $clone = clone rex_test_singleton::getInstance();
     }
 }
