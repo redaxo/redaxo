@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 class rex_i18n_trans_cb
 {
     public static function mytranslate()
@@ -8,7 +10,7 @@ class rex_i18n_trans_cb
     }
 }
 
-class rex_i18n_test extends PHPUnit_Framework_TestCase
+class rex_i18n_test extends TestCase
 {
     private $previousLocale;
 

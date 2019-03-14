@@ -1,6 +1,8 @@
 <?php
 
-class rex_view_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_view_test extends TestCase
 {
     public function testAddGetCss()
     {

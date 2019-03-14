@@ -1,6 +1,8 @@
 <?php
 
-class rex_markdown_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_markdown_test extends TestCase
 {
     /**
      * @dataProvider parseProvider
