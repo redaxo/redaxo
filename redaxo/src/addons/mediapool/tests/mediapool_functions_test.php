@@ -1,6 +1,8 @@
 <?php
 
-class rex_mediapool_functions_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_mediapool_functions_test extends TestCase
 {
     /**
      * @dataProvider provideIsAllowedMediaType

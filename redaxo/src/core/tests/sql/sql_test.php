@@ -1,6 +1,8 @@
 <?php
 
-class rex_sql_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_sql_test extends TestCase
 {
     const TABLE = 'rex_tests_table';
     const VIEW = 'rex_tests_view';

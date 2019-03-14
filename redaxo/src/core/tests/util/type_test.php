@@ -1,6 +1,8 @@
 <?php
 
-class rex_type_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_type_test extends TestCase
 {
     public function castProvider()
     {
@@ -60,7 +62,8 @@ class rex_type_test extends PHPUnit_Framework_TestCase
      */
     public function testCastWrongVartype($vartype)
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
+
         rex_type::cast(1, $vartype);
     }
 }

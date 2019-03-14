@@ -1,6 +1,8 @@
 <?php
 
-class rex_sql_table_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class rex_sql_table_test extends TestCase
 {
     const TABLE = 'rex_sql_table_test';
     const TABLE2 = 'rex_sql_table_test2';
@@ -261,20 +263,18 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertSame(['pid'], $table->getPrimaryKey());
     }
 
-    /**
-     * @expectedException \rex_exception
-     */
     public function testRenameColumnNonExisting()
     {
+        $this->expectException(\rex_exception::class);
+
         $table = $this->createTable();
         $table->renameColumn('foo', 'bar');
     }
 
-    /**
-     * @expectedException \rex_exception
-     */
     public function testRenameColumnToAlreadyExisting()
     {
+        $this->expectException(\rex_exception::class);
+
         $table = $this->createTable();
         $table->renameColumn('id', 'title');
     }
