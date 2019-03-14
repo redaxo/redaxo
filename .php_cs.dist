@@ -31,6 +31,7 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@PHP71Migration' => true,
+        '@PHP71Migration:risky' => true,
         '@PHPUnit60Migration:risky' => true,
         '@Symfony' => true,
         '@Symfony:risky' => true,
@@ -39,6 +40,7 @@ return PhpCsFixer\Config::create()
         'blank_line_before_statement' => false,
         'braces' => ['allow_single_line_closure' => false],
         'concat_space' => false,
+        'declare_strict_types' => false,
         'function_to_constant' => ['functions' => ['get_class', 'get_called_class', 'php_sapi_name', 'phpversion', 'pi']],
         'heredoc_to_nowdoc' => true,
         'logical_operators' => true,
@@ -57,6 +59,7 @@ return PhpCsFixer\Config::create()
         'semicolon_after_instruction' => false,
         'space_after_semicolon' => true,
         'string_line_ending' => true,
+        'void_return' => false,
         'yoda_style' => false,
     ])
     ->setFinder($finder)
