@@ -36,12 +36,20 @@ class ReflectionCaster
         $prefix = Caster::PREFIX_VIRTUAL;
         $c = new \ReflectionFunction($c);
 
-        $stub->class = 'Closure'; // HHVM generates unique class names for closures
         $a = static::castFunctionAbstract($c, $a, $stub, $isNested, $filter);
 
         if (false === strpos($c->name, '{closure}')) {
             $stub->class = isset($a[$prefix.'class']) ? $a[$prefix.'class']->value.'::'.$c->name : $c->name;
             unset($a[$prefix.'class']);
+        }
+        unset($a[$prefix.'extra']);
+
+        $stub->class .= self::getSignature($a);
+
+        if ($filter & Caster::EXCLUDE_VERBOSE) {
+            $stub->cut += ($c->getFileName() ? 2 : 0) + \count($a);
+
+            return [];
         }
 
         if (isset($a[$prefix.'parameters'])) {
@@ -57,13 +65,10 @@ class ReflectionCaster
             }
         }
 
-        if (!($filter & Caster::EXCLUDE_VERBOSE) && $f = $c->getFileName()) {
+        if ($f = $c->getFileName()) {
             $a[$prefix.'file'] = new LinkStub($f, $c->getStartLine());
             $a[$prefix.'line'] = $c->getStartLine().' to '.$c->getEndLine();
         }
-
-        $prefix = Caster::PREFIX_DYNAMIC;
-        unset($a['name'], $a[$prefix.'this'], $a[$prefix.'parameter'], $a[Caster::PREFIX_VIRTUAL.'extra']);
 
         return $a;
     }
@@ -91,7 +96,7 @@ class ReflectionCaster
         $prefix = Caster::PREFIX_VIRTUAL;
 
         $a += [
-            $prefix.'name' => $c instanceof \ReflectionNamedType ? $c->getName() : $c->__toString(),
+            $prefix.'name' => $c->getName(),
             $prefix.'allowsNull' => $c->allowsNull(),
             $prefix.'isBuiltin' => $c->isBuiltin(),
         ];
@@ -178,7 +183,7 @@ class ReflectionCaster
 
         if (isset($a[$prefix.'returnType'])) {
             $v = $a[$prefix.'returnType'];
-            $v = $v instanceof \ReflectionNamedType ? $v->getName() : $v->__toString();
+            $v = $v->getName();
             $a[$prefix.'returnType'] = new ClassStub($a[$prefix.'returnType']->allowsNull() ? '?'.$v : $v, [class_exists($v, false) || interface_exists($v, false) || trait_exists($v, false) ? $v : '', '']);
         }
         if (isset($a[$prefix.'class'])) {
@@ -190,7 +195,7 @@ class ReflectionCaster
 
         foreach ($c->getParameters() as $v) {
             $k = '$'.$v->name;
-            if (method_exists($v, 'isVariadic') && $v->isVariadic()) {
+            if ($v->isVariadic()) {
                 $k = '...'.$k;
             }
             if ($v->isPassedByReference()) {
@@ -218,9 +223,6 @@ class ReflectionCaster
             self::addExtra($a, $c);
         }
 
-        // Added by HHVM
-        unset($a[Caster::PREFIX_DYNAMIC.'static']);
-
         return $a;
     }
 
@@ -235,9 +237,6 @@ class ReflectionCaster
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
-        // Added by HHVM
-        unset($a['info']);
-
         self::addMap($a, $c, [
             'position' => 'getPosition',
             'isVariadic' => 'isVariadic',
@@ -245,12 +244,8 @@ class ReflectionCaster
             'allowsNull' => 'allowsNull',
         ]);
 
-        if (method_exists($c, 'getType')) {
-            if ($v = $c->getType()) {
-                $a[$prefix.'typeHint'] = $v instanceof \ReflectionNamedType ? $v->getName() : $v->__toString();
-            }
-        } elseif (preg_match('/^(?:[^ ]++ ){4}([a-zA-Z_\x7F-\xFF][^ ]++)/', $c, $v)) {
-            $a[$prefix.'typeHint'] = $v[1];
+        if ($v = $c->getType()) {
+            $a[$prefix.'typeHint'] = $v->getName();
         }
 
         if (isset($a[$prefix.'typeHint'])) {
@@ -262,17 +257,13 @@ class ReflectionCaster
 
         try {
             $a[$prefix.'default'] = $v = $c->getDefaultValue();
-            if (method_exists($c, 'isDefaultValueConstant') && $c->isDefaultValueConstant()) {
+            if ($c->isDefaultValueConstant()) {
                 $a[$prefix.'default'] = new ConstStub($c->getDefaultValueConstantName(), $v);
             }
             if (null === $v) {
                 unset($a[$prefix.'allowsNull']);
             }
         } catch (\ReflectionException $e) {
-            if (isset($a[$prefix.'typeHint']) && $c->allowsNull() && !class_exists('ReflectionNamedType', false)) {
-                $a[$prefix.'default'] = null;
-                unset($a[$prefix.'allowsNull']);
-            }
         }
 
         return $a;
@@ -312,6 +303,52 @@ class ReflectionCaster
         ]);
 
         return $a;
+    }
+
+    public static function getSignature(array $a)
+    {
+        $prefix = Caster::PREFIX_VIRTUAL;
+        $signature = '';
+
+        if (isset($a[$prefix.'parameters'])) {
+            foreach ($a[$prefix.'parameters']->value as $k => $param) {
+                $signature .= ', ';
+                if ($type = $param->getType()) {
+                    if (!$param->isOptional() && $param->allowsNull()) {
+                        $signature .= '?';
+                    }
+                    $signature .= substr(strrchr('\\'.$type->getName(), '\\'), 1).' ';
+                }
+                $signature .= $k;
+
+                if (!$param->isDefaultValueAvailable()) {
+                    continue;
+                }
+                $v = $param->getDefaultValue();
+                $signature .= ' = ';
+
+                if ($param->isDefaultValueConstant()) {
+                    $signature .= substr(strrchr('\\'.$param->getDefaultValueConstantName(), '\\'), 1);
+                } elseif (null === $v) {
+                    $signature .= 'null';
+                } elseif (\is_array($v)) {
+                    $signature .= $v ? '[…'.\count($v).']' : '[]';
+                } elseif (\is_string($v)) {
+                    $signature .= 10 > \strlen($v) && false === strpos($v, '\\') ? "'{$v}'" : "'…".\strlen($v)."'";
+                } elseif (\is_bool($v)) {
+                    $signature .= $v ? 'true' : 'false';
+                } else {
+                    $signature .= $v;
+                }
+            }
+        }
+        $signature = (empty($a[$prefix.'returnsReference']) ? '' : '&').'('.substr($signature, 2).')';
+
+        if (isset($a[$prefix.'returnType'])) {
+            $signature .= ': '.substr(strrchr('\\'.$a[$prefix.'returnType'], '\\'), 1);
+        }
+
+        return $signature;
     }
 
     private static function addExtra(&$a, \Reflector $c)

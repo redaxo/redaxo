@@ -5,11 +5,6 @@ composer update --no-dev -d redaxo/src/core/
 
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
-rm -rf redaxo/src/core/vendor/paragonie/random_compat/dist/
-rm -rf redaxo/src/core/vendor/paragonie/random_compat/other/
-rm -f redaxo/src/core/vendor/paragonie/random_compat/build-phar.sh
-rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm.xml
-rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm-autoload.php
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
