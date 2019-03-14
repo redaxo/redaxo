@@ -286,9 +286,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameColumn($oldName, $newName)
     {
@@ -345,9 +345,9 @@ class rex_sql_table
     /**
      * @param null|string|string[] $columns Column name(s)
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function setPrimaryKey($columns)
     {
@@ -443,9 +443,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameIndex($oldName, $newName)
     {
@@ -558,9 +558,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameForeignKey($oldName, $newName)
     {

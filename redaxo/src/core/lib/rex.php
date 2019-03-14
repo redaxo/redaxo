@@ -56,9 +56,9 @@ class rex
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
      *
-     * @return bool TRUE when an existing value was overridden, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setProperty($key, $value)
     {
@@ -114,9 +114,9 @@ class rex
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
-     * @return mixed The value for $key or $default if $key cannot be found
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return mixed The value for $key or $default if $key cannot be found
      */
     public static function getProperty($key, $default = null)
     {
@@ -146,9 +146,9 @@ class rex
      *
      * @param string $key Key of the property
      *
-     * @return bool TRUE if the value was found and removed, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeProperty($key)
     {

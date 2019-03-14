@@ -40,9 +40,9 @@ class rex_validator
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      *
-     * @return $this
-     *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function add($type, $message = null, $option = null)
     {

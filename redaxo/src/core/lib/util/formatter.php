@@ -21,9 +21,9 @@ abstract class rex_formatter
      * @param string $formatType Format type (any method name of this class)
      * @param mixed  $format     For possible values look at the other methods of this class
      *
-     * @return string
-     *
      * @throws InvalidArgumentException
+     *
+     * @return string
      */
     public static function format($value, $formatType, $format)
     {
@@ -328,9 +328,9 @@ abstract class rex_formatter
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
      *
-     * @return string
-     *
      * @throws rex_exception
+     *
+     * @return string
      */
     public static function custom($value, $format)
     {
