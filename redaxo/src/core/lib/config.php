@@ -198,6 +198,9 @@ class rex_config
 
             // since it will be deleted, do not longer mark as changed
             unset(self::$changedData[$namespace][$key]);
+            if (empty(self::$changedData[$namespace])) {
+                unset(self::$changedData[$namespace]);
+            }
 
             // delete the data from the container
             unset(self::$data[$namespace][$key]);
