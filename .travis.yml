@@ -48,6 +48,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.3
             script:
+               - php redaxo/src/addons/tests/bin/run_tests.php
                - php redaxo/bin/console package:install phpmailer
                - php redaxo/bin/console package:install cronjob
                - php redaxo/bin/console package:install cronjob/article_status
