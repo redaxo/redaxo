@@ -1,6 +1,8 @@
 <?php
 
-abstract class rex_var_base_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class rex_var_base_test extends TestCase
 {
     protected function getParseOutput($content)
     {
