@@ -95,7 +95,7 @@ EOT
         ];
 
         // https://bugs.php.net/bug.php?id=75173
-        if (!in_array(PHP_VERSION_ID, [70022, 70023, 70108, 70109], true)) {
+        if (!in_array(PHP_VERSION_ID, [70108, 70109], true)) {
             $data[] = ['REX_NON_EXISTING[REX_TEST_VAR[ab]]', 'REX_NON_EXISTING[ab]'];
         }
 

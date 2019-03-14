@@ -171,41 +171,38 @@ class rex_response
         self::sendPreloadHeaders();
         self::sendServerTimingHeaders();
 
-        // dependency ramsey/http-range requires PHP >=5.6
-        if (PHP_VERSION_ID >= 50600) {
-            header('Accept-Ranges: bytes');
-            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
-            if ($rangeHeader) {
-                try {
-                    $filesize = filesize($file);
-                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
-                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
-                    $handle = fopen($file, 'r');
-                    if (is_resource($handle)) {
-                        foreach ($ranges as $range) {
-                            header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
-                            header('Content-Length: ' . $range->getLength());
-                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+        header('Accept-Ranges: bytes');
+        $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+        if ($rangeHeader) {
+            try {
+                $filesize = filesize($file);
+                $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
+                $handle = fopen($file, 'r');
+                if (is_resource($handle)) {
+                    foreach ($ranges as $range) {
+                        header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                        header('Content-Length: ' . $range->getLength());
+                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
 
-                            // Don't output more bytes as requested
-                            // default chunk size is usually 8192 bytes
-                            $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
+                        // Don't output more bytes as requested
+                        // default chunk size is usually 8192 bytes
+                        $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
 
-                            fseek($handle, $range->getStart());
-                            while (ftell($handle) < $range->getEnd()) {
-                                echo fread($handle, $chunkSize);
-                            }
+                        fseek($handle, $range->getStart());
+                        while (ftell($handle) < $range->getEnd()) {
+                            echo fread($handle, $chunkSize);
                         }
-                        fclose($handle);
-                    } else {
-                        // Send Error if file couldn't be read
-                        header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                     }
-                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
-                    header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
+                    fclose($handle);
+                } else {
+                    // Send Error if file couldn't be read
+                    header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                 }
-                return;
+            } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
             }
+            return;
         }
 
         readfile($file);
