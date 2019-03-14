@@ -153,7 +153,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
     protected function formatField($group, $optionAll, $options, $default = 'all')
     {
         $value = $this->getValue();
-        $value = isset($value[$group]) ? $value[$group] : $default;
+        $value = $value[$group] ?? $default;
 
         $field = '<div class="rex-js-cronjob-interval-all rex-cronjob-interval-all">';
 

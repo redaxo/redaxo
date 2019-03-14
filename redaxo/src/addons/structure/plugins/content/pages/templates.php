@@ -189,9 +189,9 @@ if ($function == 'add' || $function == 'edit') {
 
     if (!isset($save) || $save != 'ja') {
         // Ctype Handling
-        $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
-        $modules = isset($attributes['modules']) ? $attributes['modules'] : [];
-        $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
+        $ctypes = $attributes['ctype'] ?? [];
+        $modules = $attributes['modules'] ?? [];
+        $categories = $attributes['categories'] ?? [];
 
         if (!is_array($modules)) {
             $modules = [];

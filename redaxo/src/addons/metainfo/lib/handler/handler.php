@@ -25,7 +25,7 @@ abstract class rex_metainfo_handler
         $link_id = 1;
         $llist_id = 1;
 
-        $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
+        $activeItem = $epParams['activeItem'] ?? null;
 
         $sqlFields->reset();
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
@@ -594,7 +594,7 @@ abstract class rex_metainfo_handler
                 // Mehrwertige Felder
                 $saveValue = '|' . implode('|', $postValue) . '|';
             } else {
-                $postValue = isset($postValue[0]) ? $postValue[0] : '';
+                $postValue = $postValue[0] ?? '';
                 if ($fieldType == REX_METAINFO_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
                      $fieldType == REX_METAINFO_FIELD_CHECKBOX
                 ) {

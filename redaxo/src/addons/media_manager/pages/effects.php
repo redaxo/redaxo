@@ -188,7 +188,7 @@ if ($func == '' && $type_id > 0) {
 
         foreach ($effectParams as $param) {
             $name = $effectClass . '_' . $param['name'];
-            $value = isset($param['default']) ? $param['default'] : null;
+            $value = $param['default'] ?? null;
             $attributes = [];
             if (isset($param['attributes'])) {
                 $attributes = $param['attributes'];

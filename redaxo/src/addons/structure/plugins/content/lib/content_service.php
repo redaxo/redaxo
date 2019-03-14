@@ -180,7 +180,7 @@ class rex_content_service
                     $value = $to_id;
                 } elseif ($colname == 'priority') {
                     $ctypeId = $slice->getValue('ctype_id');
-                    $value = $slice->getValue($colname) + (isset($maxPriority[$ctypeId]) ? $maxPriority[$ctypeId] : 0);
+                    $value = $slice->getValue($colname) + ($maxPriority[$ctypeId] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }

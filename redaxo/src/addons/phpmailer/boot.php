@@ -65,8 +65,8 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $mailBody .= '            <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>';
                 $mailBody .= '            <td>' . $data[0] . '</td>';
                 $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
-                $mailBody .= '            <td>' . (isset($data[2]) ? $data[2] : '') . '</td>';
-                $mailBody .= '            <td>' . (isset($data[3]) ? $data[3] : '') . '</td>';
+                $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
+                $mailBody .= '            <td>' . ($data[3] ?? '') . '</td>';
                 $mailBody .= '        </tr>';
             }
             // check if logevent occured then send mail

@@ -417,7 +417,7 @@ class rex_media_manager
         return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
             'type' => $type,
             'file' => $file,
-            'buster' => isset($params['buster']) ? $params['buster'] : null,
+            'buster' => $params['buster'] ?? null,
             'escape' => $escape,
         ]));
     }

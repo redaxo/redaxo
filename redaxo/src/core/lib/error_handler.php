@@ -345,7 +345,7 @@ abstract class rex_error_handler
             }
 
             $file = isset($frame['file']) ? rex_path::relative($frame['file']) : '';
-            $line = isset($frame['line']) ? $frame['line'] : '';
+            $line = $frame['line'] ?? '';
 
             $trace[] = [$function, $file, $line];
 

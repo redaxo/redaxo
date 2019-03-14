@@ -254,9 +254,9 @@ if ($func == '') {
                 $type = $param['type'];
                 $name = $group . '_' . $param['name'];
                 $label = !empty($param['label']) ? $param['label'] : '&nbsp;';
-                $value = isset($param['default']) ? $param['default'] : null;
-                $value = isset($param['value']) ? $param['value'] : $value;
-                $attributes = isset($param['attributes']) ? $param['attributes'] : [];
+                $value = $param['default'] ?? null;
+                $value = $param['value'] ?? $value;
+                $attributes = $param['attributes'] ?? [];
                 switch ($param['type']) {
                     case 'text':
                     case 'textarea':

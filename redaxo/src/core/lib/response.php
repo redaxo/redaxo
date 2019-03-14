@@ -460,13 +460,13 @@ class rex_response
      */
     public static function sendCookie($name, $value, array $options = [])
     {
-        $expire = isset($options['expires']) ? $options['expires'] : 0;
-        $path = isset($options['path']) ? $options['path'] : '/';
-        $domain = isset($options['domain']) ? $options['domain'] : null;
-        $secure = isset($options['secure']) ? $options['secure'] : false;
-        $httpOnly = isset($options['httponly']) ? $options['httponly'] : true;
-        $sameSite = isset($options['samesite']) ? $options['samesite'] : null;
-        $raw = isset($options['raw']) ? $options['raw'] : false;
+        $expire = $options['expires'] ?? 0;
+        $path = $options['path'] ?? '/';
+        $domain = $options['domain'] ?? null;
+        $secure = $options['secure'] ?? false;
+        $httpOnly = $options['httponly'] ?? true;
+        $sameSite = $options['samesite'] ?? null;
+        $raw = $options['raw'] ?? false;
 
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {

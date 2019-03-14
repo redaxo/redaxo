@@ -46,7 +46,7 @@ if ($article->getRows() == 1) {
         $template_attributes = [];
     }
 
-    $ctypes = isset($template_attributes['ctype']) ? $template_attributes['ctype'] : []; // ctypes - aus dem template
+    $ctypes = $template_attributes['ctype'] ?? []; // ctypes - aus dem template
 
     $ctype = rex_request('ctype', 'int', 1);
     if (!array_key_exists($ctype, $ctypes)) {
