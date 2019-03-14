@@ -1,5 +1,7 @@
 language: php
 
+dist: xenial
+
 git:
     depth: 3
 
@@ -38,12 +40,14 @@ jobs:
             <<: *TEST
             php: 7.1
             env: DB=mysql
+            services:
+                - mysql
             addons: ~
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
-            script: 
+            script:
                - php redaxo/bin/console package:install phpmailer
                - php redaxo/bin/console package:install cronjob
                - php redaxo/bin/console package:install cronjob/article_status
