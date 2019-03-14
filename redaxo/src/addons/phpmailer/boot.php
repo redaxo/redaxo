@@ -41,7 +41,7 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
             $mailBody .= '    </thead>';
             $mailBody .= '    <tbody>';
             foreach (new LimitIterator($file, 0, 30) as $entry) {
-                /* @var rex_log_entry $entry */
+                /** @var rex_log_entry $entry */
                 $data = $entry->getData();
                 $style = '';
                 $logtypes = [

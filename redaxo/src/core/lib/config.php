@@ -17,8 +17,8 @@ class rex_config
      */
     private static $initialized = false;
 
-    /*
-     * path to the cache file
+    /**
+     * path to the cache file.
      *
      * @var string
      */

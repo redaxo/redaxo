@@ -37,9 +37,9 @@ class rex_scss_compiler
         $this->css_file = $value;
     }
 
-    /*
+    /**
      * @param string $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
-    */
+     */
     public function setFormatter($value)
     {
         $this->formatter = $value;
@@ -50,11 +50,11 @@ class rex_scss_compiler
         $this->strip_comments = $value;
     }
 
-    /*
-     * @param string $scss_folder source folder where you have your .scss files
+    /**
+     * @param string $scss_folder      source folder where you have your .scss files
      * @param string $scss_global_file
-     * @param string $format_style CSS output format
-     * @param bool $strip_comments
+     * @param string $format_style     CSS output format
+     * @param bool   $strip_comments
      */
     public function compile()
     {

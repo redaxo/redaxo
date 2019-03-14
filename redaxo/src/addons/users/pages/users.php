@@ -76,7 +76,7 @@ $sel_startpage->addOption('default', '');
 
 $startpages = [];
 foreach (rex_be_controller::getPages() as $page => $pageObj) {
-    /* @var $pageObj rex_be_page */
+    /** @var rex_be_page $pageObj */
     if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
         $startpages[$page] = $pageObj->getTitle();
     }
