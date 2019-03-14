@@ -26,8 +26,8 @@ parameters:
             message: '#Using \$this outside a class\.#'
             path: '*/fragments/*'
         -
-	            message: '#Variable \$this might not be defined\.#'
-	            path: '*/fragments/*'
+	        message: '#Variable \$this might not be defined\.#'
+	        path: '*/fragments/*'
         -
             message: '#Access to an undefined property object.+#'
             path: '*/fragments/*'
