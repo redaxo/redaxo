@@ -20,8 +20,25 @@ before_install:
 jobs:
     include:
         -   php: 7.1
-            env: LINTING=1
+            env: TYPE=linting
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+
+        -   php: 7.3
+            env: TYPE=phpstan
+            services:
+                - mysql
+            script:
+                - mysql -e 'create database redaxo_5_0;'
+                - php redaxo/src/addons/tests/bin/setup.php
+                - php redaxo/bin/console package:install phpmailer
+                - php redaxo/bin/console package:install cronjob
+                - php redaxo/bin/console package:install cronjob/article_status
+                - php redaxo/bin/console package:install cronjob/optimize_tables
+                - php redaxo/bin/console package:install debug
+                - php redaxo/bin/console package:install structure/history
+                - php redaxo/bin/console package:install structure/version
+                - composer require --dev phpstan/phpstan
+                - vendor/bin/phpstan analyse
 
         -   &TEST
             install:
@@ -29,7 +46,9 @@ jobs:
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1
-            env: DB=mariadb
+            env:
+                - TYPE=phpunit
+                - DB=mariadb
             addons:
                 mariadb: 10.1
         -   <<: *TEST
@@ -39,7 +58,9 @@ jobs:
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
-            env: DB=mysql
+            env:
+                - TYPE=phpunit
+                - DB=mysql
             services:
                 - mysql
             addons: ~
@@ -47,14 +68,3 @@ jobs:
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
-            script:
-               - php redaxo/src/addons/tests/bin/run_tests.php
-               - php redaxo/bin/console package:install phpmailer
-               - php redaxo/bin/console package:install cronjob
-               - php redaxo/bin/console package:install cronjob/article_status
-               - php redaxo/bin/console package:install cronjob/optimize_tables
-               - php redaxo/bin/console package:install debug
-               - php redaxo/bin/console package:install structure/history
-               - php redaxo/bin/console package:install structure/version
-               - composer require --dev phpstan/phpstan
-               - vendor/bin/phpstan analyse
