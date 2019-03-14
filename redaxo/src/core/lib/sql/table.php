@@ -11,7 +11,7 @@ class rex_sql_table
 {
     use rex_instance_pool_trait;
 
-    const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+    public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
     /** @var rex_sql */
     private $sql;

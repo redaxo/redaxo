@@ -5,10 +5,10 @@
  */
 class rex_backup
 {
-    const IMPORT_ARCHIVE = 1;
-    const IMPORT_DB = 2;
-    const IMPORT_EVENT_PRE = 3;
-    const IMPORT_EVENT_POST = 4;
+    public const IMPORT_ARCHIVE = 1;
+    public const IMPORT_DB = 2;
+    public const IMPORT_EVENT_PRE = 3;
+    public const IMPORT_EVENT_POST = 4;
 
     public static function getDir()
     {

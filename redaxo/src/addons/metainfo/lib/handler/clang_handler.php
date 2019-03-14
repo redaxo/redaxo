@@ -7,8 +7,8 @@
  */
 class rex_metainfo_clang_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'clang_';
-    const CONTAINER = 'rex-clang-metainfo';
+    public const PREFIX = 'clang_';
+    public const CONTAINER = 'rex-clang-metainfo';
 
     public function renderToggleButton(rex_extension_point $ep)
     {

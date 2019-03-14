@@ -7,17 +7,17 @@
  */
 class rex_response
 {
-    const HTTP_OK = '200 OK';
-    const HTTP_PARTIAL_CONTENT = '206 Partial Content';
-    const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
-    const HTTP_NOT_MODIFIED = '304 Not Modified';
-    const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
-    const HTTP_NOT_FOUND = '404 Not Found';
-    const HTTP_FORBIDDEN = '403 Forbidden';
-    const HTTP_UNAUTHORIZED = '401 Unauthorized';
-    const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
-    const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
-    const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
+    public const HTTP_OK = '200 OK';
+    public const HTTP_PARTIAL_CONTENT = '206 Partial Content';
+    public const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
+    public const HTTP_NOT_MODIFIED = '304 Not Modified';
+    public const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
+    public const HTTP_NOT_FOUND = '404 Not Found';
+    public const HTTP_FORBIDDEN = '403 Forbidden';
+    public const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    public const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
+    public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
     private static $httpStatus = self::HTTP_OK;
     private static $sentLastModified = false;

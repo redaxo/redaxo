@@ -12,7 +12,7 @@ class rex_finder implements IteratorAggregate, Countable
 {
     use rex_factory_trait;
 
-    const ALL = '__ALL__';
+    public const ALL = '__ALL__';
 
     private $dir;
     private $recursive = false;

@@ -14,14 +14,14 @@ class rex_sql implements Iterator
     /**
      * Default SQL datetime format.
      */
-    const FORMAT_DATETIME = 'Y-m-d H:i:s';
+    public const FORMAT_DATETIME = 'Y-m-d H:i:s';
 
     /**
      * Controls query buffering.
      *
      * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
      */
-    const OPT_BUFFERED = 'buffered';
+    public const OPT_BUFFERED = 'buffered';
 
     protected $debug; // debug schalter
     protected $values; // Werte von setValue

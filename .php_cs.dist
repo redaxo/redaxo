@@ -30,11 +30,11 @@ return PhpCsFixer\Config::create()
     ->setUsingCache(true)
     ->setRiskyAllowed(true)
     ->setRules([
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
         '@PHP71Migration' => true,
         '@PHP71Migration:risky' => true,
         '@PHPUnit60Migration:risky' => true,
-        '@Symfony' => true,
-        '@Symfony:risky' => true,
         'array_indentation' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_before_statement' => false,

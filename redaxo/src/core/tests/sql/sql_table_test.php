@@ -4,8 +4,8 @@ use PHPUnit\Framework\TestCase;
 
 class rex_sql_table_test extends TestCase
 {
-    const TABLE = 'rex_sql_table_test';
-    const TABLE2 = 'rex_sql_table_test2';
+    public const TABLE = 'rex_sql_table_test';
+    public const TABLE2 = 'rex_sql_table_test2';
 
     protected function tearDown()
     {

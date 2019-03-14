@@ -7,10 +7,10 @@
  */
 abstract class rex_var
 {
-    const ENV_FRONTEND = 1;
-    const ENV_BACKEND = 2;
-    const ENV_INPUT = 4;
-    const ENV_OUTPUT = 8;
+    public const ENV_FRONTEND = 1;
+    public const ENV_BACKEND = 2;
+    public const ENV_INPUT = 4;
+    public const ENV_OUTPUT = 8;
 
     private static $vars = [];
     private static $env = null;

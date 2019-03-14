@@ -4,8 +4,8 @@ use PHPUnit\Framework\TestCase;
 
 class rex_sql_test extends TestCase
 {
-    const TABLE = 'rex_tests_table';
-    const VIEW = 'rex_tests_view';
+    public const TABLE = 'rex_tests_table';
+    public const VIEW = 'rex_tests_view';
 
     public function setUp()
     {

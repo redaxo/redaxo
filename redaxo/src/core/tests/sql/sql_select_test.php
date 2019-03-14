@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class rex_sql_select_test extends TestCase
 {
-    const TABLE = 'rex_tests';
+    public const TABLE = 'rex_tests';
 
     public function setUp()
     {

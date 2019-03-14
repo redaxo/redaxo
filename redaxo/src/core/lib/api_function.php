@@ -23,8 +23,8 @@ abstract class rex_api_function
 {
     use rex_factory_trait;
 
-    const REQ_CALL_PARAM = 'rex-api-call';
-    const REQ_RESULT_PARAM = 'rex-api-result';
+    public const REQ_CALL_PARAM = 'rex-api-call';
+    public const REQ_RESULT_PARAM = 'rex-api-result';
 
     /**
      * Flag, indicating if this api function may be called from the frontend. False by default.

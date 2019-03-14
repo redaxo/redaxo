@@ -5,9 +5,9 @@
  */
 class rex_view
 {
-    const JS_DEFERED = 'defer';
-    const JS_ASYNC = 'async';
-    const JS_IMMUTABLE = 'immutable';
+    public const JS_DEFERED = 'defer';
+    public const JS_ASYNC = 'async';
+    public const JS_IMMUTABLE = 'immutable';
 
     private static $cssFiles = [];
     private static $jsFiles = [];

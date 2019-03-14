@@ -11,9 +11,9 @@ abstract class rex_extension
 {
     use rex_factory_trait;
 
-    const EARLY = -1;
-    const NORMAL = 0;
-    const LATE = 1;
+    public const EARLY = -1;
+    public const NORMAL = 0;
+    public const LATE = 1;
 
     /**
      * Array of registered extensions.
