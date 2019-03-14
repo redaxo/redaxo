@@ -38,7 +38,7 @@ abstract class rex_api_function
      *
      * @var rex_api_result
      */
-    protected $result = null;
+    protected $result;
 
     /**
      * This method have to be overriden by a subclass and does all logic which the api function represents.
