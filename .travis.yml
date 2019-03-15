@@ -48,7 +48,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.3
             
-        -   stage: code qa
+        -   stage: Code QA
             php: 7.1
             env: TYPE=linting
             script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
