@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_path_test extends TestCase
 {
     public function testAbsoluteConversion()

@@ -2,9 +2,12 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_finder_test extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -20,7 +23,7 @@ class rex_finder_test extends TestCase
         rex_file::put($this->getPath('dir1/Thumbs.db'), '');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

@@ -2,11 +2,14 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_sql_select_test extends TestCase
 {
     public const TABLE = 'rex_tests';
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -27,7 +30,7 @@ class rex_sql_select_test extends TestCase
         $this->insertRow();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

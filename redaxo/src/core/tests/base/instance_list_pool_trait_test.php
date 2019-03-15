@@ -21,6 +21,9 @@ class rex_test_instance_list_pool
     }
 }
 
+/**
+ * @internal
+ */
 class rex_instance_list_pool_trait_test extends TestCase
 {
     public function testAddHasInstanceList()
