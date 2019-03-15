@@ -203,7 +203,7 @@ class rex_socket
                 $data = [];
                 $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
-                    list($key, $value) = array_map('urldecode', explode('=', $t, 2));
+                    [$key, $value] = array_map('urldecode', explode('=', $t, 2));
                     $data[$key] = $value;
                     $length += $partLength + rex_string::size($key) + rex_string::size($value);
                 }

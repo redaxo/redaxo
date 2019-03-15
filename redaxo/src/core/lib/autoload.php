@@ -135,7 +135,7 @@ class rex_autoload
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode($cache, true);
+        [self::$classes, self::$dirs] = json_decode($cache, true);
     }
 
     /**

@@ -54,7 +54,7 @@ Foo bar
 ### Sub 3.1
 MARKDOWN;
 
-        list($toc, $content) = rex_markdown::factory()->parseWithToc($input, 2, 4);
+        [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
 
         $expected = <<<'HTML'
 <ul>

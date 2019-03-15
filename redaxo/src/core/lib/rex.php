@@ -315,7 +315,7 @@ class rex
         if (null === $protocol) {
             return self::getProperty('server');
         }
-        list(, $server) = explode('://', self::getProperty('server'), 2);
+        [, $server] = explode('://', self::getProperty('server'), 2);
         return $protocol ? $protocol . '://' . $server : $server;
     }
 

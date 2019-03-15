@@ -487,7 +487,7 @@ abstract class rex_metainfo_handler
                     break;
                 default:
                     // ----- EXTENSION POINT
-                    list($field, $tag, $tag_attr, $id, $label, $labelIt) =
+                    [$field, $tag, $tag_attr, $id, $label, $labelIt] =
                         rex_extension::registerPoint(new rex_extension_point(
                             'METAINFO_CUSTOM_FIELD',
                             [

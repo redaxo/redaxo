@@ -44,6 +44,7 @@ return PhpCsFixer\Config::create()
         'declare_strict_types' => false,
         'function_to_constant' => ['functions' => ['get_class', 'get_called_class', 'php_sapi_name', 'phpversion', 'pi']],
         'heredoc_to_nowdoc' => true,
+        'list_syntax' => ['syntax' => 'short'],
         'logical_operators' => true,
         'native_constant_invocation' => false,
         'no_blank_lines_after_phpdoc' => false,
