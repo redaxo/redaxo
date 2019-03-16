@@ -123,7 +123,7 @@ if (rex::isSetup()) {
             // clear in-browser data of a previous session with the same browser for security reasons.
             // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
             // clearing "executionContext" or "cookies" would result in a endless loop.
-            rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
+            rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
 
             // Currently browsers like Safari do not support the header Clear-Site-Data.
             // we dont kill/regenerate the session so e.g. the frontend will not get logged out
