@@ -21,6 +21,9 @@ class rex_test_instance_list_pool
     }
 }
 
+/**
+ * @internal
+ */
 class rex_instance_list_pool_trait_test extends TestCase
 {
     public function testAddHasInstanceList()
@@ -58,7 +61,7 @@ class rex_instance_list_pool_trait_test extends TestCase
                 $this->assertEquals(3, $key1, 'getInstanceList passes instance key array as arguments to callback');
                 $this->assertEquals('test', $key2, 'getInstanceList passes instance key array as arguments to callback');
             },
-            function () {
+            static function () {
                 return [[3, 'test']];
             }
         );

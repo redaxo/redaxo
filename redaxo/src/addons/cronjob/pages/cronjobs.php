@@ -74,7 +74,7 @@ if ($func == '') {
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
     $list->setColumnLabel('environment', $addon->i18n('environment'));
-    $list->setColumnFormat('environment', 'custom', function ($params) {
+    $list->setColumnFormat('environment', 'custom', static function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
         if (strpos($value, '|frontend|') !== false) {
@@ -90,7 +90,7 @@ if ($func == '') {
     });
 
     $list->setColumnLabel('execution_moment', $addon->i18n('execution'));
-    $list->setColumnFormat('execution_moment', 'custom', function ($params) {
+    $list->setColumnFormat('execution_moment', 'custom', static function ($params) {
         if ($params['list']->getValue('execution_moment')) {
             return rex_i18n::msg('cronjob_execution_beginning');
         }
@@ -103,7 +103,7 @@ if ($func == '') {
     $list->setColumnLabel('status', $addon->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnFormat('status', 'custom', function ($params) {
+    $list->setColumnFormat('status', 'custom', static function ($params) {
         $list = $params['list'];
         if (!class_exists($list->getValue('type'))) {
             $str = rex_i18n::msg('cronjob_status_invalid');
@@ -125,7 +125,7 @@ if ($func == '') {
     $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
-    $list->setColumnFormat('execute', 'custom', function ($params) use ($addon) {
+    $list->setColumnFormat('execute', 'custom', static function ($params) use ($addon) {
         $list = $params['list'];
         if (strpos($list->getValue('environment'), '|backend|') !== false && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
@@ -254,9 +254,9 @@ if ($func == '') {
                 $type = $param['type'];
                 $name = $group . '_' . $param['name'];
                 $label = !empty($param['label']) ? $param['label'] : '&nbsp;';
-                $value = isset($param['default']) ? $param['default'] : null;
-                $value = isset($param['value']) ? $param['value'] : $value;
-                $attributes = isset($param['attributes']) ? $param['attributes'] : [];
+                $value = $param['default'] ?? null;
+                $value = $param['value'] ?? $value;
+                $attributes = $param['attributes'] ?? [];
                 switch ($param['type']) {
                     case 'text':
                     case 'textarea':

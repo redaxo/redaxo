@@ -280,7 +280,7 @@ class rex_navigation
                     }
                 }
                 if (is_array($callback) && count($callback) > 1) {
-                    list($class, $method) = $callback;
+                    [$class, $method] = $callback;
                     if (is_object($class)) {
                         $result = $class->$method($category, $depth, $li, $a);
                     } else {

@@ -16,13 +16,13 @@ $addon = rex_addon::get('be_style');
 
 /* Addon Parameter */
 if (rex::isBackend()) {
-    rex_extension::register('PACKAGES_INCLUDED', function () use ($addon) {
+    rex_extension::register('PACKAGES_INCLUDED', static function () use ($addon) {
         if (rex_extension::isRegistered('BE_STYLE_PAGE_CONTENT')) {
             $addon->setProperty('name', 'Backend Style');
         }
     });
 
-    rex_extension::register('BE_STYLE_SCSS_COMPILE', function (rex_extension_point $ep) use ($addon) {
+    rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) use ($addon) {
         $scss_files = rex_extension::registerPoint(new rex_extension_point('BE_STYLE_SCSS_FILES', []));
 
         $subject = $ep->getSubject();
@@ -34,7 +34,7 @@ if (rex::isBackend()) {
         return $subject;
     });
 
-    rex_extension::register('PACKAGES_INCLUDED', function () use ($addon) {
+    rex_extension::register('PACKAGES_INCLUDED', static function () use ($addon) {
         if (rex::getUser() && $addon->getProperty('compile')) {
             rex_be_style::compile();
         }

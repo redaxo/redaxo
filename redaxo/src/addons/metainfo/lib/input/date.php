@@ -23,8 +23,8 @@ class rex_input_date extends rex_input
         $this->yearSelect->setAttribute('data-width', 'fit');
         $this->yearSelect->setSize(1);
 
-        $range = function ($start, $end) {
-            return array_map(function ($number) {
+        $range = static function ($start, $end) {
+            return array_map(static function ($number) {
                 return sprintf('%02d', $number);
             }, range($start, $end));
         };
