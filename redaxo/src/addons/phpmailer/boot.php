@@ -74,17 +74,13 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $mailBody .= '    </tbody>';
                 $mailBody .= '</table>';
                 //End - generate mailbody
-
-                //Start  send mail
-                $fileTime = filemtime($logFile);
-
                 $mail = new rex_mailer();
                 $mail->Subject = rex::getServerName() . ' - error report ';
                 $mail->Body = $mailBody;
                 $mail->AltBody = strip_tags($mailBody);
                 $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
                 $mail->addAddress(rex::getErrorEmail());
-                $addon->setConfig('last_log_file_send_time', $fileTime);
+                $addon->setConfig('last_log_file_send_time', time());
                 if ($mail->Send()) {
                     // mail has been sent
                 }
