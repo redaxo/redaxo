@@ -1,6 +1,11 @@
 <?php
 
-class rex_markdown_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_markdown_test extends TestCase
 {
     /**
      * @dataProvider parseProvider
@@ -49,7 +54,7 @@ Foo bar
 ### Sub 3.1
 MARKDOWN;
 
-        list($toc, $content) = rex_markdown::factory()->parseWithToc($input, 2, 4);
+        [$toc, $content] = rex_markdown::factory()->parseWithToc($input, 2, 4);
 
         $expected = <<<'HTML'
 <ul>

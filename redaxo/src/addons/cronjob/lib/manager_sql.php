@@ -272,11 +272,11 @@ class rex_cronjob_manager_sql
         $date = new \DateTime('+5 min');
         $date->setTime($date->format('H'), floor($date->format('i') / 5) * 5, 0);
 
-        $isValid = function ($value, $current) {
+        $isValid = static function ($value, $current) {
             return 'all' === $value || in_array($current, $value);
         };
 
-        $validateTime = function () use ($interval, $date, $isValid) {
+        $validateTime = static function () use ($interval, $date, $isValid) {
             while (!$isValid($interval['hours'], $date->format('G'))) {
                 $date->modify('+1 hour');
                 $date->setTime($date->format('H'), 0, 0);

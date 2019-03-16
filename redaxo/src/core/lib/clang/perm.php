@@ -22,7 +22,7 @@ class rex_clang_perm extends rex_complex_perm
 
     public static function getFieldParams()
     {
-        $options = array_map(function (rex_clang $clang) {
+        $options = array_map(static function (rex_clang $clang) {
             return $clang->getName();
         }, rex_clang::getAll());
 

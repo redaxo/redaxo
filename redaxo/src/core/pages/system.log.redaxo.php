@@ -50,7 +50,7 @@ $content .= '
 
 $file = new rex_log_file($logFile);
 foreach (new LimitIterator($file, 0, 30) as $entry) {
-    /* @var rex_log_entry $entry */
+    /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
     $class = strtolower($data[0]);

@@ -135,7 +135,7 @@ class rex_autoload
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode($cache, true);
+        [self::$classes, self::$dirs] = json_decode($cache, true);
     }
 
     /**
@@ -285,8 +285,11 @@ class rex_autoload
             $extraTypes .= '|enum';
         }
 
-        // Use @ here instead of Silencer to actively suppress 'unhelpful' output
-        // @link https://github.com/composer/composer/pull/4886
+        /**
+         * Use @ here instead of Silencer to actively suppress 'unhelpful' output.
+         *
+         * @see https://github.com/composer/composer/pull/4886
+         */
         $contents = @php_strip_whitespace($path);
         if (!$contents) {
             if (!file_exists($path)) {

@@ -1,6 +1,11 @@
 <?php
 
-class rex_package_manager_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_package_manager_test extends TestCase
 {
     /**
      * @dataProvider dataMatchVersionConstraints

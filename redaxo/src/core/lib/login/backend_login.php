@@ -8,11 +8,11 @@
  */
 class rex_backend_login extends rex_login
 {
-    const SYSTEM_ID = 'backend_login';
-    const LOGIN_TRIES_1 = 3;
-    const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
-    const LOGIN_TRIES_2 = 50;
-    const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
+    public const SYSTEM_ID = 'backend_login';
+    public const LOGIN_TRIES_1 = 3;
+    public const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
+    public const LOGIN_TRIES_2 = 50;
+    public const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
 
     private $tableName;
     private $stayLoggedIn;

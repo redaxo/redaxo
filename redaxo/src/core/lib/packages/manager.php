@@ -93,7 +93,7 @@ abstract class rex_package_manager
             }
             if ($packageId != $this->package->getPackageId()) {
                 $parts = explode('/', $packageId, 2);
-                throw new rex_functional_exception($this->wrongPackageId($parts[0], isset($parts[1]) ? $parts[1] : null));
+                throw new rex_functional_exception($this->wrongPackageId($parts[0], $parts[1] ?? null));
             }
             if ($this->package->getVersion() === null) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
@@ -586,7 +586,7 @@ abstract class rex_package_manager
         $normal = [];
         $late = [];
         $requires = [];
-        $add = function ($id) use (&$add, &$normal, &$requires) {
+        $add = static function ($id) use (&$add, &$normal, &$requires) {
             $normal[] = $id;
             unset($requires[$id]);
             foreach ($requires as $rp => &$ps) {
@@ -723,7 +723,7 @@ abstract class rex_package_manager
                 $sub = substr($match['version'], $pos);
                 $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
             } elseif (in_array($match['op'], ['~', '^'])) {
-                $constraints[] = ['>=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
+                $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
                 if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
                     // add "-foo" to get a version lower than a "-dev" version
                     $constraints[] = ['<', ((int) $match['version'] + 1) . '-foo'];
@@ -738,7 +738,7 @@ abstract class rex_package_manager
                     $constraints[] = ['<', $main . ($sub + 1) . '-foo'];
                 }
             } else {
-                $constraints[] = [$match['op'] ?: '=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
+                $constraints[] = [$match['op'] ?: '=', $match['version'] . ($match['prerelease'] ?? '')];
             }
         }
 
