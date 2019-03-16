@@ -68,6 +68,7 @@ return PhpCsFixer\Config::create()
         'psr4' => false,
         'semicolon_after_instruction' => false,
         'space_after_semicolon' => true,
+        'static_lambda' => true,
         'string_line_ending' => true,
         'void_return' => false,
         'yoda_style' => false,

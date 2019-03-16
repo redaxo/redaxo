@@ -195,7 +195,7 @@ class rex_finder implements IteratorAggregate, Countable
             $filename = $current->getFilename();
             $isRoot = $currentIterator === $iterator;
 
-            $match = function ($pattern, $filename) {
+            $match = static function ($pattern, $filename) {
                 $regex = '/^'.strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']).'$/i';
                 return preg_match($regex, $filename);
             };

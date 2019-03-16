@@ -393,7 +393,7 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            $started = rex_timer::measure(__METHOD__, function () {
+            $started = rex_timer::measure(__METHOD__, static function () {
                 return @session_start();
             });
             if (!$started) {

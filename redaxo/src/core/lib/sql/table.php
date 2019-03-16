@@ -147,7 +147,7 @@ class rex_sql_table
      */
     public static function get($name)
     {
-        return self::getInstance($name, function ($name) {
+        return self::getInstance($name, static function ($name) {
             return new self($name);
         });
     }

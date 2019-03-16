@@ -586,7 +586,7 @@ abstract class rex_package_manager
         $normal = [];
         $late = [];
         $requires = [];
-        $add = function ($id) use (&$add, &$normal, &$requires) {
+        $add = static function ($id) use (&$add, &$normal, &$requires) {
             $normal[] = $id;
             unset($requires[$id]);
             foreach ($requires as $rp => &$ps) {

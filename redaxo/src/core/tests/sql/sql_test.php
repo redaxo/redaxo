@@ -147,12 +147,12 @@ class rex_sql_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('col_str', 'foo');
             $record->setRawValue('col_date', 'UTC_DATE()');
             $record->setValue('col_int', 3);
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('col_str', 'bar');
             $record->setDateTimeValue('col_date', strtotime('yesterday'));
             $record->setValue('col_text', 'lorem ipsum');
@@ -210,11 +210,11 @@ class rex_sql_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'foo');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 2);
             $record->setValue('col_str', 'bar');
         });
@@ -233,11 +233,11 @@ class rex_sql_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'abc');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 3);
             $record->setValue('col_str', 'baz');
         });
@@ -267,11 +267,11 @@ class rex_sql_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'foo');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 2);
             $record->setValue('col_str', 'bar');
         });
@@ -290,11 +290,11 @@ class rex_sql_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'abc');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 3);
             $record->setValue('col_str', 'baz');
         });

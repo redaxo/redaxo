@@ -18,7 +18,7 @@ if (!$addon->hasConfig('security_mode')) {
 }
 
 if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
-    rex_extension::register('RESPONSE_SHUTDOWN', function (rex_extension_point $ep) use ($addon) {
+    rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
         $logFile = rex_path::coreData('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
         $timediff = '';

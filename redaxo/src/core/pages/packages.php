@@ -111,7 +111,7 @@ if ($subpage == '') {
             </thead>
             <tbody>';
 
-    $getLink = function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
+    $getLink = static function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
         $onclick = '';
         if ($confirm) {
             $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
@@ -127,7 +127,7 @@ if ($subpage == '') {
         return '<a href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
     };
 
-    $getTableRow = function (rex_package $package) use ($getLink) {
+    $getTableRow = static function (rex_package $package) use ($getLink) {
         $packageId = $package->getPackageId();
         $type = $package->getType();
 

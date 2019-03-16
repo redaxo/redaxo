@@ -69,7 +69,7 @@ class rex_view
     public static function getJsFiles()
     {
         // transform for BC
-        return array_map(function ($jsFile) {
+        return array_map(static function ($jsFile) {
             return $jsFile[0];
         }, self::$jsFiles);
     }

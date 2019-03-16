@@ -529,7 +529,7 @@ if ($OUT) {
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-    $list->setColumnFormat('active', 'custom', function ($params) {
+    $list->setColumnFormat('active', 'custom', static function ($params) {
         $list = $params['list'];
         return $list->getValue('active') == 1 ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
     });

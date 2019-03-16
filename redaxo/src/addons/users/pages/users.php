@@ -531,7 +531,7 @@ if ($SHOW) {
     $thIcon = '<a href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . rex::getAccesskey(rex_i18n::msg('create_user'), 'add') . ' title="' . rex_i18n::msg('create_user') . '"><i class="rex-icon rex-icon-add-user"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['user_id' => '###id###']);
-    $list->setColumnFormat($thIcon, 'custom', function ($params) use ($thIcon, $tdIcon) {
+    $list->setColumnFormat($thIcon, 'custom', static function ($params) use ($thIcon, $tdIcon) {
         $list = $params['list'];
         $tdIcon = !$list->getValue('status') ? str_replace('rex-icon-user', 'rex-icon-user text-muted', $tdIcon) : $tdIcon;
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
@@ -546,7 +546,7 @@ if ($SHOW) {
 
     $list->setColumnLabel('name', rex_i18n::msg('name'));
     $list->setColumnParams('name', ['user_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', function ($params) {
+    $list->setColumnFormat('name', 'custom', static function ($params) {
         $list = $params['list'];
         $name = rex_escape($list->getValue('name'));
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink('name', $name) : $name;
@@ -554,7 +554,7 @@ if ($SHOW) {
     $list->setColumnSortable('name');
 
     $list->setColumnLabel('login', rex_i18n::msg('login'));
-    $list->setColumnFormat('login', 'custom', function ($params) {
+    $list->setColumnFormat('login', 'custom', static function ($params) {
         $list = $params['list'];
 
         $login = rex_escape($list->getValue('login'));
@@ -566,7 +566,7 @@ if ($SHOW) {
     $list->setColumnSortable('login');
 
     $list->setColumnLabel('role', rex_i18n::msg('user_role'));
-    $list->setColumnFormat('role', 'custom', function ($params) use ($noRole) {
+    $list->setColumnFormat('role', 'custom', static function ($params) use ($noRole) {
         $list = $params['list'];
         $roles = $list->getValue('role');
         if ($noRole === $roles) {
@@ -578,7 +578,7 @@ if ($SHOW) {
     $list->setColumnSortable('role');
 
     $list->setColumnLabel('lastlogin', rex_i18n::msg('last_login'));
-    $list->setColumnFormat('lastlogin', 'custom', function () use ($list) {
+    $list->setColumnFormat('lastlogin', 'custom', static function () use ($list) {
         return rex_formatter::strftime(strtotime($list->getValue('lastlogin')), 'datetime');
     });
     $list->setColumnSortable('lastlogin', 'desc');
@@ -587,7 +587,7 @@ if ($SHOW) {
     $list->addColumn(rex_i18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('user_functions'), ['<th class="rex-table-action" colspan="'.$colspan.'">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams(rex_i18n::msg('user_functions'), ['user_id' => '###id###']);
-    $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', function ($params) {
+    $list->setColumnFormat(rex_i18n::msg('user_functions'), 'custom', static function ($params) {
         $list = $params['list'];
         $edit = '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit');
         return !$list->getValue('admin') || rex::getUser()->isAdmin() ? $list->getColumnLink(rex_i18n::msg('user_functions'), $edit) : $edit;
@@ -596,7 +596,7 @@ if ($SHOW) {
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + rex_csrf_token::factory('user_delete')->getUrlParams());
-    $list->setColumnFormat('funcs', 'custom', function ($params) {
+    $list->setColumnFormat('funcs', 'custom', static function ($params) {
         $list = $params['list'];
         if ($list->getValue('id') == rex::getUser()->getId() || $list->getValue('admin') && !rex::getUser()->isAdmin()) {
             return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_delete') . '</span>';
@@ -608,7 +608,7 @@ if ($SHOW) {
     if (rex::getUser()->isAdmin()) {
         $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
         $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
-        $list->setColumnFormat('impersonate', 'custom', function ($params) use ($list) {
+        $list->setColumnFormat('impersonate', 'custom', static function ($params) use ($list) {
             if (rex::getImpersonator() || $list->getValue('id') == rex::getUser()->getId()) {
                 return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . rex_i18n::msg('login_impersonate') . '</span>';
             }

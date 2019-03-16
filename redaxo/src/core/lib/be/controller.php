@@ -349,7 +349,7 @@ class rex_be_controller
 
     public static function checkPagePermissions(rex_user $user)
     {
-        $check = function (rex_be_page $page) use (&$check, $user) {
+        $check = static function (rex_be_page $page) use (&$check, $user) {
             if (!$page->checkPermission($user)) {
                 return false;
             }

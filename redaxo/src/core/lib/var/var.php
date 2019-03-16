@@ -65,7 +65,7 @@ abstract class rex_var
                 case T_INLINE_HTML:
                     $format = '<?= %s@@@INLINE_HTML_REPLACEMENT_END@@@';
                     $add = self::replaceVars($add, $format);
-                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', function (array $match) {
+                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', static function (array $match) {
                         return $match[1]
                             ? ', "'.addcslashes($match[1], "\r\n").'" ?>'.$match[1]
                             : ' ?>';
@@ -274,7 +274,7 @@ abstract class rex_var
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
         $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
-        $arg = preg_replace_callback("@$begin(.*)$end@Us", function ($match) {
+        $arg = preg_replace_callback("@$begin(.*)$end@Us", static function ($match) {
             return addcslashes($match[1], "\'");
         }, $arg);
         $arg = str_replace(['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], ['[', ']'], $arg);

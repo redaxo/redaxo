@@ -69,7 +69,7 @@ class rex_scss_compiler
         $scss_compiler->setNumberPrecision(10);
         $scss_compiler->stripComments = $this->strip_comments;
 
-        $scss_compiler->addImportPath(function ($path) use ($root_dir) {
+        $scss_compiler->addImportPath(static function ($path) use ($root_dir) {
             $path = $root_dir . $path . '.scss';
 
             $path_parts = pathinfo($path);

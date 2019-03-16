@@ -191,7 +191,7 @@ class rex_socket
     public function doPost($data = '', array $files = [])
     {
         if (is_array($data) && !empty($files)) {
-            $data = function ($stream) use ($data, $files) {
+            $data = static function ($stream) use ($data, $files) {
                 $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
                 $eol = "\r\n";
                 fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
@@ -315,7 +315,7 @@ class rex_socket
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
         $prevError = null;
-        set_error_handler(function ($errno, $errstr) use (&$prevError) {
+        set_error_handler(static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {
                 $prevError = $errstr;
             }

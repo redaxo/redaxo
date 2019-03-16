@@ -213,7 +213,7 @@ class rex_formatter_test extends TestCase
         );
 
         $format = [
-            function ($params) {
+            static function ($params) {
                 return $params['subject'] . ' ' . $params['some'];
             },
             ['some' => 'more params'],

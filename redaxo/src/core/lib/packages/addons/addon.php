@@ -318,7 +318,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      */
     private static function filterPackages(array $packages, $method)
     {
-        return array_filter($packages, function (rex_package $package) use ($method) {
+        return array_filter($packages, static function (rex_package $package) use ($method) {
             return $package->$method();
         });
     }

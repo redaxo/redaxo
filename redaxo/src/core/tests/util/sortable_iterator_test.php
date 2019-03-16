@@ -38,7 +38,7 @@ class rex_sortable_iterator_test extends TestCase
     public function testCallbackMode()
     {
         $array = [2, 'a', 1, 'b'];
-        $callback = function ($a, $b) {
+        $callback = static function ($a, $b) {
             return strcmp($b, $a);
         };
         $iterator = new rex_sortable_iterator(new ArrayIterator($array), $callback);
