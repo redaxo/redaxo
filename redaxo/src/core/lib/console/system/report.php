@@ -61,20 +61,17 @@ class rex_command_system_report extends rex_console_command
             }
 
             $tables[] = $table = new Table($io);
+            $table->setStyle('box');
             $table->setHeaders([$groupLabel, '']);
             $table->setRows($rows);
         }
 
-        $style = new TableStyle();
-
-        $leftColumnStyle = clone $style;
-        $leftColumnStyle->setPadType(STR_PAD_LEFT);
-
         foreach ($tables as $table) {
             $table->setColumnWidths([$maxLabelLength, 30]);
 
-            $table->setStyle($style);
-            $table->setColumnStyle(0, $leftColumnStyle);
+            $style = clone $table->getStyle();
+            $style->setPadType(STR_PAD_LEFT);
+            $table->setColumnStyle(0, $style);
 
             $table->render();
             $io->newLine();
