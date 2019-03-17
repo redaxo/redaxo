@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_config_test extends TestCase
 {
     public function testNonExistentConfig()
@@ -57,5 +60,15 @@ class rex_config_test extends TestCase
 
         $this->assertNull(rex_config::get('test-ns', 'mykey1'), 'removeNamespace() all keys1');
         $this->assertNull(rex_config::get('test-ns', 'mykey2'), 'removeNamespace() all keys2');
+    }
+
+    public function testSaveAfterSetAndRemove()
+    {
+        rex_config::save();
+
+        rex_config::set('test-ns', 'mykey1', 'foo');
+        rex_config::remove('test-ns', 'mykey1');
+
+        rex_config::save();
     }
 }

@@ -216,7 +216,7 @@ class rex_be_controller
             }
         }
         foreach ($insertPages as $key => $packagePage) {
-            list($package, $page) = $packagePage;
+            [$package, $page] = $packagePage;
             $key = explode('/', $key);
             if (!isset(self::$pages[$key[0]])) {
                 continue;
@@ -349,7 +349,7 @@ class rex_be_controller
 
     public static function checkPagePermissions(rex_user $user)
     {
-        $check = function (rex_be_page $page) use (&$check, $user) {
+        $check = static function (rex_be_page $page) use (&$check, $user) {
             if (!$page->checkPermission($user)) {
                 return false;
             }
@@ -435,7 +435,7 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        list($toc, $content) = rex_markdown::factory()->parseWithToc(rex_file::get($path));
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path));
         $fragment = new rex_fragment();
         $fragment->setVar('content', $content, false);
         $fragment->setVar('toc', $toc, false);

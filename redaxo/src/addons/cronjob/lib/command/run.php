@@ -62,7 +62,7 @@ class rex_command_cronjob_run extends rex_console_command
             $jobs = array_column($jobs, 'name', 'id');
 
             $question = new ChoiceQuestion('Which cronjob should be executed?', $jobs);
-            $question->setValidator(function ($selected) use ($jobs) {
+            $question->setValidator(static function ($selected) use ($jobs) {
                 $selected = trim($selected);
 
                 if (!isset($jobs[$selected])) {

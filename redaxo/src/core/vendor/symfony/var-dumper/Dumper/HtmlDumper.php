@@ -23,6 +23,41 @@ class HtmlDumper extends CliDumper
 {
     public static $defaultOutput = 'php://output';
 
+    protected static $themes = [
+        'dark' => [
+            'default' => 'background-color:#18171B; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+            'num' => 'font-weight:bold; color:#1299DA',
+            'const' => 'font-weight:bold',
+            'str' => 'font-weight:bold; color:#56DB3A',
+            'note' => 'color:#1299DA',
+            'ref' => 'color:#A0A0A0',
+            'public' => 'color:#FFFFFF',
+            'protected' => 'color:#FFFFFF',
+            'private' => 'color:#FFFFFF',
+            'meta' => 'color:#B729D9',
+            'key' => 'color:#56DB3A',
+            'index' => 'color:#1299DA',
+            'ellipsis' => 'color:#FF8400',
+            'ns' => 'user-select:none;',
+        ],
+        'light' => [
+            'default' => 'background:none; color:#CC7832; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+            'num' => 'font-weight:bold; color:#1299DA',
+            'const' => 'font-weight:bold',
+            'str' => 'font-weight:bold; color:#629755;',
+            'note' => 'color:#6897BB',
+            'ref' => 'color:#6E6E6E',
+            'public' => 'color:#262626',
+            'protected' => 'color:#262626',
+            'private' => 'color:#262626',
+            'meta' => 'color:#B729D9',
+            'key' => 'color:#789339',
+            'index' => 'color:#1299DA',
+            'ellipsis' => 'color:#CC7832',
+            'ns' => 'user-select:none;',
+        ],
+    ];
+
     protected $dumpHeader;
     protected $dumpPrefix = '<pre class=sf-dump id=%s data-indent-pad="%s">';
     protected $dumpSuffix = '</pre><script>Sfdump(%s)</script>';
@@ -30,21 +65,7 @@ class HtmlDumper extends CliDumper
     protected $colors = true;
     protected $headerIsDumped = false;
     protected $lastDepth = -1;
-    protected $styles = [
-        'default' => 'background-color:#18171B; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
-        'num' => 'font-weight:bold; color:#1299DA',
-        'const' => 'font-weight:bold',
-        'str' => 'font-weight:bold; color:#56DB3A',
-        'note' => 'color:#1299DA',
-        'ref' => 'color:#A0A0A0',
-        'public' => 'color:#FFFFFF',
-        'protected' => 'color:#FFFFFF',
-        'private' => 'color:#FFFFFF',
-        'meta' => 'color:#B729D9',
-        'key' => 'color:#56DB3A',
-        'index' => 'color:#1299DA',
-        'ellipsis' => 'color:#FF8400',
-    ];
+    protected $styles;
 
     private $displayOptions = [
         'maxDepth' => 1,
@@ -56,11 +77,12 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
-    public function __construct($output = null, $charset = null, $flags = 0)
+    public function __construct($output = null, string $charset = null, int $flags = 0)
     {
         AbstractDumper::__construct($output, $charset, $flags);
         $this->dumpId = 'sf-dump-'.mt_rand();
         $this->displayOptions['fileLinkFormat'] = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->styles = static::$themes['dark'] ?? self::$themes['dark'];
     }
 
     /**
@@ -70,6 +92,15 @@ class HtmlDumper extends CliDumper
     {
         $this->headerIsDumped = false;
         $this->styles = $styles + $this->styles;
+    }
+
+    public function setTheme(string $themeName)
+    {
+        if (!isset(static::$themes[$themeName])) {
+            throw new \InvalidArgumentException(sprintf('Theme "%s" does not exist in class "%s".', $themeName, static::class));
+        }
+
+        $this->setStyles(static::$themes[$themeName]);
     }
 
     /**
@@ -469,10 +500,18 @@ return function (root, x) {
 
         function showCurrent(state)
         {
-            var currentNode = state.current();
+            var currentNode = state.current(), currentRect, searchRect;
             if (currentNode) {
                 reveal(currentNode);
                 highlight(root, currentNode, state.nodes);
+                if ('scrollIntoView' in currentNode) {
+                    currentNode.scrollIntoView(true);
+                    currentRect = currentNode.getBoundingClientRect();
+                    searchRect = search.getBoundingClientRect();
+                    if (currentRect.top < (searchRect.top + searchRect.height)) {
+                        window.scrollBy(0, -(searchRect.top + searchRect.height + 5));
+                    }
+                }
             }
             counter.textContent = (state.isEmpty() ? 0 : state.idx + 1) + ' of ' + state.count();
         }
@@ -607,6 +646,7 @@ pre.sf-dump {
     display: block;
     white-space: pre;
     padding: 5px;
+    overflow: initial !important;
 }
 pre.sf-dump:after {
    content: "";
@@ -675,14 +715,16 @@ pre.sf-dump code {
     border-radius: 3px;
 }
 pre.sf-dump .sf-dump-search-hidden {
-    display: none;
+    display: none !important;
 }
 pre.sf-dump .sf-dump-search-wrapper {
-    float: right;
     font-size: 0;
     white-space: nowrap;
-    max-width: 100%;
-    text-align: right;
+    margin-bottom: 5px;
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5px;
 }
 pre.sf-dump .sf-dump-search-wrapper > * {
     vertical-align: top;
@@ -699,10 +741,11 @@ pre.sf-dump .sf-dump-search-wrapper > input.sf-dump-search-input {
     height: 21px;
     font-size: 12px;
     border-right: none;
-    width: 140px;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     color: #000;
+    min-width: 15px;
+    width: 100%;
 }
 pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next,
 pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-previous {
@@ -837,9 +880,21 @@ EOHTML
         }
 
         $v = "<span class=sf-dump-{$style}>".preg_replace_callback(static::$controlCharsRx, function ($c) use ($map) {
-            $s = '<span class=sf-dump-default>';
+            $s = $b = '<span class="sf-dump-default';
             $c = $c[$i = 0];
+            if ($ns = "\r" === $c[$i] || "\n" === $c[$i]) {
+                $s .= ' sf-dump-ns';
+            }
+            $s .= '">';
             do {
+                if (("\r" === $c[$i] || "\n" === $c[$i]) !== $ns) {
+                    $s .= '</span>'.$b;
+                    if ($ns = !$ns) {
+                        $s .= ' sf-dump-ns';
+                    }
+                    $s .= '">';
+                }
+
                 $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', \ord($c[$i]));
             } while (isset($c[++$i]));
 

@@ -86,7 +86,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $this->media->setMediaFilename($filename);
         $this->media->setHeader('Content-Type', $convert_to['content-type']);
 
-        register_shutdown_function(function () use ($to_path) {
+        register_shutdown_function(static function () use ($to_path) {
             rex_file::delete($to_path);
         });
     }

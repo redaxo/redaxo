@@ -40,9 +40,9 @@ class rex_media_category_service
     /**
      * @param int $categoryId
      *
-     * @return string A success message
-     *
      * @throws rex_functional_exception
+     *
+     * @return string A success message
      */
     public static function deleteCategory($categoryId)
     {

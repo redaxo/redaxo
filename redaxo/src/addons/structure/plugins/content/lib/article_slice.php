@@ -240,7 +240,7 @@ class rex_article_slice
     protected static function getSliceWhere($where, array $params = [])
     {
         $slices = self::getSlicesWhere($where, $params);
-        return isset($slices[0]) ? $slices[0] : null;
+        return $slices[0] ?? null;
     }
 
     /**

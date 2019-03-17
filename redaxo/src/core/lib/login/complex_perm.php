@@ -11,7 +11,7 @@
  */
 abstract class rex_complex_perm
 {
-    const ALL = 'all';
+    public const ALL = 'all';
 
     /**
      * User instance.

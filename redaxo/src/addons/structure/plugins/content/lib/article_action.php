@@ -5,9 +5,9 @@
  */
 class rex_article_action
 {
-    const PREVIEW = 'preview';
-    const PRESAVE = 'presave';
-    const POSTSAVE = 'postsave';
+    public const PREVIEW = 'preview';
+    public const PRESAVE = 'presave';
+    public const POSTSAVE = 'postsave';
 
     private $moduleId;
     private $event;

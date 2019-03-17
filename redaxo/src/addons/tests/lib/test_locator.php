@@ -7,7 +7,7 @@
  */
 class rex_test_locator implements IteratorAggregate
 {
-    const TESTS_FOLDER = 'tests';
+    public const TESTS_FOLDER = 'tests';
 
     private $testFoldersIterator;
 

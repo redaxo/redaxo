@@ -9,9 +9,9 @@
  */
 class rex_timer
 {
-    const SEC = 1;
-    const MILLISEC = 1000;
-    const MICROSEC = 1000000;
+    public const SEC = 1;
+    public const MILLISEC = 1000;
+    public const MICROSEC = 1000000;
 
     public static $serverTimings = [];
 

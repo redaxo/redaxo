@@ -9,7 +9,7 @@
  */
 class rex
 {
-    const CONFIG_NAMESPACE = 'core';
+    public const CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties.
@@ -56,9 +56,9 @@ class rex
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
      *
-     * @return bool TRUE when an existing value was overridden, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setProperty($key, $value)
     {
@@ -77,7 +77,7 @@ class rex
                 if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
                     $value['throw_always_exception'] = false;
                 } elseif (is_array($value['throw_always_exception'])) {
-                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], function ($result, $item) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item) {
                         if (is_string($item)) {
                             // $item is string, e.g. "E_WARNING"
                             $item = constant($item);
@@ -114,9 +114,9 @@ class rex
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
-     * @return mixed The value for $key or $default if $key cannot be found
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return mixed The value for $key or $default if $key cannot be found
      */
     public static function getProperty($key, $default = null)
     {
@@ -146,9 +146,9 @@ class rex
      *
      * @param string $key Key of the property
      *
-     * @return bool TRUE if the value was found and removed, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeProperty($key)
     {
@@ -315,7 +315,7 @@ class rex
         if (null === $protocol) {
             return self::getProperty('server');
         }
-        list(, $server) = explode('://', self::getProperty('server'), 2);
+        [, $server] = explode('://', self::getProperty('server'), 2);
         return $protocol ? $protocol . '://' . $server : $server;
     }
 

@@ -72,7 +72,7 @@ if ($func == '') {
     $fieldContainer->setActive($group);
 
     // Check all page permissions and add them to rex_perm if not already registered
-    $registerImplicitePagePermissions = function ($pages) use (&$registerImplicitePagePermissions) {
+    $registerImplicitePagePermissions = static function ($pages) use (&$registerImplicitePagePermissions) {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
@@ -95,7 +95,7 @@ if ($func == '') {
         $select->addArrayOptions($perms);
     }
 
-    rex_extension::register('REX_FORM_INPUT_CLASS', function (rex_extension_point $ep) {
+    rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
         return $ep->getParam('inputType') == 'perm_select' ? 'rex_form_perm_select_element' : null;
     });
 

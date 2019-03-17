@@ -57,7 +57,7 @@ $sql = rex_sql::factory();
 $sql->setTable(rex::getTable('media_manager_type'));
 
 foreach ($data as $row) {
-    $sql->addRecord(function (rex_sql $record) use ($row) {
+    $sql->addRecord(static function (rex_sql $record) use ($row) {
         $record
             ->setValues($row)
             ->setValue('status', 1)
@@ -80,7 +80,7 @@ $sql = rex_sql::factory();
 $sql->setTable(rex::getTable('media_manager_type_effect'));
 
 foreach ($data as $row) {
-    $sql->addRecord(function (rex_sql $record) use ($row) {
+    $sql->addRecord(static function (rex_sql $record) use ($row) {
         $record
             ->setValues($row)
             ->setValue('priority', 1)

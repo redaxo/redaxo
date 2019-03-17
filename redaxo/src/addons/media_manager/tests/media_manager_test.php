@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_media_manager_test extends TestCase
 {
     public function testGetCacheFilename()

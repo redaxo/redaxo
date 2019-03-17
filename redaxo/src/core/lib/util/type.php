@@ -117,7 +117,7 @@ class rex_type
                     throw new InvalidArgumentException('Unexpected vartype in cast()!');
                 }
                 $key = $cast[0];
-                $innerVartype = isset($cast[1]) ? $cast[1] : '';
+                $innerVartype = $cast[1] ?? '';
                 if (array_key_exists($key, $var)) {
                     $newVar[$key] = self::cast($var[$key], $innerVartype);
                 } elseif (!isset($cast[2])) {
