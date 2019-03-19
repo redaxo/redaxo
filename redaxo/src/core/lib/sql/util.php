@@ -68,7 +68,7 @@ class rex_sql_util
         return true;
     }
 
-    private static function prepareQuery($qry)
+    public static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
         $user = rex::getUser() ? rex::getUser()->getValue('login') : '';
@@ -77,6 +77,10 @@ class rex_sql_util
         $qry = str_replace('%TIME%', time(), $qry);
         $qry = str_replace('%TABLE_PREFIX%', rex::getTablePrefix(), $qry);
         $qry = str_replace('%TEMP_PREFIX%', rex::getTempPrefix(), $qry);
+
+        $dbconfig = rex::getProperty('db');
+        $dbid = rex_sql::stripQueryDBID($qry) ?: 1;
+        $qry = str_replace('%DATABASE%', $dbconfig[$dbid]['name'], $qry);
 
         return $qry;
     }

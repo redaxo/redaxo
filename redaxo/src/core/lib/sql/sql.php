@@ -146,7 +146,7 @@ class rex_sql implements Iterator
      *
      * @return string
      */
-    protected static function stripQueryDBID(&$qry)
+    public static function stripQueryDBID(&$qry)
     {
         $qry = trim($qry);
 
