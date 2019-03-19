@@ -38,7 +38,7 @@ if (rex::isBackend()) {
     }
 
     rex_view::addCssFile($plugin->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('javascripts/redaxo.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('javascripts/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
 
     rex_extension::register('PAGE_HEADER', function (rex_extension_point $ep) use ($plugin) {
         $icons = [];
