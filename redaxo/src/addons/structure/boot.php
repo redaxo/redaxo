@@ -35,7 +35,7 @@ if (rex_request('article_id', 'int') == 0) {
 }
 
 if (rex::isBackend() && rex::getUser()) {
-    rex_view::addJsFile($addon->getAssetsUrl('linkmap.js'));
+    rex_view::addJsFile($addon->getAssetsUrl('linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
 
     if (rex_be_controller::getCurrentPagePart(1) == 'system') {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
