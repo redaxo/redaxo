@@ -16,5 +16,8 @@ $addon = rex_addon::get('be_style');
 $files = require __DIR__.'/vendor_files.php';
 
 foreach ($files as $source => $destination) {
-    rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination));
+    if (rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination)) === false) {
+        $addon->setProperty('installmsg', 'Unable to copy file from "'. $addon->getPath($source) .'" to "'. $addon->getAssetsPath($destination) .'"');
+    }
 }
+
