@@ -20,7 +20,7 @@ class rex_article_content_editor extends rex_article_content
      */
     protected function outputSlice(rex_sql $artDataSql, $moduleIdToAdd)
     {
-        if ($this->mode != 'edit') {
+        if ('edit' != $this->mode) {
             // ----- wenn mode nicht edit
             $slice_content = parent::outputSlice(
                 $artDataSql,
@@ -37,19 +37,19 @@ class rex_article_content_editor extends rex_article_content
             // ----- add select box einbauen
             $slice_content = $this->getModuleSelect($sliceId);
 
-            if ($this->function == 'add' && $this->slice_id == $sliceId) {
+            if ('add' == $this->function && $this->slice_id == $sliceId) {
                 $slice_content .= $this->addSlice($sliceId, $moduleIdToAdd);
             }
 
             $panel = '';
             // ----- Display message at current slice
             //if(rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
-            if ($this->function != 'add' && $this->slice_id == $sliceId) {
+            if ('add' != $this->function && $this->slice_id == $sliceId) {
                 $msg = '';
-                if ($this->warning != '') {
+                if ('' != $this->warning) {
                     $msg .= rex_view::warning($this->warning);
                 }
-                if ($this->info != '') {
+                if ('' != $this->info) {
                     $msg .= rex_view::success($this->info);
                 }
                 $panel .= $msg;
@@ -58,12 +58,12 @@ class rex_article_content_editor extends rex_article_content
 
             // ----- EDIT/DELETE BLOCK - Wenn Rechte vorhanden
             if (rex::getUser()->getComplexPerm('modules')->hasPerm($moduleId)) {
-                if ($this->function == 'edit' && $this->slice_id == $sliceId) {
+                if ('edit' == $this->function && $this->slice_id == $sliceId) {
                     // **************** Aktueller Slice
 
                     // ----- PRE VIEW ACTION [EDIT]
                     $action = new rex_article_action($moduleId, 'edit', $artDataSql);
-                    if (rex_request_method() == 'post' && rex_request('function', 'string') == 'edit') {
+                    if ('post' == rex_request_method() && 'edit' == rex_request('function', 'string')) {
                         $action->setRequestValues();
                     }
                     $action->exec(rex_article_action::PREVIEW);
@@ -284,13 +284,13 @@ class rex_article_content_editor extends rex_article_content
     protected function preArticle($articleContent, $module_id)
     {
         // ---------- moduleselect: nur module nehmen auf die der user rechte hat
-        if ($this->mode == 'edit') {
+        if ('edit' == $this->mode) {
             $MODULE = rex_sql::factory();
             $modules = $MODULE->getArray('select * from ' . rex::getTablePrefix() . 'module order by name');
 
             $template_ctypes = isset($this->template_attributes['ctype']) ? $this->template_attributes['ctype'] : [];
             // wenn keine ctyes definiert sind, gibt es immer den CTYPE=1
-            if (count($template_ctypes) == 0) {
+            if (0 == count($template_ctypes)) {
                 $template_ctypes = [1 => 'default'];
             }
 
@@ -318,8 +318,8 @@ class rex_article_content_editor extends rex_article_content
         $LCTSL_ID = -1;
 
         // ----- add module im edit mode
-        if ($this->mode == 'edit') {
-            if ($this->function == 'add' && $this->slice_id == $LCTSL_ID) {
+        if ('edit' == $this->mode) {
+            if ('add' == $this->function && $this->slice_id == $LCTSL_ID) {
                 $slice_content = $this->addSlice($LCTSL_ID, $moduleIdToAdd);
             } else {
                 // ----- BLOCKAUSWAHL - SELECT
@@ -337,7 +337,7 @@ class rex_article_content_editor extends rex_article_content
         $MOD = rex_sql::factory();
         $MOD->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'module WHERE id="' . $moduleIdToAdd . '"');
 
-        if ($MOD->getRows() != 1) {
+        if (1 != $MOD->getRows()) {
             $slice_content = rex_view::warning(rex_i18n::msg('module_doesnt_exist'));
         } else {
             $initDataSql = rex_sql::factory();
@@ -356,10 +356,10 @@ class rex_article_content_editor extends rex_article_content
             $moduleInput = $this->getStreamOutput('module/' . $moduleIdToAdd . '/input', $moduleInput);
 
             $msg = '';
-            if ($this->warning != '') {
+            if ('' != $this->warning) {
                 $msg .= rex_view::warning($this->warning);
             }
-            if ($this->info != '') {
+            if ('' != $this->info) {
                 $msg .= rex_view::success($this->info);
             }
 
@@ -422,10 +422,10 @@ class rex_article_content_editor extends rex_article_content
     {
         $msg = '';
         if ($this->slice_id == $RE_CONTS) {
-            if ($this->warning != '') {
+            if ('' != $this->warning) {
                 $msg .= rex_view::warning($this->warning);
             }
-            if ($this->info != '') {
+            if ('' != $this->info) {
                 $msg .= rex_view::success($this->info);
             }
         }

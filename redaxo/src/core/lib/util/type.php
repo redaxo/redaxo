@@ -77,7 +77,7 @@ class rex_type
 
                 default:
                     // check for array with generic type
-                    if (strpos($vartype, 'array[') === 0) {
+                    if (0 === strpos($vartype, 'array[')) {
                         if (empty($var)) {
                             $var = [];
                         } else {

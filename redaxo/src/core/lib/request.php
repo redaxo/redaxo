@@ -84,7 +84,7 @@ class rex_request
             return rex_type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
         }
 
-        if ($default === '') {
+        if ('' === $default) {
             return rex_type::cast($default, $vartype);
         }
         return $default;
@@ -201,7 +201,7 @@ class rex_request
             return rex_type::cast($haystack[$needle], $vartype);
         }
 
-        if ($default === '') {
+        if ('' === $default) {
             return rex_type::cast($default, $vartype);
         }
         return $default;
@@ -229,7 +229,7 @@ class rex_request
      */
     public static function isXmlHttpRequest()
     {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'XMLHttpRequest' == $_SERVER['HTTP_X_REQUESTED_WITH'];
     }
 
     /**
@@ -239,7 +239,7 @@ class rex_request
      */
     public static function isPJAXRequest()
     {
-        return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
+        return isset($_SERVER['HTTP_X_PJAX']) && 'true' == $_SERVER['HTTP_X_PJAX'];
     }
 
     /**

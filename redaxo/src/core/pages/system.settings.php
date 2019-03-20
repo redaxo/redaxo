@@ -12,27 +12,27 @@ $csrfToken = rex_csrf_token::factory('system');
 
 if ($func && !$csrfToken->isValid()) {
     $error[] = rex_i18n::msg('csrf_token_invalid');
-} elseif ($func == 'setup') {
+} elseif ('setup' == $func) {
     // REACTIVATE SETUP
 
     $configFile = rex_path::coreData('config.yml');
     $config = rex_file::getConfig($configFile);
     $config['setup'] = true;
 
-    if (rex_file::putConfig($configFile, $config) !== false) {
+    if (false !== rex_file::putConfig($configFile, $config)) {
         $info = rex_i18n::rawMsg('setup_error1', '<a href="' . rex_url::backendController() . '">', '</a>');
 
         header('Location:' . rex_url::backendController());
         exit;
     }
     $error[] = rex_i18n::msg('setup_error2');
-} elseif ($func == 'generate') {
+} elseif ('generate' == $func) {
     // generate all articles,cats,templates,caches
     $success = rex_delete_cache();
-} elseif ($func == 'updateassets') {
+} elseif ('updateassets' == $func) {
     rex_dir::copy(rex_path::core('assets'), rex_path::coreAssets());
     $success = 'Updated assets';
-} elseif ($func == 'debugmode') {
+} elseif ('debugmode' == $func) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
@@ -48,7 +48,7 @@ if ($func && !$csrfToken->isValid()) {
     if (rex_file::putConfig($configFile, $config) > 0) {
         $success = (rex::isDebugMode()) ? rex_i18n::msg('debug_mode_info_on') : rex_i18n::msg('debug_mode_info_off');
     }
-} elseif ($func == 'updateinfos') {
+} elseif ('updateinfos' == $func) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
@@ -79,7 +79,7 @@ if ($func && !$csrfToken->isValid()) {
     foreach (rex_system_setting::getAll() as $setting) {
         $key = $setting->getKey();
         if (isset($settings[$key])) {
-            if (($msg = $setting->setValue($settings[$key])) !== true) {
+            if (true !== ($msg = $setting->setValue($settings[$key]))) {
                 $error[] = $msg;
             }
         }
@@ -118,18 +118,18 @@ if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
 }
 
-if ($info != '') {
+if ('' != $info) {
     echo rex_view::info($info);
 }
 
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
 }
 
 $dbconfig = rex::getProperty('db');
 
 $rexVersion = rex::getVersion();
-if (strpos($rexVersion, '-dev') !== false) {
+if (false !== strpos($rexVersion, '-dev')) {
     $hash = rex::getVersionHash(rex_path::base());
     if ($hash) {
         $rexVersion .= '#'. $hash;

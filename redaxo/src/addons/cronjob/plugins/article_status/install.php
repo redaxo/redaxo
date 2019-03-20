@@ -12,7 +12,7 @@ $plugin = rex_plugin::get('cronjob', 'article_status');
 
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT id FROM ' . rex::getTablePrefix() . 'cronjob WHERE type="rex_cronjob_article_status" LIMIT 1');
-if ($sql->getRows() == 0) {
+if (0 == $sql->getRows()) {
     $sql->setTable(rex::getTablePrefix() . 'cronjob');
     $sql->setValue('name', 'Artikel-Status');
     $sql->setValue('type', 'rex_cronjob_article_status');

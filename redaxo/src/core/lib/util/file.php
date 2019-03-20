@@ -19,7 +19,7 @@ class rex_file
     {
         return rex_timer::measure(__METHOD__, static function () use ($file, $default) {
             $content = @file_get_contents($file);
-            return $content !== false ? $content : $default;
+            return false !== $content ? $content : $default;
         });
     }
 
@@ -34,7 +34,7 @@ class rex_file
     public static function getConfig($file, $default = [])
     {
         $content = self::get($file);
-        return $content === null ? $default : rex_string::yamlDecode($content);
+        return null === $content ? $default : rex_string::yamlDecode($content);
     }
 
     /**
@@ -48,7 +48,7 @@ class rex_file
     public static function getCache($file, $default = [])
     {
         $content = self::get($file);
-        return $content === null ? $default : json_decode($content, true);
+        return null === $content ? $default : json_decode($content, true);
     }
 
     /**
@@ -68,7 +68,7 @@ class rex_file
 
             // mimic a atomic write
             $tmpFile = @tempnam(dirname($file), basename($file));
-            if (file_put_contents($tmpFile, $content) !== false && rename($tmpFile, $file)) {
+            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }

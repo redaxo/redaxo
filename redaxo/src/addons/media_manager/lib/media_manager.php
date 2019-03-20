@@ -75,7 +75,7 @@ class rex_media_manager
             $set = $this->effectsFromType($type);
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
-            if (count($set) == 0) {
+            if (0 == count($set)) {
                 $this->use_cache = false;
                 return $this->media;
             }
@@ -338,7 +338,7 @@ class rex_media_manager
         $rex_media_manager_file = self::getMediaFile();
         $rex_media_manager_type = self::getMediaType();
 
-        if ($rex_media_manager_file != '' && $rex_media_manager_type != '') {
+        if ('' != $rex_media_manager_file && '' != $rex_media_manager_type) {
             $media_path = rex_path::media($rex_media_manager_file);
             $cache_path = rex_path::addonCache('media_manager');
 

@@ -39,7 +39,7 @@ function rex_delete_cache()
 function rex_ini_get($val)
 {
     $val = trim(ini_get($val));
-    if ($val != '') {
+    if ('' != $val) {
         $last = strtolower($val[strlen($val) - 1]);
     } else {
         $last = '';

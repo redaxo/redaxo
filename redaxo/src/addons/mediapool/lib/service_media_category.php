@@ -50,7 +50,7 @@ class rex_media_category_service
         $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=?', [$categoryId]);
         $gd = rex_sql::factory();
         $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
-        if ($gf->getRows() == 0 && $gd->getRows() == 0) {
+        if (0 == $gf->getRows() && 0 == $gd->getRows()) {
             if ($uses = self::categoryIsInUse($categoryId)) {
                 $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
                 $name = "{$gf->getValue('name')} [$categoryId]";

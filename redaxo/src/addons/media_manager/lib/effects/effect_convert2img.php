@@ -63,7 +63,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $convert_path = self::getConvertPath();
 
-        if ($convert_path == '') {
+        if ('' == $convert_path) {
             return;
         }
 
@@ -76,7 +76,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         exec($cmd, $out, $ret);
 
-        if ($ret != 0) {
+        if (0 != $ret) {
             return false;
         }
 
@@ -125,7 +125,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $cmd = 'command -v convert || which convert';
             exec($cmd, $out, $ret);
 
-            if ($ret === 0) {
+            if (0 === $ret) {
                 $path = $out[0];
             }
         }

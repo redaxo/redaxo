@@ -55,7 +55,7 @@ class rex_form_element
     public function getSaveValue()
     {
         $value = $this->getValue();
-        return $value !== '' ? $value : $this->defaultSaveValue;
+        return '' !== $value ? $value : $this->defaultSaveValue;
     }
 
     public function getValue()
@@ -140,12 +140,12 @@ class rex_form_element
 
     public function setAttribute($name, $value)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             $this->setValue($value);
         } else {
-            if ($name == 'id') {
+            if ('id' == $name) {
                 $value = rex_string::normalize($value, '-');
-            } elseif ($name == 'name') {
+            } elseif ('name' == $name) {
                 $value = rex_string::normalize($value, '_', '[]');
             }
 
@@ -155,7 +155,7 @@ class rex_form_element
 
     public function getAttribute($name, $default = null)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             return $this->getValue();
         }
         if ($this->hasAttribute($name)) {
@@ -209,7 +209,7 @@ class rex_form_element
         $s = '';
         $label = $this->getLabel();
 
-        if ($label != '') {
+        if ('' != $label) {
             $s .= '<label class="control-label" for="' . $this->getAttribute('id') . '">' . $label . '</label>';
         }
 
@@ -227,7 +227,7 @@ class rex_form_element
         }
 
         if ($this->hasSeparateEnding()) {
-            if ($tag == 'button') {
+            if ('button' == $tag) {
                 $attr .= ' value="1"';
             }
             return '<' . $tag . $attr . '>' . rex_escape($value) . '</' . $tag . '>';
@@ -239,7 +239,7 @@ class rex_form_element
     protected function formatNotice()
     {
         $notice = $this->getNotice();
-        if ($notice != '') {
+        if ('' != $notice) {
             return $notice;
         }
         return '';
@@ -258,7 +258,7 @@ class rex_form_element
     protected function _get()
     {
         $class = $this->formatClass();
-        $class = $class == '' ? '' : ' ' . $class;
+        $class = '' == $class ? '' : ' ' . $class;
 
         $formElements = [];
         $n = [];

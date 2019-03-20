@@ -61,7 +61,7 @@ class rex_cronjob_manager_sql
             WHERE   id = ?
             LIMIT   1
         ', [$id]);
-        if ($this->sql->getRows() == 1) {
+        if (1 == $this->sql->getRows()) {
             return $this->sql->getValue('name');
         }
         return null;
@@ -157,7 +157,7 @@ class rex_cronjob_manager_sql
 
                 $manager = $this->getManager();
                 $manager->setCronjob(rex_cronjob::factory($job['type']));
-                $manager->log(false, connection_status() != 0 ? 'Timeout' : 'Unknown error');
+                $manager->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
                 $this->setNextTime($job['id'], $job['interval'], true);
             }
 
@@ -242,7 +242,7 @@ class rex_cronjob_manager_sql
             WHERE   status = 1
         ');
 
-        if ($this->sql->getRows() == 1) {
+        if (1 == $this->sql->getRows()) {
             return (int) $this->sql->getDateTimeValue('nexttime');
         }
         return null;
@@ -250,10 +250,10 @@ class rex_cronjob_manager_sql
 
     public function saveNextTime($nexttime = null)
     {
-        if ($nexttime === null) {
+        if (null === $nexttime) {
             $nexttime = $this->getMinNextTime();
         }
-        if ($nexttime === null) {
+        if (null === $nexttime) {
             $nexttime = 0;
         } else {
             $nexttime = max(1, $nexttime);

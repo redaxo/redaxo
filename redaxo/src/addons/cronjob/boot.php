@@ -21,7 +21,7 @@ if (rex::getConsole()) {
 
 rex_extension::register('PACKAGES_INCLUDED', static function () use ($addon) {
     foreach ($addon->getAvailablePlugins() as $plugin) {
-        if (($type = $plugin->getProperty('cronjob_type')) != '') {
+        if ('' != ($type = $plugin->getProperty('cronjob_type'))) {
             rex_cronjob_manager::registerType($type);
         }
     }
@@ -29,7 +29,7 @@ rex_extension::register('PACKAGES_INCLUDED', static function () use ($addon) {
 
 $nexttime = $addon->getConfig('nexttime', 0);
 
-if ($nexttime != 0 && time() >= $nexttime) {
+if (0 != $nexttime && time() >= $nexttime) {
     $env = rex_cronjob_manager::getCurrentEnvironment();
     $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
     rex_extension::register($EP, static function () use ($env) {

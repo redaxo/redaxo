@@ -43,7 +43,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $path = rex_path::addon($this->addonkey);
         $temppath = rex_path::addon('.new.' . $this->addonkey);
 
-        if (($msg = $this->extractArchiveTo($temppath)) !== true) {
+        if (true !== ($msg = $this->extractArchiveTo($temppath))) {
             return $msg;
         }
 
@@ -58,7 +58,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
             return rex_i18n::msg('package_invalid_yml_file') . ' ' . $e->getMessage();
         }
 
-        if ($this->addon->isAvailable() && ($msg = $this->checkRequirements($config)) !== true) {
+        if ($this->addon->isAvailable() && true !== ($msg = $this->checkRequirements($config))) {
             return $msg;
         }
 
@@ -71,7 +71,7 @@ class rex_api_install_package_update extends rex_api_install_package_download
             } catch (rex_sql_exception $e) {
                 return 'SQL error: ' . $e->getMessage();
             }
-            if (($msg = $this->addon->getProperty('updatemsg', '')) != '') {
+            if ('' != ($msg = $this->addon->getProperty('updatemsg', ''))) {
                 return $msg;
             }
             if (!$this->addon->getProperty('update', true)) {

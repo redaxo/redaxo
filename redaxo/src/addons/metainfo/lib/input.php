@@ -37,7 +37,7 @@ abstract class rex_input
      */
     public function setAttribute($name, $value)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             $this->value = $value;
         } else {
             $this->attributes[$name] = $value;
@@ -49,7 +49,7 @@ abstract class rex_input
      */
     public function getAttribute($name, $default = null)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             return $this->getValue();
         }
         if (isset($this->attributes[$name])) {

@@ -203,7 +203,7 @@ class rex_be_page
     public function getItemAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
-        if ($name === null) {
+        if (null === $name) {
             return $this->itemAttr;
         }
 
@@ -296,7 +296,7 @@ class rex_be_page
     public function getLinkAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
-        if ($name === null) {
+        if (null === $name) {
             return $this->linkAttr;
         }
 
@@ -505,7 +505,7 @@ class rex_be_page
      */
     public function isActive()
     {
-        if ($this->isActive !== null) {
+        if (null !== $this->isActive) {
             return $this->isActive;
         }
         $page = rex_be_controller::getCurrentPageObject();
