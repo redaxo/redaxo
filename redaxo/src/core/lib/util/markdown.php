@@ -131,7 +131,7 @@ final class rex_parsedown_with_toc extends ParsedownExtra
             return $block;
         }
 
-        list($level) = sscanf($block['element']['name'], 'h%d');
+        [$level] = sscanf($block['element']['name'], 'h%d');
 
         if ($level < $this->topLevel || $level > $this->bottomLevel) {
             return $block;

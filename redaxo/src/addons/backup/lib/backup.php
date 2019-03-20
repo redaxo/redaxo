@@ -5,10 +5,10 @@
  */
 class rex_backup
 {
-    const IMPORT_ARCHIVE = 1;
-    const IMPORT_DB = 2;
-    const IMPORT_EVENT_PRE = 3;
-    const IMPORT_EVENT_POST = 4;
+    public const IMPORT_ARCHIVE = 1;
+    public const IMPORT_DB = 2;
+    public const IMPORT_EVENT_PRE = 3;
+    public const IMPORT_EVENT_POST = 4;
 
     public static function getDir()
     {
@@ -33,7 +33,7 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, function ($file_a, $file_b) use ($dir) {
+        usort($folder, static function ($file_a, $file_b) use ($dir) {
             $time_a = filemtime($dir . '/' . $file_a);
             $time_b = filemtime($dir . '/' . $file_b);
 

@@ -44,7 +44,7 @@ if (rex::isBackend()) {
     rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 }
 
-rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
+rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
     if (!preg_match('@^rex:///metainfo/(\d+)@', $ep->getParam('file'), $match)) {
         return;
     }

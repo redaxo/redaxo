@@ -2,8 +2,8 @@
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -48,7 +48,7 @@ class rex_command_user_create extends rex_console_command
         }
 
         if (!$password) {
-            $password = $io->askHidden('Password', function ($password) use ($passwordPolicy) {
+            $password = $io->askHidden('Password', static function ($password) use ($passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password)) {
                     throw new InvalidArgumentException($msg);
                 }

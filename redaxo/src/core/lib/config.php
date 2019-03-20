@@ -17,8 +17,8 @@ class rex_config
      */
     private static $initialized = false;
 
-    /*
-     * path to the cache file
+    /**
+     * path to the cache file.
      *
      * @var string
      */
@@ -198,6 +198,9 @@ class rex_config
 
             // since it will be deleted, do not longer mark as changed
             unset(self::$changedData[$namespace][$key]);
+            if (empty(self::$changedData[$namespace])) {
+                unset(self::$changedData[$namespace]);
+            }
 
             // delete the data from the container
             unset(self::$data[$namespace][$key]);
@@ -392,7 +395,7 @@ class rex_config
 
             foreach (self::$changedData as $namespace => $nsData) {
                 foreach ($nsData as $key => $value) {
-                    $sql->addRecord(function (rex_sql $record) use ($namespace, $key, $value) {
+                    $sql->addRecord(static function (rex_sql $record) use ($namespace, $key, $value) {
                         $record->setValue('namespace', $namespace);
                         $record->setValue('key', $key);
                         $record->setValue('value', json_encode($value));

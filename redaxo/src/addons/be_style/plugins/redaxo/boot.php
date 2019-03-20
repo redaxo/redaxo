@@ -15,14 +15,14 @@
 $plugin = rex_plugin::get('be_style', 'redaxo');
 
 if (rex::isBackend()) {
-    rex_extension::register('BE_STYLE_SCSS_FILES', function (rex_extension_point $ep) use ($plugin) {
+    rex_extension::register('BE_STYLE_SCSS_FILES', static function (rex_extension_point $ep) use ($plugin) {
         $subject = $ep->getSubject();
         $file = $plugin->getPath('scss/default.scss');
         array_unshift($subject, $file);
         return $subject;
     }, rex_extension::EARLY);
 
-    rex_extension::register('BE_STYLE_SCSS_COMPILE', function (rex_extension_point $ep) use ($plugin) {
+    rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) use ($plugin) {
         $subject = $ep->getSubject();
         $subject[] = [
             'root_dir' => $plugin->getPath('scss/'),
@@ -38,9 +38,9 @@ if (rex::isBackend()) {
     }
 
     rex_view::addCssFile($plugin->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('javascripts/redaxo.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('javascripts/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    rex_extension::register('PAGE_HEADER', function (rex_extension_point $ep) use ($plugin) {
+    rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) use ($plugin) {
         $icons = [];
 
         $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $plugin->getAssetsUrl('icons/apple-touch-icon.png') . '">';

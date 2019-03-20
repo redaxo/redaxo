@@ -24,7 +24,7 @@ if ($func == 'delete' && $type_id > 0) {
     //  $sql->setDebug();
 
     try {
-        $sql->transactional(function () use ($sql, $type_id) {
+        $sql->transactional(static function () use ($sql, $type_id) {
             $sql->setTable(rex::getTablePrefix() . 'media_manager_type');
             $sql->setWhere(['id' => $type_id]);
             $sql->delete();
@@ -88,7 +88,7 @@ if ($func == '') {
     $list->removeColumn('description');
 
     $list->setColumnLabel('name', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnFormat('name', 'custom', function ($params) {
+    $list->setColumnFormat('name', 'custom', static function ($params) {
         $list = $params['list'];
         $name = '<b>' . rex_escape($list->getValue('name')) . '</b>';
         $name .= ($list->getValue('description') != '') ? '<br /><span class="rex-note">' . rex_escape($list->getValue('description')) . '</span>' : '';
@@ -121,7 +121,7 @@ if ($func == '') {
     $list->addColumn('deleteType', '', -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('deleteType', ['type_id' => '###id###', 'func' => 'delete']);
     $list->addLinkAttribute('deleteType', 'data-confirm', rex_i18n::msg('delete') . ' ?');
-    $list->setColumnFormat('deleteType', 'custom', function ($params) {
+    $list->setColumnFormat('deleteType', 'custom', static function ($params) {
         $list = $params['list'];
         if ($list->getValue('status') == 1) {
             return '<small class="text-muted">' . rex_i18n::msg('media_manager_type_system') . '</small>';
@@ -144,7 +144,7 @@ if ($func == '') {
         $formLabel = rex_i18n::msg('media_manager_type_create');
     }
 
-    rex_extension::register('REX_FORM_CONTROL_FIELDS', function (rex_extension_point $ep) {
+    rex_extension::register('REX_FORM_CONTROL_FIELDS', static function (rex_extension_point $ep) {
         $controlFields = $ep->getSubject();
         $form = $ep->getParam('form');
         $sql = $form->getSql();
@@ -161,7 +161,7 @@ if ($func == '') {
     if ($func == 'edit') {
         $form->setEditMode($func == 'edit');
 
-        rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) use ($form, $type_id) {
+        rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $type_id) {
             if ($form !== $ep->getParam('form')) {
                 return;
             }

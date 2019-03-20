@@ -206,10 +206,10 @@ class rex_api_install_core_update extends rex_api_function
             $addonPath = $temppath . 'addons/' . $addonkey . '/';
 
             $requirements[$addon] = $addon->getProperty('requires', []);
-            $addon->setProperty('requires', isset($config['requires']) ? $config['requires'] : []);
+            $addon->setProperty('requires', $config['requires'] ?? []);
 
             $conflicts[$addon] = $addon->getProperty('conflicts', []);
-            $addon->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
+            $addon->setProperty('conflicts', $config['conflicts'] ?? []);
 
             $versions[$addon] = $addon->getVersion();
             $addon->setProperty('version', $config['version']);
@@ -219,13 +219,13 @@ class rex_api_install_core_update extends rex_api_function
                     $config = rex_file::getConfig($addonPath . 'plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
 
                     $requirements[$plugin] = $plugin->getProperty('requires', []);
-                    $plugin->setProperty('requires', isset($config['requires']) ? $config['requires'] : []);
+                    $plugin->setProperty('requires', $config['requires'] ?? []);
 
                     $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
-                    $plugin->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
+                    $plugin->setProperty('conflicts', $config['conflicts'] ?? []);
 
                     $versions[$plugin] = $plugin->getProperty('version');
-                    $plugin->setProperty('version', isset($config['version']) ? $config['version'] : null);
+                    $plugin->setProperty('version', $config['version'] ?? null);
                 }
             }
         }

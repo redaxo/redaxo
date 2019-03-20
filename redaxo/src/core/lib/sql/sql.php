@@ -14,14 +14,14 @@ class rex_sql implements Iterator
     /**
      * Default SQL datetime format.
      */
-    const FORMAT_DATETIME = 'Y-m-d H:i:s';
+    public const FORMAT_DATETIME = 'Y-m-d H:i:s';
 
     /**
      * Controls query buffering.
      *
      * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
      */
-    const OPT_BUFFERED = 'buffered';
+    public const OPT_BUFFERED = 'buffered';
 
     protected $debug; // debug schalter
     protected $values; // Werte von setValue
@@ -209,9 +209,9 @@ class rex_sql implements Iterator
      * @param array  $params  An optional array of statement parameter
      * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
-     * @return $this
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return $this
      */
     public function setDBQuery($query, array $params = [], array $options = [])
     {
@@ -272,9 +272,9 @@ class rex_sql implements Iterator
      * @param array $params  Array of input parameters
      * @param array $options For possible option keys view `rex_sql::OPT_*` constants
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function execute(array $params = [], array $options = [])
     {
@@ -324,9 +324,9 @@ class rex_sql implements Iterator
      * @param array  $params  An optional array of statement parameter
      * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
-     * @return $this
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return $this
      */
     public function setQuery($query, array $params = [], array $options = [])
     {
@@ -351,7 +351,7 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = rex_timer::measure(__METHOD__, function () use ($pdo, $query) {
+            $this->stmt = rex_timer::measure(__METHOD__, static function () use ($pdo, $query) {
                 return $pdo->query($query);
             });
 
@@ -475,9 +475,9 @@ class rex_sql implements Iterator
      * @param string $feld Spaltenname des zu pruefenden Feldes
      * @param string $prop Wert, der enthalten sein soll
      *
-     * @return bool
-     *
      * @throws rex_sql_exception
+     *
+     * @return bool
      */
     protected function isValueOf($feld, $prop)
     {
@@ -628,9 +628,9 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      *
-     * @return array
-     *
      * @throws rex_sql_exception
+     *
+     * @return array
      */
     public function getArrayValue($colName)
     {
@@ -642,9 +642,9 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      *
-     * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
-     *
      * @throws rex_sql_exception
+     *
+     * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
      */
     public function getDateTimeValue($colName)
     {
@@ -725,9 +725,9 @@ class rex_sql implements Iterator
      *
      * @param string $feldname
      *
-     * @return bool|null
-     *
      * @throws rex_sql_exception
+     *
+     * @return bool|null
      */
     public function isNull($feldname)
     {
@@ -815,9 +815,9 @@ class rex_sql implements Iterator
      *
      * @param string $fields
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function select($fields = '*')
     {
@@ -832,9 +832,9 @@ class rex_sql implements Iterator
      * Setzt eine Update-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten und WHERE Parametern ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function update()
     {
@@ -849,9 +849,9 @@ class rex_sql implements Iterator
      * Setzt eine Insert-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function insert()
     {
@@ -883,9 +883,9 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @return $this|rex_sql
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this|rex_sql
      */
     public function insertOrUpdate()
     {
@@ -915,9 +915,9 @@ class rex_sql implements Iterator
      * Setzt eine Replace-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function replace()
     {
@@ -936,9 +936,9 @@ class rex_sql implements Iterator
      * Setzt eine Delete-Anweisung auf die angegebene Tabelle
      * mit den angegebenen WHERE Parametern ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function delete()
     {
@@ -999,9 +999,9 @@ class rex_sql implements Iterator
     /**
      * Setzt den Cursor des Resultsets zurueck zum Anfang.
      *
-     * @return $this the current rex_sql object
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this the current rex_sql object
      */
     public function reset()
     {
@@ -1030,9 +1030,9 @@ class rex_sql implements Iterator
      * @param array  $params    An optional array of statement parameter
      * @param int    $fetchType
      *
-     * @return array
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return array
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1057,9 +1057,9 @@ class rex_sql implements Iterator
      * @param array  $params    An optional array of statement parameter
      * @param int    $fetchType
      *
-     * @return array
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return array
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1164,9 +1164,9 @@ class rex_sql implements Iterator
      * @param string $field    Name der Spalte
      * @param int    $start_id
      *
-     * @return int
-     *
      * @throws rex_sql_exception
+     *
+     * @return int
      */
     public function setNewId($field, $start_id = 0)
     {
@@ -1352,9 +1352,9 @@ class rex_sql implements Iterator
      *
      * @param callable $callable
      *
-     * @return mixed
-     *
      * @throws Throwable
+     *
+     * @return mixed
      */
     public function transactional(callable $callable)
     {
@@ -1437,9 +1437,9 @@ class rex_sql implements Iterator
      * @param string $table Name der Tabelle
      * @param int    $DBID  Id der Datenbankverbindung
      *
-     * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
-     *
      * @throws rex_sql_exception
+     *
+     * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
      */
     public static function showCreateTable($table, $DBID = 1)
     {
@@ -1463,9 +1463,9 @@ class rex_sql implements Iterator
      * @param int         $DBID        Id der Datenbankverbindung
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Tabellennamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Tabellennamen
      *
      * @deprecated since 5.6.2, use non-static getTablesAndViews instead.
      */
@@ -1480,9 +1480,9 @@ class rex_sql implements Iterator
      *
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Tabellennamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Tabellennamen
      */
     public function getTablesAndViews($tablePrefix = null)
     {
@@ -1495,9 +1495,9 @@ class rex_sql implements Iterator
      *
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Tabellennamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Tabellennamen
      */
     public function getTables($tablePrefix = null)
     {
@@ -1510,9 +1510,9 @@ class rex_sql implements Iterator
      *
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Viewnamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Viewnamen
      */
     public function getViews($tablePrefix = null)
     {
@@ -1523,9 +1523,9 @@ class rex_sql implements Iterator
      * @param null|string $tablePrefix
      * @param null|string $where
      *
-     * @return array
-     *
      * @throws rex_sql_exception
+     *
+     * @return array
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
@@ -1577,9 +1577,9 @@ class rex_sql implements Iterator
      * @param string $table Name der Tabelle
      * @param int    $DBID  Id der Datenbankverbindung
      *
-     * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
      */
     public static function showColumns($table, $DBID = 1)
     {
@@ -1733,9 +1733,9 @@ class rex_sql implements Iterator
      * @param string $verb
      * @param bool   $onDuplicateKeyUpdate
      *
-     * @return $this|rex_sql
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this|rex_sql
      */
     private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
     {

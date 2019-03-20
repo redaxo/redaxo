@@ -134,7 +134,7 @@ if (rex::isBackend() && rex::getUser()) {
 
     /* Customizer Ergänzungen */
     rex_view::addCssFile($plugin->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('js/main.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
 
     if ($config['labelcolor'] != '') {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);

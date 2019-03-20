@@ -7,8 +7,8 @@
  */
 class rex_metainfo_category_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'cat_';
-    const CONTAINER = 'rex-structure-category-metainfo';
+    public const PREFIX = 'cat_';
+    public const CONTAINER = 'rex-structure-category-metainfo';
 
     public function renderToggleButton(rex_extension_point $ep)
     {
