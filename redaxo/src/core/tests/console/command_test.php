@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_console_command_test extends TestCase
 {
     public function testDecodeMessage()

@@ -7,6 +7,9 @@ class rex_test_singleton
     use rex_singleton_trait;
 }
 
+/**
+ * @internal
+ */
 class rex_singleton_trait_test extends TestCase
 {
     public function testGetInstance()

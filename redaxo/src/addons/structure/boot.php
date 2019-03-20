@@ -35,7 +35,7 @@ if (rex_request('article_id', 'int') == 0) {
 }
 
 if (rex::isBackend() && rex::getUser()) {
-    rex_view::addJsFile($addon->getAssetsUrl('linkmap.js'));
+    rex_view::addJsFile($addon->getAssetsUrl('linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
 
     if (rex_be_controller::getCurrentPagePart(1) == 'system') {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
@@ -43,7 +43,7 @@ if (rex::isBackend() && rex::getUser()) {
     }
 }
 
-rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
+rex_extension::register('CLANG_ADDED', static function (rex_extension_point $ep) {
     $firstLang = rex_sql::factory();
     $firstLang->setQuery('select * from ' . rex::getTablePrefix() . 'article where clang_id=?', [rex_clang::getStartId()]);
     $fields = $firstLang->getFieldnames();
@@ -71,12 +71,12 @@ rex_extension::register('CLANG_ADDED', function (rex_extension_point $ep) {
     }
 });
 
-rex_extension::register('CLANG_DELETED', function (rex_extension_point $ep) {
+rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
     $del = rex_sql::factory();
     $del->setQuery('delete from ' . rex::getTablePrefix() . 'article where clang_id=?', [$ep->getParam('clang')->getId()]);
 });
 
-rex_extension::register('CACHE_DELETED', function () {
+rex_extension::register('CACHE_DELETED', static function () {
     rex_structure_element::clearInstancePool();
     rex_structure_element::clearInstanceListPool();
     rex_structure_element::resetClassVars();

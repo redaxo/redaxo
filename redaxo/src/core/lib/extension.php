@@ -11,9 +11,9 @@ abstract class rex_extension
 {
     use rex_factory_trait;
 
-    const EARLY = -1;
-    const NORMAL = 0;
-    const LATE = 1;
+    public const EARLY = -1;
+    public const NORMAL = 0;
+    public const LATE = 1;
 
     /**
      * Array of registered extensions.
@@ -40,7 +40,7 @@ abstract class rex_extension
         foreach ([self::EARLY, self::NORMAL, self::LATE] as $level) {
             if (isset(self::$extensions[$name][$level]) && is_array(self::$extensions[$name][$level])) {
                 foreach (self::$extensions[$name][$level] as $extensionAndParams) {
-                    list($extension, $params) = $extensionAndParams;
+                    [$extension, $params] = $extensionAndParams;
                     $extensionPoint->setExtensionParams($params);
                     $subject = call_user_func($extension, $extensionPoint);
                     // Update subject only if the EP is not readonly and the extension has returned something

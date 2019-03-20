@@ -39,6 +39,9 @@ class rex_alternative_test_factory extends rex_test_factory
     }
 }
 
+/**
+ * @internal
+ */
 class rex_factory_trait_test extends TestCase
 {
     public function testFactoryCreation()

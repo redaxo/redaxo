@@ -30,7 +30,7 @@ if ($history_date != '') {
             if ($login->checkTempSession($historyLogin, $historySession, $historyValidtime)) {
                 $user = $login->getUser();
                 rex::setProperty('user', $user);
-                rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) use ($login) {
+                rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($login) {
                     $login->deleteSession();
                 });
             }
@@ -47,7 +47,7 @@ if ($history_date != '') {
         throw new rex_exception('no permission for the slice version');
     }
 
-    rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
+    rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
         $article = $ep->getParam('article');
         if ($article instanceof rex_article_content) {
             $article->getContentAsQuery();
@@ -55,7 +55,7 @@ if ($history_date != '') {
         $article->setEval(true);
     });
 
-    rex_extension::register('ART_SLICES_QUERY', function (rex_extension_point $ep) {
+    rex_extension::register('ART_SLICES_QUERY', static function (rex_extension_point $ep) {
         $history_date = rex_request('rex_history_date', 'string');
         $history_revision = rex_request('history_revision', 'int', 0);
         $article = $ep->getParam('article');
@@ -94,7 +94,7 @@ if ($history_date != '') {
 if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[article_rollback]')) {
     rex_extension::register(
         ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
-        function (rex_extension_point $ep) {
+        static function (rex_extension_point $ep) {
             switch ($ep->getName()) {
                 case 'ART_SLICES_COPY':
                     $type = 'slices_copy';
@@ -115,9 +115,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     );
 
     rex_view::addCssFile($plugin->getAssetsUrl('noUiSlider/nouislider.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addCssFile($plugin->getAssetsUrl('history.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('history.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('history.js'), [rex_view::JS_IMMUTABLE => true]);
 
     switch (rex_request('rex_history_function', 'string')) {
         case 'snap':
@@ -164,7 +164,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             exit;
     }
 
-    rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
+    rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ($ep->getParam('page') == 'content/edit') {
             $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&');
             if (substr($article_link, 0, 4) == 'http') {
