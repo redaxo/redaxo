@@ -26,7 +26,7 @@ $content .= '
 
 if ($file = new rex_log_file($addon->getDataPath('cronjob.log'))) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
-        /* @var rex_log_entry $entry */
+        /** @var rex_log_entry $entry */
         $data = $entry->getData();
         $class = trim($data[0]) == 'ERROR' ? 'rex-state-error' : 'rex-state-success';
         if ($data[1] == '--') {

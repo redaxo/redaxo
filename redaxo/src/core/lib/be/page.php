@@ -11,7 +11,7 @@ class rex_be_page
     private $fullKey;
     private $title;
 
-    private $popup = null;
+    private $popup;
     private $href;
     private $itemAttr = [];
     private $linkAttr = [];
@@ -24,7 +24,7 @@ class rex_be_page
     /** @var self[] */
     private $subpages = [];
 
-    private $isActive = null;
+    private $isActive;
     private $hidden = false;
     private $hasLayout = true;
     private $hasNavigation = true;

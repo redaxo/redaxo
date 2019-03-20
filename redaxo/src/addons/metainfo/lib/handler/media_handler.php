@@ -7,7 +7,7 @@
  */
 class rex_metainfo_media_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'med_';
+    public const PREFIX = 'med_';
 
     /**
      * Extension to check whether the given media is still in use.

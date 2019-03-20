@@ -189,9 +189,9 @@ if ($function == 'add' || $function == 'edit') {
 
     if (!isset($save) || $save != 'ja') {
         // Ctype Handling
-        $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
-        $modules = isset($attributes['modules']) ? $attributes['modules'] : [];
-        $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
+        $ctypes = $attributes['ctype'] ?? [];
+        $modules = $attributes['modules'] ?? [];
+        $categories = $attributes['categories'] ?? [];
 
         if (!is_array($modules)) {
             $modules = [];
@@ -529,7 +529,7 @@ if ($OUT) {
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-    $list->setColumnFormat('active', 'custom', function ($params) {
+    $list->setColumnFormat('active', 'custom', static function ($params) {
         $list = $params['list'];
         return $list->getValue('active') == 1 ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
     });

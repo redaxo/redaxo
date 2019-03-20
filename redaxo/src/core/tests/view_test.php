@@ -2,6 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_view_test extends TestCase
 {
     public function testAddGetCss()
@@ -26,19 +29,19 @@ class rex_view_test extends TestCase
     {
         rex_view::addJsFile('my.js');
         $files = rex_view::getJsFilesWithOptions();
-        list($file, $options) = end($files);
+        [$file, $options] = end($files);
         $this->assertTrue($file == 'my.js');
         $this->assertTrue($options == [rex_view::JS_IMMUTABLE => false], 'options default to JS_IMMUTABLE=false');
 
         rex_view::addJsFile('my.js', [rex_view::JS_IMMUTABLE => true]);
         $files = rex_view::getJsFilesWithOptions();
-        list($file, $options) = end($files);
+        [$file, $options] = end($files);
         $this->assertTrue($file == 'my.js');
         $this->assertTrue($options == [rex_view::JS_IMMUTABLE => true], 'explicit JS_IMMUTABLE option');
 
         rex_view::addJsFile('my_async.js', [rex_view::JS_ASYNC => true, rex_view::JS_DEFERED => true]);
         $files = rex_view::getJsFilesWithOptions();
-        list($file, $options) = end($files);
+        [$file, $options] = end($files);
         $this->assertTrue($file == 'my_async.js');
         $this->assertTrue($options == [rex_view::JS_ASYNC => true, rex_view::JS_DEFERED => true], 'multiple options');
     }

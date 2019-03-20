@@ -2,16 +2,19 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_dir_test extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
         rex_dir::create($this->getPath());
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

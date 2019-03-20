@@ -5,9 +5,9 @@
  */
 class rex_view
 {
-    const JS_DEFERED = 'defer';
-    const JS_ASYNC = 'async';
-    const JS_IMMUTABLE = 'immutable';
+    public const JS_DEFERED = 'defer';
+    public const JS_ASYNC = 'async';
+    public const JS_IMMUTABLE = 'immutable';
 
     private static $cssFiles = [];
     private static $jsFiles = [];
@@ -69,7 +69,7 @@ class rex_view
     public static function getJsFiles()
     {
         // transform for BC
-        return array_map(function ($jsFile) {
+        return array_map(static function ($jsFile) {
             return $jsFile[0];
         }, self::$jsFiles);
     }

@@ -12,7 +12,7 @@ class rex_finder implements IteratorAggregate, Countable
 {
     use rex_factory_trait;
 
-    const ALL = '__ALL__';
+    public const ALL = '__ALL__';
 
     private $dir;
     private $recursive = false;
@@ -195,7 +195,7 @@ class rex_finder implements IteratorAggregate, Countable
             $filename = $current->getFilename();
             $isRoot = $currentIterator === $iterator;
 
-            $match = function ($pattern, $filename) {
+            $match = static function ($pattern, $filename) {
                 $regex = '/^'.strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']).'$/i';
                 return preg_match($regex, $filename);
             };

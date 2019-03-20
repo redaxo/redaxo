@@ -221,7 +221,7 @@ class rex_clang
             return self::$clangs;
         }
 
-        return array_filter(self::$clangs, function (self $clang) {
+        return array_filter(self::$clangs, static function (self $clang) {
             return $clang->isOnline();
         });
     }

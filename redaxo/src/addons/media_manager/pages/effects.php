@@ -83,7 +83,7 @@ if ($func == '' && $type_id > 0) {
     $list->removeColumn('createuser');
 
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
+    $list->setColumnFormat('effect', 'custom', static function ($params) use ($effects) {
         $shortName = $params['value'];
         return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
@@ -119,7 +119,7 @@ if ($func == '' && $type_id > 0) {
 
     echo $content;
 } elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
-    uasort($effects, function (rex_effect_abstract $a, rex_effect_abstract $b) {
+    uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
 
@@ -139,7 +139,7 @@ if ($func == '' && $type_id > 0) {
     $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
     $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
-    $field->setLabelCallback(function ($shortName) use ($effects) {
+    $field->setLabelCallback(static function ($shortName) use ($effects) {
         return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
     $field->setWhereCondition('type_id = ' . $type_id);
@@ -188,7 +188,7 @@ if ($func == '' && $type_id > 0) {
 
         foreach ($effectParams as $param) {
             $name = $effectClass . '_' . $param['name'];
-            $value = isset($param['default']) ? $param['default'] : null;
+            $value = $param['default'] ?? null;
             $attributes = [];
             if (isset($param['attributes'])) {
                 $attributes = $param['attributes'];
@@ -262,7 +262,7 @@ if ($func == '' && $type_id > 0) {
         $form->addParam('effect_id', $effect_id);
     }
 
-    rex_extension::register('REX_FORM_SAVED', function (rex_extension_point $ep) use ($form, $type_id) {
+    rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $type_id) {
         if ($form !== $ep->getParam('form')) {
             return;
         }

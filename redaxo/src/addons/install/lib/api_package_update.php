@@ -140,13 +140,13 @@ class rex_api_install_package_update extends rex_api_install_package_download
         $conflicts = new SplObjectStorage();
 
         $requirements[$this->addon] = $this->addon->getProperty('requires', []);
-        $this->addon->setProperty('requires', isset($config['requires']) ? $config['requires'] : []);
+        $this->addon->setProperty('requires', $config['requires'] ?? []);
 
         $conflicts[$this->addon] = $this->addon->getProperty('conflicts', []);
-        $this->addon->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
+        $this->addon->setProperty('conflicts', $config['conflicts'] ?? []);
 
         $versions[$this->addon] = $this->addon->getVersion();
-        $this->addon->setProperty('version', isset($config['version']) ? $config['version'] : $this->file['version']);
+        $this->addon->setProperty('version', $config['version'] ?? $this->file['version']);
 
         $availablePlugins = $this->addon->getAvailablePlugins();
         foreach ($availablePlugins as $plugin) {
@@ -154,13 +154,13 @@ class rex_api_install_package_update extends rex_api_install_package_download
                 $config = rex_file::getConfig($temppath . '/plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
 
                 $requirements[$plugin] = $plugin->getProperty('requires', []);
-                $plugin->setProperty('requires', isset($config['requires']) ? $config['requires'] : []);
+                $plugin->setProperty('requires', $config['requires'] ?? []);
 
                 $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
-                $plugin->setProperty('conflicts', isset($config['conflicts']) ? $config['conflicts'] : []);
+                $plugin->setProperty('conflicts', $config['conflicts'] ?? []);
 
                 $versions[$plugin] = $plugin->getProperty('version');
-                $plugin->setProperty('version', isset($config['version']) ? $config['version'] : null);
+                $plugin->setProperty('version', $config['version'] ?? null);
             }
         }
 
