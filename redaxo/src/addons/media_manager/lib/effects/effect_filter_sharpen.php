@@ -23,7 +23,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         $this->media->asImage();
 
         // do not sharpen gifs, results in black image
-        if (strtolower($this->media->getFormat()) === 'gif') {
+        if ('gif' === strtolower($this->media->getFormat())) {
             return;
         }
 
@@ -42,7 +42,7 @@ class rex_effect_filter_sharpen extends rex_effect_abstract
         }
         $this->params['radius'] = abs(round($this->params['radius']));     // Only integers make sense.
 
-        if ($this->params['radius'] == 0) {
+        if (0 == $this->params['radius']) {
             return;
         }
 

@@ -144,9 +144,9 @@ abstract class rex_api_function
 
         $apiFunc = self::factory();
 
-        if ($apiFunc != null) {
-            if ($apiFunc->published !== true) {
-                if (rex::isBackend() !== true) {
+        if (null != $apiFunc) {
+            if (true !== $apiFunc->published) {
+                if (true !== rex::isBackend()) {
                     throw new rex_http_exception(
                         new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
                         rex_response::HTTP_FORBIDDEN

@@ -31,15 +31,15 @@ class rex_metainfo_table_manager
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` ADD ';
         $qry .= '`' . $name . '` ' . $type;
 
-        if ($length != 0) {
+        if (0 != $length) {
             $qry .= '(' . $length . ')';
         }
 
-        if ($default !== null) {
+        if (null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
-        if ($nullable !== true) {
+        if (true !== $nullable) {
             $qry .= ' NOT NULL';
         }
 
@@ -56,15 +56,15 @@ class rex_metainfo_table_manager
         $qry = 'ALTER TABLE `' . $this->getTableName() . '` CHANGE ';
         $qry .= '`' . $oldname . '` `' . $name . '` ' . $type;
 
-        if ($length != 0) {
+        if (0 != $length) {
             $qry .= '(' . $length . ')';
         }
 
-        if ($default !== null) {
+        if (null !== $default) {
             $qry .= ' DEFAULT \'' . str_replace("'", "\'", $default) . '\'';
         }
 
-        if ($nullable !== true) {
+        if (true !== $nullable) {
             $qry .= ' NOT NULL';
         }
 

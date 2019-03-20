@@ -18,47 +18,47 @@ $EXPDIR = rex_post('EXPDIR', 'array');
 
 $csrfToken = rex_csrf_token::factory('backup_import');
 
-if ($impname != '') {
+if ('' != $impname) {
     $impname = basename($impname);
 
-    if ($function == 'dbimport' && substr($impname, -4, 4) != '.sql') {
+    if ('dbimport' == $function && '.sql' != substr($impname, -4, 4)) {
         $impname = '';
-    } elseif ($function == 'fileimport' && substr($impname, -7, 7) != '.tar.gz') {
+    } elseif ('fileimport' == $function && '.tar.gz' != substr($impname, -7, 7)) {
         $impname = '';
-    } elseif (($function == 'delete' || $function == 'download') && substr($impname, -4, 4) != '.sql' && substr($impname, -7, 7) != '.tar.gz') {
+    } elseif (('delete' == $function || 'download' == $function) && '.sql' != substr($impname, -4, 4) && '.tar.gz' != substr($impname, -7, 7)) {
         $impname = '';
     }
 }
 
-if ($function == 'download' && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
-    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, substr($impname, -7, 7) != '.tar.gz' ? 'tar/gzip' : 'plain/test', 'attachment');
+if ('download' == $function && $impname && is_readable(rex_backup::getDir() . '/' . $impname)) {
+    rex_response::sendFile(rex_backup::getDir() . '/' . $impname, '.tar.gz' != substr($impname, -7, 7) ? 'tar/gzip' : 'plain/test', 'attachment');
     exit;
 }
 
 if ($function && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-} elseif ($function == 'delete' && $impname) {
+} elseif ('delete' == $function && $impname) {
     // ------------------------------ FUNC DELETE
     if (rex_file::delete(rex_backup::getDir() . '/' . $impname)) {
         $success = rex_i18n::msg('backup_file_deleted');
     } else {
         $error = rex_i18n::msg('backup_file_error_while_delete');
     }
-} elseif ($function == 'dbimport') {
+} elseif ('dbimport' == $function) {
     // ------------------------------ FUNC DBIMPORT
 
     // noch checken das nicht alle tabellen geloescht werden
     // install/temp.sql aendern
-    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '') {
+    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && '' == $impname) {
         $error = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
     } else {
-        if ($impname != '') {
+        if ('' != $impname) {
             $file_temp = rex_backup::getDir() . '/' . $impname;
         } else {
             $file_temp = rex_backup::getDir() . '/temp.sql';
         }
 
-        if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
             $state = rex_backup::importDb($file_temp);
             if ($state['state']) {
                 $success = $state['message'];
@@ -67,26 +67,26 @@ if ($function && !$csrfToken->isValid()) {
             }
 
             // temp datei löschen
-            if ($impname == '') {
+            if ('' == $impname) {
                 rex_file::delete($file_temp);
             }
         } else {
             $error = rex_i18n::msg('backup_file_could_not_be_uploaded') . ' ' . rex_i18n::msg('backup_you_have_no_write_permission_in', 'data/addons/backup/') . ' <br>';
         }
     }
-} elseif ($function == 'fileimport') {
+} elseif ('fileimport' == $function) {
     // ------------------------------ FUNC FILEIMPORT
 
-    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && $impname == '') {
+    if (isset($_FILES['FORM']) && $_FILES['FORM']['size']['importfile'] < 1 && '' == $impname) {
         $error = rex_i18n::msg('backup_no_import_file_chosen') . '<br/>';
     } else {
-        if ($impname == '') {
+        if ('' == $impname) {
             $file_temp = rex_backup::getDir() . '/temp.tar.gz';
         } else {
             $file_temp = rex_backup::getDir() . '/' . $impname;
         }
 
-        if ($impname != '' || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
+        if ('' != $impname || @move_uploaded_file($_FILES['FORM']['tmp_name']['importfile'], $file_temp)) {
             $return = rex_backup::importFiles($file_temp);
             if ($return['state']) {
                 $success = $return['message'];
@@ -95,7 +95,7 @@ if ($function && !$csrfToken->isValid()) {
             }
 
             // temp datei löschen
-            if ($impname == '') {
+            if ('' == $impname) {
                 rex_file::delete($file_temp);
             }
         } else {
@@ -103,10 +103,10 @@ if ($function && !$csrfToken->isValid()) {
         }
     }
 }
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
 }
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
 }
 

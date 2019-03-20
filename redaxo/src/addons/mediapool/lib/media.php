@@ -250,13 +250,13 @@ class rex_media
         $title = $this->getTitle();
 
         if (!isset($params['alt'])) {
-            if ($title != '') {
+            if ('' != $title) {
                 $params['alt'] = rex_escape($title);
             }
         }
 
         if (!isset($params['title'])) {
-            if ($title != '') {
+            if ('' != $title) {
                 $params['title'] = rex_escape($title);
             }
         }

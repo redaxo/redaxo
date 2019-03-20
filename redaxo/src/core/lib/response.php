@@ -36,7 +36,7 @@ class rex_response
      */
     public static function setStatus($httpStatus)
     {
-        if (strpos($httpStatus, "\n") !== false) {
+        if (false !== strpos($httpStatus, "\n")) {
             throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
         }
 
@@ -114,7 +114,7 @@ class rex_response
      */
     public static function sendRedirect($url)
     {
-        if (strpos($url, "\n") !== false) {
+        if (false !== strpos($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
 
@@ -277,7 +277,7 @@ class rex_response
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
         if (
-            self::$httpStatus == self::HTTP_OK &&
+            self::HTTP_OK == self::$httpStatus &&
             // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
             // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
             // https://bugs.webkit.org/show_bug.cgi?id=32829
@@ -285,21 +285,21 @@ class rex_response
         ) {
             // ----- Last-Modified
             if (!self::$sentLastModified
-                && (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
+                && (true === rex::getProperty('use_last_modified') || rex::getProperty('use_last_modified') === $environment)
             ) {
                 self::sendLastModified($lastModified);
             }
 
             // ----- ETAG
             if (!self::$sentEtag
-                && (rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment)
+                && (true === rex::getProperty('use_etag') || rex::getProperty('use_etag') === $environment)
             ) {
                 self::sendEtag($etag ?: self::md5($content));
             }
         }
 
         // ----- GZIP
-        if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment) {
+        if (true === rex::getProperty('use_gzip') || rex::getProperty('use_gzip') === $environment) {
             $content = self::sendGzip($content);
         }
 

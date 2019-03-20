@@ -128,7 +128,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
         }
 
@@ -160,7 +160,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return isset(self::$data[$namespace]);
         }
 

@@ -37,7 +37,7 @@ class rex_command_cronjob_run extends rex_console_command
 
         $nexttime = rex_package::get('cronjob')->getConfig('nexttime', 0);
 
-        if ($nexttime != 0 && time() >= $nexttime) {
+        if (0 != $nexttime && time() >= $nexttime) {
             rex_cronjob_manager_sql::factory()->check();
 
             $io->success('Cronjobs checked.');

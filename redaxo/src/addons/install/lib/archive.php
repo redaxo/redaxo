@@ -58,7 +58,7 @@ class rex_install_archive
             $phar->buildFromIterator(new ArrayIterator($files));
             $phar->compressFiles(Phar::GZ);
             foreach ($files as $path => $realpath) {
-                if (filesize($realpath) == 0) {
+                if (0 == filesize($realpath)) {
                     $phar[$path]->decompress();
                 }
             }

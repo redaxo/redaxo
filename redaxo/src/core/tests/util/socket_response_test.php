@@ -41,7 +41,7 @@ class rex_socket_response_test extends TestCase
 
         $this->assertSame($statusCode, $response->getStatusCode(), 'getStatusCode()');
         $this->assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
-        $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
+        $this->assertSame(200 == $statusCode, $response->isOk(), 'isOk()');
 
         $methods = ['isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid'];
         foreach ($methods as $method) {

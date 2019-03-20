@@ -13,16 +13,16 @@ rex_complex_perm::register('modules', 'rex_module_perm');
 
 if (rex::isBackend()) {
     rex_extension::register('PAGE_CHECKED', static function () {
-        if (rex_be_controller::getCurrentPagePart(1) == 'content') {
+        if ('content' == rex_be_controller::getCurrentPagePart(1)) {
             rex_be_controller::getPageObject('structure')->setIsActive(true);
         }
     });
 
-    if (rex_be_controller::getCurrentPagePart(1) == 'system') {
+    if ('system' == rex_be_controller::getCurrentPagePart(1)) {
         rex_system_setting::register(new rex_system_setting_default_template_id());
     }
 
-    if (rex_be_controller::getCurrentPagePart(1) == 'content') {
+    if ('content' == rex_be_controller::getCurrentPagePart(1)) {
         rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', static function (rex_extension_point $ep) {
             $params = $ep->getParams();
             $subject = $ep->getSubject();

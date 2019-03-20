@@ -2,7 +2,7 @@
 
 $plugin = rex_plugin::get('structure', 'history');
 
-if (rex_request('func', 'string') == 'clearall') {
+if ('clearall' == rex_request('func', 'string')) {
     rex_article_slice_history::clearAllHistory();
     echo rex_view::success($plugin->i18n('deleted'));
 }
