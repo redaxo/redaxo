@@ -7,7 +7,7 @@
  */
 class rex_metainfo_article_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'art_';
+    public const PREFIX = 'art_';
 
     protected function handleSave(array $params, rex_sql $sqlFields)
     {

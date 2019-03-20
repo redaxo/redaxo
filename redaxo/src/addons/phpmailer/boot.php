@@ -18,7 +18,7 @@ if (!$addon->hasConfig('security_mode')) {
 }
 
 if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
-    rex_extension::register('RESPONSE_SHUTDOWN', function (rex_extension_point $ep) use ($addon) {
+    rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
         $logFile = rex_path::coreData('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
         $timediff = '';
@@ -41,7 +41,7 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
             $mailBody .= '    </thead>';
             $mailBody .= '    <tbody>';
             foreach (new LimitIterator($file, 0, 30) as $entry) {
-                /* @var rex_log_entry $entry */
+                /** @var rex_log_entry $entry */
                 $data = $entry->getData();
                 $style = '';
                 $logtypes = [
@@ -65,8 +65,8 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $mailBody .= '            <td>' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>';
                 $mailBody .= '            <td>' . $data[0] . '</td>';
                 $mailBody .= '            <td>' . substr(rex_escape($data[1]), 0, 128) . '</td>';
-                $mailBody .= '            <td>' . (isset($data[2]) ? $data[2] : '') . '</td>';
-                $mailBody .= '            <td>' . (isset($data[3]) ? $data[3] : '') . '</td>';
+                $mailBody .= '            <td>' . ($data[2] ?? '') . '</td>';
+                $mailBody .= '            <td>' . ($data[3] ?? '') . '</td>';
                 $mailBody .= '        </tr>';
             }
             // check if logevent occured then send mail
@@ -74,17 +74,13 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $mailBody .= '    </tbody>';
                 $mailBody .= '</table>';
                 //End - generate mailbody
-
-                //Start  send mail
-                $fileTime = filemtime($logFile);
-
                 $mail = new rex_mailer();
                 $mail->Subject = rex::getServerName() . ' - error report ';
                 $mail->Body = $mailBody;
                 $mail->AltBody = strip_tags($mailBody);
                 $mail->setFrom(rex::getErrorEmail(), 'REDAXO error report');
                 $mail->addAddress(rex::getErrorEmail());
-                $addon->setConfig('last_log_file_send_time', $fileTime);
+                $addon->setConfig('last_log_file_send_time', time());
                 if ($mail->Send()) {
                     // mail has been sent
                 }

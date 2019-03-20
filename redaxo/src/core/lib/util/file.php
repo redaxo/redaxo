@@ -17,7 +17,7 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        return rex_timer::measure(__METHOD__, function () use ($file, $default) {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $default) {
             $content = @file_get_contents($file);
             return $content !== false ? $content : $default;
         });
@@ -61,7 +61,7 @@ class rex_file
      */
     public static function put($file, $content)
     {
-        return rex_timer::measure(__METHOD__, function () use ($file, $content) {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
             if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
                 return false;
             }
@@ -115,7 +115,7 @@ class rex_file
      */
     public static function copy($srcfile, $dstfile)
     {
-        return rex_timer::measure(__METHOD__, function () use ($srcfile, $dstfile) {
+        return rex_timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
@@ -144,7 +144,7 @@ class rex_file
      */
     public static function delete($file)
     {
-        return rex_timer::measure(__METHOD__, function () use ($file) {
+        return rex_timer::measure(__METHOD__, static function () use ($file) {
             if (file_exists($file)) {
                 return unlink($file);
             }

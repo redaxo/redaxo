@@ -47,9 +47,9 @@ class rex_clang_service
      * @param int       $priority Priority
      * @param bool|null $status   Status
      *
-     * @return bool
-     *
      * @throws rex_exception
+     *
+     * @return bool
      */
     public static function editCLang($id, $code, $name, $priority, $status = null)
     {

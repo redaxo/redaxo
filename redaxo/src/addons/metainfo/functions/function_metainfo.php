@@ -212,7 +212,7 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
 
     // additional javascripts
     if ($mainpage == 'metainfo' || $page == 'content/metainfo' || $page == 'structure' || $page == 'system/lang') {
-        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
+        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
     }
 
     // include extensions

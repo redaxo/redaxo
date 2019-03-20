@@ -148,7 +148,7 @@ abstract class rex_structure_element
         }
 
         $class = static::class;
-        return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
+        return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
 
             // load metadata from cache
@@ -198,14 +198,14 @@ abstract class rex_structure_element
             // list key
             [$parentId, $listType],
             // callback to get an instance for a given ID, status will be checked if $ignoreOfflines==true
-            function ($id) use ($class, $ignoreOfflines, $clang) {
+            static function ($id) use ($class, $ignoreOfflines, $clang) {
                 if ($instance = $class::get($id, $clang)) {
                     return !$ignoreOfflines || $instance->isOnline() ? $instance : null;
                 }
                 return null;
             },
             // callback to create the list of IDs
-            function ($parentId, $listType) {
+            static function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
 
                 $list = rex_file::getCache($listFile);

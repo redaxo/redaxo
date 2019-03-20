@@ -19,7 +19,7 @@ abstract class rex_var_dumper
 
     public static function register()
     {
-        VarDumper::setHandler(function ($var) {
+        VarDumper::setHandler(static function ($var) {
             if (rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
                 VarDumper::setHandler([self::class, 'dump']);
                 self::dump($var);
@@ -28,7 +28,7 @@ abstract class rex_var_dumper
             }
 
             // register noop handler for non-admins (if not in debug mode)
-            VarDumper::setHandler(function ($var) {
+            VarDumper::setHandler(static function ($var) {
                 // noop
             });
         });
