@@ -115,9 +115,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     );
 
     rex_view::addCssFile($plugin->getAssetsUrl('noUiSlider/nouislider.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addCssFile($plugin->getAssetsUrl('history.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('history.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('history.js'), [rex_view::JS_IMMUTABLE => true]);
 
     switch (rex_request('rex_history_function', 'string')) {
         case 'snap':
