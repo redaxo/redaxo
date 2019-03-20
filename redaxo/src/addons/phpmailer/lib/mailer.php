@@ -59,8 +59,8 @@ class rex_mailer extends PHPMailer
         });
     }
 
-    /*
-     * @param boolean $status
+    /**
+     * @param bool $status
      */
     public function setLog($status)
     {

@@ -24,6 +24,9 @@ class rex_test_instance_pool_2 extends rex_test_instance_pool_base
 {
 }
 
+/**
+ * @internal
+ */
 class rex_instance_pool_trait_test extends TestCase
 {
     public function testAddHasInstance()

@@ -2,14 +2,17 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_extension_test extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
     }
@@ -20,7 +23,7 @@ class rex_extension_test extends TestCase
 
         $this->assertFalse(rex_extension::isRegistered($EP), 'isRegistered() returns false for non-registered extension points');
 
-        rex_extension::register($EP, function () {
+        rex_extension::register($EP, static function () {
         });
 
         $this->assertTrue(rex_extension::isRegistered($EP), 'isRegistered() returns true for registered extension points');
@@ -31,15 +34,15 @@ class rex_extension_test extends TestCase
         $EP = 'TEST_EP';
 
         $EPParam = null;
-        rex_extension::register($EP, function (rex_extension_point $ep) use (&$EPParam) {
+        rex_extension::register($EP, static function (rex_extension_point $ep) use (&$EPParam) {
             $EPParam = $ep->getName();
             return $ep->getSubject() . ' test2';
         });
 
-        rex_extension::register($EP, function () {
+        rex_extension::register($EP, static function () {
         });
 
-        rex_extension::register($EP, function (rex_extension_point $ep) {
+        rex_extension::register($EP, static function (rex_extension_point $ep) {
             return $ep->getSubject() . ' test3';
         });
 
@@ -53,12 +56,12 @@ class rex_extension_test extends TestCase
     {
         $EP = 'TEST_EP_READ_ONLY';
 
-        rex_extension::register($EP, function () {
+        rex_extension::register($EP, static function () {
             return 'test2';
         });
 
         $subjectActual = null;
-        rex_extension::register($EP, function (rex_extension_point $ep) use (&$subjectActual) {
+        rex_extension::register($EP, static function (rex_extension_point $ep) use (&$subjectActual) {
             $subjectActual = $ep->getSubject();
         });
 
@@ -73,7 +76,7 @@ class rex_extension_test extends TestCase
         $EP = 'TEST_EP_WITH_PARAMS';
 
         $myparamActual = null;
-        rex_extension::register($EP, function (rex_extension_point $ep) use (&$myparamActual) {
+        rex_extension::register($EP, static function (rex_extension_point $ep) use (&$myparamActual) {
             $myparamActual = $ep->getParam('myparam');
         });
 
@@ -87,8 +90,8 @@ class rex_extension_test extends TestCase
     {
         $EP = 'TEST_EP_LEVELS';
 
-        $callback = function ($str) {
-            return function (rex_extension_point $ep) use ($str) {
+        $callback = static function ($str) {
+            return static function (rex_extension_point $ep) use ($str) {
                 return $ep->getSubject() . $str . ' ';
             };
         };
@@ -111,7 +114,7 @@ class rex_extension_test extends TestCase
         $EP1 = 'TEST_EP_MULTIPLE_1';
         $EP2 = 'TEST_EP_MULTIPLE_2';
 
-        rex_extension::register([$EP1, $EP2], function () {
+        rex_extension::register([$EP1, $EP2], static function () {
             return 'foo';
         });
 

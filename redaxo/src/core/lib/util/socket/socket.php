@@ -169,9 +169,9 @@ class rex_socket
     /**
      * Makes a GET request.
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doGet()
     {
@@ -184,14 +184,14 @@ class rex_socket
      * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
      * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doPost($data = '', array $files = [])
     {
         if (is_array($data) && !empty($files)) {
-            $data = function ($stream) use ($data, $files) {
+            $data = static function ($stream) use ($data, $files) {
                 $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
                 $eol = "\r\n";
                 fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
@@ -203,7 +203,7 @@ class rex_socket
                 $data = [];
                 $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
-                    list($key, $value) = array_map('urldecode', explode('=', $t, 2));
+                    [$key, $value] = array_map('urldecode', explode('=', $t, 2));
                     $data[$key] = $value;
                     $length += $partLength + rex_string::size($key) + rex_string::size($value);
                 }
@@ -239,9 +239,9 @@ class rex_socket
     /**
      * Makes a DELETE request.
      *
-     * @return rex_socket_response Response
-     *
      * @throws rex_socket_exception
+     *
+     * @return rex_socket_response Response
      */
     public function doDelete()
     {
@@ -254,9 +254,9 @@ class rex_socket
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
      *
-     * @return rex_socket_response Response
-     *
      * @throws InvalidArgumentException
+     *
+     * @return rex_socket_response Response
      */
     public function doRequest($method, $data = '')
     {
@@ -315,7 +315,7 @@ class rex_socket
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
         $prevError = null;
-        set_error_handler(function ($errno, $errstr) use (&$prevError) {
+        set_error_handler(static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {
                 $prevError = $errstr;
             }
@@ -387,9 +387,9 @@ class rex_socket
      *
      * @param string $url Full URL
      *
-     * @return array URL parts
-     *
      * @throws rex_socket_exception
+     *
+     * @return array URL parts
      */
     protected static function parseUrl($url)
     {
@@ -415,7 +415,7 @@ class rex_socket
         }
         $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
-        $path = (isset($parts['path']) ? $parts['path'] : '/')
+        $path = ($parts['path'] ?? '/')
             . (isset($parts['query']) ? '?' . $parts['query'] : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 

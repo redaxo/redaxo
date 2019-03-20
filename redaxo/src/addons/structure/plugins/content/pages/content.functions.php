@@ -6,7 +6,7 @@ $content .= '
             <input type="hidden" name="ctype" value="' . $ctype . '" />
             ';
 
-$onclickApiFields = function ($hiddenFields) {
+$onclickApiFields = static function ($hiddenFields) {
     return 'onclick="$(this.form).append(\''.rex_escape($hiddenFields).'\')"';
 };
 

@@ -2,11 +2,14 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class rex_type_test extends TestCase
 {
     public function castProvider()
     {
-        $callback = function ($var) {
+        $callback = static function ($var) {
             return $var . 'b';
         };
 

@@ -9,6 +9,7 @@ branches:
     only:
         - master
         - bugfix
+        - temp
 
 cache:
     directories:

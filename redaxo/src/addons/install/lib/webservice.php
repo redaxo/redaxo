@@ -7,11 +7,11 @@
  */
 class rex_install_webservice
 {
-    const HOST = 'www.redaxo.org';
-    const PORT = 443;
-    const SSL = true;
-    const PATH = '/de/ws/';
-    const REFRESH_CACHE = 600;
+    public const HOST = 'www.redaxo.org';
+    public const PORT = 443;
+    public const SSL = true;
+    public const PATH = '/de/ws/';
+    public const REFRESH_CACHE = 600;
 
     private static $cache;
 

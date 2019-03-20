@@ -584,7 +584,7 @@ class rex_list implements rex_url_provider_interface
 
         foreach ($columns as $column) {
             if (is_array($column)) {
-                $this->addTableColumn(isset($column['width']) ? $column['width'] : null, isset($column['span']) ? $column['span'] : null, isset($column['class']) ? $column['class'] : null);
+                $this->addTableColumn($column['width'] ?? null, $column['span'] ?? null, $column['class'] ?? null);
             } else {
                 $this->addTableColumn($column);
             }
@@ -896,7 +896,7 @@ class rex_list implements rex_url_provider_interface
         if (is_array($format)) {
             // Callbackfunktion -> Parameterliste aufbauen
             if ($this->isCustomFormat($format)) {
-                $format[2] = isset($format[2]) ? $format[2] : [];
+                $format[2] = $format[2] ?? [];
                 $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
