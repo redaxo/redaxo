@@ -20,4 +20,3 @@ foreach ($files as $source => $destination) {
         throw new rex_functional_exception('Unable to copy file from "'. $addon->getPath($source) .'" to "'. $addon->getAssetsPath($destination) .'"');
     }
 }
-
