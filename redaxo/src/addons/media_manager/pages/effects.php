@@ -9,7 +9,7 @@ $func = rex_request('func', 'string');
 // ---- validate type_id
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=' . $type_id);
-if ($sql->getRows() != 1) {
+if (1 != $sql->getRows()) {
     unset($type_id);
 }
 $typeName = $sql->getValue('name');
@@ -18,7 +18,7 @@ $info = '';
 $warning = '';
 
 //-------------- delete effect
-if ($func == 'delete' && $effect_id > 0) {
+if ('delete' == $func && $effect_id > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
@@ -49,11 +49,11 @@ if ($func == 'delete' && $effect_id > 0) {
     $func = '';
 }
 
-if ($info != '') {
+if ('' != $info) {
     echo rex_view::info($info);
 }
 
-if ($warning != '') {
+if ('' != $warning) {
     echo rex_view::warning($warning);
 }
 
@@ -63,7 +63,7 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
     $effects[$shortName] = new $class();
 }
 
-if ($func == '' && $type_id > 0) {
+if ('' == $func && $type_id > 0) {
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
@@ -118,12 +118,12 @@ if ($func == '' && $type_id > 0) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-} elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
+} elseif ('add' == $func && $type_id > 0 || 'edit' == $func && $effect_id > 0 && $type_id > 0) {
     uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
 
-    if ($func == 'edit') {
+    if ('edit' == $func) {
         $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', rex_escape($typeName));
     } else {
         $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', rex_escape($typeName));
@@ -258,7 +258,7 @@ if ($func == '' && $type_id > 0) {
     // parameters for url redirects
     $form->addParam('type_id', $type_id);
     $form->addParam('effects', 1);
-    if ($func == 'edit') {
+    if ('edit' == $func) {
         $form->addParam('effect_id', $effect_id);
     }
 

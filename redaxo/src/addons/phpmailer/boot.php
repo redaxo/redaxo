@@ -17,7 +17,7 @@ if (!$addon->hasConfig('security_mode')) {
     $addon->setConfig('security_mode', true); // true = AutoTLS
 }
 
-if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
+if (!rex::isBackend() && 0 != $addon->getConfig('errormail')) {
     rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep) use ($addon) {
         $logFile = rex_path::coreData('system.log');
         $sendTime = $addon->getConfig('last_log_file_send_time', 0);
@@ -50,14 +50,14 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 ];
 
                 foreach ($logtypes as $type) {
-                    if (stripos($data[0], $type) !== false) {
+                    if (false !== stripos($data[0], $type)) {
                         $logevent = true;
                         $style = ' class="errorbg"';
                         break;
                     }
                 }
 
-                if ($data[0] == 'logevent') {
+                if ('logevent' == $data[0]) {
                     $style = ' class="eventbg"';
                     $logevent = true;
                 }
@@ -70,7 +70,7 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
                 $mailBody .= '        </tr>';
             }
             // check if logevent occured then send mail
-            if ($logevent == true) {
+            if (true == $logevent) {
                 $mailBody .= '    </tbody>';
                 $mailBody .= '</table>';
                 //End - generate mailbody
@@ -91,6 +91,6 @@ if (!rex::isBackend() && $addon->getConfig('errormail') != 0) {
         }
     });
 }
-if (rex_be_controller::getCurrentPagePart(1) == 'system') {
+if ('system' == rex_be_controller::getCurrentPagePart(1)) {
     rex_system_setting::register(new rex_system_setting_phpmailer_errormail());
 }

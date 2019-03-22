@@ -172,7 +172,7 @@ class rex_be_navigation
             return $this->headlines[$block];
         }
 
-        if ($block != 'default') {
+        if ('default' != $block) {
             return rex_i18n::msg('navigation_' . $block);
         }
 

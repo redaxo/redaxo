@@ -71,7 +71,7 @@ return PhpCsFixer\Config::create()
         'static_lambda' => true,
         'string_line_ending' => true,
         'void_return' => false,
-        'yoda_style' => false,
+        'yoda_style' => true,
     ])
     ->setFinder($finder)
 ;

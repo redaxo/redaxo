@@ -10,7 +10,7 @@ if (PHP_SAPI !== 'cli') {
 $path = explode(DIRECTORY_SEPARATOR, __DIR__);
 do {
     $part = array_pop($path);
-} while ($part !== null && $part != 'redaxo');
+} while (null !== $part && 'redaxo' != $part);
 
 if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
     echo 'error: start this script within a redaxo projects folder', PHP_EOL;
@@ -48,7 +48,7 @@ if (rex::isSetup()) {
     $err .= rex_setup_importer::prepareEmptyDb();
     $err .= rex_setup_importer::verifyDbSchema();
 
-    if ($err != '') {
+    if ('' != $err) {
         echo $err;
         exit(10);
     }
@@ -58,7 +58,7 @@ if (rex::isSetup()) {
     $manager->install() || $err .= $manager->getMessage();
     $manager->activate() || $err .= $manager->getMessage();
 
-    if ($err != '') {
+    if ('' != $err) {
         echo $err;
         exit(20);
     }

@@ -34,9 +34,9 @@ $managers = [
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = $sql->getValue('name');
-    if (substr($column, 0, 4) == 'med_') {
+    if ('med_' == substr($column, 0, 4)) {
         $table = 'media';
-    } elseif (substr($column, 0, 6) == 'clang_') {
+    } elseif ('clang_' == substr($column, 0, 6)) {
         $table = 'clang';
     } else {
         $table = 'article';

@@ -141,7 +141,7 @@ class rex_media_category
     {
         $p = explode('|', $this->path);
         foreach ($p as $k => $v) {
-            if ($v == '') {
+            if ('' == $v) {
                 unset($p[$k]);
             } else {
                 $p[$k] = (int) $v;
@@ -212,7 +212,7 @@ class rex_media_category
             $explode = explode('|', $this->path);
             if (is_array($explode)) {
                 foreach ($explode as $var) {
-                    if ($var != '') {
+                    if ('' != $var) {
                         $tree[] = self::get($var);
                     }
                 }

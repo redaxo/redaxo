@@ -420,7 +420,7 @@ class rex_list implements rex_url_provider_interface
             return $this->columnLabels[$columnName];
         }
 
-        return $default === null ? $columnName : $default;
+        return null === $default ? $columnName : $default;
     }
 
     /**
@@ -647,7 +647,7 @@ class rex_list implements rex_url_provider_interface
 
         if (!isset($params['sort'])) {
             $sortColumn = $this->getSortColumn();
-            if ($sortColumn != null) {
+            if (null != $sortColumn) {
                 $params['sort'] = $sortColumn;
                 $params['sorttype'] = $this->getSortType();
             }
@@ -688,7 +688,7 @@ class rex_list implements rex_url_provider_interface
 
         if (!isset($params['sort'])) {
             $sortColumn = $this->getSortColumn();
-            if ($sortColumn != null) {
+            if (null != $sortColumn) {
                 $params['sort'] = $sortColumn;
                 $params['sorttype'] = $this->getSortType();
             }
@@ -725,20 +725,20 @@ class rex_list implements rex_url_provider_interface
         $query = preg_replace('/^\s*SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
 
         $sortColumn = $this->getSortColumn();
-        if ($sortColumn != '') {
+        if ('' != $sortColumn) {
             $sortType = $this->getSortType();
 
             $sql = rex_sql::factory($this->db);
             $sortColumn = $sql->escapeIdentifier($sortColumn);
 
-            if (stripos($query, ' ORDER BY ') === false) {
+            if (false === stripos($query, ' ORDER BY ')) {
                 $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
             } else {
                 $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY ' . $sortColumn . ' ' . $sortType, $query);
             }
         }
 
-        if (stripos($query, ' LIMIT ') === false) {
+        if (false === stripos($query, ' LIMIT ')) {
             $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
         }
 
@@ -857,7 +857,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function replaceVariables($value)
     {
-        if (strpos($value, '###') === false) {
+        if (false === strpos($value, '###')) {
             return $value;
         }
 
@@ -878,7 +878,7 @@ class rex_list implements rex_url_provider_interface
 
     public function isCustomFormat($format)
     {
-        return is_array($format) && isset($format[0]) && $format[0] == 'custom';
+        return is_array($format) && isset($format[0]) && 'custom' == $format[0];
     }
 
     /**
@@ -906,8 +906,8 @@ class rex_list implements rex_url_provider_interface
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
         if ($escape &&
             !$this->isCustomFormat($format) &&
-            $format[0] != 'email' &&
-            $format[0] != 'url'
+            'email' != $format[0] &&
+            'url' != $format[0]
         ) {
             $value = rex_escape($value);
         }
@@ -984,20 +984,20 @@ class rex_list implements rex_url_provider_interface
         $header = $this->getHeader();
         $footer = $this->getFooter();
 
-        if ($warning != '') {
+        if ('' != $warning) {
             $s .= rex_view::warning($warning) . "\n";
-        } elseif ($message != '') {
+        } elseif ('' != $message) {
             $s .= rex_view::info($message) . "\n";
         }
 
-        if ($header != '') {
+        if ('' != $header) {
             $s .= $header . "\n";
         }
 
         $s .= '<form' . $this->_getAttributeString($this->getFormAttributes()) . '>' . "\n";
         $s .= '    <table' . $this->_getAttributeString($this->getTableAttributes()) . '>' . "\n";
 
-        if ($caption != '') {
+        if ('' != $caption) {
             $s .= '        <caption>' . rex_escape($caption) . '</caption>' . "\n";
         }
 
@@ -1022,7 +1022,7 @@ class rex_list implements rex_url_provider_interface
             $columnHead = $this->getColumnLabel($columnName);
             if ($this->hasColumnOption($columnName, REX_LIST_OPT_SORT)) {
                 if ($columnName == $sortColumn) {
-                    $columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
+                    $columnSortType = 'desc' == $sortType ? 'asc' : 'desc';
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
@@ -1038,7 +1038,7 @@ class rex_list implements rex_url_provider_interface
         $s .= '            </tr>' . "\n";
         $s .= '        </thead>' . "\n";
 
-        if ($footer != '') {
+        if ('' != $footer) {
             $s .= '        <tfoot>' . "\n";
             $s .= $footer;
             $s .= '        </tfoot>' . "\n";

@@ -12,7 +12,7 @@ $content = '';
 $subpage = rex_request('subpage', 'string');
 
 // ----------------- HELPPAGE
-if ($subpage == 'help') {
+if ('help' == $subpage) {
     $package = rex_package::get(rex_request('package', 'string'));
     $name = $package->getPackageId();
     $version = $package->getVersion();
@@ -71,7 +71,7 @@ if ($subpage == 'help') {
 }
 
 // ----------------- LICENSE page
-if ($subpage == 'license') {
+if ('license' == $subpage) {
     $package = rex_package::get(rex_request('package', 'string'));
 
     $license = null;
@@ -93,7 +93,7 @@ if ($subpage == 'license') {
 }
 
 // ----------------- OUT
-if ($subpage == '') {
+if ('' == $subpage) {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
@@ -122,7 +122,7 @@ if ($subpage == '') {
             'function' => $function,
         ] + rex_api_package::getUrlParams());
 
-        $icon = ($icon != '') ? '<i class="rex-icon ' . $icon . '"></i>' : '';
+        $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
         $class = ($key ?: $function);
         return '<a href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
     };
@@ -169,7 +169,7 @@ if ($subpage == '') {
             $class = ' mark';
         }
 
-        $version = (trim($package->getVersion()) != '') ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
+        $version = ('' != trim($package->getVersion())) ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
 
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {

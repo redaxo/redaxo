@@ -46,10 +46,10 @@ class rex_form extends rex_form_base
 
         // --------- validate where-condition and determine editMode
         $numRows = $this->sql->getRows();
-        if ($numRows == 0) {
+        if (0 == $numRows) {
             // Kein Datensatz gefunden => Mode: Add
             $this->setEditMode(false);
-        } elseif ($numRows == 1) {
+        } elseif (1 == $numRows) {
             // Ein Datensatz gefunden => Mode: Edit
             $this->setEditMode(true);
         } else {
@@ -94,8 +94,8 @@ class rex_form extends rex_form_base
 
         $controlFields = [];
         $controlFields['save'] = rex_i18n::msg('form_save');
-        $controlFields['apply'] = $func == 'edit' ? rex_i18n::msg('form_apply') : '';
-        $controlFields['delete'] = $func == 'edit' ? rex_i18n::msg('form_delete') : '';
+        $controlFields['apply'] = 'edit' == $func ? rex_i18n::msg('form_apply') : '';
+        $controlFields['delete'] = 'edit' == $func ? rex_i18n::msg('form_delete') : '';
         $controlFields['reset'] = ''; //rex_i18n::msg('form_reset');
         $controlFields['abort'] = rex_i18n::msg('form_abort');
 
@@ -107,7 +107,7 @@ class rex_form extends rex_form_base
             if ($label) {
                 $attr = ['type' => 'submit', 'internal::useArraySyntax' => false, 'internal::fieldSeparateEnding' => true];
 
-                if ($name === 'abort' || $name === 'delete') {
+                if ('abort' === $name || 'delete' === $name) {
                     $attr['formnovalidate'] = 'formnovalidate';
                 }
                 $controlElements[$name] = $this->addField(
@@ -189,7 +189,7 @@ class rex_form extends rex_form_base
      */
     public function isEditMode()
     {
-        return $this->mode == 'edit';
+        return 'edit' == $this->mode;
     }
 
     /**
@@ -215,7 +215,7 @@ class rex_form extends rex_form_base
 
     protected function getValue($name)
     {
-        if ($this->sql->getRows() == 1 && $this->sql->hasValue($name)) {
+        if (1 == $this->sql->getRows() && $this->sql->hasValue($name)) {
             return $this->sql->getValue($name);
         }
 
@@ -289,7 +289,7 @@ class rex_form extends rex_form_base
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
+                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
                 }
 

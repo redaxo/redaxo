@@ -60,7 +60,7 @@ class rex_command_assets_sync extends rex_console_command
         $updated += $upd;
         $errored += $err;
 
-        if ($errored === 0) {
+        if (0 === $errored) {
             $io->success(sprintf('Created %s and updated %s file(s).', $created, $updated));
             return 0;
         }

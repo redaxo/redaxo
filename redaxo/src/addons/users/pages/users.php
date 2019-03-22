@@ -13,10 +13,10 @@ $warnings = [];
 
 $user = null;
 
-if ($user_id != 0) {
+if (0 != $user_id) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
-    if ($sql->getRows() != 1) {
+    if (1 != $sql->getRows()) {
         $user_id = 0;
     } else {
         $user = new rex_user($sql);
@@ -91,7 +91,7 @@ $userperm_startpage = rex_request('userperm_startpage', 'string');
 $FUNC_UPDATE = '';
 $FUNC_APPLY = '';
 $FUNC_DELETE = '';
-if ($user_id != 0 && (rex::getUser()->isAdmin() || !$sql->getValue('admin'))) {
+if (0 != $user_id && (rex::getUser()->isAdmin() || !$sql->getValue('admin'))) {
     $FUNC_UPDATE = rex_request('FUNC_UPDATE', 'string');
     $FUNC_APPLY = rex_request('FUNC_APPLY', 'string');
     $FUNC_DELETE = rex_request('FUNC_DELETE', 'string');
@@ -122,7 +122,7 @@ if ($save && ($FUNC_ADD || $FUNC_UPDATE || $FUNC_APPLY)) {
 
 if ($warnings) {
     // do not save
-} elseif ($FUNC_UPDATE != '' || $FUNC_APPLY != '') {
+} elseif ('' != $FUNC_UPDATE || '' != $FUNC_APPLY) {
     $loginReset = rex_request('logintriesreset', 'int');
     $userstatus = rex_request('userstatus', 'int');
 
@@ -135,28 +135,28 @@ if ($warnings) {
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('role', implode(',', $userrole));
-    $updateuser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
+    $updateuser->setValue('admin', rex::getUser()->isAdmin() && 1 == $useradmin ? 1 : 0);
     $updateuser->setValue('language', $userperm_be_sprache);
     $updateuser->setValue('startpage', $userperm_startpage);
     $updateuser->addGlobalUpdateFields();
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('email', $useremail);
-    if ($loginReset == 1) {
+    if (1 == $loginReset) {
         $updateuser->setValue('login_tries', '0');
     }
-    if ($userstatus == 1) {
+    if (1 == $userstatus) {
         $updateuser->setValue('status', 1);
     } else {
         $updateuser->setValue('status', 0);
     }
 
-    if ($userpsw != '') {
+    if ('' != $userpsw) {
         $updateuser->setValue('password', rex_login::passwordHash($userpsw));
     }
 
     $updateuser->update();
 
-    if (isset($FUNC_UPDATE) && $FUNC_UPDATE != '') {
+    if (isset($FUNC_UPDATE) && '' != $FUNC_UPDATE) {
         $user_id = 0;
         $FUNC_UPDATE = '';
     }
@@ -171,7 +171,7 @@ if ($warnings) {
         'user' => $user,
         'password' => $userpsw,
     ], true));
-} elseif ($FUNC_DELETE != '') {
+} elseif ('' != $FUNC_DELETE) {
     // man kann sich selbst nicht loeschen..
     if (rex::getUser()->getId() == $user_id) {
         $warnings[] = rex_i18n::msg('user_notdeleteself');
@@ -189,11 +189,11 @@ if ($warnings) {
     }
 
     $user_id = 0;
-} elseif ($FUNC_ADD != '' && $save == 1) {
+} elseif ('' != $FUNC_ADD && 1 == $save) {
     $adduser = rex_sql::factory();
     $adduser->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE login = ?', [$userlogin]);
 
-    if ($adduser->getRows() == 0 && $userlogin != '' && $userpsw != '') {
+    if (0 == $adduser->getRows() && '' != $userlogin && '' != $userpsw) {
         $userpswHash = rex_login::passwordHash($userpsw);
 
         $adduser = rex_sql::factory();
@@ -203,12 +203,12 @@ if ($warnings) {
         $adduser->setValue('login', $userlogin);
         $adduser->setValue('description', $userdesc);
         $adduser->setValue('email', $useremail);
-        $adduser->setValue('admin', rex::getUser()->isAdmin() && $useradmin == 1 ? 1 : 0);
+        $adduser->setValue('admin', rex::getUser()->isAdmin() && 1 == $useradmin ? 1 : 0);
         $adduser->setValue('language', $userperm_be_sprache);
         $adduser->setValue('startpage', $userperm_startpage);
         $adduser->setValue('role', implode(',', $userrole));
         $adduser->addGlobalCreateFields();
-        if (isset($userstatus) && $userstatus == 1) {
+        if (isset($userstatus) && 1 == $userstatus) {
             $adduser->setValue('status', 1);
         } else {
             $adduser->setValue('status', 0);
@@ -225,7 +225,7 @@ if ($warnings) {
             'password' => $userpsw,
         ], true));
     } else {
-        if ($useradmin == 1) {
+        if (1 == $useradmin) {
             $adminchecked = 'checked="checked"';
         }
 
@@ -233,13 +233,13 @@ if ($warnings) {
         $sel_role->setSelected($userrole);
 
         // userperm_be_sprache
-        if ($userperm_be_sprache == '') {
+        if ('' == $userperm_be_sprache) {
             $userperm_be_sprache = 'default';
         }
         $sel_be_sprache->setSelected($userperm_be_sprache);
 
         // userperm_startpage
-        if ($userperm_startpage == '') {
+        if ('' == $userperm_startpage) {
             $userperm_startpage = 'default';
         }
         $sel_startpage->setSelected($userperm_startpage);
@@ -258,7 +258,7 @@ if ($warnings) {
 
 // ---------------------------------- ERR MSG
 
-if ($info != '') {
+if ('' != $info) {
     $message .= rex_view::info($info);
 }
 
@@ -270,10 +270,10 @@ if (!empty($warnings)) {
 
 $SHOW = true;
 
-if ($FUNC_ADD != '' || $user_id > 0) {
+if ('' != $FUNC_ADD || $user_id > 0) {
     $SHOW = false;
 
-    if ($FUNC_ADD != '') {
+    if ('' != $FUNC_ADD) {
         $statuschecked = 'checked="checked"';
     }
 
@@ -308,11 +308,11 @@ if ($FUNC_ADD != '' || $user_id > 0) {
             $sql = rex_sql::factory();
             $sql->setQuery('select * from ' . rex::getTablePrefix() . 'user where id=' . $user_id);
 
-            if ($sql->getRows() == 1) {
+            if (1 == $sql->getRows()) {
                 $useradmin = $sql->getValue('admin');
                 $userstatus = $sql->getValue(rex::getTablePrefix() . 'user.status');
                 $userrole = $sql->getValue(rex::getTablePrefix() . 'user.role');
-                if ($userrole == '') {
+                if ('' == $userrole) {
                     $userrole = [];
                 } else {
                     $userrole = explode(',', $userrole);
@@ -332,7 +332,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
             $adminchecked = '';
         }
 
-        if ($userstatus == 1) {
+        if (1 == $userstatus) {
             $statuschecked = 'checked="checked"';
         } else {
             $statuschecked = '';
@@ -352,7 +352,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
         }
 
         // Der Benutzer kann sich selbst den Status nicht entziehen
-        if ($self && $statuschecked != '') {
+        if ($self && '' != $statuschecked) {
             $add_status_chkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' disabled="disabled" />';
         } else {
             $add_status_chkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
@@ -398,7 +398,7 @@ if ($FUNC_ADD != '' || $user_id > 0) {
     $n['label'] = '<label for="rex-js-user-password">' . rex_i18n::msg('password') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password"/>';
 
-    if (rex::getProperty('pswfunc') != '') {
+    if ('' != rex::getProperty('pswfunc')) {
         $n['note'] = rex_i18n::msg('psw_encrypted');
     }
 

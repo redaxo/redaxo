@@ -63,7 +63,7 @@ class rex_socket
      */
     public static function factory($host, $port = 80, $ssl = false)
     {
-        if (static::class === self::class && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (self::class === static::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
@@ -394,10 +394,10 @@ class rex_socket
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if ($parts !== false && !isset($parts['host']) && strpos($url, 'http') !== 0) {
+        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
             $parts = parse_url('http://' . $url);
         }
-        if ($parts === false || !isset($parts['host'])) {
+        if (false === $parts || !isset($parts['host'])) {
             throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');
         }
 
@@ -408,7 +408,7 @@ class rex_socket
             if (!in_array($parts['scheme'], $supportedProtocols)) {
                 throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
             }
-            if ($parts['scheme'] == 'https') {
+            if ('https' == $parts['scheme']) {
                 $ssl = true;
                 $port = 443;
             }

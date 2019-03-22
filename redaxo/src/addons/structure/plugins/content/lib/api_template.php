@@ -82,12 +82,12 @@ class rex_template
         $qry = 'SELECT * FROM ' . rex::getTablePrefix()  . 'template WHERE id = ' . $template_id;
         $sql->setQuery($qry);
 
-        if ($sql->getRows() == 1) {
+        if (1 == $sql->getRows()) {
             $templateFile = self::getFilePath($template_id);
 
             $content = $sql->getValue('content');
             $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
-            if (rex_file::put($templateFile, $content) !== false) {
+            if (false !== rex_file::put($templateFile, $content)) {
                 return true;
             }
             throw new rex_exception('Unable to generate template ' . $template_id . '!');
@@ -129,7 +129,7 @@ class rex_template
             foreach ($t_sql as $row) {
                 $attributes = $row->getArrayValue('attributes');
                 $categories = $attributes['categories'] ?? [];
-                if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
+                if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
                     $templates[$row->getValue('id')] = $row->getValue('name');
                 }
             }
@@ -141,7 +141,7 @@ class rex_template
                     $attributes = $row->getArrayValue('attributes');
                     $categories = $attributes['categories'] ?? [];
                     // template ist nicht kategoriespezifisch -> includen
-                    if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
+                    if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
                         $templates[$row->getValue('id')] = $row->getValue('name');
                     } else {
                         // template ist auf kategorien beschraenkt..
@@ -162,7 +162,7 @@ class rex_template
     public static function hasModule(array $template_attributes, $ctype, $module_id)
     {
         $template_modules = $template_attributes['modules'] ?? [];
-        if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1) {
+        if (!isset($template_modules[$ctype]['all']) || 1 == $template_modules[$ctype]['all']) {
             return true;
         }
 

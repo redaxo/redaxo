@@ -26,7 +26,7 @@ require_once __DIR__ . '/functions/function_rex_url.php';
 $addon->setProperty('start_article_id', $addon->getConfig('start_article_id', 1));
 $addon->setProperty('notfound_article_id', $addon->getConfig('notfound_article_id', 1));
 
-if (rex_request('article_id', 'int') == 0) {
+if (0 == rex_request('article_id', 'int')) {
     $addon->setProperty('article_id', rex_article::getSiteStartArticleId());
 } else {
     $article_id = rex_request('article_id', 'int');
@@ -37,7 +37,7 @@ if (rex_request('article_id', 'int') == 0) {
 if (rex::isBackend() && rex::getUser()) {
     rex_view::addJsFile($addon->getAssetsUrl('linkmap.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    if (rex_be_controller::getCurrentPagePart(1) == 'system') {
+    if ('system' == rex_be_controller::getCurrentPagePart(1)) {
         rex_system_setting::register(new rex_system_setting_article_id('start_article_id'));
         rex_system_setting::register(new rex_system_setting_article_id('notfound_article_id'));
     }
@@ -54,12 +54,12 @@ rex_extension::register('CLANG_ADDED', static function (rex_extension_point $ep)
         $newLang->setTable(rex::getTablePrefix() . 'article');
 
         foreach ($fields as $key => $value) {
-            if ($value == 'pid') {
+            if ('pid' == $value) {
                 echo '';
             } // nix passiert
-            elseif ($value == 'clang_id') {
+            elseif ('clang_id' == $value) {
                 $newLang->setValue('clang_id', $ep->getParam('clang')->getId());
-            } elseif ($value == 'status') {
+            } elseif ('status' == $value) {
                 $newLang->setValue('status', '0');
             } // Alle neuen Artikel offline
             else {

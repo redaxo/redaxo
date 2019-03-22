@@ -62,7 +62,7 @@ class rex_select
     {
         if ($multiple) {
             $this->setAttribute('multiple', 'multiple');
-            if ($this->getAttribute('size') == '1') {
+            if ('1' == $this->getAttribute('size')) {
                 $this->setSize('5');
             }
         } else {
@@ -100,7 +100,7 @@ class rex_select
      */
     public function setStyle($style)
     {
-        if (strpos($style, 'class=') !== false) {
+        if (false !== strpos($style, 'class=')) {
             if (preg_match('/class=["\']?([^"\']*)["\']?/i', $style, $matches)) {
                 $this->setAttribute('class', $matches[1]);
             }
@@ -235,7 +235,7 @@ class rex_select
             $useRexSelectStyle = true;
         }
         // RexSelectStyle nicht nutzen, wenn die Klasse `.selectpicker` gesetzt ist
-        if (isset($this->attributes['class']) && strpos($this->attributes['class'], 'selectpicker') !== false) {
+        if (isset($this->attributes['class']) && false !== strpos($this->attributes['class'], 'selectpicker')) {
             $useRexSelectStyle = false;
         }
         // RexSelectStyle nicht nutzen, wenn das Selectfeld mehrzeilig ist
@@ -303,7 +303,7 @@ class rex_select
             $ausgabe .= $this->outOption($name, $value, $level, $attributes);
 
             $subgroup = $this->getGroup($id, true);
-            if ($subgroup !== false) {
+            if (false !== $subgroup) {
                 $ausgabe .= $this->outGroup($id, $level + 1);
             }
         }
@@ -322,7 +322,7 @@ class rex_select
             $bsps = str_repeat('&nbsp;&nbsp;&nbsp;', $level);
         }
 
-        if ($this->option_selected !== null && in_array($value, $this->option_selected, true)) {
+        if (null !== $this->option_selected && in_array($value, $this->option_selected, true)) {
             $attributes['selected'] = 'selected';
         }
 
@@ -336,7 +336,7 @@ class rex_select
 
     protected function getGroup($parent_id, $ignore_main_group = false)
     {
-        if ($ignore_main_group && $parent_id == 0) {
+        if ($ignore_main_group && 0 == $parent_id) {
             return false;
         }
 

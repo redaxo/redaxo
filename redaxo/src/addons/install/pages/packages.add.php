@@ -62,7 +62,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     $markdown = rex_markdown::factory();
     $fragment = new rex_fragment();
     foreach ($addon['files'] as $fileId => $file) {
-        $file['description'] = trim($file['description']) == '' ? '&nbsp;' : rex_escape($file['description']);
+        $file['description'] = '' == trim($file['description']) ? '&nbsp;' : rex_escape($file['description']);
 
         $content .= '
             <tr>
@@ -93,13 +93,13 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
     ';
 
     $sort = rex_request('sort', 'string', '');
-    if ($sort === 'up') {
+    if ('up' === $sort) {
         $sortClass = '-up';
         $sortNext = 'down';
         uasort($addons, static function ($addon1, $addon2) {
             return reset($addon1['files'])['created'] > reset($addon2['files'])['created'];
         });
-    } elseif ($sort === 'down') {
+    } elseif ('down' === $sort) {
         $sortClass = '-down';
         $sortNext = '';
         uasort($addons, static function ($addon1, $addon2) {

@@ -16,7 +16,7 @@ $content = '';
 $func = rex_request('func', 'string');
 $jpg_quality = rex_request('jpg_quality', 'int');
 
-if ($func == 'update') {
+if ('update' == $func) {
     $config = rex_post('settings', [
         ['jpg_quality', 'int'],
         ['png_compression', 'int'],

@@ -78,7 +78,7 @@ class rex_cronjob_manager
                 $message = $e->getMessage();
             }
 
-            if ($message == '' && !$success) {
+            if ('' == $message && !$success) {
                 $message = 'Unknown error';
             }
         }

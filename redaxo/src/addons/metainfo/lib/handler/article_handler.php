@@ -48,7 +48,7 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
 
             // Alle Metafelder des Pfades sind erlaubt
             foreach ($OOArt->getPathAsArray() as $pathElement) {
-                if ($pathElement != '') {
+                if ('' != $pathElement) {
                     $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
                 }
             }
