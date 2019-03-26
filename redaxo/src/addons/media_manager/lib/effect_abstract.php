@@ -37,10 +37,10 @@ abstract class rex_effect_abstract
     protected function keepTransparent($des)
     {
         $image = $this->media;
-        if ($image->getFormat() == 'png' || $image->getFormat() == 'webp') {
+        if ('png' == $image->getFormat() || 'webp' == $image->getFormat()) {
             imagealphablending($des, false);
             imagesavealpha($des, true);
-        } elseif ($image->getFormat() == 'gif') {
+        } elseif ('gif' == $image->getFormat()) {
             $gdimage = $image->getImage();
             $colorTransparent = imagecolortransparent($gdimage);
             imagepalettecopy($gdimage, $des);

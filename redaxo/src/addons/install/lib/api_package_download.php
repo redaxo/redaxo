@@ -81,7 +81,7 @@ abstract class rex_api_install_package_download extends rex_api_function
         if (class_exists('ZipArchive')) {
             $success = false;
             $zip = new ZipArchive();
-            if ($zip->open($file) === true) {
+            if (true === $zip->open($file)) {
                 for ($i = 0; $i < $zip->numFiles; ++$i) {
                     $filename = $zip->getNameIndex($i);
                     if (substr($filename, 0, strlen($this->addonkey.'/')) != $this->addonkey.'/') {

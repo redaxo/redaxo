@@ -372,14 +372,14 @@ class rex
             $output = '';
             $exitCode = null;
 
-            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
+            if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
                 $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
             } else {
                 $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
             }
 
             @exec($command, $output, $exitCode);
-            if ($exitCode === 0) {
+            if (0 === $exitCode) {
                 $output = implode('', $output);
                 if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
                     $gitHash[$path] = $matches[0];

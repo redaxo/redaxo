@@ -29,11 +29,11 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
     {
         $linkClasses .= '';
 
-        if ($liClasses != '') {
+        if ('' != $liClasses) {
             $liClasses = ' class="' . rtrim($liClasses) . '"';
         }
 
-        if ($linkClasses != '') {
+        if ('' != $linkClasses) {
             $linkClasses = ' class="' . rtrim($linkClasses) . '"';
         }
 

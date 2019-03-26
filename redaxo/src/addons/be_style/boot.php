@@ -48,7 +48,7 @@ if (rex::isBackend()) {
     rex_view::addJsFile($addon->getAssetsUrl('javascripts/main.js'), [rex_view::JS_IMMUTABLE => true]);
 
     // make sure to send preload headers only on fullpage requests
-    if (stripos(rex_request::server('HTTP_ACCEPT'), 'text/html') !== false && !rex_request::isXmlHttpRequest()) {
+    if (false !== stripos(rex_request::server('HTTP_ACCEPT'), 'text/html') && !rex_request::isXmlHttpRequest()) {
         rex_response::preload($addon->getAssetsUrl('fonts/fontawesome-webfont.woff2?v=4.7.0'), 'font', 'font/woff2');
     }
 }

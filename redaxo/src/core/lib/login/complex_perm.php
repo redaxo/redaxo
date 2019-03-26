@@ -53,7 +53,7 @@ abstract class rex_complex_perm
      */
     public function hasAll()
     {
-        return $this->user->isAdmin() || $this->perms == self::ALL;
+        return $this->user->isAdmin() || self::ALL == $this->perms;
     }
 
     /**

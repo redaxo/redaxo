@@ -141,7 +141,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 /* Setup Navigation ***********************************************************/
-if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
+if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
     $navi = [];
@@ -156,16 +156,16 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
         if ($i < $step) {
             $n['itemAttr']['class'][] = 'bg-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
-            if ($step == 7) {
+            if (7 == $step) {
                 $n['href'] = 'javascript:void(0)';
             }
         }
         $name = '';
-        if (isset($n['href']) && $lang != '') {
+        if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ($lang != '') {
+        } elseif ('' != $lang) {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif ($i == 1) {
+        } elseif (1 == $i) {
             $name = '<span>Step 1 / Language</span>';
         }
 

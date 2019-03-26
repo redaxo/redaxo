@@ -134,7 +134,7 @@ class rex_validator_test extends TestCase
         $callback = function ($v) use (&$value, &$isCalled) {
             $isCalled = true;
             $this->assertEquals($value, $v);
-            return $value === 'abc';
+            return 'abc' === $value;
         };
 
         $isCalled = false;

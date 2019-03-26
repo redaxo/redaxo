@@ -85,7 +85,7 @@ class rex_article_slice
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -109,13 +109,13 @@ class rex_article_slice
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         foreach (range(1, 20) as $ctype) {
             $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision);
-            if ($slice !== null) {
+            if (null !== $slice) {
                 return $slice;
             }
         }
@@ -135,7 +135,7 @@ class rex_article_slice
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -157,7 +157,7 @@ class rex_article_slice
      */
     public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -180,7 +180,7 @@ class rex_article_slice
      */
     public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 

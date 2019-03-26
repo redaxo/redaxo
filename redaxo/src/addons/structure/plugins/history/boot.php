@@ -15,13 +15,13 @@ $history_date = rex_request('rex_history_date', 'string');
 
 rex_perm::register('history[article_rollback]', null, rex_perm::OPTIONS);
 
-if ($history_date != '') {
+if ('' != $history_date) {
     $historySession = rex_request('rex_history_session', 'string');
     $historyLogin = rex_request('rex_history_login', 'string');
     $historyValidtime = rex_request('rex_history_validtime', 'string');
 
     $user = null;
-    if ($historySession != '' && $historyLogin != '' && $historyValidtime != '' && !rex::isBackend()) {
+    if ('' != $historySession && '' != $historyLogin && '' != $historyValidtime && !rex::isBackend()) {
         $validtill = DateTime::createFromFormat('YmdHis', $historyValidtime);
         $now = new DateTime();
         if ($now < $validtill) {
@@ -62,7 +62,7 @@ if ($history_date != '') {
 
         if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
             $articleLimit = '';
-            if ($article->getArticleId() != 0) {
+            if (0 != $article->getArticleId()) {
                 $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
             }
 
@@ -115,9 +115,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     );
 
     rex_view::addCssFile($plugin->getAssetsUrl('noUiSlider/nouislider.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('noUiSlider/nouislider.js'), [rex_view::JS_IMMUTABLE => true]);
     rex_view::addCssFile($plugin->getAssetsUrl('history.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('history.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('history.js'), [rex_view::JS_IMMUTABLE => true]);
 
     switch (rex_request('rex_history_function', 'string')) {
         case 'snap':
@@ -142,7 +142,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $select = '<option value="" selected="selected">' . $plugin->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
                 $history_info = $version['history_date'];
-                if ($version['history_user'] != '') {
+                if ('' != $version['history_user']) {
                     $history_info = $version['history_date'] . ' [' . $version['history_user'] . ']';
                 }
                 $select .= '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $history_info . '</option>';
@@ -165,9 +165,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     }
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
-        if ($ep->getParam('page') == 'content/edit') {
+        if ('content/edit' == $ep->getParam('page')) {
             $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&');
-            if (substr($article_link, 0, 4) == 'http') {
+            if ('http' == substr($article_link, 0, 4)) {
                 $user = rex::getUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();

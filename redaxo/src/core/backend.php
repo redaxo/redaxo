@@ -16,7 +16,7 @@ if (rex_get('asset') && rex_get('buster')) {
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
-    if (strpos($fullPath, $assetDir) !== 0) {
+    if (0 !== strpos($fullPath, $assetDir)) {
         throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
     }
 
@@ -102,7 +102,7 @@ if (rex::isSetup()) {
         $loginCheck = $login->checkLogin();
     }
 
-    if ($loginCheck !== true) {
+    if (true !== $loginCheck) {
         if (rex_request::isXmlHttpRequest()) {
             rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
         }
@@ -133,19 +133,19 @@ if (rex::isSetup()) {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
         $lang = $user->getLanguage();
-        if ($lang && $lang != 'default' && $lang != rex::getProperty('lang')) {
+        if ($lang && 'default' != $lang && $lang != rex::getProperty('lang')) {
             rex_i18n::setLocale($lang);
         }
 
         rex::setProperty('user', $user);
     }
 
-    if ($rex_user_loginmessage === '' && rex_get('rex_logged_out', 'boolean')) {
+    if ('' === $rex_user_loginmessage && rex_get('rex_logged_out', 'boolean')) {
         $rex_user_loginmessage = rex_i18n::msg('login_logged_out');
     }
 
     // Safe Mode
-    if (($safeMode = rex_get('safemode', 'boolean', null)) !== null) {
+    if (null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
         if ($safeMode) {
             rex_set_session('safemode', true);
         } else {
@@ -198,7 +198,7 @@ rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pa
 // trigger api functions
 // If the backend session is timed out, rex_api_function would throw an exception
 // so only trigger api functions if page != login
-if ($page != 'login') {
+if ('login' != $page) {
     rex_api_function::handleCall();
 }
 

@@ -191,7 +191,7 @@ class rex_navigation
      */
     public function addCallback($callback, $depth = '')
     {
-        if ($callback != '') {
+        if ('' != $callback) {
             $this->callbacks[] = ['callback' => $callback, 'depth' => $depth];
         }
     }
@@ -203,7 +203,7 @@ class rex_navigation
             $path = trim($OOArt->getPath(), '|');
 
             $this->path = [];
-            if ($path != '') {
+            if ('' != $path) {
                 $this->path = explode('|', $path);
             }
 
@@ -218,7 +218,7 @@ class rex_navigation
     private function checkFilter(rex_category $category, $depth)
     {
         foreach ($this->filter as $f) {
-            if ($f['depth'] == '' || $f['depth'] == $depth) {
+            if ('' == $f['depth'] || $f['depth'] == $depth) {
                 $mf = $category->getValue($f['metafield']);
                 $va = $f['value'];
                 switch ($f['type']) {
@@ -271,7 +271,7 @@ class rex_navigation
     private function checkCallbacks(rex_category $category, $depth, &$li, &$a)
     {
         foreach ($this->callbacks as $c) {
-            if ($c['depth'] == '' || $c['depth'] == $depth) {
+            if ('' == $c['depth'] || $c['depth'] == $depth) {
                 $callback = $c['callback'];
                 if (is_string($callback)) {
                     $callback = explode('::', $callback, 2);

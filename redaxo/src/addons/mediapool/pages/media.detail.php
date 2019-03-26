@@ -10,7 +10,7 @@ if (rex_post('btn_delete', 'string')) {
     } else {
         $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
         $media = null;
-        if ($sql->getRows() == 1) {
+        if (1 == $sql->getRows()) {
             $media = rex_media::get($sql->getValue('filename'));
         }
 
@@ -42,7 +42,7 @@ if (rex_post('btn_update', 'string')) {
     } else {
         $gf = rex_sql::factory();
         $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
-        if ($gf->getRows() != 1) {
+        if (1 != $gf->getRows()) {
             $error = rex_i18n::msg('pool_file_not_found');
             $file_id = 0;
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
@@ -59,7 +59,7 @@ if (rex_post('btn_update', 'string')) {
 
             $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
 
-            if ($return['ok'] == 1) {
+            if (1 == $return['ok']) {
                 if ($gf->getValue('category_id') != $rex_file_category) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
                         'filename' => $FILEINFOS['filename'],
@@ -76,7 +76,7 @@ if (rex_post('btn_update', 'string')) {
 
 $gf = rex_sql::factory();
 $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$file_id]);
-if ($gf->getRows() != 1) {
+if (1 != $gf->getRows()) {
     $error = rex_i18n::msg('pool_file_not_found');
     $file_id = 0;
 
@@ -123,7 +123,7 @@ if ($isImage) {
     $width = ' width="'.$rfwidth.'"';
     $img_max = rex_url::media($fname);
 
-    if (rex_addon::get('media_manager')->isAvailable() && rex_file::extension($fname) != 'svg') {
+    if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
         if (method_exists(rex_media_manager::class, 'getUrl')) {
             $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
             $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
@@ -145,23 +145,23 @@ if ($isImage) {
     }
 }
 
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
     $error = '';
 }
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
     $success = '';
 }
 
-if ($opener_input_field != '') {
+if ('' != $opener_input_field) {
     $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
+    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
         $opener_link = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
     }
 }
 
-if ($opener_link != '') {
+if ('' != $opener_link) {
     $opener_link = ' | ' . $opener_link;
 }
 
@@ -248,7 +248,7 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    if ($sidebar != '') {
+    if ('' != $sidebar) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', [$panel, $sidebar], false);
         $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
@@ -315,7 +315,7 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
-    if ($sidebar != '') {
+    if ('' != $sidebar) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', [$panel, $sidebar], false);
         $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);

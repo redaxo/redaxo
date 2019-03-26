@@ -35,7 +35,7 @@ abstract class rex_var
     {
         $env = (int) $env;
 
-        if (($env & self::ENV_INPUT) != self::ENV_INPUT) {
+        if (self::ENV_INPUT != ($env & self::ENV_INPUT)) {
             $env = $env | self::ENV_OUTPUT;
         }
 
@@ -73,15 +73,15 @@ abstract class rex_var
                     break;
 
                 case T_CONSTANT_ENCAPSED_STRING:
-                    $format = $token[1][0] == '"' ? '" . %s . "' : "' . %s . '";
+                    $format = '"' == $token[1][0] ? '" . %s . "' : "' . %s . '";
                     $add = self::replaceVars($add, $format, false, $token[1][0]);
 
                     $start = substr($add, 0, 5);
                     $end = substr($add, -5);
-                    if ($start == '"" . ' || $start == "'' . ") {
+                    if ('"" . ' == $start || "'' . " == $start) {
                         $add = substr($add, 5);
                     }
-                    if ($end == ' . ""' || $end == " . ''") {
+                    if (' . ""' == $end || " . ''" == $end) {
                         $add = substr($add, 0, -5);
                     }
                     break;
@@ -98,7 +98,7 @@ abstract class rex_var
                     break;
 
                 case T_START_HEREDOC:
-                    while (isset($tokens[++$i]) && (is_string($tokens[$i]) || $tokens[$i][0] != T_END_HEREDOC)) {
+                    while (isset($tokens[++$i]) && (is_string($tokens[$i]) || T_END_HEREDOC != $tokens[$i][0])) {
                         $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
                     }
                     --$i;
@@ -167,13 +167,13 @@ abstract class rex_var
             $var = self::getVar($match[1]);
             $replaced = false;
 
-            if ($var !== false) {
+            if (false !== $var) {
                 $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
                 if ($stripslashes) {
                     $args = str_replace(['\\' . $stripslashes, '\\' . $stripslashes], $stripslashes, $args);
                 }
                 $var->setArgs($args);
-                if (($output = $var->getGlobalArgsOutput()) !== false) {
+                if (false !== ($output = $var->getGlobalArgsOutput())) {
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
@@ -342,7 +342,7 @@ abstract class rex_var
      */
     private function getGlobalArgsOutput()
     {
-        if (($content = $this->getOutput()) === false) {
+        if (false === ($content = $this->getOutput())) {
             return false;
         }
 

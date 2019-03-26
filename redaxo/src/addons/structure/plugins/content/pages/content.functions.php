@@ -10,14 +10,14 @@ $onclickApiFields = static function ($hiddenFields) {
     return 'onclick="$(this.form).append(\''.rex_escape($hiddenFields).'\')"';
 };
 
-$isStartpage = $article->getValue('startarticle') == 1;
+$isStartpage = 1 == $article->getValue('startarticle');
 // --------------------------------------------------- ZUM STARTARTICLE MACHEN START
 if (rex::getUser()->hasPerm('article2startarticle[]')) {
     $panel = '<fieldset>';
 
     $panelClass = 'default';
     $buttons = '';
-    if (!$isStartpage && $article->getValue('parent_id') == 0) {
+    if (!$isStartpage && 0 == $article->getValue('parent_id')) {
         $panelClass = 'info';
 
         $formElements = [];
@@ -107,7 +107,7 @@ if (!$isStartpage && rex::getUser()->hasPerm('article2category[]')) {
 if ($isStartpage && rex::getUser()->hasPerm('article2category[]') && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($article->getValue('parent_id'))) {
     $sql = rex_sql::factory();
     $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$article_id]);
-    $emptyCategory = $sql->getRows() == 0;
+    $emptyCategory = 0 == $sql->getRows();
 
     $panel = '<fieldset>';
 

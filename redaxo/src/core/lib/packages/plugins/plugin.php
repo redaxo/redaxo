@@ -40,7 +40,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      */
     public static function get($addon, $plugin = null)
     {
-        if ($plugin === null) {
+        if (null === $plugin) {
             throw new InvalidArgumentException('Missing Argument 2 for ' . self::class . '::' . __METHOD__ . '()');
         }
         if (!is_string($addon)) {

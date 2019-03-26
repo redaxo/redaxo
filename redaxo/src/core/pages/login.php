@@ -11,7 +11,7 @@ $rex_user_login = rex_post('rex_user_login', 'string');
 echo rex_view::title(rex_i18n::msg('login'));
 
 $js = '';
-if ($rex_user_loginmessage != '') {
+if ('' != $rex_user_loginmessage) {
     echo '<div class="rex-js-login-message">'.rex_view::error($rex_user_loginmessage) . "</div>\n";
     $js = '
         var time_el = $(".rex-js-login-message strong[data-time]");

@@ -16,11 +16,11 @@ class rex_linkmap_category_tree extends rex_linkmap_tree_renderer
 
     protected function treeItem(rex_category $cat, $liClasses, $linkClasses, $subHtml, $liIcon)
     {
-        if ($liClasses != '') {
+        if ('' != $liClasses) {
             $liClasses = ' class="' . rtrim($liClasses) . '"';
         }
 
-        if ($linkClasses != '') {
+        if ('' != $linkClasses) {
             $linkClasses = ' class="' . rtrim($linkClasses) . '"';
         }
 
