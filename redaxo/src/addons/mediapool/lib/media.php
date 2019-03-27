@@ -289,6 +289,14 @@ class rex_media
         return self::isImageType($this->getExtension());
     }
 
+    /**
+     * @return bool
+     */
+    public function isVideo()
+    {
+        return self::isVideoType($this->getExtension());
+    }
+
     // new functions by vscope
 
     /**
@@ -321,9 +329,20 @@ class rex_media
         return rex_addon::get('mediapool')->getProperty('image_extensions');
     }
 
+    // allowed video upload types
+    public static function getVideoTypes()
+    {
+        return rex_addon::get('mediapool')->getProperty('video_extensions');
+    }
+
     public static function isImageType($extension)
     {
         return in_array($extension, self::getImageTypes());
+    }
+
+    public static function isVideoType($extension)
+    {
+        return in_array($extension, self::getVideoTypes());
     }
 
     public function hasValue($value)

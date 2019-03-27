@@ -28,6 +28,7 @@ allowed_mime_types: ~
 
 allowed_doctypes: [bmp, css, doc, docx, eps, gif, gz, jpg, jpeg, mov, mp3, mp4, ogg, pdf, png, ppt, pptx, pps, ppsx, rar, rtf, svg, swf, tar, tif, tiff, txt, webp, wma, xls, xlsx, zip]
 image_extensions: [bmp, gif, jpeg, jpg, png, svg, tif, tiff, webp]
+video_extensions: [mov, mp4, ogg, wma]
 
 requires:
     redaxo: ^5.5.0
