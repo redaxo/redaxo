@@ -63,7 +63,7 @@ class rex_socket
      */
     public static function factory($host, $port = 80, $ssl = false)
     {
-        if (self::class === static::class && ($proxy = rex::getProperty('socket_proxy'))) {
+        if (static::class === self::class && ($proxy = rex::getProperty('socket_proxy'))) {
             return rex_socket_proxy::factoryUrl($proxy)->setDestination($host, $port, $ssl);
         }
 
@@ -169,9 +169,9 @@ class rex_socket
     /**
      * Makes a GET request.
      *
-     * @throws rex_socket_exception
-     *
      * @return rex_socket_response Response
+     *
+     * @throws rex_socket_exception
      */
     public function doGet()
     {
@@ -184,14 +184,14 @@ class rex_socket
      * @param string|array|callable $data  Body data as string or array (POST parameters) or a callback for writing the body
      * @param array                 $files Files array, e.g. `array('myfile' => array('path' => $path, 'type' => 'image/png'))`
      *
-     * @throws rex_socket_exception
-     *
      * @return rex_socket_response Response
+     *
+     * @throws rex_socket_exception
      */
     public function doPost($data = '', array $files = [])
     {
         if (is_array($data) && !empty($files)) {
-            $data = static function ($stream) use ($data, $files) {
+            $data = function ($stream) use ($data, $files) {
                 $boundary = '----------6n2Yd9bk2liD6piRHb5xF6';
                 $eol = "\r\n";
                 fwrite($stream, 'Content-Type: multipart/form-data; boundary=' . $boundary . $eol);
@@ -203,7 +203,7 @@ class rex_socket
                 $data = [];
                 $partLength = rex_string::size(sprintf($dataFormat, '') . $eol);
                 foreach ($temp as $t) {
-                    [$key, $value] = array_map('urldecode', explode('=', $t, 2));
+                    list($key, $value) = array_map('urldecode', explode('=', $t, 2));
                     $data[$key] = $value;
                     $length += $partLength + rex_string::size($key) + rex_string::size($value);
                 }
@@ -239,9 +239,9 @@ class rex_socket
     /**
      * Makes a DELETE request.
      *
-     * @throws rex_socket_exception
-     *
      * @return rex_socket_response Response
+     *
+     * @throws rex_socket_exception
      */
     public function doDelete()
     {
@@ -254,9 +254,9 @@ class rex_socket
      * @param string          $method HTTP method, e.g. "GET"
      * @param string|callable $data   Body data as string or a callback for writing the body
      *
-     * @throws InvalidArgumentException
-     *
      * @return rex_socket_response Response
+     *
+     * @throws InvalidArgumentException
      */
     public function doRequest($method, $data = '')
     {
@@ -315,7 +315,7 @@ class rex_socket
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
         $prevError = null;
-        set_error_handler(static function ($errno, $errstr) use (&$prevError) {
+        set_error_handler(function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {
                 $prevError = $errstr;
             }
@@ -387,17 +387,17 @@ class rex_socket
      *
      * @param string $url Full URL
      *
-     * @throws rex_socket_exception
-     *
      * @return array URL parts
+     *
+     * @throws rex_socket_exception
      */
     protected static function parseUrl($url)
     {
         $parts = parse_url($url);
-        if (false !== $parts && !isset($parts['host']) && 0 !== strpos($url, 'http')) {
+        if ($parts !== false && !isset($parts['host']) && strpos($url, 'http') !== 0) {
             $parts = parse_url('http://' . $url);
         }
-        if (false === $parts || !isset($parts['host'])) {
+        if ($parts === false || !isset($parts['host'])) {
             throw new rex_socket_exception('It isn\'t possible to parse the URL "' . $url . '"!');
         }
 
@@ -408,14 +408,14 @@ class rex_socket
             if (!in_array($parts['scheme'], $supportedProtocols)) {
                 throw new rex_socket_exception('Unsupported protocol "' . $parts['scheme'] . '". Supported protocols are ' . implode(', ', $supportedProtocols) . '.');
             }
-            if ('https' == $parts['scheme']) {
+            if ($parts['scheme'] == 'https') {
                 $ssl = true;
                 $port = 443;
             }
         }
         $port = isset($parts['port']) ? (int) $parts['port'] : $port;
 
-        $path = ($parts['path'] ?? '/')
+        $path = (isset($parts['path']) ? $parts['path'] : '/')
             . (isset($parts['query']) ? '?' . $parts['query'] : '')
             . (isset($parts['fragment']) ? '#' . $parts['fragment'] : '');
 

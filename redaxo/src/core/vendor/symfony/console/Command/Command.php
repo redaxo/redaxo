@@ -37,7 +37,7 @@ class Command
     private $application;
     private $name;
     private $processTitle;
-    private $aliases = [];
+    private $aliases = array();
     private $definition;
     private $hidden = false;
     private $help;
@@ -46,8 +46,8 @@ class Command
     private $applicationDefinitionMerged = false;
     private $applicationDefinitionMergedWithArgs = false;
     private $code;
-    private $synopsis = [];
-    private $usages = [];
+    private $synopsis = array();
+    private $usages = array();
     private $helperSet;
 
     /**
@@ -66,7 +66,7 @@ class Command
      *
      * @throws LogicException When the command name is empty
      */
-    public function __construct(string $name = null)
+    public function __construct($name = null)
     {
         $this->definition = new InputDefinition();
 
@@ -250,7 +250,7 @@ class Command
         $input->validate();
 
         if ($this->code) {
-            $statusCode = ($this->code)($input, $output);
+            $statusCode = \call_user_func($this->code, $input, $output);
         } else {
             $statusCode = $this->execute($input, $output);
         }
@@ -277,7 +277,15 @@ class Command
         if ($code instanceof \Closure) {
             $r = new \ReflectionFunction($code);
             if (null === $r->getClosureThis()) {
-                $code = \Closure::bind($code, $this);
+                if (\PHP_VERSION_ID < 70000) {
+                    // Bug in PHP5: https://bugs.php.net/bug.php?id=64761
+                    // This means that we cannot bind static closures and therefore we must
+                    // ignore any errors here.  There is no way to test if the closure is
+                    // bindable.
+                    $code = @\Closure::bind($code, $this);
+                } else {
+                    $code = \Closure::bind($code, $this);
+                }
             }
         }
 
@@ -380,7 +388,7 @@ class Command
      * Adds an option.
      *
      * @param string                        $name        The option name
-     * @param string|array|null             $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param string|array                  $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
      * @param int|null                      $mode        The option mode: One of the InputOption::VALUE_* constants
      * @param string                        $description A description text
      * @param string|string[]|int|bool|null $default     The default value (must be null for InputOption::VALUE_NONE)
@@ -527,14 +535,14 @@ class Command
         $name = $this->name;
         $isSingleCommand = $this->application && $this->application->isSingleCommand();
 
-        $placeholders = [
+        $placeholders = array(
             '%command.name%',
             '%command.full_name%',
-        ];
-        $replacements = [
+        );
+        $replacements = array(
             $name,
             $isSingleCommand ? $_SERVER['PHP_SELF'] : $_SERVER['PHP_SELF'].' '.$name,
-        ];
+        );
 
         return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());
     }
@@ -643,9 +651,11 @@ class Command
      *
      * It must be non-empty and parts can optionally be separated by ":".
      *
+     * @param string $name
+     *
      * @throws InvalidArgumentException When the name is invalid
      */
-    private function validateName(string $name)
+    private function validateName($name)
     {
         if (!preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
             throw new InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));

@@ -183,14 +183,12 @@ class rex_clang
     /**
      * Counts the clangs.
      *
-     * @param bool $ignoreOfflines
-     *
      * @return int
      */
-    public static function count($ignoreOfflines = false)
+    public static function count()
     {
         self::checkCache();
-        return count(self::getAll($ignoreOfflines));
+        return count(self::$clangs);
     }
 
     /**
@@ -221,7 +219,7 @@ class rex_clang
             return self::$clangs;
         }
 
-        return array_filter(self::$clangs, static function (self $clang) {
+        return array_filter(self::$clangs, function (self $clang) {
             return $clang->isOnline();
         });
     }

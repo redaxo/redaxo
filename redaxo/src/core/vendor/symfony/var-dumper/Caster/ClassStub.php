@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Represents a PHP class identifier.
  *
@@ -24,25 +22,31 @@ class ClassStub extends ConstStub
      * @param string   $identifier A PHP identifier, e.g. a class, method, interface, etc. name
      * @param callable $callable   The callable targeted by the identifier when it is ambiguous or not a real PHP identifier
      */
-    public function __construct(string $identifier, $callable = null)
+    public function __construct($identifier, $callable = null)
     {
         $this->value = $identifier;
+
+        if (0 < $i = strrpos($identifier, '\\')) {
+            $this->attr['ellipsis'] = \strlen($identifier) - $i;
+            $this->attr['ellipsis-type'] = 'class';
+            $this->attr['ellipsis-tail'] = 1;
+        }
 
         try {
             if (null !== $callable) {
                 if ($callable instanceof \Closure) {
                     $r = new \ReflectionFunction($callable);
                 } elseif (\is_object($callable)) {
-                    $r = [$callable, '__invoke'];
+                    $r = array($callable, '__invoke');
                 } elseif (\is_array($callable)) {
                     $r = $callable;
                 } elseif (false !== $i = strpos($callable, '::')) {
-                    $r = [substr($callable, 0, $i), substr($callable, 2 + $i)];
+                    $r = array(substr($callable, 0, $i), substr($callable, 2 + $i));
                 } else {
                     $r = new \ReflectionFunction($callable);
                 }
             } elseif (0 < $i = strpos($identifier, '::') ?: strpos($identifier, '->')) {
-                $r = [substr($identifier, 0, $i), substr($identifier, 2 + $i)];
+                $r = array(substr($identifier, 0, $i), substr($identifier, 2 + $i));
             } else {
                 $r = new \ReflectionClass($identifier);
             }
@@ -54,31 +58,8 @@ class ClassStub extends ConstStub
                     $r = new \ReflectionClass($r[0]);
                 }
             }
-
-            if (false !== strpos($identifier, "class@anonymous\0")) {
-                $this->value = $identifier = preg_replace_callback('/class@anonymous\x00.*?\.php0x?[0-9a-fA-F]++/', function ($m) {
-                    return \class_exists($m[0], false) ? get_parent_class($m[0]).'@anonymous' : $m[0];
-                }, $identifier);
-            }
-
-            if (null !== $callable && $r instanceof \ReflectionFunctionAbstract) {
-                $s = ReflectionCaster::castFunctionAbstract($r, [], new Stub(), true);
-                $s = ReflectionCaster::getSignature($s);
-
-                if ('()' === substr($identifier, -2)) {
-                    $this->value = substr_replace($identifier, $s, -2);
-                } else {
-                    $this->value .= $s;
-                }
-            }
         } catch (\ReflectionException $e) {
             return;
-        } finally {
-            if (0 < $i = strrpos($this->value, '\\')) {
-                $this->attr['ellipsis'] = \strlen($this->value) - $i;
-                $this->attr['ellipsis-type'] = 'class';
-                $this->attr['ellipsis-tail'] = 1;
-            }
         }
 
         if ($f = $r->getFileName()) {
@@ -94,9 +75,9 @@ class ClassStub extends ConstStub
         }
 
         if (!\is_array($callable)) {
-            $callable = new static($callable, $callable);
+            $callable = new static($callable);
         } elseif (\is_string($callable[0])) {
-            $callable[0] = new static($callable[0], $callable);
+            $callable[0] = new static($callable[0]);
         } else {
             $callable[1] = new static($callable[1], $callable);
         }

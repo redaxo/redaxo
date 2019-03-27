@@ -66,7 +66,7 @@ abstract class rex_error_handler
             rex_response::setStatus($status);
 
             if (rex::isSetup() || rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
-                [$errPage, $contentType] = self::renderWhoops($exception);
+                list($errPage, $contentType) = self::renderWhoops($exception);
                 rex_response::sendContent($errPage, $contentType);
                 exit(1);
             }
@@ -345,7 +345,7 @@ abstract class rex_error_handler
             }
 
             $file = isset($frame['file']) ? rex_path::relative($frame['file']) : '';
-            $line = $frame['line'] ?? '';
+            $line = isset($frame['line']) ? $frame['line'] : '';
 
             $trace[] = [$function, $file, $line];
 

@@ -92,27 +92,9 @@ final class Context
             return $key;
         }
 
-        $key            = count($this->arrays);
         $this->arrays[] = &$array;
 
-        if (!isset($array[PHP_INT_MAX]) && !isset($array[PHP_INT_MAX - 1])) {
-            $array[] = $key;
-            $array[] = $this->objects;
-        } else { /* cover the improbable case too */
-            do {
-                $key = random_int(PHP_INT_MIN, PHP_INT_MAX);
-            } while (isset($array[$key]));
-
-            $array[$key] = $key;
-
-            do {
-                $key = random_int(PHP_INT_MIN, PHP_INT_MAX);
-            } while (isset($array[$key]));
-
-            $array[$key] = $this->objects;
-        }
-
-        return $key;
+        return count($this->arrays) - 1;
     }
 
     /**
@@ -136,9 +118,22 @@ final class Context
      */
     private function containsArray(array &$array)
     {
-        $end = array_slice($array, -2);
+        $keys = array_keys($this->arrays, $array, true);
+        $hash = '_Key_' . microtime(true);
 
-        return isset($end[1]) && $end[1] === $this->objects ? $end[0] : false;
+        foreach ($keys as $key) {
+            $this->arrays[$key][$hash] = $hash;
+
+            if (isset($array[$hash]) && $array[$hash] === $hash) {
+                unset($this->arrays[$key][$hash]);
+
+                return $key;
+            }
+
+            unset($this->arrays[$key][$hash]);
+        }
+
+        return false;
     }
 
     /**
@@ -153,15 +148,5 @@ final class Context
         }
 
         return false;
-    }
-
-    public function __destruct()
-    {
-        foreach ($this->arrays as &$array) {
-            if (is_array($array)) {
-                array_pop($array);
-                array_pop($array);
-            }
-        }
     }
 }

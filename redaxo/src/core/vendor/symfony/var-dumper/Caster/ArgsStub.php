@@ -20,13 +20,13 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class ArgsStub extends EnumStub
 {
-    private static $parameters = [];
+    private static $parameters = array();
 
-    public function __construct(array $args, string $function, ?string $class)
+    public function __construct(array $args, $function, $class)
     {
         list($variadic, $params) = self::getParameters($function, $class);
 
-        $values = [];
+        $values = array();
         foreach ($args as $k => $v) {
             $values[$k] = !is_scalar($v) && !$v instanceof Stub ? new CutStub($v) : $v;
         }
@@ -41,7 +41,7 @@ class ArgsStub extends EnumStub
             $values[] = new EnumStub(array_splice($values, \count($params)), false);
             $params[] = $variadic;
         }
-        if (['...'] === $params) {
+        if (array('...') === $params) {
             $this->dumpKeys = false;
             $this->value = $values[0]->value;
         } else {
@@ -58,23 +58,23 @@ class ArgsStub extends EnumStub
         try {
             $r = null !== $class ? new \ReflectionMethod($class, $function) : new \ReflectionFunction($function);
         } catch (\ReflectionException $e) {
-            return [null, null];
+            return array(null, null);
         }
 
         $variadic = '...';
-        $params = [];
+        $params = array();
         foreach ($r->getParameters() as $v) {
             $k = '$'.$v->name;
             if ($v->isPassedByReference()) {
                 $k = '&'.$k;
             }
-            if ($v->isVariadic()) {
+            if (method_exists($v, 'isVariadic') && $v->isVariadic()) {
                 $variadic .= $k;
             } else {
                 $params[] = $k;
             }
         }
 
-        return self::$parameters[$k] = [$variadic, $params];
+        return self::$parameters[$k] = array($variadic, $params);
     }
 }

@@ -549,12 +549,12 @@ abstract class rex_form_base
 
         // Evtl postwerte wieder übernehmen (auch externe Werte überschreiben)
         $postValue = $this->elementPostValue($this->getFieldsetName(), $name);
-        if (null !== $postValue) {
+        if ($postValue !== null) {
             $value = $postValue;
         }
 
         // Wert aus Quelle nehmen, falls keiner extern und keiner im POST angegeben
-        if (null === $value) {
+        if ($value === null) {
             $value = $this->getValue($name);
         }
 
@@ -564,9 +564,9 @@ abstract class rex_form_base
 
         // Eigentlichen Feldnamen nochmals speichern
         $fieldName = $name;
-        if (true === $attributes['internal::useArraySyntax']) {
+        if ($attributes['internal::useArraySyntax'] === true) {
             $name = $this->fieldset . '[' . $name . ']';
-        } elseif (false === $attributes['internal::useArraySyntax']) {
+        } elseif ($attributes['internal::useArraySyntax'] === false) {
             $name = $this->fieldset . '_' . $name;
         }
         unset($attributes['internal::useArraySyntax']);
@@ -771,7 +771,7 @@ abstract class rex_form_base
      */
     protected function isHeaderElement(rex_form_element $element)
     {
-        return 'input' == $element->getTag() && 'hidden' == $element->getAttribute('type');
+        return $element->getTag() == 'input' && $element->getAttribute('type') == 'hidden';
     }
 
     /**
@@ -969,7 +969,7 @@ abstract class rex_form_base
     public function getWarning()
     {
         $warning = rex_request($this->getName() . '_warning', 'string');
-        if ('' != $this->warning) {
+        if ($this->warning != '') {
             $warning .= "\n" . $this->warning;
         }
         return $warning;
@@ -986,7 +986,7 @@ abstract class rex_form_base
     public function getMessage()
     {
         $message = rex_request($this->getName() . '_msg', 'string');
-        if ('' != $this->message) {
+        if ($this->message != '') {
             $message .= "\n" . $this->message;
         }
         return $message;
@@ -1059,7 +1059,7 @@ abstract class rex_form_base
             foreach ($fieldsetElements as $element) {
                 /** @var rex_form_element $element */
                 // read-only-fields
-                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
+                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
                     continue;
                 }
 
@@ -1081,7 +1081,7 @@ abstract class rex_form_base
         foreach ($saveElements as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $key => $element) {
                 // read-only-fields nicht speichern
-                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
+                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
                     continue;
                 }
 
@@ -1110,12 +1110,12 @@ abstract class rex_form_base
 
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
-        if ('' != $listMessage) {
+        if ($listMessage != '') {
             $listName = rex_request('list', 'string');
             $params[$listName . '_msg'] = $listMessage;
         }
 
-        if ('' != $listWarning) {
+        if ($listWarning != '') {
             $listName = rex_request('list', 'string');
             $params[$listName . '_warning'] = $listWarning;
         }
@@ -1147,17 +1147,17 @@ abstract class rex_form_base
             $this->setApplyUrl($this->getUrl(['func' => ''], false));
         }
 
-        if (null !== ($controlElement = $this->getControlElement())) {
+        if (($controlElement = $this->getControlElement()) !== null) {
             if ($controlElement->saved()) {
                 $this->processPostValues();
 
                 // speichern und umleiten
                 // Nachricht in der Liste anzeigen
-                if (true === ($result = $this->validate()) && true === ($result = $this->save())) {
+                if (($result = $this->validate()) === true && ($result = $this->save()) === true) {
                     $this->redirect(rex_i18n::msg('form_saved'));
                 } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
-                } elseif (is_string($result) && '' != $result) {
+                } elseif (is_string($result) && $result != '') {
                     $this->setWarning($result);
                 } else {
                     $this->setWarning(rex_i18n::msg('form_save_error'));
@@ -1167,11 +1167,11 @@ abstract class rex_form_base
 
                 // speichern und wiederanzeigen
                 // Nachricht im Formular anzeigen
-                if (true === ($result = $this->validate()) && true === ($result = $this->save())) {
+                if (($result = $this->validate()) === true && ($result = $this->save()) === true) {
                     $this->setMessage(rex_i18n::msg('form_applied'));
                 } elseif (is_int($result) && isset($this->errorMessages[$result])) {
                     $this->setWarning($this->errorMessages[$result]);
-                } elseif (is_string($result) && '' != $result) {
+                } elseif (is_string($result) && $result != '') {
                     $this->setWarning($result);
                 } else {
                     $this->setWarning(rex_i18n::msg('form_save_error'));
@@ -1179,9 +1179,9 @@ abstract class rex_form_base
             } elseif ($controlElement->deleted()) {
                 // speichern und wiederanzeigen
                 // Nachricht in der Liste anzeigen
-                if (true === ($result = $this->delete())) {
+                if (($result = $this->delete()) === true) {
                     $this->redirect(rex_i18n::msg('form_deleted'));
-                } elseif (is_string($result) && '' != $result) {
+                } elseif (is_string($result) && $result != '') {
                     $this->setWarning($result);
                 } else {
                     $this->setWarning(rex_i18n::msg('form_delete_error'));
@@ -1211,9 +1211,9 @@ abstract class rex_form_base
 
         $warning = $this->getWarning();
         $message = $this->getMessage();
-        if ('' != $warning) {
+        if ($warning != '') {
             $s .= '  ' . rex_view::error($warning) . "\n";
-        } elseif ('' != $message) {
+        } elseif ($message != '') {
             $s .= '  ' . rex_view::success($message) . "\n";
         }
 
@@ -1231,12 +1231,12 @@ abstract class rex_form_base
         foreach ($fieldsets as $fieldsetName => $fieldsetElements) {
             $s .= '<fieldset>' . "\n";
 
-            if ('' != $fieldsetName && $fieldsetName != $this->name) {
+            if ($fieldsetName != '' && $fieldsetName != $this->name) {
                 $s .= '<legend>' . rex_escape($fieldsetName) . '</legend>' . "\n";
             }
 
             // Die HeaderElemente nur im 1. Fieldset ganz am Anfang einfügen
-            if (0 == $i && $addHeaders) {
+            if ($i == 0 && $addHeaders) {
                 foreach ($this->getHeaderElements() as $element) {
                     // Callback
                     $element->setValue($this->preView($fieldsetName, $element->getFieldName(), $element->getValue()));

@@ -11,7 +11,7 @@ class rex_csrf_token
 {
     use rex_factory_trait;
 
-    public const PARAM = '_csrf_token';
+    const PARAM = '_csrf_token';
 
     private $id;
 

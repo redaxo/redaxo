@@ -27,7 +27,7 @@ $success = '';
 $csrfToken = rex_csrf_token::factory('clang');
 
 // ----- delete clang
-if ('deleteclang' == $func && '' != $clang_id && rex_clang::exists($clang_id)) {
+if ($func == 'deleteclang' && $clang_id != '' && rex_clang::exists($clang_id)) {
     try {
         if (!$csrfToken->isValid()) {
             throw new rex_functional_exception(rex_i18n::msg('csrf_token_invalid'));
@@ -61,10 +61,10 @@ if ($add_clang_save || $edit_clang_save) {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $func = $add_clang_save ? 'addclang' : 'editclang';
-    } elseif ('' == $clang_code) {
+    } elseif ($clang_code == '') {
         $error = rex_i18n::msg('enter_code');
         $func = $add_clang_save ? 'addclang' : 'editclang';
-    } elseif ('' == $clang_name) {
+    } elseif ($clang_name == '') {
         $error = rex_i18n::msg('enter_name');
         $func = $add_clang_save ? 'addclang' : 'editclang';
     } elseif ($add_clang_save) {
@@ -82,11 +82,11 @@ if ($add_clang_save || $edit_clang_save) {
     }
 }
 
-if ('' != $success) {
+if ($success != '') {
     $message .= rex_view::success($success);
 }
 
-if ('' != $error) {
+if ($error != '') {
     $message .= rex_view::error($error);
 }
 
@@ -106,7 +106,7 @@ $content .= '
     ';
 
 // Add form
-if ('addclang' == $func) {
+if ($func == 'addclang') {
     // ----- EXTENSION POINT
     $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', ''));
 
@@ -140,7 +140,7 @@ foreach ($sql as $row) {
     }
 
     // Edit form
-    if ('editclang' == $func && $clang_id == $lang_id) {
+    if ($func == 'editclang' && $clang_id == $lang_id) {
         // ----- EXTENSION POINT
         $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', '', ['id' => $clang_id, 'sql' => $sql]));
 
@@ -187,7 +187,7 @@ $fragment->setVar('title', rex_i18n::msg('clang_caption'), false);
 $fragment->setVar('content', $content, false);
 $content = $fragment->parse('core/page/section.php');
 
-if ('addclang' == $func || 'editclang' == $func) {
+if ($func == 'addclang' || $func == 'editclang') {
     $content = '
         <form id="rex-form-system-language" action="' . rex_url::currentBackendPage() . '" method="post">
             <fieldset>

@@ -75,7 +75,7 @@ class rex_media_manager
             $set = $this->effectsFromType($type);
             $set = rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_FILTERSET', $set, ['rex_media_type' => $type]));
 
-            if (0 == count($set)) {
+            if (count($set) == 0) {
                 $this->use_cache = false;
                 return $this->media;
             }
@@ -203,9 +203,6 @@ class rex_media_manager
         foreach ($sql as $row) {
             $counter += self::deleteCache(null, $row->getValue('name'));
         }
-
-        rex_file::delete(rex_path::addonCache('media_manager', 'types.cache'));
-
         return $counter;
     }
 
@@ -338,7 +335,7 @@ class rex_media_manager
         $rex_media_manager_file = self::getMediaFile();
         $rex_media_manager_type = self::getMediaType();
 
-        if ('' != $rex_media_manager_file && '' != $rex_media_manager_type) {
+        if ($rex_media_manager_file != '' && $rex_media_manager_type != '') {
             $media_path = rex_path::media($rex_media_manager_file);
             $cache_path = rex_path::addonCache('media_manager');
 
@@ -374,74 +371,5 @@ class rex_media_manager
         $type = basename($type);
 
         return $type;
-    }
-
-    /**
-     * @param string           $type      Media type
-     * @param string|rex_media $file      Media file
-     * @param null|int         $timestamp Last change timestamp of given file, for cache buster parameter
-     *                                    (not nessary when the file is given by a `rex_media` object)
-     * @param bool             $escape
-     *
-     * @return string
-     */
-    public static function getUrl($type, $file, $timestamp = null, $escape = true)
-    {
-        if ($file instanceof rex_media) {
-            if (null === $timestamp) {
-                $timestamp = $file->getUpdateDate();
-            }
-
-            $file = $file->getFileName();
-        }
-
-        $params = [
-            'rex_media_type' => $type,
-            'rex_media_file' => $file,
-        ];
-
-        if (null !== $timestamp) {
-            $cache = self::getTypeCache();
-
-            if (isset($cache[$type])) {
-                $params['buster'] = max($timestamp, $cache[$type]);
-            }
-        }
-
-        if (rex::isBackend()) {
-            $url = rex_url::backendController($params, $escape);
-        } else {
-            $url = rex_url::frontendController($params, $escape);
-        }
-
-        return rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_URL', $url, [
-            'type' => $type,
-            'file' => $file,
-            'buster' => $params['buster'] ?? null,
-            'escape' => $escape,
-        ]));
-    }
-
-    private static function getTypeCache()
-    {
-        $file = rex_path::addonCache('media_manager', 'types.cache');
-
-        if (null !== $cache = rex_file::getCache($file, null)) {
-            return $cache;
-        }
-
-        $cache = [];
-
-        $sql = rex_sql::factory();
-        $sql->setQuery('SELECT name, updatedate FROM '.rex::getTable('media_manager_type'));
-
-        /** @var rex_sql $row */
-        foreach ($sql as $row) {
-            $cache[$row->getValue('name')] = $row->getDateTimeValue('updatedate');
-        }
-
-        rex_file::putCache($file, $cache);
-
-        return $cache;
     }
 }

@@ -47,9 +47,9 @@ class rex_clang_service
      * @param int       $priority Priority
      * @param bool|null $status   Status
      *
-     * @throws rex_exception
-     *
      * @return bool
+     *
+     * @throws rex_exception
      */
     public static function editCLang($id, $code, $name, $priority, $status = null)
     {
@@ -140,7 +140,7 @@ class rex_clang_service
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (false === rex_file::putCache($file, $clangs)) {
+        if (rex_file::putCache($file, $clangs) === false) {
             throw new rex_exception('Clang cache file could not be generated');
         }
     }

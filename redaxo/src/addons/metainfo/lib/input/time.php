@@ -14,8 +14,8 @@ class rex_input_time extends rex_input
     {
         parent::__construct();
 
-        $range = static function ($start, $end) {
-            return array_map(static function ($number) {
+        $range = function ($start, $end) {
+            return array_map(function ($number) {
                 return sprintf('%02d', $number);
             }, range($start, $end));
         };
@@ -23,14 +23,12 @@ class rex_input_time extends rex_input
         $this->hourSelect = new rex_select();
         $this->hourSelect->addOptions($range(0, 23), true);
         $this->hourSelect->setSize(1);
-        $this->hourSelect->setAttribute('class', 'rex-form-select-date selectpicker');
-        $this->hourSelect->setAttribute('data-width', 'fit');
+        $this->hourSelect->setAttribute('class', 'rex-form-select-date');
 
         $this->minuteSelect = new rex_select();
         $this->minuteSelect->addOptions($range(0, 59), true);
         $this->minuteSelect->setSize(1);
-        $this->minuteSelect->setAttribute('class', 'rex-form-select-date selectpicker');
-        $this->minuteSelect->setAttribute('data-width', 'fit');
+        $this->minuteSelect->setAttribute('class', 'rex-form-select-date');
     }
 
     public function setValue($value)
@@ -53,10 +51,10 @@ class rex_input_time extends rex_input
 
     public function setAttribute($name, $value)
     {
-        if ('name' == $name) {
+        if ($name == 'name') {
             $this->hourSelect->setName($value . '[hour]');
             $this->minuteSelect->setName($value . '[minute]');
-        } elseif ('id' == $name) {
+        } elseif ($name == 'id') {
             $this->hourSelect->setId($value . '_hour');
             $this->minuteSelect->setId($value . '_minute');
         } else {

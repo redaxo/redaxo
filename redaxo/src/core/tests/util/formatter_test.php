@@ -1,11 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_formatter_test extends TestCase
+class rex_formatter_test extends PHPUnit_Framework_TestCase
 {
     public function testDate()
     {
@@ -213,7 +208,7 @@ class rex_formatter_test extends TestCase
         );
 
         $format = [
-            static function ($params) {
+            function ($params) {
                 return $params['subject'] . ' ' . $params['some'];
             },
             ['some' => 'more params'],

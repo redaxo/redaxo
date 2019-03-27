@@ -9,7 +9,7 @@
  */
 class rex
 {
-    public const CONFIG_NAMESPACE = 'core';
+    const CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties.
@@ -56,9 +56,9 @@ class rex
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
      *
-     * @throws InvalidArgumentException on invalid parameters
-     *
      * @return bool TRUE when an existing value was overridden, otherwise FALSE
+     *
+     * @throws InvalidArgumentException on invalid parameters
      */
     public static function setProperty($key, $value)
     {
@@ -77,7 +77,7 @@ class rex
                 if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
                     $value['throw_always_exception'] = false;
                 } elseif (is_array($value['throw_always_exception'])) {
-                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], function ($result, $item) {
                         if (is_string($item)) {
                             // $item is string, e.g. "E_WARNING"
                             $item = constant($item);
@@ -114,9 +114,9 @@ class rex
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
-     * @throws InvalidArgumentException on invalid parameters
-     *
      * @return mixed The value for $key or $default if $key cannot be found
+     *
+     * @throws InvalidArgumentException on invalid parameters
      */
     public static function getProperty($key, $default = null)
     {
@@ -146,9 +146,9 @@ class rex
      *
      * @param string $key Key of the property
      *
-     * @throws InvalidArgumentException on invalid parameters
-     *
      * @return bool TRUE if the value was found and removed, otherwise FALSE
+     *
+     * @throws InvalidArgumentException on invalid parameters
      */
     public static function removeProperty($key)
     {
@@ -315,7 +315,7 @@ class rex
         if (null === $protocol) {
             return self::getProperty('server');
         }
-        [, $server] = explode('://', self::getProperty('server'), 2);
+        list(, $server) = explode('://', self::getProperty('server'), 2);
         return $protocol ? $protocol . '://' . $server : $server;
     }
 
@@ -372,14 +372,14 @@ class rex
             $output = '';
             $exitCode = null;
 
-            if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
+            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
                 $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
             } else {
                 $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
             }
 
             @exec($command, $output, $exitCode);
-            if (0 === $exitCode) {
+            if ($exitCode === 0) {
                 $output = implode('', $output);
                 if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
                     $gitHash[$path] = $matches[0];

@@ -170,6 +170,12 @@
 .rex-icon-metainfo {
     @extend .fa-lemon-o;
 }
+.rex-icon-minibar-close {
+    @extend .fa-times;
+}
+.rex-icon-minibar-open {
+    @extend .fa-window-minimize;
+}
 .rex-icon-module {
     @extend .fa-database;
 }
@@ -309,7 +315,4 @@
 }
 .rex-icon-view-media {
     @extend .fa-eye;
-}
-.rex-icon-heartbeat {
-    @extend .fa-heartbeat;
 }

@@ -7,11 +7,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
-class SameSize extends Count
+/**
+ * @since Class available since Release 3.6.0
+ */
+class PHPUnit_Framework_Constraint_SameSize extends PHPUnit_Framework_Constraint_Count
 {
-    public function __construct(iterable $expected)
+    /**
+     * @var int
+     */
+    protected $expectedCount;
+
+    /**
+     * @param int $expected
+     */
+    public function __construct($expected)
     {
         parent::__construct($this->getCountOf($expected));
     }

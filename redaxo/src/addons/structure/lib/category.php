@@ -12,13 +12,11 @@ class rex_category extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return null|self
+     * @return self
      */
     public static function getCurrent($clang = null)
     {
-        $article = rex_article::getCurrent($clang);
-
-        return $article ? $article->getCategory() : null;
+        return rex_article::getCurrent($clang)->getCategory();
     }
 
     /**

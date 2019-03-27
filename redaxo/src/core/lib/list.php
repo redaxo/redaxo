@@ -52,7 +52,6 @@ class rex_list implements rex_url_provider_interface
 {
     use rex_factory_trait;
 
-    private $db;
     private $query;
     private $sql;
     private $debug;
@@ -99,7 +98,7 @@ class rex_list implements rex_url_provider_interface
      * @param string $listName    Name der Liste
      * @param bool   $debug
      */
-    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
+    protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false)
     {
         // --------- Validation
         if (!$listName) {
@@ -108,9 +107,8 @@ class rex_list implements rex_url_provider_interface
         }
 
         // --------- List Attributes
-        $this->db = $db;
         $this->query = $query;
-        $this->sql = rex_sql::factory($db);
+        $this->sql = rex_sql::factory();
         $this->debug = $debug;
         $this->sql->setDebug($this->debug);
         $this->name = $listName;
@@ -153,7 +151,7 @@ class rex_list implements rex_url_provider_interface
 
         // --------- Load Data, Row-Count
         $this->sql->setQuery($this->prepareQuery($query));
-        $sql = rex_sql::factory($db);
+        $sql = rex_sql::factory();
         $sql->setQuery('SELECT FOUND_ROWS() as '. $sql->escapeIdentifier('rows'));
         $this->rows = $sql->getValue('rows');
         $this->pager->setRowCount($this->rows);
@@ -175,14 +173,13 @@ class rex_list implements rex_url_provider_interface
      * @param int    $rowsPerPage
      * @param null   $listName
      * @param bool   $debug
-     * @param int    $db          DB connection ID
      *
      * @return static
      */
-    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
+    public static function factory($query, $rowsPerPage = 30, $listName = null, $debug = false)
     {
         $class = static::getFactoryClass();
-        return new $class($query, $rowsPerPage, $listName, $debug, $db);
+        return new $class($query, $rowsPerPage, $listName, $debug);
     }
 
     public function init()
@@ -420,7 +417,7 @@ class rex_list implements rex_url_provider_interface
             return $this->columnLabels[$columnName];
         }
 
-        return null === $default ? $columnName : $default;
+        return $default === null ? $columnName : $default;
     }
 
     /**
@@ -584,7 +581,7 @@ class rex_list implements rex_url_provider_interface
 
         foreach ($columns as $column) {
             if (is_array($column)) {
-                $this->addTableColumn($column['width'] ?? null, $column['span'] ?? null, $column['class'] ?? null);
+                $this->addTableColumn(isset($column['width']) ? $column['width'] : null, isset($column['span']) ? $column['span'] : null, isset($column['class']) ? $column['class'] : null);
             } else {
                 $this->addTableColumn($column);
             }
@@ -647,7 +644,7 @@ class rex_list implements rex_url_provider_interface
 
         if (!isset($params['sort'])) {
             $sortColumn = $this->getSortColumn();
-            if (null != $sortColumn) {
+            if ($sortColumn != null) {
                 $params['sort'] = $sortColumn;
                 $params['sorttype'] = $this->getSortType();
             }
@@ -688,7 +685,7 @@ class rex_list implements rex_url_provider_interface
 
         if (!isset($params['sort'])) {
             $sortColumn = $this->getSortColumn();
-            if (null != $sortColumn) {
+            if ($sortColumn != null) {
                 $params['sort'] = $sortColumn;
                 $params['sorttype'] = $this->getSortType();
             }
@@ -725,20 +722,20 @@ class rex_list implements rex_url_provider_interface
         $query = preg_replace('/^\s*SELECT/i', 'SELECT SQL_CALC_FOUND_ROWS', $query, 1);
 
         $sortColumn = $this->getSortColumn();
-        if ('' != $sortColumn) {
+        if ($sortColumn != '') {
             $sortType = $this->getSortType();
 
-            $sql = rex_sql::factory($this->db);
+            $sql = rex_sql::factory();
             $sortColumn = $sql->escapeIdentifier($sortColumn);
 
-            if (false === stripos($query, ' ORDER BY ')) {
+            if (stripos($query, ' ORDER BY ') === false) {
                 $query .= ' ORDER BY ' . $sortColumn . ' ' . $sortType;
             } else {
                 $query = preg_replace('/ORDER\sBY\s[^ ]*(\sasc|\sdesc)?/i', 'ORDER BY ' . $sortColumn . ' ' . $sortType, $query);
             }
         }
 
-        if (false === stripos($query, ' LIMIT ')) {
+        if (stripos($query, ' LIMIT ') === false) {
             $query .= ' LIMIT ' . $startRow . ',' . $rowsPerPage;
         }
 
@@ -857,7 +854,7 @@ class rex_list implements rex_url_provider_interface
      */
     public function replaceVariables($value)
     {
-        if (false === strpos($value, '###')) {
+        if (strpos($value, '###') === false) {
             return $value;
         }
 
@@ -878,7 +875,7 @@ class rex_list implements rex_url_provider_interface
 
     public function isCustomFormat($format)
     {
-        return is_array($format) && isset($format[0]) && 'custom' == $format[0];
+        return is_array($format) && isset($format[0]) && $format[0] == 'custom';
     }
 
     /**
@@ -896,7 +893,7 @@ class rex_list implements rex_url_provider_interface
         if (is_array($format)) {
             // Callbackfunktion -> Parameterliste aufbauen
             if ($this->isCustomFormat($format)) {
-                $format[2] = $format[2] ?? [];
+                $format[2] = isset($format[2]) ? $format[2] : [];
                 $format[1] = [$format[1], ['list' => $this, 'field' => $field, 'value' => $value, 'format' => $format[0], 'escape' => $escape, 'params' => $format[2]]];
             }
 
@@ -906,8 +903,8 @@ class rex_list implements rex_url_provider_interface
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
         if ($escape &&
             !$this->isCustomFormat($format) &&
-            'email' != $format[0] &&
-            'url' != $format[0]
+            $format[0] != 'email' &&
+            $format[0] != 'url'
         ) {
             $value = rex_escape($value);
         }
@@ -984,20 +981,20 @@ class rex_list implements rex_url_provider_interface
         $header = $this->getHeader();
         $footer = $this->getFooter();
 
-        if ('' != $warning) {
+        if ($warning != '') {
             $s .= rex_view::warning($warning) . "\n";
-        } elseif ('' != $message) {
+        } elseif ($message != '') {
             $s .= rex_view::info($message) . "\n";
         }
 
-        if ('' != $header) {
+        if ($header != '') {
             $s .= $header . "\n";
         }
 
         $s .= '<form' . $this->_getAttributeString($this->getFormAttributes()) . '>' . "\n";
         $s .= '    <table' . $this->_getAttributeString($this->getTableAttributes()) . '>' . "\n";
 
-        if ('' != $caption) {
+        if ($caption != '') {
             $s .= '        <caption>' . rex_escape($caption) . '</caption>' . "\n";
         }
 
@@ -1022,7 +1019,7 @@ class rex_list implements rex_url_provider_interface
             $columnHead = $this->getColumnLabel($columnName);
             if ($this->hasColumnOption($columnName, REX_LIST_OPT_SORT)) {
                 if ($columnName == $sortColumn) {
-                    $columnSortType = 'desc' == $sortType ? 'asc' : 'desc';
+                    $columnSortType = $sortType == 'desc' ? 'asc' : 'desc';
                 } else {
                     $columnSortType = $this->getColumnOption($columnName, REX_LIST_OPT_SORT_DIRECTION, 'asc');
                 }
@@ -1038,7 +1035,7 @@ class rex_list implements rex_url_provider_interface
         $s .= '            </tr>' . "\n";
         $s .= '        </thead>' . "\n";
 
-        if ('' != $footer) {
+        if ($footer != '') {
             $s .= '        <tfoot>' . "\n";
             $s .= $footer;
             $s .= '        </tfoot>' . "\n";

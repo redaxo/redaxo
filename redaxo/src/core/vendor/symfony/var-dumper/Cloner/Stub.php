@@ -16,7 +16,7 @@ namespace Symfony\Component\VarDumper\Cloner;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class Stub
+class Stub implements \Serializable
 {
     const TYPE_REF = 1;
     const TYPE_STRING = 2;
@@ -37,31 +37,21 @@ class Stub
     public $handle = 0;
     public $refCount = 0;
     public $position = 0;
-    public $attr = [];
-
-    private static $defaultProperties = [];
+    public $attr = array();
 
     /**
      * @internal
      */
-    public function __sleep()
+    public function serialize()
     {
-        $properties = [];
+        return \serialize(array($this->class, $this->position, $this->cut, $this->type, $this->value, $this->handle, $this->refCount, $this->attr));
+    }
 
-        if (!isset(self::$defaultProperties[$c = \get_class($this)])) {
-            self::$defaultProperties[$c] = get_class_vars($c);
-
-            foreach ((new \ReflectionClass($c))->getStaticProperties() as $k => $v) {
-                unset(self::$defaultProperties[$c][$k]);
-            }
-        }
-
-        foreach (self::$defaultProperties[$c] as $k => $v) {
-            if ($this->$k !== $v) {
-                $properties[] = $k;
-            }
-        }
-
-        return $properties;
+    /**
+     * @internal
+     */
+    public function unserialize($serialized)
+    {
+        list($this->class, $this->position, $this->cut, $this->type, $this->value, $this->handle, $this->refCount, $this->attr) = \unserialize($serialized);
     }
 }

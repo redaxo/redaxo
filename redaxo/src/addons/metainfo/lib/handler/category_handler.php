@@ -7,8 +7,8 @@
  */
 class rex_metainfo_category_handler extends rex_metainfo_handler
 {
-    public const PREFIX = 'cat_';
-    public const CONTAINER = 'rex-structure-category-metainfo';
+    const PREFIX = 'cat_';
+    const CONTAINER = 'rex-structure-category-metainfo';
 
     public function renderToggleButton(rex_extension_point $ep)
     {
@@ -26,7 +26,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
     public function handleSave(array $params, rex_sql $sqlFields)
     {
-        if ('post' != rex_request_method()) {
+        if (rex_request_method() != 'post') {
             return $params;
         }
 
@@ -57,7 +57,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
 
             // Alle Metafelder des Pfades sind erlaubt
             foreach ($OOCat->getPathAsArray() as $pathElement) {
-                if ('' != $pathElement) {
+                if ($pathElement != '') {
                     $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
                 }
             }
@@ -75,7 +75,7 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
     {
         $element = $field;
 
-        if ('legend' == $typeLabel) {
+        if ($typeLabel == 'legend') {
             $element = '<h3 class="form-legend">' . $label . '</h3>';
         }
 

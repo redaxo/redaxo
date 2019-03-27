@@ -7,10 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework;
-
-use PHPUnit\Util\Filter;
-use Throwable;
 
 /**
  * Wraps Exceptions thrown by code under test.
@@ -18,37 +14,71 @@ use Throwable;
  * Re-instantiates Exceptions thrown by user-space code to retain their original
  * class names, properties, and stack traces (but without arguments).
  *
- * Unlike PHPUnit\Framework_\Exception, the complete stack of previous Exceptions
+ * Unlike PHPUnit_Framework_Exception, the complete stack of previous Exceptions
  * is processed.
+ *
+ * @since Class available since Release 4.3.0
  */
-class ExceptionWrapper extends Exception
+class PHPUnit_Framework_ExceptionWrapper extends PHPUnit_Framework_Exception
 {
     /**
      * @var string
      */
-    protected $className;
+    protected $classname;
 
     /**
-     * @var null|ExceptionWrapper
+     * @var PHPUnit_Framework_ExceptionWrapper|null
      */
     protected $previous;
 
-    public function __construct(Throwable $t)
+    /**
+     * @param Throwable|Exception $e
+     */
+    public function __construct($e)
     {
         // PDOException::getCode() is a string.
-        // @see https://php.net/manual/en/class.pdoexception.php#95812
-        parent::__construct($t->getMessage(), (int) $t->getCode());
-        $this->setOriginalException($t);
+        // @see http://php.net/manual/en/class.pdoexception.php#95812
+        parent::__construct($e->getMessage(), (int) $e->getCode());
+
+        $this->classname = get_class($e);
+        $this->file      = $e->getFile();
+        $this->line      = $e->getLine();
+
+        $this->serializableTrace = $e->getTrace();
+
+        foreach ($this->serializableTrace as $i => $call) {
+            unset($this->serializableTrace[$i]['args']);
+        }
+
+        if ($e->getPrevious()) {
+            $this->previous = new self($e->getPrevious());
+        }
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function __toString(): string
+    public function getClassname()
     {
-        $string = TestFailure::exceptionToString($this);
+        return $this->classname;
+    }
 
-        if ($trace = Filter::getFilteredStacktrace($this)) {
+    /**
+     * @return PHPUnit_Framework_ExceptionWrapper
+     */
+    public function getPreviousWrapped()
+    {
+        return $this->previous;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $string = PHPUnit_Framework_TestFailure::exceptionToString($this);
+
+        if ($trace = PHPUnit_Util_Filter::getFilteredStacktrace($this)) {
             $string .= "\n" . $trace;
         }
 
@@ -57,62 +87,5 @@ class ExceptionWrapper extends Exception
         }
 
         return $string;
-    }
-
-    public function getClassName(): string
-    {
-        return $this->className;
-    }
-
-    public function getPreviousWrapped(): ?self
-    {
-        return $this->previous;
-    }
-
-    public function setClassName(string $className): void
-    {
-        $this->className = $className;
-    }
-
-    public function setOriginalException(\Throwable $t): void
-    {
-        $this->originalException($t);
-
-        $this->className = \get_class($t);
-        $this->file      = $t->getFile();
-        $this->line      = $t->getLine();
-
-        $this->serializableTrace = $t->getTrace();
-
-        foreach ($this->serializableTrace as $i => $call) {
-            unset($this->serializableTrace[$i]['args']);
-        }
-
-        if ($t->getPrevious()) {
-            $this->previous = new self($t->getPrevious());
-        }
-    }
-
-    public function getOriginalException(): ?Throwable
-    {
-        return $this->originalException();
-    }
-
-    /**
-     * Method to contain static originalException to exclude it from stacktrace to prevent the stacktrace contents,
-     * which can be quite big, from being garbage-collected, thus blocking memory until shutdown.
-     * Approach works both for var_dump() and var_export() and print_r()
-     */
-    private function originalException(Throwable $exceptionToStore = null): ?Throwable
-    {
-        static $originalExceptions;
-
-        $instanceId = \spl_object_hash($this);
-
-        if ($exceptionToStore) {
-            $originalExceptions[$instanceId] = $exceptionToStore;
-        }
-
-        return $originalExceptions[$instanceId] ?? null;
     }
 }

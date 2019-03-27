@@ -97,7 +97,7 @@ class rex_media_cache
         //$sql->setDebug();
         $sql->setQuery($query, [$filename]);
 
-        if (0 == $sql->getRows()) {
+        if ($sql->getRows() == 0) {
             return false;
         }
 
@@ -140,7 +140,7 @@ class rex_media_cache
         //$sql->setDebug();
         $sql->setQuery($query, [$category_id]);
 
-        if (0 == $sql->getRows()) {
+        if ($sql->getRows() == 0) {
             return false;
         }
 

@@ -1,13 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_log_file_test extends TestCase
+class rex_log_file_test extends PHPUnit_Framework_TestCase
 {
-    protected function tearDown()
+    public function tearDown()
     {
         rex_dir::delete($this->getPath());
     }
@@ -71,7 +66,6 @@ EOF;
         $log = new rex_log_file($path);
         $this->assertSame([], iterator_to_array($log));
 
-        unset($log); // free handles to the underlying file
         rex_file::put($path, <<<'EOF'
 2013-08-27 23:07:02 | test1a | test1b
 2013-08-27 23:09:43 | test2a | test2b
@@ -81,10 +75,8 @@ EOF
             new rex_log_entry(mktime(23, 9, 43, 8, 27, 2013), ['test2a', 'test2b']),
             new rex_log_entry(mktime(23, 7, 2, 8, 27, 2013), ['test1a', 'test1b']),
         ];
-        $log = new rex_log_file($path);
         $this->assertEquals($expected, iterator_to_array($log));
 
-        unset($log); // free handles to the underlying file
         rex_file::put($path . '.2', <<<'EOF'
 
 2013-08-27 22:19:02 | test3
@@ -95,7 +87,6 @@ EOF
         );
         $expected[] = new rex_log_entry(mktime(22, 22, 43, 8, 27, 2013), ['test4']);
         $expected[] = new rex_log_entry(mktime(22, 19, 2, 8, 27, 2013), ['test3']);
-        $log = new rex_log_file($path);
         $this->assertEquals($expected, iterator_to_array($log));
     }
 

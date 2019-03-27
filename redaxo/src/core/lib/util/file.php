@@ -17,9 +17,9 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file, $default) {
+        return rex_timer::measure(__METHOD__, function () use ($file, $default) {
             $content = @file_get_contents($file);
-            return false !== $content ? $content : $default;
+            return $content !== false ? $content : $default;
         });
     }
 
@@ -34,7 +34,7 @@ class rex_file
     public static function getConfig($file, $default = [])
     {
         $content = self::get($file);
-        return null === $content ? $default : rex_string::yamlDecode($content);
+        return $content === null ? $default : rex_string::yamlDecode($content);
     }
 
     /**
@@ -48,7 +48,7 @@ class rex_file
     public static function getCache($file, $default = [])
     {
         $content = self::get($file);
-        return null === $content ? $default : json_decode($content, true);
+        return $content === null ? $default : json_decode($content, true);
     }
 
     /**
@@ -61,18 +61,15 @@ class rex_file
      */
     public static function put($file, $content)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
+        return rex_timer::measure(__METHOD__, function () use ($file, $content) {
             if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
                 return false;
             }
 
-            // mimic a atomic write
-            $tmpFile = @tempnam(dirname($file), basename($file));
-            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+            if (file_put_contents($file, $content) !== false) {
                 @chmod($file, rex::getFilePerm());
                 return true;
             }
-            @unlink($tmpFile);
 
             return false;
         });
@@ -115,7 +112,7 @@ class rex_file
      */
     public static function copy($srcfile, $dstfile)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
+        return rex_timer::measure(__METHOD__, function () use ($srcfile, $dstfile) {
             if (is_file($srcfile)) {
                 if (is_dir($dstfile)) {
                     $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
@@ -144,7 +141,7 @@ class rex_file
      */
     public static function delete($file)
     {
-        return rex_timer::measure(__METHOD__, static function () use ($file) {
+        return rex_timer::measure(__METHOD__, function () use ($file) {
             if (file_exists($file)) {
                 return unlink($file);
             }

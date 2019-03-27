@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /*
  * This file is part of sebastian/diff.
  *
@@ -10,7 +10,7 @@
 
 namespace SebastianBergmann\Diff;
 
-final class Diff
+class Diff
 {
     /**
      * @var string
@@ -32,19 +32,25 @@ final class Diff
      * @param string  $to
      * @param Chunk[] $chunks
      */
-    public function __construct(string $from, string $to, array $chunks = [])
+    public function __construct($from, $to, array $chunks = array())
     {
         $this->from   = $from;
         $this->to     = $to;
         $this->chunks = $chunks;
     }
 
-    public function getFrom(): string
+    /**
+     * @return string
+     */
+    public function getFrom()
     {
         return $this->from;
     }
 
-    public function getTo(): string
+    /**
+     * @return string
+     */
+    public function getTo()
     {
         return $this->to;
     }
@@ -52,7 +58,7 @@ final class Diff
     /**
      * @return Chunk[]
      */
-    public function getChunks(): array
+    public function getChunks()
     {
         return $this->chunks;
     }
@@ -60,7 +66,7 @@ final class Diff
     /**
      * @param Chunk[] $chunks
      */
-    public function setChunks(array $chunks): void
+    public function setChunks(array $chunks)
     {
         $this->chunks = $chunks;
     }

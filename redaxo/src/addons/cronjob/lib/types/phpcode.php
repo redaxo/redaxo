@@ -23,7 +23,7 @@ class rex_cronjob_phpcode extends rex_cronjob
             $output = preg_replace('@in ' . preg_quote(__FILE__, '@') . "\([0-9]*\) : eval\(\)'d code @", '', $output);
             $this->setMessage($output);
         }
-        if (false !== $return) {
+        if ($return !== false) {
             return true;
         }
         return false;

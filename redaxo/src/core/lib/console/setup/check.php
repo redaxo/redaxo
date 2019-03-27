@@ -25,7 +25,7 @@ class rex_command_setup_check extends rex_console_command
         $io = $this->getStyle($input, $output);
 
         $errors = rex_setup::checkEnvironment();
-        if (0 == count($errors)) {
+        if (count($errors) == 0) {
             $io->success('PHP version ok');
         } else {
             $exitCode = 1;

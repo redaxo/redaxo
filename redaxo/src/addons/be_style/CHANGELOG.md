@@ -1,21 +1,13 @@
 Changelog
 =========
 
-Version 2.7.0 – 12.03.2019
+Version 2.7.0 – XX.XX.XXXX
 --------------------------
 
 * Layout für neue Core-Komponenten und diverse kleine Optimierungen (@tbaddade)
-* Hauptnavi: Weniger Padding (top/bottom) (@schuer)
-* Neue Favicons (@schuer)
 * Consolen-Command `be_style:compile` (@bloep)
-* Codemirror-Integration verbessert (@aeberhard)
-    - Sourcen verkleinert (@aeberhard, @staabm)
-    - Ergänzt um Suche (@aeberhard)
-    - Vereinfachte Einbindung systemweit (@aeberhard)
-    - CodeMirror wird nur geladen wenn er auch benötigt wird (@aeberhard, @staabm)
-* Customizer: 
-    - Bessere Default-Erkennungsfarbe (@skerbis)
-    - Bessere Darstellung des Links zur Website im Header (@schuer)
+* CodeMirror überarbeitet/aktualisiert (@aeberhard) 
+* Customizer: Bessere Default-Erkennungsfarbe (@skerbis)
 
 
 Version 2.6.1 – 10.07.2018

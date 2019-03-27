@@ -9,7 +9,7 @@ $func = rex_request('func', 'string');
 // ---- validate type_id
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=' . $type_id);
-if (1 != $sql->getRows()) {
+if ($sql->getRows() != 1) {
     unset($type_id);
 }
 $typeName = $sql->getValue('name');
@@ -17,8 +17,16 @@ $typeName = $sql->getValue('name');
 $info = '';
 $warning = '';
 
+//-------------- delete cache on effect changes or deletion
+if ((rex_request('func') != '' || $func == 'delete')
+     && $type_id > 0
+) {
+    $counter = rex_media_manager::deleteCacheByType($type_id);
+    //  $info = rex_i18n::msg('media_manager_cache_files_removed', $counter);
+}
+
 //-------------- delete effect
-if ('delete' == $func && $effect_id > 0) {
+if ($func == 'delete' && $effect_id > 0) {
     $sql = rex_sql::factory();
     //  $sql->setDebug();
     $sql->setTable(rex::getTablePrefix() . 'media_manager_type_effect');
@@ -35,25 +43,17 @@ if ('delete' == $func && $effect_id > 0) {
         );
 
         $info = rex_i18n::msg('media_manager_effect_deleted');
-
-        rex_media_manager::deleteCacheByType($type_id);
-
-        rex_sql::factory()
-            ->setTable(rex::getTable('media_manager_type'))
-            ->setWhere(['id' => $type_id])
-            ->addGlobalUpdateFields()
-            ->update();
     } catch (rex_sql_exception $e) {
         $warning = $sql->getError();
     }
     $func = '';
 }
 
-if ('' != $info) {
+if ($info != '') {
     echo rex_view::info($info);
 }
 
-if ('' != $warning) {
+if ($warning != '') {
     echo rex_view::warning($warning);
 }
 
@@ -63,7 +63,7 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
     $effects[$shortName] = new $class();
 }
 
-if ('' == $func && $type_id > 0) {
+if ($func == '' && $type_id > 0) {
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
@@ -83,7 +83,7 @@ if ('' == $func && $type_id > 0) {
     $list->removeColumn('createuser');
 
     $list->setColumnLabel('effect', rex_i18n::msg('media_manager_type_name'));
-    $list->setColumnFormat('effect', 'custom', static function ($params) use ($effects) {
+    $list->setColumnFormat('effect', 'custom', function ($params) use ($effects) {
         $shortName = $params['value'];
         return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
@@ -118,12 +118,12 @@ if ('' == $func && $type_id > 0) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-} elseif ('add' == $func && $type_id > 0 || 'edit' == $func && $effect_id > 0 && $type_id > 0) {
-    uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
+} elseif ($func == 'add' && $type_id > 0 || $func == 'edit' && $effect_id > 0 && $type_id > 0) {
+    uasort($effects, function (rex_effect_abstract $a, rex_effect_abstract $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
 
-    if ('edit' == $func) {
+    if ($func == 'edit') {
         $formLabel = rex_i18n::RawMsg('media_manager_effect_edit_header', rex_escape($typeName));
     } else {
         $formLabel = rex_i18n::RawMsg('media_manager_effect_create_header', rex_escape($typeName));
@@ -139,7 +139,7 @@ if ('' == $func && $type_id > 0) {
     $field->setLabel(rex_i18n::msg('media_manager_effect_priority'));
     $field->setAttribute('class', 'selectpicker form-control');
     $field->setLabelField('effect');
-    $field->setLabelCallback(static function ($shortName) use ($effects) {
+    $field->setLabelCallback(function ($shortName) use ($effects) {
         return isset($effects[$shortName]) ? $effects[$shortName]->getName() : $shortName;
     });
     $field->setWhereCondition('type_id = ' . $type_id);
@@ -188,7 +188,7 @@ if ('' == $func && $type_id > 0) {
 
         foreach ($effectParams as $param) {
             $name = $effectClass . '_' . $param['name'];
-            $value = $param['default'] ?? null;
+            $value = isset($param['default']) ? $param['default'] : null;
             $attributes = [];
             if (isset($param['attributes'])) {
                 $attributes = $param['attributes'];
@@ -258,23 +258,9 @@ if ('' == $func && $type_id > 0) {
     // parameters for url redirects
     $form->addParam('type_id', $type_id);
     $form->addParam('effects', 1);
-    if ('edit' == $func) {
+    if ($func == 'edit') {
         $form->addParam('effect_id', $effect_id);
     }
-
-    rex_extension::register('REX_FORM_SAVED', static function (rex_extension_point $ep) use ($form, $type_id) {
-        if ($form !== $ep->getParam('form')) {
-            return;
-        }
-
-        rex_media_manager::deleteCacheByType($type_id);
-
-        rex_sql::factory()
-            ->setTable(rex::getTable('media_manager_type'))
-            ->setWhere(['id' => $type_id])
-            ->addGlobalUpdateFields()
-            ->update();
-    });
 
     $content = $form->get();
 

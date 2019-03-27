@@ -20,9 +20,9 @@ class rex_form_restrictons_element extends rex_form_select_element
         $this->chkbox_element->setAttribute('id', 'enable-restrictions-checkbox');
         $this->chkbox_element->addOption(rex_i18n::msg('minfo_field_label_no_restrictions'), '');
 
-        if (rex_metainfo_article_handler::PREFIX == $table->getPrefix() || rex_metainfo_category_handler::PREFIX == $table->getPrefix()) {
+        if ($table->getPrefix() == rex_metainfo_article_handler::PREFIX || $table->getPrefix() == rex_metainfo_category_handler::PREFIX) {
             $restrictionsSelect = new rex_category_select(false, false, true, false);
-        } elseif (rex_metainfo_media_handler::PREFIX == $table->getPrefix()) {
+        } elseif ($table->getPrefix() == rex_metainfo_media_handler::PREFIX) {
             $restrictionsSelect = new rex_media_category_select();
         } else {
             throw new rex_exception('Unexpected TablePrefix "' . $table->getPrefix() . '"!');

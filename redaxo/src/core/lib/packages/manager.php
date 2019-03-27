@@ -41,7 +41,7 @@ abstract class rex_package_manager
      */
     public static function factory(rex_package $package)
     {
-        if (self::class == static::class) {
+        if (static::class == self::class) {
             $class = $package instanceof rex_plugin ? 'rex_plugin_manager' : 'rex_addon_manager';
             return $class::factory($package);
         }
@@ -88,14 +88,14 @@ abstract class rex_package_manager
                 throw new rex_functional_exception($this->i18n('invalid_yml_file') . ' ' . $e->getMessage());
             }
             $packageId = $this->package->getProperty('package');
-            if (null === $packageId) {
+            if ($packageId === null) {
                 throw new rex_functional_exception($this->i18n('missing_id', $this->package->getPackageId()));
             }
             if ($packageId != $this->package->getPackageId()) {
                 $parts = explode('/', $packageId, 2);
-                throw new rex_functional_exception($this->wrongPackageId($parts[0], $parts[1] ?? null));
+                throw new rex_functional_exception($this->wrongPackageId($parts[0], isset($parts[1]) ? $parts[1] : null));
             }
-            if (null === $this->package->getVersion()) {
+            if ($this->package->getVersion() === null) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
             }
 
@@ -122,7 +122,7 @@ abstract class rex_package_manager
             if (is_readable($this->package->getPath(rex_package::FILE_INSTALL))) {
                 $this->package->includeFile(rex_package::FILE_INSTALL);
 
-                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
+                if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
                     throw new rex_functional_exception($instmsg);
                 }
                 if (!$this->package->isInstalled()) {
@@ -132,7 +132,7 @@ abstract class rex_package_manager
 
             // import install.sql
             $installSql = $this->package->getPath(rex_package::FILE_INSTALL_SQL);
-            if (true === $installDump && is_readable($installSql)) {
+            if ($installDump === true && is_readable($installSql)) {
                 rex_sql_util::importDump($installSql);
             }
 
@@ -194,7 +194,7 @@ abstract class rex_package_manager
 
                 $this->package->includeFile(rex_package::FILE_UNINSTALL);
 
-                if ('' != ($instmsg = $this->package->getProperty('installmsg', ''))) {
+                if (($instmsg = $this->package->getProperty('installmsg', '')) != '') {
                     throw new rex_functional_exception($instmsg);
                 }
                 if ($this->package->isInstalled()) {
@@ -204,7 +204,7 @@ abstract class rex_package_manager
 
             // import uninstall.sql
             $uninstallSql = $this->package->getPath(rex_package::FILE_UNINSTALL_SQL);
-            if (true === $installDump && is_readable($uninstallSql)) {
+            if ($installDump === true && is_readable($uninstallSql)) {
                 rex_sql_util::importDump($uninstallSql);
             }
 
@@ -256,18 +256,18 @@ abstract class rex_package_manager
             }
             $state = $state ?: true;
 
-            if (true === $state) {
+            if ($state === true) {
                 $this->package->setProperty('status', true);
                 $this->saveConfig();
             }
-            if (true === $state && $this->generatePackageOrder) {
+            if ($state === true && $this->generatePackageOrder) {
                 self::generatePackageOrder();
             }
         } else {
             $state = $this->i18n('not_installed', $this->package->getName());
         }
 
-        if (true !== $state) {
+        if ($state !== true) {
             // error while config generation, rollback addon status
             $this->package->setProperty('status', false);
             $this->message = $this->i18n('no_activation', $this->package->getName()) . '<br />' . $state;
@@ -287,7 +287,7 @@ abstract class rex_package_manager
     {
         $state = $this->checkDependencies();
 
-        if (true === $state) {
+        if ($state === true) {
             $this->package->setProperty('status', false);
             $this->saveConfig();
 
@@ -490,7 +490,7 @@ abstract class rex_package_manager
             }
 
             $constraints = $conflicts['packages'][$this->package->getPackageId()];
-            if (!is_string($constraints) || !$constraints || '*' === $constraints) {
+            if (!is_string($constraints) || !$constraints || $constraints === '*') {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType(), $package->getPackageId());
             } elseif (self::matchVersionConstraints($this->package->getVersion(), $constraints)) {
                 $state[] = $this->i18n('reverse_conflict_error_' . $package->getType() . '_version', $package->getPackageId(), $constraints);
@@ -519,7 +519,7 @@ abstract class rex_package_manager
             return true;
         }
         $constraints = $conflicts['packages'][$packageId];
-        if (!is_string($constraints) || !$constraints || '*' === $constraints) {
+        if (!is_string($constraints) || !$constraints || $constraints === '*') {
             $this->message = $this->i18n('conflict_error_' . $package->getType(), $package->getPackageId());
             return false;
         }
@@ -586,7 +586,7 @@ abstract class rex_package_manager
         $normal = [];
         $late = [];
         $requires = [];
-        $add = static function ($id) use (&$add, &$normal, &$requires) {
+        $add = function ($id) use (&$add, &$normal, &$requires) {
             $normal[] = $id;
             unset($requires[$id]);
             foreach ($requires as $rp => &$ps) {
@@ -605,9 +605,9 @@ abstract class rex_package_manager
             ) {
                 $load = $addonLoad;
             }
-            if ('early' === $load) {
+            if ($load === 'early') {
                 $early[] = $id;
-            } elseif ('late' === $load) {
+            } elseif ($load === 'late') {
                 $late[] = $id;
             } else {
                 $req = $package->getProperty('requires');
@@ -707,12 +707,12 @@ abstract class rex_package_manager
         $rawConstraints = array_filter(array_map('trim', explode(',', $constraints)));
         $constraints = [];
         foreach ($rawConstraints as $constraint) {
-            if ('*' === $constraint) {
+            if ($constraint === '*') {
                 continue;
             }
 
             if (!preg_match('/^(?<op>==?|<=?|>=?|!=|~|\^|) ?(?<version>\d+(?:\.\d+)*)(?<wildcard>\.\*)?(?<prerelease>[ -.]?[a-z]+(?:[ -.]?\d+)?)?$/i', $constraint, $match)
-                || isset($match['wildcard']) && $match['wildcard'] && ('' != $match['op'] || isset($match['prerelease']) && $match['prerelease'])
+                || isset($match['wildcard']) && $match['wildcard'] && ($match['op'] != '' || isset($match['prerelease']) && $match['prerelease'])
             ) {
                 throw new rex_exception('Unknown version constraint "' . $constraint . '"!');
             }
@@ -723,22 +723,20 @@ abstract class rex_package_manager
                 $sub = substr($match['version'], $pos);
                 $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
             } elseif (in_array($match['op'], ['~', '^'])) {
-                $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
+                $constraints[] = ['>=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
                 if ('^' === $match['op'] || false === $pos = strrpos($match['version'], '.')) {
-                    // add "-foo" to get a version lower than a "-dev" version
-                    $constraints[] = ['<', ((int) $match['version'] + 1) . '-foo'];
+                    $constraints[] = ['<', (int) $match['version'] + 1];
                 } else {
                     $main = '';
                     $sub = substr($match['version'], 0, $pos);
-                    if (false !== ($pos = strrpos($sub, '.'))) {
+                    if (($pos = strrpos($sub, '.')) !== false) {
                         $main = substr($sub, 0, $pos + 1);
                         $sub = substr($sub, $pos + 1);
                     }
-                    // add "-foo" to get a version lower than a "-dev" version
-                    $constraints[] = ['<', $main . ($sub + 1) . '-foo'];
+                    $constraints[] = ['<', $main . ($sub + 1)];
                 }
             } else {
-                $constraints[] = [$match['op'] ?: '=', $match['version'] . ($match['prerelease'] ?? '')];
+                $constraints[] = [$match['op'] ?: '=', $match['version'] . (isset($match['prerelease']) ? $match['prerelease'] : '')];
             }
         }
 

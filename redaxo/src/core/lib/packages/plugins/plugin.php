@@ -34,13 +34,13 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon  Name of the addon
      * @param string $plugin Name of the plugin
      *
-     * @throws InvalidArgumentException
-     *
      * @return self
+     *
+     * @throws InvalidArgumentException
      */
     public static function get($addon, $plugin = null)
     {
-        if (null === $plugin) {
+        if ($plugin === null) {
             throw new InvalidArgumentException('Missing Argument 2 for ' . self::class . '::' . __METHOD__ . '()');
         }
         if (!is_string($addon)) {

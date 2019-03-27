@@ -25,19 +25,19 @@ class rex_effect_flip extends rex_effect_abstract
         $this->keepTransparent($gdimage);
 
         // --------------- Flip X
-        if ('X' == $this->params['flip']) {
+        if ($this->params['flip'] == 'X') {
             imageflip($gdimage, IMG_FLIP_HORIZONTAL);
             $this->media->setImage($gdimage);
         }
 
         // --------------- Flip Y
-        if ('Y' == $this->params['flip']) {
+        if ($this->params['flip'] == 'Y') {
             imageflip($gdimage, IMG_FLIP_VERTICAL);
             $this->media->setImage($gdimage);
         }
 
         // --------------- Flip X and Y
-        if ('XY' == $this->params['flip']) {
+        if ($this->params['flip'] == 'XY') {
             imageflip($gdimage, IMG_FLIP_BOTH);
             $this->media->setImage($gdimage);
         }

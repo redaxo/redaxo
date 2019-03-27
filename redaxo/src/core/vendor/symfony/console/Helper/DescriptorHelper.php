@@ -29,7 +29,7 @@ class DescriptorHelper extends Helper
     /**
      * @var DescriptorInterface[]
      */
-    private $descriptors = [];
+    private $descriptors = array();
 
     public function __construct()
     {
@@ -54,12 +54,12 @@ class DescriptorHelper extends Helper
      *
      * @throws InvalidArgumentException when the given format is not supported
      */
-    public function describe(OutputInterface $output, $object, array $options = [])
+    public function describe(OutputInterface $output, $object, array $options = array())
     {
-        $options = array_merge([
+        $options = array_merge(array(
             'raw_text' => false,
             'format' => 'txt',
-        ], $options);
+        ), $options);
 
         if (!isset($this->descriptors[$options['format']])) {
             throw new InvalidArgumentException(sprintf('Unsupported format "%s".', $options['format']));

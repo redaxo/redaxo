@@ -2,32 +2,6 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.2] - 2018-09-13
-
-### Fixed
-
-* Fixed [#48](https://github.com/sebastianbergmann/php-file-iterator/issues/48): Excluding an array that contains false ends up excluding the current working directory
-
-## [2.0.1] - 2018-06-11
-
-### Fixed
-
-* Fixed [#46](https://github.com/sebastianbergmann/php-file-iterator/issues/46): Regression with hidden parent directory
-
-## [2.0.0] - 2018-05-28
-
-### Fixed
-
-* Fixed [#30](https://github.com/sebastianbergmann/php-file-iterator/issues/30): Exclude is not considered if it is a parent of the base path
-
-### Changed
-
-* This component now uses namespaces
-
-### Removed
-
-* This component is no longer supported on PHP 5.3, PHP 5.4, PHP 5.5, PHP 5.6, and PHP 7.0
-
 ## [1.4.5] - 2017-11-27
 
 ### Fixed
@@ -60,9 +34,6 @@ No changes
 
 * [Added support for wildcards (glob) in exclude](https://github.com/sebastianbergmann/php-file-iterator/pull/23)
 
-[2.0.2]: https://github.com/sebastianbergmann/php-file-iterator/compare/2.0.1...2.0.2
-[2.0.1]: https://github.com/sebastianbergmann/php-file-iterator/compare/2.0.0...2.0.1
-[2.0.0]: https://github.com/sebastianbergmann/php-file-iterator/compare/1.4...master
 [1.4.5]: https://github.com/sebastianbergmann/php-file-iterator/compare/1.4.4...1.4.5
 [1.4.4]: https://github.com/sebastianbergmann/php-file-iterator/compare/1.4.3...1.4.4
 [1.4.3]: https://github.com/sebastianbergmann/php-file-iterator/compare/1.4.2...1.4.3

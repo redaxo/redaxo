@@ -1,9 +1,5 @@
 <?php
 
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\TextUI\ResultPrinter;
-use PHPUnit\TextUI\TestRunner;
-
 /**
  * @package redaxo\tests
  *
@@ -16,9 +12,9 @@ class rex_test_runner
         // nothing todo, method kept for BC
     }
 
-    public function run(rex_test_locator $locator, $colors = ResultPrinter::COLOR_DEFAULT)
+    public function run(rex_test_locator $locator, $colors = PHPUnit_TextUI_ResultPrinter::COLOR_DEFAULT)
     {
-        $suite = new TestSuite();
+        $suite = new PHPUnit_Framework_TestSuite();
         // disable backup of globals, since we have some rex_sql objectes referenced from variables in global space.
         // PDOStatements are not allowed to be serialized
         $suite->setBackupGlobals(false);
@@ -26,7 +22,7 @@ class rex_test_runner
 
         rex_error_handler::unregister();
 
-        $runner = new TestRunner();
+        $runner = new PHPUnit_TextUI_TestRunner();
 
         $backtrace = debug_backtrace(false);
         array_unshift($backtrace, ['file' => __FILE__, 'line' => __LINE__ + 3]);

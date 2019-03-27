@@ -16,7 +16,7 @@ if (rex_get('asset') && rex_get('buster')) {
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
-    if (0 !== strpos($fullPath, $assetDir)) {
+    if (strpos($fullPath, $assetDir) !== 0) {
         throw new Exception('Assets can only be streamed from within the assets folder. "'. $fullPath .'" is not within "'. $assetDir .'"');
     }
 
@@ -79,11 +79,10 @@ if (rex::isSetup()) {
         $login->setLogout(true);
         $login->checkLogin();
         rex_csrf_token::removeAll();
-        rex_response::setHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+        rex_response::setHeader('Clear-Site-Data', '"cache", "cookies", "storage", "executionContexts"');
 
-        // Currently browsers like Safari do not support the header Clear-Site-Data.
-        // we dont kill/regenerate the session so e.g. the frontend will not get logged out
-        rex_request::clearSession();
+        // Currently browsers like Safari do not support the header Clear-Site-Data. This ensures that all session variables are still removed.
+        session_destroy();
 
         // is necessary for login after logout
         // and without the redirect, the csrf token would be invalid
@@ -102,7 +101,7 @@ if (rex::isSetup()) {
         $loginCheck = $login->checkLogin();
     }
 
-    if (true !== $loginCheck) {
+    if ($loginCheck !== true) {
         if (rex_request::isXmlHttpRequest()) {
             rex_response::setStatus(rex_response::HTTP_UNAUTHORIZED);
         }
@@ -119,33 +118,30 @@ if (rex::isSetup()) {
         $page = 'login';
         rex_be_controller::setCurrentPage('login');
 
-        if ('login' !== rex_request('page', 'string', 'login')) {
-            // clear in-browser data of a previous session with the same browser for security reasons.
-            // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
-            // clearing "executionContext" or "cookies" would result in a endless loop.
-            rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
+        // clear in-browser data of a previous session with the same browser for security reasons.
+        // a possible attacker should not be able to access cached data of a previous valid session on the same computer.
+        // clearing "executionContext" or "cookies" would result in a endless loop.
+        rex_response::setHeader('Clear-Site-Data', '"cache", "storage"');
 
-            // Currently browsers like Safari do not support the header Clear-Site-Data.
-            // we dont kill/regenerate the session so e.g. the frontend will not get logged out
-            rex_request::clearSession();
-        }
+        // Currently browsers like Safari do not support the header Clear-Site-Data. This ensures that all session variables are still removed.
+        session_destroy();
     } else {
         // Userspezifische Sprache einstellen
         $user = $login->getUser();
         $lang = $user->getLanguage();
-        if ($lang && 'default' != $lang && $lang != rex::getProperty('lang')) {
+        if ($lang && $lang != 'default' && $lang != rex::getProperty('lang')) {
             rex_i18n::setLocale($lang);
         }
 
         rex::setProperty('user', $user);
     }
 
-    if ('' === $rex_user_loginmessage && rex_get('rex_logged_out', 'boolean')) {
+    if ($rex_user_loginmessage === '' && rex_get('rex_logged_out', 'boolean')) {
         $rex_user_loginmessage = rex_i18n::msg('login_logged_out');
     }
 
     // Safe Mode
-    if (null !== ($safeMode = rex_get('safemode', 'boolean', null))) {
+    if (($safeMode = rex_get('safemode', 'boolean', null)) !== null) {
         if ($safeMode) {
             rex_set_session('safemode', true);
         } else {
@@ -162,11 +158,11 @@ if (rex::getUser()) {
     rex_be_controller::setCurrentPage(trim(rex_request('page', 'string')));
 }
 
-rex_view::addJsFile(rex_url::coreAssets('jquery.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(rex_url::coreAssets('jquery-ui.custom.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(rex_url::coreAssets('jquery-pjax.min.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(rex_url::coreAssets('standard.js'), [rex_view::JS_IMMUTABLE => true]);
-rex_view::addJsFile(rex_url::coreAssets('sha1.js'), [rex_view::JS_IMMUTABLE => true]);
+rex_view::addJsFile(rex_url::coreAssets('jquery.min.js'));
+rex_view::addJsFile(rex_url::coreAssets('jquery-ui.custom.min.js'));
+rex_view::addJsFile(rex_url::coreAssets('jquery-pjax.min.js'));
+rex_view::addJsFile(rex_url::coreAssets('standard.js'));
+rex_view::addJsFile(rex_url::coreAssets('sha1.js'));
 
 rex_view::setJsProperty('backend', true);
 rex_view::setJsProperty('accesskeys', rex::getProperty('use_accesskeys'));
@@ -198,12 +194,23 @@ rex_extension::registerPoint(new rex_extension_point('PAGE_CHECKED', $page, ['pa
 // trigger api functions
 // If the backend session is timed out, rex_api_function would throw an exception
 // so only trigger api functions if page != login
-if ('login' != $page) {
+if ($page != 'login') {
     rex_api_function::handleCall();
 }
 
 // include the requested backend page
 rex_be_controller::includeCurrentPage();
+
+// update body class if minibar has been set inactive
+rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
+    if (rex_minibar::getInstance()->isActive() === false) {
+        $ep->setSubject(preg_replace(
+            '/(<(body|html)[^>]*)rex-minibar-is-active/iU',
+            '$1',
+            $ep->getSubject())
+        );
+    }
+});
 
 // ----- caching end für output filter
 $CONTENT = ob_get_clean();

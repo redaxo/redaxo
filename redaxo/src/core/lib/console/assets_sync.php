@@ -41,7 +41,7 @@ class rex_command_assets_sync extends rex_console_command
             // sync 1st way, copies ...
             // - existing in FE but not "src"
             // - newer in FE then "src"
-            [$ctd, $upd, $err] = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
+            list($ctd, $upd, $err) = $this->sync($io, $assetsPublicPath, $assetsSrcPath);
             $created += $ctd;
             $updated += $upd;
             $errored += $err;
@@ -49,18 +49,18 @@ class rex_command_assets_sync extends rex_console_command
             // sync 2nd way, copies ...
             // - existing in "src" but not FE
             // - newer in "src" then FE
-            [$ctd, $upd, $err] = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
+            list($ctd, $upd, $err) = $this->sync($io, $assetsSrcPath, $assetsPublicPath);
             $created += $ctd;
             $updated += $upd;
             $errored += $err;
         }
 
-        [$ctd, $upd, $err] = $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
+        list($ctd, $upd, $err) = $this->sync($io, rex_path::coreAssets(), rex_path::core('assets/'));
         $created += $ctd;
         $updated += $upd;
         $errored += $err;
 
-        if (0 === $errored) {
+        if ($errored === 0) {
             $io->success(sprintf('Created %s and updated %s file(s).', $created, $updated));
             return 0;
         }

@@ -27,9 +27,9 @@ $message = '';
 $csrfToken = rex_csrf_token::factory('structure_content_module');
 
 // ---------------------------- ACTIONSFUNKTIONEN FUER MODULE
-if (('' != $add_action || 'delete' == $function_action) && !$csrfToken->isValid()) {
+if (($add_action != '' || $function_action == 'delete') && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-} elseif ('' != $add_action) {
+} elseif ($add_action != '') {
     $action = rex_sql::factory();
     $action->setTable(rex::getTablePrefix() . 'module_action');
     $action->setValue('module_id', $module_id);
@@ -42,7 +42,7 @@ if (('' != $add_action || 'delete' == $function_action) && !$csrfToken->isValid(
     } catch (rex_sql_exception $e) {
         $error = $action->getError();
     }
-} elseif ('delete' == $function_action) {
+} elseif ($function_action == 'delete') {
     $action = rex_sql::factory();
     $action->setTable(rex::getTablePrefix() . 'module_action');
     $action->setWhere(['id' => $iaction_id]);
@@ -56,9 +56,9 @@ if (('' != $add_action || 'delete' == $function_action) && !$csrfToken->isValid(
 
 // ---------------------------- FUNKTIONEN FUER MODULE
 
-if ('delete' == $function && !$csrfToken->isValid()) {
+if ($function == 'delete' && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-} elseif ('delete' == $function) {
+} elseif ($function == 'delete') {
     $del = rex_sql::factory();
     $del->setQuery('SELECT ' . rex::getTablePrefix() . 'article_slice.article_id, ' . rex::getTablePrefix() . 'article_slice.clang_id, ' . rex::getTablePrefix() . 'article_slice.ctype_id, ' . rex::getTablePrefix() . 'module.name FROM ' . rex::getTablePrefix() . 'article_slice
             LEFT JOIN ' . rex::getTablePrefix() . 'module ON ' . rex::getTablePrefix() . 'article_slice.module_id=' . rex::getTablePrefix() . 'module.id
@@ -84,7 +84,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
 
         $error = rex_i18n::msg('module_cannot_be_deleted', $modulname);
 
-        if ('' != $module_in_use_message) {
+        if ($module_in_use_message != '') {
             $error .= '<ul>' . $module_in_use_message . '</ul>';
         }
     } else {
@@ -102,15 +102,15 @@ if ('delete' == $function && !$csrfToken->isValid()) {
     }
 }
 
-if ('add' == $function || 'edit' == $function) {
-    if ('1' == $save && !$csrfToken->isValid()) {
+if ($function == 'add' || $function == 'edit') {
+    if ($save == '1' && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $save = '0';
-    } elseif ('1' == $save) {
+    } elseif ($save == '1') {
         $module = rex_sql::factory();
 
         try {
-            if ('add' == $function) {
+            if ($function == 'add') {
                 $IMOD = rex_sql::factory();
                 $IMOD->setTable(rex::getTablePrefix() . 'module');
                 $IMOD->setValue('name', $mname);
@@ -128,7 +128,7 @@ if ('add' == $function || 'edit' == $function) {
                 ]));
             } else {
                 $module->setQuery('select * from ' . rex::getTablePrefix() . 'module where id=?', [$module_id]);
-                if (1 == $module->getRows()) {
+                if ($module->getRows() == 1) {
                     $old_ausgabe = $module->getValue('output');
 
                     $UMOD = rex_sql::factory();
@@ -167,15 +167,15 @@ if ('add' == $function || 'edit' == $function) {
             $error = $e->getMessage();
         }
 
-        if ('' != $goon) {
+        if ($goon != '') {
             $save = '0';
         } else {
             $function = '';
         }
     }
 
-    if ('1' != $save) {
-        if ('edit' == $function) {
+    if ($save != '1') {
+        if ($function == 'edit') {
             $legend = rex_i18n::msg('module_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $module_id . '</small>';
 
             $hole = rex_sql::factory();
@@ -188,15 +188,15 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $btn_update = '';
-        if ('add' != $function) {
+        if ($function != 'add') {
             $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_module_and_continue'), 'apply') . '>' . rex_i18n::msg('save_module_and_continue') . '</button>';
         }
 
-        if ('' != $success) {
+        if ($success != '') {
             $message .= rex_view::success($success);
         }
 
-        if ('' != $error) {
+        if ($error != '') {
             $message .= rex_view::error($error);
         }
 
@@ -244,7 +244,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_module_and_quit'), 'save') . '>' . rex_i18n::msg('save_module_and_quit') . '</button>';
         $formElements[] = $n;
 
-        if ('' != $btn_update) {
+        if ($btn_update != '') {
             $n = [];
             $n['field'] = $btn_update;
             $formElements[] = $n;
@@ -261,7 +261,7 @@ if ('add' == $function || 'edit' == $function) {
         $fragment->setVar('buttons', $buttons, false);
         $content .= $fragment->parse('core/page/section.php');
 
-        if ('edit' == $function) {
+        if ($function == 'edit') {
             // Im Edit Mode Aktionen bearbeiten
 
             $gaa = rex_sql::factory();
@@ -289,7 +289,7 @@ if ('add' == $function || 'edit' == $function) {
                     $gma->next();
                 }
 
-                if ('' != $actions) {
+                if ($actions != '') {
                     $panel = '
                         <table class="table table-striped table-hover">
                             <thead>
@@ -372,11 +372,11 @@ if ('add' == $function || 'edit' == $function) {
 }
 
 if ($OUT) {
-    if ('' != $success) {
+    if ($success != '') {
         $message .= rex_view::success($success);
     }
 
-    if ('' != $error) {
+    if ($error != '') {
         $message .= rex_view::error($error);
     }
 
@@ -394,24 +394,9 @@ if ($OUT) {
 
     $list->setColumnLabel('name', rex_i18n::msg('module_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'module_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', static function ($params) {
+    $list->setColumnFormat('name', 'custom', function ($params) {
         return $params['list']->getColumnLink('name', rex_i18n::translate($params['list']->getValue('name')));
     });
-
-    $slices = rex_sql::factory()->getArray('SELECT `module_id` FROM '.rex::getTable('article_slice').' GROUP BY `module_id`');
-    if (count($slices) > 0) {
-        $usedIds = array_flip(array_map(static function ($slice) {
-            return $slice['module_id'];
-        }, $slices));
-
-        $list->addColumn('use', '');
-        $list->setColumnLabel('use', rex_i18n::msg('module_in_use'));
-        $list->setColumnFormat('use', 'custom', static function ($params) use ($usedIds) {
-            /** @var rex_list $list */
-            $list = $params['list'];
-            return isset($usedIds[$list->getValue('id')]) ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
-        });
-    }
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);

@@ -30,7 +30,7 @@ function rex_metainfo_add_field_type($label, $dbtype, $dblength)
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_type WHERE label=:label LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':label' => $label]);
-    if (0 != $sql->getRows()) {
+    if ($sql->getRows() != 0) {
         return rex_i18n::msg('minfo_field_error_unique_type');
     }
 
@@ -59,7 +59,7 @@ function rex_metainfo_delete_field_type($field_type_id)
     $sql->setWhere(['id' => $field_type_id]);
 
     $sql->delete();
-    return 1 == $sql->getRows();
+    return $sql->getRows() == 1;
 }
 
 /**
@@ -80,7 +80,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $sql = rex_sql::factory();
     $typeInfos = $sql->getArray($qry);
 
-    if (1 != $sql->getRows()) {
+    if ($sql->getRows() != 1) {
         return rex_i18n::msg('minfo_field_error_invalid_type');
     }
 
@@ -97,7 +97,7 @@ function rex_metainfo_add_field($title, $name, $priority, $attributes, $type, $d
     $qry = 'SELECT * FROM ' . rex::getTablePrefix() . 'metainfo_field WHERE name=:name LIMIT 1';
     $sql = rex_sql::factory();
     $sql->setQuery($qry, [':name' => $name]);
-    if (0 != $sql->getRows()) {
+    if ($sql->getRows() != 0) {
         return rex_i18n::msg('minfo_field_error_unique_name');
     }
 
@@ -144,7 +144,7 @@ function rex_metainfo_delete_field($fieldIdOrName)
     $sql = rex_sql::factory();
     $sql->setQuery($fieldQry, [':idOrName' => $fieldIdOrName]);
 
-    if (1 != $sql->getRows()) {
+    if ($sql->getRows() != 1) {
         return $invalidField;
     }
 
@@ -178,7 +178,7 @@ function rex_metainfo_meta_prefix($name)
         return false;
     }
 
-    if (false !== ($pos = strpos($name, '_'))) {
+    if (($pos = strpos($name, '_')) !== false) {
         return substr(strtolower($name), 0, $pos + 1);
     }
 
@@ -211,21 +211,21 @@ function rex_metainfo_extensions_handler(rex_extension_point $ep)
     $mypage = 'metainfo';
 
     // additional javascripts
-    if ('metainfo' == $mainpage || 'content/metainfo' == $page || 'structure' == $page || 'system/lang' == $page) {
-        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'), [rex_view::JS_IMMUTABLE => true]);
+    if ($mainpage == 'metainfo' || $page == 'content/metainfo' || $page == 'structure' || $page == 'system/lang') {
+        rex_view::addJsFile(rex_url::addonAssets($mypage, 'metainfo.js'));
     }
 
     // include extensions
     $curDir = __DIR__ . '/..';
-    if ('structure' == $page) {
+    if ($page == 'structure') {
         require_once $curDir . '/lib/handler/category_handler.php';
-    } elseif ('mediapool' == $mainpage) {
+    } elseif ($mainpage == 'mediapool') {
         require_once $curDir . '/lib/handler/media_handler.php';
-    } elseif ('system/lang' == $page) {
+    } elseif ($page == 'system/lang') {
         require_once $curDir . '/lib/handler/clang_handler.php';
-    } elseif ('content' == $mainpage) {
+    } elseif ($mainpage == 'content') {
         require_once $curDir . '/extensions/extension_content_sidebar.php';
-    } elseif ('backup' == $page) {
+    } elseif ($page == 'backup') {
         require_once $curDir . '/extensions/extension_cleanup.php';
     }
 }

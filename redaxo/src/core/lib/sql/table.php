@@ -11,7 +11,7 @@ class rex_sql_table
 {
     use rex_instance_pool_trait;
 
-    public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+    const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
     /** @var rex_sql */
     private $sql;
@@ -147,7 +147,7 @@ class rex_sql_table
      */
     public static function get($name)
     {
-        return self::getInstance($name, static function ($name) {
+        return self::getInstance($name, function ($name) {
             return new self($name);
         });
     }
@@ -286,9 +286,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @throws rex_exception
-     *
      * @return $this
+     *
+     * @throws rex_exception
      */
     public function renameColumn($oldName, $newName)
     {
@@ -345,9 +345,9 @@ class rex_sql_table
     /**
      * @param null|string|string[] $columns Column name(s)
      *
-     * @throws rex_exception
-     *
      * @return $this
+     *
+     * @throws rex_exception
      */
     public function setPrimaryKey($columns)
     {
@@ -443,9 +443,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @throws rex_exception
-     *
      * @return $this
+     *
+     * @throws rex_exception
      */
     public function renameIndex($oldName, $newName)
     {
@@ -558,9 +558,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @throws rex_exception
-     *
      * @return $this
+     *
+     * @throws rex_exception
      */
     public function renameForeignKey($oldName, $newName)
     {

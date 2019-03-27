@@ -11,7 +11,7 @@ class rex_be_page
     private $fullKey;
     private $title;
 
-    private $popup;
+    private $popup = null;
     private $href;
     private $itemAttr = [];
     private $linkAttr = [];
@@ -24,7 +24,7 @@ class rex_be_page
     /** @var self[] */
     private $subpages = [];
 
-    private $isActive;
+    private $isActive = null;
     private $hidden = false;
     private $hasLayout = true;
     private $hasNavigation = true;
@@ -203,7 +203,7 @@ class rex_be_page
     public function getItemAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
-        if (null === $name) {
+        if ($name === null) {
             return $this->itemAttr;
         }
 
@@ -296,7 +296,7 @@ class rex_be_page
     public function getLinkAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
-        if (null === $name) {
+        if ($name === null) {
             return $this->linkAttr;
         }
 
@@ -505,7 +505,7 @@ class rex_be_page
      */
     public function isActive()
     {
-        if (null !== $this->isActive) {
+        if ($this->isActive !== null) {
             return $this->isActive;
         }
         $page = rex_be_controller::getCurrentPageObject();

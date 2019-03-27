@@ -12,12 +12,11 @@
 namespace Symfony\Component\Console\Formatter;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
-class OutputFormatterStyleStack implements ResetInterface
+class OutputFormatterStyleStack
 {
     /**
      * @var OutputFormatterStyleInterface[]
@@ -37,7 +36,7 @@ class OutputFormatterStyleStack implements ResetInterface
      */
     public function reset()
     {
-        $this->styles = [];
+        $this->styles = array();
     }
 
     /**

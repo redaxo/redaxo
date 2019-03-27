@@ -19,7 +19,7 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class XmlReaderCaster
 {
-    private static $nodeTypes = [
+    private static $nodeTypes = array(
         \XMLReader::NONE => 'NONE',
         \XMLReader::ELEMENT => 'ELEMENT',
         \XMLReader::ATTRIBUTE => 'ATTRIBUTE',
@@ -38,12 +38,12 @@ class XmlReaderCaster
         \XMLReader::END_ELEMENT => 'END_ELEMENT',
         \XMLReader::END_ENTITY => 'END_ENTITY',
         \XMLReader::XML_DECLARATION => 'XML_DECLARATION',
-    ];
+    );
 
     public static function castXmlReader(\XMLReader $reader, array $a, Stub $stub, $isNested)
     {
         $props = Caster::PREFIX_VIRTUAL.'parserProperties';
-        $info = [
+        $info = array(
             'localName' => $reader->localName,
             'prefix' => $reader->prefix,
             'nodeType' => new ConstStub(self::$nodeTypes[$reader->nodeType], $reader->nodeType),
@@ -55,20 +55,20 @@ class XmlReaderCaster
             'value' => $reader->value,
             'namespaceURI' => $reader->namespaceURI,
             'baseURI' => $reader->baseURI ? new LinkStub($reader->baseURI) : $reader->baseURI,
-            $props => [
+            $props => array(
                 'LOADDTD' => $reader->getParserProperty(\XMLReader::LOADDTD),
                 'DEFAULTATTRS' => $reader->getParserProperty(\XMLReader::DEFAULTATTRS),
                 'VALIDATE' => $reader->getParserProperty(\XMLReader::VALIDATE),
                 'SUBST_ENTITIES' => $reader->getParserProperty(\XMLReader::SUBST_ENTITIES),
-            ],
-        ];
+            ),
+        );
 
-        if ($info[$props] = Caster::filter($info[$props], Caster::EXCLUDE_EMPTY, [], $count)) {
+        if ($info[$props] = Caster::filter($info[$props], Caster::EXCLUDE_EMPTY, array(), $count)) {
             $info[$props] = new EnumStub($info[$props]);
             $info[$props]->cut = $count;
         }
 
-        $info = Caster::filter($info, Caster::EXCLUDE_EMPTY, [], $count);
+        $info = Caster::filter($info, Caster::EXCLUDE_EMPTY, array(), $count);
         // +2 because hasValue and hasAttributes are always filtered
         $stub->cut += $count + 2;
 

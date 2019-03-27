@@ -176,7 +176,7 @@ class rex_backup_tar extends tar
         }
 
         // STM: hier mit put_file_contents ist viel schneller
-        return false !== rex_file::put($filename, $file);
+        return rex_file::put($filename, $file) !== false;
     }
 
     // Generates a TAR file from the processed data

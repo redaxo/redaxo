@@ -43,6 +43,9 @@ if ($curPage->isPopup()) {
 if (rex::getImpersonator()) {
     $body_attr['class'][] = 'rex-is-impersonated';
 }
+if (rex_minibar::getInstance()->isActive() !== false) {
+    $body_attr['class'][] = 'rex-minibar-is-active';
+}
 
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
@@ -141,7 +144,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 /* Setup Navigation ***********************************************************/
-if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
+if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
     $navi = [];
@@ -156,16 +159,16 @@ if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
         if ($i < $step) {
             $n['itemAttr']['class'][] = 'bg-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
-            if (7 == $step) {
+            if ($step == 7) {
                 $n['href'] = 'javascript:void(0)';
             }
         }
         $name = '';
-        if (isset($n['href']) && '' != $lang) {
+        if (isset($n['href']) && $lang != '') {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ('' != $lang) {
+        } elseif ($lang != '') {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif (1 == $i) {
+        } elseif ($i == 1) {
             $name = '<span>Step 1 / Language</span>';
         }
 

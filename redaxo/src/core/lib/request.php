@@ -80,11 +80,11 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        if (isset($_SESSION[self::getSessionNamespace()][$varname])) {
-            return rex_type::cast($_SESSION[self::getSessionNamespace()][$varname], $vartype);
+        if (isset($_SESSION[rex::getProperty('instname')][$varname])) {
+            return rex_type::cast($_SESSION[rex::getProperty('instname')][$varname], $vartype);
         }
 
-        if ('' === $default) {
+        if ($default === '') {
             return rex_type::cast($default, $vartype);
         }
         return $default;
@@ -104,7 +104,7 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        $_SESSION[self::getSessionNamespace()][$varname] = $value;
+        $_SESSION[rex::getProperty('instname')][$varname] = $value;
     }
 
     /**
@@ -120,21 +120,7 @@ class rex_request
             throw new rex_exception('Session not started, call rex_login::startSession() before!');
         }
 
-        unset($_SESSION[self::getSessionNamespace()][$varname]);
-    }
-
-    /**
-     * clear redaxo session contents within the current namespace (the session itself stays alive).
-     *
-     * @throws rex_exception
-     */
-    public static function clearSession()
-    {
-        if (PHP_SESSION_ACTIVE != session_status()) {
-            throw new rex_exception('Session not started, call rex_login::startSession() before!');
-        }
-
-        unset($_SESSION[self::getSessionNamespace()]);
+        unset($_SESSION[rex::getProperty('instname')][$varname]);
     }
 
     /**
@@ -201,7 +187,7 @@ class rex_request
             return rex_type::cast($haystack[$needle], $vartype);
         }
 
-        if ('' === $default) {
+        if ($default === '') {
             return rex_type::cast($default, $vartype);
         }
         return $default;
@@ -229,7 +215,7 @@ class rex_request
      */
     public static function isXmlHttpRequest()
     {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'XMLHttpRequest' == $_SERVER['HTTP_X_REQUESTED_WITH'];
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
     }
 
     /**
@@ -239,7 +225,7 @@ class rex_request
      */
     public static function isPJAXRequest()
     {
-        return isset($_SERVER['HTTP_X_PJAX']) && 'true' == $_SERVER['HTTP_X_PJAX'];
+        return isset($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true';
     }
 
     /**
@@ -266,19 +252,5 @@ class rex_request
     public static function isHttps()
     {
         return !empty($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']);
-    }
-
-    /**
-     * Returns the session namespace for the current http request.
-     *
-     * @return string
-     */
-    public static function getSessionNamespace()
-    {
-        // separate backend from frontend namespace,
-        // so we can e.g. clear the backend session without
-        // logging out the users from the frontend
-        $suffix = rex::isBackend() ? '_backend' : '';
-        return rex::getProperty('instname'). $suffix;
     }
 }

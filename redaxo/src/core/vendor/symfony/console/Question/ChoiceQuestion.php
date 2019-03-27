@@ -30,7 +30,7 @@ class ChoiceQuestion extends Question
      * @param array  $choices  The list of available choices
      * @param mixed  $default  The default answer to return
      */
-    public function __construct(string $question, array $choices, $default = null)
+    public function __construct($question, array $choices, $default = null)
     {
         if (!$choices) {
             throw new \LogicException('Choice question must have at least 1 choice available.');
@@ -121,7 +121,12 @@ class ChoiceQuestion extends Question
         return $this;
     }
 
-    private function getDefaultValidator(): callable
+    /**
+     * Returns the default answer validator.
+     *
+     * @return callable
+     */
+    private function getDefaultValidator()
     {
         $choices = $this->choices;
         $errorMessage = $this->errorMessage;
@@ -139,12 +144,12 @@ class ChoiceQuestion extends Question
                 }
                 $selectedChoices = explode(',', $selectedChoices);
             } else {
-                $selectedChoices = [$selected];
+                $selectedChoices = array($selected);
             }
 
-            $multiselectChoices = [];
+            $multiselectChoices = array();
             foreach ($selectedChoices as $value) {
-                $results = [];
+                $results = array();
                 foreach ($choices as $key => $choice) {
                     if ($choice === $value) {
                         $results[] = $key;

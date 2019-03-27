@@ -25,9 +25,9 @@ $message = '';
 
 $csrfToken = rex_csrf_token::factory('structure_content_module_action');
 
-if ('delete' == $function && !$csrfToken->isValid()) {
+if ($function == 'delete' && !$csrfToken->isValid()) {
     $error = rex_i18n::msg('csrf_token_invalid');
-} elseif ('delete' == $function) {
+} elseif ($function == 'delete') {
     $del = rex_sql::factory();
     //  $del->setDebug();
     $qry = 'SELECT
@@ -51,7 +51,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
             $del->next();
         }
 
-        if ('' != $action_in_use_msg) {
+        if ($action_in_use_msg != '') {
             $action_in_use_msg = '<ul>' . $action_in_use_msg . '</ul>';
         }
 
@@ -62,7 +62,7 @@ if ('delete' == $function && !$csrfToken->isValid()) {
     }
 }
 
-if ('add' == $function || 'edit' == $function) {
+if ($function == 'add' || $function == 'edit') {
     $name = rex_post('name', 'string');
     $previewaction = rex_post('previewaction', 'string');
     $presaveaction = rex_post('presaveaction', 'string');
@@ -72,10 +72,10 @@ if ('add' == $function || 'edit' == $function) {
     $presavestatus = 255;
     $postsavestatus = 255;
 
-    if ('1' == $save && !$csrfToken->isValid()) {
+    if ($save == '1' && !$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
         $save = '0';
-    } elseif ('1' == $save) {
+    } elseif ($save == '1') {
         $faction = rex_sql::factory();
 
         $previewstatus = rex_post('previewstatus', 'array');
@@ -107,7 +107,7 @@ if ('add' == $function || 'edit' == $function) {
         $faction->setValue('postsavemode', $postsavemode);
 
         try {
-            if ('add' == $function) {
+            if ($function == 'add') {
                 $faction->addGlobalCreateFields();
 
                 $faction->insert();
@@ -123,15 +123,15 @@ if ('add' == $function || 'edit' == $function) {
             $error = $e->getMessage();
         }
 
-        if (isset($goon) && '' != $goon) {
+        if (isset($goon) && $goon != '') {
             $save = '0';
         } else {
             $function = '';
         }
     }
 
-    if ('1' != $save) {
-        if ('edit' == $function) {
+    if ($save != '1') {
+        if ($function == 'edit') {
             $legend = rex_i18n::msg('action_edit') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . '=' . $action_id . '</small>';
 
             $action = rex_sql::factory();
@@ -176,21 +176,21 @@ if ('add' == $function || 'edit' == $function) {
         $sel_postsave_status->setId('postsavestatus');
         $sel_postsave_status->setStyle('class="form-control"');
 
-        $allPreviewChecked = 3 == $previewstatus ? ' checked="checked"' : '';
+        $allPreviewChecked = $previewstatus == 3 ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
             if (($previewstatus & $var) == $var) {
                 $sel_preview_status->setSelected($var);
             }
         }
 
-        $allPresaveChecked = 7 == $presavestatus ? ' checked="checked"' : '';
+        $allPresaveChecked = $presavestatus == 7 ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
             if (($presavestatus & $var) == $var) {
                 $sel_presave_status->setSelected($var);
             }
         }
 
-        $allPostsaveChecked = 7 == $postsavestatus ? ' checked="checked"' : '';
+        $allPostsaveChecked = $postsavestatus == 7 ? ' checked="checked"' : '';
         foreach ([1, 2, 4] as $var) {
             if (($postsavestatus & $var) == $var) {
                 $sel_postsave_status->setSelected($var);
@@ -198,15 +198,15 @@ if ('add' == $function || 'edit' == $function) {
         }
 
         $btn_update = '';
-        if ('add' != $function) {
+        if ($function != 'add') {
             $btn_update = '<button class="btn btn-apply" type="submit" name="goon" value="1"' . rex::getAccesskey(rex_i18n::msg('save_action_and_continue'), 'apply') . '>' . rex_i18n::msg('save_action_and_continue') . '</button>';
         }
 
-        if ('' != $success) {
+        if ($success != '') {
             $message .= rex_view::success($success);
         }
 
-        if ('' != $error) {
+        if ($error != '') {
             $message .= rex_view::error($error);
         }
 
@@ -367,7 +367,7 @@ if ('add' == $function || 'edit' == $function) {
         $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit"' . rex::getAccesskey(rex_i18n::msg('save_action_and_quit'), 'save') . '>' . rex_i18n::msg('save_action_and_quit') . '</button>';
         $formElements[] = $n;
 
-        if ('' != $btn_update) {
+        if ($btn_update != '') {
             $n = [];
             $n['field'] = $btn_update;
             $formElements[] = $n;
@@ -417,11 +417,11 @@ if ('add' == $function || 'edit' == $function) {
 }
 
 if ($OUT) {
-    if ('' != $success) {
+    if ($success != '') {
         $message .= rex_view::success($success);
     }
 
-    if ('' != $error) {
+    if ($error != '') {
         $message .= rex_view::error($error);
     }
 

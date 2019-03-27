@@ -13,7 +13,7 @@ $noadmin = rex_request('noadmin', 'string');
 $lang = rex_request('lang', 'string');
 
 // ---------------------------------- Step 1 . Language
-if (1 == $step) {
+if ($step == 1) {
     rex_setup::init();
 
     $langs = [];
@@ -33,7 +33,7 @@ if (1 == $step) {
 
 // ---------------------------------- Step 2 . license
 
-if (2 == $step) {
+if ($step == 2) {
     rex::setProperty('lang', $lang);
 
     $license_file = rex_path::base('LICENSE.md');
@@ -86,7 +86,7 @@ if ($step > 2 && count($error_array) > 0) {
     $step = 3;
 }
 
-if (3 == $step) {
+if ($step == 3) {
     $content = '';
 
     if (count($success_array) > 0) {
@@ -140,11 +140,9 @@ if (3 == $step) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
-    if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
+    if (version_compare(PHP_VERSION, '5.6', '<') == 1) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
-    } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
-        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
-    } elseif (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
+    } elseif (version_compare(PHP_VERSION, '7.0', '<=') == 1 && time() > strtotime('1 Jan 2019')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     }
 
@@ -170,12 +168,12 @@ if ($step >= 4) {
         rex_file::getConfig($configFile)
     );
 
-    if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {
+    if (isset($_SERVER['HTTP_HOST']) && $config['server'] == 'https://www.redaxo.org/') {
         $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
     }
 }
 
-if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
+if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
     $config['server'] = rex_post('serveraddress', 'string');
     $config['servername'] = rex_post('servername', 'string');
     $config['lang'] = $lang;
@@ -188,9 +186,9 @@ if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
     $config['use_https'] = rex_post('use_https', 'string');
     $config['use_hsts'] = rex_post('use_hsts', 'boolean');
 
-    if ('true' === $config['use_https']) {
+    if ($config['use_https'] === 'true') {
         $config['use_https'] = true;
-    } elseif ('false' === $config['use_https']) {
+    } elseif ($config['use_https'] === 'false') {
         $config['use_https'] = false;
     }
 }
@@ -203,7 +201,7 @@ if ($step > 4) {
     }
 
     // check if timezone is valid
-    if (false === @date_default_timezone_set($config['timezone'])) {
+    if (@date_default_timezone_set($config['timezone']) === false) {
         $error_array[] = rex_view::error(rex_i18n::msg('setup_413'));
     }
 
@@ -230,20 +228,20 @@ if ($step > 4) {
         rex::setProperty($key, $value);
     }
 
-    if (0 == count($error_array)) {
+    if (count($error_array) == 0) {
         if (!rex_file::putConfig($configFile, $config)) {
             $error_array[] = rex_view::error(rex_i18n::msg('setup_401'));
         }
     }
 
-    if (0 == count($error_array)) {
+    if (count($error_array) == 0) {
         try {
             $err = rex_setup::checkDb($config, $redaxo_db_create);
         } catch (PDOException $e) {
             $err = rex_i18n::msg('setup_415', $e->getMessage());
         }
 
-        if ('' != $err) {
+        if ($err != '') {
             $error_array[] = rex_view::error($err);
         }
     }
@@ -253,7 +251,7 @@ if ($step > 4) {
     }
 }
 
-if (4 == $step) {
+if ($step == 4) {
     $headline = rex_view::title(rex_i18n::msg('setup_400'));
 
     $content = '';
@@ -286,7 +284,7 @@ if (4 == $step) {
     $httpsRedirectSel->setName('use_https');
     $httpsRedirectSel->setSize(1);
     $httpsRedirectSel->addArrayOptions(['false' => rex_i18n::msg('https_disable'), 'backend' => rex_i18n::msg('https_only_backend'), 'frontend' => rex_i18n::msg('https_only_frontend'), 'true' => rex_i18n::msg('https_activate')]);
-    $httpsRedirectSel->setSelected(true === $config['use_https'] ? 'true' : $config['use_https']);
+    $httpsRedirectSel->setSelected($config['use_https'] === true ? 'true' : $config['use_https']);
 
     $hsts_checked = rex_post('use_hsts', 'boolean') ? 'checked="checked"' : '';
 
@@ -411,46 +409,46 @@ $errors = [];
 $createdb = rex_post('createdb', 'int', -1);
 
 if ($step > 5 && $createdb > -1) {
-    $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+    $tables_complete = (rex_setup_importer::verifyDbSchema() == '') ? true : false;
 
-    if (4 == $createdb) {
+    if ($createdb == 4) {
         $error = rex_setup_importer::updateFromPrevious();
-        if ('' != $error) {
+        if ($error != '') {
             $errors[] = rex_view::error($error);
         }
-    } elseif (3 == $createdb) {
+    } elseif ($createdb == 3) {
         $import_name = rex_post('import_name', 'string');
         $error = rex_setup_importer::loadExistingImport($import_name);
-        if ('' != $error) {
+        if ($error != '') {
             $errors[] = rex_view::error($error);
         }
-    } elseif (2 == $createdb && $tables_complete) {
+    } elseif ($createdb == 2 && $tables_complete) {
         $error = rex_setup_importer::databaseAlreadyExists();
-        if ('' != $error) {
+        if ($error != '') {
             $errors[] = rex_view::error($error);
         }
-    } elseif (1 == $createdb) {
+    } elseif ($createdb == 1) {
         $error = rex_setup_importer::overrideExisting();
-        if ('' != $error) {
+        if ($error != '') {
             $errors[] = rex_view::error($error);
         }
-    } elseif (0 == $createdb) {
+    } elseif ($createdb == 0) {
         $error = rex_setup_importer::prepareEmptyDb();
-        if ('' != $error) {
+        if ($error != '') {
             $errors[] = rex_view::error($error);
         }
     } else {
         $errors[] = rex_view::error(rex_i18n::msg('error_undefined'));
     }
 
-    if (0 == count($errors) && '' !== $createdb) {
+    if (count($errors) == 0 && $createdb !== '') {
         $error = rex_setup_importer::verifyDbSchema();
-        if ('' != $error) {
+        if ($error != '') {
             $errors[] = $error;
         }
     }
 
-    if (0 == count($errors)) {
+    if (count($errors) == 0) {
         rex_clang_service::generateCache();
         rex::setConfig('version', rex::getVersion());
     } else {
@@ -459,13 +457,13 @@ if ($step > 5 && $createdb > -1) {
 }
 
 if ($step > 5) {
-    if ('' == !rex_setup_importer::verifyDbSchema()) {
+    if (!rex_setup_importer::verifyDbSchema() == '') {
         $step = 5;
     }
 }
 
-if (5 == $step) {
-    $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
+if ($step == 5) {
+    $tables_complete = (rex_setup_importer::verifyDbSchema() == '') ? true : false;
 
     $createdb = rex_post('createdb', 'int', '');
 
@@ -512,13 +510,13 @@ if (5 == $step) {
             $export_archives = [];
             $export_sqls = [];
 
-            while (false !== ($file = readdir($handle))) {
-                if ('.' == $file || '..' == $file) {
+            while (($file = readdir($handle)) !== false) {
+                if ($file == '.' || $file == '..') {
                     continue;
                 }
 
-                $isSql = ('.sql' == substr($file, strlen($file) - 4));
-                $isArchive = ('.tar.gz' == substr($file, strlen($file) - 7));
+                $isSql = (substr($file, strlen($file) - 4) == '.sql');
+                $isArchive = (substr($file, strlen($file) - 7) == '.tar.gz');
 
                 if ($isSql) {
                     // cut .sql
@@ -632,21 +630,21 @@ if (5 == $step) {
 
 $errors = [];
 
-if (7 == $step) {
+if ($step == 7) {
     $noadmin = rex_post('noadmin', 'int');
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
     $redaxo_user_pass = rex_post('redaxo_user_pass', 'string');
 
-    if (1 != $noadmin) {
-        if ('' == $redaxo_user_login) {
+    if ($noadmin != 1) {
+        if ($redaxo_user_login == '') {
             $errors[] = rex_view::error(rex_i18n::msg('setup_601'));
         }
 
-        if ('' == $redaxo_user_pass) {
+        if ($redaxo_user_pass == '') {
             $errors[] = rex_view::error(rex_i18n::msg('setup_602'));
         }
 
-        if (0 == count($errors)) {
+        if (count($errors) == 0) {
             $ga = rex_sql::factory();
             $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxo_user_login]);
 
@@ -676,19 +674,19 @@ if (7 == $step) {
     } else {
         $gu = rex_sql::factory();
         $gu->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
-        if (0 == $gu->getRows()) {
+        if ($gu->getRows() == 0) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_605'));
         }
     }
 
-    if (0 == count($errors)) {
+    if (count($errors) == 0) {
         $step = 7;
     } else {
         $step = 6;
     }
 }
 
-if (6 == $step) {
+if ($step == 6) {
     $user_sql = rex_sql::factory();
     $user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
@@ -806,7 +804,7 @@ if (6 == $step) {
 
 // ---------------------------------- step 7 . thank you . setup false
 
-if (7 == $step) {
+if ($step == 7) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),

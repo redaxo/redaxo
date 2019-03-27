@@ -19,7 +19,7 @@ class rex_var_property extends rex_var
     protected function getOutput()
     {
         $key = $this->getParsedArg('key', null, true);
-        if (null === $key) {
+        if ($key === null) {
             return false;
         }
         $namespace = $this->getParsedArg('namespace');

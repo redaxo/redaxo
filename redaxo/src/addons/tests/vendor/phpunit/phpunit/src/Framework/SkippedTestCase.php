@@ -7,12 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework;
 
 /**
  * A skipped test case
+ *
+ * @since Class available since Release 4.3.0
  */
-class SkippedTestCase extends TestCase
+class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -44,14 +45,27 @@ class SkippedTestCase extends TestCase
      */
     protected $useOutputBuffering = false;
 
-    public function __construct(string $className, string $methodName, string $message = '')
+    /**
+     * @param string $message
+     */
+    public function __construct($className, $methodName, $message = '')
     {
-        parent::__construct($className . '::' . $methodName);
-
         $this->message = $message;
+        parent::__construct($className . '::' . $methodName);
     }
 
-    public function getMessage(): string
+    /**
+     * @throws PHPUnit_Framework_Exception
+     */
+    protected function runTest()
+    {
+        $this->markTestSkipped($this->message);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
     {
         return $this->message;
     }
@@ -59,18 +73,10 @@ class SkippedTestCase extends TestCase
     /**
      * Returns a string representation of the test case.
      *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @return string
      */
-    public function toString(): string
+    public function toString()
     {
         return $this->getName();
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function runTest(): void
-    {
-        $this->markTestSkipped($this->message);
     }
 }

@@ -6,13 +6,13 @@ $media_method = rex_request('media_method', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
 // ----- METHOD ADD FILE
-if ('add_file' == $media_method) {
+if ($media_method == 'add_file') {
     if (!$csrf->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     } else {
         global $warning;
         if (rex_post('save', 'boolean') || rex_post('saveandexit', 'boolean')) {
-            if ('' != $_FILES['file_new']['name'] && 'none' != $_FILES['file_new']['name']) {
+            if ($_FILES['file_new']['name'] != '' && $_FILES['file_new']['name'] != 'none') {
                 if (!rex_mediapool_isAllowedMediaType($_FILES['file_new']['name'], rex_post('args', 'array'))) {
                     $warning = rex_i18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . rex_file::extension($_FILES['file_new']['name']) . '</code>';
                     $whitelist = rex_mediapool_getMediaTypeWhitelist(rex_post('args', 'array'));
@@ -33,13 +33,13 @@ if ('add_file' == $media_method) {
                     $info = $return['msg'];
                     $subpage = '';
 
-                    if (rex_post('saveandexit', 'boolean') && 1 == $return['ok']) {
+                    if (rex_post('saveandexit', 'boolean') && $return['ok'] == 1) {
                         $file_name = $return['filename'];
                         $ffiletype = $return['type'];
                         $title = $return['title'];
 
-                        if ('' != $opener_input_field) {
-                            if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
+                        if ($opener_input_field != '') {
+                            if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
                                 $js = "selectMedialist('" . $file_name . "');";
                                 $js .= 'location.href = "' . rex_url::backendPage('mediapool', ['info' => rex_i18n::msg('pool_file_added'), 'opener_input_field' => $opener_input_field], false) . '";';
                             } else {
@@ -53,7 +53,7 @@ if ('add_file' == $media_method) {
                         echo '</script>';
                         exit;
                     }
-                    if (1 == $return['ok']) {
+                    if ($return['ok'] == 1) {
                         rex_response::sendRedirect(rex_url::backendPage('mediapool/media', ['info' => $info, 'opener_input_field' => $opener_input_field], false));
                     } else {
                         $warning = rex_i18n::msg('pool_file_movefailed');

@@ -1,11 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_backend_login_test extends TestCase
+class rex_backend_login_test extends PHPUnit_Framework_TestCase
 {
     private $skipped = false;
 
@@ -13,7 +8,7 @@ class rex_backend_login_test extends TestCase
     private $password = 'test1234';
     private $cookiekey = 'mycookie';
 
-    protected function setUp()
+    public function setUp()
     {
         if (rex::getUser()) {
             $this->skipped = true;
@@ -31,7 +26,7 @@ class rex_backend_login_test extends TestCase
         $adduser->insert();
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         if ($this->skipped) {
             return;

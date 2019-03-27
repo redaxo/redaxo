@@ -1,15 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_type_test extends TestCase
+class rex_type_test extends PHPUnit_Framework_TestCase
 {
     public function castProvider()
     {
-        $callback = static function ($var) {
+        $callback = function ($var) {
             return $var . 'b';
         };
 
@@ -65,8 +60,7 @@ class rex_type_test extends TestCase
      */
     public function testCastWrongVartype($vartype)
     {
-        $this->expectException(\InvalidArgumentException::class);
-
+        $this->setExpectedException('InvalidArgumentException');
         rex_type::cast(1, $vartype);
     }
 }

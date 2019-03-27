@@ -7,17 +7,17 @@
  */
 class rex_response
 {
-    public const HTTP_OK = '200 OK';
-    public const HTTP_PARTIAL_CONTENT = '206 Partial Content';
-    public const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
-    public const HTTP_NOT_MODIFIED = '304 Not Modified';
-    public const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
-    public const HTTP_NOT_FOUND = '404 Not Found';
-    public const HTTP_FORBIDDEN = '403 Forbidden';
-    public const HTTP_UNAUTHORIZED = '401 Unauthorized';
-    public const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
-    public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
-    public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
+    const HTTP_OK = '200 OK';
+    const HTTP_PARTIAL_CONTENT = '206 Partial Content';
+    const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
+    const HTTP_NOT_MODIFIED = '304 Not Modified';
+    const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
+    const HTTP_NOT_FOUND = '404 Not Found';
+    const HTTP_FORBIDDEN = '403 Forbidden';
+    const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
+    const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
     private static $httpStatus = self::HTTP_OK;
     private static $sentLastModified = false;
@@ -36,7 +36,7 @@ class rex_response
      */
     public static function setStatus($httpStatus)
     {
-        if (false !== strpos($httpStatus, "\n")) {
+        if (strpos($httpStatus, "\n") !== false) {
             throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
         }
 
@@ -114,7 +114,7 @@ class rex_response
      */
     public static function sendRedirect($url)
     {
-        if (false !== strpos($url, "\n")) {
+        if (strpos($url, "\n") !== false) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
 
@@ -171,38 +171,41 @@ class rex_response
         self::sendPreloadHeaders();
         self::sendServerTimingHeaders();
 
-        header('Accept-Ranges: bytes');
-        $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
-        if ($rangeHeader) {
-            try {
-                $filesize = filesize($file);
-                $unitFactory = new \Ramsey\Http\Range\UnitFactory();
-                $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
-                $handle = fopen($file, 'r');
-                if (is_resource($handle)) {
-                    foreach ($ranges as $range) {
-                        header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
-                        header('Content-Length: ' . $range->getLength());
-                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+        // dependency ramsey/http-range requires PHP >=5.6
+        if (PHP_VERSION_ID >= 50600) {
+            header('Accept-Ranges: bytes');
+            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+            if ($rangeHeader) {
+                try {
+                    $filesize = filesize($file);
+                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
+                    $handle = fopen($file, 'r');
+                    if (is_resource($handle)) {
+                        foreach ($ranges as $range) {
+                            header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                            header('Content-Length: ' . $range->getLength());
+                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
 
-                        // Don't output more bytes as requested
-                        // default chunk size is usually 8192 bytes
-                        $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
+                            // Don't output more bytes as requested
+                            // default chunk size is usually 8192 bytes
+                            $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
 
-                        fseek($handle, $range->getStart());
-                        while (ftell($handle) < $range->getEnd()) {
-                            echo fread($handle, $chunkSize);
+                            fseek($handle, $range->getStart());
+                            while (ftell($handle) < $range->getEnd()) {
+                                echo fread($handle, $chunkSize);
+                            }
                         }
+                        fclose($handle);
+                    } else {
+                        // Send Error if file couldn't be read
+                        header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                     }
-                    fclose($handle);
-                } else {
-                    // Send Error if file couldn't be read
-                    header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
+                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                    header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
                 }
-            } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
-                header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
+                return;
             }
-            return;
         }
 
         readfile($file);
@@ -277,7 +280,7 @@ class rex_response
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
         if (
-            self::HTTP_OK == self::$httpStatus &&
+            self::$httpStatus == self::HTTP_OK &&
             // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
             // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
             // https://bugs.webkit.org/show_bug.cgi?id=32829
@@ -285,21 +288,21 @@ class rex_response
         ) {
             // ----- Last-Modified
             if (!self::$sentLastModified
-                && (true === rex::getProperty('use_last_modified') || rex::getProperty('use_last_modified') === $environment)
+                && (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
             ) {
                 self::sendLastModified($lastModified);
             }
 
             // ----- ETAG
             if (!self::$sentEtag
-                && (true === rex::getProperty('use_etag') || rex::getProperty('use_etag') === $environment)
+                && (rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment)
             ) {
                 self::sendEtag($etag ?: self::md5($content));
             }
         }
 
         // ----- GZIP
-        if (true === rex::getProperty('use_gzip') || rex::getProperty('use_gzip') === $environment) {
+        if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment) {
             $content = self::sendGzip($content);
         }
 
@@ -460,13 +463,13 @@ class rex_response
      */
     public static function sendCookie($name, $value, array $options = [])
     {
-        $expire = $options['expires'] ?? 0;
-        $path = $options['path'] ?? '/';
-        $domain = $options['domain'] ?? null;
-        $secure = $options['secure'] ?? false;
-        $httpOnly = $options['httponly'] ?? true;
-        $sameSite = $options['samesite'] ?? null;
-        $raw = $options['raw'] ?? false;
+        $expire = isset($options['expires']) ? $options['expires'] : 0;
+        $path = isset($options['path']) ? $options['path'] : '/';
+        $domain = isset($options['domain']) ? $options['domain'] : null;
+        $secure = isset($options['secure']) ? $options['secure'] : false;
+        $httpOnly = isset($options['httponly']) ? $options['httponly'] : true;
+        $sameSite = isset($options['samesite']) ? $options['samesite'] : null;
+        $raw = isset($options['raw']) ? $options['raw'] : false;
 
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {

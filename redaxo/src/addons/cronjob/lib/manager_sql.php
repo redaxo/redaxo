@@ -57,11 +57,11 @@ class rex_cronjob_manager_sql
     {
         $this->sql->setQuery('
             SELECT  name
-            FROM    ' . rex::getTable('cronjob') . '
+            FROM    ' . REX_CRONJOB_TABLE . '
             WHERE   id = ?
             LIMIT   1
         ', [$id]);
-        if (1 == $this->sql->getRows()) {
+        if ($this->sql->getRows() == 1) {
             return $this->sql->getValue('name');
         }
         return null;
@@ -69,7 +69,7 @@ class rex_cronjob_manager_sql
 
     public function setStatus($id, $status)
     {
-        $this->sql->setTable(rex::getTable('cronjob'));
+        $this->sql->setTable(REX_CRONJOB_TABLE);
         $this->sql->setWhere(['id' => $id]);
         $this->sql->setValue('status', $status);
         $this->sql->addGlobalUpdateFields();
@@ -85,7 +85,7 @@ class rex_cronjob_manager_sql
 
     public function setExecutionStart($id, $reset = false)
     {
-        $this->sql->setTable(rex::getTable('cronjob'));
+        $this->sql->setTable(REX_CRONJOB_TABLE);
         $this->sql->setWhere(['id' => $id]);
         $this->sql->setDateTimeValue('execution_start', $reset ? 0 : time());
         try {
@@ -98,7 +98,7 @@ class rex_cronjob_manager_sql
 
     public function delete($id)
     {
-        $this->sql->setTable(rex::getTable('cronjob'));
+        $this->sql->setTable(REX_CRONJOB_TABLE);
         $this->sql->setWhere(['id' => $id]);
         try {
             $this->sql->delete();
@@ -120,7 +120,7 @@ class rex_cronjob_manager_sql
 
         $query = '
             SELECT    id, name, type, parameters, `interval`, execution_moment
-            FROM      '.rex::getTable('cronjob').'
+            FROM      '.REX_CRONJOB_TABLE.'
             WHERE     status = 1
                 AND   execution_start < ?
                 AND   environment LIKE ?
@@ -157,7 +157,7 @@ class rex_cronjob_manager_sql
 
                 $manager = $this->getManager();
                 $manager->setCronjob(rex_cronjob::factory($job['type']));
-                $manager->log(false, 0 != connection_status() ? 'Timeout' : 'Unknown error');
+                $manager->log(false, connection_status() != 0 ? 'Timeout' : 'Unknown error');
                 $this->setNextTime($job['id'], $job['interval'], true);
             }
 
@@ -189,7 +189,7 @@ class rex_cronjob_manager_sql
         $sql = rex_sql::factory();
         $jobs = $sql->getArray('
             SELECT    id, name, type, parameters, `interval`
-            FROM      ' . rex::getTable('cronjob') . '
+            FROM      ' . REX_CRONJOB_TABLE . '
             WHERE     id = ? AND environment LIKE ?
             LIMIT     1
         ', [$id, '%|' . rex_cronjob_manager::getCurrentEnvironment() . '|%']);
@@ -222,7 +222,7 @@ class rex_cronjob_manager_sql
         $add = $resetExecutionStart ? ', execution_start = 0' : '';
         try {
             $this->sql->setQuery('
-                UPDATE  ' . rex::getTable('cronjob') . '
+                UPDATE  ' . REX_CRONJOB_TABLE . '
                 SET     nexttime = ?' . $add . '
                 WHERE   id = ?
             ', [$nexttime, $id]);
@@ -238,11 +238,11 @@ class rex_cronjob_manager_sql
     {
         $this->sql->setQuery('
             SELECT  MIN(nexttime) AS nexttime
-            FROM    ' . rex::getTable('cronjob') . '
+            FROM    ' . REX_CRONJOB_TABLE . '
             WHERE   status = 1
         ');
 
-        if (1 == $this->sql->getRows()) {
+        if ($this->sql->getRows() == 1) {
             return (int) $this->sql->getDateTimeValue('nexttime');
         }
         return null;
@@ -250,10 +250,10 @@ class rex_cronjob_manager_sql
 
     public function saveNextTime($nexttime = null)
     {
-        if (null === $nexttime) {
+        if ($nexttime === null) {
             $nexttime = $this->getMinNextTime();
         }
-        if (null === $nexttime) {
+        if ($nexttime === null) {
             $nexttime = 0;
         } else {
             $nexttime = max(1, $nexttime);
@@ -272,11 +272,11 @@ class rex_cronjob_manager_sql
         $date = new \DateTime('+5 min');
         $date->setTime($date->format('H'), floor($date->format('i') / 5) * 5, 0);
 
-        $isValid = static function ($value, $current) {
+        $isValid = function ($value, $current) {
             return 'all' === $value || in_array($current, $value);
         };
 
-        $validateTime = static function () use ($interval, $date, $isValid) {
+        $validateTime = function () use ($interval, $date, $isValid) {
             while (!$isValid($interval['hours'], $date->format('G'))) {
                 $date->modify('+1 hour');
                 $date->setTime($date->format('H'), 0, 0);

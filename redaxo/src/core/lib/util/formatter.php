@@ -21,9 +21,9 @@ abstract class rex_formatter
      * @param string $formatType Format type (any method name of this class)
      * @param mixed  $format     For possible values look at the other methods of this class
      *
-     * @throws InvalidArgumentException
-     *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public static function format($value, $formatType, $format)
     {
@@ -49,7 +49,7 @@ abstract class rex_formatter
             return '';
         }
 
-        if ('' == $format) {
+        if ($format == '') {
             $format = 'd.m.Y';
         }
 
@@ -72,13 +72,13 @@ abstract class rex_formatter
             return '';
         }
 
-        if ('' == $format || 'date' == $format) {
+        if ($format == '' || $format == 'date') {
             // Default REX-Dateformat
             $format = rex_i18n::msg('dateformat');
-        } elseif ('datetime' == $format) {
+        } elseif ($format == 'datetime') {
             // Default REX-Datetimeformat
             $format = rex_i18n::msg('datetimeformat');
-        } elseif ('time' == $format) {
+        } elseif ($format == 'time') {
             // Default REX-Timeformat
             $format = rex_i18n::msg('timeformat');
         }
@@ -134,9 +134,9 @@ abstract class rex_formatter
         }
 
         if (isset($format[0])) {
-            $z = (int) ($value * 10 ** ($precision = (int) ($format[0])));
+            $z = (int) ($value * pow(10, $precision = (int) ($format[0])));
             for ($i = 0; $i < (int) $precision; ++$i) {
-                if (0 == ($z % 10)) {
+                if (($z % 10) == 0) {
                     $format[0] = (int) ($format[0]) - 1;
                     $z = (int) ($z / 10);
                 } else {
@@ -160,7 +160,7 @@ abstract class rex_formatter
      */
     public static function sprintf($value, $format = '')
     {
-        if ('' == $format) {
+        if ($format == '') {
             $format = '%s';
         }
         return sprintf($format, $value);
@@ -233,7 +233,7 @@ abstract class rex_formatter
         // Sollte ein Wort allein auf einer Zeile vorkommen, wird dies unterbunden
         $value = rtrim($value);
         $space = strrpos($value, ' ');
-        if (false !== $space) {
+        if ($space !== false) {
             $value = substr($value, 0, $space) . '&#160;' . substr($value, $space + 1);
         }
         return $value;
@@ -328,9 +328,9 @@ abstract class rex_formatter
      * @param string         $value  Value
      * @param callable|array $format A callable or an array of a callable and additional params
      *
-     * @throws rex_exception
-     *
      * @return string
+     *
+     * @throws rex_exception
      */
     public static function custom($value, $format)
     {

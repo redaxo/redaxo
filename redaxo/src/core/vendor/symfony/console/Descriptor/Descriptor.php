@@ -34,7 +34,7 @@ abstract class Descriptor implements DescriptorInterface
     /**
      * {@inheritdoc}
      */
-    public function describe(OutputInterface $output, $object, array $options = [])
+    public function describe(OutputInterface $output, $object, array $options = array())
     {
         $this->output = $output;
 
@@ -75,33 +75,33 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
-    abstract protected function describeInputArgument(InputArgument $argument, array $options = []);
+    abstract protected function describeInputArgument(InputArgument $argument, array $options = array());
 
     /**
      * Describes an InputOption instance.
      *
      * @return string|mixed
      */
-    abstract protected function describeInputOption(InputOption $option, array $options = []);
+    abstract protected function describeInputOption(InputOption $option, array $options = array());
 
     /**
      * Describes an InputDefinition instance.
      *
      * @return string|mixed
      */
-    abstract protected function describeInputDefinition(InputDefinition $definition, array $options = []);
+    abstract protected function describeInputDefinition(InputDefinition $definition, array $options = array());
 
     /**
      * Describes a Command instance.
      *
      * @return string|mixed
      */
-    abstract protected function describeCommand(Command $command, array $options = []);
+    abstract protected function describeCommand(Command $command, array $options = array());
 
     /**
      * Describes an Application instance.
      *
      * @return string|mixed
      */
-    abstract protected function describeApplication(Application $application, array $options = []);
+    abstract protected function describeApplication(Application $application, array $options = array());
 }

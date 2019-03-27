@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.3.0 – 12.03.2019
+Version 2.3.0 – XX.XX.XXXX
 --------------------------
 
 ### Neu

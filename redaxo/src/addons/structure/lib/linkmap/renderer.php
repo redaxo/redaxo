@@ -70,11 +70,11 @@ abstract class rex_linkmap_tree_renderer
                 $li .= $this->treeItem($cat, $liclasses, $linkclasses, $sub_li, $liIcon);
             }
 
-            if ('' != $ulclasses) {
+            if ($ulclasses != '') {
                 $ulclasses = ' class="' . rtrim($ulclasses) . '"';
             }
 
-            if ('' != $li) {
+            if ($li != '') {
                 $ul = '<ul' . $ulclasses . ' data-cat-id="' . $children[0]->getParentId() . '">' . "\n" . $li . '</ul>' . "\n";
             }
         }
@@ -87,7 +87,7 @@ abstract class rex_linkmap_tree_renderer
     {
         $label = $OOobject->getName();
 
-        if ('' == trim($label)) {
+        if (trim($label) == '') {
             $label = '&nbsp;';
         }
 
@@ -104,7 +104,7 @@ abstract class rex_linkmap_tree_renderer
     {
         $linkAttr .= ' class="' . ($OOobject->isOnline() ? 'rex-online' : 'rex-offline') . '"';
 
-        if (false === strpos($linkAttr, ' href=')) {
+        if (strpos($linkAttr, ' href=') === false) {
             $linkAttr .= ' href="' . $context->getUrl(['category_id' => $OOobject->getId()]) . '"';
         }
 
@@ -125,7 +125,7 @@ abstract class rex_linkmap_article_list_renderer
 {
     public function getList($category_id)
     {
-        $isRoot = 0 === $category_id;
+        $isRoot = $category_id === 0;
         $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
 
         if ($isRoot && 1 === count($mountpoints)) {
@@ -133,7 +133,7 @@ abstract class rex_linkmap_article_list_renderer
             $isRoot = false;
         }
 
-        if ($isRoot && 0 == count($mountpoints)) {
+        if ($isRoot && count($mountpoints) == 0) {
             $articles = rex_article::getRootArticles();
         } elseif ($isRoot) {
             $articles = [];
@@ -151,7 +151,7 @@ abstract class rex_linkmap_article_list_renderer
                 $list .= $this->listItem($article, $category_id);
             }
 
-            if ('' != $list) {
+            if ($list != '') {
                 $list = '<ul class="list-group rex-linkmap-list-group">' . $list . '</ul>';
             }
         }

@@ -21,7 +21,7 @@ $message = '';
 
 $csrfToken = rex_csrf_token::factory('structure_content_template');
 
-if ('delete' == $function) {
+if ($function == 'delete') {
     if (!$csrfToken->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
@@ -47,13 +47,13 @@ if ('delete' == $function) {
                 $del->next();
             }
 
-            if ('' != $template_in_use_message) {
+            if ($template_in_use_message != '') {
                 $error .= rex_i18n::msg('cant_delete_template_because_its_in_use', $templatename);
                 $error .= '<ul>' . $template_in_use_message . '</ul>';
             }
 
             if (rex_template::getDefaultId() == $template_id) {
-                if ('' == $templatename) {
+                if ($templatename == '') {
                     $del->setQuery('SELECT name FROM '.rex::getTable('template'). ' WHERE id = '.$template_id);
                     $templatename = $del->getValue('name');
                 }
@@ -68,12 +68,12 @@ if ('delete' == $function) {
             ]));
         }
     }
-} elseif ('edit' == $function) {
+} elseif ($function == 'edit') {
     $legend = rex_i18n::msg('edit_template') . ' <small class="rex-primary-id">' . rex_i18n::msg('id') . ' = ' . $template_id . '</small>';
 
     $hole = rex_sql::factory();
     $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '"');
-    if (1 == $hole->getRows()) {
+    if ($hole->getRows() == 1) {
         $templatename = $hole->getValue('name');
         $template = $hole->getValue('content');
         $active = $hole->getValue('active');
@@ -90,37 +90,37 @@ if ('delete' == $function) {
     $legend = rex_i18n::msg('create_template');
 }
 
-if ('add' == $function || 'edit' == $function) {
-    if ('ja' == $save && !$csrfToken->isValid()) {
+if ($function == 'add' || $function == 'edit') {
+    if ($save == 'ja' && !$csrfToken->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
         $save = 'nein';
-    } elseif ('ja' == $save) {
+    } elseif ($save == 'ja') {
         $active = rex_post('active', 'int');
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
         $ctypes = rex_post('ctype', 'array');
         $num_ctypes = count($ctypes);
-        if ('' == $ctypes[$num_ctypes]) {
+        if ($ctypes[$num_ctypes] == '') {
             unset($ctypes[$num_ctypes]);
-            if (isset($ctypes[$num_ctypes - 1]) && '' == $ctypes[$num_ctypes - 1]) {
+            if (isset($ctypes[$num_ctypes - 1]) && $ctypes[$num_ctypes - 1] == '') {
                 unset($ctypes[$num_ctypes - 1]);
             }
         }
 
         $categories = rex_post('categories', 'array');
         // leerer eintrag = 0
-        if (0 == count($categories) || !isset($categories['all']) || 1 != $categories['all']) {
+        if (count($categories) == 0 || !isset($categories['all']) || $categories['all'] != 1) {
             $categories['all'] = 0;
         }
 
         $modules = rex_post('modules', 'array');
         // leerer eintrag = 0
-        if (0 == count($modules)) {
+        if (count($modules) == 0) {
             $modules[1]['all'] = 0;
         }
 
         foreach ($modules as $k => $module) {
-            if (!isset($module['all']) || 1 != $module['all']) {
+            if (!isset($module['all']) || $module['all'] != 1) {
                 $modules[$k]['all'] = 0;
             }
         }
@@ -137,7 +137,7 @@ if ('add' == $function || 'edit' == $function) {
         $attributes['categories'] = $categories;
         $TPL->setArrayValue('attributes', $attributes);
 
-        if ('add' == $function) {
+        if ($function == 'add') {
             $TPL->addGlobalCreateFields();
 
             try {
@@ -179,7 +179,7 @@ if ('add' == $function || 'edit' == $function) {
 
         rex_dir::delete(rex_path::addonCache('templates'), false);
 
-        if ('' != $goon) {
+        if ($goon != '') {
             $function = 'edit';
             $save = 'nein';
         } else {
@@ -187,11 +187,11 @@ if ('add' == $function || 'edit' == $function) {
         }
     }
 
-    if (!isset($save) || 'ja' != $save) {
+    if (!isset($save) || $save != 'ja') {
         // Ctype Handling
-        $ctypes = $attributes['ctype'] ?? [];
-        $modules = $attributes['modules'] ?? [];
-        $categories = $attributes['categories'] ?? [];
+        $ctypes = isset($attributes['ctype']) ? $attributes['ctype'] : [];
+        $modules = isset($attributes['modules']) ? $attributes['modules'] : [];
+        $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
 
         if (!is_array($modules)) {
             $modules = [];
@@ -225,7 +225,7 @@ if ('add' == $function || 'edit' == $function) {
         if (count($categories) > 0) {
             foreach ($categories as $c => $cc) {
                 // typsicherer vergleich, weil (0 != "all") => false
-                if ('all' !== $c) {
+                if ($c !== 'all') {
                     $cat_select->setSelected($cc);
                 }
             }
@@ -243,7 +243,7 @@ if ('add' == $function || 'edit' == $function) {
                 if (isset($modules[$i]) && count($modules[$i]) > 0) {
                     foreach ($modules[$i] as $j => $jj) {
                         // typsicherer vergleich, weil (0 != "all") => false
-                        if ('all' !== $j) {
+                        if ($j !== 'all') {
                             $modul_select->setSelected($jj);
                         }
                     }
@@ -264,7 +264,7 @@ if ('add' == $function || 'edit' == $function) {
 
                 $field = '';
                 $field .= '<input id="rex-js-allmodules' . $i . '" type="checkbox" name="modules[' . $i . '][all]" ';
-                if (!isset($modules[$i]['all']) || 1 == $modules[$i]['all']) {
+                if (!isset($modules[$i]['all']) || $modules[$i]['all'] == 1) {
                     $field .= ' checked="checked" ';
                 }
                 $field .= ' value="1" />';
@@ -321,13 +321,13 @@ if ('add' == $function || 'edit' == $function) {
             });
             //--></script>';
 
-        $tmpl_active_checked = 1 == $active ? ' checked="checked"' : '';
+        $tmpl_active_checked = $active == 1 ? ' checked="checked"' : '';
 
-        if ('' != $success) {
+        if ($success != '') {
             $message .= rex_view::success($success);
         }
 
-        if ('' != $error) {
+        if ($error != '') {
             $message .= rex_view::error($error);
         }
 
@@ -388,7 +388,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $field = '';
         $field .= '<input id="rex-js-allcategories" type="checkbox" name="categories[all]" ';
-        if (!isset($categories['all']) || 1 == $categories['all']) {
+        if (!isset($categories['all']) || $categories['all'] == 1) {
             $field .= ' checked="checked" ';
         }
         $field .= ' value="1" />';
@@ -505,11 +505,11 @@ if ('add' == $function || 'edit' == $function) {
 }
 
 if ($OUT) {
-    if ('' != $success) {
+    if ($success != '') {
         $message .= rex_view::success($success);
     }
 
-    if ('' != $error) {
+    if ($error != '') {
         $message .= rex_view::error($error);
     }
 
@@ -529,9 +529,9 @@ if ($OUT) {
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('active', rex_i18n::msg('header_template_active'));
-    $list->setColumnFormat('active', 'custom', static function ($params) {
+    $list->setColumnFormat('active', 'custom', function ($params) {
         $list = $params['list'];
-        return 1 == $list->getValue('active') ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
+        return $list->getValue('active') == 1 ? '<i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('yes') : '<i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('no');
     });
 
     $list->addColumn(rex_i18n::msg('header_template_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));

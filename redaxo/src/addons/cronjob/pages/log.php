@@ -6,9 +6,9 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
+ *
+ * @var rex_addon $this
  */
-
-$addon = rex_addon::get('cronjob');
 
 $content = '';
 
@@ -24,12 +24,12 @@ $content .= '
                 </thead>
                 <tbody>';
 
-if ($file = new rex_log_file($addon->getDataPath('cronjob.log'))) {
+if ($file = new rex_log_file($this->getDataPath('cronjob.log'))) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
-        /** @var rex_log_entry $entry */
+        /* @var rex_log_entry $entry */
         $data = $entry->getData();
-        $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-state-success';
-        if ('--' == $data[1]) {
+        $class = trim($data[0]) == 'ERROR' ? 'rex-state-error' : 'rex-state-success';
+        if ($data[1] == '--') {
             $icon = '<i class="rex-icon rex-icon-cronjob" title="' . rex_i18n::msg('cronjob_not_editable') . '"></i>';
         } else {
             $icon = '<a href="' . rex_url::backendPage('cronjob', ['list' => 'cronjobs', 'func' => 'edit', 'oid' => $data[1]]) . '" title="' . rex_i18n::msg('cronjob_edit') . '"><i class="rex-icon rex-icon-cronjob"></i></a>';

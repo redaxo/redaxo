@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /*
  * This file is part of sebastian/diff.
  *
@@ -13,25 +13,25 @@ namespace SebastianBergmann\Diff;
 /**
  * Unified diff parser.
  */
-final class Parser
+class Parser
 {
     /**
      * @param string $string
      *
      * @return Diff[]
      */
-    public function parse(string $string): array
+    public function parse($string)
     {
         $lines = \preg_split('(\r\n|\r|\n)', $string);
 
-        if (!empty($lines) && $lines[\count($lines) - 1] === '') {
+        if (!empty($lines) && $lines[\count($lines) - 1] == '') {
             \array_pop($lines);
         }
 
         $lineCount = \count($lines);
-        $diffs     = [];
+        $diffs     = array();
         $diff      = null;
-        $collected = [];
+        $collected = array();
 
         for ($i = 0; $i < $lineCount; ++$i) {
             if (\preg_match('(^---\\s+(?P<file>\\S+))', $lines[$i], $fromMatch) &&
@@ -40,7 +40,7 @@ final class Parser
                     $this->parseFileDiff($diff, $collected);
 
                     $diffs[]   = $diff;
-                    $collected = [];
+                    $collected = array();
                 }
 
                 $diff = new Diff($fromMatch['file'], $toMatch['file']);
@@ -64,22 +64,26 @@ final class Parser
         return $diffs;
     }
 
-    private function parseFileDiff(Diff $diff, array $lines): void
+    /**
+     * @param Diff  $diff
+     * @param array $lines
+     */
+    private function parseFileDiff(Diff $diff, array $lines)
     {
-        $chunks = [];
+        $chunks = array();
         $chunk  = null;
 
         foreach ($lines as $line) {
             if (\preg_match('/^@@\s+-(?P<start>\d+)(?:,\s*(?P<startrange>\d+))?\s+\+(?P<end>\d+)(?:,\s*(?P<endrange>\d+))?\s+@@/', $line, $match)) {
                 $chunk = new Chunk(
-                    (int) $match['start'],
-                    isset($match['startrange']) ? \max(1, (int) $match['startrange']) : 1,
-                    (int) $match['end'],
-                    isset($match['endrange']) ? \max(1, (int) $match['endrange']) : 1
+                    $match['start'],
+                    isset($match['startrange']) ? \max(1, $match['startrange']) : 1,
+                    $match['end'],
+                    isset($match['endrange']) ? \max(1, $match['endrange']) : 1
                 );
 
                 $chunks[]  = $chunk;
-                $diffLines = [];
+                $diffLines = array();
 
                 continue;
             }

@@ -7,10 +7,10 @@ class rex_effect_header extends rex_effect_abstract
 {
     public function execute()
     {
-        if ('no_cache' == $this->params['cache']) {
+        if ($this->params['cache'] == 'no_cache') {
             $this->media->setHeader('Cache-Control', 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0');
             $this->media->setHeader('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT'); // in the past
-        } elseif ('cache' !== $this->params['cache'] /* bc */ && 'unspecified' !== $this->params['cache']) {
+        } elseif ($this->params['cache'] !== 'cache' /* bc */ && $this->params['cache'] !== 'unspecified') {
             switch ($this->params['cache']) {
                 case 'max-age: 1 min':
                     $seconds = 60;
@@ -44,7 +44,7 @@ class rex_effect_header extends rex_effect_abstract
             $this->media->setHeader('Cache-Control', $cacheControl);
         }
 
-        if ('download' == $this->params['download']) {
+        if ($this->params['download'] == 'download') {
             $this->media->setHeader('Content-Disposition', 'attachment; filename="' . basename($this->media->getMediaFilename()) . '";');
         }
 

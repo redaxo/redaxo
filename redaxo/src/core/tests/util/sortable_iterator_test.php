@@ -1,18 +1,13 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_sortable_iterator_test extends TestCase
+class rex_sortable_iterator_test extends PHPUnit_Framework_TestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         parent::tearDown();
     }
@@ -38,7 +33,7 @@ class rex_sortable_iterator_test extends TestCase
     public function testCallbackMode()
     {
         $array = [2, 'a', 1, 'b'];
-        $callback = static function ($a, $b) {
+        $callback = function ($a, $b) {
             return strcmp($b, $a);
         };
         $iterator = new rex_sortable_iterator(new ArrayIterator($array), $callback);

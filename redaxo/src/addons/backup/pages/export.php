@@ -20,7 +20,7 @@ $exportdl = rex_post('exportdl', 'boolean');
 $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
 
-if ('' == $exportfilename) {
+if ($exportfilename == '') {
     $server = parse_url(rex::getServer(), PHP_URL_HOST);
     $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
 }
@@ -52,7 +52,7 @@ if ($export && !$csrfToken->isValid()) {
     } else {
         $hasContent = false;
         $header = '';
-        $ext = 'sql' == $exporttype ? '.sql' : '.tar.gz';
+        $ext = $exporttype == 'sql' ? '.sql' : '.tar.gz';
         $export_path = rex_backup::getDir() . '/';
 
         if (file_exists($export_path . $filename . $ext)) {
@@ -63,12 +63,12 @@ if ($export && !$csrfToken->isValid()) {
             $filename = $filename . '_' . $i;
         }
 
-        if ('sql' == $exporttype) {
+        if ($exporttype == 'sql') {
             // ------------------------------ FUNC EXPORT SQL
             $header = 'plain/text';
 
             $hasContent = rex_backup::exportDb($export_path . $filename . $ext, $EXPTABLES);
-        } elseif ('files' == $exporttype) {
+        } elseif ($exporttype == 'files') {
             // ------------------------------ FUNC EXPORT FILES
             $header = 'tar/gzip';
 
@@ -94,10 +94,10 @@ if ($export && !$csrfToken->isValid()) {
     }
 }
 
-if ('' != $success) {
+if ($success != '') {
     echo rex_view::success($success);
 }
-if ('' != $error) {
+if ($error != '') {
     echo rex_view::error($error);
 }
 
@@ -114,7 +114,7 @@ $content .= '<fieldset>';
 $checkedsql = '';
 $checkedfiles = '';
 
-if ('files' == $exporttype) {
+if ($exporttype == 'files') {
     $checkedfiles = ' checked="checked"';
 } else {
     $checkedsql = ' checked="checked"';

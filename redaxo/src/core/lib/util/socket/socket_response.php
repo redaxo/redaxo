@@ -34,7 +34,7 @@ class rex_socket_response
 
         $this->stream = $stream;
 
-        while (!feof($this->stream) && false === strpos($this->header, "\r\n\r\n")) {
+        while (!feof($this->stream) && strpos($this->header, "\r\n\r\n") === false) {
             $this->header .= fgets($this->stream);
         }
         $this->header = rtrim($this->header);
@@ -42,7 +42,7 @@ class rex_socket_response
             $this->statusCode = (int) ($matches[1]);
             $this->statusMessage = $matches[2];
         }
-        $this->chunked = false !== stripos($this->header, 'transfer-encoding: chunked');
+        $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;
     }
 
     /**
@@ -72,7 +72,7 @@ class rex_socket_response
      */
     public function isOk()
     {
-        return 200 == $this->statusCode;
+        return $this->statusCode == 200;
     }
 
     /**
@@ -145,7 +145,7 @@ class rex_socket_response
      */
     public function getHeader($key = null, $default = null)
     {
-        if (null === $key) {
+        if ($key === null) {
             return $this->header;
         }
         $key = strtolower($key);
@@ -171,9 +171,9 @@ class rex_socket_response
             return false;
         }
         if ($this->chunked) {
-            if (0 == $this->chunkPos) {
+            if ($this->chunkPos == 0) {
                 $this->chunkLength = hexdec(fgets($this->stream));
-                if (0 == $this->chunkLength) {
+                if ($this->chunkLength == 0) {
                     return false;
                 }
             }
@@ -197,8 +197,8 @@ class rex_socket_response
      */
     public function getBody()
     {
-        if (null === $this->body) {
-            while (false !== ($buf = $this->getBufferedBody())) {
+        if ($this->body === null) {
+            while (($buf = $this->getBufferedBody()) !== false) {
                 $this->body .= $buf;
             }
         }
@@ -223,7 +223,7 @@ class rex_socket_response
             return false;
         }
         $success = true;
-        while ($success && false !== ($buf = $this->getBufferedBody())) {
+        while ($success && ($buf = $this->getBufferedBody()) !== false) {
             $success = (bool) fwrite($resource, $buf);
         }
         if ($close) {

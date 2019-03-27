@@ -69,7 +69,7 @@ class rex_addon_manager extends rex_package_manager
         $state = parent::activate();
         $this->generatePackageOrder = true;
 
-        if (true !== $state) {
+        if ($state !== true) {
             return false;
         }
 
@@ -133,7 +133,7 @@ class rex_addon_manager extends rex_package_manager
      */
     protected function wrongPackageId($addonName, $pluginName = null)
     {
-        if (null !== $pluginName) {
+        if ($pluginName !== null) {
             return $this->i18n('is_plugin', $addonName, $pluginName);
         }
         return $this->i18n('wrong_dir_name', $addonName);

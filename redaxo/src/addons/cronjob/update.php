@@ -1,8 +1,8 @@
 <?php
 
-$addon = rex_addon::get('cronjob');
+/** @var rex_addon $this */
 
-if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
+if (rex_string::versionCompare($this->getVersion(), '2.1-dev', '<')) {
     $table = rex::getTable('cronjob');
 
     rex_sql_table::get($table)
@@ -36,7 +36,7 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
                 $interval['hours'] = 'all';
                 break;
             case 'h':
-                if (1 == $count) {
+                if ($count == 1) {
                     $interval['hours'] = 'all';
                 } elseif ($count < 13) {
                     $interval['hours'] = range(0, 23, $count);
@@ -50,11 +50,11 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
                 }
                 break;
             case 'w':
-                if (1 == $count) {
+                if ($count == 1) {
                     $interval['weekdays'] = [1];
                     break;
                 }
-                if (2 == $count) {
+                if ($count == 2) {
                     $interval['days'] = [1, 15];
                     break;
                 }

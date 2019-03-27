@@ -18,10 +18,10 @@ class rex_api_package extends rex_api_function
         }
         $packageId = rex_request('package', 'string');
         $package = rex_package::get($packageId);
-        if ('uninstall' == $function && !$package->isInstalled()
-            || 'activate' == $function && $package->isAvailable()
-            || 'deactivate' == $function && !$package->isAvailable()
-            || 'delete' == $function && !rex_package::exists($packageId)
+        if ($function == 'uninstall' && !$package->isInstalled()
+            || $function == 'activate' && $package->isAvailable()
+            || $function == 'deactivate' && !$package->isAvailable()
+            || $function == 'delete' && !rex_package::exists($packageId)
         ) {
             return new rex_api_result(true);
         }

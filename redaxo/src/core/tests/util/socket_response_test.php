@@ -1,11 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_socket_response_test extends TestCase
+class rex_socket_response_test extends PHPUnit_Framework_TestCase
 {
     private function getResponse($content)
     {
@@ -41,7 +36,7 @@ class rex_socket_response_test extends TestCase
 
         $this->assertSame($statusCode, $response->getStatusCode(), 'getStatusCode()');
         $this->assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
-        $this->assertSame(200 == $statusCode, $response->isOk(), 'isOk()');
+        $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
 
         $methods = ['isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid'];
         foreach ($methods as $method) {

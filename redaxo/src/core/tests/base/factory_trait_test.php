@@ -1,7 +1,5 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
 class rex_test_factory
 {
     use rex_factory_trait;
@@ -39,10 +37,7 @@ class rex_alternative_test_factory extends rex_test_factory
     }
 }
 
-/**
- * @internal
- */
-class rex_factory_trait_test extends TestCase
+class rex_factory_trait_test extends PHPUnit_Framework_TestCase
 {
     public function testFactoryCreation()
     {

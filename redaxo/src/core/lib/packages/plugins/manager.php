@@ -20,7 +20,7 @@ class rex_plugin_manager extends rex_package_manager
      */
     protected function wrongPackageId($addonName, $pluginName = null)
     {
-        if (null === $pluginName) {
+        if ($pluginName === null) {
             return $this->i18n('is_addon', $addonName);
         }
         if ($addonName != $this->package->getAddon()->getName()) {

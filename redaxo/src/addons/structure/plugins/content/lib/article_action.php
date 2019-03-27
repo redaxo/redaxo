@@ -5,9 +5,9 @@
  */
 class rex_article_action
 {
-    public const PREVIEW = 'preview';
-    public const PRESAVE = 'presave';
-    public const POSTSAVE = 'postsave';
+    const PREVIEW = 'preview';
+    const PRESAVE = 'presave';
+    const POSTSAVE = 'postsave';
 
     private $moduleId;
     private $event;
@@ -21,9 +21,9 @@ class rex_article_action
     {
         $this->moduleId = $moduleId;
         $this->event = $function;
-        if ('edit' == $function) {
+        if ($function == 'edit') {
             $this->mode = 2;
-        } elseif ('delete' == $function) {
+        } elseif ($function == 'delete') {
             $this->mode = 4;
         } else {
             $this->mode = 1;
@@ -35,7 +35,7 @@ class rex_article_action
             rex_request('clang', 'int'),
             rex_request('ctype', 'int'),
             rex_request('module_id', 'int'),
-            1 == $this->mode ? 0 : rex_request('slice_id', 'int'),
+            $this->mode == 1 ? 0 : rex_request('slice_id', 'int'),
         ];
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
 class rex_test_instance_list_pool
 {
     use rex_instance_list_pool_trait {
@@ -21,10 +19,7 @@ class rex_test_instance_list_pool
     }
 }
 
-/**
- * @internal
- */
-class rex_instance_list_pool_trait_test extends TestCase
+class rex_instance_list_pool_trait_test extends PHPUnit_Framework_TestCase
 {
     public function testAddHasInstanceList()
     {
@@ -61,7 +56,7 @@ class rex_instance_list_pool_trait_test extends TestCase
                 $this->assertEquals(3, $key1, 'getInstanceList passes instance key array as arguments to callback');
                 $this->assertEquals('test', $key2, 'getInstanceList passes instance key array as arguments to callback');
             },
-            static function () {
+            function () {
                 return [[3, 'test']];
             }
         );

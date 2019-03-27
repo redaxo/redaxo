@@ -1,11 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_log_entry_test extends TestCase
+class rex_log_entry_test extends PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {

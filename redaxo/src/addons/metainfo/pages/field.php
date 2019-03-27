@@ -25,9 +25,9 @@ $func = rex_request('func', 'string');
 $field_id = rex_request('field_id', 'int');
 
 //------------------------------> Feld loeschen
-if ('delete' == $func) {
+if ($func == 'delete') {
     $field_id = rex_request('field_id', 'int', 0);
-    if (0 != $field_id) {
+    if ($field_id != 0) {
         if (rex_metainfo_delete_field($field_id)) {
             echo rex_view::success(rex_i18n::msg('minfo_field_successfull_deleted'));
         } else {
@@ -38,7 +38,7 @@ if ('delete' == $func) {
 }
 
 //------------------------------> Eintragsliste
-if ('' == $func) {
+if ($func == '') {
     echo rex_api_function::getMessage();
 
     $title = rex_i18n::msg('minfo_field_list_caption');
@@ -93,11 +93,11 @@ if ('' == $func) {
     $content = $fragment->parse('core/page/section.php');
 }
 //------------------------------> Formular
-elseif ('edit' == $func || 'add' == $func) {
+elseif ($func == 'edit' || $func == 'add') {
     $title = rex_i18n::msg('minfo_field_fieldset');
     $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix().'metainfo_field', 'id='.$field_id);
 
-    if ('edit' == $func) {
+    if ($func == 'edit') {
         $form->addParam('field_id', $field_id);
     }
 

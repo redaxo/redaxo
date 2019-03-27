@@ -4,6 +4,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * @package redaxo\core
@@ -23,27 +24,7 @@ class rex_console_application extends Application
             // catch and rethrow \Exceptions first to only catch fatal errors below (\Exception implements \Throwable)
             throw $e;
         } catch (\Throwable $e) {
-            $message = $e->getMessage();
-
-            if ($e instanceof \ParseError) {
-                $message = 'Parse error: '.$message;
-                $severity = E_PARSE;
-            } elseif ($e instanceof \TypeError) {
-                $message = 'Type error: '.$message;
-                $severity = E_RECOVERABLE_ERROR;
-            } else {
-                $message = 'Fatal error: '.$message;
-                $severity = E_ERROR;
-            }
-
-            throw new ErrorException(
-                $message,
-                $e->getCode(),
-                $severity,
-                $e->getFile(),
-                $e->getLine(),
-                $e->getPrevious()
-            );
+            throw new FatalThrowableError($e);
         }
     }
 

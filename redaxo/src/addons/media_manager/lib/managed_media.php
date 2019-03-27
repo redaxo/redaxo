@@ -99,14 +99,14 @@ class rex_managed_media
             }
         }
 
-        if ('jpg' == $this->format || 'jpeg' == $this->format) {
+        if ($this->format == 'jpg' || $this->format == 'jpeg') {
             $this->format = 'jpeg';
             $this->image['src'] = @imagecreatefromjpeg($this->getSourcePath());
-        } elseif ('gif' == $this->format) {
+        } elseif ($this->format == 'gif') {
             $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
-        } elseif ('wbmp' == $this->format) {
+        } elseif ($this->format == 'wbmp') {
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
-        } elseif ('webp' == $this->format) {
+        } elseif ($this->format == 'webp') {
             if (function_exists('imagecreatefromwebp')) {
                 $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
                 imagealphablending($this->image['src'], false);
@@ -132,6 +132,11 @@ class rex_managed_media
 
     public function refreshImageDimensions()
     {
+        // getimagesize does not work for webp with PHP < 7.1
+        if (!$this->asImage && 'webp' === $this->format && PHP_VERSION_ID < 70100) {
+            $this->asImage();
+        }
+
         if ($this->asImage) {
             $this->image['width'] = imagesx($this->image['src']);
             $this->image['height'] = imagesy($this->image['src']);
@@ -223,17 +228,17 @@ class rex_managed_media
         imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
 
         ob_start();
-        if ('jpg' == $format) {
+        if ($format == 'jpg') {
             $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
-        } elseif ('png' == $format) {
+        } elseif ($format == 'png') {
             $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 5));
             imagepng($this->image['src'], null, $compression);
-        } elseif ('gif' == $format) {
+        } elseif ($format == 'gif') {
             imagegif($this->image['src']);
-        } elseif ('wbmp' == $format) {
+        } elseif ($format == 'wbmp') {
             imagewbmp($this->image['src']);
-        } elseif ('webp' == $format) {
+        } elseif ($format == 'webp') {
             $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
             imagewebp($this->image['src'], null, $quality);
         }
@@ -356,7 +361,7 @@ class rex_managed_media
      */
     private function prepareHeaders($src = null)
     {
-        if (null !== $src) {
+        if ($src !== null) {
             $this->setHeader('Content-Length', rex_string::size($src));
         }
 
@@ -374,15 +379,15 @@ class rex_managed_media
             }
 
             // In case mime_content_type() returns 'text/plain' for CSS / JS files:
-            if ('text/plain' == $content_type) {
-                if ('css' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
+            if ($content_type == 'text/plain') {
+                if (pathinfo($this->getSourcePath(), PATHINFO_EXTENSION) == 'css') {
                     $content_type = 'text/css';
-                } elseif ('js' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
+                } elseif (pathinfo($this->getSourcePath(), PATHINFO_EXTENSION) == 'js') {
                     $content_type = 'application/javascript';
                 }
             }
 
-            if ('' != $content_type) {
+            if ($content_type != '') {
                 $this->setHeader('Content-Type', $content_type);
             }
         }

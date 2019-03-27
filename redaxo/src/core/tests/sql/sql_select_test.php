@@ -1,15 +1,10 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_sql_select_test extends TestCase
+class rex_sql_select_test extends PHPUnit_Framework_TestCase
 {
-    public const TABLE = 'rex_tests';
+    const TABLE = 'rex_tests';
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -30,7 +25,7 @@ class rex_sql_select_test extends TestCase
         $this->insertRow();
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         parent::tearDown();
 
@@ -48,7 +43,7 @@ class rex_sql_select_test extends TestCase
         $sql = rex_sql::factory();
         $sql->setQuery('SELECT * FROM ' . self::TABLE . ' WHERE col_int = ?', [5]);
 
-        $this->assertCount(6, $sql->getRow(), 'getRow() returns an array containing all columns of the ResultSet');
+        $this->assertEquals(6, count($sql->getRow()), 'getRow() returns an array containing all columns of the ResultSet');
         $this->assertEquals(3, $sql->getRows(), 'getRows() returns the number of rows');
 
         foreach ($sql as $row) {
@@ -103,7 +98,7 @@ class rex_sql_select_test extends TestCase
         $array = $sql->getArray('SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
 
         $this->assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
-        $this->assertCount(1, $array, 'the returned array contain the correct number of rows');
+        $this->assertEquals(1, count($array), 'the returned array contain the correct number of rows');
         $this->assertArrayHasKey(0, $array);
 
         $row1 = $array[0];
@@ -117,7 +112,7 @@ class rex_sql_select_test extends TestCase
         $array = $sql->getDBArray('(DB1) SELECT * FROM ' . self::TABLE . ' WHERE col_int = 5');
 
         $this->assertEquals(1, $sql->getRows(), 'getRows() returns the number of rows');
-        $this->assertCount(1, $array, 'the returned array contain the correct number of rows');
+        $this->assertEquals(1, count($array), 'the returned array contain the correct number of rows');
         $this->assertArrayHasKey(0, $array);
 
         $row1 = $array[0];

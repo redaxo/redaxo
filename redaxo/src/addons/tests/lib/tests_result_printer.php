@@ -1,19 +1,15 @@
 <?php
 
-use PHPUnit\Framework\TestFailure;
-use PHPUnit\TextUI\ResultPrinter;
-use PHPUnit\Util\Filter;
-
 /**
  * @package redaxo\tests
  *
  * @internal
  */
-class rex_tests_result_printer extends ResultPrinter
+class rex_tests_result_printer extends PHPUnit_TextUI_ResultPrinter
 {
     protected $backtrace;
 
-    public function __construct($backtrace, $colors = ResultPrinter::COLOR_DEFAULT)
+    public function __construct($backtrace, $colors = PHPUnit_TextUI_ResultPrinter::COLOR_DEFAULT)
     {
         $out = null;
         if (PHP_SAPI == 'cli') {
@@ -31,9 +27,9 @@ class rex_tests_result_printer extends ResultPrinter
         }
     }
 
-    protected function printDefectTrace(TestFailure $defect): void
+    protected function printDefectTrace(PHPUnit_Framework_TestFailure $defect)
     {
-        $stacktrace = Filter::getFilteredStacktrace($defect->thrownException());
+        $stacktrace = PHPUnit_Util_Filter::getFilteredStacktrace($defect->thrownException());
 
         $stacktrace = str_replace([$this->backtrace, rex_path::base()], '', $stacktrace);
 

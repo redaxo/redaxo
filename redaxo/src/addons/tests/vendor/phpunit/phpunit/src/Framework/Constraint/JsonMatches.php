@@ -7,38 +7,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
-
-use PHPUnit\Framework\ExpectationFailedException;
-use PHPUnit\Util\Json;
-use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
  * Asserts whether or not two JSON objects are equal.
+ *
+ * @since Class available since Release 3.7.0
  */
-class JsonMatches extends Constraint
+class PHPUnit_Framework_Constraint_JsonMatches extends PHPUnit_Framework_Constraint
 {
     /**
      * @var string
      */
-    private $value;
-
-    public function __construct(string $value)
-    {
-        parent::__construct();
-
-        $this->value = $value;
-    }
+    protected $value;
 
     /**
-     * Returns a string representation of the object.
+     * Creates a new constraint.
+     *
+     * @param string $value
      */
-    public function toString(): string
+    public function __construct($value)
     {
-        return \sprintf(
-            'matches JSON string "%s"',
-            $this->value
-        );
+        parent::__construct();
+        $this->value = $value;
     }
 
     /**
@@ -47,65 +37,35 @@ class JsonMatches extends Constraint
      *
      * This method can be overridden to implement the evaluation algorithm.
      *
-     * @param mixed $other value or object to evaluate
+     * @param mixed $other Value or object to evaluate.
+     *
+     * @return bool
      */
-    protected function matches($other): bool
+    protected function matches($other)
     {
-        [$error, $recodedOther] = Json::canonicalize($other);
-
-        if ($error) {
+        $decodedOther = json_decode($other);
+        if (json_last_error()) {
             return false;
         }
 
-        [$error, $recodedValue] = Json::canonicalize($this->value);
-
-        if ($error) {
+        $decodedValue = json_decode($this->value);
+        if (json_last_error()) {
             return false;
         }
 
-        return $recodedOther == $recodedValue;
+        return $decodedOther == $decodedValue;
     }
 
     /**
-     * Throws an exception for the given compared value and test description
+     * Returns a string representation of the object.
      *
-     * @param mixed             $other             evaluated value or object
-     * @param string            $description       Additional information about the test
-     * @param ComparisonFailure $comparisonFailure
-     *
-     * @throws ExpectationFailedException
-     * @throws \PHPUnit\Framework\Exception
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @return string
      */
-    protected function fail($other, $description, ComparisonFailure $comparisonFailure = null): void
+    public function toString()
     {
-        if ($comparisonFailure === null) {
-            [$error] = Json::canonicalize($other);
-
-            if ($error) {
-                parent::fail($other, $description);
-
-                return;
-            }
-
-            [$error] = Json::canonicalize($this->value);
-
-            if ($error) {
-                parent::fail($other, $description);
-
-                return;
-            }
-
-            $comparisonFailure = new ComparisonFailure(
-                \json_decode($this->value),
-                \json_decode($other),
-                Json::prettify($this->value),
-                Json::prettify($other),
-                false,
-                'Failed asserting that two json values are equal.'
-            );
-        }
-
-        parent::fail($other, $description, $comparisonFailure);
+        return sprintf(
+            'matches JSON string "%s"',
+            $this->value
+        );
     }
 }

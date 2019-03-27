@@ -1,11 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_rex_test extends TestCase
+class rex_rex_test extends PHPUnit_Framework_TestCase
 {
     public function testRexConfig()
     {
@@ -151,9 +146,9 @@ class rex_rex_test extends TestCase
 
     public function testGetVersion()
     {
-        $this->assertTrue('' != rex::getVersion(), 'a version string is returned');
+        $this->assertTrue(rex::getVersion() != '', 'a version string is returned');
         $vers = rex::getVersion();
         $versParts = explode('.', $vers);
-        $this->assertTrue(5 == $versParts[0], 'the major version is 5');
+        $this->assertTrue($versParts[0] == 5, 'the major version is 5');
     }
 }

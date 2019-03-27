@@ -1,12 +1,8 @@
 Changelog
 =========
 
-Version 2.4.0 – 12.03.2019
+Version 2.3.2 – XX.XX.XXXX
 --------------------------
-
-### Neu
-
-* Bei Date(time)-Feldern kann Start- und Endjahr für Jahr-Selecbox festgelegt werden (@gharlan)
 
 ### Bugfixes
 

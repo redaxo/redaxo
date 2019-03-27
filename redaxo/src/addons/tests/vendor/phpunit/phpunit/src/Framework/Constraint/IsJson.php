@@ -7,36 +7,26 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\Framework\Constraint;
 
 /**
  * Constraint that asserts that a string is valid JSON.
+ *
+ * @since Class available since Release 3.7.20
  */
-class IsJson extends Constraint
+class PHPUnit_Framework_Constraint_IsJson extends PHPUnit_Framework_Constraint
 {
-    /**
-     * Returns a string representation of the constraint.
-     */
-    public function toString(): string
-    {
-        return 'is valid JSON';
-    }
-
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
-     * @param mixed $other value or object to evaluate
+     * @param mixed $other Value or object to evaluate.
+     *
+     * @return bool
      */
-    protected function matches($other): bool
+    protected function matches($other)
     {
-        if ($other === '') {
-            return false;
-        }
-
-        \json_decode($other);
-
-        if (\json_last_error()) {
+        json_decode($other);
+        if (json_last_error()) {
             return false;
         }
 
@@ -49,25 +39,31 @@ class IsJson extends Constraint
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param mixed $other evaluated value or object
+     * @param mixed $other Evaluated value or object.
      *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @return string
      */
-    protected function failureDescription($other): string
+    protected function failureDescription($other)
     {
-        if ($other === '') {
-            return 'an empty string is valid JSON';
-        }
-
-        \json_decode($other);
-        $error = JsonMatchesErrorMessageProvider::determineJsonError(
-            \json_last_error()
+        json_decode($other);
+        $error = PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError(
+            json_last_error()
         );
 
-        return \sprintf(
+        return sprintf(
             '%s is valid JSON (%s)',
             $this->exporter->shortenedExport($other),
             $error
         );
+    }
+
+    /**
+     * Returns a string representation of the constraint.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return 'is valid JSON';
     }
 }

@@ -1,15 +1,7 @@
 Changelog
 =========
 
-Version 2.5.1 – 16.03.2019
---------------------------
-
-### Bugfixes
-
-* E-Mail-Benachrichtigung bei Fehlern wurde teilweise kontinuierlich bei jedem Seitenaufruf verschickt (@skerbis)
-
-
-Version 2.5.0 – 12.03.2019
+Version 2.5.0 – XX.XX.XXXX
 --------------------------
 
 ### Neu

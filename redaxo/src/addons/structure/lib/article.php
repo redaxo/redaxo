@@ -22,7 +22,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return null|self
+     * @return self
      */
     public static function getCurrent($clang = null)
     {

@@ -18,13 +18,6 @@ class rex_config
     private static $initialized = false;
 
     /**
-     * path to the cache file.
-     *
-     * @var string
-     */
-    private static $cacheFile;
-
-    /**
      * Flag which indicates if database needs an update, because settings have changed.
      *
      * @var bool
@@ -128,7 +121,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if (null === $key) {
+        if ($key === null) {
             return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
         }
 
@@ -160,7 +153,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if (null === $key) {
+        if ($key === null) {
             return isset(self::$data[$namespace]);
         }
 
@@ -198,9 +191,6 @@ class rex_config
 
             // since it will be deleted, do not longer mark as changed
             unset(self::$changedData[$namespace][$key]);
-            if (empty(self::$changedData[$namespace])) {
-                unset(self::$changedData[$namespace]);
-            }
 
             // delete the data from the container
             unset(self::$data[$namespace][$key]);
@@ -271,14 +261,14 @@ class rex_config
             return;
         }
 
-        self::$cacheFile = rex_path::coreCache('config.cache');
+        define('REX_CONFIG_FILE_CACHE', rex_path::coreCache('config.cache'));
 
         // take care, so we are able to write a cache file on shutdown
         // (check here, since exceptions in shutdown functions are not visible to the user)
-        $dir = dirname(self::$cacheFile);
+        $dir = dirname(REX_CONFIG_FILE_CACHE);
         rex_dir::create($dir);
         if (!is_writable($dir)) {
-            throw new rex_exception('rex-config: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
+            throw new rex_exception('rex-config: cache dir "' . dirname(REX_CONFIG_FILE_CACHE) . '" is not writable!');
         }
 
         // save cache on shutdown
@@ -310,8 +300,8 @@ class rex_config
     private static function loadFromFile()
     {
         // delete cache-file, will be regenerated on next request
-        if (file_exists(self::$cacheFile)) {
-            self::$data = rex_file::getCache(self::$cacheFile);
+        if (file_exists(REX_CONFIG_FILE_CACHE)) {
+            self::$data = rex_file::getCache(REX_CONFIG_FILE_CACHE);
             return true;
         }
         return false;
@@ -336,8 +326,8 @@ class rex_config
      */
     private static function generateCache()
     {
-        if (rex_file::putCache(self::$cacheFile, self::$data) <= 0) {
-            throw new rex_exception('rex-config: unable to write cache file ' . self::$cacheFile);
+        if (rex_file::putCache(REX_CONFIG_FILE_CACHE, self::$data) <= 0) {
+            throw new rex_exception('rex-config: unable to write cache file ' . REX_CONFIG_FILE_CACHE);
         }
     }
 
@@ -357,7 +347,7 @@ class rex_config
         }
 
         // delete cache-file; will be regenerated on next request
-        rex_file::delete(self::$cacheFile);
+        rex_file::delete(REX_CONFIG_FILE_CACHE);
 
         // save all data to the db
         self::saveToDb();
@@ -395,7 +385,7 @@ class rex_config
 
             foreach (self::$changedData as $namespace => $nsData) {
                 foreach ($nsData as $key => $value) {
-                    $sql->addRecord(static function (rex_sql $record) use ($namespace, $key, $value) {
+                    $sql->addRecord(function (rex_sql $record) use ($namespace, $key, $value) {
                         $record->setValue('namespace', $namespace);
                         $record->setValue('key', $key);
                         $record->setValue('value', json_encode($value));

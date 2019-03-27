@@ -7,11 +7,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit;
 
 /**
  * Marker interface for PHPUnit exceptions.
+ *
+ * @since      Interface available since Release 4.0.0
  */
-interface Exception
+interface PHPUnit_Exception
 {
 }

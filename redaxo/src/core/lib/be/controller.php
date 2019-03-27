@@ -51,7 +51,7 @@ class rex_be_controller
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
-        if (null === $part) {
+        if ($part === null) {
             return self::$pageParts;
         }
         --$part;
@@ -191,7 +191,7 @@ class rex_be_controller
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    if (false !== strpos($key, '/')) {
+                    if (strpos($key, '/') !== false) {
                         $insertPages[$key] = [$addon, $page];
                     } else {
                         self::pageCreate($page, $addon, false, $mainPage, $key, true);
@@ -206,7 +206,7 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        if (false !== strpos($key, '/')) {
+                        if (strpos($key, '/') !== false) {
                             $insertPages[$key] = [$plugin, $page];
                         } else {
                             self::pageCreate($page, $plugin, false, $mainPage, $key, true);
@@ -216,7 +216,7 @@ class rex_be_controller
             }
         }
         foreach ($insertPages as $key => $packagePage) {
-            [$package, $page] = $packagePage;
+            list($package, $page) = $packagePage;
             $key = explode('/', $key);
             if (!isset(self::$pages[$key[0]])) {
                 continue;
@@ -349,7 +349,7 @@ class rex_be_controller
 
     public static function checkPagePermissions(rex_user $user)
     {
-        $check = static function (rex_be_page $page) use (&$check, $user) {
+        $check = function (rex_be_page $page) use (&$check, $user) {
             if (!$page->checkPermission($user)) {
                 return false;
             }
@@ -435,14 +435,11 @@ class rex_be_controller
             $path = $languagePath;
         }
 
-        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path));
         $fragment = new rex_fragment();
-        $fragment->setVar('content', $content, false);
-        $fragment->setVar('toc', $toc, false);
+        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', self::getCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
     }

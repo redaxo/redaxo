@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/sebastianbergmann/php-timer.svg?branch=master)](https://travis-ci.org/sebastianbergmann/php-timer)
 
-# phpunit/php-timer
+# PHP_Timer
 
 Utility class for timing things, factored out of PHPUnit into a stand-alone component.
 
@@ -19,16 +19,14 @@ If you only need this library during development, for instance to run your proje
 ### Basic Timing
 
 ```php
-use SebastianBergmann\Timer\Timer;
-
-Timer::start();
+PHP_Timer::start();
 
 // ...
 
-$time = Timer::stop();
+$time = PHP_Timer::stop();
 var_dump($time);
 
-print Timer::secondsToTimeString($time);
+print PHP_Timer::secondsToTimeString($time);
 ```
 
 The code above yields the output below:
@@ -39,9 +37,7 @@ The code above yields the output below:
 ### Resource Consumption Since PHP Startup
 
 ```php
-use SebastianBergmann\Timer\Timer;
-
-print Timer::resourceUsage();
+print PHP_Timer::resourceUsage();
 ```
 
 The code above yields the output below:

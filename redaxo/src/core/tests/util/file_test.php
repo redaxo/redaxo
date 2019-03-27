@@ -1,20 +1,15 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-
-/**
- * @internal
- */
-class rex_file_test extends TestCase
+class rex_file_test extends PHPUnit_Framework_TestCase
 {
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
         rex_dir::create($this->getPath());
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         parent::tearDown();
 
