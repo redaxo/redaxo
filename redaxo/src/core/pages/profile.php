@@ -18,7 +18,6 @@ $username = rex_request('username', 'string', $user->getName());
 $userdesc = rex_request('userdesc', 'string', $user->getValue('description'));
 $useremail = rex_request('useremail', 'string', $user->getValue('email'));
 $userlogin = $user->getLogin();
-$userminibar = $user->getValue('minibar');
 $csrfToken = rex_csrf_token::factory('profile');
 
 // --------------------------------- Title
@@ -61,15 +60,12 @@ if (rex_request('rex_user_updated', 'bool', false)) {
 }
 
 if ($update && !$error) {
-    $userminibar = rex_request('minibar', 'bool');
-
     $updateuser = rex_sql::factory();
     $updateuser->setTable(rex::getTablePrefix() . 'user');
     $updateuser->setWhere(['id' => $user_id]);
     $updateuser->setValue('name', $username);
     $updateuser->setValue('description', $userdesc);
     $updateuser->setValue('email', $useremail);
-    $updateuser->setValue('minibar', $userminibar);
     $updateuser->setValue('language', $userperm_be_sprache);
 
     $updateuser->addGlobalUpdateFields();
@@ -122,11 +118,11 @@ if (rex_post('upd_psw_button', 'bool')) {
 
 // ---------------------------------- ERR MSG
 
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
 }
 
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
 }
 
@@ -169,17 +165,6 @@ $fragment->setVar('flush', true);
 $fragment->setVar('group', true);
 $fragment->setVar('elements', $formElements, false);
 $content .= $fragment->parse('core/form/form.php');
-
-$formElements = [];
-$n = [];
-$n['label'] = '<label for="rex-id-minibar">' . rex_i18n::msg('user_minibar') . '</label>';
-$n['field'] = '<input type="checkbox" id="rex-id-minibar" name="minibar" value="1"' . ($userminibar == 1 ? ' checked="checked"' : ''). ' />';
-$n['note'] = rex_i18n::msg('user_minibar_note');
-$formElements[] = $n;
-
-$fragment = new rex_fragment();
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/checkbox.php');
 
 $content .= '</fieldset>';
 

@@ -5,9 +5,9 @@
  */
 class rex_view
 {
-    const JS_DEFERED = 'defer';
-    const JS_ASYNC = 'async';
-    const JS_IMMUTABLE = 'immutable';
+    public const JS_DEFERED = 'defer';
+    public const JS_ASYNC = 'async';
+    public const JS_IMMUTABLE = 'immutable';
 
     private static $cssFiles = [];
     private static $jsFiles = [];
@@ -51,7 +51,7 @@ class rex_view
     public static function addJsFile($file, array $options = [])
     {
         if (empty($options)) {
-            $options[self::JS_IMMUTABLE] = true;
+            $options[self::JS_IMMUTABLE] = false;
         }
 
         if (in_array($file, self::$jsFiles)) {
@@ -69,7 +69,7 @@ class rex_view
     public static function getJsFiles()
     {
         // transform for BC
-        return array_map(function ($jsFile) {
+        return array_map(static function ($jsFile) {
             return $jsFile[0];
         }, self::$jsFiles);
     }
@@ -136,7 +136,7 @@ class rex_view
     public static function info($message, $cssClass = '')
     {
         $cssClassMessage = 'alert-info';
-        if ($cssClass != '') {
+        if ('' != $cssClass) {
             $cssClassMessage .= ' ' . $cssClass;
         }
 
@@ -154,7 +154,7 @@ class rex_view
     public static function success($message, $cssClass = '')
     {
         $cssClassMessage = 'alert-success';
-        if ($cssClass != '') {
+        if ('' != $cssClass) {
             $cssClassMessage .= ' ' . $cssClass;
         }
 
@@ -172,7 +172,7 @@ class rex_view
     public static function warning($message, $cssClass = '')
     {
         $cssClassMessage = 'alert-warning';
-        if ($cssClass != '') {
+        if ('' != $cssClass) {
             $cssClassMessage .= ' ' . $cssClass;
         }
 
@@ -190,7 +190,7 @@ class rex_view
     public static function error($message, $cssClass = '')
     {
         $cssClassMessage = 'alert-danger';
-        if ($cssClass != '') {
+        if ('' != $cssClass) {
             $cssClassMessage .= ' ' . $cssClass;
         }
 
@@ -208,7 +208,7 @@ class rex_view
     private static function message($message, $cssClass)
     {
         $cssClassMessage = 'alert';
-        if ($cssClass != '') {
+        if ('' != $cssClass) {
             $cssClassMessage .= ' ' . $cssClass;
         }
 
@@ -272,11 +272,11 @@ class rex_view
      */
     public static function title($head, $subtitle = null)
     {
-        if ($subtitle !== null && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page)) {
+        if (null !== $subtitle && !is_string($subtitle) && (!is_array($subtitle) || count($subtitle) > 0 && !reset($subtitle) instanceof rex_be_page)) {
             throw new InvalidArgumentException('Expecting $subtitle to be a string or an array of rex_be_page!');
         }
 
-        if ($subtitle === null) {
+        if (null === $subtitle) {
             $subtitle = rex_be_controller::getPageObject(rex_be_controller::getCurrentPagePart(1))->getSubpages();
         }
 
@@ -288,7 +288,7 @@ class rex_view
             }
             $blocks = $nav->getNavigation();
             $navigation = [];
-            if (count($blocks) == 1) {
+            if (1 == count($blocks)) {
                 $navigation = current($blocks);
                 $navigation = $navigation['navigation'];
             }
@@ -326,7 +326,7 @@ class rex_view
      */
     public static function clangSwitch(rex_context $context, $drop = true)
     {
-        if (rex_clang::count() == 1) {
+        if (1 == rex_clang::count()) {
             return '';
         }
 
@@ -363,7 +363,7 @@ class rex_view
      */
     public static function clangSwitchAsButtons(rex_context $context, $drop = true)
     {
-        if (rex_clang::count() == 1) {
+        if (1 == rex_clang::count()) {
             return '';
         }
 
@@ -401,7 +401,7 @@ class rex_view
      */
     public static function clangSwitchAsDropdown(rex_context $context)
     {
-        if (rex_clang::count() == 1) {
+        if (1 == rex_clang::count()) {
             return '';
         }
 

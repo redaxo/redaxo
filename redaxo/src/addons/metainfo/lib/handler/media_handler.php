@@ -7,7 +7,7 @@
  */
 class rex_metainfo_media_handler extends rex_metainfo_handler
 {
-    const PREFIX = 'med_';
+    public const PREFIX = 'med_';
 
     /**
      * Extension to check whether the given media is still in use.
@@ -27,7 +27,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $sql->setQuery('SELECT `name`, `type_id` FROM `' . rex::getTablePrefix() . 'metainfo_field` WHERE `type_id` IN(6,7)');
 
         $rows = $sql->getRows();
-        if ($rows == 0) {
+        if (0 == $rows) {
             return $warning;
         }
 
@@ -75,10 +75,10 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                         $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . $art_arr['name'] . '</a></li>';
                     }
                 }
-                if ($articles != '') {
+                if ('' != $articles) {
                     $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
                 }
-                if ($categories != '') {
+                if ('' != $categories) {
                     $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
                 }
             }
@@ -94,7 +94,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                     $cat_id = $med_arr['category_id'];
                     $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $cat_id]) . '">' . $filename . '</a></li>';
                 }
-                if ($media != '') {
+                if ('' != $media) {
                     $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
                 }
             }
@@ -111,7 +111,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
                         $clangs .= '<li>' . $clang_arr['name'] . '</li>';
                     }
                 }
-                if ($clangs != '') {
+                if ('' != $clangs) {
                     $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
                 }
             }
@@ -129,14 +129,14 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
             $catId = $params['activeItem']->getValue('category_id');
         }
 
-        if ($catId !== '') {
+        if ('' !== $catId) {
             $s = '';
-            if ($catId != 0) {
+            if (0 != $catId) {
                 $OOCat = rex_media_category::get($catId);
 
                 // Alle Metafelder des Pfades sind erlaubt
                 foreach ($OOCat->getPathAsArray() as $pathElement) {
-                    if ($pathElement != '') {
+                    if ('' != $pathElement) {
                         $s .= ' OR `p`.`restrictions` LIKE "%|' . $pathElement . '|%"';
                     }
                 }
@@ -153,7 +153,7 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
 
     protected function handleSave(array $params, rex_sql $sqlFields)
     {
-        if (rex_request_method() != 'post' || !isset($params['id'])) {
+        if ('post' != rex_request_method() || !isset($params['id'])) {
             return $params;
         }
 
@@ -181,14 +181,14 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     {
         $params = $ep->getParams();
         // Nur beim EDIT gibts auch ein Medium zum bearbeiten
-        if ($ep->getName() == 'MEDIA_FORM_EDIT') {
+        if ('MEDIA_FORM_EDIT' == $ep->getName()) {
             $params['activeItem'] = $params['media'];
             unset($params['media']);
-        } elseif ($ep->getName() == 'MEDIA_ADDED') {
+        } elseif ('MEDIA_ADDED' == $ep->getName()) {
             $sql = rex_sql::factory();
             $qry = 'SELECT id FROM ' . rex::getTablePrefix() . 'media WHERE filename="' . $params['filename'] . '"';
             $sql->setQuery($qry);
-            if ($sql->getRows() == 1) {
+            if (1 == $sql->getRows()) {
                 $params['id'] = $sql->getValue('id');
             } else {
                 throw new rex_exception('Error occured during file upload!');

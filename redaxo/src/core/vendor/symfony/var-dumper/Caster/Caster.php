@@ -48,15 +48,10 @@ class Caster
      */
     public static function castObject($obj, $class, $hasDebugInfo = false)
     {
-        if ($class instanceof \ReflectionClass) {
-            @trigger_error(sprintf('Passing a ReflectionClass to "%s()" is deprecated since Symfony 3.3 and will be unsupported in 4.0. Pass the class name as string instead.', __METHOD__), E_USER_DEPRECATED);
-            $hasDebugInfo = $class->hasMethod('__debugInfo');
-            $class = $class->name;
-        }
         if ($hasDebugInfo) {
             $a = $obj->__debugInfo();
         } elseif ($obj instanceof \Closure) {
-            $a = array();
+            $a = [];
         } else {
             $a = (array) $obj;
         }
@@ -65,10 +60,10 @@ class Caster
         }
 
         if ($a) {
-            static $publicProperties = array();
+            static $publicProperties = [];
 
             $i = 0;
-            $prefixedKeys = array();
+            $prefixedKeys = [];
             foreach ($a as $k => $v) {
                 if (isset($k[0]) ? "\0" !== $k[0] : \PHP_VERSION_ID >= 70200) {
                     if (!isset($publicProperties[$class])) {
@@ -109,7 +104,7 @@ class Caster
      *
      * @return array The filtered array
      */
-    public static function filter(array $a, $filter, array $listedProperties = array(), &$count = 0)
+    public static function filter(array $a, $filter, array $listedProperties = [], &$count = 0)
     {
         $count = 0;
 
@@ -119,7 +114,7 @@ class Caster
             if (null === $v) {
                 $type |= self::EXCLUDE_NULL & $filter;
                 $type |= self::EXCLUDE_EMPTY & $filter;
-            } elseif (false === $v || '' === $v || '0' === $v || 0 === $v || 0.0 === $v || array() === $v) {
+            } elseif (false === $v || '' === $v || '0' === $v || 0 === $v || 0.0 === $v || [] === $v) {
                 $type |= self::EXCLUDE_EMPTY & $filter;
             }
             if ((self::EXCLUDE_NOT_IMPORTANT & $filter) && !\in_array($k, $listedProperties, true)) {

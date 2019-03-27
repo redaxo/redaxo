@@ -12,7 +12,7 @@ $content = '';
 $subpage = rex_request('subpage', 'string');
 
 // ----------------- HELPPAGE
-if ($subpage == 'help') {
+if ('help' == $subpage) {
     $package = rex_package::get(rex_request('package', 'string'));
     $name = $package->getPackageId();
     $version = $package->getVersion();
@@ -26,12 +26,16 @@ if ($subpage == 'help') {
         $package->includeFile('help.php');
         $content .= ob_get_clean();
     } elseif (is_readable($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))) {
+        [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md')));
         $fragment = new rex_fragment();
-        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.'. rex_i18n::getLanguage() .'.md'))), false);
+        $fragment->setVar('content', $readmeContent, false);
+        $fragment->setVar('toc', $readmeToc, false);
         $content .= $fragment->parse('core/page/docs.php');
     } elseif (is_readable($package->getPath('README.md'))) {
+        [$readmeToc, $readmeContent] = rex_markdown::factory()->parseWithToc(rex_file::get($package->getPath('README.md')));
         $fragment = new rex_fragment();
-        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($package->getPath('README.md'))), false);
+        $fragment->setVar('content', $readmeContent, false);
+        $fragment->setVar('toc', $readmeToc, false);
         $content .= $fragment->parse('core/page/docs.php');
     } else {
         $content .= rex_view::info(rex_i18n::msg('package_no_help_file'));
@@ -63,11 +67,11 @@ if ($subpage == 'help') {
     $fragment->setVar('body', $credits, false);
     echo $fragment->parse('core/page/section.php');
 
-    echo '<a class="btn btn-back" href="javascript:history.back();">' . rex_i18n::msg('package_back') . '</a>';
+    echo '<p><a class="btn btn-back" href="'.rex_url::backendPage('packages').'">' . rex_i18n::msg('package_back') . '</a></p>';
 }
 
 // ----------------- LICENSE page
-if ($subpage == 'license') {
+if ('license' == $subpage) {
     $package = rex_package::get(rex_request('package', 'string'));
 
     $license = null;
@@ -89,7 +93,7 @@ if ($subpage == 'license') {
 }
 
 // ----------------- OUT
-if ($subpage == '') {
+if ('' == $subpage) {
     rex_package_manager::synchronizeWithFileSystem();
 
     $content .= '
@@ -107,7 +111,7 @@ if ($subpage == '') {
             </thead>
             <tbody>';
 
-    $getLink = function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
+    $getLink = static function (rex_package $package, $function, $icon = '', $confirm = false, $key = null) {
         $onclick = '';
         if ($confirm) {
             $onclick = ' data-confirm="' . rex_i18n::msg($package->getType() . '_' . $function . '_question', $package->getName()) . '"';
@@ -118,12 +122,12 @@ if ($subpage == '') {
             'function' => $function,
         ] + rex_api_package::getUrlParams());
 
-        $icon = ($icon != '') ? '<i class="rex-icon ' . $icon . '"></i>' : '';
+        $icon = ('' != $icon) ? '<i class="rex-icon ' . $icon . '"></i>' : '';
         $class = ($key ?: $function);
         return '<a href="' . $url . '"' . $onclick . '>' . $icon . ' ' . $text . '</a>';
     };
 
-    $getTableRow = function (rex_package $package) use ($getLink) {
+    $getTableRow = static function (rex_package $package) use ($getLink) {
         $packageId = $package->getPackageId();
         $type = $package->getType();
 
@@ -165,7 +169,7 @@ if ($subpage == '') {
             $class = ' mark';
         }
 
-        $version = (trim($package->getVersion()) != '') ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
+        $version = ('' != trim($package->getVersion())) ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
 
         $license = '';
         if (is_readable($licenseFile = $package->getPath('LICENSE.md')) || is_readable($licenseFile = $package->getPath('LICENSE'))) {

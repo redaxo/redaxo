@@ -5,17 +5,11 @@ composer update --no-dev -d redaxo/src/core/
 
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
-rm -rf redaxo/src/core/vendor/paragonie/random_compat/dist/
-rm -rf redaxo/src/core/vendor/paragonie/random_compat/other/
-rm -f redaxo/src/core/vendor/paragonie/random_compat/build-phar.sh
-rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm.xml
-rm -f redaxo/src/core/vendor/paragonie/random_compat/psalm-autoload.php
 rm -rf redaxo/src/core/vendor/psr/log/Psr/Log/Test/
 rm -rf redaxo/src/core/vendor/ramsey/http-range/.git
 rm -rf redaxo/src/core/vendor/ramsey/http-range/tests/
 rm -rf redaxo/src/core/vendor/symfony/console/Tester/
 rm -rf redaxo/src/core/vendor/symfony/console/Tests/
-rm -rf redaxo/src/core/vendor/symfony/debug/Tests/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Test/
 rm -rf redaxo/src/core/vendor/symfony/var-dumper/Tests/
 rm -rf redaxo/src/core/vendor/symfony/yaml/Tests/
@@ -46,31 +40,24 @@ composer update --no-dev -d redaxo/src/addons/tests/
 rm -f redaxo/src/addons/tests/vendor/autoload.php
 rm -rf redaxo/src/addons/tests/vendor/bin/
 rm -rf redaxo/src/addons/tests/vendor/composer/
-rm -rf redaxo/src/addons/tests/vendor/doctrine/instantiator/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-code-coverage/build/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-code-coverage/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-timer/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-token-stream/build/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/php-token-stream/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit/tests/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit-mock-objects/build/
-rm -rf redaxo/src/addons/tests/vendor/phpunit/phpunit-mock-objects/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/comparator/build/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/comparator/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/diff/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/environment/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/exporter/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/global-state/tests/
-rm -rf redaxo/src/addons/tests/vendor/sebastian/recursion-context/tests/
-rm -rf redaxo/src/addons/tests/vendor/symfony/polyfill-ctype/
-rm -rf redaxo/src/addons/tests/vendor/symfony/yaml/
-rm -rf redaxo/src/addons/tests/vendor/webmozart/assert/tests/
+rm -rf redaxo/src/addons/tests/vendor/symfony/
 
+find redaxo/src/addons/tests/vendor -name ".github" -type d -prune -exec rm -rf "{}" \;
+find redaxo/src/addons/tests/vendor -name ".phan" -type d -prune -exec rm -rf "{}" \;
+find redaxo/src/addons/tests/vendor -name "tests" -type d -prune -exec rm -rf "{}" \;
+
+find redaxo/src/addons/tests/vendor -name ".coveralls.yml" -type f -delete
+find redaxo/src/addons/tests/vendor -name ".editorconfig" -type f -delete
+find redaxo/src/addons/tests/vendor -name ".gitattributes" -type f -delete
+find redaxo/src/addons/tests/vendor -name ".gitignore" -type f -delete
 find redaxo/src/addons/tests/vendor -name ".php_cs" -type f -delete
+find redaxo/src/addons/tests/vendor -name ".php_cs.dist" -type f -delete
 find redaxo/src/addons/tests/vendor -name ".scrutinizer.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "appveyor.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
-find redaxo/src/addons/tests/vendor -name "phpunit.xml.dist" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phive.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phpunit.xml" -type f -delete
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js

@@ -7,11 +7,11 @@
  */
 class rex_install_webservice
 {
-    const HOST = 'www.redaxo.org';
-    const PORT = 443;
-    const SSL = true;
-    const PATH = '/de/ws/';
-    const REFRESH_CACHE = 600;
+    public const HOST = 'www.redaxo.org';
+    public const PORT = 443;
+    public const SSL = true;
+    public const PATH = '/de/ws/';
+    public const REFRESH_CACHE = 600;
 
     private static $cache;
 
@@ -124,7 +124,7 @@ class rex_install_webservice
 
     private static function getPath($path)
     {
-        $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
+        $path = false === strpos($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
 
         static $config;
@@ -144,7 +144,7 @@ class rex_install_webservice
         self::loadCache();
         if ($pathBegin) {
             foreach (self::$cache as $path => $cache) {
-                if (strpos($path, $pathBegin) === 0) {
+                if (0 === strpos($path, $pathBegin)) {
                     unset(self::$cache[$path]);
                 }
             }
@@ -165,7 +165,7 @@ class rex_install_webservice
 
     private static function loadCache()
     {
-        if (self::$cache === null) {
+        if (null === self::$cache) {
             foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache) {
                 if ($cache['stamp'] > time() - self::REFRESH_CACHE) {
                     self::$cache[$path] = $cache;

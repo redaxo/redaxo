@@ -14,7 +14,7 @@ class rex_input_select extends rex_input
         parent::__construct();
 
         $this->select = new rex_select();
-        $this->setAttribute('class', 'form-control');
+        $this->setAttribute('class', 'form-control selectpicker');
     }
 
     public function setValue($value)
@@ -25,9 +25,9 @@ class rex_input_select extends rex_input
 
     public function setAttribute($name, $value)
     {
-        if ($name == 'name') {
+        if ('name' == $name) {
             $this->select->setName($value);
-        } elseif ($name == 'id') {
+        } elseif ('id' == $name) {
             $this->select->setId($value);
         } else {
             $this->select->setAttribute($name, $value);

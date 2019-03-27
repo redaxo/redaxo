@@ -1,19 +1,26 @@
 Changelog
 =========
 
-Version 2.7.0 – XX.XX.XXXX
+Version 2.7.0 – 12.03.2019
 --------------------------
 
 ### Neu
 
 * Neuer EP: `CAT_MOVED` (@bloep)
+* Linkmap öffnet default in aktueller Kategorie (@schuer)
 * version-PlugIn: Arbeitsversion kann geleert werden (@dpf-dd)
 * Slice-Value-Felder als `MEDIUMTEXT` statt `TEXT` damit mehr Inhalte gespeichert werden können (@bloep)
+* Leere CTypes werden in der Backend-Navi grau dargestellt (@schuer)
+* Sliceausgabe mit Scrollbar bei zu breiten Inhalten (@schuer)
+* In Moduleverwaltung wird angezeigt, ob die Module jeweils in Verwendung sind (@tbaddade)
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@bloep)
+* "Kein Startartikel selektiert"-Fehler nutzt Frontend-Ooops-Seite (@tbaddade)
 
 ### Bugfixes:
 
 * `rex_category::get()` lieferte auch für Nicht-Startartikel ein Kategorie-Objekt (@gharlan)
+* `rex_category::getCurrent()` lieferte Fehler, wenn es keinen aktuellen Artikel gibt (@gharlan)
+* Der Funktionen-Tab wurde nicht ausgeblendet, wenn ein Benutzer nur die Berechtigung für `copyContent[]` und nur für eine Sprache hat (@TobiasKrais)
 * Template-Verwaltung: An einer Stelle wurde der Table-Prefix `rex_` fix genommen, statt `rex::getTablePrefix()` (@staabm)
 * In Modulen enthielt im Backend die Variable `$content` den Modul-PHP-Code, was zu verwirrenden Ausgaben führen konnte (@gharlan)
 

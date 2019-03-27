@@ -149,8 +149,8 @@ class rex_user
             return true;
         }
         $result = false;
-        if (strpos($perm, '/') !== false) {
-            list($complexPerm, $method) = explode('/', $perm, 2);
+        if (false !== strpos($perm, '/')) {
+            [$complexPerm, $method] = explode('/', $perm, 2);
             $complexPerm = $this->getComplexPerm($complexPerm);
             return $complexPerm ? $complexPerm->$method() : false;
         }

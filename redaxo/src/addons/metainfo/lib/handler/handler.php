@@ -25,7 +25,7 @@ abstract class rex_metainfo_handler
         $link_id = 1;
         $llist_id = 1;
 
-        $activeItem = isset($epParams['activeItem']) ? $epParams['activeItem'] : null;
+        $activeItem = $epParams['activeItem'] ?? null;
 
         $sqlFields->reset();
         for ($i = 0; $i < $sqlFields->getRows(); $i++, $sqlFields->next()) {
@@ -52,7 +52,7 @@ abstract class rex_metainfo_handler
             if ($activeItem) {
                 $itemValue = $activeItem->getValue($name);
 
-                if (strpos($itemValue, '|+|') !== false) {
+                if (false !== strpos($itemValue, '|+|')) {
                     // Alte notation mit |+| als Trenner
                     $dbvalues = explode('|+|', $activeItem->getValue($name));
                 } else {
@@ -63,7 +63,7 @@ abstract class rex_metainfo_handler
                 $dbvalues = (array) $sqlFields->getValue('default');
             }
 
-            if ($title != '') {
+            if ('' != $title) {
                 $label = rex_i18n::translate($title);
             } else {
                 $label = rex_escape($name);
@@ -115,7 +115,7 @@ abstract class rex_metainfo_handler
                     $formElements = [];
 
                     $values = [];
-                    if (rex_sql::getQueryType($params) == 'SELECT') {
+                    if ('SELECT' == rex_sql::getQueryType($params)) {
                         $sql = rex_sql::factory();
                         $value_groups = $sql->getDBArray($params, [], PDO::FETCH_NUM);
                         foreach ($value_groups as $value_group) {
@@ -130,8 +130,8 @@ abstract class rex_metainfo_handler
                         foreach ($value_groups as $value_group) {
                             // check ob key:value paar
                             // und der wert beginnt nicht mit "translate:"
-                            if (strpos($value_group, ':') !== false &&
-                                 strpos($value_group, 'translate:') !== 0
+                            if (false !== strpos($value_group, ':') &&
+                                 0 !== strpos($value_group, 'translate:')
                             ) {
                                 $temp = explode(':', $value_group, 2);
                                 $values[$temp[0]] = rex_i18n::translate($temp[1]);
@@ -141,7 +141,7 @@ abstract class rex_metainfo_handler
                         }
                     }
 
-                    $oneValue = (count($values) == 1);
+                    $oneValue = (1 == count($values));
 
                     $attrStr = '';
                     $classAdd = '';
@@ -152,7 +152,7 @@ abstract class rex_metainfo_handler
                         unset($attrArray[$key]);
                     }
                     foreach ($attrArray as $key => $value) {
-                        if ($key == 'class') {
+                        if ('class' == $key) {
                             $classAdd = ' ' . $value;
                         } else {
                             $attrStr = ' ' . $key . '="' . $value . '"';
@@ -166,7 +166,7 @@ abstract class rex_metainfo_handler
                     foreach ($values as $key => $value) {
                         // wenn man keine Werte angibt (Boolean Chkbox/Radio)
                         // Dummy Wert annehmen, damit an/aus unterscheidung funktioniert
-                        if ($oneValue && $key == '') {
+                        if ($oneValue && '' == $key) {
                             $key = 'true';
                         }
 
@@ -192,7 +192,7 @@ abstract class rex_metainfo_handler
                     $fragment->setVar('elements', $formElements, false);
                     $fragment->setVar('inline', $inline);
 
-                    if ($typeLabel == 'radio') {
+                    if ('radio' == $typeLabel) {
                         $field = $fragment->parse('core/form/radio.php');
                     } else {
                         if (!$oneValue) {
@@ -215,7 +215,7 @@ abstract class rex_metainfo_handler
                     $tag_attr = ' class="form-control"';
 
                     $select = new rex_select();
-                    $select->setStyle('class="form-control"');
+                    $select->setStyle('class="form-control selectpicker"');
                     $select->setName($name);
                     $select->setId($id);
 
@@ -227,7 +227,7 @@ abstract class rex_metainfo_handler
 
                         $select->setAttribute($attr_name, $attr_value);
 
-                        if ($attr_name == 'multiple') {
+                        if ('multiple' == $attr_name) {
                             $multiple = true;
                             $select->setName($name . '[]');
                             $select->setMultiple();
@@ -243,7 +243,7 @@ abstract class rex_metainfo_handler
                     // hier mit den "raw"-values arbeiten, da die rex_select klasse selbst escaped
                     $select->setSelected($dbvalues);
 
-                    if (rex_sql::getQueryType($params) == 'SELECT') {
+                    if ('SELECT' == rex_sql::getQueryType($params)) {
                         // Werte via SQL Laden
                         $select->addDBSqlOptions($params);
                     } else {
@@ -254,8 +254,8 @@ abstract class rex_metainfo_handler
                         foreach ($value_groups as $value_group) {
                             // check ob key:value paar
                             // und der wert beginnt nicht mit "translate:"
-                            if (strpos($value_group, ':') !== false &&
-                                 strpos($value_group, 'translate:') !== 0
+                            if (false !== strpos($value_group, ':') &&
+                                 0 !== strpos($value_group, 'translate:')
                             ) {
                                 $temp = explode(':', $value_group, 2);
                                 $values[$temp[0]] = rex_i18n::translate($temp[1]);
@@ -281,8 +281,8 @@ abstract class rex_metainfo_handler
                 case 'datetime':
                     $tag_attr = ' class="form-control-date"';
 
-                    $active = $dbvalues[0] != 0;
-                    if ($dbvalues[0] == '') {
+                    $active = 0 != $dbvalues[0];
+                    if ('' == $dbvalues[0]) {
                         $dbvalues[0] = time();
                     }
 
@@ -298,6 +298,18 @@ abstract class rex_metainfo_handler
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
                     $rexInput->setValue($inputValue);
+
+                    if ('time' !== $typeLabel) {
+                        $paramArray = rex_string::split($params);
+
+                        if (isset($paramArray['start-year'])) {
+                            $rexInput->setStartYear($paramArray['start-year']);
+                        }
+                        if (isset($paramArray['end-year'])) {
+                            $rexInput->setEndYear($paramArray['end-year']);
+                        }
+                    }
+
                     $field = $rexInput->getHtml();
 
                     $checked = $active ? ' checked="checked"' : '';
@@ -475,7 +487,7 @@ abstract class rex_metainfo_handler
                     break;
                 default:
                     // ----- EXTENSION POINT
-                    list($field, $tag, $tag_attr, $id, $label, $labelIt) =
+                    [$field, $tag, $tag_attr, $id, $label, $labelIt] =
                         rex_extension::registerPoint(new rex_extension_point(
                             'METAINFO_CUSTOM_FIELD',
                             [
@@ -508,7 +520,7 @@ abstract class rex_metainfo_handler
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
-        if (rex_request_method() != 'post') {
+        if ('post' != rex_request_method()) {
             return;
         }
 
@@ -548,7 +560,7 @@ abstract class rex_metainfo_handler
      */
     public static function getSaveValue($fieldName, $fieldType, $fieldAttributes)
     {
-        if (rex_request_method() != 'post') {
+        if ('post' != rex_request_method()) {
             return null;
         }
 
@@ -582,9 +594,9 @@ abstract class rex_metainfo_handler
                 // Mehrwertige Felder
                 $saveValue = '|' . implode('|', $postValue) . '|';
             } else {
-                $postValue = isset($postValue[0]) ? $postValue[0] : '';
-                if ($fieldType == REX_METAINFO_FIELD_SELECT && strpos($fieldAttributes, 'multiple') !== false ||
-                     $fieldType == REX_METAINFO_FIELD_CHECKBOX
+                $postValue = $postValue[0] ?? '';
+                if (REX_METAINFO_FIELD_SELECT == $fieldType && false !== strpos($fieldAttributes, 'multiple') ||
+                     REX_METAINFO_FIELD_CHECKBOX == $fieldType
                 ) {
                     // Mehrwertiges Feld, aber nur ein Wert ausgewählt
                     $saveValue = '|' . $postValue . '|';
@@ -651,7 +663,7 @@ abstract class rex_metainfo_handler
         $params = $this->handleSave($params, $sqlFields);
 
         // trigger callback of sql fields
-        if (rex_request_method() == 'post') {
+        if ('post' == rex_request_method()) {
             $this->fireCallbacks($sqlFields);
         }
 
@@ -661,7 +673,7 @@ abstract class rex_metainfo_handler
     protected function fireCallbacks(rex_sql $sqlFields)
     {
         foreach ($sqlFields as $row) {
-            if ($row->getValue('callback') != '') {
+            if ('' != $row->getValue('callback')) {
                 // use a small sandbox, so the callback cannot affect our local variables
                 $sandboxFunc = function ($field) {
                     // TODO add var to ref the actual table (rex_article,...)

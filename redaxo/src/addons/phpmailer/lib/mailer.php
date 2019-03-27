@@ -28,7 +28,7 @@ class rex_mailer extends PHPMailer
         $this->CharSet = $addon->getConfig('charset');
         $this->WordWrap = $addon->getConfig('wordwrap');
         $this->Encoding = $addon->getConfig('encoding');
-        if ($addon->getConfig('priority') == 0) {
+        if (0 == $addon->getConfig('priority')) {
             $this->Priority = null;
         } else {
             $this->Priority = $addon->getConfig('priority');
@@ -59,8 +59,8 @@ class rex_mailer extends PHPMailer
         });
     }
 
-    /*
-     * @param boolean $status
+    /**
+     * @param bool $status
      */
     public function setLog($status)
     {

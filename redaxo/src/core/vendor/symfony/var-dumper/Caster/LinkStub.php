@@ -23,7 +23,7 @@ class LinkStub extends ConstStub
     private static $vendorRoots;
     private static $composerRoots;
 
-    public function __construct($label, $line = 0, $href = null)
+    public function __construct($label, int $line = 0, $href = null)
     {
         $this->value = $label;
 
@@ -66,7 +66,7 @@ class LinkStub extends ConstStub
     private function getComposerRoot($file, &$inVendor)
     {
         if (null === self::$vendorRoots) {
-            self::$vendorRoots = array();
+            self::$vendorRoots = [];
 
             foreach (get_declared_classes() as $class) {
                 if ('C' === $class[0] && 0 === strpos($class, 'ComposerAutoloaderInit')) {

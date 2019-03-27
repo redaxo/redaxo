@@ -6,11 +6,10 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
 $mypage = 'metainfo';
+$addon = rex_addon::get('metainfo');
 
 if (!defined('REX_METAINFO_FIELD_TEXT')) {
     // Feldtypen
@@ -30,15 +29,14 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     define('REX_METAINFO_FIELD_COUNT', 13);
 }
 
-$this->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
-$this->setProperty('metaTables', [
+$addon->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
+$addon->setProperty('metaTables', [
     'art_' => rex::getTablePrefix() . 'article',
     'cat_' => rex::getTablePrefix() . 'article',
     'med_' => rex::getTablePrefix() . 'media',
     'clang_' => rex::getTablePrefix() . 'clang',
 ]);
 
-require_once __DIR__.'/extensions/extension_minibar.php';
 if (rex::isBackend()) {
     $curDir = __DIR__;
     require_once $curDir . '/functions/function_metainfo.php';
@@ -46,7 +44,7 @@ if (rex::isBackend()) {
     rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 }
 
-rex_extension::register('EDITOR_URL', function (rex_extension_point $ep) {
+rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
     if (!preg_match('@^rex:///metainfo/(\d+)@', $ep->getParam('file'), $match)) {
         return;
     }

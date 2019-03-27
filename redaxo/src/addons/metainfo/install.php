@@ -6,11 +6,11 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
-rex_sql_util::importDump($this->getPath('_install.sql'));
+$addon = rex_addon::get('metainfo');
+
+rex_sql_util::importDump($addon->getPath('_install.sql'));
 
 $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
 $columns = ['article' => [], 'media' => [], 'clang' => []];
@@ -34,9 +34,9 @@ $managers = [
 ];
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $column = $sql->getValue('name');
-    if (substr($column, 0, 4) == 'med_') {
+    if ('med_' == substr($column, 0, 4)) {
         $table = 'media';
-    } elseif (substr($column, 0, 6) == 'clang_') {
+    } elseif ('clang_' == substr($column, 0, 6)) {
         $table = 'clang';
     } else {
         $table = 'article';

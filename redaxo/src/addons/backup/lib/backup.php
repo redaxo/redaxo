@@ -5,10 +5,10 @@
  */
 class rex_backup
 {
-    const IMPORT_ARCHIVE = 1;
-    const IMPORT_DB = 2;
-    const IMPORT_EVENT_PRE = 3;
-    const IMPORT_EVENT_POST = 4;
+    public const IMPORT_ARCHIVE = 1;
+    public const IMPORT_DB = 2;
+    public const IMPORT_EVENT_PRE = 3;
+    public const IMPORT_EVENT_POST = 4;
 
     public static function getDir()
     {
@@ -33,7 +33,7 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, function ($file_a, $file_b) use ($dir) {
+        usort($folder, static function ($file_a, $file_b) use ($dir) {
             $time_a = filemtime($dir . '/' . $file_a);
             $time_b = filemtime($dir . '/' . $file_b);
 
@@ -65,7 +65,7 @@ class rex_backup
         $msg = '';
         $error = '';
 
-        if ($filename == '' || substr($filename, -4, 4) != '.sql') {
+        if ('' == $filename || '.sql' != substr($filename, -4, 4)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
             return $return;
         }
@@ -76,7 +76,7 @@ class rex_backup
         // ## Redaxo Database Dump Version x.x
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
-        if ($version === false) {
+        if (false === $version) {
             $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
             return $return;
         }
@@ -142,7 +142,7 @@ class rex_backup
             }
         }
 
-        if ($error != '') {
+        if ('' != $error) {
             $return['message'] = trim($error);
             return $return;
         }
@@ -211,7 +211,7 @@ class rex_backup
         }
 
         // generated neu erstellen, wenn kein Fehler aufgetreten ist
-        if ($error == '') {
+        if ('' == $error) {
             // delete cache before EP to avoid obsolete caches while running extensions
             rex_delete_cache();
 
@@ -252,7 +252,7 @@ class rex_backup
         $return = [];
         $return['state'] = false;
 
-        if ($filename == '' || substr($filename, -7, 7) != '.tar.gz') {
+        if ('' == $filename || '.tar.gz' != substr($filename, -7, 7)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen') . '<br />';
             return $return;
         }
@@ -372,10 +372,10 @@ class rex_backup
                 $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
                 $count = $sql->getRows();
 
-                if ($count > 0 && $start == 0) {
+                if ($count > 0 && 0 == $start) {
                     fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
                     fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
-                } elseif ($count == 0) {
+                } elseif (0 == $count) {
                     break;
                 }
 
@@ -401,7 +401,7 @@ class rex_backup
                                 break;
                             case 'string':
                                 // fast-exit for very frequent used harmless values
-                                if ($column === '0' || $column === '' || $column === ' ' || $column === '|' || $column === '||') {
+                                if ('0' === $column || '' === $column || ' ' === $column || '|' === $column || '||' === $column) {
                                     $record[] = "'". $column ."'";
                                     break;
                                 }
@@ -507,7 +507,7 @@ class rex_backup
             // - svn infos
             // - tmp prefix Dateien
 
-            if ($file == '.' || $file == '..' || $file == '.svn') {
+            if ('.' == $file || '..' == $file || '.svn' == $file) {
                 continue;
             }
 
@@ -515,7 +515,7 @@ class rex_backup
                 continue;
             }
 
-            if ($isMediafolder && $file == 'addons') {
+            if ($isMediafolder && 'addons' == $file) {
                 continue;
             }
 

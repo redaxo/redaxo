@@ -101,6 +101,7 @@ module_deleted = Modul wurde gelöscht!
 module_added = Modul wurde hinzugefügt
 module_updated = Modul wurde aktualisiert
 module_caption = Liste der angelegten Module
+module_in_use = In Verwendung
 articel_updated = Artikel wurden aktualisiert
 create_module = Neues Modul erstellen
 input = Eingabe
@@ -149,6 +150,3 @@ action_header_postsave = Postsave-Event(s)
 action_heading_preview = Preview-Action
 action_heading_presave = Presave-Action
 action_heading_postsave = Postsave-Action
-
-structure_content_minibar_article_edit = Im Backend bearbeiten
-structure_content_minibar_article_show = Artikel anzeigen

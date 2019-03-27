@@ -1,6 +1,11 @@
 <?php
 
-class rex_socket_proxy_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_socket_proxy_test extends TestCase
 {
     private $proxy;
 

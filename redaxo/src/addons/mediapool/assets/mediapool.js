@@ -228,9 +228,8 @@ function selectMedia(filename, alt)
 
     opener.jQuery(window).trigger(event, [filename, alt]);
     if (!event.isDefaultPrevented()) {
-        var opener_id = jQuery("#opener_input_field").val();
-        if (opener_id) {
-            opener.document.getElementById(opener_id).value = filename;
+        if (rex.mediapoolOpenerInputField) {
+            opener.document.getElementById(rex.mediapoolOpenerInputField).value = filename;
         }
         self.close();
     }
@@ -238,10 +237,9 @@ function selectMedia(filename, alt)
 
 function selectMedialist(filename)
 {
-    var opener_id = jQuery("#opener_input_field").data("opener-id");
-
-    if (opener_id) {
-        var medialist = "REX_MEDIALIST_SELECT_" + opener_id;
+    if (rex.mediapoolOpenerInputField && 0 === rex.mediapoolOpenerInputField.indexOf('REX_MEDIALIST_')) {
+        var openerId = rex.mediapoolOpenerInputField.slice('REX_MEDIALIST_'.length);
+        var medialist = "REX_MEDIALIST_SELECT_" + openerId;
 
         var source = opener.document.getElementById(medialist);
         var sourcelength = source.options.length;
@@ -251,16 +249,15 @@ function selectMedialist(filename)
         option.value = filename;
 
         source.options.add(option, sourcelength);
-        opener.writeREXMedialist(opener_id);
+        opener.writeREXMedialist(openerId);
     }
 }
 
 function selectMediaListArray(files)
 {
-    var opener_id = jQuery("#opener_input_field").data("opener-id");
-
-    if (opener_id) {
-        var medialist = "REX_MEDIALIST_SELECT_" + opener_id;
+    if (rex.mediapoolOpenerInputField && 0 === rex.mediapoolOpenerInputField.indexOf('REX_MEDIALIST_')) {
+        var openerId = rex.mediapoolOpenerInputField.slice('REX_MEDIALIST_'.length);
+        var medialist = "REX_MEDIALIST_SELECT_" + openerId;
 
         var source = opener.document.getElementById(medialist);
         var sourcelength = source.options.length;
@@ -280,7 +277,8 @@ function selectMediaListArray(files)
             }
         }
 
-        opener.writeREXMedialist(opener_id);
+        opener.writeREXMedialist(openerId);
+        self.close();
     }
 }
 

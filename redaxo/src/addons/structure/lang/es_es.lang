@@ -86,7 +86,3 @@ var_linklist_move_top = Mover el enlace seleccionado a la parte superior
 var_linklist_move_up = Mover enlace seleccionado
 var_linklist_move_down = Mover enlace seleccionado
 var_linklist_move_bottom = Mover el enlace seleccionado a la parte inferior
-
-structure_article_name = Nombre del producto
-structure_path = Camino
-structure_status = Estado
