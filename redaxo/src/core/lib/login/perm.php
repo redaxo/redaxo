@@ -61,7 +61,7 @@ abstract class rex_perm
     {
         if (isset(self::$perms[$group])) {
             $perms = self::$perms[$group];
-            asort($perms);
+            natcasesort($perms);
             return $perms;
         }
         return [];
