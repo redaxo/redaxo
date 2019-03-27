@@ -12,6 +12,11 @@ page:
         cronjobs: { title: 'translate:title' }
         log: { title: 'translate:log' }
 
+pages:
+    system/log/cronjob:
+        title: Cronjob
+        perm: admin[]
+
 requires:
     redaxo: ^5.6.2
 
