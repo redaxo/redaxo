@@ -8,6 +8,10 @@ if (rex::isSetup()) {
     rex_response::sendRedirect(rex_url::backendController());
 }
 
+if (rex::isDebugMode()) {
+    header('X-Robots-Tag: noindex, nofollow, noarchive');
+}
+
 // ----- INCLUDE ADDONS
 include_once rex_path::core('packages.php');
 
