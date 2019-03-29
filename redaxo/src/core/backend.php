@@ -27,8 +27,12 @@ if (rex_get('asset') && rex_get('buster')) {
 
     $ext = rex_file::extension($assetFile);
     if ('js' === $ext) {
+        $js = rex_file::get($assetFile);
+
+        $js = preg_replace('@^//# sourceMappingURL=.*$@m', '', $js);
+
         rex_response::sendCacheControl('max-age=31536000, immutable');
-        rex_response::sendFile($assetFile, 'application/javascript');
+        rex_response::sendContent($js, 'application/javascript');
     } elseif ('css' === $ext) {
         $styles = rex_file::get($assetFile);
 
