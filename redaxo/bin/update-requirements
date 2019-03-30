@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-printf "Update redaxo/src/core/vendor\n"
-composer update --no-dev -d redaxo/src/core/
+printf "Update redaxo vendors\n"
+composer update --no-dev
 
 rm -rf redaxo/src/core/vendor/erusev/parsedown/test/
 rm -rf redaxo/src/core/vendor/erusev/parsedown-extra/test/
@@ -20,7 +20,7 @@ find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
 
-composer dumpautoload --no-dev -d redaxo/src/core/
+composer dumpautoload --no-dev
 
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
