@@ -13,6 +13,11 @@ header("Content-Security-Policy: frame-ancestors 'self'");
 if (rex_get('asset') && rex_get('buster')) {
     $assetFile = rex_get('asset');
 
+    // relative to the assets-root
+    if (0 === strpos($assetFile, '/assets/')) {
+        $assetFile = '..'. $assetFile;
+    }
+
     $fullPath = realpath($assetFile);
     $assetDir = rex_path::assets();
 
