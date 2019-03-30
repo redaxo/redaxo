@@ -22,7 +22,10 @@ jobs:
     include:
         -   php: 7.1
             env: TYPE=linting
-            script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+            script:
+                - if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+                - composer require --dev j13k/yaml-lint
+                - find redaxo/ -name "*.yml" -exec vendor/bin/yaml-lint {} \;
 
         -   php: 7.3
             env: TYPE=phpstan
