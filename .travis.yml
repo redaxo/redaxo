@@ -25,7 +25,7 @@ jobs:
             script:
                 - if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
                 - composer require --dev j13k/yaml-lint
-                - if find . -name "*.yml" ! -path "*/vendor/*" -exec vendor/bin/yaml-lint {} \; ; then exit 1; fi
+                - find . -name "*.yml" ! -path "*/vendor/*" -exec vendor/bin/yaml-lint {} \;
 
         -   php: 7.3
             env: TYPE=phpstan
