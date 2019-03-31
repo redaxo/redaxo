@@ -15,7 +15,16 @@ class rex_cronjob_phpcode extends rex_cronjob
         $code = preg_replace('/^\<\?(?:php)?/', '', $this->getParam('code'));
         $is = ini_set('display_errors', true);
         ob_start();
-        $return = eval($code);
+        $return = false;
+
+        try {
+            $return = eval($code);
+        } catch (Throwable $exception) {
+            echo get_class($exception).': '.$exception->getMessage();
+        } catch (Exception $exception) {
+            echo get_class($exception).': '.$exception->getMessage();
+        }
+
         $output = ob_get_clean();
         ini_set('display_errors', $is);
         if ($output) {
