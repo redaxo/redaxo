@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.7.1 – XX.XX.2019
+Version 5.7.1 – 01.04.2019
 --------------------------
 
 ### Bugfixes
@@ -12,6 +12,7 @@ Version 5.7.1 – XX.XX.2019
     - SourceMap-Dateien wurden teils versucht über falsche Pfade zu laden (werden nun gar nicht mehr geladen) (@gharlan)
 * `rex_config`: Wenn ein Wert gesetzt, und der Key direkt wieder gelöscht wurde, kam es zu einem Fehler (@gharlan)
 * Die Benutzerrechte wurden case-sensitive sortiert (@gharlan)
+* Update der externen Bibliotheken (@gharlan)
 
 
 Version 5.7.0 – 12.03.2019

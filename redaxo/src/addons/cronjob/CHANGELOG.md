@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.4.1 – XX.XX.2019
+Version 2.4.1 – 01.04.2019
 --------------------------
 
 ### Bugfixes

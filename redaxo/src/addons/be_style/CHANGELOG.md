@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.7.1 – XX.XX.2019
+Version 2.7.1 – 01.04.2019
 --------------------------
 
 * Markdown-Ausgabe: Layout nicht mehr in der Breite zerschießen (@ansichtsache)
