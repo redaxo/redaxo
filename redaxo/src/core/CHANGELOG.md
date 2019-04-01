@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 5.7.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* REDAXO 5.7.x kann nur ausgehend von >=5.6 aktualisiert werden, geprüft wurde aber nur auf >= 5.4 (@gharlan)
+* Asset-Streaming (über `redaxo/index.php`):
+    - `?asset=`-Parameter unterstützte keine absoluten Pfade (`/assets/...`), was zu Problemen in manchen AddOn-Konstellationen führen konnte (@staabm)
+    - SourceMap-Dateien wurden teils versucht über falsche Pfade zu laden (werden nun gar nicht mehr geladen) (@gharlan)
+* `rex_config`: Wenn ein Wert gesetzt, und der Key direkt wieder gelöscht wurde, kam es zu einem Fehler (@gharlan)
+* Die Benutzerrechte wurden case-sensitive sortiert (@gharlan)
+* Update der externen Bibliotheken (@gharlan)
+
+
 Version 5.7.0 – 12.03.2019
 --------------------------
 
