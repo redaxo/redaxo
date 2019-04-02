@@ -72,8 +72,6 @@ abstract class rex_error_handler
             }
         } catch (Throwable $e) {
             // fallback to the less feature rich error pages, when whoops rendering fails
-        } catch (Exception $e) {
-            // fallback to the less feature rich error pages, when whoops rendering fails
         }
 
         try {
@@ -86,10 +84,8 @@ abstract class rex_error_handler
         } catch (Throwable $e) {
             // we werent even able to render the error page, without an error
             $errorPage = 'Oooops, an internal error occured!';
-        } catch (Exception $e) {
-            // we werent even able to render the error page, without an error
-            $errorPage = 'Oooops, an internal error occured!';
         }
+
         rex_response::sendContent($errorPage);
         exit(1);
     }

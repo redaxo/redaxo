@@ -21,8 +21,6 @@ class rex_cronjob_phpcode extends rex_cronjob
             $return = eval($code);
         } catch (Throwable $exception) {
             echo get_class($exception).': '.$exception->getMessage();
-        } catch (Exception $exception) {
-            echo get_class($exception).': '.$exception->getMessage();
         }
 
         $output = ob_get_clean();

@@ -1368,12 +1368,7 @@ class rex_sql implements Iterator
                 self::$pdo[$this->DBID]->commit();
             }
             return $result;
-        } catch (\Exception $e) {
-            if (!$inTransaction) {
-                self::$pdo[$this->DBID]->rollBack();
-            }
-            throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if (!$inTransaction) {
                 self::$pdo[$this->DBID]->rollBack();
             }
