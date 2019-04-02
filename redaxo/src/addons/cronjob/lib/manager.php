@@ -73,9 +73,6 @@ class rex_cronjob_manager
             } catch (Throwable $t) {
                 $success = false;
                 $message = $t->getMessage();
-            } catch (Exception $e) {
-                $success = false;
-                $message = $e->getMessage();
             }
 
             if ('' == $message && !$success) {
