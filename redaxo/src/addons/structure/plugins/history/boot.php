@@ -167,7 +167,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
             $revision = rex_request('rex_set_version', 'int', intval(rex::getProperty('login')->getSessionVar('rex_version_article')));
-            $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', $revision)], '&');
+            $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => $revision], '&');
             if ('http' == substr($article_link, 0, 4)) {
                 $user = rex::getUser();
                 $userLogin = $user->getLogin();
