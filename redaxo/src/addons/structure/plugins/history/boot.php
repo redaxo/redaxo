@@ -57,10 +57,12 @@ if ('' != $history_date) {
 
     rex_extension::register('ART_SLICES_QUERY', static function (rex_extension_point $ep) {
         $history_date = rex_request('rex_history_date', 'string');
-        $history_revision = rex_request('history_revision', 'int', intval(rex::getProperty('login')->getSessionVar('rex_version_article')));
         $article = $ep->getParam('article');
 
         if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
+            $version_articles = rex::getProperty('login')->getSessionVar('rex_version_article', []);
+            $history_revision = rex_request('history_revision', 'int', isset($version_articles[$article->getArticleId()]) ? $version_articles[$article->getArticleId()] : 0);
+
             $articleLimit = '';
             if (0 != $article->getArticleId()) {
                 $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . $article->getArticleId();
@@ -123,8 +125,10 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         case 'snap':
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
-            $revision = rex_request('history_revision', 'int', intval(rex::getProperty('login')->getSessionVar('rex_version_article')));
             $history_date = rex_request('history_date', 'string');
+
+            $version_articles = rex::getProperty('login')->getSessionVar('rex_version_article', []);
+            $revision = rex_request('history_revision', 'int', isset($version_articles[$article_id]) ? $version_articles[$article_id] : 0);
 
             rex_article_slice_history::restoreSnapshot($history_date, $article_id, $clang_id, $revision);
 
@@ -135,7 +139,9 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
-            $revision = rex_request('history_revision', 'int', intval(rex::getProperty('login')->getSessionVar('rex_version_article')));
+
+            $version_articles = rex::getProperty('login')->getSessionVar('rex_version_article', []);
+            $revision = rex_request('history_revision', 'int', isset($version_articles[$article_id]) ? $version_articles[$article_id] : 0);
 
             $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id, $revision);
 
@@ -166,7 +172,8 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
-            $revision = rex_request('rex_set_version', 'int', intval(rex::getProperty('login')->getSessionVar('rex_version_article')));
+            $version_articles = rex::getProperty('login')->getSessionVar('rex_version_article', []);
+            $revision = rex_request('rex_set_version', 'int', isset($version_articles[rex_article::getCurrentId()]) ? $version_articles[rex_article::getCurrentId()] : 0);
             $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => $revision], '&');
             if ('http' == substr($article_link, 0, 4)) {
                 $user = rex::getUser();
