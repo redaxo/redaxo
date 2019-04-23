@@ -22,7 +22,6 @@ jobs:
             script: 
                 - mv redaxo/src/core/composer* .
                 - mv redaxo/src/core/vendor .
-                - composer self-update #we require composer ^1.8.5 for the bc check
                 - composer require --dev roave/backward-compatibility-check --ignore-platform-reqs
                 - vendor/bin/roave-backward-compatibility-check r:a --from=master --to=HEAD
             
