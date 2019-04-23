@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.4.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* Typ "PHP-Code": Bei Fehlern wurde das Backend teils nur halb, ohne Layout dargestellt (@gharlan)
+
+
 Version 2.4.0 – 12.03.2019
 --------------------------
 

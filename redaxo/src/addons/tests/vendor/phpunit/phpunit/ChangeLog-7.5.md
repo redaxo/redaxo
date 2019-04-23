@@ -2,6 +2,19 @@
 
 All notable changes of the PHPUnit 7.5 release series are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [7.5.8] - 2019-03-26
+
+### Fixed
+
+* Fixed [#3564](https://github.com/sebastianbergmann/phpunit/issues/3564): Production code uses class from test suite's fixture
+
+## [7.5.7] - 2019-03-16
+
+### Fixed
+
+* Fixed [#3480](https://github.com/sebastianbergmann/phpunit/issues/3480): Wrong return type declaration for `TestCase::getExpectedExceptionMessage()` and `TestCase::getExpectedExceptionMessageRegExp()`
+* Fixed [#3550](https://github.com/sebastianbergmann/phpunit/issues/3550): Check for valid attribute names in `assertObjectHasAttribute()` is too strict
+
 ## [7.5.6] - 2019-02-18
 
 ### Fixed
@@ -74,6 +87,8 @@ All notable changes of the PHPUnit 7.5 release series are documented in this fil
 * Fixed [#3429](https://github.com/sebastianbergmann/phpunit/pull/3429): Inefficient loop in `getHookMethods()`
 * Fixed [#3437](https://github.com/sebastianbergmann/phpunit/pull/3437): JUnit logger skips PHPT tests
 
+[7.5.8]: https://github.com/sebastianbergmann/phpunit/compare/7.5.7...7.5.8
+[7.5.7]: https://github.com/sebastianbergmann/phpunit/compare/7.5.6...7.5.7
 [7.5.6]: https://github.com/sebastianbergmann/phpunit/compare/7.5.5...7.5.6
 [7.5.5]: https://github.com/sebastianbergmann/phpunit/compare/7.5.4...7.5.5
 [7.5.4]: https://github.com/sebastianbergmann/phpunit/compare/7.5.3...7.5.4
