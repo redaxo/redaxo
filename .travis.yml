@@ -77,6 +77,3 @@ allow_failures:
     env:
         - TYPE=phpunit
         - DB=mariadb
-    addons:
-        mariadb: 10.1
-    
