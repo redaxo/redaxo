@@ -193,7 +193,9 @@ class rex_navigation
     {
         if ('' != $callback) {
             $this->callbacks[] = ['callback' => $callback, 'depth' => $depth];
+            return $this;
         }
+        return false;
     }
 
     private function _setActivePath()
