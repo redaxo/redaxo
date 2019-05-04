@@ -175,8 +175,7 @@ class rex_category_service
         }
         if (isset($data['lastchanged'])) {
             if ($thisCat->getDateTimeValue('updatedate') !== $data['lastchanged']) {
-                // XXX i18n
-                throw new rex_api_exception('Speichern abgebrochen, da die Kategorie wurde in der zwischenzeit durch einen anderen Benutzer verändert!');
+                throw new rex_api_exception(rex_i18n::msg('category_not_saved_because_concurrent_update'));
             }
         }
 

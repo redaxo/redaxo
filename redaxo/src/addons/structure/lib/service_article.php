@@ -138,8 +138,7 @@ class rex_article_service
 
         if (isset($data['lastchanged'])) {
             if ($thisArt->getDateTimeValue('updatedate') !== $data['lastchanged']) {
-                // XXX i18n
-                throw new rex_api_exception('Speichern abgebrochen, da der Artikel wurde in der zwischenzeit durch einen anderen Benutzer verändert!');
+                throw new rex_api_exception(rex_i18n::msg('article_not_saved_because_concurrent_update'));
             }
         }
 
