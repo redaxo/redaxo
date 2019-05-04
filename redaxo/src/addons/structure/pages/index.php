@@ -17,7 +17,7 @@ $artstart = rex_request('artstart', 'int');
 $catstart = rex_request('catstart', 'int');
 $edit_id = rex_request('edit_id', 'int');
 $function = rex_request('function', 'string');
-$lastchanged = rex_request('lastchanged');
+$lastchanged = rex_request('lastchanged', 'int');
 
 $info = '';
 $warning = '';
