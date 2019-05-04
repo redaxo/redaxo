@@ -132,7 +132,7 @@ media_manager_effect_header = Datei: Header anpassen
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
 media_manager_effect_header_filename = Quelle für Dateinamen
-media_manager_effect_header_filename_notice = filename normalisierter Dateiname auf dem Server, z.B. mein-download.pdf, originalname Original-Dateiname zum Zeitpunkt des Uploads, z.B. mit Leerzeichen und Groß-/Kleinschreibung, z.B. Mein Download.pdf
+media_manager_effect_header_filename_notice = <code>filename</code> ist der normalisierte Dateiname auf dem Server, z.B. <code>mein-download.pdf</code>, <code>originalname</code> ist der Original-Dateiname zum Zeitpunkt des Uploads (mit Leerzeichen,  Groß-/Kleinschreibung, etc.), z.B. <code>Mein Download.pdf</code>
 
 
 
