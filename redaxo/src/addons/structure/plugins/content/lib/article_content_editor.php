@@ -143,22 +143,20 @@ class rex_article_content_editor extends rex_article_content
             if ($templateHasModule) {
                 // edit
                 $item = [];
-                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
+                $item['label'] = rex_i18n::msg('edit');
                 $item['url'] = $context->getUrl(['function' => 'edit']) . $fragment;
                 $item['attributes']['class'][] = 'btn-edit';
                 $item['attributes']['title'] = rex_i18n::msg('edit');
-                $item['icon'] = 'edit';
                 $menu_items_action[] = $item;
             }
 
             // delete
             $item = [];
-            $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('delete');
+            $item['label'] = rex_i18n::msg('delete');
             $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
             $item['attributes']['class'][] = 'btn-delete';
             $item['attributes']['title'] = rex_i18n::msg('delete');
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
-            $item['icon'] = 'delete';
             $menu_items_action[] = $item;
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
