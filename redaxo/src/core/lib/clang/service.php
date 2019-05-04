@@ -140,7 +140,7 @@ class rex_clang_service
         }
 
         $file = rex_path::coreCache('clang.cache');
-        if (rex_file::putCache($file, $clangs) === false) {
+        if (false === rex_file::putCache($file, $clangs)) {
             throw new rex_exception('Clang cache file could not be generated');
         }
     }

@@ -12,7 +12,7 @@ $addon = rex_addon::get('phpmailer');
 $content = $smtpinfo = '';
 $emptymail = true;
 $date = new DateTime();
-if ($addon->getConfig('from') == '' || $addon->getConfig('test_address') == '') {
+if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
     $emptymail = false;
 }
 if ($emptymail = true) {
@@ -23,7 +23,7 @@ if ($emptymail = true) {
     $devider = "\n--------------------------------------------------";
     $security_mode = '';
 
-    if ($addon->getConfig('mailer') == 'smtp') {
+    if ('smtp' == $addon->getConfig('mailer')) {
         $security_mode = $addon->getConfig('security_mode');
 
         $smtpinfo = '';
@@ -31,7 +31,7 @@ if ($emptymail = true) {
         $smtpinfo .= "\nPort: " . rex_escape($addon->getConfig('port'));
         $smtpinfo .= $devider;
 
-        if ($security_mode == false) {
+        if (false == $security_mode) {
             $security_mode = 'manual configured,  ' . $addon->getConfig('smtpsecure');
             $security_mode = "\n".$addon->i18n('security_mode')."\n" . $security_mode . $devider;
         } else {

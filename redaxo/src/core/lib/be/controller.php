@@ -51,7 +51,7 @@ class rex_be_controller
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
-        if ($part === null) {
+        if (null === $part) {
             return self::$pageParts;
         }
         --$part;
@@ -191,7 +191,7 @@ class rex_be_controller
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    if (strpos($key, '/') !== false) {
+                    if (false !== strpos($key, '/')) {
                         $insertPages[$key] = [$addon, $page];
                     } else {
                         self::pageCreate($page, $addon, false, $mainPage, $key, true);
@@ -206,7 +206,7 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        if (strpos($key, '/') !== false) {
+                        if (false !== strpos($key, '/')) {
                             $insertPages[$key] = [$plugin, $page];
                         } else {
                             self::pageCreate($page, $plugin, false, $mainPage, $key, true);

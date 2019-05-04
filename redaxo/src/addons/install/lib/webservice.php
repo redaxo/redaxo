@@ -124,7 +124,7 @@ class rex_install_webservice
 
     private static function getPath($path)
     {
-        $path = strpos($path, '?') === false ? rtrim($path, '/') . '/?' : $path . '&';
+        $path = false === strpos($path, '?') ? rtrim($path, '/') . '/?' : $path . '&';
         $path .= 'rex_version=' . rex::getVersion();
 
         static $config;
@@ -144,7 +144,7 @@ class rex_install_webservice
         self::loadCache();
         if ($pathBegin) {
             foreach (self::$cache as $path => $cache) {
-                if (strpos($path, $pathBegin) === 0) {
+                if (0 === strpos($path, $pathBegin)) {
                     unset(self::$cache[$path]);
                 }
             }
@@ -165,7 +165,7 @@ class rex_install_webservice
 
     private static function loadCache()
     {
-        if (self::$cache === null) {
+        if (null === self::$cache) {
             foreach ((array) rex_file::getCache(rex_path::addonCache('install', 'webservice.cache')) as $path => $cache) {
                 if ($cache['stamp'] > time() - self::REFRESH_CACHE) {
                     self::$cache[$path] = $cache;

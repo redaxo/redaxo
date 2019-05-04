@@ -21,13 +21,13 @@ class rex_var_value extends rex_var
         }
 
         $output = $this->getArg('output');
-        if ($output == 'php') {
+        if ('php' == $output) {
             if ($this->environmentIs(self::ENV_BACKEND)) {
                 $value = rex_string::highlight($value);
             } else {
                 return 'rex_var::nothing(require rex_stream::factory(substr(__FILE__, 6) . \'/REX_VALUE/' . $id . '\', ' . self::quote($value) . '))';
             }
-        } elseif ($output == 'html') {
+        } elseif ('html' == $output) {
             $value = str_replace(['<?', '?>'], ['&lt;?', '?&gt;'], $value);
         } else {
             $value = rex_escape($value);

@@ -18,8 +18,8 @@ $message = '';
 $zipArchive = new ZipArchive();
 
 try {
-    if ($zipArchive->open($plugin->getPath('assets/vendor/codemirror.zip')) === true &&
-        $zipArchive->extractTo($plugin->getAssetsUrl('vendor/')) === true) {
+    if (true === $zipArchive->open($plugin->getPath('assets/vendor/codemirror.zip')) &&
+        true === $zipArchive->extractTo($plugin->getAssetsUrl('vendor/'))) {
         $zipArchive->close();
     } else {
         $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $plugin->getPath('assets/vendor/codemirror.zip');
@@ -28,6 +28,6 @@ try {
     $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $plugin->getPath('assets/vendor/codemirror.zip');
     $message .= '<br>' . $e->getMessage();
 }
- if ($message != '') {
+ if ('' != $message) {
      $plugin->setProperty('installmsg', $message);
  }

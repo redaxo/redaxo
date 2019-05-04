@@ -67,8 +67,8 @@ class rex_validator
         foreach ($this->types as $type) {
             [$type, $message, $option] = $type;
 
-            if ($value === '') {
-                if (strtolower($type) !== 'notempty') {
+            if ('' === $value) {
+                if ('notempty' !== strtolower($type)) {
                     continue;
                 }
             }

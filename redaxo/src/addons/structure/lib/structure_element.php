@@ -365,7 +365,7 @@ abstract class rex_structure_element
      */
     public function isOnline()
     {
-        return $this->status == 1;
+        return 1 == $this->status;
     }
 
     /**
@@ -410,7 +410,7 @@ abstract class rex_structure_element
         $name = $this->getName();
         $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name) . '">' . rex_escape($name) . '</a>';
 
-        if ($sorroundTag !== null && is_string($sorroundTag)) {
+        if (null !== $sorroundTag && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';
         }
 
@@ -426,7 +426,7 @@ abstract class rex_structure_element
     {
         $attr = '';
 
-        if ($attributes !== null && is_array($attributes)) {
+        if (null !== $attributes && is_array($attributes)) {
             foreach ($attributes as $name => $value) {
                 $attr .= ' ' . $name . '="' . $value . '"';
             }
@@ -454,7 +454,7 @@ abstract class rex_structure_element
 
             if (is_array($explode)) {
                 foreach ($explode as $var) {
-                    if ($var != '') {
+                    if ('' != $var) {
                         $return[] = rex_category::get($var, $this->clang_id);
                     }
                 }

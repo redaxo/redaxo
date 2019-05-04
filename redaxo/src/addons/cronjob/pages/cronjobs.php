@@ -18,18 +18,18 @@ $csrfToken = rex_csrf_token::factory('cronjob');
 if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
     echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     $func = '';
-} elseif ($func == 'setstatus') {
+} elseif ('setstatus' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
-    $msg = $status == 1 ? 'status_activate' : 'status_deactivate';
+    $msg = 1 == $status ? 'status_activate' : 'status_deactivate';
     if ($manager->setStatus($oid, $status)) {
         echo rex_view::success($addon->i18n($msg . '_success', $name));
     } else {
         echo rex_view::error($addon->i18n($msg . '_error', $name));
     }
     $func = '';
-} elseif ($func == 'delete') {
+} elseif ('delete' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
@@ -38,7 +38,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
         echo rex_view::error($addon->i18n('delete_error', $name));
     }
     $func = '';
-} elseif ($func == 'execute') {
+} elseif ('execute' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $success = $manager->tryExecute($oid);
@@ -54,7 +54,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $func = '';
 }
 
-if ($func == '') {
+if ('' == $func) {
     $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . rex::getTable('cronjob') . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
@@ -77,13 +77,13 @@ if ($func == '') {
     $list->setColumnFormat('environment', 'custom', static function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (strpos($value, '|frontend|') !== false) {
+        if (false !== strpos($value, '|frontend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (strpos($value, '|backend|') !== false) {
+        if (false !== strpos($value, '|backend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
         }
-        if (strpos($value, '|script|') !== false) {
+        if (false !== strpos($value, '|script|')) {
             $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
@@ -107,7 +107,7 @@ if ($func == '') {
         $list = $params['list'];
         if (!class_exists($list->getValue('type'))) {
             $str = rex_i18n::msg('cronjob_status_invalid');
-        } elseif ($list->getValue('status') == 1) {
+        } elseif (1 == $list->getValue('status')) {
             $str = $list->getColumnLink('status', '<span class="rex-online"><i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('cronjob_status_activated') . '</span>');
         } else {
             $str = $list->getColumnLink('status', '<span class="rex-offline"><i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('cronjob_status_deactivated') . '</span>');
@@ -127,7 +127,7 @@ if ($func == '') {
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
     $list->setColumnFormat('execute', 'custom', static function ($params) use ($addon) {
         $list = $params['list'];
-        if (strpos($list->getValue('environment'), '|backend|') !== false && class_exists($list->getValue('type'))) {
+        if (false !== strpos($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
             return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
         }
         return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute') . '</span>';
@@ -139,12 +139,12 @@ if ($func == '') {
     $fragment->setVar('title', $addon->i18n('caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
-} elseif ($func == 'edit' || $func == 'add') {
-    $fieldset = $func == 'edit' ? $addon->i18n('edit') : $addon->i18n('add');
+} elseif ('edit' == $func || 'add' == $func) {
+    $fieldset = 'edit' == $func ? $addon->i18n('edit') : $addon->i18n('add');
 
     $form = new rex_cronjob_form(rex::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
-    $form->setEditMode($func == 'edit');
+    $form->setEditMode('edit' == $func);
 
     $form->addHiddenField('nexttime');
 
@@ -168,7 +168,7 @@ if ($func == '') {
     $select->addOption($addon->i18n('environment_frontend'), 'frontend');
     $select->addOption($addon->i18n('environment_backend'), 'backend');
     $select->addOption($addon->i18n('environment_script'), 'script');
-    if ($func == 'add') {
+    if ('add' == $func) {
         $select->setSelected([0, 1]);
     }
 
@@ -179,7 +179,7 @@ if ($func == '') {
     $select->setSize(1);
     $select->addOption($addon->i18n('execution_beginning'), 1);
     $select->addOption($addon->i18n('execution_ending'), 0);
-    if ($func == 'add') {
+    if ('add' == $func) {
         $select->setSelected(0);
     }
 
@@ -190,7 +190,7 @@ if ($func == '') {
     $select->setSize(1);
     $select->addOption($addon->i18n('status_activated'), 1);
     $select->addOption($addon->i18n('status_deactivated'), 0);
-    if ($func == 'add') {
+    if ('add' == $func) {
         $select->setSelected(1);
     }
 
@@ -209,12 +209,12 @@ if ($func == '') {
             $select->addOption($cronjob->getTypeName(), $class);
         }
     }
-    if ($func == 'add') {
+    if ('add' == $func) {
         $select->setSelected('rex_cronjob_phpcode');
     }
     $activeType = $field->getValue();
 
-    if ($func != 'add' && !in_array($activeType, $types)) {
+    if ('add' != $func && !in_array($activeType, $types)) {
         if (!$activeType && !$field->getValue()) {
             $warning = rex_i18n::rawMsg('cronjob_not_found');
         } else {

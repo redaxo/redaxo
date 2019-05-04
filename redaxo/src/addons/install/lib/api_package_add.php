@@ -32,7 +32,7 @@ class rex_api_install_package_add extends rex_api_install_package_download
 
     protected function doAction()
     {
-        if (($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey))) !== true) {
+        if (true !== ($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey)))) {
             return $msg;
         }
         rex_package_manager::synchronizeWithFileSystem();

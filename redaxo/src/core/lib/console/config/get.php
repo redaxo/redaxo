@@ -31,7 +31,7 @@ class rex_command_config_get extends rex_console_command
 
         $propertyKey = array_shift($path);
         $config = rex::getProperty($propertyKey);
-        if ($config === null) {
+        if (null === $config) {
             $io->getErrorStyle()->error('Config key not found');
             return 1;
         }
@@ -43,7 +43,7 @@ class rex_command_config_get extends rex_console_command
             $config = $config[$pathPart];
         }
 
-        $output->write(json_encode($config));
+        $output->writeln(json_encode($config));
 
         return 0;
     }

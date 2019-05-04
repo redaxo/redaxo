@@ -22,7 +22,9 @@ jobs:
     include:
         -   php: 7.1
             env: TYPE=linting
-            script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
+            script:
+                - composer require --dev friendsofredaxo/linter
+                - vendor/bin/rexlint
 
         -   php: 7.3
             env: TYPE=phpstan
@@ -69,3 +71,10 @@ jobs:
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
+
+matrix:
+    allow_failures:
+      - php: 7.1
+        env:
+            - TYPE=phpunit
+            - DB=mariadb

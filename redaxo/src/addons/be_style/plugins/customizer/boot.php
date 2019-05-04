@@ -12,7 +12,7 @@ $plugin = rex_plugin::get('be_style', 'customizer');
 $config = $plugin->getConfig();
 
 /* Output CodeMirror-CSS */
-if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css') {
+if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', '')) {
     rex_response::cleanOutputBuffers();
     header('Content-type: text/css');
 
@@ -20,7 +20,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror.css');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
-    if (rex_request('themes', 'string', '') != '') {
+    if ('' != rex_request('themes', 'string', '')) {
         $_themes = explode(',', rex_request('themes', 'string', ''));
         foreach ($_themes as $_theme) {
             if (preg_match('/[a-z0-9\._-]+/i', $_theme)) {
@@ -49,7 +49,7 @@ if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'css')
 }
 
 /* Output CodeMirror-JavaScript */
-if (rex::isBackend() && rex_request('codemirror_output', 'string', '') == 'javascript') {
+if (rex::isBackend() && 'javascript' == rex_request('codemirror_output', 'string', '')) {
     rex_response::cleanOutputBuffers();
     header('Content-Type: application/javascript');
 
@@ -117,7 +117,7 @@ if (rex::isBackend() && rex::getUser()) {
         rex_view::setJsProperty('customizer_codemirror_defaulttheme', $config['codemirror_theme']);
         // JsProperty CodeMirror-Selectors
         $selectors = 'textarea.rex-code, textarea.rex-js-code, textarea.codemirror';
-        if (isset($config['codemirror-selectors']) && $config['codemirror-selectors'] != '') {
+        if (isset($config['codemirror-selectors']) && '' != $config['codemirror-selectors']) {
             $selectors = $selectors . ', ' . $config['codemirror-selectors'];
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
@@ -134,9 +134,9 @@ if (rex::isBackend() && rex::getUser()) {
 
     /* Customizer Ergänzungen */
     rex_view::addCssFile($plugin->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($plugin->getAssetsUrl('js/main.js'));
+    rex_view::addJsFile($plugin->getAssetsUrl('js/main.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    if ($config['labelcolor'] != '') {
+    if ('' != $config['labelcolor']) {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
     }
     if ($config['showlink']) {
