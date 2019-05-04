@@ -23,6 +23,7 @@ jobs:
         -   php: 7.1
             env: TYPE=linting
             script:
+                - set -e
                 - composer require --dev friendsofredaxo/linter
                 - vendor/bin/rexlint
 
@@ -31,6 +32,7 @@ jobs:
             services:
                 - mysql
             script:
+                - set -e
                 - mysql -e 'create database redaxo_5_0;'
                 - php redaxo/src/addons/tests/bin/setup.php
                 - php redaxo/bin/console package:install phpmailer
