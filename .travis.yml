@@ -31,9 +31,8 @@ jobs:
                 - composer require --dev friendsofredaxo/linter
                 - vendor/bin/rexlint
                 
-                - php redaxo/bin/console package:install be_style
                 - php redaxo/bin/console be_style:compile
-                - git diff HEAD #check if compiling the css lead to uncommitted changes
+                - git diff HEAD # check if compiling the css lead to uncommitted changes
         -   php: 7.3
             env: TYPE=phpstan
             services:
