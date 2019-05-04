@@ -22,6 +22,7 @@ class rex_api_article_edit extends rex_api_function
         $data['priority'] = rex_post('article-position', 'int');
         $data['name'] = rex_post('article-name', 'string');
         $data['template_id'] = rex_post('template_id', 'int');
+        $data['lastchanged'] = rex_post('lastchanged', 'int');
 
         $result = new rex_api_result(true, rex_article_service::editArticle($article_id, $clang, $data));
         return $result;

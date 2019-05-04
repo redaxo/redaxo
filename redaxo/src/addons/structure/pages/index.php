@@ -17,6 +17,7 @@ $artstart = rex_request('artstart', 'int');
 $catstart = rex_request('catstart', 'int');
 $edit_id = rex_request('edit_id', 'int');
 $function = rex_request('function', 'string');
+$lastchanged = rex_request('lastchanged');
 
 $info = '';
 $warning = '';
@@ -232,6 +233,7 @@ if ($KAT->getRows() > 0) {
 
                 $add_buttons = rex_api_category_edit::getHiddenFields().'
                 <input type="hidden" name="category-id" value="' . $edit_id . '" />
+                <input type="hidden" name="lastchanged" value="' . $lastchanged . '" />
                 <button class="btn btn-save" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
                 $class = 'mark';
@@ -269,7 +271,7 @@ if ($KAT->getRows() > 0) {
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . rex_escape($KAT->getValue('catname')) . '</a></td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>
-                        <td class="rex-table-action"><a href="' . $context->getUrl(['edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $catstart]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
+                        <td class="rex-table-action"><a href="' . $context->getUrl(['edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $catstart, 'lastchanged' => $KAT->getDateTimeValue('updatedate')]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
                         <td class="rex-table-action">' . $category_delete . '</td>
                         <td class="rex-table-action">' . $kat_status . '</td>
                     </tr>';
@@ -485,7 +487,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
                             ' . $tmpl_td . '
                             <td data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
-                            <td class="rex-table-action" colspan="3">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
+                            <td class="rex-table-action" colspan="3"><input type="hidden" name="lastchanged" value="' . $lastchanged . '" />'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
         } elseif ($KATPERM) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
@@ -526,7 +528,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
                             ' . $tmpl_td . '
                             <td data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
-                            <td class="rex-table-action"><a href="' . $context->getUrl(['article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $artstart]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
+                            <td class="rex-table-action"><a href="' . $context->getUrl(['article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $artstart, 'lastchanged' => $sql->getDateTimeValue('updatedate')]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
                             ' . $add_extra . '
                         </tr>
                         ';

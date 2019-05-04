@@ -136,6 +136,13 @@ class rex_article_service
             throw new rex_api_exception('Unable to find article with id "' . $article_id . '" and clang "' . $clang . '"!');
         }
 
+        if (isset($data['lastchanged'])) {
+            if ($thisArt->getDateTimeValue('updatedate') !== $data['lastchanged']) {
+                // XXX i18n
+                throw new rex_api_exception('Speichern abgebrochen, da der Artikel wurde in der zwischenzeit durch einen anderen Benutzer verändert!');
+            }
+        }
+
         $ooArt = rex_article::get($article_id, $clang);
         $data['category_id'] = $ooArt->getCategoryId();
 
