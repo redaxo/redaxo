@@ -88,6 +88,7 @@ class rex_effect_header extends rex_effect_abstract
                 'type' => 'select',
                 'options' => ['filename', 'originalname'],
                 'default' => 'filename',
+                'notice' => rex_i18n::msg('media_manager_effect_header_filename_notice'),
             ],
         ];
     }
