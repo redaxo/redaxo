@@ -99,14 +99,14 @@ class rex_managed_media
             }
         }
 
-        if ($this->format == 'jpg' || $this->format == 'jpeg') {
+        if ('jpg' == $this->format || 'jpeg' == $this->format) {
             $this->format = 'jpeg';
             $this->image['src'] = @imagecreatefromjpeg($this->getSourcePath());
-        } elseif ($this->format == 'gif') {
+        } elseif ('gif' == $this->format) {
             $this->image['src'] = @imagecreatefromgif($this->getSourcePath());
-        } elseif ($this->format == 'wbmp') {
+        } elseif ('wbmp' == $this->format) {
             $this->image['src'] = @imagecreatefromwbmp($this->getSourcePath());
-        } elseif ($this->format == 'webp') {
+        } elseif ('webp' == $this->format) {
             if (function_exists('imagecreatefromwebp')) {
                 $this->image['src'] = @imagecreatefromwebp($this->getSourcePath());
                 imagealphablending($this->image['src'], false);
@@ -132,11 +132,6 @@ class rex_managed_media
 
     public function refreshImageDimensions()
     {
-        // getimagesize does not work for webp with PHP < 7.1
-        if (!$this->asImage && 'webp' === $this->format && PHP_VERSION_ID < 70100) {
-            $this->asImage();
-        }
-
         if ($this->asImage) {
             $this->image['width'] = imagesx($this->image['src']);
             $this->image['height'] = imagesy($this->image['src']);
@@ -165,18 +160,47 @@ class rex_managed_media
 
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
-        $src = $this->getSource();
+        $this->prepareHeaders();
 
-        $this->prepareHeaders($src);
+        if ($this->asImage) {
+            $src = $this->getSource();
+            $this->setHeader('Content-Length', rex_string::size($src));
 
-        rex_response::cleanOutputBuffers();
-        foreach ($this->header as $t => $c) {
-            header($t . ': ' . $c);
-        }
-        echo $src;
+            rex_response::cleanOutputBuffers();
+            foreach ($this->header as $t => $c) {
+                header($t . ': ' . $c);
+            }
 
-        if ($save) {
-            $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
+            echo $src;
+
+            if ($save) {
+                rex_file::putCache($headerCacheFilename, [
+                    'media_path' => $this->getMediaPath(),
+                    'format' => $this->format,
+                    'headers' => $this->header,
+                ]);
+
+                rex_file::put($sourceCacheFilename, $src);
+            }
+        } else {
+            $this->setHeader('Content-Length', filesize($this->getSourcePath()));
+
+            rex_response::cleanOutputBuffers();
+            foreach ($this->header as $t => $c) {
+                rex_response::setHeader($t, $c);
+            }
+
+            rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
+
+            if ($save) {
+                rex_file::putCache($headerCacheFilename, [
+                    'media_path' => $this->getMediaPath(),
+                    'format' => $this->format,
+                    'headers' => $this->header,
+                ]);
+
+                rex_file::copy($this->getSourcePath(), $sourceCacheFilename);
+            }
         }
     }
 
@@ -199,17 +223,17 @@ class rex_managed_media
         imageinterlace($this->image['src'], in_array($format, $interlace) ? 1 : 0);
 
         ob_start();
-        if ($format == 'jpg') {
+        if ('jpg' == $format) {
             $quality = $this->getImageProperty('jpg_quality', $addon->getConfig('jpg_quality', 85));
             imagejpeg($this->image['src'], null, $quality);
-        } elseif ($format == 'png') {
+        } elseif ('png' == $format) {
             $compression = $this->getImageProperty('png_compression', $addon->getConfig('png_compression', 5));
             imagepng($this->image['src'], null, $compression);
-        } elseif ($format == 'gif') {
+        } elseif ('gif' == $format) {
             imagegif($this->image['src']);
-        } elseif ($format == 'wbmp') {
+        } elseif ('wbmp' == $format) {
             imagewbmp($this->image['src']);
-        } elseif ($format == 'webp') {
+        } elseif ('webp' == $format) {
             $quality = $this->getImageProperty('webp_quality', $addon->getConfig('webp_quality', 85));
             imagewebp($this->image['src'], null, $quality);
         }
@@ -330,9 +354,11 @@ class rex_managed_media
     /**
      * @param string $src Source content
      */
-    private function prepareHeaders($src)
+    private function prepareHeaders($src = null)
     {
-        $this->setHeader('Content-Length', rex_string::size($src));
+        if (null !== $src) {
+            $this->setHeader('Content-Length', rex_string::size($src));
+        }
 
         $header = $this->getHeader();
         if (!isset($header['Content-Type'])) {
@@ -347,7 +373,16 @@ class rex_managed_media
                 $content_type = finfo_file($finfo, $this->getSourcePath());
             }
 
-            if ($content_type != '') {
+            // In case mime_content_type() returns 'text/plain' for CSS / JS files:
+            if ('text/plain' == $content_type) {
+                if ('css' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
+                    $content_type = 'text/css';
+                } elseif ('js' == pathinfo($this->getSourcePath(), PATHINFO_EXTENSION)) {
+                    $content_type = 'application/javascript';
+                }
+            }
+
+            if ('' != $content_type) {
                 $this->setHeader('Content-Type', $content_type);
             }
         }

@@ -26,7 +26,7 @@ class rex_content_service
         // check if slice id is valid
         $CM = rex_sql::factory();
         $CM->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where id=? and clang_id=?', [$slice_id, $clang]);
-        if ($CM->getRows() == 1) {
+        if (1 == $CM->getRows()) {
             // origin value for later success-check
             $oldPriority = $CM->getValue('priority');
 
@@ -50,11 +50,11 @@ class rex_content_service
                 'slice_revision' => $slice_revision,
             ]));
 
-            if ($direction == 'moveup' || $direction == 'movedown') {
-                if ($direction == 'moveup') {
+            if ('moveup' == $direction || 'movedown' == $direction) {
+                if ('moveup' == $direction) {
                     $upd->setValue('priority', $CM->getValue('priority') - 1);
                     $updSort = 'DESC';
-                } elseif ($direction == 'movedown') {
+                } else {
                     $upd->setValue('priority', $CM->getValue('priority') + 1);
                     $updSort = 'ASC';
                 }
@@ -98,7 +98,7 @@ class rex_content_service
         // check if slice id is valid
         $curr = rex_sql::factory();
         $curr->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article_slice WHERE id=?', [$slice_id]);
-        if ($curr->getRows() != 1) {
+        if (1 != $curr->getRows()) {
             return false;
         }
 
@@ -122,7 +122,7 @@ class rex_content_service
         );
 
         // check if delete was successfull
-        return $curr->getRows() == 1;
+        return 1 == $curr->getRows();
     }
 
     /**
@@ -174,23 +174,23 @@ class rex_content_service
         foreach ($gc as $slice) {
             foreach ($cols as $col) {
                 $colname = $col->getValue('Field');
-                if ($colname == 'clang_id') {
+                if ('clang_id' == $colname) {
                     $value = $to_clang;
-                } elseif ($colname == 'article_id') {
+                } elseif ('article_id' == $colname) {
                     $value = $to_id;
-                } elseif ($colname == 'priority') {
+                } elseif ('priority' == $colname) {
                     $ctypeId = $slice->getValue('ctype_id');
-                    $value = $slice->getValue($colname) + (isset($maxPriority[$ctypeId]) ? $maxPriority[$ctypeId] : 0);
+                    $value = $slice->getValue($colname) + ($maxPriority[$ctypeId] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }
 
                 // collect all affected ctypes
-                if ($colname == 'ctype_id') {
+                if ('ctype_id' == $colname) {
                     $ctypes[$value] = $value;
                 }
 
-                if ($colname != 'id') {
+                if ('id' != $colname) {
                     $ins->setValue($colname, $value);
                 }
             }
@@ -227,7 +227,7 @@ class rex_content_service
     public static function generateArticleContent($article_id, $clang = null)
     {
         foreach (rex_clang::getAllIds() as $_clang) {
-            if ($clang !== null && $clang != $_clang) {
+            if (null !== $clang && $clang != $_clang) {
                 continue;
             }
 
@@ -249,7 +249,7 @@ class rex_content_service
                 'article' => $CONT,
             ]));
 
-            if (rex_file::put($article_content_file, $article_content) === false) {
+            if (false === rex_file::put($article_content_file, $article_content)) {
                 return rex_i18n::msg('article_could_not_be_generated') . ' ' . rex_i18n::msg('check_rights_in_directory') . rex_path::addonCache('structure');
             }
         }

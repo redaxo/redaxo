@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_container_element extends rex_form_element
 {
@@ -11,7 +11,7 @@ class rex_form_container_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
         $this->fields = [];
@@ -96,12 +96,12 @@ class rex_form_container_element extends rex_form_element
                 continue;
             }
 
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         $format = '';
         foreach ($this->fields as $group => $groupFields) {
-            $format .= '<div id="rex-' . htmlspecialchars($group) . '"' . $attr . '>';
+            $format .= '<div id="rex-' . rex_escape($group) . '"' . $attr . '>';
             foreach ($groupFields as $field) {
                 $format .= $field->get();
             }
@@ -124,7 +124,7 @@ class rex_form_container_element extends rex_form_element
             foreach ($this->fields as $group => $groupFields) {
                 foreach ($groupFields as $field) {
                     // read-only-fields nicht speichern
-                    if (strpos($field->getAttribute('class'), 'form-control-static') === false) {
+                    if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
                         $value[$group][$field->getFieldName()] = $field->getSaveValue();
                     }
                 }
@@ -132,7 +132,7 @@ class rex_form_container_element extends rex_form_element
         } elseif (isset($this->active) && isset($this->fields[$this->active])) {
             foreach ($this->fields[$this->active] as $field) {
                 // read-only-fields nicht speichern
-                if (strpos($field->getAttribute('class'), 'form-control-static') === false) {
+                if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
                     $value[$field->getFieldName()] = $field->getSaveValue();
                 }
             }

@@ -5,17 +5,17 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 abstract class rex_package implements rex_package_interface
 {
-    const FILE_PACKAGE = 'package.yml';
-    const FILE_BOOT = 'boot.php';
-    const FILE_INSTALL = 'install.php';
-    const FILE_INSTALL_SQL = 'install.sql';
-    const FILE_UNINSTALL = 'uninstall.php';
-    const FILE_UNINSTALL_SQL = 'uninstall.sql';
-    const FILE_UPDATE = 'update.php';
+    public const FILE_PACKAGE = 'package.yml';
+    public const FILE_BOOT = 'boot.php';
+    public const FILE_INSTALL = 'install.php';
+    public const FILE_INSTALL_SQL = 'install.sql';
+    public const FILE_UNINSTALL = 'uninstall.php';
+    public const FILE_UNINSTALL_SQL = 'uninstall.sql';
+    public const FILE_UPDATE = 'update.php';
 
     /**
      * Name of the package.
@@ -260,9 +260,9 @@ abstract class rex_package implements rex_package_interface
                 static $registeredShutdown = false;
                 if (!$registeredShutdown) {
                     $registeredShutdown = true;
-                    register_shutdown_function(function () use (&$cache) {
+                    register_shutdown_function(static function () use (&$cache) {
                         foreach ($cache as $package => $_) {
-                            if (!rex_package::exists($package)) {
+                            if (!self::exists($package)) {
                                 unset($cache[$package]);
                             }
                         }
@@ -295,6 +295,19 @@ abstract class rex_package implements rex_package_interface
             }
         }
         $this->propertiesLoaded = true;
+    }
+
+    /**
+     *  Clears the cache of the package.
+     *
+     * @throws rex_functional_exception
+     */
+    public function clearCache()
+    {
+        $cache_dir = $this->getCachePath();
+        if (is_dir($cache_dir) && !rex_dir::delete($cache_dir)) {
+            throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+        }
     }
 
     public function enlist()

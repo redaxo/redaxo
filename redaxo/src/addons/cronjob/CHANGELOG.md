@@ -1,6 +1,40 @@
 Changelog
 =========
 
+Version 2.4.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* Typ "PHP-Code": Bei Fehlern wurde das Backend teils nur halb, ohne Layout dargestellt (@gharlan)
+
+
+Version 2.4.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Typabhängige Felder erscheinen direkt unterhalb der Typauswahl (@skerbis)
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurden die Cronjobs zu einem falschen Zeitpunkt ausgeführt (@dergel)
+* optimize_tables: Views wurden fälschlich versucht auch zu optimieren (@gharlan)
+* Plugins: Bei vorinstallierten Cronjobs wurde das Intervall nicht richtig gesetzt (@gharlan)
+
+
+Version 2.3.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Command `cronjob:run`: Es kann ein einzelner Job direkt ausgeführt werden (`--job`) (@gharlan)
+
+### Bugfixes
+
+* Status-Toggle-Link war nicht nutzbar (CSRF-Token fehlte) (@gharlan)
+
+
 Version 2.2.0 – 21.12.2017
 --------------------------
 

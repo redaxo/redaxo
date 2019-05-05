@@ -11,7 +11,7 @@ class rex_effect_mediapath extends rex_effect_abstract
 
     public function execute()
     {
-        if ($this->params['mediapath'] != '') {
+        if ('' != $this->params['mediapath']) {
             $media_path = rex_path::frontend($this->params['mediapath'] . '/' . rex_media_manager::getMediaFile());
             $this->media->setMediaPath($media_path);
         }

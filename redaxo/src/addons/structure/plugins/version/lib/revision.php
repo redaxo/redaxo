@@ -5,8 +5,8 @@
  */
 class rex_article_revision
 {
-    const LIVE = 0; // live revision
-    const WORK = 1; // working copy
+    public const LIVE = 0; // live revision
+    public const WORK = 1; // working copy
 
     public static function copyContent($article_id, $clang, $from_revision_id, $to_revision_id)
     {
@@ -42,6 +42,19 @@ class rex_article_revision
         }
 
         rex_article_cache::delete($article_id);
+        return true;
+    }
+
+    public static function clearContent($article_id, $clang, $from_revision_id)
+    {
+        if (self::WORK != $from_revision_id) {
+            throw new InvalidArgumentException(sprintf('Revision "%s" can not be cleared, only the working version (%d).', $from_revision_id, self::WORK));
+        }
+
+        $dc = rex_sql::factory();
+        // $dc->setDebug();
+        $dc->setQuery('delete from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=?', [$article_id, $clang, $from_revision_id]);
+
         return true;
     }
 }

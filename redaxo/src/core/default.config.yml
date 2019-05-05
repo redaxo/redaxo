@@ -1,5 +1,7 @@
 setup: true
-debug: false
+debug:
+    enabled: false
+    throw_always_exception: false # `true` for all error levels, `[E_WARNING, E_NOTICE]` for subset
 instname: null
 server: https://www.redaxo.org/
 servername: REDAXO
@@ -29,11 +31,14 @@ session:
             httponly: true
             samesite: 'Strict'
 password_policy:
-    length: {min: 8}
+    length: {min: 8, max: 4096}
     lowercase: {min: 0}
     uppercase: {min: 0}
     digit: {min: 0}
 lang: de_de
+lang_fallback: [en_gb, de_de]
+use_https: false
+use_hsts: false
 use_gzip: true
 use_etag: true
 use_last_modified: false
@@ -75,3 +80,4 @@ accesskeys:
     delete: d
     add: a
     add_2: y
+editor: null

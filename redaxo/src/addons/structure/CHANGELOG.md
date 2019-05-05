@@ -1,6 +1,58 @@
 Changelog
 =========
 
+Version 2.7.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Neuer EP: `CAT_MOVED` (@bloep)
+* Linkmap öffnet default in aktueller Kategorie (@schuer)
+* version-PlugIn: Arbeitsversion kann geleert werden (@dpf-dd)
+* Slice-Value-Felder als `MEDIUMTEXT` statt `TEXT` damit mehr Inhalte gespeichert werden können (@bloep)
+* Leere CTypes werden in der Backend-Navi grau dargestellt (@schuer)
+* Sliceausgabe mit Scrollbar bei zu breiten Inhalten (@schuer)
+* In Moduleverwaltung wird angezeigt, ob die Module jeweils in Verwendung sind (@tbaddade)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@bloep)
+* "Kein Startartikel selektiert"-Fehler nutzt Frontend-Ooops-Seite (@tbaddade)
+
+### Bugfixes:
+
+* `rex_category::get()` lieferte auch für Nicht-Startartikel ein Kategorie-Objekt (@gharlan)
+* `rex_category::getCurrent()` lieferte Fehler, wenn es keinen aktuellen Artikel gibt (@gharlan)
+* Der Funktionen-Tab wurde nicht ausgeblendet, wenn ein Benutzer nur die Berechtigung für `copyContent[]` und nur für eine Sprache hat (@TobiasKrais)
+* Template-Verwaltung: An einer Stelle wurde der Table-Prefix `rex_` fix genommen, statt `rex::getTablePrefix()` (@staabm)
+* In Modulen enthielt im Backend die Variable `$content` den Modul-PHP-Code, was zu verwirrenden Ausgaben führen konnte (@gharlan)
+
+
+Version 2.6.1 – 21.06.2018
+--------------------------
+
+### Bugfixes
+
+* Bei der Status-Änderung von Kategorien wurde fälschlich das `publishArticle[]`-Recht statt `publishCategory[]` geprüft (@gharlan)
+
+
+Version 2.6.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Mountpoints werden nach Prio sortiert, wenn alle in gleicher Oberkategorie (@gharlan)
+* Neue EPs `ART_MOVED` und `ART_COPIED` (@alexwenz)
+* Template löschen: Hinweis welche Artikel es benutzen (@bloep)
+* Linklist: Artikel-IDs werden auch ausgegeben (@tbaddade)
+* Umbenennung "Homepage" in "Hauptebene" in Breadcrumb + passenderes Icon (@tbaddade)
+* Umbenennung "Spalten" in "Bereiche" (@alexplusde)
+* `rex_category`, `rex_article`, `rex_article_base`: Neue Methode `getClangId`, `getClang` als deprecated markiert (@staabm)
+* Rechtschreibprüfung in Codeeingabefeldern deaktiviert (@staabm)
+
+### Bugfixes
+
+* Kompatibilität zu PHP 7.2 (@IngoWinter)
+* Bei der Ausgabe des Modulnamens fehlte teils das Escaping (@staabm)
+
+
 Version 2.5.0 – 21.12.2017
 --------------------------
 

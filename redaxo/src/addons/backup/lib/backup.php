@@ -5,10 +5,10 @@
  */
 class rex_backup
 {
-    const IMPORT_ARCHIVE = 1;
-    const IMPORT_DB = 2;
-    const IMPORT_EVENT_PRE = 3;
-    const IMPORT_EVENT_POST = 4;
+    public const IMPORT_ARCHIVE = 1;
+    public const IMPORT_DB = 2;
+    public const IMPORT_EVENT_PRE = 3;
+    public const IMPORT_EVENT_POST = 4;
 
     public static function getDir()
     {
@@ -33,7 +33,7 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, function ($file_a, $file_b) use ($dir) {
+        usort($folder, static function ($file_a, $file_b) use ($dir) {
             $time_a = filemtime($dir . '/' . $file_a);
             $time_b = filemtime($dir . '/' . $file_b);
 
@@ -65,7 +65,7 @@ class rex_backup
         $msg = '';
         $error = '';
 
-        if ($filename == '' || substr($filename, -4, 4) != '.sql') {
+        if ('' == $filename || '.sql' != substr($filename, -4, 4)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
             return $return;
         }
@@ -76,7 +76,7 @@ class rex_backup
         // ## Redaxo Database Dump Version x.x
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
-        if ($version === false) {
+        if (false === $version) {
             $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
             return $return;
         }
@@ -142,7 +142,7 @@ class rex_backup
             }
         }
 
-        if ($error != '') {
+        if ('' != $error) {
             $return['message'] = trim($error);
             return $return;
         }
@@ -151,7 +151,7 @@ class rex_backup
         unset($lines);
 
         // prüfen, ob eine user tabelle angelegt wurde
-        $tables = rex_sql::showTables();
+        $tables = rex_sql::factory()->getTables(rex::getTablePrefix());
         $user_table_found = in_array(rex::getTablePrefix() . 'user', $tables);
 
         if (!$user_table_found) {
@@ -211,7 +211,13 @@ class rex_backup
         }
 
         // generated neu erstellen, wenn kein Fehler aufgetreten ist
-        if ($error == '') {
+        if ('' == $error) {
+            // delete cache before EP to avoid obsolete caches while running extensions
+            rex_delete_cache();
+
+            // refresh rex_config with new values from database
+            rex_config::refresh();
+
             // ----- EXTENSION POINT
             $msg = rex_extension::registerPoint(new rex_extension_point('BACKUP_AFTER_DB_IMPORT', $msg, [
                 'content' => $conts,
@@ -222,6 +228,7 @@ class rex_backup
             // require import skript to do some userside-magic
             self::importScript(str_replace('.sql', '.php', $filename), self::IMPORT_DB, self::IMPORT_EVENT_POST);
 
+            // delete cache again because the extensions and the php script could have changed data again
             $msg .= rex_delete_cache();
             $return['state'] = true;
         }
@@ -245,7 +252,7 @@ class rex_backup
         $return = [];
         $return['state'] = false;
 
-        if ($filename == '' || substr($filename, -7, 7) != '.tar.gz') {
+        if ('' == $filename || '.tar.gz' != substr($filename, -7, 7)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen') . '<br />';
             return $return;
         }
@@ -296,16 +303,22 @@ class rex_backup
      */
     public static function exportDb($filename, array $tables = null)
     {
-        $fp = @fopen($filename, 'w');
+        $fp = @tmpfile();
+        $tempCacheFile = null;
 
+        // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
-            return false;
+            $tempCacheFile = rex_path::cache(basename($filename));
+            $fp = fopen($tempCacheFile, 'w');
+            if (!$fp) {
+                return false;
+            }
         }
 
         $sql = rex_sql::factory();
 
         $nl = "\n";
-        $insertSize = 5000;
+        $insertSize = 4000;
 
         // ----- EXTENSION POINT
         rex_extension::registerPoint(new rex_extension_point('BACKUP_BEFORE_DB_EXPORT'));
@@ -320,7 +333,7 @@ class rex_backup
 
         if (null === $tables) {
             $tables = [];
-            foreach (rex_sql::showTables(1, rex::getTablePrefix()) as $table) {
+            foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
                 if ($table != rex::getTable('user') // User Tabelle nicht exportieren
                     && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
                 ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
@@ -344,6 +357,9 @@ class rex_backup
                     $field = 'double';
                 } elseif (preg_match('#^(char|varchar|text|longtext|mediumtext|tinytext)#', $field['Type'])) {
                     $field = 'string';
+                } elseif (preg_match('#^(date|datetime|time|timestamp|year)#', $field['Type'])) {
+                    // types which can be passed tru 1:1 as escaping isn't necessary, because we know the mysql internal format.
+                    $field = 'raw';
                 }
                 // else ?
             }
@@ -356,10 +372,10 @@ class rex_backup
                 $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
                 $count = $sql->getRows();
 
-                if ($count > 0 && $start == 0) {
+                if ($count > 0 && 0 == $start) {
                     fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
                     fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
-                } elseif ($count == 0) {
+                } elseif (0 == $count) {
                     break;
                 }
 
@@ -373,6 +389,10 @@ class rex_backup
                         $column = $row[$idx];
 
                         switch ($type) {
+                            // prevent calling sql->escape() on values with a known format
+                            case 'raw':
+                                $record[] = "'". $column ."'";
+                                break;
                             case 'int':
                                 $record[] = (int) $column;
                                 break;
@@ -380,8 +400,20 @@ class rex_backup
                                 $record[] = sprintf('%.10F', (float) $column);
                                 break;
                             case 'string':
+                                // fast-exit for very frequent used harmless values
+                                if ('0' === $column || '' === $column || ' ' === $column || '|' === $column || '||' === $column) {
+                                    $record[] = "'". $column ."'";
+                                    break;
+                                }
+
+                                // fast-exit for very frequent used harmless values
+                                if (strlen($column) <= 3 && ctype_alnum($column)) {
+                                    $record[] = "'". $column ."'";
+                                    break;
+                                }
+                                // no break
                             default:
-                                $record[] = $sql->escape($column, "'");
+                                $record[] = $sql->escape($column);
                                 break;
                         }
                     }
@@ -403,8 +435,6 @@ class rex_backup
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 1;' . $nl);
 
-        fclose($fp);
-
         $hasContent = true;
 
         // Den Dateiinhalt geben wir nur dann weiter, wenn es unbedingt notwendig ist.
@@ -420,6 +450,21 @@ class rex_backup
                 $hasContent = !empty($content);
                 unset($content);
             }
+        }
+
+        // Wenn das backup vollständig und erfolgreich erzeugt werden konnte, den Export 1:1 ans Ziel kopieren.
+        if ($tempCacheFile) {
+            fclose($fp);
+            rename($tempCacheFile, $filename);
+        } else {
+            $destination = fopen($filename, 'w');
+            rewind($fp);
+            if (!$destination) {
+                return false;
+            }
+            stream_copy_to_stream($fp, $destination);
+            fclose($fp);
+            fclose($destination);
         }
 
         return $hasContent;
@@ -462,7 +507,7 @@ class rex_backup
             // - svn infos
             // - tmp prefix Dateien
 
-            if ($file == '.' || $file == '..' || $file == '.svn') {
+            if ('.' == $file || '..' == $file || '.svn' == $file) {
                 continue;
             }
 
@@ -470,7 +515,7 @@ class rex_backup
                 continue;
             }
 
-            if ($isMediafolder && $file == 'addons') {
+            if ($isMediafolder && 'addons' == $file) {
                 continue;
             }
 

@@ -1,6 +1,27 @@
 Changelog
 =========
 
+Version 2.4.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Bei Date(time)-Feldern kann Start- und Endjahr für Jahr-Selecbox festgelegt werden (@gharlan)
+
+### Bugfixes
+
+* Metadaten in Struktur-Sidebar werden nun vom Struktur-AddOn selbst geliefert (@DanielWeitenauer)
+
+
+Version 2.3.1 – 05.06.2018
+--------------------------
+
+### Bugfixes
+
+* Beim Bearbeiten der Artikel-Metainfos wurden updatedate und updateuser nicht aktualisiert (@gharlan)
+* Date/Time/Datetime-Felder: Tag/Monat/Stunde/Minute nun einheitlich zweistellig, aktueller Wert war vorher teils nicht selektiert (@gharlan)
+
+
 Version 2.3.0 – 21.12.2017
 --------------------------
 

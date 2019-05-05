@@ -6,11 +6,10 @@
  * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
 
 $mypage = 'metainfo';
+$addon = rex_addon::get('metainfo');
 
 if (!defined('REX_METAINFO_FIELD_TEXT')) {
     // Feldtypen
@@ -30,8 +29,8 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     define('REX_METAINFO_FIELD_COUNT', 13);
 }
 
-$this->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
-$this->setProperty('metaTables', [
+$addon->setProperty('prefixes', ['art_', 'cat_', 'med_', 'clang_']);
+$addon->setProperty('metaTables', [
     'art_' => rex::getTablePrefix() . 'article',
     'cat_' => rex::getTablePrefix() . 'article',
     'med_' => rex::getTablePrefix() . 'media',
@@ -44,3 +43,28 @@ if (rex::isBackend()) {
 
     rex_extension::register('PAGE_CHECKED', 'rex_metainfo_extensions_handler');
 }
+
+rex_extension::register('EDITOR_URL', static function (rex_extension_point $ep) {
+    if (!preg_match('@^rex:///metainfo/(\d+)@', $ep->getParam('file'), $match)) {
+        return;
+    }
+
+    $id = $match[1];
+    $sql = rex_sql::factory();
+    $sql->setQuery('SELECT `name` FROM '.rex::getTable('metainfo_field').' WHERE id = ? LIMIT 1', [$id]);
+
+    if (!$sql->getRows()) {
+        return;
+    }
+
+    static $pages = [
+        'art_' => 'articles',
+        'cat_' => 'categories',
+        'med_' => 'media',
+        'clang_' => 'clangs',
+    ];
+
+    $prefix = rex_metainfo_meta_prefix($sql->getValue('name'));
+
+    return rex_url::backendPage('metainfo/'.$pages[$prefix], ['func' => 'edit', 'field_id' => $id]);
+});

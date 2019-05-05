@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_select_element extends rex_form_element
 {
@@ -11,7 +11,7 @@ class rex_form_select_element extends rex_form_element
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
 
@@ -36,7 +36,7 @@ class rex_form_select_element extends rex_form_element
             $this->setAttribute('name', $this->getAttribute('name') . '[]');
 
             $selectedOptions = explode($this->separator, trim($this->getValue(), $this->separator));
-            if (is_array($selectedOptions) && $selectedOptions[0] != '') {
+            if (is_array($selectedOptions) && '' != $selectedOptions[0]) {
                 foreach ($selectedOptions as $selectedOption) {
                     $this->select->setSelected($selectedOption);
                 }

@@ -36,7 +36,7 @@ function newPoolWindow(link)
         var counter = 0;
     }
     // 1200 = $screen-lg
-    return newWindow( 'rexmediapopup'+counter, link, 1200,800,',status=yes,resizable=yes');
+    return newWindow( 'rexmediapopup'+counter, link, 1200, Math.max(screen.height*0.75,800), ',status=yes,resizable=yes');
 }
 
 function openMediaDetails(id, file_id, file_category_id)
@@ -220,3 +220,70 @@ $(document).ready(function () {
 
 
 });
+
+
+function selectMedia(filename, alt)
+{
+    var event = opener.jQuery.Event("rex:selectMedia");
+
+    opener.jQuery(window).trigger(event, [filename, alt]);
+    if (!event.isDefaultPrevented()) {
+        if (rex.mediapoolOpenerInputField) {
+            opener.document.getElementById(rex.mediapoolOpenerInputField).value = filename;
+        }
+        self.close();
+    }
+}
+
+function selectMedialist(filename)
+{
+    if (rex.mediapoolOpenerInputField && 0 === rex.mediapoolOpenerInputField.indexOf('REX_MEDIALIST_')) {
+        var openerId = rex.mediapoolOpenerInputField.slice('REX_MEDIALIST_'.length);
+        var medialist = "REX_MEDIALIST_SELECT_" + openerId;
+
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
+
+        option = opener.document.createElement("OPTION");
+        option.text = filename;
+        option.value = filename;
+
+        source.options.add(option, sourcelength);
+        opener.writeREXMedialist(openerId);
+    }
+}
+
+function selectMediaListArray(files)
+{
+    if (rex.mediapoolOpenerInputField && 0 === rex.mediapoolOpenerInputField.indexOf('REX_MEDIALIST_')) {
+        var openerId = rex.mediapoolOpenerInputField.slice('REX_MEDIALIST_'.length);
+        var medialist = "REX_MEDIALIST_SELECT_" + openerId;
+
+        var source = opener.document.getElementById(medialist);
+        var sourcelength = source.options.length;
+
+        var files = getObjArray(files);
+
+        for(var i = 0; i < files.length; i++)
+        {
+            if (files[i].checked)
+            {
+                option = opener.document.createElement("OPTION");
+                option.text = files[i].value;
+                option.value = files[i].value;
+
+                source.options.add(option, sourcelength);
+                sourcelength++;
+            }
+        }
+
+        opener.writeREXMedialist(openerId);
+        self.close();
+    }
+}
+
+function openPage(src)
+{
+    window.opener.location.href = src;
+    self.close();
+}

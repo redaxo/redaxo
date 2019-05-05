@@ -5,13 +5,13 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql_table
 {
     use rex_instance_pool_trait;
 
-    const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+    public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
     /** @var rex_sql */
     private $sql;
@@ -147,7 +147,7 @@ class rex_sql_table
      */
     public static function get($name)
     {
-        return self::getInstance($name, function ($name) {
+        return self::getInstance($name, static function ($name) {
             return new self($name);
         });
     }
@@ -286,9 +286,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameColumn($oldName, $newName)
     {
@@ -345,9 +345,9 @@ class rex_sql_table
     /**
      * @param null|string|string[] $columns Column name(s)
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function setPrimaryKey($columns)
     {
@@ -443,9 +443,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameIndex($oldName, $newName)
     {
@@ -558,9 +558,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameForeignKey($oldName, $newName)
     {
@@ -789,10 +789,24 @@ class rex_sql_table
             $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
         }
 
+        $fulltextIndexes = [];
+        $fulltextAdded = false;
         foreach ($this->indexes as $index) {
-            if ($index->isModified() || !isset($this->indexesExisting[$index->getName()])) {
-                $parts[] = 'ADD '.$this->getIndexDefinition($index);
+            if (!$index->isModified() && isset($this->indexesExisting[$index->getName()])) {
+                continue;
             }
+
+            if (rex_sql_index::FULLTEXT === $index->getType()) {
+                if ($fulltextAdded) {
+                    $fulltextIndexes[] = 'ADD '.$this->getIndexDefinition($index);
+
+                    continue;
+                }
+
+                $fulltextAdded = true;
+            }
+
+            $parts[] = 'ADD '.$this->getIndexDefinition($index);
         }
 
         foreach ($this->foreignKeys as $foreignKey) {
@@ -813,6 +827,10 @@ class rex_sql_table
 
                 $this->sql->setQuery($query);
             }
+        }
+
+        foreach ($fulltextIndexes as $fulltextIndex) {
+            $this->sql->setQuery('ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName).' '.$fulltextIndex.';');
         }
 
         $this->sortColumns();
@@ -838,11 +856,23 @@ class rex_sql_table
 
     private function getColumnDefinition(rex_sql_column $column)
     {
+        $default = $column->getDefault();
+        if (!$default) {
+            $default = '';
+        } elseif (
+            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
+            in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
+        ) {
+            $default = 'DEFAULT '.$default;
+        } else {
+            $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
+        }
+
         return sprintf(
             '%s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
-            $column->getDefault() ? 'DEFAULT '.$this->sql->escape($column->getDefault()) : '',
+            $default,
             $column->isNullable() ? '' : 'NOT NULL',
             $column->getExtra()
         );

@@ -9,7 +9,7 @@ user_added = Benutzer wurde hinzugefügt!
 create_user = Neuen Benutzer anlegen
 add_user = Benutzer hinzufügen
 edit_user = Benutzer bearbeiten
-user_reset_tries = Dieser Zugang ist wegen zuvieler Fehlversuche (mehr als {0}) deaktiviert worden. Durch Aktivieren der Checkbox kann der Zugang wieder freigeschaltet werden.
+user_reset_tries = Login-Fehlversuche zurücksetzen (aktuell: {0})
 user_login_exists = Benutzerlogin existiert schon!
 user_missing_login = Bitte einen Benutzernamen eingeben!
 user_missing_password = Bitte ein Passwort eingeben!
@@ -29,7 +29,7 @@ user_caption = Liste der angelegten Benutzer
 user_status = User ist aktiv
 startpage = Startseite
 
-user_role = Rolle
+user_role = Rolle(n)
 user_role_data_updated = Rolle wurde aktualisiert!
 user_role_deleted = Rolle wurde gelöscht!
 user_role_added = Rolle wurde hinzugefügt!

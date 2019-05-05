@@ -1,4 +1,3 @@
-# addon:install es_bo
 install_title = Instalador
 install_subpage_packages = Núcleo y Paquetes
 install_subpage_update = Actualizaciones
@@ -36,6 +35,9 @@ install_send = Enviar
 install_upload_file = Crear archivo zip y subir
 install_replace_assets = Reemplazar activos de Root-Assets-Folder
 install_ignore_tests = Ignorar la carpeta "pruebas"
+install_published_on = Publicado en
+install_sort = especie
+install_sort_default = Ordenar por clave en orden ascendente
 
 install_info_core_updated = Core se ha actualizado!
 install_warning_core_not_updated = El núcleo no se pudo actualizar por el siguiente motivo:
@@ -56,6 +58,7 @@ install_to_addon_page = Ir a la administración de AddOn
 
 install_settings_general = General
 install_settings_backups = Crear copia de seguridad
+install_settings_backups_note = Antes de que el paquete sea actualizado por el instalador, se almacena una copia de la versión actual en <code>redaxo/data/addons/install/</code>. Se pueden restaurar en caso de errores. <br> ¡Tenga en cuenta que no se realizará una copia de seguridad de la base de datos!
 install_settings_myredaxo_account = MyREDAXO cuenta
 install_settings_api_login = Nombre de usuario
 install_settings_api_key = Clave API

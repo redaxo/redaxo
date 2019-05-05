@@ -5,7 +5,7 @@
  */
 class rex_cronjob_export extends rex_cronjob
 {
-    const DEFAULT_FILENAME = '%REX_SERVER_rex%REX_VERSION_%Y%m%d_%H%M';
+    public const DEFAULT_FILENAME = '%REX_SERVER_rex%REX_VERSION_%Y%m%d_%H%M';
 
     public function execute()
     {
@@ -27,20 +27,20 @@ class rex_cronjob_export extends rex_cronjob
         if (rex_backup::exportDb($dir . $file . $ext)) {
             $message = $file . $ext . ' created';
 
-            if ($this->delete_interval) {
-                $files = glob(rex_path::addonData('backup', '*'.$ext));
+            if ($this->getParam('delete_interval')) {
+                $allSqlfiles = glob(rex_path::addonData('backup', '*'.$ext));
                 $backups = [];
                 $limit = strtotime('-1 month'); // Generelle Vorhaltezeit: 1 Monat
 
-                foreach ($files as $file) {
-                    $timestamp = filectime($file);
+                foreach ($allSqlfiles as $sqlFile) {
+                    $timestamp = filectime($sqlFile);
 
                     if ($timestamp > $limit) {
                         // wenn es die generelle Vorhaltezeit unterschreitet
                         continue;
                     }
 
-                    $backups[$file] = $timestamp;
+                    $backups[$sqlFile] = $timestamp;
                 }
 
                 asort($backups, SORT_NUMERIC);
@@ -50,7 +50,7 @@ class rex_cronjob_export extends rex_cronjob
 
                 foreach ($backups as $backup => $timestamp) {
                     $stepLast = $step;
-                    $step = date($this->delete_interval, (int) $timestamp);
+                    $step = date($this->getParam('delete_interval'), (int) $timestamp);
 
                     if ($stepLast !== $step) {
                         // wenn es zu diesem Interval schon ein Backup gibt
@@ -63,18 +63,18 @@ class rex_cronjob_export extends rex_cronjob
                 }
 
                 if ($countDeleted) {
-                    $message .= ', '.$countDeleted.' old backups deleted';
+                    $message .= ', '.$countDeleted.' old backup(s) deleted';
                 }
             }
 
-            if ($this->sendmail) {
+            if ($this->getParam('sendmail')) {
                 if (!rex_addon::get('phpmailer')->isAvailable()) {
                     $this->setMessage($message . ', mail not sent (addon "phpmailer" isn\'t activated)');
 
                     return false;
                 }
                 $mail = new rex_mailer();
-                $mail->AddAddress($this->mailaddress);
+                $mail->AddAddress($this->getParam('mailaddress'));
                 $mail->Subject = rex_i18n::rawMsg('backup_mail_subject');
                 $mail->Body = rex_i18n::rawMsg('backup_mail_body', rex::getServerName());
                 $mail->AddAttachment($dir . $file . $ext, $filename . $ext);

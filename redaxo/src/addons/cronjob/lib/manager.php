@@ -73,12 +73,9 @@ class rex_cronjob_manager
             } catch (Throwable $t) {
                 $success = false;
                 $message = $t->getMessage();
-            } catch (Exception $e) {
-                $success = false;
-                $message = $e->getMessage();
             }
 
-            if ($message == '' && !$success) {
+            if ('' == $message && !$success) {
                 $message = 'Unknown error';
             }
         }
@@ -87,7 +84,7 @@ class rex_cronjob_manager
             $this->log($success, $message);
         }
 
-        $this->setMessage(htmlspecialchars($message));
+        $this->setMessage(rex_escape($message));
         $this->cronjob = null;
         $this->id = null;
 

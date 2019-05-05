@@ -9,7 +9,7 @@
  */
 class rex
 {
-    const CONFIG_NAMESPACE = 'core';
+    public const CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties.
@@ -51,14 +51,14 @@ class rex
     }
 
     /**
-     * Sets a property.
+     * Sets a property. Changes will not be persisted accross http request boundaries.
      *
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
      *
-     * @return bool TRUE when an existing value was overridden, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setProperty($key, $value)
     {
@@ -66,6 +66,27 @@ class rex
             throw new InvalidArgumentException('Expecting $key to be string, but ' . gettype($key) . ' given!');
         }
         switch ($key) {
+            case 'debug':
+                // bc for boolean "debug" property
+                if (!is_array($value)) {
+                    $debug = self::getDebugFlags();
+                    $debug['enabled'] = (bool) $value;
+                    $value = $debug;
+                }
+                $value['enabled'] = isset($value['enabled']) && $value['enabled'];
+                if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
+                    $value['throw_always_exception'] = false;
+                } elseif (is_array($value['throw_always_exception'])) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item) {
+                        if (is_string($item)) {
+                            // $item is string, e.g. "E_WARNING"
+                            $item = constant($item);
+                        }
+
+                        return $result | $item;
+                    }, 0);
+                }
+                break;
             case 'server':
                 if (!rex_validator::factory()->url($value)) {
                     throw new InvalidArgumentException('"' . $key . '" property: expecting $value to be a full URL!');
@@ -93,9 +114,9 @@ class rex
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
-     * @return mixed The value for $key or $default if $key cannot be found
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return mixed The value for $key or $default if $key cannot be found
      */
     public static function getProperty($key, $default = null)
     {
@@ -125,9 +146,9 @@ class rex
      *
      * @param string $key Key of the property
      *
-     * @return bool TRUE if the value was found and removed, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeProperty($key)
     {
@@ -160,6 +181,19 @@ class rex
     }
 
     /**
+     * Returns if the environment is the frontend.
+     *
+     * @return bool
+     */
+    public static function isFrontend()
+    {
+        if (self::getConsole()) {
+            return false;
+        }
+        return !self::getProperty('redaxo', false);
+    }
+
+    /**
      * Returns the environment.
      *
      * @return string
@@ -180,7 +214,19 @@ class rex
      */
     public static function isDebugMode()
     {
-        return (bool) self::getProperty('debug', false);
+        $debug = self::getDebugFlags();
+
+        return isset($debug['enabled']) && $debug['enabled'];
+    }
+
+    /**
+     * Returns the debug flags.
+     *
+     * @return array
+     */
+    public static function getDebugFlags()
+    {
+        return self::getProperty('debug');
     }
 
     /**
@@ -228,11 +274,23 @@ class rex
     /**
      * Returns the current user.
      *
-     * @return rex_user
+     * @return null|rex_user
      */
     public static function getUser()
     {
         return self::getProperty('user');
+    }
+
+    /**
+     * Returns the current impersonator user.
+     *
+     * @return null|rex_user
+     */
+    public static function getImpersonator()
+    {
+        $login = self::getProperty('login');
+
+        return $login ? $login->getImpersonator() : null;
     }
 
     /**
@@ -257,7 +315,7 @@ class rex
         if (null === $protocol) {
             return self::getProperty('server');
         }
-        list(, $server) = explode('://', self::getProperty('server'), 2);
+        [, $server] = explode('://', self::getProperty('server'), 2);
         return $protocol ? $protocol . '://' . $server : $server;
     }
 
@@ -314,9 +372,14 @@ class rex
             $output = '';
             $exitCode = null;
 
-            $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
+                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            } else {
+                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
+            }
+
             @exec($command, $output, $exitCode);
-            if ($exitCode === 0) {
+            if (0 === $exitCode) {
                 $output = implode('', $output);
                 if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
                     $gitHash[$path] = $matches[0];

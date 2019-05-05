@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The rex_article_slice class is an object wrapper over the database table rex_articel_slice.
+ * The rex_article_slice class is an object wrapper over the database table rex_article_slice.
  * Together with rex_article and rex_category it provides an object oriented
  * Framework for accessing vital parts of your website.
  * This framework can be used in Modules, Templates and PHP-Slices!
@@ -85,7 +85,7 @@ class rex_article_slice
      */
     public static function getArticleSliceById($an_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -109,13 +109,13 @@ class rex_article_slice
      */
     public static function getFirstSliceForArticle($an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
         foreach (range(1, 20) as $ctype) {
             $slice = self::getFirstSliceForCtype($ctype, $an_article_id, $clang, $revision);
-            if ($slice !== null) {
+            if (null !== $slice) {
                 return $slice;
             }
         }
@@ -135,7 +135,7 @@ class rex_article_slice
      */
     public static function getFirstSliceForCtype($ctype, $an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -157,7 +157,7 @@ class rex_article_slice
      */
     public static function getSlicesForArticle($an_article_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -180,7 +180,7 @@ class rex_article_slice
      */
     public static function getSlicesForArticleOfType($an_article_id, $a_moduletype_id, $clang = false, $revision = 0)
     {
-        if ($clang === false) {
+        if (false === $clang) {
             $clang = rex_clang::getCurrentId();
         }
 
@@ -240,7 +240,7 @@ class rex_article_slice
     protected static function getSliceWhere($where, array $params = [])
     {
         $slices = self::getSlicesWhere($where, $params);
-        return isset($slices[0]) ? $slices[0] : null;
+        return $slices[0] ?? null;
     }
 
     /**

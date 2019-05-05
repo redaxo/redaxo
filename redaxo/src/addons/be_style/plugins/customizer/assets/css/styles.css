@@ -1,30 +1,56 @@
 .be-style-customizer-title {
-    float: left;
-    margin: -1px 0 0 40px;
-    line-height: 1;
+    position: absolute;
+    top: 0;
+    left: 235px;
+    margin: 0;
+    line-height: 0;
+    white-space: nowrap;
 }
-.be-style-customizer-title i,
 .be-style-customizer-title a {
+    display: block;
+    padding: 15px;
     color: #fff;
-    font-size: 17px;
+}
+.be-style-customizer-title a:hover .be-style-customizer-title-name,
+.be-style-customizer-title a:focus .be-style-customizer-title-name {
+    text-decoration: underline;
+}
+.be-style-customizer-title-name,
+.be-style-customizer-title i {
+    font-size: 14px;
+    line-height: 20px;
     font-weight: normal;
 }
+.be-style-customizer-title-name {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
 .be-style-customizer-title i {
-    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
 }
 @media (max-width: 991px) {
     .be-style-customizer-title {
-        position: absolute;
-        right: 15px;
-        bottom: 9px;
-        font-size: 17px;
+        left: auto;
+        top: -4px;
+        right: 40px;
+        font-size: 20px;
     }
     .be-style-customizer-title-name {
         display: none
     }
-    .be-style-customizer-title i {
-        margin-left: 0;
+    .be-style-customizer-title a {
+        padding: 5px 10px;
     }
+}
+
+.rex-is-popup .be-style-customizer-title {
+    display: none;
 }
 
 .CodeMirror {

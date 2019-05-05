@@ -9,7 +9,6 @@ user_added = Usuário adicionado!
 create_user = Adicionar usuário
 add_user = Adicionar usuário
 edit_user = Editar usuário
-user_reset_tries = O login foi bloqueado devido a diversas tentativas frustradas (número máx. de tentativas: {0}). Ative o checkbox para desbloquear.
 user_login_exists = Usuário já existe!
 user_missing_login = Por favor, insira um usuário!
 user_missing_password = Por favor, insira uma senha!
@@ -29,7 +28,7 @@ user_caption = Lista de usuários
 user_status = Status
 startpage = Página inicial
 
-user_role = Função
+user_role = Função/Funções
 user_role_data_updated = Função foi atualizada!
 user_role_deleted = Função foi deletada!
 user_role_added = Função foi adicionada!

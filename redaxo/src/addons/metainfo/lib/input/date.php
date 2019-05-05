@@ -7,6 +7,9 @@
  */
 class rex_input_date extends rex_input
 {
+    private $startYear;
+    private $endYear;
+
     private $yearSelect;
     private $monthSelect;
     private $daySelect;
@@ -16,19 +19,37 @@ class rex_input_date extends rex_input
         parent::__construct();
 
         $this->yearSelect = new rex_select();
-        $this->yearSelect->addOptions(range(2005, date('Y') + 10), true);
-        $this->yearSelect->setAttribute('class', 'rex-form-select-year');
+        $this->yearSelect->setAttribute('class', 'rex-form-select-year selectpicker');
+        $this->yearSelect->setAttribute('data-width', 'fit');
         $this->yearSelect->setSize(1);
 
+        $range = static function ($start, $end) {
+            return array_map(static function ($number) {
+                return sprintf('%02d', $number);
+            }, range($start, $end));
+        };
+
         $this->monthSelect = new rex_select();
-        $this->monthSelect->addOptions(range(1, 12), true);
-        $this->monthSelect->setAttribute('class', 'rex-form-select-date');
+        $this->monthSelect->addOptions($range(1, 12), true);
+        $this->monthSelect->setAttribute('class', 'rex-form-select-date selectpicker');
+        $this->monthSelect->setAttribute('data-width', 'fit');
         $this->monthSelect->setSize(1);
 
         $this->daySelect = new rex_select();
-        $this->daySelect->addOptions(range(1, 31), true);
-        $this->daySelect->setAttribute('class', 'rex-form-select-date');
+        $this->daySelect->addOptions($range(1, 31), true);
+        $this->daySelect->setAttribute('class', 'rex-form-select-date selectpicker');
+        $this->daySelect->setAttribute('data-width', 'fit');
         $this->daySelect->setSize(1);
+    }
+
+    public function setStartYear($startYear)
+    {
+        $this->startYear = $startYear;
+    }
+
+    public function setEndYear($endYear)
+    {
+        $this->endYear = $endYear;
     }
 
     public function setValue($value)
@@ -52,11 +73,11 @@ class rex_input_date extends rex_input
 
     public function setAttribute($name, $value)
     {
-        if ($name == 'name') {
+        if ('name' == $name) {
             $this->yearSelect->setName($value . '[year]');
             $this->monthSelect->setName($value . '[month]');
             $this->daySelect->setName($value . '[day]');
-        } elseif ($name == 'id') {
+        } elseif ('id' == $name) {
             $this->yearSelect->setId($value . '_year');
             $this->monthSelect->setId($value . '_month');
             $this->daySelect->setId($value);
@@ -86,8 +107,9 @@ class rex_input_date extends rex_input
 
     public function getHtml()
     {
-        return $this->daySelect->get() .
-                     $this->monthSelect->get() .
-                     $this->yearSelect->get();
+        $yearSelect = clone $this->yearSelect;
+        $yearSelect->addOptions(range($this->startYear ?: 2005, $this->endYear ?: date('Y') + 10), true);
+
+        return $this->daySelect->get() . $this->monthSelect->get() . $yearSelect->get();
     }
 }

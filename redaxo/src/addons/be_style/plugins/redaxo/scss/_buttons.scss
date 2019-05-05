@@ -88,6 +88,15 @@
         float: right;
     }
 }
+.btn-debug-mode,
+.btn-safemode-activate {
+    $normal: (color: darken(#a86500, 20%), background: #f90, border: darken(#f90, 3%));
+    $hover: (color: darken(#a86500, 20%), background: darken(#f90, 3%), border: darken(#f90, 10%));
+    $active: (color: darken(#a86500, 20%), background: darken(#f90, 3%), border: darken(#f90, 10%));
+    $activeHover: (color: darken(#a86500, 20%), background: darken(#f90, 3%), border: darken(#f90, 10%));
+    @include rex-button-variant($normal, $hover, $active, $activeHover);
+    position: relative;
+}
 
 .btn-toolbar > .btn-abort {
     float: right;
@@ -104,4 +113,16 @@
     .input-group > .input-group-btn {
         width: auto;
     }
+}
+
+// highlight buttons: show animation when :active
+.btn.btn-highlight {
+    transition: all 1000ms ease-out 1000ms, outline 800ms ease-out 100ms;
+    outline: 25px solid rgba($color-b-light, 0);
+}
+.btn.btn-highlight:active {
+    transition: all 0ms linear 0ms;
+    background-color: $color-b;
+    border-color: $color-b;
+    outline: 0px solid rgba($color-b-light, 1);
 }

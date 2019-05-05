@@ -40,7 +40,7 @@ class rex_input_medialistbutton extends rex_input
     public function getHtml()
     {
         $buttonId = $this->buttonId;
-        $value = htmlspecialchars($this->value);
+        $value = rex_escape($this->value);
         $name = $this->attributes['name'];
         $args = $this->args;
 

@@ -1,7 +1,6 @@
 structure = Struttura
 
 title_structure = Amminstrazione struttura
-homepage = Homepage
 root_level = Livello principale
 no_such_category = Categoria inesistente!
 category_updated = Categoria aggiornata.
@@ -36,6 +35,8 @@ start_article = Articolo di partenza
 no_article_available  =  Nessun articolo disponibile
 structure_categories_caption = Elenco di sottocategorie della categoria "{0}"
 structure_articles_caption = Elenco di articoli della categoria "{0}"
+structure_root_level_articles_caption =
+structure_root_level_categories_caption =
 article_deleted = Articolo cancellato!
 article_could_not_be_generated  =  Non era possibile creare l'articolo.
 category_deleted  =  Categoria cancellata!
@@ -65,7 +66,6 @@ perm_options_moveArticle[] = Spostare articolo
 perm_options_moveCategory[] = Spostare categoria
 perm_options_publishArticle[] = Pubblicare l'articolo
 perm_options_publishCategory[] = Pubblicare la categoria
-perm_extras_editContentOnly[] = Possono essere curato solo contenuti
 
 system_setting_start_article_id = Articolo di partenza
 system_setting_notfound_article_id = Articolo d'errore

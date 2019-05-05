@@ -7,7 +7,8 @@ dateformat = %d/ %b/ %Y
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Configurações
 
-datetimeformat = %d. %m. %A - %H:%Mh
+datetimeformat = %d. %m. %Y - %H:%Mh
+timeformat = %H:%Mh
 ctrl = Seleção múltipla usando <kbd>CTRL</kbd> ou <kbd>CMD</kbd>
 
 # Allgemein
@@ -96,7 +97,7 @@ clang_function = Funções
 version = Versão
 host = Host
 database = Bando de dados
-syslog = Log do sistema
+syslog_redaxo = REDAXO
 syslog_delete = Apagar log do sistema
 syslog_deleted = Log do sistema foi apagado
 syslog_delete_error = Erro durante a exclusão do log do sistema
@@ -367,6 +368,7 @@ clang_error_idcanotbedeleted = Id do idioma (clang)  com o Id "{0}" não existe.
 
 # footer
 footer_joinforum = Visitar os fórums
+footer_doku = Documentação
 footer_datetime = {0}
 footer_scripttime = {0} sec.
 footer_credits = Créditos

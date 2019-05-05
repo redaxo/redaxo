@@ -9,12 +9,14 @@
  * @author <a href="https://www.redaxo.org">www.redaxo.org</a>
  *
  * @package redaxo\be-style
- *
- * @var rex_addon $this
  */
+
+$addon = rex_addon::get('be_style');
 
 $files = require __DIR__.'/vendor_files.php';
 
 foreach ($files as $source => $destination) {
-    rex_file::copy($this->getPath($source), $this->getAssetsPath($destination));
+    if (false === rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination))) {
+        throw new rex_functional_exception('Unable to copy file from "'. $addon->getPath($source) .'" to "'. $addon->getAssetsPath($destination) .'"');
+    }
 }

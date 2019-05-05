@@ -1,6 +1,7 @@
 backup_information = Information
 backup_title = Backup
 backup_file_deleted = Datei wurde gelöscht
+backup_file_error_while_delete = Datei konnte nicht gelöscht werden
 backup_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
 backup_no_valid_import_file = Das ist keine korrekte Importdatei
 backup_no_valid_charset = Kein passender Zeichensatz.
@@ -39,8 +40,8 @@ backup_import_file = Datei importieren
 backup_delete_file = Datei l&ouml;schen
 backup_download_file = Datei herunterladen
 backup_check_rights_in_directory = Backup konnte auf den/die Ordner nicht zugreifen oder es wurde keiner ausgew&auml;hlt.
-backup_file_could_not_be_generated  = Datei konnte nicht erstellt werden.
-backup_file_generated_in  = Daten wurden gesichert in
+backup_file_could_not_be_generated = Datei konnte nicht erstellt werden.
+backup_file_generated_in = Daten wurden gesichert in
 
 backup_proceed_db_import = Bestehende Daten (Artikel, Templates, Module,...) gehen verloren. Fortfahren ?
 backup_proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?

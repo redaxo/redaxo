@@ -1,6 +1,11 @@
 <?php
 
-class rex_managed_media_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_managed_media_test extends TestCase
 {
     public function testConstructor()
     {

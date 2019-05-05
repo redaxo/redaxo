@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_control_element extends rex_form_element
 {
@@ -11,7 +11,7 @@ class rex_form_control_element extends rex_form_element
     private $resetElement;
     private $abortElement;
 
-    public function __construct(rex_form $table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
+    public function __construct(rex_form_base $table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
     {
         parent::__construct('', $table);
 
@@ -101,7 +101,7 @@ class rex_form_control_element extends rex_form_element
 
     public function submitted($element)
     {
-        return is_object($element) && rex_post($element->getAttribute('name'), 'string') != '';
+        return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
     }
 
     public function saved()

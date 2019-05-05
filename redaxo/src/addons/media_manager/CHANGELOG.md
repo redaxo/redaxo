@@ -1,6 +1,61 @@
 Changelog
 =========
 
+Version 2.6.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Neue Methode `rex_media_manager::getUrl` zum Erzeugen der Media-Manager-URLs, inkl. EP `MEDIA_MANAGER_URL` (@gharlan)
+* Unterstützung für HTTP-Range um Videos besser zu unterstützen (@bloep)
+* Neue EPs: `MEDIA_MANAGER_BEFORE_SEND` und `MEDIA_MANAGER_AFTER_SEND` (@tbaddade)
+* Recht "media_manager[]" entfernt, nur Admins dürfen Media Manager verwalten (@staabm)
+* Wenn Cache-Buster-Param verwendet, werden immutable-Cache-Header gesetzt (@staabm)
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@gharlan)
+
+### Bugfixes
+
+* Beim Löschen eines Media-Typs blieben die Effekte in der DB erhalten (@gharlan)
+* Besserer Umgang mit großen Dateien (@bloep)
+* Effekt `image_properties`: Nach Aktivierung des Interlace-Modus konnte es zu Warnings kommen, die eine korrekte Auslieferung der Bilder verhindern konnte (@gharlan)
+* Effekt `flip`: Transparenz wurde nicht erhalten (@staabm)
+* CSS/JS-Dateien werden nun als `text/css`/`application/javascript` statt `text/plain` ausgeliefert (@TobiasKrais)
+
+
+Version 2.5.7 – 01.10.2018
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken (Cross-Site-Scripting) behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+
+Version 2.5.6 – 10.07.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) geschlossen (gemeldet von Matthias Niedung, https://hackerwerkstatt.com) (@gharlan)
+
+### Bugfixes
+
+* Es wurden unnötig Cache-Dateien erstellt, auch wenn keine Effekte angewandt wurden (@gharlan)
+
+
+Version 2.5.5 – 21.06.2018
+--------------------------
+
+### Bugfixes
+
+* Effekt `convert2img`: Der Cli-`convert`-Befehl wurde teils nicht gefunden, obwohl vorhanden (@staabm)
+
+
+Version 2.5.4 – 05.06.2018
+--------------------------
+
+* Sprachdateien aktualisiert
+
+
 Version 2.5.3 – 03.01.2018
 --------------------------
 

@@ -1,6 +1,44 @@
 Changelog
 =========
 
+Version 2.7.1 – 01.04.2019
+--------------------------
+
+* Markdown-Ausgabe: Layout nicht mehr in der Breite zerschießen (@ansichtsache)
+
+
+Version 2.7.0 – 12.03.2019
+--------------------------
+
+* Layout für neue Core-Komponenten und diverse kleine Optimierungen (@tbaddade)
+* Hauptnavi: Weniger Padding (top/bottom) (@schuer)
+* Neue Favicons (@schuer)
+* Consolen-Command `be_style:compile` (@bloep)
+* Codemirror-Integration verbessert (@aeberhard)
+    - Sourcen verkleinert (@aeberhard, @staabm)
+    - Ergänzt um Suche (@aeberhard)
+    - Vereinfachte Einbindung systemweit (@aeberhard)
+    - CodeMirror wird nur geladen wenn er auch benötigt wird (@aeberhard, @staabm)
+* Customizer: 
+    - Bessere Default-Erkennungsfarbe (@skerbis)
+    - Bessere Darstellung des Links zur Website im Header (@schuer)
+
+
+Version 2.6.1 – 10.07.2018
+--------------------------
+
+* Keine fixe Breite für die Aktionsspalten in Tabellen (@gharlan)
+* Normale Schriftgröße für `<blockquote>` (@gharlan)
+
+
+Version 2.6.0 – 05.06.2018
+--------------------------
+
+* Update bootstrap-select (1.12.4), scssphp (0.7.6) (@gharlan)
+* Update CodeMirror (5.38) mit neuen Optionen (@aeberhard)
+* Korrektur Suchfeld in bootstrap-select (@skerbis)
+
+
 Version 2.4.0 – 21.12.2017
 --------------------------
 

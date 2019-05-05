@@ -448,7 +448,7 @@ jQuery(function($){
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        setCookie('htaccess_check', '1', time.toGMTString());
+        setCookie('htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
         checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
@@ -457,7 +457,7 @@ jQuery(function($){
 
     function checkHtaccess(dir, file)
     {
-        $.get(dir +'/'+ file,
+        $.get(dir +'/'+ file +'?redaxo-security-self-test',
             function(data) {
                 $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
                 setCookie('htaccess_check', '');
@@ -469,7 +469,7 @@ jQuery(function($){
 
 // cookie functions
 
-function setCookie(name, value, expires, path, domain, secure) {
+function setCookie(name, value, expires, path, domain, secure, samesite) {
     if (typeof expires != undefined && expires == "never") {
         // never expire means expires in 3000 days
         expires = new Date();
@@ -481,7 +481,8 @@ function setCookie(name, value, expires, path, domain, secure) {
         + ((expires) ? "; expires=" + expires : "")
         + ((path) ? "; path=" + path : "")
         + ((domain) ? "; domain=" + domain : "")
-        + ((secure) ? "; secure" : "");
+        + ((secure) ? "; secure" : "")
+        + ((samesite) ? "; samesite=" + samesite : "");
 }
 
 function getCookie(cookieName) {
@@ -630,11 +631,6 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
-
-                var time = xhr.getResponseHeader('X-Redaxo-Script-Time');
-                if (time) {
-                    $('.rex-js-script-time').text(time);
-                }
 
                 options.context.trigger('rex:ready', [options.context]);
             });

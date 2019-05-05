@@ -79,7 +79,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
     public function formatElement()
     {
-        $range = function ($low, $high, $step = 1) {
+        $range = static function ($low, $high, $step = 1) {
             foreach (range($low, $high, $step) as $i) {
                 yield $i => str_pad($i, 2, '0', STR_PAD_LEFT);
             }
@@ -104,7 +104,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $n = [];
         $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_weekdays').'</label>';
-        $weekdays = function () {
+        $weekdays = static function () {
             for ($i = 1; $i < 7; ++$i) {
                 yield $i => strftime('%a', strtotime('last sunday +'.$i.' days'));
             }
@@ -115,7 +115,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
 
         $n = [];
         $n['label'] = '<label class="control-label">'.rex_i18n::msg('cronjob_interval_months').'</label>';
-        $months = function () {
+        $months = static function () {
             for ($i = 1; $i < 13; ++$i) {
                 yield $i => strftime('%b', mktime(0, 0, 0, $i, 1));
             }
@@ -153,7 +153,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
     protected function formatField($group, $optionAll, $options, $default = 'all')
     {
         $value = $this->getValue();
-        $value = isset($value[$group]) ? $value[$group] : $default;
+        $value = $value[$group] ?? $default;
 
         $field = '<div class="rex-js-cronjob-interval-all rex-cronjob-interval-all">';
 
@@ -164,8 +164,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
         $checked = 'all' === $value ? ' checked="checked"' : '';
 
         $elements[] = [
-            'label' => '<label class="control-label" for="' . htmlspecialchars($id) . '">' . $optionAll . '</label>',
-            'field' => '<input type="checkbox" id="' . htmlspecialchars($id) . '" name="' . htmlspecialchars($name) . '" value="all"' . $checked . ' />',
+            'label' => '<label class="control-label" for="' . rex_escape($id) . '">' . $optionAll . '</label>',
+            'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="all"' . $checked . ' />',
         ];
 
         $fragment = new rex_fragment();
@@ -182,8 +182,8 @@ class rex_cronjob_form_interval_element extends rex_form_element
             $checked = is_array($value) && in_array($key, $value) ? ' checked="checked"' : '';
 
             $elements[] = [
-                'label' => '<label class="control-label" for="' . htmlspecialchars($id) . '">' . $label . '</label>',
-                'field' => '<input type="checkbox" id="' . htmlspecialchars($id) . '" name="' . htmlspecialchars($name) . '" value="' . $key . '"' . $checked . ' />',
+                'label' => '<label class="control-label" for="' . rex_escape($id) . '">' . $label . '</label>',
+                'field' => '<input type="checkbox" id="' . rex_escape($id) . '" name="' . rex_escape($name) . '" value="' . $key . '"' . $checked . ' />',
             ];
         }
 

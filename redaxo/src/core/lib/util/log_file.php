@@ -48,10 +48,10 @@ class rex_log_file implements Iterator
         if (!file_exists($path)) {
             rex_file::put($path, '');
         }
-        if ($maxFileSize && file_exists($path) && filesize($path) > $maxFileSize) {
+        if ($maxFileSize && filesize($path) > $maxFileSize) {
             rename($path, $path . '.2');
         }
-        $this->file = fopen($path, 'a+b');
+        $this->file = fopen($path, 'a+');
     }
 
     /**
@@ -91,7 +91,7 @@ class rex_log_file implements Iterator
             }
             // switch to file2 and reset position
             if (!$this->file2) {
-                $this->file2 = fopen($path2, 'rb');
+                $this->file2 = fopen($path2, 'r');
             }
             $this->second = true;
             $this->pos = null;
@@ -220,6 +220,7 @@ class rex_log_entry
      */
     public static function createFromString($string)
     {
+        $data = [];
         foreach (explode('|', $string) as $part) {
             $data[] = str_replace('\n', "\n", trim($part));
         }
