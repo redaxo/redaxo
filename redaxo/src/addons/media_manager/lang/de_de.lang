@@ -127,6 +127,7 @@ media_manager_effect_folder = Alternativen Ordner default: "media"
 
 media_manager_effect_mediapath = Datei: Pfad anpassen
 media_manager_effect_mediapath_path = Medienordner
+media_manager_effect_mediapath_path_notice Pfad zur Bildquelle relativ zur REDAXO-Installation anstelle von <code>media</code>, z.B. das Verzeichnis <code>bilder</code>. Führendes / Abschließendes Slash (<code>/<code>) nicht erforderlich.
 
 media_manager_effect_header = Datei: Header anpassen
 media_manager_effect_header_download = Download
@@ -135,6 +136,8 @@ media_manager_effect_header_cache = Cache-Control
 media_manager_effect_convert2img = Datei: In Bild konvertieren
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
+media_manager_effect_convert2img_density_notice = Zielformat, in das die erste Seite eines PDF-Dokuments oder einer TIFF-Datei konvertiert wird.
+media_manager_effect_convert2img_convertto_notice = Zielformat, in das die Datei konvertiert wird. Es werden folgende Dateiendungen berücksichtigt: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico</code>.
 
 media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.
