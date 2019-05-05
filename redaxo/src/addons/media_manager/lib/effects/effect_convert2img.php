@@ -105,7 +105,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::$convert_tos,
                 'default' => self::$convert_to_default,
-                'label' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
+                'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_convert2img_density'),
@@ -113,7 +113,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::$densities,
                 'default' => self::$density_default,
-                'label' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
+                'notice' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
             ],
         ];
     }
