@@ -44,13 +44,14 @@ class rex_effect_header extends rex_effect_abstract
             $this->media->setHeader('Cache-Control', $cacheControl);
         }
 
-        if ('download' == $this->params['download']) {
-            if($this->params['filename'] == "originalname") {
-                $this->media->setHeader('Content-Disposition', 'attachment; filename="' . rex_media::get($this->media->getMediaFilename())->getOriginalFileName() . '";');
-            } else {
-                $this->media->setHeader('Content-Disposition', 'attachment; filename="' . basename($this->media->getMediaFilename()) . '";');
-            }
+        $disposition = 'download' == $this->params['download'] ? 'attachment' : 'inline';
+        $disposition .= '; filename="' . basename($this->media->getMediaFilename()) . '"';
+
+        if ('originalname' == $this->params['filename']) {
+            $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
         }
+
+        $this->media->setHeader('Content-Disposition', $disposition);
 
         /*
          header("Pragma: public"); // required
