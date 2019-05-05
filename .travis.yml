@@ -71,6 +71,8 @@ jobs:
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
+        -   <<: *TEST_MYSQL
+            php: 7.4snapshot
 
 matrix:
     allow_failures:
