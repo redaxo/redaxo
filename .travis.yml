@@ -22,10 +22,17 @@ jobs:
     include:
         -   php: 7.1
             env: TYPE=linting
+            services:
+                - mysql
+            install:
+                - mysql -e 'create database redaxo_5_0;'
+                - php redaxo/src/addons/tests/bin/setup.php
             script:
                 - composer require --dev friendsofredaxo/linter
                 - vendor/bin/rexlint
-
+                
+                - php redaxo/bin/console be_style:compile
+                - git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
         -   php: 7.3
             env: TYPE=phpstan
             services:
