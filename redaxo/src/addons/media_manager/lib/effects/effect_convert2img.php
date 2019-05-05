@@ -63,7 +63,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $convert_path = self::getConvertPath();
 
-        if ($convert_path == '') {
+        if ('' == $convert_path) {
             return;
         }
 
@@ -76,7 +76,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         exec($cmd, $out, $ret);
 
-        if ($ret != 0) {
+        if (0 != $ret) {
             return false;
         }
 
@@ -86,7 +86,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $this->media->setMediaFilename($filename);
         $this->media->setHeader('Content-Type', $convert_to['content-type']);
 
-        register_shutdown_function(function () use ($to_path) {
+        register_shutdown_function(static function () use ($to_path) {
             rex_file::delete($to_path);
         });
     }
@@ -127,7 +127,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $cmd = 'command -v convert || which convert';
             exec($cmd, $out, $ret);
 
-            if ($ret === 0) {
+            if (0 === $ret) {
                 $path = $out[0];
             }
         }
