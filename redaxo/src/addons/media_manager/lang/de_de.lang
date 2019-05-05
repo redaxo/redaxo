@@ -127,7 +127,7 @@ media_manager_effect_folder = Alternativen Ordner default: "media"
 
 media_manager_effect_mediapath = Datei: Pfad anpassen
 media_manager_effect_mediapath_path = Medienordner
-media_manager_effect_mediapath_path_notice Pfad zur Bildquelle relativ zur REDAXO-Installation anstelle von <code>media</code>, z.B. das Verzeichnis <code>bilder</code>. Führendes / Abschließendes Slash (<code>/<code>) nicht erforderlich.
+media_manager_effect_mediapath_path_notice = Pfad zur Bildquelle relativ zur REDAXO-Installation anstelle von <code>media</code>, z.B. das Verzeichnis <code>bilder</code>. Führendes / Abschließendes Slash (<code>/</code>) nicht erforderlich.
 
 media_manager_effect_header = Datei: Header anpassen
 media_manager_effect_header_download = Download
