@@ -188,12 +188,15 @@ class rex_navigation
      *
      * @param callable   $callback z.B. myFunc oder myClass::myMethod
      * @param int|string $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     *
+     * @return $this
      */
     public function addCallback($callback, $depth = '')
     {
         if ('' != $callback) {
             $this->callbacks[] = ['callback' => $callback, 'depth' => $depth];
         }
+        return $this;
     }
 
     private function _setActivePath()
