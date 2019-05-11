@@ -44,9 +44,14 @@ class rex_effect_header extends rex_effect_abstract
             $this->media->setHeader('Cache-Control', $cacheControl);
         }
 
-        if ('download' == $this->params['download']) {
-            $this->media->setHeader('Content-Disposition', 'attachment; filename="' . basename($this->media->getMediaFilename()) . '";');
+        $disposition = 'download' == $this->params['download'] ? 'attachment' : 'inline';
+        $disposition .= '; filename="' . basename($this->media->getMediaFilename()) . '"';
+
+        if ('originalname' == $this->params['filename']) {
+            $disposition .= "; filename*=utf-8''" . rawurldecode(rex_media::get($this->media->getMediaFilename())->getOriginalFileName());
         }
+
+        $this->media->setHeader('Content-Disposition', $disposition);
 
         /*
          header("Pragma: public"); // required
@@ -77,6 +82,14 @@ class rex_effect_header extends rex_effect_abstract
                 'type' => 'select',
                 'options' => ['no_cache', 'unspecified', 'max-age: 1 min', 'max-age: 1 hour', 'max-age: 1 day', 'max-age: 1 week', 'max-age: 1 month', 'max-age: 1 year', 'immutable'],
                 'default' => 'no_cache',
+            ],
+            [
+                'label' => rex_i18n::msg('media_manager_effect_header_filename'),
+                'name' => 'filename',
+                'type' => 'select',
+                'options' => ['filename', 'originalname'],
+                'default' => 'filename',
+                'notice' => rex_i18n::msg('media_manager_effect_header_filename_notice'),
             ],
         ];
     }
