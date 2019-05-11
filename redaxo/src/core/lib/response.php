@@ -493,7 +493,7 @@ class rex_response
         if (null !== $sameSite) {
             $sameSite = strtolower($sameSite);
         }
-        if (!in_array($sameSite, ['lax', 'strict', null], true)) {
+        if (!in_array($sameSite, ['lax', 'strict', 'none', null], true)) {
             throw new \InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
 
