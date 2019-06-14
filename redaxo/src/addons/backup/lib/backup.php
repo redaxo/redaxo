@@ -536,8 +536,21 @@ class rex_backup
             }
 
             if (!empty($values)) {
-                fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ' . implode(',', $values) . ';');
+                fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ');
+
+                // iterate the values instead of implode() to save a few MB memory
+                $numValues = count($values);
+                $lastIdx = $numValues - 1;
+                for ($i = 0; $i < $numValues; ++$i) {
+                    if ($i == $lastIdx) {
+                        fwrite($fp, $values[$i]);
+                    } else {
+                        fwrite($fp, $values[$i]. ',');
+                    }
+                }
                 unset($values);
+
+                fwrite($fp, ';');
             }
         } while ($count >= $max);
     }
