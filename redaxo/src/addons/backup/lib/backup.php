@@ -368,64 +368,7 @@ class rex_backup
             $start = 0;
             $max = $insertSize;
 
-            do {
-                $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
-                $count = $sql->getRows();
-
-                if ($count > 0 && 0 == $start) {
-                    fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
-                    fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
-                } elseif (0 == $count) {
-                    break;
-                }
-
-                $start += $max;
-                $values = [];
-
-                foreach ($array as $row) {
-                    $record = [];
-
-                    foreach ($fields as $idx => $type) {
-                        $column = $row[$idx];
-
-                        switch ($type) {
-                            // prevent calling sql->escape() on values with a known format
-                            case 'raw':
-                                $record[] = "'". $column ."'";
-                                break;
-                            case 'int':
-                                $record[] = (int) $column;
-                                break;
-                            case 'double':
-                                $record[] = sprintf('%.10F', (float) $column);
-                                break;
-                            case 'string':
-                                // fast-exit for very frequent used harmless values
-                                if ('0' === $column || '' === $column || ' ' === $column || '|' === $column || '||' === $column) {
-                                    $record[] = "'". $column ."'";
-                                    break;
-                                }
-
-                                // fast-exit for very frequent used harmless values
-                                if (strlen($column) <= 3 && ctype_alnum($column)) {
-                                    $record[] = "'". $column ."'";
-                                    break;
-                                }
-                                // no break
-                            default:
-                                $record[] = $sql->escape($column);
-                                break;
-                        }
-                    }
-
-                    $values[] = $nl . '  (' . implode(',', $record) . ')';
-                }
-
-                if (!empty($values)) {
-                    fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ' . implode(',', $values) . ';');
-                    unset($values);
-                }
-            } while ($count >= $max);
+            self::exportTable($table, $start, $max, $fp, $nl, $fields);
 
             if ($start > 0) {
                 fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' ENABLE KEYS */;');
@@ -533,5 +476,68 @@ class rex_backup
         if (file_exists($filename)) {
             require $filename;
         }
+    }
+
+    private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
+    {
+        do {
+            $sql = rex_sql::factory();
+            $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
+            $count = $sql->getRows();
+
+            if ($count > 0 && 0 == $start) {
+                fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
+                fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
+            } elseif (0 == $count) {
+                break;
+            }
+
+            $start += $max;
+            $values = [];
+
+            foreach ($array as $row) {
+                $record = [];
+
+                foreach ($fields as $idx => $type) {
+                    $column = $row[$idx];
+
+                    switch ($type) {
+                        // prevent calling sql->escape() on values with a known format
+                        case 'raw':
+                            $record[] = "'" . $column . "'";
+                            break;
+                        case 'int':
+                            $record[] = (int)$column;
+                            break;
+                        case 'double':
+                            $record[] = sprintf('%.10F', (float)$column);
+                            break;
+                        case 'string':
+                            // fast-exit for very frequent used harmless values
+                            if ('0' === $column || '' === $column || ' ' === $column || '|' === $column || '||' === $column) {
+                                $record[] = "'" . $column . "'";
+                                break;
+                            }
+
+                            // fast-exit for very frequent used harmless values
+                            if (strlen($column) <= 3 && ctype_alnum($column)) {
+                                $record[] = "'" . $column . "'";
+                                break;
+                            }
+                        // no break
+                        default:
+                            $record[] = $sql->escape($column);
+                            break;
+                    }
+                }
+
+                $values[] = $nl . '  (' . implode(',', $record) . ')';
+            }
+
+            if (!empty($values)) {
+                fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ' . implode(',', $values) . ';');
+                unset($values);
+            }
+        } while ($count >= $max);
     }
 }
