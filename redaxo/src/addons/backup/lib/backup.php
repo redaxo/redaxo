@@ -482,7 +482,7 @@ class rex_backup
     {
         do {
             $sql = rex_sql::factory();
-            $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
+            $sql->setQuery('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max);
             $count = $sql->getRows();
 
             if ($count > 0 && 0 == $start) {
@@ -495,11 +495,12 @@ class rex_backup
             $start += $max;
             $values = [];
 
-            foreach ($array as $row) {
+            foreach ($sql as $row) {
                 $record = [];
+                $array = $row->getRow(PDO::FETCH_NUM);
 
                 foreach ($fields as $idx => $type) {
-                    $column = $row[$idx];
+                    $column = $array[$idx];
 
                     switch ($type) {
                         // prevent calling sql->escape() on values with a known format
@@ -507,10 +508,10 @@ class rex_backup
                             $record[] = "'" . $column . "'";
                             break;
                         case 'int':
-                            $record[] = (int)$column;
+                            $record[] = (int) $column;
                             break;
                         case 'double':
-                            $record[] = sprintf('%.10F', (float)$column);
+                            $record[] = sprintf('%.10F', (float) $column);
                             break;
                         case 'string':
                             // fast-exit for very frequent used harmless values
