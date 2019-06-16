@@ -167,9 +167,9 @@ class rex_i18n
     /**
      * Returns the message fallback for a missing key in main locale.
      *
-     * @param string $key    A Language-Key
-     * @param array  $args   A arbritary number of strings used for interpolating within the resolved message
-     * @param string $locale A Locale
+     * @param string   $key    A Language-Key
+     * @param string[] $args   A arbritary number of strings used for interpolating within the resolved message
+     * @param string   $locale A Locale
      *
      * @return string
      */
