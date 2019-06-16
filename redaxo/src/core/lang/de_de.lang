@@ -20,7 +20,7 @@ edit = editieren
 update = aktualisieren
 view = ansehen
 path = Pfad
-id = Id
+id = ID
 name = Name
 description = Beschreibung
 email = E-Mail
@@ -83,7 +83,7 @@ main_preferences = Einstellungen
 language = Sprache
 languages = Sprachen
 languages_edit = Sprachen bearbeiten
-id_exists = Id existiert schon.
+id_exists = ID existiert schon.
 enter_code = Bitte geben sie einen Code ein.
 enter_name = Bitte einen Namen eingeben.
 clang_add = Sprache hinzufügen
@@ -419,8 +419,8 @@ form_resetted = Eingaben wurden verworfen!
 # clang
 all_clangs = Alle Sprachen
 clangs = Sprachen
-clang_error_startidcanotbedeleted = Startsprache (clang) mit der Id "{0}" kann nicht gelöscht werden
-clang_error_idcanotbedeleted = Sprachid (clang) mit der Id "{0}" existiert nicht
+clang_error_startidcanotbedeleted = Startsprache (clang) mit der ID "{0}" kann nicht gelöscht werden
+clang_error_idcanotbedeleted = Sprache (clang) mit der ID "{0}" existiert nicht
 
 
 
