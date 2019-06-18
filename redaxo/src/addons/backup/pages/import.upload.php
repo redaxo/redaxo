@@ -142,7 +142,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('backup_database_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export_db_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
@@ -184,7 +184,7 @@ $buttons = $fragment->parse('core/form/submit.php');
 $content .= '</fieldset>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('backup_file_export'), false);
+$fragment->setVar('title', rex_i18n::msg('backup_export_file_caption'), false);
 $fragment->setVar('body', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
