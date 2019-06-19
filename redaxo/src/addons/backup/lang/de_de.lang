@@ -30,8 +30,8 @@ backup_filesize = Dateigröße
 backup_delete = löschen
 backup_files = Dateienimport
 backup_intro_export = Hier können Sie Ihre jetzigen Eingaben und Dateien von REDAXO sichern. Um eine vollständige Sicherung zu erhalten müssen Sie <b>die Datenbank UND die Dateien exportieren</b>. Wenn Sie die Sicherung wiederverwenden wollen, dann kann es Sinn machen diese direkt auf dem Server abzulegen und bei Bedarf direkt wieder zu importieren.
-backup_database_export = Datenbank Backup erstellen
-backup_file_export = Datei Backup erstellen
+backup_database_export = Datenbank-Backup erstellen
+backup_file_export = Datei-Backup erstellen
 backup_save_on_server = Auf dem Server speichern
 backup_download_as_file = Als Datei herunterladen
 backup_createdate = Erstellt am
@@ -46,8 +46,8 @@ backup_file_generated_in = Daten wurden gesichert in
 backup_proceed_db_import = Bestehende Daten (Artikel, Templates, Module,...) gehen verloren. Fortfahren ?
 backup_proceed_file_import = Bestehende Dateien werden gelöscht. Fortfahren ?
 
-backup_export_db_caption = Datenbank Backup wiederherstellen
-backup_export_file_caption = Datei Backup wiederherstellen
+backup_export_db_caption = Datenbank-Backup wiederherstellen
+backup_export_file_caption = Datei-Backup wiederherstellen
 
 backup_function = Funktion
 
