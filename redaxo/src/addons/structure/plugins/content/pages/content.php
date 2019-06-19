@@ -380,7 +380,18 @@ if (1 == $article->getRows()) {
         $navigation = current($blocks);
         $content_navi_right = $navigation['navigation'];
 
-        $content_navi_right[] = ['title' => '<a href="' . rex_getUrl($article_id, $clang) . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
+		### Wenn Version-Plugin aktiv => Link des "Artikel anzeigen"-Reiters => Arbeitsversion berücksichtigen
+		if(rex_plugin::get('structure', 'version')->isAvailable() === true){
+    		$revision = rex::getProperty('login')->getSessionVar('rex_version_article');
+			$link = ($revision[$article_id] == 1)
+	    		? rex_getUrl($article_id, $clang, ['rex_version' => $revision[$article_id]])
+				: rex_getUrl($article_id, $clang, []);
+		}
+		else {
+		    $link = rex_getUrl($article_id, $clang);
+		}
+				
+        $content_navi_right[] = ['title' => '<a href="' . $link . '" onclick="window.open(this.href); return false;"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('article') . ' ' . rex_i18n::msg('show') . '</a>'];
 
         $fragment = new rex_fragment();
         $fragment->setVar('id', 'rex-js-structure-content-nav', false);
