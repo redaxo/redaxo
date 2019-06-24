@@ -19,6 +19,9 @@ class rex_effect_convert2img extends rex_effect_abstract
         'bmp',
         'eps',
         'ico',
+        'jpg',
+        'jpeg',
+        'png',
         // 'svg'
     ];
     private static $convert_to = [
@@ -30,10 +33,14 @@ class rex_effect_convert2img extends rex_effect_abstract
             'ext' => 'png',
             'content-type' => 'image/png',
         ],
+        'webp' => [
+            'ext' => 'webp',
+            'content-type' => 'image/webp',
+        ],
     ];
     private static $densities = [100, 150, 200, 300, 600];
     private static $density_default = 150;
-    private static $convert_tos = ['jpg', 'png'];
+    private static $convert_tos = ['jpg', 'png', 'webp'];
     private static $convert_to_default = 'jpg';
 
     public function execute()
@@ -63,7 +70,7 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $convert_path = self::getConvertPath();
 
-        if ('' == $convert_path) {
+        if ($convert_path == '') {
             return;
         }
 
@@ -75,8 +82,10 @@ class rex_effect_convert2img extends rex_effect_abstract
         $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]" -colorspace RGB "' . $to_path . '"';
 
         exec($cmd, $out, $ret);
+        
+        rex_logger::logError(E_NOTICE, (string)$ret, "effect_convert2img.php", 81);
 
-        if (0 != $ret) {
+        if ($ret != 0) {
             return false;
         }
 
@@ -86,7 +95,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         $this->media->setMediaFilename($filename);
         $this->media->setHeader('Content-Type', $convert_to['content-type']);
 
-        register_shutdown_function(static function () use ($to_path) {
+        register_shutdown_function(function () use ($to_path) {
             rex_file::delete($to_path);
         });
     }
@@ -105,7 +114,6 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::$convert_tos,
                 'default' => self::$convert_to_default,
-                'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
             [
                 'label' => rex_i18n::msg('media_manager_effect_convert2img_density'),
@@ -113,7 +121,6 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::$densities,
                 'default' => self::$density_default,
-                'notice' => rex_i18n::msg('media_manager_effect_convert2img_density_notice'),
             ],
         ];
     }
@@ -127,7 +134,7 @@ class rex_effect_convert2img extends rex_effect_abstract
             $cmd = 'command -v convert || which convert';
             exec($cmd, $out, $ret);
 
-            if (0 === $ret) {
+            if ($ret === 0) {
                 $path = $out[0];
             }
         }
