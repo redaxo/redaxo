@@ -1,0 +1,38 @@
+/index.php
+/assets/addons/
+/assets/core/
+/media/
+!/media/.redaxo
+/redaxo/index.php
+/redaxo/cache/
+/redaxo/src/
+/redaxo/data/core/system.log
+/redaxo/data/core/config.yml
+*.log
+/.htaccess
+
+# Addon Backup
+/redaxo/data/addons/backup/
+
+# Addon Installer: archivierte Addon-ZIPs
+/redaxo/data/addons/install/*
+
+# Addon Cronjob: Logs und Export-Dateien
+redaxo/data/addons/cronjob/cronjob.log
+*.cronjob.sql
+
+# Addon PHP-Mailer: Logs
+/redaxo/data/addons/phpmailer/mail_log/
+
+# Addon Icecoder
+/icecoder/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Windows 
+Thumbs.db
