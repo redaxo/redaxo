@@ -145,7 +145,7 @@ system_report_markdown = Als markdown
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
 setup_restart = Setup neu starten
-setup_text = Hier können Sie das Setup erneut starten. Dies sollten Sie nur im Notfall machen. Unter normalen Umständen ist es nicht nötig.
+setup_text = Hiermit wird das REDAXO-Setup gestartet, z.B. nach einer Neuinstallation oder einem Server-Umzug. Das Setup sollte nur aktiviert werden, wenn die Website nicht für Besucher erreichbar ist, da senisble Daten angezeigt werden – z.B. die Datenbankverbindung oder E-Mail-Adressen.
 setup_error1 = Setup aktiviert. Bitte klicken Sie auf auf {0}weiter{1} und führen das Setup aus.
 setup_error2 = Leider konnte die config.yml nicht beschrieben werden. Bitte tragen Sie dort in der \"setup: true\" ein
 
