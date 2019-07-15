@@ -148,7 +148,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     /**
      * {@inheritdoc}
      */
-    public function i18n($key)
+    public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
         $key = $this->getAddon()->getName() . '_' . $this->getName() . '_' . $key;
