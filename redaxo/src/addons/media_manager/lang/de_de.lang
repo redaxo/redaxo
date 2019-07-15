@@ -20,7 +20,7 @@ media_manager_png_compression_note = Werte über 6-7 verlangsamen die Bilderzeug
 media_manager_webp_quality = WebP-Qualität
 media_manager_interlace = Interlace/Progressive-Modus
 
-media_manager_id = Id
+media_manager_id = ID
 media_manager_name = Name
 media_manager_edittype = Mediatypen bearbeiten
 media_manager_settings = Einstellungen
