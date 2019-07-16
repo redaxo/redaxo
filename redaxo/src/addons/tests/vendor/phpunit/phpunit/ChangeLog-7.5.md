@@ -2,6 +2,51 @@
 
 All notable changes of the PHPUnit 7.5 release series are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [7.5.14] - 2019-07-15
+
+### Fixed
+
+* Fixed [#3743](https://github.com/sebastianbergmann/phpunit/issues/3743): `EmptyIterator` instances are not handled correctly by `Count` and `IsEmpty` constraints
+
+## [7.5.13] - 2019-06-19
+
+### Fixed
+
+* Fixed [#3722](https://github.com/sebastianbergmann/phpunit/issues/3722): `getObjectForTrait()` does not work for traits that declare a constructor
+* Fixed [#3723](https://github.com/sebastianbergmann/phpunit/pull/3723): Unescaped dash in character group in regular expression
+
+## [7.5.12] - 2019-05-28
+
+### Changed
+
+* After each test, `libxml_clear_errors()` is now called to clear the libxml error buffer
+
+### Fixed
+
+* Fixed [#3694](https://github.com/sebastianbergmann/phpunit/pull/3694): Constructor arguments for `Throwable` and `Exception` are ignored
+* Fixed [#3709](https://github.com/sebastianbergmann/phpunit/pull/3709): Method-level `@coversNothing` annotation does not prevent code coverage data collection
+
+## [7.5.11] - 2019-05-14
+
+### Fixed
+
+* Fixed [#3683](https://github.com/sebastianbergmann/phpunit/issues/3683): Regression in PHPUnit 7.5.10 with regard to Exception stubbing/mocking
+
+## [7.5.10] - 2019-05-09
+
+### Fixed
+
+* Fixed [#3414](https://github.com/sebastianbergmann/phpunit/pull/3414): `willThrowException()` only accepts `Exception`, not `Throwable`
+* Fixed [#3587](https://github.com/sebastianbergmann/phpunit/issues/3587): `.phpunit.result.cache` file is all over the place
+* Fixed [#3596](https://github.com/sebastianbergmann/phpunit/issues/3596): Mocking an interface that extends another interface forgets to mock its own methods
+* Fixed [#3674](https://github.com/sebastianbergmann/phpunit/issues/3674): `TypeError` when an incorrect file path is given
+
+## [7.5.9] - 2019-04-19
+
+### Fixed
+
+* Fixed [#3607](https://github.com/sebastianbergmann/phpunit/issues/3607): Return value generation interferes with proxying to original method
+
 ## [7.5.8] - 2019-03-26
 
 ### Fixed
@@ -87,6 +132,12 @@ All notable changes of the PHPUnit 7.5 release series are documented in this fil
 * Fixed [#3429](https://github.com/sebastianbergmann/phpunit/pull/3429): Inefficient loop in `getHookMethods()`
 * Fixed [#3437](https://github.com/sebastianbergmann/phpunit/pull/3437): JUnit logger skips PHPT tests
 
+[7.5.14]: https://github.com/sebastianbergmann/phpunit/compare/7.5.13...7.5.14
+[7.5.13]: https://github.com/sebastianbergmann/phpunit/compare/7.5.12...7.5.13
+[7.5.12]: https://github.com/sebastianbergmann/phpunit/compare/7.5.11...7.5.12
+[7.5.11]: https://github.com/sebastianbergmann/phpunit/compare/7.5.10...7.5.11
+[7.5.10]: https://github.com/sebastianbergmann/phpunit/compare/7.5.9...7.5.10
+[7.5.9]: https://github.com/sebastianbergmann/phpunit/compare/7.5.8...7.5.9
 [7.5.8]: https://github.com/sebastianbergmann/phpunit/compare/7.5.7...7.5.8
 [7.5.7]: https://github.com/sebastianbergmann/phpunit/compare/7.5.6...7.5.7
 [7.5.6]: https://github.com/sebastianbergmann/phpunit/compare/7.5.5...7.5.6
