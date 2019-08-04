@@ -12,6 +12,7 @@ Das AddOn erlaubt das Anpassen von Grafiken und Handling von Dateien anhand von 
 ```php
 $url = rex_url::frontend().rex_media_manager::getUrl($type,$file); 
 ```
+> Der Pfad zum Medium muss nicht angegeben werden.
 
 ### Direkter Auruf per URL 
 
