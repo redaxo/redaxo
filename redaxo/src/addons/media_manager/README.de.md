@@ -21,8 +21,8 @@ $url = rex_url::frontend().rex_media_manager::getUrl($type,$file);
 
 > MediaTypeName = Der MediaManager-Typ, MediaFileName = Dateiname des Mediums. Der Pfad zum Medium muss nicht angegeben werden.  
 
-## Hiweise
+## Hinweise
 
 ***Effekt "In Bild konvertieren"***
 
-Dieser Effekt benötigt ImageMagick und für PDF Ghostscript als Commandline-Binary, ausführbar per exec
+Dieser Effekt benötigt ImageMagick und für PDF Ghostscript als Commandline-Binary, ausführbar per exec().
