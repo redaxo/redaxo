@@ -98,6 +98,10 @@ class rex_effect_convert2img extends rex_effect_abstract
 
     public function getParams()
     {
+        $im_notfound = '';
+        if ('' == self::getConvertPath()) {
+            $im_notfound = '<strong>'.rex_i18n::msg('media_manager_effect_convert2img_noimagemagick').'</strong>';
+        }
         return [
             [
                 'label' => rex_i18n::msg('media_manager_effect_convert2img_convertto'),
@@ -105,6 +109,7 @@ class rex_effect_convert2img extends rex_effect_abstract
                 'type' => 'select',
                 'options' => self::$convert_tos,
                 'default' => self::$convert_to_default,
+                'prefix' => $im_notfound,
                 'notice' => rex_i18n::msg('media_manager_effect_convert2img_convertto_notice'),
             ],
             [
