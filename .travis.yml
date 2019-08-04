@@ -83,6 +83,10 @@ jobs:
 
 matrix:
     allow_failures:
+      - php: 7.4snapshot
+        env:
+            - TYPE=phpunit
+            - DB=mysql
       - php: 7.1
         env:
             - TYPE=phpunit
