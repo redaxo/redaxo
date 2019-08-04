@@ -11,6 +11,8 @@ The AddOn allows the customization of graphics and handling of files based on me
 ```php
 $url = rex_url::frontend().rex_media_manager::getUrl($type,$file); 
 ```
+> The path to the medium does not have to be specified.  
+
 
 ### Direct call via URL 
 
