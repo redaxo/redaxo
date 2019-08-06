@@ -2,7 +2,7 @@
 
 ## Functions:
 
-The AddOn allows the customization of graphics and handling of files based on media types. The media types are created and configured in the configuration of the AddOn. Each media type can contain any number of effects that are applied to the current medium. To embed a medium, the medium type must be noted in the URL.
+This AddOn allows the customization of graphics and handling of files based on media types. These media types are created and configured in the configuration of the AddOn. Each media type can contain any number of effects that are applied to the current medium. To embed a medium, the medium type must be noted in the URL.
 
 ## Generation of the URL:
 
