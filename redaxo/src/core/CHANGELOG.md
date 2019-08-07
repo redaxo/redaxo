@@ -4,11 +4,6 @@ Changelog
 Version 5.8.0 – XX.08.2019
 --------------------------
 
-### Wichtig
-
-REDAXO 5.8.x ist die letzte Version die mit PHP 7.1 oder älter kompatibel ist.
-Ab REDAXO 5.9.x wird PHP 7.2 oder neuer vorrausgesetzt.
-
 ### Neu
 * XXX TODO
 
