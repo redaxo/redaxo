@@ -232,8 +232,9 @@ class rex_metainfo_table_expander extends rex_form
             $this->organizePriorities($this->elementPostValue($this->getFieldsetName(), 'priority'), $fieldOldPriority);
 
             $fieldName = $this->addPrefix($fieldName);
-            $fieldType = $this->elementPostValue($this->getFieldsetName(), 'type_id');
+            $fieldType = (int) $this->elementPostValue($this->getFieldsetName(), 'type_id');
             $fieldDefault = $this->elementPostValue($this->getFieldsetName(), 'default');
+            $fieldAttributes = $this->elementPostValue($this->getFieldsetName(), 'attributes');
 
             $sql = rex_sql::factory();
             $sql->setDebug($this->debug);
@@ -244,6 +245,13 @@ class rex_metainfo_table_expander extends rex_form
             // TEXT Spalten duerfen in MySQL keine Defaultwerte haben
             if ('text' == $fieldDbType) {
                 $fieldDefault = null;
+            }
+
+            if (
+                strlen($fieldDefault) &&
+                (REX_METAINFO_FIELD_CHECKBOX === $fieldType || REX_METAINFO_FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
+            ) {
+                $fieldDefault = '|'.trim($fieldDefault, '|').'|';
             }
 
             if ($this->isEditMode()) {
