@@ -107,7 +107,7 @@ class rex_logger extends AbstractLogger
 
         $logData = [$level, $message];
         if ($file && $line) {
-            $logData[] = rex_path::relative($file);
+            $logData[] = str_replace(rex_path::base(), '', $file);
             $logData[] = $line;
         }
         self::$file->add($logData);

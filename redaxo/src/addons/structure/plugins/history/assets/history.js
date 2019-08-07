@@ -1,13 +1,9 @@
 (function ($) {
 
-    var DEBUGMODE = false;
+    var DEBUGMODE = false; // set debug mode
+
 
     $(document).on("rex:ready", function (event, container) {
-
-        // set debug mode
-        if ($('.rex-is-debugmode').length) {
-            DEBUGMODE = true;
-        }
 
         // trigger elements for opening and closing history layer
         container.on("click", '[data-history-layer]', function (e) {

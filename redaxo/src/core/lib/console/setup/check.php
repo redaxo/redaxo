@@ -36,11 +36,12 @@ class rex_command_setup_check extends rex_console_command
         $res = rex_setup::checkFilesystem();
         if (count($res) > 0) {
             $errors = [];
+            $base = rex_path::base();
             foreach ($res as $key => $messages) {
                 if (count($messages) > 0) {
                     $affectedFiles = [];
                     foreach ($messages as $message) {
-                        $affectedFiles[] = rex_path::relative($message);
+                        $affectedFiles[] = str_replace($base, '', $message);
                     }
                     $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
                 }

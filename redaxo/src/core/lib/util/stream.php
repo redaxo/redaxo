@@ -62,7 +62,7 @@ class rex_stream
         }
 
         if (!self::$registered) {
-            stream_wrapper_register('rex', self::class);
+            stream_wrapper_register('rex', __CLASS__);
             self::$registered = true;
         }
 

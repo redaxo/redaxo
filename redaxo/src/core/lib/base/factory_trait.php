@@ -45,7 +45,7 @@ trait rex_factory_trait
         if (!is_string($subclass)) {
             throw new InvalidArgumentException('Expecting $subclass to be a string, ' . gettype($subclass) . ' given!');
         }
-        $calledClass = static::class;
+        $calledClass = get_called_class();
         if ($subclass != $calledClass && !is_subclass_of($subclass, $calledClass)) {
             throw new InvalidArgumentException('$class "' . $subclass . '" is expected to define a subclass of ' . $calledClass . '!');
         }
@@ -59,7 +59,7 @@ trait rex_factory_trait
      */
     public static function getFactoryClass()
     {
-        $calledClass = static::class;
+        $calledClass = get_called_class();
         return isset(self::$factoryClasses[$calledClass]) ? self::$factoryClasses[$calledClass] : $calledClass;
     }
 
@@ -70,7 +70,7 @@ trait rex_factory_trait
      */
     public static function hasFactoryClass()
     {
-        $calledClass = static::class;
+        $calledClass = get_called_class();
         return isset(self::$factoryClasses[$calledClass]) && self::$factoryClasses[$calledClass] != $calledClass;
     }
 

@@ -110,7 +110,12 @@ class rex_setup_importer
         $err_msg = '';
 
         // Prüfen, welche Tabellen bereits vorhanden sind
-        $existingTables = rex_sql::factory()->getTables(rex::getTablePrefix());
+        $existingTables = [];
+        foreach (rex_sql::showTables() as $tblname) {
+            if (substr($tblname, 0, strlen(rex::getTablePrefix())) == rex::getTablePrefix()) {
+                $existingTables[] = $tblname;
+            }
+        }
 
         foreach (array_diff(self::getRequiredTables(), $existingTables) as $missingTable) {
             $err_msg .= rex_i18n::msg('setup_502', $missingTable) . '<br />';

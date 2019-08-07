@@ -282,7 +282,7 @@ class rex_config
         }
 
         // save cache on shutdown
-        register_shutdown_function([self::class, 'save']);
+        register_shutdown_function([__CLASS__, 'save']);
 
         self::load();
         self::$initialized = true;

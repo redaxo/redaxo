@@ -99,10 +99,10 @@ abstract class rex_api_function
      */
     public static function getUrlParams()
     {
-        $class = static::class;
+        $class = get_called_class();
 
-        if (self::class === $class) {
-            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.self::class.'".');
+        if (__CLASS__ === $class) {
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.__CLASS__.'".');
         }
 
         // remove the `rex_api_` prefix
@@ -120,10 +120,10 @@ abstract class rex_api_function
      */
     public static function getHiddenFields()
     {
-        $class = static::class;
+        $class = get_called_class();
 
-        if (self::class === $class) {
-            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.self::class.'".');
+        if (__CLASS__ === $class) {
+            throw new BadMethodCallException(__FUNCTION__.' must be called on subclasses of "'.__CLASS__.'".');
         }
 
         // remove the `rex_api_` prefix
