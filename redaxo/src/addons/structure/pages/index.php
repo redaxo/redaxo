@@ -186,7 +186,6 @@ $echo = '';
 // --------------------- READ TEMPLATES
 
 if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCategoryId() && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
-    $withTemplates = $this->getPlugin('content')->isAvailable();
     $tmpl_head = '';
     if ($structure_context->hasTemplates()) {
         $template_select = new rex_template_select($structure_context->getCategoryId(), $structure_context->getClangId());
