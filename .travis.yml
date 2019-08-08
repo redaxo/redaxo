@@ -30,7 +30,7 @@ jobs:
             script:
                 - composer require --dev friendsofredaxo/linter
                 - vendor/bin/rexlint
-                
+
                 - php redaxo/bin/console be_style:compile
                 - git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
         -   php: 7.3
@@ -83,10 +83,6 @@ jobs:
 
 matrix:
     allow_failures:
-      - php: 7.4snapshot
-        env:
-            - TYPE=phpunit
-            - DB=mysql
       - php: 7.1
         env:
             - TYPE=phpunit
