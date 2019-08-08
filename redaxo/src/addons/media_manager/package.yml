@@ -10,11 +10,11 @@ page:
     icon: rex-icon rex-icon-media
     subpages:
         types: { title: 'translate:media_manager_subpage_types' }
-        overview: { title: 'translate:media_manager_subpage_desc' }
         settings: { title: 'translate:media_manager_subpage_config' }
+        overview: { title: 'translate:media_manager_subpage_desc', subPath: README.md }
         clear_cache: { title: 'translate:media_manager_subpage_clear_cache', itemclass: 'pull-right', linkclass: 'btn btn-delete', href: { page: media_manager/types, func: clear_cache } }
-
 requires:
     php:
         extensions: [gd]
-    redaxo: ^5.4.0
+    redaxo: ^5.6.0
+
