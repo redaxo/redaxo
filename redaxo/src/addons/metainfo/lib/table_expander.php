@@ -218,11 +218,9 @@ class rex_metainfo_table_expander extends rex_form
         // POST werten ueberschrieben werden!
         $fieldOldName = '';
         $fieldOldPriority = 9999999999999; // dirty, damit die prio richtig l�uft...
-        $fieldOldDefault = '';
         if (1 == $this->sql->getRows()) {
             $fieldOldName = $this->sql->getValue('name');
             $fieldOldPriority = $this->sql->getValue('priority');
-            $fieldOldDefault = $this->sql->getValue('default');
         }
 
         if (parent::save()) {
@@ -252,25 +250,7 @@ class rex_metainfo_table_expander extends rex_form
             }
             rex_delete_cache();
 
-            if ($tmRes) {
-                // DefaultWerte setzen
-                if ($fieldDefault != $fieldOldDefault) {
-                    try {
-                        $upd = rex_sql::factory();
-                        $upd->setDebug($this->debug);
-                        $upd->setTable($this->tableManager->getTableName());
-                        $upd->setWhere([$fieldName => $fieldOldDefault]);
-                        $upd->setValue($fieldName, $fieldDefault);
-                        $upd->update();
-                        return true;
-                    } catch (rex_sql_exception $e) {
-                        return false;
-                    }
-                }
-
-                // Default werte haben schon zuvor gepasst, daher true zur�ckgeben
-                return true;
-            }
+            return $tmRes;
         }
 
         return false;
