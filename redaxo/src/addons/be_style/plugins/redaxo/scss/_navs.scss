@@ -179,6 +179,14 @@
     }
 }
 
+.rex-nav-pagination {
+    margin-bottom: $line-height-computed / 2;
+
+    .rex-page {
+        height: auto;
+    }
+}
+
 .rex-nav-top {
     min-height: $top-navbar-height;
     margin-bottom: 0;
