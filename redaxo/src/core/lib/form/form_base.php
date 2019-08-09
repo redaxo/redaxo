@@ -1008,8 +1008,13 @@ abstract class rex_form_base
      */
     public function fieldsetPostValues($fieldsetName)
     {
-        // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde
-        $normalizedFieldsetName = rex_string::normalize($fieldsetName, '_', '[]');
+        // Name normalisieren, da der gepostete Name auch zuvor normalisiert wurde.
+        // Da der Feldname als Ganzes normalisiert wurde, hier Array mit angehängtem '[' simulieren
+        // um das Trimmen von möglichen "_" am Ende durch die normalize-Methode zu vermeiden.
+        // Anschließend "[" wieder entfernen.
+        // https://github.com/redaxo/redaxo/issues/2710
+        $normalizedFieldsetName = rex_string::normalize($fieldsetName.'[', '_', '[]');
+        $normalizedFieldsetName = substr($normalizedFieldsetName, 0, -1);
 
         return rex_post($normalizedFieldsetName, 'array');
     }
