@@ -45,7 +45,7 @@ if (rex::isBackend()) {
         $plugin = rex_plugin::get('be_style', 'customizer');
         if ($plugin->isAvailable()) {
             $config = $plugin->getConfig();
-            if (isset($config['labelcolor']) && '' != $config['labelcolor']) {
+            if (!empty($config['labelcolor'])) {
                 $themeColor = $config['labelcolor'];
             }
         }
