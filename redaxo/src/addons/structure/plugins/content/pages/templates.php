@@ -346,6 +346,7 @@ if ('add' == $function || 'edit' == $function) {
         $n = [];
         $n['label'] = '<label for="rex-id-templatename">' . rex_i18n::msg('template_name') . '</label>';
         $n['field'] = '<input class="form-control" id="rex-id-templatename" type="text" name="templatename" value="' . rex_escape($templatename) . '" />';
+        $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
