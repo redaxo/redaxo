@@ -129,6 +129,14 @@ class rex_stream
     }
 
     /**
+     * @see http://www.php.net/manual/en/streamwrapper.stream-set-option.php
+     */
+    public function stream_set_option()
+    {
+        return false;
+    }
+
+    /**
      * @see http://www.php.net/manual/en/streamwrapper.stream-tell.php
      */
     public function stream_tell()
