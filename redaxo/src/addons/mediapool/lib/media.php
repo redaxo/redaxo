@@ -79,7 +79,6 @@ class rex_media
 
                     $media->$var_name = $value;
                 }
-                $media->category = null;
 
                 return $media;
             }
