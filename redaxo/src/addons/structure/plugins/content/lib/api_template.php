@@ -118,11 +118,10 @@ class rex_template
      */
     public static function getTemplatesForCategory($category_id, $ignore_inactive = true)
     {
-        $ignore_inactive = $ignore_inactive ? 1 : 0;
-
         $templates = [];
         $t_sql = rex_sql::factory();
-        $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template where active=' . $ignore_inactive . ' order by name');
+        $where = $ignore_inactive ? ' WHERE active=1' : '';
+        $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
 
         if ($category_id < 1) {
             // Alle globalen Templates
