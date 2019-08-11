@@ -1,6 +1,24 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+* `rex_navigation`: Methode `addCallback` gibt `$this` zurück (@alexplusde)
+* Bei Template-/Modul-Namen wird Hinweis ausgeben, dass `translate:i18n_key`-Syntax verwendet werden kann (@tbaddade)
+* Slice-Ansicht: "Bearbeiten"/"Löschen" ausgeschrieben, statt Icons (@alexplusde)
+* Linkmap: IDs hinter Namen optisch zurückgenommen (@tbaddade)
+
+### Bugfixes:
+
+* EP `SLICE_ADDED`: `slice_id`-Parameter war immer `0` (@staabm) 
+* PlugIn `version`: In Tablet-Ansicht wurden die Buttons nicht angezeigt (@tbaddade)
+* `rex_template::getTemplatesForCategory`: Bei `$ignore_inacttive=false` wurden nur inaktive Templates geliefert, statt alle (@gharlan)
+
+
 Version 2.7.0 – 12.03.2019
 --------------------------
 

@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.08.2019
+--------------------------
+
+* Customizer-Farbe wird für `theme-color`-Metatag verwendet (@tbaddade)
+* Assets nutzen immutable cache (@staabm)
+* ID- und Prio-Spalten breiter (für größere Zahlen) (@tbaddade)
+* Abstand nach Paginierung korrigiert (@tbaddade)
+
+
 Version 2.7.1 – 01.04.2019
 --------------------------
 

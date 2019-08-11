@@ -5,10 +5,22 @@ Version 5.8.0 – XX.08.2019
 --------------------------
 
 ### Neu
-* XXX TODO
+
+* PHP-Mindestversion angehoben auf 7.1.3
+* Update der externen Bibliotheken (u.a. Symfony components 4.3)
+* Wenn Debug-Mode aktiv, wird das Frontend vor Crawlern versteckt (noindex) (@staabm)
+* Session-Cookie: 
+    - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
+    - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
 
 ### Bugfixes
-* XXX TODO
+
+* `rex_form`: Wenn ein Fieldsetname mit "?" endete, wurden die Werte nicht gespeichert (@gharlan)
+* `rex_config_form`: Es konnten nicht zwei Formulare auf einer Seiter verwendet werden (@gharlan)
+* `rex_stream`: Warning in PHP 7.4 vermeiden (@gharlan)
+* Command `config:get`: Ausgabe endete nicht mit einer Newline (@gharlan)
+* Textkorrekturen und -vereinheitlichungen (@marcohanke, @sebastiannoell)
+
 
 Version 5.7.1 – 01.04.2019
 --------------------------
