@@ -94,10 +94,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Erstellt ein rex_list Objekt.
      *
-     * @param string $query       SELECT Statement
-     * @param int    $rowsPerPage Anzahl der Elemente pro Zeile
-     * @param string $listName    Name der Liste
-     * @param bool   $debug
+     * @param string      $query       SELECT Statement
+     * @param int         $rowsPerPage Anzahl der Elemente pro Zeile
+     * @param string|null $listName    Name der Liste
+     * @param bool        $debug
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -171,11 +171,11 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string $query
-     * @param int    $rowsPerPage
-     * @param null   $listName
-     * @param bool   $debug
-     * @param int    $db          DB connection ID
+     * @param string      $query
+     * @param int         $rowsPerPage
+     * @param string|null $listName
+     * @param bool        $debug
+     * @param int         $db          DB connection ID
      *
      * @return static
      */
