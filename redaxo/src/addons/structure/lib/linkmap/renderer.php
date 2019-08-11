@@ -91,8 +91,6 @@ abstract class rex_linkmap_tree_renderer
             $label = '&nbsp;';
         }
 
-        $label .= ' [' . $OOobject->getId() . ']';
-
         if ($OOobject instanceof rex_article && !$OOobject->hasTemplate()) {
             $label .= ' [' . rex_i18n::msg('linkmap_has_no_template') . ']';
         }
@@ -112,7 +110,7 @@ abstract class rex_linkmap_tree_renderer
 
         $icon = '<i class="rex-icon rex-icon-' . ($OOobject->isSiteStartArticle() ? 'sitestartarticle' : ($OOobject->isStartArticle() ? 'startarticle' : 'article')) . '"></i>';
 
-        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '</a>';
+        return '<li' . $liAttr . '><a' . $linkAttr . '>' . $icon . ' ' . rex_escape($label) . '<span class="list-item-suffix">'.$OOobject->getId().'</span></a>';
     }
 }
 
