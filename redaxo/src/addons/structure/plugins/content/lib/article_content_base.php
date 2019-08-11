@@ -124,6 +124,11 @@ class rex_article_content_base
         if (1 == $sql->getRows()) {
             $this->template_id = $this->getValue('template_id');
             $this->category_id = $this->getValue('category_id');
+
+            // use same timestamp format like in frontend via `rex_article`
+            $sql->setValue('createdate', $sql->getDateTimeValue('createdate'));
+            $sql->setValue('updatedate', $sql->getDateTimeValue('updatedate'));
+
             return true;
         }
 
