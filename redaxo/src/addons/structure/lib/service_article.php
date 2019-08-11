@@ -442,7 +442,7 @@ class rex_article_service
             rex_article_cache::deleteLists($parent_id);
             rex_article_cache::deleteMeta($parent_id);
 
-            $ids = rex_sql::factory()->getArray('SELECT id FROM '.rex::getTable('article').' WHERE startarticle=0 AND parent_id = ?', [$parent_id]);
+            $ids = rex_sql::factory()->getArray('SELECT id FROM '.rex::getTable('article').' WHERE startarticle=0 AND parent_id = ? GROUP BY id', [$parent_id]);
             foreach ($ids as $id) {
                 rex_article_cache::deleteMeta($id['id']);
             }
