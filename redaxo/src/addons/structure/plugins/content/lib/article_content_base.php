@@ -125,10 +125,6 @@ class rex_article_content_base
             $this->template_id = $this->getValue('template_id');
             $this->category_id = $this->getValue('category_id');
 
-            // use same timestamp format like in frontend via `rex_article`
-            $sql->setValue('createdate', $sql->getDateTimeValue('createdate'));
-            $sql->setValue('updatedate', $sql->getDateTimeValue('updatedate'));
-
             return true;
         }
 
@@ -185,6 +181,11 @@ class rex_article_content_base
     protected function _getValue($value)
     {
         $value = $this->correctValue($value);
+
+        // use same timestamp format like in frontend via `rex_article`
+        if (in_array($value, ['createdate', 'updatedate'], true)) {
+            return $this->getSqlInstance()->getDateTimeValue($value);
+        }
 
         return $this->getSqlInstance()->getValue($value);
     }
