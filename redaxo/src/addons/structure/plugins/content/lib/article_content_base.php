@@ -124,7 +124,6 @@ class rex_article_content_base
         if (1 == $sql->getRows()) {
             $this->template_id = $this->getValue('template_id');
             $this->category_id = $this->getValue('category_id');
-
             return true;
         }
 
