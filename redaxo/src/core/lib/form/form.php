@@ -1,5 +1,8 @@
 <?php
 
+/*
+ * @deprecated use rex_form::ERROR_VIOLATE_UNIQUE_KEY instead
+ */
 define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
 
 /**
@@ -16,6 +19,8 @@ define('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', 1062);
 class rex_form extends rex_form_base
 {
     use rex_factory_trait;
+    
+    const ERROR_VIOLATE_UNIQUE_KEY = 1062;
 
     protected $tableName;
     protected $whereCondition;
