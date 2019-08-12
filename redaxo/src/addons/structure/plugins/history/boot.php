@@ -176,11 +176,12 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
                 $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0), 'rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
             }
 
+            $get_rex_version = (isset($_REQUEST['rex_set_version'])) ? rex_request('rex_set_version', 'int', 0) : intval(rex::getProperty('login')->getSessionVar('rex_version_article'));
             echo '<script>
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
-                    var history_revision = ' . rex_request('rex_set_version', 'int', 0) . ';
+                    var history_revision = ' . $get_rex_version . ';
                     var history_article_link = "' . $article_link . '";
                     </script>';
         }
