@@ -293,6 +293,7 @@ abstract class rex_metainfo_handler
                     $inputValue['hour'] = date('H', $dbvalues[0]);
                     $inputValue['minute'] = date('i', $dbvalues[0]);
 
+                    /** @var rex_input_date|rex_input_datetime $rexInput */
                     $rexInput = rex_input::factory($typeLabel);
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
