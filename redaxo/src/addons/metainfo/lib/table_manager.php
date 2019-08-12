@@ -26,7 +26,7 @@ class rex_metainfo_table_manager
     public const FIELD_LEGEND = 12;
     public const FIELD_TIME = 13;
     public const FIELD_COUNT = 13;
-    
+
     private $tableName;
     private $DBID;
 
