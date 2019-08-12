@@ -19,6 +19,9 @@ autoloader="phpstan-bootstrap.php"
             <file name="redaxo/src/core/.phpstorm.meta.php" />
         </ignoreFiles>
     </projectFiles>
+    <stubs>
+        <file name="redaxo/src/core/.phpstorm.meta.php" />
+    </stubs>
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
