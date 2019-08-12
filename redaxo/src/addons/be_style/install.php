@@ -16,7 +16,5 @@ $addon = rex_addon::get('be_style');
 $files = require __DIR__.'/vendor_files.php';
 
 foreach ($files as $source => $destination) {
-    if (false === rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination))) {
-        throw new rex_functional_exception('Unable to copy file from "'. $addon->getPath($source) .'" to "'. $addon->getAssetsPath($destination) .'"');
-    }
+    rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination));
 }
