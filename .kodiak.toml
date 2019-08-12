@@ -12,5 +12,7 @@ automerge_label = "automerge" # default: "automerge"
 require_automerge_label = true
 
 [merge.message]
+title = "pull_request_title"
+body = "empty"
 include_pr_number = true
 strip_html_comments = true # remove html comments to auto remove PR templates
