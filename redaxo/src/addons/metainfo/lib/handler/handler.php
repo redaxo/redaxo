@@ -362,6 +362,7 @@ abstract class rex_metainfo_handler
 
                     $paramArray = rex_string::split($params);
 
+                    /** rex_input_mediabutton $rexInput */
                     $rexInput = rex_input::factory('mediabutton');
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($media_id);
@@ -397,6 +398,7 @@ abstract class rex_metainfo_handler
                     $paramArray = rex_string::split($params);
 
                     $name .= '[]';
+                    /** rex_input_medialistbutton $rexInput */
                     $rexInput = rex_input::factory('medialistbutton');
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mlist_id);
@@ -437,6 +439,7 @@ abstract class rex_metainfo_handler
                         $category = $activeItem->getValue('category_id');
                     }
 
+                    /** rex_input_linkbutton $rexInput */
                     $rexInput = rex_input::factory('linkbutton');
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($link_id);
@@ -468,6 +471,7 @@ abstract class rex_metainfo_handler
                     }
 
                     $name .= '[]';
+                    /** rex_input_linklistbutton $rexInput */
                     $rexInput = rex_input::factory('linklistbutton');
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($llist_id);
