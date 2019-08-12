@@ -170,7 +170,7 @@ if ('' == $func) {
         });
     }
 
-    $form->addErrorMessage(REX_FORM_ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
+    $form->addErrorMessage(rex_form::ERROR_VIOLATE_UNIQUE_KEY, rex_i18n::msg('media_manager_error_type_name_not_unique'));
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('media_manager_type_name'));
