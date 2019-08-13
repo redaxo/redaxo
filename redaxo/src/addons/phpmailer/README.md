@@ -117,13 +117,13 @@ foreach($sql as $row)
 PHPMAiler sends an excerpt of system.log when it finds exceptions, errors, and custom log events. 
 The check and if necessary the sending are done in fixed intervals, which can be defined in the system settings. The recipient is the error address stored in the system settings. 
 
-Your own events can also trigger the dispatch. You can also store the event as type: logevent. 
+Your own events can also trigger the dispatch. You can store this event as type: logevent. 
 
 `rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
 
 ## SMTP-Debug
 
-Setting the debug mode leads to different outputs
+Setting the debug mode leads to different outputs:
 
 ### Client protocol
 
@@ -156,13 +156,13 @@ PHPMailer checks if the specified server supports TLS and establishes an encrypt
 
 ### Spam-Blocker
 
-- The server that sends the e-mails should be stored in the DNS as an authorized server for the e-mail domain used via the SPF entry.
+- The server that sends the e-mails should be stored in the DNS as an authorized server for the e-mail domain, defined via the SPF entry.
 
-- High Priority settings can lead to spam blocking.
+- The priority settings can lead to spam blocking.
 
 - Large e-mail distribution lists should be sent in small numbers and as BCCs if possible.
 
-### Use with self-signed certificates
+### Use of self-signed certificates
 
 The peer is verified by default. This can lead to problems. The following settings help to avoid this problem.
 
