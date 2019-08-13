@@ -7,6 +7,7 @@ Version 2.5.0 – XX.08.2019
 ### Neu
 
 * Assets nutzen immutable cache (@staabm)
+* Konstanten `REX_METAINFO_FIELD_...` sind deprecated, stattdessen die Konstanten `rex_metainfo_table_manager::FIELD_...` verwenden (@staabm)
 
 ### Bugfixes
 

@@ -14,9 +14,11 @@ Version 2.8.0 – XX.08.2019
 
 ### Bugfixes:
 
-* EP `SLICE_ADDED`: `slice_id`-Parameter war immer `0` (@staabm) 
+* EP `SLICE_ADDED`: `slice_id`-Parameter war immer `0` (@staabm)
 * PlugIn `version`: In Tablet-Ansicht wurden die Buttons nicht angezeigt (@tbaddade)
+* `$this->getValue('createdate')` lieferte im Backend einen Datetime-String, statt des Unix-Timestamps wie im Frontend (@gharlan)
 * `rex_template::getTemplatesForCategory`: Bei `$ignore_inacttive=false` wurden nur inaktive Templates geliefert, statt alle (@gharlan)
+* Nach Prio-Setzung wurde nicht der Cache aller betroffenen Kategorien/Artikel zurückgesetzt (@gharlan)
 
 
 Version 2.7.0 – 12.03.2019

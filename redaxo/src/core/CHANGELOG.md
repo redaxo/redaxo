@@ -12,6 +12,9 @@ Version 5.8.0 – XX.08.2019
 * Session-Cookie: 
     - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
     - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
+* `rex_form`: Statt der Konstante `REX_FORM_ERROR_VIOLATE_UNIQUE_KEY` (deprecated) ist nun `rex_form::ERROR_VIOLATE_UNIQUE_KEY` zu verwenden (@staabm)
+* Beispiel-`.gitignore` wird mitgeliefert (@schuer)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062)
 
 ### Bugfixes
 
@@ -20,6 +23,7 @@ Version 5.8.0 – XX.08.2019
 * `rex_stream`: Warning in PHP 7.4 vermeiden (@gharlan)
 * Command `config:get`: Ausgabe endete nicht mit einer Newline (@gharlan)
 * Textkorrekturen und -vereinheitlichungen (@marcohanke, @sebastiannoell)
+* Im Setup stand im Header unnötigerweise "Nicht angemeldet" (@gharlan)
 
 
 Version 5.7.1 – 01.04.2019
