@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+
+
 Version 2.5.0 – 12.03.2019
 --------------------------
 
