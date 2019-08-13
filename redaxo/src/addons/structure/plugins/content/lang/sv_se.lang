@@ -101,6 +101,7 @@ module_deleted = Modulen raderades!
 module_added = Modulen tillfogades
 module_updated = Modulen aktualiserades
 module_caption = Lista över alla sparade moduler
+module_in_use = Används
 articel_updated = Artikeln aktualiserades
 create_module = Skapa ny modul
 input = Inmatning
