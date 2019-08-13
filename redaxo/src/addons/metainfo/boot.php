@@ -23,7 +23,7 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     define('REX_METAINFO_FIELD_RADIO', 4);
     /* @deprecated use rex_metainfo_table_manager::FIELD_CHECKBOX instead */
     define('REX_METAINFO_FIELD_CHECKBOX', 5);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_MEDIA_WIDGET instead */
+    /* @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_MEDIA_WIDGET', 6);
     /* @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', 7);
