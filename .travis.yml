@@ -1,5 +1,7 @@
 language: php
 
+dist: bionic
+
 git:
     depth: 3
 
