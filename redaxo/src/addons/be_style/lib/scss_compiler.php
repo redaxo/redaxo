@@ -11,7 +11,6 @@ class rex_scss_compiler
     protected $scss_file;
     protected $css_file;
     protected $formatter;
-    protected $strip_comments;
 
     public function __construct()
     {
@@ -19,7 +18,6 @@ class rex_scss_compiler
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
         $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
-        $this->strip_comments = true;
     }
 
     public function setRootDir($value)
@@ -45,11 +43,6 @@ class rex_scss_compiler
         $this->formatter = $value;
     }
 
-    public function setStripComments($value = true)
-    {
-        $this->strip_comments = $value;
-    }
-
     /**
      * @param string $scss_folder      source folder where you have your .scss files
      * @param string $scss_global_file
@@ -67,7 +60,6 @@ class rex_scss_compiler
 
         $scss_compiler = new Compiler();
         $scss_compiler->setNumberPrecision(10);
-        $scss_compiler->stripComments = $this->strip_comments;
 
         $scss_compiler->addImportPath(static function ($path) use ($root_dir) {
             $path = $root_dir . $path . '.scss';
