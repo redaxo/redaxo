@@ -27,7 +27,7 @@ class rex_metainfo_table_expander extends rex_form
     {
         // ----- EXTENSION POINT
         // IDs aller Feldtypen bei denen das Parameter-Feld eingeblendet werden soll
-        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [REX_METAINFO_FIELD_SELECT, REX_METAINFO_FIELD_RADIO, REX_METAINFO_FIELD_CHECKBOX, REX_METAINFO_FIELD_REX_MEDIA_WIDGET, REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET, REX_METAINFO_FIELD_REX_LINK_WIDGET, REX_METAINFO_FIELD_REX_LINKLIST_WIDGET, REX_METAINFO_FIELD_DATE, REX_METAINFO_FIELD_DATETIME]));
+        $typeFields = rex_extension::registerPoint(new rex_extension_point('METAINFO_TYPE_FIELDS', [rex_metainfo_table_manager::FIELD_SELECT, rex_metainfo_table_manager::FIELD_RADIO, rex_metainfo_table_manager::FIELD_CHECKBOX, rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET, rex_metainfo_table_manager::FIELD_REX_MEDIALIST_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINK_WIDGET, rex_metainfo_table_manager::FIELD_REX_LINKLIST_WIDGET, rex_metainfo_table_manager::FIELD_DATE, rex_metainfo_table_manager::FIELD_DATETIME]));
 
         $field = $this->addReadOnlyField('prefix', $this->metaPrefix);
         $field->setLabel(rex_i18n::msg('minfo_field_label_prefix'));
@@ -84,7 +84,7 @@ class rex_metainfo_table_expander extends rex_form
         $select->addSqlOptions($qry);
 
         $notices = '';
-        for ($i = 1; $i < REX_METAINFO_FIELD_COUNT; ++$i) {
+        for ($i = 1; $i < rex_metainfo_table_manager::FIELD_COUNT; ++$i) {
             if (rex_i18n::hasMsg('minfo_field_params_notice_' . $i)) {
                 $notices .= '<span id="metainfo-field-params-notice-' . $i . '" style="display:none">' . rex_i18n::msg('minfo_field_params_notice_' . $i) . '</span>' . "\n";
             }
@@ -244,7 +244,7 @@ class rex_metainfo_table_expander extends rex_form
 
             if (
                 strlen($fieldDefault) &&
-                (REX_METAINFO_FIELD_CHECKBOX === $fieldType || REX_METAINFO_FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
+                (rex_metainfo_table_manager::FIELD_CHECKBOX === $fieldType || rex_metainfo_table_manager::FIELD_SELECT === $fieldType && isset(rex_string::split($fieldAttributes)['multiple']))
             ) {
                 $fieldDefault = '|'.trim($fieldDefault, '|').'|';
             }

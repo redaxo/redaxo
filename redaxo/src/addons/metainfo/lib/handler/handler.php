@@ -558,7 +558,7 @@ abstract class rex_metainfo_handler
      * Retrieves the posted value for the given field and converts it into a saveable format.
      *
      * @param string $fieldName       The name of the field
-     * @param int    $fieldType       One of the REX_METAINFO_FIELD_* constants
+     * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
      * @return string
@@ -600,8 +600,8 @@ abstract class rex_metainfo_handler
                 $saveValue = '|' . implode('|', $postValue) . '|';
             } else {
                 $postValue = $postValue[0] ?? '';
-                if (REX_METAINFO_FIELD_SELECT == $fieldType && false !== strpos($fieldAttributes, 'multiple') ||
-                     REX_METAINFO_FIELD_CHECKBOX == $fieldType
+                if (rex_metainfo_table_manager::FIELD_SELECT == $fieldType && false !== strpos($fieldAttributes, 'multiple') ||
+                     rex_metainfo_table_manager::FIELD_CHECKBOX == $fieldType
                 ) {
                     // Mehrwertiges Feld, aber nur ein Wert ausgewählt
                     $saveValue = '|' . $postValue . '|';
