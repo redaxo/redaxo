@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.08.2019
+--------------------------
+
+### Neu
+
+* Default-Timeout auf 10s gesetzt (statt 5min) (@skerbis)
+
+
 Version 2.5.1 – 16.03.2019
 --------------------------
 
