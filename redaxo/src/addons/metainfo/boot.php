@@ -15,15 +15,15 @@ if (!defined('REX_METAINFO_FIELD_TEXT')) {
     // Feldtypen
     /* @deprecated use rex_metainfo_table_manager::FIELD_TEXT instead */
     define('REX_METAINFO_FIELD_TEXT', 1);
-    /* @deprecated use rex_metainfo_table_manager::FIELD_TEXT instead */
-    define('REX_METAINFO_FIELD_TEXTAREA', 2);
     /* @deprecated use rex_metainfo_table_manager::FIELD_TEXTAREA instead */
-    define('REX_METAINFO_FIELD_SELECT', 3);
+    define('REX_METAINFO_FIELD_TEXTAREA', 2);
     /* @deprecated use rex_metainfo_table_manager::FIELD_SELECT instead */
-    define('REX_METAINFO_FIELD_RADIO', 4);
+    define('REX_METAINFO_FIELD_SELECT', 3);
     /* @deprecated use rex_metainfo_table_manager::FIELD_RADIO instead */
-    define('REX_METAINFO_FIELD_CHECKBOX', 5);
+    define('REX_METAINFO_FIELD_RADIO', 4);
     /* @deprecated use rex_metainfo_table_manager::FIELD_CHECKBOX instead */
+    define('REX_METAINFO_FIELD_CHECKBOX', 5);
+    /* @deprecated use rex_metainfo_table_manager::FIELD_MEDIA_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_MEDIA_WIDGET', 6);
     /* @deprecated use rex_metainfo_table_manager::FIELD_REX_MEDIA_WIDGET instead */
     define('REX_METAINFO_FIELD_REX_MEDIALIST_WIDGET', 7);
