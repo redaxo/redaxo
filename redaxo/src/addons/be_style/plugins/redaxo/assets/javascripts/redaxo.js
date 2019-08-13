@@ -19,7 +19,7 @@
 
         function moveMainNavigation() {
             var $mainNavigation = $('#rex-js-nav-main');
-            $('.navbar-toggle').attr('data-target', '');
+            $('.rex-js-nav-main-toggle').attr('data-target', '');
             if ($breakpoint.float == 'min') {
                 //desktop screen - insert inside header element
                 $mainNavigation.detach();
@@ -32,7 +32,7 @@
         }
 
         //mobile version - open/close navigation
-        $('.navbar-toggle').on('click', function(event) {
+        $('.rex-js-nav-main-toggle').on('click', function(event) {
             event.preventDefault();
             $('#rex-start-of-page').toggleClass('rex-nav-main-is-visible');
             $('#rex-js-nav-main').toggleClass('rex-nav-main-is-visible');

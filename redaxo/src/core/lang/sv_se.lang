@@ -137,6 +137,7 @@ debug_mode_on = Aktivera debug modus
 debug_mode_off = Deaktivera debug modus
 debug_mode_info_on = Debug modus aktiverades
 debug_mode_info_off = Debug modus deaktiverades
+debug_mode_marker = Debug mode är aktiv
 
 system_report = Systemrapport
 system_report_markdown = Som markdown

@@ -46,13 +46,7 @@ function meta_checkConditionalFields(selectEl, activeIds, textIds) {
 
 $(document).on('rex:ready', function (event, container) {
     var disableSelect = function (chkbox) {
-        var sibling = chkbox;
-        while (sibling != null) {
-            if (sibling.nodeType == 1 && sibling.tagName.toLowerCase() == "select") {
-                $(sibling).prop('disabled', !chkbox.checked);
-            }
-            sibling = sibling.previousSibling;
-        }
+        $(chkbox).prevAll().find('select').prop('disabled', !chkbox.checked).selectpicker('refresh');
     };
 
     container.find("input[type=checkbox].rex-metainfo-checkbox").click(function () {
