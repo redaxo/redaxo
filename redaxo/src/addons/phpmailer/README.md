@@ -156,7 +156,7 @@ PHPMailer checks if the specified server supports TLS and establishes an encrypt
 
 ### Spam-Blocker
 
-- The server that sends the e-mails should be stored in the DNS as an authorized server for the e-mail domain, defined via the SPF entry.
+- The server that sends the e-mails should be listed in the DNS as authorized server for the sending e-mail domain, defined via SPF record.
 
 - The priority settings can lead to spam blocking.
 
@@ -186,9 +186,9 @@ $mail->SMTPOptions = array(
 
 ### Sending mails over different domains 
 
-If e-mails are sent via different sender domains, the SPF record of the sender domain(s) should include  proper settings for
+If e-mails are sent via different sender domains, the SPF record of the sender domain(s) should include proper settings for
 
-- the web server (for sendmail and mail) 
+- the web server (if you use sendmail or mail) 
 - or the specified SMTP(S) server 
 
 e.g. `a:my-domain.tld ip4:XXX.XXX.XXX.XXX`
