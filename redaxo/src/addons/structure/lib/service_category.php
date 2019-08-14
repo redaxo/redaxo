@@ -548,7 +548,8 @@ class rex_category_service
 
             rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
                 'id' => $from_cat,
-                'clang_id' => $clang,
+                'clang_id' => $clang, // deprecated, use "clang" instead
+                'clang' => $clang,
                 'category_id' => $to_cat,
             ]));
         }
