@@ -370,7 +370,6 @@ abstract class rex_metainfo_handler
 
                     $paramArray = rex_string::split($params);
 
-                    /** @var rex_input_mediabutton $rexInput */
                     $rexInput = new rex_input_mediabutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($media_id);
@@ -406,7 +405,6 @@ abstract class rex_metainfo_handler
                     $paramArray = rex_string::split($params);
 
                     $name .= '[]';
-                    /** @var rex_input_medialistbutton $rexInput */
                     $rexInput = new rex_input_medialistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mlist_id);
@@ -447,7 +445,6 @@ abstract class rex_metainfo_handler
                         $category = $activeItem->getValue('category_id');
                     }
 
-                    /** @var rex_input_linkbutton $rexInput */
                     $rexInput = new rex_input_linkbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($link_id);
@@ -479,7 +476,6 @@ abstract class rex_metainfo_handler
                     }
 
                     $name .= '[]';
-                    /** @var rex_input_linklistbutton $rexInput */
                     $rexInput = new rex_input_linklistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($llist_id);
