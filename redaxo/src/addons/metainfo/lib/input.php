@@ -105,7 +105,7 @@ abstract class rex_input
     {
         $attr = '';
         foreach ($this->attributes as $attributeName => $attributeValue) {
-            $attr .= ' ' . $attributeName . '="' . $attributeValue . '"';
+            $attr .= ' ' . rex_escape($attributeName) . '="' . rex_escape($attributeValue) . '"';
         }
         return $attr;
     }
