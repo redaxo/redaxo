@@ -78,7 +78,7 @@ class rex_input_datetime extends rex_input
 
     public function getMinuteSelect()
     {
-        return $this->timeInput->getMminuteSelect();
+        return $this->timeInput->getMinuteSelect();
     }
 
     public function getHtml()
