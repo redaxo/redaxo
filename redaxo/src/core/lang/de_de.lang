@@ -139,6 +139,7 @@ debug_mode_off = Debug mode deaktivieren
 debug_mode_info_on = Debug mode wurde aktiviert
 debug_mode_info_off = Debug mode wurde deaktiviert
 debug_mode_marker = Debug mode ist aktiv
+debug_confirm = Sind Sie sicher, dass Sie den Debug mode starten möchten? Bitte beachten Sie die Hinweise vor der Schaltfläche. 
 
 system_report = Systembericht
 system_report_markdown = Als markdown
