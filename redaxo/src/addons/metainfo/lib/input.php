@@ -7,7 +7,6 @@
  */
 abstract class rex_input
 {
-    /** @var string */
     protected $value;
     /** @var string[] */
     protected $attributes;
