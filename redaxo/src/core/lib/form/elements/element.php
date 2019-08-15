@@ -22,7 +22,7 @@ class rex_form_element
     protected $validator;
 
     /**
-     * @param $tag string
+     * @param string $tag
      */
     public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
     {
