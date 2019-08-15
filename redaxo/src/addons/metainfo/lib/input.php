@@ -7,7 +7,9 @@
  */
 abstract class rex_input
 {
+    /** @var string */
     protected $value;
+    /** @var string[] */
     protected $attributes;
 
     public function __construct()
@@ -97,7 +99,7 @@ abstract class rex_input
     /**
      * Gibt alle Attribute in Form eines Array zurueck.
      *
-     * @return array
+     * @return string[]
      */
     public function getAttributes()
     {
