@@ -279,11 +279,11 @@ abstract class rex_metainfo_handler
                 case 'date':
                 case 'time':
                 case 'datetime':
-                    if ($typeLabel == 'date') {
+                    if ('date' == $typeLabel) {
                         $rexInput = new rex_input_date();
-                    } elseif ($typeLabel == 'time') {
+                    } elseif ('time' == $typeLabel) {
                         $rexInput = new rex_input_time();
-                    } elseif ($typeLabel == 'datetime') {
+                    } elseif ('datetime' == $typeLabel) {
                         $rexInput = new rex_input_datetime();
                     } else {
                         throw new Exception('Unexpected $typeLabel "'. $typeLabel .'"');
@@ -302,7 +302,7 @@ abstract class rex_metainfo_handler
                     $inputValue['hour'] = date('H', $dbvalues[0]);
                     $inputValue['minute'] = date('i', $dbvalues[0]);
 
-                    /** @var rex_input_date|rex_input_datetime $rexInput */
+                    /* @var rex_input_date|rex_input_datetime $rexInput */
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
