@@ -92,6 +92,7 @@ autoloader="phpstan-bootstrap.php"
         <InvalidScalarArgument errorLevel="info" />
         <InvalidToString errorLevel="info" />
         <InvalidOperand errorLevel="info" />
+        <InvalidGlobal errorLevel="info" />
         <NoInterfaceProperties errorLevel="info" />
         <TooManyArguments errorLevel="info" />
         <TypeDoesNotContainType errorLevel="info" />
