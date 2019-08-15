@@ -20,10 +20,10 @@ class rex_login
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
     protected $message = '';
 
-    /** @var rex_sql */
+    /** @var rex_sql|rex_user */
     protected $user;
 
-    /** @var rex_sql */
+    /** @var rex_sql|rex_user */
     protected $impersonator;
 
     /**
