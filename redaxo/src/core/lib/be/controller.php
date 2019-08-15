@@ -339,10 +339,6 @@ class rex_be_controller
                         }
                         break;
                     }
-                    $setter = [$page, 'set' . ucfirst($key)];
-                    if (is_callable($setter)) {
-                        call_user_func($setter, $value);
-                    }
             }
         }
     }
