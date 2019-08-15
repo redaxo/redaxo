@@ -138,7 +138,7 @@ if (false !== strpos($rexVersion, '-dev')) {
 
 $mainContent = [];
 $sideContent = [];
-$debugAlert = '';
+$debugConfirm = '';
 
 if (!rex::isDebugMode())
 {
