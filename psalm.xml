@@ -110,5 +110,6 @@ autoloader="phpstan-bootstrap.php"
         <InvalidReturnType errorLevel="info" />
         <UndefinedThisPropertyAssignment errorLevel="info" />
         <UndefinedInterfaceMethod errorLevel="info" />
+        <UndefinedGlobalVariable errorLevel="info" />
     </issueHandlers>
 </psalm>
