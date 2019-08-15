@@ -369,7 +369,7 @@ class rex
 
         if (!isset($gitHash[$path])) {
             $gitHash[$path] = false; // exec only once
-            $output = array();
+            $output = [];
             $exitCode = -1;
 
             if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
