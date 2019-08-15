@@ -369,8 +369,8 @@ class rex
 
         if (!isset($gitHash[$path])) {
             $gitHash[$path] = false; // exec only once
-            $output = '';
-            $exitCode = null;
+            $output = [];
+            $exitCode = -1;
 
             if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
                 $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
