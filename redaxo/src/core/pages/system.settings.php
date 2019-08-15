@@ -140,9 +140,8 @@ $mainContent = [];
 $sideContent = [];
 $debugConfirm = '';
 
-if (!rex::isDebugMode())
-{
-$debugConfirm = ' data-confirm="' . rex_i18n::msg('debug_confirm') . '" ';
+if (!rex::isDebugMode()) {
+    $debugConfirm = ' data-confirm="' . rex_i18n::msg('debug_confirm') . '" ';
 }
 
 $content = '
@@ -299,4 +298,3 @@ $fragment = new rex_fragment();
 $fragment->setVar('content', [implode('', $mainContent), implode('', $sideContent)], false);
 $fragment->setVar('classes', ['col-lg-8', 'col-lg-4'], false);
 echo $fragment->parse('core/page/grid.php');
-
