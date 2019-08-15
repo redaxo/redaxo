@@ -1,5 +1,5 @@
 .rex-is-logged-in {
-    .navbar-toggle {
+    > .navbar-toggle {
         background: none !important;
         border: 0;
 
@@ -176,6 +176,14 @@
                 }
             }
         }
+    }
+}
+
+.rex-nav-pagination {
+    margin-bottom: $line-height-computed / 2;
+
+    .rex-page {
+        height: auto;
     }
 }
 

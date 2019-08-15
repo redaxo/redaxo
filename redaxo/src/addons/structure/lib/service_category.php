@@ -439,6 +439,12 @@ class rex_category_service
             );
 
             rex_article_cache::deleteLists($parent_id);
+            rex_article_cache::deleteMeta($parent_id);
+
+            $ids = rex_sql::factory()->getArray('SELECT id FROM '.rex::getTable('article').' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parent_id]);
+            foreach ($ids as $id) {
+                rex_article_cache::deleteMeta($id['id']);
+            }
         }
     }
 
@@ -542,7 +548,8 @@ class rex_category_service
 
             rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
                 'id' => $from_cat,
-                'clang_id' => $clang,
+                'clang_id' => $clang, // deprecated, use "clang" instead
+                'clang' => $clang,
                 'category_id' => $to_cat,
             ]));
         }

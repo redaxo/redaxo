@@ -169,6 +169,7 @@ class rex_user
      * @param string $key Complex perm key
      *
      * @return rex_complex_perm Complex perm
+     * @psalm-return rex_media_perm|rex_structure_perm|rex_module_perm|rex_clang_perm
      */
     public function getComplexPerm($key)
     {

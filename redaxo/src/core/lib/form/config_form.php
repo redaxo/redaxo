@@ -13,7 +13,7 @@ class rex_config_form extends rex_form_base
 
     protected function __construct($namespace, $fieldset = null, $debug = false)
     {
-        parent::__construct($fieldset, md5($this->namespace.$fieldset), 'post', $debug);
+        parent::__construct($fieldset, md5($namespace.$fieldset), 'post', $debug);
 
         $this->namespace = $namespace;
 

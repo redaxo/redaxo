@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.5.0 – XX.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+* Konstanten `REX_METAINFO_FIELD_...` sind deprecated, stattdessen die Konstanten `rex_metainfo_table_manager::FIELD_...` verwenden (@staabm)
+
+### Bugfixes
+
+* Die Default-Werte wurden nicht so mit umschließenden Pipes versehen, wie die Werte auch nach dem Speichern abgelegt werden (@gharlan)
+* Date/Time-Felder wurden nicht mehr disabled entsprechend der zugehörigen Checkbox (@gharlan)
+
+
 Version 2.4.0 – 12.03.2019
 --------------------------
 
