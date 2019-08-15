@@ -8,6 +8,7 @@
 abstract class rex_input
 {
     protected $value;
+    /** @var string[] */
     protected $attributes;
 
     public function __construct()
@@ -46,6 +47,8 @@ abstract class rex_input
 
     /**
      * Gibt den Wert des Attributes $name zurueck falls vorhanden, sonst $default.
+     *
+     * @return string|null
      */
     public function getAttribute($name, $default = null)
     {
@@ -61,6 +64,8 @@ abstract class rex_input
 
     /**
      * Prueft ob das Input-Feld ein Attribute $name besitzt.
+     *
+     * @return bool
      */
     public function hasAttribute($name)
     {
@@ -92,6 +97,8 @@ abstract class rex_input
 
     /**
      * Gibt alle Attribute in Form eines Array zurueck.
+     *
+     * @return string[]
      */
     public function getAttributes()
     {
@@ -100,6 +107,8 @@ abstract class rex_input
 
     /**
      * Gibt alle Attribute in String-Form zurueck.
+     *
+     * @return string
      */
     public function getAttributeString()
     {
@@ -113,6 +122,8 @@ abstract class rex_input
     /**
      * Gibt die HTML-Representation des Input-Feldes zurueck.
      * Diese beeinhaltet alle Attribute und den Wert des Feldes.
+     *
+     * @return string
      */
     abstract public function getHtml();
 
