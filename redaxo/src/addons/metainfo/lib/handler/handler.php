@@ -80,7 +80,7 @@ abstract class rex_metainfo_handler
                 case 'text':
                     $tag_attr = ' class="form-control"';
 
-                    $rexInput = rex_input::factory($typeLabel);
+                    $rexInput = new rex_input_text();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -279,6 +279,15 @@ abstract class rex_metainfo_handler
                 case 'date':
                 case 'time':
                 case 'datetime':
+                    if ($typeLabel == 'date') {
+                        $rexInput = new rex_input_date();
+                    } elseif ($typeLabel == 'time') {
+                        $rexInput = new rex_input_time();
+                    } elseif ($typeLabel == 'datetime') {
+                        $rexInput = new rex_input_datetime();
+                    } else {
+                        throw new Exception('Unexpected $typeLabel "'. $typeLabel .'"');
+                    }
                     $tag_attr = ' class="form-control-date"';
 
                     $active = 0 != $dbvalues[0];
@@ -294,7 +303,6 @@ abstract class rex_metainfo_handler
                     $inputValue['minute'] = date('i', $dbvalues[0]);
 
                     /** @var rex_input_date|rex_input_datetime $rexInput */
-                    $rexInput = rex_input::factory($typeLabel);
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -327,7 +335,7 @@ abstract class rex_metainfo_handler
                 case 'textarea':
                     $tag_attr = ' class="form-control"';
 
-                    $rexInput = rex_input::factory($typeLabel);
+                    $rexInput = new rex_input_textarea();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -363,7 +371,7 @@ abstract class rex_metainfo_handler
                     $paramArray = rex_string::split($params);
 
                     /** @var rex_input_mediabutton $rexInput */
-                    $rexInput = rex_input::factory('mediabutton');
+                    $rexInput = new rex_input_mediabutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($media_id);
                     $rexInput->setAttribute('name', $name);
@@ -399,7 +407,7 @@ abstract class rex_metainfo_handler
 
                     $name .= '[]';
                     /** @var rex_input_medialistbutton $rexInput */
-                    $rexInput = rex_input::factory('medialistbutton');
+                    $rexInput = new rex_input_medialistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mlist_id);
                     $rexInput->setAttribute('name', $name);
@@ -440,7 +448,7 @@ abstract class rex_metainfo_handler
                     }
 
                     /** @var rex_input_linkbutton $rexInput */
-                    $rexInput = rex_input::factory('linkbutton');
+                    $rexInput = new rex_input_linkbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($link_id);
                     $rexInput->setCategoryId($category);
@@ -472,7 +480,7 @@ abstract class rex_metainfo_handler
 
                     $name .= '[]';
                     /** @var rex_input_linklistbutton $rexInput */
-                    $rexInput = rex_input::factory('linklistbutton');
+                    $rexInput = new rex_input_linklistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($llist_id);
                     $rexInput->setCategoryId($category);
