@@ -5,8 +5,9 @@
  */
 class rex_form_select_element extends rex_form_element
 {
+    /** @var rex_select */
     protected $select;
-
+    /** @var string */
     private $separator;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
