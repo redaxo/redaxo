@@ -138,6 +138,11 @@ if (false !== strpos($rexVersion, '-dev')) {
 
 $mainContent = [];
 $sideContent = [];
+$debugConfirm = '';
+
+if (!rex::isDebugMode()) {
+    $debugConfirm = ' data-confirm="' . rex_i18n::msg('debug_confirm') . '" ';
+}
 
 $content = '
     <h3>' . rex_i18n::msg('delete_cache') . '</h3>    
@@ -146,7 +151,7 @@ $content = '
 
     <h3>' . rex_i18n::msg('debug_mode') . '</h3>
     <p>' . rex_i18n::msg('debug_mode_note') . '</p>
-    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
+    <p><a class="btn btn-debug-mode" href="' . rex_url::currentBackendPage(['func' => 'debugmode'] + $csrfToken->getUrlParams()) . '" data-pjax="false"'.$debugConfirm.'><i class="rex-icon rex-icon-heartbeat"></i> ' . (rex::isDebugMode() ? rex_i18n::msg('debug_mode_off') : rex_i18n::msg('debug_mode_on')) . '</a></p>
 
     <h3>' . rex_i18n::msg('safemode') . '</h3>
     <p>' . rex_i18n::msg('safemode_text') . '</p>';
