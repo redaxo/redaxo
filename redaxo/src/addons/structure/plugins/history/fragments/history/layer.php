@@ -1,5 +1,5 @@
 <?php
-/** @var rex_fragment $this */
+/** @psalm-suppress InvalidScope */
 ?>
 <div id="content-history-layer" class="history-layer">
 
