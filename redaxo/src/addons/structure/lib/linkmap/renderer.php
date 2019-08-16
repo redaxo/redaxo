@@ -15,8 +15,9 @@ abstract class rex_linkmap_tree_renderer
         if (count($mountpoints) > 0) {
             $roots = [];
             foreach ($mountpoints as $mp) {
-                if (rex_category::get($mp)) {
-                    $roots[] = rex_category::get($mp);
+                $cat = rex_category::get($mp);
+                if ($cat) {
+                    $roots[] = $cat;
                 }
             }
             if (!$category && 1 === count($roots)) {
