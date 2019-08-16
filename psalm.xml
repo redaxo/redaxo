@@ -18,6 +18,8 @@ autoloader="phpstan-bootstrap.php"
             <directory name="redaxo/src/core/tests/" />
             <directory name="redaxo/src/**/fragments/*" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
+            <file name="redaxo/src/addons/tests/bin/run_tests.php" />
+            <file name="redaxo/src/addons/tests/bin/setup.php" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
