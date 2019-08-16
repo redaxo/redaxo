@@ -17,8 +17,8 @@ class rex_input_datetime extends rex_input
     {
         parent::__construct();
 
-        $this->dateInput = rex_input::factory('date');
-        $this->timeInput = rex_input::factory('time');
+        $this->dateInput = new rex_input_date();
+        $this->timeInput = new rex_input_time();
     }
 
     public function setStartYear($startYear)
