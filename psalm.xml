@@ -16,7 +16,7 @@ autoloader="phpstan-bootstrap.php"
             <directory name="redaxo/src/addons/tests/vendor/" />
             <directory name="redaxo/src/core/vendor/" />
             <directory name="redaxo/src/core/tests/" />
-            <directory name="redaxo/src/**/fragments/*" />
+            <file name="redaxo/src/**/fragments/*" />
             <file name="redaxo/src/core/.phpstorm.meta.php" />
         </ignoreFiles>
     </projectFiles>
