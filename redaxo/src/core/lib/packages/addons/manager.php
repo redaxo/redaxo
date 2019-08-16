@@ -20,6 +20,7 @@ class rex_addon_manager extends rex_package_manager
      */
     public function install($installDump = true)
     {
+        /** @var rex_addon $this->package */
         $installed = $this->package->isInstalled();
         $this->generatePackageOrder = false;
         $return = parent::install($installDump);
@@ -45,6 +46,7 @@ class rex_addon_manager extends rex_package_manager
      */
     public function uninstall($installDump = true)
     {
+        /** @var rex_addon $this->package */
         $isActivated = $this->package->isAvailable();
         if ($isActivated && !$this->deactivate()) {
             return false;
@@ -65,6 +67,7 @@ class rex_addon_manager extends rex_package_manager
      */
     public function activate()
     {
+        /** @var rex_addon $this->package */
         $this->generatePackageOrder = false;
         $state = parent::activate();
         $this->generatePackageOrder = true;
@@ -110,6 +113,7 @@ class rex_addon_manager extends rex_package_manager
      */
     public function checkDependencies()
     {
+        /** @var rex_addon $this->package */
         $check = $addonCheck = parent::checkDependencies();
         $dependencies = [];
         foreach ($this->package->getAvailablePlugins() as $plugin) {
