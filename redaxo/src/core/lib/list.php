@@ -442,7 +442,7 @@ class rex_list implements rex_url_provider_interface
      * @param string $columnName Name der Spalte
      * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
      *
-     * @return string|null
+     * @return array|null
      */
     public function getColumnFormat($columnName, $default = null)
     {
