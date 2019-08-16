@@ -133,6 +133,8 @@ abstract class rex_input
      * @param string $inputType
      *
      * @return self
+     *
+     * @deprecated instantiate the concrete classes directly instead
      */
     public static function factory($inputType)
     {
