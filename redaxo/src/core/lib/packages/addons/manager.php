@@ -2,6 +2,8 @@
 
 /**
  * @package redaxo\core\packages
+ *
+ * @psalm-property rex_addon $package
  */
 class rex_addon_manager extends rex_package_manager
 {
