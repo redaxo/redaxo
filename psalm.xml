@@ -26,6 +26,14 @@ autoloader="phpstan-bootstrap.php"
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
     <issueHandlers>
+        <InvalidScope>
+            <errorLevel type="suppress">
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_action.php"/>
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_ep.php"/>
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_move.php"/>
+                <file name="redaxo/src/addons/structure/plugins/history/fragments/history/layer.php"/>
+            </errorLevel>
+        </InvalidScope>
         <LessSpecificReturnType errorLevel="info" />
 <!-- level 3 issues - slightly lazy code writing, but provably low false-negatives -->
         <DeprecatedMethod errorLevel="info" />
