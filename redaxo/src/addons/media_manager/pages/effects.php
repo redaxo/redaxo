@@ -118,7 +118,7 @@ if ('' == $func) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-} elseif ('add' == $func || 'edit' == $func && $effect_id > 0 ) {
+} elseif ('add' == $func || 'edit' == $func && $effect_id > 0) {
     uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
