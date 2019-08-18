@@ -87,6 +87,8 @@ class rex_string
      */
     public static function split($string)
     {
+        /** @psalm-suppress EmptyArrayAccess */
+
         $string = trim($string);
         if (empty($string)) {
             return [];

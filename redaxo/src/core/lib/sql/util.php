@@ -123,6 +123,8 @@ class rex_sql_util
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     public static function splitSqlFile(&$ret, $sql, $release)
     {
+        /** @psalm-suppress LoopInvalidation */
+
         // do not trim, see bug #1030644
         //$sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
