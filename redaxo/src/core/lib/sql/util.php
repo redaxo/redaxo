@@ -199,6 +199,7 @@ class rex_sql_util
                 $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
                 $sql_len = strlen($sql);
                 if ($sql_len) {
+                    /** @psalm-suppress LoopInvalidation */
                     $i = -1;
                 } else {
                     // The submited statement(s) end(s) here
