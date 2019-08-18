@@ -49,6 +49,7 @@ class rex_category_service
             $data['status'] = 0;
         }
 
+        $templates = [];
         $contentAvailable = rex_plugin::get('structure', 'content')->isAvailable();
         if ($contentAvailable) {
             $startpageTemplates = [];
@@ -95,7 +96,9 @@ class rex_category_service
             }
 
             $AART->setValue('clang_id', $key);
-            $AART->setValue('template_id', $template_id);
+            if (isset($template_id)) {
+                $AART->setValue('template_id', $template_id);
+            }
             $AART->setValue('name', $data['name']);
             $AART->setValue('catname', $data['catname']);
             $AART->setValue('catpriority', $data['catpriority']);
