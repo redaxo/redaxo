@@ -1,6 +1,3 @@
-<?php
-/** @psalm-suppress InvalidScope */
-?>
 <div id="content-history-layer" class="history-layer">
 
     <div class="history-layer-content">
