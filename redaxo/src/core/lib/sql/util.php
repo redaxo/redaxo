@@ -123,8 +123,6 @@ class rex_sql_util
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
     public static function splitSqlFile(&$ret, $sql, $release)
     {
-        /** @psalm-suppress LoopInvalidation */
-
         // do not trim, see bug #1030644
         //$sql          = trim($sql);
         $sql = rtrim($sql, "\n\r");
@@ -141,6 +139,7 @@ class rex_sql_util
             // backquotes that can't be escaped
             if ($in_string) {
                 for (; ;) {
+                    /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $string_start, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
@@ -181,6 +180,7 @@ class rex_sql_util
 
             // lets skip comments (/*, -- and #)
             elseif (('-' == $char && $sql_len > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sql_len > $i + 1 && '*' == $sql[$i + 1])) {
+                /** @psalm-suppress LoopInvalidation */
                 $i = strpos($sql, '/' == $char ? '*/' : "\n", $i);
                 // didn't we hit end of string?
                 if (false === $i) {
