@@ -49,6 +49,7 @@ class rex_category_service
             $data['status'] = 0;
         }
 
+        $templates = [];
         $contentAvailable = rex_plugin::get('structure', 'content')->isAvailable();
         if ($contentAvailable) {
             $startpageTemplates = [];
@@ -85,6 +86,10 @@ class rex_category_service
                         $template_id = key($templates);
                     }
                 }
+            }
+
+            if (!isset($template_id)) {
+                $template_id = 0;
             }
 
             $AART->setTable(rex::getTablePrefix() . 'article');
