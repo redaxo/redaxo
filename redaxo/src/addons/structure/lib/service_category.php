@@ -88,6 +88,10 @@ class rex_category_service
                 }
             }
 
+            if (!isset($template_id)) {
+                $template_id = 0;
+            }
+
             $AART->setTable(rex::getTablePrefix() . 'article');
             if (!isset($id)) {
                 $id = $AART->setNewId('id');
@@ -96,9 +100,7 @@ class rex_category_service
             }
 
             $AART->setValue('clang_id', $key);
-            if (isset($template_id)) {
-                $AART->setValue('template_id', $template_id);
-            }
+            $AART->setValue('template_id', $template_id);
             $AART->setValue('name', $data['name']);
             $AART->setValue('catname', $data['catname']);
             $AART->setValue('catpriority', $data['catpriority']);
