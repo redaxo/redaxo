@@ -10,7 +10,7 @@ $func = rex_request('func', 'string');
 $sql = rex_sql::factory();
 $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type WHERE id=' . $type_id);
 if (1 != $sql->getRows()) {
-    unset($type_id);
+    throw new Exception('Invalid type_id "'. $type_id .'"');
 }
 $typeName = $sql->getValue('name');
 
@@ -63,7 +63,7 @@ foreach (rex_media_manager::getSupportedEffects() as $class => $shortName) {
     $effects[$shortName] = new $class();
 }
 
-if ('' == $func && $type_id > 0) {
+if ('' == $func) {
     echo rex_view::info(rex_i18n::msg('media_manager_effect_list_header', $typeName));
 
     $query = 'SELECT * FROM ' . rex::getTablePrefix() . 'media_manager_type_effect WHERE type_id=' . $type_id . ' ORDER BY priority';
@@ -118,7 +118,7 @@ if ('' == $func && $type_id > 0) {
     $content = $fragment->parse('core/page/section.php');
 
     echo $content;
-} elseif ('add' == $func && $type_id > 0 || 'edit' == $func && $effect_id > 0 && $type_id > 0) {
+} elseif ('add' == $func || 'edit' == $func && $effect_id > 0) {
     uasort($effects, static function (rex_effect_abstract $a, rex_effect_abstract $b) {
         return strnatcmp($a->getName(), $b->getName());
     });
