@@ -329,11 +329,12 @@ $echo = '';
 
 // --------------------- READ TEMPLATES
 
+$template_select = new rex_select();
+
 if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
     $withTemplates = $addon->getPlugin('content')->isAvailable();
     $tmpl_head = '';
     if ($withTemplates) {
-        $template_select = new rex_select();
         $template_select->setName('template_id');
         $template_select->setSize(1);
         $template_select->setStyle('class="form-control selectpicker"');
