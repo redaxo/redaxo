@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.8.0 – XX.08.2019
+Version 2.8.0 – 20.08.2019
 --------------------------
 
 * Customizer-Farbe wird für `theme-color`-Metatag verwendet (@tbaddade)
