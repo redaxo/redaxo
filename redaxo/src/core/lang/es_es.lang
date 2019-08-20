@@ -10,6 +10,7 @@ phpini_settings = Ajustes PHP.ini
 datetimeformat = %d-%b-%Y %H:%M
 timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
+translatable = Traducible a través de <code>translate:i18n_key</code>
 
 # Allgemein
 abort = Cancelar
