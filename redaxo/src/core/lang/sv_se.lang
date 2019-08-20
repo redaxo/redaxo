@@ -10,6 +10,7 @@ phpini_settings = PHP.ini inställningar
 datetimeformat = %d. %b. %Y - %H:%Mh
 timeformat = %H:%Mh
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
+translatable = Översättbar via <code> translate: i18n_key </ code>
 
 # Allgemein
 abort = avbryt
@@ -138,6 +139,7 @@ debug_mode_off = Deaktivera debug modus
 debug_mode_info_on = Debug modus aktiverades
 debug_mode_info_off = Debug modus deaktiverades
 debug_mode_marker = Debug mode är aktiv
+debug_confirm = Debug mode ska inte användas i live-modus. Vill du aktivera debug-modus ändå?
 
 system_report = Systemrapport
 system_report_markdown = Som markdown
