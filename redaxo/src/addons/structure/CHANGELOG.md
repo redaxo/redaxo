@@ -1,13 +1,14 @@
 Changelog
 =========
 
-Version 2.8.0 – XX.08.2019
+Version 2.8.0 – 20.08.2019
 --------------------------
 
 ### Neu
 
 * Assets nutzen immutable cache (@staabm)
 * `rex_navigation`: Methode `addCallback` gibt `$this` zurück (@alexplusde)
+* EP `CAT_MOVED`: "clang"-Parameter wird übergeben analog zu anderen EPs ("clang_id" ist deprecated) (@gharlan)
 * Bei Template-/Modul-Namen wird Hinweis ausgeben, dass `translate:i18n_key`-Syntax verwendet werden kann (@tbaddade)
 * Slice-Ansicht: "Bearbeiten"/"Löschen" ausgeschrieben, statt Icons (@alexplusde)
 * Linkmap: IDs hinter Namen optisch zurückgenommen (@tbaddade)

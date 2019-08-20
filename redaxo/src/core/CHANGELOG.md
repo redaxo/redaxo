@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 5.8.0 – XX.08.2019
+Version 5.8.0 – 20.08.2019
 --------------------------
 
 ### Neu
@@ -9,12 +9,13 @@ Version 5.8.0 – XX.08.2019
 * PHP-Mindestversion angehoben auf 7.1.3
 * Update der externen Bibliotheken (u.a. Symfony components 4.3)
 * Wenn Debug-Mode aktiv, wird das Frontend vor Crawlern versteckt (noindex) (@staabm)
+* Vor Aktivierung des Debug-Modes kommt eine Bestätigungsbox (@skerbis)
 * Session-Cookie: 
     - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
     - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
 * `rex_form`: Statt der Konstante `REX_FORM_ERROR_VIOLATE_UNIQUE_KEY` (deprecated) ist nun `rex_form::ERROR_VIOLATE_UNIQUE_KEY` zu verwenden (@staabm)
 * Beispiel-`.gitignore` wird mitgeliefert (@schuer)
-* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062), Englisch (@tyrant88)
 
 ### Bugfixes
 
