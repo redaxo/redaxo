@@ -38,7 +38,6 @@ if ($PERMALL) {
         $file_filesize = filesize($path);
         if ($db_file['filesize'] != $file_filesize) {
             $file_sql = rex_sql::factory();
-            $file_sql->debugsql = 1;
             $file_sql->setTable(rex::getTable('media'));
             $file_sql->setWhere(['filename' => $db_file['filename']]);
             $file_sql->setValue('filesize', $file_filesize);

@@ -95,7 +95,7 @@ if (rex::getUser() && $hasNavigation) {
     }
     $meta_items[] = $item;
     unset($item);
-} elseif ($hasNavigation) {
+} elseif ($hasNavigation && !rex::isSetup()) {
     $item = [];
     $item['title'] = rex_i18n::msg('logged_out');
     $meta_items[] = $item;

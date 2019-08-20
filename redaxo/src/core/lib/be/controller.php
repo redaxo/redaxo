@@ -332,10 +332,10 @@ class rex_be_controller
                     }
                     // no break
                 default:
-                    $setter = [$page, 'add' . ucfirst($key)];
-                    if (is_callable($setter)) {
+                    $adder = [$page, 'add' . ucfirst($key)];
+                    if (is_callable($adder)) {
                         foreach ((array) $value as $v) {
-                            call_user_func($setter, $v);
+                            call_user_func($adder, $v);
                         }
                         break;
                     }

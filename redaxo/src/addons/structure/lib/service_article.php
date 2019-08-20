@@ -53,7 +53,6 @@ class rex_article_service
         $message = rex_i18n::msg('article_added');
 
         $AART = rex_sql::factory();
-        unset($id);
         $user = self::getUser();
         foreach (rex_clang::getAllIds() as $key) {
             // ------- Kategorienamen holen
@@ -459,13 +458,14 @@ class rex_article_service
     public static function article2category($art_id)
     {
         $sql = rex_sql::factory();
+        $parent_id = 0;
 
         // LANG SCHLEIFE
         foreach (rex_clang::getAllIds() as $clang) {
             // artikel
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=0 and clang_id=?', [$art_id, $clang]);
 
-            if (!isset($parent_id)) {
+            if (!$parent_id) {
                 $parent_id = $sql->getValue('parent_id');
             }
 
@@ -503,6 +503,7 @@ class rex_article_service
     public static function category2article($art_id)
     {
         $sql = rex_sql::factory();
+        $parent_id = 0;
 
         // Kategorie muss leer sein
         $sql->setQuery('SELECT pid FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=? LIMIT 1', [$art_id]);
@@ -515,7 +516,7 @@ class rex_article_service
             // artikel
             $sql->setQuery('select parent_id, name from ' . rex::getTablePrefix() . 'article where id=? and startarticle=1 and clang_id=?', [$art_id, $clang]);
 
-            if (!isset($parent_id)) {
+            if (!$parent_id) {
                 $parent_id = $sql->getValue('parent_id');
             }
 

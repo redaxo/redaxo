@@ -1,5 +1,7 @@
 language: php
 
+dist: bionic
+
 git:
     depth: 3
 
@@ -78,3 +80,4 @@ jobs:
             php: 7.3
         -   <<: *TEST_MYSQL
             php: 7.4snapshot
+            dist: xenial
