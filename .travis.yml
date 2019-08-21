@@ -49,6 +49,22 @@ jobs:
                 - php redaxo/bin/console package:install structure/version
                 - composer require --dev phpstan/phpstan-shim
                 - vendor/bin/phpstan analyse
+        -   php: 7.3
+            env: TYPE=psalm
+            services:
+                - mysql
+            script:
+                - mysql -e 'create database redaxo_5_0;'
+                - php redaxo/src/addons/tests/bin/setup.php
+                - php redaxo/bin/console package:install phpmailer
+                - php redaxo/bin/console package:install cronjob
+                - php redaxo/bin/console package:install cronjob/article_status
+                - php redaxo/bin/console package:install cronjob/optimize_tables
+                - php redaxo/bin/console package:install debug
+                - php redaxo/bin/console package:install structure/history
+                - php redaxo/bin/console package:install structure/version
+                - composer require --dev vimeo/psalm:^3.4.12
+                - vendor/bin/psalm --show-info=false
 
         -   &TEST
             install:
