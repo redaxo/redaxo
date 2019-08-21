@@ -63,7 +63,7 @@ jobs:
                 - php redaxo/bin/console package:install debug
                 - php redaxo/bin/console package:install structure/history
                 - php redaxo/bin/console package:install structure/version
-                - composer require --dev vimeo/psalm:dev-master
+                - composer require --dev vimeo/psalm:^3.4.12
                 - vendor/bin/psalm --show-info=false
 
         -   &TEST
