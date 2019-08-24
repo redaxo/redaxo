@@ -95,6 +95,10 @@ $ffile_size = $gf->getValue('filesize');
 $ffile_size = rex_formatter::bytes($ffile_size);
 $rex_file_category = $gf->getValue('category_id');
 
+$sidebar = '';
+$add_ext_info = '';
+$encoded_fname = urlencode($fname);
+
 $isImage = rex_media::isImageType(rex_file::extension($fname));
 if ($isImage) {
     $fwidth = $gf->getValue('width');
@@ -105,12 +109,7 @@ if ($isImage) {
     } else {
         $rfwidth = $fwidth;
     }
-}
 
-$sidebar = '';
-$add_ext_info = '';
-$encoded_fname = urlencode($fname);
-if ($isImage) {
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_img_width') . ' / ' . rex_i18n::msg('pool_img_height') . '</label>';
     $e['field'] = '<p class="form-control-static">' . $fwidth . 'px / ' . $fheight . 'px</p>';
