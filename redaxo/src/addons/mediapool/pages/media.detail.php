@@ -95,7 +95,6 @@ $ffile_size = $gf->getValue('filesize');
 $ffile_size = rex_formatter::bytes($ffile_size);
 $rex_file_category = $gf->getValue('category_id');
 
-
 $sidebar = '';
 $add_ext_info = '';
 $encoded_fname = urlencode($fname);
