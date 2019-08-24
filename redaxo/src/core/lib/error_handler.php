@@ -136,7 +136,8 @@ abstract class rex_error_handler
                         left: 0;
                         right: 0;
                         height: 70px;
-                        background: #b00;                            
+                        background: #b00;
+                        z-index: 9999999999;
                     }
                     .rex-logo {
                         padding-left: 40px;
