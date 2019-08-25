@@ -34,7 +34,7 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
     ) {
         if ($method_name_lowercase === 'cast'
             && isset($call_args[1]->value->inferredType)
-            && $call_args[1]->value->inferredType->hasSingleStringLiteral()
+            && $call_args[1]->value->inferredType->isSingleStringLiteral()
         ) {
              $vartype = (string) $call_args[1]->value->inferredType;
              
