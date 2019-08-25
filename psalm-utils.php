@@ -1,7 +1,5 @@
 <?php
 
-namespace Psalm\Internal\Provider\ReturnTypeProvider;
-
 use PhpParser;
 use Psalm\CodeLocation;
 use Psalm\Context;
