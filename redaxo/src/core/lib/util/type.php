@@ -76,7 +76,6 @@ class rex_type
                 default:
                     // check for array with generic type
                     if (0 === strpos($vartype, 'array[')) {
-                        /** @psalm-assert array $var */
                         if (empty($var)) {
                             $var = [];
                         } else {
