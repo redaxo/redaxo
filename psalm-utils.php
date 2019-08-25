@@ -34,7 +34,7 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
             && isset($call_args[1]->value->inferredType)
             && $call_args[1]->value->inferredType->hasSingleStringLiteral()
         ) {
-             $vartype = $call_args[1]->value
+             $vartype = (string) $call_args[1]->value->inferredType;
              
              switch ($vartype) {
                 case 'bool':
@@ -49,7 +49,8 @@ class RexTypeReturnProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvid
                 case 'array':
                     return Type::parseString($vartype);
             }
-            return Type::getNull();
+            // dont know..
+            return Type::getMixed();
         }
     }
 }
