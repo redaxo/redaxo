@@ -173,7 +173,7 @@ if ($step >= 4) {
     if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {
         $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
     }
-}
+
 
 if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
     $config['server'] = rex_post('serveraddress', 'string');
@@ -402,6 +402,7 @@ if (4 == $step) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
+}
 }
 
 // ---------------------------------- step 5 . create db / demo
