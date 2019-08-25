@@ -45,26 +45,30 @@ class rex_type
                 // ---------------- PHP types
                 case 'bool':
                 case 'boolean':
+                    /** @psalm-assert bool $var */
                     $var = (bool) $var;
                     break;
                 case 'int':
                 case 'integer':
+                    /** @psalm-assert int $var */
                     $var = (int) $var;
                     break;
                 case 'double':
-                    $var = (float) $var;
-                    break;
                 case 'float':
                 case 'real':
+                    /** @psalm-assert float $var */
                     $var = (float) $var;
                     break;
                 case 'string':
+                    /** @psalm-assert string $var */
                     $var = (string) $var;
                     break;
                 case 'object':
+                    /** @psalm-assert object $var */
                     $var = (object) $var;
                     break;
                 case 'array':
+                    /** @psalm-assert array $var */
                     if ('' === $var) {
                         $var = [];
                     } else {
@@ -78,6 +82,7 @@ class rex_type
                 default:
                     // check for array with generic type
                     if (0 === strpos($vartype, 'array[')) {
+                        /** @psalm-assert array $var */
                         if (empty($var)) {
                             $var = [];
                         } else {
