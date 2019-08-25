@@ -23,7 +23,7 @@ $finder = PhpCsFixer\Finder::create()
     ])
     ->append([
         __FILE__,
-        __DIR__."/phpstan-bootstrap.php"
+        __DIR__."/phpstan-bootstrap.php",
         __DIR__."/index.php"
     ])
     ->filter(function (\SplFileInfo $file) use ($bootPath) {
