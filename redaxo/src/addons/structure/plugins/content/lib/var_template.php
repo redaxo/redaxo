@@ -15,6 +15,12 @@ class rex_var_template extends rex_var
             return self::class . '::getTemplateOutput(require ' . self::class . '::getTemplateStream(' . $template_id . ', $this))';
         }
 
+        $template_key = $this->getParsedArg('key', null, true);
+
+        if ('' !== $template_key) {
+            return self::class . '::getTemplateOutput(require ' . self::class . '::getTemplateStream(' . $template_key . ', $this))';
+        }
+
         return false;
     }
 

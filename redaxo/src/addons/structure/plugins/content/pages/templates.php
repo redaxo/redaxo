@@ -74,6 +74,7 @@ if ('delete' == $function) {
     $hole = rex_sql::factory();
     $hole->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'template WHERE id = "' . $template_id . '"');
     if (1 == $hole->getRows()) {
+        $templatekey = $hole->getValue('key');
         $templatename = $hole->getValue('name');
         $template = $hole->getValue('content');
         $active = $hole->getValue('active');
@@ -82,6 +83,7 @@ if ('delete' == $function) {
         $function = '';
     }
 } else {
+    $templatekey = '';
     $templatename = '';
     $template = '';
     $active = '';
@@ -96,6 +98,7 @@ if ('add' == $function || 'edit' == $function) {
         $save = 'nein';
     } elseif ('ja' == $save) {
         $active = rex_post('active', 'int');
+        $templatekey = rex_post('templatekey', 'string');
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
         $ctypes = rex_post('ctype', 'array');
@@ -127,6 +130,7 @@ if ('add' == $function || 'edit' == $function) {
 
         $TPL = rex_sql::factory();
         $TPL->setTable(rex::getTablePrefix() . 'template');
+        $TPL->setValue('key', $templatekey);
         $TPL->setValue('name', $templatename);
         $TPL->setValue('active', $active);
         $TPL->setValue('content', $template);
@@ -146,6 +150,7 @@ if ('add' == $function || 'edit' == $function) {
                 $success = rex_i18n::msg('template_added');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
                     'id' => $template_id,
+                    'key' => $templatekey,
                     'name' => $templatename,
                     'content' => $template,
                     'active' => $active,
@@ -165,6 +170,7 @@ if ('add' == $function || 'edit' == $function) {
                 $success = rex_i18n::msg('template_updated');
                 $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
                     'id' => $template_id,
+                    'key' => $templatekey,
                     'name' => $templatename,
                     'content' => $template,
                     'active' => $active,
@@ -349,6 +355,11 @@ if ('add' == $function || 'edit' == $function) {
         $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
+        $n = [];
+        $n['label'] = '<label for="rex-id-templatekey">' . rex_i18n::msg('template_key') . '</label>';
+        $n['field'] = '<input class="form-control" id="rex-id-templatekey" type="text" name="templatekey" value="' . rex_escape($templatekey) . '" />';
+        $formElements[] = $n;
+
         $fragment = new rex_fragment();
         $fragment->setVar('flush', true);
         $fragment->setVar('elements', $formElements, false);
@@ -514,7 +525,7 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
+    $list = rex_list::factory('SELECT id, name, active, `key` FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
@@ -525,6 +536,9 @@ if ($OUT) {
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
+
+    $list->setColumnLabel('key', rex_i18n::msg('header_template_key'));
+    $list->setColumnParams('key', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
