@@ -262,7 +262,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('block', true);
         $fragment->setVar('button_label', rex_i18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
-        $select = $fragment->parse('slice_select.php');
+        $select = $fragment->parse('module_select.php');
         $select = rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_MODULE_SELECT',
                 $select,
