@@ -74,7 +74,7 @@ class rex_timer
      */
     public function reset()
     {
-        $this->start = microtime(true);
+        $this->start = hrtime(true);
     }
 
     /**
@@ -82,7 +82,7 @@ class rex_timer
      */
     public function stop()
     {
-        $this->duration = microtime(true) - $this->start;
+        $this->duration = hrtime(true) - $this->start;
     }
 
     /**
@@ -94,7 +94,7 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        $duration = null === $this->duration ? microtime(true) - $this->start : $this->duration;
+        $duration = null === $this->duration ? hrtime(true) - $this->start : $this->duration;
 
         return $duration * $precision;
     }
