@@ -1,10 +1,10 @@
 <?php
-
 /**
- * @package redaxo5
+ * @package redaxo5/structure
  */
 
 $addon = rex_addon::get('structure');
+
 $structure_context = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
     'article_id' => rex_request('article_id', 'int'),
@@ -184,9 +184,10 @@ echo $fragment->parse('core/page/section.php');
 
 $echo = '';
 
-// --------------------- READ TEMPLATES
 
 if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCategoryId() && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
+
+    // --------------------- READ TEMPLATES
     $tmpl_head = '';
     if ($structure_context->hasTemplates()) {
         $template_select = new rex_template_select($structure_context->getCategoryId(), $structure_context->getClangId());
