@@ -35,7 +35,6 @@ require __DIR__ . '/../functions/function_rex_category.php';
 
 // -------------- STATUS_TYPE Map
 $catStatusTypes = rex_category_service::statusTypes();
-$artStatusTypes = rex_article_service::statusTypes();
 
 // --------------------------------------------- API MESSAGES
 echo rex_api_function::getMessage();
@@ -286,48 +285,14 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
             $echo .= $fragment->parse('structure/table_row_articles_form.php');
         } elseif ($structure_context->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
-
-            $article_status = $artStatusTypes[$sql->getValue('status')][0];
-            $article_class = $artStatusTypes[$sql->getValue('status')][1];
-            $article_icon = $artStatusTypes[$sql->getValue('status')][2];
-
-            $editModeUrl = $structure_context->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
-
-            $tmpl_td = '';
-            if ($structure_context->hasTemplates()) {
-                $tmpl_td = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
-            }
-
             $fragment = new rex_fragment();
-            $fragment->setVar('class', $class, false);
-            $fragment->setVar('class_startarticle', $class_startarticle, false);
-            $fragment->setVar('editModeUrl', $editModeUrl, false);
             $fragment->setVar('sql', $sql, false);
-            $fragment->setVar('tmpl_td', $tmpl_td, false);
-            $fragment->setVar('article_class', $article_class, false);
-            $fragment->setVar('article_icon', $article_icon, false);
-            $fragment->setVar('article_status', $article_status, false);
             $fragment->setVar('structure_context', $structure_context, false);
             $echo .= $fragment->parse('structure/table_row_articles.php');
         } else {
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
-
-            $art_status = $artStatusTypes[$sql->getValue('status')][0];
-            $art_status_class = $artStatusTypes[$sql->getValue('status')][1];
-            $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
-
-            $tmpl_td = '';
-            if ($structure_context->hasTemplates()) {
-                $tmpl_td = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
-            }
-
             $fragment = new rex_fragment();
-            $fragment->setVar('class', $class, false);
             $fragment->setVar('sql', $sql, false);
-            $fragment->setVar('tmpl_td', $tmpl_td, false);
-            $fragment->setVar('art_status_class', $art_status_class, false);
-            $fragment->setVar('art_status_icon', $art_status_icon, false);
-            $fragment->setVar('art_status', $art_status, false);
             $fragment->setVar('structure_context', $structure_context, false);
             $echo .= $fragment->parse('structure/table_row_articles.php');
         }
