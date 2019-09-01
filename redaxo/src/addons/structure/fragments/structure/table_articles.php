@@ -1,4 +1,14 @@
-<?php if ($this->structure_context->getFunction() == 'add_art' || $this->structure_context->getFunction() == 'edit_art'): ?>
+<?php
+/**
+ * Article table and header
+ *
+ * Variables:
+ * $this->structure_context  Context data
+ * $this->tmpl_head          Template select
+ * $this->content            Table rows
+ */
+?>
+<?php if (in_array($this->structure_context->getFunction(), ['add_art', 'edit_art'])): ?>
     <form action="<?=$this->structure_context->getContext()->getUrl(['artstart' => $this->structure_context->getArtStart()]);?>" method="post">
         <fieldset>
 <?php endif;?>
@@ -7,7 +17,9 @@
     <thead>
         <tr>
             <th class="rex-table-icon">
-                <?=$this->structure_context->hasCategoryPermission() ? '<a href="'.$this->structure_context->getContext()->getUrl(['function' => 'add_art', 'artstart' => $this->structure_context->getArtStart()]).'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-add-article"></i></a>' : '';?>
+                <?php if ($this->structure_context->hasCategoryPermission()): ?>
+                    <a href="<?=$this->structure_context->getContext()->getUrl(['function' => 'add_art', 'artstart' => $this->structure_context->getArtStart()]);?>" <?=rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2');?>><i class="rex-icon rex-icon-add-article"></i></a>
+                <?php endif;?>
             </th>
             <th class="rex-table-id"><?=rex_i18n::msg('header_id');?></th>
             <th><?=rex_i18n::msg('header_article_name');?></th>
@@ -24,7 +36,7 @@
     </tbody>
 </table>
 
-<?php if ($this->structure_context->getFunction() == 'add_art' || $this->structure_context->getFunction() == 'edit_art'): ?>
+<?php if (in_array($this->structure_context->getFunction(), ['add_art', 'edit_art'])): ?>
         </fieldset>
     </form>
 <?php endif;?>
