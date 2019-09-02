@@ -13,13 +13,14 @@ class rex_clang_service
      * @param int    $priority Priority
      * @param bool   $status   Status
      */
-    public static function addCLang($code, $name, $priority, $status = false)
+    public static function addCLang($code, $name, $locale, $priority, $status = false)
     {
         $sql = rex_sql::factory();
         $sql->setTable(rex::getTablePrefix() . 'clang');
         $sql->setNewId('id');
         $sql->setValue('code', $code);
         $sql->setValue('name', $name);
+        $sql->setValue('locale', $locale);
         $sql->setValue('priority', $priority);
         $sql->setValue('status', $status);
         $sql->insert();
@@ -34,6 +35,7 @@ class rex_clang_service
         rex_extension::registerPoint(new rex_extension_point('CLANG_ADDED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
+            'locale' => $clang->getLocale(),
             'clang' => $clang,
         ]));
     }
@@ -51,7 +53,7 @@ class rex_clang_service
      *
      * @return bool
      */
-    public static function editCLang($id, $code, $name, $priority, $status = null)
+    public static function editCLang($id, $code, $name, $locale, $priority, $status = null)
     {
         if (!rex_clang::exists($id)) {
             throw new rex_exception('clang with id "' . $id . '" does not exist');
@@ -64,6 +66,7 @@ class rex_clang_service
         $editLang->setWhere(['id' => $id]);
         $editLang->setValue('code', $code);
         $editLang->setValue('name', $name);
+        $editLang->setValue('locale', $locale);
         $editLang->setValue('priority', $priority);
         if (null !== $status) {
             $editLang->setValue('status', $status);
@@ -80,6 +83,7 @@ class rex_clang_service
         rex_extension::registerPoint(new rex_extension_point('CLANG_UPDATED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
+            'locale' => $clang->getLocale(),
             'clang' => $clang,
         ]));
 
@@ -117,6 +121,7 @@ class rex_clang_service
         rex_extension::registerPoint(new rex_extension_point('CLANG_DELETED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
+            'locale' => $clang->getLocale(),
             'clang' => $clang,
         ]));
     }

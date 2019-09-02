@@ -16,6 +16,7 @@ class rex_clang
     private $id;
     private $code;
     private $name;
+    private $locale;
     private $priority;
     private $status;
 
@@ -126,6 +127,16 @@ class rex_clang
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Returns the locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
     }
 
     /**

@@ -27,6 +27,13 @@ if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {
     $_SESSION[rex::getProperty('instname').'_backend']['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
 }
 
+if (rex_string::versionCompare(rex::getVersion(), '5.9.0', '<')) {
+    rex_sql_table::get(
+        rex::getTable('clang'))
+        ->ensureColumn(new \rex_sql_column('locale', 'VARCHAR(191)'), 'name')
+    ;
+}
+
 $path = rex_path::coreData('config.yml');
 rex_file::putConfig($path, array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),

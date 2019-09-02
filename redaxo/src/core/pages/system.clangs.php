@@ -13,6 +13,7 @@ $message = '';
 $clang_id = rex_request('clang_id', 'int');
 $clang_code = rex_request('clang_code', 'string');
 $clang_name = rex_request('clang_name', 'string');
+$clang_locale = rex_request('clang_locale', 'string');
 $clang_prio = rex_request('clang_prio', 'int');
 $clang_status = rex_request('clang_status', 'int');
 $func = rex_request('func', 'string');
@@ -47,7 +48,7 @@ if ('editstatus' === $func && rex_clang::exists($clang_id)) {
             throw new rex_functional_exception(rex_i18n::msg('csrf_token_invalid'));
         }
         $clang = rex_clang::get($clang_id);
-        rex_clang_service::editCLang($clang_id, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clang_status);
+        rex_clang_service::editCLang($clang_id, $clang->getCode(), $clang->getName(), $clang->getLocale(), $clang->getPriority(), $clang_status);
         $success = rex_i18n::msg('clang_edited');
         $func = '';
         $clang_id = 0;
@@ -69,12 +70,12 @@ if ($add_clang_save || $edit_clang_save) {
         $func = $add_clang_save ? 'addclang' : 'editclang';
     } elseif ($add_clang_save) {
         $success = rex_i18n::msg('clang_created');
-        rex_clang_service::addCLang($clang_code, $clang_name, $clang_prio);
+        rex_clang_service::addCLang($clang_code, $clang_name, $clang_locale, $clang_prio);
         $clang_id = 0;
         $func = '';
     } else {
         if (rex_clang::exists($clang_id)) {
-            rex_clang_service::editCLang($clang_id, $clang_code, $clang_name, $clang_prio);
+            rex_clang_service::editCLang($clang_id, $clang_code, $clang_name, $clang_locale, $clang_prio);
             $success = rex_i18n::msg('clang_edited');
             $func = '';
             $clang_id = 0;
@@ -98,6 +99,7 @@ $content .= '
                     <th class="rex-table-id">' . rex_i18n::msg('id') . '</th>
                     <th>' . rex_i18n::msg('clang_code') . '</th>
                     <th>' . rex_i18n::msg('clang_name') . '</th>
+                    <th>' . rex_i18n::msg('clang_locale') . '</th>
                     <th class="rex-table-priority">' . rex_i18n::msg('clang_priority') . '</th>
                     <th class="rex-table-action" colspan="3">' . rex_i18n::msg('clang_function') . '</th>
                 </tr>
@@ -105,10 +107,25 @@ $content .= '
             <tbody>
     ';
 
+
 // Add form
 if ('addclang' == $func) {
     // ----- EXTENSION POINT
     $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', ''));
+
+    $localeFormElement = '<input class="form-control" type="text" id="rex-form-clang-locale" name="clang_locale" value="' . rex_escape($clang_locale) . '" />';
+
+    $locales = explode("\n", trim(shell_exec('locale -a')));
+    if (!empty($locales)) {
+        sort($locales);
+        $localeSelect = new rex_select();
+        $localeSelect->setId('rex-form-clang-locale');
+        $localeSelect->setName('clang_locale');
+        $localeSelect->setSelected($clang_locale);
+        $localeSelect->addOption('', '');
+        $localeSelect->addOptions($locales, true);
+        $localeFormElement = $localeSelect->get();
+    }
 
     //ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
     $content .= '
@@ -117,6 +134,7 @@ if ('addclang' == $func) {
                     <td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">–</td>
                     <td data-title="' . rex_i18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . rex_escape($clang_code) . '" autofocus /></td>
                     <td data-title="' . rex_i18n::msg('clang_name') . '"><input class="form-control" type="text" id="rex-form-clang-name" name="clang_name" value="' . rex_escape($clang_name) . '" /></td>
+                    <td data-title="' . rex_i18n::msg('clang_locale') . '">'.$localeFormElement.'</td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '"><input class="form-control" type="text" id="rex-form-clang-prio" name="clang_prio" value="' . ($clang_prio ?: rex_clang::count() + 1) . '" /></td>
                     <td class="rex-table-action">' . $metaButtons . '</td>
                     <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="add_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_add'), 'save') . ' value="1">' . rex_i18n::msg('clang_add') . '</button></td>
@@ -144,12 +162,27 @@ foreach ($sql as $row) {
         // ----- EXTENSION POINT
         $metaButtons = rex_extension::registerPoint(new rex_extension_point('CLANG_FORM_BUTTONS', '', ['id' => $clang_id, 'sql' => $sql]));
 
+        $localeFormElement = '<input class="form-control" type="text" id="rex-form-clang-locale" name="clang_locale" value="' . rex_escape($clang_locale) . '" />';
+
+        $locales = explode("\n", trim(shell_exec('locale -a')));
+        if (!empty($locales)) {
+            sort($locales);
+            $localeSelect = new rex_select();
+            $localeSelect->setId('rex-form-clang-locale');
+            $localeSelect->setName('clang_locale');
+            $localeSelect->setSelected($sql->getValue('locale'));
+            $localeSelect->addOption('', '');
+            $localeSelect->addOptions($locales, true);
+            $localeFormElement = $localeSelect->get();
+        }
+
         $content .= '
                     <tr class="mark">
                         <td class="rex-table-icon"><i class="rex-icon rex-icon-language"></i></td>
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('clang_code') . '"><input class="form-control" type="text" id="rex-form-clang-code" name="clang_code" value="' . rex_escape($sql->getValue('code')) . '" autofocus /></td>
                         <td data-title="' . rex_i18n::msg('clang_name') . '"><input class="form-control" type="text" id="rex-form-clang-name" name="clang_name" value="' . rex_escape($sql->getValue('name')) . '" /></td>
+                        <td data-title="' . rex_i18n::msg('clang_locale') . '">'.$localeFormElement.'</td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '"><input class="form-control" type="text" id="rex-form-clang-prio" name="clang_prio" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
                         <td class="rex-table-action">' . $metaButtons . '</td>
                         <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="edit_clang_save"' . rex::getAccesskey(rex_i18n::msg('clang_update'), 'save') . ' value="1">' . rex_i18n::msg('clang_update') . '</button></td>
@@ -168,6 +201,7 @@ foreach ($sql as $row) {
                         ' . $add_td . '
                         <td data-title="' . rex_i18n::msg('clang_code') . '">' . rex_escape($sql->getValue('code')) . '</td>
                         <td data-title="' . rex_i18n::msg('clang_name') . '">' . rex_escape($sql->getValue('name')) . '</td>
+                        <td data-title="' . rex_i18n::msg('clang_locale') . '">' . rex_escape($sql->getValue('locale')) . '</td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('clang_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
                         <td class="rex-table-action"><a href="' . $editLink . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit') . '</a></td>
                         <td class="rex-table-action">' . $delLink . '</td>
