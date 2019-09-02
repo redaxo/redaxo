@@ -92,7 +92,7 @@ rex_sql_table::get(rex::getTable('template'))
     ->ensureColumn(new rex_sql_column('attributes', 'text', true))
     ->ensureColumn(new rex_sql_column('revision', 'int(11)'))
     ->setPrimaryKey('id')
-    ->ensureIndex(new \rex_sql_index('key', ['key'], \rex_sql_index::UNIQUE))
+    ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('action'))
