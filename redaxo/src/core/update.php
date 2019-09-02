@@ -30,7 +30,7 @@ if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {
 if (rex_string::versionCompare(rex::getVersion(), '5.9.0', '<')) {
     rex_sql_table::get(
         rex::getTable('clang'))
-        ->ensureColumn(new \rex_sql_column('locale', 'VARCHAR(191)'), 'name')
+        ->ensureColumn(new rex_sql_column('locale', 'VARCHAR(191)'), 'name')
     ;
 }
 
