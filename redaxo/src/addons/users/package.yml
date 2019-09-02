@@ -6,7 +6,7 @@ supportpage: www.redaxo.org/de/forum/
 load: early
 
 page:
-    title: 'translate:users'
+    title: 'translate:user_management'
     perm: users[]
     block: system
     prio: 50
