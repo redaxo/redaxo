@@ -12,8 +12,9 @@ class rex_clang_service
      * @param string $name     Name
      * @param int    $priority Priority
      * @param bool   $status   Status
+     * @param string $locale   Locale
      */
-    public static function addCLang($code, $name, $locale, $priority, $status = false)
+    public static function addCLang($code, $name, $priority, $status = false, $locale = '')
     {
         $sql = rex_sql::factory();
         $sql->setTable(rex::getTablePrefix() . 'clang');
@@ -48,12 +49,13 @@ class rex_clang_service
      * @param string    $name     Name der Clang
      * @param int       $priority Priority
      * @param bool|null $status   Status
+     * @param string    $locale   Locale
      *
      * @throws rex_exception
      *
      * @return bool
      */
-    public static function editCLang($id, $code, $name, $locale, $priority, $status = null)
+    public static function editCLang($id, $code, $name, $priority, $status = null, $locale = '')
     {
         if (!rex_clang::exists($id)) {
             throw new rex_exception('clang with id "' . $id . '" does not exist');

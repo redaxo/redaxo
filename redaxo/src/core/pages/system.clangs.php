@@ -70,12 +70,12 @@ if ($add_clang_save || $edit_clang_save) {
         $func = $add_clang_save ? 'addclang' : 'editclang';
     } elseif ($add_clang_save) {
         $success = rex_i18n::msg('clang_created');
-        rex_clang_service::addCLang($clang_code, $clang_name, $clang_locale, $clang_prio);
+        rex_clang_service::addCLang($clang_code, $clang_name, $clang_prio, false, $clang_locale);
         $clang_id = 0;
         $func = '';
     } else {
         if (rex_clang::exists($clang_id)) {
-            rex_clang_service::editCLang($clang_id, $clang_code, $clang_name, $clang_locale, $clang_prio);
+            rex_clang_service::editCLang($clang_id, $clang_code, $clang_name, $clang_prio, null, $clang_locale);
             $success = rex_i18n::msg('clang_edited');
             $func = '';
             $clang_id = 0;
