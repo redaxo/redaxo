@@ -36,7 +36,6 @@ class rex_clang_service
         rex_extension::registerPoint(new rex_extension_point('CLANG_ADDED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
-            'locale' => $clang->getLocale(),
             'clang' => $clang,
         ]));
     }
@@ -85,7 +84,6 @@ class rex_clang_service
         rex_extension::registerPoint(new rex_extension_point('CLANG_UPDATED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
-            'locale' => $clang->getLocale(),
             'clang' => $clang,
         ]));
 
@@ -123,7 +121,6 @@ class rex_clang_service
         rex_extension::registerPoint(new rex_extension_point('CLANG_DELETED', '', [
             'id' => $clang->getId(),
             'name' => $clang->getName(),
-            'locale' => $clang->getLocale(),
             'clang' => $clang,
         ]));
     }
