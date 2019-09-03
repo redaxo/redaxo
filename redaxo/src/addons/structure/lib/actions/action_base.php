@@ -1,5 +1,5 @@
 <?php
-abstract class rex_structure_action_base
+abstract class rex_structure_action_base extends rex_structure_field_base
 {
     use rex_factory_trait;
 
@@ -8,37 +8,23 @@ abstract class rex_structure_action_base
      */
     protected $structure_context;
     /**
-     * @var rex_sql
+     * @var rex_sql|null
      */
     protected $sql;
 
     /**
      * @param rex_structure_context $structure_context
-     * @param rex_sql $sql
+     * @param rex_sql|null $sql
      *
-     * @return mixed
+     * @return $this
      */
-    public static function factory(rex_structure_context $structure_context, rex_sql $sql)
-    {
-        $class = static::getFactoryClass();
-
-        return new $class($structure_context, $sql);
-    }
-
-    /**
-     * @param rex_structure_context $structure_context
-     * @param rex_sql $sql
-     */
-    protected function __construct(rex_structure_context $structure_context, rex_sql $sql)
+    public function setContext(rex_structure_context $structure_context, $sql)
     {
         $this->structure_context = $structure_context;
         $this->sql = $sql;
+
+        return $this;
     }
 
-    /**
-     * This method implements the generation and return of an html action
-     *
-     * @return string
-     */
     abstract public function get();
 }

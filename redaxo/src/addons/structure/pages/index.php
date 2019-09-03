@@ -246,56 +246,76 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
 
         $fragment = new rex_fragment();
         $fragment->setVar('artPager', $artPager, false);
+        $fragment->setVar('sql', null, false);
         $fragment->setVar('tmpl_td', $tmpl_td, false);
         $fragment->setVar('structure_context', $structure_context, false);
         $echo .= $fragment->parse('structure/table_row_articles_form.php');
     }
 
     // --------------------- ARTIKEL LIST
-
     for ($i = 0; $i < $sql->getRows(); ++$i) {
-        if ($sql->getValue('id') == rex_article::getSiteStartArticleId()) {
-            $class = ' rex-icon-sitestartarticle';
-        } elseif (1 == $sql->getValue('startarticle')) {
-            $class = ' rex-icon-startarticle';
-        } else {
-            $class = ' rex-icon-article';
-        }
+        $fields = [
+            rex_structure_field::factory('icon')
+                ->setField(rex_structure_action_icon::factory('icon')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-icon']),
+            rex_structure_field::factory('id')
+                ->setField(rex_structure_action_id::factory('id')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-id', 'data-title' => rex_i18n::msg('header_id')]),
+            rex_structure_field::factory('name')
+                ->setField(rex_structure_action_name::factory('name')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['data-title' => rex_i18n::msg('header_article_name')]),
+            rex_structure_field::factory('template')
+                ->setField(rex_structure_action_template::factory('template')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['data-title' => rex_i18n::msg('header_template')])
+                ->setCondition($structure_context->hasTemplates()),
+            rex_structure_field::factory('date')
+                ->setField(rex_structure_action_createdate::factory('date')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['data-title' => rex_i18n::msg('header_date')]),
+            rex_structure_field::factory('priority')
+                ->setField(rex_structure_action_priority::factory('priority')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-priority', 'data-title' => rex_i18n::msg('header_priority')]),
+        ];
 
-        $class_startarticle = '';
-        if (1 == $sql->getValue('startarticle')) {
-            $class_startarticle = ' rex-startarticle';
-        }
-
-        // --------------------- ARTIKEL EDIT FORM
-
+        // ARTIKEL EDIT FORM
         if ('edit_art' == $structure_context->getFunction() && $sql->getValue('id') == $structure_context->getArticleId() && $structure_context->hasCategoryPermission()) {
-            $tmpl_td = '';
-            if ($structure_context->hasTemplates()) {
-                $template_select->setSelected($sql->getValue('template_id'));
-                $tmpl_td = $template_select->get();
-            }
+            $fields[] = rex_structure_field::factory('submit')
+                ->setField(rex_structure_action_submit::factory('submit')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-action', 'colspan' => 3]);
 
-            $fragment = new rex_fragment();
-            $fragment->setVar('class', $class, false);
-            $fragment->setVar('class_startarticle', $class_startarticle, false);
-            $fragment->setVar('sql', $sql, false);
-            $fragment->setVar('tmpl_td', $tmpl_td, false);
-            $fragment->setVar('structure_context', $structure_context, false);
-            $echo .= $fragment->parse('structure/table_row_articles_form.php');
-        } elseif ($structure_context->hasCategoryPermission()) {
-            // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
-            $fragment = new rex_fragment();
-            $fragment->setVar('sql', $sql, false);
-            $fragment->setVar('structure_context', $structure_context, false);
-            $echo .= $fragment->parse('structure/table_row_articles.php');
-        } else {
-            // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
-            $fragment = new rex_fragment();
-            $fragment->setVar('sql', $sql, false);
-            $fragment->setVar('structure_context', $structure_context, false);
-            $echo .= $fragment->parse('structure/table_row_articles.php');
+            $row = rex_structure_field::factory('article_row_'.$i)
+                ->setFields($fields)
+                ->setFragment('structure\tr.php')
+                ->setAttributes(['class' => 'mark'.(1 == $sql->getValue('startarticle') ? ' rex-startarticle' : '')]);
         }
+        // ARTIKEL NORMAL VIEW | EDIT AND ENTER | NO EDIT NO ENTER
+        else {
+            $fields[] = rex_structure_field::factory('change')
+                ->setField(rex_structure_action_change::factory('change')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-action']);
+            $fields[] = rex_structure_field::factory('delete')
+                ->setField(rex_structure_action_delete::factory('delete')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-action']);
+            $fields[] = rex_structure_field::factory('status')
+                ->setField(rex_structure_action_status::factory('status')->setContext($structure_context, $sql))
+                ->setFragment('structure\td.php')
+                ->setAttributes(['class' => 'rex-table-action']);
+
+            $row = rex_structure_field::factory('article_row_'.$i)
+                ->setFields($fields)
+                ->setFragment('structure\tr.php')
+                ->setAttributes(['class' => 1 == $sql->getValue('startarticle') ? ' rex-startarticle' : '']);
+
+        }
+        $echo .= $row->get();
 
         $sql->next();
     }
