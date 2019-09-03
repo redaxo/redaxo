@@ -26,8 +26,10 @@ foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
 ob_start();
 ob_implicit_flush(0);
 
-// deactivate session cache limiter
-session_cache_limiter(false);
+if ('cli' !== PHP_SAPI) {
+    // deactivate session cache limiter
+    session_cache_limiter(false);
+}
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');

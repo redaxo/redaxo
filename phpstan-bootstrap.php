@@ -16,7 +16,7 @@ $finder = rex_finder::factory('redaxo/src/')
     ->filesOnly();
 /** @var SplFileInfo $file */
 foreach ($finder as $path => $file) {
-    if (strpos($file->getPath(), 'functions') !== false) {
+    if (false !== strpos($file->getPath(), 'functions') && '.php' === substr($path, -4)) {
         require_once $file->getRealPath();
     }
 }

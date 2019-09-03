@@ -13,15 +13,15 @@ $noadmin = rex_request('noadmin', 'string');
 $lang = rex_request('lang', 'string');
 
 // ---------------------------------- Step 1 . Language
-if (1 == $step) {
+if (1 >= $step) {
     rex_setup::init();
 
     $langs = [];
     foreach (rex_i18n::getLocales() as $locale) {
         $label = rex_i18n::msgInLocale('lang', $locale);
-        $langs[$locale] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
+        $langs[$label] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
     }
-
+    ksort($langs);
     echo rex_view::title(rex_i18n::msg('setup_100'));
     $content = '<div class="list-group">' . implode('', $langs) . '</div>';
 
@@ -29,11 +29,13 @@ if (1 == $step) {
     $fragment->setVar('heading', rex_i18n::msg('setup_101'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
+
+    return;
 }
 
 // ---------------------------------- Step 2 . license
 
-if (2 == $step) {
+if (2 === $step) {
     rex::setProperty('lang', $lang);
 
     $license_file = rex_path::base('LICENSE.md');
@@ -51,6 +53,8 @@ if (2 == $step) {
     $fragment->setVar('body', '<div class="rex-scrollable">' . $content . '</div>', false);
     $fragment->setVar('buttons', $buttons, false);
     echo $fragment->parse('core/page/section.php');
+
+    return;
 }
 
 // ---------------------------------- Step 3 . Perms, Environment
@@ -82,11 +86,11 @@ if (count($res) > 0) {
     $success_array[] = rex_i18n::msg('setup_309');
 }
 
-if ($step > 2 && count($error_array) > 0) {
+if (count($error_array) > 0) {
     $step = 3;
 }
 
-if (3 == $step) {
+if (3 === $step) {
     $content = '';
 
     if (count($success_array) > 0) {
@@ -157,22 +161,22 @@ if (3 == $step) {
     $fragment->setVar('buttons', $buttons, false);
     echo '<div class="rex-js-setup-section">' . $fragment->parse('core/page/section.php') . '</div>';
     echo $security;
+
+    return;
 }
 
 // ---------------------------------- step 4 . Config
 
 $error_array = [];
 
-if ($step >= 4) {
-    $configFile = rex_path::coreData('config.yml');
-    $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
-    );
+$configFile = rex_path::coreData('config.yml');
+$config = array_merge(
+    rex_file::getConfig(rex_path::core('default.config.yml')),
+    rex_file::getConfig($configFile)
+);
 
-    if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {
-        $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
-    }
+if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {
+    $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
 }
 
 if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
@@ -253,7 +257,7 @@ if ($step > 4) {
     }
 }
 
-if (4 == $step) {
+if (4 === $step) {
     $headline = rex_view::title(rex_i18n::msg('setup_400'));
 
     $content = '';
@@ -402,6 +406,8 @@ if (4 == $step) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
+
+    return;
 }
 
 // ---------------------------------- step 5 . create db / demo
@@ -458,13 +464,11 @@ if ($step > 5 && $createdb > -1) {
     }
 }
 
-if ($step > 5) {
-    if ('' == !rex_setup_importer::verifyDbSchema()) {
-        $step = 5;
-    }
+if ($step > 5 && '' == !rex_setup_importer::verifyDbSchema()) {
+    $step = 5;
 }
 
-if (5 == $step) {
+if (5 === $step) {
     $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
     $createdb = rex_post('createdb', 'int', '');
@@ -626,13 +630,15 @@ if (5 == $step) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
+
+    return;
 }
 
 // ---------------------------------- Step 7 . Create User
 
 $errors = [];
 
-if (7 == $step) {
+if (7 === $step) {
     $noadmin = rex_post('noadmin', 'int');
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
     $redaxo_user_pass = rex_post('redaxo_user_pass', 'string');
@@ -688,7 +694,7 @@ if (7 == $step) {
     }
 }
 
-if (6 == $step) {
+if (6 === $step) {
     $user_sql = rex_sql::factory();
     $user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
@@ -802,11 +808,13 @@ if (6 == $step) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form class="rex-js-createadminform" action="' . rex_url::backendController() . '" method="post" autocomplete="off">' . $content . '</form>';
+
+    return;
 }
 
 // ---------------------------------- step 7 . thank you . setup false
 
-if (7 == $step) {
+if (7 === $step) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),
