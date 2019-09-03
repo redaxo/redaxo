@@ -6,7 +6,13 @@ class rex_structure_action_template extends rex_structure_action_base
      */
     public function get()
     {
-        $tmpl_td = '';
+        if ($this->sql instanceof rex_sql) {
+            $article_id = $this->sql->getValue('id');
+            $template_id = $this->sql->getValue('template_id');
+        } else {
+            $article_id = 0;
+            $template_id = 0;
+        }
 
         // Plugin structure/content is not available
         if (!$this->structure_context->hasTemplates()) {
@@ -24,19 +30,19 @@ class rex_structure_action_template extends rex_structure_action_base
 
         if ($this->structure_context->hasCategoryPermission()) {
             // Add article
-            if ('add_art' == $this->structure_context->getFunction() && $this->sql->getValue('id') == 0) {
+            if ('add_art' == $this->structure_context->getFunction() && 0 == $article_id) {
                 $template_select->setSelected();
                 return $template_select->get();
             }
 
             // Edit article
-            if ('edit_art' == $this->structure_context->getFunction() && $this->sql->getValue('id') == $this->structure_context->getArticleId()) {
-                $template_select->setSelected($this->sql->getValue('template_id'));
+            if ('edit_art' == $this->structure_context->getFunction() && $article_id == $this->structure_context->getArticleId()) {
+                $template_select->setSelected($template_id);
                 return $template_select->get();
             }
         }
 
         // Any other case
-        return isset($template_name[$this->sql->getValue('template_id')]) ? $template_name[$this->sql->getValue('template_id')] : '';
+        return isset($template_name[$template_id]) ? $template_name[$template_id] : '';
     }
 }
