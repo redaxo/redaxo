@@ -1,10 +1,27 @@
 <?php
-class rex_structure_action_icon extends rex_structure_action_base
+class rex_structure_field_icon extends rex_structure_field_base
 {
     /**
      * @return string
      */
     public function get()
+    {
+        switch ($this->type) {
+            case rex_structure_field_group::HEADER:
+                return $this->getHeader();
+                break;
+
+            case rex_structure_field_group::BODY:
+            default:
+                return $this->getBody();
+
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBody()
     {
         if ($this->sql instanceof rex_sql) {
             $article_id = $this->sql->getValue('id');
@@ -26,16 +43,33 @@ class rex_structure_action_icon extends rex_structure_action_base
 
         $icon = '<i class="rex-icon'.$class.'"></i>';
 
-        if (!$this->structure_context->hasCategoryPermission() || 0 == $article_id) {
+        if (!$this->context->hasCategoryPermission() || 0 == $article_id) {
             return $icon;
         }
 
-        $url = $this->structure_context->getContext()->getUrl([
+        $url = $this->context->getContext()->getUrl([
             'page' => 'content/edit',
             'article_id' => $article_id,
             'mode' => 'edit',
         ]);
 
         return '<a href="'.$url.'" title="'.rex_escape($article_name).'"><i class="rex-icon'.$class.'"></i></a>';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getHeader()
+    {
+        if (!$this->context->hasCategoryPermission()) {
+            return '';
+        }
+
+        $url = $this->context->getContext()->getUrl([
+            'function' => 'add_art',
+            'artstart' => $this->context->getArtStart()
+        ]);
+
+        return '<a href="'.$url.'" '.rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2').'><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 }
