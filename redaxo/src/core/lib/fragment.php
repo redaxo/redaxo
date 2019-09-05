@@ -29,11 +29,39 @@ class rex_fragment
     /**
      * Creates a fragment with the given variables.
      *
-     * @param array $vars A array of key-value pairs to pass as local parameters
+     * @param array $vars An array of key-value pairs to pass as local parameters
      */
     public function __construct(array $vars = [])
     {
         $this->vars = $vars;
+    }
+
+    /**
+     * Sets multiple variables.
+     *
+     * @param array $vars An array of key-value pairs to pass as local parameters
+     *
+     * @return rex_fragment
+     */
+    public function setVars(array $vars = [])
+    {
+        $this->vars = $vars;
+
+        return $this;
+    }
+
+    /**
+     * Sets multiple variables.
+     *
+     * @param array $vars An array of key-value pairs to pass as local parameters
+     *
+     * @return rex_fragment
+     */
+    public function addVars(array $vars = [])
+    {
+        $this->vars += $vars;
+
+        return $this;
     }
 
     /**
@@ -80,6 +108,24 @@ class rex_fragment
     }
 
     /**
+     * @param string $filename the filename of the fragment to parse
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return $this
+     */
+    public function setFileName($filename)
+    {
+        if (!is_string($filename)) {
+            throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
+        }
+
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
      * Parses the variables of the fragment into the file $filename.
      *
      * @param string $filename the filename of the fragment to parse
@@ -89,12 +135,15 @@ class rex_fragment
      *
      * @return string
      */
-    public function parse($filename)
+    public function parse($filename = '')
     {
         if (!is_string($filename)) {
             throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
         }
 
+        if (!$filename && $this->filename) {
+            $filename = $this->filename;
+        }
         $this->filename = $filename;
 
         foreach (self::$fragmentDirs as $fragDir) {
