@@ -5,7 +5,20 @@ xmlns="https://getpsalm.org/schema/config"
 autoloader="phpstan-bootstrap.php"
 >
     <projectFiles>
-        <directory name="redaxo/src"/>
+        <directory name="redaxo/src/core"/>
+        <directory name="redaxo/src/addons/backup"/>
+        <directory name="redaxo/src/addons/be_style"/>
+        <directory name="redaxo/src/addons/cronjob"/>
+        <directory name="redaxo/src/addons/debug"/>
+        <directory name="redaxo/src/addons/install"/>
+        <directory name="redaxo/src/addons/media_manager"/>
+        <directory name="redaxo/src/addons/mediapool"/>
+        <directory name="redaxo/src/addons/metainfo"/>
+        <directory name="redaxo/src/addons/phpmailer"/>
+        <directory name="redaxo/src/addons/project"/>
+        <directory name="redaxo/src/addons/structure"/>
+        <directory name="redaxo/src/addons/tests"/>
+        <directory name="redaxo/src/addons/users"/>
         <ignoreFiles>
             <directory name="redaxo/src/addons/be_style/vendor/" />
             <directory name="redaxo/src/addons/debug/vendor/" />
