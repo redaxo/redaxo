@@ -8,7 +8,7 @@ if (PHP_VERSION_ID < 70103) {
 }
 
 $mysqlVersion = rex_sql::getServerVersion();
-$minMysqlVersion = '5.5.3';
+$minMysqlVersion = '5.6.15';
 if (rex_string::versionCompare($mysqlVersion, $minMysqlVersion, '<')) {
     // The message was added in REDAXO 5.6.0, so it does not exist while updating from previous versions
     $message = rex_i18n::hasMsg('sql_database_min_version')
