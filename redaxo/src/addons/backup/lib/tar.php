@@ -135,7 +135,6 @@ class rex_backup_tar extends tar
 
     /**
      * Read a non gzipped tar file in for processing.
-     * PRIVATE ACCESS FUNCTION
      *
      * @param string $filename
      *
@@ -175,7 +174,7 @@ class rex_backup_tar extends tar
      * Saves tar archive to a different file than the current file.
      *
      * @param string $filename
-     * @param bool $useGzip
+     * @param bool   $useGzip
      *
      * @return bool|string
      */
