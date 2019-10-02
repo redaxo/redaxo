@@ -14,7 +14,6 @@
  *
  * @internal
  */
-
 class rex_backup_tar extends tar
 {
     private $messages = [];
@@ -29,6 +28,8 @@ class rex_backup_tar extends tar
      * Open a TAR file
      *
      * @param string $filename
+     *
+     * @return boolean
      */
     public function openTAR($filename)
     {
@@ -58,6 +59,8 @@ class rex_backup_tar extends tar
      * Add a file to the tar archive
      *
      * @param string $filename
+     *
+     * @return boolean
      */
     public function addFile($filename)
     {
@@ -103,6 +106,8 @@ class rex_backup_tar extends tar
      * Add a directory to this tar archive
      *
      * @param string $dirname
+     *
+     * @return boolean
      */
     public function addDirectory($dirname)
     {
@@ -132,6 +137,8 @@ class rex_backup_tar extends tar
      * PRIVATE ACCESS FUNCTION
      *
      * @param string $filename
+     *
+     * @return boolean
      */
     protected function __readTar($filename = '')
     {
@@ -168,6 +175,8 @@ class rex_backup_tar extends tar
      *
      * @param string $filename
      * @param boolean $useGzip
+     *
+     * @return boolean|string
      */
     public function toTar($filename, $useGzip)
     {
