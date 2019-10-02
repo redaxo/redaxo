@@ -25,7 +25,11 @@ class rex_backup_tar extends tar
         parent::__construct();
     }
 
-    // Open a TAR file
+    /**
+     * Open a TAR file
+     *
+     * @param string $filename
+     */
     public function openTAR($filename)
     {
         // call constructor to omit warnings instead of unset vars..
@@ -50,7 +54,11 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Add a file to the tar archive
+    /**
+     * Add a file to the tar archive
+     *
+     * @param string $filename
+     */
     public function addFile($filename)
     {
         // Make sure the file we are adding exists!
@@ -91,7 +99,11 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Add a directory to this tar archive
+    /**
+     * Add a directory to this tar archive
+     *
+     * @param string $dirname
+     */
     public function addDirectory($dirname)
     {
         if (!file_exists($dirname)) {
@@ -115,8 +127,12 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Read a non gzipped tar file in for processing
-    // PRIVATE ACCESS FUNCTION
+    /**
+     * Read a non gzipped tar file in for processing
+     * PRIVATE ACCESS FUNCTION
+     *
+     * @param string $filename
+     */
     protected function __readTar($filename = '')
     {
         // Set the filename to load
@@ -147,7 +163,12 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Saves tar archive to a different file than the current file
+    /**
+     * Saves tar archive to a different file than the current file
+     *
+     * @param string $filename
+     * @param boolean $useGzip
+     */
     public function toTar($filename, $useGzip)
     {
         // Encode processed files into TAR file format
@@ -277,6 +298,9 @@ class rex_backup_tar extends tar
         return true;
     }
 
+    /**
+     * @return boolean
+     */
     public function extractTar()
     {
         // kills: Warnung verhindern
@@ -302,6 +326,9 @@ class rex_backup_tar extends tar
         return true;
     }
 
+    /**
+     * @return string[]
+     */
     public function getMessages()
     {
         return $this->messages;
