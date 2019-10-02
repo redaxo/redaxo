@@ -16,6 +16,7 @@
  */
 class rex_backup_tar extends tar
 {
+    /** @var string[] */
     private $messages = [];
 
     // constructor to omit warnings
@@ -25,11 +26,11 @@ class rex_backup_tar extends tar
     }
 
     /**
-     * Open a TAR file
+     * Open a TAR file.
      *
      * @param string $filename
      *
-     * @return boolean
+     * @return bool
      */
     public function openTAR($filename)
     {
@@ -56,11 +57,11 @@ class rex_backup_tar extends tar
     }
 
     /**
-     * Add a file to the tar archive
+     * Add a file to the tar archive.
      *
      * @param string $filename
      *
-     * @return boolean
+     * @return bool
      */
     public function addFile($filename)
     {
@@ -103,11 +104,11 @@ class rex_backup_tar extends tar
     }
 
     /**
-     * Add a directory to this tar archive
+     * Add a directory to this tar archive.
      *
      * @param string $dirname
      *
-     * @return boolean
+     * @return bool
      */
     public function addDirectory($dirname)
     {
@@ -133,12 +134,12 @@ class rex_backup_tar extends tar
     }
 
     /**
-     * Read a non gzipped tar file in for processing
+     * Read a non gzipped tar file in for processing.
      * PRIVATE ACCESS FUNCTION
      *
      * @param string $filename
      *
-     * @return boolean
+     * @return bool
      */
     protected function __readTar($filename = '')
     {
@@ -171,12 +172,12 @@ class rex_backup_tar extends tar
     }
 
     /**
-     * Saves tar archive to a different file than the current file
+     * Saves tar archive to a different file than the current file.
      *
      * @param string $filename
-     * @param boolean $useGzip
+     * @param bool $useGzip
      *
-     * @return boolean|string
+     * @return bool|string
      */
     public function toTar($filename, $useGzip)
     {
@@ -308,7 +309,7 @@ class rex_backup_tar extends tar
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function extractTar()
     {
