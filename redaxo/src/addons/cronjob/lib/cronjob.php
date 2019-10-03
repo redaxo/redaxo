@@ -17,6 +17,7 @@ abstract class rex_cronjob
 
     /**
      * @template T as rex_cronjob
+     *
      * @param class-string<T> $class
      *
      * @return class-string<T>|T
