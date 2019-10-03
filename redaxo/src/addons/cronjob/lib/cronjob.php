@@ -16,9 +16,10 @@ abstract class rex_cronjob
     private $message = '';
 
     /**
-     * @param class-string $class
+     * @template T as rex_cronjob
+     * @param class-string<T> $class
      *
-     * @return class-string|object
+     * @return class-string<T>|object
      */
     final public static function factory($class)
     {
