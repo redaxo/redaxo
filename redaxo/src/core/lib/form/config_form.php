@@ -11,7 +11,7 @@ class rex_config_form extends rex_form_base
 
     /** @var string */
     private $namespace;
-    
+
     /**
      * @param string      $namespace `rex_config` namespace, usually the package key
      * @param null|string $fieldset
