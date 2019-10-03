@@ -14,6 +14,9 @@ abstract class rex_cronjob
     /** @var string */
     private $message = '';
 
+    /**
+     * @param string $class
+     */
     final public static function factory($class)
     {
         if (!rex_autoload::autoload($class)) {
