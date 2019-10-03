@@ -702,7 +702,7 @@ class rex_sql_table
     public function alter()
     {
         if ($this->new) {
-            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->name));
+            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
         }
 
         $parts = [];
