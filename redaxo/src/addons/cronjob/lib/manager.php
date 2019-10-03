@@ -10,14 +10,20 @@
 
 class rex_cronjob_manager
 {
+    /**
+     * @template T as rex_cronjob
+     * @var class-string<T>[]
+     */
     private static $types = [
         'rex_cronjob_phpcode',
         'rex_cronjob_phpcallback',
         'rex_cronjob_urlrequest',
     ];
 
+    /** @var string */
     private $message = '';
     private $cronjob;
+    /** @var string */
     private $name;
     private $id;
 
@@ -91,6 +97,10 @@ class rex_cronjob_manager
         return $success;
     }
 
+    /**
+     * @param bool $success
+     * @param string $message
+     */
     public function log($success, $message)
     {
         $name = $this->name;
@@ -111,16 +121,27 @@ class rex_cronjob_manager
         $log->add($data);
     }
 
+    /**
+     * @template T as rex_cronjob
+     * @return class-string<T>[]
+     */
     public static function getTypes()
     {
         return self::$types;
     }
 
+    /**
+     * @template T as rex_cronjob
+     * @param class-string<T> $class
+     */
     public static function registerType($class)
     {
         self::$types[] = $class;
     }
 
+    /**
+     * @return string
+     */
     public static function getCurrentEnvironment()
     {
         if (defined('REX_CRONJOB_SCRIPT') && REX_CRONJOB_SCRIPT) {
