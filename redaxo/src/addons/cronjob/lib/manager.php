@@ -11,9 +11,7 @@
 class rex_cronjob_manager
 {
     /**
-     * @template T as rex_cronjob
-     *
-     * @var class-string<T>[]
+     * @var string[]
      */
     private static $types = [
         'rex_cronjob_phpcode',
