@@ -99,7 +99,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @param bool $success
+     * @param bool   $success
      * @param string $message
      */
     public function log($success, $message)
