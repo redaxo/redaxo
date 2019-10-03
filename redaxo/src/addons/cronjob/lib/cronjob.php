@@ -16,7 +16,7 @@ abstract class rex_cronjob
     private $message = '';
 
     /**
-     * @template T as rex_cronjob
+     * @template T of rex_cronjob
      *
      * @param class-string<T> $class
      *
