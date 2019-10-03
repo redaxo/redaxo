@@ -5,7 +5,7 @@
  *
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
- * @template T as rex_cronjob
+ * @template T of rex_cronjob
  *
  * @package redaxo\cronjob
  */
