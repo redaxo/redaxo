@@ -15,7 +15,7 @@ abstract class rex_cronjob
     private $message = '';
 
     /**
-     * @param string $class
+     * @param class-string $class
      */
     final public static function factory($class)
     {
