@@ -10,12 +10,15 @@
 
 abstract class rex_cronjob
 {
+    /** @var array */
     private $params = [];
     /** @var string */
     private $message = '';
 
     /**
      * @param class-string $class
+     *
+     * @return class-string|object
      */
     final public static function factory($class)
     {
