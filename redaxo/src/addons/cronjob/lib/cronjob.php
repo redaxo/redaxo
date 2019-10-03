@@ -26,6 +26,9 @@ abstract class rex_cronjob
         return new $class();
     }
 
+    /**
+     * @param string $key
+     */
     public function setParam($key, $value)
     {
         $this->params[$key] = $value;
@@ -36,6 +39,9 @@ abstract class rex_cronjob
         $this->params = $params;
     }
 
+    /**
+     * @param string $key
+     */
     public function getParam($key, $default = null)
     {
         if (isset($this->params[$key])) {
