@@ -43,7 +43,7 @@ class rex_form extends rex_form_base
      * @param string $whereCondition
      * @param string $method
      * @param bool   $debug
-     * @param int    $db             DB connection IDs
+     * @param int    $db             DB connection ID
      */
     protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
@@ -88,7 +88,7 @@ class rex_form extends rex_form_base
      * @param string $whereCondition
      * @param string $method
      * @param bool   $debug
-     * @param int    $db             DB connection IDs
+     * @param int    $db             DB connection ID
      *
      * @return static a rex_form instance
      */
