@@ -12,6 +12,7 @@ class rex_cronjob_manager
 {
     /**
      * @template T as rex_cronjob
+     *
      * @var class-string<T>[]
      */
     private static $types = [
@@ -123,6 +124,7 @@ class rex_cronjob_manager
 
     /**
      * @template T as rex_cronjob
+     *
      * @return class-string<T>[]
      */
     public static function getTypes()
@@ -132,6 +134,7 @@ class rex_cronjob_manager
 
     /**
      * @template T as rex_cronjob
+     *
      * @param class-string<T> $class
      */
     public static function registerType($class)
