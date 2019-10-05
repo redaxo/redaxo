@@ -13,7 +13,7 @@ class rex_template_select extends rex_select
      */
     protected $category_id;
     /**
-     * @var array
+     * @var string[]
      */
     protected $templates;
     /**
