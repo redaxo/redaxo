@@ -6,7 +6,7 @@ on:
     - master
     - bugfix
     - temp
-  pull_request
+  pull_request:
 
 jobs:
 
