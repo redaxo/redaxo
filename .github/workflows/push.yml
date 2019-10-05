@@ -1,0 +1,27 @@
+name: PHP Checks
+
+on: [push]
+
+jobs:
+
+  rex-lint:
+    name: REX Linting
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306
+    steps:
+    - uses: actions/checkout@master
+    - name: REX Linting
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: 7.1
+    - run: mysql -e 'create database redaxo_5_0;'
+    - run: php redaxo/src/addons/tests/bin/setup.php
+    
+    - run: composer require --dev friendsofredaxo/linter && vendor/bin/rexlint
+    
+    - run: php redaxo/bin/console be_style:compile
+    - run: git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
