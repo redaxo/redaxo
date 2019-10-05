@@ -25,7 +25,7 @@ class rex_template_select extends rex_select
      * @param int $category_id
      * @param int $clang_id
      */
-    public function __construct($category_id = 0, $clang_id = 1)
+    public function __construct($category_id, $clang_id)
     {
         $this->category_id = (int) $category_id;
         $this->clang_id = (int) $clang_id;
