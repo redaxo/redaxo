@@ -97,3 +97,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.4snapshot
             dist: xenial
+matrix:
+     allow_failures:
+       - php: 7.3
+         env: TYPE=phpstan
