@@ -416,6 +416,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' == $function && $KATPERM) {
         $tmpl_td = '';
+        if ($withTemplates) {
             $template_select->setSelected();
 
             $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
@@ -453,7 +454,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
 
         if ('edit_art' == $function && $sql->getValue('id') == $article_id && $KATPERM) {
             $tmpl_td = '';
-            if ($structure_context->hasTemplates()) {
+            if ($withTemplates) {
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
             }
@@ -493,7 +494,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
             $editModeUrl = $context->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
 
             $tmpl_td = '';
-            if ($structure_context->hasTemplates()) {
+            if ($withTemplates) {
                 $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
@@ -517,7 +518,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
             $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
 
             $tmpl_td = '';
-            if ($structure_context->hasTemplates()) {
+            if ($withTemplates) {
                 $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
