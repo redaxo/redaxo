@@ -20,7 +20,7 @@ jobs:
           - 3306
     steps:
     - uses: actions/checkout@master
-    - name: REX Linting
+    - name: Setup PHP
       uses: shivammathur/setup-php@master
       with:
         php-version: 7.1
