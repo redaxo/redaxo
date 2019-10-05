@@ -329,7 +329,7 @@ $echo = '';
 
 // --------------------- READ TEMPLATES
 
-$template_select = new rex_select();
+$template_select = new rex_template_select($category_id, $clang);
 
 if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
     $withTemplates = $addon->getPlugin('content')->isAvailable();
@@ -339,16 +339,9 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
         $template_select->setSize(1);
         $template_select->setStyle('class="form-control selectpicker"');
 
-        $templates = rex_template::getTemplatesForCategory($category_id);
-        if (count($templates) > 0) {
-            foreach ($templates as $t_id => $t_name) {
-                $template_select->addOption(rex_i18n::translate($t_name, false), $t_id);
-                $TEMPLATE_NAME[$t_id] = rex_i18n::translate($t_name);
-            }
-        } else {
-            $template_select->addOption(rex_i18n::msg('option_no_template'), '0');
-        }
+        $TEMPLATE_NAME = $template_select->getTemplates();
         $TEMPLATE_NAME[0] = rex_i18n::msg('template_default_name');
+
         $tmpl_head = '<th>' . rex_i18n::msg('header_template') . '</th>';
     }
 
@@ -423,22 +416,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' == $function && $KATPERM) {
         $tmpl_td = '';
-        if ($withTemplates) {
-            $selectedTemplate = 0;
-            if ($category_id) {
-                // template_id vom Startartikel erben
-                $sql2 = rex_sql::factory();
-                $sql2->setQuery('SELECT template_id FROM ' . rex::getTablePrefix() . 'article WHERE id=' . $category_id . ' AND clang_id=' . $clang . ' AND startarticle=1');
-                if (1 == $sql2->getRows()) {
-                    $selectedTemplate = $sql2->getValue('template_id');
-                }
-            }
-            if (!$selectedTemplate || !isset($TEMPLATE_NAME[$selectedTemplate])) {
-                $selectedTemplate = rex_template::getDefaultId();
-            }
-            if ($selectedTemplate && isset($TEMPLATE_NAME[$selectedTemplate])) {
-                $template_select->setSelected($selectedTemplate);
-            }
+            $template_select->setSelected();
 
             $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
         }
@@ -475,7 +453,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
 
         if ('edit_art' == $function && $sql->getValue('id') == $article_id && $KATPERM) {
             $tmpl_td = '';
-            if ($withTemplates) {
+            if ($structure_context->hasTemplates()) {
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
             }
@@ -515,7 +493,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
             $editModeUrl = $context->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
 
             $tmpl_td = '';
-            if ($withTemplates) {
+            if ($structure_context->hasTemplates()) {
                 $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
@@ -539,7 +517,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
             $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
 
             $tmpl_td = '';
-            if ($withTemplates) {
+            if ($structure_context->hasTemplates()) {
                 $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
