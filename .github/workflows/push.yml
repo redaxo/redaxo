@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - master
+    - bugfix
+    - temp
   pull_request
 
 jobs:
