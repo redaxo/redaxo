@@ -89,7 +89,7 @@ class rex_template_select extends rex_select
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getTemplates()
     {
