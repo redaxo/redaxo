@@ -10,7 +10,12 @@ abstract class rex_effect_abstract
      */
     public $media;
 
-    public $params = []; // effekt parameter
+    /**
+     * effekt parameter.
+     *
+     * @var array
+     */
+    public $params = [];
 
     public function setMedia(rex_managed_media $media)
     {
@@ -24,14 +29,34 @@ abstract class rex_effect_abstract
 
     abstract public function execute();
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return get_class($this);
     }
 
+    /**
+     * Returns a array of array items each describing a spec of a input field with which the enduser can configure parameters for this effect.
+     *
+     * Example:
+     *     return [
+     *       [
+     *         'label' => rex_i18n::msg('...'),  -> a short user-friendly field label
+     *         'notice' => rex_i18n::msg('...'), -> additional description.
+     *         'name' => 'contrast',             -> name of your parameter. this will be the index within $this->params
+     *         'type' => 'int',                  -> scalar storage type
+     *         'default' => '',                  -> default value
+     *       ],
+     *       // ... the next input-field spec
+     *     ];
+     *
+     * @return array
+     */
     public function getParams()
     {
-        // NOOP
+        // implement me in your subclass.
     }
 
     protected function keepTransparent($des)
