@@ -21,7 +21,7 @@ class rex_install_packages
     private static $myPackages;
 
     /**
-     * @return array|null
+     * @return array
      * @throws rex_functional_exception
      */
     public static function getUpdatePackages()
@@ -60,7 +60,7 @@ class rex_install_packages
     }
 
     /**
-     * @return array|null
+     * @return array
      * @throws rex_functional_exception
      */
     public static function getAddPackages()
@@ -81,7 +81,7 @@ class rex_install_packages
     /**
      * Returns all packages owned by the current user
      *
-     * @return array|null
+     * @return array
      * @throws rex_functional_exception
      */
     public static function getMyPackages()
@@ -111,7 +111,7 @@ class rex_install_packages
 
     /**
      * @param string $path
-     * @return array|null
+     * @return array
      * @throws rex_functional_exception
      */
     private static function getPackages($path = '')
