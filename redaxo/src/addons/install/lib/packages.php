@@ -7,10 +7,23 @@
  */
 class rex_install_packages
 {
+    /**
+     * @var array
+     */
     private static $updatePackages;
+    /**
+     * @var array
+     */
     private static $addPackages;
+    /**
+     * @var array
+     */
     private static $myPackages;
 
+    /**
+     * @return array|null
+     * @throws rex_functional_exception
+     */
     public static function getUpdatePackages()
     {
         if (is_array(self::$updatePackages)) {
@@ -46,6 +59,10 @@ class rex_install_packages
         }
     }
 
+    /**
+     * @return array|null
+     * @throws rex_functional_exception
+     */
     public static function getAddPackages()
     {
         if (is_array(self::$addPackages)) {
@@ -61,6 +78,12 @@ class rex_install_packages
         self::$myPackages = null;
     }
 
+    /**
+     * Returns all packages owned by the current user
+     *
+     * @return array|null
+     * @throws rex_functional_exception
+     */
     public static function getMyPackages()
     {
         if (is_array(self::$myPackages)) {
@@ -76,16 +99,29 @@ class rex_install_packages
         return self::$myPackages;
     }
 
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
     public static function getPath($path = '')
     {
         return 'packages/' . $path;
     }
 
+    /**
+     * @param string $path
+     * @return array|null
+     * @throws rex_functional_exception
+     */
     private static function getPackages($path = '')
     {
         return rex_install_webservice::getJson(self::getPath($path));
     }
 
+    /**
+     * Deletes all locally cached packages
+     */
     public static function deleteCache()
     {
         self::$updatePackages = null;
