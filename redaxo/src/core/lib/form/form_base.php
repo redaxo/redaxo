@@ -30,7 +30,7 @@ abstract class rex_form_base
     protected $message;
 
     /** @var array */
-    protected $errorMessages= [];
+    protected $errorMessages = [];
 
     /** @var string */
     protected $warning;
