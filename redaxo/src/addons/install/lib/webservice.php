@@ -182,7 +182,7 @@ class rex_install_webservice
     /**
      * Deletes the local webservice cache
      *
-     * @param null $pathBegin
+     * @param string|null $pathBegin
      */
     public static function deleteCache($pathBegin = null)
     {
