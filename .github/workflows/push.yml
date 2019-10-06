@@ -7,6 +7,8 @@ on:
     - bugfix
     - temp
   pull_request:
+    branches:
+    - '*'
 
 jobs:
 
