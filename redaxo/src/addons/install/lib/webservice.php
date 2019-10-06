@@ -90,7 +90,7 @@ class rex_install_webservice
      *
      * @param $path
      * @param array $data
-     * @param null $archive
+     * @param string|null $archive Path to archive
      * @throws rex_functional_exception
      */
     public static function post($path, array $data, $archive = null)
