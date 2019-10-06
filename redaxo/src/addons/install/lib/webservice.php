@@ -23,7 +23,7 @@ class rex_install_webservice
      *
      * @param $path path to local cache-file
      *
-     * @return array|null
+     * @return array
      *
      * @throws rex_functional_exception
      */
