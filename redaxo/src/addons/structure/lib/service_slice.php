@@ -9,9 +9,10 @@ class rex_slice_service
     /**
      * @param array $data
      *
-     * @return string
      * @throws \rex_sql_exception
      * @throws \rex_api_exception
+	 *
+	 * @return string
      */
     public static function addSlice($data): string
     {
