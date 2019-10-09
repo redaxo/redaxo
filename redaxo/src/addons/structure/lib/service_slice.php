@@ -38,7 +38,7 @@ class rex_slice_service
         $message = rex_i18n::msg('slice_added');
 
         $ASLICE = rex_sql::factory();
-        $user   = self::getUser();
+        $user = self::getUser();
 
         $ASLICE->setTable(rex::getTablePrefix() . 'article_slice');
         $slice_id = $ASLICE->setNewId('id');
@@ -60,7 +60,7 @@ class rex_slice_service
 
         // ----- EXTENSION POINT
         $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, [
-            'id'   => $slice_id,
+            'id' => $slice_id,
             'data' => $data,
         ]));
 
