@@ -5,7 +5,6 @@
  */
 class rex_slice_service
 {
-
     /**
      * @param array $data
      *
