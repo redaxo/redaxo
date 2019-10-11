@@ -19,13 +19,13 @@ class rex_install_webservice
     private static $cache;
 
     /**
-     * Retrieves the json-decoded content of the given path
+     * Retrieves the json-decoded content of the given path.
      *
      * @param string $path path to local cache-file
      *
-     * @return array
-     *
      * @throws rex_functional_exception
+     *
+     * @return array
      */
     public static function getJson($path)
     {
@@ -63,9 +63,10 @@ class rex_install_webservice
      * Download the content of the given url and make it available as a local file.
      *
      * @param string $url Url to a resource to download
-     * @return string Returns a local path to the downloaded archive
      *
      * @throws rex_functional_exception
+     *
+     * @return string Returns a local path to the downloaded archive
      */
     public static function getArchive($url)
     {
@@ -88,9 +89,10 @@ class rex_install_webservice
     /**
      * POSTs the given data to the redaxo.org webservice.
      *
-     * @param string $path
-     * @param array $data
+     * @param string      $path
+     * @param array       $data
      * @param string|null $archive Path to archive
+     *
      * @throws rex_functional_exception
      */
     public static function post($path, array $data, $archive = null)
@@ -125,9 +127,10 @@ class rex_install_webservice
     }
 
     /**
-     * Issues a http DELETE to the given path
+     * Issues a http DELETE to the given path.
      *
      * @param string $path
+     *
      * @throws rex_functional_exception
      */
     public static function delete($path)
@@ -157,9 +160,10 @@ class rex_install_webservice
     }
 
     /**
-     * Appends api login credentials to the given path
+     * Appends api login credentials to the given path.
      *
      * @param string $path
+     *
      * @return string
      */
     private static function getPath($path)
@@ -180,7 +184,7 @@ class rex_install_webservice
     }
 
     /**
-     * Deletes the local webservice cache
+     * Deletes the local webservice cache.
      *
      * @param string|null $pathBegin
      */
@@ -200,9 +204,10 @@ class rex_install_webservice
     }
 
     /**
-     * Returns the content for the given path out of the local cache
+     * Returns the content for the given path out of the local cache.
      *
      * @param string $path
+     *
      * @return array|null
      */
     private static function getCache($path)
@@ -215,7 +220,7 @@ class rex_install_webservice
     }
 
     /**
-     * Loads the local cached data into memory (only fresh data will be loaded)
+     * Loads the local cached data into memory (only fresh data will be loaded).
      */
     private static function loadCache()
     {
@@ -229,10 +234,10 @@ class rex_install_webservice
     }
 
     /**
-     * Writes the given data into the local cache
+     * Writes the given data into the local cache.
      *
      * @param string $path
-     * @param array $data
+     * @param array  $data
      */
     private static function setCache($path, $data)
     {

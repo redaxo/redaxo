@@ -22,7 +22,7 @@ class rex_install_packages
 
     /**
      * @throws rex_functional_exception
-     
+     *
      * @return array
      */
     public static function getUpdatePackages()
@@ -83,7 +83,7 @@ class rex_install_packages
     }
 
     /**
-     * Returns all packages owned by the current user
+     * Returns all packages owned by the current user.
      *
      * @throws rex_functional_exception
      *
