@@ -21,7 +21,7 @@ class rex_install_webservice
     /**
      * Retrieves the json-decoded content of the given path
      *
-     * @param $path path to local cache-file
+     * @param string $path path to local cache-file
      *
      * @return array
      *
