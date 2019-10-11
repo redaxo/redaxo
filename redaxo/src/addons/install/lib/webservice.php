@@ -203,7 +203,7 @@ class rex_install_webservice
      * Returns the content for the given path out of the local cache
      *
      * @param string $path
-     * @return |null
+     * @return array|null
      */
     private static function getCache($path)
     {
