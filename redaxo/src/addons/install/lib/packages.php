@@ -60,6 +60,8 @@ class rex_install_packages
     }
 
     /**
+     * Returns _all_ packages available on redaxo.org (including those already installed etc.)
+     *
      * @return array
      * @throws rex_functional_exception
      */
