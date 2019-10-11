@@ -229,7 +229,7 @@ class rex_install_webservice
     }
 
     /**
-     * Writess the given data into the local cache
+     * Writes the given data into the local cache
      *
      * @param string $path
      * @param mixed $data
