@@ -62,7 +62,7 @@ class rex_install_webservice
     /**
      * Download the content of the given url and make it available as a local file.
      *
-     * @param $url Url to a resource to download
+     * @param string $url Url to a resource to download
      * @return string Returns a local path to the downloaded archive
      *
      * @throws rex_functional_exception
