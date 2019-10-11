@@ -232,7 +232,7 @@ class rex_install_webservice
      * Writes the given data into the local cache
      *
      * @param string $path
-     * @param mixed $data
+     * @param array $data
      */
     private static function setCache($path, $data)
     {
