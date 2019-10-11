@@ -65,5 +65,7 @@ phpmailer_errormail_disabled = deaktiviert
 phpmailer_errormail_15min = im 15 Minuten-Interval
 phpmailer_errormail_30min = im 30 Minuten-Interval
 phpmailer_errormail_60min = im 60 Minuten-Interval
-
+phpmailer_errormail_6hrs = im 6 Stunden-Interval
+phpmailer_errormail_12hrs = im 12 Stunden-Interval
+phpmailer_errormail_24hrs = im 24 Stunden-Interval
 system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
