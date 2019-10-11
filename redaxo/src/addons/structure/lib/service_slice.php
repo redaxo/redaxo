@@ -22,7 +22,6 @@ class rex_slice_service
         self::reqKey($data, 'ctype_id');
         self::reqKey($data, 'article_id');
         self::reqKey($data, 'module_id');
-        self::reqKey($data, 'priority');
         if (rex_plugin::get('bloecks', 'status')->isAvailable()) {
             self::reqKey($data, 'status');
         }
@@ -34,13 +33,18 @@ class rex_slice_service
             $data['priority'] = 1;
         }
 
+        $article_revision = 0;
+        $slice_revision = 0;
+
+        $OOArt = rex_article::get($data['article_id'], $data['clang_id']);
+        $category_id = $OOArt->getCategoryId();
+
         $message = rex_i18n::msg('slice_added');
 
         $ASLICE = rex_sql::factory();
         $user = self::getUser();
 
         $ASLICE->setTable(rex::getTablePrefix() . 'article_slice');
-        $slice_id = $ASLICE->setNewId('id');
 
         foreach ($data as $key => $value) {
             $ASLICE->setValue($key, $value);
@@ -55,13 +59,33 @@ class rex_slice_service
             throw new rex_api_exception($e);
         }
 
+        $slice_id = $ASLICE->getLastId();
+
+        rex_sql_util::organizePriorities(
+            rex::getTable('article_slice'),
+            'priority',
+            'article_id=' . (int) $data['article_id'] . ' AND clang_id=' . (int) $data['clang_id'] . ' AND ctype_id=' . (int) $data['ctype_id'] . ' AND revision=' . (int) $slice_revision,
+            'priority, updatedate DESC'
+        );
+
         rex_article_cache::delete($data['article_id'], $data['clang_id']);
 
+        $function = '';
+        $epParams = [
+            'article_id' => $data['article_id'],
+            'clang' => $data['clang_id'],
+            'function' => $function,
+            'slice_id' => $slice_id,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $data['ctype_id'],
+            'category_id' => $category_id,
+            'module_id' => $data['module_id'],
+            'article_revision' => &$article_revision,
+            'slice_revision' => &$slice_revision,
+        ];
+
         // ----- EXTENSION POINT
-        $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, [
-            'id' => $slice_id,
-            'data' => $data,
-        ]));
+        $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, $epParams));
 
         return $message;
     }
@@ -87,10 +111,6 @@ class rex_slice_service
             return rex::getUser()->getLogin();
         }
 
-        if (method_exists(rex::class, 'getEnvironment')) {
-            return rex::getEnvironment();
-        }
-
-        return 'frontend';
+        return rex::getEnvironment();
     }
 }
