@@ -127,7 +127,7 @@ class rex_install_webservice
     /**
      * Issues a http DELETE to the given path
      *
-     * @param $path
+     * @param string $path
      * @throws rex_functional_exception
      */
     public static function delete($path)
