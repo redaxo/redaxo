@@ -21,8 +21,9 @@ class rex_install_packages
     private static $myPackages;
 
     /**
-     * @return array
      * @throws rex_functional_exception
+     
+     * @return array
      */
     public static function getUpdatePackages()
     {
@@ -60,10 +61,11 @@ class rex_install_packages
     }
 
     /**
-     * Returns _all_ packages available on redaxo.org (including those already installed etc.)
+     * Returns _all_ packages available on redaxo.org, including those already installed etc.
+     *
+     * @throws rex_functional_exception
      *
      * @return array
-     * @throws rex_functional_exception
      */
     public static function getAddPackages()
     {
@@ -83,8 +85,9 @@ class rex_install_packages
     /**
      * Returns all packages owned by the current user
      *
-     * @return array
      * @throws rex_functional_exception
+     *
+     * @return array
      */
     public static function getMyPackages()
     {
@@ -113,8 +116,10 @@ class rex_install_packages
 
     /**
      * @param string $path
-     * @return array
+     *
      * @throws rex_functional_exception
+     *
+     * @return array
      */
     private static function getPackages($path = '')
     {
@@ -122,7 +127,7 @@ class rex_install_packages
     }
 
     /**
-     * Deletes all locally cached packages
+     * Deletes all locally cached packages.
      */
     public static function deleteCache()
     {
