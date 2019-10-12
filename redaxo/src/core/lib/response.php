@@ -19,12 +19,19 @@ class rex_response
     public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
     public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
+    /** @var int */
     private static $httpStatus = self::HTTP_OK;
+    /** @var bool */
     private static $sentLastModified = false;
+    /** @var bool */
     private static $sentEtag = false;
+    /** @var bool */
     private static $sentContentType = false;
+    /** @var bool */
     private static $sentCacheControl = false;
+    /** @var array */
     private static $additionalHeaders = [];
+    /** @var array */
     private static $preloadFiles = [];
 
     /**
