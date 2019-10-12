@@ -17,7 +17,6 @@ class rex_form_prio_element extends rex_form_select_element
     private $firstOptionMsg;
     /** @var string */
     private $optionMsg;
-    
     /** @var rex_form */
     protected $table;
 
