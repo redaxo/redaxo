@@ -19,7 +19,7 @@ class rex_response
     public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
     public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
-    /** @var int */
+    /** @var string */
     private static $httpStatus = self::HTTP_OK;
     /** @var bool */
     private static $sentLastModified = false;
@@ -37,7 +37,7 @@ class rex_response
     /**
      * Sets the HTTP Status code.
      *
-     * @param int $httpStatus
+     * @param string $httpStatus
      *
      * @throws InvalidArgumentException
      */
