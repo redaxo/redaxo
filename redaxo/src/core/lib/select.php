@@ -13,7 +13,7 @@ class rex_select
     private $optgroups = [];
     /** @var array */
     private $options = [];
-    /** @var bool */
+    /** @var array */
     private $option_selected;
     /** @var int */
     private $optCount = 0;
