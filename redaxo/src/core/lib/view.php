@@ -9,9 +9,13 @@ class rex_view
     public const JS_ASYNC = 'async';
     public const JS_IMMUTABLE = 'immutable';
 
+    /** @var array */
     private static $cssFiles = [];
+    /** @var array */
     private static $jsFiles = [];
+    /** @var array */
     private static $jsProperties = [];
+    /** @var string */
     private static $favicon;
 
     /**
