@@ -977,4 +977,41 @@ class rex_sql_table
             $this->foreignKeysExisting[$foreignKey->getName()] = $foreignKey->getName();
         }
     }
+
+
+
+    /**
+     * Copy the table structure to another table.
+     * @param string $destinationTable
+     *
+     * @throws rex_exception
+     */
+    public function copyTo($destinationTable)
+    {
+        if ($this->new) {
+            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
+        }
+
+        if (self::get($destinationTable)->exists()) {
+            throw new rex_exception(sprintf('Table "%s" already exists.', $destinationTable));
+        }
+
+        $query = 'CREATE TABLE '.$this->sql->escapeIdentifier($destinationTable).' LIKE '.$this->sql->escapeIdentifier($this->originalName);
+        $this->sql->setQuery($query);
+    }
+
+
+    /**
+     * Copy the table structure and its data to another table.
+     * @param string $destinationTable
+     *
+     * @throws rex_exception
+     */
+    public function copyWithDataTo($destinationTable)
+    {
+        $this->copyTo($destinationTable);
+
+        $query = 'INSERT '.$this->sql->escapeIdentifier($destinationTable).' SELECT * FROM '.$this->sql->escapeIdentifier($this->originalName);
+        $this->sql->setQuery($query);
+    }
 }
