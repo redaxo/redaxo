@@ -9,16 +9,9 @@ rex_sql_table::get(rex::getTable('clang'))
     ->ensureColumn(new rex_sql_column('revision', 'int(10) unsigned'))
     ->ensure();
 
-$data = [
-     ['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1, 'revision' => 0],
-];
 $sql = rex_sql::factory();
-$sql->setTable(rex::getTable('media_manager_type'));
-foreach ($data as $row) {
-    $sql->addRecord(static function (rex_sql $record) use ($row) {
-        $record->setValues($row);
-    });
-}
+$sql->setTable(rex::getTable('clang'));
+$sql->setValues(['id' => 1, 'code' => 'de', 'name' => 'deutsch', 'priority' => 1, 'status' => 1, 'revision' => 0]);
 $sql->insertOrUpdate();
 
 rex_sql_table::get(rex::getTable('config'))
