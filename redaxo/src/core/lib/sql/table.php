@@ -270,15 +270,17 @@ class rex_sql_table
     }
 
     /**
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     *
      * @return $this
      */
-    public function ensureGlobalColumns()
+    public function ensureGlobalColumns($afterColumn = null)
     {
         return $this
-            ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
+            ->ensureColumn(new rex_sql_column('createdate', 'datetime'), $afterColumn)
+            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'), 'createdate')
+            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'), 'createuser')
+            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'), 'updatedate')
         ;
     }
 
