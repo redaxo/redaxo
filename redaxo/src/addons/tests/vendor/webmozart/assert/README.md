@@ -6,15 +6,11 @@ Webmozart Assert
 [![Latest Stable Version](https://poser.pugx.org/webmozart/assert/v/stable.svg)](https://packagist.org/packages/webmozart/assert)
 [![Total Downloads](https://poser.pugx.org/webmozart/assert/downloads.svg)](https://packagist.org/packages/webmozart/assert)
 
-Latest release: [1.2.0](https://packagist.org/packages/webmozart/assert#1.2.0)
-
-PHP >= 5.3.9
-
 This library contains efficient assertions to test the input and output of
 your methods. With these assertions, you can greatly reduce the amount of coding
 needed to write a safe implementation.
 
-All assertions in the [`Assert`] class throw an `\InvalidArgumentException` if 
+All assertions in the [`Assert`] class throw an `\InvalidArgumentException` if
 they fail.
 
 FAQ
@@ -26,21 +22,21 @@ This library is heavily inspired by Benjamin Eberlei's wonderful [assert package
 but fixes a usability issue with error messages that can't be fixed there without
 breaking backwards compatibility.
 
-This package features usable error messages by default. However, you can also 
+This package features usable error messages by default. However, you can also
 easily write custom error messages:
 
 ```
 Assert::string($path, 'The path is expected to be a string. Got: %s');
 ```
 
-In [beberlei/assert], the ordering of the `%s` placeholders is different for 
-every assertion. This package, on the contrary, provides consistent placeholder 
+In [beberlei/assert], the ordering of the `%s` placeholders is different for
+every assertion. This package, on the contrary, provides consistent placeholder
 ordering for all assertions:
 
 * `%s`: The tested value as string, e.g. `"/foo/bar"`.
 * `%2$s`, `%3$s`, ...: Additional assertion-specific values, e.g. the
   minimum/maximum length, allowed values, etc.
-  
+
 Check the source code of the assertions to find out details about the additional
 available placeholders.
 
@@ -73,11 +69,11 @@ If you create an employee with an invalid ID, an exception is thrown:
 
 ```php
 new Employee('foobar');
-// => InvalidArgumentException: 
+// => InvalidArgumentException:
 //    The employee ID must be an integer. Got: string
 
 new Employee(-10);
-// => InvalidArgumentException: 
+// => InvalidArgumentException:
 //    The employee ID must be a positive integer. Got: -10
 ```
 
@@ -110,6 +106,7 @@ Method                                                   | Description
 `isInstanceOfAny($value, array $classes, $message = '')` | Check that a value is an `instanceof` a at least one class on the array of classes
 `notInstanceOf($value, $class, $message = '')`           | Check that a value is not an `instanceof` a class
 `isArrayAccessible($value, $message = '')`               | Check that a value can be accessed as an array
+`uniqueValues($values, $message = '')`                   | Check that the given array contains unique values
 
 ### Comparison Assertions
 
@@ -146,6 +143,7 @@ Method                                              | Description
 `endsWith($value, $suffix, $message = '')`          | Check that a string has a suffix
 `regex($value, $pattern, $message = '')`            | Check that a string matches a regular expression
 `notRegex($value, $pattern, $message = '')`         | Check that a string does not match a regular expression
+`unicodeLetters($value, $message = '')`             | Check that a string contains Unicode letters only
 `alpha($value, $message = '')`                      | Check that a string contains letters only
 `digits($value, $message = '')`                     | Check that a string contains digits only
 `alnum($value, $message = '')`                      | Check that a string contains letters and digits only
@@ -159,6 +157,7 @@ Method                                              | Description
 `ip($value, $message = '')`                         | Check that a string is a valid IP (either IPv4 or IPv6)
 `ipv4($value, $message = '')`                       | Check that a string is a valid IPv4
 `ipv6($value, $message = '')`                       | Check that a string is a valid IPv6
+`email($value, $message = '')`                      | Check that a string is a valid e-mail address
 `notWhitespaceOnly($value, $message = '')`          | Check that a string contains at least one non-whitespace character
 
 ### File Assertions
@@ -234,12 +233,6 @@ Contributions to the package are always welcome!
 
 * Report any bugs or issues you find on the [issue tracker].
 * You can grab the source code at the package's [Git repository].
-
-Support
--------
-
-If you are having problems, send a mail to bschussek@gmail.com or shout out to
-[@webmozart] on Twitter.
 
 License
 -------
