@@ -1,6 +1,7 @@
 <?php
 
-use Leafo\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Formatter\Compressed;
 
 /**
  * @package redaxo\be-style
@@ -17,7 +18,7 @@ class rex_scss_compiler
         $this->root_dir = rex_path::addon('be_style');
         $this->scss_file = rex_path::addon('be_style', 'assets') . 'styles.scss';
         $this->css_file = rex_path::addon('be_style', 'assets') . 'styles.css';
-        $this->formatter = 'Leafo\ScssPhp\Formatter\Compressed';
+        $this->formatter = Compressed::class;
     }
 
     public function setRootDir($value)
