@@ -27,8 +27,7 @@ jobs:
       with:
         php-version: 7.1
     - run: |
-        sudo apt-get install -y mysql-client
-        mysql -e 'create database redaxo_5_0;'
+        mysql -u root --password="" -e 'create database redaxo_5_0;'
         php redaxo/src/addons/tests/bin/setup.php
         composer require --dev friendsofredaxo/linter && vendor/bin/rexlint
         php redaxo/bin/console be_style:compile
