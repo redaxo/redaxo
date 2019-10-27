@@ -29,10 +29,7 @@ rex_sql_table::get(rex::getTable('metainfo_field'))
     ->ensureColumn(new rex_sql_column('validate', 'text', true))
     ->ensureColumn(new rex_sql_column('callback', 'text', true))
     ->ensureColumn(new rex_sql_column('restrictions', 'text', true))
-    ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-    ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
-    ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
+    ->ensureGlobalColumns()
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
     ->ensure();
 
