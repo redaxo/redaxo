@@ -107,8 +107,8 @@ class rex_sql implements Iterator
         }
 
         $port = null;
-        if (strpos($host, ':') !== false) {
-            list($host, $port) = explode(':', $host, 2);
+        if (false !== strpos($host, ':')) {
+            [$host, $port] = explode(':', $host, 2);
         }
 
         $dsn = 'mysql:host=' . $host;
