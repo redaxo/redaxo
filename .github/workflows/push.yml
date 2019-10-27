@@ -21,6 +21,7 @@ jobs:
         ports:
           - 3306
         env:
+          MYSQL_USER: root
           MYSQL_ROOT_PASSWORD: ''
     steps:
     - uses: actions/checkout@master
