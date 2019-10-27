@@ -20,6 +20,8 @@ jobs:
         image: mysql:5.7
         ports:
           - 3306
+        env:
+          MYSQL_ROOT_PASSWORD:
     steps:
     - uses: actions/checkout@master
     - name: Setup PHP
