@@ -51,7 +51,7 @@ class rex_be_controller
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
-        if ($part === null) {
+        if (null === $part) {
             return self::$pageParts;
         }
         --$part;
@@ -191,7 +191,7 @@ class rex_be_controller
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    if (strpos($key, '/') !== false) {
+                    if (false !== strpos($key, '/')) {
                         $insertPages[$key] = [$addon, $page];
                     } else {
                         self::pageCreate($page, $addon, false, $mainPage, $key, true);
@@ -206,7 +206,7 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        if (strpos($key, '/') !== false) {
+                        if (false !== strpos($key, '/')) {
                             $insertPages[$key] = [$plugin, $page];
                         } else {
                             self::pageCreate($page, $plugin, false, $mainPage, $key, true);
@@ -216,7 +216,7 @@ class rex_be_controller
             }
         }
         foreach ($insertPages as $key => $packagePage) {
-            list($package, $page) = $packagePage;
+            [$package, $page] = $packagePage;
             $key = explode('/', $key);
             if (!isset(self::$pages[$key[0]])) {
                 continue;
@@ -332,10 +332,10 @@ class rex_be_controller
                     }
                     // no break
                 default:
-                    $setter = [$page, 'add' . ucfirst($key)];
-                    if (is_callable($setter)) {
+                    $adder = [$page, 'add' . ucfirst($key)];
+                    if (is_callable($adder)) {
                         foreach ((array) $value as $v) {
-                            call_user_func($setter, $v);
+                            call_user_func($adder, $v);
                         }
                         break;
                     }
@@ -349,7 +349,7 @@ class rex_be_controller
 
     public static function checkPagePermissions(rex_user $user)
     {
-        $check = function (rex_be_page $page) use (&$check, $user) {
+        $check = static function (rex_be_page $page) use (&$check, $user) {
             if (!$page->checkPermission($user)) {
                 return false;
             }
@@ -435,11 +435,14 @@ class rex_be_controller
             $path = $languagePath;
         }
 
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path));
         $fragment = new rex_fragment();
-        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
+        $fragment->setVar('content', $content, false);
+        $fragment->setVar('toc', $toc, false);
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
+        $fragment->setVar('title', self::getCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
     }

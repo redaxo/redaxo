@@ -66,7 +66,7 @@ function rex_escape($value, $strategy = 'html')
                 throw new InvalidArgumentException('The string to escape is not a valid UTF-8 string.');
             }
 
-            $string = preg_replace_callback('#[^a-zA-Z0-9,\._]#Su', function ($matches) {
+            $string = preg_replace_callback('#[^a-zA-Z0-9,\._]#Su', static function ($matches) {
                 $char = $matches[0];
 
                 /*
@@ -106,7 +106,7 @@ function rex_escape($value, $strategy = 'html')
                 throw new InvalidArgumentException('The string to escape is not a valid UTF-8 string.');
             }
 
-            $string = preg_replace_callback('#[^a-zA-Z0-9]#Su', function ($matches) {
+            $string = preg_replace_callback('#[^a-zA-Z0-9]#Su', static function ($matches) {
                 $char = $matches[0];
 
                 return sprintf('\\%X ', 1 === strlen($char) ? ord($char) : mb_ord($char, 'UTF-8'));
@@ -119,7 +119,7 @@ function rex_escape($value, $strategy = 'html')
                 throw new InvalidArgumentException('The string to escape is not a valid UTF-8 string.');
             }
 
-            $string = preg_replace_callback('#[^a-zA-Z0-9,\.\-_]#Su', function ($matches) {
+            $string = preg_replace_callback('#[^a-zA-Z0-9,\.\-_]#Su', static function ($matches) {
                 /**
                  * This function is adapted from code coming from Zend Framework.
                  *

@@ -1,9 +1,10 @@
 .be-style-customizer-title {
     position: absolute;
-    top: 9px;
-    left: 250px;
+    top: 0;
+    left: 235px;
     margin: 0;
     line-height: 0;
+    white-space: nowrap;
 }
 .be-style-customizer-title a {
     display: block;
@@ -36,7 +37,7 @@
 @media (max-width: 991px) {
     .be-style-customizer-title {
         left: auto;
-        top: 5px;
+        top: -4px;
         right: 40px;
         font-size: 20px;
     }

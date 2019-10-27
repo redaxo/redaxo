@@ -11,7 +11,7 @@ class rex_sql_table
 {
     use rex_instance_pool_trait;
 
-    const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+    public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
     /** @var rex_sql */
     private $sql;
@@ -147,7 +147,7 @@ class rex_sql_table
      */
     public static function get($name)
     {
-        return self::getInstance($name, function ($name) {
+        return self::getInstance($name, static function ($name) {
             return new self($name);
         });
     }
@@ -270,15 +270,17 @@ class rex_sql_table
     }
 
     /**
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     *
      * @return $this
      */
-    public function ensureGlobalColumns()
+    public function ensureGlobalColumns($afterColumn = null)
     {
         return $this
-            ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
+            ->ensureColumn(new rex_sql_column('createdate', 'datetime'), $afterColumn)
+            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'), 'createdate')
+            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'), 'createuser')
+            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'), 'updatedate')
         ;
     }
 
@@ -286,9 +288,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameColumn($oldName, $newName)
     {
@@ -345,9 +347,9 @@ class rex_sql_table
     /**
      * @param null|string|string[] $columns Column name(s)
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function setPrimaryKey($columns)
     {
@@ -443,9 +445,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameIndex($oldName, $newName)
     {
@@ -558,9 +560,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameForeignKey($oldName, $newName)
     {
@@ -702,7 +704,7 @@ class rex_sql_table
     public function alter()
     {
         if ($this->new) {
-            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->name));
+            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
         }
 
         $parts = [];

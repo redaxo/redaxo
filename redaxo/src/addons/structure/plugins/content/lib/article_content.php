@@ -20,7 +20,7 @@ class rex_article_content extends rex_article_content_base
     // bc
     public function getContentAsQuery($viasql = true)
     {
-        if ($viasql !== true) {
+        if (true !== $viasql) {
             $viasql = false;
         }
         $this->viasql = $viasql;
@@ -82,7 +82,7 @@ class rex_article_content extends rex_article_content_base
 
         $this->ctype = $curctype;
 
-        if (!$this->getSlice && $this->article_id != 0) {
+        if (!$this->getSlice && 0 != $this->article_id) {
             // ----- start: article caching
             ob_start();
             ob_implicit_flush(0);
@@ -92,13 +92,13 @@ class rex_article_content extends rex_article_content_base
             $generated = true;
             if (!file_exists($article_content_file)) {
                 $generated = rex_content_service::generateArticleContent($this->article_id, $this->clang);
-                if ($generated !== true) {
+                if (true !== $generated) {
                     // fehlermeldung ausgeben
                     echo $generated;
                 }
             }
 
-            if ($generated === true) {
+            if (true === $generated) {
                 require $article_content_file;
             }
 

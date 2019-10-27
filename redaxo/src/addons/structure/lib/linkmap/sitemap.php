@@ -29,11 +29,11 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
     {
         $linkClasses .= '';
 
-        if ($liClasses != '') {
+        if ('' != $liClasses) {
             $liClasses = ' class="' . rtrim($liClasses) . '"';
         }
 
-        if ($linkClasses != '') {
+        if ('' != $linkClasses) {
             $linkClasses = ' class="' . rtrim($linkClasses) . '"';
         }
 
@@ -42,7 +42,7 @@ class rex_sitemap_category_tree extends rex_linkmap_tree_renderer
         $li = '';
         $li .= '<li' . $liClasses . ' data-cat-id="' . $cat->getId() . '" data-parent-id="' . $cat->getParentId() . '" data-priority="' . $cat->getPriority() . '">';
         $li .= '<a' . $linkClasses . ' href="' . $this->context->getUrl(['toggle_category_id' => $cat->getId()] + rex_api_sitemap_tree::getUrlParams()) . '">&nbsp;</a>';
-        $li .= '<a href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . rex_escape($label) . '</a>';
+        $li .= '<a href="' . $this->context->getUrl(['category_id' => $cat->getId()]) . '">' . rex_escape($label) . '<span class="list-item-suffix">'.$cat->getId().'</span></a>';
         $li .= $subHtml;
         $li .= '</li>';
 

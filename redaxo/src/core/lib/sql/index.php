@@ -9,9 +9,9 @@
  */
 class rex_sql_index
 {
-    const INDEX = 'INDEX';
-    const UNIQUE = 'UNIQUE';
-    const FULLTEXT = 'FULLTEXT';
+    public const INDEX = 'INDEX';
+    public const UNIQUE = 'UNIQUE';
+    public const FULLTEXT = 'FULLTEXT';
 
     private $name;
     private $type;

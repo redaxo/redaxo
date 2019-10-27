@@ -12,7 +12,7 @@ $addon = rex_addon::get('phpmailer');
 
 $message = '';
 
-if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '') {
+if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string')) {
     $addon->setConfig(rex_post('settings', [
         ['fromname', 'string'],
         ['from', 'string'],
@@ -35,10 +35,10 @@ if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '
         ['log', 'int', 1],
     ]));
 
-    if (rex_post('btn_check', 'string') != '') {
+    if ('' != rex_post('btn_check', 'string')) {
         $settings = rex_post('settings', 'array', []);
 
-        if (rex_validator::factory()->email($settings['from']) == false || rex_validator::factory()->email($settings['test_address']) == false) {
+        if (false == rex_validator::factory()->email($settings['from']) || false == rex_validator::factory()->email($settings['test_address'])) {
             $warning = $addon->i18n('check_settings_not_tested');
             echo rex_view::warning($warning);
         } else {
@@ -50,7 +50,7 @@ if (rex_post('btn_save', 'string') != '' || rex_post('btn_check', 'string') != '
 }
 
 $emptymail = '1';
-if ($addon->getConfig('from') == '' || $addon->getConfig('test_address') == '') {
+if ('' == $addon->getConfig('from') || '' == $addon->getConfig('test_address')) {
     $emptymail = '';
 }
 $sel_mailer = new rex_select();
@@ -132,7 +132,7 @@ foreach ([0 => $addon->i18n('smtp_debug_0'), 1 => $addon->i18n('smtp_debug_1'), 
     $sel_debug->addOption($name, $no);
 }
 
-if ($message != '') {
+if ('' != $message) {
     echo rex_view::success($message);
 }
 

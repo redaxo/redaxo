@@ -51,22 +51,22 @@ $(function() {
         }
 
         // relatives resizen
-        if (substr(trim($this->params['width']), -1) === '%') {
+        if ('%' === substr(trim($this->params['width']), -1)) {
             $this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));
         }
-        if (substr(trim($this->params['height']), -1) === '%') {
+        if ('%' === substr(trim($this->params['height']), -1)) {
             $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
         }
 
-        if ($this->params['style'] == 'maximum') {
+        if ('maximum' == $this->params['style']) {
             $this->resizeMax($w, $h);
-        } elseif ($this->params['style'] == 'minimum') {
+        } elseif ('minimum' == $this->params['style']) {
             $this->resizeMin($w, $h);
         }
         // warp => nichts tun
 
         // ----- not enlarge image
-        if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == 'not_enlarge') {
+        if ($w <= $this->params['width'] && $h <= $this->params['height'] && 'not_enlarge' == $this->params['allow_enlarge']) {
             $this->params['width'] = $w;
             $this->params['height'] = $h;
             $this->keepTransparent($gdimage);

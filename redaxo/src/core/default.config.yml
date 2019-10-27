@@ -21,7 +21,7 @@ session:
             domain: null
             secure: null
             httponly: true
-            samesite: 'Strict'
+            samesite: 'Lax'
     frontend:
         cookie:
             lifetime: null
@@ -29,7 +29,7 @@ session:
             domain: null
             secure: null
             httponly: true
-            samesite: 'Strict'
+            samesite: 'Lax'
 password_policy:
     length: {min: 8, max: 4096}
     lowercase: {min: 0}

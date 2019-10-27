@@ -135,7 +135,7 @@ class rex_autoload
             return;
         }
 
-        list(self::$classes, self::$dirs) = json_decode($cache, true);
+        [self::$classes, self::$dirs] = json_decode($cache, true);
     }
 
     /**
@@ -285,8 +285,11 @@ class rex_autoload
             $extraTypes .= '|enum';
         }
 
-        // Use @ here instead of Silencer to actively suppress 'unhelpful' output
-        // @link https://github.com/composer/composer/pull/4886
+        /**
+         * Use @ here instead of Silencer to actively suppress 'unhelpful' output.
+         *
+         * @see https://github.com/composer/composer/pull/4886
+         */
         $contents = @php_strip_whitespace($path);
         if (!$contents) {
             if (!file_exists($path)) {
@@ -316,9 +319,9 @@ class rex_autoload
         // strip strings
         $contents = preg_replace('{"[^"\\\\]*+(\\\\.[^"\\\\]*+)*+"|\'[^\'\\\\]*+(\\\\.[^\'\\\\]*+)*+\'}s', 'null', $contents);
         // strip leading non-php code if needed
-        if (substr($contents, 0, 2) !== '<?') {
+        if ('<?' !== substr($contents, 0, 2)) {
             $contents = preg_replace('{^.+?<\?}s', '<?', $contents, 1, $replacements);
-            if ($replacements === 0) {
+            if (0 === $replacements) {
                 return [];
             }
         }
@@ -350,13 +353,13 @@ class rex_autoload
             } else {
                 $name = $matches['name'][$i];
                 // skip anon classes extending/implementing
-                if ($name === 'extends' || $name === 'implements') {
+                if ('extends' === $name || 'implements' === $name) {
                     continue;
                 }
-                if ($name[0] === ':') {
+                if (':' === $name[0]) {
                     // This is an XHP class, https://github.com/facebook/xhp
                     $name = 'xhp'.substr(str_replace(['-', ':'], ['_', '__'], $name), 1);
-                } elseif ($matches['type'][$i] === 'enum') {
+                } elseif ('enum' === $matches['type'][$i]) {
                     // In Hack, something like:
                     //   enum Foo: int { HERP = '123'; }
                     // The regex above captures the colon, which isn't part of

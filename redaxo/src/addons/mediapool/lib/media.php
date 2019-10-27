@@ -53,7 +53,7 @@ class rex_media
             return null;
         }
 
-        return static::getInstance($name, function ($name) {
+        return static::getInstance($name, static function ($name) {
             $media_path = rex_path::addonCache('mediapool', $name . '.media');
 
             $cache = rex_file::getCache($media_path);
@@ -79,7 +79,6 @@ class rex_media
 
                     $media->$var_name = $value;
                 }
-                $media->category = null;
 
                 return $media;
             }
@@ -93,7 +92,7 @@ class rex_media
      */
     public static function getRootMedia()
     {
-        return static::getInstanceList('root_media', 'static::get', function () {
+        return static::getInstanceList('root_media', 'static::get', static function () {
             $list_path = rex_path::addonCache('mediapool', '0.mlist');
 
             $list = rex_file::getCache($list_path);
@@ -250,13 +249,13 @@ class rex_media
         $title = $this->getTitle();
 
         if (!isset($params['alt'])) {
-            if ($title != '') {
+            if ('' != $title) {
                 $params['alt'] = rex_escape($title);
             }
         }
 
         if (!isset($params['title'])) {
-            if ($title != '') {
+            if ('' != $title) {
                 $params['title'] = rex_escape($title);
             }
         }

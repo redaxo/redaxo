@@ -13,7 +13,7 @@ $error = '';
 $success = '';
 
 $logFile = rex_logger::getPath();
-if ($func == 'delLog') {
+if ('delLog' == $func) {
     // close logger, to free remaining file-handles to syslog
     // so we can safely delete the file
     rex_logger::close();
@@ -27,11 +27,11 @@ if ($func == 'delLog') {
 $message = '';
 $content = '';
 
-if ($success != '') {
+if ('' != $success) {
     $message .= rex_view::success($success);
 }
 
-if ($error != '') {
+if ('' != $error) {
     $message .= rex_view::error($error);
 }
 
@@ -50,11 +50,11 @@ $content .= '
 
 $file = new rex_log_file($logFile);
 foreach (new LimitIterator($file, 0, 30) as $entry) {
-    /* @var rex_log_entry $entry */
+    /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
     $class = strtolower($data[0]);
-    $class = ($class == 'notice' || $class == 'warning') ? $class : 'error';
+    $class = ('notice' == $class || 'warning' == $class) ? $class : 'error';
 
     $content .= '
                 <tr class="rex-state-' . $class . '">

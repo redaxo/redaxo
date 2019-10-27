@@ -10,7 +10,7 @@ if (PHP_SAPI !== 'cli') {
 $path = explode(DIRECTORY_SEPARATOR, __DIR__);
 do {
     $part = array_pop($path);
-} while ($part !== null && $part != 'redaxo');
+} while (null !== $part && 'redaxo' != $part);
 
 if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
     echo 'error: start this script within a redaxo projects folder';

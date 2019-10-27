@@ -1,7 +1,15 @@
 Changelog
 =========
 
-Version 2.3.0 – XX.XX.XXXX
+Version 2.4.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Speicheroptimierung beim Export (@staabm)
+
+
+Version 2.3.0 – 12.03.2019
 --------------------------
 
 ### Neu

@@ -1,7 +1,15 @@
 Changelog
 =========
 
-Version 2.5.0 – XX.XX.XXXX
+Version 2.6.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+
+
+Version 2.5.0 – 12.03.2019
 --------------------------
 
 ### Security
@@ -14,7 +22,16 @@ Version 2.5.0 – XX.XX.XXXX
 * Bessere Code-Struktur (@staabm)
 * Lazy-Load der Bilder in der Liste (@staabm)
 * Neuer EP: `MEDIA_MOVED` (@bloep)
+* @-Zeichen wird in Dateinamen nicht mehr ersetzt (@tbaddade)
 * Popup 75% Höhe statt fixen 800px (@schuer)
+* Visuelles Feedback für "Datei übernehmen" (@schuer)
+* Buttonleiste unterhalb der Liste am Viewport fixiert (sticky) (@schuer)
+* Anzeige der ID (in eckigen Klammern) entfernt (@schuer)
+* Medienkategorie erstellen/bearbeiten: Autofocus auf Namensfeld (@schuer)
+
+### Bugfixes
+
+* Nach Löschen aus der Detailansicht heraus kam fälschlich die Fehlermeldung "Datei wurde nicht gefunden" (@gharlan)
 
 
 Version 2.4.3 – 01.10.2018

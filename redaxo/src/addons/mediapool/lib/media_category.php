@@ -43,7 +43,7 @@ class rex_media_category
             return null;
         }
 
-        return self::getInstance($id, function ($id) {
+        return self::getInstance($id, static function ($id) {
             $cat_path = rex_path::addonCache('mediapool', $id . '.mcat');
             $cache = rex_file::getCache($cat_path);
 
@@ -95,7 +95,7 @@ class rex_media_category
             return [];
         }
 
-        return self::getInstanceList([$parentId, 'children'], 'self::get', function ($parentId) {
+        return self::getInstanceList([$parentId, 'children'], 'self::get', static function ($parentId) {
             $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
 
             $list = rex_file::getCache($catlist_path);
@@ -141,7 +141,7 @@ class rex_media_category
     {
         $p = explode('|', $this->path);
         foreach ($p as $k => $v) {
-            if ($v == '') {
+            if ('' == $v) {
                 unset($p[$k]);
             } else {
                 $p[$k] = (int) $v;
@@ -212,7 +212,7 @@ class rex_media_category
             $explode = explode('|', $this->path);
             if (is_array($explode)) {
                 foreach ($explode as $var) {
-                    if ($var != '') {
+                    if ('' != $var) {
                         $tree[] = self::get($var);
                     }
                 }
@@ -252,7 +252,7 @@ class rex_media_category
      */
     public function getMedia()
     {
-        return self::getInstanceList([$this->getId(), 'media'], 'rex_media::get', function ($id) {
+        return self::getInstanceList([$this->getId(), 'media'], 'rex_media::get', static function ($id) {
             $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
 
             $list = rex_file::getCache($list_path);

@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 class rex_i18n_trans_cb
 {
     public static function mytranslate()
@@ -8,11 +10,14 @@ class rex_i18n_trans_cb
     }
 }
 
-class rex_i18n_test extends PHPUnit_Framework_TestCase
+/**
+ * @internal
+ */
+class rex_i18n_test extends TestCase
 {
     private $previousLocale;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->previousLocale = rex_i18n::setLocale('de_de', false);
 
@@ -32,7 +37,7 @@ LANG;
         rex_file::put($this->getPath().'/en_gb.lang', $content."\nmy=EN");
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         rex_dir::delete($this->getPath());
         rex_i18n::setLocale($this->previousLocale, false);

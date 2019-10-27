@@ -188,12 +188,15 @@ class rex_navigation
      *
      * @param callable   $callback z.B. myFunc oder myClass::myMethod
      * @param int|string $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     *
+     * @return $this
      */
     public function addCallback($callback, $depth = '')
     {
-        if ($callback != '') {
+        if ('' != $callback) {
             $this->callbacks[] = ['callback' => $callback, 'depth' => $depth];
         }
+        return $this;
     }
 
     private function _setActivePath()
@@ -203,7 +206,7 @@ class rex_navigation
             $path = trim($OOArt->getPath(), '|');
 
             $this->path = [];
-            if ($path != '') {
+            if ('' != $path) {
                 $this->path = explode('|', $path);
             }
 
@@ -218,7 +221,7 @@ class rex_navigation
     private function checkFilter(rex_category $category, $depth)
     {
         foreach ($this->filter as $f) {
-            if ($f['depth'] == '' || $f['depth'] == $depth) {
+            if ('' == $f['depth'] || $f['depth'] == $depth) {
                 $mf = $category->getValue($f['metafield']);
                 $va = $f['value'];
                 switch ($f['type']) {
@@ -271,7 +274,7 @@ class rex_navigation
     private function checkCallbacks(rex_category $category, $depth, &$li, &$a)
     {
         foreach ($this->callbacks as $c) {
-            if ($c['depth'] == '' || $c['depth'] == $depth) {
+            if ('' == $c['depth'] || $c['depth'] == $depth) {
                 $callback = $c['callback'];
                 if (is_string($callback)) {
                     $callback = explode('::', $callback, 2);
@@ -280,7 +283,7 @@ class rex_navigation
                     }
                 }
                 if (is_array($callback) && count($callback) > 1) {
-                    list($class, $method) = $callback;
+                    [$class, $method] = $callback;
                     if (is_object($class)) {
                         $result = $class->$method($category, $depth, $li, $a);
                     } else {

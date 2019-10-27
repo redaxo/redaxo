@@ -12,7 +12,7 @@ class rex_setup_importer
         // ----- vorhandenen seite updaten
         $err_msg = '';
 
-        if ($err_msg == '') {
+        if ('' == $err_msg) {
             $version = rex::getVersion();
             rex::setProperty('version', rex::getConfig('version'));
 
@@ -27,7 +27,7 @@ class rex_setup_importer
             rex::setProperty('version', $version);
         }
 
-        if ($err_msg == '') {
+        if ('' == $err_msg) {
             $err_msg .= self::reinstallPackages();
         }
 
@@ -39,7 +39,7 @@ class rex_setup_importer
         // ----- vorhandenen Export importieren
         $err_msg = '';
 
-        if ($import_name == '') {
+        if ('' == $import_name) {
             $err_msg .= '<p>' . rex_i18n::msg('setup_508') . '</p>';
         } else {
             $import_sql = rex_backup::getDir() . '/' . $import_name . '.sql';
@@ -50,10 +50,10 @@ class rex_setup_importer
             // Überschrieben würden
             // Da für das Installieren der Addons die rex_config benötigt wird,
             // mit overrideExisting() eine saubere, komplette Basis schaffen
-            if ($err_msg == '') {
+            if ('' == $err_msg) {
                 $err_msg .= self::overrideExisting();
             }
-            if ($err_msg == '') {
+            if ('' == $err_msg) {
                 $err_msg .= self::import($import_sql, $import_archiv);
             }
         }
@@ -72,18 +72,22 @@ class rex_setup_importer
         // ----- volle Datenbank, alte DB löschen / drop
         $err_msg = '';
 
-        $import_sql = rex_path::core('install.sql');
-
         $db = rex_sql::factory();
         foreach (self::getRequiredTables() as $table) {
             $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
         }
 
-        if ($err_msg == '') {
-            $err_msg .= self::import($import_sql);
+        if ('' == $err_msg) {
+            try {
+                include rex_path::core('install.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
         }
 
-        if ($err_msg == '') {
+        if ('' == $err_msg) {
             $err_msg .= self::installAddons(true);
         }
 
@@ -94,10 +98,15 @@ class rex_setup_importer
     {
         // ----- leere Datenbank neu einrichten
         $err_msg = '';
-        $import_sql = rex_path::core('install.sql');
 
-        if ($err_msg == '') {
-            $err_msg .= self::import($import_sql);
+        if ('' == $err_msg) {
+            try {
+                include rex_path::core('install.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
         }
 
         $err_msg .= self::installAddons();
@@ -139,14 +148,14 @@ class rex_setup_importer
 
                 // DB Import
                 $state_db = rex_backup::importDb($import_sql);
-                if ($state_db['state'] === false) {
+                if (false === $state_db['state']) {
                     $err_msg .= nl2br($state_db['message']) . '<br />';
                 }
 
                 // Archiv optional importieren
-                if ($state_db['state'] === true && $import_archiv !== null && file_exists($import_archiv)) {
+                if (true === $state_db['state'] && null !== $import_archiv && file_exists($import_archiv)) {
                     $state_archiv = rex_backup::importFiles($import_archiv);
-                    if ($state_archiv['state'] === false) {
+                    if (false === $state_archiv['state']) {
                         $err_msg .= $state_archiv['message'] . '<br />';
                     }
                 }
@@ -172,7 +181,7 @@ class rex_setup_importer
                 $manager = rex_package_manager::factory($package);
                 $state = $manager->uninstall($installDump);
 
-                if ($state !== true) {
+                if (true !== $state) {
                     $addonErr .= '<li>' . $package->getPackageId() . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }
@@ -182,24 +191,24 @@ class rex_setup_importer
             $package = rex_package::get($packageRepresentation);
             $manager = rex_package_manager::factory($package);
 
-            if ($state === true && !$package->isInstalled()) {
+            if (true === $state && !$package->isInstalled()) {
                 $state = $manager->install($installDump);
             }
 
-            if ($state !== true) {
+            if (true !== $state) {
                 $addonErr .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
             }
 
-            if ($state === true && !$package->isAvailable()) {
+            if (true === $state && !$package->isAvailable()) {
                 $state = $manager->activate();
 
-                if ($state !== true) {
+                if (true !== $state) {
                     $addonErr .= '<li>' . rex_escape($package->getPackageId()) . '<ul><li>' . $manager->getMessage() . '</li></ul></li>';
                 }
             }
         }
 
-        if ($addonErr != '') {
+        if ('' != $addonErr) {
             $addonErr = '<ul class="rex-ul1">
             <li>
             <h3 class="rex-hl3">' . rex_i18n::msg('setup_513') . '</h3>

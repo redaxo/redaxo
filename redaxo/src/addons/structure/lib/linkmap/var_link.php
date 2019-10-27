@@ -35,7 +35,7 @@ class rex_var_link extends rex_var
             }
             $value = self::getWidget($id, 'REX_INPUT_LINK[' . $id . ']', $value, $args);
         } else {
-            if ($value && $this->hasArg('output') && $this->getArg('output') != 'id') {
+            if ($value && $this->hasArg('output') && 'id' != $this->getArg('output')) {
                 $value = rex_getUrl($value);
             }
         }
@@ -47,7 +47,7 @@ class rex_var_link extends rex_var
     {
         $art_name = '';
         $art = rex_article::get($value);
-        $category = rex_category::getCurrent()->getId(); // Aktuelle Kategorie vorauswählen
+        $category = rex_category::getCurrent() ? rex_category::getCurrent()->getId() : 0; // Aktuelle Kategorie vorauswählen
 
         // Falls ein Artikel vorausgewählt ist, dessen Namen anzeigen und beim Öffnen der Linkmap dessen Kategorie anzeigen
         if ($art instanceof rex_article) {

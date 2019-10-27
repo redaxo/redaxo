@@ -1,7 +1,24 @@
 Changelog
 =========
 
-Version 2.5.0 – XX.XX.XXXX
+Version 2.6.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Default-Timeout auf 10s gesetzt (statt 5min) (@skerbis)
+* Englische Übersetzung der Readme (@skerbis)
+
+
+Version 2.5.1 – 16.03.2019
+--------------------------
+
+### Bugfixes
+
+* E-Mail-Benachrichtigung bei Fehlern wurde teilweise kontinuierlich bei jedem Seitenaufruf verschickt (@skerbis)
+
+
+Version 2.5.0 – 12.03.2019
 --------------------------
 
 ### Neu

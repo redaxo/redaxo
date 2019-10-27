@@ -7,17 +7,23 @@
  *
  * @package redaxo\cronjob
  */
-
 class rex_cronjob_manager
 {
+    /**
+     * @template T of rex_cronjob
+     *
+     * @return class-string<T>[]
+     */
     private static $types = [
         'rex_cronjob_phpcode',
         'rex_cronjob_phpcallback',
         'rex_cronjob_urlrequest',
     ];
 
+    /** @var string */
     private $message = '';
     private $cronjob;
+    /** @var string */
     private $name;
     private $id;
 
@@ -73,12 +79,9 @@ class rex_cronjob_manager
             } catch (Throwable $t) {
                 $success = false;
                 $message = $t->getMessage();
-            } catch (Exception $e) {
-                $success = false;
-                $message = $e->getMessage();
             }
 
-            if ($message == '' && !$success) {
+            if ('' == $message && !$success) {
                 $message = 'Unknown error';
             }
         }
@@ -94,6 +97,10 @@ class rex_cronjob_manager
         return $success;
     }
 
+    /**
+     * @param bool   $success
+     * @param string $message
+     */
     public function log($success, $message)
     {
         $name = $this->name;
@@ -114,16 +121,29 @@ class rex_cronjob_manager
         $log->add($data);
     }
 
+    /**
+     * @template T of rex_cronjob
+     *
+     * @return class-string<T>[]
+     */
     public static function getTypes()
     {
         return self::$types;
     }
 
+    /**
+     * @template T of rex_cronjob
+     *
+     * @param class-string<T> $class
+     */
     public static function registerType($class)
     {
         self::$types[] = $class;
     }
 
+    /**
+     * @return string
+     */
     public static function getCurrentEnvironment()
     {
         if (defined('REX_CRONJOB_SCRIPT') && REX_CRONJOB_SCRIPT) {

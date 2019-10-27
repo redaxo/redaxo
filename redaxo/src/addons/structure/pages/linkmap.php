@@ -29,10 +29,10 @@ $context = new rex_context([
 
 $func_body = '';
 
-if ($opener_input_field != '' && $opener_input_field_name == '') {
+if ('' != $opener_input_field && '' == $opener_input_field_name) {
     $opener_input_field_name = $opener_input_field . '_NAME';
 }
-if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
+if ('REX_LINKLIST_' == substr($opener_input_field, 0, 13)) {
     $id = (int) substr($opener_input_field, 13, strlen($opener_input_field));
     $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
@@ -76,13 +76,8 @@ if (!rex_request::isXmlHttpRequest()) {
 
 <?php
 
-$isRoot = $category_id === 0;
+$isRoot = 0 === $category_id;
 $category = rex_category::get($category_id);
-
-// Hide minibar (REX 5.7+)
-if (class_exists('rex_minibar') && rex_minibar::getInstance()->isActive() === null) {
-    rex_minibar::getInstance()->setActive(false);
-}
 
 $navigation = [];
 if ($category) {

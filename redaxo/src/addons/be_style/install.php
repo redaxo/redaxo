@@ -16,5 +16,6 @@ $addon = rex_addon::get('be_style');
 $files = require __DIR__.'/vendor_files.php';
 
 foreach ($files as $source => $destination) {
+    // ignore errors, because this file is included very early in setup, before the regular file permissions check
     rex_file::copy($addon->getPath($source), $addon->getAssetsPath($destination));
 }
