@@ -50,7 +50,7 @@ $data = [
 ];
 
 $sql = rex_sql::factory();
-$sql->setTable(rex::getTable('media_manager_type'));
+$sql->setTable(rex::getTable('metainfo_type'));
 foreach ($data as $row) {
     $sql->addRecord(static function (rex_sql $record) use ($row) {
         $record
