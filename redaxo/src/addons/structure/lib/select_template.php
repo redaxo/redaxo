@@ -67,7 +67,7 @@ class rex_template_select extends rex_select
                 $this->category_id,
                 $this->clang_id,
             ]);
-            if ($sql->getRows() == 1) {
+            if (1 == $sql->getRows()) {
                 $selected = $sql->getValue('template_id');
             }
         }
