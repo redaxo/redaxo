@@ -59,7 +59,6 @@ foreach ($data as $row) {
 }
 $sql->insertOrUpdate();
 
-
 $tablePrefixes = ['article' => ['art_', 'cat_'], 'media' => ['med_'], 'clang' => ['clang_']];
 $columns = ['article' => [], 'media' => [], 'clang' => []];
 foreach ($tablePrefixes as $table => $prefixes) {
