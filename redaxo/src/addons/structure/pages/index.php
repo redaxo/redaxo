@@ -417,7 +417,7 @@ if ($category_id > 0 || (0 == $category_id && !rex::getUser()->getComplexPerm('s
     if ('add_art' == $function && $KATPERM) {
         $tmpl_td = '';
         if ($withTemplates) {
-            $template_select->setSelected();
+            $template_select->setSelectedFromStartArticle();
 
             $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
         }

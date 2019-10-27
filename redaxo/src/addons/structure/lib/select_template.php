@@ -56,35 +56,29 @@ class rex_template_select extends rex_select
     }
 
     /**
-     * @param int $selected
-     *
      * @throws rex_sql_exception
      */
-    public function setSelected($selected = -1)
+    public function setSelectedFromStartArticle()
     {
-        if ($selected > 0) {
+        // Inherit template_id from start article
+        if ($this->category_id > 0) {
+            $sql = rex_sql::factory();
+            $sql->setQuery('SELECT template_id FROM '.rex::getTable('article').' WHERE id = ? AND clang_id = ? AND startarticle = 1', [
+                $this->category_id,
+                $this->clang_id,
+            ]);
+            if ($sql->getRows() == 1) {
+                $selected = $sql->getValue('template_id');
+            }
+        }
+
+        $templates = $this->getTemplates();
+        if (!$selected || !isset($templates[$selected])) {
+            $selected = rex_template::getDefaultId();
+        }
+
+        if ($selected && isset($templates[$selected])) {
             parent::setSelected($selected);
-        } else {
-            // Inherit template_id from start article
-            if ($this->category_id > 0) {
-                $sql = rex_sql::factory();
-                $sql->setQuery('SELECT template_id FROM '.rex::getTable('article').' WHERE id = ? AND clang_id = ? AND startarticle = 1', [
-                    $this->category_id,
-                    $this->clang_id,
-                ]);
-                if ($sql->getRows() == 1) {
-                    $selected = $sql->getValue('template_id');
-                }
-            }
-
-            $templates = $this->getTemplates();
-            if (!$selected || !isset($templates[$selected])) {
-                $selected = rex_template::getDefaultId();
-            }
-
-            if ($selected && isset($templates[$selected])) {
-                parent::setSelected($selected);
-            }
         }
     }
 
