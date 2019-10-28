@@ -14,7 +14,7 @@ class rex_cronjob_form extends rex_form
 {
     /** @var string */
     private $mainFieldset;
-    /** @var rex_cronjob_form_interval_element */
+    /** @var rex_cronjob_form_interval_element|null */
     private $intervalField;
 
     /**
