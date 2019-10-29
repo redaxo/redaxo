@@ -37,6 +37,17 @@ class rex_sql_schema_dumper
             $code .= "\n    ->ensureColumn(".$this->getColumn($column).')';
         }
 
+        $code = str_replace(
+            "
+    ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
+    ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
+    ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
+    ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))",
+            '
+    ->ensureGlobalColumns()',
+            $code
+        );
+
         if ($setPrimaryKey && $table->getPrimaryKey()) {
             $code .= "\n    ->setPrimaryKey(".$this->getPrimaryKey($table->getPrimaryKey()).')';
         }

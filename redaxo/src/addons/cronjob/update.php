@@ -81,3 +81,5 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
             ->update();
     }
 }
+
+$addon->includeFile(__DIR__.'/install.php');

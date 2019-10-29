@@ -106,7 +106,17 @@ class rex_sql implements Iterator
             throw new InvalidArgumentException('Database name can not be empty.');
         }
 
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
+        $port = null;
+        if (false !== strpos($host, ':')) {
+            [$host, $port] = explode(':', $host, 2);
+        }
+
+        $dsn = 'mysql:host=' . $host;
+        if ($port) {
+            $dsn .= ';port='. $port;
+        }
+        $dsn .= ';dbname=' . $database;
+
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
@@ -903,11 +913,6 @@ class rex_sql implements Iterator
             $this->values
         );
 
-        // provide debug infos, if insert is considered successfull, but no rows were inserted.
-        // this happens when you violate against a NOTNULL constraint
-        if (0 == $this->getRows()) {
-            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
-        }
         return $this;
     }
 
