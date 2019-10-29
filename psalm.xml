@@ -38,6 +38,9 @@ autoloader="phpstan-bootstrap.php"
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
+    <plugins>
+        <plugin filename="psalm-utils.php" />
+    </plugins>
     <issueHandlers>
         <InvalidScope>
             <errorLevel type="suppress">
