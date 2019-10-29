@@ -7,28 +7,28 @@ class rex_template_select extends rex_select
     /**
      * @var bool
      */
-    protected $loaded = false;
+    private $loaded = false;
     /**
      * @var int
      */
-    protected $category_id;
+    private $categoryId;
     /**
      * @var string[]
      */
-    protected $templates;
+    private $templates;
     /**
      * @var int
      */
-    protected $clang_id;
+    private $clangId;
 
     /**
-     * @param int $category_id
-     * @param int $clang_id
+     * @param int $categoryId
+     * @param int $clangId
      */
-    public function __construct($category_id, $clang_id)
+    public function __construct($categoryId, $clangId)
     {
-        $this->category_id = (int) $category_id;
-        $this->clang_id = (int) $clang_id;
+        $this->categoryId = (int) $categoryId;
+        $this->clangId = (int) $clangId;
 
         parent::__construct();
     }
@@ -42,8 +42,8 @@ class rex_template_select extends rex_select
             $templates = $this->getTemplates();
 
             if (count($templates) > 0) {
-                foreach ($templates as $t_id => $t_name) {
-                    $this->addOption($t_name, $t_id);
+                foreach ($templates as $templateId => $templateName) {
+                    $this->addOption($templateName, $templateId);
                 }
             } else {
                 $this->addOption(rex_i18n::msg('option_no_template'), '0');
@@ -61,11 +61,11 @@ class rex_template_select extends rex_select
     public function setSelectedFromStartArticle()
     {
         // Inherit template_id from start article
-        if ($this->category_id > 0) {
+        if ($this->categoryId > 0) {
             $sql = rex_sql::factory();
             $sql->setQuery('SELECT template_id FROM '.rex::getTable('article').' WHERE id = ? AND clang_id = ? AND startarticle = 1', [
-                $this->category_id,
-                $this->clang_id,
+                $this->categoryId,
+                $this->clangId,
             ]);
             if (1 == $sql->getRows()) {
                 $selected = $sql->getValue('template_id');
@@ -90,11 +90,11 @@ class rex_template_select extends rex_select
         if (!isset($this->templates)) {
             $this->templates = [];
 
-            $templates = rex_template::getTemplatesForCategory($this->category_id);
+            $templates = rex_template::getTemplatesForCategory($this->categoryId);
 
             if (count($templates) > 0) {
-                foreach ($templates as $t_id => $t_name) {
-                    $this->templates[$t_id] = rex_i18n::translate($t_name, false);
+                foreach ($templates as $templateId => $templateName) {
+                    $this->templates[$templateId] = rex_i18n::translate($templateName, false);
                 }
             }
         }
