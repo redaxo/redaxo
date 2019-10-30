@@ -4,6 +4,7 @@ dist: bionic
 
 git:
     depth: 3
+    submodules: false
 
 branches:
     only:
@@ -16,6 +17,7 @@ cache:
         - $HOME/.composer/cache
 
 before_install:
+    - git submodule update --init --recursive --depth 1 --jobs 10
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 jobs:
