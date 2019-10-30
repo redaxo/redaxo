@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\structure
+ * @package redaxo\structure\content
  */
 class rex_slice_service
 {
@@ -22,9 +22,6 @@ class rex_slice_service
         self::reqKey($data, 'ctype_id');
         self::reqKey($data, 'article_id');
         self::reqKey($data, 'module_id');
-        if (rex_plugin::get('bloecks', 'status')->isAvailable()) {
-            self::reqKey($data, 'status');
-        }
         if (rex_plugin::get('structure', 'version')->isAvailable()) {
             self::reqKey($data, 'revision');
         }
