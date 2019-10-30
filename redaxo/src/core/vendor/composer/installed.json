@@ -95,17 +95,17 @@
     },
     {
         "name": "filp/whoops",
-        "version": "2.4.1",
-        "version_normalized": "2.4.1.0",
+        "version": "2.5.0",
+        "version_normalized": "2.5.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/filp/whoops.git",
-            "reference": "6fb502c23885701a991b0bba974b1a8eb6673577"
+            "reference": "cde50e6720a39fdacb240159d3eea6865d51fd96"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/6fb502c23885701a991b0bba974b1a8eb6673577",
-            "reference": "6fb502c23885701a991b0bba974b1a8eb6673577",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/cde50e6720a39fdacb240159d3eea6865d51fd96",
+            "reference": "cde50e6720a39fdacb240159d3eea6865d51fd96",
             "shasum": ""
         },
         "require": {
@@ -121,7 +121,7 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2019-07-04T09:00:00+00:00",
+        "time": "2019-08-07T09:00:00+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -261,27 +261,27 @@
     },
     {
         "name": "psr/log",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-fig/log.git",
-            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+            "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+            "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2018-11-20T15:27:04+00:00",
+        "time": "2019-10-25T08:06:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.0.x-dev"
+                "dev-master": "1.1.x-dev"
             }
         },
         "installation-source": "dist",
@@ -448,12 +448,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "ea693fa060702164985511acc3ceb5389c9ac761"
+            "reference": "eb59d9f35a47f567ae15e7179d7c666489cd4b85"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ea693fa060702164985511acc3ceb5389c9ac761",
-            "reference": "ea693fa060702164985511acc3ceb5389c9ac761",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/eb59d9f35a47f567ae15e7179d7c666489cd4b85",
+            "reference": "eb59d9f35a47f567ae15e7179d7c666489cd4b85",
             "shasum": ""
         },
         "conflict": {
@@ -476,7 +476,7 @@
             "contao/core": ">=2,<3.5.39",
             "contao/core-bundle": ">=4,<4.4.39|>=4.5,<4.7.5",
             "contao/listing-bundle": ">=4,<4.4.8",
-            "contao/newsletter-bundle": ">=4,<4.1",
+            "datadog/dd-trace": ">=0.30,<0.30.2",
             "david-garcia/phpwhois": "<=4.3.1",
             "doctrine/annotations": ">=1,<1.2.7",
             "doctrine/cache": ">=1,<1.3.2|>=1.4,<1.4.2",
@@ -519,9 +519,9 @@
             "laravel/framework": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.42|>=5.6,<5.6.30",
             "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
             "league/commonmark": "<0.18.3",
-            "magento/magento1ce": "<1.9.4.1",
-            "magento/magento1ee": ">=1.9,<1.14.4.1",
-            "magento/product-community-edition": ">=2,<2.2.8|>=2.3,<2.3.1",
+            "magento/magento1ce": "<1.9.4.3",
+            "magento/magento1ee": ">=1,<1.14.4.3",
+            "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.3",
             "monolog/monolog": ">=1.8,<1.12",
             "namshi/jose": "<2.2",
             "onelogin/php-saml": "<2.10.4",
@@ -564,6 +564,7 @@
             "spoonity/tcpdf": "<6.2.22",
             "squizlabs/php_codesniffer": ">=1,<2.8.1|>=3,<3.0.1",
             "stormpath/sdk": ">=0,<9.9.99",
+            "studio-42/elfinder": "<2.1.48",
             "swiftmailer/swiftmailer": ">=4,<5.4.5",
             "sylius/admin-bundle": ">=1,<1.0.17|>=1.1,<1.1.9|>=1.2,<1.2.2",
             "sylius/grid": ">=1,<1.1.19|>=1.2,<1.2.18|>=1.3,<1.3.13|>=1.4,<1.4.5|>=1.5,<1.5.1",
@@ -642,7 +643,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2019-07-18T15:17:58+00:00",
+        "time": "2019-10-09T14:04:58+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -659,17 +660,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.3.3",
-        "version_normalized": "4.3.3.0",
+        "version": "v4.3.5",
+        "version_normalized": "4.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "8b0ae5742ce9aaa8b0075665862c1ca397d1c1d9"
+            "reference": "929ddf360d401b958f611d44e726094ab46a7369"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/8b0ae5742ce9aaa8b0075665862c1ca397d1c1d9",
-            "reference": "8b0ae5742ce9aaa8b0075665862c1ca397d1c1d9",
+            "url": "https://api.github.com/repos/symfony/console/zipball/929ddf360d401b958f611d44e726094ab46a7369",
+            "reference": "929ddf360d401b958f611d44e726094ab46a7369",
             "shasum": ""
         },
         "require": {
@@ -701,7 +702,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2019-07-24T17:13:59+00:00",
+        "time": "2019-10-07T12:36:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -974,17 +975,17 @@
     },
     {
         "name": "symfony/service-contracts",
-        "version": "v1.1.5",
-        "version_normalized": "1.1.5.0",
+        "version": "v1.1.7",
+        "version_normalized": "1.1.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/service-contracts.git",
-            "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d"
+            "reference": "ffcde9615dc5bb4825b9f6aed07716f1f57faae0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
-            "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
+            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/ffcde9615dc5bb4825b9f6aed07716f1f57faae0",
+            "reference": "ffcde9615dc5bb4825b9f6aed07716f1f57faae0",
             "shasum": ""
         },
         "require": {
@@ -994,7 +995,7 @@
         "suggest": {
             "symfony/service-implementation": ""
         },
-        "time": "2019-06-13T11:15:36+00:00",
+        "time": "2019-09-17T11:12:18+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1034,17 +1035,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.3.3",
-        "version_normalized": "4.3.3.0",
+        "version": "v4.3.5",
+        "version_normalized": "4.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "e4110b992d2cbe198d7d3b244d079c1c58761d07"
+            "reference": "bde8957fc415fdc6964f33916a3755737744ff05"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e4110b992d2cbe198d7d3b244d079c1c58761d07",
-            "reference": "e4110b992d2cbe198d7d3b244d079c1c58761d07",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/bde8957fc415fdc6964f33916a3755737744ff05",
+            "reference": "bde8957fc415fdc6964f33916a3755737744ff05",
             "shasum": ""
         },
         "require": {
@@ -1067,7 +1068,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2019-07-27T06:42:46+00:00",
+        "time": "2019-10-04T19:48:13+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -1112,17 +1113,17 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.3.3",
-        "version_normalized": "4.3.3.0",
+        "version": "v4.3.5",
+        "version_normalized": "4.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "34d29c2acd1ad65688f58452fd48a46bd996d5a6"
+            "reference": "41e16350a2a1c7383c4735aa2f9fce74cf3d1178"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/34d29c2acd1ad65688f58452fd48a46bd996d5a6",
-            "reference": "34d29c2acd1ad65688f58452fd48a46bd996d5a6",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/41e16350a2a1c7383c4735aa2f9fce74cf3d1178",
+            "reference": "41e16350a2a1c7383c4735aa2f9fce74cf3d1178",
             "shasum": ""
         },
         "require": {
@@ -1138,7 +1139,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2019-07-24T14:47:54+00:00",
+        "time": "2019-09-11T15:41:19+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

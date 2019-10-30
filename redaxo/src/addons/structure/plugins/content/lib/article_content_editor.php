@@ -251,6 +251,7 @@ class rex_article_content_editor extends rex_article_content
         if (isset($this->MODULESELECT[$this->ctype])) {
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
+                $item['id'] = $module['id'];
                 $item['title'] = rex_escape($module['name']);
                 $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
                 $items[] = $item;
@@ -261,7 +262,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('block', true);
         $fragment->setVar('button_label', rex_i18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
-        $select = $fragment->parse('core/dropdowns/dropdown.php');
+        $select = $fragment->parse('module_select.php');
         $select = rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_MODULE_SELECT',
                 $select,
