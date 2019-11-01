@@ -27,5 +27,5 @@ jobs:
       with:
         php-version: 7.1
     - run: |
-        mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
+        mysql -e 'create database redaxo_5_0;'
         
