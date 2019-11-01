@@ -106,7 +106,17 @@ class rex_sql implements Iterator
             throw new InvalidArgumentException('Database name can not be empty.');
         }
 
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
+        $port = null;
+        if (false !== strpos($host, ':')) {
+            [$host, $port] = explode(':', $host, 2);
+        }
+
+        $dsn = 'mysql:host=' . $host;
+        if ($port) {
+            $dsn .= ';port='. $port;
+        }
+        $dsn .= ';dbname=' . $database;
+
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.1 – 01.11.2019
+--------------------------
+
+### Bugfixes
+
+* Date/Time-Felder wurden im Medienpool nicht disabled entsprechend der zugehörigen Checkbox (@gharlan)
+
+
 Version 2.5.0 – 20.08.2019
 --------------------------
 

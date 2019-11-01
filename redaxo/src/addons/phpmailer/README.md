@@ -162,6 +162,8 @@ PHPMailer checks if the specified server supports TLS and establishes an encrypt
 
 - Large e-mail distribution lists should be sent in small numbers and as BCCs if possible.
 
+> SMTP transmission does not allow sending emails with empty body 
+
 ### Use of self-signed certificates
 
 The peer is verified by default. This can lead to problems. The following settings help to avoid this problem.

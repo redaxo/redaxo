@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.3 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
 Version 2.5.2 – 12.03.2019
 --------------------------
 
