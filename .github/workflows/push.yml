@@ -27,5 +27,11 @@ jobs:
       with:
         php-version: 7.1
     - run: |
-        mysql -e 'create database redaxo_5_0;'
+        mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
+        php redaxo/bin/console db:connection-options --host 127.0.0.1 --user root --password root
+        php redaxo/src/addons/tests/bin/setup.php
+        composer require --dev friendsofredaxo/linter && vendor/bin/rexlint
+        php redaxo/bin/console be_style:compile
+        git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
+
         
