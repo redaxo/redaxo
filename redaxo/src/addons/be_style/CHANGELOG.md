@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.8.1 – 01.11.2019
+--------------------------
+
+* Favicon und zugehörige Dateien wurden mit falschem Pfad eingebunden (@gharlan)
+
+
 Version 2.8.0 – 20.08.2019
 --------------------------
 
