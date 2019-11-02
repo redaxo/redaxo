@@ -13,7 +13,7 @@ class rex_structure_context
     /**
      * @param array $params
      */
-    public function __construct(array $params = [])
+    public function __construct(array $params)
     {
         if (isset($params['category_id'])) {
             $params['category_id'] = rex_category::get($params['category_id']) instanceof rex_category ? $params['category_id'] : 0;
