@@ -44,10 +44,10 @@ if (rex::isSetup()) {
     );
 
 $DBID = 1;
-$config['DB'][$DBID]['host'] = '127.0.0.1';
-$config['DB'][$DBID]['name'] = 'redaxo_5_0';
-$config['DB'][$DBID]['login'] = 'root';
-$config['DB'][$DBID]['password'] = 'root';
+$config['db'][$DBID]['host'] = '127.0.0.1';
+$config['db'][$DBID]['name'] = 'redaxo_5_0';
+$config['db'][$DBID]['login'] = 'root';
+$config['db'][$DBID]['password'] = 'root';
 
 
     // init db
