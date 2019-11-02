@@ -14,6 +14,7 @@ $structureContext = new rex_structure_context([
     'catstart' => rex_request('catstart', 'int'),
     'edit_id' => rex_request('edit_id', 'int'),
     'function' => rex_request('function', 'string'),
+    'rows_per_page' => 30,
 ]);
 
 // --------------------- Extension Point
@@ -73,7 +74,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 
 // --------------------- ADD PAGINATION
 
-$catPager = new rex_pager(30, 'catstart');
+$catPager = new rex_pager($structureContext->getRowsPerPage(), 'catstart');
 $catPager->setRowCount($KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();
 $catFragment->setVar('urlprovider', $structureContext->getContext());
@@ -327,7 +328,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ADD PAGINATION
 
-    $artPager = new rex_pager(30, 'artstart');
+    $artPager = new rex_pager($structureContext->getRowsPerPage(), 'artstart');
     $artPager->setRowCount($sql->getValue('artCount'));
     $artFragment = new rex_fragment();
     $artFragment->setVar('urlprovider', $structureContext->getContext());

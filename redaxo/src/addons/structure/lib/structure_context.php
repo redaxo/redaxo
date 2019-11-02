@@ -138,6 +138,14 @@ class rex_structure_context
     }
 
     /**
+     * @return int
+     */
+    public function getRowsPerPage()
+    {
+        return $this->getValue('rows_per_page', 30);
+    }
+
+    /**
      * @return rex_context
      */
     public function getContext()
