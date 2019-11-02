@@ -5,7 +5,7 @@
  */
 
 $addon = rex_addon::get('structure');
-$structure_context = new rex_structure_context([
+$structureContext = new rex_structure_context([
     'category_id' => rex_request('category_id', 'int'),
     'article_id' => rex_request('article_id', 'int'),
     'clang_id' => rex_request('clang', 'int'),
@@ -18,19 +18,19 @@ $structure_context = new rex_structure_context([
 
 // --------------------- Extension Point
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER_PRE', '', [
-    'context' => $structure_context->getContext(),
+    'context' => $structureContext->getContext(),
 ]));
 
 // --------------------------------------------- TITLE
 echo rex_view::title(rex_i18n::msg('title_structure'));
 
 // --------------------------------------------- Languages
-echo rex_view::clangSwitchAsButtons($structure_context->getContext());
+echo rex_view::clangSwitchAsButtons($structureContext->getContext());
 
 // --------------------------------------------- Path
-$article_id = $structure_context->getArticleId();
-$category_id = $structure_context->getCategoryId();
-$clang = $structure_context->getClangId();
+$article_id = $structureContext->getArticleId();
+$category_id = $structureContext->getCategoryId();
+$clang = $structureContext->getClangId();
 require __DIR__ . '/../functions/function_rex_category.php';
 
 // -------------- STATUS_TYPE Map
@@ -42,33 +42,33 @@ echo rex_api_function::getMessage();
 
 // --------------------------------------------- KATEGORIE LISTE
 $cat_name = rex_i18n::msg('root_level');
-$category = rex_category::get($structure_context->getCategoryId(), $structure_context->getClangId());
+$category = rex_category::get($structureContext->getCategoryId(), $structureContext->getClangId());
 if ($category) {
     $cat_name = $category->getName();
 }
 
 $add_category = '';
-if ($KATPERM) {
-    $add_category = '<a href="' . $context->getUrl(['function' => 'add_cat', 'catstart' => $catstart]) . '"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'add') . '><i class="rex-icon rex-icon-add-category"></i></a>';
+if ($structureContext->hasCategoryPermission()) {
+    $add_category = '<a href="' . $structureContext->getContext()->getUrl(['function' => 'add_cat', 'catstart' => $structureContext->getCatStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'add') . '><i class="rex-icon rex-icon-add-category"></i></a>';
 }
 
 $data_colspan = 5;
 
 // --------------------- Extension Point
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER', '', [
-    'category_id' => $structure_context->getCategoryId(),
-    'clang' => $structure_context->getClangId(),
+    'category_id' => $structureContext->getCategoryId(),
+    'clang' => $structureContext->getClangId(),
 ]));
 
 // --------------------- COUNT CATEGORY ROWS
 
 $KAT = rex_sql::factory();
 // $KAT->setDebug();
-if (count($structure_context->getMountpoints()) > 0 && 0 == $structure_context->getMountpoints()) {
-    $parent_id = implode(',', $structure_context->getMountpoints());
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structure_context->getClangId());
+if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getMountpoints()) {
+    $parent_id = implode(',', $structureContext->getMountpoints());
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structureContext->getClangId());
 } else {
-    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $structure_context->getCategoryId() . ' AND startarticle=1 AND clang_id=' . $structure_context->getClangId());
+    $KAT->setQuery('SELECT COUNT(*) as rowCount FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=1 AND clang_id=' . $structureContext->getClangId());
 }
 
 // --------------------- ADD PAGINATION
@@ -76,31 +76,31 @@ if (count($structure_context->getMountpoints()) > 0 && 0 == $structure_context->
 $catPager = new rex_pager(30, 'catstart');
 $catPager->setRowCount($KAT->getValue('rowCount'));
 $catFragment = new rex_fragment();
-$catFragment->setVar('urlprovider', $structure_context->getContext());
+$catFragment->setVar('urlprovider', $structureContext->getContext());
 $catFragment->setVar('pager', $catPager);
 echo $catFragment->parse('core/navigations/pagination.php');
 
 // --------------------- GET THE DATA
 
-if (count($structure_context->getMountpoints()) > 0 && 0 == $structure_context->getCategoryId()) {
-    $parent_id = implode(',', $structure_context->getMountpoints());
+if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->getCategoryId()) {
+    $parent_id = implode(',', $structureContext->getMountpoints());
 
     $KAT->setQuery('SELECT parent_id FROM ' . rex::getTable('article') . ' WHERE id IN (' . $parent_id . ') GROUP BY parent_id');
     $orderBy = $KAT->getRows() > 1 ? 'catname' : 'catpriority';
 
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structure_context->getClangId() . ' ORDER BY ' . $orderBy . ' LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id IN (' . $parent_id . ') AND startarticle=1 AND clang_id=' . $structureContext->getClangId() . ' ORDER BY ' . $orderBy . ' LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 } else {
-    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $structure_context->getCategoryId() . ' AND startarticle=1 AND clang_id=' . $structure_context->getClangId() . ' ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
+    $KAT->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=1 AND clang_id=' . $structureContext->getClangId() . ' ORDER BY catpriority LIMIT ' . $catPager->getCursor() . ',' . $catPager->getRowsPerPage());
 }
 
 $echo = '';
 // ---------- INLINE THE EDIT/ADD FORM
 if ('add_cat' == $function || 'edit_cat' == $function) {
     $echo .= '
-    <form action="' . $context->getUrl(['catstart' => $catstart]) . '" method="post">
+    <form action="' . $structureContext->getContext()->getUrl(['catstart' => $structureContext->getCatStart()]) . '" method="post">
         <fieldset>
 
-            <input type="hidden" name="edit_id" value="' . $edit_id . '" />';
+            <input type="hidden" name="edit_id" value="' . $structureContext->getEditId() . '" />';
 }
 
 // --------------------- PRINT CATS/SUBCATS
@@ -116,11 +116,11 @@ $echo .= '
                     </tr>
                 </thead>
                 <tbody>';
-if (0 != $category_id && ($category = rex_category::get($category_id))) {
+if (0 != $structureContext->getCategoryId() && ($category = rex_category::get($structureContext->getCategoryId()))) {
     $echo .= '  <tr>
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-open-category"></i></td>
                     <td class="rex-table-id">-</td>
-                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $context->getUrl(['category_id' => $category->getParentId()]) . '">..</a></td>
+                    <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $structureContext->getContext()->getUrl(['category_id' => $category->getParentId()]) . '">..</a></td>
                     <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">&nbsp;</td>
                     <td class="rex-table-action" colspan="3">&nbsp;</td>
                 </tr>';
@@ -128,13 +128,13 @@ if (0 != $category_id && ($category = rex_category::get($category_id))) {
 
 // --------------------- KATEGORIE ADD FORM
 
-if ('add_cat' == $structure_context->getFunction() && $structure_context->hasCategoryPermission()) {
+if ('add_cat' == $structureContext->getFunction() && $structureContext->hasCategoryPermission()) {
     $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
-        'id' => $structure_context->getCategoryId(),
-        'clang' => $structure_context->getClangId(),
+        'id' => $structureContext->getCategoryId(),
+        'clang' => $structureContext->getClangId(),
     ]));
     $add_buttons = rex_api_category_add::getHiddenFields().'
-        <input type="hidden" name="parent-category-id" value="' . $structure_context->getCategoryId() . '" />
+        <input type="hidden" name="parent-category-id" value="' . $structureContext->getCategoryId() . '" />
         <button class="btn btn-save" type="submit" name="category-add-button"' . rex::getAccesskey(rex_i18n::msg('add_category'), 'save') . '>' . rex_i18n::msg('add_category') . '</button>';
 
     $class = 'mark';
@@ -151,8 +151,8 @@ if ('add_cat' == $structure_context->getFunction() && $structure_context->hasCat
 
     // ----- EXTENSION POINT
     $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_ADD', '', [
-        'id' => $structure_context->getCategoryId(),
-        'clang' => $structure_context->getClangId(),
+        'id' => $structureContext->getCategoryId(),
+        'clang' => $structureContext->getClangId(),
         'data_colspan' => ($data_colspan + 1),
     ]));
 }
@@ -162,31 +162,31 @@ if ($KAT->getRows() > 0) {
     for ($i = 0; $i < $KAT->getRows(); ++$i) {
         $i_category_id = $KAT->getValue('id');
 
-        $kat_link = $structure_context->getContext()->getUrl(['category_id' => $i_category_id]);
+        $kat_link = $structureContext->getContext()->getUrl(['category_id' => $i_category_id]);
         $kat_icon_td = '<td class="rex-table-icon"><a href="' . $kat_link . '" title="' . rex_escape($KAT->getValue('catname')) . '"><i class="rex-icon rex-icon-category"></i></a></td>';
 
         $kat_status = $catStatusTypes[$KAT->getValue('status')][0];
         $status_class = $catStatusTypes[$KAT->getValue('status')][1];
         $status_icon = $catStatusTypes[$KAT->getValue('status')][2];
 
-        if ($structure_context->hasCategoryPermission()) {
-            if ($structure_context->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
-                $kat_status = '<a class="' . $status_class . '" href="' . $structure_context->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structure_context->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
+        if ($structureContext->hasCategoryPermission()) {
+            if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishCategory[]')) {
+                $kat_status = '<a class="' . $status_class . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart()] + rex_api_category_status::getUrlParams()) . '"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</a>';
             } else {
                 $kat_status = '<span class="' . $status_class . ' text-muted"><i class="rex-icon ' . $status_icon . '"></i> ' . $kat_status . '</span>';
             }
 
-            if ($structure_context->getEditId() == $i_category_id && 'edit_cat' == $structure_context->getFunction()) {
+            if ($structureContext->getEditId() == $i_category_id && 'edit_cat' == $structureContext->getFunction()) {
                 // --------------------- KATEGORIE EDIT FORM
 
                 // ----- EXTENSION POINT
                 $meta_buttons = rex_extension::registerPoint(new rex_extension_point('CAT_FORM_BUTTONS', '', [
-                    'id' => $structure_context->getEditId(),
-                    'clang' => $structure_context->getClangId(),
+                    'id' => $structureContext->getEditId(),
+                    'clang' => $structureContext->getClangId(),
                 ]));
 
                 $add_buttons = rex_api_category_edit::getHiddenFields().'
-                <input type="hidden" name="category-id" value="' . $structure_context->getEditId() . '" />
+                <input type="hidden" name="category-id" value="' . $structureContext->getEditId() . '" />
                 <button class="btn btn-save" type="submit" name="category-edit-button"' . rex::getAccesskey(rex_i18n::msg('save_category'), 'save') . '>' . rex_i18n::msg('save_category') . '</button>';
 
                 $class = 'mark';
@@ -206,8 +206,8 @@ if ($KAT->getRows() > 0) {
 
                 // ----- EXTENSION POINT
                 $echo .= rex_extension::registerPoint(new rex_extension_point('CAT_FORM_EDIT', '', [
-                    'id' => $structure_context->getEditId(),
-                    'clang' => $structure_context->getClangId(),
+                    'id' => $structureContext->getEditId(),
+                    'clang' => $structureContext->getClangId(),
                     'category' => $KAT,
                     'catname' => $KAT->getValue('catname'),
                     'catpriority' => $KAT->getValue('catpriority'),
@@ -216,7 +216,7 @@ if ($KAT->getRows() > 0) {
             } else {
                 // --------------------- KATEGORIE WITH WRITE
 
-                $category_delete = '<a href="' . $structure_context->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structure_context->getCatStart()] + rex_api_category_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
+                $category_delete = '<a href="' . $structureContext->getContext()->getUrl(['category-id' => $i_category_id, 'catstart' => $structureContext->getCatStart()] + rex_api_category_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
 
                 $echo .= '
                     <tr>
@@ -224,7 +224,7 @@ if ($KAT->getRows() > 0) {
                         <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $i_category_id . '</td>
                         <td data-title="' . rex_i18n::msg('header_category') . '"><a href="' . $kat_link . '">' . rex_escape($KAT->getValue('catname')) . '</a></td>
                         <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($KAT->getValue('catpriority')) . '</td>
-                        <td class="rex-table-action"><a href="' . $structure_context->getContext()->getUrl(['edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $structure_context->getCatStart()]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
+                        <td class="rex-table-action"><a href="' . $structureContext->getContext()->getUrl(['edit_id' => $i_category_id, 'function' => 'edit_cat', 'catstart' => $structureContext->getCatStart()]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
                         <td class="rex-table-action">' . $category_delete . '</td>
                         <td class="rex-table-action">' . $kat_status . '</td>
                     </tr>';
@@ -270,7 +270,7 @@ if ('add_cat' == $function || 'edit_cat' == $function) {
 }
 
 $heading = rex_i18n::msg('structure_categories_caption', $cat_name);
-if (0 == $structure_context->getCategoryId()) {
+if (0 == $structureContext->getCategoryId()) {
     $heading = rex_i18n::msg('structure_root_level_categories_caption');
 }
 $fragment = new rex_fragment();
@@ -286,7 +286,7 @@ $echo = '';
 
 $template_select = new rex_select();
 
-if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCategoryId() && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
+if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
     $withTemplates = $addon->getPlugin('content')->isAvailable();
     $tmpl_head = '';
     if ($withTemplates) {
@@ -294,7 +294,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
         $template_select->setSize(1);
         $template_select->setStyle('class="form-control selectpicker"');
 
-        $templates = rex_template::getTemplatesForCategory($structure_context->getCategoryId());
+        $templates = rex_template::getTemplatesForCategory($structureContext->getCategoryId());
         if (count($templates) > 0) {
             foreach ($templates as $t_id => $t_name) {
                 $template_select->addOption(rex_i18n::translate($t_name, false), $t_id);
@@ -309,8 +309,8 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
 
     // --------------------- ARTIKEL LIST
     $art_add_link = '';
-    if ($KATPERM) {
-        $art_add_link = '<a href="' . $context->getUrl(['function' => 'add_art', 'artstart' => $artstart]) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
+    if ($structureContext->hasCategoryPermission()) {
+        $art_add_link = '<a href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->getArtStart()]) . '"' . rex::getAccesskey(rex_i18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 
     // ---------- COUNT DATA
@@ -320,8 +320,8 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                 FROM
                     ' . rex::getTablePrefix() . 'article
                 WHERE
-                    ((parent_id=' . $structure_context->getCategoryId() . ' AND startarticle=0) OR (id=' . $structure_context->getCategoryId() . ' AND startarticle=1))
-                    AND clang_id=' . $structure_context->getClangId() . '
+                    ((parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=0) OR (id=' . $structureContext->getCategoryId() . ' AND startarticle=1))
+                    AND clang_id=' . $structureContext->getClangId() . '
                 ORDER BY
                     priority, name');
 
@@ -330,7 +330,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
     $artPager = new rex_pager(30, 'artstart');
     $artPager->setRowCount($sql->getValue('artCount'));
     $artFragment = new rex_fragment();
-    $artFragment->setVar('urlprovider', $structure_context->getContext());
+    $artFragment->setVar('urlprovider', $structureContext->getContext());
     $artFragment->setVar('pager', $artPager);
     echo $artFragment->parse('core/navigations/pagination.php');
 
@@ -339,8 +339,8 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                 FROM
                     ' . rex::getTablePrefix() . 'article
                 WHERE
-                    ((parent_id=' . $structure_context->getCategoryId() . ' AND startarticle=0) OR (id=' . $structure_context->getCategoryId() . ' AND startarticle=1))
-                    AND clang_id=' . $structure_context->getClangId() . '
+                    ((parent_id=' . $structureContext->getCategoryId() . ' AND startarticle=0) OR (id=' . $structureContext->getCategoryId() . ' AND startarticle=1))
+                    AND clang_id=' . $structureContext->getClangId() . '
                 ORDER BY
                     priority, name
                 LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage());
@@ -348,7 +348,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
     // ---------- INLINE THE EDIT/ADD FORM
     if ('add_art' == $function || 'edit_art' == $function) {
         $echo .= '
-        <form action="' . $context->getUrl(['artstart' => $artstart]) . '" method="post">
+        <form action="' . $structureContext->getContext()->getUrl(['artstart' => $structureContext->getArtStart()]) . '" method="post">
             <fieldset>';
     }
 
@@ -376,14 +376,14 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
     }
 
     // --------------------- ARTIKEL ADD FORM
-    if ('add_art' == $structure_context->getFunction() && $structure_context->hasCategoryPermission()) {
+    if ('add_art' == $structureContext->getFunction() && $structureContext->hasCategoryPermission()) {
         $tmpl_td = '';
         if ($withTemplates) {
             $selectedTemplate = 0;
-            if ($structure_context->getCategoryId()) {
+            if ($structureContext->getCategoryId()) {
                 // template_id vom Startartikel erben
                 $sql2 = rex_sql::factory();
-                $sql2->setQuery('SELECT template_id FROM ' . rex::getTablePrefix() . 'article WHERE id=' . $structure_context->getCategoryId() . ' AND clang_id=' . $structure_context->getClangId() . ' AND startarticle=1');
+                $sql2->setQuery('SELECT template_id FROM ' . rex::getTablePrefix() . 'article WHERE id=' . $structureContext->getCategoryId() . ' AND clang_id=' . $structureContext->getClangId() . ' AND startarticle=1');
                 if (1 == $sql2->getRows()) {
                     $selectedTemplate = $sql2->getValue('template_id');
                 }
@@ -428,14 +428,14 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
 
         // --------------------- ARTIKEL EDIT FORM
 
-        if ('edit_art' == $structure_context->getFunction() && $sql->getValue('id') == $structure_context->getArticleId() && $structure_context->hasCategoryPermission()) {
+        if ('edit_art' == $structureContext->getFunction() && $sql->getValue('id') == $structureContext->getArticleId() && $structureContext->hasCategoryPermission()) {
             $tmpl_td = '';
             if ($withTemplates) {
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
             }
             $echo .= '<tr class="mark' . $class_startarticle . '">
-                            <td class="rex-table-icon"><a href="' . $structure_context->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
+                            <td class="rex-table-icon"><a href="' . $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id')]) . '" title="' . rex_escape($sql->getValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
                             <td class="rex-table-id" data-title="' . rex_i18n::msg('header_id') . '">' . $sql->getValue('id') . '</td>
                             <td data-title="' . rex_i18n::msg('header_article_name') . '"><input class="form-control" type="text" name="article-name" value="' . rex_escape($sql->getValue('name')) . '" autofocus /></td>
                             ' . $tmpl_td . '
@@ -443,7 +443,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '"><input class="form-control" type="text" name="article-position" value="' . rex_escape($sql->getValue('priority')) . '" /></td>
                             <td class="rex-table-action" colspan="3">'.rex_api_article_edit::getHiddenFields().'<button class="btn btn-save" type="submit" name="artedit_function"' . rex::getAccesskey(rex_i18n::msg('article_save'), 'save') . '>' . rex_i18n::msg('article_save') . '</button></td>
                         </tr>';
-        } elseif ($structure_context->hasCategoryPermission()) {
+        } elseif ($structureContext->hasCategoryPermission()) {
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
             $article_status = $artStatusTypes[$sql->getValue('status')][0];
@@ -455,19 +455,19 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                 $add_extra = '<td class="rex-table-action"><span class="text-muted"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</span></td>
                               <td class="rex-table-action"><span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span></td>';
             } else {
-                if ($structure_context->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
-                    $article_status = '<a class="' . $article_class . '" href="' . $structure_context->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structure_context->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</a>';
+                if ($structureContext->hasCategoryPermission() && rex::getUser()->hasPerm('publishArticle[]')) {
+                    $article_status = '<a class="' . $article_class . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_status::getUrlParams()) . '"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</a>';
                 } else {
                     $article_status = '<span class="' . $article_class . ' text-muted"><i class="rex-icon ' . $article_icon . '"></i> ' . $article_status . '</span>';
                 }
 
-                $article_delete = '<a href="' . $structure_context->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structure_context->getArtStart()] + rex_api_article_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
+                $article_delete = '<a href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'artstart' => $structureContext->getArtStart()] + rex_api_article_delete::getUrlParams()) . '" data-confirm="' . rex_i18n::msg('delete') . ' ?"><i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete') . '</a>';
 
                 $add_extra = '<td class="rex-table-action">' . $article_delete . '</td>
                               <td class="rex-table-action">' . $article_status . '</td>';
             }
 
-            $editModeUrl = $structure_context->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
+            $editModeUrl = $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
 
             $tmpl_td = '';
             if ($withTemplates) {
@@ -482,7 +482,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
                             ' . $tmpl_td . '
                             <td data-title="' . rex_i18n::msg('header_date') . '">' . rex_formatter::strftime($sql->getDateTimeValue('createdate'), 'date') . '</td>
                             <td class="rex-table-priority" data-title="' . rex_i18n::msg('header_priority') . '">' . rex_escape($sql->getValue('priority')) . '</td>
-                            <td class="rex-table-action"><a href="' . $structure_context->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $structure_context->getArtStart()]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
+                            <td class="rex-table-action"><a href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getValue('id'), 'function' => 'edit_art', 'artstart' => $structureContext->getArtStart()]) . '"><i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('change') . '</a></td>
                             ' . $add_extra . '
                         </tr>
                         ';
@@ -532,7 +532,7 @@ if ($structure_context->getCategoryId() > 0 || (0 == $structure_context->getCate
 }
 
 $heading = rex_i18n::msg('structure_articles_caption', $cat_name);
-if (0 == $structure_context->getCategoryId()) {
+if (0 == $structureContext->getCategoryId()) {
     $heading = rex_i18n::msg('structure_root_level_articles_caption');
 }
 $fragment = new rex_fragment();
