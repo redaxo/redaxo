@@ -160,7 +160,7 @@ class rex_structure_context
 
     /**
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      */
