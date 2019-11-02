@@ -24,12 +24,6 @@ $REX['REDAXO'] = true;
 $REX['HTDOCS_PATH'] = '../';
 $REX['BACKEND_FOLDER'] = 'redaxo';
 
-$DBID = 1;
-$REX['DB'][$DBID]['host'] = '127.0.0.1';
-$REX['DB'][$DBID]['name'] = 'redaxo_5_0';
-$REX['DB'][$DBID]['login'] = 'root';
-$REX['DB'][$DBID]['password'] = 'root';
-
 file_put_contents('data/config.yml', "error_email: info@redaxo.org\n");
 
 // bootstrap core
@@ -48,6 +42,13 @@ if (rex::isSetup()) {
         rex_file::getConfig(rex_path::core('default.config.yml')),
         rex_file::getConfig($configFile)
     );
+
+$DBID = 1;
+$config['DB'][$DBID]['host'] = '127.0.0.1';
+$config['DB'][$DBID]['name'] = 'redaxo_5_0';
+$config['DB'][$DBID]['login'] = 'root';
+$config['DB'][$DBID]['password'] = 'root';
+
 
     // init db
     $err .= rex_setup::checkDb($config, false);
