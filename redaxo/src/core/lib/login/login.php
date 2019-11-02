@@ -287,7 +287,7 @@ class rex_login
     public function depersonate()
     {
         if (!$this->impersonator) {
-            throw new RuntimeException('There is no current impersonator.');
+            return;
         }
 
         $this->user = $this->impersonator;

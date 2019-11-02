@@ -9,10 +9,15 @@
  */
 class rex_extension_point
 {
+    /** @var string */
     private $name;
+    /** @var mixed */
     private $subject;
+    /** @var array */
     private $params = [];
+    /** @var array */
     private $extensionParams = [];
+    /** @var bool */
     private $readonly = false;
 
     /**
