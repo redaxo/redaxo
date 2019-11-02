@@ -15,43 +15,32 @@ class rex_structure_context
      */
     public function __construct(array $params)
     {
-        if (isset($params['category_id'])) {
-            $params['category_id'] = rex_category::get($params['category_id']) instanceof rex_category ? $params['category_id'] : 0;
-
-            // Nur ein Mointpoint -> Sprung in die Kategorie
-            $mountpoints = $this->getMountpoints();
-            if (1 == count($mountpoints) && 0 == $params['category_id']) {
-                $params['category_id'] = current($mountpoints);
-            }
+        if (!isset($params['category_id']) || !rex_category::get($params['category_id']) instanceof rex_category) {
+            $params['category_id'] = 0;
+        }
+        // Only one mountpoint -> jump to category
+        $mountpoints = $this->getMountpoints();
+        if (1 == count($mountpoints) && 0 == $params['category_id']) {
+            $params['category_id'] = current($mountpoints);
         }
 
-        if (isset($params['article_id'])) {
-            $params['article_id'] = rex_article::get($params['article_id']) instanceof rex_article ? $params['article_id'] : 0;
+        if (!isset($params['article_id']) || !rex_article::get($params['article_id']) instanceof rex_article) {
+            $params['article_id'] = 0;
         }
 
-        if (isset($params['clang_id'])) {
-            $params['clang_id'] = rex_clang::exists($params['clang_id']) ? $params['clang_id'] : rex_clang::getStartId();
-
-            $stop = false;
-            if (rex_clang::count() > 1) {
-                if (!rex::getUser()->getComplexPerm('clang')->hasPerm($params['clang_id'])) {
-                    $stop = true;
-                    foreach (rex_clang::getAllIds() as $key) {
-                        if (rex::getUser()->getComplexPerm('clang')->hasPerm($key)) {
-                            $params['clang_id'] = $key;
-                            $stop = false;
-                            break;
-                        }
-                    }
-
-                    if ($stop) {
-                        echo rex_view::error('You have no permission to this area');
-                        exit;
-                    }
+        if (!isset($params['clang_id'])) {
+            $params['clang_id'] = 0;
+        }
+        if (rex_clang::count() > 1 && !rex::getUser()->getComplexPerm('clang')->hasPerm($params['clang_id'])) {
+            $params['clang_id'] = 0;
+            foreach (rex_clang::getAllIds() as $key) {
+                if (rex::getUser()->getComplexPerm('clang')->hasPerm($key)) {
+                    $params['clang_id'] = $key;
+                    break;
                 }
-            } else {
-                $params['clang_id'] = rex_clang::getStartId();
             }
+        } else {
+            $params['clang_id'] = rex_clang::getStartId();
         }
 
         $this->params = $params;

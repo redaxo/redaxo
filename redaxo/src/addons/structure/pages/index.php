@@ -17,6 +17,12 @@ $structureContext = new rex_structure_context([
     'rows_per_page' => 30,
 ]);
 
+
+if (0 == $structureContext->getClangId()) {
+    echo rex_view::error('You have no permission to access this area');
+    exit;
+}
+
 // --------------------- Extension Point
 echo rex_extension::registerPoint(new rex_extension_point('PAGE_STRUCTURE_HEADER_PRE', '', [
     'context' => $structureContext->getContext(),
