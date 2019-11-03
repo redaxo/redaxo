@@ -16,6 +16,7 @@ jobs:
       id: vars
       run: |
         issue_num=$(jq -r .issue.number ${{ github.event_path }})
+        keyword_found=$(jq -r .comment.body ${{ github.event_path }} | grep -Fq "/php-cs-fixer")
         head_ref=$(curl -sL \
           -H "Content-Type: application/json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -23,7 +24,7 @@ jobs:
           jq -r .head.ref)
         echo ::set-output name=pr_branch::"$head_ref"
     - name: Update pull request
-      if: steps.vars.outputs.pr_branch != 'null'
+      if: steps.vars.outputs.pr_branch != 'null' && $keyword_found
       uses: peter-evans/create-pull-request@v1.6.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
