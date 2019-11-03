@@ -17,7 +17,6 @@ $structureContext = new rex_structure_context([
     'rows_per_page' => 30,
 ]);
 
-
 if (0 == $structureContext->getClangId()) {
     echo rex_view::error('You have no permission to access this area');
     exit;
