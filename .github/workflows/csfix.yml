@@ -1,7 +1,7 @@
 on:
   issue_comment:
     types: [created]
-name: Main
+name: Codestyle fixing by comment
 jobs:
   php-cs-fixer-automatic:
     name: PHP-CS-Fixer fix by keyword
