@@ -23,7 +23,9 @@ $finder = PhpCsFixer\Finder::create()
     ])
     ->append([
         __FILE__,
+        __DIR__.'/index.php',
         __DIR__.'/phpstan-bootstrap.php',
+        __DIR__.'/psalm-utils.php',
     ])
     ->filter(static function (\SplFileInfo $file) use ($bootPath) {
         return $bootPath !== $file->getRealPath();
