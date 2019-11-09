@@ -26,7 +26,7 @@ jobs:
         echo ::set-output name=keyword_found::"$keyword_found"
     - name: Update pull request
       if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.keyword_found == 0
-      uses: peter-evans/create-pull-request@v1.6.0
+      uses: peter-evans/create-pull-request@v1.6.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COMMIT_MESSAGE: 'fix code-style'
