@@ -8,10 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: PHP-CS-Fixer fix styles
-      uses: docker://oskarstark/php-cs-fixer-ga
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: 7.1
+    - run: composer require friendsofphp/php-cs-fixer && vendor/bin/php-cs-fixer fix --diff
     - name: Get pull request branch name
       id: vars
       run: |
