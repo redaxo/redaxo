@@ -1,6 +1,6 @@
 on:
-  issue_comment:
-    types: [created]
+  issue:
+    types: [labeled]
 name: Codestyle fixing by comment
 jobs:
   php-cs-fixer-automatic:
