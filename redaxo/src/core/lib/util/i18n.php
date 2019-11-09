@@ -220,7 +220,6 @@ class rex_i18n
      *
      * @param string $key
      * @param bool   $htmlspecialchars
-     * @param array  $args
      * @param string $locale           A Locale
      *
      * @return mixed

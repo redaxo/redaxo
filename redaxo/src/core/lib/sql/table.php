@@ -213,8 +213,7 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_column $column
-     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -234,8 +233,7 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_column $column
-     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -402,8 +400,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_index $index
-     *
      * @return $this
      */
     public function addIndex(rex_sql_index $index)
@@ -420,8 +416,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_index $index
-     *
      * @return $this
      */
     public function ensureIndex(rex_sql_index $index)

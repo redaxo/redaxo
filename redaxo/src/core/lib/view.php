@@ -323,8 +323,7 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param rex_context $context
-     * @param bool        $drop
+     * @param bool $drop
      *
      * @return string
      */
@@ -360,8 +359,7 @@ class rex_view
     /**
      * Returns a clang switch.
      *
-     * @param rex_context $context
-     * @param bool        $drop
+     * @param bool $drop
      *
      * @return string
      */
@@ -398,8 +396,6 @@ class rex_view
 
     /**
      * Returns a clang switch.
-     *
-     * @param rex_context $context
      *
      * @return string
      */
