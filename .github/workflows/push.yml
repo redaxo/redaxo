@@ -28,10 +28,11 @@ jobs:
         php-version: 7.1
     - run: |
         mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
-        php redaxo/bin/console db:set-connection --host 127.0.0.1 --login root --password root
+        git apply .github/workflows/default.config.yml.github-action.diff
+
         php redaxo/src/addons/tests/bin/setup.php
         composer require --dev friendsofredaxo/linter && vendor/bin/rexlint
         php redaxo/bin/console be_style:compile
         git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
 
-        
+
