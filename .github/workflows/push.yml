@@ -34,6 +34,7 @@ jobs:
         php redaxo/src/addons/tests/bin/setup.php
         composer require --dev friendsofredaxo/linter && vendor/bin/rexlint
         php redaxo/bin/console be_style:compile
+        git checkout -- redaxo/src/core/default.config.yml # revert changes made initially
         git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
 
 
