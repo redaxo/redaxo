@@ -32,8 +32,6 @@ class rex_user
 
     /**
      * Constructor.
-     *
-     * @param rex_sql $sql
      */
     public function __construct(rex_sql $sql)
     {

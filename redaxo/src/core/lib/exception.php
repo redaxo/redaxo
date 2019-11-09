@@ -57,8 +57,7 @@ class rex_http_exception extends rex_exception
     private $httpCode;
 
     /**
-     * @param Exception $cause
-     * @param int       $httpCode
+     * @param int $httpCode
      */
     public function __construct(Exception $cause, $httpCode)
     {

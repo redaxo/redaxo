@@ -409,8 +409,6 @@ class rex_be_page
     /**
      * Adds a subpage.
      *
-     * @param self $subpage
-     *
      * @return $this
      */
     public function addSubpage(self $subpage)
@@ -689,8 +687,6 @@ class rex_be_page
 
     /**
      * Checks whether the given user has permission for the page.
-     *
-     * @param rex_user $rexUser
      *
      * @return bool
      */

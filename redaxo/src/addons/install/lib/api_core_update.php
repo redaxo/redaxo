@@ -189,7 +189,6 @@ class rex_api_install_core_update extends rex_api_function
     /**
      * @param string $temppath
      * @param string $version
-     * @param array  $addons
      *
      * @throws rex_functional_exception
      */
