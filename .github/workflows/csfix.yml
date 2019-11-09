@@ -1,5 +1,5 @@
 on:
-  issue:
+  issues:
     types: [labeled]
 name: Codestyle fixing by comment
 jobs:
@@ -11,7 +11,7 @@ jobs:
       id: vars
       run: |
         issue_num=$(jq -r .issue.number ${{ github.event_path }})
-        keyword_found=$(jq -r .comment.body ${{ github.event_path }} | grep -Fq "/php-cs-fixer")
+        keyword_found=$(jq -r .issue.labels.name ${{ github.event_path }} | grep -Fq "cs-fix")
         head_ref=$(curl -sL \
           -H "Content-Type: application/json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
