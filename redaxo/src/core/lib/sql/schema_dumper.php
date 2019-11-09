@@ -14,8 +14,6 @@ class rex_sql_schema_dumper
     /**
      * Dumps the schema for the given table as php code (using `rex_sql_table`).
      *
-     * @param rex_sql_table $table
-     *
      * @return string
      */
     public function dumpTable(rex_sql_table $table)

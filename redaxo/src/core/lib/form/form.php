@@ -154,7 +154,6 @@ class rex_form extends rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_prio_element
      */

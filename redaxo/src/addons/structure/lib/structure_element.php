@@ -33,8 +33,6 @@ abstract class rex_structure_element
 
     /**
      * Constructor.
-     *
-     * @param array $params
      */
     protected function __construct(array $params)
     {
@@ -68,7 +66,6 @@ abstract class rex_structure_element
 
     /**
      * @param string $value
-     * @param array  $prefixes
      *
      * @return bool
      */
@@ -243,7 +240,6 @@ abstract class rex_structure_element
     /**
      * Returns a url for linking to this article.
      *
-     * @param array  $params
      * @param string $divider
      *
      * @return string
@@ -418,8 +414,6 @@ abstract class rex_structure_element
     }
 
     /**
-     * @param array $attributes
-     *
      * @return string
      */
     protected function _toAttributeString(array $attributes)
@@ -466,8 +460,6 @@ abstract class rex_structure_element
 
     /**
      * Checks if $anObj is in the parent tree of the object.
-     *
-     * @param self $anObj
      *
      * @return bool
      */
