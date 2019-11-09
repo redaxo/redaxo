@@ -1,0 +1,37 @@
+on:
+  issue_comment:
+    types: [created]
+name: Codestyle fixing by comment
+jobs:
+  php-cs-fixer-automatic:
+    name: PHP-CS-Fixer fix by keyword
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Setup PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: 7.1
+    - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
+    - name: Get pull request branch name
+      id: vars
+      run: |
+        issue_num=$(jq -r .issue.number ${{ github.event_path }})
+        keyword_found=$(jq -r .comment.body ${{ github.event_path }} | grep -Fq "/php-cs-fixer")
+        head_ref=$(curl -sL \
+          -H "Content-Type: application/json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$issue_num" | \
+          jq -r .head.ref)
+        echo ::set-output name=pr_branch::"$head_ref"
+        echo ::set-output name=keyword_found::"$keyword_found"
+    - name: Update pull request
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.keyword_found == 0
+      uses: peter-evans/create-pull-request@v1.6.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COMMIT_MESSAGE: 'fix code-style'
+        PULL_REQUEST_BRANCH: ${{ steps.vars.outputs.pr_branch }}
+        BRANCH_SUFFIX: none
+
+     
