@@ -43,13 +43,6 @@ if (rex::isSetup()) {
         rex_file::getConfig($configFile)
     );
 
-$DBID = 1;
-$config['db'][$DBID]['host'] = '127.0.0.1';
-$config['db'][$DBID]['name'] = 'redaxo_5_0';
-$config['db'][$DBID]['login'] = 'root';
-$config['db'][$DBID]['password'] = 'root';
-
-
     // init db
     $err .= rex_setup::checkDb($config, false);
     $err .= rex_setup_importer::prepareEmptyDb();
