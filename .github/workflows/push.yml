@@ -51,6 +51,7 @@ jobs:
             uses: shivammathur/setup-php@master
             with:
                 php-version: 7.3
+                extension-csv: intl
           - run: |
                 git submodule update --init --recursive
                 mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
