@@ -103,7 +103,7 @@ jobs:
                 composer require --dev phpstan/phpstan-shim
                 vendor/bin/phpstan analyse --no-progress || true # allow failure
 
-php-cs-fixer:
+  php-cs-fixer:
       name: check php-cs-fixer codestyles
       runs-on: ubuntu-latest
       steps:
