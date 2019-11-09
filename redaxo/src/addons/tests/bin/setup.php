@@ -3,7 +3,7 @@
 
 if (PHP_SAPI !== 'cli') {
     echo 'error: this script may only be run from CLI', PHP_EOL;
-    return 1;
+    exit(1);
 }
 
 // bring the file into context, no matter from which dir it was executed
@@ -14,7 +14,7 @@ do {
 
 if (!chdir(implode(DIRECTORY_SEPARATOR, $path) . '/redaxo')) {
     echo 'error: start this script within a redaxo projects folder', PHP_EOL;
-    return 2;
+    exit(2);
 }
 
 // ---- bootstrap REX
