@@ -23,8 +23,9 @@ jobs:
           "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$issue_num" | \
           jq -r .head.ref)
         echo ::set-output name=pr_branch::"$head_ref"
+        echo ::set-output name=keyword_found::"$keyword_found"
     - name: Update pull request
-      if: steps.vars.outputs.pr_branch != 'null' && $keyword_found
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.keyword_found == 0
       uses: peter-evans/create-pull-request@v1.6.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
