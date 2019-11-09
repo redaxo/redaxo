@@ -12,7 +12,7 @@ jobs:
       uses: shivammathur/setup-php@master
       with:
         php-version: 7.1
-    - run: composer require friendsofphp/php-cs-fixer && vendor/bin/php-cs-fixer fix --diff
+    - run: composer global require friendsofphp/php-cs-fixer && vendor/bin/php-cs-fixer fix --diff
     - name: Get pull request branch name
       id: vars
       run: |
