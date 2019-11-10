@@ -103,3 +103,15 @@ jobs:
                 composer require --dev phpstan/phpstan-shim
                 vendor/bin/phpstan analyse --no-progress || true # allow failure
 
+  php-cs-fixer:
+      name: check php-cs-fixer codestyles
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@master
+          - name: Setup PHP
+            uses: shivammathur/setup-php@master
+            with:
+                php-version: 7.1
+                extension-csv: intl
+                coverage: none # disable xdebug, pcov
+          - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run

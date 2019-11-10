@@ -570,8 +570,7 @@ class rex_sql implements Iterator
      * Concats the given array to a sql condition using bound parameters.
      * AND/OR opartors are alternated depending on $level.
      *
-     * @param array $arrFields
-     * @param int   $level
+     * @param int $level
      *
      * @return string
      */
@@ -1354,8 +1353,6 @@ class rex_sql implements Iterator
      *
      * In case the callable throws, the transaction will automatically rolled back.
      * In case no error happens, the transaction will be committed after the callable was called.
-     *
-     * @param callable $callable
      *
      * @throws Throwable
      *

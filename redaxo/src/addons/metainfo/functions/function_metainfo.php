@@ -201,8 +201,6 @@ function rex_metainfo_meta_table($prefix)
 
 /**
  * Bindet ggf extensions ein.
- *
- * @param rex_extension_point $ep
  */
 function rex_metainfo_extensions_handler(rex_extension_point $ep)
 {
