@@ -10,9 +10,9 @@ jobs:
     - name: Get pull request branch name
       id: vars
       run: |
-        $(jq -r '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }})
+        $(jq --exit-status '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }})
         label_found=$?
-        head_ref=$(jq -r .head.ref ${{ github.event_path }})
+        head_ref=$(jq --raw-output .head.ref ${{ github.event_path }})
         echo ::set-output name=pr_branch::"$head_ref"
         echo ::set-output name=label_found::"$label_found"
 
