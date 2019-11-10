@@ -1,7 +1,7 @@
 on:
   issues:
     types: [labeled]
-name: Codestyle fixing by adding Pull Request label 'fix-cs'
+name: Codestyle fixing by adding Pull Request label fix-cs
 jobs:
   php-cs-fixer-automatic:
     name: PHP-CS-Fixer fix by Pull Request label
@@ -10,13 +10,8 @@ jobs:
     - name: Get pull request branch name
       id: vars
       run: |
-        issue_num=$(jq -r .issue.number ${{ github.event_path }})
-        label_found=$(jq -r '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }})
-        head_ref=$(curl -sL \
-          -H "Content-Type: application/json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$issue_num" | \
-          jq -r .head.ref)
+        label_found=$(jq --raw-output '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }} | grep 'fix-cs') 
+        head_ref=$(jq --raw-output .head.ref ${{ github.event_path }})
         echo ::set-output name=pr_branch::"$head_ref"
         echo ::set-output name=label_found::"$label_found"
 
