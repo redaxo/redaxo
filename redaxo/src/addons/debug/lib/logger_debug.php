@@ -16,7 +16,6 @@ class rex_logger_debug extends rex_logger
      *
      * @param mixed  $level
      * @param string $message
-     * @param array  $context
      * @param string $file
      * @param int    $line
      *

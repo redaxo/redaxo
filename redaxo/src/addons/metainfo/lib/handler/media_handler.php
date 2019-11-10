@@ -12,8 +12,6 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     /**
      * Extension to check whether the given media is still in use.
      *
-     * @param rex_extension_point $ep
-     *
      * @throws rex_exception
      *
      * @return string

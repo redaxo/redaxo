@@ -190,7 +190,6 @@ class rex_string
     /**
      * Generates URL-encoded query string.
      *
-     * @param array  $params
      * @param string $argSeparator
      *
      * @return string
@@ -214,8 +213,6 @@ class rex_string
 
     /**
      * Returns a string by key="value" pair.
-     *
-     * @param array $attributes
      *
      * @return string
      */
