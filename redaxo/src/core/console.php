@@ -2,14 +2,15 @@
 
 set_time_limit(0);
 
-require __DIR__.'/boot.php';
+  require __DIR__.'/boot.php';
 
 // force debug mode to enable output of notices/warnings and dump() function
 rex::setProperty('debug', true);
 
-rex_addon::initialize(!rex::isSetup());
+rex_addon::initialize(  !rex::isSetup());
 
-if (!rex::isSetup()) {
+if (!rex::isSetup()) 
+{
     foreach (rex::getConfig('package-order') as $packageId) {
         rex_package::get($packageId)->enlist();
     }
