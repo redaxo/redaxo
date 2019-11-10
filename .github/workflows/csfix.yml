@@ -10,7 +10,6 @@ jobs:
     - name: Get pull request branch name
       id: vars
       run: |
-        issue_num=$(jq -r .issue.number ${{ github.event_path }})
         $(jq -r '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }})
         label_found=$?
         head_ref=$(jq -r .head.ref ${{ github.event_path }})
