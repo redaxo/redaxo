@@ -64,7 +64,7 @@ backup_delete_interval_monthly = Ein Backup pro Monat behalten
 backup_delete_interval_notice = Es werden nur Backups gelöscht, die älter als ein Monat sind und deren Dateinamen auf <code>.cronjob.sql</code> enden.
 
 backup_blacklist_tables = Von Backup ausschließen
-backup_blacklist_tables_notice = Wenn ausgewählt, werden diese Tabellen nicht gesichert. Die Tabellen <code>rex_user</code> und <code>rex_tmp_*</code> werden automatisch ausgeschlossen.
+backup_blacklist_tables_notice = Wenn ausgewählt, werden diese Tabellen nicht gesichert. Tabellen mit dem Präfix <code>rex_tmp_*</code> werden automatisch ausgeschlossen.
 
 perm_general_backup[export] = Webseite exportieren
 
