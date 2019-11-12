@@ -9,11 +9,10 @@ class rex_backup
     public const IMPORT_DB = 2;
     public const IMPORT_EVENT_PRE = 3;
     public const IMPORT_EVENT_POST = 4;
-    
+
     /**
      * @return string
      */
-
     public static function getDir()
     {
         $dir = rex_path::addonData('backup');
@@ -22,6 +21,9 @@ class rex_backup
         return $dir;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getBackupFiles($filePrefix)
     {
         $dir = self::getDir();
@@ -50,7 +52,7 @@ class rex_backup
 
         return $folder;
     }
-
+    
     /**
      * Importiert den SQL Dump $filename in die Datenbank.
      *
@@ -338,7 +340,6 @@ class rex_backup
         if (null === $tables) {
             $tables = self::getTables();
         }
-
         foreach ($tables as $table) {
             //---- export metadata
             $create = rex_sql::showCreateTable($table);
@@ -437,6 +438,9 @@ class rex_backup
 
     /**
      * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu.
+     *
+     * @param string $path
+     * @param string $dir
      */
     private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
     {
@@ -468,8 +472,9 @@ class rex_backup
         }
         closedir($handle);
     }
-
-    public static function getTables()
+    
+    
+ public static function getTables()
     {
         $tables = [];
         foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
@@ -479,7 +484,7 @@ class rex_backup
         }
         return $tables;
     }
-
+    
 
     private static function importScript($filename, $importType, $eventType)
     {
