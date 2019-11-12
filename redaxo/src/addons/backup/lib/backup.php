@@ -9,6 +9,10 @@ class rex_backup
     public const IMPORT_DB = 2;
     public const IMPORT_EVENT_PRE = 3;
     public const IMPORT_EVENT_POST = 4;
+    
+    /**
+     * @return string
+     */
 
     public static function getDir()
     {
