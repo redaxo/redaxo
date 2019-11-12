@@ -22,15 +22,28 @@ class rex_form extends rex_form_base
 
     public const ERROR_VIOLATE_UNIQUE_KEY = 1062;
 
+    /** @var string */
     protected $tableName;
+    /** @var string */
     protected $whereCondition;
+    /** @var string */
     protected $mode;
+    /** @var int */
     protected $db;
+    /** @var rex_sql */
     protected $sql;
+    /** @var array */
     protected $languageSupport;
 
     /**
      * Diese Konstruktor sollte nicht verwendet werden. Instanzen muessen ueber die facotry() Methode erstellt werden!
+     *
+     * @param string $tableName
+     * @param string $fieldset
+     * @param string $whereCondition
+     * @param string $method
+     * @param bool   $debug
+     * @param int    $db             DB connection ID
      */
     protected function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
@@ -141,7 +154,6 @@ class rex_form extends rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_prio_element
      */

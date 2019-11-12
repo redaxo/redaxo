@@ -130,7 +130,7 @@ $dbconfig = rex::getProperty('db');
 
 $rexVersion = rex::getVersion();
 if (false !== strpos($rexVersion, '-dev')) {
-    $hash = rex::getVersionHash(rex_path::base());
+    $hash = rex::getVersionHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#'. $hash;
     }
@@ -145,7 +145,7 @@ if (!rex::isDebugMode()) {
 }
 
 $content = '
-    <h3>' . rex_i18n::msg('delete_cache') . '</h3>    
+    <h3>' . rex_i18n::msg('delete_cache') . '</h3>
     <p>' . rex_i18n::msg('delete_cache_description') . '</p>
     <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 

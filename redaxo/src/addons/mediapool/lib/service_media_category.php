@@ -54,8 +54,7 @@ class rex_media_category_service
             if ($uses = self::categoryIsInUse($categoryId)) {
                 $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
                 $name = "{$gf->getValue('name')} [$categoryId]";
-                throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
-                    . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
+                throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' ' . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
             $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);

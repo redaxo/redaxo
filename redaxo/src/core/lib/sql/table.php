@@ -213,8 +213,7 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_column $column
-     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -234,8 +233,7 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_column $column
-     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -270,15 +268,17 @@ class rex_sql_table
     }
 
     /**
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     *
      * @return $this
      */
-    public function ensureGlobalColumns()
+    public function ensureGlobalColumns($afterColumn = null)
     {
         return $this
-            ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
+            ->ensureColumn(new rex_sql_column('createdate', 'datetime'), $afterColumn)
+            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'), 'createdate')
+            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'), 'createuser')
+            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'), 'updatedate')
         ;
     }
 
@@ -400,8 +400,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_index $index
-     *
      * @return $this
      */
     public function addIndex(rex_sql_index $index)
@@ -418,8 +416,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_index $index
-     *
      * @return $this
      */
     public function ensureIndex(rex_sql_index $index)
@@ -702,7 +698,7 @@ class rex_sql_table
     public function alter()
     {
         if ($this->new) {
-            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->name));
+            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
         }
 
         $parts = [];
