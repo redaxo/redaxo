@@ -52,7 +52,7 @@ class rex_backup
 
         return $folder;
     }
-    
+
     /**
      * Importiert den SQL Dump $filename in die Datenbank.
      *
@@ -472,9 +472,8 @@ class rex_backup
         }
         closedir($handle);
     }
-    
-    
- public static function getTables()
+
+    public static function getTables()
     {
         $tables = [];
         foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
@@ -484,7 +483,6 @@ class rex_backup
         }
         return $tables;
     }
-    
 
     private static function importScript($filename, $importType, $eventType)
     {

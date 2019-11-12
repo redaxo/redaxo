@@ -18,7 +18,7 @@ class rex_cronjob_export extends rex_cronjob
         $ext = '.cronjob.sql';
 
         $tables = rex_backup::getTables();
-        $blacklist_tables = explode("|", $this->getParam('blacklist_tables'));
+        $blacklist_tables = explode('|', $this->getParam('blacklist_tables'));
         $whitelist_tables = array_diff($tables, $blacklist_tables);
 
         if (file_exists($dir . $file . $ext)) {
@@ -123,14 +123,14 @@ class rex_cronjob_export extends rex_cronjob
                 'options' => [1 => rex_i18n::msg('backup_send_mail')],
             ],
         ];
-        
+
         $tables = rex_backup::getTables();
 
         $fields[] = [
             'label' => rex_i18n::msg('backup_blacklist_tables'),
             'name' => 'blacklist_tables',
             'type' => 'select',
-            'attributes' => ["multiple" => "multiple", 'data-live-search' => 'true'] ,
+            'attributes' => ['multiple' => 'multiple', 'data-live-search' => 'true'],
             'options' => array_combine($tables, $tables),
             'notice' => rex_i18n::msg('backup_blacklist_tables_notice'),
         ];
