@@ -173,7 +173,7 @@ class rex_managed_media
 
             echo $src;
 
-            if ($save) {
+            if ($save && file_exists($this->getMediaPath())) {
                 rex_file::putCache($headerCacheFilename, [
                     'media_path' => $this->getMediaPath(),
                     'format' => $this->format,
@@ -192,7 +192,7 @@ class rex_managed_media
 
             rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
 
-            if ($save) {
+            if ($save && file_exists($this->getMediaPath())) {
                 rex_file::putCache($headerCacheFilename, [
                     'media_path' => $this->getMediaPath(),
                     'format' => $this->format,
