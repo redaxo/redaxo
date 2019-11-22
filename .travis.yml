@@ -31,7 +31,7 @@ jobs:
                 - TYPE=phpunit
                 - DB=mariadb
             addons:
-                mariadb: 10.2
+                mariadb: 10.1
         -   <<: *TEST
             php: 7.3
             addons:
