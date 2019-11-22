@@ -300,7 +300,6 @@ if (4 === $step) {
         $hsts_checked .= 'disabled';
     }
 
-
     $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
 
     $formElements = [];
