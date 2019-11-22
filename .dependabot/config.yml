@@ -1,3 +1,5 @@
+# Dependabot config reference https://dependabot.com/docs/config-file/
+
 version: 1
 update_configs:
     - package_manager: "submodules"
