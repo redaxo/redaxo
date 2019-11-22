@@ -42,6 +42,12 @@ class rex_editor
 
         $editorUrl = null;
 
+        $editorBasepath = rex::getProperty('editor_basepath');
+        if ($editorBasepath) {
+            // replace remote base path with local base path
+            $filePath = str_replace(rex_path::base(), $editorBasepath, $filePath);
+        }
+
         if (false !== strpos($filePath, '://')) {
             // don't provide editor urls for paths containing "://", like "rex://..."
             // but they can be converted into an url by the extension point below
