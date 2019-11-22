@@ -50,11 +50,7 @@ Du wirst einen Haufen von Community-Mitgliedern im Slack vorfinden. Und auch die
 
 Folge [@REDAXO](https://twitter.com/REDAXO) bei Twitter, um aktuelle Themen zu lesen und Fragen zu stellen. Wir helfen gerne!
 
-### 4. Erhalte Hilfe im Forum
-
-Wenn du spezielle Fragen zu REDAXO hast, kann das [Forum](https://redaxo.org/forum/) hilfreich sein.
-
-### 5. Finde Leute auf der Community-Weltkarte
+### 4. Finde Leute auf der Community-Weltkarte
 
 Wo überall auf der Welt nutzen Menschen REDAXO? [Die Karte zeigt es](https://friendsofredaxo.github.io/community/). 🌎  
 Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
