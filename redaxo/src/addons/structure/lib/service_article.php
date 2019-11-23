@@ -709,13 +709,13 @@ class rex_article_service
      * @param int $id        ArtikelId des zu kopierenden Artikels
      * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
      *
-     * @return bool FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+     * @return bool|int FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
     public static function copyArticle($id, $to_cat_id)
     {
         $id = (int) $id;
         $to_cat_id = (int) $to_cat_id;
-        $new_id = '';
+        $new_id = 0;
 
         $user = self::getUser();
 
