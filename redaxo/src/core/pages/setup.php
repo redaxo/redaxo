@@ -294,6 +294,12 @@ if (4 === $step) {
 
     $hsts_checked = rex_post('use_hsts', 'boolean') ? 'checked="checked"' : '';
 
+    // If the setup is called over http disable https options to prevent user from being locked out
+    if (!rex_request::isHttps()) {
+        $httpsRedirectSel->setAttribute('disabled', 'disabled');
+        $hsts_checked .= 'disabled';
+    }
+
     $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
 
     $formElements = [];
@@ -363,6 +369,12 @@ if (4 === $step) {
     $content .= '</fieldset><fieldset><legend>' . rex_i18n::msg('setup_security') . '</legend>';
 
     $formElements = [];
+
+    if (!rex_request::isHttps()) {
+        $n = [];
+        $n['field'] = '<label class="form-control-static"><i class="fa fa-warning"></i> '.rex_i18n::msg('https_only_over_https').'</label>';
+        $formElements[] = $n;
+    }
 
     $n = [];
     $n['label'] = '<label>'.rex_i18n::msg('https_activate_redirect_for').'</label>';
