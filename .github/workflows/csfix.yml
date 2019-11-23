@@ -11,7 +11,6 @@ jobs:
     - name: Get pull request branch name
       id: vars
       run: |
-        cat ${{ github.event_path }}
         label_found=$(jq -e --raw-output '.pull_request.labels[] | select(.name == "fix-cs")' ${{ github.event_path }}) 
         head_ref=$(jq --raw-output .pull_request.head.ref ${{ github.event_path }})
         echo ::set-output name=pr_branch::"$head_ref"
