@@ -147,7 +147,7 @@ class rex_media_category
             }
         }
 
-        return array_values($path);
+        return $path;
     }
 
     /**
