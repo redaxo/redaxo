@@ -12,6 +12,7 @@ class rex_managed_media
     private $header = [];
     private $sourcePath;
     private $format;
+    private $skipCache = false;
 
     private $mimetypeMap = [
         'image/jpeg' => 'jpg',
@@ -56,6 +57,7 @@ class rex_managed_media
             $this->sourcePath = $media_path;
         } else {
             $this->sourcePath = rex_path::addon('media_manager', 'media/warning.jpg');
+            $this->skipCache = true;
         }
     }
 
@@ -123,6 +125,7 @@ class rex_managed_media
 
         if (!$this->image['src']) {
             $this->setSourcePath(rex_path::addon('media_manager', 'media/warning.jpg'));
+            $this->skipCache = true;
             $this->asImage();
         } else {
             $this->fixOrientation();
@@ -173,7 +176,7 @@ class rex_managed_media
 
             echo $src;
 
-            if ($save && file_exists($this->getMediaPath())) {
+            if ($save && !$this->skipCache) {
                 rex_file::putCache($headerCacheFilename, [
                     'media_path' => $this->getMediaPath(),
                     'format' => $this->format,
@@ -192,7 +195,7 @@ class rex_managed_media
 
             rex_response::sendFile($this->getSourcePath(), $this->header['Content-Type']);
 
-            if ($save && file_exists($this->getMediaPath())) {
+            if ($save && !$this->skipCache) {
                 rex_file::putCache($headerCacheFilename, [
                     'media_path' => $this->getMediaPath(),
                     'format' => $this->format,
@@ -401,11 +404,13 @@ class rex_managed_media
      */
     private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
     {
-        rex_file::putCache($headerCacheFilename, [
-            'media_path' => $this->getMediaPath(),
-            'format' => $this->format,
-            'headers' => $this->header,
-        ]);
+        if (!$this->skipCache) {
+            rex_file::putCache($headerCacheFilename, [
+                'media_path' => $this->getMediaPath(),
+                'format' => $this->format,
+                'headers' => $this->header,
+            ]);
+        }
 
         rex_file::put($sourceCacheFilename, $src);
     }
