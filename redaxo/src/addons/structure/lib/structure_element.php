@@ -449,7 +449,11 @@ abstract class rex_structure_element
             if (is_array($explode)) {
                 foreach ($explode as $var) {
                     if ('' != $var) {
-                        $return[] = rex_category::get($var, $this->clang_id);
+                        $cat = rex_category::get($var, $this->clang_id);
+                        if (!$cat) {
+                            throw new rex_exception('Invalid category with id '. $var .' defined in path of category '. $this->id);
+                        }
+                        $return[] = $cat;
                     }
                 }
             }
