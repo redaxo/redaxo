@@ -33,6 +33,7 @@ autoloader="phpstan-bootstrap.php"
             <file name="redaxo/src/core/.phpstorm.meta.php" />
             <file name="redaxo/src/addons/tests/bin/run_tests.php" />
             <file name="redaxo/src/addons/tests/bin/setup.php" />
+            <file name="redaxo/src/addons/backup/vendor/tar.php" />
         </ignoreFiles>
     </projectFiles>
     <stubs>
