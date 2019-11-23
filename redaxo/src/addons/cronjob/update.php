@@ -16,7 +16,7 @@ if (rex_string::versionCompare($addon->getVersion(), '2.1-dev', '<')) {
     $jobs = $sql->getArray('SELECT id, `interval` FROM '.$table);
     foreach ($jobs as $job) {
         $old = explode('|', trim($job['interval'], '|'));
-        $count = $old[0];
+        $count = (int) $old[0];
 
         $interval = [
             'minutes' => [0],
