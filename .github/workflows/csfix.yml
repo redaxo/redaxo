@@ -1,6 +1,6 @@
 on:
   pull_request:
-    types: [opened, synchronize, reopened, labeled]
+    types: [labeled]
 
 name: Codestyle fixing by adding Pull Request label fix-cs
 jobs:
