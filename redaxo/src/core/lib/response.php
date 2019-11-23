@@ -118,6 +118,8 @@ class rex_response
      * @param string $url URL
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-return no-return
      */
     public static function sendRedirect($url)
     {
