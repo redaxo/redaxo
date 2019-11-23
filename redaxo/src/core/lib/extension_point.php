@@ -54,11 +54,11 @@ class rex_extension_point
      */
     public function setSubject($subject)
     {
-        if ($this->isReadonly()) {
+        if (    $this->isReadonly())
+        {
             throw new rex_exception('Subject can\'t be adjusted in readonly extension points');
         }
-        $this->subject = $subject;
-    }
+        $this->subject = $subject;}
 
     /**
      * Returns the subject.
