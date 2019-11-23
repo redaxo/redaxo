@@ -90,7 +90,7 @@ abstract class rex_formatter
      *
      * @see http://www.php.net/manual/en/function.number-format.php
      *
-     * @param string $value  Value
+     * @param float|int|string $value  Value
      * @param array  $format Array with number of decimals, decimals point and thousands separator, default is `array(2, ',', ' ')`
      *
      * @return string
