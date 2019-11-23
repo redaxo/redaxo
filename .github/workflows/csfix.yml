@@ -29,11 +29,11 @@ jobs:
 
     - name: Update pull request
       if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
-      uses: peter-evans/create-pull-request@v1.6.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COMMIT_MESSAGE: 'fix code-style'
-        PULL_REQUEST_BRANCH: ${{ steps.vars.outputs.pr_branch }}
-        BRANCH_SUFFIX: none
+      uses: peter-evans/create-pull-request@v1.7.4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'fix code-style'
+        branch: ${{ steps.vars.outputs.pr_branch }}
+        branch-suffix: none
 
      
