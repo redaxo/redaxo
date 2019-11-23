@@ -79,5 +79,7 @@ class rex_command_user_create extends rex_console_command
         $user->insert();
 
         $io->success(sprintf('User "%s" successfully created.', $login));
+        
+        return 0;
     }
 }
