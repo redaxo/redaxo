@@ -258,6 +258,7 @@ sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet we
 
 setup_security = Sicherheit
 
+https_only_over_https = Diese Optionen sind nur bei einem Aufruf über HTTPS verfügbar
 https_activate_redirect_for = Automatische HTTPS-Umleitung
 https_disable = deaktivieren
 https_only_frontend = nur für Frontend aktivieren
