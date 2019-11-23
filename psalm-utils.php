@@ -77,7 +77,7 @@ class RexComplexPermProvider implements \Psalm\Plugin\Hook\MethodReturnTypeProvi
         string $called_fq_classlike_name = null,
         string $called_method_name_lowercase = null
     ) {
-        if ($method_name_lowercase === 'get omplexperm'
+        if ($method_name_lowercase === 'getcomplexperm'
             && isset($call_args[1]->value->inferredType)
             && $call_args[1]->value->inferredType->isSingleStringLiteral()
         ) {
