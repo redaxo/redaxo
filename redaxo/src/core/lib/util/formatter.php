@@ -119,7 +119,7 @@ abstract class rex_formatter
     /**
      * Formats a string as bytes.
      *
-     * @param string $value  Value
+     * @param string|int $value  Value
      * @param array  $format Same as {@link rex_formatter::number()}
      *
      * @return string
