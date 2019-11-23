@@ -140,15 +140,14 @@ class rex_media_category
     public function getPathAsArray()
     {
         $p = explode('|', $this->path);
+        $path = [];
         foreach ($p as $k => $v) {
-            if ('' == $v) {
-                unset($p[$k]);
-            } else {
-                $p[$k] = (int) $v;
+            if ('' != $v) {
+                $path[] = (int) $v;
             }
         }
 
-        return array_values($p);
+        return array_values($path);
     }
 
     /**
