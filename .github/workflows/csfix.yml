@@ -26,14 +26,17 @@ jobs:
         php-version: 7.1
     - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
       if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
+    
+    - name: Commit fixes
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
+      run: |
+        git commit -m 'fix code-style' -a
 
     - name: Update pull request
       if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
-      uses: peter-evans/create-pull-request@v1.7.4
+      uses: ad-m/github-push-action@master
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: 'fix code-style'
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ steps.vars.outputs.pr_branch }}
-        branch-suffix: none
 
      
