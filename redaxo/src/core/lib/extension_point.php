@@ -18,7 +18,7 @@ class rex_extension_point
     /** @var array */
     private $extensionParams = [];
     /** @var bool */
-    private $readonly = false;
+    private        $readonly = false;
 
     /**
      * Constructor.
@@ -65,10 +65,7 @@ class rex_extension_point
      *
      * @return mixed
      */
-    public function getSubject()
-    {
-        return $this->subject;
-    }
+    public function getSubject(){return $this->subject;}
 
     /**
      * Sets a param.
