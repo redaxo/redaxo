@@ -36,11 +36,11 @@ jobs:
         git branch -a
         git diff $(git rev-parse --abbrev-ref HEAD) origin/${{steps.vars.outputs.pr_branch}}
 
-#    - name: Update pull request
-#      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
-#      uses: ad-m/github-push-action@master
-#      with:
-#        github_token: ${{ secrets.GITHUB_TOKEN }}
-#        branch: ${{ steps.vars.outputs.pr_branch }}
+    - name: Update pull request
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.vars.outputs.pr_branch }}
 
      
