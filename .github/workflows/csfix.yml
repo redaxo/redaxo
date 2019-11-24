@@ -1,6 +1,7 @@
 on:
-  issues:
+  pull_request:
     types: [labeled]
+
 name: Codestyle fixing by adding Pull Request label fix-cs
 jobs:
   php-cs-fixer-automatic:
@@ -10,29 +11,36 @@ jobs:
     - name: Get pull request branch name
       id: vars
       run: |
-        label_found=$(jq --raw-output '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }} | grep 'fix-cs') 
-        head_ref=$(jq --raw-output .head.ref ${{ github.event_path }})
+        label_found=$(jq -e --raw-output '.pull_request.labels[] | select(.name == "fix-cs")' ${{ github.event_path }}) 
+        head_ref=$(jq --raw-output .pull_request.head.ref ${{ github.event_path }})
         echo ::set-output name=pr_branch::"$head_ref"
         echo ::set-output name=label_found::"$label_found"
 
     - uses: actions/checkout@master
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
 
     - name: Setup PHP
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
       uses: shivammathur/setup-php@master
       with:
         php-version: 7.1
     - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
+    
+    - name: Commit fixes
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m 'fix code-style' -a
+        git branch -a
+        git diff $(git rev-parse --abbrev-ref HEAD) origin/${{steps.vars.outputs.pr_branch}}
 
     - name: Update pull request
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
-      uses: peter-evans/create-pull-request@v1.6.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COMMIT_MESSAGE: 'fix code-style'
-        PULL_REQUEST_BRANCH: ${{ steps.vars.outputs.pr_branch }}
-        BRANCH_SUFFIX: none
+      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found != ''
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.vars.outputs.pr_branch }}
 
      

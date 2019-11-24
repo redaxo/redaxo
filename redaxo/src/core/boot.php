@@ -11,7 +11,7 @@
 
 define('REX_MIN_PHP_VERSION', '7.1.3');
 
-if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
+if(version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
 }
 
