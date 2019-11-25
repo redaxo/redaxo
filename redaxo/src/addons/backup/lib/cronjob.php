@@ -10,7 +10,7 @@ class rex_cronjob_export extends rex_cronjob
     public function execute()
     {
         $filename = $this->getParam('filename', self::DEFAULT_FILENAME);
-        $filename = str_replace('%REX_SERVER', rex_string::normalize(rex::getServerName()), $filename);
+        $filename = str_replace('%REX_SERVER', rex_string::normalize(rex::getServerName(), '-'), $filename);
         $filename = str_replace('%REX_VERSION', rex::getVersion(), $filename);
         $filename = strftime($filename);
         $file = $filename;
