@@ -52,6 +52,14 @@
     color: #fff;
 }
 
+.btn-add {
+    @include button-variant(#fff, $color-b, $color-b);
+
+    th &.btn-sm {
+        padding: 0 5px;
+    }
+}
+
 .btn-clang {
     $normal: (color: $color-b, background: #fff, border: $color-a-light);
     $hover: (color: $color-b, background: lighten($color-a-light, 5%), border: $color-a-light);

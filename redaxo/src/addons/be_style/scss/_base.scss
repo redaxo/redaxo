@@ -153,6 +153,9 @@ body:after {
 .btn-abort {
     @extend .btn-default;
 }
+.btn-add {
+    @extend .btn-primary;
+}
 // save and continue a form with data
 .btn-apply {
     @extend .btn-primary;

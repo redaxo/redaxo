@@ -92,7 +92,7 @@ if ('' == $func) {
     $list->setColumnLayout('priority', ['<th class="rex-table-priority">###VALUE###</th>', '<td class="rex-table-priority">###VALUE###</td>']);
 
     // icon column
-    $thIcon = '<a href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';
+    $thIcon = '<a class="btn btn-add btn-sm" href="' . $list->getUrl(['type_id' => $type_id, 'func' => 'add']) . '" title="' . rex_i18n::msg('media_manager_effect_create') . '"><i class="rex-icon rex-icon-add-mediatype-effect"></i></a>';
     $tdIcon = '<i class="rex-icon rex-icon-mediatype-effect"></i>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'type_id' => $type_id, 'effect_id' => '###id###']);

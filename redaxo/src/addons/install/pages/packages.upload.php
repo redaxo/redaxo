@@ -143,7 +143,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     } else {
         $icon = '';
         if (rex_addon::exists($addonkey)) {
-            $icon = '<a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
+            $icon = '<a class="btn btn-add btn-sm" href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
         }
 
         $panel = '
