@@ -21,8 +21,7 @@ $EXPTABLES = rex_post('EXPTABLES', 'array');
 $EXPDIR = rex_post('EXPDIR', 'array');
 
 if ('' == $exportfilename) {
-    $server = parse_url(rex::getServer(), PHP_URL_HOST);
-    $exportfilename = strtolower($server) . '_rex' . rex::getVersion() . '_' . date('Ymd_Hi');
+    $exportfilename = rex_string::normalize(rex::getServerName()) . '_' . date('Ymd_Hi') . '_rex' . rex::getVersion();
 }
 
 if ($EXPTABLES) {
