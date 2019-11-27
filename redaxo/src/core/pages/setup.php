@@ -190,7 +190,6 @@ if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
     $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
     $config['db'][1]['name'] = rex_post('dbname', 'string');
     $config['use_https'] = rex_post('use_https', 'string');
-    $config['use_hsts'] = rex_post('use_hsts', 'boolean');
 
     if ('true' === $config['use_https']) {
         $config['use_https'] = true;
@@ -292,12 +291,9 @@ if (4 === $step) {
     $httpsRedirectSel->addArrayOptions(['false' => rex_i18n::msg('https_disable'), 'backend' => rex_i18n::msg('https_only_backend'), 'frontend' => rex_i18n::msg('https_only_frontend'), 'true' => rex_i18n::msg('https_activate')]);
     $httpsRedirectSel->setSelected(true === $config['use_https'] ? 'true' : $config['use_https']);
 
-    $hsts_checked = rex_post('use_hsts', 'boolean') ? 'checked="checked"' : '';
-
     // If the setup is called over http disable https options to prevent user from being locked out
     if (!rex_request::isHttps()) {
         $httpsRedirectSel->setAttribute('disabled', 'disabled');
-        $hsts_checked .= 'disabled';
     }
 
     $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
@@ -381,20 +377,13 @@ if (4 === $step) {
     $n['field'] = $httpsRedirectSel->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
-
-    $formElements = [];
     $n = [];
-    $n['label'] = '<label>' . rex_i18n::msg('hsts_activate') . '</label>';
-    $n['field'] = '<input type="checkbox" name="use_hsts" value="1"' . $hsts_checked . ' />';
-    $n['note'] = rex_i18n::rawMsg('hsts_more_information', '<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" rel="nofollow noreferrer">mozilla developer network</a>');
+    $n['field'] = '<p>'.rex_i18n::msg('hsts_more_information').'</p>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/checkbox.php');
+    $content .= $fragment->parse('core/form/form.php');
 
     $content .= '</fieldset>';
 
