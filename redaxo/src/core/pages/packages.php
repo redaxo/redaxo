@@ -240,10 +240,6 @@ if ('' == $subpage) {
                         }
                     });
                 }
-                else
-                {
-                   // else
-                }
             });
             $("#rex-js-available-addon-search .btn").click(function () {
                 $("#rex-js-available-addon-search .form-control").val("").trigger("keyup");
