@@ -378,7 +378,7 @@ if (4 === $step) {
     $formElements[] = $n;
 
     $n = [];
-    $n['field'] = '<p>'.rex_i18n::rawMsg('hsts_more_information', '<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" rel="nofollow noreferrer">mozilla developer network</a>').'</p>';
+    $n['field'] = '<p>'.rex_i18n::msg('hsts_more_information').'</p>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
