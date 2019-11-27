@@ -95,7 +95,7 @@ if ('license' == $subpage) {
 // ----------------- OUT
 if ('' == $subpage) {
     rex_package_manager::synchronizeWithFileSystem();
-	
+
     $toolbar = '
         <div class="form-group form-group-xs">
             <div class="input-group input-group-xs" id="rex-js-available-addon-search">
@@ -221,7 +221,7 @@ if ('' == $subpage) {
 
     $content .= '</tbody>
             </table>';
-			
+
     $content .= '
         <script type="text/javascript">
         <!--
@@ -248,10 +248,10 @@ if ('' == $subpage) {
         //-->
         </script>
     ';
-	
+
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
-    $fragment->setVar('options', $toolbar, false);	
+    $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }
