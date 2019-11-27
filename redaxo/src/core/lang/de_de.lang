@@ -265,7 +265,7 @@ https_only_frontend = nur für Frontend aktivieren
 https_only_backend = nur für Backend aktivieren
 https_activate = für Frontend und Backend aktiveren
 
-hsts_more_information = HSTS kann im Normalfall über den Hoster aktiviert werden. HSTS sollte aktiviert werden, um dem Browser mitzuteilen, diese Domain in Zukunft ausschließlich über HTTPS aufzurufen. Falls ein Hoster diese Option nicht anbietet, kann nach dem Setup über die config.yml dies in REDAXO aktiviert werden. Mehr Information über HSTS bei {0}
+hsts_more_information = HSTS sollte in den Hostingeinstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
 
 # redaxo\include\pages\addon.php
 addon = AddOn
