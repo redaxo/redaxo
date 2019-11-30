@@ -181,6 +181,11 @@ class rex_article_content_base
     {
         $value = $this->correctValue($value);
 
+        // use same timestamp format like in frontend via `rex_article`
+        if (in_array($value, ['createdate', 'updatedate'], true)) {
+            return $this->getSqlInstance()->getDateTimeValue($value);
+        }
+
         return $this->getSqlInstance()->getValue($value);
     }
 

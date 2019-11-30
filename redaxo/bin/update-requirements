@@ -18,7 +18,9 @@ find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
 find redaxo/src/core/vendor -name ".gitignore" -type f -delete
 find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
+find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
+find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 
 composer dumpautoload --no-dev -d redaxo/src/core/
 
@@ -58,11 +60,15 @@ find redaxo/src/addons/tests/vendor -name ".scrutinizer.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "appveyor.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "easy-coding-standard.neon" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phive.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpbench.json" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpcs.xml.dist" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phpmd.xml.dist" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpstan.neon.dist" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpunit.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "psalm.xml" -type f -delete
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
 curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js

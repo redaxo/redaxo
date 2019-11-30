@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.7.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Effekt `header`: Optional kann der Medien-Orginalname als Dateiname im Header gesetzt werden (@alexplusde, @gharlan)
+* Überarbeitete Hilfe, nun auch in englisch (@skerbis)
+* Effekt `convert2img`: Prüfung, ob imagemagick verfügbar ist (@skerbis)
+* Erläuterungen zu den Effekten `convert2img` und `mediapath` (@alexplusde)
+
+
 Version 2.6.0 – 12.03.2019
 --------------------------
 

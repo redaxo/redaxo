@@ -1,6 +1,49 @@
 Changelog
 =========
 
+Version 5.8.1 – 01.11.2019
+--------------------------
+
+### Neu
+
+* Update der externen Bibliotheken
+
+### Bugfixes
+
+* Whoops-Seite: Safemode-Button wieder sichtbar (@bloep)
+* Benutzerwechsel: beim Zurückwechseln in zwei Browserfenstern kam es unnötigerweise zu einer Exception (@tbaddade)
+* Unter System wurde an die REDAXO-Version teils fälschlich der Projekt-Git-Hash angehangen (@gharlan)
+* `rex_form`: Beim Löschen von Datensätzen wurden die Prios nicht neu gesetzt (@dpf-dd)
+* `rex_sql`: Aufruf `insertOrUpdate` ohne tatsächliche Änderungen führte fälschlich zu einer Exception (@pschuchmann)
+* `rex_sql_table`: Fehlermeldung bei Kombi `setName` und `alter` für nicht-existente Tabelle korrigiert (@gharlan)
+
+
+Version 5.8.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* PHP-Mindestversion angehoben auf 7.1.3
+* Update der externen Bibliotheken (u.a. Symfony components 4.3)
+* Wenn Debug-Mode aktiv, wird das Frontend vor Crawlern versteckt (noindex) (@staabm)
+* Vor Aktivierung des Debug-Modes kommt eine Bestätigungsbox (@skerbis)
+* Session-Cookie: 
+    - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
+    - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
+* `rex_form`: Statt der Konstante `REX_FORM_ERROR_VIOLATE_UNIQUE_KEY` (deprecated) ist nun `rex_form::ERROR_VIOLATE_UNIQUE_KEY` zu verwenden (@staabm)
+* Beispiel-`.gitignore` wird mitgeliefert (@schuer)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062), Englisch (@tyrant88)
+
+### Bugfixes
+
+* `rex_form`: Wenn ein Fieldsetname mit "?" endete, wurden die Werte nicht gespeichert (@gharlan)
+* `rex_config_form`: Es konnten nicht zwei Formulare auf einer Seiter verwendet werden (@gharlan)
+* `rex_stream`: Warning in PHP 7.4 vermeiden (@gharlan)
+* Command `config:get`: Ausgabe endete nicht mit einer Newline (@gharlan)
+* Textkorrekturen und -vereinheitlichungen (@marcohanke, @sebastiannoell)
+* Im Setup stand im Header unnötigerweise "Nicht angemeldet" (@gharlan)
+
+
 Version 5.7.1 – 01.04.2019
 --------------------------
 

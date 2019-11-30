@@ -153,6 +153,7 @@ class rex_release
             'LICENSE.md',
             'README.md',
             'README.de.md',
+            '.gitignore.example',
         ];
 
         foreach ($files as $file) {

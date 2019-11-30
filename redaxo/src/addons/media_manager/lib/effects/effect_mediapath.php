@@ -29,6 +29,7 @@ class rex_effect_mediapath extends rex_effect_abstract
                 'label' => rex_i18n::msg('media_manager_effect_mediapath_path'),
                 'name' => 'mediapath',
                 'type' => 'string',
+                'notice' => rex_i18n::msg('media_manager_effect_mediapath_path_notice'),
             ],
         ];
     }

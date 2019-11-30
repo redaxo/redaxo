@@ -79,7 +79,6 @@ class rex_media
 
                     $media->$var_name = $value;
                 }
-                $media->category = null;
 
                 return $media;
             }
@@ -236,8 +235,6 @@ class rex_media
     }
 
     /**
-     * @param array $params
-     *
      * @return string
      */
     public function toImage(array $params = [])

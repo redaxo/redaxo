@@ -136,7 +136,8 @@ abstract class rex_error_handler
                         left: 0;
                         right: 0;
                         height: 70px;
-                        background: #b00;                            
+                        background: #b00;
+                        z-index: 9999999999;
                     }
                     .rex-logo {
                         padding-left: 40px;
@@ -185,13 +186,15 @@ abstract class rex_error_handler
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
+        $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
+
         $errPage = str_replace(
             [
                 '</head>',
                 '</body>',
             ], [
                 $styles . '</head>',
-                '<div class="rex-whoops-header"><div class="rex-logo">' . $logo . '</div>' . $saveModeLink . '</div></body>',
+                '<div class="rex-whoops-header"><a href="' . $url . '" class="rex-logo">' . $logo . '</a>' . $saveModeLink . '</div></body>',
             ],
             $errPage
         );

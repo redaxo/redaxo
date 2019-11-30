@@ -90,6 +90,12 @@ class SplCaster
 
         $prefix = Caster::PREFIX_VIRTUAL;
 
+        if (false === $c->getPathname()) {
+            $a[$prefix.'⚠'] = 'The parent constructor was not called: the object is in an invalid state';
+
+            return $a;
+        }
+
         foreach ($map as $key => $accessor) {
             try {
                 $a[$prefix.$key] = $c->$accessor();
@@ -184,6 +190,13 @@ class SplCaster
     public static function castOuterIterator(\OuterIterator $c, array $a, Stub $stub, $isNested)
     {
         $a[Caster::PREFIX_VIRTUAL.'innerIterator'] = $c->getInnerIterator();
+
+        return $a;
+    }
+
+    public static function castWeakReference(\WeakReference $c, array $a, Stub $stub, $isNested)
+    {
+        $a[Caster::PREFIX_VIRTUAL.'object'] = $c->get();
 
         return $a;
     }

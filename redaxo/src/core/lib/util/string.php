@@ -107,9 +107,11 @@ class rex_string
         foreach ($parts as $part) {
             $part = explode('=', $part, 2);
             if (isset($part[1])) {
+                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
                 $result[$part[0]] = $value;
             } else {
+                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
                 $result[] = $value;
             }
@@ -188,7 +190,6 @@ class rex_string
     /**
      * Generates URL-encoded query string.
      *
-     * @param array  $params
      * @param string $argSeparator
      *
      * @return string
@@ -212,8 +213,6 @@ class rex_string
 
     /**
      * Returns a string by key="value" pair.
-     *
-     * @param array $attributes
      *
      * @return string
      */

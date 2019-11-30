@@ -73,7 +73,7 @@ final class Test
     /**
      * @var string
      */
-    private const REGEX_REQUIRES_VERSION_CONSTRAINT = '/@requires\s+(?P<name>PHP(?:Unit)?)\s+(?P<constraint>[\d\t -.|~^]+)[ \t]*\r?$/m';
+    private const REGEX_REQUIRES_VERSION_CONSTRAINT = '/@requires\s+(?P<name>PHP(?:Unit)?)\s+(?P<constraint>[\d\t \-.|~^]+)[ \t]*\r?$/m';
 
     /**
      * @var string
@@ -293,7 +293,7 @@ final class Test
             foreach ($required['functions'] as $function) {
                 $pieces = \explode('::', $function);
 
-                if (\count($pieces) === 2 && \method_exists($pieces[0], $pieces[1])) {
+                if (\count($pieces) === 2 && \class_exists($pieces[0]) && \method_exists($pieces[0], $pieces[1])) {
                     continue;
                 }
 

@@ -579,4 +579,14 @@ class rex_sql_table_test extends TestCase
         $this->assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')->getType());
         $this->assertTrue($table->hasIndex('i_description'));
     }
+
+    public function testRenameNonExistingTable()
+    {
+        $this->expectException(rex_exception::class);
+        $this->expectExceptionMessage('Table "rex_non_existing" does not exist.');
+
+        rex_sql_table::get('rex_non_existing')
+            ->setName('rex_foo')
+            ->alter();
+    }
 }

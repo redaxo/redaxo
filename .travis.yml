@@ -1,6 +1,6 @@
 language: php
 
-dist: xenial
+dist: bionic
 
 git:
     depth: 3
@@ -20,35 +20,13 @@ before_install:
 
 jobs:
     include:
-        -   php: 7.1
-            env: TYPE=linting
-            script:
-                - composer require --dev friendsofredaxo/linter
-                - vendor/bin/rexlint
-
-        -   php: 7.3
-            env: TYPE=phpstan
-            services:
-                - mysql
-            script:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-                - php redaxo/bin/console package:install phpmailer
-                - php redaxo/bin/console package:install cronjob
-                - php redaxo/bin/console package:install cronjob/article_status
-                - php redaxo/bin/console package:install cronjob/optimize_tables
-                - php redaxo/bin/console package:install debug
-                - php redaxo/bin/console package:install structure/history
-                - php redaxo/bin/console package:install structure/version
-                - composer require --dev phpstan/phpstan
-                - vendor/bin/phpstan analyse
-
         -   &TEST
             install:
                 - mysql -e 'create database redaxo_5_0;'
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1
+            dist: trusty
             env:
                 - TYPE=phpunit
                 - DB=mariadb
@@ -71,3 +49,6 @@ jobs:
             php: 7.2
         -   <<: *TEST_MYSQL
             php: 7.3
+        -   <<: *TEST_MYSQL
+            php: 7.4snapshot
+            dist: xenial

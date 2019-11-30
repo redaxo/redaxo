@@ -143,22 +143,20 @@ class rex_article_content_editor extends rex_article_content
             if ($templateHasModule) {
                 // edit
                 $item = [];
-                $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('edit');
+                $item['label'] = rex_i18n::msg('edit');
                 $item['url'] = $context->getUrl(['function' => 'edit']) . $fragment;
                 $item['attributes']['class'][] = 'btn-edit';
                 $item['attributes']['title'] = rex_i18n::msg('edit');
-                $item['icon'] = 'edit';
                 $menu_items_action[] = $item;
             }
 
             // delete
             $item = [];
-            $item['hidden_label'] = rex_i18n::msg('module') . ' ' . $moduleName . ' ' . rex_i18n::msg('delete');
+            $item['label'] = rex_i18n::msg('delete');
             $item['url'] = $context->getUrl(['function' => 'delete', 'save' => 1]) . $fragment;
             $item['attributes']['class'][] = 'btn-delete';
             $item['attributes']['title'] = rex_i18n::msg('delete');
             $item['attributes']['data-confirm'] = rex_i18n::msg('confirm_delete_block');
-            $item['icon'] = 'delete';
             $menu_items_action[] = $item;
 
             if ($templateHasModule && rex::getUser()->hasPerm('moveSlice[]')) {
@@ -253,6 +251,7 @@ class rex_article_content_editor extends rex_article_content
         if (isset($this->MODULESELECT[$this->ctype])) {
             foreach ($this->MODULESELECT[$this->ctype] as $module) {
                 $item = [];
+                $item['id'] = $module['id'];
                 $item['title'] = rex_escape($module['name']);
                 $item['href'] = $context->getUrl(['module_id' => $module['id']]) . '#slice-add-pos-' . $position;
                 $items[] = $item;
@@ -263,7 +262,7 @@ class rex_article_content_editor extends rex_article_content
         $fragment->setVar('block', true);
         $fragment->setVar('button_label', rex_i18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
-        $select = $fragment->parse('core/dropdowns/dropdown.php');
+        $select = $fragment->parse('module_select.php');
         $select = rex_extension::registerPoint(new rex_extension_point(
             'STRUCTURE_CONTENT_MODULE_SELECT',
                 $select,

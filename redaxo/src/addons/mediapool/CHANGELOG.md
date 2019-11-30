@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.6.1 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.6.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+
+
 Version 2.5.0 – 12.03.2019
 --------------------------
 

@@ -1,6 +1,35 @@
 Changelog
 =========
 
+Version 2.8.1 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.8.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+* `rex_navigation`: Methode `addCallback` gibt `$this` zurück (@alexplusde)
+* EP `CAT_MOVED`: "clang"-Parameter wird übergeben analog zu anderen EPs ("clang_id" ist deprecated) (@gharlan)
+* Bei Template-/Modul-Namen wird Hinweis ausgeben, dass `translate:i18n_key`-Syntax verwendet werden kann (@tbaddade)
+* Slice-Ansicht: "Bearbeiten"/"Löschen" ausgeschrieben, statt Icons (@alexplusde)
+* Linkmap: IDs hinter Namen optisch zurückgenommen (@tbaddade)
+
+### Bugfixes:
+
+* EP `SLICE_ADDED`: `slice_id`-Parameter war immer `0` (@staabm)
+* PlugIn `version`: In Tablet-Ansicht wurden die Buttons nicht angezeigt (@tbaddade)
+* `$this->getValue('createdate')` lieferte im Backend einen Datetime-String, statt des Unix-Timestamps wie im Frontend (@gharlan)
+* `rex_template::getTemplatesForCategory`: Bei `$ignore_inacttive=false` wurden nur inaktive Templates geliefert, statt alle (@gharlan)
+* Nach Prio-Setzung wurde nicht der Cache aller betroffenen Kategorien/Artikel zurückgesetzt (@gharlan)
+
+
 Version 2.7.0 – 12.03.2019
 --------------------------
 

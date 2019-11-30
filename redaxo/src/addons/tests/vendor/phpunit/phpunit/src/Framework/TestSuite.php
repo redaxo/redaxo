@@ -23,7 +23,7 @@ use Throwable;
 /**
  * A TestSuite is a composite of Tests. It runs a collection of test cases.
  */
-class TestSuite implements Test, SelfDescribing, IteratorAggregate
+class TestSuite implements IteratorAggregate, SelfDescribing, Test
 {
     /**
      * Enable or disable the backup and restoration of the $GLOBALS array.
@@ -61,7 +61,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * The tests in the test suite.
      *
-     * @var TestCase[]
+     * @var Test[]
      */
     protected $tests = [];
 
@@ -800,6 +800,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
     /**
      * Returns the tests as an enumeration.
+     *
+     * @return Test[]
      */
     public function tests(): array
     {
@@ -808,6 +810,8 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
     /**
      * Set tests of the test suite
+     *
+     * @param Test[] $tests
      */
     public function setTests(array $tests): void
     {

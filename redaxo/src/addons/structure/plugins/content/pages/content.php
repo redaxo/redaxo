@@ -240,6 +240,7 @@ if (1 == $article->getRows()) {
                                     ]));
 
                                     $newsql->insert();
+                                    $slice_id = $newsql->getLastId();
 
                                     rex_sql_util::organizePriorities(
                                         rex::getTable('article_slice'),
@@ -249,7 +250,6 @@ if (1 == $article->getRows()) {
                                     );
 
                                     $info = $action_message . rex_i18n::msg('block_added');
-                                    $slice_id = $newsql->getLastId();
                                     $function = '';
                                     $epParams = [
                                         'article_id' => $article_id,

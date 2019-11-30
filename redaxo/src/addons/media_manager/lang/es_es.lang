@@ -127,14 +127,22 @@ media_manager_effect_folder = Ruta alternativa predeterminada: "media"
 
 media_manager_effect_mediapath = Vía de medios
 media_manager_effect_mediapath_path = Carpeta de medios
+media_manager_effect_mediapath_path_notice = Ruta al origen de la imagen en relación con la instalación de REDAXO en lugar de <code>media</code>, por ejemplo, el directorio <code>images</code>. No se requiere una barra diagonal inicial/final (<code>/</code>).
 
 media_manager_effect_header = Archivo: Personalizar encabezado
 media_manager_effect_header_download = Descargar
 media_manager_effect_header_cache = Control de caché
+media_manager_effect_header_filename = Fuente para los nombres de archivo
+media_manager_effect_header_filename_notice = <code>filename</code> es el nombre de archivo normalizado en el servidor, por ejemplo, <code>my-download.pdf</code>, <code> nombre original </code> es el nombre del archivo original en el momento de la carga (con espacios , Mayúsculas/minúsculas, etc.), por ejemplo, <code>My Download.pdf</code>
+
+
 
 media_manager_effect_convert2img = Archivo: Convertir a imagen
 media_manager_effect_convert2img_density = densidad
 media_manager_effect_convert2img_convertto = formato
+media_manager_effect_convert2img_density_notice = Densidad de resolución en ppi (píxel por pulgada) utilizada para rasterizar archivos EPS o PDF.
+media_manager_effect_convert2img_convertto_notice = Formato de destino al que se convertirá el archivo. Se consideran las siguientes extensiones de archivo: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico</code>.
+media_manager_effect_convert2img_noimagemagick = Nota: ImageMagick no se pudo encontrar. Este efecto requiere ImageMagick como un "binario de línea de comandos", ejecutable por exec ().
 
 media_manager_effect_image_properties = Imagen: Configuración (Calidad, Entrelazado, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.

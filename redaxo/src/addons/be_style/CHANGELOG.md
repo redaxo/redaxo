@@ -1,6 +1,22 @@
 Changelog
 =========
 
+Version 2.8.1 – 01.11.2019
+--------------------------
+
+* Favicon und zugehörige Dateien wurden mit falschem Pfad eingebunden (@gharlan)
+
+
+Version 2.8.0 – 20.08.2019
+--------------------------
+
+* Customizer-Farbe wird für `theme-color`-Metatag verwendet (@tbaddade)
+* Assets nutzen immutable cache (@staabm)
+* ID- und Prio-Spalten breiter (für größere Zahlen) (@tbaddade)
+* Abstand nach Paginierung korrigiert (@tbaddade)
+* SCSS-Compiler: Methode `setStripComments` entfernt, da diese sowieso noch nie funktioniert hat (@staabm)
+
+
 Version 2.7.1 – 01.04.2019
 --------------------------
 

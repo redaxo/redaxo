@@ -12,13 +12,22 @@
 
 class rex_cronjob_form extends rex_form
 {
+    /** @var string */
     private $mainFieldset;
-    /** @var rex_cronjob_form_interval_element */
+    /** @var rex_cronjob_form_interval_element|null */
     private $intervalField;
 
-    public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false)
+    /**
+     * @param string $tableName
+     * @param string $fieldset
+     * @param string $whereCondition
+     * @param string $method
+     * @param bool   $debug
+     * @param int    $db             DB connection ID
+     */
+    public function __construct($tableName, $fieldset, $whereCondition, $method = 'post', $debug = false, $db = 1)
     {
-        parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug);
+        parent::__construct($tableName, $fieldset, $whereCondition, $method, $debug, $db);
         $this->mainFieldset = $fieldset;
     }
 

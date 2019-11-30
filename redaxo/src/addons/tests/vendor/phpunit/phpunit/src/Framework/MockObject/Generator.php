@@ -374,7 +374,14 @@ class Generator
             ]
         );
 
-        return $this->getObject($classTemplate->render(), $className['className']);
+        return $this->getObject(
+            $classTemplate->render(),
+            $className['className'],
+            '',
+            $callOriginalConstructor,
+            $callAutoload,
+            $arguments
+        );
     }
 
     /**
@@ -556,6 +563,25 @@ class Generator
     }
 
     /**
+     * @throws \ReflectionException
+     *
+     * @return \ReflectionMethod[]
+     */
+    private function getInterfaceOwnMethods(string $interfaceName): array
+    {
+        $reflect = new ReflectionClass($interfaceName);
+        $methods = [];
+
+        foreach ($reflect->getMethods() as $method) {
+            if ($method->getDeclaringClass()->getName() === $interfaceName) {
+                $methods[] = $method;
+            }
+        }
+
+        return $methods;
+    }
+
+    /**
      * @param string       $code
      * @param string       $className
      * @param array|string $type
@@ -574,9 +600,7 @@ class Generator
     {
         $this->evalClass($code, $className);
 
-        if ($callOriginalConstructor &&
-            \is_string($type) &&
-            !\interface_exists($type, $callAutoload)) {
+        if ($callOriginalConstructor) {
             if (\count($arguments) === 0) {
                 $object = new $className;
             } else {
@@ -728,16 +752,49 @@ class Generator
 
             // @see https://github.com/sebastianbergmann/phpunit/issues/2995
             if ($isInterface && $class->implementsInterface(\Throwable::class)) {
+                $actualClassName        = \Exception::class;
                 $additionalInterfaces[] = $class->getName();
                 $isInterface            = false;
 
+                try {
+                    $class = new \ReflectionClass($actualClassName);
+                } catch (\ReflectionException $e) {
+                    throw new RuntimeException(
+                        $e->getMessage(),
+                        (int) $e->getCode(),
+                        $e
+                    );
+                }
+
+                foreach ($this->getInterfaceOwnMethods($mockClassName['fullClassName']) as $method) {
+                    $methodName = $method->getName();
+
+                    if ($class->hasMethod($methodName)) {
+                        try {
+                            $classMethod = $class->getMethod($methodName);
+                        } catch (\ReflectionException $e) {
+                            throw new RuntimeException(
+                                $e->getMessage(),
+                                (int) $e->getCode(),
+                                $e
+                            );
+                        }
+
+                        if (!$this->canMockMethod($classMethod)) {
+                            continue;
+                        }
+                    }
+
+                    $mockMethods->addMethods(
+                        MockMethod::fromReflection($method, $callOriginalMethods, $cloneArguments)
+                    );
+                }
+
                 $mockClassName = $this->generateClassName(
-                    \Exception::class,
+                    $actualClassName,
                     '',
                     'Mock_'
                 );
-
-                $class = new ReflectionClass($mockClassName['fullClassName']);
             }
 
             // https://github.com/sebastianbergmann/phpunit-mock-objects/issues/103
