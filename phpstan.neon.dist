@@ -32,7 +32,4 @@ parameters:
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
         - '#Undefined variable: \$this#'
-        - '#Constructor of class rex_form_.*_element has an unused parameter \$tag\.#'        
-        - '#Return typehint of method rex_cronjob::factory\(\) has invalid type class\.#'
-        - '#Return typehint of method rex_cronjob_manager::getTypes\(\) has invalid type class\.#'
-        - '#Unsafe usage of new static().#'
+        - '#Unsafe usage of new static()\.#'
