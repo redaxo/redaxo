@@ -32,4 +32,4 @@ parameters:
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
         - '#Undefined variable: \$this#'
-        - '#Unsafe usage of new static()\.#'
+        - '#Unsafe usage of new static\(\)\.#'
