@@ -100,7 +100,7 @@ jobs:
                 php redaxo/bin/console package:install debug
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
-                composer require --dev phpstan/phpstan-shim
+                composer require --dev phpstan/phpstan
                 vendor/bin/phpstan analyse --no-progress
 
   php-cs-fixer:
