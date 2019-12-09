@@ -50,5 +50,5 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.3
         -   <<: *TEST_MYSQL
-            php: 7.4snapshot
+            php: 7.4
             dist: xenial
