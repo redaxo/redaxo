@@ -62,7 +62,7 @@ class rex_sql_table
         $this->originalName = $name;
 
         try {
-            $columns = rex_sql::showColumns($name);
+            $columns = rex_sql::showColumns($name, $dbid);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
             // Error code 42S02 means: Table does not exist
