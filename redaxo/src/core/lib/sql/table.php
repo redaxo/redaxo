@@ -55,7 +55,7 @@ class rex_sql_table
     /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    private function __construct($name,$db = 1)
+    private function __construct($name, $db = 1)
     {
         $this->sql = rex_sql::factory($db);
         $this->name = $name;
@@ -145,7 +145,7 @@ class rex_sql_table
      *
      * @return self
      */
-    public static function get($name,$db = 1)
+    public static function get($name, $db = 1)
     {
         return self::getInstance([$db,$name], static function ($name, $db) {
             return new self($name, $db);
