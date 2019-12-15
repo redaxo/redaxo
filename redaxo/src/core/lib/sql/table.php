@@ -9,7 +9,9 @@
  */
 class rex_sql_table
 {
-    use rex_instance_pool_trait;
+    use rex_instance_pool_trait {
+        clearInstance as private baseClearInstance;
+    }
 
     public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
 
@@ -154,6 +156,16 @@ class rex_sql_table
         return self::getInstance([$db, $name], static function ($db, $name) {
             return new self($name, $db);
         });
+    }
+
+    public static function clearInstance($key)
+    {
+        // BC layer for old cache keys without db id
+        if (!is_array($key)) {
+            $key = [1, $key];
+        }
+
+        return static::baseClearInstance($key);
     }
 
     /**
