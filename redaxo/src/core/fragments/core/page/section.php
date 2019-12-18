@@ -1,4 +1,15 @@
-<section class="rex-page-section">
+<?php
+$sectionAttributes = [];
+if (isset($this->sectionAttributes)) {
+    $sectionAttributes = $this->sectionAttributes;
+}
+if (isset($sectionAttributes['class']) && !is_array($sectionAttributes['class'])) {
+    $sectionAttributes['class'] = [$sectionAttributes['class']];
+}
+$sectionAttributes['class'][] = 'rex-page-section';
+
+?>
+<section<?= rex_string::buildAttributes($sectionAttributes) ?>>
 
     <?php if (isset($this->before)) {
         echo $this->before;

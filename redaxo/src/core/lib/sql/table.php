@@ -9,9 +9,14 @@
  */
 class rex_sql_table
 {
-    use rex_instance_pool_trait;
+    use rex_instance_pool_trait {
+        clearInstance as private baseClearInstance;
+    }
 
     public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+
+    /** @var int */
+    private $db;
 
     /** @var rex_sql */
     private $sql;
@@ -55,14 +60,15 @@ class rex_sql_table
     /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    private function __construct($name)
+    private function __construct($name, int $db = 1)
     {
-        $this->sql = rex_sql::factory();
+        $this->db = $db;
+        $this->sql = rex_sql::factory($db);
         $this->name = $name;
         $this->originalName = $name;
 
         try {
-            $columns = rex_sql::showColumns($name);
+            $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
             // Error code 42S02 means: Table does not exist
@@ -120,7 +126,7 @@ class rex_sql_table
         $foreignKeyParts = $this->sql->getArray('
             SELECT c.constraint_name, c.referenced_table_name, c.update_rule, c.delete_rule, k.column_name, k.referenced_column_name
             FROM information_schema.referential_constraints c
-            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name 
+            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name
             WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
@@ -145,11 +151,21 @@ class rex_sql_table
      *
      * @return self
      */
-    public static function get($name)
+    public static function get($name, int $db = 1)
     {
-        return self::getInstance($name, static function ($name) {
-            return new self($name);
+        return self::getInstance([$db, $name], static function ($db, $name) {
+            return new self($name, $db);
         });
+    }
+
+    public static function clearInstance($key)
+    {
+        // BC layer for old cache keys without db id
+        if (!is_array($key)) {
+            $key = [1, $key];
+        }
+
+        return static::baseClearInstance($key);
     }
 
     /**
@@ -935,8 +951,8 @@ class rex_sql_table
         $this->new = false;
 
         if ($this->originalName !== $this->name) {
-            self::clearInstance($this->originalName);
-            self::addInstance($this->name, $this);
+            self::clearInstance([$this->db, $this->originalName]);
+            self::addInstance([$this->db, $this->name], $this);
         }
 
         $this->originalName = $this->name;
