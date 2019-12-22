@@ -285,6 +285,7 @@ if ('' == $func) {
                         break;
                     case 'checkbox':
                     case 'radio':
+                        /** @var rex_form_radio_element $field */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->addArrayOptions($param['options']);
                         if (isset($param['notice'])) {
