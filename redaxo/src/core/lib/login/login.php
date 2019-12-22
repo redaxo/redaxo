@@ -298,7 +298,7 @@ class rex_login
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|rex_user
      */
     public function getUser()
     {
@@ -306,7 +306,7 @@ class rex_login
     }
 
     /**
-     * @return null|rex_sql
+     * @return rex_sql|rex_user
      */
     public function getImpersonator()
     {

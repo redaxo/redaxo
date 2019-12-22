@@ -52,7 +52,7 @@ abstract class rex_effect_abstract
      *       // ... the next input-field spec
      *     ];
      *
-     * @return array
+     * @return void
      */
     public function getParams()
     {

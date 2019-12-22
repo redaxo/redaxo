@@ -30,7 +30,7 @@ class rex_addon extends rex_package implements rex_addon_interface
      *
      * @throws InvalidArgumentException
      *
-     * @return self
+     * @return rex_null_addon|self
      */
     public static function get($addon)
     {
@@ -142,6 +142,8 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
+     *
+     * @return rex_null_plugin|rex_plugin
      */
     public function getPlugin($plugin)
     {

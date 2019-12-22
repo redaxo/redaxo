@@ -709,7 +709,7 @@ class rex_article_service
      * @param int $id        ArtikelId des zu kopierenden Artikels
      * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
      *
-     * @return bool FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+     * @return false|int|string FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
     public static function copyArticle($id, $to_cat_id)
     {

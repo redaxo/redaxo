@@ -433,7 +433,9 @@ abstract class rex_structure_element
      * Get an array of all parentCategories.
      * Returns an array of rex_structure_element objects.
      *
-     * @return rex_category[]
+     * @return (null|rex_category)[]
+     *
+     * @psalm-return list<null|rex_category>
      */
     public function getParentTree()
     {
