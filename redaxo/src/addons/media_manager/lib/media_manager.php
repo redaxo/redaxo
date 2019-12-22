@@ -305,6 +305,8 @@ class rex_media_manager
     }
 
     /**
+     * @psalm-return array<class-string, string>
+     *
      * @return array
      */
     public static function getSupportedEffects()
