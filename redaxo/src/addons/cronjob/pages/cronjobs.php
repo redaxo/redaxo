@@ -273,6 +273,7 @@ if ('' == $func) {
                         }
                         break;
                     case 'select':
+                        /** @var $field rex_form_select_element */
                         $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                         $field->setLabel($label);
                         $field->setAttribute('class', 'form-control selectpicker');
