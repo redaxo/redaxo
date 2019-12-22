@@ -52,11 +52,12 @@ abstract class rex_effect_abstract
      *       // ... the next input-field spec
      *     ];
      *
-     * @return void
+     * @return array
      */
     public function getParams()
     {
         // implement me in your subclass.
+        return [];
     }
 
     protected function keepTransparent($des)
