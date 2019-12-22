@@ -103,6 +103,7 @@ if ('' == $func) {
     foreach (rex_complex_perm::getAll() as $key => $class) {
         $params = $class::getFieldParams();
         if (!empty($params)) {
+            /** @var $field rex_form_select_element */
             $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
             $field->setLabel($params['label']);
             $field->setCheckboxLabel($params['all_label']);
