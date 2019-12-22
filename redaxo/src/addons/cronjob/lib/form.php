@@ -62,6 +62,9 @@ class rex_cronjob_form extends rex_form
  */
 class rex_cronjob_form_interval_element extends rex_form_element
 {
+    /** @var array */
+    protected $value;
+
     /**
      * @return void
      */
