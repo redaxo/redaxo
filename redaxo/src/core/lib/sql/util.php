@@ -126,6 +126,7 @@ class rex_sql_util
      * @return bool always true
      */
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
+
     /**
      * @return true
      */

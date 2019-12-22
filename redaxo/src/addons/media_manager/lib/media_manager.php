@@ -365,6 +365,7 @@ class rex_media_manager
     /*
      * For ExtensionPoints.
      */
+
     /**
      * @return void
      */

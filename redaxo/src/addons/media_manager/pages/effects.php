@@ -213,7 +213,7 @@ if ('' == $func) {
                     }
                     break;
                 case 'select':
-                    /** @var $field rex_form_select_element */
+                    /** @var rex_form_select_element $field */
                     $type = $param['type'];
                     $field = $fieldContainer->addGroupedField($group, $type, $name, $value, $attributes);
                     $field->setLabel($param['label']);

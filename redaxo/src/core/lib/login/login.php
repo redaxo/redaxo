@@ -394,6 +394,7 @@ class rex_login
     /*
      * refresh session on permission elevation for security reasons
      */
+
     /**
      * @return void
      */

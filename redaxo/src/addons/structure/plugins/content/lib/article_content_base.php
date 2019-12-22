@@ -87,6 +87,7 @@ class rex_article_content_base
     }
 
     // ----- Slice Id setzen für Editiermodus
+
     /**
      * @return void
      */
@@ -483,6 +484,7 @@ class rex_article_content_base
     }
 
     // ----- Modulvariablen werden ersetzt
+
     /**
      * @return string
      */
@@ -507,6 +509,7 @@ class rex_article_content_base
     }
 
     // ----- REX_VAR Ersetzungen
+
     /**
      * @return string
      */
@@ -528,6 +531,7 @@ class rex_article_content_base
     }
 
     // ---- Artikelweite globale variablen werden ersetzt
+
     /**
      * @return string
      */

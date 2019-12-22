@@ -18,6 +18,7 @@ class rex_article_content extends rex_article_content_base
     }
 
     // bc
+
     /**
      * @return void
      */

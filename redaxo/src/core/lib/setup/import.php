@@ -194,6 +194,7 @@ class rex_setup_importer
     }
 
     // -------------------------- System AddOns prüfen
+
     /**
      * @return string
      */

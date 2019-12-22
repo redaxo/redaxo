@@ -334,6 +334,7 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- ADD Slice
+
     /**
      * @return string
      */
@@ -423,6 +424,7 @@ class rex_article_content_editor extends rex_article_content
     }
 
     // ----- EDIT Slice
+
     /**
      * @return string
      */
