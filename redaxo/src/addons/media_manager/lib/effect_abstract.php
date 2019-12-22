@@ -17,11 +17,17 @@ abstract class rex_effect_abstract
      */
     public $params = [];
 
+    /**
+     * @return void
+     */
     public function setMedia(rex_managed_media $media)
     {
         $this->media = $media;
     }
 
+    /**
+     * @return void
+     */
     public function setParams(array $params)
     {
         $this->params = $params;
@@ -59,6 +65,9 @@ abstract class rex_effect_abstract
         // implement me in your subclass.
     }
 
+    /**
+     * @return void
+     */
     protected function keepTransparent($des)
     {
         $image = $this->media;

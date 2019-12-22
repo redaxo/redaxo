@@ -23,6 +23,9 @@ class rex_metainfo_table_expander extends rex_form
         parent::__construct($tableName, rex_i18n::msg('minfo_field_fieldset'), $whereCondition, $method, $debug);
     }
 
+    /**
+     * @return void
+     */
     public function init()
     {
         // ----- EXTENSION POINT
@@ -272,6 +275,9 @@ class rex_metainfo_table_expander extends rex_form
         return $this->metaPrefix;
     }
 
+    /**
+     * @return void
+     */
     protected function organizePriorities($newPrio, $oldPrio)
     {
         if ($newPrio == $oldPrio) {

@@ -9,6 +9,9 @@ class rex_effect_mediapath extends rex_effect_abstract
     {
     }
 
+    /**
+     * @return void
+     */
     public function execute()
     {
         if ('' != $this->params['mediapath']) {

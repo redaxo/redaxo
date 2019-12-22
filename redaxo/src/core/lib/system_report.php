@@ -9,11 +9,19 @@ class rex_system_report
     {
     }
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         return new self();
     }
 
+    /**
+     * @return array[]
+     *
+     * @psalm-return array<string, array{Version?: mixed, OPcache?: bool, Xdebug?: bool, Character set?: string, OS?: string, SAPI?: string, Webserver?: string, Browser?: mixed, Protocol?: mixed, HTTPS?: mixed}>
+     */
     public function get()
     {
         $data = [];
@@ -79,6 +87,9 @@ class rex_system_report
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function asMarkdown()
     {
         $report = $this->get();

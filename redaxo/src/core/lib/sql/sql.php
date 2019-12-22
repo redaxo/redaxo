@@ -66,6 +66,8 @@ class rex_sql implements Iterator
      * @param int $DBID
      *
      * @throws rex_sql_exception
+     *
+     * @return void
      */
     protected function selectDB($DBID)
     {
@@ -994,6 +996,8 @@ class rex_sql implements Iterator
 
     /**
      * Prueft ob das Resultset weitere Datensaetze enthaelt.
+     *
+     * @return bool
      */
     public function hasNext()
     {
@@ -1020,6 +1024,8 @@ class rex_sql implements Iterator
 
     /**
      * Gibt die letzte InsertId zurueck.
+     *
+     * @return string
      */
     public function getLastId()
     {
@@ -1128,6 +1134,8 @@ class rex_sql implements Iterator
      *
      * @param string $qry
      * @param array  $params
+     *
+     * @return void
      */
     protected function printError($qry, $params)
     {
@@ -1209,6 +1217,9 @@ class rex_sql implements Iterator
         return $this->tablenames;
     }
 
+    /**
+     * @return void
+     */
     private function fetchMeta()
     {
         if (null === $this->fieldnames) {

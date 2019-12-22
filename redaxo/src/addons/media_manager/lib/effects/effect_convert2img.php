@@ -36,6 +36,9 @@ class rex_effect_convert2img extends rex_effect_abstract
     private static $convert_tos = ['jpg', 'png'];
     private static $convert_to_default = 'jpg';
 
+    /**
+     * @return false|null
+     */
     public function execute()
     {
         if (!isset(self::$convert_to[$this->params['convert_to']])) {

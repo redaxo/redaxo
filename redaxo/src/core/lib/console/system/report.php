@@ -14,6 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_system_report extends rex_console_command
 {
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this

@@ -92,6 +92,9 @@ class rex_csrf_token
         return hash_equals($tokens[$this->id], $token);
     }
 
+    /**
+     * @return void
+     */
     public function remove()
     {
         $tokens = self::getTokens();
@@ -105,6 +108,9 @@ class rex_csrf_token
         rex_set_session(self::getSessionKey(), $tokens);
     }
 
+    /**
+     * @return void
+     */
     public static function removeAll()
     {
         rex_login::startSession();
@@ -120,6 +126,9 @@ class rex_csrf_token
         return rex_session(self::getSessionKey(), 'array');
     }
 
+    /**
+     * @return string
+     */
     private static function getSessionKey()
     {
         // use separate tokens for http/https
@@ -129,11 +138,17 @@ class rex_csrf_token
         return self::getBaseSessionKey().$suffix;
     }
 
+    /**
+     * @return string
+     */
     private static function getBaseSessionKey()
     {
         return 'csrf_tokens_'.rex::getEnvironment();
     }
 
+    /**
+     * @return string
+     */
     private static function generateToken()
     {
         $bytes = random_bytes(32);

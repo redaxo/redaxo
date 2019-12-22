@@ -421,6 +421,8 @@ class rex_article_service
      * @param int $clang     ClangId der Kategorie, die erneuert werden soll
      * @param int $new_prio  Neue PrioNr der Kategorie
      * @param int $old_prio  Alte PrioNr der Kategorie
+     *
+     * @return void
      */
     public static function newArtPrio($parent_id, $clang, $new_prio, $old_prio)
     {
@@ -893,6 +895,8 @@ class rex_article_service
      * @param string $keyName The key
      *
      * @throws rex_api_exception
+     *
+     * @return void
      */
     protected static function reqKey($array, $keyName)
     {
@@ -901,6 +905,9 @@ class rex_article_service
         }
     }
 
+    /**
+     * @return string
+     */
     private static function getUser()
     {
         if (rex::getUser()) {

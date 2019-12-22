@@ -2,6 +2,9 @@
 
 class rex_effect_filter_contrast extends rex_effect_abstract
 {
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->params['contrast'] = (int) $this->params['contrast'];

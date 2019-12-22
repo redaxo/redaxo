@@ -64,6 +64,9 @@ class rex_article_content_base
         }
     }
 
+    /**
+     * @return object
+     */
     protected function getSqlInstance()
     {
         if (!is_object($this->ARTICLE)) {
@@ -75,17 +78,26 @@ class rex_article_content_base
         return $this->ARTICLE;
     }
 
+    /**
+     * @return void
+     */
     public function setSliceRevision($sr)
     {
         $this->slice_revision = (int) $sr;
     }
 
     // ----- Slice Id setzen für Editiermodus
+    /**
+     * @return void
+     */
     public function setSliceId($value)
     {
         $this->slice_id = $value;
     }
 
+    /**
+     * @return void
+     */
     public function setClang($value)
     {
         if (!rex_clang::exists($value)) {
@@ -112,6 +124,9 @@ class rex_article_content_base
         return $this->clang;
     }
 
+    /**
+     * @return bool
+     */
     public function setArticleId($article_id)
     {
         $article_id = (int) $article_id;
@@ -133,6 +148,9 @@ class rex_article_content_base
         return false;
     }
 
+    /**
+     * @return void
+     */
     public function setTemplateId($template_id)
     {
         $this->template_id = $template_id;
@@ -143,16 +161,25 @@ class rex_article_content_base
         return $this->template_id;
     }
 
+    /**
+     * @return void
+     */
     public function setMode($mode)
     {
         $this->mode = $mode;
     }
 
+    /**
+     * @return void
+     */
     public function setFunction($function)
     {
         $this->function = $function;
     }
 
+    /**
+     * @return void
+     */
     public function setEval($value)
     {
         if ($value) {
@@ -430,6 +457,9 @@ class rex_article_content_base
         return $CONTENT;
     }
 
+    /**
+     * @return false|string
+     */
     protected function getStreamOutput($path, $content)
     {
         if (!$this->eval) {
@@ -453,6 +483,9 @@ class rex_article_content_base
     }
 
     // ----- Modulvariablen werden ersetzt
+    /**
+     * @return string
+     */
     protected function replaceVars(rex_sql $sql, $content)
     {
         $content = $this->replaceCommonVars($content);
@@ -474,6 +507,9 @@ class rex_article_content_base
     }
 
     // ----- REX_VAR Ersetzungen
+    /**
+     * @return string
+     */
     protected function replaceObjectVars(rex_sql $sql, $content)
     {
         $sliceId = $sql->getValue(rex::getTablePrefix() . 'article_slice.id');
@@ -492,6 +528,9 @@ class rex_article_content_base
     }
 
     // ---- Artikelweite globale variablen werden ersetzt
+    /**
+     * @return string
+     */
     public function replaceCommonVars($content, $template_id = null)
     {
         static $user_id = null;
@@ -533,6 +572,9 @@ class rex_article_content_base
         return str_replace($search, $replace, $content);
     }
 
+    /**
+     * @return null|string
+     */
     protected function replaceLinks($content)
     {
         return preg_replace_callback(

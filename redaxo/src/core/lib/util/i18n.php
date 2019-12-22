@@ -86,6 +86,8 @@ class rex_i18n
      * Adds a directory with lang files.
      *
      * @param string $dir Path to the directory
+     *
+     * @return void
      */
     public static function addDirectory($dir)
     {
@@ -300,6 +302,8 @@ class rex_i18n
      *
      * @param string $key Key
      * @param string $msg Message for the key
+     *
+     * @return void
      */
     public static function addMsg($key, $msg)
     {
@@ -398,6 +402,8 @@ class rex_i18n
      *
      * @param string $dir    Path to the directory
      * @param string $locale Locale
+     *
+     * @return void
      */
     private static function loadFile($dir, $locale)
     {
@@ -417,6 +423,8 @@ class rex_i18n
      * Loads all translation defintions.
      *
      * @param string $locale Locale
+     *
+     * @return void
      */
     private static function loadAll($locale)
     {

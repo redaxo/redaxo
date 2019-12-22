@@ -16,11 +16,17 @@ abstract class rex_form_options_element extends rex_form_element
         $this->options = [];
     }
 
+    /**
+     * @return void
+     */
     public function addOption($name, $value)
     {
         $this->options[$name] = $value;
     }
 
+    /**
+     * @return void
+     */
     public function addOptions(array $options, $useOnlyValues = false)
     {
         if (count($options) > 0) {
@@ -39,6 +45,9 @@ abstract class rex_form_options_element extends rex_form_element
         }
     }
 
+    /**
+     * @return void
+     */
     public function addArrayOptions(array $options, $use_keys = true)
     {
         foreach ($options as $key => $value) {
@@ -50,18 +59,27 @@ abstract class rex_form_options_element extends rex_form_element
         }
     }
 
+    /**
+     * @return void
+     */
     public function addSqlOptions($qry)
     {
         $sql = rex_sql::factory();
         $this->addOptions($sql->getArray($qry, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @return void
+     */
     public function addDBSqlOptions($qry)
     {
         $sql = rex_sql::factory();
         $this->addOptions($sql->getDBArray($qry, [], PDO::FETCH_NUM));
     }
 
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         return $this->options;

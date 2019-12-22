@@ -46,6 +46,9 @@ class rex_template
         return $file;
     }
 
+    /**
+     * @return false|string
+     */
     public static function getFilePath($template_id)
     {
         if ($template_id < 1) {
@@ -55,6 +58,9 @@ class rex_template
         return self::getTemplatesDir() . '/' . $template_id . '.template';
     }
 
+    /**
+     * @return string
+     */
     public static function getTemplatesDir()
     {
         return rex_path::addonCache('templates');
@@ -70,6 +76,9 @@ class rex_template
         return rex_file::get($file);
     }
 
+    /**
+     * @return bool
+     */
     public function generate()
     {
         $template_id = $this->getId();
@@ -95,6 +104,9 @@ class rex_template
         throw new rex_exception('Template with id "' . $template_id . '" does not exist!');
     }
 
+    /**
+     * @return bool
+     */
     public function deleteCache()
     {
         if ($this->id < 1) {
@@ -158,6 +170,9 @@ class rex_template
         return $templates;
     }
 
+    /**
+     * @return bool
+     */
     public static function hasModule(array $template_attributes, $ctype, $module_id)
     {
         $template_modules = $template_attributes['modules'] ?? [];

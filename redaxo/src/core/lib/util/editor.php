@@ -71,6 +71,11 @@ class rex_editor
         return $editorUrl;
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{atom: string, emacs: string, idea: string, macvim: string, phpstorm: string, sublime: string, textmate: string, vscode: string, xdebug: string}
+     */
     public function getSupportedEditors()
     {
         return [

@@ -55,6 +55,9 @@ class rex_form_element
 
     // --------- Attribute setter/getters
 
+    /**
+     * @return void
+     */
     public function setValue($value)
     {
         if (is_array($value)) {
@@ -63,6 +66,9 @@ class rex_form_element
         $this->value = $value;
     }
 
+    /**
+     * @return void
+     */
     public function setDefaultSaveValue($value)
     {
         $this->defaultSaveValue = $value;
@@ -74,86 +80,137 @@ class rex_form_element
         return '' !== $value ? $value : $this->defaultSaveValue;
     }
 
+    /**
+     * @return string
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @return void
+     */
     public function setFieldName($name)
     {
         $this->fieldName = $name;
     }
 
+    /**
+     * @return string
+     */
     public function getFieldName()
     {
         return $this->fieldName;
     }
 
+    /**
+     * @return void
+     */
     public function setLabel($label)
     {
         $this->label = $label;
     }
 
+    /**
+     * @return string
+     */
     public function getLabel()
     {
         return $this->label;
     }
 
+    /**
+     * @return void
+     */
     public function setNotice($notice)
     {
         $this->notice = $notice;
     }
 
+    /**
+     * @return string
+     */
     public function getNotice()
     {
         return $this->notice;
     }
 
+    /**
+     * @return string
+     */
     public function getTag()
     {
         return $this->tag;
     }
 
+    /**
+     * @return void
+     */
     public function setSuffix($suffix)
     {
         $this->suffix = $suffix;
     }
 
+    /**
+     * @return string
+     */
     public function getSuffix()
     {
         return $this->suffix;
     }
 
+    /**
+     * @return void
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
     }
 
+    /**
+     * @return string
+     */
     public function getPrefix()
     {
         return $this->prefix;
     }
 
+    /**
+     * @return void
+     */
     public function setHeader($header)
     {
         $this->header = $header;
     }
 
+    /**
+     * @return string
+     */
     public function getHeader()
     {
         return $this->header;
     }
 
+    /**
+     * @return void
+     */
     public function setFooter($footer)
     {
         $this->footer = $footer;
     }
 
+    /**
+     * @return string
+     */
     public function getFooter()
     {
         return $this->footer;
     }
 
+    /**
+     * @return void
+     */
     public function setAttribute($name, $value)
     {
         if ('value' == $name) {
@@ -181,6 +238,9 @@ class rex_form_element
         return $default;
     }
 
+    /**
+     * @return void
+     */
     public function setAttributes(array $attributes)
     {
         $this->attributes = [];
@@ -190,16 +250,25 @@ class rex_form_element
         }
     }
 
+    /**
+     * @return array
+     */
     public function getAttributes()
     {
         return $this->attributes;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAttribute($name)
     {
         return isset($this->attributes[$name]);
     }
 
+    /**
+     * @return bool
+     */
     public function hasSeparateEnding()
     {
         return $this->separateEnding;
@@ -220,6 +289,9 @@ class rex_form_element
         return $this->getAttribute('class');
     }
 
+    /**
+     * @return string
+     */
     protected function formatLabel()
     {
         $s = '';
@@ -232,6 +304,9 @@ class rex_form_element
         return $s;
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
         $attr = '';
@@ -266,11 +341,17 @@ class rex_form_element
         return $content;
     }
 
+    /**
+     * @return string
+     */
     protected function getFragment()
     {
         return 'core/form/form.php';
     }
 
+    /**
+     * @return string
+     */
     protected function _get()
     {
         $class = $this->formatClass();
@@ -300,6 +381,9 @@ class rex_form_element
         return $s;
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();

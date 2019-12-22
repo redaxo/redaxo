@@ -336,6 +336,9 @@ class tar {
 
 
   // Open a TAR file
+  /**
+   * @return bool
+   */
   public function openTAR($filename) {
     // Clear any values from previous tar archives
     unset($this->filename);
@@ -360,6 +363,9 @@ class tar {
 
 
   // Appends a tar file to the end of the currently opened tar file
+  /**
+   * @return bool
+   */
   public function appendTar($filename) {
     // If the tar file doesn't exist...
     if(!file_exists($filename))
@@ -398,6 +404,9 @@ class tar {
 
 
   // Check if this tar archive contains a specific file
+  /**
+   * @return bool
+   */
   public function containsFile($filename) {
     if($this->numFiles > 0) {
       foreach($this->files as $key => $information) {
@@ -411,6 +420,9 @@ class tar {
 
 
   // Check if this tar archive contains a specific directory
+  /**
+   * @return bool
+   */
   public function containsDirectory($dirname) {
     if($this->numDirectories > 0) {
       foreach($this->directories as $key => $information) {
@@ -424,6 +436,9 @@ class tar {
 
 
   // Add a directory to this tar archive
+  /**
+   * @return bool
+   */
   public function addDirectory($dirname) {
     if(!file_exists($dirname))
       return false;
@@ -447,6 +462,9 @@ class tar {
 
 
   // Add a file to the tar archive
+  /**
+   * @return bool
+   */
   public function addFile($filename) {
     // Make sure the file we are adding exists!
     if(!file_exists($filename))
@@ -484,6 +502,9 @@ class tar {
 
 
   // Remove a file from the tar archive
+  /**
+   * @return bool
+   */
   public function removeFile($filename) {
     if($this->numFiles > 0) {
       foreach($this->files as $key => $information) {
@@ -500,6 +521,9 @@ class tar {
 
 
   // Remove a directory from the tar archive
+  /**
+   * @return bool
+   */
   public function removeDirectory($dirname) {
     if($this->numDirectories > 0) {
       foreach($this->directories as $key => $information) {
@@ -516,6 +540,9 @@ class tar {
 
 
   // Write the currently loaded tar archive to disk
+  /**
+   * @return bool
+   */
   public function saveTar() {
     if(!$this->filename)
       return false;
@@ -528,6 +555,9 @@ class tar {
 
 
   // Saves tar archive to a different file than the current file
+  /**
+   * @return bool
+   */
   public function toTar($filename,$useGzip) {
     if(!$filename)
       return false;

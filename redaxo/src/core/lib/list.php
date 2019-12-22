@@ -185,6 +185,9 @@ class rex_list implements rex_url_provider_interface
         return new $class($query, $rowsPerPage, $listName, $debug, $db);
     }
 
+    /**
+     * @return void
+     */
     public function init()
     {
         // nichts tun
@@ -227,6 +230,8 @@ class rex_list implements rex_url_provider_interface
      * Gibt den Namen es Formulars zurück.
      *
      * @param string $caption Caption/Titel der Tabelle
+     *
+     * @return void
      */
     public function setCaption($caption)
     {
@@ -243,6 +248,9 @@ class rex_list implements rex_url_provider_interface
         return $this->caption;
     }
 
+    /**
+     * @return void
+     */
     public function setNoRowsMessage($msg)
     {
         $this->noRowsMessage = $msg;
@@ -253,6 +261,9 @@ class rex_list implements rex_url_provider_interface
         return $this->noRowsMessage;
     }
 
+    /**
+     * @return void
+     */
     public function addParam($name, $value)
     {
         $this->params[$name] = $value;
@@ -263,11 +274,17 @@ class rex_list implements rex_url_provider_interface
         return $this->params;
     }
 
+    /**
+     * @return void
+     */
     protected function loadBackendConfig()
     {
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
+    /**
+     * @return void
+     */
     public function addTableAttribute($attrName, $attrValue)
     {
         $this->tableAttributes[$attrName] = $attrValue;
@@ -278,6 +295,9 @@ class rex_list implements rex_url_provider_interface
         return $this->tableAttributes;
     }
 
+    /**
+     * @return void
+     */
     public function addFormAttribute($attrName, $attrValue)
     {
         $this->formAttributes[$attrName] = $attrValue;
@@ -288,6 +308,9 @@ class rex_list implements rex_url_provider_interface
         return $this->formAttributes;
     }
 
+    /**
+     * @return void
+     */
     public function addLinkAttribute($columnName, $attrName, $attrValue)
     {
         $this->linkAttributes[$columnName][$attrName] = $attrValue;
@@ -307,6 +330,8 @@ class rex_list implements rex_url_provider_interface
      * @param string $columnBody   Text/Format der Spalte
      * @param int    $columnIndex  Stelle, an der die neue Spalte erscheinen soll
      * @param array  $columnLayout Layout der Spalte
+     *
+     * @return void
      */
     public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
     {
@@ -324,6 +349,8 @@ class rex_list implements rex_url_provider_interface
      * Entfernt eine Spalte aus der Anzeige.
      *
      * @param string $columnName Name der Spalte
+     *
+     * @return void
      */
     public function removeColumn($columnName)
     {
@@ -335,6 +362,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnHead   Titel der Spalte
      * @param array  $columnLayout Layout der Spalte
+     *
+     * @return void
      */
     public function setColumnLayout($columnHead, $columnLayout)
     {
@@ -397,6 +426,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param string $label      Label für die Spalte
+     *
+     * @return void
      */
     public function setColumnLabel($columnName, $label)
     {
@@ -430,6 +461,8 @@ class rex_list implements rex_url_provider_interface
      * @param string $format_type Formatierungstyp
      * @param mixed  $format      Zu verwendentes Format
      * @param array  $params      Custom params für callback func bei format_type 'custom'
+     *
+     * @return void
      */
     public function setColumnFormat($columnName, $format_type, $format = '', array $params = [])
     {
@@ -458,6 +491,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param string $direction  Startsortierrichtung der Spalte [ASC|DESC]
+     *
+     * @return void
      */
     public function setColumnSortable($columnName, $direction = 'asc')
     {
@@ -472,6 +507,8 @@ class rex_list implements rex_url_provider_interface
      * @param string $columnName Name der Spalte
      * @param string $option     Name/Id der Option
      * @param mixed  $value      Wert der Option
+     *
+     * @return void
      */
     public function setColumnOption($columnName, $option, $value)
     {
@@ -513,6 +550,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param array  $params     Array von Parametern
+     *
+     * @return void
      */
     public function setColumnParams($columnName, array $params = [])
     {
@@ -573,6 +612,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param array $columns         Array von Spalten
      * @param int   $columnGroupSpan Span der Columngroup
+     *
+     * @return void
      */
     public function addTableColumnGroup(array $columns, $columnGroupSpan = null)
     {
@@ -604,6 +645,8 @@ class rex_list implements rex_url_provider_interface
      *
      * @param int $width Breite der Spalte
      * @param int $span  Span der Spalte
+     *
+     * @return void
      */
     public function addTableColumn($width, $span = null, $class = null)
     {
@@ -843,6 +886,9 @@ class rex_list implements rex_url_provider_interface
 
     // ---------------------- Generate Output
 
+    /**
+     * @return string
+     */
     public function replaceVariable($string, $varname)
     {
         return str_replace('###' . $varname . '###', rex_escape($this->getValue($varname)), $string);
@@ -876,6 +922,9 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    /**
+     * @return bool
+     */
     public function isCustomFormat($format)
     {
         return is_array($format) && isset($format[0]) && 'custom' == $format[0];
@@ -915,6 +964,9 @@ class rex_list implements rex_url_provider_interface
         return $value;
     }
 
+    /**
+     * @return string
+     */
     protected function _getAttributeString($array)
     {
         $s = '';
@@ -926,6 +978,9 @@ class rex_list implements rex_url_provider_interface
         return $s;
     }
 
+    /**
+     * @return string
+     */
     public function getColumnLink($columnName, $columnValue, $params = [])
     {
         return '<a href="' . $this->getParsedUrl(array_merge($this->getColumnParams($columnName), $params)) . '"' . $this->_getAttributeString($this->getLinkAttributes($columnName, [])) . '>' . $columnValue . '</a>';
@@ -1078,6 +1133,9 @@ class rex_list implements rex_url_provider_interface
         return $s;
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();

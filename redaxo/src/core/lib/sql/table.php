@@ -615,6 +615,8 @@ class rex_sql_table
 
     /**
      * Ensures that the table exists with the given definition.
+     *
+     * @return void
      */
     public function ensure()
     {
@@ -648,6 +650,8 @@ class rex_sql_table
 
     /**
      * Drops the table if it exists.
+     *
+     * @return void
      */
     public function drop()
     {
@@ -667,6 +671,8 @@ class rex_sql_table
      * Creates the table.
      *
      * @throws rex_exception
+     *
+     * @return void
      */
     public function create()
     {
@@ -710,6 +716,8 @@ class rex_sql_table
      * Alters the table.
      *
      * @throws rex_exception
+     *
+     * @return void
      */
     public function alter()
     {
@@ -849,6 +857,9 @@ class rex_sql_table
         $this->resetModified();
     }
 
+    /**
+     * @return void
+     */
     private function setPosition($name, $afterColumn)
     {
         if (null === $afterColumn) {
@@ -866,6 +877,9 @@ class rex_sql_table
         $this->positions[$name] = $afterColumn;
     }
 
+    /**
+     * @return string
+     */
     private function getColumnDefinition(rex_sql_column $column)
     {
         $default = $column->getDefault();
@@ -890,6 +904,9 @@ class rex_sql_table
         );
     }
 
+    /**
+     * @return string
+     */
     private function getIndexDefinition(rex_sql_index $index)
     {
         return sprintf(
@@ -900,6 +917,9 @@ class rex_sql_table
         );
     }
 
+    /**
+     * @return string
+     */
     private function getForeignKeyDefinition(rex_sql_foreign_key $foreignKey)
     {
         return sprintf(
@@ -913,6 +933,9 @@ class rex_sql_table
         );
     }
 
+    /**
+     * @return string
+     */
     private function getKeyColumnsDefintion(array $columns)
     {
         $columns = array_map([$this->sql, 'escapeIdentifier'], $columns);
@@ -920,6 +943,9 @@ class rex_sql_table
         return '('.implode(', ', $columns).')';
     }
 
+    /**
+     * @return void
+     */
     private function sortColumns()
     {
         $columns = [];
@@ -946,6 +972,9 @@ class rex_sql_table
         $this->columns = $columns;
     }
 
+    /**
+     * @return void
+     */
     private function resetModified()
     {
         $this->new = false;

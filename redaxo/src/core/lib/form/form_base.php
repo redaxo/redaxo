@@ -64,6 +64,8 @@ abstract class rex_form_base
 
     /**
      * Initialisiert das Formular.
+     *
+     * @return void
      */
     public function init()
     {
@@ -72,12 +74,17 @@ abstract class rex_form_base
 
     /**
      * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
+     *
+     * @return void
      */
     protected function loadBackendConfig()
     {
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
+    /**
+     * @return void
+     */
     public function setFormId($id)
     {
         $this->formId = $id;
@@ -105,6 +112,8 @@ abstract class rex_form_base
     /**
      * Fuegt dem Formular ein Fieldset hinzu.
      * Dieses dient dazu ein Formular in mehrere Abschnitte zu gliedern.
+     *
+     * @return void
      */
     public function addFieldset($fieldset)
     {
@@ -440,6 +449,8 @@ abstract class rex_form_base
 
     /**
      * Fuegt dem Formular eine Fehlermeldung hinzu.
+     *
+     * @return void
      */
     public function addErrorMessage($errorCode, $errorMessage)
     {
@@ -449,6 +460,8 @@ abstract class rex_form_base
     /**
      * Fuegt dem Formular einen Parameter hinzu.
      * Diese an den Stellen eingefuegt, an denen das Fomular neue Requests erzeugt.
+     *
+     * @return void
      */
     public function addParam($name, $value)
     {
@@ -579,6 +592,9 @@ abstract class rex_form_base
         return $element;
     }
 
+    /**
+     * @return string
+     */
     protected function getId($name)
     {
         return $this->fieldset . '_' . $name;
@@ -588,6 +604,8 @@ abstract class rex_form_base
 
     /**
      * Setzt die Url die bei der apply-action genutzt wird.
+     *
+     * @return void
      */
     public function setApplyUrl($url)
     {
@@ -930,6 +948,9 @@ abstract class rex_form_base
         return $this->name;
     }
 
+    /**
+     * @return void
+     */
     public function setWarning($warning)
     {
         $this->warning = $warning;
@@ -947,6 +968,9 @@ abstract class rex_form_base
         return $warning;
     }
 
+    /**
+     * @return void
+     */
     public function setMessage($message)
     {
         $this->message = $message;
@@ -1051,6 +1075,8 @@ abstract class rex_form_base
 
     /**
      * Übernimmt die POST-Werte in die FormElemente.
+     *
+     * @return void
      */
     protected function processPostValues()
     {
@@ -1085,6 +1111,9 @@ abstract class rex_form_base
         throw new BadMethodCallException('delete() is not implemented.');
     }
 
+    /**
+     * @return void
+     */
     protected function redirect($listMessage = '', $listWarning = '', array $params = [])
     {
         if ('' != $listMessage) {
@@ -1249,6 +1278,9 @@ abstract class rex_form_base
         return $s;
     }
 
+    /**
+     * @return void
+     */
     public function show()
     {
         echo $this->get();

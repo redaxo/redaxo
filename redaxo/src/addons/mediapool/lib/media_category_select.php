@@ -28,12 +28,17 @@ class rex_media_category_select extends rex_select
      * Kategorie-Id oder ein Array von Kategorie-Ids als Wurzelelemente der Select-Box.
      *
      * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
+     *
+     * @return void
      */
     public function setRootId($rootId)
     {
         $this->rootId = $rootId;
     }
 
+    /**
+     * @return void
+     */
     protected function addCatOptions()
     {
         if (null !== $this->rootId) {
@@ -57,6 +62,9 @@ class rex_media_category_select extends rex_select
         }
     }
 
+    /**
+     * @return void
+     */
     protected function addCatOption(rex_media_category $mediacat)
     {
         if (!$this->check_perms ||

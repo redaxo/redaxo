@@ -40,6 +40,9 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
+    /**
+     * @return void
+     */
     public function setStayLoggedIn($stayLoggedIn = false)
     {
         $this->stayLoggedIn = $stayLoggedIn;
@@ -118,6 +121,9 @@ class rex_backend_login extends rex_login
         return $check;
     }
 
+    /**
+     * @return void
+     */
     public static function deleteSession()
     {
         self::startSession();
@@ -128,16 +134,25 @@ class rex_backend_login extends rex_login
         rex_csrf_token::removeAll();
     }
 
+    /**
+     * @return void
+     */
     private static function deleteStayLoggedInCookie()
     {
         rex_response::sendCookie(self::getStayLoggedInCookieName(), '');
     }
 
+    /**
+     * @return string
+     */
     private static function getStayLoggedInCookieName()
     {
         return 'rex_user_' . sha1(rex::getProperty('instname'));
     }
 
+    /**
+     * @return bool
+     */
     public static function hasSession()
     {
         // try to fast-fail, so we dont need to start a session in all cases (which would require a session lock...)

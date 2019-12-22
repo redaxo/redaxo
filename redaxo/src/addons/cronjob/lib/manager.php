@@ -27,26 +27,41 @@ class rex_cronjob_manager
     private $name;
     private $id;
 
+    /**
+     * @return self
+     */
     public static function factory()
     {
         return new self();
     }
 
+    /**
+     * @return void
+     */
     public function setMessage($message)
     {
         $this->message = $message;
     }
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * @return bool
+     */
     public function hasMessage()
     {
         return !empty($this->message);
     }
 
+    /**
+     * @return void
+     */
     public function setCronjob($cronjob)
     {
         $this->cronjob = $cronjob;
@@ -100,6 +115,8 @@ class rex_cronjob_manager
     /**
      * @param bool   $success
      * @param string $message
+     *
+     * @return void
      */
     public function log($success, $message)
     {
@@ -135,6 +152,8 @@ class rex_cronjob_manager
      * @template T of rex_cronjob
      *
      * @param class-string<T> $class
+     *
+     * @return void
      */
     public static function registerType($class)
     {

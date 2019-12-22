@@ -43,6 +43,9 @@ class rex_var_link extends rex_var
         return self::quote($value);
     }
 
+    /**
+     * @return string
+     */
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $art_name = '';

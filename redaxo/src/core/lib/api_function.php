@@ -192,6 +192,9 @@ abstract class rex_api_function
         }
     }
 
+    /**
+     * @return bool
+     */
     public static function hasMessage()
     {
         $apiFunc = self::factory();
@@ -199,6 +202,9 @@ abstract class rex_api_function
         return $result && null !== $result->getMessage();
     }
 
+    /**
+     * @return string
+     */
     public static function getMessage($formatted = true)
     {
         $apiFunc = self::factory();
@@ -281,16 +287,25 @@ class rex_api_result
         $this->message = $message;
     }
 
+    /**
+     * @return void
+     */
     public function setRequiresReboot($requiresReboot)
     {
         $this->requiresReboot = $requiresReboot;
     }
 
+    /**
+     * @return bool
+     */
     public function requiresReboot()
     {
         return $this->requiresReboot;
     }
 
+    /**
+     * @return null|string
+     */
     public function getFormattedMessage()
     {
         if (null === $this->message) {
@@ -323,6 +338,9 @@ class rex_api_result
         return $this->succeeded;
     }
 
+    /**
+     * @return false|string
+     */
     public function toJSON()
     {
         $json = new stdClass();
@@ -332,6 +350,9 @@ class rex_api_result
         return json_encode($json);
     }
 
+    /**
+     * @return self
+     */
     public static function fromJSON($json)
     {
         $result = new self(true);

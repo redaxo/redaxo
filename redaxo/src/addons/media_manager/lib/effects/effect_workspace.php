@@ -50,6 +50,9 @@ $(function() {
 //--></script>';
     }
 
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->media->asImage();

@@ -9,6 +9,8 @@ abstract class rex_error_handler
 
     /**
      * Registers the class as php-error/exception handler.
+     *
+     * @return void
      */
     public static function register()
     {
@@ -25,6 +27,8 @@ abstract class rex_error_handler
 
     /**
      * Unregisters the logger instance as php-error/exception handler.
+     *
+     * @return void
      */
     public static function unregister()
     {
@@ -43,6 +47,8 @@ abstract class rex_error_handler
      * Handles the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to handle
+     *
+     * @return void
      */
     public static function handleException($exception)
     {
@@ -90,6 +96,11 @@ abstract class rex_error_handler
         exit(1);
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string, 1: string}
+     */
     private static function renderWhoops($exception)
     {
         $whoops = new \Whoops\Run();
@@ -227,6 +238,8 @@ abstract class rex_error_handler
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws ErrorException
+     *
+     * @return void
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
@@ -270,6 +283,8 @@ abstract class rex_error_handler
 
     /**
      * Shutdown-handler which is called at the very end of the request.
+     *
+     * @return void
      */
     public static function shutdown()
     {
@@ -324,6 +339,8 @@ abstract class rex_error_handler
 
     /**
      * @param Throwable|Exception $exception
+     *
+     * @return string
      */
     private static function getMarkdownReport($exception)
     {

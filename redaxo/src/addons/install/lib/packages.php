@@ -43,11 +43,17 @@ class rex_install_packages
         return self::$updatePackages;
     }
 
+    /**
+     * @return void
+     */
     public static function updatedPackage($package, $fileId)
     {
         self::unsetOlderVersions($package, self::$updatePackages[$package]['files'][$fileId]['version']);
     }
 
+    /**
+     * @return void
+     */
     private static function unsetOlderVersions($package, $version)
     {
         foreach (self::$updatePackages[$package]['files'] as $fileId => $file) {
@@ -77,6 +83,9 @@ class rex_install_packages
         return self::$addPackages;
     }
 
+    /**
+     * @return void
+     */
     public static function addedPackage($package)
     {
         self::$myPackages = null;
@@ -128,6 +137,8 @@ class rex_install_packages
 
     /**
      * Deletes all locally cached packages.
+     *
+     * @return void
      */
     public static function deleteCache()
     {

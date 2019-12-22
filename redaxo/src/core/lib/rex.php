@@ -20,6 +20,8 @@ class rex
 
     /**
      * @see rex_config::set()
+     *
+     * @return bool
      */
     public static function setConfig($key, $value = null)
     {
@@ -36,6 +38,8 @@ class rex
 
     /**
      * @see rex_config::has()
+     *
+     * @return bool
      */
     public static function hasConfig($key)
     {
@@ -44,6 +48,8 @@ class rex
 
     /**
      * @see rex_config::remove()
+     *
+     * @return bool
      */
     public static function removeConfig($key)
     {

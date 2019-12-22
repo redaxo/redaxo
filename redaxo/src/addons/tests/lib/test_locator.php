@@ -16,6 +16,9 @@ class rex_test_locator implements IteratorAggregate
         $this->testFoldersIterator = new AppendIterator();
     }
 
+    /**
+     * @return void
+     */
     public function addTestFolder($folder)
     {
         if (is_dir($folder)) {
@@ -32,6 +35,9 @@ class rex_test_locator implements IteratorAggregate
         return $this->testFoldersIterator;
     }
 
+    /**
+     * @return self
+     */
     public static function defaultLocator()
     {
         $locator = new self();

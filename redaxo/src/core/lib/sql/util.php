@@ -16,6 +16,8 @@ class rex_sql_util
      * @param string $whereCondition  Where-Bedingung zur Einschränkung des ResultSets
      * @param string $orderBy         Sortierung des ResultSets
      * @param int    $startBy         Startpriorität
+     *
+     * @return void
      */
     public static function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {
@@ -68,6 +70,9 @@ class rex_sql_util
         return true;
     }
 
+    /**
+     * @return string
+     */
     private static function prepareQuery($qry)
     {
         // rex::getUser() gibts im Setup nicht
@@ -121,6 +126,9 @@ class rex_sql_util
      * @return bool always true
      */
     // Taken from phpmyadmin (read_dump.lib.php: PMA_splitSqlFile)
+    /**
+     * @return true
+     */
     public static function splitSqlFile(&$ret, $sql, $release)
     {
         // do not trim, see bug #1030644

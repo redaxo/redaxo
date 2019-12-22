@@ -33,6 +33,8 @@ class rex_logger extends AbstractLogger
      * Shorthand: Logs the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to log
+     *
+     * @return void
      */
     public static function logException($exception)
     {
@@ -53,6 +55,8 @@ class rex_logger extends AbstractLogger
      * @param int    $errline The line of the file in which the error occured
      *
      * @throws InvalidArgumentException
+     *
+     * @return void
      */
     public static function logError($errno, $errstr, $errfile, $errline)
     {
@@ -117,6 +121,8 @@ class rex_logger extends AbstractLogger
 
     /**
      * Prepares the logifle for later use.
+     *
+     * @return void
      */
     public static function open()
     {
@@ -130,6 +136,8 @@ class rex_logger extends AbstractLogger
      * Closes the logfile. The logfile is not be able to log further message after beeing closed.
      *
      * You dont need to close the logfile manually when it was registered during the request.
+     *
+     * @return void
      */
     public static function close()
     {

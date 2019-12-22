@@ -17,11 +17,17 @@ class rex_form_perm_select_element extends rex_form_select_element
         return $this->getValue();
     }
 
+    /**
+     * @return void
+     */
     public function setCheckboxLabel($label)
     {
         $this->checkboxLabel = $label;
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
         $field = new rex_form_checkbox_element('', $this->table);

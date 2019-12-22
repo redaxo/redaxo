@@ -33,6 +33,9 @@ class rex_form_restrictons_element extends rex_form_select_element
         $this->setNotice(rex_i18n::msg('ctrl'));
     }
 
+    /**
+     * @return string
+     */
     public function get()
     {
         $slctDivId = $this->getAttribute('id') . '-div';

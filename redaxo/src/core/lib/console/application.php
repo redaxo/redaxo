@@ -49,6 +49,9 @@ class rex_console_application extends Application
         return parent::doRunCommand($command, $input, $output);
     }
 
+    /**
+     * @return void
+     */
     private function loadPackages(rex_console_command $command)
     {
         if ('ydeploy:migrate' === $command->getName()) {

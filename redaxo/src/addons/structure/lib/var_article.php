@@ -58,6 +58,9 @@ class rex_var_article extends rex_var
         return rex_escape($article->getValue($field));
     }
 
+    /**
+     * @return string
+     */
     public static function getArticle($id, $ctype = -1, $clang = null)
     {
         if (null === $clang) {

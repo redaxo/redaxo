@@ -7,11 +7,17 @@
  */
 class rex_article_slice_history
 {
+    /**
+     * @return string
+     */
     public static function getTable()
     {
         return rex::getTablePrefix() . 'article_slice_history';
     }
 
+    /**
+     * @return void
+     */
     public static function makeSnapshot($article_id, $clang_id, $history_type, $revision = 0)
     {
         self::checkTables();
@@ -44,6 +50,9 @@ class rex_article_slice_history
         }
     }
 
+    /**
+     * @return array
+     */
     public static function getSnapshots($article_id, $clang_id, $revision = 0)
     {
         return rex_sql::factory()->getArray(
@@ -52,6 +61,9 @@ class rex_article_slice_history
         );
     }
 
+    /**
+     * @return bool
+     */
     public static function restoreSnapshot($history_date, $article_id, $clang_id, $revision = 0)
     {
         self::checkTables();
@@ -91,11 +103,17 @@ class rex_article_slice_history
         return true;
     }
 
+    /**
+     * @return void
+     */
     public static function clearAllHistory()
     {
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
     }
 
+    /**
+     * @return void
+     */
     public static function checkTables()
     {
         $slices_table = rex_sql_table::get(rex::getTable('article_slice'));

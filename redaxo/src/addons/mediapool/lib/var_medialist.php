@@ -41,6 +41,9 @@ class rex_var_medialist extends rex_var
         return self::quote($value);
     }
 
+    /**
+     * @return string
+     */
     public static function getWidget($id, $name, $value, array $args = [])
     {
         $open_params = '';

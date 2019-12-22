@@ -13,6 +13,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class rex_command_assets_sync extends rex_console_command
 {
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this
@@ -69,6 +72,11 @@ class rex_command_assets_sync extends rex_console_command
         return 1;
     }
 
+    /**
+     * @return int[]
+     *
+     * @psalm-return array{0: int, 1: int, 2: int}
+     */
     private function sync(SymfonyStyle $io, $folder1, $folder2)
     {
         $created = $updated = $errored = 0;

@@ -93,6 +93,8 @@ class rex_install_webservice
      * @param string|null $archive Path to archive
      *
      * @throws rex_functional_exception
+     *
+     * @return void
      */
     public static function post($path, array $data, $archive = null)
     {
@@ -131,6 +133,8 @@ class rex_install_webservice
      * @param string $path
      *
      * @throws rex_functional_exception
+     *
+     * @return void
      */
     public static function delete($path)
     {
@@ -186,6 +190,8 @@ class rex_install_webservice
      * Deletes the local webservice cache.
      *
      * @param string|null $pathBegin
+     *
+     * @return void
      */
     public static function deleteCache($pathBegin = null)
     {
@@ -220,6 +226,8 @@ class rex_install_webservice
 
     /**
      * Loads the local cached data into memory (only fresh data will be loaded).
+     *
+     * @return void
      */
     private static function loadCache()
     {
@@ -237,6 +245,8 @@ class rex_install_webservice
      *
      * @param string $path
      * @param array  $data
+     *
+     * @return void
      */
     private static function setCache($path, $data)
     {

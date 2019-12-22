@@ -2,6 +2,9 @@
 
 class rex_effect_filter_brightness extends rex_effect_abstract
 {
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->params['brightness'] = (int) $this->params['brightness'];

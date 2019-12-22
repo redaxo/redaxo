@@ -24,6 +24,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $ep->getSubject();
     }
 
+    /**
+     * @return array
+     */
     public function handleSave(array $params, rex_sql $sqlFields)
     {
         if ('post' != rex_request_method()) {
@@ -48,6 +51,9 @@ class rex_metainfo_category_handler extends rex_metainfo_handler
         return $params;
     }
 
+    /**
+     * @return string
+     */
     protected function buildFilterCondition(array $params)
     {
         $s = '';

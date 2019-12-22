@@ -7,6 +7,9 @@
  */
 class rex_setup_importer
 {
+    /**
+     * @return string
+     */
     public static function updateFromPrevious()
     {
         // ----- vorhandenen seite updaten
@@ -34,6 +37,9 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string
+     */
     public static function loadExistingImport($import_name)
     {
         // ----- vorhandenen Export importieren
@@ -67,6 +73,9 @@ class rex_setup_importer
         return self::reinstallPackages();
     }
 
+    /**
+     * @return string
+     */
     public static function overrideExisting()
     {
         // ----- volle Datenbank, alte DB löschen / drop
@@ -94,6 +103,9 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string
+     */
     public static function prepareEmptyDb()
     {
         // ----- leere Datenbank neu einrichten
@@ -114,6 +126,9 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string
+     */
     public static function verifyDbSchema()
     {
         $err_msg = '';
@@ -127,6 +142,11 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string, 1: string, 2: string}
+     */
     private static function getRequiredTables()
     {
         return [
@@ -136,6 +156,9 @@ class rex_setup_importer
         ];
     }
 
+    /**
+     * @return string
+     */
     private static function import($import_sql, $import_archiv = null)
     {
         $err_msg = '';
@@ -171,6 +194,9 @@ class rex_setup_importer
     }
 
     // -------------------------- System AddOns prüfen
+    /**
+     * @return string
+     */
     private static function installAddons($uninstallBefore = false, $installDump = true)
     {
         $addonErr = '';
@@ -224,6 +250,9 @@ class rex_setup_importer
         return $addonErr;
     }
 
+    /**
+     * @return string
+     */
     private static function reinstallPackages()
     {
         $error = '';

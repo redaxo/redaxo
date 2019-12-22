@@ -16,6 +16,9 @@ class rex_effect_flip extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->media->asImage();

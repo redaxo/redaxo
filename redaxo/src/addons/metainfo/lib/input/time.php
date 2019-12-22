@@ -33,6 +33,9 @@ class rex_input_time extends rex_input
         $this->minuteSelect->setAttribute('data-width', 'fit');
     }
 
+    /**
+     * @return void
+     */
     public function setValue($value)
     {
         if (!is_array($value)) {
@@ -51,6 +54,9 @@ class rex_input_time extends rex_input
         parent::setValue($value);
     }
 
+    /**
+     * @return void
+     */
     public function setAttribute($name, $value)
     {
         if ('name' == $name) {

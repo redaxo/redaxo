@@ -21,16 +21,25 @@ class rex_form_container_element extends rex_form_element
         $this->multiple = true;
     }
 
+    /**
+     * @return void
+     */
     public function setValue($value)
     {
         $this->value = $value;
     }
 
+    /**
+     * @return void
+     */
     public function setMultiple($multiple = true)
     {
         $this->multiple = $multiple;
     }
 
+    /**
+     * @return void
+     */
     public function setActive($group)
     {
         $this->active = $group;
@@ -41,6 +50,9 @@ class rex_form_container_element extends rex_form_element
         return $this->addGroupedField('elementContainer', $type, $name, $value, $attributes);
     }
 
+    /**
+     * @return rex_form_element
+     */
     public function addGroupedField($group, $type, $name, $value = null, array $attributes = [])
     {
         $field = $this->table->createInput($type, $name, $value, $attributes);
@@ -62,6 +74,9 @@ class rex_form_container_element extends rex_form_element
         return $this->fields;
     }
 
+    /**
+     * @return void
+     */
     protected function prepareInnerFields()
     {
         $values = $this->getValue();
@@ -85,6 +100,9 @@ class rex_form_container_element extends rex_form_element
         }
     }
 
+    /**
+     * @return string
+     */
     public function formatElement()
     {
         $this->prepareInnerFields();
@@ -113,11 +131,17 @@ class rex_form_container_element extends rex_form_element
         return $format;
     }
 
+    /**
+     * @return string
+     */
     protected function getFragment()
     {
         return 'core/form/container.php';
     }
 
+    /**
+     * @return false|string
+     */
     public function getSaveValue()
     {
         $this->prepareInnerFields();

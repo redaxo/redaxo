@@ -69,6 +69,9 @@ class rex_sql_debug extends rex_sql
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public static function doLog()
     {
         if (!empty(self::$queries)) {

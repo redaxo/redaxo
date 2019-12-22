@@ -10,6 +10,9 @@
 
 class rex_effect_crop extends rex_effect_abstract
 {
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->media->asImage();

@@ -87,6 +87,8 @@ class rex_navigation
 
     /**
      * @see get()
+     *
+     * @return void
      */
     public function show($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
     {
@@ -154,17 +156,25 @@ class rex_navigation
 
     /**
      * @see getBreadcrumb()
+     *
+     * @return void
      */
     public function showBreadcrumb($startPageLabel = false, $includeCurrent = false, $category_id = 0)
     {
         echo $this->getBreadcrumb($startPageLabel, $includeCurrent, $category_id);
     }
 
+    /**
+     * @return void
+     */
     public function setClasses($classes)
     {
         $this->classes = $classes;
     }
 
+    /**
+     * @return void
+     */
     public function setLinkClasses($classes)
     {
         $this->linkclasses = $classes;
@@ -177,6 +187,8 @@ class rex_navigation
      * @param mixed      $value     Wert für den Vergleich
      * @param string     $type      Art des Vergleichs =/</.
      * @param int|string $depth     "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     *
+     * @return void
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')
     {
@@ -199,6 +211,9 @@ class rex_navigation
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     private function _setActivePath()
     {
         $article_id = rex_article::getCurrentId();
@@ -218,6 +233,9 @@ class rex_navigation
         return false;
     }
 
+    /**
+     * @return bool
+     */
     private function checkFilter(rex_category $category, $depth)
     {
         foreach ($this->filter as $f) {
@@ -271,6 +289,9 @@ class rex_navigation
         return true;
     }
 
+    /**
+     * @return bool
+     */
     private function checkCallbacks(rex_category $category, $depth, &$li, &$a)
     {
         foreach ($this->callbacks as $c) {
@@ -300,6 +321,9 @@ class rex_navigation
         return true;
     }
 
+    /**
+     * @return string
+     */
     protected function _getNavigation($category_id, $depth = 1)
     {
         if ($category_id < 1) {

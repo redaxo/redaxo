@@ -5,6 +5,9 @@
  */
 class rex_effect_filter_sepia extends rex_effect_abstract
 {
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->media->asImage();

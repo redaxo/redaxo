@@ -39,6 +39,9 @@ class rex_effect_mirror extends rex_effect_abstract
 //--></script>';
     }
 
+    /**
+     * @return void
+     */
     public function execute()
     {
         $this->media->asImage();
@@ -129,6 +132,9 @@ class rex_effect_mirror extends rex_effect_abstract
         ];
     }
 
+    /**
+     * @return false|resource
+     */
     private function imagereflection(&$src_img, $reflection_height, $trans, $bgcolor)
     {
         $src_height = imagesy($src_img);

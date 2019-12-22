@@ -430,6 +430,9 @@ class rex_article_slice
         return $this->_media[$index - 1];
     }
 
+    /**
+     * @return string
+     */
     public function getMediaUrl($index)
     {
         return rex_url::media($this->getMedia($index));

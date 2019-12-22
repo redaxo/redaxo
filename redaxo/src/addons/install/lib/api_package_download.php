@@ -57,6 +57,9 @@ abstract class rex_api_install_package_download extends rex_api_function
         return true;
     }
 
+    /**
+     * @return string|true
+     */
     protected function extractArchiveTo($dir)
     {
         if (!rex_install_archive::extract($this->archive, $dir, $this->addonkey)) {
@@ -76,6 +79,9 @@ abstract class rex_api_install_package_download extends rex_api_function
 
     abstract protected function doAction();
 
+    /**
+     * @return bool
+     */
     private function isCorrectFormat($file)
     {
         if (class_exists('ZipArchive')) {

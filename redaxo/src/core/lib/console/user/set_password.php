@@ -12,6 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_user_set_password extends rex_console_command
 {
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this

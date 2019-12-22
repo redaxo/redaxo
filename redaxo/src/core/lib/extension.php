@@ -61,6 +61,8 @@ abstract class rex_extension
      * @param callable        $extension      Callback extension
      * @param int             $level          Runlevel (`rex_extension::EARLY`, `rex_extension::NORMAL` or `rex_extension::LATE`)
      * @param array           $params         Additional params
+     *
+     * @return void
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {

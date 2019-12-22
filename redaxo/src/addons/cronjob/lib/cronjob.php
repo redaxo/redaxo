@@ -33,12 +33,17 @@ abstract class rex_cronjob
 
     /**
      * @param string $key
+     *
+     * @return void
      */
     public function setParam($key, $value)
     {
         $this->params[$key] = $value;
     }
 
+    /**
+     * @return void
+     */
     public function setParams(array $params)
     {
         $this->params = $params;
@@ -56,6 +61,9 @@ abstract class rex_cronjob
         return $default;
     }
 
+    /**
+     * @return array
+     */
     public function getParams()
     {
         return $this->params;
@@ -73,6 +81,8 @@ abstract class rex_cronjob
 
     /**
      * @param string $message
+     *
+     * @return void
      */
     public function setMessage($message)
     {

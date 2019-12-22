@@ -89,6 +89,8 @@ class rex_clang
      * @param int $id Clang id
      *
      * @throws rex_exception
+     *
+     * @return void
      */
     public static function setCurrentId($id)
     {
@@ -228,6 +230,8 @@ class rex_clang
 
     /**
      * Loads the cache if not already loaded.
+     *
+     * @return void
      */
     private static function checkCache()
     {
@@ -253,6 +257,8 @@ class rex_clang
 
     /**
      * Resets the intern cache of this class.
+     *
+     * @return void
      */
     public static function reset()
     {
