@@ -258,14 +258,14 @@ sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet we
 
 setup_security = Sicherheit
 
+https_only_over_https = Diese Option ist nur bei einem Aufruf über HTTPS verfügbar
 https_activate_redirect_for = Automatische HTTPS-Umleitung
 https_disable = deaktivieren
 https_only_frontend = nur für Frontend aktivieren
 https_only_backend = nur für Backend aktivieren
 https_activate = für Frontend und Backend aktiveren
 
-hsts_activate = Setze <b>HTTP Strict Transport Security</b> Eintrag
-hsts_more_information = Mehr Information bei {0}
+hsts_more_information = HSTS sollte in den Hostingeinstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -306,6 +306,8 @@ package_activate = aktivieren
 package_yes = ja
 package_no = nein
 package_caption = Liste der verfügbaren Packages
+package_search = Suchen...
+package_clear = Eingabe zurücksetzen
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 addon_dir_not_writable = Der AddOn-Ordner hat keine Schreibrechte!

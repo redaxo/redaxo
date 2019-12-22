@@ -19,18 +19,25 @@ class rex_response
     public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
     public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
+    /** @var string */
     private static $httpStatus = self::HTTP_OK;
+    /** @var bool */
     private static $sentLastModified = false;
+    /** @var bool */
     private static $sentEtag = false;
+    /** @var bool */
     private static $sentContentType = false;
+    /** @var bool */
     private static $sentCacheControl = false;
+    /** @var array */
     private static $additionalHeaders = [];
+    /** @var array */
     private static $preloadFiles = [];
 
     /**
      * Sets the HTTP Status code.
      *
-     * @param int $httpStatus
+     * @param string $httpStatus
      *
      * @throws InvalidArgumentException
      */
@@ -111,6 +118,8 @@ class rex_response
      * @param string $url URL
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-return no-return
      */
     public static function sendRedirect($url)
     {

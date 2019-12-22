@@ -158,7 +158,7 @@ class rex_be_controller
 
         $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
         $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
-        if (is_readable(ini_get('error_log'))) {
+        if (@is_readable(ini_get('error_log'))) {
             $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
         }
 
@@ -233,9 +233,7 @@ class rex_be_controller
 
     /**
      * @param rex_be_page|array $page
-     * @param rex_package       $package
      * @param bool              $createMainPage
-     * @param rex_be_page|null  $parentPage
      * @param string            $pageKey
      * @param bool              $prefix
      *
@@ -278,9 +276,7 @@ class rex_be_controller
     }
 
     /**
-     * @param rex_be_page $page
-     * @param rex_package $package
-     * @param string      $prefix
+     * @param string $prefix
      */
     private static function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
     {
@@ -292,11 +288,6 @@ class rex_be_controller
         }
     }
 
-    /**
-     * @param rex_be_page $page
-     * @param array       $properties
-     * @param rex_package $package
-     */
     private static function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
     {
         foreach ($properties as $key => $value) {
@@ -418,8 +409,6 @@ class rex_be_controller
     /**
      * Includes the sub-path of current page.
      *
-     * @param array $context
-     *
      * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
@@ -451,7 +440,6 @@ class rex_be_controller
      * Includes a path in correct package context.
      *
      * @param string $path
-     * @param array  $context
      *
      * @return mixed
      */
