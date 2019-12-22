@@ -239,7 +239,7 @@ abstract class rex_error_handler
      *
      * @throws ErrorException
      *
-     * @return void
+     * @return bool
      */
     public static function handleError($errno, $errstr, $errfile, $errline)
     {
