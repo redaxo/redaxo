@@ -1,6 +1,6 @@
 <?php
 
-$table = rex_sql_table::get(rex::getTable('article_slice'))
+rex_sql_table::get(rex::getTable('article_slice'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
     ->ensureColumn(new rex_sql_column('clang_id', 'int(10) unsigned'))
     ->ensureColumn(new rex_sql_column('ctype_id', 'int(10) unsigned'))
