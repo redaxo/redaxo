@@ -86,6 +86,7 @@ if ('' == $func) {
     $registerImplicitePagePermissions(rex_be_controller::getPages());
 
     foreach ([rex_perm::GENERAL, rex_perm::OPTIONS, rex_perm::EXTRAS] as $permgroup) {
+        /** @var rex_form_select_element $field */
         $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
         $field->setLabel(rex_i18n::msg('user_' . $permgroup));
         $select = $field->getSelect();
