@@ -34,7 +34,7 @@ class rex_autoload
      */
     protected static $reloaded = false;
     /**
-     * @var string[]
+     * @var string[][]
      */
     protected static $dirs = [];
     /**
