@@ -11,7 +11,7 @@ trait rex_instance_pool_trait
 {
     /**
      * @psalm-var array<array-key, array<array-key, null|static>>
-     * 
+     *
      * @var static[][]
      */
     private static $instances = [];
