@@ -87,8 +87,6 @@ class rex_navigation
 
     /**
      * @see get()
-     *
-     *
      */
     public function show($category_id = 0, $depth = 3, $open = false, $ignore_offlines = false)
     {
@@ -156,25 +154,17 @@ class rex_navigation
 
     /**
      * @see getBreadcrumb()
-     *
-     *
      */
     public function showBreadcrumb($startPageLabel = false, $includeCurrent = false, $category_id = 0)
     {
         echo $this->getBreadcrumb($startPageLabel, $includeCurrent, $category_id);
     }
 
-    /**
-     *
-     */
     public function setClasses($classes)
     {
         $this->classes = $classes;
     }
 
-    /**
-     *
-     */
     public function setLinkClasses($classes)
     {
         $this->linkclasses = $classes;
@@ -187,8 +177,6 @@ class rex_navigation
      * @param mixed      $value     Wert für den Vergleich
      * @param string     $type      Art des Vergleichs =/</.
      * @param int|string $depth     "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
-     *
-     *
      */
     public function addFilter($metafield = 'id', $value = '1', $type = '=', $depth = '')
     {

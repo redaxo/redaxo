@@ -32,9 +32,6 @@ class rex_api_install_package_add extends rex_api_install_package_download
         return rex_install_packages::getAddPackages();
     }
 
-    /**
-     *
-     */
     protected function checkPreConditions()
     {
         if (rex_addon::exists($this->addonkey)) {

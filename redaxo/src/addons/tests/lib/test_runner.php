@@ -11,9 +11,6 @@ use PHPUnit\TextUI\TestRunner;
  */
 class rex_test_runner
 {
-    /**
-     *
-     */
     public function setUp()
     {
         // nothing todo, method kept for BC

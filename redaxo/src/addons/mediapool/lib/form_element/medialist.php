@@ -14,25 +14,16 @@ class rex_form_widget_medialist_element extends rex_form_element
         parent::__construct('', $table, $attributes);
     }
 
-    /**
-     *
-     */
     public function setCategoryId($category_id)
     {
         $this->args['category'] = $category_id;
     }
 
-    /**
-     *
-     */
     public function setTypes($types)
     {
         $this->args['types'] = $types;
     }
 
-    /**
-     *
-     */
     public function setPreview($preview = true)
     {
         $this->args['preview'] = $preview;

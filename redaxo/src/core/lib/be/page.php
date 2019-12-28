@@ -214,8 +214,6 @@ class rex_be_page
      * Removes an item attribute.
      *
      * @param string $name
-     *
-     *
      */
     public function removeItemAttr($name)
     {
@@ -248,8 +246,6 @@ class rex_be_page
      * Removes an item class.
      *
      * @param string $class
-     *
-     *
      */
     public function removeItemClass($class)
     {
@@ -283,8 +279,6 @@ class rex_be_page
      * Removes an link attribute.
      *
      * @param string $name
-     *
-     *
      */
     public function removeLinkAttr($name)
     {
@@ -335,8 +329,6 @@ class rex_be_page
      * Removes an link class.
      *
      * @param string $class
-     *
-     *
      */
     public function removeLinkClass($class)
     {
@@ -430,8 +422,6 @@ class rex_be_page
 
     /**
      * @param string $key
-     *
-     *
      */
     private function setParentKey($key)
     {

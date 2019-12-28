@@ -73,8 +73,6 @@ abstract class rex_complex_perm
      * @param string $class Class name
      *
      * @throws InvalidArgumentException
-     *
-     *
      */
     public static function register($key, $class)
     {
@@ -117,8 +115,6 @@ abstract class rex_complex_perm
      *
      * @param string $key  Key
      * @param string $item Item
-     *
-     *
      */
     public static function removeItem($key, $item)
     {
@@ -131,8 +127,6 @@ abstract class rex_complex_perm
      * @param string $key  Key
      * @param string $item Old item
      * @param string $new  New item
-     *
-     *
      */
     public static function replaceItem($key, $item, $new)
     {

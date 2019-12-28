@@ -60,8 +60,6 @@ function rex_session($varname, $vartype = '', $default = '')
  * @see rex_request::setSession()
  *
  * @package redaxo\core
- *
- *
  */
 function rex_set_session($varname, $value)
 {
@@ -72,8 +70,6 @@ function rex_set_session($varname, $value)
  * @see rex_request::unsetSession()
  *
  * @package redaxo\core
- *
- *
  */
 function rex_unset_session($varname)
 {

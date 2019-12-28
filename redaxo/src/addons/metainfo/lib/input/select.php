@@ -17,18 +17,12 @@ class rex_input_select extends rex_input
         $this->setAttribute('class', 'form-control selectpicker');
     }
 
-    /**
-     *
-     */
     public function setValue($value)
     {
         $this->select->setSelected($value);
         parent::setValue($value);
     }
 
-    /**
-     *
-     */
     public function setAttribute($name, $value)
     {
         if ('name' == $name) {

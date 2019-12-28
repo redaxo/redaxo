@@ -17,18 +17,12 @@ class rex_input_linkbutton extends rex_input
         $this->categoryId = '';
     }
 
-    /**
-     *
-     */
     public function setButtonId($buttonId)
     {
         $this->buttonId = $buttonId;
         $this->setAttribute('id', 'LINK_' . $buttonId);
     }
 
-    /**
-     *
-     */
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;

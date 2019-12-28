@@ -14,9 +14,6 @@ class rex_form_widget_linklist_element extends rex_form_element
         parent::__construct('', $table, $attributes);
     }
 
-    /**
-     *
-     */
     public function setCategoryId($category_id)
     {
         $this->category_id = $category_id;

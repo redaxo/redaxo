@@ -2,9 +2,6 @@
 
 class rex_effect_filter_colorize extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         $this->params['filter_r'] = (int) $this->params['filter_r'];

@@ -13,9 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class rex_command_assets_sync extends rex_console_command
 {
-    /**
-     *
-     */
     protected function configure()
     {
         $this

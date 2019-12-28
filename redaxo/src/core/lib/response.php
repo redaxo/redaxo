@@ -40,8 +40,6 @@ class rex_response
      * @param string $httpStatus
      *
      * @throws InvalidArgumentException
-     *
-     *
      */
     public static function setStatus($httpStatus)
     {
@@ -67,17 +65,12 @@ class rex_response
      *
      * @param string $name
      * @param string $value
-     *
-     *
      */
     public static function setHeader($name, $value)
     {
         self::$additionalHeaders[$name] = $value;
     }
 
-    /**
-     *
-     */
     private static function sendAdditionalHeaders()
     {
         foreach (self::$additionalHeaders as $name => $value) {
@@ -91,8 +84,6 @@ class rex_response
      * @param string $file
      * @param string $type
      * @param string $mimeType
-     *
-     *
      */
     public static function preload($file, $type, $mimeType)
     {
@@ -103,9 +94,6 @@ class rex_response
         ];
     }
 
-    /**
-     *
-     */
     private static function sendPreloadHeaders()
     {
         foreach (self::$preloadFiles as $preloadFile) {
@@ -113,9 +101,6 @@ class rex_response
         }
     }
 
-    /**
-     *
-     */
     private static function sendServerTimingHeaders()
     {
         // see https://w3c.github.io/server-timing/#the-server-timing-header-field
@@ -159,8 +144,6 @@ class rex_response
      * @param string      $contentType        Content type
      * @param string      $contentDisposition Content disposition ("inline" or "attachment")
      * @param null|string $filename           Custom Filename
-     *
-     *
      */
     public static function sendFile($file, $contentType, $contentDisposition = 'inline', $filename = null)
     {
@@ -243,8 +226,6 @@ class rex_response
      * @param null|string $etag               HTTP Cachekey to identify the cache
      * @param null|string $contentDisposition Content disposition ("inline" or "attachment")
      * @param null|string $filename           Filename
-     *
-     *
      */
     public static function sendResource($content, $contentType = null, $lastModified = null, $etag = null, $contentDisposition = null, $filename = null)
     {
@@ -263,8 +244,6 @@ class rex_response
      *
      * @param string $content      Content of page
      * @param int    $lastModified HTTP Last-Modified Timestamp
-     *
-     *
      */
     public static function sendPage($content, $lastModified = null)
     {
@@ -294,8 +273,6 @@ class rex_response
      * @param string $contentType  Content type
      * @param int    $lastModified HTTP Last-Modified Timestamp
      * @param string $etag         HTTP Cachekey to identify the cache
-     *
-     *
      */
     public static function sendContent($content, $contentType = null, $lastModified = null, $etag = null)
     {
@@ -355,8 +332,6 @@ class rex_response
 
     /**
      * Cleans all output buffers.
-     *
-     *
      */
     public static function cleanOutputBuffers()
     {
@@ -369,8 +344,6 @@ class rex_response
      * Sends the content type header.
      *
      * @param string $contentType
-     *
-     *
      */
     public static function sendContentType($contentType = null)
     {
@@ -380,8 +353,6 @@ class rex_response
 
     /**
      * Sends the cache control header.
-     *
-     *
      */
     public static function sendCacheControl($cacheControl = 'must-revalidate, proxy-revalidate, private, no-cache, max-age=0')
     {
@@ -395,8 +366,6 @@ class rex_response
      * HTTP_IF_MODIFIED_SINCE feature
      *
      * @param int $lastModified HTTP Last-Modified Timestamp
-     *
-     *
      */
     public static function sendLastModified($lastModified = null)
     {
@@ -426,8 +395,6 @@ class rex_response
      * HTTP_IF_NONE_MATCH feature
      *
      * @param string $cacheKey HTTP Cachekey to identify the cache
-     *
-     *
      */
     public static function sendEtag($cacheKey)
     {
@@ -499,8 +466,6 @@ class rex_response
      *                             "raw" bool                              Whether the cookie value should be sent with no url encoding
      *
      * @throws \InvalidArgumentException
-     *
-     *
      */
     public static function sendCookie($name, $value, array $options = [])
     {
@@ -583,9 +548,6 @@ class rex_response
         return md5(preg_replace('@<!--DYN-->.*<!--/DYN-->@U', '', $content));
     }
 
-    /**
-     *
-     */
     public static function enforceHttps()
     {
         if (!rex_request::isHttps()) {

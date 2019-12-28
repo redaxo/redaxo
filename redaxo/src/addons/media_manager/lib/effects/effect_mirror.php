@@ -39,9 +39,6 @@ class rex_effect_mirror extends rex_effect_abstract
 //--></script>';
     }
 
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();

@@ -108,9 +108,6 @@ class rex_user_role implements rex_user_role_interface
         return new self($roles);
     }
 
-    /**
-     *
-     */
     public static function removeOrReplaceItem(rex_extension_point $ep)
     {
         $params = $ep->getParams();

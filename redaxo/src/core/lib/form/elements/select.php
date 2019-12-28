@@ -50,9 +50,6 @@ class rex_form_select_element extends rex_form_element
         return $this->select->get();
     }
 
-    /**
-     *
-     */
     public function setSeparator($separator)
     {
         $this->separator = $separator;
@@ -66,9 +63,6 @@ class rex_form_select_element extends rex_form_element
         return $this->select;
     }
 
-    /**
-     *
-     */
     public function setSelect(rex_select $selectObj)
     {
         $this->select = $selectObj;

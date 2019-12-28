@@ -13,9 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_db_dump_schema extends rex_console_command
 {
-    /**
-     *
-     */
     protected function configure()
     {
         $this

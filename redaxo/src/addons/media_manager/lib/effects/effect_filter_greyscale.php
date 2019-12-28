@@ -5,9 +5,6 @@
  */
 class rex_effect_filter_greyscale extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();

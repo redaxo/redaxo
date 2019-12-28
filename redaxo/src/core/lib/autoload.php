@@ -48,8 +48,6 @@ class rex_autoload
 
     /**
      * Register rex_autoload in spl autoloader.
-     *
-     *
      */
     public static function register()
     {
@@ -80,8 +78,6 @@ class rex_autoload
 
     /**
      * Unregister rex_autoload from spl autoloader.
-     *
-     *
      */
     public static function unregister()
     {
@@ -153,8 +149,6 @@ class rex_autoload
 
     /**
      * Loads the cache.
-     *
-     *
      */
     private static function loadCache()
     {
@@ -167,8 +161,6 @@ class rex_autoload
 
     /**
      * Saves the cache.
-     *
-     *
      */
     public static function saveCache()
     {
@@ -200,8 +192,6 @@ class rex_autoload
      * Reanalyses all added directories.
      *
      * @param bool $force If true, all files are reanalysed, otherwise only new and changed files
-     *
-     *
      */
     public static function reload($force = false)
     {
@@ -217,8 +207,6 @@ class rex_autoload
 
     /**
      * Removes the cache.
-     *
-     *
      */
     public static function removeCache()
     {
@@ -229,8 +217,6 @@ class rex_autoload
      * Adds a directory to the autoloading system if not yet present.
      *
      * @param string $dir The directory to look for classes
-     *
-     *
      */
     public static function addDirectory($dir)
     {
@@ -258,8 +244,6 @@ class rex_autoload
 
     /**
      * @param string $dir
-     *
-     *
      */
     private static function _addDirectory($dir)
     {

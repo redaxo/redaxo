@@ -18,9 +18,6 @@
  */
 class rex_effect_filter_sharpen extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();

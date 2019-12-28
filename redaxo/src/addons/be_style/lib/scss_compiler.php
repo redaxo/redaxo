@@ -21,25 +21,16 @@ class rex_scss_compiler
         $this->formatter = Compressed::class;
     }
 
-    /**
-     *
-     */
     public function setRootDir($value)
     {
         $this->root_dir = $value;
     }
 
-    /**
-     *
-     */
     public function setScssFile($value)
     {
         $this->scss_file = $value;
     }
 
-    /**
-     *
-     */
     public function setCssFile($value)
     {
         $this->css_file = $value;
@@ -47,8 +38,6 @@ class rex_scss_compiler
 
     /**
      * @param string $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
-     *
-     *
      */
     public function setFormatter($value)
     {
@@ -60,8 +49,6 @@ class rex_scss_compiler
      * @param string $scss_global_file
      * @param string $format_style     CSS output format
      * @param bool   $strip_comments
-     *
-     *
      */
     public function compile()
     {

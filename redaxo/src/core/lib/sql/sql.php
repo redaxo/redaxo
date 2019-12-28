@@ -66,8 +66,6 @@ class rex_sql implements Iterator
      * @param int $DBID
      *
      * @throws rex_sql_exception
-     *
-     *
      */
     protected function selectDB($DBID)
     {
@@ -1134,8 +1132,6 @@ class rex_sql implements Iterator
      *
      * @param string $qry
      * @param array  $params
-     *
-     *
      */
     protected function printError($qry, $params)
     {
@@ -1217,9 +1213,6 @@ class rex_sql implements Iterator
         return $this->tablenames;
     }
 
-    /**
-     *
-     */
     private function fetchMeta()
     {
         if (null === $this->fieldnames) {

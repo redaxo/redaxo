@@ -30,9 +30,6 @@ class rex_install_archive
         return rex_dir::copy($archive, $dir);
     }
 
-    /**
-     *
-     */
     public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)
     {
         $dir = rtrim($dir, '/\\');

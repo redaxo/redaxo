@@ -115,8 +115,6 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     *
      */
     public function setProperty($key, $value)
     {
@@ -140,8 +138,6 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     *
      */
     public function removeProperty($key)
     {
@@ -197,8 +193,6 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     *
      */
     public function includeFile($file, array $context = [])
     {

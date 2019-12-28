@@ -39,8 +39,6 @@ trait rex_factory_trait
      * @param string $subclass Classname
      *
      * @throws InvalidArgumentException
-     *
-     *
      */
     public static function setFactoryClass($subclass)
     {

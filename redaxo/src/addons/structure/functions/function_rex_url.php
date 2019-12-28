@@ -63,8 +63,6 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  * @throws InvalidArgumentException
  *
  * @package redaxo\structure
- *
- *
  */
 function rex_redirect($article_id, $clang = null, array $params = [])
 {

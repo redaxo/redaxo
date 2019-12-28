@@ -9,8 +9,6 @@ class rex_media_cache
      * Löscht die gecachte Medium-Datei.
      *
      * @param string $filename Dateiname
-     *
-     *
      */
     public static function delete($filename)
     {
@@ -23,8 +21,6 @@ class rex_media_cache
      * Löscht die gecachten Dateien der Media-Kategorie.
      *
      * @param int $category_id Id der Media-Kategorie
-     *
-     *
      */
     public static function deleteCategory($category_id)
     {
@@ -35,8 +31,6 @@ class rex_media_cache
 
     /**
      * Löscht die gecachten Media-Listen.
-     *
-     *
      */
     public static function deleteLists()
     {
@@ -55,8 +49,6 @@ class rex_media_cache
      * Löscht die gecachte Liste mit den Media der Kategorie.
      *
      * @param int $category_id Id der Media-Kategorie
-     *
-     *
      */
     public static function deleteList($category_id)
     {
@@ -66,8 +58,6 @@ class rex_media_cache
 
     /**
      * Löscht die gecachten Media-Kategorien-Listen.
-     *
-     *
      */
     public static function deleteCategoryLists()
     {
@@ -86,8 +76,6 @@ class rex_media_cache
      * Löscht die gecachte Media-Kategorien-Liste.
      *
      * @param int $category_id Id der Media-Kategorie
-     *
-     *
      */
     public static function deleteCategoryList($category_id)
     {

@@ -16,9 +16,6 @@ class rex_test_locator implements IteratorAggregate
         $this->testFoldersIterator = new AppendIterator();
     }
 
-    /**
-     *
-     */
     public function addTestFolder($folder)
     {
         if (is_dir($folder)) {

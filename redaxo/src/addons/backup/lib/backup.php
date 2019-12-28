@@ -441,8 +441,6 @@ class rex_backup
      *
      * @param string $path
      * @param string $dir
-     *
-     *
      */
     private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
     {
@@ -491,9 +489,6 @@ class rex_backup
         return $tables;
     }
 
-    /**
-     *
-     */
     private static function importScript($filename, $importType, $eventType)
     {
         if (file_exists($filename)) {
@@ -501,9 +496,6 @@ class rex_backup
         }
     }
 
-    /**
-     *
-     */
     private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
     {
         do {

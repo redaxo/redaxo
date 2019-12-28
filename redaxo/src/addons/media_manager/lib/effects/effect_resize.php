@@ -38,9 +38,6 @@ $(function() {
 //--></script>';
     }
 
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();
@@ -102,9 +99,6 @@ $(function() {
         $this->media->refreshImageDimensions();
     }
 
-    /**
-     *
-     */
     private function resizeMax($w, $h)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {
@@ -127,9 +121,6 @@ $(function() {
         }
     }
 
-    /**
-     *
-     */
     private function resizeMin($w, $h)
     {
         if (!empty($this->params['height']) && !empty($this->params['width'])) {

@@ -42,25 +42,16 @@ class rex_input_date extends rex_input
         $this->daySelect->setSize(1);
     }
 
-    /**
-     *
-     */
     public function setStartYear($startYear)
     {
         $this->startYear = $startYear;
     }
 
-    /**
-     *
-     */
     public function setEndYear($endYear)
     {
         $this->endYear = $endYear;
     }
 
-    /**
-     *
-     */
     public function setValue($value)
     {
         if (!is_array($value)) {
@@ -80,9 +71,6 @@ class rex_input_date extends rex_input
         parent::setValue($value);
     }
 
-    /**
-     *
-     */
     public function setAttribute($name, $value)
     {
         if ('name' == $name) {

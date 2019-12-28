@@ -42,9 +42,6 @@ class rex_backend_login extends rex_login
         $this->tableName = $tableName;
     }
 
-    /**
-     *
-     */
     public function setStayLoggedIn($stayLoggedIn = false)
     {
         $this->stayLoggedIn = $stayLoggedIn;
@@ -123,9 +120,6 @@ class rex_backend_login extends rex_login
         return $check;
     }
 
-    /**
-     *
-     */
     public static function deleteSession()
     {
         self::startSession();
@@ -136,9 +130,6 @@ class rex_backend_login extends rex_login
         rex_csrf_token::removeAll();
     }
 
-    /**
-     *
-     */
     private static function deleteStayLoggedInCookie()
     {
         rex_response::sendCookie(self::getStayLoggedInCookieName(), '');

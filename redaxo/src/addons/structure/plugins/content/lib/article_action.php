@@ -39,9 +39,6 @@ class rex_article_action
         ];
     }
 
-    /**
-     *
-     */
     public function setRequestValues()
     {
         $request = ['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10];
@@ -60,9 +57,6 @@ class rex_article_action
         }
     }
 
-    /**
-     *
-     */
     public function exec($type)
     {
         if (!in_array($type, [self::PREVIEW, self::PRESAVE, self::POSTSAVE])) {
@@ -83,17 +77,11 @@ class rex_article_action
         }
     }
 
-    /**
-     *
-     */
     protected function setSave($save)
     {
         $this->save = $save;
     }
 
-    /**
-     *
-     */
     protected function addMessage($message)
     {
         $this->messages[] = $message;
@@ -114,9 +102,6 @@ class rex_article_action
         return $this->event;
     }
 
-    /**
-     *
-     */
     protected function setValue($id, $value)
     {
         if ($id < 1 || $id > 20) {
@@ -125,9 +110,6 @@ class rex_article_action
         $this->sql->setValue('value' . $id, $value);
     }
 
-    /**
-     *
-     */
     protected function setMedia($id, $value)
     {
         if ($id < 1 || $id > 10) {
@@ -136,9 +118,6 @@ class rex_article_action
         $this->sql->setValue('media' . $id, $value);
     }
 
-    /**
-     *
-     */
     protected function setMediaList($id, $value)
     {
         if ($id < 1 || $id > 10) {
@@ -147,9 +126,6 @@ class rex_article_action
         $this->sql->setValue('medialist' . $id, $value);
     }
 
-    /**
-     *
-     */
     protected function setLink($id, $value)
     {
         if ($id < 1 || $id > 10) {
@@ -158,9 +134,6 @@ class rex_article_action
         $this->sql->setValue('link' . $id, $value);
     }
 
-    /**
-     *
-     */
     protected function setLinkList($id, $value)
     {
         if ($id < 1 || $id > 10) {

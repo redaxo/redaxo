@@ -588,8 +588,6 @@ abstract class rex_package_manager
 
     /**
      * Generates the package order.
-     *
-     *
      */
     public static function generatePackageOrder()
     {
@@ -643,8 +641,6 @@ abstract class rex_package_manager
 
     /**
      * Saves the package config.
-     *
-     *
      */
     protected static function saveConfig()
     {
@@ -662,8 +658,6 @@ abstract class rex_package_manager
 
     /**
      * Synchronizes the packages with the file system.
-     *
-     *
      */
     public static function synchronizeWithFileSystem()
     {

@@ -41,9 +41,6 @@ class rex_managed_media
         return $this->media_path;
     }
 
-    /**
-     *
-     */
     public function setMediaPath($media_path)
     {
         $this->media_path = $media_path;
@@ -67,17 +64,11 @@ class rex_managed_media
         return $this->media;
     }
 
-    /**
-     *
-     */
     public function setMediaFilename($filename)
     {
         $this->media = $filename;
     }
 
-    /**
-     *
-     */
     public function setHeader($type, $content)
     {
         $this->header[$type] = $content;
@@ -88,9 +79,6 @@ class rex_managed_media
         return $this->header;
     }
 
-    /**
-     *
-     */
     public function asImage()
     {
         if ($this->asImage) {
@@ -142,9 +130,6 @@ class rex_managed_media
         }
     }
 
-    /**
-     *
-     */
     public function refreshImageDimensions()
     {
         if ($this->asImage) {
@@ -168,17 +153,11 @@ class rex_managed_media
         return $this->format;
     }
 
-    /**
-     *
-     */
     public function setFormat($format)
     {
         $this->format = $format;
     }
 
-    /**
-     *
-     */
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
         $this->prepareHeaders();
@@ -225,9 +204,6 @@ class rex_managed_media
         }
     }
 
-    /**
-     *
-     */
     public function save($sourceCacheFilename, $headerCacheFilename)
     {
         $src = $this->getSource();
@@ -272,18 +248,12 @@ class rex_managed_media
         return $this->image['src'];
     }
 
-    /**
-     *
-     */
     public function setImage($src)
     {
         $this->image['src'] = $src;
         $this->asImage = true;
     }
 
-    /**
-     *
-     */
     public function setSourcePath($path)
     {
         $this->sourcePath = $path;
@@ -319,9 +289,6 @@ class rex_managed_media
         return rex_file::get($this->sourcePath);
     }
 
-    /**
-     *
-     */
     public function setImageProperty($name, $value)
     {
         $this->image[$name] = $value;
@@ -358,9 +325,6 @@ class rex_managed_media
         return $this->getHeight();
     }
 
-    /**
-     *
-     */
     private function fixOrientation()
     {
         if (!function_exists('exif_read_data')) {
@@ -392,8 +356,6 @@ class rex_managed_media
 
     /**
      * @param string $src Source content
-     *
-     *
      */
     private function prepareHeaders($src = null)
     {
@@ -439,8 +401,6 @@ class rex_managed_media
      * @param string $src                 Source content
      * @param string $sourceCacheFilename
      * @param string $headerCacheFilename
-     *
-     *
      */
     private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
     {

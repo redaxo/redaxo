@@ -48,9 +48,6 @@ class rex_metainfo_clang_handler extends rex_metainfo_handler
         return $params;
     }
 
-    /**
-     *
-     */
     protected function buildFilterCondition(array $params)
     {
     }

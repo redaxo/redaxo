@@ -5,9 +5,6 @@
  */
 class rex_effect_header extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         if ('no_cache' == $this->params['cache']) {

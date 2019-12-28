@@ -58,8 +58,6 @@ class rex_log_file implements Iterator
      * Adds a log entry.
      *
      * @param array $data Log data
-     *
-     *
      */
     public function add(array $data)
     {

@@ -51,8 +51,6 @@ class rex_extension_point
      * @param mixed $subject
      *
      * @throws rex_exception
-     *
-     *
      */
     public function setSubject($subject)
     {
@@ -79,8 +77,6 @@ class rex_extension_point
      * @param mixed  $value
      *
      * @throws rex_exception
-     *
-     *
      */
     public function setParam($key, $value)
     {
@@ -92,8 +88,6 @@ class rex_extension_point
 
     /**
      * Sets the specific params for the next extension.
-     *
-     *
      */
     public function setExtensionParams(array $params)
     {

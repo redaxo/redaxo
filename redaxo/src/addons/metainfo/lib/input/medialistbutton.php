@@ -16,34 +16,22 @@ class rex_input_medialistbutton extends rex_input
         $this->buttonId = '';
     }
 
-    /**
-     *
-     */
     public function setButtonId($buttonId)
     {
         $this->buttonId = $buttonId;
         $this->setAttribute('id', 'REX_MEDIALIST_' . $buttonId);
     }
 
-    /**
-     *
-     */
     public function setCategoryId($categoryId)
     {
         $this->args['category'] = $categoryId;
     }
 
-    /**
-     *
-     */
     public function setTypes($types)
     {
         $this->args['types'] = $types;
     }
 
-    /**
-     *
-     */
     public function setPreview($preview = true)
     {
         $this->args['preview'] = $preview;

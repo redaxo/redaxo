@@ -29,8 +29,6 @@ trait rex_instance_pool_trait
      *
      * @param mixed $key      Key
      * @param self  $instance Instance
-     *
-     *
      */
     protected static function addInstance($key, self $instance)
     {
@@ -82,8 +80,6 @@ trait rex_instance_pool_trait
      * Removes the instance of the given key.
      *
      * @param mixed $key Key
-     *
-     *
      */
     public static function clearInstance($key)
     {
@@ -94,8 +90,6 @@ trait rex_instance_pool_trait
 
     /**
      * Clears the instance pool.
-     *
-     *
      */
     public static function clearInstancePool()
     {

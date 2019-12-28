@@ -9,8 +9,6 @@ abstract class rex_error_handler
 
     /**
      * Registers the class as php-error/exception handler.
-     *
-     *
      */
     public static function register()
     {
@@ -27,8 +25,6 @@ abstract class rex_error_handler
 
     /**
      * Unregisters the logger instance as php-error/exception handler.
-     *
-     *
      */
     public static function unregister()
     {
@@ -47,8 +43,6 @@ abstract class rex_error_handler
      * Handles the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to handle
-     *
-     *
      */
     public static function handleException($exception)
     {
@@ -283,8 +277,6 @@ abstract class rex_error_handler
 
     /**
      * Shutdown-handler which is called at the very end of the request.
-     *
-     *
      */
     public static function shutdown()
     {

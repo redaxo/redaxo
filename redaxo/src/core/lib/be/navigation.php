@@ -23,9 +23,6 @@ class rex_be_navigation
         return new $class();
     }
 
-    /**
-     *
-     */
     public function addPage(rex_be_page $page)
     {
         $blockName = 'default';
@@ -133,9 +130,6 @@ class rex_be_navigation
         return $navigation;
     }
 
-    /**
-     *
-     */
     protected function setActiveElements()
     {
         foreach ($this->pages as $blockPages) {
@@ -158,8 +152,6 @@ class rex_be_navigation
     /**
      * @param string $block
      * @param string $headline
-     *
-     *
      */
     public function setHeadline($block, $headline)
     {

@@ -46,9 +46,6 @@ class rex_cronjob_manager_sql
         return is_object($this->manager);
     }
 
-    /**
-     *
-     */
     public function setMessage($message)
     {
         $this->getManager()->setMessage($message);
@@ -130,9 +127,6 @@ class rex_cronjob_manager_sql
         return $success;
     }
 
-    /**
-     *
-     */
     public function check()
     {
         $env = rex_cronjob_manager::getCurrentEnvironment();

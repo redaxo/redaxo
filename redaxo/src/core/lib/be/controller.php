@@ -27,8 +27,6 @@ class rex_be_controller
 
     /**
      * @param string $page
-     *
-     *
      */
     public static function setCurrentPage($page)
     {
@@ -105,8 +103,6 @@ class rex_be_controller
 
     /**
      * @param rex_be_page[] $pages
-     *
-     *
      */
     public static function setPages(array $pages)
     {
@@ -153,9 +149,6 @@ class rex_be_controller
         return $page;
     }
 
-    /**
-     *
-     */
     public static function appendLoggedInPages()
     {
         self::$pages['profile'] = (new rex_be_page('profile', rex_i18n::msg('profile')))
@@ -198,9 +191,6 @@ class rex_be_controller
             );
     }
 
-    /**
-     *
-     */
     public static function appendPackagePages()
     {
         $insertPages = [];
@@ -296,8 +286,6 @@ class rex_be_controller
 
     /**
      * @param string $prefix
-     *
-     *
      */
     private static function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
     {
@@ -309,9 +297,6 @@ class rex_be_controller
         }
     }
 
-    /**
-     *
-     */
     private static function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
     {
         foreach ($properties as $key => $value) {
@@ -362,9 +347,6 @@ class rex_be_controller
         }
     }
 
-    /**
-     *
-     */
     public static function checkPagePermissions(rex_user $user)
     {
         $check = static function (rex_be_page $page) use (&$check, $user) {
@@ -415,8 +397,6 @@ class rex_be_controller
 
     /**
      * Includes the current page. A page may be provided by the core, an addon or plugin.
-     *
-     *
      */
     public static function includeCurrentPage()
     {

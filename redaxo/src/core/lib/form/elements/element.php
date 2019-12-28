@@ -55,9 +55,6 @@ class rex_form_element
 
     // --------- Attribute setter/getters
 
-    /**
-     *
-     */
     public function setValue($value)
     {
         if (is_array($value)) {
@@ -66,9 +63,6 @@ class rex_form_element
         $this->value = $value;
     }
 
-    /**
-     *
-     */
     public function setDefaultSaveValue($value)
     {
         $this->defaultSaveValue = $value;
@@ -88,9 +82,6 @@ class rex_form_element
         return $this->value;
     }
 
-    /**
-     *
-     */
     public function setFieldName($name)
     {
         $this->fieldName = $name;
@@ -104,9 +95,6 @@ class rex_form_element
         return $this->fieldName;
     }
 
-    /**
-     *
-     */
     public function setLabel($label)
     {
         $this->label = $label;
@@ -120,9 +108,6 @@ class rex_form_element
         return $this->label;
     }
 
-    /**
-     *
-     */
     public function setNotice($notice)
     {
         $this->notice = $notice;
@@ -144,9 +129,6 @@ class rex_form_element
         return $this->tag;
     }
 
-    /**
-     *
-     */
     public function setSuffix($suffix)
     {
         $this->suffix = $suffix;
@@ -160,9 +142,6 @@ class rex_form_element
         return $this->suffix;
     }
 
-    /**
-     *
-     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
@@ -176,9 +155,6 @@ class rex_form_element
         return $this->prefix;
     }
 
-    /**
-     *
-     */
     public function setHeader($header)
     {
         $this->header = $header;
@@ -192,9 +168,6 @@ class rex_form_element
         return $this->header;
     }
 
-    /**
-     *
-     */
     public function setFooter($footer)
     {
         $this->footer = $footer;
@@ -208,9 +181,6 @@ class rex_form_element
         return $this->footer;
     }
 
-    /**
-     *
-     */
     public function setAttribute($name, $value)
     {
         if ('value' == $name) {
@@ -238,9 +208,6 @@ class rex_form_element
         return $default;
     }
 
-    /**
-     *
-     */
     public function setAttributes(array $attributes)
     {
         $this->attributes = [];
@@ -381,9 +348,6 @@ class rex_form_element
         return $s;
     }
 
-    /**
-     *
-     */
     public function show()
     {
         echo $this->get();

@@ -21,25 +21,16 @@ class rex_form_container_element extends rex_form_element
         $this->multiple = true;
     }
 
-    /**
-     *
-     */
     public function setValue($value)
     {
         $this->value = $value;
     }
 
-    /**
-     *
-     */
     public function setMultiple($multiple = true)
     {
         $this->multiple = $multiple;
     }
 
-    /**
-     *
-     */
     public function setActive($group)
     {
         $this->active = $group;
@@ -74,9 +65,6 @@ class rex_form_container_element extends rex_form_element
         return $this->fields;
     }
 
-    /**
-     *
-     */
     protected function prepareInnerFields()
     {
         $values = $this->getValue();

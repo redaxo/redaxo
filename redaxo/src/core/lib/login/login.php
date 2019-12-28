@@ -61,8 +61,6 @@ class rex_login
     /**
      * Setzt, ob die Ergebnisse der Login-Abfrage
      * pro Seitenaufruf gecached werden sollen.
-     *
-     *
      */
     public function setCache($status = true)
     {
@@ -71,8 +69,6 @@ class rex_login
 
     /**
      * Setzt die Id der zu verwendenden SQL Connection.
-     *
-     *
      */
     public function setSqlDb($DB)
     {
@@ -82,8 +78,6 @@ class rex_login
     /**
      * Setzt eine eindeutige System Id, damit mehrere
      * Sessions auf der gleichen Domain unterschieden werden können.
-     *
-     *
      */
     public function setSystemId($system_id)
     {
@@ -92,8 +86,6 @@ class rex_login
 
     /**
      * Setzt das Session Timeout.
-     *
-     *
      */
     public function setSessionDuration($sessionDuration)
     {
@@ -102,8 +94,6 @@ class rex_login
 
     /**
      * Setzt den Login und das Password.
-     *
-     *
      */
     public function setLogin($login, $password, $isPreHashed = false)
     {
@@ -113,8 +103,6 @@ class rex_login
 
     /**
      * Markiert die aktuelle Session als ausgeloggt.
-     *
-     *
      */
     public function setLogout($logout)
     {
@@ -134,8 +122,6 @@ class rex_login
      *
      * Dieser wird benutzt, um einen bereits eingeloggten User
      * im Verlauf seines Aufenthaltes auf der Webseite zu verifizieren
-     *
-     *
      */
     public function setUserQuery($user_query)
     {
@@ -146,8 +132,6 @@ class rex_login
      * Setzt den ImpersonateQuery.
      *
      * Dieser wird benutzt, um den User abzurufen, dessen Identität ein Admin einnehmen möchte.
-     *
-     *
      */
     public function setImpersonateQuery($impersonateQuery)
     {
@@ -159,8 +143,6 @@ class rex_login
      *
      * Dieser wird benutzt, um den eigentlichne Loginvorgang durchzuführen.
      * Hier wird das eingegebene Password und der Login eingesetzt.
-     *
-     *
      */
     public function setLoginQuery($login_query)
     {
@@ -169,8 +151,6 @@ class rex_login
 
     /**
      * Setzt den Namen der Spalte, der die User-Id enthält.
-     *
-     *
      */
     public function setIdColumn($idColumn)
     {
@@ -181,8 +161,6 @@ class rex_login
      * Sets the password column.
      *
      * @param string $passwordColumn
-     *
-     *
      */
     public function setPasswordColumn($passwordColumn)
     {
@@ -191,8 +169,6 @@ class rex_login
 
     /**
      * Setzt einen Meldungstext.
-     *
-     *
      */
     protected function setMessage($message)
     {
@@ -311,9 +287,6 @@ class rex_login
         return $ok;
     }
 
-    /**
-     *
-     */
     public function impersonate($id)
     {
         if (!$this->user) {
@@ -337,9 +310,6 @@ class rex_login
         $this->setSessionVar('impersonator', $this->impersonator->getValue($this->idColumn));
     }
 
-    /**
-     *
-     */
     public function depersonate()
     {
         if (!$this->impersonator) {
@@ -383,8 +353,6 @@ class rex_login
 
     /**
      * Setzte eine Session-Variable.
-     *
-     *
      */
     public function setSessionVar($varname, $value)
     {
@@ -419,9 +387,6 @@ class rex_login
      * refresh session on permission elevation for security reasons
      */
 
-    /**
-     *
-     */
     protected static function regenerateSessionId()
     {
         if ('' != session_id()) {
@@ -441,8 +406,6 @@ class rex_login
 
     /**
      * starts a http-session if not already started.
-     *
-     *
      */
     public static function startSession()
     {
@@ -505,8 +468,6 @@ class rex_login
      * see https://wiki.php.net/rfc/same-site-cookie
      *
      * @param "Strict"|"Lax" $sameSite
-     *
-     *
      */
     private static function rewriteSessionCookie($sameSite)
     {

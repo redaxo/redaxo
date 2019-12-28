@@ -12,9 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_config_get extends rex_console_command
 {
-    /**
-     *
-     */
     protected function configure()
     {
         $this->setDescription('Get config variables')

@@ -244,8 +244,6 @@ class rex_config
 
     /**
      * Refreshes rex_config by reloading config from db.
-     *
-     *
      */
     public static function refresh()
     {
@@ -266,8 +264,6 @@ class rex_config
 
     /**
      * initilizes the rex_config class.
-     *
-     *
      */
     protected static function init()
     {
@@ -294,8 +290,6 @@ class rex_config
 
     /**
      * load the config-data.
-     *
-     *
      */
     protected static function load()
     {
@@ -325,8 +319,6 @@ class rex_config
 
     /**
      * load the config-data from database.
-     *
-     *
      */
     private static function loadFromDb()
     {
@@ -341,8 +333,6 @@ class rex_config
 
     /**
      * save config to file-cache.
-     *
-     *
      */
     private static function generateCache()
     {
@@ -353,8 +343,6 @@ class rex_config
 
     /**
      * persists the config-data and truncates the file-cache.
-     *
-     *
      */
     public static function save()
     {
@@ -380,8 +368,6 @@ class rex_config
 
     /**
      * save the config-data into the db.
-     *
-     *
      */
     private static function saveToDb()
     {

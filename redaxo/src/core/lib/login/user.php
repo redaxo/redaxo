@@ -181,8 +181,6 @@ class rex_user
      * Sets the role class.
      *
      * @param string $class Class name
-     *
-     *
      */
     public static function setRoleClass($class)
     {

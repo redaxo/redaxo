@@ -10,9 +10,6 @@
 
 class rex_effect_rounded_corners extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();

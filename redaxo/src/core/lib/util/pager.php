@@ -39,8 +39,6 @@ class rex_pager
      * Sets the row count.
      *
      * @param int $rowCount
-     *
-     *
      */
     public function setRowCount($rowCount)
     {

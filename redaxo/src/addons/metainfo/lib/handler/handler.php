@@ -525,8 +525,6 @@ abstract class rex_metainfo_handler
      * @param array   $params
      * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
-     *
-     *
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
@@ -680,9 +678,6 @@ abstract class rex_metainfo_handler
         return self::renderMetaFields($sqlFields, $params);
     }
 
-    /**
-     *
-     */
     protected function fireCallbacks(rex_sql $sqlFields)
     {
         foreach ($sqlFields as $row) {

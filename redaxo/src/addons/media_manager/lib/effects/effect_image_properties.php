@@ -5,9 +5,6 @@
  */
 class rex_effect_image_properties extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         $media = $this->media;

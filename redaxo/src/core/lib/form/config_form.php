@@ -42,9 +42,6 @@ class rex_config_form extends rex_form_base
         return new $class($namespace, $fieldset, $debug);
     }
 
-    /**
-     *
-     */
     protected function loadBackendConfig()
     {
         parent::loadBackendConfig();

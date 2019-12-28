@@ -17,9 +17,6 @@ class rex_form_perm_select_element extends rex_form_select_element
         return $this->getValue();
     }
 
-    /**
-     *
-     */
     public function setCheckboxLabel($label)
     {
         $this->checkboxLabel = $label;

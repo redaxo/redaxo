@@ -8,8 +8,6 @@ class rex_be_style
 {
     /**
      * Converts Backend SCSS files to CSS.
-     *
-     *
      */
     public static function compile()
     {

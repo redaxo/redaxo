@@ -194,8 +194,6 @@ class rex_api_install_core_update extends rex_api_function
      * @param string $version
      *
      * @throws rex_functional_exception
-     *
-     *
      */
     private function checkRequirements($temppath, $version, array $addons)
     {

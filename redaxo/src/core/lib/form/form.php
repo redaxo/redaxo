@@ -100,8 +100,6 @@ class rex_form extends rex_form_base
 
     /**
      * Laedt die Konfiguration die noetig ist um rex_form im REDAXO Backend zu verwenden.
-     *
-     *
      */
     protected function loadBackendConfig()
     {
@@ -184,8 +182,6 @@ class rex_form extends rex_form_base
      *
      * @param string $idField
      * @param string $clangField
-     *
-     *
      */
     public function setLanguageSupport($idField, $clangField)
     {
@@ -195,8 +191,6 @@ class rex_form extends rex_form_base
 
     /**
      * Wechselt den Modus des Formulars.
-     *
-     *
      */
     public function setEditMode($isEditMode)
     {

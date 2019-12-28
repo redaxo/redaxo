@@ -35,9 +35,6 @@ class rex_cronjob_manager
         return new self();
     }
 
-    /**
-     *
-     */
     public function setMessage($message)
     {
         $this->message = $message;
@@ -59,9 +56,6 @@ class rex_cronjob_manager
         return !empty($this->message);
     }
 
-    /**
-     *
-     */
     public function setCronjob($cronjob)
     {
         $this->cronjob = $cronjob;
@@ -115,8 +109,6 @@ class rex_cronjob_manager
     /**
      * @param bool   $success
      * @param string $message
-     *
-     *
      */
     public function log($success, $message)
     {
@@ -152,8 +144,6 @@ class rex_cronjob_manager
      * @template T of rex_cronjob
      *
      * @param class-string<T> $class
-     *
-     *
      */
     public static function registerType($class)
     {

@@ -7,9 +7,6 @@
  */
 class rex_effect_insert_image extends rex_effect_abstract
 {
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();

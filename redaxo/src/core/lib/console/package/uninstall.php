@@ -11,9 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class rex_command_package_uninstall extends rex_console_command
 {
-    /**
-     *
-     */
     protected function configure()
     {
         $this

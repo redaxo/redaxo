@@ -78,9 +78,6 @@ class rex_article_content_base
         return $this->ARTICLE;
     }
 
-    /**
-     *
-     */
     public function setSliceRevision($sr)
     {
         $this->slice_revision = (int) $sr;
@@ -88,17 +85,11 @@ class rex_article_content_base
 
     // ----- Slice Id setzen für Editiermodus
 
-    /**
-     *
-     */
     public function setSliceId($value)
     {
         $this->slice_id = $value;
     }
 
-    /**
-     *
-     */
     public function setClang($value)
     {
         if (!rex_clang::exists($value)) {
@@ -149,9 +140,6 @@ class rex_article_content_base
         return false;
     }
 
-    /**
-     *
-     */
     public function setTemplateId($template_id)
     {
         $this->template_id = $template_id;
@@ -162,25 +150,16 @@ class rex_article_content_base
         return $this->template_id;
     }
 
-    /**
-     *
-     */
     public function setMode($mode)
     {
         $this->mode = $mode;
     }
 
-    /**
-     *
-     */
     public function setFunction($function)
     {
         $this->function = $function;
     }
 
-    /**
-     *
-     */
     public function setEval($value)
     {
         if ($value) {

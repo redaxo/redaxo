@@ -16,9 +16,6 @@ class rex_effect_rotate extends rex_effect_abstract
         ];
     }
 
-    /**
-     *
-     */
     public function execute()
     {
         $this->media->asImage();

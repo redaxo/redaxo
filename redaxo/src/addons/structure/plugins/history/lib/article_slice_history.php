@@ -15,9 +15,6 @@ class rex_article_slice_history
         return rex::getTablePrefix() . 'article_slice_history';
     }
 
-    /**
-     *
-     */
     public static function makeSnapshot($article_id, $clang_id, $history_type, $revision = 0)
     {
         self::checkTables();
@@ -103,17 +100,11 @@ class rex_article_slice_history
         return true;
     }
 
-    /**
-     *
-     */
     public static function clearAllHistory()
     {
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
     }
 
-    /**
-     *
-     */
     public static function checkTables()
     {
         $slices_table = rex_sql_table::get(rex::getTable('article_slice'));

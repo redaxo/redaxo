@@ -185,9 +185,6 @@ class rex_list implements rex_url_provider_interface
         return new $class($query, $rowsPerPage, $listName, $debug, $db);
     }
 
-    /**
-     *
-     */
     public function init()
     {
         // nichts tun
@@ -230,8 +227,6 @@ class rex_list implements rex_url_provider_interface
      * Gibt den Namen es Formulars zurück.
      *
      * @param string $caption Caption/Titel der Tabelle
-     *
-     *
      */
     public function setCaption($caption)
     {
@@ -248,9 +243,6 @@ class rex_list implements rex_url_provider_interface
         return $this->caption;
     }
 
-    /**
-     *
-     */
     public function setNoRowsMessage($msg)
     {
         $this->noRowsMessage = $msg;
@@ -261,9 +253,6 @@ class rex_list implements rex_url_provider_interface
         return $this->noRowsMessage;
     }
 
-    /**
-     *
-     */
     public function addParam($name, $value)
     {
         $this->params[$name] = $value;
@@ -274,17 +263,11 @@ class rex_list implements rex_url_provider_interface
         return $this->params;
     }
 
-    /**
-     *
-     */
     protected function loadBackendConfig()
     {
         $this->addParam('page', rex_be_controller::getCurrentPage());
     }
 
-    /**
-     *
-     */
     public function addTableAttribute($attrName, $attrValue)
     {
         $this->tableAttributes[$attrName] = $attrValue;
@@ -295,9 +278,6 @@ class rex_list implements rex_url_provider_interface
         return $this->tableAttributes;
     }
 
-    /**
-     *
-     */
     public function addFormAttribute($attrName, $attrValue)
     {
         $this->formAttributes[$attrName] = $attrValue;
@@ -308,9 +288,6 @@ class rex_list implements rex_url_provider_interface
         return $this->formAttributes;
     }
 
-    /**
-     *
-     */
     public function addLinkAttribute($columnName, $attrName, $attrValue)
     {
         $this->linkAttributes[$columnName][$attrName] = $attrValue;
@@ -330,8 +307,6 @@ class rex_list implements rex_url_provider_interface
      * @param string $columnBody   Text/Format der Spalte
      * @param int    $columnIndex  Stelle, an der die neue Spalte erscheinen soll
      * @param array  $columnLayout Layout der Spalte
-     *
-     *
      */
     public function addColumn($columnHead, $columnBody, $columnIndex = -1, $columnLayout = null)
     {
@@ -349,8 +324,6 @@ class rex_list implements rex_url_provider_interface
      * Entfernt eine Spalte aus der Anzeige.
      *
      * @param string $columnName Name der Spalte
-     *
-     *
      */
     public function removeColumn($columnName)
     {
@@ -362,8 +335,6 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnHead   Titel der Spalte
      * @param array  $columnLayout Layout der Spalte
-     *
-     *
      */
     public function setColumnLayout($columnHead, $columnLayout)
     {
@@ -426,8 +397,6 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param string $label      Label für die Spalte
-     *
-     *
      */
     public function setColumnLabel($columnName, $label)
     {
@@ -461,8 +430,6 @@ class rex_list implements rex_url_provider_interface
      * @param string $format_type Formatierungstyp
      * @param mixed  $format      Zu verwendentes Format
      * @param array  $params      Custom params für callback func bei format_type 'custom'
-     *
-     *
      */
     public function setColumnFormat($columnName, $format_type, $format = '', array $params = [])
     {
@@ -491,8 +458,6 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param string $direction  Startsortierrichtung der Spalte [ASC|DESC]
-     *
-     *
      */
     public function setColumnSortable($columnName, $direction = 'asc')
     {
@@ -507,8 +472,6 @@ class rex_list implements rex_url_provider_interface
      * @param string $columnName Name der Spalte
      * @param string $option     Name/Id der Option
      * @param mixed  $value      Wert der Option
-     *
-     *
      */
     public function setColumnOption($columnName, $option, $value)
     {
@@ -550,8 +513,6 @@ class rex_list implements rex_url_provider_interface
      *
      * @param string $columnName Name der Spalte
      * @param array  $params     Array von Parametern
-     *
-     *
      */
     public function setColumnParams($columnName, array $params = [])
     {
@@ -612,8 +573,6 @@ class rex_list implements rex_url_provider_interface
      *
      * @param array $columns         Array von Spalten
      * @param int   $columnGroupSpan Span der Columngroup
-     *
-     *
      */
     public function addTableColumnGroup(array $columns, $columnGroupSpan = null)
     {
@@ -645,8 +604,6 @@ class rex_list implements rex_url_provider_interface
      *
      * @param int $width Breite der Spalte
      * @param int $span  Span der Spalte
-     *
-     *
      */
     public function addTableColumn($width, $span = null, $class = null)
     {
@@ -1133,9 +1090,6 @@ class rex_list implements rex_url_provider_interface
         return $s;
     }
 
-    /**
-     *
-     */
     public function show()
     {
         echo $this->get();

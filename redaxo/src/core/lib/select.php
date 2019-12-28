@@ -23,9 +23,6 @@ class rex_select
         $this->init();
     }
 
-    /**
-     *
-     */
     public function init()
     {
         $this->resetSelected();
@@ -35,17 +32,11 @@ class rex_select
         $this->setDisabled(false);
     }
 
-    /**
-     *
-     */
     public function setAttributes($attributes)
     {
         $this->attributes = array_merge($this->attributes, $attributes);
     }
 
-    /**
-     *
-     */
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
@@ -79,9 +70,6 @@ class rex_select
         return $default;
     }
 
-    /**
-     *
-     */
     public function setMultiple($multiple = true)
     {
         if ($multiple) {
@@ -94,9 +82,6 @@ class rex_select
         }
     }
 
-    /**
-     *
-     */
     public function setDisabled($disabled = true)
     {
         if ($disabled) {
@@ -106,17 +91,11 @@ class rex_select
         }
     }
 
-    /**
-     *
-     */
     public function setName($name)
     {
         $this->setAttribute('name', $name);
     }
 
-    /**
-     *
-     */
     public function setId($id)
     {
         $this->setAttribute('id', $id);
@@ -130,8 +109,6 @@ class rex_select
      * $sel_media->setStyle('class="inp100"');
      * und/oder
      * $sel_media->setStyle("width:150px;");
-     *
-     *
      */
     public function setStyle($style)
     {
@@ -144,17 +121,11 @@ class rex_select
         }
     }
 
-    /**
-     *
-     */
     public function setSize($size)
     {
         $this->setAttribute('size', $size);
     }
 
-    /**
-     *
-     */
     public function setSelected($selected)
     {
         if (is_array($selected)) {
@@ -166,17 +137,11 @@ class rex_select
         }
     }
 
-    /**
-     *
-     */
     public function resetSelected()
     {
         $this->option_selected = [];
     }
 
-    /**
-     *
-     */
     public function addOptgroup($label)
     {
         ++$this->currentOptgroup;
@@ -185,8 +150,6 @@ class rex_select
 
     /**
      * Fügt eine Option hinzu.
-     *
-     *
      */
     public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
@@ -204,8 +167,6 @@ class rex_select
      * 3.    parent_id
      * 4.    Selected
      * 5.    Attributes
-     *
-     *
      */
     public function addOptions($options, $useOnlyValues = false)
     {
@@ -242,8 +203,6 @@ class rex_select
     /**
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
      * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben.
-     *
-     *
      */
     public function addArrayOptions(array $options, $use_keys = true)
     {
@@ -266,8 +225,6 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
-     *
-     *
      */
     public function addSqlOptions($qry)
     {
@@ -277,8 +234,6 @@ class rex_select
 
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
-     *
-     *
      */
     public function addDBSqlOptions($qry)
     {
@@ -338,9 +293,6 @@ class rex_select
         return $ausgabe;
     }
 
-    /**
-     *
-     */
     public function show()
     {
         echo $this->get();

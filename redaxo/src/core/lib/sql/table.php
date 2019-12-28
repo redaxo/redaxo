@@ -615,8 +615,6 @@ class rex_sql_table
 
     /**
      * Ensures that the table exists with the given definition.
-     *
-     *
      */
     public function ensure()
     {
@@ -650,8 +648,6 @@ class rex_sql_table
 
     /**
      * Drops the table if it exists.
-     *
-     *
      */
     public function drop()
     {
@@ -671,8 +667,6 @@ class rex_sql_table
      * Creates the table.
      *
      * @throws rex_exception
-     *
-     *
      */
     public function create()
     {
@@ -716,8 +710,6 @@ class rex_sql_table
      * Alters the table.
      *
      * @throws rex_exception
-     *
-     *
      */
     public function alter()
     {
@@ -857,9 +849,6 @@ class rex_sql_table
         $this->resetModified();
     }
 
-    /**
-     *
-     */
     private function setPosition($name, $afterColumn)
     {
         if (null === $afterColumn) {
@@ -943,9 +932,6 @@ class rex_sql_table
         return '('.implode(', ', $columns).')';
     }
 
-    /**
-     *
-     */
     private function sortColumns()
     {
         $columns = [];
@@ -972,9 +958,6 @@ class rex_sql_table
         $this->columns = $columns;
     }
 
-    /**
-     *
-     */
     private function resetModified()
     {
         $this->new = false;
