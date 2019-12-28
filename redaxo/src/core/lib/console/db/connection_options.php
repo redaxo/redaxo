@@ -32,9 +32,6 @@ EOF
         ;
     }
 
-    /**
-     * @return void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $db = rex::getProperty('db')[1];

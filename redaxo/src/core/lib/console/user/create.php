@@ -24,9 +24,6 @@ class rex_command_user_create extends rex_console_command
         ;
     }
 
-    /**
-     * @return void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);

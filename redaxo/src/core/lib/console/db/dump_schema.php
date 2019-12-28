@@ -21,9 +21,6 @@ class rex_command_db_dump_schema extends rex_console_command
         ;
     }
 
-    /**
-     * @return void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $table = rex_sql_table::get($input->getArgument('table'));

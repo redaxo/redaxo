@@ -75,9 +75,6 @@ class rex_metainfo_article_handler extends rex_metainfo_handler
         return parent::renderFormAndSave(self::PREFIX, $params);
     }
 
-    /**
-     * @return void
-     */
     public function extendForm(rex_extension_point $ep)
     {
         // noop

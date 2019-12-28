@@ -22,9 +22,6 @@ class rex_command_system_report extends rex_console_command
         ;
     }
 
-    /**
-     * @return void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $formats = ['cli', 'markdown'];

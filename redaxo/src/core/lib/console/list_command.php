@@ -13,9 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class rex_command_list extends ListCommand
 {
-    /**
-     * @return void
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         parent::execute($input, $output);
