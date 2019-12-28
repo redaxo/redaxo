@@ -66,6 +66,7 @@ trait rex_instance_pool_trait
         $class = static::class;
         if (!isset(self::$instances[$class][$key]) && $createCallback) {
             $instance = call_user_func_array($createCallback, $args);
+            /** @psalm-suppress InvalidPropertyAssignmentValue */
             self::$instances[$class][$key] = $instance instanceof static ? $instance : null;
         }
         if (isset(self::$instances[$class][$key])) {
