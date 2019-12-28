@@ -414,7 +414,7 @@ class rex_category_service
      * @param int $from_cat KategorieId der Kategorie, die kopiert werden soll (Quelle)
      * @param int $to_cat   KategorieId der Kategorie, IN die kopiert werden soll (Ziel)
      *
-     * @return void
+     *
      */
     public static function copyCategory($from_cat, $to_cat)
     {
@@ -429,7 +429,7 @@ class rex_category_service
      * @param int $new_prio  Neue PrioNr der Kategorie
      * @param int $old_prio  Alte PrioNr der Kategorie
      *
-     * @return void
+     *
      */
     public static function newCatPrio($parent_id, $clang, $new_prio, $old_prio)
     {
@@ -574,7 +574,7 @@ class rex_category_service
      *
      * @throws rex_api_exception
      *
-     * @return void
+     *
      */
     protected static function reqKey(array $array, $keyName)
     {

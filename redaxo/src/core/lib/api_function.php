@@ -288,7 +288,7 @@ class rex_api_result
     }
 
     /**
-     * @return void
+     *
      */
     public function setRequiresReboot($requiresReboot)
     {

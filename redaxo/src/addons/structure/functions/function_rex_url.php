@@ -64,7 +64,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
  *
  * @package redaxo\structure
  *
- * @return void
+ *
  */
 function rex_redirect($article_id, $clang = null, array $params = [])
 {

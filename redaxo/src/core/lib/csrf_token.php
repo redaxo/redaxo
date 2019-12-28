@@ -96,7 +96,7 @@ class rex_csrf_token
     }
 
     /**
-     * @return void
+     *
      */
     public function remove()
     {
@@ -112,7 +112,7 @@ class rex_csrf_token
     }
 
     /**
-     * @return void
+     *
      */
     public static function removeAll()
     {

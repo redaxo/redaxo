@@ -43,7 +43,7 @@ class rex_input_date extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setStartYear($startYear)
     {
@@ -51,7 +51,7 @@ class rex_input_date extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setEndYear($endYear)
     {
@@ -59,7 +59,7 @@ class rex_input_date extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setValue($value)
     {
@@ -81,7 +81,7 @@ class rex_input_date extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setAttribute($name, $value)
     {

@@ -616,7 +616,7 @@ class rex_sql_table
     /**
      * Ensures that the table exists with the given definition.
      *
-     * @return void
+     *
      */
     public function ensure()
     {
@@ -651,7 +651,7 @@ class rex_sql_table
     /**
      * Drops the table if it exists.
      *
-     * @return void
+     *
      */
     public function drop()
     {
@@ -672,7 +672,7 @@ class rex_sql_table
      *
      * @throws rex_exception
      *
-     * @return void
+     *
      */
     public function create()
     {
@@ -717,7 +717,7 @@ class rex_sql_table
      *
      * @throws rex_exception
      *
-     * @return void
+     *
      */
     public function alter()
     {
@@ -858,7 +858,7 @@ class rex_sql_table
     }
 
     /**
-     * @return void
+     *
      */
     private function setPosition($name, $afterColumn)
     {
@@ -944,7 +944,7 @@ class rex_sql_table
     }
 
     /**
-     * @return void
+     *
      */
     private function sortColumns()
     {
@@ -973,7 +973,7 @@ class rex_sql_table
     }
 
     /**
-     * @return void
+     *
      */
     private function resetModified()
     {

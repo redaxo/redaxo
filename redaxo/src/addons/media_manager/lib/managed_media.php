@@ -42,7 +42,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setMediaPath($media_path)
     {
@@ -68,7 +68,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setMediaFilename($filename)
     {
@@ -76,7 +76,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setHeader($type, $content)
     {
@@ -89,7 +89,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function asImage()
     {
@@ -143,7 +143,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function refreshImageDimensions()
     {
@@ -169,7 +169,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setFormat($format)
     {
@@ -177,7 +177,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function sendMedia($sourceCacheFilename, $headerCacheFilename, $save = false)
     {
@@ -226,7 +226,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function save($sourceCacheFilename, $headerCacheFilename)
     {
@@ -273,7 +273,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setImage($src)
     {
@@ -282,7 +282,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setSourcePath($path)
     {
@@ -320,7 +320,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     public function setImageProperty($name, $value)
     {
@@ -359,7 +359,7 @@ class rex_managed_media
     }
 
     /**
-     * @return void
+     *
      */
     private function fixOrientation()
     {
@@ -393,7 +393,7 @@ class rex_managed_media
     /**
      * @param string $src Source content
      *
-     * @return void
+     *
      */
     private function prepareHeaders($src = null)
     {
@@ -440,7 +440,7 @@ class rex_managed_media
      * @param string $sourceCacheFilename
      * @param string $headerCacheFilename
      *
-     * @return void
+     *
      */
     private function saveFiles($src, $sourceCacheFilename, $headerCacheFilename)
     {

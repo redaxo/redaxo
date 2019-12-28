@@ -79,7 +79,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return void
+     *
      */
     public function setSliceRevision($sr)
     {
@@ -89,7 +89,7 @@ class rex_article_content_base
     // ----- Slice Id setzen für Editiermodus
 
     /**
-     * @return void
+     *
      */
     public function setSliceId($value)
     {
@@ -97,7 +97,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return void
+     *
      */
     public function setClang($value)
     {
@@ -150,7 +150,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return void
+     *
      */
     public function setTemplateId($template_id)
     {
@@ -163,7 +163,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return void
+     *
      */
     public function setMode($mode)
     {
@@ -171,7 +171,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return void
+     *
      */
     public function setFunction($function)
     {
@@ -179,7 +179,7 @@ class rex_article_content_base
     }
 
     /**
-     * @return void
+     *
      */
     public function setEval($value)
     {

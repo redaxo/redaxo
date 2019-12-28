@@ -24,7 +24,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function init()
     {
@@ -36,7 +36,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setAttributes($attributes)
     {
@@ -44,7 +44,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setAttribute($name, $value)
     {
@@ -80,7 +80,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setMultiple($multiple = true)
     {
@@ -95,7 +95,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setDisabled($disabled = true)
     {
@@ -107,7 +107,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setName($name)
     {
@@ -115,7 +115,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setId($id)
     {
@@ -131,7 +131,7 @@ class rex_select
      * und/oder
      * $sel_media->setStyle("width:150px;");
      *
-     * @return void
+     *
      */
     public function setStyle($style)
     {
@@ -145,7 +145,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setSize($size)
     {
@@ -153,7 +153,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function setSelected($selected)
     {
@@ -167,7 +167,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function resetSelected()
     {
@@ -175,7 +175,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function addOptgroup($label)
     {
@@ -186,7 +186,7 @@ class rex_select
     /**
      * Fügt eine Option hinzu.
      *
-     * @return void
+     *
      */
     public function addOption($name, $value, $id = 0, $parent_id = 0, array $attributes = [])
     {
@@ -205,7 +205,7 @@ class rex_select
      * 4.    Selected
      * 5.    Attributes
      *
-     * @return void
+     *
      */
     public function addOptions($options, $useOnlyValues = false)
     {
@@ -243,7 +243,7 @@ class rex_select
      * Fügt ein Array von Optionen hinzu, dass eine Key/Value Struktur hat.
      * Wenn $use_keys mit false, werden die Array-Keys mit den Array-Values überschrieben.
      *
-     * @return void
+     *
      */
     public function addArrayOptions(array $options, $use_keys = true)
     {
@@ -267,7 +267,7 @@ class rex_select
     /**
      * Fügt Optionen anhand der Übergeben SQL-Select-Abfrage hinzu.
      *
-     * @return void
+     *
      */
     public function addSqlOptions($qry)
     {
@@ -278,7 +278,7 @@ class rex_select
     /**
      * Fügt Optionen anhand der Übergeben DBSQL-Select-Abfrage hinzu.
      *
-     * @return void
+     *
      */
     public function addDBSqlOptions($qry)
     {
@@ -339,7 +339,7 @@ class rex_select
     }
 
     /**
-     * @return void
+     *
      */
     public function show()
     {

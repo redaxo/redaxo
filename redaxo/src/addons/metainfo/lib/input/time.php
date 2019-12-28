@@ -34,7 +34,7 @@ class rex_input_time extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setValue($value)
     {
@@ -55,7 +55,7 @@ class rex_input_time extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setAttribute($name, $value)
     {

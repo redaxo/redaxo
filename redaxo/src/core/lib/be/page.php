@@ -215,7 +215,7 @@ class rex_be_page
      *
      * @param string $name
      *
-     * @return void
+     *
      */
     public function removeItemAttr($name)
     {
@@ -249,7 +249,7 @@ class rex_be_page
      *
      * @param string $class
      *
-     * @return void
+     *
      */
     public function removeItemClass($class)
     {
@@ -284,7 +284,7 @@ class rex_be_page
      *
      * @param string $name
      *
-     * @return void
+     *
      */
     public function removeLinkAttr($name)
     {
@@ -336,7 +336,7 @@ class rex_be_page
      *
      * @param string $class
      *
-     * @return void
+     *
      */
     public function removeLinkClass($class)
     {
@@ -431,7 +431,7 @@ class rex_be_page
     /**
      * @param string $key
      *
-     * @return void
+     *
      */
     private function setParentKey($key)
     {

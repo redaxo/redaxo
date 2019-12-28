@@ -61,7 +61,7 @@ function rex_session($varname, $vartype = '', $default = '')
  *
  * @package redaxo\core
  *
- * @return void
+ *
  */
 function rex_set_session($varname, $value)
 {
@@ -73,7 +73,7 @@ function rex_set_session($varname, $value)
  *
  * @package redaxo\core
  *
- * @return void
+ *
  */
 function rex_unset_session($varname)
 {

@@ -59,7 +59,7 @@ class rex_socket_proxy extends rex_socket
     /**
      * {@inheritdoc}
      *
-     * @return void
+     *
      */
     protected function openConnection()
     {

@@ -10,7 +10,7 @@ abstract class rex_error_handler
     /**
      * Registers the class as php-error/exception handler.
      *
-     * @return void
+     *
      */
     public static function register()
     {
@@ -28,7 +28,7 @@ abstract class rex_error_handler
     /**
      * Unregisters the logger instance as php-error/exception handler.
      *
-     * @return void
+     *
      */
     public static function unregister()
     {
@@ -48,7 +48,7 @@ abstract class rex_error_handler
      *
      * @param Throwable|Exception $exception The Exception to handle
      *
-     * @return void
+     *
      */
     public static function handleException($exception)
     {
@@ -185,7 +185,7 @@ abstract class rex_error_handler
                         vertical-align: top;
                         cursor: pointer;
                         transition: 0.2s ease-out;
-                    } 
+                    }
                     button.clipboard:hover {
                         box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 1);
                         color: #fff;
@@ -284,7 +284,7 @@ abstract class rex_error_handler
     /**
      * Shutdown-handler which is called at the very end of the request.
      *
-     * @return void
+     *
      */
     public static function shutdown()
     {

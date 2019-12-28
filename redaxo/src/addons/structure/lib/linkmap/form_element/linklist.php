@@ -15,7 +15,7 @@ class rex_form_widget_linklist_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setCategoryId($category_id)
     {

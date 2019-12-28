@@ -47,7 +47,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @return void
+     *
      */
     public function setMessage($message)
     {
@@ -131,7 +131,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @return void
+     *
      */
     public function check()
     {

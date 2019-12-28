@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class rex_command_cronjob_run extends rex_console_command
 {
     /**
-     * @return void
+     *
      */
     protected function configure()
     {
@@ -54,7 +54,7 @@ class rex_command_cronjob_run extends rex_console_command
     }
 
     /**
-     * @return void
+     *
      */
     private function executeSingleJob(SymfonyStyle $io, $id)
     {

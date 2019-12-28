@@ -17,7 +17,7 @@ class rex_effect_rotate extends rex_effect_abstract
     }
 
     /**
-     * @return void
+     *
      */
     public function execute()
     {

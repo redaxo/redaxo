@@ -40,7 +40,7 @@ trait rex_factory_trait
      *
      * @throws InvalidArgumentException
      *
-     * @return void
+     *
      */
     public static function setFactoryClass($subclass)
     {

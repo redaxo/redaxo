@@ -17,7 +17,7 @@ class rex_test_locator implements IteratorAggregate
     }
 
     /**
-     * @return void
+     *
      */
     public function addTestFolder($folder)
     {

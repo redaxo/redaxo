@@ -29,7 +29,7 @@ class rex_media_category_select extends rex_select
      *
      * @param mixed $rootId Kategorie-Id oder Array von Kategorie-Ids zur Identifikation der Wurzelelemente
      *
-     * @return void
+     *
      */
     public function setRootId($rootId)
     {
@@ -37,7 +37,7 @@ class rex_media_category_select extends rex_select
     }
 
     /**
-     * @return void
+     *
      */
     protected function addCatOptions()
     {
@@ -63,7 +63,7 @@ class rex_media_category_select extends rex_select
     }
 
     /**
-     * @return void
+     *
      */
     protected function addCatOption(rex_media_category $mediacat)
     {

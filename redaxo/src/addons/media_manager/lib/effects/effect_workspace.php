@@ -51,7 +51,7 @@ $(function() {
     }
 
     /**
-     * @return void
+     *
      */
     public function execute()
     {

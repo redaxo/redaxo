@@ -67,7 +67,7 @@ class rex_sql implements Iterator
      *
      * @throws rex_sql_exception
      *
-     * @return void
+     *
      */
     protected function selectDB($DBID)
     {
@@ -1135,7 +1135,7 @@ class rex_sql implements Iterator
      * @param string $qry
      * @param array  $params
      *
-     * @return void
+     *
      */
     protected function printError($qry, $params)
     {
@@ -1218,7 +1218,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * @return void
+     *
      */
     private function fetchMeta()
     {

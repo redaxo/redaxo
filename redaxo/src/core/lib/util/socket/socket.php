@@ -310,7 +310,7 @@ class rex_socket
      *
      * @throws rex_socket_exception
      *
-     * @return void
+     *
      */
     protected function openConnection()
     {

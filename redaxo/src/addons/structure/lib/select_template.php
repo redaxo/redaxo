@@ -58,7 +58,7 @@ class rex_template_select extends rex_select
     /**
      * @throws rex_sql_exception
      *
-     * @return void
+     *
      */
     public function setSelectedFromStartArticle()
     {

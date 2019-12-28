@@ -17,7 +17,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function addOption($name, $value)
     {
@@ -25,7 +25,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function addOptions(array $options, $useOnlyValues = false)
     {
@@ -46,7 +46,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function addArrayOptions(array $options, $use_keys = true)
     {
@@ -60,7 +60,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function addSqlOptions($qry)
     {
@@ -69,7 +69,7 @@ abstract class rex_form_options_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function addDBSqlOptions($qry)
     {

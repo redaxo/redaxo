@@ -34,7 +34,7 @@ abstract class rex_cronjob
     /**
      * @param string $key
      *
-     * @return void
+     *
      */
     public function setParam($key, $value)
     {
@@ -42,7 +42,7 @@ abstract class rex_cronjob
     }
 
     /**
-     * @return void
+     *
      */
     public function setParams(array $params)
     {
@@ -82,7 +82,7 @@ abstract class rex_cronjob
     /**
      * @param string $message
      *
-     * @return void
+     *
      */
     public function setMessage($message)
     {

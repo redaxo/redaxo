@@ -43,7 +43,7 @@ class rex_config_form extends rex_form_base
     }
 
     /**
-     * @return void
+     *
      */
     protected function loadBackendConfig()
     {

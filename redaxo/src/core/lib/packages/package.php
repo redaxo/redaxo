@@ -135,7 +135,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * {@inheritdoc}
      *
-     * @return void
+     *
      */
     public function setProperty($key, $value)
     {
@@ -173,7 +173,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * {@inheritdoc}
      *
-     * @return void
+     *
      */
     public function removeProperty($key)
     {
@@ -244,7 +244,7 @@ abstract class rex_package implements rex_package_interface
     /**
      * Loads the properties of package.yml.
      *
-     * @return void
+     *
      */
     public function loadProperties()
     {
@@ -314,7 +314,7 @@ abstract class rex_package implements rex_package_interface
      *
      * @throws rex_functional_exception
      *
-     * @return void
+     *
      */
     public function clearCache()
     {
@@ -325,7 +325,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * @return void
+     *
      */
     public function enlist()
     {
@@ -358,7 +358,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * @return void
+     *
      */
     public function boot()
     {

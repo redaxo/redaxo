@@ -22,7 +22,7 @@ class rex_scss_compiler
     }
 
     /**
-     * @return void
+     *
      */
     public function setRootDir($value)
     {
@@ -30,7 +30,7 @@ class rex_scss_compiler
     }
 
     /**
-     * @return void
+     *
      */
     public function setScssFile($value)
     {
@@ -38,7 +38,7 @@ class rex_scss_compiler
     }
 
     /**
-     * @return void
+     *
      */
     public function setCssFile($value)
     {
@@ -48,7 +48,7 @@ class rex_scss_compiler
     /**
      * @param string $value scss_formatter (default) or scss_formatter_nested or scss_formatter_compressed
      *
-     * @return void
+     *
      */
     public function setFormatter($value)
     {
@@ -61,7 +61,7 @@ class rex_scss_compiler
      * @param string $format_style     CSS output format
      * @param bool   $strip_comments
      *
-     * @return void
+     *
      */
     public function compile()
     {

@@ -158,7 +158,7 @@ class rex_fragment
      * @param string $filename The filename of the fragment to use
      * @param array  $params   A array of key-value pairs to pass as local parameters
      *
-     * @return void
+     *
      */
     protected function subfragment($filename, array $params = [])
     {
@@ -237,7 +237,7 @@ class rex_fragment
      *
      * @param string $dir A path to a directory where fragments can be found
      *
-     * @return void
+     *
      */
     public static function addDirectory($dir)
     {

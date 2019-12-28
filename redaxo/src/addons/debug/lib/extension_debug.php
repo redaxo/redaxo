@@ -16,7 +16,7 @@ class rex_extension_debug extends rex_extension
     /**
      * Extends rex_extension::register() with ChromePhp logging.
      *
-     * @return void
+     *
      */
     public static function register($extensionPoint, callable $extension, $level = self::NORMAL, array $params = [])
     {
@@ -67,7 +67,7 @@ class rex_extension_debug extends rex_extension
     /**
      * process log & send as ChromePhp table.
      *
-     * @return void
+     *
      */
     public static function doLog()
     {

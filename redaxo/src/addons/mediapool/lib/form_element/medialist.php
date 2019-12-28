@@ -15,7 +15,7 @@ class rex_form_widget_medialist_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setCategoryId($category_id)
     {
@@ -23,7 +23,7 @@ class rex_form_widget_medialist_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setTypes($types)
     {
@@ -31,7 +31,7 @@ class rex_form_widget_medialist_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setPreview($preview = true)
     {

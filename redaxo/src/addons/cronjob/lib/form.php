@@ -66,7 +66,7 @@ class rex_cronjob_form_interval_element extends rex_form_element
     protected $value;
 
     /**
-     * @return void
+     *
      */
     public function setValue($value)
     {

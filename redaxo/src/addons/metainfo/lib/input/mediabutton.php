@@ -17,7 +17,7 @@ class rex_input_mediabutton extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setButtonId($buttonId)
     {
@@ -26,7 +26,7 @@ class rex_input_mediabutton extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setCategoryId($categoryId)
     {
@@ -34,7 +34,7 @@ class rex_input_mediabutton extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setTypes($types)
     {
@@ -42,7 +42,7 @@ class rex_input_mediabutton extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setPreview($preview = true)
     {

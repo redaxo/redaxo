@@ -36,7 +36,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @return void
+     *
      */
     public function setMessage($message)
     {
@@ -60,7 +60,7 @@ class rex_cronjob_manager
     }
 
     /**
-     * @return void
+     *
      */
     public function setCronjob($cronjob)
     {
@@ -116,7 +116,7 @@ class rex_cronjob_manager
      * @param bool   $success
      * @param string $message
      *
-     * @return void
+     *
      */
     public function log($success, $message)
     {
@@ -153,7 +153,7 @@ class rex_cronjob_manager
      *
      * @param class-string<T> $class
      *
-     * @return void
+     *
      */
     public static function registerType($class)
     {

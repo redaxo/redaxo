@@ -98,7 +98,7 @@ class rex_request
      *
      * @throws rex_exception
      *
-     * @return void
+     *
      */
     public static function setSession($varname, $value)
     {
@@ -116,7 +116,7 @@ class rex_request
      *
      * @throws rex_exception
      *
-     * @return void
+     *
      */
     public static function unsetSession($varname)
     {
@@ -132,7 +132,7 @@ class rex_request
      *
      * @throws rex_exception
      *
-     * @return void
+     *
      */
     public static function clearSession()
     {

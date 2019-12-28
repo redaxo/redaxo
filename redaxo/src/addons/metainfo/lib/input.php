@@ -20,7 +20,7 @@ abstract class rex_input
     /**
      * Setzt den Value des Input-Feldes.
      *
-     * @return void
+     *
      */
     public function setValue($value)
     {
@@ -38,7 +38,7 @@ abstract class rex_input
     /**
      * Setzt ein HTML-Attribut des Input-Feldes.
      *
-     * @return void
+     *
      */
     public function setAttribute($name, $value)
     {
@@ -79,7 +79,7 @@ abstract class rex_input
     /**
      * Fuegt dem Input-Feld die Attribute $attributes hinzu.
      *
-     * @return void
+     *
      */
     public function addAttributes($attributes)
     {
@@ -92,7 +92,7 @@ abstract class rex_input
      * Setzt die Attribute des Input-Feldes auf $attributes.
      * Alle vorher vorhanden Attribute werden geloescht/ueberschrieben.
      *
-     * @return void
+     *
      */
     public function setAttributes($attributes)
     {

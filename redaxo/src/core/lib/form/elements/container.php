@@ -22,7 +22,7 @@ class rex_form_container_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setValue($value)
     {
@@ -30,7 +30,7 @@ class rex_form_container_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setMultiple($multiple = true)
     {
@@ -38,7 +38,7 @@ class rex_form_container_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setActive($group)
     {
@@ -75,7 +75,7 @@ class rex_form_container_element extends rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     protected function prepareInnerFields()
     {

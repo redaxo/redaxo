@@ -18,7 +18,7 @@ abstract class rex_var_dumper
     private static $dumper;
 
     /**
-     * @return void
+     *
      */
     public static function register()
     {
@@ -38,7 +38,7 @@ abstract class rex_var_dumper
     }
 
     /**
-     * @return void
+     *
      */
     public static function dump($var)
     {

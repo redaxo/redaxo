@@ -24,7 +24,7 @@ class rex_be_navigation
     }
 
     /**
-     * @return void
+     *
      */
     public function addPage(rex_be_page $page)
     {
@@ -134,7 +134,7 @@ class rex_be_navigation
     }
 
     /**
-     * @return void
+     *
      */
     protected function setActiveElements()
     {
@@ -159,7 +159,7 @@ class rex_be_navigation
      * @param string $block
      * @param string $headline
      *
-     * @return void
+     *
      */
     public function setHeadline($block, $headline)
     {

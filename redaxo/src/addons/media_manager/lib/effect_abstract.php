@@ -18,7 +18,7 @@ abstract class rex_effect_abstract
     public $params = [];
 
     /**
-     * @return void
+     *
      */
     public function setMedia(rex_managed_media $media)
     {
@@ -26,7 +26,7 @@ abstract class rex_effect_abstract
     }
 
     /**
-     * @return void
+     *
      */
     public function setParams(array $params)
     {
@@ -66,7 +66,7 @@ abstract class rex_effect_abstract
     }
 
     /**
-     * @return void
+     *
      */
     protected function keepTransparent($des)
     {

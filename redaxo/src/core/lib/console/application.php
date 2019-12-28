@@ -50,7 +50,7 @@ class rex_console_application extends Application
     }
 
     /**
-     * @return void
+     *
      */
     private function loadPackages(rex_console_command $command)
     {

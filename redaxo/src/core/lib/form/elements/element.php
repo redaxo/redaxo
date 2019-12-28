@@ -56,7 +56,7 @@ class rex_form_element
     // --------- Attribute setter/getters
 
     /**
-     * @return void
+     *
      */
     public function setValue($value)
     {
@@ -67,7 +67,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setDefaultSaveValue($value)
     {
@@ -89,7 +89,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setFieldName($name)
     {
@@ -105,7 +105,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setLabel($label)
     {
@@ -121,7 +121,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setNotice($notice)
     {
@@ -145,7 +145,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setSuffix($suffix)
     {
@@ -161,7 +161,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setPrefix($prefix)
     {
@@ -177,7 +177,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setHeader($header)
     {
@@ -193,7 +193,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setFooter($footer)
     {
@@ -209,7 +209,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setAttribute($name, $value)
     {
@@ -239,7 +239,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setAttributes(array $attributes)
     {
@@ -382,7 +382,7 @@ class rex_form_element
     }
 
     /**
-     * @return void
+     *
      */
     public function show()
     {

@@ -12,7 +12,7 @@ use PHPUnit\TextUI\TestRunner;
 class rex_test_runner
 {
     /**
-     * @return void
+     *
      */
     public function setUp()
     {

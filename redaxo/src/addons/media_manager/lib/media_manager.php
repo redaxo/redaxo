@@ -134,7 +134,7 @@ class rex_media_manager
     }
 
     /**
-     * @return void
+     *
      */
     public function setCachePath($cache_path = '')
     {
@@ -147,7 +147,7 @@ class rex_media_manager
     }
 
     /**
-     * @return void
+     *
      */
     protected function useCache($t = true)
     {
@@ -256,7 +256,7 @@ class rex_media_manager
     }
 
     /**
-     * @return void
+     *
      */
     public function sendMedia()
     {
@@ -333,7 +333,7 @@ class rex_media_manager
     }
 
     /**
-     * @return void
+     *
      */
     public static function addEffect($class)
     {
@@ -369,7 +369,7 @@ class rex_media_manager
      */
 
     /**
-     * @return void
+     *
      */
     public static function mediaUpdated(rex_extension_point $ep)
     {
@@ -377,7 +377,7 @@ class rex_media_manager
     }
 
     /**
-     * @return void
+     *
      */
     public static function init()
     {

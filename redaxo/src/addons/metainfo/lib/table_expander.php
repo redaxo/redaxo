@@ -24,7 +24,7 @@ class rex_metainfo_table_expander extends rex_form
     }
 
     /**
-     * @return void
+     *
      */
     public function init()
     {
@@ -276,7 +276,7 @@ class rex_metainfo_table_expander extends rex_form
     }
 
     /**
-     * @return void
+     *
      */
     protected function organizePriorities($newPrio, $oldPrio)
     {

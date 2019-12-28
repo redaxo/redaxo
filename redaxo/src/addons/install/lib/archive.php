@@ -31,7 +31,7 @@ class rex_install_archive
     }
 
     /**
-     * @return void
+     *
      */
     public static function copyDirToArchive($dir, $archive, $basename = null, $exclude = null)
     {

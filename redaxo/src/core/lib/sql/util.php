@@ -17,7 +17,7 @@ class rex_sql_util
      * @param string $orderBy         Sortierung des ResultSets
      * @param int    $startBy         Startpriorität
      *
-     * @return void
+     *
      */
     public static function organizePriorities($tableName, $priorColumnName, $whereCondition = '', $orderBy = '', $startBy = 1)
     {
