@@ -15,7 +15,7 @@ jobs:
         fetch-depth: 1
     
     - name: Setup PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@1.6.2
       with:
         php-version: 7.1
     - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
