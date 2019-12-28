@@ -267,7 +267,7 @@ class rex_autoload
             $file = rex_path::relative($path);
             unset($files[$file]);
             $checksum = filemtime($path);
-            if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
+            if (!$checksum || isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
                 continue;
             }
             self::$dirs[$dir][$file] = $checksum;
