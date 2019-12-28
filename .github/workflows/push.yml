@@ -21,9 +21,9 @@ jobs:
         ports:
           - 3306
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
     - name: Setup PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@1.6.2
       with:
         php-version: 7.1
         extensions: intl
@@ -48,9 +48,9 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@master
+          - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@master
+            uses: shivammathur/setup-php@1.6.2
             with:
                 php-version: 7.3
                 extensions: intl
@@ -80,9 +80,9 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@master
+          - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@master
+            uses: shivammathur/setup-php@1.6.2
             with:
                 php-version: 7.3
                 extensions: intl
@@ -107,9 +107,9 @@ jobs:
       name: check php-cs-fixer codestyles
       runs-on: ubuntu-latest
       steps:
-          - uses: actions/checkout@master
+          - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@master
+            uses: shivammathur/setup-php@1.6.2
             with:
                 php-version: 7.1
                 extensions: intl
