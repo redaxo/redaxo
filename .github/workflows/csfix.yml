@@ -25,7 +25,6 @@ jobs:
       with:
         commit_message: Apply php-cs-fixer changes
         branch: ${{ github.head_ref }}
-        file_pattern: \*.php
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
