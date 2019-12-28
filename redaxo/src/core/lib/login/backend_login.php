@@ -13,7 +13,9 @@ class rex_backend_login extends rex_login
     public const RELOGIN_DELAY_1 = 5;    // relogin delay after LOGIN_TRIES_1 tries
     public const LOGIN_TRIES_2 = 50;
     public const RELOGIN_DELAY_2 = 3600; // relogin delay after LOGIN_TRIES_2 tries
-
+    /**
+     * @var string
+     */
     private $tableName;
     private $stayLoggedIn;
 
