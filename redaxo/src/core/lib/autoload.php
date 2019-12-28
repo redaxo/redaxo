@@ -17,12 +17,33 @@ class rex_autoload
      */
     protected static $composerLoader;
 
+    /**
+     * @var bool
+     */
     protected static $registered = false;
+    /**
+     * @var null|string
+     */
     protected static $cacheFile = null;
+    /**
+     * @var bool
+     */
     protected static $cacheChanged = false;
+    /**
+     * @var bool
+     */
     protected static $reloaded = false;
+    /**
+     * @var string[]
+     */
     protected static $dirs = [];
+    /**
+     * @var string[]
+     */
     protected static $addedDirs = [];
+    /**
+     * @var string[]
+     */
     protected static $classes = [];
 
     /**
