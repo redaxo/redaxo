@@ -36,3 +36,4 @@ parameters:
             path: '*/core/lib/packages/manager.php'
         - '#Undefined variable: \$this#'
         - '#Unsafe usage of new static\(\)\.#'
+        - '#Access to constant FORM_C on an unknown class Normalizer.#'
