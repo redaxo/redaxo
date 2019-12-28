@@ -9,6 +9,9 @@ class rex_editor
 
     // see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
     // keep this list in sync with the array in getSupportedEditors()
+    /**
+     * @var string[]
+     */
     private $editors = [
         'atom' => 'atom://core/open/file?filename=%f&line=%l',
         'emacs' => 'emacs://open?url=file://%f&line=%l',
