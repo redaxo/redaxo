@@ -3,7 +3,7 @@
 class rex_effect_filter_contrast extends rex_effect_abstract
 {
     /**
-     * @return void
+     *
      */
     public function execute()
     {

@@ -39,7 +39,7 @@ $(function() {
     }
 
     /**
-     * @return void
+     *
      */
     public function execute()
     {
@@ -103,7 +103,7 @@ $(function() {
     }
 
     /**
-     * @return void
+     *
      */
     private function resizeMax($w, $h)
     {
@@ -128,7 +128,7 @@ $(function() {
     }
 
     /**
-     * @return void
+     *
      */
     private function resizeMin($w, $h)
     {

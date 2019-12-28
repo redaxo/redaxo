@@ -119,7 +119,7 @@ abstract class rex_structure_element
     }
 
     /**
-     * @return void
+     *
      */
     public static function resetClassVars()
     {

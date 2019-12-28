@@ -43,7 +43,7 @@ class rex_backend_login extends rex_login
     }
 
     /**
-     * @return void
+     *
      */
     public function setStayLoggedIn($stayLoggedIn = false)
     {
@@ -124,7 +124,7 @@ class rex_backend_login extends rex_login
     }
 
     /**
-     * @return void
+     *
      */
     public static function deleteSession()
     {
@@ -137,7 +137,7 @@ class rex_backend_login extends rex_login
     }
 
     /**
-     * @return void
+     *
      */
     private static function deleteStayLoggedInCookie()
     {

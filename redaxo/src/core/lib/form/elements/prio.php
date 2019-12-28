@@ -43,7 +43,7 @@ class rex_form_prio_element extends rex_form_select_element
      *
      * @param string $labelField
      *
-     * @return void
+     *
      */
     public function setLabelField($labelField)
     {
@@ -51,7 +51,7 @@ class rex_form_prio_element extends rex_form_select_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setLabelCallback(callable $labelCallback)
     {
@@ -59,7 +59,7 @@ class rex_form_prio_element extends rex_form_select_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setWhereCondition($whereCondition)
     {
@@ -67,7 +67,7 @@ class rex_form_prio_element extends rex_form_select_element
     }
 
     /**
-     * @return void
+     *
      */
     public function setPrimaryKey($primaryKey)
     {
@@ -112,7 +112,7 @@ class rex_form_prio_element extends rex_form_select_element
     }
 
     /**
-     * @return void
+     *
      */
     public function organizePriorities(rex_extension_point $ep)
     {

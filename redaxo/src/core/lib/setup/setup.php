@@ -18,7 +18,7 @@ class rex_setup
      * @param string $skinAddon
      * @param string $skinPlugin
      *
-     * @return void
+     *
      */
     public static function init($skinAddon = 'be_style', $skinPlugin = 'redaxo')
     {

@@ -18,7 +18,7 @@ class rex_input_linklistbutton extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setButtonId($buttonId)
     {
@@ -27,7 +27,7 @@ class rex_input_linklistbutton extends rex_input
     }
 
     /**
-     * @return void
+     *
      */
     public function setCategoryId($categoryId)
     {

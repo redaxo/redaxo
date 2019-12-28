@@ -6,7 +6,7 @@
 class rex_effect_filter_greyscale extends rex_effect_abstract
 {
     /**
-     * @return void
+     *
      */
     public function execute()
     {

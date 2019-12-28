@@ -40,7 +40,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     public function setRequestValues()
     {
@@ -61,7 +61,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     public function exec($type)
     {
@@ -84,7 +84,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function setSave($save)
     {
@@ -92,7 +92,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function addMessage($message)
     {
@@ -115,7 +115,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function setValue($id, $value)
     {
@@ -126,7 +126,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function setMedia($id, $value)
     {
@@ -137,7 +137,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function setMediaList($id, $value)
     {
@@ -148,7 +148,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function setLink($id, $value)
     {
@@ -159,7 +159,7 @@ class rex_article_action
     }
 
     /**
-     * @return void
+     *
      */
     protected function setLinkList($id, $value)
     {

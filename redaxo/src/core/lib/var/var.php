@@ -221,7 +221,7 @@ abstract class rex_var
      *
      * @param string $arg_string
      *
-     * @return void
+     *
      */
     private function setArgs($arg_string)
     {

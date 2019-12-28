@@ -526,7 +526,7 @@ abstract class rex_metainfo_handler
      * @param rex_sql $sqlSave   rex_sql-objekt, in das die aktuellen Werte gespeichert werden sollen
      * @param rex_sql $sqlFields rex_sql-objekt, dass die zu verarbeitenden Felder enthält
      *
-     * @return void
+     *
      */
     public static function fetchRequestValues(&$params, &$sqlSave, $sqlFields)
     {
@@ -681,7 +681,7 @@ abstract class rex_metainfo_handler
     }
 
     /**
-     * @return void
+     *
      */
     protected function fireCallbacks(rex_sql $sqlFields)
     {

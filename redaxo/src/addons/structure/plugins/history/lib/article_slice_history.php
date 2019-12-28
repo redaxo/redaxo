@@ -16,7 +16,7 @@ class rex_article_slice_history
     }
 
     /**
-     * @return void
+     *
      */
     public static function makeSnapshot($article_id, $clang_id, $history_type, $revision = 0)
     {
@@ -104,7 +104,7 @@ class rex_article_slice_history
     }
 
     /**
-     * @return void
+     *
      */
     public static function clearAllHistory()
     {
@@ -112,7 +112,7 @@ class rex_article_slice_history
     }
 
     /**
-     * @return void
+     *
      */
     public static function checkTables()
     {

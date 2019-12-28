@@ -11,7 +11,7 @@
 class rex_effect_rounded_corners extends rex_effect_abstract
 {
     /**
-     * @return void
+     *
      */
     public function execute()
     {
