@@ -36,6 +36,7 @@ jobs:
             php: 7.4
             addons:
                 mariadb: 10.4
+            dist: xenial
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
@@ -45,6 +46,7 @@ jobs:
             services:
                 - mysql
             addons: ~
+            dist: bionic
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
