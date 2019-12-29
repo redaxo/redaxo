@@ -10,8 +10,17 @@
  */
 class rex_pager
 {
+    /**
+     * @var int
+     */
     private $rowCount;
+    /**
+     * @var int
+     */
     private $rowsPerPage;
+    /**
+     * @var string
+     */
     private $cursorName;
 
     /**

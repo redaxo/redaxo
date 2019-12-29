@@ -21,12 +21,12 @@ jobs:
         ports:
           - 3306
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
     - name: Setup PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@1.6.2
       with:
         php-version: 7.1
-        extension-csv: intl
+        extensions: intl
         coverage: none # disable xdebug, pcov
     - run: |
         git submodule update --init --recursive
@@ -48,9 +48,9 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@master
+          - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@master
+            uses: shivammathur/setup-php@1.6.2
             with:
                 php-version: 7.3
                 extensions: intl
@@ -68,7 +68,7 @@ jobs:
                 php redaxo/bin/console package:install debug
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
-                composer require --dev vimeo/psalm:^3.4.12
+                composer require --dev vimeo/psalm:dev-master
                 vendor/bin/psalm --show-info=false
 
   phpstan-analysis:
@@ -80,9 +80,9 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@master
+          - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@master
+            uses: shivammathur/setup-php@1.6.2
             with:
                 php-version: 7.3
                 extensions: intl
@@ -107,11 +107,11 @@ jobs:
       name: check php-cs-fixer codestyles
       runs-on: ubuntu-latest
       steps:
-          - uses: actions/checkout@master
+          - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@master
+            uses: shivammathur/setup-php@1.6.2
             with:
                 php-version: 7.1
-                extension-csv: intl
+                extensions: intl
                 coverage: none # disable xdebug, pcov
-          - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run
+          - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run
