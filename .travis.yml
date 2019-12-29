@@ -46,7 +46,6 @@ jobs:
             services:
                 - mysql
             addons: ~
-            dist: bionic
         -   <<: *TEST_MYSQL
             php: 7.2
         -   <<: *TEST_MYSQL
