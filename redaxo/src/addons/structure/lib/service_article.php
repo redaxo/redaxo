@@ -709,13 +709,13 @@ class rex_article_service
      * @param int $id        ArtikelId des zu kopierenden Artikels
      * @param int $to_cat_id KategorieId in die der Artikel kopiert werden soll
      *
-     * @return false|int|string FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
+     * @return false|string FALSE bei Fehler, sonst die Artikel Id des neue kopierten Artikels
      */
     public static function copyArticle($id, $to_cat_id)
     {
         $id = (int) $id;
         $to_cat_id = (int) $to_cat_id;
-        $new_id = '';
+        $new_id = false;
 
         $user = self::getUser();
 
@@ -742,7 +742,7 @@ class rex_article_service
 
                     $art_sql = rex_sql::factory();
                     $art_sql->setTable(rex::getTablePrefix() . 'article');
-                    if ('' == $new_id) {
+                    if (false === $new_id) {
                         $new_id = $art_sql->setNewId('id');
                     }
                     $art_sql->setValue('id', $new_id); // neuen auto_incrment erzwingen
