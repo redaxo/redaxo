@@ -37,7 +37,7 @@ class rex_command_config_set extends rex_console_command
             if (!isset($config[$pathPart]) || !is_array($config[$pathPart])) {
                 $config[$pathPart] = [];
             }
-            if ($i === count($path)-1) {
+            if ($i === count($path) - 1) {
                 $config[$pathPart] = rex_type::cast($value, $input->getOption('type'));
                 break;
             }
