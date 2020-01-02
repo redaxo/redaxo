@@ -104,9 +104,10 @@ class rex_media_manager
         $sql->setQuery($qry, [$type]);
 
         $effects = [];
+        /** @var rex_sql $row */
         foreach ($sql as $row) {
             $effname = $row->getValue('effect');
-            $params = json_decode($row->getValue('parameters'), true);
+            $params = $row->getArrayValue('parameters');
             $effparams = [];
 
             // extract parameter out of array
