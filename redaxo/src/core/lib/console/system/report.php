@@ -79,5 +79,7 @@ class rex_command_system_report extends rex_console_command
             $table->render();
             $io->newLine();
         }
+
+        return 0;
     }
 }

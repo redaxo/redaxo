@@ -253,11 +253,7 @@ class rex_media_manager
         }
 
         // prevent session locking trough other addons
-        if (function_exists('session_abort')) {
-            session_abort();
-        } else {
-            session_write_close();
-        }
+        session_abort();
 
         if ($this->use_cache && $this->isCached()) {
             $header = $this->getHeaderCache()['headers'];
