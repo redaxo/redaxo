@@ -347,7 +347,11 @@ abstract class rex_var
         }
 
         if ($this->hasArg('callback')) {
-            $args = ["'subject' => " . $content];
+            $args = [
+                "'var' => 'REX" . strtoupper(substr(static::class, 7)) . "'",
+                "'class' => '" . static::class . "'",
+                "'subject' => " . $content,
+            ];
             foreach ($this->args as $key => $value) {
                 $args[] = "'$key' => " . $this->getParsedArg($key);
             }
