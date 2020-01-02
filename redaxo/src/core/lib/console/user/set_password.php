@@ -76,5 +76,7 @@ class rex_command_user_set_password extends rex_console_command
         ], true));
 
         $io->success(sprintf('Saved new password for user "%s".', $username));
+
+        return 0;
     }
 }
