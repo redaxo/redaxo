@@ -78,6 +78,8 @@ class rex_media_manager
 
             if (0 == count($set)) {
                 $this->use_cache = false;
+                $this->notFound = !$this->media->exists();
+
                 return $this->media;
             }
 
