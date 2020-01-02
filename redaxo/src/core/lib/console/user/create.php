@@ -61,15 +61,15 @@ class rex_command_user_create extends rex_console_command
             throw new InvalidArgumentException('Missing password.');
         }
 
-        $username = $input->getOption('username');
-        if (!$username) {
-            $username = $login;
+        $name = $input->getOption('name');
+        if (!$name) {
+            $name = $login;
         }
 
         $user = rex_sql::factory();
         // $user->setDebug();
         $user->setTable(rex::getTablePrefix() . 'user');
-        $user->setValue('name', $username);
+        $user->setValue('name', $name);
         $user->setValue('login', $login);
         $user->setValue('password', rex_backend_login::passwordHash($password));
         $user->setValue('admin', $input->hasOption('admin') ? 1 : 0);
