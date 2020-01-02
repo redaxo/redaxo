@@ -52,5 +52,7 @@ EOF
             '--password='.escapeshellarg($db['password']),
             escapeshellarg($db['name']),
         ]);
+
+        return 0;
     }
 }
