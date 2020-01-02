@@ -145,9 +145,9 @@ class rex_managed_media
             return;
         }
 
-        $size = getimagesize($this->sourcePath);
-        $this->image['width'] = $size[0];
-        $this->image['height'] = $size[1];
+        $size = @getimagesize($this->sourcePath);
+        $this->image['width'] = $size[0] ?? null;
+        $this->image['height'] = $size[1] ?? null;
     }
 
     public function getFormat()
