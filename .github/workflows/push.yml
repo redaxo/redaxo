@@ -102,16 +102,3 @@ jobs:
                 php redaxo/bin/console package:install structure/version
                 composer require --dev phpstan/phpstan:^0.12
                 vendor/bin/phpstan analyse --no-progress
-
-  php-cs-fixer:
-      name: check php-cs-fixer codestyles
-      runs-on: ubuntu-latest
-      steps:
-          - uses: actions/checkout@v1
-          - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
-            with:
-                php-version: 7.1
-                extensions: intl
-                coverage: none # disable xdebug, pcov
-          - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run
