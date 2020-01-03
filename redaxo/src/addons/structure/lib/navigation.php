@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse zum Erstellen von Navigationen, v0.1.1.
+ * Klasse zum Erstellen von Navigationen
  *
  * @package redaxo\structure
  */
