@@ -205,8 +205,8 @@ abstract class rex_structure_element
             static function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
 
-                $list = rex_file::getCache($listFile);
-                if (!$list) {
+                $list = rex_file::getCache($listFile, null);
+                if (null === $list) {
                     rex_article_cache::generateLists($parentId);
                     $list = rex_file::getCache($listFile);
                 }
