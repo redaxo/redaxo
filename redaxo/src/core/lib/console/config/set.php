@@ -49,7 +49,7 @@ class rex_command_config_set extends rex_console_command
             return 0;
         }
 
-        $io->error('Config variable could\'t be saved.');
+        $io->error('Config variable couldn\'t be saved.');
         return 1;
     }
 }
