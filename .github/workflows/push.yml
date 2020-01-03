@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Setup PHP
-      uses: shivammathur/setup-php@1.6.2
+      uses: shivammathur/setup-php@verbose
       with:
         php-version: 7.1
         extensions: intl
@@ -50,7 +50,7 @@ jobs:
       steps:
           - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.3
                 extensions: intl
@@ -82,7 +82,7 @@ jobs:
       steps:
           - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.3
                 extensions: intl
@@ -109,7 +109,7 @@ jobs:
       steps:
           - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.1
                 extensions: intl
