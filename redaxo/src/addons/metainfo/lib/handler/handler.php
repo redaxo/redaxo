@@ -80,7 +80,7 @@ abstract class rex_metainfo_handler
                 case 'text':
                     $tag_attr = ' class="form-control"';
 
-                    $rexInput = rex_input::factory($typeLabel);
+                    $rexInput = new rex_input_text();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -279,6 +279,15 @@ abstract class rex_metainfo_handler
                 case 'date':
                 case 'time':
                 case 'datetime':
+                    if ('date' == $typeLabel) {
+                        $rexInput = new rex_input_date();
+                    } elseif ('time' == $typeLabel) {
+                        $rexInput = new rex_input_time();
+                    } elseif ('datetime' == $typeLabel) {
+                        $rexInput = new rex_input_datetime();
+                    } else {
+                        throw new Exception('Unexpected $typeLabel "'. $typeLabel .'"');
+                    }
                     $tag_attr = ' class="form-control-date"';
 
                     $active = 0 != $dbvalues[0];
@@ -293,7 +302,6 @@ abstract class rex_metainfo_handler
                     $inputValue['hour'] = date('H', $dbvalues[0]);
                     $inputValue['minute'] = date('i', $dbvalues[0]);
 
-                    $rexInput = rex_input::factory($typeLabel);
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -326,7 +334,7 @@ abstract class rex_metainfo_handler
                 case 'textarea':
                     $tag_attr = ' class="form-control"';
 
-                    $rexInput = rex_input::factory($typeLabel);
+                    $rexInput = new rex_input_textarea();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setAttribute('id', $id);
                     $rexInput->setAttribute('name', $name);
@@ -361,7 +369,7 @@ abstract class rex_metainfo_handler
 
                     $paramArray = rex_string::split($params);
 
-                    $rexInput = rex_input::factory('mediabutton');
+                    $rexInput = new rex_input_mediabutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($media_id);
                     $rexInput->setAttribute('name', $name);
@@ -396,7 +404,7 @@ abstract class rex_metainfo_handler
                     $paramArray = rex_string::split($params);
 
                     $name .= '[]';
-                    $rexInput = rex_input::factory('medialistbutton');
+                    $rexInput = new rex_input_medialistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($mlist_id);
                     $rexInput->setAttribute('name', $name);
@@ -436,7 +444,7 @@ abstract class rex_metainfo_handler
                         $category = $activeItem->getValue('category_id');
                     }
 
-                    $rexInput = rex_input::factory('linkbutton');
+                    $rexInput = new rex_input_linkbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($link_id);
                     $rexInput->setCategoryId($category);
@@ -467,7 +475,7 @@ abstract class rex_metainfo_handler
                     }
 
                     $name .= '[]';
-                    $rexInput = rex_input::factory('linklistbutton');
+                    $rexInput = new rex_input_linklistbutton();
                     $rexInput->addAttributes($attrArray);
                     $rexInput->setButtonId($llist_id);
                     $rexInput->setCategoryId($category);
@@ -553,7 +561,7 @@ abstract class rex_metainfo_handler
      * Retrieves the posted value for the given field and converts it into a saveable format.
      *
      * @param string $fieldName       The name of the field
-     * @param int    $fieldType       One of the REX_METAINFO_FIELD_* constants
+     * @param int    $fieldType       One of the rex_metainfo_table_manager::FIELD_* constants
      * @param string $fieldAttributes The attributes of the field
      *
      * @return string
@@ -595,8 +603,8 @@ abstract class rex_metainfo_handler
                 $saveValue = '|' . implode('|', $postValue) . '|';
             } else {
                 $postValue = $postValue[0] ?? '';
-                if (REX_METAINFO_FIELD_SELECT == $fieldType && false !== strpos($fieldAttributes, 'multiple') ||
-                     REX_METAINFO_FIELD_CHECKBOX == $fieldType
+                if (rex_metainfo_table_manager::FIELD_SELECT == $fieldType && false !== strpos($fieldAttributes, 'multiple') ||
+                     rex_metainfo_table_manager::FIELD_CHECKBOX == $fieldType
                 ) {
                     // Mehrwertiges Feld, aber nur ein Wert ausgewählt
                     $saveValue = '|' . $postValue . '|';
@@ -716,17 +724,12 @@ abstract class rex_metainfo_handler
      * Retrieves the activeItem from the current context.
      * Afterwards the actual metaForm extension will be rendered.
      *
-     * @param rex_extension_point $ep
-     *
      * @return string
      */
     abstract public function extendForm(rex_extension_point $ep);
 
     /**
      * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
-     *
-     * @param array   $params
-     * @param rex_sql $sqlFields
      */
     abstract protected function handleSave(array $params, rex_sql $sqlFields);
 }

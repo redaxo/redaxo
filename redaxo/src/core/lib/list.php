@@ -94,10 +94,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Erstellt ein rex_list Objekt.
      *
-     * @param string $query       SELECT Statement
-     * @param int    $rowsPerPage Anzahl der Elemente pro Zeile
-     * @param string $listName    Name der Liste
-     * @param bool   $debug
+     * @param string      $query       SELECT Statement
+     * @param int         $rowsPerPage Anzahl der Elemente pro Zeile
+     * @param string|null $listName    Name der Liste
+     * @param bool        $debug
      */
     protected function __construct($query, $rowsPerPage = 30, $listName = null, $debug = false, $db = 1)
     {
@@ -171,11 +171,11 @@ class rex_list implements rex_url_provider_interface
     }
 
     /**
-     * @param string $query
-     * @param int    $rowsPerPage
-     * @param null   $listName
-     * @param bool   $debug
-     * @param int    $db          DB connection ID
+     * @param string      $query
+     * @param int         $rowsPerPage
+     * @param string|null $listName
+     * @param bool        $debug
+     * @param int         $db          DB connection ID
      *
      * @return static
      */
@@ -442,7 +442,7 @@ class rex_list implements rex_url_provider_interface
      * @param string $columnName Name der Spalte
      * @param mixed  $default    Defaultrückgabewert, falls keine Formatierung gesetzt ist
      *
-     * @return string|null
+     * @return array|null
      */
     public function getColumnFormat($columnName, $default = null)
     {
@@ -884,10 +884,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Formatiert einen übergebenen String anhand der rexFormatter Klasse.
      *
-     * @param string $value  Zu formatierender String
-     * @param array  $format mit den Formatierungsinformationen
-     * @param bool   $escape Flag, Ob escapen von $value erlaubt ist
-     * @param string $field
+     * @param string     $value  Zu formatierender String
+     * @param null|array $format mit den Formatierungsinformationen
+     * @param bool       $escape Flag, Ob escapen von $value erlaubt ist
+     * @param string     $field
      *
      * @return string
      */
@@ -904,11 +904,7 @@ class rex_list implements rex_url_provider_interface
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-        if ($escape &&
-            !$this->isCustomFormat($format) &&
-            'email' != $format[0] &&
-            'url' != $format[0]
-        ) {
+        if ($escape && (!isset($format[0]) || !in_array($format[0], ['custom', 'email', 'url'], true))) {
             $value = rex_escape($value);
         }
 

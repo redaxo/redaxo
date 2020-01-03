@@ -215,6 +215,7 @@ if ('add' == $function || 'edit' == $function) {
         $n = [];
         $n['label'] = '<label for="mname">' . rex_i18n::msg('module_name') . '</label>';
         $n['field'] = '<input class="form-control" id="mname" type="text" name="mname" value="' . rex_escape($mname) . '" />';
+        $n['note'] = rex_i18n::msg('translatable');
         $formElements[] = $n;
 
         $n = [];

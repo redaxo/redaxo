@@ -5,22 +5,38 @@
  */
 class rex_form_element
 {
+    /** @var string */
     protected $value;
+    /** @var string */
     protected $defaultSaveValue = '';
+    /** @var string */
     protected $label;
+    /** @var string */
     protected $tag;
+    /** @var rex_form_base */
     protected $table;
+    /** @var array */
     protected $attributes;
+    /** @var bool */
     protected $separateEnding;
+    /** @var string */
     protected $fieldName;
+    /** @var string */
     protected $header;
+    /** @var string */
     protected $footer;
+    /** @var string */
     protected $prefix;
+    /** @var string */
     protected $suffix;
+    /** @var string */
     protected $notice;
     /** @var rex_validator */
     protected $validator;
 
+    /**
+     * @param string $tag
+     */
     public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;

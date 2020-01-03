@@ -21,10 +21,10 @@ Dumps the db connection options for the <info>mysql</info> cli tool.
 
 Example: run intactive mysql shell
   <info>%command.full_name% | xargs -o mysql</info>
-  
+
 Example: dump the database
   <info>%command.full_name% | xargs mysqldump > dump.sql</info>
-  
+
 Example: import a dump file
   <info>%command.full_name% | xargs sh -c 'mysql "$0" "$@" < dump.sql'</info>
 EOF
@@ -36,11 +36,23 @@ EOF
     {
         $db = rex::getProperty('db')[1];
 
+        if (false === strpos($db['host'], ':')) {
+            $output->writeln('--host='.escapeshellarg($db['host']));
+        } else {
+            [$host, $port] = explode(':', $db['host'], 2);
+
+            $output->writeln([
+                '--host='.escapeshellarg($host),
+                '--port='.escapeshellarg($port),
+            ]);
+        }
+
         $output->writeln([
-            '--host='.escapeshellarg($db['host']),
             '--user='.escapeshellarg($db['login']),
             '--password='.escapeshellarg($db['password']),
             escapeshellarg($db['name']),
         ]);
+
+        return 0;
     }
 }

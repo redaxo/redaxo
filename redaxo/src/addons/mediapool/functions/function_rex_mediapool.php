@@ -146,6 +146,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
         rex_media_cache::deleteList($rex_file_category);
     }
 
+    $RETURN = [];
     $RETURN['title'] = $FILEINFOS['title'];
     $RETURN['type'] = $FILETYPE;
     $RETURN['msg'] = implode('<br />', $message);
@@ -560,7 +561,6 @@ function rex_mediapool_Syncform($rex_file_category)
  * check if mediatpye(extension) is allowed for upload.
  *
  * @param string $filename
- * @param array  $args
  *
  * @return bool
  */

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.5.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Das Log wird auch unter System/Log eingebunden (@staabm)
+
+
 Version 2.4.1 – 01.04.2019
 --------------------------
 

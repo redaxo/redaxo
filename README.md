@@ -50,11 +50,7 @@ You’ll find a lot of community members in the Slack chat. And also the core de
 
 Follow [@REDAXO](https://twitter.com/REDAXO) on Twitter to read the latest topics (mostly in German, often in English) and ask any questions! We’ll be glad to help.
 
-### 4. Get help from the forum
-
-If you want to ask detailed questions about REDAXO, it might be helpful to use the [forum](https://redaxo.org/forum/).
-
-### 5. Find people on the Community World Map
+### 4. Find people on the Community World Map
 
 Where in the world are people using REDAXO? [The map will show you](https://friendsofredaxo.github.io/community/). 🌎  
 Your marker still missing? [Learn how to place it on the map](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).

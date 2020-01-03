@@ -35,7 +35,7 @@ if ('deleteclang' == $func && '' != $clang_id && rex_clang::exists($clang_id)) {
         rex_clang_service::deleteCLang($clang_id);
         $success = rex_i18n::msg('clang_deleted');
         $func = '';
-        unset($clang_id);
+        $clang_id = 0;
     } catch (rex_functional_exception $e) {
         echo rex_view::error($e->getMessage());
     }
@@ -50,7 +50,7 @@ if ('editstatus' === $func && rex_clang::exists($clang_id)) {
         rex_clang_service::editCLang($clang_id, $clang->getCode(), $clang->getName(), $clang->getPriority(), $clang_status);
         $success = rex_i18n::msg('clang_edited');
         $func = '';
-        unset($clang_id);
+        $clang_id = 0;
     } catch (rex_functional_exception $e) {
         echo rex_view::error($e->getMessage());
     }
@@ -70,14 +70,14 @@ if ($add_clang_save || $edit_clang_save) {
     } elseif ($add_clang_save) {
         $success = rex_i18n::msg('clang_created');
         rex_clang_service::addCLang($clang_code, $clang_name, $clang_prio);
-        unset($clang_id);
+        $clang_id = 0;
         $func = '';
     } else {
         if (rex_clang::exists($clang_id)) {
             rex_clang_service::editCLang($clang_id, $clang_code, $clang_name, $clang_prio);
             $success = rex_i18n::msg('clang_edited');
             $func = '';
-            unset($clang_id);
+            $clang_id = 0;
         }
     }
 }

@@ -20,6 +20,9 @@ class rex_exception extends Exception
  */
 class rex_sql_exception extends rex_exception
 {
+    /**
+     * @var null|\rex_sql
+     */
     private $sql;
 
     public function __construct($message, Exception $previous = null, rex_sql $sql = null)
@@ -54,11 +57,13 @@ class rex_functional_exception extends rex_exception
  */
 class rex_http_exception extends rex_exception
 {
+    /**
+     * @var int
+     */
     private $httpCode;
 
     /**
-     * @param Exception $cause
-     * @param int       $httpCode
+     * @param int $httpCode
      */
     public function __construct(Exception $cause, $httpCode)
     {

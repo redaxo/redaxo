@@ -573,7 +573,7 @@ if ($SHOW) {
             return rex_i18n::msg('user_no_role');
         }
 
-        return implode('<br />', explode(',', $roles));
+        return implode('<br />', explode(',', rex_escape($roles)));
     }, ['roles' => $roles]);
     $list->setColumnSortable('role');
 

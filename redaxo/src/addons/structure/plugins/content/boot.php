@@ -34,13 +34,13 @@ if (rex::isBackend()) {
             $panel .= '<dl class="dl-horizontal text-left">';
 
             $panel .= '<dt>'.rex_i18n::msg('created_by').'</dt>';
-            $panel .= '<dd>'.$article->getValue('createuser').'</dd>';
+            $panel .= '<dd>'.rex_escape($article->getValue('createuser')).'</dd>';
 
             $panel .= '<dt>'.rex_i18n::msg('created_on').'</dt>';
             $panel .= '<dd>'.rex_formatter::strftime($article->getValue('createdate'), 'date').'</dd>';
 
             $panel .= '<dt>'.rex_i18n::msg('updated_by').'</dt>';
-            $panel .= '<dd>'.$article->getValue('updateuser').'</dd>';
+            $panel .= '<dd>'.rex_escape($article->getValue('updateuser')).'</dd>';
 
             $panel .= '<dt>'.rex_i18n::msg('updated_on').'</dt>';
             $panel .= '<dd>'.rex_formatter::strftime($article->getValue('updatedate'), 'date').'</dd>';

@@ -10,6 +10,9 @@ class rex_backup
     public const IMPORT_EVENT_PRE = 3;
     public const IMPORT_EVENT_POST = 4;
 
+    /**
+     * @return string
+     */
     public static function getDir()
     {
         $dir = rex_path::addonData('backup');
@@ -18,6 +21,9 @@ class rex_backup
         return $dir;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getBackupFiles($filePrefix)
     {
         $dir = self::getDir();
@@ -332,14 +338,7 @@ class rex_backup
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
 
         if (null === $tables) {
-            $tables = [];
-            foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-                if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                    && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
-                ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-                    $tables[] = $table;
-                }
-            }
+            $tables = self::getTables();
         }
         foreach ($tables as $table) {
             //---- export metadata
@@ -439,6 +438,9 @@ class rex_backup
 
     /**
      * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu.
+     *
+     * @param string $path
+     * @param string $dir
      */
     private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
     {
@@ -469,6 +471,17 @@ class rex_backup
             }
         }
         closedir($handle);
+    }
+
+    public static function getTables()
+    {
+        $tables = [];
+        foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
+            if (substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+                $tables[] = $table;
+            }
+        }
+        return $tables;
     }
 
     private static function importScript($filename, $importType, $eventType)

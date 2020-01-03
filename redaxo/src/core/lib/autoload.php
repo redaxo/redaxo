@@ -17,12 +17,33 @@ class rex_autoload
      */
     protected static $composerLoader;
 
+    /**
+     * @var bool
+     */
     protected static $registered = false;
+    /**
+     * @var null|string
+     */
     protected static $cacheFile = null;
+    /**
+     * @var bool
+     */
     protected static $cacheChanged = false;
+    /**
+     * @var bool
+     */
     protected static $reloaded = false;
+    /**
+     * @var string[][]
+     */
     protected static $dirs = [];
+    /**
+     * @var string[]
+     */
     protected static $addedDirs = [];
+    /**
+     * @var string[]
+     */
     protected static $classes = [];
 
     /**
@@ -245,8 +266,8 @@ class rex_autoload
 
             $file = rex_path::relative($path);
             unset($files[$file]);
-            $checksum = filemtime($path);
-            if (isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
+            $checksum = (string) filemtime($path);
+            if (!$checksum || isset(self::$dirs[$dir][$file]) && self::$dirs[$dir][$file] === $checksum) {
                 continue;
             }
             self::$dirs[$dir][$file] = $checksum;
@@ -270,7 +291,7 @@ class rex_autoload
      * Extract the classes in the given file.
      *
      * The method is copied from Composer (with little changes):
-     * https://github.com/composer/composer/blob/f24fcea35b4e8438caa96baccec7ff932c4ac0c3/src/Composer/Autoload/ClassMapGenerator.php#L131
+     * https://github.com/composer/composer/blob/6034c2af01e264652a060e57f1e0288b4038a31a/src/Composer/Autoload/ClassMapGenerator.php#L205
      *
      * @param string $path The file to check
      *
@@ -315,7 +336,7 @@ class rex_autoload
         }
 
         // strip heredocs/nowdocs
-        $contents = preg_replace('{<<<\s*(\'?)(\w+)\\1(?:\r\n|\n|\r)(?:.*?)(?:\r\n|\n|\r)\\2(?=\r\n|\n|\r|;)}s', 'null', $contents);
+        $contents = preg_replace('{<<<[ \t]*([\'"]?)(\w+)\\1(?:\r\n|\n|\r)(?:.*?)(?:\r\n|\n|\r)(?:\s*)\\2(?=\s+|[;,.)])}s', 'null', $contents);
         // strip strings
         $contents = preg_replace('{"[^"\\\\]*+(\\\\.[^"\\\\]*+)*+"|\'[^\'\\\\]*+(\\\\.[^\'\\\\]*+)*+\'}s', 'null', $contents);
         // strip leading non-php code if needed
@@ -326,7 +347,7 @@ class rex_autoload
             }
         }
         // strip non-php blocks in the file
-        $contents = preg_replace('{\?>.+<\?}s', '?><?', $contents);
+        $contents = preg_replace('{\?>(?:[^<]++|<(?!\?))*+<\?}s', '?><?', $contents);
         // strip trailing non-php code if needed
         $pos = strrpos($contents, '?>');
         if (false !== $pos && false === strpos(substr($contents, $pos), '<?')) {
