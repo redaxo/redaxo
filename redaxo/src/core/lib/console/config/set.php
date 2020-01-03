@@ -45,7 +45,7 @@ class rex_command_config_set extends rex_console_command
         }
 
         if (rex_file::putConfig($configFile, $baseConfig)) {
-            $io->success('Config variable successfully saved');
+            $io->success('Config variable successfully saved.');
             return 0;
         }
 
