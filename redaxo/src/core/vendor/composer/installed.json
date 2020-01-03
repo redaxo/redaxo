@@ -49,23 +49,26 @@
     },
     {
         "name": "erusev/parsedown-extra",
-        "version": "0.7.1",
-        "version_normalized": "0.7.1.0",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/erusev/parsedown-extra.git",
-            "reference": "0db5cce7354e4b76f155d092ab5eb3981c21258c"
+            "reference": "91ac3ff98f0cea243bdccc688df43810f044dcef"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/0db5cce7354e4b76f155d092ab5eb3981c21258c",
-            "reference": "0db5cce7354e4b76f155d092ab5eb3981c21258c",
+            "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/91ac3ff98f0cea243bdccc688df43810f044dcef",
+            "reference": "91ac3ff98f0cea243bdccc688df43810f044dcef",
             "shasum": ""
         },
         "require": {
-            "erusev/parsedown": "~1.4"
+            "erusev/parsedown": "^1.7.4"
         },
-        "time": "2015-11-01T10:19:22+00:00",
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.35"
+        },
+        "time": "2019-12-30T23:20:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -448,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "5306962d2a35c901a07a98b55248894469d112b6"
+            "reference": "872fce6c151b06f6446f228f2290a48862ede2a4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5306962d2a35c901a07a98b55248894469d112b6",
-            "reference": "5306962d2a35c901a07a98b55248894469d112b6",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/872fce6c151b06f6446f228f2290a48862ede2a4",
+            "reference": "872fce6c151b06f6446f228f2290a48862ede2a4",
             "shasum": ""
         },
         "conflict": {
@@ -488,7 +491,7 @@
             "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
             "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
             "dompdf/dompdf": ">=0.6,<0.6.2",
-            "drupal/core": ">=7,<8.7.11|>=8.8,<8.8.1",
+            "drupal/core": ">=7,<7.69|>=8,<8.7.11|>=8.8,<8.8.1",
             "drupal/drupal": ">=7,<8.7.11|>=8.8,<8.8.1",
             "endroid/qr-code-bundle": "<3.4.2",
             "erusev/parsedown": "<1.7.2",
@@ -647,7 +650,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-01-01T17:15:10+00:00",
+        "time": "2020-01-02T17:29:14+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
