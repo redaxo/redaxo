@@ -255,8 +255,8 @@ class rex_media_category
         return self::getInstanceList([$this->getId(), 'media'], 'rex_media::get', static function ($id) {
             $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
 
-            $list = rex_file::getCache($list_path);
-            if (!$list) {
+            $list = rex_file::getCache($list_path, null);
+            if (null === $list) {
                 rex_media_cache::generateList($id);
                 $list = rex_file::getCache($list_path);
             }
