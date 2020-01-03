@@ -95,8 +95,8 @@ class rex_media
         return static::getInstanceList('root_media', 'static::get', static function () {
             $list_path = rex_path::addonCache('mediapool', '0.mlist');
 
-            $list = rex_file::getCache($list_path);
-            if (!$list) {
+            $list = rex_file::getCache($list_path, null);
+            if (null === $list) {
                 rex_media_cache::generateList(0);
                 $list = rex_file::getCache($list_path);
             }

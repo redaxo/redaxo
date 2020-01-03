@@ -35,15 +35,24 @@ class rex_media_manager_test extends TestCase
 
     public function testCreate()
     {
-        $manager = rex_media_manager::create('rex_mediapool_preview', 'foo.jpg');
+        $filename = '_media_manager_test.png';
+        $path = rex_path::media($filename);
 
-        $this->assertFileExists($manager->getCacheFilename());
-        $this->assertFileExists($manager->getHeaderCacheFilename());
+        rex_file::put($path, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='));
 
-        $manager = rex_media_manager::create('non_existing_type', 'foo.jpg');
+        try {
+            $manager = rex_media_manager::create('rex_mediapool_preview', $filename);
 
-        $this->assertFileNotExists($manager->getCacheFilename());
-        $this->assertFileNotExists($manager->getHeaderCacheFilename());
+            $this->assertFileExists($manager->getCacheFilename());
+            $this->assertFileExists($manager->getHeaderCacheFilename());
+
+            $manager = rex_media_manager::create('non_existing_type', $filename);
+
+            $this->assertFileNotExists($manager->getCacheFilename());
+            $this->assertFileNotExists($manager->getHeaderCacheFilename());
+        } finally {
+            @unlink($path);
+        }
     }
 
     /**
