@@ -16,8 +16,8 @@ class rex_command_config_set extends rex_console_command
     {
         $this->setDescription('Set config variables')
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
-            ->addArgument('value', InputArgument::REQUIRED, 'new value for config key, e.g. "somestring" or "true"')
-            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "boolean" or "int"', 'string');
+            ->addArgument('value', InputArgument::REQUIRED, 'new value for config key, e.g. "somestring" or "1"')
+            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "bool" or "int"', 'string');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
