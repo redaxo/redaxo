@@ -22,7 +22,8 @@
     .table th.rex-table-priority,
     .table td.rex-table-priority {
         width: 100px;
-        text-align: center;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
     }
     .table th.rex-table-slimmer,
     .table td.rex-table-slimmer {
