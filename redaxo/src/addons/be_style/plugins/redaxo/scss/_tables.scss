@@ -22,9 +22,18 @@
     .table th.rex-table-priority,
     .table td.rex-table-priority {
         width: 100px;
+    }
+    
+    .table th.rex-table-date,
+    .table td.rex-table-date,
+    .table th.rex-table-tabular-nums,
+    .table td.rex-table-tabular-nums,
+    .table th.rex-table-number,
+    .table td.rex-table-number {
         text-align: right;
         font-variant-numeric: tabular-nums;
     }
+    
     .table th.rex-table-slimmer,
     .table td.rex-table-slimmer {
         width: $helper-factor-spacing * 2;
