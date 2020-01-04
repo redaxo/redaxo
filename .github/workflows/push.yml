@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Setup PHP
-      uses: shivammathur/setup-php@1.6.2
+      uses: shivammathur/setup-php@verbose
       with:
         php-version: 7.1
         extensions: intl
@@ -50,7 +50,7 @@ jobs:
       steps:
           - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.3
                 extensions: intl
@@ -69,7 +69,7 @@ jobs:
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
                 composer require --dev vimeo/psalm:^3.8.1
-                vendor/bin/psalm --show-info=false
+                vendor/bin/psalm --show-info=false --threads=2
 
   phpstan-analysis:
       name: phpstan static code analysis
@@ -82,7 +82,7 @@ jobs:
       steps:
           - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.3
                 extensions: intl
@@ -109,7 +109,7 @@ jobs:
       steps:
           - uses: actions/checkout@v1
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.1
                 extensions: intl
