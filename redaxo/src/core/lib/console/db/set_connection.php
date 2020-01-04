@@ -61,7 +61,7 @@ class rex_command_db_set_connection extends rex_console_command
         );
 
         if (true !== $settingsValid) {
-            $io->error("Can't connect to database with the following error:\n" . $settingsValid);
+            $io->error("Can't connect to database:\n" . $settingsValid);
 
             if (!$input->getOption('force')) {
                 return 1;
