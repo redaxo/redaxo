@@ -51,6 +51,13 @@ class rex_console_application extends Application
 
     private function loadPackages(rex_console_command $command)
     {
+        // Some packages requires a working db connection in their boot.php
+        // in this case if no connection is available, no commands can be used
+        // but this command should be always usable
+        if ('db:set-connection' === $command->getName()) {
+            return;
+        }
+
         if ('ydeploy:migrate' === $command->getName()) {
             $command->getPackage()->boot();
 
