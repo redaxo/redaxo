@@ -67,7 +67,7 @@ class rex_command_db_set_connection extends rex_console_command
                 return 1;
             }
         } else {
-            $io->success('Database test connection connection could be established.');
+            $io->success('Credentials successfully validated.');
         }
 
         if (rex_file::putConfig($configFile, $config)) {
