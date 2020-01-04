@@ -15,11 +15,12 @@ class rex_command_db_set_connection extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription('Sets database connection credentials')
+            ->setDescription("Sets database connection credentials.\n  Checks by default if a database connection can be established with the new settings.")
             ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'database host')
             ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'database user')
             ->addOption('password', null, InputOption::VALUE_OPTIONAL, 'database password')
-            ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'database name');
+            ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'database name')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Saves the settings, regardless of whether a database connection can be established.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -49,6 +50,24 @@ class rex_command_db_set_connection extends rex_console_command
 
         if (!$changed) {
             throw new InvalidArgumentException('No database settings given.');
+        }
+
+        $settingsValid = rex_sql::checkDbConnection(
+            $config['db'][1]['host'],
+            $config['db'][1]['login'],
+            $config['db'][1]['password'],
+            $config['db'][1]['name'],
+            false
+        );
+
+        if (true !== $settingsValid) {
+            $io->error("Can't connect to database with the following error:\n" . $settingsValid);
+
+            if (!$input->getOption('force')) {
+                return 1;
+            }
+        } else {
+            $io->success('Database test connection connection could be established.');
         }
 
         if (rex_file::putConfig($configFile, $config)) {
