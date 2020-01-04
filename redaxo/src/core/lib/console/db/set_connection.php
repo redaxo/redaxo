@@ -20,7 +20,7 @@ class rex_command_db_set_connection extends rex_console_command
             ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'database user')
             ->addOption('password', null, InputOption::VALUE_OPTIONAL, 'database password')
             ->addOption('database', null, InputOption::VALUE_OPTIONAL, 'database name')
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Saves the settings, regardless of whether a database connection can be established.');
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Save credentials even if validation fails.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
