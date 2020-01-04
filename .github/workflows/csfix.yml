@@ -26,6 +26,6 @@ jobs:
         commit_message: Apply php-cs-fixer changes
         branch: ${{ github.head_ref }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
 
      
