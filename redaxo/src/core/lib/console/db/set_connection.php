@@ -30,19 +30,19 @@ class rex_command_db_set_connection extends rex_console_command
         $config = rex_file::getConfig($configFile);
 
         $changed = false;
-        if ($input->hasOption('host')) {
+        if ($input->getOption('host')) {
             $config['db'][1]['host'] = $input->getOption('host');
             $changed = true;
         }
-        if ($input->hasOption('login')) {
+        if ($input->getOption('login')) {
             $config['db'][1]['login'] = $input->getOption('login');
             $changed = true;
         }
-        if ($input->hasOption('password')) {
+        if ($input->getOption('password')) {
             $config['db'][1]['password'] = $input->getOption('password');
             $changed = true;
         }
-        if ($input->hasOption('database')) {
+        if ($input->getOption('database')) {
             $config['db'][1]['name'] = $input->getOption('database');
             $changed = true;
         }
