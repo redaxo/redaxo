@@ -56,11 +56,9 @@ class rex_mailer extends PHPMailer
             if ($this->log) {
                 $this->log();
             }
-     parent::send();
-     if(!parent::send())
-         {
+        if(!parent::send()) {
            $this->toErrorLog();
-         return false;
+           return false;
      }
      return true;
         });
