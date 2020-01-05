@@ -1,120 +1,83 @@
 <?php
+$func = rex_request('func', 'string');
+$error = '';
+$success = '';
+$addon = rex_addon::get('phpmailer');
+$logFile = rex_mailer::logFile();
 
-/**
- * PHPMailer Addon.
- *
- * @author markus[dot]staab[at]redaxo[dot]de Markus Staab
- *
- * @package redaxo\phpmailer
- */
 
-use PHPMailer\PHPMailer\PHPMailer;
-
-class rex_mailer extends PHPMailer
-{
-    private $log;
-
-    public function __construct($exceptions = false)
-    {
-        $addon = rex_addon::get('phpmailer');
-        $this->Timeout = 10;
-        $this->setLanguage(rex_i18n::getLanguage(), $addon->getPath('vendor/phpmailer/phpmailer/language/'));
-        $this->XMailer = 'REXMailer';
-        $this->From = $addon->getConfig('from');
-        $this->FromName = $addon->getConfig('fromname');
-        $this->ConfirmReadingTo = $addon->getConfig('confirmto');
-        $this->Mailer = $addon->getConfig('mailer');
-        $this->Host = $addon->getConfig('host');
-        $this->Port = $addon->getConfig('port');
-        $this->CharSet = $addon->getConfig('charset');
-        $this->WordWrap = $addon->getConfig('wordwrap');
-        $this->Encoding = $addon->getConfig('encoding');
-        if (0 == $addon->getConfig('priority')) {
-            $this->Priority = null;
-        } else {
-            $this->Priority = $addon->getConfig('priority');
-        }
-        $this->SMTPDebug = $addon->getConfig('smtp_debug');
-        $this->SMTPSecure = $addon->getConfig('smtpsecure');
-        $this->SMTPAuth = $addon->getConfig('smtpauth');
-        $this->SMTPAutoTLS = $addon->getConfig('security_mode');
-        $this->Username = $addon->getConfig('username');
-        $this->Password = $addon->getConfig('password');
-
-        if ($bcc = $addon->getConfig('bcc')) {
-            $this->addBCC($bcc);
-        }
-
-        $this->log = $addon->getConfig('log');
-
-        parent::__construct($exceptions);
+if ('mailer_delLog' == $func) {
+    rex_logger::close();
+    if (rex_log_file::delete($logFile)) {
+        $success = rex_i18n::msg('phpmailer_log_deleted');
+    } else {
+        $error = rex_i18n::msg('phpmailer_log_delete_error');
     }
+}
+$message = '';
+$content = '';
+if ('' != $success) {
+    $message .= rex_view::success($success);
+}
+if ('' != $error) {
+    $message .= rex_view::error($error);
+}
 
-    public function send()
-    {
-        return rex_timer::measure(__METHOD__, function () {
-            if ($this->log) {
-                $this->log();
-            }
-     parent::send();
-     if(!parent::send())
-         {
-           $this->toErrorLog();
-         return false;
-     }
-     return true;
-        });
-    }
+$content = '';
 
-    public function toErrorLog()
-    {
-        $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
-        $data = [
-            ($this->From.PHP_EOL),
-            (implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL),
-            ($this->Subject.PHP_EOL),
-            strip_tags($this->ErrorInfo),
-        ];
-        $log->add($data);
-    }    
+$content .= '
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>' . rex_i18n::msg('phpmailer_log_date') . '</th>
+                        <th>' . rex_i18n::msg('phpmailer_log_from') . '</th>
+                        <th>' . rex_i18n::msg('phpmailer_log_to') . '</th>
+                        <th>' . rex_i18n::msg('phpmailer_log_subject') . '</th>
+                        <th>' . rex_i18n::msg('phpmailer_log_msg') . '</th>
+                    </tr>
+                </thead>
+                <tbody>';
 
-    /**
-     * @param bool $status
-     */
-    public function setLog($status)
-    {
-        $this->log = $status;
-    }
-
-    private function log()
-    {
-        $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
-        $content .= 'From : '.$this->From.PHP_EOL;
-        $content .= 'To : '.implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL;
-        $content .= 'Subject : '.$this->Subject.PHP_EOL;
-        $content .= ' -->'.PHP_EOL;
-        $content .= $this->Body;
-
-        $dir = self::logFolder().'/'.date('Y').'/'.date('m');
-
-        $count = 1;
-        $logFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
-        while (file_exists($logFile)) {
-            $logFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
-        }
-
-        rex_file::put($logFile, $content);
-    }
-
-    public static function logFolder()
-    {
-        return rex_path::addonData('phpmailer', 'mail_log');
-    }
-    
-       public static function logFile()
-    {
-        return rex_path::addonData('phpmailer', 'mail.log');
+$buttons = '';
+if ($file = new rex_log_file($logFile)) {
+    foreach (new LimitIterator($file, 0, 30) as $entry) {
+        $data = $entry->getData();   
+        $content .= '
+                    <tr>
+                     <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[0]) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[1]) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . str_replace(':pipe:','|',rex_escape($data[2])) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', nl2br($data[3])) . '</td>
+                    </tr>';
     }
 
 }
+
+$content .= '
+                </tbody>
+            </table>';
+
+
+$formElements = [];
+$n = [];
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('phpmailer_delete_log_msg') . '">' . rex_i18n::msg('syslog_delete') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
+
+$fragment = new rex_fragment();
+$fragment->setVar('title', rex_i18n::msg('phpmailer_log_title', $logFile), false);
+$fragment->setVar('content', $content, false);
+$fragment->setVar('buttons', $buttons, false);
+$content = $fragment->parse('core/page/section.php');
+$content = '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        <input type="hidden" name="func" value="mailer_delLog" />
+        ' . $content . '
+    </form>';
+echo $message;
+echo $content;
 
