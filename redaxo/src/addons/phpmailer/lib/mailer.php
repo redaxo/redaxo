@@ -71,7 +71,7 @@ class rex_mailer extends PHPMailer
         $data = [
             ($this->From.PHP_EOL),
             (implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL),
-            ($this->Subject.PHP_EOL),
+            (str_replace('|',':pipe:',$this->Subject.PHP_EOL)),
             strip_tags($this->ErrorInfo),
         ];
         $log->add($data);
