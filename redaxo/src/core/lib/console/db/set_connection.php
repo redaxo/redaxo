@@ -15,7 +15,8 @@ class rex_command_db_set_connection extends rex_console_command
     protected function configure()
     {
         $this
-            ->setDescription("Sets database connection credentials.\n  Checks by default if a database connection can be established with the new settings.")
+            ->setDescription("Sets database connection credentials.")
+            ->setHelp('Checks by default if a database connection can be established with the new settings.')
             ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'database host')
             ->addOption('login', null, InputOption::VALUE_OPTIONAL, 'database user')
             ->addOption('password', null, InputOption::VALUE_OPTIONAL, 'database password')
