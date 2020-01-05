@@ -56,10 +56,27 @@ class rex_mailer extends PHPMailer
             if ($this->log) {
                 $this->log();
             }
-            return parent::send();
+     parent::send();
+     if(!parent::send())
+         {
+           $this->toErrorLog();
+         return false;
+     }
+     return true;
         });
     }
 
+    public function toErrorLog()
+    {
+        $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
+        $data = [
+            ('From: '.$this->From.PHP_EOL),
+            ('To: '.implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL),
+            ('Subject: '.$this->Subject.PHP_EOL),
+            (strip_tags($this->ErrorInfo.PHP_EOL)),
+        ];
+        $log->add($data);
+    }    
     /**
      * @param bool $status
      */
@@ -92,4 +109,11 @@ class rex_mailer extends PHPMailer
     {
         return rex_path::addonData('phpmailer', 'mail_log');
     }
+    
+    public static function logFile()
+    {
+        return rex_path::addonData('phpmailer', 'mail.log');
+    }
+
 }
+
