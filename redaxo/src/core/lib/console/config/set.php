@@ -16,8 +16,9 @@ class rex_command_config_set extends rex_console_command
     {
         $this->setDescription('Set config variables')
             ->addArgument('config-key', InputArgument::REQUIRED, 'config path separated by periods, e.g. "setup" or "db.1.host"')
-            ->addArgument('value', InputArgument::REQUIRED, 'new value for config key, e.g. "somestring" or "1"')
-            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "bool" or "int"', 'string');
+            ->addArgument('value', InputArgument::OPTIONAL, 'new value for config key, e.g. "somestring" or "1"')
+            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'php type of new value, e.g. "bool" or "int"', 'string')
+            ->addOption('unset', null, InputOption::VALUE_NONE, 'sets the config key to null');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -26,6 +27,11 @@ class rex_command_config_set extends rex_console_command
 
         $key = $input->getArgument('config-key');
         $value = $input->getArgument('value');
+        $unset = $input->getOption('unset');
+
+        if (null === $value && $unset === false) {
+            throw new InvalidArgumentException('No new value specified');
+        }
 
         $path = explode('.', $key);
 
@@ -38,7 +44,7 @@ class rex_command_config_set extends rex_console_command
                 $config[$pathPart] = [];
             }
             if ($i === count($path) - 1) {
-                $config[$pathPart] = rex_type::cast($value, $input->getOption('type'));
+                $config[$pathPart] = $unset ? null : rex_type::cast($value, $input->getOption('type'));
                 break;
             }
             $config = &$config[$pathPart];
