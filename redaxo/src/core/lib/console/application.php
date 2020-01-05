@@ -59,12 +59,15 @@ class rex_console_application extends Application
         }
 
         if ('ydeploy:migrate' === $command->getName()) {
+            // boot only the ydeploy package, which provides the migrate command
             $command->getPackage()->boot();
 
             return;
         }
 
         if (!rex::isSetup()) {
+            // boot all known packages in the defined order
+            // which reflects dependencies before consumers
             foreach (rex::getConfig('package-order') as $packageId) {
                 rex_package::get($packageId)->boot();
             }
