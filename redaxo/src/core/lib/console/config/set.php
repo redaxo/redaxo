@@ -29,7 +29,7 @@ class rex_command_config_set extends rex_console_command
         $value = $input->getArgument('value');
         $unset = $input->getOption('unset');
 
-        if (null === $value && $unset === false) {
+        if (null === $value && false === $unset) {
             throw new InvalidArgumentException('No new value specified');
         }
 
