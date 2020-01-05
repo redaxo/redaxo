@@ -60,6 +60,8 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 ## Developer setup instructions
 
+![Psalm coverage](https://shepherd.dev/github/redaxo/redaxo/coverage.svg)
+
 In case you want to support the development of REDAXO, this is how to set up the system on your local machine:
 
 	$ git clone https://github.com/redaxo/redaxo.git
