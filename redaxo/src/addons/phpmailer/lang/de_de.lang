@@ -61,9 +61,19 @@ phpmailer_log = E-Mail Log
 phpmailer_log_info = Log-Ordner: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
+phpmailer_log_title = PHPMailer-Log "{0}"
+phpmailer_log_deleted = PHPMailer-Log gelöscht
+phpmailer_log_delete_error = Das PHPMailer-Log konnte nicht gelöscht werden
+phpmailer_delete_log_msg = Das PHPMailer-Log löschen?
+phpmailer_log_date = Datum
+phpmailer_log_from = Von
+phpmailer_log_to = An
+phpmailer_log_subject = Betreff
+phpmailer_log_msg = Meldung
 phpmailer_errormail_disabled = deaktiviert
 phpmailer_errormail_15min = im 15 Minuten-Interval
 phpmailer_errormail_30min = im 30 Minuten-Interval
 phpmailer_errormail_60min = im 60 Minuten-Interval
 
 system_setting_errormail = E-Mail-Benachrichtigung bei Fehlern
+
