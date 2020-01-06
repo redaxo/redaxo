@@ -24,12 +24,8 @@
         width: 100px;
     }
     
-    .table th.rex-table-date,
-    .table td.rex-table-date,
     .table th.rex-table-tabular-nums,
-    .table td.rex-table-tabular-nums,
-    .table th.rex-table-number,
-    .table td.rex-table-number {
+    .table td.rex-table-tabular-nums {
         text-align: right;
         font-variant-numeric: tabular-nums;
     }
