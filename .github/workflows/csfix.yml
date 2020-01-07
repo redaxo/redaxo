@@ -15,13 +15,13 @@ jobs:
         fetch-depth: 1
     
     - name: Setup PHP
-      uses: shivammathur/setup-php@1.6.2
+      uses: shivammathur/setup-php@v1
       with:
         php-version: 7.1
     - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
 
     - name: Commit changed files
-      uses: stefanzweifel/git-auto-commit-action@v2.5.0
+      uses: stefanzweifel/git-auto-commit-action@v2
       with:
         commit_message: Apply php-cs-fixer changes
         branch: ${{ github.head_ref }}
