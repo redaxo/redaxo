@@ -31,7 +31,7 @@ class rex_command_setup_run extends rex_console_command
             ->addOption('--db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"')
             ->addOption('--db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
             ->addOption('--admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
-            ->addOption('--admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the new admin user')
+            ->addOption('--admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
         ;
 
         // TODO Create options to do the setup as one liner
