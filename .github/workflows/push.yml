@@ -21,7 +21,7 @@ jobs:
         ports:
           - 3306
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Setup PHP
       uses: shivammathur/setup-php@verbose
       with:
@@ -48,7 +48,7 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Setup PHP
             uses: shivammathur/setup-php@verbose
             with:
@@ -80,7 +80,7 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Setup PHP
             uses: shivammathur/setup-php@verbose
             with:
@@ -107,7 +107,7 @@ jobs:
       name: check php-cs-fixer codestyles
       runs-on: ubuntu-latest
       steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Setup PHP
             uses: shivammathur/setup-php@verbose
             with:
