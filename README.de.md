@@ -60,6 +60,8 @@ Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://gith
 
 ## Informationen zur Entwicklung
 
+![Psalm coverage](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage)
+
 Falls du bei der Entwicklung von REDAXO helfen möchtest, ist dies der Weg, um das System lokal auf deinem Computer einzurichten:
 
 	$ git clone https://github.com/redaxo/redaxo.git

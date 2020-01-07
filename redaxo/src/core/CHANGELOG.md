@@ -37,7 +37,7 @@ Version 5.8.0 – 20.08.2019
 ### Bugfixes
 
 * `rex_form`: Wenn ein Fieldsetname mit "?" endete, wurden die Werte nicht gespeichert (@gharlan)
-* `rex_config_form`: Es konnten nicht zwei Formulare auf einer Seiter verwendet werden (@gharlan)
+* `rex_config_form`: Es konnten nicht zwei Formulare auf einer Seite verwendet werden (@gharlan)
 * `rex_stream`: Warning in PHP 7.4 vermeiden (@gharlan)
 * Command `config:get`: Ausgabe endete nicht mit einer Newline (@gharlan)
 * Textkorrekturen und -vereinheitlichungen (@marcohanke, @sebastiannoell)
