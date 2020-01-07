@@ -29,6 +29,7 @@ $content .= '
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>' . rex_i18n::msg('phpmailer_log_success') . '</th>
                         <th>' . rex_i18n::msg('phpmailer_log_date') . '</th>
                         <th>' . rex_i18n::msg('phpmailer_log_from') . '</th>
                         <th>' . rex_i18n::msg('phpmailer_log_to') . '</th>
@@ -42,13 +43,15 @@ $buttons = '';
 if ($file = new rex_log_file($logFile)) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         $data = $entry->getData();   
-        $content .= '
-                    <tr>
+         $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
+         $content .= '
+                    <tr class="'.$class.'">
+                     <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' .rex_escape($data[0]). '</strong></td>
                      <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[0]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[1]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . str_replace(':pipe:','|',rex_escape($data[2])) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', nl2br($data[3])) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . str_replace(':pipe:','|',rex_escape($data[3])) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', nl2br($data[4])) . '</td>
                     </tr>';
     }
 
