@@ -21,7 +21,7 @@ jobs:
     - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
 
     - name: Commit changed files
-      uses: stefanzweifel/git-auto-commit-action@v2
+      uses: stefanzweifel/git-auto-commit-action@v2.5.0
       with:
         commit_message: Apply php-cs-fixer changes
         branch: ${{ github.head_ref }}
