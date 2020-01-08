@@ -112,7 +112,6 @@ class rex_command_setup_run extends rex_console_command
         // ---------------------------------- step 4 . Config
         $io->title('Step 4 of 6 / Creating config');
 
-
         $io->section('General');
         $config['server'] = $input->getOption('server') ?? $io->ask('Website URL', $config['server'], $requiredValue);
         $config['servername'] = $input->getOption('servername') ?? $io->ask('Website name', $config['servername'], $requiredValue);
@@ -135,7 +134,6 @@ class rex_command_setup_run extends rex_console_command
             }
             $config['timezone'] = $timezone;
         }
-
 
         if (!$input->getOption('db-host') && !$input->getOption('db-login') && !$input->getOption('db-password') && !$input->getOption('db-name')) {
             $io->section('Database information');
@@ -249,7 +247,7 @@ class rex_command_setup_run extends rex_console_command
         $login = null;
         $password = null;
 
-        if ($input->getOption('admin-username') === null || $input->getOption('admin-password') === null) {
+        if (null === $input->getOption('admin-username') || null === $input->getOption('admin-password')) {
             $user = rex_sql::factory();
             $user
                 ->setTable(rex::getTable('user'))
