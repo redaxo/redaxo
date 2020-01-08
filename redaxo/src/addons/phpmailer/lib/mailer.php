@@ -57,17 +57,17 @@ class rex_mailer extends PHPMailer
                 $this->log();
             }
             if(!parent::send()){
-            $this->toErrorLog('ERROR');
+            $this->toMailerLog('ERROR');
             return false;
             }
-        $this->toErrorLog('OK');
+        $this->toMailerLog('OK');
         return true;
         });
     }
     /**
      * @param string $success
     */
-    public function toErrorLog($succsess)
+    public function toMailerLog($succsess)
     {
         $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
         $data = [
