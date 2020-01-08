@@ -24,7 +24,8 @@ class rex_command_setup_check extends rex_console_command
         return $this->doChecks($input, $output);
     }
 
-    public function doChecks(InputInterface $input, OutputInterface $output) {
+    public function doChecks(InputInterface $input, OutputInterface $output)
+    {
         $exitCode = 0;
         $io = $this->getStyle($input, $output);
 

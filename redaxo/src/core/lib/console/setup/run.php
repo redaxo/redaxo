@@ -50,8 +50,8 @@ class rex_command_setup_run extends rex_console_command
         // This step is needed to make sure that no packages are loaded
         // the database setup breaks if packages are loaded.
         // because packages are loaded early, we need to re-boot the whole application
-        if ($config['setup'] !== true) {
-            if($io->confirm('Setup already performed. Would you like to run it anyway?')) {
+        if (true !== $config['setup']) {
+            if ($io->confirm('Setup already performed. Would you like to run it anyway?')) {
                 $config['setup'] = true;
                 rex_file::putConfig($configFile, $config);
                 $io->success('Setup prepared. Please re-run setup:run.');
@@ -59,15 +59,14 @@ class rex_command_setup_run extends rex_console_command
             return 0;
         }
 
-        $requiredValue = static function($value) {
-            if(empty($value)) {
+        $requiredValue = static function ($value) {
+            if (empty($value)) {
                 throw new InvalidArgumentException('Value required');
             }
             return $value;
         };
 
-
-        $interactiveMode = count($input->getOptions()) === 0;
+        $interactiveMode = 0 === count($input->getOptions());
 
         // ---------------------------------- Step 1 . Language
         $io->title('Step 1 of 6 / Language');
@@ -105,14 +104,12 @@ class rex_command_setup_run extends rex_console_command
             }
         }
 
-
-
         // ---------------------------------- Step 3 . Perms, Environment
         $io->title('Step 3 of 6 / System check');
 
         // Embed existing check
         $checkCommand = new rex_command_setup_check();
-        if(0 !== $checkCommand->doChecks($input, $output)) {
+        if (0 !== $checkCommand->doChecks($input, $output)) {
             return 1;
         }
 
@@ -127,7 +124,7 @@ class rex_command_setup_run extends rex_console_command
 
             $q = new Question('Choose timezone', $config['timezone']);
             $q->setAutocompleterValues(DateTimeZone::listIdentifiers());
-            $q->setValidator(function($value) {
+            $q->setValidator(static function ($value) {
                 if (false === @date_default_timezone_set($value)) {
                     throw new RuntimeException('Time zone invalid');
                 }
@@ -135,14 +132,12 @@ class rex_command_setup_run extends rex_console_command
             });
             $config['timezone'] = $io->askQuestion($q);
 
-
             $io->section('Database information');
             do {
                 $config['db'][1]['host'] = $io->ask('MySQL host', $config['db'][1]['host']);
                 $config['db'][1]['login'] = $io->ask('Login', $config['db'][1]['login']);
                 $config['db'][1]['password'] = $io->ask('Password', $config['db'][1]['password']);
                 $config['db'][1]['name'] = $io->ask('Database name', $config['db'][1]['name']);
-
 
                 $redaxo_db_create = $io->confirm('Create database', false);
 
@@ -155,8 +150,7 @@ class rex_command_setup_run extends rex_console_command
                 if ('' !== $err) {
                     $io->error($err);
                 }
-            } while('' !== $err);
-
+            } while ('' !== $err);
         } else {
             $config['server'] = $input->getOption('server');
             $config['servername'] = $input->getOption('servername');
@@ -168,12 +162,10 @@ class rex_command_setup_run extends rex_console_command
             }
             $config['timezone'] = $timezone;
 
-
             $config['db'][1]['host'] = $input->getOption('db-host');
             $config['db'][1]['login'] = $input->getOption('db-login');
             $config['db'][1]['password'] = $input->getOption('db-password');
             $config['db'][1]['name'] = $input->getOption('db-name');
-
 
             $redaxo_db_create = true === $input->getOption('db-createdb');
 
@@ -191,7 +183,6 @@ class rex_command_setup_run extends rex_console_command
 
         // ---------------------------------- step 5 . create db / demo
         $io->title('Step 5 of 6 / Database');
-
 
         // Search for exports
         $backups = [];
@@ -212,7 +203,6 @@ class rex_command_setup_run extends rex_console_command
             $createdbOptions['import'] = 'Import existing database export';
         }
 
-
         if ($interactiveMode) {
             $createdb = $io->askQuestion(new ChoiceQuestion('Setup database', $createdbOptions));
         } else {
@@ -223,18 +213,16 @@ class rex_command_setup_run extends rex_console_command
             }
         }
 
-
-
         $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
         if ('update' == $createdb) {
             $error = rex_setup_importer::updateFromPrevious();
         } elseif ('import' == $createdb) {
-            if($interactiveMode) {
+            if ($interactiveMode) {
                 $import_name = $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
             } else {
                 $import_name = $input->getOption('db-import');
-                if(!in_array($import_name, $backups, true)) {
+                if (!in_array($import_name, $backups, true)) {
                     throw new InvalidArgumentException('Unknown import file ".'.$import_name.'." specified');
                 }
             }
@@ -249,7 +237,7 @@ class rex_command_setup_run extends rex_console_command
             $error = 'An undefinied error occurred';
         }
 
-        if('' !== $error) {
+        if ('' !== $error) {
             $io->error($error);
             return 1;
         }
@@ -262,7 +250,6 @@ class rex_command_setup_run extends rex_console_command
 
         rex_clang_service::generateCache();
         rex::setConfig('version', rex::getVersion());
-
 
         // ---------------------------------- Step 6 . Create User
         $io->title('Step 6 of 6 / User');
