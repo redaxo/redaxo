@@ -381,7 +381,7 @@ class rex_config
             $where = [];
             $params = [];
             foreach (self::$deletedData as $namespace => $nsData) {
-                if (count($nsData) === 0) {
+                if (0 === count($nsData)) {
                     continue;
                 }
                 $params = array_merge($params, [$namespace], array_keys($nsData));
