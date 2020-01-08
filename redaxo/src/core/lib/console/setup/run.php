@@ -90,10 +90,9 @@ class rex_command_setup_run extends rex_console_command
         // ---------------------------------- Step 2 . license
         $io->title('Step 2 of 6 / Licence');
 
-        $license_file = rex_path::base('LICENSE.md');
-        $license = rex_file::get($license_file);
-
         if ($interactiveMode) {
+            $license_file = rex_path::base('LICENSE.md');
+            $license = rex_file::get($license_file);
             $io->writeln($license);
             if (!$io->confirm('Accept licence terms and conditions?')) {
                 $io->error('You need to accept licence terms and conditions');
@@ -195,26 +194,12 @@ class rex_command_setup_run extends rex_console_command
 
 
         // Search for exports
-        $export_dir = rex_backup::getDir();
-        $exports_found = false;
-
-        if (is_dir($export_dir)) {
-            if ($handle = opendir($export_dir)) {
-                $export_sqls = [];
-
-                while (false !== ($file = readdir($handle))) {
-                    if ('.' == $file || '..' == $file) {
-                        continue;
-                    }
-
-                    if ('.sql' == substr($file, strlen($file) - 4)) {
-                        // cut .sql
-                        $export_sqls[] = substr($file, 0, -4);
-                        $exports_found = true;
-                    }
-                }
-                closedir($handle);
+        $backups = [];
+        foreach (rex_backup::getBackupFiles('') as $file) {
+            if ('.sql' != substr($file, strlen($file) - 4)) {
+                continue;
             }
+            $backups[] = $file;
         }
 
         $createdbOptions = [
@@ -223,7 +208,7 @@ class rex_command_setup_run extends rex_console_command
             'existing' => 'Database already exists (Continue without database import)',
             'update' => 'Update database (Update from previous version)',
         ];
-        if ($exports_found) {
+        if (count($backups) > 0) {
             $createdbOptions['import'] = 'Import existing database export';
         }
 
@@ -246,10 +231,10 @@ class rex_command_setup_run extends rex_console_command
             $error = rex_setup_importer::updateFromPrevious();
         } elseif ('import' == $createdb) {
             if($interactiveMode) {
-                $import_name = $io->askQuestion(new ChoiceQuestion('Please choose a database export', $export_sqls));
+                $import_name = $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
             } else {
                 $import_name = $input->getOption('db-import');
-                if(!in_array($import_name, $export_sqls, true)) {
+                if(!in_array($import_name, $backups, true)) {
                     throw new InvalidArgumentException('Unknown import file ".'.$import_name.'." specified');
                 }
             }
