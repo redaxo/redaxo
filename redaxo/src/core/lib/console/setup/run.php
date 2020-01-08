@@ -18,7 +18,7 @@ class rex_command_setup_run extends rex_console_command
         $this
             ->setDescription('Perform redaxo setup')
             ->addOption('--lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
-            ->addOption('--agree-license', null, InputOption::VALUE_NONE, 'Accept licence terms and conditions')
+            ->addOption('--agree-licence', null, InputOption::VALUE_NONE, 'Accept licence terms and conditions')
             ->addOption('--server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
             ->addOption('--servername', null, InputOption::VALUE_REQUIRED, 'Website name')
             ->addOption('--error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
@@ -33,8 +33,6 @@ class rex_command_setup_run extends rex_console_command
             ->addOption('--admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
             ->addOption('--admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
         ;
-
-        // TODO Create options to do the setup as one liner
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -66,8 +64,6 @@ class rex_command_setup_run extends rex_console_command
             return $value;
         };
 
-        $interactiveMode = 0 === count($input->getOptions());
-
         // ---------------------------------- Step 1 . Language
         $io->title('Step 1 of 6 / Language');
         $langs = [];
@@ -76,12 +72,12 @@ class rex_command_setup_run extends rex_console_command
         }
         ksort($langs);
 
-        if ($interactiveMode) {
+        if (null === $input->getOption('lang')) {
             $config['lang'] = $io->askQuestion(new ChoiceQuestion('Please select a language', $langs));
         } else {
             $lang = $input->getOption('lang');
             if (!$lang || in_array($lang, $langs, true)) {
-                throw new InvalidArgumentException('Unknown lang "'.$lang.'" specified');
+                throw new InvalidArgumentException('Unknown lang "' . $lang . '" specified');
             }
             $config['lang'] = $lang;
         }
@@ -89,7 +85,7 @@ class rex_command_setup_run extends rex_console_command
         // ---------------------------------- Step 2 . license
         $io->title('Step 2 of 6 / Licence');
 
-        if ($interactiveMode) {
+        if (false === $input->getOption('agree-licence')) {
             $license_file = rex_path::base('LICENSE.md');
             $license = rex_file::get($license_file);
             $io->writeln($license);
@@ -116,12 +112,13 @@ class rex_command_setup_run extends rex_console_command
         // ---------------------------------- step 4 . Config
         $io->title('Step 4 of 6 / Creating config');
 
-        if ($interactiveMode) {
-            $io->section('General');
-            $config['server'] = $io->ask('Website URL', $config['server'], $requiredValue);
-            $config['servername'] = $io->ask('Website name', $config['servername'], $requiredValue);
-            $config['error_email'] = $io->ask('E-mail address in case of errors', $config['error_email'], $requiredValue);
 
+        $io->section('General');
+        $config['server'] = $input->getOption('server') ?? $io->ask('Website URL', $config['server'], $requiredValue);
+        $config['servername'] = $input->getOption('servername') ?? $io->ask('Website name', $config['servername'], $requiredValue);
+        $config['error_email'] = $input->getOption('error-email') ?? $io->ask('E-mail address in case of errors', $config['error_email'], $requiredValue);
+
+        if (!$input->getOption('timezone')) {
             $q = new Question('Choose timezone', $config['timezone']);
             $q->setAutocompleterValues(DateTimeZone::listIdentifiers());
             $q->setValidator(static function ($value) {
@@ -131,7 +128,16 @@ class rex_command_setup_run extends rex_console_command
                 return $value;
             });
             $config['timezone'] = $io->askQuestion($q);
+        } else {
+            $timezone = $input->getOption('timezone');
+            if (!in_array($timezone, DateTimeZone::listIdentifiers(), true)) {
+                throw new InvalidArgumentException('Unknown timezone "'.$timezone.'" specified');
+            }
+            $config['timezone'] = $timezone;
+        }
 
+
+        if (!$input->getOption('db-host') && !$input->getOption('db-login') && !$input->getOption('db-password') && !$input->getOption('db-name')) {
             $io->section('Database information');
             do {
                 $config['db'][1]['host'] = $io->ask('MySQL host', $config['db'][1]['host']);
@@ -152,16 +158,6 @@ class rex_command_setup_run extends rex_console_command
                 }
             } while ('' !== $err);
         } else {
-            $config['server'] = $input->getOption('server');
-            $config['servername'] = $input->getOption('servername');
-            $config['error_email'] = $input->getOption('error-email');
-
-            $timezone = $input->getOption('timezone');
-            if (!in_array($timezone, DateTimeZone::listIdentifiers(), true)) {
-                throw new InvalidArgumentException('Unknown timezone "'.$timezone.'" specified');
-            }
-            $config['timezone'] = $timezone;
-
             $config['db'][1]['host'] = $input->getOption('db-host');
             $config['db'][1]['login'] = $input->getOption('db-login');
             $config['db'][1]['password'] = $input->getOption('db-password');
@@ -190,7 +186,7 @@ class rex_command_setup_run extends rex_console_command
             if ('.sql' != substr($file, strlen($file) - 4)) {
                 continue;
             }
-            $backups[] = $file;
+            $backups[] = substr($file, 0, -4);
         }
 
         $createdbOptions = [
@@ -203,7 +199,7 @@ class rex_command_setup_run extends rex_console_command
             $createdbOptions['import'] = 'Import existing database export';
         }
 
-        if ($interactiveMode) {
+        if (!$input->getOption('db-setup')) {
             $createdb = $io->askQuestion(new ChoiceQuestion('Setup database', $createdbOptions));
         } else {
             $validOptions = array_keys($createdbOptions);
@@ -218,13 +214,9 @@ class rex_command_setup_run extends rex_console_command
         if ('update' == $createdb) {
             $error = rex_setup_importer::updateFromPrevious();
         } elseif ('import' == $createdb) {
-            if ($interactiveMode) {
-                $import_name = $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
-            } else {
-                $import_name = $input->getOption('db-import');
-                if (!in_array($import_name, $backups, true)) {
-                    throw new InvalidArgumentException('Unknown import file ".'.$import_name.'." specified');
-                }
+            $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
+            if (!in_array($import_name, $backups, true)) {
+                throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
             }
             $error = rex_setup_importer::loadExistingImport($import_name);
         } elseif ('existing' == $createdb && $tables_complete) {
@@ -257,7 +249,7 @@ class rex_command_setup_run extends rex_console_command
         $login = null;
         $password = null;
 
-        if ($interactiveMode) {
+        if ($input->getOption('admin-username') === null || $input->getOption('admin-password') === null) {
             $user = rex_sql::factory();
             $user
                 ->setTable(rex::getTable('user'))
