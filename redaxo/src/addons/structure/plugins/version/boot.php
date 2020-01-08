@@ -15,7 +15,7 @@ rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 // ***** an EPs andocken
 rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
     $version = rex_request('rex_version', 'int');
-    if (1 != $version) {
+    if (rex_article_revision::WORK != $version) {
         return;
     }
 
