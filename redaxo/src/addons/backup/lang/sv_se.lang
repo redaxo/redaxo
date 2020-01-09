@@ -30,8 +30,8 @@ backup_filesize = Filstorlek
 backup_delete = radera
 backup_files = Filimport
 backup_intro_export = Här kan du spara dina befintliga inlägg och filer från Redaxo. För att få en fullständig säkerhetskopia måste du exportera <b>databasen OCH filerna</b>. Om du vill återanvända säkerhetskopian kan det vara bra att spara denna direkt på servern för att kunna importera den vid behov.
-backup_database_export = Datenbasexport
-backup_file_export = Filexport
+backup_database_export =
+backup_file_export =
 backup_save_on_server = spara på servern
 backup_download_as_file = ladda ner som fil
 backup_createdate = Skapat den
@@ -46,8 +46,8 @@ backup_file_generated_in = Data sparades i
 backup_proceed_db_import = Befintliga filer (artiklar, mallar, moduler, ...) går förlorade. Fortsätta ändå?
 backup_proceed_file_import = Befintliga filer kommer att raderas. Vill du fortsätta?
 
-backup_export_db_caption = Datenbaskexporter
-backup_export_file_caption = Filexporter
+backup_export_db_caption =
+backup_export_file_caption =
 
 backup_function = Funktion
 
