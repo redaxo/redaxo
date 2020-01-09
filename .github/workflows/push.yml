@@ -21,9 +21,9 @@ jobs:
         ports:
           - 3306
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Setup PHP
-      uses: shivammathur/setup-php@1.6.2
+      uses: shivammathur/setup-php@verbose
       with:
         php-version: 7.1
         extensions: intl
@@ -48,9 +48,9 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.3
                 extensions: intl
@@ -69,7 +69,7 @@ jobs:
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
                 composer require --dev vimeo/psalm:^3.8.1
-                vendor/bin/psalm --show-info=false
+                vendor/bin/psalm --show-info=false --shepherd --threads=2
 
   phpstan-analysis:
       name: phpstan static code analysis
@@ -80,9 +80,9 @@ jobs:
               ports:
                   - 3306
       steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.3
                 extensions: intl
@@ -107,9 +107,9 @@ jobs:
       name: check php-cs-fixer codestyles
       runs-on: ubuntu-latest
       steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Setup PHP
-            uses: shivammathur/setup-php@1.6.2
+            uses: shivammathur/setup-php@verbose
             with:
                 php-version: 7.1
                 extensions: intl

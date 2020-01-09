@@ -60,6 +60,8 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 
 ## Developer setup instructions
 
+![Psalm coverage](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage)
+
 In case you want to support the development of REDAXO, this is how to set up the system on your local machine:
 
 	$ git clone https://github.com/redaxo/redaxo.git
