@@ -325,7 +325,7 @@ class rex_media
 
     public function hasValue($value)
     {
-        return isset($this->$value);
+        return isset($this->$value) || isset($this->{'med_' . $value});;
     }
 
     public function getValue($value)
