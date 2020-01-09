@@ -332,10 +332,10 @@ class rex_media
     {
         // damit alte rex_article felder wie copyright, description
         // noch funktionieren
-        if ($this->hasValue($value)) {
+        if (isset($this->$value)) {
             return $this->$value;
         }
-        if ($this->hasValue('med_' . $value)) {
+        if (isset($this->{'med_' . $value})) {
             return $this->getValue('med_' . $value);
         }
     }
