@@ -4,9 +4,6 @@
 [submodule "redaxo/src/addons/be_style/vendor/bootstrap"]
 	path = redaxo/src/addons/be_style/vendor/bootstrap
 	url = https://github.com/twbs/bootstrap-sass
-[submodule "redaxo/src/addons/be_style/vendor/scssphp"]
-	path = redaxo/src/addons/be_style/vendor/scssphp
-	url = https://github.com/scssphp/scssphp
 [submodule "redaxo/src/addons/be_style/vendor/bootstrap-select"]
 	path = redaxo/src/addons/be_style/vendor/bootstrap-select
 	url = https://github.com/snapappointments/bootstrap-select
