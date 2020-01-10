@@ -325,17 +325,17 @@ class rex_media
 
     public function hasValue($value)
     {
-        return isset($this->$value);
+        return isset($this->$value) || isset($this->{'med_' . $value});
     }
 
     public function getValue($value)
     {
         // damit alte rex_article felder wie copyright, description
         // noch funktionieren
-        if ($this->hasValue($value)) {
+        if (isset($this->$value)) {
             return $this->$value;
         }
-        if ($this->hasValue('med_' . $value)) {
+        if (isset($this->{'med_' . $value})) {
             return $this->getValue('med_' . $value);
         }
     }
