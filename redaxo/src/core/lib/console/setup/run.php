@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -104,9 +105,12 @@ class rex_command_setup_run extends rex_console_command
         $io->title('Step 3 of 6 / System check');
 
         // Embed existing check
-        $checkCommand = new rex_command_setup_check();
-        if (0 !== $checkCommand->doChecks($input, $output)) {
-            return 1;
+        $command = $this->getApplication()->find('setup:check');
+        $commandArgs = new ArrayInput([]);
+        $checkExitCode = $command->run($commandArgs, $output);
+
+        if (0 !== $checkExitCode) {
+            return $checkExitCode;
         }
 
         // ---------------------------------- step 4 . Config
