@@ -45,18 +45,7 @@ class rex_command_setup_run extends rex_console_command
             rex_file::getConfig(rex_path::core('default.config.yml')),
             rex_file::getConfig($configFile)
         );
-
-        // This step is needed to make sure that no packages are loaded
-        // the database setup breaks if packages are loaded.
-        // because packages are loaded early, we need to re-boot the whole application
-        if (true !== $config['setup']) {
-            if ($io->confirm('Setup already performed. Would you like to run it anyway?')) {
-                $config['setup'] = true;
-                rex_file::putConfig($configFile, $config);
-                $io->success('Setup prepared. Please re-run setup:run.');
-            }
-            return 0;
-        }
+        $config['setup'] = true;
 
         $requiredValue = static function ($value) {
             if (empty($value)) {

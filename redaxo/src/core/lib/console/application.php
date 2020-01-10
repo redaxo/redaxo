@@ -54,7 +54,7 @@ class rex_console_application extends Application
         // Some packages requires a working db connection in their boot.php
         // in this case if no connection is available, no commands can be used
         // but this command should be always usable
-        if ('db:set-connection' === $command->getName()) {
+        if (in_array($command->getName(), ['db:set-connection', 'setup:run'], true)) {
             return;
         }
 
