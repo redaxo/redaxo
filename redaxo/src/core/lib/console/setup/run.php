@@ -81,6 +81,7 @@ class rex_command_setup_run extends rex_console_command
                 throw new InvalidArgumentException('Unknown lang "' . $lang . '" specified');
             }
             $config['lang'] = $lang;
+            $io->success('Language "'.$lang.'" selected.');
         }
 
         // ---------------------------------- Step 2 . license
@@ -99,6 +100,7 @@ class rex_command_setup_run extends rex_console_command
                 $io->error('You need to accept licence terms and conditions');
                 return 1;
             }
+            $io->success('You accepted licence terms and conditions');
         }
 
         // ---------------------------------- Step 3 . Perms, Environment
@@ -137,6 +139,7 @@ class rex_command_setup_run extends rex_console_command
                 throw new InvalidArgumentException('Unknown timezone "'.$timezone.'" specified');
             }
             $config['timezone'] = $timezone;
+            $io->success('Timezone "'.$timezone.'" selected');
         }
 
         if (!$input->getOption('db-host') && !$input->getOption('db-login') && !$input->getOption('db-password') && !$input->getOption('db-name')) {
@@ -178,6 +181,7 @@ class rex_command_setup_run extends rex_console_command
                 return 1;
             }
         }
+        $io->success('Database connection successfully established');
 
         // ---------------------------------- step 5 . create db / demo
         $io->title('Step 5 of 6 / Database');
@@ -215,18 +219,23 @@ class rex_command_setup_run extends rex_console_command
 
         if ('update' == $createdb) {
             $error = rex_setup_importer::updateFromPrevious();
+            $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
             if (!in_array($import_name, $backups, true)) {
                 throw new InvalidArgumentException('Unknown import file "'.$import_name.'" specified');
             }
             $error = rex_setup_importer::loadExistingImport($import_name);
+            $io->success('Database successfully imported using file "'.$import_name.'"');
         } elseif ('existing' == $createdb && $tables_complete) {
             $error = rex_setup_importer::databaseAlreadyExists();
+            $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
             $error = rex_setup_importer::overrideExisting();
+            $io->success('Database successfully overwritten');
         } elseif ('normal' == $createdb) {
             $error = rex_setup_importer::prepareEmptyDb();
+            $io->success('Database successfully created');
         } else {
             $error = 'An undefinied error occurred';
         }
