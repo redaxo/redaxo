@@ -11,7 +11,7 @@ class rex_media_test extends TestCase
     {
         $mediaClass = new ReflectionClass(rex_media::class);
         /** @var rex_media $media */
-        $media =  $mediaClass->newInstanceWithoutConstructor();
+        $media = $mediaClass->newInstanceWithoutConstructor();
 
         $media->med_foo = 'teststring';
 
@@ -22,10 +22,11 @@ class rex_media_test extends TestCase
         $this->assertFalse($media->hasValue('med_bar'));
     }
 
-    public function testGetValue() {
+    public function testGetValue()
+    {
         $mediaClass = new ReflectionClass(rex_media::class);
         /** @var rex_media $media */
-        $media =  $mediaClass->newInstanceWithoutConstructor();
+        $media = $mediaClass->newInstanceWithoutConstructor();
 
         $media->med_foo = 'teststring';
 
