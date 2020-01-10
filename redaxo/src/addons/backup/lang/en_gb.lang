@@ -30,8 +30,8 @@ backup_filesize = File size
 backup_delete = Delete
 backup_files = File import
 backup_intro_export = Here you can backup the database and files of your current REDAXO installation. To create a full backup of everything you need to export <b>both the database AND files</b> separately. If you are planning to reimport this backup, it's useful to save the backed up files directly on the server so they can easily be imported later.
-backup_database_export = Database export
-backup_file_export = File export
+backup_database_export = Create database backup
+backup_file_export = Create file backup
 backup_save_on_server = Save on server
 backup_download_as_file = Download as file
 backup_createdate = Create date
@@ -46,8 +46,8 @@ backup_file_generated_in  = File has been saved in
 backup_proceed_db_import = Existing data (articles, templates, modules,...) will be deleted. Would you like to proceed?
 backup_proceed_file_import = Current files will be deleted. Would you like to proceed?
 
-backup_export_db_caption = Database exports
-backup_export_file_caption = File exports
+backup_export_db_caption = Restore database backup
+backup_export_file_caption = Restore file backup
 
 backup_function = Function
 

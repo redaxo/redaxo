@@ -24,6 +24,16 @@ find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 
 composer dumpautoload --no-dev -d redaxo/src/core/
 
+printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
+composer update --no-dev -d redaxo/src/addons/be_style/
+
+rm -f redaxo/src/addons/be_style/vendor/autoload.php
+rm -rf redaxo/src/addons/be_style/vendor/composer/
+rm -rf redaxo/src/addons/be_style/vendor/bin/
+rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
+rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
+rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
+
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
 
