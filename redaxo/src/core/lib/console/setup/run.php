@@ -108,21 +108,21 @@ class rex_command_setup_run extends rex_console_command
         $io->title('Step 4 of 6 / Creating config');
 
         $io->section('General');
-        if($input->getOption('server')) {
+        if ($input->getOption('server')) {
             $config['server'] = $input->getOption('server');
             $io->success('Using website URL "'.$config['server'].'"');
         } else {
             $config['server'] = $io->ask('Website URL', $config['server'], $requiredValue);
         }
 
-        if($input->getOption('servername')) {
+        if ($input->getOption('servername')) {
             $config['servername'] = $input->getOption('servername');
             $io->success('Using website name "'.$config['servername'].'"');
         } else {
             $config['servername'] = $io->ask('Website name', $config['servername'], $requiredValue);
         }
 
-        if($input->getOption('error-email')) {
+        if ($input->getOption('error-email')) {
             $config['error_email'] = $input->getOption('error-email');
             $io->success('Using "'.$config['error_email'].'" in case of errors');
         } else {
