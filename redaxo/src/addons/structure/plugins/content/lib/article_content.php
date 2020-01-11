@@ -61,11 +61,15 @@ class rex_article_content extends rex_article_content_base
         return rex_article::get($this->article_id, $this->clang)->getValue($value);
     }
 
-    public function hasValue($value)
+    public function hasValue($value) {
+        return $this->_hasValue($value);
+    }
+
+    public function _hasValue($value)
     {
         // bc
         if ($this->viasql) {
-            return parent::hasValue($value);
+            return parent::_hasValue($value);
         }
 
         $value = $this->correctValue($value);
