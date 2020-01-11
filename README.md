@@ -24,7 +24,8 @@
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt=""></a>&nbsp;
 	<a href="https://github.com/redaxo/redaxo/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt=""></a>&nbsp;
-	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a>
+	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a><br>
+    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
 </p>
 
 <br>
@@ -56,25 +57,6 @@ Where in the world are people using REDAXO? [The map will show you](https://frie
 Your marker still missing? [Learn how to place it on the map](https://github.com/FriendsOfREDAXO/community/tree/master/_directory).
 
 &nbsp;
-
-
-## Developer setup instructions
-
-![Psalm coverage](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage)
-
-In case you want to support the development of REDAXO, this is how to set up the system on your local machine:
-
-	$ git clone https://github.com/redaxo/redaxo.git
-	$ cd redaxo
-	$ git submodule init
-	$ git submodule update
-
-__Note:__ GitHub code does not contain submodules if you download the ZIP file. Better fetch the [latest release](https://github.com/redaxo/redaxo/releases) instead!
-
-If you need help, come by the [Slack chat](https://www.redaxo.org/slack/)!
-
-&nbsp;
-
 
 ## Copyright & License
 
