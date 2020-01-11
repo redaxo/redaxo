@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_content_base_test extends TestCase
 {
-
     public function testHasValue()
     {
         $class = new ReflectionClass(rex_article_content_base::class);

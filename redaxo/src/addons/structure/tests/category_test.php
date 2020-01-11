@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_category_test extends TestCase
 {
-    protected function tearDown() {
+    protected function tearDown()
+    {
         // reset static properties
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
@@ -31,7 +32,6 @@ class rex_category_test extends TestCase
             )
         );
     }
-
 
     public function testHasValue()
     {

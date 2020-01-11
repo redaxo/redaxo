@@ -203,7 +203,8 @@ class rex_article_content_base
         return '[' . $value . ' not found]';
     }
 
-    public function hasValue($value) {
+    public function hasValue($value)
+    {
         foreach (['', 'art_', 'cat_'] as $prefix) {
             $val = $prefix . $value;
             if ($this->_hasValue($val)) {

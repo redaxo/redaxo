@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
  */
 class rex_article_content_test extends TestCase
 {
-    protected function tearDown() {
+    protected function tearDown()
+    {
         // delete all fake structure cache files
         $finder = rex_finder::factory(rex_path::addonCache('structure'))
             ->recursive()
@@ -27,7 +28,7 @@ class rex_article_content_test extends TestCase
     protected function setUp()
     {
         // fake article
-        $article_file = rex_path::addonCache('structure', "1.1.article");
+        $article_file = rex_path::addonCache('structure', '1.1.article');
         rex_file::putCache($article_file, [
             'pid' => 1,
             'id' => 1,
@@ -62,7 +63,6 @@ class rex_article_content_test extends TestCase
             )
         );
     }
-
 
     public function testHasValue()
     {
