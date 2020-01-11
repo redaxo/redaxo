@@ -18,8 +18,9 @@ class rex_article_test extends TestCase
         rex_article::clearInstancePool();
     }
 
-    public function testHasValue()
+    protected function setUp()
     {
+        // generate classVars and add test column
         rex_article::getClassVars();
         $class = new ReflectionClass(rex_article::class);
         $classVarsProperty = $class->getProperty('classVars');
@@ -30,7 +31,12 @@ class rex_article_test extends TestCase
                 ['art_foo']
             )
         );
+    }
 
+
+    public function testHasValue()
+    {
+        $class = new ReflectionClass(rex_article::class);
         /** @var rex_article $instance */
         $instance = $class->newInstanceWithoutConstructor();
 
@@ -45,17 +51,7 @@ class rex_article_test extends TestCase
 
     public function testGetValue()
     {
-        rex_article::getClassVars();
         $class = new ReflectionClass(rex_article::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
-        $classVarsProperty->setValue(
-            array_merge(
-                $classVarsProperty->getValue(),
-                ['art_foo']
-            )
-        );
-
         /** @var rex_article $instance */
         $instance = $class->newInstanceWithoutConstructor();
 

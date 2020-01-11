@@ -15,6 +15,7 @@ class rex_article_content_base_test extends TestCase
         /** @var rex_article_content_base $instance */
         $instance = $class->newInstanceWithoutConstructor();
 
+        // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
         $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));
@@ -32,6 +33,7 @@ class rex_article_content_base_test extends TestCase
         /** @var rex_article_content_base $instance */
         $instance = $class->newInstanceWithoutConstructor();
 
+        // fake meta field in database structure
         $propArticle = new ReflectionProperty(rex_article_content_base::class, 'ARTICLE');
         $propArticle->setAccessible(true);
         $propArticle->setValue($instance, rex_sql::factory()->setValue('art_foo', 'teststring'));

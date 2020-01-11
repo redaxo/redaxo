@@ -13,10 +13,13 @@ class rex_category_test extends TestCase
         $classVarsProperty = $class->getProperty('classVars');
         $classVarsProperty->setAccessible(true);
         $classVarsProperty->setValue(null);
+
+        rex_category::clearInstancePool();
     }
 
-    public function testHasValue()
+    protected function setUp()
     {
+        // generate classVars and add test column
         rex_category::getClassVars();
         $class = new ReflectionClass(rex_category::class);
         $classVarsProperty = $class->getProperty('classVars');
@@ -27,7 +30,12 @@ class rex_category_test extends TestCase
                 ['cat_foo']
             )
         );
+    }
 
+
+    public function testHasValue()
+    {
+        $class = new ReflectionClass(rex_category::class);
         /** @var rex_category $instance */
         $instance = $class->newInstanceWithoutConstructor();
         $instance->cat_foo = 'teststring';
@@ -41,17 +49,7 @@ class rex_category_test extends TestCase
 
     public function testGetValue()
     {
-        rex_category::getClassVars();
         $class = new ReflectionClass(rex_category::class);
-        $classVarsProperty = $class->getProperty('classVars');
-        $classVarsProperty->setAccessible(true);
-        $classVarsProperty->setValue(
-            array_merge(
-                $classVarsProperty->getValue(),
-                ['cat_foo']
-            )
-        );
-
         /** @var rex_category $instance */
         $instance = $class->newInstanceWithoutConstructor();
         $instance->cat_foo = 'teststring';
