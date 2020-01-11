@@ -24,8 +24,7 @@
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt=""></a>&nbsp;
 	<a href="https://github.com/redaxo/redaxo/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt=""></a>&nbsp;
-	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a><br>
-    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a>
 </p>
 
 <br>
@@ -61,3 +60,9 @@ Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://gith
 ## Lizenz
 
 REDAXO wurde von [Yakamara](http://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
+
+&nbsp;
+
+<p align="center">
+    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+</p>

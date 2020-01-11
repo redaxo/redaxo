@@ -24,8 +24,7 @@
 <p align="center">
 	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/release/redaxo/redaxo.svg?style=for-the-badge" alt=""></a>&nbsp;
 	<a href="https://github.com/redaxo/redaxo/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=for-the-badge" alt=""></a>&nbsp;
-	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a><br>
-    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+	<a href="https://github.com/redaxo/redaxo/releases"><img src="https://img.shields.io/github/downloads/redaxo/redaxo/total.svg?style=for-the-badge" alt=""></a>
 </p>
 
 <br>
@@ -61,3 +60,9 @@ Your marker still missing? [Learn how to place it on the map](https://github.com
 ## Copyright & License
 
 REDAXO was developed by [Yakamara](http://www.yakamara.de) (Frankfurt am Main/Germany 🇩🇪), is open-source since 2004 and is released under the [MIT license](LICENSE.md).
+
+&nbsp;
+
+<p align="center">
+    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+</p>
