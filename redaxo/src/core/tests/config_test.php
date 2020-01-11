@@ -66,7 +66,8 @@ class rex_config_test extends TestCase
     {
         rex_config::save();
 
-        $this->assertTrue(rex_config::set('test-ns', 'mykey1', 'foo'));
+        // if a key was not overwritten, it returns false.
+        $this->assertFalse(rex_config::set('test-ns', 'mykey1', 'foo'));
         $this->assertTrue(rex_config::remove('test-ns', 'mykey1'));
 
         rex_config::save();
