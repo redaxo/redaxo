@@ -34,24 +34,16 @@ rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
 });
 
 rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
+    if (!in_array($ep->getParam('page'), ['content/edit', 'content/functions'], true)) {
+        return null;
+    }
+
     $params = $ep->getParams();
-    $return = '';
 
     $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
     if (!is_array($rex_version_article)) {
         $rex_version_article = [];
     }
-
-    $working_version_empty = true;
-    $gw = rex_sql::factory();
-    $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1', [$params['article_id'], $params['clang']]);
-    if ($gw->getRows() > 0) {
-        $working_version_empty = false;
-    }
-
-    $revisions = [];
-    $revisions[0] = rex_i18n::msg('version_liveversion');
-    $revisions[1] = rex_i18n::msg('version_workingversion');
 
     $version_id = rex_request('rex_set_version', 'int', '-1');
 
@@ -61,6 +53,30 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
         $rex_version_article[$params['article_id']] = 1;
     } elseif (!isset($rex_version_article[$params['article_id']])) {
         $rex_version_article[$params['article_id']] = 1;
+    }
+
+    if (!rex::getUser()->hasPerm('version[live_version]')) {
+        $rex_version_article[$params['article_id']] = 1;
+    }
+
+    rex::getProperty('login')->setSessionVar('rex_version_article', $rex_version_article);
+
+    $params['slice_revision'] = $rex_version_article[$params['article_id']];
+});
+
+rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_extension_point $ep) {
+    if (!in_array($ep->getParam('page'), ['content/edit', 'content/functions'], true)) {
+        return null;
+    }
+
+    $params = $ep->getParams();
+    $return = $ep->getSubject();
+
+    $working_version_empty = true;
+    $gw = rex_sql::factory();
+    $gw->setQuery('select * from ' . rex::getTablePrefix() . 'article_slice where article_id=? and clang_id=? and revision=1 LIMIT 1', [$params['article_id'], $params['clang']]);
+    if ($gw->getRows() > 0) {
+        $working_version_empty = false;
     }
 
     $func = rex_request('rex_version_func', 'string');
@@ -85,12 +101,16 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
         break;
     }
 
-    if (!rex::getUser()->hasPerm('version[live_version]')) {
-        $rex_version_article[$params['article_id']] = 1;
-        unset($revisions[0]);
+    $rex_version_article = rex::getProperty('login')->getSessionVar('rex_version_article');
+    if (!is_array($rex_version_article)) {
+        $rex_version_article = [];
     }
 
-    rex::getProperty('login')->setSessionVar('rex_version_article', $rex_version_article);
+    $revisions = [];
+    if (rex::getUser()->hasPerm('version[live_version]')) {
+        $revisions[0] = rex_i18n::msg('version_liveversion');
+    }
+    $revisions[1] = rex_i18n::msg('version_workingversion');
 
     $context = new rex_context([
         'page' => $params['page'],
@@ -100,14 +120,14 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
     ]);
 
     $items = [];
-    $brand = '';
+    $currentRevision = '';
     foreach ($revisions as $version => $revision) {
         $item = [];
         $item['title'] = $revision;
         $item['href'] = $context->getUrl(['rex_set_version' => $version]);
         if ($rex_version_article[$params['article_id']] == $version) {
             $item['active'] = true;
-            $brand = $revision;
+            $currentRevision = $revision;
         }
         $items[] = $item;
     }
@@ -115,7 +135,7 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
     $toolbar = '';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('button_prefix', rex_i18n::msg('version'));
+    $fragment->setVar('button_prefix', '<b>'.$currentRevision.'</b>', false);
     $fragment->setVar('items', $items, false);
     $fragment->setVar('toolbar', true);
 
@@ -145,9 +165,7 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extensi
     $inverse = 1 == $rex_version_article[$params['article_id']] ? true : false;
     $cssClass = 1 == $rex_version_article[$params['article_id']] ? 'rex-state-inprogress' : 'rex-state-live';
 
-    $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass, $inverse);
-
-    $params['slice_revision'] = $rex_version_article[$params['article_id']];
+    $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', null, $cssClass, $inverse);
 
     return $return;
 });
