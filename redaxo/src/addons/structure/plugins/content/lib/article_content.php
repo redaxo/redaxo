@@ -66,7 +66,7 @@ class rex_article_content extends rex_article_content_base
         return $this->_hasValue($value);
     }
 
-    public function _hasValue($value)
+    protected function _hasValue($value)
     {
         // bc
         if ($this->viasql) {
