@@ -49,7 +49,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getCategoryId()
+    public function getCategoryId() :int
     {
         return $this->getValue('category_id', 0);
     }
@@ -57,7 +57,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getArticleId()
+    public function getArticleId() :int
     {
         return $this->getValue('article_id', 0);
     }
@@ -65,7 +65,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getClangId()
+    public function getClangId() :int
     {
         return $this->getValue('clang_id', 0);
     }
@@ -73,7 +73,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getCtypeId()
+    public function getCtypeId() :int
     {
         return $this->getValue('ctype_id', 0);
     }
@@ -81,7 +81,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getArtStart()
+    public function getArtStart() :int
     {
         return $this->getValue('artstart', 0);
     }
@@ -89,7 +89,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getCatStart()
+    public function getCatStart() :int
     {
         return $this->getValue('catstart', 0);
     }
@@ -97,7 +97,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getEditId()
+    public function getEditId() :int
     {
         return $this->getValue('edit_id', 0);
     }
@@ -105,7 +105,7 @@ class rex_structure_context
     /**
      * @return string
      */
-    public function getFunction()
+    public function getFunction() :string
     {
         return $this->getValue('function', '');
     }
@@ -113,7 +113,7 @@ class rex_structure_context
     /**
      * @return array
      */
-    public function getMountpoints()
+    public function getMountpoints() :array
     {
         return rex::getUser()->getComplexPerm('structure')->getMountpoints();
     }
@@ -121,7 +121,7 @@ class rex_structure_context
     /**
      * @return bool
      */
-    public function hasCategoryPermission()
+    public function hasCategoryPermission() :bool
     {
         return rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($this->getCategoryId());
     }
@@ -129,7 +129,7 @@ class rex_structure_context
     /**
      * @return int
      */
-    public function getRowsPerPage()
+    public function getRowsPerPage() :int
     {
         return $this->getValue('rows_per_page', 30);
     }
@@ -137,7 +137,7 @@ class rex_structure_context
     /**
      * @return rex_context
      */
-    public function getContext()
+    public function getContext() :rex_context
     {
         return new rex_context([
             'page' => 'structure',
