@@ -20,7 +20,7 @@ class rex_api_article_copy extends rex_api_function
         ]);
 
         if ($user->hasPerm('copyArticle[]') && $user->getComplexPerm('structure')->hasCategoryPerm($category_copy_id_new)) {
-            if (($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new)) !== false) {
+            if (false !== ($new_id = rex_article_service::copyArticle($article_id, $category_copy_id_new))) {
                 $result = new rex_api_result(true, rex_i18n::msg('content_articlecopied'));
                 rex_response::sendRedirect($context->getUrl([
                     'article_id' => $new_id,

@@ -5,7 +5,7 @@ $config = [];
 $info = '';
 $success = '';
 
-if (rex_post('btn_save', 'string') != '') {
+if ('' != rex_post('btn_save', 'string')) {
     // set config
 
     $tempConfig = [];
@@ -15,7 +15,7 @@ if (rex_post('btn_save', 'string') != '') {
     $tempConfig = rex_plugin::get('be_style', 'customizer')->getConfig();
 
     $tempConfig['codemirror'] = 0;
-    if (isset($newConfig['codemirror']) && $newConfig['codemirror'] == 1) {
+    if (isset($newConfig['codemirror']) && 1 == $newConfig['codemirror']) {
         $tempConfig['codemirror'] = 1;
     }
 
@@ -25,26 +25,26 @@ if (rex_post('btn_save', 'string') != '') {
     }
 
     $tempConfig['codemirror-langs'] = 0;
-    if (isset($newConfig['codemirror-langs']) && $newConfig['codemirror-langs'] == 1) {
+    if (isset($newConfig['codemirror-langs']) && 1 == $newConfig['codemirror-langs']) {
         $tempConfig['codemirror-langs'] = 1;
     }
 
     $tempConfig['codemirror-tools'] = 0;
-    if (isset($newConfig['codemirror-tools']) && $newConfig['codemirror-tools'] == 1) {
+    if (isset($newConfig['codemirror-tools']) && 1 == $newConfig['codemirror-tools']) {
         $tempConfig['codemirror-tools'] = 1;
     }
 
     $tempConfig['codemirror_theme'] = htmlspecialchars($newConfig['codemirror_theme']);
 
     $labelcolor = $newConfig['labelcolor'];
-    if ($labelcolor == '') {
+    if ('' == $labelcolor) {
         $tempConfig['labelcolor'] = '';
     } else {
         $tempConfig['labelcolor'] = htmlspecialchars($labelcolor);
     }
 
     $tempConfig['showlink'] = 0;
-    if (isset($newConfig['showlink']) && $newConfig['showlink'] == 1) {
+    if (isset($newConfig['showlink']) && 1 == $newConfig['showlink']) {
         $tempConfig['showlink'] = 1;
     }
 
@@ -74,7 +74,8 @@ if (!isset($config['codemirror-selectors'])) {
 
 // build elements
 
-$curDir = $this->getAssetsUrl('vendor/');
+$plugin = rex_plugin::get('be_style', 'customizer');
+$curDir = $plugin->getAssetsUrl('vendor/');
 
 $themes = [];
 foreach (glob($curDir . '/codemirror/theme/*.css') as $filename) {
@@ -98,11 +99,11 @@ if (!empty($error)) {
     echo rex_view::error(implode('<br />', $error));
 }
 
-if ($info != '') {
+if ('' != $info) {
     echo rex_view::info($info);
 }
 
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
 }
 

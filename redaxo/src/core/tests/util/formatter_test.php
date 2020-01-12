@@ -1,6 +1,11 @@
 <?php
 
-class rex_formatter_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_formatter_test extends TestCase
 {
     public function testDate()
     {
@@ -178,7 +183,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
             'params' => 'ilike=+1',
         ];
         $this->assertEquals(
-            '<a href="http&#x3A;&#x2F;&#x2F;example.org&#x3F;ilike&#x3D;&#x2B;1" data-haha="foo">http://example.org</a>',
+            '<a href="http://example.org?ilike=+1" data-haha="foo">http://example.org</a>',
             rex_formatter::url($value, $format)
         );
     }
@@ -192,7 +197,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
             'params' => 'ilike=+1',
         ];
         $this->assertEquals(
-            '<a href="mailto:dude&#x40;example.org&#x3F;ilike&#x3D;&#x2B;1" data-haha="foo">dude@example.org</a>',
+            '<a href="mailto:dude@example.org?ilike=+1" data-haha="foo">dude@example.org</a>',
             rex_formatter::email($value, $format)
         );
     }
@@ -208,7 +213,7 @@ class rex_formatter_test extends PHPUnit_Framework_TestCase
         );
 
         $format = [
-            function ($params) {
+            static function ($params) {
                 return $params['subject'] . ' ' . $params['some'];
             },
             ['some' => 'more params'],

@@ -14,7 +14,7 @@ article_status_updated = Estado del artículo actualizado.
 article_updated = Artículo actualizado.
 article_added = Artículo añadido.
 header_category = Categoría
-header_priority = Prio
+header_priority = Prioridad
 header_status = Estado / Función
 header_id = ID
 add_category = Añadir categoría
@@ -86,7 +86,3 @@ var_linklist_move_top = Mover el enlace seleccionado a la parte superior
 var_linklist_move_up = Mover enlace seleccionado
 var_linklist_move_down = Mover enlace seleccionado
 var_linklist_move_bottom = Mover el enlace seleccionado a la parte inferior
-
-structure_article_name = Nombre del producto
-structure_path = Camino
-structure_status = Estado

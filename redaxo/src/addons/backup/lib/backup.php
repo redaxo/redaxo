@@ -5,11 +5,14 @@
  */
 class rex_backup
 {
-    const IMPORT_ARCHIVE = 1;
-    const IMPORT_DB = 2;
-    const IMPORT_EVENT_PRE = 3;
-    const IMPORT_EVENT_POST = 4;
+    public const IMPORT_ARCHIVE = 1;
+    public const IMPORT_DB = 2;
+    public const IMPORT_EVENT_PRE = 3;
+    public const IMPORT_EVENT_POST = 4;
 
+    /**
+     * @return string
+     */
     public static function getDir()
     {
         $dir = rex_path::addonData('backup');
@@ -18,6 +21,9 @@ class rex_backup
         return $dir;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getBackupFiles($filePrefix)
     {
         $dir = self::getDir();
@@ -33,7 +39,7 @@ class rex_backup
         }
         $folder = $filtered;
 
-        usort($folder, function ($file_a, $file_b) use ($dir) {
+        usort($folder, static function ($file_a, $file_b) use ($dir) {
             $time_a = filemtime($dir . '/' . $file_a);
             $time_b = filemtime($dir . '/' . $file_b);
 
@@ -65,7 +71,7 @@ class rex_backup
         $msg = '';
         $error = '';
 
-        if ($filename == '' || substr($filename, -4, 4) != '.sql') {
+        if ('' == $filename || '.sql' != substr($filename, -4, 4)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen_or_wrong_version') . '<br>';
             return $return;
         }
@@ -76,7 +82,7 @@ class rex_backup
         // ## Redaxo Database Dump Version x.x
         $mainVersion = rex::getVersion('%s');
         $version = strpos($conts, '## Redaxo Database Dump Version ' . $mainVersion);
-        if ($version === false) {
+        if (false === $version) {
             $return['message'] = rex_i18n::msg('backup_no_valid_import_file') . '. [## Redaxo Database Dump Version ' . $mainVersion . '] is missing';
             return $return;
         }
@@ -142,7 +148,7 @@ class rex_backup
             }
         }
 
-        if ($error != '') {
+        if ('' != $error) {
             $return['message'] = trim($error);
             return $return;
         }
@@ -211,7 +217,7 @@ class rex_backup
         }
 
         // generated neu erstellen, wenn kein Fehler aufgetreten ist
-        if ($error == '') {
+        if ('' == $error) {
             // delete cache before EP to avoid obsolete caches while running extensions
             rex_delete_cache();
 
@@ -252,7 +258,7 @@ class rex_backup
         $return = [];
         $return['state'] = false;
 
-        if ($filename == '' || substr($filename, -7, 7) != '.tar.gz') {
+        if ('' == $filename || '.tar.gz' != substr($filename, -7, 7)) {
             $return['message'] = rex_i18n::msg('backup_no_import_file_chosen') . '<br />';
             return $return;
         }
@@ -309,7 +315,7 @@ class rex_backup
         // in case of permission issues/misconfigured tmp-folders
         if (!$fp) {
             $tempCacheFile = rex_path::cache(basename($filename));
-            $fp = fopen($tempCacheFile, 'wb');
+            $fp = fopen($tempCacheFile, 'w');
             if (!$fp) {
                 return false;
             }
@@ -332,14 +338,7 @@ class rex_backup
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
 
         if (null === $tables) {
-            $tables = [];
-            foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-                if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                    && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
-                ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-                    $tables[] = $table;
-                }
-            }
+            $tables = self::getTables();
         }
         foreach ($tables as $table) {
             //---- export metadata
@@ -368,64 +367,7 @@ class rex_backup
             $start = 0;
             $max = $insertSize;
 
-            do {
-                $array = $sql->getArray('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max, [], PDO::FETCH_NUM);
-                $count = $sql->getRows();
-
-                if ($count > 0 && $start == 0) {
-                    fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
-                    fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
-                } elseif ($count == 0) {
-                    break;
-                }
-
-                $start += $max;
-                $values = [];
-
-                foreach ($array as $row) {
-                    $record = [];
-
-                    foreach ($fields as $idx => $type) {
-                        $column = $row[$idx];
-
-                        switch ($type) {
-                            // prevent calling sql->escape() on values with a known format
-                            case 'raw':
-                                $record[] = "'". $column ."'";
-                                break;
-                            case 'int':
-                                $record[] = (int) $column;
-                                break;
-                            case 'double':
-                                $record[] = sprintf('%.10F', (float) $column);
-                                break;
-                            case 'string':
-                                // fast-exit for very frequent used harmless values
-                                if ($column === '0' || $column === '' || $column === ' ' || $column === '|' || $column === '||') {
-                                    $record[] = "'". $column ."'";
-                                    break;
-                                }
-
-                                // fast-exit for very frequent used harmless values
-                                if (strlen($column) <= 3 && ctype_alnum($column)) {
-                                    $record[] = "'". $column ."'";
-                                    break;
-                                }
-                                // no break
-                            default:
-                                $record[] = $sql->escape($column);
-                                break;
-                        }
-                    }
-
-                    $values[] = $nl . '  (' . implode(',', $record) . ')';
-                }
-
-                if (!empty($values)) {
-                    fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ' . implode(',', $values) . ';');
-                    unset($values);
-                }
-            } while ($count >= $max);
+            self::exportTable($table, $start, $max, $fp, $nl, $fields);
 
             if ($start > 0) {
                 fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' ENABLE KEYS */;');
@@ -457,7 +399,7 @@ class rex_backup
             fclose($fp);
             rename($tempCacheFile, $filename);
         } else {
-            $destination = fopen($filename, 'wb');
+            $destination = fopen($filename, 'w');
             rewind($fp);
             if (!$destination) {
                 return false;
@@ -496,6 +438,9 @@ class rex_backup
 
     /**
      * Fügt einem Tar-Archiv ein Ordner von Dateien hinzu.
+     *
+     * @param string $path
+     * @param string $dir
      */
     private static function addFolderToTar(rex_backup_tar $tar, $path, $dir)
     {
@@ -507,7 +452,7 @@ class rex_backup
             // - svn infos
             // - tmp prefix Dateien
 
-            if ($file == '.' || $file == '..' || $file == '.svn') {
+            if ('.' == $file || '..' == $file || '.svn' == $file) {
                 continue;
             }
 
@@ -515,7 +460,7 @@ class rex_backup
                 continue;
             }
 
-            if ($isMediafolder && $file == 'addons') {
+            if ($isMediafolder && 'addons' == $file) {
                 continue;
             }
 
@@ -528,10 +473,98 @@ class rex_backup
         closedir($handle);
     }
 
+    public static function getTables()
+    {
+        $tables = [];
+        foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
+            if (substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+                $tables[] = $table;
+            }
+        }
+        return $tables;
+    }
+
     private static function importScript($filename, $importType, $eventType)
     {
         if (file_exists($filename)) {
             require $filename;
         }
+    }
+
+    private static function exportTable($table, &$start, $max, $fp, $nl, array $fields)
+    {
+        do {
+            $sql = rex_sql::factory();
+            $sql->setQuery('SELECT * FROM ' . $sql->escapeIdentifier($table) . ' LIMIT ' . $start . ',' . $max);
+            $count = $sql->getRows();
+
+            if ($count > 0 && 0 == $start) {
+                fwrite($fp, $nl . 'LOCK TABLES ' . $sql->escapeIdentifier($table) . ' WRITE;');
+                fwrite($fp, $nl . '/*!40000 ALTER TABLE ' . $sql->escapeIdentifier($table) . ' DISABLE KEYS */;');
+            } elseif (0 == $count) {
+                break;
+            }
+
+            $start += $max;
+            $values = [];
+
+            foreach ($sql as $row) {
+                $record = [];
+                $array = $row->getRow(PDO::FETCH_NUM);
+
+                foreach ($fields as $idx => $type) {
+                    $column = $array[$idx];
+
+                    switch ($type) {
+                        // prevent calling sql->escape() on values with a known format
+                        case 'raw':
+                            $record[] = "'" . $column . "'";
+                            break;
+                        case 'int':
+                            $record[] = (int) $column;
+                            break;
+                        case 'double':
+                            $record[] = sprintf('%.10F', (float) $column);
+                            break;
+                        case 'string':
+                            // fast-exit for very frequent used harmless values
+                            if ('0' === $column || '' === $column || ' ' === $column || '|' === $column || '||' === $column) {
+                                $record[] = "'" . $column . "'";
+                                break;
+                            }
+
+                            // fast-exit for very frequent used harmless values
+                            if (strlen($column) <= 3 && ctype_alnum($column)) {
+                                $record[] = "'" . $column . "'";
+                                break;
+                            }
+                        // no break
+                        default:
+                            $record[] = $sql->escape($column);
+                            break;
+                    }
+                }
+
+                $values[] = $nl . '  (' . implode(',', $record) . ')';
+            }
+
+            if (!empty($values)) {
+                fwrite($fp, $nl . 'INSERT INTO ' . $sql->escapeIdentifier($table) . ' VALUES ');
+
+                // iterate the values instead of implode() to save a few MB memory
+                $numValues = count($values);
+                $lastIdx = $numValues - 1;
+                for ($i = 0; $i < $numValues; ++$i) {
+                    if ($i == $lastIdx) {
+                        fwrite($fp, $values[$i]);
+                    } else {
+                        fwrite($fp, $values[$i]. ',');
+                    }
+                }
+                unset($values);
+
+                fwrite($fp, ';');
+            }
+        } while ($count >= $max);
     }
 }

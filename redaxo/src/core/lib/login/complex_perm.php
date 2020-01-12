@@ -7,11 +7,11 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 abstract class rex_complex_perm
 {
-    const ALL = 'all';
+    public const ALL = 'all';
 
     /**
      * User instance.
@@ -53,7 +53,7 @@ abstract class rex_complex_perm
      */
     public function hasAll()
     {
-        return $this->user->isAdmin() || $this->perms == self::ALL;
+        return $this->user->isAdmin() || self::ALL == $this->perms;
     }
 
     /**

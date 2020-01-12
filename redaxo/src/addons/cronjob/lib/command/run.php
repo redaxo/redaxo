@@ -37,7 +37,7 @@ class rex_command_cronjob_run extends rex_console_command
 
         $nexttime = rex_package::get('cronjob')->getConfig('nexttime', 0);
 
-        if ($nexttime != 0 && time() >= $nexttime) {
+        if (0 != $nexttime && time() >= $nexttime) {
             rex_cronjob_manager_sql::factory()->check();
 
             $io->success('Cronjobs checked.');
@@ -55,14 +55,14 @@ class rex_command_cronjob_run extends rex_console_command
         if (null === $id) {
             $jobs = rex_sql::factory()->getArray('
                 SELECT id, name
-                FROM ' . REX_CRONJOB_TABLE . '
+                FROM ' . rex::getTable('cronjob') . '
                 WHERE environment LIKE "%|script|%"
                 ORDER BY id
             ');
             $jobs = array_column($jobs, 'name', 'id');
 
             $question = new ChoiceQuestion('Which cronjob should be executed?', $jobs);
-            $question->setValidator(function ($selected) use ($jobs) {
+            $question->setValidator(static function ($selected) use ($jobs) {
                 $selected = trim($selected);
 
                 if (!isset($jobs[$selected])) {
@@ -87,8 +87,12 @@ class rex_command_cronjob_run extends rex_console_command
 
         if ($success) {
             $io->success(sprintf('Cronjob "%s" executed successfully%s.', $name, $msg));
-        } else {
-            $io->error(sprintf('Cronjob "%s" failed%s.', $name, $msg));
+
+            return 0;
         }
+
+        $io->error(sprintf('Cronjob "%s" failed%s.', $name, $msg));
+
+        return 1;
     }
 }

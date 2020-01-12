@@ -39,6 +39,8 @@ minfo_field_params_notice_6 = Example:<br /> <code>category="1" types="gif,jpg" 
 minfo_field_params_notice_7 = Example:<br /> <code>category="1" types="gif,jpg" preview="1"</code>
 minfo_field_params_notice_8 = Example:<br /> <code>category="1"</code>
 minfo_field_params_notice_9 = Example:<br /> <code>category="1"</code>
+minfo_field_params_notice_10 = Example:<br /> <code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Example:<br /> <code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Example:<br /> style=color:red multiple=multiple class=my_css_class perm=admin[]
 minfo_field_label_notice = Code executed when the value of the field has changed.<br /> Readable variables: <code>string $fieldName, string $fieldValue, rex_sql $field</code>

@@ -11,8 +11,11 @@ class rex_csrf_token
 {
     use rex_factory_trait;
 
-    const PARAM = '_csrf_token';
+    public const PARAM = '_csrf_token';
 
+    /**
+     * @var string
+     */
     private $id;
 
     private function __construct($tokenId)

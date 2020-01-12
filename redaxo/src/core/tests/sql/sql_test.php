@@ -1,11 +1,16 @@
 <?php
 
-class rex_sql_test extends PHPUnit_Framework_TestCase
-{
-    const TABLE = 'rex_tests_table';
-    const VIEW = 'rex_tests_view';
+use PHPUnit\Framework\TestCase;
 
-    public function setUp()
+/**
+ * @internal
+ */
+class rex_sql_test extends TestCase
+{
+    public const TABLE = 'rex_tests_table';
+    public const VIEW = 'rex_tests_view';
+
+    protected function setUp()
     {
         parent::setUp();
 
@@ -26,7 +31,7 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql->setQuery('CREATE VIEW `' . self::VIEW . '` AS SELECT * FROM `'.self::TABLE.'`');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 
@@ -128,17 +133,26 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $sql->getRows());
     }
 
+    public function testInsertWithoutValues()
+    {
+        $sql = rex_sql::factory();
+        $sql->setTable(self::TABLE);
+
+        $sql->insert();
+        $this->assertEquals(1, $sql->getRows());
+    }
+
     public function testInsertRecords()
     {
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('col_str', 'foo');
             $record->setRawValue('col_date', 'UTC_DATE()');
             $record->setValue('col_int', 3);
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('col_str', 'bar');
             $record->setDateTimeValue('col_date', strtotime('yesterday'));
             $record->setValue('col_text', 'lorem ipsum');
@@ -196,11 +210,11 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'foo');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 2);
             $record->setValue('col_str', 'bar');
         });
@@ -219,11 +233,11 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'abc');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 3);
             $record->setValue('col_str', 'baz');
         });
@@ -253,11 +267,11 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'foo');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 2);
             $record->setValue('col_str', 'bar');
         });
@@ -276,11 +290,11 @@ class rex_sql_test extends PHPUnit_Framework_TestCase
         $sql = rex_sql::factory();
         $sql->setTable(self::TABLE);
 
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 1);
             $record->setValue('col_str', 'abc');
         });
-        $sql->addRecord(function (rex_sql $record) {
+        $sql->addRecord(static function (rex_sql $record) {
             $record->setValue('id', 3);
             $record->setValue('col_str', 'baz');
         });

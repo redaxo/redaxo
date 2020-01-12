@@ -12,7 +12,7 @@ class rex_finder implements IteratorAggregate, Countable
 {
     use rex_factory_trait;
 
-    const ALL = '__ALL__';
+    public const ALL = '__ALL__';
 
     private $dir;
     private $recursive = false;
@@ -195,7 +195,7 @@ class rex_finder implements IteratorAggregate, Countable
             $filename = $current->getFilename();
             $isRoot = $currentIterator === $iterator;
 
-            $match = function ($pattern, $filename) {
+            $match = static function ($pattern, $filename) {
                 $regex = '/^'.strtr(preg_quote($pattern, '/'), ['\*' => '.*', '\?' => '.']).'$/i';
                 return preg_match($regex, $filename);
             };
@@ -213,7 +213,7 @@ class rex_finder implements IteratorAggregate, Countable
             }
 
             if ($current->isDir()) {
-                if (!$this->recursive && $this->recursiveMode === RecursiveIteratorIterator::LEAVES_ONLY) {
+                if (!$this->recursive && RecursiveIteratorIterator::LEAVES_ONLY === $this->recursiveMode) {
                     return false;
                 }
                 $ignoreDirs = $isRoot ? array_merge($this->ignoreDirs, $this->ignoreDirsRecursive) : $this->ignoreDirsRecursive;
@@ -227,7 +227,7 @@ class rex_finder implements IteratorAggregate, Countable
             if ($this->ignoreSystemStuff) {
                 static $systemStuff = ['.DS_Store', 'Thumbs.db', 'desktop.ini', '.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
                 foreach ($systemStuff as $systemStuffFile) {
-                    if (stripos($filename, $systemStuffFile) === 0) {
+                    if (0 === stripos($filename, $systemStuffFile)) {
                         return false;
                     }
                 }

@@ -1,14 +1,29 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_control_element extends rex_form_element
 {
+    /**
+     * @var \rex_form_element|null
+     */
     private $saveElement;
+    /**
+     * @var \rex_form_element|null
+     */
     private $applyElement;
+    /**
+     * @var \rex_form_element|null
+     */
     private $deleteElement;
+    /**
+     * @var \rex_form_element|null
+     */
     private $resetElement;
+    /**
+     * @var \rex_form_element|null
+     */
     private $abortElement;
 
     public function __construct(rex_form_base $table, rex_form_element $saveElement = null, rex_form_element $applyElement = null, rex_form_element $deleteElement = null, rex_form_element $resetElement = null, rex_form_element $abortElement = null)
@@ -101,7 +116,7 @@ class rex_form_control_element extends rex_form_element
 
     public function submitted($element)
     {
-        return is_object($element) && rex_post($element->getAttribute('name'), 'string') != '';
+        return is_object($element) && '' != rex_post($element->getAttribute('name'), 'string');
     }
 
     public function saved()

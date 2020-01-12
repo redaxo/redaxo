@@ -101,6 +101,7 @@ module_deleted = Modulen raderades!
 module_added = Modulen tillfogades
 module_updated = Modulen aktualiserades
 module_caption = Lista över alla sparade moduler
+module_in_use = Används
 articel_updated = Artikeln aktualiserades
 create_module = Skapa ny modul
 input = Inmatning
@@ -149,6 +150,3 @@ action_header_postsave = Postsave-Event(s)
 action_heading_preview = Preview-Action
 action_heading_presave = Presave-Action
 action_heading_postsave = Postsave-Action
-
-structure_content_minibar_article_edit = Redigera i backend
-structure_content_minibar_article_show = Visa artikel

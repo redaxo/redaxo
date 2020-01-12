@@ -29,7 +29,7 @@ user_caption = List of users
 user_status = Status
 startpage = Startpage
 
-user_role = Role
+user_role = Role(s)
 user_role_data_updated = Role has been updated!
 user_role_deleted = Role has been deleted!
 user_role_added = Role has been added!

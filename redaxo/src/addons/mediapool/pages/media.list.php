@@ -6,12 +6,12 @@
 
 $hasCategoryPerm = rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category);
 
-if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
+if ($hasCategoryPerm && 'updatecat_selectedmedia' == $media_method) {
     if (!$csrf->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $selectedmedia = rex_post('selectedmedia', 'array');
-        if (isset($selectedmedia[0]) && $selectedmedia[0] != '') {
+        if (isset($selectedmedia[0]) && '' != $selectedmedia[0]) {
             foreach ($selectedmedia as $file_name) {
                 $db = rex_sql::factory();
                 // $db->setDebug();
@@ -38,12 +38,12 @@ if ($hasCategoryPerm && $media_method == 'updatecat_selectedmedia') {
     }
 }
 
-if ($hasCategoryPerm && $media_method == 'delete_selectedmedia') {
+if ($hasCategoryPerm && 'delete_selectedmedia' == $media_method) {
     if (!$csrf->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
     } else {
         $selectedmedia = rex_post('selectedmedia', 'array');
-        if (count($selectedmedia) != 0) {
+        if (0 != count($selectedmedia)) {
             $error = [];
             $success = [];
 
@@ -137,6 +137,7 @@ $panel = '
                 $e = [];
                 $e['label'] = '<label>' . rex_i18n::msg('pool_select_all') . '</label>';
                 $e['field'] = '<input type="checkbox" name="checkie" value="0" onclick="setAllCheckBoxes(\'selectedmedia[]\',this)" />';
+                $e['class'] = 'rex-form-group-no-margin';
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', [$e], false);
                 $checkbox = $fragment->parse('core/form/checkbox.php');
@@ -163,7 +164,7 @@ $panel = '
                 $buttons[] = $button;
 
                 //$buttons = '<button class="btn btn-delete" type="submit" onclick="if(confirm(\'' . rex_i18n::msg('delete') . ' ?\')){var needle=new getObj(\'media_method\');needle.obj.value=\'delete_selectedmedia\';}else{return false;}">' . rex_i18n::msg('pool_delete_selectedmedia') . '</button>';
-                if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
+                if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
                     $button = [];
                     $button['label'] = rex_i18n::msg('pool_get_selectedmedia');
                     $button['attributes']['class'][] = 'btn-apply';
@@ -174,23 +175,26 @@ $panel = '
 
                 $actionButtons = '';
                 if (count($buttons) > 0) {
-                    $fragment = new rex_fragment();
-                    $fragment->setVar('buttons', $buttons, false);
-                    $fragment->setVar('vertical', true, false);
-                    $actionButtons = $fragment->parse('core/buttons/button_group.php');
+                    foreach ($buttons as $button) {
+                        $fragment = new rex_fragment();
+                        $fragment->setVar('buttons', [$button], false);
+                        $actionButtons .= $fragment->parse('core/buttons/button.php');
+                        $actionButtons .= ' ';
+                    }
                 }
 
-                $field = '<div class="row"><div class="col-sm-9">' . $field . '</div><div class="col-sm-3 text-right">' . $actionButtons . '</div>';
+                $field = '<div class="row"><div class="col-sm-7">' . $field . '</div><div class="col-sm-5 text-right">' . $actionButtons . '</div>';
 
                 $e = [];
                 $e['label'] = '<label>' . rex_i18n::msg('pool_selectedmedia') . '</label>';
                 $e['field'] = $field;
+                $e['class'] = 'rex-form-group-no-margin';
                 $fragment = new rex_fragment();
                 $fragment->setVar('elements', [$e], false);
                 $field = $fragment->parse('core/form/form.php');
 
                 $panel .= '
-                <tfoot>
+                <tfoot class="rex-sticky-table-footer">
                 <tr>
                     <td colspan="2">
                         ' . $checkbox . '
@@ -206,11 +210,11 @@ $panel = '
                 $files = rex_sql::factory();
                 $where = 'f.category_id=' . $rex_file_category;
                 $addTable = '';
-                if ($media_name != '') {
+                if ('' != $media_name) {
                     $media_name = str_replace(['_', '%'], ['\_', '\%'], $media_name);
                     $media_name = $files->escape('%'.$media_name.'%');
                     $where = '(f.filename LIKE ' . $media_name . ' OR f.title LIKE ' . $media_name . ')';
-                    if (rex_addon::get('mediapool')->getConfig('searchmode', 'local') != 'global' && $rex_file_category != 0) {
+                    if ('global' != rex_addon::get('mediapool')->getConfig('searchmode', 'local') && 0 != $rex_file_category) {
                         $addTable = rex::getTablePrefix() . 'media_category c, ';
                         $where .= ' AND f.category_id = c.id ';
                         $where .= " AND (c.path LIKE '%|" . $rex_file_category . "|%' OR c.id=" . $rex_file_category . ') ';
@@ -231,6 +235,16 @@ $panel = '
                 ]));
                 $files->setQuery($qry);
 
+                if (!rex_addon::get('media_manager')->isAvailable()) {
+                    $media_manager_url = null;
+                } elseif (method_exists(rex_media_manager::class, 'getUrl')) {
+                    $media_manager_url = [rex_media_manager::class, 'getUrl'];
+                } else {
+                    $media_manager_url = static function ($type, $file) {
+                        return rex_url::backendController(['rex_media_type' => $type, 'rex_media_file' => $file]);
+                    };
+                }
+
                 $panel .= '<tbody>';
                 for ($i = 0; $i < $files->getRows(); ++$i) {
                     $file_id = $files->getValue('id');
@@ -247,8 +261,8 @@ $panel = '
                     // Eine titel Spalte schätzen
                     $alt = '';
                     foreach (['title'] as $col) {
-                        if ($files->hasValue($col) && $files->getValue($col) != '') {
-                            $alt = rex_escape($files->getValue($col), 'html_attr');
+                        if ($files->hasValue($col) && '' != $files->getValue($col)) {
+                            $alt = rex_escape($files->getValue($col));
                             break;
                         }
                     }
@@ -256,7 +270,7 @@ $panel = '
                     // Eine beschreibende Spalte schätzen
                     $desc = '';
                     foreach (['med_description'] as $col) {
-                        if ($files->hasValue($col) && $files->getValue($col) != '') {
+                        if ($files->hasValue($col) && '' != $files->getValue($col)) {
                             $desc = '<p>' . rex_escape($files->getValue($col)) . '</p>';
                             break;
                         }
@@ -275,8 +289,8 @@ $panel = '
 
                         if (rex_media::isImageType(rex_file::extension($file_name))) {
                             $thumbnail = '<img class="thumbnail" src="' . rex_url::media($file_name) . '?buster=' . $files->getDateTimeValue('updatedate') . '" width="80" height="80" alt="' . $alt . '" title="' . $alt . '" />';
-                            if ($media_manager && rex_file::extension($file_name) != 'svg') {
-                                $thumbnail = '<img class="thumbnail" src="' . rex_url::backendController(['rex_media_type' => 'rex_mediapool_preview', 'rex_media_file' => $encoded_file_name, 'buster' => $files->getDateTimeValue('updatedate')]) . '" alt="' . $alt . '" title="' . $alt . '" />';
+                            if ($media_manager_url && 'svg' != rex_file::extension($file_name)) {
+                                $thumbnail = '<img class="thumbnail" src="' . $media_manager_url('rex_mediapool_preview', $encoded_file_name, $files->getDateTimeValue('updatedate')) . '" alt="' . $alt . '" title="' . $alt . '" />';
                             }
                         }
                     }
@@ -285,17 +299,16 @@ $panel = '
                     $size = $file_size;
                     $file_size = rex_formatter::bytes($size);
 
-                    if ($file_title == '') {
+                    if ('' == $file_title) {
                         $file_title = '[' . rex_i18n::msg('pool_file_notitle') . ']';
                     }
-                    $file_title .= ' [' . $file_id . ']';
 
                     // ----- opener
                     $opener_link = '';
-                    if ($opener_input_field != '') {
+                    if ('' != $opener_input_field) {
                         $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $file_name . '\', \'' . rex_escape($files->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-                        if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-                            $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $file_name . '\');return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+                        if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
+                            $opener_link = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $file_name . '\', this);return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
                         }
                     }
 
@@ -336,7 +349,7 @@ $panel = '
                 } // endforeach
 
                 // ----- no items found
-                if ($files->getRows() == 0) {
+                if (0 == $files->getRows()) {
                     $panel .= '
                 <tr>
                     <td></td>

@@ -13,15 +13,15 @@ $noadmin = rex_request('noadmin', 'string');
 $lang = rex_request('lang', 'string');
 
 // ---------------------------------- Step 1 . Language
-if ($step == 1) {
+if (1 >= $step) {
     rex_setup::init();
 
     $langs = [];
     foreach (rex_i18n::getLocales() as $locale) {
         $label = rex_i18n::msgInLocale('lang', $locale);
-        $langs[$locale] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
+        $langs[$label] = '<a class="list-group-item" href="' . rex_url::backendPage('setup', ['step' => 2, 'lang' => $locale]) . '">' . $label . '</a>';
     }
-
+    ksort($langs);
     echo rex_view::title(rex_i18n::msg('setup_100'));
     $content = '<div class="list-group">' . implode('', $langs) . '</div>';
 
@@ -29,11 +29,13 @@ if ($step == 1) {
     $fragment->setVar('heading', rex_i18n::msg('setup_101'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
+
+    return;
 }
 
 // ---------------------------------- Step 2 . license
 
-if ($step == 2) {
+if (2 === $step) {
     rex::setProperty('lang', $lang);
 
     $license_file = rex_path::base('LICENSE.md');
@@ -51,6 +53,8 @@ if ($step == 2) {
     $fragment->setVar('body', '<div class="rex-scrollable">' . $content . '</div>', false);
     $fragment->setVar('buttons', $buttons, false);
     echo $fragment->parse('core/page/section.php');
+
+    return;
 }
 
 // ---------------------------------- Step 3 . Perms, Environment
@@ -82,11 +86,11 @@ if (count($res) > 0) {
     $success_array[] = rex_i18n::msg('setup_309');
 }
 
-if ($step > 2 && count($error_array) > 0) {
+if (count($error_array) > 0) {
     $step = 3;
 }
 
-if ($step == 3) {
+if (3 === $step) {
     $content = '';
 
     if (count($success_array) > 0) {
@@ -140,9 +144,13 @@ if ($step == 3) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
-    if (version_compare(PHP_VERSION, '5.6', '<') == 1) {
+    if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
-    } elseif (version_compare(PHP_VERSION, '7.0', '<=') == 1 && time() > strtotime('1 Jan 2019')) {
+    } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     }
 
@@ -155,25 +163,25 @@ if ($step == 3) {
     $fragment->setVar('buttons', $buttons, false);
     echo '<div class="rex-js-setup-section">' . $fragment->parse('core/page/section.php') . '</div>';
     echo $security;
+
+    return;
 }
 
 // ---------------------------------- step 4 . Config
 
 $error_array = [];
 
-if ($step >= 4) {
-    $configFile = rex_path::coreData('config.yml');
-    $config = array_merge(
-        rex_file::getConfig(rex_path::core('default.config.yml')),
-        rex_file::getConfig($configFile)
-    );
+$configFile = rex_path::coreData('config.yml');
+$config = array_merge(
+    rex_file::getConfig(rex_path::core('default.config.yml')),
+    rex_file::getConfig($configFile)
+);
 
-    if (isset($_SERVER['HTTP_HOST']) && $config['server'] == 'https://www.redaxo.org/') {
-        $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
-    }
+if (isset($_SERVER['HTTP_HOST']) && 'https://www.redaxo.org/' == $config['server']) {
+    $config['server'] = 'https://' . $_SERVER['HTTP_HOST'];
 }
 
-if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
+if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
     $config['server'] = rex_post('serveraddress', 'string');
     $config['servername'] = rex_post('servername', 'string');
     $config['lang'] = $lang;
@@ -184,11 +192,10 @@ if ($step > 4 && rex_post('serveraddress', 'string', '-1') != '-1') {
     $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
     $config['db'][1]['name'] = rex_post('dbname', 'string');
     $config['use_https'] = rex_post('use_https', 'string');
-    $config['use_hsts'] = rex_post('use_hsts', 'boolean');
 
-    if ($config['use_https'] === 'true') {
+    if ('true' === $config['use_https']) {
         $config['use_https'] = true;
-    } elseif ($config['use_https'] === 'false') {
+    } elseif ('false' === $config['use_https']) {
         $config['use_https'] = false;
     }
 }
@@ -201,7 +208,7 @@ if ($step > 4) {
     }
 
     // check if timezone is valid
-    if (@date_default_timezone_set($config['timezone']) === false) {
+    if (false === @date_default_timezone_set($config['timezone'])) {
         $error_array[] = rex_view::error(rex_i18n::msg('setup_413'));
     }
 
@@ -228,20 +235,20 @@ if ($step > 4) {
         rex::setProperty($key, $value);
     }
 
-    if (count($error_array) == 0) {
+    if (0 == count($error_array)) {
         if (!rex_file::putConfig($configFile, $config)) {
             $error_array[] = rex_view::error(rex_i18n::msg('setup_401'));
         }
     }
 
-    if (count($error_array) == 0) {
+    if (0 == count($error_array)) {
         try {
             $err = rex_setup::checkDb($config, $redaxo_db_create);
         } catch (PDOException $e) {
             $err = rex_i18n::msg('setup_415', $e->getMessage());
         }
 
-        if ($err != '') {
+        if ('' != $err) {
             $error_array[] = rex_view::error($err);
         }
     }
@@ -251,7 +258,7 @@ if ($step > 4) {
     }
 }
 
-if ($step == 4) {
+if (4 === $step) {
     $headline = rex_view::title(rex_i18n::msg('setup_400'));
 
     $content = '';
@@ -284,9 +291,12 @@ if ($step == 4) {
     $httpsRedirectSel->setName('use_https');
     $httpsRedirectSel->setSize(1);
     $httpsRedirectSel->addArrayOptions(['false' => rex_i18n::msg('https_disable'), 'backend' => rex_i18n::msg('https_only_backend'), 'frontend' => rex_i18n::msg('https_only_frontend'), 'true' => rex_i18n::msg('https_activate')]);
-    $httpsRedirectSel->setSelected($config['use_https'] === true ? 'true' : $config['use_https']);
+    $httpsRedirectSel->setSelected(true === $config['use_https'] ? 'true' : $config['use_https']);
 
-    $hsts_checked = rex_post('use_hsts', 'boolean') ? 'checked="checked"' : '';
+    // If the setup is called over http disable https options to prevent user from being locked out
+    if (!rex_request::isHttps()) {
+        $httpsRedirectSel->setAttribute('disabled', 'disabled');
+    }
 
     $content .= '<legend>' . rex_i18n::msg('setup_402') . '</legend>';
 
@@ -358,25 +368,24 @@ if ($step == 4) {
 
     $formElements = [];
 
+    if (!rex_request::isHttps()) {
+        $n = [];
+        $n['field'] = '<label class="form-control-static"><i class="fa fa-warning"></i> '.rex_i18n::msg('https_only_over_https').'</label>';
+        $formElements[] = $n;
+    }
+
     $n = [];
     $n['label'] = '<label>'.rex_i18n::msg('https_activate_redirect_for').'</label>';
     $n['field'] = $httpsRedirectSel->get();
     $formElements[] = $n;
 
-    $fragment = new rex_fragment();
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
-
-    $formElements = [];
     $n = [];
-    $n['label'] = '<label>' . rex_i18n::msg('hsts_activate') . '</label>';
-    $n['field'] = '<input type="checkbox" name="use_hsts" value="1"' . $hsts_checked . ' />';
-    $n['note'] = rex_i18n::rawMsg('hsts_more_information', '<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security" target="_blank" rel="nofollow noreferrer">mozilla developer network</a>');
+    $n['field'] = '<p>'.rex_i18n::msg('hsts_more_information').'</p>';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/checkbox.php');
+    $content .= $fragment->parse('core/form/form.php');
 
     $content .= '</fieldset>';
 
@@ -400,6 +409,8 @@ if ($step == 4) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
+
+    return;
 }
 
 // ---------------------------------- step 5 . create db / demo
@@ -409,46 +420,46 @@ $errors = [];
 $createdb = rex_post('createdb', 'int', -1);
 
 if ($step > 5 && $createdb > -1) {
-    $tables_complete = (rex_setup_importer::verifyDbSchema() == '') ? true : false;
+    $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
-    if ($createdb == 4) {
+    if (4 == $createdb) {
         $error = rex_setup_importer::updateFromPrevious();
-        if ($error != '') {
+        if ('' != $error) {
             $errors[] = rex_view::error($error);
         }
-    } elseif ($createdb == 3) {
+    } elseif (3 == $createdb) {
         $import_name = rex_post('import_name', 'string');
         $error = rex_setup_importer::loadExistingImport($import_name);
-        if ($error != '') {
+        if ('' != $error) {
             $errors[] = rex_view::error($error);
         }
-    } elseif ($createdb == 2 && $tables_complete) {
+    } elseif (2 == $createdb && $tables_complete) {
         $error = rex_setup_importer::databaseAlreadyExists();
-        if ($error != '') {
+        if ('' != $error) {
             $errors[] = rex_view::error($error);
         }
-    } elseif ($createdb == 1) {
+    } elseif (1 == $createdb) {
         $error = rex_setup_importer::overrideExisting();
-        if ($error != '') {
+        if ('' != $error) {
             $errors[] = rex_view::error($error);
         }
-    } elseif ($createdb == 0) {
+    } elseif (0 == $createdb) {
         $error = rex_setup_importer::prepareEmptyDb();
-        if ($error != '') {
+        if ('' != $error) {
             $errors[] = rex_view::error($error);
         }
     } else {
         $errors[] = rex_view::error(rex_i18n::msg('error_undefined'));
     }
 
-    if (count($errors) == 0 && $createdb !== '') {
+    if (0 == count($errors) && '' !== $createdb) {
         $error = rex_setup_importer::verifyDbSchema();
-        if ($error != '') {
+        if ('' != $error) {
             $errors[] = $error;
         }
     }
 
-    if (count($errors) == 0) {
+    if (0 == count($errors)) {
         rex_clang_service::generateCache();
         rex::setConfig('version', rex::getVersion());
     } else {
@@ -456,14 +467,12 @@ if ($step > 5 && $createdb > -1) {
     }
 }
 
-if ($step > 5) {
-    if (!rex_setup_importer::verifyDbSchema() == '') {
-        $step = 5;
-    }
+if ($step > 5 && '' == !rex_setup_importer::verifyDbSchema()) {
+    $step = 5;
 }
 
-if ($step == 5) {
-    $tables_complete = (rex_setup_importer::verifyDbSchema() == '') ? true : false;
+if (5 === $step) {
+    $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
     $createdb = rex_post('createdb', 'int', '');
 
@@ -510,13 +519,13 @@ if ($step == 5) {
             $export_archives = [];
             $export_sqls = [];
 
-            while (($file = readdir($handle)) !== false) {
-                if ($file == '.' || $file == '..') {
+            while (false !== ($file = readdir($handle))) {
+                if ('.' == $file || '..' == $file) {
                     continue;
                 }
 
-                $isSql = (substr($file, strlen($file) - 4) == '.sql');
-                $isArchive = (substr($file, strlen($file) - 7) == '.tar.gz');
+                $isSql = ('.sql' == substr($file, strlen($file) - 4));
+                $isArchive = ('.tar.gz' == substr($file, strlen($file) - 7));
 
                 if ($isSql) {
                     // cut .sql
@@ -624,27 +633,29 @@ if ($step == 5) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form action="' . rex_url::backendController() . '" method="post">' . $content . '</form>';
+
+    return;
 }
 
 // ---------------------------------- Step 7 . Create User
 
 $errors = [];
 
-if ($step == 7) {
+if (7 === $step) {
     $noadmin = rex_post('noadmin', 'int');
     $redaxo_user_login = rex_post('redaxo_user_login', 'string');
     $redaxo_user_pass = rex_post('redaxo_user_pass', 'string');
 
-    if ($noadmin != 1) {
-        if ($redaxo_user_login == '') {
+    if (1 != $noadmin) {
+        if ('' == $redaxo_user_login) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_601'));
         }
 
-        if ($redaxo_user_pass == '') {
+        if ('' == $redaxo_user_pass) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_602'));
         }
 
-        if (count($errors) == 0) {
+        if (0 == count($errors)) {
             $ga = rex_sql::factory();
             $ga->setQuery('select * from ' . rex::getTablePrefix() . 'user where login = ? ', [$redaxo_user_login]);
 
@@ -674,19 +685,19 @@ if ($step == 7) {
     } else {
         $gu = rex_sql::factory();
         $gu->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
-        if ($gu->getRows() == 0) {
+        if (0 == $gu->getRows()) {
             $errors[] = rex_view::error(rex_i18n::msg('setup_605'));
         }
     }
 
-    if (count($errors) == 0) {
+    if (0 == count($errors)) {
         $step = 7;
     } else {
         $step = 6;
     }
 }
 
-if ($step == 6) {
+if (6 === $step) {
     $user_sql = rex_sql::factory();
     $user_sql->setQuery('select * from ' . rex::getTablePrefix() . 'user LIMIT 1');
 
@@ -800,11 +811,13 @@ if ($step == 6) {
     $content = $fragment->parse('core/page/section.php');
 
     echo '<form class="rex-js-createadminform" action="' . rex_url::backendController() . '" method="post" autocomplete="off">' . $content . '</form>';
+
+    return;
 }
 
 // ---------------------------------- step 7 . thank you . setup false
 
-if ($step == 7) {
+if (7 === $step) {
     $configFile = rex_path::coreData('config.yml');
     $config = array_merge(
         rex_file::getConfig(rex_path::core('default.config.yml')),

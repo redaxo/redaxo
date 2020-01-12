@@ -21,7 +21,7 @@ session:
             domain: null
             secure: null
             httponly: true
-            samesite: 'Strict'
+            samesite: 'Lax'
     frontend:
         cookie:
             lifetime: null
@@ -29,7 +29,7 @@ session:
             domain: null
             secure: null
             httponly: true
-            samesite: 'Strict'
+            samesite: 'Lax'
 password_policy:
     length: {min: 8, max: 4096}
     lowercase: {min: 0}
@@ -39,6 +39,7 @@ lang: de_de
 lang_fallback: [en_gb, de_de]
 use_https: false
 use_hsts: false
+hsts_max_age: 31536000 # 1 year
 use_gzip: true
 use_etag: true
 use_last_modified: false
@@ -81,3 +82,4 @@ accesskeys:
     add: a
     add_2: y
 editor: null
+editor_basepath: null

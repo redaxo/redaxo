@@ -1,6 +1,11 @@
 <?php
 
-class rex_string_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_string_test extends TestCase
 {
     public function testSize()
     {

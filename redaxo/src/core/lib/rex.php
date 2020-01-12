@@ -9,7 +9,7 @@
  */
 class rex
 {
-    const CONFIG_NAMESPACE = 'core';
+    public const CONFIG_NAMESPACE = 'core';
 
     /**
      * Array of properties.
@@ -56,9 +56,9 @@ class rex
      * @param string $key   Key of the property
      * @param mixed  $value Value for the property
      *
-     * @return bool TRUE when an existing value was overridden, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE when an existing value was overridden, otherwise FALSE
      */
     public static function setProperty($key, $value)
     {
@@ -77,7 +77,7 @@ class rex
                 if (!isset($value['throw_always_exception']) || !$value['throw_always_exception']) {
                     $value['throw_always_exception'] = false;
                 } elseif (is_array($value['throw_always_exception'])) {
-                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], function ($result, $item) {
+                    $value['throw_always_exception'] = array_reduce($value['throw_always_exception'], static function ($result, $item) {
                         if (is_string($item)) {
                             // $item is string, e.g. "E_WARNING"
                             $item = constant($item);
@@ -114,9 +114,9 @@ class rex
      * @param string $key     Key of the property
      * @param mixed  $default Default value, will be returned if the property isn't set
      *
-     * @return mixed The value for $key or $default if $key cannot be found
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return mixed The value for $key or $default if $key cannot be found
      */
     public static function getProperty($key, $default = null)
     {
@@ -146,9 +146,9 @@ class rex
      *
      * @param string $key Key of the property
      *
-     * @return bool TRUE if the value was found and removed, otherwise FALSE
-     *
      * @throws InvalidArgumentException on invalid parameters
+     *
+     * @return bool TRUE if the value was found and removed, otherwise FALSE
      */
     public static function removeProperty($key)
     {
@@ -178,6 +178,19 @@ class rex
     public static function isBackend()
     {
         return (bool) self::getProperty('redaxo', false);
+    }
+
+    /**
+     * Returns if the environment is the frontend.
+     *
+     * @return bool
+     */
+    public static function isFrontend()
+    {
+        if (self::getConsole()) {
+            return false;
+        }
+        return !self::getProperty('redaxo', false);
     }
 
     /**
@@ -302,7 +315,7 @@ class rex
         if (null === $protocol) {
             return self::getProperty('server');
         }
-        list(, $server) = explode('://', self::getProperty('server'), 2);
+        [, $server] = explode('://', self::getProperty('server'), 2);
         return $protocol ? $protocol . '://' . $server : $server;
     }
 
@@ -346,32 +359,48 @@ class rex
     /**
      * Returns the current git version hash for the given path.
      *
-     * @param string $path A local filesystem path
+     * @param string      $path A local filesystem path
+     * @param null|string $repo If given, the version hash is returned only if the remote repository matches the
+     *                          given github repo (e.g. `redaxo/redaxo`)
      *
      * @return false|string
      */
-    public static function getVersionHash($path)
+    public static function getVersionHash($path, ?string $repo = null)
     {
         static $gitHash = [];
 
-        if (!isset($gitHash[$path])) {
-            $gitHash[$path] = false; // exec only once
-            $output = '';
-            $exitCode = null;
+        if (isset($gitHash[$path])) {
+            return $gitHash[$path];
+        }
 
-            if (strcasecmp(substr(PHP_OS, 0, 3), 'WIN') == 0) {
-                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            } else {
-                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            }
+        $gitHash[$path] = false; // exec only once
+        $output = [];
+        $exitCode = -1;
 
-            @exec($command, $output, $exitCode);
-            if ($exitCode === 0) {
-                $output = implode('', $output);
-                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
-                    $gitHash[$path] = $matches[0];
-                }
-            }
+        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+            $command = 'where git';
+        } else {
+            $command = 'which git';
+        }
+
+        $git = @exec($command, $output, $exitCode);
+
+        if (0 !== $exitCode) {
+            return false;
+        }
+
+        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
+        $remote = @exec($command, $output, $exitCode);
+
+        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+            return false;
+        }
+
+        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
+        $version = @exec($command, $output, $exitCode);
+
+        if (0 === $exitCode) {
+            $gitHash[$path] = $version;
         }
 
         return $gitHash[$path];

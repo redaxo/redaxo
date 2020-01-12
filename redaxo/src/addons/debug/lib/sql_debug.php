@@ -22,9 +22,12 @@ class rex_sql_debug extends rex_sql
         try {
             parent::setQuery($qry, $params, $options);
         } catch (rex_exception $e) {
-            $trace = debug_backtrace();
-            for ($i = 0; $trace && $i < count($trace); ++$i) {
-                if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+            $file = $trace[0]['file'];
+            $line = $trace[0]['line'];
+            for ($i = 1; $i < count($trace); ++$i) {
+                if (isset($trace[$i]['file']) && false === strpos($trace[$i]['file'], 'sql.php')) {
                     $file = $trace[$i]['file'];
                     $line = $trace[$i]['line'];
                     break;

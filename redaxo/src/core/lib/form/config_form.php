@@ -3,17 +3,23 @@
 /**
  * Create forms for rex_config data.
  *
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_config_form extends rex_form_base
 {
     use rex_factory_trait;
 
+    /** @var string */
     private $namespace;
 
+    /**
+     * @param string      $namespace `rex_config` namespace, usually the package key
+     * @param null|string $fieldset
+     * @param bool        $debug
+     */
     protected function __construct($namespace, $fieldset = null, $debug = false)
     {
-        parent::__construct($fieldset, md5($this->namespace.$fieldset), 'post', $debug);
+        parent::__construct($fieldset, md5($namespace.$fieldset), 'post', $debug);
 
         $this->namespace = $namespace;
 
@@ -57,7 +63,7 @@ class rex_config_form extends rex_form_base
         foreach ($this->getSaveElements() as $fieldsetName => $fieldsetElements) {
             foreach ($fieldsetElements as $element) {
                 // read-only-fields nicht speichern
-                if (strpos($element->getAttribute('class'), 'form-control-static') !== false) {
+                if (false !== strpos($element->getAttribute('class'), 'form-control-static')) {
                     continue;
                 }
 

@@ -1,5 +1,5 @@
 package: phpmailer
-version: '2.5.0-beta1'
+version: '2.6.0'
 author: 'Markus Staab, Thomas Skerbis, Jan Kristinus, Brent R. Matzelle'
 supportpage: www.redaxo.org/de/forum/
 
@@ -10,7 +10,7 @@ page:
     icon: rex-icon rex-icon-envelope
     subpages:
         config: { title: 'translate:configuration' }
-        help: { title: 'translate:help' }
+        help: { title: 'translate:help', subPath: README.md }
         checkmail: { title: 'translate:checkmail', hidden: true}
 
 pages:
@@ -19,4 +19,4 @@ pages:
         perm: admin
 
 requires:
-    redaxo: ^5.4.0
+    redaxo: ^5.7.0

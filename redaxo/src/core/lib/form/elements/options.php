@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 abstract class rex_form_options_element extends rex_form_element
 {
+    /** @var array */
     private $options;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,

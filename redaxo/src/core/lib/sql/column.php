@@ -5,16 +5,34 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql_column
 {
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var string
+     */
     private $type;
+    /**
+     * @var bool
+     */
     private $nullable;
+    /**
+     * @var null|string
+     */
     private $default;
+    /**
+     * @var null|string
+     */
     private $extra;
 
+    /**
+     * @var bool
+     */
     private $modified = false;
 
     /**

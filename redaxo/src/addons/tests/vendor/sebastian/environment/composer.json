@@ -10,11 +10,19 @@
             "email": "sebastian@phpunit.de"
         }
     ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
     "require": {
-        "php": "^5.3.3 || ^7.0"
+        "php": "^7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8 || ^5.0"
+        "phpunit/phpunit": "^7.5"
+    },
+    "suggest": {
+        "ext-posix": "*"
     },
     "autoload": {
         "classmap": [
@@ -23,7 +31,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.3.x-dev"
+            "dev-master": "4.2-dev"
         }
     }
 }

@@ -10,6 +10,7 @@ phpini_settings = PHP.ini Settings
 datetimeformat = %Y-%b-%d %H:%M
 timeformat = %H:%M
 ctrl = Select multiple using <kbd>CTRL</kbd> or <kbd>CMD</kbd> respectively
+translatable = Translatable via <code>translate:i18n_key</code>
 
 # Allgemein
 abort = cancel
@@ -28,6 +29,7 @@ function = Function
 no_editing_rights = permission denied
 check_rights_in_directory = Please review permissions in directory
 error_undefined = An undefinied error occurred
+csrf_token_invalid = Please send the form again, redo the action respectively (error: invalid CSRF token).
 
 # redaxo/redaxo/index.php
 system = System
@@ -136,6 +138,8 @@ debug_mode_on = Enable debug mode
 debug_mode_off = Disable debug mode
 debug_mode_info_on = Debug mode has been activated
 debug_mode_info_off = Debug mode was deactivated
+debug_mode_marker = Debug mode is enabled
+debug_confirm = Debug mode should not be activated in live mode. Still activate debug mode?  
 
 system_report = System report
 system_report_markdown = As markdown
@@ -172,6 +176,7 @@ setup_307 = PHP version check | Permission check
 setup_308 = PHP version ok
 setup_309 = Directory permissions ok
 setup_310 = Continue with step 4
+setup_311 = The following files/folder are editable by all users on this server ("Others"-Mode-Bit 7). Permissions should be more restrictive:
 setup_312 = Repeat step 3
 setup_399 = 3 / System check
 
@@ -258,9 +263,6 @@ https_disable = Deactivate
 https_only_frontend = Activate only for frontend
 https_only_backend = Activate only for backend
 https_activate = Activate for frontend and backend
-
-hsts_activate = Set <b>HTTP Strict Transport Security</b> Entry
-hsts_more_information = More Information at {0}
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -433,12 +435,3 @@ created_on = created
 updated_by = updated by
 updated_on = updated
 status = Status
-
-user_minibar = Show minibar in frontend?
-user_minibar_note = Provides a toolbar with further information
-minibar_database = Database
-minibar_documentation_link_label = Read the documentation
-minibar_help = Help
-minibar_resources = Resources
-minibar_slack_link_label = Slack Channel
-minibar_errorreport = Report an issue on GitHub

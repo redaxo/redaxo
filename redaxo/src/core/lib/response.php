@@ -7,36 +7,43 @@
  */
 class rex_response
 {
-    const HTTP_OK = '200 OK';
-    const HTTP_PARTIAL_CONTENT = '206 Partial Content';
-    const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
-    const HTTP_NOT_MODIFIED = '304 Not Modified';
-    const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
-    const HTTP_NOT_FOUND = '404 Not Found';
-    const HTTP_FORBIDDEN = '403 Forbidden';
-    const HTTP_UNAUTHORIZED = '401 Unauthorized';
-    const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
-    const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
-    const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
+    public const HTTP_OK = '200 OK';
+    public const HTTP_PARTIAL_CONTENT = '206 Partial Content';
+    public const HTTP_MOVED_PERMANENTLY = '301 Moved Permanently';
+    public const HTTP_NOT_MODIFIED = '304 Not Modified';
+    public const HTTP_MOVED_TEMPORARILY = '307 Temporary Redirect';
+    public const HTTP_NOT_FOUND = '404 Not Found';
+    public const HTTP_FORBIDDEN = '403 Forbidden';
+    public const HTTP_UNAUTHORIZED = '401 Unauthorized';
+    public const HTTP_RANGE_NOT_SATISFIABLE = '416 Range Not Satisfiable';
+    public const HTTP_INTERNAL_ERROR = '500 Internal Server Error';
+    public const HTTP_SERVICE_UNAVAILABLE = '503 Service Unavailable';
 
+    /** @var string */
     private static $httpStatus = self::HTTP_OK;
+    /** @var bool */
     private static $sentLastModified = false;
+    /** @var bool */
     private static $sentEtag = false;
+    /** @var bool */
     private static $sentContentType = false;
+    /** @var bool */
     private static $sentCacheControl = false;
+    /** @var array */
     private static $additionalHeaders = [];
+    /** @var array */
     private static $preloadFiles = [];
 
     /**
      * Sets the HTTP Status code.
      *
-     * @param int $httpStatus
+     * @param string $httpStatus
      *
      * @throws InvalidArgumentException
      */
     public static function setStatus($httpStatus)
     {
-        if (strpos($httpStatus, "\n") !== false) {
+        if (false !== strpos($httpStatus, "\n")) {
             throw new InvalidArgumentException('Illegal http-status "' . $httpStatus . '", contains newlines');
         }
 
@@ -94,6 +101,15 @@ class rex_response
         }
     }
 
+    private static function sendServerTimingHeaders()
+    {
+        // see https://w3c.github.io/server-timing/#the-server-timing-header-field
+        foreach (rex_timer::$serverTimings as $label => $durationMs) {
+            $label = preg_replace('{[^!#$%&\'*+-\.\^_`|~\w]}i', '_', $label);
+            header('Server-Timing: '. $label .';dur='. number_format($durationMs, 3, '.', ''), false);
+        }
+    }
+
     /**
      * Redirects to a URL.
      *
@@ -102,16 +118,19 @@ class rex_response
      * @param string $url URL
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-return no-return
      */
     public static function sendRedirect($url)
     {
-        if (strpos($url, "\n") !== false) {
+        if (false !== strpos($url, "\n")) {
             throw new InvalidArgumentException('Illegal redirect url "' . $url . '", contains newlines');
         }
 
         self::cleanOutputBuffers();
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         header('HTTP/1.1 ' . self::$httpStatus);
         header('Location: ' . $url);
@@ -159,42 +178,40 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
-        // dependency ramsey/http-range requires PHP >=5.6
-        if (PHP_VERSION_ID >= 50600) {
-            header('Accept-Ranges: bytes');
-            $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
-            if ($rangeHeader) {
-                try {
-                    $filesize = filesize($file);
-                    $unitFactory = new \Ramsey\Http\Range\UnitFactory();
-                    $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
-                    $handle = fopen($file, 'rb');
-                    if (is_resource($handle)) {
-                        foreach ($ranges as $range) {
-                            header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
-                            header('Content-Length: ' . $range->getLength());
-                            header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
+        header('Accept-Ranges: bytes');
+        $rangeHeader = rex_request::server('HTTP_RANGE', 'string', null);
+        if ($rangeHeader) {
+            try {
+                $filesize = filesize($file);
+                $unitFactory = new \Ramsey\Http\Range\UnitFactory();
+                $ranges = $unitFactory->getUnit(trim($rangeHeader), $filesize)->getRanges();
+                $handle = fopen($file, 'r');
+                if (is_resource($handle)) {
+                    foreach ($ranges as $range) {
+                        header('HTTP/1.1 ' . self::HTTP_PARTIAL_CONTENT);
+                        header('Content-Length: ' . $range->getLength());
+                        header('Content-Range: bytes ' . $range->getStart() . '-' . $range->getEnd() . '/' . $filesize);
 
-                            // Don't output more bytes as requested
-                            // default chunk size is usually 8192 bytes
-                            $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
+                        // Don't output more bytes as requested
+                        // default chunk size is usually 8192 bytes
+                        $chunkSize = $range->getLength() > 8192 ? 8192 : $range->getLength();
 
-                            fseek($handle, $range->getStart());
-                            while (ftell($handle) < $range->getEnd()) {
-                                echo fread($handle, $chunkSize);
-                            }
+                        fseek($handle, $range->getStart());
+                        while (ftell($handle) < $range->getEnd()) {
+                            echo fread($handle, $chunkSize);
                         }
-                        fclose($handle);
-                    } else {
-                        // Send Error if file couldn't be read
-                        header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                     }
-                } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
-                    header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
+                    fclose($handle);
+                } else {
+                    // Send Error if file couldn't be read
+                    header('HTTP/1.1 ' . self::HTTP_INTERNAL_ERROR);
                 }
-                return;
+            } catch (\Ramsey\Http\Range\Exception\HttpRangeException $exception) {
+                header('HTTP/1.1 ' . self::HTTP_RANGE_NOT_SATISFIABLE);
             }
+            return;
         }
 
         readfile($file);
@@ -268,30 +285,24 @@ class rex_response
 
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
-        if (
-            self::$httpStatus == self::HTTP_OK &&
-            // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
-            // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
-            // https://bugs.webkit.org/show_bug.cgi?id=32829
-            (!empty($_SERVER['HTTP_USER_AGENT']) && (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')))
-        ) {
+        if (self::HTTP_OK == self::$httpStatus) {
             // ----- Last-Modified
             if (!self::$sentLastModified
-                && (rex::getProperty('use_last_modified') === true || rex::getProperty('use_last_modified') === $environment)
+                && (true === rex::getProperty('use_last_modified') || rex::getProperty('use_last_modified') === $environment)
             ) {
                 self::sendLastModified($lastModified);
             }
 
             // ----- ETAG
             if (!self::$sentEtag
-                && (rex::getProperty('use_etag') === true || rex::getProperty('use_etag') === $environment)
+                && (true === rex::getProperty('use_etag') || rex::getProperty('use_etag') === $environment)
             ) {
                 self::sendEtag($etag ?: self::md5($content));
             }
         }
 
         // ----- GZIP
-        if (rex::getProperty('use_gzip') === true || rex::getProperty('use_gzip') === $environment) {
+        if (true === rex::getProperty('use_gzip') || rex::getProperty('use_gzip') === $environment) {
             $content = self::sendGzip($content);
         }
 
@@ -304,6 +315,7 @@ class rex_response
 
         self::sendAdditionalHeaders();
         self::sendPreloadHeaders();
+        self::sendServerTimingHeaders();
 
         echo $content;
 
@@ -451,13 +463,13 @@ class rex_response
      */
     public static function sendCookie($name, $value, array $options = [])
     {
-        $expire = isset($options['expires']) ? $options['expires'] : 0;
-        $path = isset($options['path']) ? $options['path'] : '/';
-        $domain = isset($options['domain']) ? $options['domain'] : null;
-        $secure = isset($options['secure']) ? $options['secure'] : false;
-        $httpOnly = isset($options['httponly']) ? $options['httponly'] : true;
-        $sameSite = isset($options['samesite']) ? $options['samesite'] : null;
-        $raw = isset($options['raw']) ? $options['raw'] : false;
+        $expire = $options['expires'] ?? 0;
+        $path = $options['path'] ?? '/';
+        $domain = $options['domain'] ?? null;
+        $secure = $options['secure'] ?? false;
+        $httpOnly = $options['httponly'] ?? true;
+        $sameSite = $options['samesite'] ?? null;
+        $raw = $options['raw'] ?? false;
 
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
@@ -484,7 +496,7 @@ class rex_response
         if (null !== $sameSite) {
             $sameSite = strtolower($sameSite);
         }
-        if (!in_array($sameSite, ['lax', 'strict', null], true)) {
+        if (!in_array($sameSite, ['lax', 'strict', 'none', null], true)) {
             throw new \InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
 

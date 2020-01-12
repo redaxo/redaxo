@@ -1,22 +1,82 @@
 Changelog
 =========
 
-Version 5.7.0 – XX.XX.XXXX
+Version 5.8.1 – 01.11.2019
 --------------------------
 
 ### Neu
 
-* Minibar am unteren Seitenrand (@tbaddade)
-    - Im Backend immer sichtbar (statt bisheriger Footer)
-    - Optional auch im Frontend (Profileinstellungen); mit Minimier-Option
-    - Vorerst zwei Komponenten für aktuellen Artikel und aktuelle Sprache, und rechts eine mit Core/Versions-Infos
+* Update der externen Bibliotheken
+
+### Bugfixes
+
+* Whoops-Seite: Safemode-Button wieder sichtbar (@bloep)
+* Benutzerwechsel: beim Zurückwechseln in zwei Browserfenstern kam es unnötigerweise zu einer Exception (@tbaddade)
+* Unter System wurde an die REDAXO-Version teils fälschlich der Projekt-Git-Hash angehangen (@gharlan)
+* `rex_form`: Beim Löschen von Datensätzen wurden die Prios nicht neu gesetzt (@dpf-dd)
+* `rex_sql`: Aufruf `insertOrUpdate` ohne tatsächliche Änderungen führte fälschlich zu einer Exception (@pschuchmann)
+* `rex_sql_table`: Fehlermeldung bei Kombi `setName` und `alter` für nicht-existente Tabelle korrigiert (@gharlan)
+
+
+Version 5.8.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* PHP-Mindestversion angehoben auf 7.1.3
+* Update der externen Bibliotheken (u.a. Symfony components 4.3)
+* Wenn Debug-Mode aktiv, wird das Frontend vor Crawlern versteckt (noindex) (@staabm)
+* Vor Aktivierung des Debug-Modes kommt eine Bestätigungsbox (@skerbis)
+* Session-Cookie: 
+    - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
+    - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
+* `rex_form`: Statt der Konstante `REX_FORM_ERROR_VIOLATE_UNIQUE_KEY` (deprecated) ist nun `rex_form::ERROR_VIOLATE_UNIQUE_KEY` zu verwenden (@staabm)
+* Beispiel-`.gitignore` wird mitgeliefert (@schuer)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062), Englisch (@tyrant88)
+
+### Bugfixes
+
+* `rex_form`: Wenn ein Fieldsetname mit "?" endete, wurden die Werte nicht gespeichert (@gharlan)
+* `rex_config_form`: Es konnten nicht zwei Formulare auf einer Seite verwendet werden (@gharlan)
+* `rex_stream`: Warning in PHP 7.4 vermeiden (@gharlan)
+* Command `config:get`: Ausgabe endete nicht mit einer Newline (@gharlan)
+* Textkorrekturen und -vereinheitlichungen (@marcohanke, @sebastiannoell)
+* Im Setup stand im Header unnötigerweise "Nicht angemeldet" (@gharlan)
+
+
+Version 5.7.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* REDAXO 5.7.x kann nur ausgehend von >=5.6 aktualisiert werden, geprüft wurde aber nur auf >= 5.4 (@gharlan)
+* Asset-Streaming (über `redaxo/index.php`):
+    - `?asset=`-Parameter unterstützte keine absoluten Pfade (`/assets/...`), was zu Problemen in manchen AddOn-Konstellationen führen konnte (@staabm)
+    - SourceMap-Dateien wurden teils versucht über falsche Pfade zu laden (werden nun gar nicht mehr geladen) (@gharlan)
+* `rex_config`: Wenn ein Wert gesetzt, und der Key direkt wieder gelöscht wurde, kam es zu einem Fehler (@gharlan)
+* Die Benutzerrechte wurden case-sensitive sortiert (@gharlan)
+* Update der externen Bibliotheken (@gharlan)
+
+
+Version 5.7.0 – 12.03.2019
+--------------------------
+
+### Wichtig
+
+REDAXO 5.7.x ist die letzte Version die mit PHP 7.0 oder älter kompatibel ist.
+Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
+
+### Neu
+
 * System-Page:
     - Überarbeitung/Optimierung von System/Einstellungen (@tbaddade, @skerbis)
-    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staaabm)
+    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staabm)
+    - Packages können eigene Logfiles in der neuen zentralen System-Log-Seite einbinden (@staabm)
     - Systembericht mit Infos zu REDAXO, AddOns, PHP, Server (auch als Markdown zum Kopieren und Verwenden in GitHub-Issues etc.) (@gharlan)
 * Fehlerbehandlung:
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
     - Schönere Fehlerseite im Frontend und Backend (wenn nicht als Admin eingeloggt) (@elricco, @staabm, @tbaddade)
+    - Die neuen Fehlerseiten können via Fragment angepasst werden (@tbaddade, @staabm)
 * Editor-Integration: 
     - Unter System kann ein Editor ausgewählt werden; Quellcode-Dateien werden dann (z.B. in Whoops) so verlinkt, dass man sie direkt in dem Editor öffnen kann (@staabm, @gharlan)
     - Mit der `rex_editor`-Klasse können an weiteren Stellen Editor-URLs erzeugt werden (@staabm)
@@ -25,36 +85,63 @@ Version 5.7.0 – XX.XX.XXXX
     - Manche Core Commands können nun bereits vor dem Setup ausgeführt werden (@bloep)
     - Neuer Command `config:get` (@bloep)
     - Neuer Command `db:set-connection` (@bloep)
+    - Neuer Command `user:create` (@staabm)
+* `rex`: Neue Methode `isFrontend` (@staabm)
+* `rex_list`/`rex_form`: Nutzbar mit den weiteren Datenbanken (@gharlan)
 * `rex_i18n`: Neue Methode `msgInLocale` zum Übersetzen in andere Sprachen ohne die Default-Sprache zu ändern (@staabm)
 * `rex_path`: Neue Methode `relative()` um aus einem absoluten Pfad einen relativ zum Projekt-Root zu bekommen (@gharlan)
-* `rex_sql`: Debug-Ausgabe erweitert um aufgelöstes SQL-Statement inkl. Parametern (@aeberhard)
+* `rex_file`: Schreibvorgänge sind nun atomar (@staabm)
+* `rex_sql`: 
+    - `addGlobal[Create/Update]Fields`: Umgebung (frontend/console) als Defaultwert für Benutzer (@staabm)
+    - Debug-Ausgabe erweitert um aufgelöstes SQL-Statement inkl. Parametern (@aeberhard)
+* `rex_clang`: Methode `count` hat optionalen Parameter `$ignoreOffline` (@tbaddade)
 * `rex_response`: Unterstützung für HTTP-Range (@bloep)
-* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen (@staabm)
-* Setup: 
+* `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
+* Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
+* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen. Damit können u.a. Single-Sign-On Mechanismen realisiert werden. (@staabm)
+* Setup-Hinweise bzgl. Sicherheit:
     - Warnung bei veralteter PHP-Version (@staabm)
     - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
-* AddOn-README-Dateien werden auch sprachabhängig angezeigt (README.de.md etc.) (@staabm)
+* README-Ausgabe, Markdown-Pages:
+    - Sprachunterstützung (README.de.md etc.) (@staabm, @gharlan)
+    - Sprungankernavi (@gharlan, @tbaddade)
+* Readme für das Project-AddOn (@dtpop)
+* Aktiver Debug-Modus wird durch Icon im Header angezeigt (@schuer)
 * Verständlichere CSRF-Meldung (@alexplusde)
 * Backend-Übersetzungdateien:
     - Neu: Niederländisch (noch ohne Core-AddOns) (@MaxKorlaar)
-    - Aktualisierung: Englisch (@skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
+    - Aktualisierung: Englisch (@ynamite, @skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
 * Default-Passwortregeln: Max. Länge von 4096 Zeichen (@staabm)
-* bootstrap-select wird an weiteren Stellen verwendet (@skerbis)
+* bootstrap-select wird an weiteren Stellen verwendet (@skerbis, @schuer)
 * REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
+* Verbesserung der Usability durch neue Beschreibungstexte, oder Präzisierung vorhandener (@schuer, @alexplusde)
+* Datum aus Footer entfernt (@staabm)
+* htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
+* Sicherheit:
+    - Bei Logout aus dem Backend werden temporäre Daten auf dem Server sofort gelöscht (@staabm)
+    - Im Backend wird eine rudimentäre HTTP Content-Security-Policy verwendet (@staabm)
 * Performance:
-    - Backend-Assets werden über index.php geladen um optimierte Cache-Header (immutable) setzen zu können (@staabm)
+    - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
+    - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm)
+    - Weniger Dateioperationen im Backend um Datei-basiertes Cachen zu beschleunigen (@staabm)
+    - Übersetzungen können schneller verarbeitet/dargestellt werden (@staabm)
     - Viele kleinere und größere Performance-Optimierungen (@staabm)
 * Update der externen Bibliotheken
+* API-Dokumentation unter https://www.redaxo.org/api/master/ übersichtlicher durch neue subpackages (@staabm)
 
 ### Bugfixes
 
+* Versionsbedingungen: Bei `^2.0` wurde fälschlich `3.0-beta` akzeptiert (@gharlan)
 * Profil: Sprachen waren nicht sortiert und Änderungen wirkten sich nicht direkt nach Speichern aus, erst nach Reload (@skerbis, @bloep)
 * Bei aktiviertem Safe-Mode blieb der Button unter "System" trotzdem bei "Safe mode aktivieren" (@skerbis)
+* `rex_sql`: Insert ohne explizite Values warf Fehler (@gharlan)
+* `rex_sql_table`: Für `timestamp`/`datetime`-Spalten konnte nicht der Default-Wert `CURRENT_TIMESTAMP` gesetzt werden (@gharlan)
 * `rex_form`: Media-/Link-/Prio-Felder konnten nicht mit `rex_form_base` bzw. `rex_config_form` verwendet werden (@christophboecker)
 * `rex::getVersionHash` funktionierte nicht auf Windows Servern (@staabm)
-* Autoloader-Cache wird bei Fehlern nicht mehr geschrieben, und unvollständigen Cache zu vermeiden (@staabm)
+* Autoloader-Cache wird bei Fehlern nicht mehr geschrieben, um unvollständigen Cache zu vermeiden (@staabm)
 * Nach Session-Ablauf wird bei erneutem Seitenaufruf der Browser-Cache gelöscht (wie bereits bei explizitem Logout) (@staabm)
-* Besseres Escaping nutzen mittels `rex_escape` (@bloep)
+* Besseres Escaping nutzen mittels `rex_escape` (@bloep, @gharlan)
+* EP `PASSWORD_UPDATED`: User-ID wurde nicht korrekt übergeben (@staabm)
 * Im Chrome kam es zu Warnungen bzgl. des Font-Preloadings (@bloep)
 * Wenn der Client keinen `User-Agent`-Header schickt, kam es zu einer Warnung (@staabm)
 * Bei frühen Fehlern in der Console konnte es passieren, dass die HTML-Fehlerseite ausgegeben wurde (@staabm)

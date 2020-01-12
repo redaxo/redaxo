@@ -1,29 +1,53 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 class rex_login
 {
+    /**
+     * @var int
+     */
     protected $DB = 1;
     protected $sessionDuration;
     protected $loginQuery;
     protected $userQuery;
     protected $impersonateQuery;
+    /**
+     * @var string
+     */
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
+    /**
+     * @var bool
+     */
     protected $logout = false;
+    /**
+     * @var string
+     */
     protected $idColumn = 'id';
+    /**
+     * @var string
+     */
     protected $passwordColumn = 'password';
+    /**
+     * @var bool
+     */
     protected $cache = false;
+    /**
+     * @var int
+     */
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
+    /**
+     * @var string
+     */
     protected $message = '';
 
-    /** @var rex_sql */
+    /** @var rex_sql|rex_user */
     protected $user;
 
-    /** @var rex_sql */
+    /** @var rex_sql|rex_user */
     protected $impersonator;
 
     /**
@@ -178,25 +202,25 @@ class rex_login
             // LoginStatus: 0 = noch checken, 1 = ok, -1 = not ok
 
             // gecachte ausgabe erlaubt ? checkLogin schonmal ausgeführt ?
-            if ($this->cache && $this->loginStatus != 0) {
+            if ($this->cache && 0 != $this->loginStatus) {
                 return $this->loginStatus > 0;
             }
 
-            if ($this->userLogin != '') {
+            if ('' != $this->userLogin) {
                 // wenn login daten eingegeben dann checken
                 // auf error seite verweisen und message schreiben
 
                 $this->user = rex_sql::factory($this->DB);
 
                 $this->user->setQuery($this->loginQuery, [':login' => $this->userLogin]);
-                if ($this->user->getRows() == 1 && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
+                if (1 == $this->user->getRows() && self::passwordVerify($this->userPassword, $this->user->getValue($this->passwordColumn), true)) {
                     $ok = true;
                     self::regenerateSessionId();
                     $this->setSessionVar('UID', $this->user->getValue($this->idColumn));
                 } else {
                     $this->message = rex_i18n::msg('login_error');
                 }
-            } elseif ($this->getSessionVar('UID') != '') {
+            } elseif ('' != $this->getSessionVar('UID')) {
                 // wenn kein login und kein logout dann nach sessiontime checken
                 // message schreiben und falls falsch auf error verweisen
 
@@ -287,7 +311,7 @@ class rex_login
     public function depersonate()
     {
         if (!$this->impersonator) {
-            throw new RuntimeException('There is no current impersonator.');
+            return;
         }
 
         $this->user = $this->impersonator;
@@ -330,7 +354,7 @@ class rex_login
      */
     public function setSessionVar($varname, $value)
     {
-        $_SESSION[rex::getProperty('instname')][$this->systemId][$varname] = $value;
+        $_SESSION[static::getSessionNamespace()][$this->systemId][$varname] = $value;
     }
 
     /**
@@ -345,13 +369,13 @@ class rex_login
 
             if (!empty($rexSessId) && $rexSessId !== session_id()) {
                 // clear redaxo related session properties on a possible attack
-                $_SESSION[rex::getProperty('instname')][$this->systemId] = [];
+                $_SESSION[static::getSessionNamespace()][$this->systemId] = [];
             }
             $sessChecked = true;
         }
 
-        if (isset($_SESSION[rex::getProperty('instname')][$this->systemId][$varname])) {
-            return $_SESSION[rex::getProperty('instname')][$this->systemId][$varname];
+        if (isset($_SESSION[static::getSessionNamespace()][$this->systemId][$varname])) {
+            return $_SESSION[static::getSessionNamespace()][$this->systemId][$varname];
         }
 
         return $default;
@@ -382,7 +406,7 @@ class rex_login
      */
     public static function startSession()
     {
-        if (session_id() == '') {
+        if ('' == session_id()) {
             $cookieParams = static::getCookieParams();
 
             session_set_cookie_params(
@@ -393,7 +417,10 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            if (!@session_start()) {
+            $started = rex_timer::measure(__METHOD__, static function () {
+                return @session_start();
+            });
+            if (!$started) {
                 $error = error_get_last();
                 if ($error) {
                     rex_error_handler::handleError($error['type'], $error['message'], $error['file'], $error['line']);
@@ -422,7 +449,7 @@ class rex_login
 
         if ($sessionConfig) {
             foreach ($sessionConfig[$key]['cookie'] as $name => $value) {
-                if ($value !== null) {
+                if (null !== $value) {
                     $cookieParams[$name] = $value;
                 }
             }
@@ -485,5 +512,15 @@ class rex_login
     public static function passwordNeedsRehash($hash)
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT);
+    }
+
+    /**
+     * returns the current session namespace.
+     *
+     * @return string
+     */
+    protected static function getSessionNamespace()
+    {
+        return rex_request::getSessionNamespace();
     }
 }

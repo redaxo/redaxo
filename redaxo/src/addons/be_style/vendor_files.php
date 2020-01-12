@@ -17,6 +17,7 @@ return [
     'vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.svg' => 'fonts/bootstrap/glyphicons-halflings-regular.svg',
     'vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.ttf' => 'fonts/bootstrap/glyphicons-halflings-regular.ttf',
     'vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.woff' => 'fonts/bootstrap/glyphicons-halflings-regular.woff',
+    'vendor/bootstrap/assets/fonts/bootstrap/glyphicons-halflings-regular.woff2' => 'fonts/bootstrap/glyphicons-halflings-regular.woff2',
     'vendor/bootstrap-select/dist/css/bootstrap-select.min.css' => 'css/bootstrap-select.min.css',
     'vendor/bootstrap-select/dist/js/bootstrap-select.min.js' => 'javascripts/bootstrap-select.min.js',
     'vendor/bootstrap-select/dist/js/bootstrap-select.js.map' => 'javascripts/bootstrap-select.js.map',
@@ -27,6 +28,4 @@ return [
     'vendor/font-awesome/fonts/fontawesome-webfont.woff' => 'fonts/fontawesome-webfont.woff',
     'vendor/font-awesome/fonts/fontawesome-webfont.woff2' => 'fonts/fontawesome-webfont.woff2',
     'vendor/font-awesome/fonts/FontAwesome.otf' => 'fonts/FontAwesome.otf',
-    'vendor/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js' => 'javascripts/perfect-scrollbar.jquery.min.js',
-    'vendor/perfect-scrollbar/css/perfect-scrollbar.min.css' => 'css/perfect-scrollbar.min.css',
 ];

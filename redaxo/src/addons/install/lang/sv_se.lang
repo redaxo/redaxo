@@ -58,6 +58,7 @@ install_to_addon_page = Till AddOn-förvaltningen
 
 install_settings_general = Allmänt
 install_settings_backups = Skapa backups
+install_settings_backups_note = Innan paketet uppdateras av installationsprogrammet, lagras en kopia av den aktuella versionen i <code> redaxo / data / addons / install / </ code>. Dessa kan återställas vid fel. <br> Observera att databasen inte kommer att säkerhetskopieras!
 install_settings_myredaxo_account = myREDAXO-Account
 install_settings_api_login = Användarnamn
 install_settings_api_key = API-nyckel

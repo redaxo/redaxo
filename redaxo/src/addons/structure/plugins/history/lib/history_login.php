@@ -19,7 +19,7 @@ class rex_history_login extends rex_backend_login
         $user_sql = rex_sql::factory($this->DB);
         $user_sql->setQuery($this->loginQuery, [':login' => $historyLogin]);
 
-        if ($user_sql->getRows() == 1) {
+        if (1 == $user_sql->getRows()) {
             if (self::verifySessionKey($historyLogin . $user_sql->getValue('session_id') . $historyValidtime, $historySession)) {
                 $this->user = $user_sql;
                 $this->setSessionVar('STAMP', time());

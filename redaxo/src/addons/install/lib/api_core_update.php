@@ -37,6 +37,7 @@ class rex_api_install_core_update extends rex_api_function
         $coreAddons = [];
         /** @var rex_addon[] $updateAddons */
         $updateAddons = [];
+        $updateAddonsConfig = [];
         try {
             if ($version['checksum'] != md5_file($archivefile)) {
                 throw new rex_functional_exception($installAddon->i18n('warning_zip_wrong_checksum'));
@@ -186,9 +187,8 @@ class rex_api_install_core_update extends rex_api_function
     }
 
     /**
-     * @param string      $temppath
-     * @param string      $version
-     * @param rex_addon[] $addons
+     * @param string $temppath
+     * @param string $version
      *
      * @throws rex_functional_exception
      */
@@ -204,31 +204,27 @@ class rex_api_install_core_update extends rex_api_function
             $addon = rex_addon::get($addonkey);
             $addonPath = $temppath . 'addons/' . $addonkey . '/';
 
-            if (isset($config['requires'])) {
-                $requirements[$addon] = $addon->getProperty('requires');
-                $addon->setProperty('requires', $config['requires']);
-            }
-            if (isset($config['conflicts'])) {
-                $conflicts[$addon] = $addon->getProperty('conflicts');
-                $addon->setProperty('conflicts', $config['conflicts']);
-            }
+            $requirements[$addon] = $addon->getProperty('requires', []);
+            $addon->setProperty('requires', $config['requires'] ?? []);
+
+            $conflicts[$addon] = $addon->getProperty('conflicts', []);
+            $addon->setProperty('conflicts', $config['conflicts'] ?? []);
+
             $versions[$addon] = $addon->getVersion();
             $addon->setProperty('version', $config['version']);
+
             foreach ($addon->getAvailablePlugins() as $plugin) {
                 if (is_dir($addonPath . 'plugins/' . $plugin->getName())) {
                     $config = rex_file::getConfig($addonPath . 'plugins/' . $plugin->getName() . '/' . rex_package::FILE_PACKAGE);
-                    if (isset($config['requires'])) {
-                        $requirements[$plugin] = $plugin->getProperty('requires');
-                        $plugin->setProperty('requires', $config['requires']);
-                    }
-                    if (isset($config['conflicts'])) {
-                        $conflicts[$plugin] = $plugin->getProperty('conflicts');
-                        $plugin->setProperty('conflicts', $config['conflicts']);
-                    }
-                    if (isset($config['version'])) {
-                        $versions[$plugin] = $plugin->getProperty('version');
-                        $plugin->setProperty('version', $config['version']);
-                    }
+
+                    $requirements[$plugin] = $plugin->getProperty('requires', []);
+                    $plugin->setProperty('requires', $config['requires'] ?? []);
+
+                    $conflicts[$plugin] = $plugin->getProperty('conflicts', []);
+                    $plugin->setProperty('conflicts', $config['conflicts'] ?? []);
+
+                    $versions[$plugin] = $plugin->getProperty('version');
+                    $plugin->setProperty('version', $config['version'] ?? null);
                 }
             }
         }

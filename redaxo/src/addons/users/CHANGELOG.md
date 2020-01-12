@@ -1,12 +1,22 @@
 Changelog
 =========
 
-Version 2.5.2 – XX.XX.XXXX
+Version 2.5.3 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.5.2 – 12.03.2019
 --------------------------
 
 ### Bugfixes
 
 * Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurde der letzte Login falsch angezeigt (@gharlan)
+* Mit MySQL 8.0 bis 8.0.12 kam es in der Benutzerliste zu einem Fehler (@schuer)
+* "Rolle(n)" statt "Rolle" als Label, da mehrere ausgewählt werden können (@skerbis)
 
 
 Version 2.5.1 – 01.10.2018

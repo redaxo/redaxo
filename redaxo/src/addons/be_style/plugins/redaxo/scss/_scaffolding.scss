@@ -49,6 +49,26 @@ html {
     }
 }
 
+.rex-marker-debugmode {
+    position: absolute;
+    transform: translate(0, -5px);
+    line-height: 0;
+    border-radius: 100px;
+    padding: 5px;
+    color: lighten(#f90, 3%); // a tad brighter since on dark background
+
+    &:hover,
+    &:focus {
+        color: darken(#f90, 3%);
+    }
+
+    @media (min-width: $grid-float-breakpoint) {
+        transform: translate(0);
+        top: 23px;
+        right: -28px;
+    }
+}
+
 .rex-main-frame {
     margin-left: floor(-$grid-gutter-width / 2);
     margin-right: floor(-$grid-gutter-width / 2);

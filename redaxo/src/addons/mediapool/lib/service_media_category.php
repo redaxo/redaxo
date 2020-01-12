@@ -40,9 +40,9 @@ class rex_media_category_service
     /**
      * @param int $categoryId
      *
-     * @return string A success message
-     *
      * @throws rex_functional_exception
+     *
+     * @return string A success message
      */
     public static function deleteCategory($categoryId)
     {
@@ -50,12 +50,11 @@ class rex_media_category_service
         $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE category_id=?', [$categoryId]);
         $gd = rex_sql::factory();
         $gd->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media_category WHERE parent_id=?', [$categoryId]);
-        if ($gf->getRows() == 0 && $gd->getRows() == 0) {
+        if (0 == $gf->getRows() && 0 == $gd->getRows()) {
             if ($uses = self::categoryIsInUse($categoryId)) {
                 $gf->setQuery('SELECT name FROM ' . rex::getTable('media_category') . ' WHERE id=?', [$categoryId]);
                 $name = "{$gf->getValue('name')} [$categoryId]";
-                throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' '
-                    . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
+                throw new rex_functional_exception('<strong>' . rex_i18n::msg('pool_kat_delete_error', $name) . ' ' . rex_i18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
             $gf->setQuery('DELETE FROM ' . rex::getTablePrefix() . 'media_category WHERE id=?', [$categoryId]);

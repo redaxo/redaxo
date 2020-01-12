@@ -1,13 +1,43 @@
 Changelog
 =========
 
-Version 2.7.0 – XX.XX.XXXX
+Version 2.8.1 – 01.11.2019
+--------------------------
+
+* Favicon und zugehörige Dateien wurden mit falschem Pfad eingebunden (@gharlan)
+
+
+Version 2.8.0 – 20.08.2019
+--------------------------
+
+* Customizer-Farbe wird für `theme-color`-Metatag verwendet (@tbaddade)
+* Assets nutzen immutable cache (@staabm)
+* ID- und Prio-Spalten breiter (für größere Zahlen) (@tbaddade)
+* Abstand nach Paginierung korrigiert (@tbaddade)
+* SCSS-Compiler: Methode `setStripComments` entfernt, da diese sowieso noch nie funktioniert hat (@staabm)
+
+
+Version 2.7.1 – 01.04.2019
+--------------------------
+
+* Markdown-Ausgabe: Layout nicht mehr in der Breite zerschießen (@ansichtsache)
+
+
+Version 2.7.0 – 12.03.2019
 --------------------------
 
 * Layout für neue Core-Komponenten und diverse kleine Optimierungen (@tbaddade)
+* Hauptnavi: Weniger Padding (top/bottom) (@schuer)
+* Neue Favicons (@schuer)
 * Consolen-Command `be_style:compile` (@bloep)
-* CodeMirror überarbeitet/aktualisiert (@aeberhard) 
-* Customizer: Bessere Default-Erkennungsfarbe (@skerbis)
+* Codemirror-Integration verbessert (@aeberhard)
+    - Sourcen verkleinert (@aeberhard, @staabm)
+    - Ergänzt um Suche (@aeberhard)
+    - Vereinfachte Einbindung systemweit (@aeberhard)
+    - CodeMirror wird nur geladen wenn er auch benötigt wird (@aeberhard, @staabm)
+* Customizer: 
+    - Bessere Default-Erkennungsfarbe (@skerbis)
+    - Bessere Darstellung des Links zur Website im Header (@schuer)
 
 
 Version 2.6.1 – 10.07.2018

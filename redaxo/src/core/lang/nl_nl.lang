@@ -260,9 +260,6 @@ https_only_frontend = Alleen inschakelen voor frontend
 https_only_backend = Alleen inschakelen voor backend
 https_activate = Inschakelen voor front- en backend
 
-hsts_activate = Stel <b>HTTP Strict Transport Security</b> in
-hsts_more_information = Meer informatie op {0}
-
 # redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
@@ -434,13 +431,3 @@ created_on = gemaakt op
 updated_by = bijgewerkt door
 updated_on = bijgewerkt op
 status = Status
-
-user_minibar = Toon minibalk in frontend?
-user_minibar_note = Toont een toolbar met meer informatie
-minibar_board_link_label = Bezoek het forum
-minibar_database = Database
-minibar_documentation_link_label = Lees de documentatie
-minibar_help = Help
-minibar_resources = Bronnen
-minibar_slack_link_label = Slack-kanaal
-minibar_errorreport = Meld een probleem op GitHub

@@ -20,7 +20,7 @@ $form = $metainfoHandler->getForm([
 
 $n = [];
 $n['label'] = '<label for="rex-id-meta-article-name">' . rex_i18n::msg('header_article_name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . rex_escape(rex_article::get($article_id, $clang)->getValue('name'), 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . rex_escape(rex_article::get($article_id, $clang)->getValue('name')) . '" />';
 $formElements = [$n];
 
 $fragment = new rex_fragment();

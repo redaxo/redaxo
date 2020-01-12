@@ -9,8 +9,17 @@
  */
 class rex_socket_proxy extends rex_socket
 {
+    /**
+     * @var string
+     */
     protected $destinationHost;
+    /**
+     * @var int
+     */
     protected $destinationPort;
+    /**
+     * @var bool
+     */
     protected $destinationSsl;
 
     /**
@@ -61,7 +70,7 @@ class rex_socket_proxy extends rex_socket
             ];
             $response = $this->writeRequest('CONNECT', $this->destinationHost . ':' . $this->destinationPort, $headers);
             if (!$response->isOk()) {
-                throw new rex_socket_exception(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s"'), $response->getStatusCode(), $response->getStatusMessage());
+                throw new rex_socket_exception(sprintf('Couldn\'t connect to proxy server, server responds with "%s %s"', $response->getStatusCode(), $response->getStatusMessage()));
             }
             stream_socket_enable_crypto($this->stream, true, STREAM_CRYPTO_METHOD_SSLv3_CLIENT);
         } else {

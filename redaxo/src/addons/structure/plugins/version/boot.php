@@ -13,9 +13,9 @@ $mypage = 'version';
 rex_perm::register('version[live_version]', null, rex_perm::OPTIONS);
 
 // ***** an EPs andocken
-rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
+rex_extension::register('ART_INIT', static function (rex_extension_point $ep) {
     $version = rex_request('rex_version', 'int');
-    if ($version != 1) {
+    if (rex_article_revision::WORK != $version) {
         return;
     }
 
@@ -33,7 +33,7 @@ rex_extension::register('ART_INIT', function (rex_extension_point $ep) {
     $article->setEval(true);
 });
 
-rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_point $ep) {
+rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
     $params = $ep->getParams();
     $return = '';
 
@@ -55,9 +55,9 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_poin
 
     $version_id = rex_request('rex_set_version', 'int', '-1');
 
-    if ($version_id === 0) {
+    if (0 === $version_id) {
         $rex_version_article[$params['article_id']] = 0;
-    } elseif ($version_id == 1) {
+    } elseif (1 == $version_id) {
         $rex_version_article[$params['article_id']] = 1;
     } elseif (!isset($rex_version_article[$params['article_id']])) {
         $rex_version_article[$params['article_id']] = 1;
@@ -142,8 +142,8 @@ rex_extension::register('STRUCTURE_CONTENT_HEADER', function (rex_extension_poin
         }
     }
 
-    $inverse = $rex_version_article[$params['article_id']] == 1 ? true : false;
-    $cssClass = $rex_version_article[$params['article_id']] == 1 ? 'rex-state-inprogress' : 'rex-state-live';
+    $inverse = 1 == $rex_version_article[$params['article_id']] ? true : false;
+    $cssClass = 1 == $rex_version_article[$params['article_id']] ? 'rex-state-inprogress' : 'rex-state-live';
 
     $return .= rex_view::toolbar('<ul class="nav navbar-nav">' . $toolbar . '</ul>', $brand, $cssClass, $inverse);
 

@@ -1,6 +1,11 @@
 <?php
 
-class rex_password_policy_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_password_policy_test extends TestCase
 {
     /**
      * @dataProvider provideCheck

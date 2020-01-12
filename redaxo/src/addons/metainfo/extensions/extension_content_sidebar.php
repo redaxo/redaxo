@@ -3,7 +3,7 @@
  * @deprecated Moved to structure/content plugin, since the respective fields are not dependent on the metainfo addon
  */
 if (rex_string::versionCompare(rex_plugin::get('structure', 'content')->getVersion(), '2.6.1', '<=')) {
-    rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', function (rex_extension_point $ep) {
+    rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', static function (rex_extension_point $ep) {
         $params = $ep->getParams();
         $subject = $ep->getSubject();
 

@@ -1,7 +1,9 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\packages
+ *
+ * @psalm-property rex_addon $package
  */
 class rex_addon_manager extends rex_package_manager
 {
@@ -69,7 +71,7 @@ class rex_addon_manager extends rex_package_manager
         $state = parent::activate();
         $this->generatePackageOrder = true;
 
-        if ($state !== true) {
+        if (true !== $state) {
             return false;
         }
 
@@ -133,7 +135,7 @@ class rex_addon_manager extends rex_package_manager
      */
     protected function wrongPackageId($addonName, $pluginName = null)
     {
-        if ($pluginName !== null) {
+        if (null !== $pluginName) {
             return $this->i18n('is_plugin', $addonName, $pluginName);
         }
         return $this->i18n('wrong_dir_name', $addonName);

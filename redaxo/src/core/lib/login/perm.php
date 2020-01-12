@@ -5,13 +5,13 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 abstract class rex_perm
 {
-    const GENERAL = 'general';
-    const OPTIONS = 'options';
-    const EXTRAS = 'extras';
+    public const GENERAL = 'general';
+    public const OPTIONS = 'options';
+    public const EXTRAS = 'extras';
 
     /**
      * Array of permissions.
@@ -61,7 +61,7 @@ abstract class rex_perm
     {
         if (isset(self::$perms[$group])) {
             $perms = self::$perms[$group];
-            asort($perms);
+            natcasesort($perms);
             return $perms;
         }
         return [];

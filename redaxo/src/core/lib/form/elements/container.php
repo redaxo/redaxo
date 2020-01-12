@@ -1,12 +1,15 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_container_element extends rex_form_element
 {
+    /** @array */
     private $fields;
+    /** @var bool */
     private $multiple;
+    /** @var string */
     private $active;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
@@ -96,12 +99,12 @@ class rex_form_container_element extends rex_form_element
                 continue;
             }
 
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         $format = '';
         foreach ($this->fields as $group => $groupFields) {
-            $format .= '<div id="rex-' . rex_escape($group, 'html_attr') . '"' . $attr . '>';
+            $format .= '<div id="rex-' . rex_escape($group) . '"' . $attr . '>';
             foreach ($groupFields as $field) {
                 $format .= $field->get();
             }
@@ -124,7 +127,7 @@ class rex_form_container_element extends rex_form_element
             foreach ($this->fields as $group => $groupFields) {
                 foreach ($groupFields as $field) {
                     // read-only-fields nicht speichern
-                    if (strpos($field->getAttribute('class'), 'form-control-static') === false) {
+                    if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
                         $value[$group][$field->getFieldName()] = $field->getSaveValue();
                     }
                 }
@@ -132,7 +135,7 @@ class rex_form_container_element extends rex_form_element
         } elseif (isset($this->active) && isset($this->fields[$this->active])) {
             foreach ($this->fields[$this->active] as $field) {
                 // read-only-fields nicht speichern
-                if (strpos($field->getAttribute('class'), 'form-control-static') === false) {
+                if (false === strpos($field->getAttribute('class'), 'form-control-static')) {
                     $value[$field->getFieldName()] = $field->getSaveValue();
                 }
             }

@@ -17,13 +17,10 @@
     }
     .table th.rex-table-id,
     .table td.rex-table-id,
+    .table th.rex-table-number,
+    .table td.rex-table-number,
     .table th.rex-table-priority,
     .table td.rex-table-priority {
-        width: 60px;
-        text-align: center;
-    }
-    .table th.rex-table-number,
-    .table td.rex-table-number {
         width: 100px;
         text-align: center;
     }

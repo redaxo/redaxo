@@ -23,8 +23,8 @@ abstract class rex_api_function
 {
     use rex_factory_trait;
 
-    const REQ_CALL_PARAM = 'rex-api-call';
-    const REQ_RESULT_PARAM = 'rex-api-result';
+    public const REQ_CALL_PARAM = 'rex-api-call';
+    public const REQ_RESULT_PARAM = 'rex-api-result';
 
     /**
      * Flag, indicating if this api function may be called from the frontend. False by default.
@@ -38,7 +38,7 @@ abstract class rex_api_function
      *
      * @var rex_api_result
      */
-    protected $result = null;
+    protected $result;
 
     /**
      * This method have to be overriden by a subclass and does all logic which the api function represents.
@@ -129,7 +129,7 @@ abstract class rex_api_function
         // remove the `rex_api_` prefix
         $name = substr($class, 8);
 
-        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name, 'html_attr'))
+        return sprintf('<input type="hidden" name="%s" value="%s"/>', self::REQ_CALL_PARAM, rex_escape($name))
             .rex_csrf_token::factory($class)->getHiddenField();
     }
 
@@ -144,20 +144,14 @@ abstract class rex_api_function
 
         $apiFunc = self::factory();
 
-        if ($apiFunc != null) {
-            if ($apiFunc->published !== true) {
-                if (rex::isBackend() !== true) {
-                    throw new rex_http_exception(
-                        new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
-                        rex_response::HTTP_FORBIDDEN
-                    );
+        if (null != $apiFunc) {
+            if (true !== $apiFunc->published) {
+                if (true !== rex::isBackend()) {
+                    throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
                 if (!rex::getUser()) {
-                    throw new rex_http_exception(
-                        new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'),
-                        rex_response::HTTP_UNAUTHORIZED
-                    );
+                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
 

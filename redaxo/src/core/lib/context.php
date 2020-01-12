@@ -152,10 +152,10 @@ class rex_context implements rex_context_provider_interface
         foreach ($array as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $valName => $valVal) {
-                    $inputString .= '<input type="hidden" name="' . rex_escape($name, 'html_attr') . '[' . rex_escape($valName, 'html_attr') . ']" value="' . rex_escape($valVal, 'html_attr') . '" />';
+                    $inputString .= '<input type="hidden" name="' . rex_escape($name) . '[' . rex_escape($valName) . ']" value="' . rex_escape($valVal) . '" />';
                 }
             } else {
-                $inputString .= '<input type="hidden" name="' . rex_escape($name, 'html_attr') . '" value="' . rex_escape($value, 'html_attr') . '" />';
+                $inputString .= '<input type="hidden" name="' . rex_escape($name) . '" value="' . rex_escape($value) . '" />';
             }
         }
 

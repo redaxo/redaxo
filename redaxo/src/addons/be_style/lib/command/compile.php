@@ -4,7 +4,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @package redaxo\be_style
+ * @package redaxo\be-style
  *
  * @author bloep
  *
@@ -26,5 +26,7 @@ class rex_be_style_command_compile extends rex_console_command
         rex_be_style::compile();
 
         $io->success('Styles successfully compiled');
+
+        return 0;
     }
 }

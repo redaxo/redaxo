@@ -28,7 +28,7 @@ user_caption = Lista de usuários
 user_status = Status
 startpage = Página inicial
 
-user_role = Função
+user_role = Função/Funções
 user_role_data_updated = Função foi atualizada!
 user_role_deleted = Função foi deletada!
 user_role_added = Função foi adicionada!

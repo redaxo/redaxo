@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 class rex_plugin extends rex_package implements rex_plugin_interface
 {
@@ -34,13 +34,13 @@ class rex_plugin extends rex_package implements rex_plugin_interface
      * @param string $addon  Name of the addon
      * @param string $plugin Name of the plugin
      *
-     * @return self
-     *
      * @throws InvalidArgumentException
+     *
+     * @return self
      */
     public static function get($addon, $plugin = null)
     {
-        if ($plugin === null) {
+        if (null === $plugin) {
             throw new InvalidArgumentException('Missing Argument 2 for ' . self::class . '::' . __METHOD__ . '()');
         }
         if (!is_string($addon)) {
@@ -148,7 +148,7 @@ class rex_plugin extends rex_package implements rex_plugin_interface
     /**
      * {@inheritdoc}
      */
-    public function i18n($key)
+    public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
         $key = $this->getAddon()->getName() . '_' . $this->getName() . '_' . $key;

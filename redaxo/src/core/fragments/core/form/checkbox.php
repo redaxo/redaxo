@@ -35,6 +35,9 @@ foreach ($this->elements as $element) {
     if (isset($element['required']) && $element['required']) {
         $classes .= ' rex-is-required';
     }
+    if (isset($element['class']) && $element['class'] != '') {
+        $classes .= ' ' . $element['class'];
+    }
 
     $class = $inline ? '-inline' : '';
 

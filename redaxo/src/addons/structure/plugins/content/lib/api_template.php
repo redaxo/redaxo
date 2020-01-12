@@ -82,12 +82,12 @@ class rex_template
         $qry = 'SELECT * FROM ' . rex::getTablePrefix()  . 'template WHERE id = ' . $template_id;
         $sql->setQuery($qry);
 
-        if ($sql->getRows() == 1) {
+        if (1 == $sql->getRows()) {
             $templateFile = self::getFilePath($template_id);
 
             $content = $sql->getValue('content');
             $content = rex_var::parse($content, rex_var::ENV_FRONTEND, 'template');
-            if (rex_file::put($templateFile, $content) !== false) {
+            if (false !== rex_file::put($templateFile, $content)) {
                 return true;
             }
             throw new rex_exception('Unable to generate template ' . $template_id . '!');
@@ -118,18 +118,17 @@ class rex_template
      */
     public static function getTemplatesForCategory($category_id, $ignore_inactive = true)
     {
-        $ignore_inactive = $ignore_inactive ? 1 : 0;
-
         $templates = [];
         $t_sql = rex_sql::factory();
-        $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template where active=' . $ignore_inactive . ' order by name');
+        $where = $ignore_inactive ? ' WHERE active=1' : '';
+        $t_sql->setQuery('select id,name,attributes from ' . rex::getTablePrefix() . 'template' . $where . ' order by name');
 
         if ($category_id < 1) {
             // Alle globalen Templates
             foreach ($t_sql as $row) {
                 $attributes = $row->getArrayValue('attributes');
-                $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
-                if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
+                $categories = $attributes['categories'] ?? [];
+                if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
                     $templates[$row->getValue('id')] = $row->getValue('name');
                 }
             }
@@ -139,9 +138,9 @@ class rex_template
                 $path[] = $category_id;
                 foreach ($t_sql as $row) {
                     $attributes = $row->getArrayValue('attributes');
-                    $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
+                    $categories = $attributes['categories'] ?? [];
                     // template ist nicht kategoriespezifisch -> includen
-                    if (!is_array($categories) || (isset($categories['all']) && $categories['all'] == 1)) {
+                    if (!is_array($categories) || (isset($categories['all']) && 1 == $categories['all'])) {
                         $templates[$row->getValue('id')] = $row->getValue('name');
                     } else {
                         // template ist auf kategorien beschraenkt..
@@ -161,8 +160,8 @@ class rex_template
 
     public static function hasModule(array $template_attributes, $ctype, $module_id)
     {
-        $template_modules = isset($template_attributes['modules']) ? $template_attributes['modules'] : [];
-        if (!isset($template_modules[$ctype]['all']) || $template_modules[$ctype]['all'] == 1) {
+        $template_modules = $template_attributes['modules'] ?? [];
+        if (!isset($template_modules[$ctype]['all']) || 1 == $template_modules[$ctype]['all']) {
             return true;
         }
 

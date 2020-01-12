@@ -1,11 +1,18 @@
 Changelog
 =========
 
-Version 2.4.1 – XX.XX.XXXX
+Version 2.5.0 – 12.03.2019
 --------------------------
+
+### Neu
+
+* Über `installer_ignore` in der `package.yml` können Addons Ordner/Dateien angeben, die beim Upload ausgeschlossen werden sollen (@schuer)
+* AddOn-Beschreibung und Versions-Beschreibungen werden als Markdown geparst (@tbaddade, @bloep)
+* Erläuterung zu Backup-Option in den Einstellungen (@schuer)
 
 ### Bugfixes
 
+* Beim Update wurde mit den alten Requirements/Conflicts geprüft, wenn die neue Version keine Requirements/Conflicts mehr enthielt (@gharlan)
 * Besseres Escaping mittels `rex_escape` (@bloep)
 
 

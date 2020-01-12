@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\login
  *
  * @internal
  */

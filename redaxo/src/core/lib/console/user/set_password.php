@@ -49,7 +49,7 @@ class rex_command_user_set_password extends rex_console_command
         }
 
         if (!$password) {
-            $password = $io->askHidden('Password', function ($password) use ($id, $passwordPolicy) {
+            $password = $io->askHidden('Password', static function ($password) use ($id, $passwordPolicy) {
                 if (true !== $msg = $passwordPolicy->check($password, $id)) {
                     throw new InvalidArgumentException($msg);
                 }
@@ -76,5 +76,7 @@ class rex_command_user_set_password extends rex_console_command
         ], true));
 
         $io->success(sprintf('Saved new password for user "%s".', $username));
+
+        return 0;
     }
 }

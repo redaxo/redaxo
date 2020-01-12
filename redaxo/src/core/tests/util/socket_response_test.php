@@ -1,10 +1,15 @@
 <?php
 
-class rex_socket_response_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_socket_response_test extends TestCase
 {
     private function getResponse($content)
     {
-        $stream = fopen('php://temp', 'r+b');
+        $stream = fopen('php://temp', 'r+');
         fwrite($stream, $content);
         fseek($stream, 0);
 
@@ -36,7 +41,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
 
         $this->assertSame($statusCode, $response->getStatusCode(), 'getStatusCode()');
         $this->assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
-        $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
+        $this->assertSame(200 == $statusCode, $response->isOk(), 'isOk()');
 
         $methods = ['isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid'];
         foreach ($methods as $method) {
@@ -69,7 +74,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $body = "body1\r\nbody2";
         $response = $this->getResponse("HTTP/1.1 200 OK\r\nKey: Value\r\n\r\n" . $body);
 
-        $temp = fopen('php://temp', 'r+b');
+        $temp = fopen('php://temp', 'r+');
         $response->writeBodyTo($temp);
         fseek($temp, 0);
         $this->assertSame($body, fread($temp, 1024));

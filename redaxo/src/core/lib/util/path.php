@@ -324,12 +324,12 @@ class rex_path
         $relPath = str_replace('\\', '/', $relPath);
         foreach (explode('/', $relPath) as $dir) {
             // Aktuelles Verzeichnis, oder Ordner ohne Namen
-            if ($dir == '.' || $dir == '') {
+            if ('.' == $dir || '' == $dir) {
                 continue;
             }
 
             // Zum Parent
-            if ($dir == '..') {
+            if ('..' == $dir) {
                 array_pop($stack);
             }
             // Normaler Ordner

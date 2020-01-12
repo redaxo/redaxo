@@ -9,8 +9,17 @@
  */
 class rex_path_default_provider
 {
+    /**
+     * @var string
+     */
     protected $base;
+    /**
+     * @var string
+     */
     protected $backend;
+    /**
+     * @var bool
+     */
     protected $provideAbsolutes;
 
     /**
@@ -27,7 +36,7 @@ class rex_path_default_provider
             $this->backend = $backend;
         } else {
             $this->base = $htdocs;
-            $this->backend = substr($htdocs, -3) === '../' ? '' : $htdocs . $backend . '/';
+            $this->backend = '../' === substr($htdocs, -3) ? '' : $htdocs . $backend . '/';
         }
         $this->provideAbsolutes = $provideAbsolutes;
     }

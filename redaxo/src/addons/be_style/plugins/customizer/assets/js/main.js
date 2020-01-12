@@ -1,5 +1,5 @@
 $(document).on('rex:ready', function (event, container) {
-    if (container.find(rex.customizer_codemirror_selectors).size() > 0) {
+    if (container.find(rex.customizer_codemirror_selectors).length > 0) {
         // Zusätzliche Themes?
         themes = '';
         container.find(rex.customizer_codemirror_selectors).each(function () {
@@ -119,10 +119,11 @@ Customizer.init = function (container) {
     });
 
     if (typeof rex.customizer_labelcolor !== "undefined" && rex.customizer_labelcolor != '') {
-        $('.rex-nav-top').css('border-bottom', '10px solid ' + rex.customizer_labelcolor)
+        $('.rex-nav-top').css('border-bottom', '7px solid ' + rex.customizer_labelcolor)
     }
 
     if (typeof rex.customizer_showlink !== "undefined" && rex.customizer_showlink != '' && !$('.be-style-customizer-title').length) {
         $('.rex-nav-top .navbar-header').append(rex.customizer_showlink);
     }
 };
+

@@ -34,7 +34,7 @@ class rex_socket_response
 
         $this->stream = $stream;
 
-        while (!feof($this->stream) && strpos($this->header, "\r\n\r\n") === false) {
+        while (!feof($this->stream) && false === strpos($this->header, "\r\n\r\n")) {
             $this->header .= fgets($this->stream);
         }
         $this->header = rtrim($this->header);
@@ -42,7 +42,7 @@ class rex_socket_response
             $this->statusCode = (int) ($matches[1]);
             $this->statusMessage = $matches[2];
         }
-        $this->chunked = stripos($this->header, 'transfer-encoding: chunked') !== false;
+        $this->chunked = false !== stripos($this->header, 'transfer-encoding: chunked');
     }
 
     /**
@@ -72,7 +72,7 @@ class rex_socket_response
      */
     public function isOk()
     {
-        return $this->statusCode == 200;
+        return 200 == $this->statusCode;
     }
 
     /**
@@ -145,7 +145,7 @@ class rex_socket_response
      */
     public function getHeader($key = null, $default = null)
     {
-        if ($key === null) {
+        if (null === $key) {
             return $this->header;
         }
         $key = strtolower($key);
@@ -171,9 +171,9 @@ class rex_socket_response
             return false;
         }
         if ($this->chunked) {
-            if ($this->chunkPos == 0) {
+            if (0 == $this->chunkPos) {
                 $this->chunkLength = hexdec(fgets($this->stream));
-                if ($this->chunkLength == 0) {
+                if (0 == $this->chunkLength) {
                     return false;
                 }
             }
@@ -197,8 +197,8 @@ class rex_socket_response
      */
     public function getBody()
     {
-        if ($this->body === null) {
-            while (($buf = $this->getBufferedBody()) !== false) {
+        if (null === $this->body) {
+            while (false !== ($buf = $this->getBufferedBody())) {
                 $this->body .= $buf;
             }
         }
@@ -216,14 +216,14 @@ class rex_socket_response
     {
         $close = false;
         if (is_string($resource) && rex_dir::create(dirname($resource))) {
-            $resource = fopen($resource, 'wb');
+            $resource = fopen($resource, 'w');
             $close = true;
         }
         if (!is_resource($resource)) {
             return false;
         }
         $success = true;
-        while ($success && ($buf = $this->getBufferedBody()) !== false) {
+        while ($success && false !== ($buf = $this->getBufferedBody())) {
             $success = (bool) fwrite($resource, $buf);
         }
         if ($close) {

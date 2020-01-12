@@ -10,6 +10,7 @@ phpini_settings = PHP.ini inställningar
 datetimeformat = %d. %b. %Y - %H:%Mh
 timeformat = %H:%Mh
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
+translatable = Översättbar via <code> translate: i18n_key </ code>
 
 # Allgemein
 abort = avbryt
@@ -28,6 +29,7 @@ function = Funktion
 no_editing_rights = Du har inte rätt att ändra
 check_rights_in_directory = Vänligen kolla rättigheterna i mappen
 error_undefined = Okänt fel
+csrf_token_invalid = Vänligen skicka formuläret igen, eller kör åtgärden igen (fel: CSRF-token är ogiltig).
 
 # redaxo/redaxo/index.php
 system = System
@@ -136,6 +138,8 @@ debug_mode_on = Aktivera debug modus
 debug_mode_off = Deaktivera debug modus
 debug_mode_info_on = Debug modus aktiverades
 debug_mode_info_off = Debug modus deaktiverades
+debug_mode_marker = Debug mode är aktiv
+debug_confirm = Debug mode ska inte användas i live-modus. Vill du aktivera debug-modus ändå?
 
 system_report = Systemrapport
 system_report_markdown = Som markdown
@@ -259,9 +263,6 @@ https_disable = deaktivera
 https_only_frontend = aktivera bara för frontend
 https_only_backend = aktivera bara för backend
 https_activate = aktivera för frontend och backend
-
-hsts_activate = Ange <b>HTTP Strict Transport Security</ b>
-hsts_more_information = Mer information vid {0}
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -434,12 +435,3 @@ created_on = skapades den
 updated_by = aktualiserades av
 updated_on = aktualiserades den
 status = Status
-
-user_minibar = Visa minibar i frontend?
-user_minibar_note = Visa ett verktygsfält med mer information
-minibar_database = Databas
-minibar_documentation_link_label = Läsa dokumentationen
-minibar_help = Hjälp
-minibar_resources = Resurser
-minibar_slack_link_label = Slack Channel
-minibar_errorreport = Rapportera ett problem hos GitHub

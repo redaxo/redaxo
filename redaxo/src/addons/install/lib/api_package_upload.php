@@ -37,6 +37,12 @@ class rex_api_install_package_upload extends rex_api_function
                 if ($upload['ignore_tests']) {
                     $exclude[] = 'tests';
                 }
+                $packageExclude = rex_addon::get($addonkey)->getProperty('installer_ignore');
+                if (is_array($packageExclude)) {
+                    foreach ($packageExclude as $excludeItem) {
+                        $exclude[] = $excludeItem;
+                    }
+                }
                 rex_install_archive::copyDirToArchive(rex_path::addon($addonkey), $archive, null, $exclude);
                 if ($upload['replace_assets']) {
                     rex_install_archive::copyDirToArchive(rex_url::addonAssets($addonkey), $archive, $addonkey . '/assets');
@@ -50,7 +56,6 @@ class rex_api_install_package_upload extends rex_api_function
         if ($archive) {
             rex_file::delete($archive);
         }
-        unset($_REQUEST['addonkey']);
         unset($_REQUEST['file']);
         rex_install_packages::deleteCache();
         return new rex_api_result(true, rex_i18n::msg('install_info_addon_uploaded', $addonkey));

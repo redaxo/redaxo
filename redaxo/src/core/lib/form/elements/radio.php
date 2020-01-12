@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_radio_element extends rex_form_options_element
 {
@@ -28,10 +28,10 @@ class rex_form_radio_element extends rex_form_options_element
 
         $attr = '';
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            if ($attributeName == 'id') {
+            if ('id' == $attributeName) {
                 continue;
             }
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         $formElements = [];
@@ -43,7 +43,7 @@ class rex_form_radio_element extends rex_form_options_element
 
             $n = [];
             $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . rex_escape($opt_name) . '</label>';
-            $n['field'] = '<input type="radio" value="' . rex_escape($opt_value, 'html_attr') . '"' . $opt_attr . $checked . ' />';
+            $n['field'] = '<input type="radio" value="' . rex_escape($opt_value) . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
 

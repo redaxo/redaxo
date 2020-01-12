@@ -19,18 +19,18 @@ backup_to_export = esportare
 backup_download = scaricare
 backup_db_import = Import
 backup_db_export = Export
-backup_filename_updated = 
+backup_filename_updated =
 backup_please_choose_folder = Prego selezionare le cartelle che vuole esportare
-backup_intro_import = 
+backup_intro_import =
 backup_database = Import del database
 backup_filename = Nome del file
 backup_filename_notice = Variabili: %REX_SERVER, %REX_VERSION e variabile della data a seguente di strftime()
 backup_filesize = Larghezza del file
 backup_delete = cancellare
 backup_files = Import dei file
-backup_intro_export = 
-backup_database_export = Export del database
-backup_file_export = Export dei file
+backup_intro_export =
+backup_database_export =
+backup_file_export =
 backup_save_on_server = Salvare sul server
 backup_download_as_file = Scaricare come file
 backup_createdate = Creato il
@@ -45,8 +45,8 @@ backup_file_generated_in  = Dati salvati
 backup_proceed_db_import = Date esistenti (articoli, template, moduli, ...) vengono persi. Continuare?
 backup_proceed_file_import = Dati esistenti verrano cancellati. Continuare?
 
-backup_export_db_caption = Export di database
-backup_export_file_caption = Export di file
+backup_export_db_caption =
+backup_export_file_caption =
 
 backup_function = Funzione
 

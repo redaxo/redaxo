@@ -6,9 +6,9 @@
  * @author gharlan[at]web[dot]de Gregor Harlan
  *
  * @package redaxo5
- *
- * @var rex_addon $this
  */
+
+$addon = rex_addon::get('cronjob');
 
 $func = rex_request('func', 'string');
 $oid = rex_request('oid', 'int');
@@ -18,96 +18,96 @@ $csrfToken = rex_csrf_token::factory('cronjob');
 if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid()) {
     echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
     $func = '';
-} elseif ($func == 'setstatus') {
+} elseif ('setstatus' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $status = (rex_request('oldstatus', 'int') + 1) % 2;
-    $msg = $status == 1 ? 'status_activate' : 'status_deactivate';
+    $msg = 1 == $status ? 'status_activate' : 'status_deactivate';
     if ($manager->setStatus($oid, $status)) {
-        echo rex_view::success($this->i18n($msg . '_success', $name));
+        echo rex_view::success($addon->i18n($msg . '_success', $name));
     } else {
-        echo rex_view::error($this->i18n($msg . '_error', $name));
+        echo rex_view::error($addon->i18n($msg . '_error', $name));
     }
     $func = '';
-} elseif ($func == 'delete') {
+} elseif ('delete' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     if ($manager->delete($oid)) {
-        echo rex_view::success($this->i18n('delete_success', $name));
+        echo rex_view::success($addon->i18n('delete_success', $name));
     } else {
-        echo rex_view::error($this->i18n('delete_error', $name));
+        echo rex_view::error($addon->i18n('delete_error', $name));
     }
     $func = '';
-} elseif ($func == 'execute') {
+} elseif ('execute' == $func) {
     $manager = rex_cronjob_manager_sql::factory();
     $name = $manager->getName($oid);
     $success = $manager->tryExecute($oid);
     $msg = '';
     if ($manager->hasMessage()) {
-        $msg = '<br /><br />' . $this->i18n('log_message') . ': <br />' . nl2br($manager->getMessage());
+        $msg = '<br /><br />' . $addon->i18n('log_message') . ': <br />' . nl2br($manager->getMessage());
     }
     if ($success) {
-        echo rex_view::success($this->i18n('execute_success', $name) . $msg);
+        echo rex_view::success($addon->i18n('execute_success', $name) . $msg);
     } else {
-        echo rex_view::error($this->i18n('execute_error', $name) . $msg);
+        echo rex_view::error($addon->i18n('execute_error', $name) . $msg);
     }
     $func = '';
 }
 
-if ($func == '') {
-    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . REX_CRONJOB_TABLE . ' ORDER BY name';
+if ('' == $func) {
+    $query = 'SELECT id, name, type, environment, execution_moment, nexttime, status FROM ' . rex::getTable('cronjob') . ' ORDER BY name';
 
     $list = rex_list::factory($query, 30, 'cronjobs');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
-    $list->setNoRowsMessage($this->i18n('no_cronjobs'));
+    $list->setNoRowsMessage($addon->i18n('no_cronjobs'));
 
     $tdIcon = '<i class="rex-icon rex-icon-cronjob"></i>';
-    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . $this->i18n('add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
+    $thIcon = '<a href="' . $list->getUrl(['func' => 'add']) . '" title="' . $addon->i18n('add') . '"><i class="rex-icon rex-icon-add-cronjob"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'oid' => '###id###']);
 
     $list->removeColumn('id');
     $list->removeColumn('type');
 
-    $list->setColumnLabel('name', $this->i18n('name'));
+    $list->setColumnLabel('name', $addon->i18n('name'));
     $list->setColumnParams('name', ['func' => 'edit', 'oid' => '###id###']);
 
-    $list->setColumnLabel('environment', $this->i18n('environment'));
-    $list->setColumnFormat('environment', 'custom', function ($params) {
+    $list->setColumnLabel('environment', $addon->i18n('environment'));
+    $list->setColumnFormat('environment', 'custom', static function ($params) {
         $value = $params['list']->getValue('environment');
         $env = [];
-        if (strpos($value, '|frontend|') !== false) {
+        if (false !== strpos($value, '|frontend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_frontend');
         }
-        if (strpos($value, '|backend|') !== false) {
+        if (false !== strpos($value, '|backend|')) {
             $env[] = rex_i18n::msg('cronjob_environment_backend');
         }
-        if (strpos($value, '|script|') !== false) {
+        if (false !== strpos($value, '|script|')) {
             $env[] = rex_i18n::msg('cronjob_environment_script');
         }
         return implode(', ', $env);
     });
 
-    $list->setColumnLabel('execution_moment', $this->i18n('execution'));
-    $list->setColumnFormat('execution_moment', 'custom', function ($params) {
+    $list->setColumnLabel('execution_moment', $addon->i18n('execution'));
+    $list->setColumnFormat('execution_moment', 'custom', static function ($params) {
         if ($params['list']->getValue('execution_moment')) {
             return rex_i18n::msg('cronjob_execution_beginning');
         }
         return rex_i18n::msg('cronjob_execution_ending');
     });
 
-    $list->setColumnLabel('nexttime', $this->i18n('nexttime'));
+    $list->setColumnLabel('nexttime', $addon->i18n('nexttime'));
     $list->setColumnFormat('nexttime', 'strftime', 'datetime');
 
-    $list->setColumnLabel('status', $this->i18n('status_function'));
+    $list->setColumnLabel('status', $addon->i18n('status_function'));
     $list->setColumnParams('status', ['func' => 'setstatus', 'oldstatus' => '###status###', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->setColumnLayout('status', ['<th class="rex-table-action" colspan="4">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnFormat('status', 'custom', function ($params) {
+    $list->setColumnFormat('status', 'custom', static function ($params) {
         $list = $params['list'];
         if (!class_exists($list->getValue('type'))) {
             $str = rex_i18n::msg('cronjob_status_invalid');
-        } elseif ($list->getValue('status') == 1) {
+        } elseif (1 == $list->getValue('status')) {
             $str = $list->getColumnLink('status', '<span class="rex-online"><i class="rex-icon rex-icon-active-true"></i> ' . rex_i18n::msg('cronjob_status_activated') . '</span>');
         } else {
             $str = $list->getColumnLink('status', '<span class="rex-offline"><i class="rex-icon rex-icon-active-false"></i> ' . rex_i18n::msg('cronjob_status_deactivated') . '</span>');
@@ -118,85 +118,85 @@ if ($func == '') {
     $list->addColumn('edit', '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('edit', ['func' => 'edit', 'oid' => '###id###']);
 
-    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $this->i18n('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->addColumn('delete', '<i class="rex-icon rex-icon-delete"></i> ' . $addon->i18n('delete'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('delete', ['func' => 'delete', 'oid' => '###id###'] + $csrfToken->getUrlParams());
-    $list->addLinkAttribute('delete', 'data-confirm', $this->i18n('really_delete'));
+    $list->addLinkAttribute('delete', 'data-confirm', $addon->i18n('really_delete'));
 
-    $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->addColumn('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'), -1, ['', '<td class="rex-table-action">###VALUE###</td>']);
     $list->setColumnParams('execute', ['func' => 'execute', 'oid' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute('execute', 'data-pjax', 'false');
-    $list->setColumnFormat('execute', 'custom', function ($params) {
+    $list->setColumnFormat('execute', 'custom', static function ($params) use ($addon) {
         $list = $params['list'];
-        if (strpos($list->getValue('environment'), '|backend|') !== false && class_exists($list->getValue('type'))) {
-            return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute'));
+        if (false !== strpos($list->getValue('environment'), '|backend|') && class_exists($list->getValue('type'))) {
+            return $list->getColumnLink('execute', '<i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute'));
         }
-        return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $this->i18n('execute') . '</span>';
+        return '<span class="text-muted"><i class="rex-icon rex-icon-execute"></i> ' . $addon->i18n('execute') . '</span>';
     });
 
     $content = $list->get();
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', $this->i18n('caption'), false);
+    $fragment->setVar('title', $addon->i18n('caption'), false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
-} elseif ($func == 'edit' || $func == 'add') {
-    $fieldset = $func == 'edit' ? $this->i18n('edit') : $this->i18n('add');
+} elseif ('edit' == $func || 'add' == $func) {
+    $fieldset = 'edit' == $func ? $addon->i18n('edit') : $addon->i18n('add');
 
-    $form = new rex_cronjob_form(REX_CRONJOB_TABLE, $fieldset, 'id = ' . $oid, 'post', false);
+    $form = new rex_cronjob_form(rex::getTable('cronjob'), $fieldset, 'id = ' . $oid, 'post', false);
     $form->addParam('oid', $oid);
-    $form->setEditMode($func == 'edit');
+    $form->setEditMode('edit' == $func);
 
     $form->addHiddenField('nexttime');
 
     $field = $form->addTextField('name');
-    $field->setLabel($this->i18n('name'));
-    $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_name'));
+    $field->setLabel($addon->i18n('name'));
+    $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_name'));
     $nameFieldId = $field->getAttribute('id');
 
     $field = $form->addTextAreaField('description');
-    $field->setLabel($this->i18n('description'));
+    $field->setLabel($addon->i18n('description'));
 
     $field = $form->addSelectField('environment');
     $field->setAttribute('class', 'form-control selectpicker');
-    $field->setLabel($this->i18n('environment'));
-    $field->setNotice($this->i18n('environment_notice'));
-    $field->getValidator()->add('notEmpty', $this->i18n('cronjob_error_no_environment'));
+    $field->setLabel($addon->i18n('environment'));
+    $field->setNotice($addon->i18n('environment_notice'));
+    $field->getValidator()->add('notEmpty', $addon->i18n('cronjob_error_no_environment'));
     $field->setAttribute('multiple', 'multiple');
     $envFieldId = $field->getAttribute('id');
     $select = $field->getSelect();
     $select->setSize(3);
-    $select->addOption($this->i18n('environment_frontend'), 'frontend');
-    $select->addOption($this->i18n('environment_backend'), 'backend');
-    $select->addOption($this->i18n('environment_script'), 'script');
-    if ($func == 'add') {
+    $select->addOption($addon->i18n('environment_frontend'), 'frontend');
+    $select->addOption($addon->i18n('environment_backend'), 'backend');
+    $select->addOption($addon->i18n('environment_script'), 'script');
+    if ('add' == $func) {
         $select->setSelected([0, 1]);
     }
 
     $field = $form->addSelectField('execution_moment');
     $field->setAttribute('class', 'form-control selectpicker');
-    $field->setLabel($this->i18n('execution'));
+    $field->setLabel($addon->i18n('execution'));
     $select = $field->getSelect();
     $select->setSize(1);
-    $select->addOption($this->i18n('execution_beginning'), 1);
-    $select->addOption($this->i18n('execution_ending'), 0);
-    if ($func == 'add') {
+    $select->addOption($addon->i18n('execution_beginning'), 1);
+    $select->addOption($addon->i18n('execution_ending'), 0);
+    if ('add' == $func) {
         $select->setSelected(0);
     }
 
     $field = $form->addSelectField('status');
     $field->setAttribute('class', 'form-control selectpicker');
-    $field->setLabel($this->i18n('status'));
+    $field->setLabel($addon->i18n('status'));
     $select = $field->getSelect();
     $select->setSize(1);
-    $select->addOption($this->i18n('status_activated'), 1);
-    $select->addOption($this->i18n('status_deactivated'), 0);
-    if ($func == 'add') {
+    $select->addOption($addon->i18n('status_activated'), 1);
+    $select->addOption($addon->i18n('status_deactivated'), 0);
+    if ('add' == $func) {
         $select->setSelected(1);
     }
 
     $field = $form->addSelectField('type');
     $field->setAttribute('class', 'form-control selectpicker');
-    $field->setLabel($this->i18n('type'));
+    $field->setLabel($addon->i18n('type'));
     $select = $field->getSelect();
     $select->setSize(1);
     $typeFieldId = $field->getAttribute('id');
@@ -209,12 +209,12 @@ if ($func == '') {
             $select->addOption($cronjob->getTypeName(), $class);
         }
     }
-    if ($func == 'add') {
+    if ('add' == $func) {
         $select->setSelected('rex_cronjob_phpcode');
     }
     $activeType = $field->getValue();
 
-    if ($func != 'add' && !in_array($activeType, $types)) {
+    if ('add' != $func && !in_array($activeType, $types)) {
         if (!$activeType && !$field->getValue()) {
             $warning = rex_i18n::rawMsg('cronjob_not_found');
         } else {
@@ -223,14 +223,14 @@ if ($func == '') {
         rex_response::sendRedirect(rex_url::currentBackendPage([rex_request('list', 'string') . '_warning' => $warning], false));
     }
 
-    $form->addFieldset($this->i18n('type_parameters'));
+    $form->addFieldset($addon->i18n('type_parameters'));
 
     $fieldContainer = $form->addContainerField('parameters');
     $fieldContainer->setAttribute('style', 'display: none');
     $fieldContainer->setMultiple(false);
     $fieldContainer->setActive($activeType);
 
-    $form->addFieldset($this->i18n('interval'));
+    $form->addFieldset($addon->i18n('interval'));
     $field = $form->addIntervalField('interval');
 
     $env_js = '';
@@ -247,16 +247,16 @@ if ($func == '') {
         $params = $cronjob->getParamFields();
 
         if (!is_array($params) || empty($params)) {
-            $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $this->i18n('type_no_parameters'));
+            $field = $fieldContainer->addGroupedField($group, 'readonly', 'noparams', $addon->i18n('type_no_parameters'));
             $field->setLabel('&nbsp;');
         } else {
             foreach ($params as $param) {
                 $type = $param['type'];
                 $name = $group . '_' . $param['name'];
                 $label = !empty($param['label']) ? $param['label'] : '&nbsp;';
-                $value = isset($param['default']) ? $param['default'] : null;
-                $value = isset($param['value']) ? $param['value'] : $value;
-                $attributes = isset($param['attributes']) ? $param['attributes'] : [];
+                $value = $param['default'] ?? null;
+                $value = $param['value'] ?? $value;
+                $attributes = $param['attributes'] ?? [];
                 switch ($param['type']) {
                     case 'text':
                     case 'textarea':

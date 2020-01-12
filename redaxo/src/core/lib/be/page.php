@@ -3,7 +3,7 @@
 /**
  * Backend Page Class.
  *
- * @package redaxo\core
+ * @package redaxo\core\backend
  */
 class rex_be_page
 {
@@ -11,7 +11,7 @@ class rex_be_page
     private $fullKey;
     private $title;
 
-    private $popup = null;
+    private $popup;
     private $href;
     private $itemAttr = [];
     private $linkAttr = [];
@@ -24,7 +24,7 @@ class rex_be_page
     /** @var self[] */
     private $subpages = [];
 
-    private $isActive = null;
+    private $isActive;
     private $hidden = false;
     private $hasLayout = true;
     private $hasNavigation = true;
@@ -203,7 +203,7 @@ class rex_be_page
     public function getItemAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
-        if ($name === null) {
+        if (null === $name) {
             return $this->itemAttr;
         }
 
@@ -296,7 +296,7 @@ class rex_be_page
     public function getLinkAttr($name, $default = '')
     {
         // return all attributes if null is passed as name
-        if ($name === null) {
+        if (null === $name) {
             return $this->linkAttr;
         }
 
@@ -409,8 +409,6 @@ class rex_be_page
     /**
      * Adds a subpage.
      *
-     * @param self $subpage
-     *
      * @return $this
      */
     public function addSubpage(self $subpage)
@@ -505,7 +503,7 @@ class rex_be_page
      */
     public function isActive()
     {
-        if ($this->isActive !== null) {
+        if (null !== $this->isActive) {
             return $this->isActive;
         }
         $page = rex_be_controller::getCurrentPageObject();
@@ -689,8 +687,6 @@ class rex_be_page
 
     /**
      * Checks whether the given user has permission for the page.
-     *
-     * @param rex_user $rexUser
      *
      * @return bool
      */

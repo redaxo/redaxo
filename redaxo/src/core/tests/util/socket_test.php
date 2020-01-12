@@ -1,6 +1,11 @@
 <?php
 
-class rex_socket_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_socket_test extends TestCase
 {
     private $proxy;
 
@@ -54,7 +59,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
         $method = $class->getMethod('writeRequest');
         $method->setAccessible(true);
 
-        $stream = fopen('php://temp', 'r+b');
+        $stream = fopen('php://temp', 'r+');
         $property->setValue($socket, $stream);
         $response = $method->invoke($socket, 'GET', '/a/path', ['Host' => 'www.example.com', 'Connection' => 'Close'], "body1\r\nbody2");
 
@@ -120,7 +125,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
      */
     public function testParseUrlException($url)
     {
-        $this->setExpectedException('rex_socket_exception');
+        $this->expectException(\rex_socket_exception::class);
 
         $method = new ReflectionMethod('rex_socket', 'parseUrl');
         $method->setAccessible(true);

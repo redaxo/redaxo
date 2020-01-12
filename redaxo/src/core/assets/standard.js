@@ -444,11 +444,11 @@ jQuery(function($){
         });
     $("[autofocus]").trigger("focus");
 
-    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('rex_htaccess_check') == '')
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        setCookie('htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
+        setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
         checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
@@ -457,10 +457,10 @@ jQuery(function($){
 
     function checkHtaccess(dir, file)
     {
-        $.get(dir +'/'+ file,
+        $.get(dir +'/'+ file +'?redaxo-security-self-test',
             function(data) {
                 $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
-                setCookie('htaccess_check', '');
+                setCookie('rex_htaccess_check', '');
             }
         );
     }
@@ -631,11 +631,6 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
-
-                var minibar = options.context.find('.rex-minibar');
-                if (minibar.length) {
-                    $('body > .rex-minibar').replaceWith(minibar);
-                }
 
                 options.context.trigger('rex:ready', [options.context]);
             });

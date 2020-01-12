@@ -5,7 +5,7 @@
  *
  * see http://net.tutsplus.com/tutorials/php/why-you-should-be-using-phps-pdo-for-database-access/
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql implements Iterator
 {
@@ -14,14 +14,14 @@ class rex_sql implements Iterator
     /**
      * Default SQL datetime format.
      */
-    const FORMAT_DATETIME = 'Y-m-d H:i:s';
+    public const FORMAT_DATETIME = 'Y-m-d H:i:s';
 
     /**
      * Controls query buffering.
      *
      * View `PDO::MYSQL_ATTR_USE_BUFFERED_QUERY` for more details.
      */
-    const OPT_BUFFERED = 'buffered';
+    public const OPT_BUFFERED = 'buffered';
 
     protected $debug; // debug schalter
     protected $values; // Werte von setValue
@@ -106,7 +106,17 @@ class rex_sql implements Iterator
             throw new InvalidArgumentException('Database name can not be empty.');
         }
 
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
+        $port = null;
+        if (false !== strpos($host, ':')) {
+            [$host, $port] = explode(':', $host, 2);
+        }
+
+        $dsn = 'mysql:host=' . $host;
+        if ($port) {
+            $dsn .= ';port='. $port;
+        }
+        $dsn .= ';dbname=' . $database;
+
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
@@ -150,7 +160,7 @@ class rex_sql implements Iterator
     {
         $qry = trim($qry);
 
-        if (($qryDBID = self::getQueryDBID($qry)) !== false) {
+        if (false !== ($qryDBID = self::getQueryDBID($qry))) {
             $qry = substr($qry, 6);
         }
 
@@ -209,9 +219,9 @@ class rex_sql implements Iterator
      * @param array  $params  An optional array of statement parameter
      * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
-     * @return $this
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return $this
      */
     public function setDBQuery($query, array $params = [], array $options = [])
     {
@@ -219,7 +229,7 @@ class rex_sql implements Iterator
         $oldDBID = $this->DBID;
 
         // change connection-id but only for this one query
-        if (($qryDBID = self::stripQueryDBID($query)) !== false) {
+        if (false !== ($qryDBID = self::stripQueryDBID($query))) {
             $this->selectDB($qryDBID);
         }
 
@@ -272,9 +282,9 @@ class rex_sql implements Iterator
      * @param array $params  Array of input parameters
      * @param array $options For possible option keys view `rex_sql::OPT_*` constants
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function execute(array $params = [], array $options = [])
     {
@@ -324,9 +334,9 @@ class rex_sql implements Iterator
      * @param array  $params  An optional array of statement parameter
      * @param array  $options For possible option keys view `rex_sql::OPT_*` constants
      *
-     * @return $this
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return $this
      */
     public function setQuery($query, array $params = [], array $options = [])
     {
@@ -351,7 +361,10 @@ class rex_sql implements Iterator
         }
 
         try {
-            $this->stmt = $pdo->query($query);
+            $this->stmt = rex_timer::measure(__METHOD__, static function () use ($pdo, $query) {
+                return $pdo->query($query);
+            });
+
             $this->rows = $this->stmt->rowCount();
         } catch (PDOException $e) {
             throw new rex_sql_exception('Error while executing statement "' . $query . '"! ' . $e->getMessage(), $e, $this);
@@ -472,16 +485,16 @@ class rex_sql implements Iterator
      * @param string $feld Spaltenname des zu pruefenden Feldes
      * @param string $prop Wert, der enthalten sein soll
      *
-     * @return bool
-     *
      * @throws rex_sql_exception
+     *
+     * @return bool
      */
     protected function isValueOf($feld, $prop)
     {
-        if ($prop == '') {
+        if ('' == $prop) {
             return true;
         }
-        return strpos($this->getValue($feld), $prop) !== false;
+        return false !== strpos($this->getValue($feld), $prop);
     }
 
     /**
@@ -557,14 +570,13 @@ class rex_sql implements Iterator
      * Concats the given array to a sql condition using bound parameters.
      * AND/OR opartors are alternated depending on $level.
      *
-     * @param array $arrFields
-     * @param int   $level
+     * @param int $level
      *
      * @return string
      */
     private function buildWhereArg(array $arrFields, $level = 0)
     {
-        if ($level % 2 == 1) {
+        if (1 == $level % 2) {
             $op = ' OR ';
         } else {
             $op = ' AND ';
@@ -578,7 +590,7 @@ class rex_sql implements Iterator
                 $arg = $this->escapeIdentifier($fld_name) . ' = :' . $fld_name;
             }
 
-            if ($qry != '') {
+            if ('' != $qry) {
                 $qry .= $op;
             }
             $qry .= $arg;
@@ -608,7 +620,7 @@ class rex_sql implements Iterator
 
         // check if there is an table alias defined
         // if not, try to guess the tablename
-        if (strpos($colName, '.') === false) {
+        if (false === strpos($colName, '.')) {
             $tables = $this->getTablenames();
             foreach ($tables as $table) {
                 if (in_array($table . '.' . $colName, $this->rawFieldnames)) {
@@ -625,9 +637,9 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      *
-     * @return array
-     *
      * @throws rex_sql_exception
+     *
+     * @return array
      */
     public function getArrayValue($colName)
     {
@@ -639,9 +651,9 @@ class rex_sql implements Iterator
      *
      * @param string $colName Name of the column
      *
-     * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
-     *
      * @throws rex_sql_exception
+     *
+     * @return int|null Unix timestamp or `null` if the column is `null` or not in sql datetime format
      */
     public function getDateTimeValue($colName)
     {
@@ -662,7 +674,7 @@ class rex_sql implements Iterator
 
         if (empty($this->lastRow)) {
             // no row fetched, but also no query was executed before
-            if ($this->stmt == null) {
+            if (null == $this->stmt) {
                 return null;
             }
             $this->lastRow = $this->stmt->fetch(PDO::FETCH_ASSOC);
@@ -707,7 +719,7 @@ class rex_sql implements Iterator
             return true;
         }
 
-        if (strpos($feldname, '.') !== false) {
+        if (false !== strpos($feldname, '.')) {
             $parts = explode('.', $feldname);
             return in_array($parts[0], $this->getTablenames()) && in_array($parts[1], $this->getFieldnames());
         }
@@ -722,14 +734,14 @@ class rex_sql implements Iterator
      *
      * @param string $feldname
      *
-     * @return bool|null
-     *
      * @throws rex_sql_exception
+     *
+     * @return bool|null
      */
     public function isNull($feldname)
     {
         if ($this->hasValue($feldname)) {
-            return $this->getValue($feldname) === null;
+            return null === $this->getValue($feldname);
         }
 
         return null;
@@ -768,7 +780,7 @@ class rex_sql implements Iterator
         $qry = '';
         if (is_array($this->values)) {
             foreach ($this->values as $fld_name => $value) {
-                if ($qry != '') {
+                if ('' != $qry) {
                     $qry .= ', ';
                 }
 
@@ -777,7 +789,7 @@ class rex_sql implements Iterator
         }
         if (is_array($this->rawValues)) {
             foreach ($this->rawValues as $fld_name => $value) {
-                if ($qry != '') {
+                if ('' != $qry) {
                     $qry .= ', ';
                 }
 
@@ -785,7 +797,7 @@ class rex_sql implements Iterator
             }
         }
 
-        if (trim($qry) == '') {
+        if ('' == trim($qry)) {
             // FIXME
             trigger_error('no values given to buildPreparedValues for update(), insert() or replace()', E_USER_WARNING);
         }
@@ -799,7 +811,7 @@ class rex_sql implements Iterator
     public function getWhere()
     {
         // we have an custom where criteria, so we don't need to build one automatically
-        if ($this->wherevar != '') {
+        if ('' != $this->wherevar) {
             return $this->wherevar;
         }
 
@@ -812,9 +824,9 @@ class rex_sql implements Iterator
      *
      * @param string $fields
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function select($fields = '*')
     {
@@ -829,9 +841,9 @@ class rex_sql implements Iterator
      * Setzt eine Update-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten und WHERE Parametern ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function update()
     {
@@ -846,9 +858,9 @@ class rex_sql implements Iterator
      * Setzt eine Insert-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function insert()
     {
@@ -860,23 +872,29 @@ class rex_sql implements Iterator
         $tableName = $this->table;
         $values = $this->values;
 
+        if ($this->values || $this->rawValues) {
+            $setValues = 'SET '.$this->buildPreparedValues();
+        } else {
+            $setValues = 'VALUES ()';
+        }
+
         $this->setQuery(
-            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues(),
+            'INSERT INTO ' . $this->escapeIdentifier($this->table) . ' ' . $setValues,
             $this->values
         );
 
         // provide debug infos, if insert is considered successfull, but no rows were inserted.
         // this happens when you violate against a NOTNULL constraint
-        if ($this->getRows() == 0) {
+        if (0 == $this->getRows()) {
             throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
         }
         return $this;
     }
 
     /**
-     * @return $this|rex_sql
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this|rex_sql
      */
     public function insertOrUpdate()
     {
@@ -894,11 +912,6 @@ class rex_sql implements Iterator
             $this->values
         );
 
-        // provide debug infos, if insert is considered successfull, but no rows were inserted.
-        // this happens when you violate against a NOTNULL constraint
-        if ($this->getRows() == 0) {
-            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
-        }
         return $this;
     }
 
@@ -906,9 +919,9 @@ class rex_sql implements Iterator
      * Setzt eine Replace-Anweisung auf die angegebene Tabelle
      * mit den angegebenen Werten ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function replace()
     {
@@ -927,9 +940,9 @@ class rex_sql implements Iterator
      * Setzt eine Delete-Anweisung auf die angegebene Tabelle
      * mit den angegebenen WHERE Parametern ab.
      *
-     * @return $this
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this
      */
     public function delete()
     {
@@ -990,14 +1003,14 @@ class rex_sql implements Iterator
     /**
      * Setzt den Cursor des Resultsets zurueck zum Anfang.
      *
-     * @return $this the current rex_sql object
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this the current rex_sql object
      */
     public function reset()
     {
         // re-execute the statement
-        if ($this->stmt && $this->counter != 0) {
+        if ($this->stmt && 0 != $this->counter) {
             $this->execute($this->params);
             $this->counter = 0;
         }
@@ -1021,9 +1034,9 @@ class rex_sql implements Iterator
      * @param array  $params    An optional array of statement parameter
      * @param int    $fetchType
      *
-     * @return array
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return array
      */
     public function getDBArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1048,9 +1061,9 @@ class rex_sql implements Iterator
      * @param array  $params    An optional array of statement parameter
      * @param int    $fetchType
      *
-     * @return array
-     *
      * @throws rex_sql_exception on errors
+     *
+     * @return array
      */
     public function getArray($query = null, array $params = [], $fetchType = PDO::FETCH_ASSOC)
     {
@@ -1107,7 +1120,7 @@ class rex_sql implements Iterator
      */
     public function hasError()
     {
-        return $this->getErrno() != 0;
+        return 0 != $this->getErrno();
     }
 
     /**
@@ -1118,6 +1131,7 @@ class rex_sql implements Iterator
      */
     protected function printError($qry, $params)
     {
+        $errors = [];
         $errors['query'] = $qry;
         if (!empty($params)) {
             $errors['params'] = $params;
@@ -1128,7 +1142,7 @@ class rex_sql implements Iterator
                 '/\?|((?<!:):[a-z0-9_]+)/i',
                 static function ($matches) use ($params, &$i) {
                     $key = substr($matches[0], 1);
-                    if (!array_key_exists($i, $params) && ($key === false || !array_key_exists($key, $params))) {
+                    if (!array_key_exists($i, $params) && (false === $key || !array_key_exists($key, $params))) {
                         return $matches[0];
                     }
                     $value = array_key_exists($i, $params) ? $params[$i] : $params[$key];
@@ -1155,16 +1169,16 @@ class rex_sql implements Iterator
      * @param string $field    Name der Spalte
      * @param int    $start_id
      *
-     * @return int
-     *
      * @throws rex_sql_exception
+     *
+     * @return int
      */
     public function setNewId($field, $start_id = 0)
     {
         // setNewId muss neues sql Objekt verwenden, da sonst bestehende informationen im Objekt ueberschrieben werden
         $sql = self::factory();
         $sql->setQuery('SELECT ' . $this->escapeIdentifier($field) . ' FROM ' . $this->escapeIdentifier($this->table) . ' ORDER BY ' . $this->escapeIdentifier($field) . ' DESC LIMIT 1');
-        if ($sql->getRows() == 0) {
+        if (0 == $sql->getRows()) {
             $id = $start_id;
         } else {
             $id = $sql->getValue($field);
@@ -1197,7 +1211,7 @@ class rex_sql implements Iterator
 
     private function fetchMeta()
     {
-        if ($this->fieldnames === null) {
+        if (null === $this->fieldnames) {
             $this->rawFieldnames = [];
             $this->fieldnames = [];
             $this->tablenames = [];
@@ -1248,7 +1262,11 @@ class rex_sql implements Iterator
     public function addGlobalUpdateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()->getValue('login');
+            if (rex::getUser()) {
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('updatedate', time());
@@ -1265,7 +1283,11 @@ class rex_sql implements Iterator
     public function addGlobalCreateFields($user = null)
     {
         if (!$user) {
-            $user = rex::getUser()->getValue('login');
+            if (rex::getUser()) {
+                $user = rex::getUser()->getValue('login');
+            } else {
+                $user = rex::getEnvironment();
+            }
         }
 
         $this->setDateTimeValue('createdate', time());
@@ -1333,11 +1355,9 @@ class rex_sql implements Iterator
      * In case the callable throws, the transaction will automatically rolled back.
      * In case no error happens, the transaction will be committed after the callable was called.
      *
-     * @param callable $callable
+     * @throws Throwable
      *
      * @return mixed
-     *
-     * @throws Throwable
      */
     public function transactional(callable $callable)
     {
@@ -1351,12 +1371,7 @@ class rex_sql implements Iterator
                 self::$pdo[$this->DBID]->commit();
             }
             return $result;
-        } catch (\Exception $e) {
-            if (!$inTransaction) {
-                self::$pdo[$this->DBID]->rollBack();
-            }
-            throw $e;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if (!$inTransaction) {
                 self::$pdo[$this->DBID]->rollBack();
             }
@@ -1420,9 +1435,9 @@ class rex_sql implements Iterator
      * @param string $table Name der Tabelle
      * @param int    $DBID  Id der Datenbankverbindung
      *
-     * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
-     *
      * @throws rex_sql_exception
+     *
+     * @return string CREATE TABLE Sql-Statement zu erstsellung der Tabelle
      */
     public static function showCreateTable($table, $DBID = 1)
     {
@@ -1446,9 +1461,9 @@ class rex_sql implements Iterator
      * @param int         $DBID        Id der Datenbankverbindung
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Tabellennamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Tabellennamen
      *
      * @deprecated since 5.6.2, use non-static getTablesAndViews instead.
      */
@@ -1463,9 +1478,9 @@ class rex_sql implements Iterator
      *
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Tabellennamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Tabellennamen
      */
     public function getTablesAndViews($tablePrefix = null)
     {
@@ -1478,9 +1493,9 @@ class rex_sql implements Iterator
      *
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Tabellennamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Tabellennamen
      */
     public function getTables($tablePrefix = null)
     {
@@ -1493,9 +1508,9 @@ class rex_sql implements Iterator
      *
      * @param null|string $tablePrefix Zu suchender Tabellennamen-Prefix
      *
-     * @return array Ein Array von Viewnamen
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein Array von Viewnamen
      */
     public function getViews($tablePrefix = null)
     {
@@ -1506,9 +1521,9 @@ class rex_sql implements Iterator
      * @param null|string $tablePrefix
      * @param null|string $where
      *
-     * @return array
-     *
      * @throws rex_sql_exception
+     *
+     * @return array
      */
     private function fetchTablesAndViews($tablePrefix = null, $where = null)
     {
@@ -1516,7 +1531,7 @@ class rex_sql implements Iterator
 
         $where = $where ? [$where] : [];
 
-        if ($tablePrefix != null) {
+        if (null != $tablePrefix) {
             // replace LIKE wildcards
             $tablePrefix = str_replace(['_', '%'], ['\_', '\%'], $tablePrefix);
             $column = $this->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$this->DBID]['name']);
@@ -1560,9 +1575,9 @@ class rex_sql implements Iterator
      * @param string $table Name der Tabelle
      * @param int    $DBID  Id der Datenbankverbindung
      *
-     * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
-     *
      * @throws rex_sql_exception
+     *
+     * @return array Ein mehrdimensionales Array das die Metadaten enthaelt
      */
     public static function showColumns($table, $DBID = 1)
     {
@@ -1653,13 +1668,13 @@ class rex_sql implements Iterator
             // see mysql error codes at http://dev.mysql.com/doc/refman/5.1/de/error-messages-server.html
 
             // ER_BAD_HOST
-            if (strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]') !== false) {
+            if (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
                 // unable to connect to db server
                 $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_BAD_DB_ERROR
-            elseif (strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') !== false ||
-                    strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
+            elseif (false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1049]') ||
+                    false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 if ($createDb) {
                     try {
@@ -1670,7 +1685,7 @@ class rex_sql implements Iterator
                             $login,
                             $pw
                         );
-                        if ($conn->exec('CREATE DATABASE ' . $dbname . ' CHARACTER SET utf8 COLLATE utf8_general_ci') !== 1) {
+                        if (1 !== $conn->exec('CREATE DATABASE ' . $dbname . ' CHARACTER SET utf8 COLLATE utf8_general_ci')) {
                             // unable to create db
                             $err_msg = rex_i18n::msg('sql_unable_to_create_database');
                         }
@@ -1686,17 +1701,17 @@ class rex_sql implements Iterator
             // ER_ACCESS_DENIED_ERROR
             // ER_DBACCESS_DENIED_ERROR
             elseif (
-                strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') !== false ||
-                strpos($e->getMessage(), 'SQLSTATE[28000]') !== false ||
-                strpos($e->getMessage(), 'SQLSTATE[HY000] [1044]') !== false ||
-                strpos($e->getMessage(), 'SQLSTATE[42000]') !== false
+                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1045]') ||
+                false !== strpos($e->getMessage(), 'SQLSTATE[28000]') ||
+                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [1044]') ||
+                false !== strpos($e->getMessage(), 'SQLSTATE[42000]')
             ) {
                 // unable to connect to db
                 $err_msg = rex_i18n::msg('sql_unable_to_connect_database');
             }
             // ER_ACCESS_TO_SERVER_ERROR
             elseif (
-                strpos($e->getMessage(), 'SQLSTATE[HY000] [2005]') !== false
+                false !== strpos($e->getMessage(), 'SQLSTATE[HY000] [2005]')
             ) {
                 // unable to connect to server
                 $err_msg = rex_i18n::msg('sql_unable_to_connect_server');
@@ -1716,9 +1731,9 @@ class rex_sql implements Iterator
      * @param string $verb
      * @param bool   $onDuplicateKeyUpdate
      *
-     * @return $this|rex_sql
-     *
      * @throws rex_sql_exception
+     *
+     * @return $this|rex_sql
      */
     private function setMultiRecordQuery($verb, $onDuplicateKeyUpdate = false)
     {

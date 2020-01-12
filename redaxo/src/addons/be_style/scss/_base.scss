@@ -82,13 +82,13 @@ body:after {
         .rex-nav-main {
             display: table-cell;
             width: 250px;
-            padding-bottom: ($minibar-height * 2);
+            padding-bottom: $grid-gutter-width;
             vertical-align: top;
         }
 
         .rex-page-main {
             display: table-cell;
-            padding-bottom: ($minibar-height * 2);
+            padding-bottom: $grid-gutter-width;
             vertical-align: top;
         }
 
@@ -418,6 +418,8 @@ body:after {
     > li {
         > a {
             padding-left: 30px;
+            padding-top: 8px;
+            padding-bottom: 8px;
         }
 
         &.rex-has-icon {
@@ -479,6 +481,10 @@ body:after {
 .rex-slice-output {
     .container {
         width: 100%;
+    }
+    .panel-body {
+        position: relative;
+        overflow: auto;
     }
 }
 

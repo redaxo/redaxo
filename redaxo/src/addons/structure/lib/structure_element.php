@@ -33,8 +33,6 @@ abstract class rex_structure_element
 
     /**
      * Constructor.
-     *
-     * @param array $params
      */
     protected function __construct(array $params)
     {
@@ -68,7 +66,6 @@ abstract class rex_structure_element
 
     /**
      * @param string $value
-     * @param array  $prefixes
      *
      * @return bool
      */
@@ -133,7 +130,7 @@ abstract class rex_structure_element
      * @param int $id    the article id
      * @param int $clang the clang id
      *
-     * @return static A rex_structure_element instance typed to the late-static binding type of the caller
+     * @return static|null A rex_structure_element instance typed to the late-static binding type of the caller
      */
     public static function get($id, $clang = null)
     {
@@ -148,7 +145,7 @@ abstract class rex_structure_element
         }
 
         $class = static::class;
-        return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
+        return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
 
             // load metadata from cache
@@ -198,18 +195,18 @@ abstract class rex_structure_element
             // list key
             [$parentId, $listType],
             // callback to get an instance for a given ID, status will be checked if $ignoreOfflines==true
-            function ($id) use ($class, $ignoreOfflines, $clang) {
+            static function ($id) use ($class, $ignoreOfflines, $clang) {
                 if ($instance = $class::get($id, $clang)) {
                     return !$ignoreOfflines || $instance->isOnline() ? $instance : null;
                 }
                 return null;
             },
             // callback to create the list of IDs
-            function ($parentId, $listType) {
+            static function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
 
-                $list = rex_file::getCache($listFile);
-                if (!$list) {
+                $list = rex_file::getCache($listFile, null);
+                if (null === $list) {
                     rex_article_cache::generateLists($parentId);
                     $list = rex_file::getCache($listFile);
                 }
@@ -243,7 +240,6 @@ abstract class rex_structure_element
     /**
      * Returns a url for linking to this article.
      *
-     * @param array  $params
      * @param string $divider
      *
      * @return string
@@ -365,7 +361,7 @@ abstract class rex_structure_element
      */
     public function isOnline()
     {
-        return $this->status == 1;
+        return 1 == $this->status;
     }
 
     /**
@@ -408,9 +404,9 @@ abstract class rex_structure_element
     public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = [])
     {
         $name = $this->getName();
-        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name, 'html_attr') . '">' . rex_escape($name) . '</a>';
+        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name) . '">' . rex_escape($name) . '</a>';
 
-        if ($sorroundTag !== null && is_string($sorroundTag)) {
+        if (null !== $sorroundTag && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';
         }
 
@@ -418,15 +414,13 @@ abstract class rex_structure_element
     }
 
     /**
-     * @param array $attributes
-     *
      * @return string
      */
     protected function _toAttributeString(array $attributes)
     {
         $attr = '';
 
-        if ($attributes !== null && is_array($attributes)) {
+        if (null !== $attributes && is_array($attributes)) {
             foreach ($attributes as $name => $value) {
                 $attr .= ' ' . $name . '="' . $value . '"';
             }
@@ -454,7 +448,7 @@ abstract class rex_structure_element
 
             if (is_array($explode)) {
                 foreach ($explode as $var) {
-                    if ($var != '') {
+                    if ('' != $var) {
                         $return[] = rex_category::get($var, $this->clang_id);
                     }
                 }
@@ -466,8 +460,6 @@ abstract class rex_structure_element
 
     /**
      * Checks if $anObj is in the parent tree of the object.
-     *
-     * @param self $anObj
      *
      * @return bool
      */

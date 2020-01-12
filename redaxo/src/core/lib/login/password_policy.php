@@ -3,7 +3,7 @@
 /**
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 class rex_password_policy
 {
@@ -18,9 +18,9 @@ class rex_password_policy
      * @param string   $password
      * @param null|int $id
      *
-     * @return bool|string `true` on success, otherwise an error message
-     *
      * @throws rex_exception
+     *
+     * @return bool|string `true` on success, otherwise an error message
      */
     public function check($password, $id = null)
     {

@@ -10,10 +10,6 @@ $media_method = rex_request('media_method', 'string');
 $media_name = rex_request('media_name', 'string');
 $csrf = rex_csrf_token::factory('mediapool');
 
-// *************************************** CONFIG
-
-$media_manager = rex_addon::get('media_manager')->isAvailable();
-
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
 $sel_media = new rex_media_category_select($check_perm = false);
@@ -37,7 +33,7 @@ echo rex_extension::registerPoint(new rex_extension_point('PAGE_MEDIAPOOL_HEADER
 
 $formElements = [];
 $n = [];
-$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($media_name, 'html_attr') . '" />';
+$n['field'] = '<input class="form-control" type="text" name="media_name" id="be_search-media-name" value="' . rex_escape($media_name) . '" />';
 $n['before'] = $sel_media->get();
 $n['right'] = '<button class="btn btn-search" type="submit"><i class="rex-icon rex-icon-search"></i></button>';
 $formElements[] = $n;

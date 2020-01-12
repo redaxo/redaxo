@@ -1,26 +1,42 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_element
 {
+    /** @var string */
     protected $value;
+    /** @var string */
     protected $defaultSaveValue = '';
+    /** @var string */
     protected $label;
+    /** @var string */
     protected $tag;
+    /** @var rex_form_base */
     protected $table;
+    /** @var array */
     protected $attributes;
+    /** @var bool */
     protected $separateEnding;
+    /** @var string */
     protected $fieldName;
+    /** @var string */
     protected $header;
+    /** @var string */
     protected $footer;
+    /** @var string */
     protected $prefix;
+    /** @var string */
     protected $suffix;
+    /** @var string */
     protected $notice;
     /** @var rex_validator */
     protected $validator;
 
+    /**
+     * @param string $tag
+     */
     public function __construct($tag, rex_form_base $table = null, array $attributes = [], $separateEnding = false)
     {
         $this->value = null;
@@ -55,7 +71,7 @@ class rex_form_element
     public function getSaveValue()
     {
         $value = $this->getValue();
-        return $value !== '' ? $value : $this->defaultSaveValue;
+        return '' !== $value ? $value : $this->defaultSaveValue;
     }
 
     public function getValue()
@@ -140,12 +156,12 @@ class rex_form_element
 
     public function setAttribute($name, $value)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             $this->setValue($value);
         } else {
-            if ($name == 'id') {
+            if ('id' == $name) {
                 $value = rex_string::normalize($value, '-');
-            } elseif ($name == 'name') {
+            } elseif ('name' == $name) {
                 $value = rex_string::normalize($value, '_', '[]');
             }
 
@@ -155,7 +171,7 @@ class rex_form_element
 
     public function getAttribute($name, $default = null)
     {
-        if ($name == 'value') {
+        if ('value' == $name) {
             return $this->getValue();
         }
         if ($this->hasAttribute($name)) {
@@ -209,7 +225,7 @@ class rex_form_element
         $s = '';
         $label = $this->getLabel();
 
-        if ($label != '') {
+        if ('' != $label) {
             $s .= '<label class="control-label" for="' . $this->getAttribute('id') . '">' . $label . '</label>';
         }
 
@@ -223,23 +239,23 @@ class rex_form_element
         $tag = rex_escape($this->getTag(), 'html_attr');
 
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue, 'html_attr') . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         if ($this->hasSeparateEnding()) {
-            if ($tag == 'button') {
+            if ('button' == $tag) {
                 $attr .= ' value="1"';
             }
             return '<' . $tag . $attr . '>' . rex_escape($value) . '</' . $tag . '>';
         }
-        $attr .= ' value="' . rex_escape($value, 'html_attr') . '"';
+        $attr .= ' value="' . rex_escape($value) . '"';
         return '<' . $tag . $attr . ' />';
     }
 
     protected function formatNotice()
     {
         $notice = $this->getNotice();
-        if ($notice != '') {
+        if ('' != $notice) {
             return $notice;
         }
         return '';
@@ -258,7 +274,7 @@ class rex_form_element
     protected function _get()
     {
         $class = $this->formatClass();
-        $class = $class == '' ? '' : ' ' . $class;
+        $class = '' == $class ? '' : ' ' . $class;
 
         $formElements = [];
         $n = [];

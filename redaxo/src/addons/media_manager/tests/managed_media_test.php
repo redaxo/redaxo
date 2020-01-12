@@ -1,6 +1,11 @@
 <?php
 
-class rex_managed_media_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_managed_media_test extends TestCase
 {
     public function testConstructor()
     {
@@ -20,6 +25,7 @@ class rex_managed_media_test extends PHPUnit_Framework_TestCase
 
         $this->assertSame($path, $media->getMediaPath());
         $this->assertSame($filename, $media->getMediaFilename());
-        $this->assertSame(rex_path::addon('media_manager', 'media/warning.jpg'), $media->getSourcePath());
+        $this->assertSame($path, $media->getSourcePath());
+        $this->assertFalse($media->exists());
     }
 }

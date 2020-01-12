@@ -46,7 +46,7 @@ class rex_article_content_base
 
         $this->debug = false;
 
-        if ($clang !== null) {
+        if (null !== $clang) {
             $this->setCLang($clang);
         } else {
             $this->setClang(rex_clang::getCurrentId());
@@ -59,7 +59,7 @@ class rex_article_content_base
             'clang' => $this->clang,
         ]));
 
-        if ($article_id !== null) {
+        if (null !== $article_id) {
             $this->setArticleId($article_id);
         }
     }
@@ -121,7 +121,7 @@ class rex_article_content_base
         $sql = $this->getSqlInstance();
         $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE ' . rex::getTablePrefix() . 'article.id=? AND clang_id=?', [$article_id, $this->clang]);
 
-        if ($sql->getRows() == 1) {
+        if (1 == $sql->getRows()) {
             $this->template_id = $this->getValue('template_id');
             $this->category_id = $this->getValue('category_id');
             return true;
@@ -164,13 +164,13 @@ class rex_article_content_base
 
     protected function correctValue($value)
     {
-        if ($value == 'category_id') {
-            if ($this->getValue('startarticle') != 1) {
+        if ('category_id' == $value) {
+            if (1 != $this->getValue('startarticle')) {
                 $value = 'parent_id';
             } else {
                 $value = 'id';
             }
-        } elseif ($value == 'article_id') {
+        } elseif ('article_id' == $value) {
             $value = 'id';
         }
 
@@ -180,6 +180,11 @@ class rex_article_content_base
     protected function _getValue($value)
     {
         $value = $this->correctValue($value);
+
+        // use same timestamp format like in frontend via `rex_article`
+        if (in_array($value, ['createdate', 'updatedate'], true)) {
+            return $this->getSqlInstance()->getDateTimeValue($value);
+        }
 
         return $this->getSqlInstance()->getValue($value);
     }
@@ -258,17 +263,17 @@ class rex_article_content_base
     {
         $this->ctype = $curctype;
 
-        if ($this->article_id == 0 && $this->getSlice == 0) {
+        if (0 == $this->article_id && 0 == $this->getSlice) {
             return rex_i18n::msg('no_article_available');
         }
 
         $articleLimit = '';
-        if ($this->article_id != 0) {
+        if (0 != $this->article_id) {
             $articleLimit = ' AND ' . rex::getTablePrefix() . 'article_slice.article_id=' . (int) $this->article_id;
         }
 
         $sliceLimit = '';
-        if ($this->getSlice != 0) {
+        if (0 != $this->getSlice) {
             $sliceLimit = ' AND ' . rex::getTablePrefix() . "article_slice.id = '" . ((int) $this->getSlice) . "' ";
         }
 
@@ -316,7 +321,7 @@ class rex_article_content_base
             $sliceModuleId = $artDataSql->getValue(rex::getTablePrefix() . 'module.id');
 
             // ----- ctype unterscheidung
-            if ($this->mode != 'edit' && !$this->eval) {
+            if ('edit' != $this->mode && !$this->eval) {
                 if (0 == $i) {
                     $articleContent = "<?php if (\$this->ctype == '" . $sliceCtypeId . "' || (\$this->ctype == '-1')) { \n";
                 } elseif (isset($prevCtype) && $sliceCtypeId != $prevCtype) {
@@ -349,7 +354,7 @@ class rex_article_content_base
             ));
 
             // ---------- slice in ausgabe speichern wenn ctype richtig
-            if ($this->ctype == -1 || $this->ctype == $sliceCtypeId) {
+            if (-1 == $this->ctype || $this->ctype == $sliceCtypeId) {
                 $articleContent .= $slice_content;
             }
 
@@ -360,7 +365,7 @@ class rex_article_content_base
         }
 
         // ----- end: ctype unterscheidung
-        if ($this->mode != 'edit' && !$this->eval && $i > 0) {
+        if ('edit' != $this->mode && !$this->eval && $i > 0) {
             $articleContent .= "\n } ?>";
         }
 
@@ -407,7 +412,7 @@ class rex_article_content_base
     // ----- Template inklusive Artikel zurückgeben
     public function getArticleTemplate()
     {
-        if ($this->template_id != 0 && $this->article_id != 0) {
+        if (0 != $this->template_id && 0 != $this->article_id) {
             ob_start();
             ob_implicit_flush(0);
 
@@ -473,9 +478,9 @@ class rex_article_content_base
     {
         $sliceId = $sql->getValue(rex::getTablePrefix() . 'article_slice.id');
 
-        if ($this->mode == 'edit') {
+        if ('edit' == $this->mode) {
             $env = rex_var::ENV_BACKEND;
-            if (($this->function == 'add' && $sliceId == null) || ($this->function == 'edit' && $sliceId == $this->slice_id)) {
+            if (('add' == $this->function && null == $sliceId) || ('edit' == $this->function && $sliceId == $this->slice_id)) {
                 $env = $env | rex_var::ENV_INPUT;
             }
         } else {
@@ -493,7 +498,7 @@ class rex_article_content_base
         static $user_login = null;
 
         // UserId gibts nur im Backend
-        if ($user_id === null) {
+        if (null === $user_id) {
             if (rex::getUser()) {
                 $user_id = rex::getUser()->getId();
                 $user_login = rex::getUser()->getLogin();
@@ -533,7 +538,7 @@ class rex_article_content_base
         return preg_replace_callback(
             '@redaxo://(\d+)(?:-(\d+))?/?@i',
             function ($matches) {
-                return rex_getUrl($matches[1], isset($matches[2]) ? $matches[2] : (int) $this->clang);
+                return rex_getUrl($matches[1], $matches[2] ?? (int) $this->clang);
             },
             $content
         );

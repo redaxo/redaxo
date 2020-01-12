@@ -1,9 +1,9 @@
 {
-    "require": { "phpunit/phpunit" : "*" },
+    "require": { "phpunit/phpunit" : "^7.5" },
 
     "config": {
         "platform": {
-            "php": "5.5.9"
+            "php": "7.1.3"
         }
     }
 }

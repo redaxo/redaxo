@@ -10,7 +10,7 @@ if (rex_post('btn_delete', 'string')) {
     } else {
         $sql = rex_sql::factory()->setQuery('SELECT filename FROM ' . rex::getTable('media') . ' WHERE id = ?', [$file_id]);
         $media = null;
-        if ($sql->getRows() == 1) {
+        if (1 == $sql->getRows()) {
             $media = rex_media::get($sql->getValue('filename'));
         }
 
@@ -20,10 +20,12 @@ if (rex_post('btn_delete', 'string')) {
                 $return = rex_mediapool_deleteMedia($filename);
                 if ($return['ok']) {
                     $success = $return['msg'];
-                } else {
-                    $error = $return['msg'];
+                    $file_id = 0;
+
+                    return;
                 }
-                $file_id = 0;
+
+                $error = $return['msg'];
             } else {
                 $error = rex_i18n::msg('no_permission');
             }
@@ -40,7 +42,7 @@ if (rex_post('btn_update', 'string')) {
     } else {
         $gf = rex_sql::factory();
         $gf->setQuery('select * from ' . rex::getTablePrefix() . 'media where id=?', [$file_id]);
-        if ($gf->getRows() != 1) {
+        if (1 != $gf->getRows()) {
             $error = rex_i18n::msg('pool_file_not_found');
             $file_id = 0;
         } elseif (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($gf->getValue('category_id')) || !rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)) {
@@ -57,7 +59,7 @@ if (rex_post('btn_update', 'string')) {
 
             $return = rex_mediapool_updateMedia($_FILES['file_new'], $FILEINFOS, rex::getUser()->getValue('login'));
 
-            if ($return['ok'] == 1) {
+            if (1 == $return['ok']) {
                 if ($gf->getValue('category_id') != $rex_file_category) {
                     rex_extension::registerPoint(new rex_extension_point('MEDIA_MOVED', null, [
                         'filename' => $FILEINFOS['filename'],
@@ -74,7 +76,7 @@ if (rex_post('btn_update', 'string')) {
 
 $gf = rex_sql::factory();
 $gf->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'media WHERE id = ?', [$file_id]);
-if ($gf->getRows() != 1) {
+if (1 != $gf->getRows()) {
     $error = rex_i18n::msg('pool_file_not_found');
     $file_id = 0;
 
@@ -93,6 +95,10 @@ $ffile_size = $gf->getValue('filesize');
 $ffile_size = rex_formatter::bytes($ffile_size);
 $rex_file_category = $gf->getValue('category_id');
 
+$sidebar = '';
+$add_ext_info = '';
+$encoded_fname = urlencode($fname);
+
 $isImage = rex_media::isImageType(rex_file::extension($fname));
 if ($isImage) {
     $fwidth = $gf->getValue('width');
@@ -103,12 +109,7 @@ if ($isImage) {
     } else {
         $rfwidth = $fwidth;
     }
-}
 
-$sidebar = '';
-$add_ext_info = '';
-$encoded_fname = urlencode($fname);
-if ($isImage) {
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_img_width') . ' / ' . rex_i18n::msg('pool_img_height') . '</label>';
     $e['field'] = '<p class="form-control-static">' . $fwidth . 'px / ' . $fheight . 'px</p>';
@@ -121,9 +122,15 @@ if ($isImage) {
     $width = ' width="'.$rfwidth.'"';
     $img_max = rex_url::media($fname);
 
-    if ($media_manager && rex_file::extension($fname) != 'svg') {
-        $imgn = rex_url::backendController(['rex_media_type' => 'rex_mediapool_detail', 'rex_media_file' => $encoded_fname, 'buster' => $gf->getDateTimeValue('updatedate')]);
-        $img_max = rex_url::backendController(['rex_media_type' => 'rex_mediapool_maximized', 'rex_media_file' => $encoded_fname, 'buster' => $gf->getDateTimeValue('updatedate')]);
+    if (rex_addon::get('media_manager')->isAvailable() && 'svg' != rex_file::extension($fname)) {
+        if (method_exists(rex_media_manager::class, 'getUrl')) {
+            $imgn = rex_media_manager::getUrl('rex_mediapool_detail', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+            $img_max = rex_media_manager::getUrl('rex_mediapool_maximized', $encoded_fname, $gf->getDateTimeValue('updatedate'));
+        } else {
+            $imgn = rex_url::backendController(['rex_mediapool_detail' => $type, 'rex_media_file' => $encoded_fname]);
+            $img_max = rex_url::backendController(['rex_mediapool_maximized' => $type, 'rex_media_file' => $encoded_fname]);
+        }
+
         $width = '';
     }
 
@@ -132,28 +139,28 @@ if ($isImage) {
     } else {
         $sidebar = '
                 <a href="' . $img_max . '">
-                    <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle, 'html_attr') . '" title="' . rex_escape($ftitle, 'html_attr') . '" />
+                    <img class="img-responsive" src="' . $imgn . '"' . $width . ' alt="' . rex_escape($ftitle) . '" title="' . rex_escape($ftitle) . '" />
                 </a>';
     }
 }
 
-if ($error != '') {
+if ('' != $error) {
     echo rex_view::error($error);
     $error = '';
 }
-if ($success != '') {
+if ('' != $success) {
     echo rex_view::success($success);
     $success = '';
 }
 
-if ($opener_input_field != '') {
+if ('' != $opener_input_field) {
     $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedia(\'' . $encoded_fname . '\', \'' . rex_escape($gf->getValue('title'), 'js') . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
-    if (substr($opener_input_field, 0, 14) == 'REX_MEDIALIST_') {
-        $opener_link = '<a class="btn btn-xs btn-select" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
+    if ('REX_MEDIALIST_' == substr($opener_input_field, 0, 14)) {
+        $opener_link = '<a class="btn btn-xs btn-select btn-highlight" onclick="selectMedialist(\'' . $encoded_fname . '\'); return false;">' . rex_i18n::msg('pool_file_get') . '</a>';
     }
 }
 
-if ($opener_link != '') {
+if ('' != $opener_link) {
     $opener_link = ' | ' . $opener_link;
 }
 
@@ -185,7 +192,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-title">' . rex_i18n::msg('pool_file_title') . '</label>';
-    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle, 'html_attr') . '" />';
+    $e['field'] = '<input class="form-control" type="text" id="rex-mediapool-title" name="ftitle" value="' . rex_escape($ftitle) . '" />';
     $formElements[] = $e;
 
     $e = [];
@@ -210,12 +217,12 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_last_update') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('updateuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('updatedate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('updateuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
     $e['label'] = '<label>' . rex_i18n::msg('pool_created') . '</label>';
-    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . $gf->getValue('createuser') . '</span></p>';
+    $e['field'] = '<p class="form-control-static">' . rex_formatter::strftime(strtotime($gf->getValue('createdate')), 'datetime') . ' <span class="rex-author">' . rex_escape($gf->getValue('createuser')) . '</span></p>';
     $formElements[] = $e;
 
     $e = [];
@@ -240,7 +247,7 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $buttons = $fragment->parse('core/form/submit.php');
 
-    if ($sidebar != '') {
+    if ('' != $sidebar) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', [$panel, $sidebar], false);
         $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
@@ -307,7 +314,7 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
-    if ($sidebar != '') {
+    if ('' != $sidebar) {
         $fragment = new rex_fragment();
         $fragment->setVar('content', [$panel, $sidebar], false);
         $fragment->setVar('classes', ['col-sm-8', 'col-sm-4'], false);
