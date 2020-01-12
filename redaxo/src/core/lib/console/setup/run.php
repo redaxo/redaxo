@@ -247,13 +247,13 @@ class rex_command_setup_run extends rex_console_command
         }
 
         if ('' !== $error) {
-            $io->error($error);
+            $io->error($this->decodeMessage($error));
             return 1;
         }
 
         $error = rex_setup_importer::verifyDbSchema();
         if ('' != $error) {
-            $io->error($error);
+            $io->error($this->decodeMessage($error));
             return 1;
         }
 
