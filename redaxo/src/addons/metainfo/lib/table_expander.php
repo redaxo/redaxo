@@ -122,7 +122,9 @@ class rex_metainfo_table_expander extends rex_form
             $field->setLabel(rex_i18n::msg('minfo_field_label_restrictions'));
             $field->setAttribute('size', 10);
             $field->setAttribute('class', 'form-control');
+        }
 
+        if ('art_' === $this->metaPrefix) {
             $attributes = [];
             $attributes['internal::fieldClass'] = 'rex_form_templates_element';
             $field = $this->addField('', 'templates', null, $attributes);
