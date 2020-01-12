@@ -15,7 +15,7 @@ class rex_structure_context
      */
     public function __construct(array $params)
     {
-        if (!isset($params['category_id']) || !rex_category::get($params['category_id']) instanceof rex_category) {
+        if (!isset($params['category_id']) || !rex_category::get($params['category_id'])) {
             $params['category_id'] = 0;
         }
         // Only one mountpoint -> jump to category
@@ -24,7 +24,7 @@ class rex_structure_context
             $params['category_id'] = current($mountpoints);
         }
 
-        if (!isset($params['article_id']) || !rex_article::get($params['article_id']) instanceof rex_article) {
+        if (!isset($params['article_id']) || !rex_article::get($params['article_id'])) {
             $params['article_id'] = 0;
         }
 
