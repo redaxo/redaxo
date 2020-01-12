@@ -4,9 +4,10 @@
                 <li><a href="#rex-start-of-page"><i class="fa fa-arrow-up"></i></a></li>
                 <li><a href="https://www.yakamara.de" target="_blank" rel="noreferrer noopener">yakamara.de</a></li>
                 <li><a href="https://www.redaxo.org" target="_blank" rel="noreferrer noopener">redaxo.org</a></li>
-                <li><a href="https://www.redaxo.org/de/forum/" target="_blank" rel="noreferrer noopener"><?php echo rex_i18n::msg('footer_joinforum'); ?></a></li>
-                <li><a href="<?php echo(rex::getUser()) ? rex_url::backendPage('credits') : 'https://www.redaxo.org/" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
-                <li><?php echo rex_i18n::msg('footer_datetime', rex_formatter::strftime(time(), 'date')); ?></li>
+                <?php if (rex::getUser() && rex::getUser()->isAdmin()): ?>
+                    <li><a href="https://www.redaxo.org/doku/master" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_doku'); ?></a></li>
+                <?php endif; ?>
+                <li><a href="<?php echo rex::getUser() ? rex_url::backendPage('credits') : 'https://www.redaxo.org/" target="_blank" rel="noreferrer noopener' ?>"><?php echo rex_i18n::msg('footer_credits'); ?></a></li>
                 <li class="rex-js-script-time"><!--DYN--><?php echo rex_i18n::msg('footer_scripttime', $this->time); ?><!--/DYN--></li>
             </ul>
         </nav>

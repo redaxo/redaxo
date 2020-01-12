@@ -1,6 +1,6 @@
 language: php
 
-sudo: false
+dist: bionic
 
 git:
     depth: 3
@@ -8,10 +8,11 @@ git:
 branches:
     only:
         - master
+        - bugfix
+        - temp
 
 cache:
     directories:
-        - $HOME/.php-cs-fixer
         - $HOME/.composer/cache
 
 before_install:
@@ -19,41 +20,35 @@ before_install:
 
 jobs:
     include:
-        -   php: 5.5
-            env: LINTING=1
-            script: if find . -name "*.php" ! -path "*/vendor/*" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi
-
-        -   php: 7.1
-            env: CODING_STANDARDS=1
-            install:
-                - mkdir -p "$HOME/.php-cs-fixer"
-                - "echo '{\"require\": {\"friendsofphp/php-cs-fixer\": \"^2.0\"}}' > \"$HOME/.php-cs-fixer/composer.json\""
-                - travis_retry composer update --no-interaction --working-dir "$HOME/.php-cs-fixer"
-            script: php "$HOME/.php-cs-fixer/vendor/bin/php-cs-fixer" fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
-
         -   &TEST
             install:
                 - mysql -e 'create database redaxo_5_0;'
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
-            php: 7.0
-            env: DB=mariadb
+            php: 7.1
+            dist: trusty
+            env:
+                - TYPE=phpunit
+                - DB=mariadb
             addons:
                 mariadb: 10.1
         -   <<: *TEST
-            php: 7.1
+            php: 7.3
             addons:
-                mariadb: 10.2
+                mariadb: 10.4
         -   &TEST_MYSQL
             <<: *TEST
-            php: 5.5
-            env: DB=mysql
+            php: 7.1
+            env:
+                - TYPE=phpunit
+                - DB=mysql
+            services:
+                - mysql
             addons: ~
         -   <<: *TEST_MYSQL
-            php: 5.6
-        -   <<: *TEST_MYSQL
-            php: 7.0
-        -   <<: *TEST_MYSQL
-            php: 7.1
-        -   <<: *TEST_MYSQL
             php: 7.2
+        -   <<: *TEST_MYSQL
+            php: 7.3
+        -   <<: *TEST_MYSQL
+            php: 7.4
+            dist: xenial

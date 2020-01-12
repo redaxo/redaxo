@@ -1,0 +1,12 @@
+version = 
+
+version_liveversion = 
+version_workingversion = 
+version_working_to_live = 
+version_preview = 
+version_copy_live_to_workingversion = 
+version_copy_from_liveversion = 
+version_confirm_copy_live_to_workingversion = 
+version_info_working_version_to_live = 
+version_info_live_version_to_working = 
+version_warning_working_version_to_live = 

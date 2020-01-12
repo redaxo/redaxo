@@ -1,0 +1,84 @@
+cronjob_title = Cronjobs
+
+cronjob_add = Aggiungere un cron
+cronjob_edit = Modifica cron
+
+cronjob_caption = Lista dei cron esistenti
+cronjob_no_cronjobs = Nessun cron esistente
+
+cronjob_delete = cancellare
+cronjob_really_delete = Sei sicuro di cancellare il cron?
+cronjob_delete_success = Il cron "{0}" è stato cancellato!
+cronjob_delete_error = Non era possibile cancellare il cron "{0}"!
+
+cronjob_execute = eseguire
+cronjob_execute_success = Il cron "{0}" è stato eseguito con successo!
+cronjob_execute_error = Il cron "{0}" è fallito!
+
+cronjob_name = Nome
+cronjob_description = Descrizione
+cronjob_examples = Esempi
+
+cronjob_type = Tipo
+cronjob_type_not_found = 
+cronjob_type_phpcode = Codice PHP
+cronjob_type_phpcallback = PHP-Callback
+cronjob_type_urlrequest = Richiesta URL
+cronjob_type_urlrequest_url = URL
+cronjob_type_urlrequest_post = Paramatri POST
+cronjob_type_urlrequest_httpauth = Authenticazione HTTP
+cronjob_type_urlrequest_user = Utente
+cronjob_type_urlrequest_password = Passowrd
+cronjob_type_parameters = 
+cronjob_type_no_parameters = 
+
+cronjob_interval = Intervallo
+cronjob_interval_minutes = Minuti
+cronjob_interval_minutes_all = Ogni 5 minuti
+cronjob_interval_hours = Ore
+cronjob_interval_hours_all = Ogni ora
+cronjob_interval_days = Giorni
+cronjob_interval_days_all = Ogni giorno
+cronjob_interval_weekdays = Giorno di settimana
+cronjob_interval_weekdays_all = Ogni giorno di settimana
+cronjob_interval_months = Mesi
+cronjob_interval_months_all = Ogni mese
+
+cronjob_environment = Ambiente
+cronjob_environment_notice = 
+cronjob_environment_frontend = Frontend
+cronjob_environment_backend = Backend
+cronjob_environment_script = Script
+
+cronjob_execution = Esecuzione
+cronjob_execution_beginning = Inizio script
+cronjob_execution_ending = Fine script
+
+cronjob_nexttime = Prossima esecuzione
+
+cronjob_status_function = Stato/Funzione
+cronjob_status = Stato
+cronjob_status_activated = attivato
+cronjob_status_deactivated = deattivato
+cronjob_status_invalid = errato
+cronjob_status_activate_success = Il cron "{0}" è stato attivato!
+cronjob_status_activate_error = Non era possibile attivare il cron "{0}"!
+cronjob_status_deactivate_success = È stato disattivato il cron "{0}"
+cronjob_status_deactivate_error = Non era possibile disattivare il cron "{0}"!
+
+cronjob_error_no_name = Il nome non puó essere vuoto
+cronjob_error_no_environment = Deve essere selezionato almeno un ambiente!
+
+cronjob_not_found = Cron non trovato!
+cronjob_not_editable = Il cron non è modificabile!
+
+cronjob_log = Log
+cronjob_log_date = Data
+cronjob_log_year = Anno
+cronjob_log_month = Mese
+cronjob_log_ok = OK
+cronjob_no_log_files = Nessun log file disponibile.
+cronjob_log_no_data = Nessun informazione log disponibile.
+cronjob_log_caption_1 = Elenco di cron eseguiti nel {0} {1}
+cronjob_log_caption_2 = Elenco dei cron eseguiti di recente
+cronjob_log_message = Messaggio

@@ -1,7 +1,6 @@
 structure = Estrutura
 
 title_structure = Gerenciamento de estrutura
-homepage = Página Inicial
 root_level = Nível principal
 no_such_category = Categoria não encontrada!
 category_updated = Categoria atualizada!
@@ -14,7 +13,7 @@ article_status_updated = Status do produto atualizado.
 article_updated = Produto atualizado.
 article_added = Porudto adicionado.
 header_category = Categoria.
-header_priority = Prio
+header_priority = Prioridade
 header_status = Status/Função
 header_id = Id
 add_category = Adicionar categoria
@@ -36,6 +35,8 @@ start_article = Produto inicial
 no_article_available  =  Sem produtos disponíveis
 structure_categories_caption = Lista de subcategorias em "{0}"
 structure_articles_caption = Lista de produtos em "{0}"
+structure_root_level_articles_caption = Lista de produtos em "Nível principal"
+structure_root_level_categories_caption = Lista de categorias em "Nível principal"
 article_deleted = Produto deletado!
 article_could_not_be_generated  =  Produto não pôde ser gerado!
 category_deleted  =  Categoria deletada!
@@ -65,7 +66,6 @@ perm_options_moveArticle[] = Arrastar produto
 perm_options_moveCategory[] = Arrastar categoria
 perm_options_publishArticle[] = Divulgar produto
 perm_options_publishCategory[] = Divulgar categoria
-perm_extras_editContentOnly[] = Somente conteúdo pode ser alterado
 
 system_setting_start_article_id = Produto inicial
 system_setting_notfound_article_id = Produto não encontrado

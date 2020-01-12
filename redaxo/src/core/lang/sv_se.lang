@@ -8,7 +8,9 @@ setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 
 datetimeformat = %d. %b. %Y - %H:%Mh
+timeformat = %H:%Mh
 ctrl = Flervalsurval med <kbd>STRG</kbd> resp. <kbd>CMD</kbd>
+translatable = Översättbar via <code> translate: i18n_key </ code>
 
 # Allgemein
 abort = avbryt
@@ -25,8 +27,9 @@ description = Beskrivning
 email = E-post
 function = Funktion
 no_editing_rights = Du har inte rätt att ändra
-check_rights_in_directory  =  Vänligen kolla rättigheterna i mappen
+check_rights_in_directory = Vänligen kolla rättigheterna i mappen
 error_undefined = Okänt fel
+csrf_token_invalid = Vänligen skicka formuläret igen, eller kör åtgärden igen (fel: CSRF-token är ogiltig).
 
 # redaxo/redaxo/index.php
 system = System
@@ -39,8 +42,8 @@ subnavigation = Undernavigation från {0}
 
 # redaxo/include/classes/class.login.php
 login = Login
-login_name  =  Användarnamn
-password  =  Lösenord
+login_name = Användarnamn
+password = Lösenord
 new_password = Nytt lösenord
 request_new_password = Få nytt lösenord
 login_error = Fel vid login.
@@ -51,9 +54,15 @@ login_welcome = Vänligen logga in dig.
 login_logged_out = Utloggat.
 stay_logged_in = Stanna inloggad
 
+login_impersonate = Byta identitet
+login_depersonate = byta tillbaka
+
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  inte inloggad
-logged_in_as  =  Inloggad som
+logged_out = inte inloggad
+logged_in_as = Inloggad som
+safemode = Säkert läge
+safemode_text = I Säkert läge avaktiveras alla AddOns (tillägg) tillfälligt. Om till exempel ett tillägg ger problem efter installationen kan den avaktiveras eller avinstalleras via det säkra läget.
+safemode_activate = Aktivera säkert läge
 safemode_deactivate = deaktivera safe mode
 
 # redaxo/include/classes/class.form.php
@@ -96,7 +105,8 @@ clang_function = Funktioner
 version = Version
 host = Host
 database = Databas
-syslog = Systemlog
+logfiles = Logfiler
+syslog_redaxo = REDAXO
 syslog_delete = Radera systemlog
 syslog_deleted = Systemlog raderades
 syslog_delete_error = Fel när systemlog:en skulle raderas!
@@ -105,6 +115,9 @@ syslog_type = Typ
 syslog_message = Meddelande
 syslog_file = Fil
 syslog_line = Rad
+syslog_title = Logfil "{0}"
+syslog_phperrors = PHP Errorlog
+syslog_empty = Tom logfil
 server = Webbsidans URL
 servername = Webbsidans namn
 error_email = E-postadress vid fel
@@ -113,8 +126,23 @@ error_email_invalid = Ange en giltig e-postadress!
 server_required = Det krävs en URL för webbplatsen!
 server_invalid = Webbadressen är ogiltig, den måste anges komplett inkl. protokoll!
 servername_required = Ange ett servernamn!
+system_editor = Editor-Integration
+system_editor_note = Länkar REDAXO med en redaktör för att kunna öppna källkodsfiler direkt. Förutsättning: Källkoden för REDAXO-installationen är tillgänglig lokalt.
+system_editor_no_editor = Deaktiverat
+system_editor_open_file = Öppna "{0}" i editorn
+system_edit_config_note = REDAXOs huvudkonfiguration erbjuder möjlighet att ändra interna systemparametrar. Filen bör endast redigeras av erfarna användare.
 lang_required = Ange ett språk!
 debug_mode = Debug-modus
+debug_mode_note = Med debug-läget visas ytterligare information om felet för skriptfel i frontend och backend. Aktivera inte i live-läge, eftersom felmeddelandena även kan innehålla känslig data.
+debug_mode_on = Aktivera debug modus
+debug_mode_off = Deaktivera debug modus
+debug_mode_info_on = Debug modus aktiverades
+debug_mode_info_off = Debug modus deaktiverades
+debug_mode_marker = Debug mode är aktiv
+debug_confirm = Debug mode ska inte användas i live-modus. Vill du aktivera debug-modus ändå?
+
+system_report = Systemrapport
+system_report_markdown = Som markdown
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Installation
@@ -148,6 +176,7 @@ setup_307 = PHP-versionscheck | Kontrollera rättigheterna
 setup_308 = PHP-version ok
 setup_309 = Mapprättigheterna ok
 setup_310 = Fortsätt med steg 4
+setup_311 = Följande filer / kataloger kan ändras av alla användare på servern ("Others"-Mode-Bit 7). Rättigheterna bör vara mer restriktiva:
 setup_312 = Upprepa steg 3
 setup_399 = 3 / Systemkontroll
 
@@ -214,14 +243,26 @@ setup_799 = 7 / Heureka
 
 setup_security_msg = Redaxo-mappem är inte säker. Vänligen skydda mappen och starta om installationen!
 setup_no_js_security_msg = Kolla om filer från mappen redaxo/cache, redaxo/data och redaxo/src är direkt tillgängliga! Det ska de av säkerhetsskäl inte vara!
+setup_security_no_https = Setup görs utan HTTPS / kryptering. Det rekommenderas att alla frontend och backend-upprop görs med endast HTTPS för att säkerställa integritet och datasäkerhet.
+setup_security_warn_mod_security = Apache-modulen "mod_security" laddades. Detta kan leda till problem om det är felaktigt konfigurerat.
+setup_security_deprecated_php = Den använda PHP-versionen {0} underhålls inte längre av tillverkaren och bör uppdateras.
 
 sql_database_name_missing = Du måste ange ett databsnamn!
 sql_database_already_exists = Databasen existera redan.
+sql_database_min_version = MySQL-versionen är för gammal, det krävs minst version {1}!
 sql_unable_to_connect_database = Det kunde inte upprättas en förbindelse till databasen!
 sql_unable_to_connect_server = Det kunde inte upprättas en förbindelse till databasservern!
 sql_unable_to_create_database = Den angivna databasen kunde inte skapas!
 sql_unable_to_find_database = Den angivna databasen kunde inte hittas!
 sql_unable_to_open_database = Den angivna databasen kunde inte öppnas!
+
+setup_security = Säkerhet
+
+https_activate_redirect_for = Automatiskt HTTPS-omdirektion
+https_disable = deaktivera
+https_only_frontend = aktivera bara för frontend
+https_only_backend = aktivera bara för backend
+https_activate = aktivera för frontend och backend
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -238,7 +279,7 @@ package_not_installed = Har inte installeras än!
 addon_installed = AddOn <b>{0}</b> installerades och aktiverades!
 addon_reinstalled = AddOn <b>{0}</b>installerades om!
 addon_activated = AddOn <b>{0}</b> aktiverades!
-addon_deactivated =  AddOn <b>{0}</b> deaktiverades!
+addon_deactivated = AddOn <b>{0}</b> deaktiverades!
 addon_uninstalled = AddOn <b>{0}</b> avinstallerades!
 addon_deleted = AddOn <b>{0}</b> raderades!
 addon_not_deleted = AddOn <b>{0}</b> kunde inte raderas!
@@ -250,6 +291,8 @@ package_hhelp = Hjälp
 package_hinstall = Installerad
 package_hactive = Aktiverad
 package_hdelete = ta bort
+package_hinformation = Information
+package_hlicense = Licens
 package_reinstall = om-installera
 package_install = installera
 package_notinstalled = inte installerad
@@ -263,6 +306,7 @@ package_caption = List av alla tillgängliga paket (Packages)
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns får inte raderas!
 addon_dir_not_writable = AddOn-mappen saknar skrivrättigheter!
+addon_cache_not_writable = Addon-Cache mappen har inga skrivrättigheter!
 package_missing_yml_file = package.yml-filen saknas!
 package_invalid_yml_file = Die package.yml ist invalid:
 package_missing_id = "package"-beteckningen saknas i package.yml ("package: {0}")!
@@ -299,7 +343,7 @@ plugin_no_deactivation = PlugIn <b>{0}</b> kunde<b>inte</b> avaktiveras pga.:
 plugin_installed = PlugIn <b>{0}</b> installierades och aktiverades!
 plugin_reinstalled = PlugIn <b>{0}</b> återinstallerades!
 plugin_activated = PlugIn <b>{0}</b> aktiverades!
-plugin_deactivated =  PlugIn <b>{0}</b> avaktiverad!
+plugin_deactivated = PlugIn <b>{0}</b> avaktiverad!
 plugin_uninstalled = PlugIn <b>{0}</b> avinstallerades!
 plugin_deleted = PlugIn <b>{0}</b> raderades!
 plugin_not_deleted = PlugIn <b>{0}</b> kunde inte raderas!
@@ -308,6 +352,7 @@ plugin_uninstall_question = PlugIn "{0}" avinstallera?
 plugin_systemplugin = System plugIn
 plugin_systempackage_delete_not_allowed = System plugIns får inte raderas!
 plugin_dir_not_writable = PlugIn-mappen har inga skrivrättigheter!
+plugin_cache_not_writable = Plugin-Cache mappen har inga skrivrättigheter!
 
 # redaxo\include\pages\credits.php
 credits = Credits
@@ -322,6 +367,7 @@ credits_open_help_file = Öppna hjälpfil:
 credits_inventor = Uppfinnare
 credits_developer = Utvecklare
 credits_designer = Grafiker
+credits_license = Licens
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Ändra min profil
@@ -379,6 +425,7 @@ clang_error_idcanotbedeleted = Språkid (clang) med Id "{0}" existerar inte
 
 # footer
 footer_joinforum = Besök vår forum
+footer_doku = Dokumentation
 footer_datetime = {0}
 footer_scripttime = {0} Sek.
 footer_credits = Credits

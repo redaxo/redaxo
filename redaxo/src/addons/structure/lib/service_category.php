@@ -49,10 +49,11 @@ class rex_category_service
             $data['status'] = 0;
         }
 
+        $templates = [];
         $contentAvailable = rex_plugin::get('structure', 'content')->isAvailable();
         if ($contentAvailable) {
             $startpageTemplates = [];
-            if ($category_id != '') {
+            if ('' != $category_id) {
                 // TemplateId vom Startartikel der jeweiligen Sprache vererben
                 $sql = rex_sql::factory();
                 // $sql->setDebug();
@@ -73,7 +74,7 @@ class rex_category_service
         foreach (rex_clang::getAllIds() as $key) {
             if ($contentAvailable) {
                 $template_id = rex_template::getDefaultId();
-                if (isset($startpageTemplates[$key]) && $startpageTemplates[$key] != '') {
+                if (isset($startpageTemplates[$key]) && '' != $startpageTemplates[$key]) {
                     $template_id = $startpageTemplates[$key];
                 }
 
@@ -85,6 +86,10 @@ class rex_category_service
                         $template_id = key($templates);
                     }
                 }
+            }
+
+            if (!isset($template_id)) {
+                $template_id = 0;
             }
 
             $AART->setTable(rex::getTablePrefix() . 'article');
@@ -236,8 +241,8 @@ class rex_category_service
 
                 'parent_id' => $thisCat->getValue('parent_id'),
                 'clang' => $clang,
-                'name' => isset($data['catname']) ? $data['catname'] : $thisCat->getValue('catname'),
-                'priority' => isset($data['catpriority']) ? $data['catpriority'] : $thisCat->getValue('catpriority'),
+                'name' => $data['catname'] ?? $thisCat->getValue('catname'),
+                'priority' => $data['catpriority'] ?? $thisCat->getValue('catpriority'),
                 'path' => $thisCat->getValue('path'),
                 'status' => $thisCat->getValue('status'),
 
@@ -267,14 +272,14 @@ class rex_category_service
         $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=? and clang_id=?', [$category_id, $clang]);
 
         // Prüfen ob die Kategorie existiert
-        if ($thisCat->getRows() == 1) {
+        if (1 == $thisCat->getRows()) {
             $KAT = rex_sql::factory();
             $KAT->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=1', [$category_id, $clang]);
             // Prüfen ob die Kategorie noch Unterkategorien besitzt
-            if ($KAT->getRows() == 0) {
+            if (0 == $KAT->getRows()) {
                 $KAT->setQuery('select * from ' . rex::getTablePrefix() . 'article where parent_id=? and clang_id=? and startarticle=0', [$category_id, $clang]);
                 // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
-                if ($KAT->getRows() == 0) {
+                if (0 == $KAT->getRows()) {
                     $thisCat = rex_sql::factory();
                     $thisCat->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'article WHERE id=?', [$category_id]);
 
@@ -328,7 +333,7 @@ class rex_category_service
     {
         $KAT = rex_sql::factory();
         $KAT->setQuery('select * from ' . rex::getTablePrefix() . 'article where id=? and clang_id=? and startarticle=1', [$category_id, $clang]);
-        if ($KAT->getRows() == 1) {
+        if (1 == $KAT->getRows()) {
             // Status wurde nicht von außen vorgegeben,
             // => zyklisch auf den nächsten Weiterschalten
             if (!$status) {
@@ -439,6 +444,12 @@ class rex_category_service
             );
 
             rex_article_cache::deleteLists($parent_id);
+            rex_article_cache::deleteMeta($parent_id);
+
+            $ids = rex_sql::factory()->getArray('SELECT id FROM '.rex::getTable('article').' WHERE startarticle=1 AND parent_id = ? GROUP BY id', [$parent_id]);
+            foreach ($ids as $id) {
+                rex_article_cache::deleteMeta($id['id']);
+            }
         }
     }
 
@@ -468,7 +479,7 @@ class rex_category_service
         $tcat = rex_sql::factory();
         $tcat->setQuery('select * from ' . rex::getTablePrefix() . 'article where startarticle=1 and id=? and clang_id=?', [$to_cat, rex_clang::getStartId()]);
 
-        if ($fcat->getRows() != 1 or ($tcat->getRows() != 1 && $to_cat != 0)) {
+        if (1 != $fcat->getRows() || (1 != $tcat->getRows() && 0 != $to_cat)) {
             // eine der kategorien existiert nicht
             return false;
         }
@@ -539,6 +550,13 @@ class rex_category_service
 
         foreach (rex_clang::getAllIds() as $clang) {
             self::newCatPrio($fcat->getValue('parent_id'), $clang, 0, 1);
+
+            rex_extension::registerPoint(new rex_extension_point('CAT_MOVED', null, [
+                'id' => $from_cat,
+                'clang_id' => $clang, // deprecated, use "clang" instead
+                'clang' => $clang,
+                'category_id' => $to_cat,
+            ]));
         }
 
         return true;

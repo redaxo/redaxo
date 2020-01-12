@@ -1,6 +1,5 @@
 lang = Español
 htmllang = es
-htmlcharset = utf-8
 yes = si
 no = no
 general = general
@@ -9,10 +8,12 @@ setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
 phpini_settings = Ajustes PHP.ini
 
 datetimeformat = %d-%b-%Y %H:%M
+timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
+translatable = Traducible a través de <code>translate:i18n_key</code>
 
 # Allgemein
-abort = Abortar
+abort = Cancelar
 add = Añadir
 back = Atrás
 delete = Borrar
@@ -28,13 +29,14 @@ function = Función
 no_editing_rights = Permiso denegado
 check_rights_in_directory = Compruebe los permisos de carpeta.
 error_undefined = Se ha producido un error indefinido
+csrf_token_invalid = Vuelva a enviar el formulario o vuelva a ejecutar la acción (error: el token CSRF no es válido).
 
 # redaxo/redaxo/index.php
 system = Sistema
 user = Usuarios
 profile = Perfil
 logout = Salir
-navigation_system = Mainmenu
+navigation_system = Menú principal
 navigation_addons = AddOns
 subnavigation = Subnavegación de {0}
 
@@ -52,9 +54,15 @@ login_welcome = Por favor Iniciar sesión.
 login_logged_out = Cerró sesión.
 stay_logged_in = Permanecer conectado
 
+login_impersonate = Cambiar de usuario
+login_depersonate = Volver atrás
+
 # redaxo/include/layout_redaxo/top.php
 logged_out = No registrado
 logged_in_as = Conectado como
+safemode = Modo seguro
+safemode_text = En Modo a prueba de fallos, todos los Complementos están desactivados temporalmente. Si, por ejemplo, un complemento genera problemas después de la instalación, puede desactivarse o desinstalarse a través del modo seguro.
+safemode_activate = Activar modo seguro
 safemode_deactivate = Desactivar el modo seguro
 
 # redaxo/include/classes/class.form.php
@@ -97,7 +105,8 @@ clang_function = Funciones
 version = Versión
 host = Anfitrión
 database = Base de datos
-syslog = Registro del sistema
+logfiles = Registros
+syslog_redaxo = REDAXO
 syslog_delete = Borrar registro sistémico
 syslog_deleted = Sistema de registro borrado
 syslog_delete_error = Error al borrar el registro del sistema
@@ -106,6 +115,9 @@ syslog_type = Tipo
 syslog_message = Mensaje
 syslog_file = Archivo
 syslog_line = Fila
+syslog_title = Archivo de registro "{0}"
+syslog_phperrors = Registro de errores de PHP
+syslog_empty = Archivo de registro vacío
 server = URL del sitio web
 servername = Nombre del Sitio Web
 error_email = Dirección de correo electrónico en caso de errores
@@ -114,18 +126,35 @@ error_email_invalid = Por favor, introduce una dirección de correo electrónico
 server_required = Se requiere url del sitio web
 server_invalid = Por favor, ingrese una url válida con el protocolo!
 servername_required = Se requiere el nombre del servidor
+system_editor = Integración del editor
+system_editor_note = Vincular a REDAXO con un editor para poder abrir directamente los archivos de código fuente. Requisito previo: el código fuente de la instalación de REDAXO está disponible localmente.
+system_editor_no_editor = Desactivado
+system_editor_open_file = Abra "{0}" en el editor
+system_edit_config_note = La configuración principal de REDAXO ofrece la posibilidad de cambiar los parámetros internos del sistema. El archivo solo debe ser editado por usuarios experimentados.
 lang_required = Se requiere idioma
 debug_mode = Modo de depuración
+debug_mode_note = Con el modo de depuración, se genera información adicional sobre el error para los errores de script en la interfaz y el servidor. No lo active en modo directo, ya que los mensajes de error también pueden contener datos confidenciales.
+debug_mode_on = Habilitar el modo de depuración
+debug_mode_off = Deshabilitar el modo de depuración
+debug_mode_info_on = El modo de depuración ha sido activado
+debug_mode_info_off = El modo de depuración ha sido desactivado
+debug_mode_marker = El modo de depuración está activo
+
+system_report = Informe del sistema
+system_report_markdown = Como markdown
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Preparar
 setup_restart = Reiniciar la configuración
 setup_text = Puede iniciar el proceso de configuración aquí. Esto es sólo para emergencias y no se requiere en condiciones normales.
 setup_error1 = Configuración activada. Haga clic en {0}> continuar <{1} y ejecute la instalación.
-setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"\$REX[SETUP] = true;\" en boot.php
+setup_error2 = Error. Boot.php no se puede escribir. Por favor, inserte \"$REX[SETUP] = true;\" en boot.php
+
+
 
 setup_100 = Configuración: Paso 1 de 7/Idioma
 setup_101 = Por favor, seleccione un idioma
+
 
 setup_199 = 1 / Idioma
 
@@ -146,6 +175,7 @@ setup_307 = Comprobación de la versión de PHP | Comprobación de permisos
 setup_308 = Versión de PHP ok
 setup_309 = Permisos de directorio ok
 setup_310 = Continúe con el paso 4
+setup_311 = Los siguientes archivos/directorios son modificables para todos los usuarios en el servidor (modo "Otros" bit 7). Los permisos deberían ser más restrictivos:
 setup_312 = Repita el paso 3
 setup_399 = 3 / Comprobación del sistema
 
@@ -212,27 +242,39 @@ setup_799 = 7 / Eureka
 
 setup_security_msg = La carpeta redaxo/include es insegura. Proteja esta carpeta y vuelva a ejecutar el programa de instalación.
 setup_no_js_security_msg = Por favor, compruebe si los archivos de la carpeta redaxo/include están directamente accesibles. Esto debería ser imposible debido a las restricciones de seguridad!
+setup_security_no_https = La configuración se realiza sin HTTPS / cifrado. Se recomienda realizar todas las llamadas frontend y backend solo a través de HTTPS para garantizar su privacidad.
+setup_security_warn_mod_security = El módulo de Apache "mod_security" está cargado. Esto puede provocar problemas si se configura incorrectamente.
+setup_security_deprecated_php = La versión PHP usada {0} ya no es mantenida por el fabricante y debe actualizarse.
 
 sql_database_name_missing = ¡Falta el nombre de la base de datos!
 sql_database_already_exists = ¡La base de datos ya existe!
+sql_database_min_version = La versión de MySQL {0} está en desuso, ¡al menos se requiere la versión {1}!
 sql_unable_to_connect_database = ¡No se puede conectar a la base de datos!
 sql_unable_to_connect_server = ¡No se puede conectar al servidor de bases de datos!
 sql_unable_to_create_database = ¡No se puede crear la base de datos!
 sql_unable_to_find_database = ¡No se puede encontrar la base de datos definida!
 sql_unable_to_open_database = ¡No se puede abrir la base de datos definida!
 
+setup_security = Seguridad
+
+https_activate_redirect_for = Redirección HTTPS automática
+https_disable = Desactivar
+https_only_frontend = Activar solo para frontend
+https_only_backend = Activar solo para backend
+https_activate = Activar para frontend y backend
+
 # redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
 package_help = Ayuda para
 package_no_help_file = No se encontró ningún archivo de ayuda
-package_back = espalda
+package_back = atrás
 addon_no_install = AddOn <b>{0}</b> no instalado porque:
 addon_no_uninstall = AddOn <b>{0}</b> se desinstaló porque:
 package_no_reason = Ninguna razón dada.
 addon_no_activation = AddOn <b>{0}</b> activado ya que no está instalado todavía!
-package_not_installed = ¡No está instalado todavía!
 addon_no_deactivation = AddOn <b>{0}</b> no se pudo desactivar porque:
+package_not_installed = ¡No está instalado todavía!
 addon_installed = AddOn <b>{0}</b> instalado y activado
 addon_reinstalled = AddOn <b>{0}</b> vuelve a instalar!
 addon_activated = AddOn <b>{0}</b> activado
@@ -248,6 +290,8 @@ package_hhelp = Ayuda
 package_hinstall = Instalado
 package_hactive = Activado
 package_hdelete = Borrar
+package_hinformation = Información
+package_hlicense = Licencia
 package_reinstall = reinstalar
 package_install = instalar
 package_notinstalled = no instalado
@@ -261,6 +305,7 @@ package_caption = Lista de paquetes disponibles
 addon_systemaddon = Addon del sistema
 addon_systempackage_delete_not_allowed = Los complementos del sistema no se pueden eliminar!
 addon_dir_not_writable = ¡Los permisos de escritura están faltando para el directorio addon!
+addon_cache_not_writable = ¡El directorio AddOn cache no tiene permisos de escritura!
 package_missing_yml_file = ¡Falta el archivo package.yml!
 package_invalid_yml_file = El archivo package.yml no es válido:
 package_missing_id = La configuración "paquete" falta en package.yml ("package: {0}").
@@ -271,23 +316,27 @@ package_is_addon = El paquete tiene que ser instalado como "<b>{0}</b>"!
 package_install_cant_copy_files = Error en la copia de la carpeta /assets !
 package_install_cant_delete_files = ¡La eliminacion de la carpeta /assets ha fallado!
 package_requirement_wrong_format = ¡Los requisitos de package.yml deben estar en formato array!
-package_requirement_error_redaxo_version = [Missing_text] de: Die REDAXO-Version (<b>{0}</b>) <b>{1}</b>!
-package_requirement_error_php_version = [Missing_text] de: Version de PHP (<b>{0}</b>) <b>{1}</b>!
-package_requirement_error_php_extension = [Missing_text] de: Es wird die PHP-Extension <b>{0}</b> benötigt!
-package_requirement_error_addon = [Missing_text] de: Es wird das AddOn <b>{0}</b> benötigt!
-package_requirement_error_addon_version = [Missing_text] de: Das AddOn <b>{0}</b> (Versión <b>{1}</b>).
-package_requirement_error_plugin = [Missing_text] de: Es wird das PlugIn <b>{0}</b> benötigt!
-package_requirement_error_plugin_version = [Missing_text] de: Das PlugIn <b>{0}</b> (Versión <b>{1}</b>) <b>{2}</b>!
-package_conflict_error_addon = [Missing_text] de: Es kann nicht gemeinsam con dem AddOn <b>{0}</b> aktiviert sein!
-package_conflict_error_addon_version = [Missing_text] de: Es kann nicht gemeinsam mit dem AddOn <b>{0}</b> <b>{1}</b> aktiviert sein!
-package_conflict_error_plugin = [Missing_text] de: Es kann nicht gemeinsam con el plugin <b>{0}</b> aktiviert sein!
-package_conflict_error_plugin_version = [Missing_text] de: Es kann nicht gemeinsam mit dem PlugIn <b>{0}</b> mit der Versionsbedingung <b>{1}</b> aktiviert sein!
-package_dependencies_error_addon = [Missing_text] de: ¿Cómo puedo ayudar? AddOn <b>{0}</b> benötigt!
-package_dependencies_error_plugin = [Missing_text] de: Es un wird von dem aktivierten PlugIn <b>{0}</b> benötigt!
+package_requirement_error_redaxo_version = La versión de REDAXO (<b>{0}</b>) no coincide con la condición de versión requerida <b>{1}</b>!
+package_requirement_error_php_version = La versión de PHP (<b>{0}</b>) no coincide con la condición de la versión requerida <b>{1}</b>!
+package_requirement_error_php_extension = Se requiere el módulo de extensión de PHP  <b>{0}</b> !
+package_requirement_error_addon = ¡Se requiere AddOn <b>{0}</b> !
+package_requirement_error_addon_version = El complemento <b>{0}</b> (Versión <b>{1}</b>) no cumple con la condición de versión requerida <b>{2}</b>!.
+package_requirement_error_plugin = ¡Se requiere el complemento <b>{0}</ b>!
+package_requirement_error_plugin_version = El complemento <b>{0}</b> (versión <b>{1}</b>) no coincide con los requisitos de versión especificados <b>{2}</b>.
+package_conflict_error_addon = ¡No se puede activar junto con el complemento <b>{0}</b>!
+package_conflict_error_addon_version = No se puede activar junto con el complemento <b>{0}</b> con los requisitos de versión <b>{1}</b>.
+package_conflict_error_plugin = ¡No se puede activar junto con PlugIn <b>{0}</b>!
+package_conflict_error_plugin_version = No se puede activar junto con PlugIn <b>{0}</b> con los requisitos de versión <b>{1}</b>.
+package_reverse_conflict_error_addon = No se puede activar junto con AddOn <b>{0}</b>!
+package_reverse_conflict_error_addon_version = No se puede activar junto con AddOn <b>{0}</b> con los requisitos de versión <b>{1}</b>!
+package_reverse_conflict_error_plugin = No se puede activar junto con PlugIn <b>{0}</b>!
+package_reverse_conflict_error_plugin_version = No se puede activar junto con PlugIn <b>{0}</b> con los requisitos de versión <b>{1}</b>!
+package_dependencies_error_addon = Es requerido por el addon <b> {0}</b>!
+package_dependencies_error_plugin = Requerido desde el plugin <b>{0}</b>!
 plugin_plugins_installed = Plugins están instalados
 plugin_no_install = PlugIn no ha sido instalado
 plugin_no_uninstall = PlugIn <b>{0}</b> no se pudo desinstalar porque:
-plugin_no_reason =
+plugin_no_reason = No hay ninguna razón dada.
 plugin_no_activation = PlugIn <b>{0}</b> no se pudo activar porque:
 plugin_no_deactivation = PlugIn <b>{0}</b> no se pudo desactivar porque:
 plugin_installed = PlugIn ha sido instalado
@@ -302,6 +351,7 @@ plugin_uninstall_question = ¿Desinstalar PlugIn "{0}"?
 plugin_systemplugin = PlugIn del sistema
 plugin_systempackage_delete_not_allowed = Plugins del sistema no deben ser eliminados!
 plugin_dir_not_writable = Falta permisos de escritura para el directorio de complementos.
+plugin_cache_not_writable = ¡La carpeta de caché de Plugin no tiene permisos de escritura!
 
 # redaxo\include\pages\credits.php
 credits = Créditos
@@ -316,6 +366,7 @@ credits_open_help_file = Abrir archivo de ayuda
 credits_inventor = Inventor
 credits_developer = Desarrollador
 credits_designer = Diseñador
+credits_license = Licencia
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Editar mi perfil
@@ -332,6 +383,18 @@ profile_save_psw = Guardar contraseña
 backend_language = Idioma de backend
 user_data_updated = ¡Datos de usuario actualizados!
 
+password_invalid = La contraseña no coincide con las reglas requeridas ({0})!
+password_admin_notice = Las reglas de contraseña se pueden cambiar en config.yml.
+password_rule_min = min. {0}
+password_rule_max = min. {0}
+password_rule_between = {0} a {1}
+password_rule_length = {0} caracteres
+password_rule_letter = {0} letra(s)
+password_rule_uppercase = {0} letra(s) mayúscula(s)
+password_rule_lowercase = {0} letra(s) minúsculas
+password_rule_digit = {0} dígito(s)
+password_rule_symbol = {0} caracteres especiales
+
 # redaxo\include\classes\class.rex_list.php
 list_previous = página anterior
 list_next = página siguiente
@@ -339,11 +402,11 @@ list_rows_found = {0} documentos encontrados
 list_no_rows = No hay entradas disponibles
 
 # redaxo\include\classes\class.rex_form.php
-form_save = guardar
-form_apply = aplicar
+form_save = Guardar
+form_apply = Aplicar
 form_delete = borrar
-form_reset = regreso
-form_abort = abortar
+form_reset = Reajustar
+form_abort = Cancelar
 form_saved = Las entradas se ha grabado!
 form_save_error = No se pudo guardar!
 form_applied = Se tomaron las entradas!
@@ -352,20 +415,22 @@ form_delete_error = Eliminar Error!
 form_resetted = Se han restablecido!
 
 # clang
-all_clangs = todos los idiomas
-clangs = idiomas
+all_clangs = Todos los idiomas
+clangs = Idiomas
 clang_error_startidcanotbedeleted = Comience idioma (estruendo) con id "{0}" no se pueden borrar
 clang_error_idcanotbedeleted = IdiomaID (estruendo) con id "{0}" no existe
 
 
+
 # footer
 footer_joinforum = Visita el foro
+footer_doku = Documentación
 footer_datetime = {0}
 footer_scripttime = {0} seg.
-footer_credits = créditos
+footer_credits = Créditos
 
 created_by = creado por
 created_on = creado en
 updated_by = actualizado por
 updated_on = modificado el
-status = estado
+status = Estado

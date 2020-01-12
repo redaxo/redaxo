@@ -1,6 +1,11 @@
 <?php
 
-class rex_rex_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_rex_test extends TestCase
 {
     public function testRexConfig()
     {
@@ -64,6 +69,48 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
         // TODO find more appropriate tests
     }
 
+    public function testDebugFlags()
+    {
+        $debug = [
+            'enabled' => false,
+            'throw_always_exception' => false,
+        ];
+        rex::setProperty('debug', $debug);
+
+        $this->assertFalse(rex::isDebugMode());
+        $this->assertSame($debug, rex::getDebugFlags());
+
+        rex::setProperty('debug', true);
+
+        $this->assertTrue(rex::isDebugMode());
+        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+
+        rex::setProperty('debug', ['enabled' => false]);
+
+        $this->assertFalse(rex::isDebugMode());
+        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+
+        $debug = [
+            'enabled' => true,
+            'throw_always_exception' => true,
+        ];
+        rex::setProperty('debug', $debug);
+        $this->assertSame($debug, rex::getDebugFlags());
+
+        $debug = [
+            'enabled' => true,
+            'throw_always_exception' => E_WARNING | E_NOTICE,
+        ];
+        rex::setProperty('debug', $debug);
+        $this->assertSame($debug, rex::getDebugFlags());
+
+        rex::setProperty('debug', [
+            'enabled' => true,
+            'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
+        ]);
+        $this->assertSame($debug, rex::getDebugFlags());
+    }
+
     public function testGetTablePrefix()
     {
         $this->assertEquals(rex::getTablePrefix(), 'rex_', 'table prefix defauts to rex_');
@@ -83,6 +130,7 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
     {
         // there is no user, when tests are run from CLI
         if (PHP_SAPI === 'cli') {
+            $this->markTestSkipped('there is no user, when tests are run from CLI');
             return;
         }
 
@@ -104,9 +152,9 @@ class rex_rex_test extends PHPUnit_Framework_TestCase
 
     public function testGetVersion()
     {
-        $this->assertTrue(rex::getVersion() != '', 'a version string is returned');
+        $this->assertTrue('' != rex::getVersion(), 'a version string is returned');
         $vers = rex::getVersion();
         $versParts = explode('.', $vers);
-        $this->assertTrue($versParts[0] == 5, 'the major version is 5');
+        $this->assertTrue(5 == $versParts[0], 'the major version is 5');
     }
 }

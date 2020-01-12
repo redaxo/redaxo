@@ -1,7 +1,7 @@
 content = Artikel
 
-add_block  =  Block hinzufügen
-module_doesnt_exist =  Dieses Modul existiert nicht!
+add_block = Block hinzufügen
+module_doesnt_exist = Dieses Modul existiert nicht!
 update_block = Block übernehmen
 save_block = Block speichern
 edit_block = Block bearbeiten
@@ -58,8 +58,8 @@ content_toarticle_failed = Diese Kategorie konnte nicht in einen Artikel umgewan
 content_toarticle_ok = Diese Kategorie wurde erfolgreich in einen Artikel umgewandelt
 move_category = nach
 category_moved = Kategorie wurde verschoben
-content_types = Spalten
-content_type = Spalte
+content_types = Bereiche (ctypes)
+content_type = Bereich (ctype)
 
 perm_options_moveSlice[] = Blöcke verschieben
 
@@ -67,7 +67,8 @@ templates = Templates
 
 templates_not_found = Es wurden keine Templates gefunden
 title_templates = Templates
-cant_delete_template_because_its_in_use = Template <b>{0}</b> kann nicht gelöscht werden, da es noch von Artikeln genutzt wird oder das Default Template ist.
+cant_delete_template_because_its_in_use = Template <b>{0}</b> kann nicht gelöscht werden, da es noch von folgenden Artikeln genutzt wird:
+cant_delete_template_because_its_default_template = Template <b>{0}</b> kann nicht gelöscht werden, da es als Standardtemplate festgelegt ist.
 template_deleted = Template wurde gelöscht.
 template_added = Template wurde hinzugefügt
 template_updated = Template wurde aktualisiert
@@ -100,6 +101,7 @@ module_deleted = Modul wurde gelöscht!
 module_added = Modul wurde hinzugefügt
 module_updated = Modul wurde aktualisiert
 module_caption = Liste der angelegten Module
+module_in_use = In Verwendung
 articel_updated = Artikel wurden aktualisiert
 create_module = Neues Modul erstellen
 input = Eingabe

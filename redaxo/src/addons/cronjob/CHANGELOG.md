@@ -1,6 +1,61 @@
 Changelog
 =========
 
+Version 2.5.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Das Log wird auch unter System/Log eingebunden (@staabm)
+
+
+Version 2.4.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* Typ "PHP-Code": Bei Fehlern wurde das Backend teils nur halb, ohne Layout dargestellt (@gharlan)
+
+
+Version 2.4.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Typabhängige Felder erscheinen direkt unterhalb der Typauswahl (@skerbis)
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurden die Cronjobs zu einem falschen Zeitpunkt ausgeführt (@dergel)
+* optimize_tables: Views wurden fälschlich versucht auch zu optimieren (@gharlan)
+* Plugins: Bei vorinstallierten Cronjobs wurde das Intervall nicht richtig gesetzt (@gharlan)
+
+
+Version 2.3.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Command `cronjob:run`: Es kann ein einzelner Job direkt ausgeführt werden (`--job`) (@gharlan)
+
+### Bugfixes
+
+* Status-Toggle-Link war nicht nutzbar (CSRF-Token fehlte) (@gharlan)
+
+
+Version 2.2.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (@gharlan)
+* Consolen-Command `cronjob:run` für die Ausführung der Jobs der script-Umgebung (das alte Skript unter `redaxo/src/addons/cronjob/bin/run` ist deprecated) (@staabm)
+
+### Bugfixes
+
+* Fehler werden besser abgefangen, vor allem um die Ausführung weiterer Jobs in der cli nicht zu behindern (@staabm)
+
+
 Version 2.1.2 – 04.10.2017
 --------------------------
 

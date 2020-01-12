@@ -19,7 +19,7 @@ abstract class rex_var_dumper
 
     public static function register()
     {
-        VarDumper::setHandler(function ($var) {
+        VarDumper::setHandler(static function ($var) {
             if (rex::isDebugMode() || ($user = rex_backend_login::createUser()) && $user->isAdmin()) {
                 VarDumper::setHandler([self::class, 'dump']);
                 self::dump($var);
@@ -28,7 +28,7 @@ abstract class rex_var_dumper
             }
 
             // register noop handler for non-admins (if not in debug mode)
-            VarDumper::setHandler(function ($var) {
+            VarDumper::setHandler(static function ($var) {
                 // noop
             });
         });
@@ -43,10 +43,10 @@ abstract class rex_var_dumper
             } else {
                 $styleAll = 'font-family: "Fira Code", Menlo, Monaco, Consolas, monospace; font-size: 14px; line-height: 1.4 !important;';
                 self::$dumper = new HtmlDumper();
-                self::$dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s">', '</pre><script>Sfdump(%s)</script>');
+                self::$dumper->setDumpBoundaries('<pre class="rex-var-dumper sf-dump" id="%s" data-indent-pad="%s"><div class="sf-dump-rex-container">', '</div></pre><script>Sfdump(%s)</script>');
                 self::$dumper->setIndentPad('    ');
                 self::$dumper->setStyles([
-                    'default' => $styleAll . '
+                    'rex-container' => $styleAll . '
                         position: relative;
                         z-index: 99999;
                         padding: 10px;
@@ -56,6 +56,10 @@ abstract class rex_var_dumper
                         white-space: pre-wrap;
                         word-break: normal;
                         word-wrap: break-word;
+                    ',
+                    'default' => $styleAll . '
+                        background-color: transparent;
+                        color: #eeffff;
                     ',
                     'const' => $styleAll . 'color: #F78C6C; font-weight: 700;',
                     'ellipsis' => $styleAll . 'color: #eeffff;',

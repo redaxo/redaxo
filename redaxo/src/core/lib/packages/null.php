@@ -5,7 +5,7 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 abstract class rex_null_package implements rex_package_interface
 {
@@ -195,7 +195,7 @@ abstract class rex_null_package implements rex_package_interface
     /**
      * {@inheritdoc}
      */
-    public function i18n($key)
+    public function i18n($key, ...$replacements)
     {
         $args = func_get_args();
         return call_user_func_array('rex_i18n::msg', $args);

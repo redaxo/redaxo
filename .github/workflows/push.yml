@@ -1,0 +1,117 @@
+name: PHP Checks
+
+on:
+  push:
+    branches:
+    - master
+    - bugfix
+    - temp
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+
+  rex-lint:
+    name: REX Linting
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: shivammathur/setup-php@verbose
+      with:
+        php-version: 7.1
+        extensions: intl
+        coverage: none # disable xdebug, pcov
+    - run: |
+        git submodule update --init --recursive
+        mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
+        git apply .github/workflows/default.config.yml.github-action.diff
+    - run: |
+        php redaxo/src/addons/tests/bin/setup.php
+        composer require --dev friendsofredaxo/linter && vendor/bin/rexlint
+        php redaxo/bin/console be_style:compile
+        git checkout -- redaxo/src/core/default.config.yml # revert changes made initially
+        git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
+
+  psalm-analysis:
+      name: psalm static code analysis
+      runs-on: ubuntu-latest
+      services:
+          mysql:
+              image: mysql:5.7
+              ports:
+                  - 3306
+      steps:
+          - uses: actions/checkout@v2
+          - name: Setup PHP
+            uses: shivammathur/setup-php@verbose
+            with:
+                php-version: 7.3
+                extensions: intl
+                coverage: none # disable xdebug, pcov
+          - run: |
+                git submodule update --init --recursive
+                mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
+                git apply .github/workflows/default.config.yml.github-action.diff
+          - run: |
+                php redaxo/src/addons/tests/bin/setup.php
+                php redaxo/bin/console package:install phpmailer
+                php redaxo/bin/console package:install cronjob
+                php redaxo/bin/console package:install cronjob/article_status
+                php redaxo/bin/console package:install cronjob/optimize_tables
+                php redaxo/bin/console package:install debug
+                php redaxo/bin/console package:install structure/history
+                php redaxo/bin/console package:install structure/version
+                composer require --dev vimeo/psalm:^3.8.1
+                vendor/bin/psalm --show-info=false --shepherd --threads=2
+
+  phpstan-analysis:
+      name: phpstan static code analysis
+      runs-on: ubuntu-latest
+      services:
+          mysql:
+              image: mysql:5.7
+              ports:
+                  - 3306
+      steps:
+          - uses: actions/checkout@v2
+          - name: Setup PHP
+            uses: shivammathur/setup-php@verbose
+            with:
+                php-version: 7.3
+                extensions: intl
+                coverage: none # disable xdebug, pcov
+          - run: |
+                git submodule update --init --recursive
+                mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo_5_0;'
+                git apply .github/workflows/default.config.yml.github-action.diff
+          - run: |
+                php redaxo/src/addons/tests/bin/setup.php
+                php redaxo/bin/console package:install phpmailer
+                php redaxo/bin/console package:install cronjob
+                php redaxo/bin/console package:install cronjob/article_status
+                php redaxo/bin/console package:install cronjob/optimize_tables
+                php redaxo/bin/console package:install debug
+                php redaxo/bin/console package:install structure/history
+                php redaxo/bin/console package:install structure/version
+                composer require --dev phpstan/phpstan:^0.12
+                vendor/bin/phpstan analyse --no-progress
+
+  php-cs-fixer:
+      name: check php-cs-fixer codestyles
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v2
+          - name: Setup PHP
+            uses: shivammathur/setup-php@verbose
+            with:
+                php-version: 7.1
+                extensions: intl
+                coverage: none # disable xdebug, pcov
+          - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff --dry-run

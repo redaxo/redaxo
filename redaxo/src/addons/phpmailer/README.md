@@ -1,57 +1,61 @@
-## Inhalt
-- [Über](#ueber)
-- [Beispiele](#beispiele)
-- [Tipps](#tipps)
+# PHPMailer
 
-<a name="ueber"></a>
+## About
+The PHPMailer-AddOn allows you to send e-mails. In addition, PHPMailer can notify the administrator via e-mail if errors occur in the system. 
 
-## Über
-PHPMailer ermöglicht den Versand von E-Mails. Das AddOn stellt die Class PHPMailer zur Verfügung. 
+**The following transmission methods are supported**
+- php mail()
+- sendmail 
+- SMTP/SMTPS
+- SMTP/SMTPS-Auth
 
-Der Aufruf erfolgt über die Class rex_mailer. Dabei werden die hier in der Konfiguration hinterlegten Einstellungen berücksichtigt. 
+The call is made via the class `rex_mailer`. The settings stored in the configuration are taken into account.
 
-Die Werte der Konfiguration können in AddOns oder Modulen leicht überschrieben werden, siehe [Beispiele](#beispiele).
+The configuration values can easily be overwritten by AddOns or modules, see [Examples](#examples).
 
-Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PHPMailer/PHPMailer/wiki/Tutorial
+> If an AddOn or module does not provide its own settings for sending e-mails, the send settings in the PHPMailer AddOn are applied. 
 
-> Eine Test-Mail kann nach Speichern der Einstellungen verschickt werden. Hierzu müssen unbedingt Absender- und Test-Adresse festgelegt werden. 
+For more information about using PHPMailer, see: [https://github.com/PHPMailer/PHPMailer/wiki/Tutorial](https://github.com/PHPMailer/PHPMailer/wiki/Tutorial)
 
-<a name="beispiele"></a>
-## PHPMailer Code-Beispiele
+> **Note:** A test mail can be sent with the button **Save and test**. For this purpose, the sender and test address must be specified.
+
+## PHPMailer Code Examples
 
 
 ### 1. Beispiel
 
-```php 
-<?php 
-  // PHPMailer-Instanz 
+Send an e-mail to a specific recipient.
+
+```php
+<?php
+  // PHPMailer Instance
   $mail = new rex_mailer();
- 
-  //Absenderadresse überschreiben
- // $mail->From = "absender@domain.tld";
-  
-  //Absendername überschreiben
-  // $mail->FromName = "Vorname Nachname";
-  
-  // Antwortadresse festlegen 
+
+  //Overwrite sender address
+ // $mail->From = "sender@domain.tld";
+
+  //Overwrite sender name
+  // $mail->FromName = "Firstname Surname";
+
+  // Define reply address
   // $mail->addReplyTo("username@domain.com", "Software Simian");
-  
-  // Empfänger 
-  $mail->addAddress("empfaenger@domain.tld");
-  
-  // Empfänger als CC hinzufügen - Weitere anlegen wenn mehrere erwünscht
-  // $mail->addCC("empfaenger2@domain.tld);
-  
-  // Empfänger als BCC hinzufügen - Weitere anlegen wenn mehrere erwünscht
-  // $mail->addBCC("empfaenger3@domain.tld");
- 
-  //Betreff der E-Mail 
+
+  //  Recipient
+  $mail->addAddress("recipient@domain.tld");
+
+  // Add recipient as CC - Create more if you want more
+  // $mail->addCC("recipient2@domain.tld);
+
+  // Add recipient as BCC - Create more if more are desired
+  // $mail->addBCC("recipient2@domain.tld");
+
+  //Subject of the e-mail
   $mail->Subject = "PHPMailer-Test";
- 
-  //Text der EMail setzen
+
+  //text of the email
   $mail->Body = "Hi \n\n this mail was sent by PHPMailer!";
-  
-  //Überprüfen ob E-Mail gesendet wurde
+
+  //Check if email has been sent
   if(!$mail->send())
   {
      echo "An error occurred";
@@ -64,8 +68,9 @@ Weitere Informationen zur Verwendung von PHPMailer unter:  https://github.com/PH
 ```
 
 
-### 2. Beispiel
+### 2. Example
 
+Send an e-mail to a group of recipients that is read from the database.
 
 ```php
 
@@ -107,22 +112,61 @@ foreach($sql as $row)
 
 ```
 
-<a name="tipps"></a>
+## E-mail notification in case of errors
 
-## Tipps
+PHPMAiler sends an excerpt of system.log when it finds exceptions, errors, and custom log events. 
+The check and if necessary the sending are done in fixed intervals, which can be defined in the system settings. The recipient is the error address stored in the system settings. 
+
+Your own events can also trigger the dispatch. You can store this event as type: logevent. 
+
+`rex_logger::factory()->log('logevent', 'Mein Text zum Event');`
+
+## SMTP-Debug
+
+Setting the debug mode leads to different outputs:
+
+### Client protocol
+
+Output messages sent by the client.
+
+### Server and client protocol
+
+as Client protocol, plus responses received from the server (this is the most useful setting).
+
+### Connection protocol
+
+as Server and client protocol, plus more information about the initial connection - this level can help diagnose STARTTLS failures
+
+### Lowlevel protocol
+
+as Connection protocol, plus even lower-level information, very verbose, don't use for debugging SMTP, only low-level problems.
+
+Most of the time you don't need a level over **server and client protocol**, unless there are difficulties with the connection. The output will usually be more extensive and harder to read.
+
+
+
+## Tips
+
+### Encryption: Automatic TLS connection
+
+PHPMailer checks if the specified server supports TLS and establishes an encrypted TLS connection. If the server does not allow encryption, an insecure connection is established. If there should be problems with the dispatch, it is often due to the fact that the deposited certificate does not agree with the indicated host or no valid certificate was found. By changing the encryption to "manual selection" the automatic recognition can be deactivated and the encryption can be selected manually. 
+
+> This setting can lead to insecure connections if TLS support is not found. A debug mode check **connection protocol** should be performed.
+
 
 ### Spam-Blocker
 
-- Der Server, der die E-Mails versendet sollte möglichst per SPF-Eintrag für die verwendete E-Mail-Doman als autorisierter Server im DNS hinterlegt sein. 
+- The server that sends the e-mails should be listed in the DNS as authorized server for the sending e-mail domain, defined via SPF record.
 
-- Prioritäts-Einstellungen können zu einem Spam-Blocking führen. 
+- The priority settings can lead to spam blocking.
 
-- Große E-Mail-Verteiler sollten möglichst in kleiner Zahl, und nicht als CC verschickt werden. 
+- Large e-mail distribution lists should be sent in small numbers and as BCCs if possible.
 
+> SMTP transmission does not allow sending emails with empty body 
 
-### Verwendung bei selbstsignierten Zertifikaten
+### Use of self-signed certificates
 
-Per Default wird der Peer verifiziert. Dies kann ggf. zu Prpblemen führen. Die nachfolgenden Einstellungen helfen das zu umgehen.  
+The peer is verified by default. This can lead to problems. The following settings help to avoid this problem.
 
 ```php
 <?php
@@ -141,3 +185,17 @@ $mail->SMTPOptions = array(
     ),
 );
 ```
+
+### Sending mails over different domains 
+
+If e-mails are sent via different sender domains, the SPF record of the sender domain(s) should include proper settings for
+
+- the web server (if you use sendmail or mail) 
+- or the specified SMTP(S) server 
+
+e.g. `a:my-domain.tld ip4:XXX.XXX.XXX.XXX`
+
+This ensures that PHPMailer can send emails under the specified domain and that the mail is not declared as SPAM.  
+
+If necessary, contact the registrar or DNS administrator. 
+

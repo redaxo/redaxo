@@ -16,7 +16,7 @@ class rex_input_text extends rex_input
 
     public function getHtml()
     {
-        $value = htmlspecialchars($this->value);
+        $value = rex_escape($this->value);
         return '<input' . $this->getAttributeString() . ' value="' . $value . '" />';
     }
 }

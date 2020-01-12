@@ -8,7 +8,9 @@ setlocale = de_DE,de_DE@euro,deu_deu,german_germany,de,ge
 phpini_settings = PHP.ini Einstellungen
 
 datetimeformat = %d. %b. %Y - %H:%Mh
+timeformat = %H:%Mh
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
+translatable = Übersetzbar via <code>translate:i18n_key</code>
 
 # Allgemein
 abort = abbrechen
@@ -19,15 +21,15 @@ edit = editieren
 update = aktualisieren
 view = ansehen
 path = Pfad
-id = Id
+id = ID
 name = Name
 description = Beschreibung
 email = E-Mail
 function = Funktion
 no_editing_rights = Keine Editiererlaubnis
-check_rights_in_directory  =  Bitte überprüfen Sie die Rechte im Ordner
+check_rights_in_directory = Bitte überprüfen Sie die Rechte im Ordner
 error_undefined = Ein undefinierter Fehler ist aufgetreten
-csrf_token_invalid = Der CSRF-Token ist nicht gültig.
+csrf_token_invalid = Bitte das Formular erneut absenden, bzw. die Aktion erneut ausführen (Fehler: CSRF-Token ungültig).
 
 # redaxo/redaxo/index.php
 system = System
@@ -40,8 +42,8 @@ subnavigation = Unternavigation von {0}
 
 # redaxo/include/classes/class.login.php
 login = Login
-login_name  =  Benutzername
-password  =  Passwort
+login_name = Benutzername
+password = Passwort
 new_password = Neues Passwort
 request_new_password = Neues Passwort anfordern
 login_error = Fehler bei der Anmeldung.
@@ -52,9 +54,15 @@ login_welcome = Bitte anmelden.
 login_logged_out = Abgemeldet.
 stay_logged_in = Eingeloggt bleiben
 
+login_impersonate = Identität wechseln
+login_depersonate = zurückwechseln
+
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  nicht angemeldet
-logged_in_as  =  Angemeldet als
+logged_out = nicht angemeldet
+logged_in_as = Angemeldet als
+safemode = Safe mode
+safemode_text = Im Safe mode werden vorübergehend alle AddOns deaktiviert. Falls bspw. ein AddOn nach der Installation Probleme macht, kann dieses über den Safe mode deaktiviert oder deinstalliert werden.
+safemode_activate = Safe mode aktivieren
 safemode_deactivate = Safe mode deaktivieren
 
 # redaxo/include/classes/class.form.php
@@ -76,7 +84,7 @@ main_preferences = Einstellungen
 language = Sprache
 languages = Sprachen
 languages_edit = Sprachen bearbeiten
-id_exists = Id existiert schon.
+id_exists = ID existiert schon.
 enter_code = Bitte geben sie einen Code ein.
 enter_name = Bitte einen Namen eingeben.
 clang_add = Sprache hinzufügen
@@ -97,15 +105,19 @@ clang_function = Funktionen
 version = Version
 host = Host
 database = Datenbank
-syslog = Systemlog
-syslog_delete = Systemlog löschen
-syslog_deleted = Systemlog gelöscht
-syslog_delete_error = Fehler beim löschen des Systemlogs!
+logfiles = Logdateien
+syslog_redaxo = REDAXO
+syslog_delete = Logdatei löschen
+syslog_deleted = Logdatei gelöscht
+syslog_delete_error = Fehler beim Löschen der Logdatei!
 syslog_timestamp = Zeit
 syslog_type = Typ
 syslog_message = Nachricht
 syslog_file = Datei
 syslog_line = Zeile
+syslog_title = Logdatei "{0}"
+syslog_phperrors = PHP Errorlog
+syslog_empty = Leere Logdatei
 server = URL der Website
 servername = Name der Website
 error_email = E-Mail-Adresse bei Fehlern
@@ -114,8 +126,23 @@ error_email_invalid = Die E-Mail-Adresse für Fehler ist keine gültige E-Mail-A
 server_required = Es wird eine URL für die Website benötigt!
 server_invalid = Die Website-URL ist ungültig, sie muss vollständig inkl. Protokoll angegeben werden!
 servername_required = Es wird ein Servername benötigt!
+system_editor = Editor-Integration
+system_editor_note = Verknüpft REDAXO mit einem Editor um darin Quellcode-Dateien direkt öffnen zu können. Vorraussetzung: Der Quellcode der REDAXO-Installation ist lokal verfügbar.
+system_editor_no_editor = Deaktiviert
+system_editor_open_file = "{0}" im Editor öffnen
+system_edit_config_note = Die REDAXO Hauptkonfiguration bietet die Möglichkeit interne Systemparameter zu verändern. Die Datei sollte nur von erfahrenen Nutzern bearbeitet werden.
 lang_required = Es wird eine Sprache benötigt!
 debug_mode = Debug-Modus
+debug_mode_note = Mit dem Debug-Modus werden bei PHP-Skriptfehlern im Frontend und Backend zusätzliche Angaben zum Fehler ausgegeben. Ausserdem werden keine immutable cache-http-header verwendet. Im Live-Betrieb nicht aktivieren, da die Fehlermeldungen auch sensible Daten beinhalten können.
+debug_mode_on = Debug-Modus aktivieren
+debug_mode_off = Debug-Modus deaktivieren
+debug_mode_info_on = Der Debug-Modus wurde aktiviert
+debug_mode_info_off = Der Debug-Modus wurde deaktiviert
+debug_mode_marker = Der Debug-Modus ist aktiv
+debug_confirm = Der Debug-Modus sollte nicht im Live-Betrieb verwendet werden. Dennoch den Debug-Modus aktivieren?  
+
+system_report = Systembericht
+system_report_markdown = Als markdown
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
@@ -149,6 +176,7 @@ setup_307 = PHP-Versionscheck | Rechteüberprüfung
 setup_308 = PHP-Version ok
 setup_309 = Ordnerrechte ok
 setup_310 = Weiter mit Schritt 4
+setup_311 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar ("Others"-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
 setup_312 = Schritt 3 erneut durchführen
 setup_399 = 3 / Systemcheck
 
@@ -215,14 +243,29 @@ setup_799 = 7 / Heureka
 
 setup_security_msg = Der Ordner redaxo ist unsicher. Bitte schützen Sie diesen Ordner und starten das Setup erneut!
 setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, redaxo/data und redaxo/src direkt aufrufbar sind! Dies darf aus Sicherheitsgründen nicht möglich sein!
+setup_security_no_https = Das Setup wird ohne HTTPS/Verschlüsselung durchgeführt. Es wird empfohlen jegliche Frontend und Backend aufrufe nur mittels HTTPS durchzuführen, um die Privatsphäre und den Datenschutz zu gewährleisten.
+setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
+setup_security_deprecated_php = Die verwendete PHP Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
+sql_database_min_version = Die MySQL-Version {0} ist veraltet, es wird mindestens Version {1} benötigt!
 sql_unable_to_connect_database = Es konnte keine Verbindung zur Datenbank hergestellt werden!
 sql_unable_to_connect_server = Es konnte keine Verbindung zum Datenbankserver hergestellt werden!
 sql_unable_to_create_database = Die angegebene Datenbank konnte nicht angelegt werden!
 sql_unable_to_find_database = Die angegebene Datenbank konnte nicht gefunden werden!
 sql_unable_to_open_database = Die angegebene Datenbank konnte nicht geöffnet werden!
+
+setup_security = Sicherheit
+
+https_only_over_https = Diese Option ist nur bei einem Aufruf über HTTPS verfügbar
+https_activate_redirect_for = Automatische HTTPS-Umleitung
+https_disable = deaktivieren
+https_only_frontend = nur für Frontend aktivieren
+https_only_backend = nur für Backend aktivieren
+https_activate = für Frontend und Backend aktiveren
+
+hsts_more_information = HSTS sollte in den Hostingeinstellungen der Domain/s (empfohlen) aktiviert werden, kann aber auch in der config.yml von REDAXO nachträglich aktiviert werden. Weitere Informationen in der REDAXO-Doku.
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -239,7 +282,7 @@ package_not_installed = Es wurde noch nicht installiert!
 addon_installed = AddOn <b>{0}</b> wurde installiert und aktiviert!
 addon_reinstalled = AddOn <b>{0}</b> wurde re-installiert!
 addon_activated = AddOn <b>{0}</b> wurde aktiviert!
-addon_deactivated =  AddOn <b>{0}</b> wurde deaktiviert!
+addon_deactivated = AddOn <b>{0}</b> wurde deaktiviert!
 addon_uninstalled = AddOn <b>{0}</b> wurde deinstalliert!
 addon_deleted = AddOn <b>{0}</b> wurde gelöscht!
 addon_not_deleted = AddOn <b>{0}</b> konnte nicht gelöscht werden!
@@ -251,6 +294,8 @@ package_hhelp = Hilfe
 package_hinstall = Installiert
 package_hactive = Aktiviert
 package_hdelete = Entfernen
+package_hinformation = Informationen
+package_hlicense = Lizenz
 package_reinstall = re-installieren
 package_install = installieren
 package_notinstalled = nicht installiert
@@ -261,9 +306,12 @@ package_activate = aktivieren
 package_yes = ja
 package_no = nein
 package_caption = Liste der verfügbaren Packages
+package_search = Suchen...
+package_clear = Eingabe zurücksetzen
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns dürfen nicht gelöscht werden!
 addon_dir_not_writable = Der AddOn-Ordner hat keine Schreibrechte!
+addon_cache_not_writable = Der AddOn-Cache-Ordner hat keine Schreibrechte!
 package_missing_yml_file = Die package.yml fehlt!
 package_invalid_yml_file = Die package.yml ist invalid:
 package_missing_id = Es fehlt die "package"-Angabe in der package.yml ("package: {0}")!
@@ -300,7 +348,7 @@ plugin_no_deactivation = PlugIn <b>{0}</b> konnte aus folgendem Grund <b>nicht</
 plugin_installed = PlugIn <b>{0}</b> wurde installiert und aktiviert!
 plugin_reinstalled = PlugIn <b>{0}</b> wurde re-installiert!
 plugin_activated = PlugIn <b>{0}</b> wurde aktiviert!
-plugin_deactivated =  PlugIn <b>{0}</b> wurde deaktiviert!
+plugin_deactivated = PlugIn <b>{0}</b> wurde deaktiviert!
 plugin_uninstalled = PlugIn <b>{0}</b> wurde deinstalliert!
 plugin_deleted = PlugIn <b>{0}</b> wurde gelöscht!
 plugin_not_deleted = PlugIn <b>{0}</b> konnte nicht gelöscht werden!
@@ -309,6 +357,7 @@ plugin_uninstall_question = PlugIn "{0}" de-installieren?
 plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns dürfen nicht gelöscht werden!
 plugin_dir_not_writable = Der PlugIn-Ordner hat keine Schreibrechte!
+plugin_cache_not_writable = Der PlugIn-Cache-Ordner hat keine Schreibrechte!
 
 # redaxo\include\pages\credits.php
 credits = Credits
@@ -323,6 +372,7 @@ credits_open_help_file = Hilfedatei öffnen:
 credits_inventor = Erfinder
 credits_developer = Entwickler
 credits_designer = Grafiker
+credits_license = Lizenz
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Mein Benutzerprofil bearbeiten
@@ -373,13 +423,14 @@ form_resetted = Eingaben wurden verworfen!
 # clang
 all_clangs = Alle Sprachen
 clangs = Sprachen
-clang_error_startidcanotbedeleted = Startsprache (clang) mit der Id "{0}" kann nicht gelöscht werden
-clang_error_idcanotbedeleted = Sprachid (clang) mit der Id "{0}" existiert nicht
+clang_error_startidcanotbedeleted = Startsprache (clang) mit der ID "{0}" kann nicht gelöscht werden
+clang_error_idcanotbedeleted = Sprache (clang) mit der ID "{0}" existiert nicht
 
 
 
 # footer
 footer_joinforum = Besuche das Forum
+footer_doku = Dokumentation lesen
 footer_datetime = {0}
 footer_scripttime = {0} Sek.
 footer_credits = Credits

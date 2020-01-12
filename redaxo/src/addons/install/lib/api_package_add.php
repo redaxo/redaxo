@@ -7,9 +7,21 @@
  */
 class rex_api_install_package_add extends rex_api_install_package_download
 {
-    const GET_PACKAGES_FUNCTION = 'getAddPackages';
-    const VERB = 'downloaded';
-    const SHOW_LINK = true;
+    protected function getErrorMessage()
+    {
+        return rex_i18n::msg('install_warning_addon_not_downloaded', $this->addonkey);
+    }
+
+    protected function getSuccessMessage()
+    {
+        return rex_i18n::msg('install_info_addon_downloaded', $this->addonkey)
+            . ' <a href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('install_to_addon_page') . '</a>';
+    }
+
+    protected function getPackages()
+    {
+        return rex_install_packages::getAddPackages();
+    }
 
     protected function checkPreConditions()
     {
@@ -20,7 +32,7 @@ class rex_api_install_package_add extends rex_api_install_package_download
 
     protected function doAction()
     {
-        if (($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey))) !== true) {
+        if (true !== ($msg = $this->extractArchiveTo(rex_path::addon($this->addonkey)))) {
             return $msg;
         }
         rex_package_manager::synchronizeWithFileSystem();

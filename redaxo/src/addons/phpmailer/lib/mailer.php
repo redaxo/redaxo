@@ -17,6 +17,8 @@ class rex_mailer extends PHPMailer
     public function __construct($exceptions = false)
     {
         $addon = rex_addon::get('phpmailer');
+        $this->Timeout = 10;
+        $this->setLanguage(rex_i18n::getLanguage(), $addon->getPath('vendor/phpmailer/phpmailer/language/'));
         $this->XMailer = 'REXMailer';
         $this->From = $addon->getConfig('from');
         $this->FromName = $addon->getConfig('fromname');
@@ -27,7 +29,7 @@ class rex_mailer extends PHPMailer
         $this->CharSet = $addon->getConfig('charset');
         $this->WordWrap = $addon->getConfig('wordwrap');
         $this->Encoding = $addon->getConfig('encoding');
-        if ($addon->getConfig('priority') == 0) {
+        if (0 == $addon->getConfig('priority')) {
             $this->Priority = null;
         } else {
             $this->Priority = $addon->getConfig('priority');
@@ -35,6 +37,7 @@ class rex_mailer extends PHPMailer
         $this->SMTPDebug = $addon->getConfig('smtp_debug');
         $this->SMTPSecure = $addon->getConfig('smtpsecure');
         $this->SMTPAuth = $addon->getConfig('smtpauth');
+        $this->SMTPAutoTLS = $addon->getConfig('security_mode');
         $this->Username = $addon->getConfig('username');
         $this->Password = $addon->getConfig('password');
 
@@ -49,14 +52,16 @@ class rex_mailer extends PHPMailer
 
     public function send()
     {
-        if ($this->log) {
-            $this->log();
-        }
-        return parent::send();
+        return rex_timer::measure(__METHOD__, function () {
+            if ($this->log) {
+                $this->log();
+            }
+            return parent::send();
+        });
     }
 
-    /*
-     * @param boolean $status
+    /**
+     * @param bool $status
      */
     public function setLog($status)
     {

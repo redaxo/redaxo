@@ -1,6 +1,56 @@
 Changelog
 =========
 
+Version 2.5.3 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.5.2 – 12.03.2019
+--------------------------
+
+### Bugfixes
+
+* Bei Uhrzeit/Zeitzonen-Differenzen zwischen PHP und DB wurde der letzte Login falsch angezeigt (@gharlan)
+* Mit MySQL 8.0 bis 8.0.12 kam es in der Benutzerliste zu einem Fehler (@schuer)
+* "Rolle(n)" statt "Rolle" als Label, da mehrere ausgewählt werden können (@skerbis)
+
+
+Version 2.5.1 – 01.10.2018
+--------------------------
+
+### Security
+
+* Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+
+Version 2.5.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Login-Fehlversuche können zurückgesetzt werden (@gharlan)
+* Benutzerliste sortierbar nach Spalten (@gharlan)
+* Rollen werden nach Name sortiert (@tbaddade)
+
+### Bugfixes
+
+* Kompatibilität zu PHP 7.2 (@gharlan)
+* Wenn man bei Admins die Admin-Checkbox abhakt, erschien nicht das Rollen-Auswahlfeld (@palber)
+* Die Perms enthielten teils sichtbare HTML-Entities (Doppel-Escaping) (@gharlan)
+
+
+Version 2.4.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (@gharlan)
+
+
 Version 2.3.0 – 04.10.2017
 --------------------------
 

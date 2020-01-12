@@ -1,0 +1,38 @@
+parameters:
+    level: 0
+    paths:
+        - redaxo/src/
+    bootstrap: phpstan-bootstrap.php
+    excludes_analyse:
+        - redaxo/src/addons/be_style/vendor/
+        - redaxo/src/addons/debug/vendor/
+        - redaxo/src/addons/media_manager/tests/
+        - redaxo/src/addons/mediapool/tests/
+        - redaxo/src/addons/phpmailer/vendor/
+        - redaxo/src/addons/structure/tests/
+        - redaxo/src/addons/tests/vendor/
+        - redaxo/src/core/vendor/
+        - redaxo/src/core/tests/
+    ignoreErrors:
+        -
+            # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
+            message: '#Undefined variable: .+#'
+            path: '*/pages/*'
+        -
+            # allow undefined variable errors in pages, because we rely on variables beeing available from the includer scope
+            message: '#Undefined variable: .+#'
+            path: '*/addons/structure/functions/function_rex_category.php'
+        -
+            message: '#Using \$this outside a class\.#'
+            path: '*/fragments/*'
+        -
+            message: '#Access to an undefined property object.+#'
+            path: '*/fragments/*'
+        -
+            message: '#Call to an undefined method object::subfragment\(\)\.#'
+            path: '*/fragments/*'
+        -
+            message: '#Cannot unset offset mixed on array.#'
+            path: '*/core/lib/packages/manager.php'
+        - '#Undefined variable: \$this#'
+        - '#Unsafe usage of new static\(\)\.#'

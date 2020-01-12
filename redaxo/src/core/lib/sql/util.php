@@ -3,7 +3,7 @@
 /**
  * Class to execute a sql dump.
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql_util
 {
@@ -27,11 +27,11 @@ class rex_sql_util
         // Spalte updaten
         $qry = 'UPDATE ' . $tableName . ' SET ' . $priorColumnName . ' = ( SELECT @count := @count +1 )';
 
-        if ($whereCondition != '') {
+        if ('' != $whereCondition) {
             $qry .= ' WHERE ' . $whereCondition;
         }
 
-        if ($orderBy != '') {
+        if ('' != $orderBy) {
             $qry .= ' ORDER BY ' . $orderBy;
         }
 
@@ -62,7 +62,7 @@ class rex_sql_util
             }
         }
         if ($error) {
-            throw new rex_sql_exception($error);
+            throw new rex_sql_exception($error, null, $sql);
         }
 
         return true;
@@ -139,6 +139,7 @@ class rex_sql_util
             // backquotes that can't be escaped
             if ($in_string) {
                 for (; ;) {
+                    /** @psalm-suppress LoopInvalidation */
                     $i = strpos($sql, $string_start, $i);
                     // No end of string found -> add the current substring to the
                     // returned array
@@ -148,7 +149,7 @@ class rex_sql_util
                     }
                     // Backquotes or no backslashes before quotes: it's indeed the
                     // end of the string -> exit the loop
-                    if ($string_start == '`' || $sql[$i - 1] != '\\') {
+                    if ('`' == $string_start || '\\' != $sql[$i - 1]) {
                         $string_start = '';
                         $in_string = false;
                         break;
@@ -158,7 +159,7 @@ class rex_sql_util
                     // ... first checks for escaped backslashes
                     $j = 2;
                     $escaped_backslash = false;
-                    while ($i - $j > 0 && $sql[$i - $j] == '\\') {
+                    while ($i - $j > 0 && '\\' == $sql[$i - $j]) {
                         $escaped_backslash = !$escaped_backslash;
                         ++$j;
                     }
@@ -178,25 +179,27 @@ class rex_sql_util
             } // end if (in string)
 
             // lets skip comments (/*, -- and #)
-            elseif (($char == '-' && $sql_len > $i + 2 && $sql[$i + 1] == '-' && $sql[$i + 2] <= ' ') || $char == '#' || ($char == '/' && $sql_len > $i + 1 && $sql[$i + 1] == '*')) {
-                $i = strpos($sql, $char == '/' ? '*/' : "\n", $i);
+            elseif (('-' == $char && $sql_len > $i + 2 && '-' == $sql[$i + 1] && $sql[$i + 2] <= ' ') || '#' == $char || ('/' == $char && $sql_len > $i + 1 && '*' == $sql[$i + 1])) {
+                /** @psalm-suppress LoopInvalidation */
+                $i = strpos($sql, '/' == $char ? '*/' : "\n", $i);
                 // didn't we hit end of string?
-                if ($i === false) {
+                if (false === $i) {
                     break;
                 }
-                if ($char == '/') {
+                if ('/' == $char) {
                     ++$i;
                 }
             }
 
             // We are not in a string, first check for delimiter...
-            elseif ($char == ';') {
+            elseif (';' == $char) {
                 // if delimiter found, add the parsed part to the returned array
                 $ret[] = ['query' => substr($sql, 0, $i), 'empty' => $nothing];
                 $nothing = true;
                 $sql = ltrim(substr($sql, min($i + 1, $sql_len)));
                 $sql_len = strlen($sql);
                 if ($sql_len) {
+                    /** @psalm-suppress LoopInvalidation */
                     $i = -1;
                 } else {
                     // The submited statement(s) end(s) here
@@ -205,7 +208,7 @@ class rex_sql_util
             } // end else if (is delimiter)
 
             // ... then check for start of a string,...
-            elseif (($char == '"') || ($char == '\'') || ($char == '`')) {
+            elseif (('"' == $char) || ('\'' == $char) || ('`' == $char)) {
                 $in_string = true;
                 $nothing = false;
                 $string_start = $char;

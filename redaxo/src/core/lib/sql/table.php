@@ -5,13 +5,18 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\sql
  */
 class rex_sql_table
 {
-    use rex_instance_pool_trait;
+    use rex_instance_pool_trait {
+        clearInstance as private baseClearInstance;
+    }
 
-    const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+    public const FIRST = 'FIRST '; // The space is intended: column names cannot end with space
+
+    /** @var int */
+    private $db;
 
     /** @var rex_sql */
     private $sql;
@@ -55,18 +60,19 @@ class rex_sql_table
     /** @var string[] mapping from current (new) name to existing (old) name in database */
     private $foreignKeysExisting = [];
 
-    private function __construct($name)
+    private function __construct($name, int $db = 1)
     {
-        $this->sql = rex_sql::factory();
+        $this->db = $db;
+        $this->sql = rex_sql::factory($db);
         $this->name = $name;
         $this->originalName = $name;
 
         try {
-            $columns = $this->sql->showColumns($name);
+            $columns = rex_sql::showColumns($name, $db);
             $this->new = false;
         } catch (rex_sql_exception $exception) {
             // Error code 42S02 means: Table does not exist
-            if ('42S02' !== $this->sql->getErrno()) {
+            if ($exception->getSql() && '42S02' !== $exception->getSql()->getErrno()) {
                 throw $exception;
             }
 
@@ -120,7 +126,7 @@ class rex_sql_table
         $foreignKeyParts = $this->sql->getArray('
             SELECT c.constraint_name, c.referenced_table_name, c.update_rule, c.delete_rule, k.column_name, k.referenced_column_name
             FROM information_schema.referential_constraints c
-            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name 
+            LEFT JOIN information_schema.key_column_usage k ON c.constraint_name = k.constraint_name
             WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
@@ -145,11 +151,21 @@ class rex_sql_table
      *
      * @return self
      */
-    public static function get($name)
+    public static function get($name, int $db = 1)
     {
-        return self::getInstance($name, function ($name) {
-            return new self($name);
+        return self::getInstance([$db, $name], static function ($db, $name) {
+            return new self($name, $db);
         });
+    }
+
+    public static function clearInstance($key)
+    {
+        // BC layer for old cache keys without db id
+        if (!is_array($key)) {
+            $key = [1, $key];
+        }
+
+        return static::baseClearInstance($key);
     }
 
     /**
@@ -213,8 +229,7 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_column $column
-     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -234,8 +249,7 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_column $column
-     * @param null|string    $afterColumn Column name or `rex_sql_table::FIRST`
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
      *
      * @return $this
      */
@@ -270,15 +284,17 @@ class rex_sql_table
     }
 
     /**
+     * @param null|string $afterColumn Column name or `rex_sql_table::FIRST`
+     *
      * @return $this
      */
-    public function ensureGlobalColumns()
+    public function ensureGlobalColumns($afterColumn = null)
     {
         return $this
-            ->ensureColumn(new rex_sql_column('createdate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'))
-            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'))
-            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'))
+            ->ensureColumn(new rex_sql_column('createdate', 'datetime'), $afterColumn)
+            ->ensureColumn(new rex_sql_column('createuser', 'varchar(255)'), 'createdate')
+            ->ensureColumn(new rex_sql_column('updatedate', 'datetime'), 'createuser')
+            ->ensureColumn(new rex_sql_column('updateuser', 'varchar(255)'), 'updatedate')
         ;
     }
 
@@ -286,9 +302,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameColumn($oldName, $newName)
     {
@@ -345,9 +361,9 @@ class rex_sql_table
     /**
      * @param null|string|string[] $columns Column name(s)
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function setPrimaryKey($columns)
     {
@@ -400,8 +416,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_index $index
-     *
      * @return $this
      */
     public function addIndex(rex_sql_index $index)
@@ -418,8 +432,6 @@ class rex_sql_table
     }
 
     /**
-     * @param rex_sql_index $index
-     *
      * @return $this
      */
     public function ensureIndex(rex_sql_index $index)
@@ -443,9 +455,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameIndex($oldName, $newName)
     {
@@ -558,9 +570,9 @@ class rex_sql_table
      * @param string $oldName
      * @param string $newName
      *
-     * @return $this
-     *
      * @throws rex_exception
+     *
+     * @return $this
      */
     public function renameForeignKey($oldName, $newName)
     {
@@ -702,7 +714,7 @@ class rex_sql_table
     public function alter()
     {
         if ($this->new) {
-            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->name));
+            throw new rex_exception(sprintf('Table "%s" does not exist.', $this->originalName));
         }
 
         $parts = [];
@@ -789,10 +801,24 @@ class rex_sql_table
             $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
         }
 
+        $fulltextIndexes = [];
+        $fulltextAdded = false;
         foreach ($this->indexes as $index) {
-            if ($index->isModified() || !isset($this->indexesExisting[$index->getName()])) {
-                $parts[] = 'ADD '.$this->getIndexDefinition($index);
+            if (!$index->isModified() && isset($this->indexesExisting[$index->getName()])) {
+                continue;
             }
+
+            if (rex_sql_index::FULLTEXT === $index->getType()) {
+                if ($fulltextAdded) {
+                    $fulltextIndexes[] = 'ADD '.$this->getIndexDefinition($index);
+
+                    continue;
+                }
+
+                $fulltextAdded = true;
+            }
+
+            $parts[] = 'ADD '.$this->getIndexDefinition($index);
         }
 
         foreach ($this->foreignKeys as $foreignKey) {
@@ -813,6 +839,10 @@ class rex_sql_table
 
                 $this->sql->setQuery($query);
             }
+        }
+
+        foreach ($fulltextIndexes as $fulltextIndex) {
+            $this->sql->setQuery('ALTER TABLE '.$this->sql->escapeIdentifier($this->originalName).' '.$fulltextIndex.';');
         }
 
         $this->sortColumns();
@@ -838,11 +868,23 @@ class rex_sql_table
 
     private function getColumnDefinition(rex_sql_column $column)
     {
+        $default = $column->getDefault();
+        if (!$default) {
+            $default = '';
+        } elseif (
+            in_array(strtolower($column->getType()), ['timestamp', 'datetime'], true) &&
+            in_array(strtolower($default), ['current_timestamp', 'current_timestamp()'], true)
+        ) {
+            $default = 'DEFAULT '.$default;
+        } else {
+            $default = 'DEFAULT '.$this->sql->escape($column->getDefault());
+        }
+
         return sprintf(
             '%s %s %s %s %s',
             $this->sql->escapeIdentifier($column->getName()),
             $column->getType(),
-            $column->getDefault() ? 'DEFAULT '.$this->sql->escape($column->getDefault()) : '',
+            $default,
             $column->isNullable() ? '' : 'NOT NULL',
             $column->getExtra()
         );
@@ -909,8 +951,8 @@ class rex_sql_table
         $this->new = false;
 
         if ($this->originalName !== $this->name) {
-            self::clearInstance($this->originalName);
-            self::addInstance($this->name, $this);
+            self::clearInstance([$this->db, $this->originalName]);
+            self::addInstance([$this->db, $this->name], $this);
         }
 
         $this->originalName = $this->name;

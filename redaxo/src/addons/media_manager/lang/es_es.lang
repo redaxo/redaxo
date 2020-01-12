@@ -1,5 +1,3 @@
-# addon:media_manager es_bo
-
 media_manager = Gestor de medios
 media_manager_overview_title = Addon de Media Manager (Versión {0})
 
@@ -17,9 +15,13 @@ media_manager_config_not_writable = No se puede escribir el archivo de configura
 media_manager_max_resizekb = Tamaño máximo de una imagen en kilobyte, que se puede utilizar de media-manager
 media_manager_max_resizepx = Tamaño máximo de una imagen en píxel, que se puede utilizar de media-manager
 media_manager_jpg_quality = Calidad de salida JPG/JPEG
+media_manager_png_compression = Compresión PNG
+media_manager_png_compression_note = Los valores superiores a 6-7 ralentizan las imágenes masivamente.
+media_manager_webp_quality = Calidad WebP
+media_manager_interlace = Entrelazado/Modo-Progresivo
 
 media_manager_id = ID
-media_manager_name = nombre
+media_manager_name = Nombre
 media_manager_edittype = Editar tipos de imagen
 media_manager_settings = Ajustes
 
@@ -29,6 +31,8 @@ media_manager_back = Volver
 
 media_manager_error_name = Por favor ingrese un nombre.
 media_manager_error_settings = Compruebe la configuración.
+media_manager_error_type_name_not_unique = Una imagen con este nombre ya existe!
+media_manager_error_type_name_invalid = ¡El nombre no puede contener los caracteres "/" y "\"!
 
 media_manager_type_caption = Lista de tipos de imagen
 media_manager_type_no_types = No se encontraron tipos de imagen
@@ -62,59 +66,98 @@ media_manager_effect_parameters = Parámetro
 media_manager_effect_functions = Funciones
 media_manager_effect_deleted = Eliminar efecto
 
-media_manager_effect_brand_image = imagen
+media_manager_effect_insert_image = Imagen: colocar imagen / marca de agua
+media_manager_effect_brand_image = Imagen
 media_manager_effect_brand_hpos = Posición horizontal
 media_manager_effect_brand_vpos = Posición vertical
 media_manager_effect_brand_padding_x = Distancia horizontal desde el borde
 media_manager_effect_brand_padding_y = Distancia vertical desde el borde
 
+media_manager_effect_blur = Imagen: Desenfoque
 media_manager_effect_blur_repeats = Repeticiones
 media_manager_effect_blur_type = Tipo de desenfoque
 media_manager_effect_blur_smoothit = Suavizado (valores negativos para afilar)
 
+media_manager_effect_colorize = Imagen: Colorear
 media_manager_effect_colorize_r = Valor rojo
 media_manager_effect_colorize_g = Valor Verde
 media_manager_effect_colorize_b = Valor azul
 
+media_manager_effect_sharpen = Imagen: Afilado
 media_manager_effect_sharpen_amount = Cantidad
 media_manager_effect_sharpen_radius = Radio
 media_manager_effect_sharpen_threshold = Límite
 
-media_manager_effect_resize_width = anchura
-media_manager_effect_resize_height = altura
-media_manager_effect_resize_style = modo
+media_manager_effect_resize = Imagen: Escalado
+media_manager_effect_resize_width = Anchura
+media_manager_effect_resize_height = Altura
+media_manager_effect_resize_style = Modo
 media_manager_effect_resize_imgtosmall = Si la imagen es pequeña
 
+media_manager_effect_crop = Imagen: Acortar
 media_manager_effect_crop_width = Anchura
 media_manager_effect_crop_height = Altura
 media_manager_effect_crop_offset_width = Ancho de desplazamiento
 media_manager_effect_crop_offset_height = Altura de desplazamiento
 media_manager_effect_crop_position = Posición
 
+media_manager_effect_rounded_corners = Imagen: Esquinas redondeadas
 media_manager_effect_rounded_corners_topleft = Arriba a la izquierda
 media_manager_effect_rounded_corners_topright = Arriba a la derecha
 media_manager_effect_rounded_corners_bottomleft = Abajo a la izquierda
 media_manager_effect_rounded_corners_bottomright = Abajo a la derecha
 
 media_manager_effect_flip = Dirección
+media_manager_effect_flip_direction = Dirección
+
 media_manager_effect_rotate = Rotar (grado)
+media_manager_effect_rotate_degree = Volver (grado)
 
-media_manager_error_type_name_not_unique = Una imagen con este nombre ya existe!
-
+media_manager_effect_mirror = Imagen: Añade reflejo de agua
 media_manager_effect_mirror_height = Refl. Altura (50/10%)
 media_manager_effect_mirror_background_color = Color de fondo
 media_manager_effect_mirror_background_r = Fondo R (0-255)
 media_manager_effect_mirror_background_g = Fondo G (0 - 255)
 media_manager_effect_mirror_background_b = Fondo B (0-255)
 
+media_manager_effect_workspace = Imagen: Espacio de trabajo
 media_manager_effect_workspace_pos = Posición
 
 media_manager_effect_folder = Ruta alternativa predeterminada: "media"
 
 media_manager_effect_mediapath = Vía de medios
+media_manager_effect_mediapath_path = Carpeta de medios
+media_manager_effect_mediapath_path_notice = Ruta al origen de la imagen en relación con la instalación de REDAXO en lugar de <code>media</code>, por ejemplo, el directorio <code>images</code>. No se requiere una barra diagonal inicial/final (<code>/</code>).
 
+media_manager_effect_header = Archivo: Personalizar encabezado
 media_manager_effect_header_download = Descargar
 media_manager_effect_header_cache = Control de caché
+media_manager_effect_header_filename = Fuente para los nombres de archivo
+media_manager_effect_header_filename_notice = <code>filename</code> es el nombre de archivo normalizado en el servidor, por ejemplo, <code>my-download.pdf</code>, <code> nombre original </code> es el nombre del archivo original en el momento de la carga (con espacios , Mayúsculas/minúsculas, etc.), por ejemplo, <code>My Download.pdf</code>
 
+
+
+media_manager_effect_convert2img = Archivo: Convertir a imagen
 media_manager_effect_convert2img_density = densidad
 media_manager_effect_convert2img_convertto = formato
+media_manager_effect_convert2img_density_notice = Densidad de resolución en ppi (píxel por pulgada) utilizada para rasterizar archivos EPS o PDF.
+media_manager_effect_convert2img_convertto_notice = Formato de destino al que se convertirá el archivo. Se consideran las siguientes extensiones de archivo: <code>.pdf, .ps, .psd, .tif, .tiff, .bmp, .eps, .ico</code>.
+media_manager_effect_convert2img_noimagemagick = Nota: ImageMagick no se pudo encontrar. Este efecto requiere ImageMagick como un "binario de línea de comandos", ejecutable por exec ().
+
+media_manager_effect_image_properties = Imagen: Configuración (Calidad, Entrelazado, ...)
+media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_png_compression_notice = [0-9]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_webp_quality_notice = [0-100]. Dejar en blanco para el valor por defecto.
+media_manager_effect_image_properties_interlace_notice = Dejar en blanco para el valor por defecto.
+
+media_manager_effect_brightness = Brillo
+media_manager_effect_brightness_value = Claridad
+media_manager_effect_brightness_notice = [-255 a 255]. Dejar en blanco para el valor por defecto. (0).
+
+media_manager_effect_contrast = Contraste
+media_manager_effect_contrast_value = Contrastar
+media_manager_effect_contrast_notice = [-100 a 100]. Dejar en blanco para el valor por defecto (0).
+
+media_manager_effect_sepia = Imagen: Sepia
+
+media_manager_effect_greyscale = Imagen: Escala de grises

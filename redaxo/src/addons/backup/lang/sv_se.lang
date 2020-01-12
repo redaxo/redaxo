@@ -1,6 +1,7 @@
 backup_information = Information
 backup_title = Backup
 backup_file_deleted = Filen raderades
+backup_file_error_while_delete = Filen kunde inte raderas
 backup_no_import_file_chosen_or_wrong_version = Ingen importfil valdes ut eller fel version
 backup_no_valid_import_file = Ingen korrekt importfil
 backup_no_valid_charset = Ingen matchande teckenuppsättningen.
@@ -29,8 +30,8 @@ backup_filesize = Filstorlek
 backup_delete = radera
 backup_files = Filimport
 backup_intro_export = Här kan du spara dina befintliga inlägg och filer från Redaxo. För att få en fullständig säkerhetskopia måste du exportera <b>databasen OCH filerna</b>. Om du vill återanvända säkerhetskopian kan det vara bra att spara denna direkt på servern för att kunna importera den vid behov.
-backup_database_export = Datenbasexport
-backup_file_export = Filexport
+backup_database_export =
+backup_file_export =
 backup_save_on_server = spara på servern
 backup_download_as_file = ladda ner som fil
 backup_createdate = Skapat den
@@ -39,14 +40,14 @@ backup_import_file = Importera fil
 backup_delete_file = Radera fil
 backup_download_file = Ladda ner fil
 backup_check_rights_in_directory = Säkerhetskopiering kunde kommer åt mappen/mapparna eller det har ingen mapp valts ut.
-backup_file_could_not_be_generated  = Filen kunde inte skapas.
-backup_file_generated_in  = Data sparades i
+backup_file_could_not_be_generated = Filen kunde inte skapas.
+backup_file_generated_in = Data sparades i
 
 backup_proceed_db_import = Befintliga filer (artiklar, mallar, moduler, ...) går förlorade. Fortsätta ändå?
 backup_proceed_file_import = Befintliga filer kommer att raderas. Vill du fortsätta?
 
-backup_export_db_caption = Datenbaskexporter
-backup_export_file_caption = Filexporter
+backup_export_db_caption =
+backup_export_file_caption =
 
 backup_function = Funktion
 

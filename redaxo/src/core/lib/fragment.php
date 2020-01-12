@@ -41,6 +41,8 @@ class rex_fragment
      *
      * @param string $name    Variable name
      * @param string $default Default value
+     *
+     * @return mixed
      */
     public function getVar($name, $default = null)
     {
@@ -59,6 +61,8 @@ class rex_fragment
      * @param bool   $escape Flag which indicates if the value should be escaped or not
      *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function setVar($name, $value, $escape = true)
     {
@@ -71,20 +75,21 @@ class rex_fragment
         } else {
             $this->vars[$name] = $value;
         }
+
+        return $this;
     }
 
     /**
      * Parses the variables of the fragment into the file $filename.
      *
-     * @param string $filename           the filename of the fragment to parse
-     * @param bool   $delete_whitespaces
+     * @param string $filename the filename of the fragment to parse
      *
      * @throws InvalidArgumentException
      * @throws rex_exception
      *
      * @return string
      */
-    public function parse($filename, $delete_whitespaces = true)
+    public function parse($filename)
     {
         if (!is_string($filename)) {
             throw new InvalidArgumentException(sprintf('Expecting $filename to be a string, %s given!', gettype($filename)));
@@ -96,12 +101,7 @@ class rex_fragment
             $fragment = $fragDir . $filename;
             if (is_readable($fragment)) {
                 ob_start();
-                if ($delete_whitespaces) {
-                    preg_replace('/(?:(?<=\>)|(?<=\/\>))(\s+)(?=\<\/?)/', '', require $fragment);
-                } else {
-                    require $fragment;
-                }
-
+                require $fragment;
                 $content = ob_get_clean();
 
                 if ($this->decorator) {
@@ -122,11 +122,15 @@ class rex_fragment
      *
      * @param string $filename The filename of the fragment used for decoration
      * @param array  $params   A array of key-value pairs to pass as parameters
+     *
+     * @return $this
      */
     public function decorate($filename, array $params)
     {
         $this->decorator = new self($params);
         $this->decorator->filename = $filename;
+
+        return $this;
     }
 
     // -------------------------- in-fragment helpers

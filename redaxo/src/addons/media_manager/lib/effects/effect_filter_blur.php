@@ -3,6 +3,7 @@
 class rex_effect_filter_blur extends rex_effect_abstract
 {
     protected $options;
+    protected $options_smoothit;
 
     public function __construct()
     {
@@ -33,11 +34,11 @@ class rex_effect_filter_blur extends rex_effect_abstract
         }
 
         for ($i = 0; $i < $this->params['repeats']; ++$i) {
-            if ($this->params['smoothit'] != '') {
+            if ('' != $this->params['smoothit']) {
                 imagefilter($gdimage, IMG_FILTER_SMOOTH, $this->params['smoothit']);
             }
 
-            if ($this->params['type'] != '') {
+            if ('' != $this->params['type']) {
                 imagefilter($gdimage, $options[$this->params['type']]);
             }
         }

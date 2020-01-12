@@ -1,6 +1,333 @@
 Changelog
 =========
 
+Version 5.8.1 – 01.11.2019
+--------------------------
+
+### Neu
+
+* Update der externen Bibliotheken
+
+### Bugfixes
+
+* Whoops-Seite: Safemode-Button wieder sichtbar (@bloep)
+* Benutzerwechsel: beim Zurückwechseln in zwei Browserfenstern kam es unnötigerweise zu einer Exception (@tbaddade)
+* Unter System wurde an die REDAXO-Version teils fälschlich der Projekt-Git-Hash angehangen (@gharlan)
+* `rex_form`: Beim Löschen von Datensätzen wurden die Prios nicht neu gesetzt (@dpf-dd)
+* `rex_sql`: Aufruf `insertOrUpdate` ohne tatsächliche Änderungen führte fälschlich zu einer Exception (@pschuchmann)
+* `rex_sql_table`: Fehlermeldung bei Kombi `setName` und `alter` für nicht-existente Tabelle korrigiert (@gharlan)
+
+
+Version 5.8.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* PHP-Mindestversion angehoben auf 7.1.3
+* Update der externen Bibliotheken (u.a. Symfony components 4.3)
+* Wenn Debug-Mode aktiv, wird das Frontend vor Crawlern versteckt (noindex) (@staabm)
+* Vor Aktivierung des Debug-Modes kommt eine Bestätigungsbox (@skerbis)
+* Session-Cookie: 
+    - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
+    - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
+* `rex_form`: Statt der Konstante `REX_FORM_ERROR_VIOLATE_UNIQUE_KEY` (deprecated) ist nun `rex_form::ERROR_VIOLATE_UNIQUE_KEY` zu verwenden (@staabm)
+* Beispiel-`.gitignore` wird mitgeliefert (@schuer)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062), Englisch (@tyrant88)
+
+### Bugfixes
+
+* `rex_form`: Wenn ein Fieldsetname mit "?" endete, wurden die Werte nicht gespeichert (@gharlan)
+* `rex_config_form`: Es konnten nicht zwei Formulare auf einer Seite verwendet werden (@gharlan)
+* `rex_stream`: Warning in PHP 7.4 vermeiden (@gharlan)
+* Command `config:get`: Ausgabe endete nicht mit einer Newline (@gharlan)
+* Textkorrekturen und -vereinheitlichungen (@marcohanke, @sebastiannoell)
+* Im Setup stand im Header unnötigerweise "Nicht angemeldet" (@gharlan)
+
+
+Version 5.7.1 – 01.04.2019
+--------------------------
+
+### Bugfixes
+
+* REDAXO 5.7.x kann nur ausgehend von >=5.6 aktualisiert werden, geprüft wurde aber nur auf >= 5.4 (@gharlan)
+* Asset-Streaming (über `redaxo/index.php`):
+    - `?asset=`-Parameter unterstützte keine absoluten Pfade (`/assets/...`), was zu Problemen in manchen AddOn-Konstellationen führen konnte (@staabm)
+    - SourceMap-Dateien wurden teils versucht über falsche Pfade zu laden (werden nun gar nicht mehr geladen) (@gharlan)
+* `rex_config`: Wenn ein Wert gesetzt, und der Key direkt wieder gelöscht wurde, kam es zu einem Fehler (@gharlan)
+* Die Benutzerrechte wurden case-sensitive sortiert (@gharlan)
+* Update der externen Bibliotheken (@gharlan)
+
+
+Version 5.7.0 – 12.03.2019
+--------------------------
+
+### Wichtig
+
+REDAXO 5.7.x ist die letzte Version die mit PHP 7.0 oder älter kompatibel ist.
+Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
+
+### Neu
+
+* System-Page:
+    - Überarbeitung/Optimierung von System/Einstellungen (@tbaddade, @skerbis)
+    - Zentrale Page für Logdateien, mit REDAXO-, PHP-, PHPMailer-Log und zukünftig ggf. weiteren (@staabm)
+    - Packages können eigene Logfiles in der neuen zentralen System-Log-Seite einbinden (@staabm)
+    - Systembericht mit Infos zu REDAXO, AddOns, PHP, Server (auch als Markdown zum Kopieren und Verwenden in GitHub-Issues etc.) (@gharlan)
+* Fehlerbehandlung:
+    - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
+    - Schönere Fehlerseite im Frontend und Backend (wenn nicht als Admin eingeloggt) (@elricco, @staabm, @tbaddade)
+    - Die neuen Fehlerseiten können via Fragment angepasst werden (@tbaddade, @staabm)
+* Editor-Integration: 
+    - Unter System kann ein Editor ausgewählt werden; Quellcode-Dateien werden dann (z.B. in Whoops) so verlinkt, dass man sie direkt in dem Editor öffnen kann (@staabm, @gharlan)
+    - Mit der `rex_editor`-Klasse können an weiteren Stellen Editor-URLs erzeugt werden (@staabm)
+    - Über den EP `EDITOR_URL` können die URLs manipuliert werden (@gharlan)
+* Console:
+    - Manche Core Commands können nun bereits vor dem Setup ausgeführt werden (@bloep)
+    - Neuer Command `config:get` (@bloep)
+    - Neuer Command `db:set-connection` (@bloep)
+    - Neuer Command `user:create` (@staabm)
+* `rex`: Neue Methode `isFrontend` (@staabm)
+* `rex_list`/`rex_form`: Nutzbar mit den weiteren Datenbanken (@gharlan)
+* `rex_i18n`: Neue Methode `msgInLocale` zum Übersetzen in andere Sprachen ohne die Default-Sprache zu ändern (@staabm)
+* `rex_path`: Neue Methode `relative()` um aus einem absoluten Pfad einen relativ zum Projekt-Root zu bekommen (@gharlan)
+* `rex_file`: Schreibvorgänge sind nun atomar (@staabm)
+* `rex_sql`: 
+    - `addGlobal[Create/Update]Fields`: Umgebung (frontend/console) als Defaultwert für Benutzer (@staabm)
+    - Debug-Ausgabe erweitert um aufgelöstes SQL-Statement inkl. Parametern (@aeberhard)
+* `rex_clang`: Methode `count` hat optionalen Parameter `$ignoreOffline` (@tbaddade)
+* `rex_response`: Unterstützung für HTTP-Range (@bloep)
+* `rex_view`: Für JS-Dateien können Optionen gesetzt werden (defer/async/immutable) (@staabm)
+* Es werden unterschiedliche Namespaces für Session-Variablen im Frontend und Backend verwendet, über `rex_request::clearSession` können diese getrennt voneinander gelöscht werden (@staabm)
+* Neue Api-Function `rex_api_has_user_session` um den Status der Backend-Session abzufragen. Damit können u.a. Single-Sign-On Mechanismen realisiert werden. (@staabm)
+* Setup-Hinweise bzgl. Sicherheit:
+    - Warnung bei veralteter PHP-Version (@staabm)
+    - Warnung bei XX7-Berechtigungen im Dateisystem (@staabm)
+* README-Ausgabe, Markdown-Pages:
+    - Sprachunterstützung (README.de.md etc.) (@staabm, @gharlan)
+    - Sprungankernavi (@gharlan, @tbaddade)
+* Readme für das Project-AddOn (@dtpop)
+* Aktiver Debug-Modus wird durch Icon im Header angezeigt (@schuer)
+* Verständlichere CSRF-Meldung (@alexplusde)
+* Backend-Übersetzungdateien:
+    - Neu: Niederländisch (noch ohne Core-AddOns) (@MaxKorlaar)
+    - Aktualisierung: Englisch (@ynamite, @skerbis), Schwedisch (@interweave-media), Spanisch (@nandes2062)
+* Default-Passwortregeln: Max. Länge von 4096 Zeichen (@staabm)
+* bootstrap-select wird an weiteren Stellen verwendet (@skerbis, @schuer)
+* REX-Vars: Generierter PHP-Code enthält am Anfang Original-Var-Code als Kommentar (@staabm, @gharlan)
+* Verbesserung der Usability durch neue Beschreibungstexte, oder Präzisierung vorhandener (@schuer, @alexplusde)
+* Datum aus Footer entfernt (@staabm)
+* htaccess-Check: Bei den Direktaufrufeversuchen wird ein Parameter `?redaxo-security-self-test` an die Dateien gehangen (@staabm)
+* Sicherheit:
+    - Bei Logout aus dem Backend werden temporäre Daten auf dem Server sofort gelöscht (@staabm)
+    - Im Backend wird eine rudimentäre HTTP Content-Security-Policy verwendet (@staabm)
+* Performance:
+    - Backend-Assets können optional über index.php geladen werden, um optimierte Cache-Header (immutable) setzen zu können (aktiv für Core-Assets) (@staabm)
+    - Per Server Timing Api werden im Debug-Modus, oder bei authentifizierten Adminsessions, Metriken an den Client gesendet (@staabm)
+    - Weniger Dateioperationen im Backend um Datei-basiertes Cachen zu beschleunigen (@staabm)
+    - Übersetzungen können schneller verarbeitet/dargestellt werden (@staabm)
+    - Viele kleinere und größere Performance-Optimierungen (@staabm)
+* Update der externen Bibliotheken
+* API-Dokumentation unter https://www.redaxo.org/api/master/ übersichtlicher durch neue subpackages (@staabm)
+
+### Bugfixes
+
+* Versionsbedingungen: Bei `^2.0` wurde fälschlich `3.0-beta` akzeptiert (@gharlan)
+* Profil: Sprachen waren nicht sortiert und Änderungen wirkten sich nicht direkt nach Speichern aus, erst nach Reload (@skerbis, @bloep)
+* Bei aktiviertem Safe-Mode blieb der Button unter "System" trotzdem bei "Safe mode aktivieren" (@skerbis)
+* `rex_sql`: Insert ohne explizite Values warf Fehler (@gharlan)
+* `rex_sql_table`: Für `timestamp`/`datetime`-Spalten konnte nicht der Default-Wert `CURRENT_TIMESTAMP` gesetzt werden (@gharlan)
+* `rex_form`: Media-/Link-/Prio-Felder konnten nicht mit `rex_form_base` bzw. `rex_config_form` verwendet werden (@christophboecker)
+* `rex::getVersionHash` funktionierte nicht auf Windows Servern (@staabm)
+* Autoloader-Cache wird bei Fehlern nicht mehr geschrieben, um unvollständigen Cache zu vermeiden (@staabm)
+* Nach Session-Ablauf wird bei erneutem Seitenaufruf der Browser-Cache gelöscht (wie bereits bei explizitem Logout) (@staabm)
+* Besseres Escaping nutzen mittels `rex_escape` (@bloep, @gharlan)
+* EP `PASSWORD_UPDATED`: User-ID wurde nicht korrekt übergeben (@staabm)
+* Im Chrome kam es zu Warnungen bzgl. des Font-Preloadings (@bloep)
+* Wenn der Client keinen `User-Agent`-Header schickt, kam es zu einer Warnung (@staabm)
+* Bei frühen Fehlern in der Console konnte es passieren, dass die HTML-Fehlerseite ausgegeben wurde (@staabm)
+
+
+Version 5.6.5 – 10.12.2018
+--------------------------
+
+### Security
+
+* Update des phpmailers wg. Sicherheitslücken
+
+### Bugfixes
+
+* Update der externen Bibliotheken
+
+
+Version 5.6.4 – 01.10.2018
+--------------------------
+
+### Security
+
+* Sicherheitslücken (SQL-Injection) in der Benutzerverwaltung geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+* XSS Sicherheitslücken (Cross-Site-Scripting) im Medienpool behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep)
+* XSS Sicherheitslücken (Cross-Site-Scripting) im Mediamanager behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+
+Version 5.6.3 – 26.09.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (SQL-Injection) in der rex_list Klasse geschlossen (gemeldet von @Balis0ng, ADLab of VenusTech) (@staabm)
+
+
+Version 5.6.2 – 10.07.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) im Media-Manager-Addon geschlossen (gemeldet von Matthias Niedung, https://hackerwerkstatt.com) (@gharlan)
+
+### Bugfixes
+
+* `rex_sql`: BC-Break in `showTables` rückgängig gemacht, die Methode liefert nun auch wieder Views; Methode als deprecated markiert, stattdessen neue nicht-statische Methoden `getTables`, `getViews` und `getTablesAndViews` (@gharlan)
+* Command `db:connection-options` konnte nicht mit `mysqldump` genutzt werden (@gharlan)
+* `rex_http_exception`: Message der Orignal-Message nutzen statt leerer Message (@gharlan)
+
+
+Version 5.6.1 – 21.06.2018
+--------------------------
+
+### Neu
+
+* Erläuterung für Debug-Modus (@alexplusde; Übersetzung: @ynamite, @interweave-media, @nandes2062)
+* Performance-Optimierungen (@staabm)
+
+### Bugfixes
+
+* Identität wechseln: Beim Versuch, in einen inaktiven Benutzer zu wechseln, kam es zu einem Fehler (@gharlan)
+* `rex_delete_cache`: Wenn vor dem Aufruf `rex_config`-Werte gesetzt wurden, gingen diese verloren und wurden nicht gespeichert (@gharlan)
+* `rex_list`: Bei Nutzung mehrere Listen auf einer Page griff die Paginierung immer synchron für beide Listen (@staabm)
+* `rex_sql`: Bei Aufruf von `next()` und anschließend `getRow($fetch_type)` hatte der Parameter `$fetch_type` keine Auswirkung (@joachimdoerr)
+* `rex_fragment::parse`: Nicht funktionierenden Parameter `$delete_whitespaces` entfernt (@staabm)
+
+
+Version 5.6.0 – 05.06.2018
+--------------------------
+
+### Security
+
+* Siehe mediapool-Changelog
+* `rex_string::buildAttributes`: Die Attribute wurden nicht escaped, wodurch unter Umständen XSS möglich war (ggf. kontrollieren, ob man dort Attribute übergeben hat, die bereits escaped waren) (@gharlan)
+
+### Neu
+
+* MySQL-Mindestversion 5.5.3
+* Update Symfony-Komponenten (3.4.11), Symfony-Polyfills (neu: ctype) (1.8.0), parsedown (1.7.1) (@gharlan)
+* HTTPS kann für Frontend und/oder Backend erzwungen werden (Umleitung und optional HSTS-Header) über `config.yml` und Setup (@bloep)
+* Admins können in die anderen Benutzer wechseln, ohne deren Passwort zu kennen (@gharlan)
+* Im Debug-Mode kann Whoops optional auch für Warnings/Notices aktiviert werden (@gharlan)
+* Safe-Mode kann aus System-Page heraus gestartet werden (@alexplusde, @tbaddade)
+* Setup: 
+    - Webserver-Adresse wird automatisch eingetragen (@alexplusde, @tbaddade)
+    - bootstrap-select wird verwendet (@skerbis)
+* Packages-Page: Lizenz in Kurzform wird gelistet mit Link zu kompletter Lizenz (@staabm, @tbaddade, @gharlan)
+* project-Addon wird per default spät geladen (`load: late` in package.yml, wird bei Update nicht gesetzt) (@gharlan)
+* Beim Core-Update werden in der `config.yml` alle neuen Optionen ergänzt (@gharlan)
+* Doku wird im Footer verlinkt (@olien)
+* Backend-Übersetzungsdateien:
+    - Englisch und Deutsch dienen als Fallback, wenn Übersetzungen fehlen (@gharlan)
+    - Englisch aktualisiert (@ynamite)
+    - Schwedisch aktualisiert (@interweave-media)
+    - Spanisch aktualisiert (@nandes2062)
+* Neue Consolen-Commands:
+    - `user:set-password`: Neues Passwort für Benutzer setzen (@gharlan)
+    - `setup:check`: Umgebung (Versionen, Dateirechte...) prüfen (@staabm)
+    - `assets:sync`: Assets zwischen /assets und den assets-Ordnern in `src` synchronisieren (@staabm)
+    - `db:connection-options`: Liefert die Optionen um sich mit dem `mysql` cli tool mit der DB zu verbinden (@gharlan)
+* `rex_form`:
+    - Neue abstrakte Basisklasse `rex_form_base` für alternative Speichermethoden, neue Klasse `rex_config_form` für Speicherung in `rex_config` (@gharlan)
+    - Führende/nachfolgende Leerzeichen werden nach dem Senden entfernt (@staabm)
+* `rex_sql`: 
+    - Für die Connection wird utf8mb4 genutzt (@gharlan)
+    - Neue Methoden für die Nutzung von Transactions (@staabm)
+    - Neue Methode `insertOrUpdate` für `INSERT .. ON DUPLICATE KEY UPDATE`-Queries (@gharlan)
+    - Mehrere Datensätze können gleichzeitig eingefügt/aktualisiert/ersetzt werden (`addRecord`) (@gharlan)
+* `rex_backend_login::hasSession`: Es wird nun keine Session mehr gestartet, wenn bereits der Session-Cookie nicht existiert (@VIEWSION)
+* `rex_response`:
+    - `sendFile`: Dateiname kann angegeben werden (@bloep)
+    - `sendResource`: Content-Disposition und Dateiname können angegeben werden (@gharlan)
+    - Neue Methode `sendCookie` (@staabm)
+* `rex_file::copy`: Zugriffszeit wird auch übernommen (@staabm)
+
+### Bugfixes
+
+* Nach explizitem Logout funktioniert teils der direkte erneute Login nicht (CSRF-Token-Fehler) (@bloep)
+* Cache löschen: Teils blieb der `rex_config` Cache erhalten (@gharlan, @tbaddade)
+* Beim Deaktivieren/deinstallieren von Packages wurde dessen Cache nicht gelöscht (@bloep)
+* `rex_sql`: `showTables` enthielt auch Views (@gharlan)
+* `rex_sql_table`: Es konnten nicht mehrere Fulltext-Indexe gesetzt werden (@gharlan)
+
+
+Version 5.5.1 – 05.01.2018
+--------------------------
+
+### Security
+
+* Kritische Sicherheitslücke (Path Traversal) im Media-Manager-Addon geschlossen (gemeldet von @patrickhafner, KNOX-IT GmbH) (@gharlan)
+
+### Bugfixes
+
+- `rex_sql::hasNext` hat teilweise fälschlich `true` geliefert (@DanielWeitenauer)
+- `rex_console_command::decodeMessage` hat Anführungszeichen nicht korrekt behandelt (@staabm)
+
+
+Version 5.5.0 – 21.12.2017
+--------------------------
+
+### Security
+
+* CSRF-Schutz (@gharlan):
+    - für alle `rex_form` automatisch
+    - für eigene Api-Function per Opt-in
+    - für manuelle Formulare und Aktionen leicht integrierbar
+    - Im Core bei allen relevanten Stellen integriert
+
+### Neu
+
+* Update Symfony-Komponenten (3.4.2), parsedown (1.6.4), whoops (2.1.14) (@gharlan)
+* Backend-Übersetzungsdateien:
+    - Aktualisierung Schwedisch (@interweave-media)
+    - Aktualisierung Spanisch (@nandes2062)
+    - Italienisch hinzugefügt (@Fanello, @lexplatt)
+* Setup:
+    - Warnung, wenn Setup nicht über HTTPS ausgeführt wird (@staabm)
+    - Warnung, wenn Apache-Modul mod_security geladen ist (@staabm)
+* Weniger strikte Default-Passwortregeln (nur min. 8 Zeichen) (@IngoWinter)
+* Backend-Session wird duch regelmäßige Ajax-Calls erhalten (@IngoWinter)
+* Bei Passwortfeldern kann in den Klartextmodus gewechselt werden (@pwechs83, @staabm, @tbaddade)
+* Neue Consolen-Commands:
+    - `cache:clear` (@bloep)
+    - `package:install/uninstall/activate/deactivate` (@bloep)
+    - `db:dump-schema` (@gharlan)
+* In der Console ist die (Backend)Sprache fix auf englisch (@gharlan)
+* In Log-Dateien werden Zeilenumbrüche erhalten (@VIEWSION)
+* System-Log neu im Data- statt Cache-Ordner (@gharlan)
+* bootstrap-select wird an mehr Stellen verwendet (statt normale Selects) (@skerbis)
+* `rex_response`: Neue Methode `preload()` zum Setzen von preload-Headern (@bloep)
+* `rex_request`: Neue Methode `isHttps()` (@staabm)
+* `rex_socket`: 
+    - Neue Methode `followRedirects()` (@gharlan)
+    - Warnung wenn Non-SSL-Verbindung aufgebaut wird (@staabm)
+* `rex_fragment`: Method-Chaining ist möglich (@DanielWeitenauer)
+
+### Bugfixing
+
+* Setup: 
+    - Escaping fehlte an einigen Stellen (@staabm)
+    - Teilweise kam es zu Fehlern während der Reinstallation der Addons (@gharlan)
+* Profil: Beim EP `PROFILE_UPDATED` wurde die User-ID nicht korrekt übergeben (@gharlan)
+* `rex_i18n`: Die Parameter wurden nicht escaped (@gharlan)
+* `rex_form`: `setApplyUrl` hatte keine Auswirkung (@bloep)
+* `rex_sql_table`: Bei noch nicht existenter Tabelle konnte es zu einer Exception kommen (@gharlan)
+
+
 Version 5.4.0 – 04.10.2017
 --------------------------
 

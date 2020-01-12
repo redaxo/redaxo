@@ -21,12 +21,13 @@ if (empty($metaTable)) {
 }
 
 $Basedir = __DIR__;
+$func = rex_request('func', 'string');
 $field_id = rex_request('field_id', 'int');
 
 //------------------------------> Feld loeschen
-if ($func == 'delete') {
+if ('delete' == $func) {
     $field_id = rex_request('field_id', 'int', 0);
-    if ($field_id != 0) {
+    if (0 != $field_id) {
         if (rex_metainfo_delete_field($field_id)) {
             echo rex_view::success(rex_i18n::msg('minfo_field_successfull_deleted'));
         } else {
@@ -37,7 +38,7 @@ if ($func == 'delete') {
 }
 
 //------------------------------> Eintragsliste
-if ($func == '') {
+if ('' == $func) {
     echo rex_api_function::getMessage();
 
     $title = rex_i18n::msg('minfo_field_list_caption');
@@ -82,7 +83,7 @@ if ($func == '') {
     if (in_array($prefix, ['art_', 'med_'])) {
         $defaultFields = sprintf(
             '<div class="btn-group btn-group-xs"><a href="%s" class="btn btn-default">%s</a></div>',
-            rex_url::currentBackendPage(['rex-api-call' => 'metainfo_default_fields_create', 'type' => $subpage]),
+            rex_url::currentBackendPage(['type' => $subpage] + rex_api_metainfo_default_fields_create::getUrlParams()),
             rex_i18n::msg('minfo_default_fields_create')
         );
         $fragment->setVar('options', $defaultFields, false);
@@ -92,11 +93,11 @@ if ($func == '') {
     $content = $fragment->parse('core/page/section.php');
 }
 //------------------------------> Formular
-elseif ($func == 'edit' || $func == 'add') {
+elseif ('edit' == $func || 'add' == $func) {
     $title = rex_i18n::msg('minfo_field_fieldset');
     $form = new rex_metainfo_table_expander($prefix, $metaTable, rex::getTablePrefix().'metainfo_field', 'id='.$field_id);
 
-    if ($func == 'edit') {
+    if ('edit' == $func) {
         $form->addParam('field_id', $field_id);
     }
 

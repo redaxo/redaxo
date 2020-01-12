@@ -181,6 +181,9 @@ body:after {
 .btn-reset {
     @extend .btn-default;
 }
+.btn-safemode-activate {
+    @extend .btn-danger;
+}
 // save and quit a form with data
 .btn-save {
     @extend .btn-primary;
@@ -199,6 +202,9 @@ body:after {
     @extend .btn-primary;
 }
 .btn-update {
+    @extend .btn-primary;
+}
+.btn-view {
     @extend .btn-primary;
 }
 
@@ -412,6 +418,8 @@ body:after {
     > li {
         > a {
             padding-left: 30px;
+            padding-top: 8px;
+            padding-bottom: 8px;
         }
 
         &.rex-has-icon {
@@ -473,6 +481,10 @@ body:after {
 .rex-slice-output {
     .container {
         width: 100%;
+    }
+    .panel-body {
+        position: relative;
+        overflow: auto;
     }
 }
 

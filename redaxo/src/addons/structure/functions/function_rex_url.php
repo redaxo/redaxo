@@ -24,7 +24,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
     $clang = (int) $clang;
 
     // ----- get id
-    if ($id == 0) {
+    if (0 == $id) {
         $id = rex_article::getCurrentId();
     }
 
@@ -38,7 +38,7 @@ function rex_getUrl($id = null, $clang = null, array $params = [], $separator = 
     // ----- EXTENSION POINT
     $url = rex_extension::registerPoint(new rex_extension_point('URL_REWRITE', '', ['id' => $id, 'clang' => $clang, 'params' => $params, 'separator' => $separator]));
 
-    if ($url == '') {
+    if ('' == $url) {
         if (rex_clang::count() > 1) {
             $clang = $separator . 'clang=' . $clang;
         } else {

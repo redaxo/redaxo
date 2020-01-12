@@ -1,10 +1,10 @@
 <?php
 
-/** @var rex_addon $this */
+$addon = rex_addon::get('install');
 
 $panel = '';
 
-$configFile = $this->getDataPath('config.json');
+$configFile = $addon->getDataPath('config.json');
 $config = array_merge([
     'backups' => false,
     'api_login' => null,
@@ -20,23 +20,24 @@ $newConfig = rex_post('settings', [
 if (is_array($newConfig)) {
     $config = $newConfig;
     if (rex_file::putCache($configFile, $config)) {
-        echo rex_view::success($this->i18n('settings_saved'));
+        echo rex_view::success($addon->i18n('settings_saved'));
         rex_install_webservice::deleteCache();
     } else {
-        echo rex_view::error($this->i18n('settings_error', $configFile));
+        echo rex_view::error($addon->i18n('settings_error', $configFile));
     }
 }
 
 $panel .= '
             <fieldset>
-                <legend>' . $this->i18n('settings_general') . '</legend>';
+                <legend>' . $addon->i18n('settings_general') . '</legend>';
 
             $formElements = [];
 
                 $n = [];
                 $n['reverse'] = true;
-                $n['label'] = '<label>' . $this->i18n('settings_backups') . '</label>';
+                $n['label'] = '<label>' . $addon->i18n('settings_backups') . '</label>';
                 $n['field'] = '<input type="checkbox"  name="settings[backups]" value="1" ' . ($config['backups'] ? 'checked="checked" ' : '') . '/>';
+                $n['note'] = $addon->i18n('settings_backups_note');
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -46,18 +47,18 @@ $panel .= '
 $panel .= '
             </fieldset>
             <fieldset>
-                <legend>' . $this->i18n('settings_myredaxo_account') . '</legend>';
+                <legend>' . $addon->i18n('settings_myredaxo_account') . '</legend>';
 
             $formElements = [];
 
                 $n = [];
-                $n['label'] = '<label for="install-settings-api-login">' . $this->i18n('settings_api_login') . '</label>';
-                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . htmlspecialchars($config['api_login']) . '" />';
+                $n['label'] = '<label for="install-settings-api-login">' . $addon->i18n('settings_api_login') . '</label>';
+                $n['field'] = '<input class="form-control" id="install-settings-api-login" type="text" name="settings[api_login]" value="' . rex_escape($config['api_login']) . '" />';
                 $formElements[] = $n;
 
                 $n = [];
-                $n['label'] = '<label for="install-settings-api-key">' . $this->i18n('settings_api_key') . '</label>';
-                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . htmlspecialchars($config['api_key']) . '" />';
+                $n['label'] = '<label for="install-settings-api-key">' . $addon->i18n('settings_api_key') . '</label>';
+                $n['field'] = '<input class="form-control" id="install-settings-api-key" type="text" name="settings[api_key]" value="' . rex_escape($config['api_key']) . '" />';
                 $formElements[] = $n;
 
                 $fragment = new rex_fragment();
@@ -79,7 +80,7 @@ $panel .= '
 
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', $this->i18n('subpage_settings'), false);
+$fragment->setVar('title', $addon->i18n('subpage_settings'), false);
 $fragment->setVar('body', $panel, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');

@@ -17,7 +17,10 @@ class rex_file
      */
     public static function get($file, $default = null)
     {
-        return is_readable($file) ? file_get_contents($file) : $default;
+        return rex_timer::measure(__METHOD__, static function () use ($file, $default) {
+            $content = @file_get_contents($file);
+            return false !== $content ? $content : $default;
+        });
     }
 
     /**
@@ -31,7 +34,7 @@ class rex_file
     public static function getConfig($file, $default = [])
     {
         $content = self::get($file);
-        return $content === null ? $default : rex_string::yamlDecode($content);
+        return null === $content ? $default : rex_string::yamlDecode($content);
     }
 
     /**
@@ -45,7 +48,7 @@ class rex_file
     public static function getCache($file, $default = [])
     {
         $content = self::get($file);
-        return $content === null ? $default : json_decode($content, true);
+        return null === $content ? $default : json_decode($content, true);
     }
 
     /**
@@ -58,16 +61,21 @@ class rex_file
      */
     public static function put($file, $content)
     {
-        if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+        return rex_timer::measure(__METHOD__, static function () use ($file, $content) {
+            if (!rex_dir::create(dirname($file)) || file_exists($file) && !is_writable($file)) {
+                return false;
+            }
+
+            // mimic a atomic write
+            $tmpFile = @tempnam(dirname($file), basename($file));
+            if (false !== file_put_contents($tmpFile, $content) && rename($tmpFile, $file)) {
+                @chmod($file, rex::getFilePerm());
+                return true;
+            }
+            @unlink($tmpFile);
+
             return false;
-        }
-
-        if (file_put_contents($file, $content) !== false) {
-            @chmod($file, rex::getFilePerm());
-            return true;
-        }
-
-        return false;
+        });
     }
 
     /**
@@ -107,22 +115,24 @@ class rex_file
      */
     public static function copy($srcfile, $dstfile)
     {
-        if (is_file($srcfile)) {
-            if (is_dir($dstfile)) {
-                $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
-                $dstfile = $dstdir . DIRECTORY_SEPARATOR . basename($srcfile);
-            } else {
-                $dstdir = dirname($dstfile);
-                rex_dir::create($dstdir);
-            }
+        return rex_timer::measure(__METHOD__, static function () use ($srcfile, $dstfile) {
+            if (is_file($srcfile)) {
+                if (is_dir($dstfile)) {
+                    $dstdir = rtrim($dstfile, DIRECTORY_SEPARATOR);
+                    $dstfile = $dstdir . DIRECTORY_SEPARATOR . basename($srcfile);
+                } else {
+                    $dstdir = dirname($dstfile);
+                    rex_dir::create($dstdir);
+                }
 
-            if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
-                @chmod($dstfile, rex::getFilePerm());
-                touch($dstfile, filemtime($srcfile));
-                return true;
+                if (rex_dir::isWritable($dstdir) && (!file_exists($dstfile) || is_writable($dstfile)) && copy($srcfile, $dstfile)) {
+                    @chmod($dstfile, rex::getFilePerm());
+                    touch($dstfile, filemtime($srcfile), fileatime($srcfile));
+                    return true;
+                }
             }
-        }
-        return false;
+            return false;
+        });
     }
 
     /**
@@ -134,10 +144,12 @@ class rex_file
      */
     public static function delete($file)
     {
-        if (file_exists($file)) {
-            return unlink($file);
-        }
-        return true;
+        return rex_timer::measure(__METHOD__, static function () use ($file) {
+            if (file_exists($file)) {
+                return unlink($file);
+            }
+            return true;
+        });
     }
 
     /**

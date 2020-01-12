@@ -1,6 +1,114 @@
 Changelog
 =========
 
+Version 2.6.1 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
+Version 2.6.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+
+
+Version 2.5.0 – 12.03.2019
+--------------------------
+
+### Security
+
+* Double extension vulnerablility behoben (@staabm)
+* XSS Sicherheitslücken (Cross-Site-Scripting) behoben (@staabm)
+
+### Neu
+
+* Bessere Code-Struktur (@staabm)
+* Lazy-Load der Bilder in der Liste (@staabm)
+* Neuer EP: `MEDIA_MOVED` (@bloep)
+* @-Zeichen wird in Dateinamen nicht mehr ersetzt (@tbaddade)
+* Popup 75% Höhe statt fixen 800px (@schuer)
+* Visuelles Feedback für "Datei übernehmen" (@schuer)
+* Buttonleiste unterhalb der Liste am Viewport fixiert (sticky) (@schuer)
+* Anzeige der ID (in eckigen Klammern) entfernt (@schuer)
+* Medienkategorie erstellen/bearbeiten: Autofocus auf Namensfeld (@schuer)
+
+### Bugfixes
+
+* Nach Löschen aus der Detailansicht heraus kam fälschlich die Fehlermeldung "Datei wurde nicht gefunden" (@gharlan)
+
+
+Version 2.4.3 – 01.10.2018
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken (Cross-Site-Scripting) behoben (gemeldet von @Balis0ng, ADLab of VenusTech) (@bloep)
+
+
+Version 2.4.2 – 10.07.2018
+--------------------------
+
+### Bugfixes
+
+* Optionale MimeType-Whitelist funktionierte nicht (@dergel)
+
+
+Version 2.4.1 – 21.06.2018
+--------------------------
+
+### Bugfixes
+
+* Übersetzung bei Lösch-Fehlermeldung fehlte (falsche Keys) (@gharlan)
+
+
+Version 2.4.0 – 05.06.2018
+--------------------------
+
+### Security
+
+* Es wurden nur die Dateiendungen `.php`, `.php5`, `.php7` usw. geblockt, manche Server führen aber auch `.php56`, `.php71` usw aus, daher werden nun alle Dateiendungen der Form `.php*` geblockt (gemeldet von Matthias Niedung, HackerWerkstatt) (@gharlan)
+* CSRF-Schutz (@dergel)
+
+### Neu
+
+* Optional kann eine Whitelist von MimeTypes definiert werden (@dergel, @gharlan)
+* Lösschen von Medienkategorien kann per neuem EP `MEDIA_CATEGORY_IS_IN_USE` verhindert werden (@christophboecker)
+* Neuer EP `MEDIA_DETAIL_SIDEBAR` (@christophboecker)
+* Die Functions-Datei wird auch im Frontend eingebunden (@gharlan)
+* `rex_mediapool_syncFile`: Userlogin kann angegeben werden (für Nutzung im Frontend) (@gharlan)
+
+### Bugfixes
+
+* EP `MEDIA_ADDED` wurde doppelt ausgeführt (@gharlan)
+* Im Safari 11.1 konnten Medien nicht aktualisiert werden (ohne sie gleichzeitig auszutauschen) (@gharlan)
+* `rex_mediapool_updateMedia`:
+    - Beim Direktaufruf wurde der EP `MEDIA_UPDATED` nicht aufgerufen (@gharlan)
+    - Parameter `$FILE` und `$userlogin` wurden nicht genutzt, stattdessen wurde hartkodiert mit `$_FILES['file_new']` gearbeitet (@gharlan)
+
+
+
+Version 2.3.3 – 05.01.2018
+--------------------------
+
+### Security
+
+* Kategorie-Namen wurden in der Breadcrumb-Navi ohne Escaping ausgegeben (XSS) (@dergel)
+
+
+Version 2.3.2 – 21.12.2017
+--------------------------
+
+### Bugfixes
+
+* Bei Einschränkung der Typen ist beim Upload die Klein/Großschreibung der Dateiendung nicht mehr relevant (@gharlan)
+* In der Doctypes-Property fehlten "svg" und "mp4" (@alexplusde)
+
+
 Version 2.3.1 – 04.10.2017
 --------------------------
 

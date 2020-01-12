@@ -196,6 +196,7 @@ input[type=range] {
     }
     .input-group .form-control {
         min-width: 160px;
+        width:100%;
     }
 }
 
@@ -232,4 +233,12 @@ input[type=range] {
             cursor: pointer;
         }
     }
+}
+
+.rex-form-group-no-margin {
+    margin-bottom: 0;
+}
+
+.rex-form-group-nowrap {
+    white-space: nowrap;
 }

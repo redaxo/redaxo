@@ -18,6 +18,13 @@ class rex_config
     private static $initialized = false;
 
     /**
+     * path to the cache file.
+     *
+     * @var string
+     */
+    private static $cacheFile;
+
+    /**
      * Flag which indicates if database needs an update, because settings have changed.
      *
      * @var bool
@@ -121,7 +128,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return isset(self::$data[$namespace]) ? self::$data[$namespace] : [];
         }
 
@@ -153,7 +160,7 @@ class rex_config
             throw new InvalidArgumentException('rex_config: expecting $namespace to be a string, ' . gettype($namespace) . ' given!');
         }
 
-        if ($key === null) {
+        if (null === $key) {
             return isset(self::$data[$namespace]);
         }
 
@@ -191,6 +198,9 @@ class rex_config
 
             // since it will be deleted, do not longer mark as changed
             unset(self::$changedData[$namespace][$key]);
+            if (empty(self::$changedData[$namespace])) {
+                unset(self::$changedData[$namespace]);
+            }
 
             // delete the data from the container
             unset(self::$data[$namespace][$key]);
@@ -261,18 +271,18 @@ class rex_config
             return;
         }
 
-        define('REX_CONFIG_FILE_CACHE', rex_path::coreCache('config.cache'));
+        self::$cacheFile = rex_path::coreCache('config.cache');
 
         // take care, so we are able to write a cache file on shutdown
         // (check here, since exceptions in shutdown functions are not visible to the user)
-        $dir = dirname(REX_CONFIG_FILE_CACHE);
+        $dir = dirname(self::$cacheFile);
         rex_dir::create($dir);
         if (!is_writable($dir)) {
-            throw new rex_exception('rex-config: cache dir "' . dirname(REX_CONFIG_FILE_CACHE) . '" is not writable!');
+            throw new rex_exception('rex-config: cache dir "' . dirname(self::$cacheFile) . '" is not writable!');
         }
 
         // save cache on shutdown
-        register_shutdown_function([__CLASS__, 'save']);
+        register_shutdown_function([self::class, 'save']);
 
         self::load();
         self::$initialized = true;
@@ -300,8 +310,8 @@ class rex_config
     private static function loadFromFile()
     {
         // delete cache-file, will be regenerated on next request
-        if (file_exists(REX_CONFIG_FILE_CACHE)) {
-            self::$data = rex_file::getCache(REX_CONFIG_FILE_CACHE);
+        if (file_exists(self::$cacheFile)) {
+            self::$data = rex_file::getCache(self::$cacheFile);
             return true;
         }
         return false;
@@ -326,8 +336,8 @@ class rex_config
      */
     private static function generateCache()
     {
-        if (rex_file::putCache(REX_CONFIG_FILE_CACHE, self::$data) <= 0) {
-            throw new rex_exception('rex-config: unable to write cache file ' . REX_CONFIG_FILE_CACHE);
+        if (rex_file::putCache(self::$cacheFile, self::$data) <= 0) {
+            throw new rex_exception('rex-config: unable to write cache file ' . self::$cacheFile);
         }
     }
 
@@ -347,7 +357,7 @@ class rex_config
         }
 
         // delete cache-file; will be regenerated on next request
-        rex_file::delete(REX_CONFIG_FILE_CACHE);
+        rex_file::delete(self::$cacheFile);
 
         // save all data to the db
         self::saveToDb();
@@ -365,26 +375,39 @@ class rex_config
         // $sql->setDebug();
 
         // remove all deleted data
-        foreach (self::$deletedData as $namespace => $nsData) {
-            foreach ($nsData as $key => $value) {
-                $sql->setTable(rex::getTablePrefix() . 'config');
-                $sql->setWhere([
-                    'namespace' => $namespace,
-                    'key' => $key,
-                ]);
+        if (self::$deletedData) {
+            $sql->setTable(rex::getTable('config'));
+
+            $where = [];
+            $params = [];
+            foreach (self::$deletedData as $namespace => $nsData) {
+                if (0 === count($nsData)) {
+                    continue;
+                }
+                $params = array_merge($params, [$namespace], array_keys($nsData));
+                $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
+            }
+            if (count($where) > 0) {
+                $sql->setWhere(implode("\n    OR ", $where), $params);
                 $sql->delete();
             }
         }
 
         // update all changed data
-        foreach (self::$changedData as $namespace => $nsData) {
-            foreach ($nsData as $key => $value) {
-                $sql->setTable(rex::getTablePrefix() . 'config');
-                $sql->setValue('namespace', $namespace);
-                $sql->setValue('key', $key);
-                $sql->setValue('value', json_encode($value));
-                $sql->replace();
+        if (self::$changedData) {
+            $sql->setTable(rex::getTable('config'));
+
+            foreach (self::$changedData as $namespace => $nsData) {
+                foreach ($nsData as $key => $value) {
+                    $sql->addRecord(static function (rex_sql $record) use ($namespace, $key, $value) {
+                        $record->setValue('namespace', $namespace);
+                        $record->setValue('key', $key);
+                        $record->setValue('value', json_encode($value));
+                    });
+                }
             }
+
+            $sql->insertOrUpdate();
         }
     }
 }

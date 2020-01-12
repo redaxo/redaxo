@@ -1,6 +1,11 @@
 <?php
 
-class rex_validator_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_validator_test extends TestCase
 {
     public function testNotEmpty()
     {
@@ -129,7 +134,7 @@ class rex_validator_test extends PHPUnit_Framework_TestCase
         $callback = function ($v) use (&$value, &$isCalled) {
             $isCalled = true;
             $this->assertEquals($value, $v);
-            return $value === 'abc';
+            return 'abc' === $value;
         };
 
         $isCalled = false;

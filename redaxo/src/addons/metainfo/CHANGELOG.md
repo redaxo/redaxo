@@ -1,6 +1,57 @@
 Changelog
 =========
 
+Version 2.5.1 – 01.11.2019
+--------------------------
+
+### Bugfixes
+
+* Date/Time-Felder wurden im Medienpool nicht disabled entsprechend der zugehörigen Checkbox (@gharlan)
+
+
+Version 2.5.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Assets nutzen immutable cache (@staabm)
+* Konstanten `REX_METAINFO_FIELD_...` sind deprecated, stattdessen die Konstanten `rex_metainfo_table_manager::FIELD_...` verwenden (@staabm)
+
+### Bugfixes
+
+* Die Default-Werte wurden nicht so mit umschließenden Pipes versehen, wie die Werte auch nach dem Speichern abgelegt werden (@gharlan)
+* Date/Time-Felder wurden nicht mehr disabled entsprechend der zugehörigen Checkbox (@gharlan)
+* Die Attribute wurden nicht escaped (@staabm)
+
+
+Version 2.4.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* Bei Date(time)-Feldern kann Start- und Endjahr für Jahr-Selecbox festgelegt werden (@gharlan)
+
+### Bugfixes
+
+* Metadaten in Struktur-Sidebar werden nun vom Struktur-AddOn selbst geliefert (@DanielWeitenauer)
+
+
+Version 2.3.1 – 05.06.2018
+--------------------------
+
+### Bugfixes
+
+* Beim Bearbeiten der Artikel-Metainfos wurden updatedate und updateuser nicht aktualisiert (@gharlan)
+* Date/Time/Datetime-Felder: Tag/Monat/Stunde/Minute nun einheitlich zweistellig, aktueller Wert war vorher teils nicht selektiert (@gharlan)
+
+
+Version 2.3.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* CSRF-Schutz (bei Api-Functions) (@gharlan)
+
 Version 2.2.0 – 04.10.2017
 --------------------------
 

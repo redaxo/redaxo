@@ -1,6 +1,64 @@
 Changelog
 =========
 
+Version 2.6.0 – 20.08.2019
+--------------------------
+
+### Neu
+
+* Default-Timeout auf 10s gesetzt (statt 5min) (@skerbis)
+* Englische Übersetzung der Readme (@skerbis)
+
+
+Version 2.5.1 – 16.03.2019
+--------------------------
+
+### Bugfixes
+
+* E-Mail-Benachrichtigung bei Fehlern wurde teilweise kontinuierlich bei jedem Seitenaufruf verschickt (@skerbis)
+
+
+Version 2.5.0 – 12.03.2019
+--------------------------
+
+### Neu
+
+* E-Mail-Benachrichtigung bei Fehlern (@phoebusryan, @skerbis)
+* AutoTLS kann aktiviert/deaktiviert werden (@skerbis)
+* SMTP-Einstellungen werden erst angezeigt, wenn Option gewählt. (@skerbis)
+* Benutzername und Passwort werden erst angezeigt wenn Option gewählt (@skerbis)
+* Bessere Test-Mails, Button-Verhalten geändert in "Speichern und testen" (@skerbis)
+* Debug-Meldungen werden in Sprache des Benutzers ausgegeben (@skerbis)
+* Aktualisierung Hilfe/Doku (@skerbis)
+
+
+Version 2.4.1 – 10.12.2018
+--------------------------
+
+### Security
+
+* Update des phpmailers wg. Sicherheitslücken
+
+
+Version 2.4.0 – 05.06.2018
+--------------------------
+
+### Neu
+
+* Update phpmailer 6.0.5 (@gharlan)
+* Mail-Log ist default nicht mehr aktiviert (@skerbis)
+* Aktualisierung Hilfe/Doku (@skerbis)
+
+
+Version 2.3.0 – 21.12.2017
+--------------------------
+
+### Neu
+
+* Update auf PHPMailer 6.0.2 (@skerbis)
+* SMTP-Passwort-Feld wird nicht mehr im Klartext angezeigt (@metaphon)
+
+
 Version 2.2.0 – 04.10.2017
 --------------------------
 

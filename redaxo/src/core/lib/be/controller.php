@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\backend
  */
 class rex_be_controller
 {
@@ -51,10 +51,10 @@ class rex_be_controller
      */
     public static function getCurrentPagePart($part = null, $default = null)
     {
-        if ($part === null) {
+        if (null === $part) {
             return self::$pageParts;
         }
-        $part -= 1;
+        --$part;
         return isset(self::$pageParts[$part]) ? self::$pageParts[$part] : $default;
     }
 
@@ -156,6 +156,12 @@ class rex_be_controller
             ->setPjax()
             ->setIcon('rex-icon rex-icon-package-addon');
 
+        $logsPage = (new rex_be_page('log', rex_i18n::msg('logfiles')))->setSubPath(rex_path::core('pages/system.log.php'));
+        $logsPage->addSubpage((new rex_be_page('redaxo', rex_i18n::msg('syslog_redaxo')))->setSubPath(rex_path::core('pages/system.log.redaxo.php')));
+        if (@is_readable(ini_get('error_log'))) {
+            $logsPage->addSubpage((new rex_be_page('php', rex_i18n::msg('syslog_phperrors')))->setSubPath(rex_path::core('pages/system.log.external.php')));
+        }
+
         self::$pages['system'] = (new rex_be_page_main('system', 'system', rex_i18n::msg('system')))
             ->setPath(rex_path::core('pages/system.php'))
             ->setRequiredPermissions('isAdmin')
@@ -164,7 +170,11 @@ class rex_be_controller
             ->setIcon('rex-icon rex-icon-system')
             ->addSubpage((new rex_be_page('settings', rex_i18n::msg('main_preferences')))->setSubPath(rex_path::core('pages/system.settings.php')))
             ->addSubpage((new rex_be_page('lang', rex_i18n::msg('languages')))->setSubPath(rex_path::core('pages/system.clangs.php')))
-            ->addSubpage((new rex_be_page('log', rex_i18n::msg('syslog')))->setSubPath(rex_path::core('pages/system.log.php')))
+            ->addSubpage($logsPage)
+            ->addSubpage((new rex_be_page('report', rex_i18n::msg('system_report')))
+                ->addSubpage((new rex_be_page('html', rex_i18n::msg('system_report')))->setSubPath(rex_path::core('pages/system.report.html.php')))
+                ->addSubpage((new rex_be_page('markdown', rex_i18n::msg('system_report_markdown')))->setSubPath(rex_path::core('pages/system.report.markdown.php')))
+            )
             ->addSubpage((new rex_be_page('phpinfo', 'phpinfo'))
                 ->setHidden(true)
                 ->setHasLayout(false)
@@ -181,7 +191,7 @@ class rex_be_controller
 
             if (is_array($pages = $addon->getProperty('pages'))) {
                 foreach ($pages as $key => $page) {
-                    if (strpos($key, '/') !== false) {
+                    if (false !== strpos($key, '/')) {
                         $insertPages[$key] = [$addon, $page];
                     } else {
                         self::pageCreate($page, $addon, false, $mainPage, $key, true);
@@ -196,7 +206,7 @@ class rex_be_controller
 
                 if (is_array($pages = $plugin->getProperty('pages'))) {
                     foreach ($pages as $key => $page) {
-                        if (strpos($key, '/') !== false) {
+                        if (false !== strpos($key, '/')) {
                             $insertPages[$key] = [$plugin, $page];
                         } else {
                             self::pageCreate($page, $plugin, false, $mainPage, $key, true);
@@ -206,7 +216,7 @@ class rex_be_controller
             }
         }
         foreach ($insertPages as $key => $packagePage) {
-            list($package, $page) = $packagePage;
+            [$package, $page] = $packagePage;
             $key = explode('/', $key);
             if (!isset(self::$pages[$key[0]])) {
                 continue;
@@ -223,9 +233,7 @@ class rex_be_controller
 
     /**
      * @param rex_be_page|array $page
-     * @param rex_package       $package
      * @param bool              $createMainPage
-     * @param rex_be_page|null  $parentPage
      * @param string            $pageKey
      * @param bool              $prefix
      *
@@ -268,9 +276,7 @@ class rex_be_controller
     }
 
     /**
-     * @param rex_be_page $page
-     * @param rex_package $package
-     * @param string      $prefix
+     * @param string $prefix
      */
     private static function pageSetSubPaths(rex_be_page $page, rex_package $package, $prefix = '')
     {
@@ -282,11 +288,6 @@ class rex_be_controller
         }
     }
 
-    /**
-     * @param rex_be_page $page
-     * @param array       $properties
-     * @param rex_package $package
-     */
     private static function pageAddProperties(rex_be_page $page, array $properties, rex_package $package)
     {
         foreach ($properties as $key => $value) {
@@ -322,10 +323,10 @@ class rex_be_controller
                     }
                     // no break
                 default:
-                    $setter = [$page, 'add' . ucfirst($key)];
-                    if (is_callable($setter)) {
+                    $adder = [$page, 'add' . ucfirst($key)];
+                    if (is_callable($adder)) {
                         foreach ((array) $value as $v) {
-                            call_user_func($setter, $v);
+                            call_user_func($adder, $v);
                         }
                         break;
                     }
@@ -339,7 +340,7 @@ class rex_be_controller
 
     public static function checkPagePermissions(rex_user $user)
     {
-        $check = function (rex_be_page $page) use (&$check, $user) {
+        $check = static function (rex_be_page $page) use (&$check, $user) {
             if (!$page->checkPermission($user)) {
                 return false;
             }
@@ -408,8 +409,6 @@ class rex_be_controller
     /**
      * Includes the sub-path of current page.
      *
-     * @param array $context
-     *
      * @return mixed
      */
     public static function includeCurrentPageSubPath(array $context = [])
@@ -420,11 +419,19 @@ class rex_be_controller
             return self::includePath($path, $context);
         }
 
+        $languagePath = substr($path, 0, -3).'.'.rex_i18n::getLanguage().'.md';
+        if (is_readable($languagePath)) {
+            $path = $languagePath;
+        }
+
+        [$toc, $content] = rex_markdown::factory()->parseWithToc(rex_file::get($path));
         $fragment = new rex_fragment();
-        $fragment->setVar('content', rex_markdown::factory()->parse(rex_file::get($path)), false);
+        $fragment->setVar('content', $content, false);
+        $fragment->setVar('toc', $toc, false);
         $content = $fragment->parse('core/page/docs.php');
 
         $fragment = new rex_fragment();
+        $fragment->setVar('title', self::getCurrentPageObject()->getTitle(), false);
         $fragment->setVar('body', $content, false);
         echo $fragment->parse('core/page/section.php');
     }
@@ -433,7 +440,6 @@ class rex_be_controller
      * Includes a path in correct package context.
      *
      * @param string $path
-     * @param array  $context
      *
      * @return mixed
      */

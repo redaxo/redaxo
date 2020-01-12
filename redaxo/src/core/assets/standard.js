@@ -444,11 +444,11 @@ jQuery(function($){
         });
     $("[autofocus]").trigger("focus");
 
-    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('htaccess_check') == '')
+    if ($('#rex-page-setup, #rex-page-login').length == 0 && getCookie('rex_htaccess_check') == '')
     {
         time = new Date();
         time.setTime(time.getTime() + 1000 * 60 * 60 * 24);
-        setCookie('htaccess_check', '1', time.toGMTString());
+        setCookie('rex_htaccess_check', '1', time.toGMTString(), '', '', false, 'lax');
         checkHtaccess('bin', 'console');
         checkHtaccess('cache', '.redaxo');
         checkHtaccess('data', '.redaxo');
@@ -457,10 +457,10 @@ jQuery(function($){
 
     function checkHtaccess(dir, file)
     {
-        $.get(dir +'/'+ file,
+        $.get(dir +'/'+ file +'?redaxo-security-self-test',
             function(data) {
                 $('#rex-js-page-main').prepend('<div class="alert alert-danger" style="margin-top: 20px;">The folder <code>redaxo/'+ dir +'</code> is insecure. Please protect this folder.</div>');
-                setCookie('htaccess_check', '');
+                setCookie('rex_htaccess_check', '');
             }
         );
     }
@@ -469,7 +469,7 @@ jQuery(function($){
 
 // cookie functions
 
-function setCookie(name, value, expires, path, domain, secure) {
+function setCookie(name, value, expires, path, domain, secure, samesite) {
     if (typeof expires != undefined && expires == "never") {
         // never expire means expires in 3000 days
         expires = new Date();
@@ -481,7 +481,8 @@ function setCookie(name, value, expires, path, domain, secure) {
         + ((expires) ? "; expires=" + expires : "")
         + ((path) ? "; path=" + path : "")
         + ((domain) ? "; domain=" + domain : "")
-        + ((secure) ? "; secure" : "");
+        + ((secure) ? "; secure" : "")
+        + ((samesite) ? "; samesite=" + samesite : "");
 }
 
 function getCookie(cookieName) {
@@ -514,6 +515,36 @@ jQuery(document).ready(function($) {
     $(document).on('click', 'a[data-confirm], button[data-confirm], input[data-confirm]', confDialog);
     // confirm dialog behavior for forms
     $(document).on('submit', 'form[data-confirm]', confDialog);
+
+    // add eye-toggle to each password input
+    $(document).on('rex:ready', function (event, viewRoot) {
+        $(viewRoot).find('input[type="password"]').each(function() {
+            var $el = $(this);
+            var $eye = jQuery('<i class="rex-icon rex-icon-view" aria-hidden="true"></i>');
+
+            if ($el.parent("div.input-group").length == 0) {
+                $el.wrap('<div class="input-group"></div>');
+            }
+
+            // insert into DOM first, as wrap() only works on DOM attached nodes.
+            $el.after($eye);
+            $eye
+                .wrap('<span class="input-group-btn"></span>')
+                .wrap('<button type="button" class="btn btn-view" tabindex="-1"></button>');
+
+            $el.next('span.input-group-btn').find('button.btn').click(function(event) {
+                $eye.toggleClass("rex-icon-view rex-icon-hide");
+
+                if ($el.attr("type") === "password") {
+                    $el.attr("type", "text");
+                } else {
+                    $el.attr("type", "password");
+                }
+                event.stopPropagation();
+                event.preventDefault();
+            });
+        });
+    });
 
     if ($.support.pjax) {
         $.pjax.defaults.timeout = 10000;
@@ -600,11 +631,6 @@ jQuery(document).ready(function($) {
             })
             .on('pjax:end',   function (event, xhr, options) {
                 $('#rex-js-ajax-loader').removeClass('rex-visible');
-
-                var time = xhr.getResponseHeader('X-Redaxo-Script-Time');
-                if (time) {
-                    $('.rex-js-script-time').text(time);
-                }
 
                 options.context.trigger('rex:ready', [options.context]);
             });

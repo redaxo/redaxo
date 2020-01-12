@@ -13,7 +13,7 @@ class rex_api_category_status extends rex_api_function
         $user = rex::getUser();
 
         // Check permissions
-        if ($user->getComplexPerm('structure')->hasCategoryPerm($category_id) && $user->hasPerm('publishArticle[]')) {
+        if ($user->getComplexPerm('structure')->hasCategoryPerm($category_id) && $user->hasPerm('publishCategory[]')) {
             rex_category_service::categoryStatus($category_id, $clang);
 
             $result = new rex_api_result(true, rex_i18n::msg('category_status_updated'));
@@ -21,5 +21,10 @@ class rex_api_category_status extends rex_api_function
         }
 
         throw new rex_api_exception('User has no permission for this category!');
+    }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
     }
 }

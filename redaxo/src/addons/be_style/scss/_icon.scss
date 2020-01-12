@@ -142,6 +142,9 @@
 .rex-icon-last {
     @extend .fa-angle-double-right;
 }
+.rex-icon-license {
+    @extend .fa-balance-scale;
+}
 .rex-icon-linkmap {
     @extend .fa-sitemap;
 }
@@ -262,6 +265,9 @@
 .collapsed .rex-icon-structure-category-metainfo {
     @extend .fa-plus;
 }
+.rex-icon-structure-root-level {
+    @extend .fa-globe;
+}
 .rex-icon-seo {
     @extend .fa-area-chart;
 }
@@ -292,6 +298,9 @@
 .rex-icon-view {
     @extend .fa-eye;
 }
+.rex-icon-hide {
+    @extend .fa-eye-slash;
+}
 .rex-icon-view-icon {
     @extend .fa-th-large;
 }
@@ -300,4 +309,7 @@
 }
 .rex-icon-view-media {
     @extend .fa-eye;
+}
+.rex-icon-heartbeat {
+    @extend .fa-heartbeat;
 }

@@ -35,11 +35,11 @@ class rex_string
 
         if (null === $normalizer) {
             if (function_exists('normalizer_normalize')) {
-                $normalizer = function ($string) {
+                $normalizer = static function ($string) {
                     return normalizer_normalize($string, Normalizer::FORM_C);
                 };
             } else {
-                $normalizer = function ($string) {
+                $normalizer = static function ($string) {
                     return str_replace(
                         ["A\xcc\x88", "a\xcc\x88", "O\xcc\x88", "o\xcc\x88", "U\xcc\x88", "u\xcc\x88"],
                         ['Ä', 'ä', 'Ö', 'ö', 'Ü', 'ü'],
@@ -96,7 +96,7 @@ class rex_string
         $quoted = [];
 
         $pattern = '@(?<=\s|=|^)(["\'])((?:.*[^\\\\])?(?:\\\\\\\\)*)\\1(?=\s|$)@Us';
-        $callback = function ($match) use ($spacer, &$quoted) {
+        $callback = static function ($match) use ($spacer, &$quoted) {
             $quoted[] = str_replace(['\\' . $match[1], '\\\\'], [$match[1], '\\'], $match[2]);
             return $spacer;
         };
@@ -107,9 +107,11 @@ class rex_string
         foreach ($parts as $part) {
             $part = explode('=', $part, 2);
             if (isset($part[1])) {
+                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[1] == $spacer ? $quoted[$i++] : $part[1];
                 $result[$part[0]] = $value;
             } else {
+                /** @psalm-suppress EmptyArrayAccess */
                 $value = $part[0] == $spacer ? $quoted[$i++] : $part[0];
                 $result[] = $value;
             }
@@ -172,9 +174,9 @@ class rex_string
      *
      * @param string $value YAML string
      *
-     * @return array
-     *
      * @throws rex_yaml_parse_exception
+     *
+     * @return array
      */
     public static function yamlDecode($value)
     {
@@ -188,7 +190,6 @@ class rex_string
     /**
      * Generates URL-encoded query string.
      *
-     * @param array  $params
      * @param string $argSeparator
      *
      * @return string
@@ -196,7 +197,7 @@ class rex_string
     public static function buildQuery(array $params, $argSeparator = '&')
     {
         $query = [];
-        $func = function (array $params, $fullkey = null) use (&$query, &$func) {
+        $func = static function (array $params, $fullkey = null) use (&$query, &$func) {
             foreach ($params as $key => $value) {
                 $key = $fullkey ? $fullkey . '[' . urlencode($key) . ']' : urlencode($key);
                 if (is_array($value)) {
@@ -213,8 +214,6 @@ class rex_string
     /**
      * Returns a string by key="value" pair.
      *
-     * @param array $attributes
-     *
      * @return string
      */
     public static function buildAttributes(array $attributes)
@@ -223,12 +222,14 @@ class rex_string
 
         foreach ($attributes as $key => $value) {
             if (is_int($key)) {
-                $attr .= ' ' . $value;
+                $attr .= ' ' . rex_escape($value);
             } else {
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
-                $attr .= ' ' . $key . '="' . $value . '"';
+                // for bc reasons avoid double escaping of "&", especially in already escaped urls
+                $value = str_replace('&amp;', '&', $value);
+                $attr .= ' ' . rex_escape($key) . '="' . rex_escape($value) . '"';
             }
         }
 

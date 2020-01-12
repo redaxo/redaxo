@@ -16,7 +16,6 @@ class rex_logger_debug extends rex_logger
      *
      * @param mixed  $level
      * @param string $message
-     * @param array  $context
      * @param string $file
      * @param int    $line
      *
@@ -25,14 +24,13 @@ class rex_logger_debug extends rex_logger
     public function log($level, $message, array $context = [], $file = null, $line = null)
     {
         $levelType = is_int($level) ? self::getLogLevel($level) : $level;
-        $firephp = FirePHP::getInstance(true);
 
         if (in_array($levelType, [LogLevel::NOTICE, LogLevel::INFO])) {
-            $firephp->log($message);
+            ChromePhp::log($message);
         } elseif (in_array($levelType, [LogLevel::WARNING])) {
-            $firephp->warn($message);
+            ChromePhp::warn($message);
         } else {
-            $firephp->error($message);
+            ChromePhp::error($message);
         }
 
         parent::log($level, $message, $context, $file, $line);

@@ -9,14 +9,35 @@
  */
 class rex_clang
 {
+    /**
+     * @var bool
+     */
     private static $cacheLoaded = false;
+    /**
+     * @var self[]
+     */
     private static $clangs = [];
+    /**
+     * @var int
+     */
     private static $currentId = 1;
 
     private $id;
+    /**
+     * @var string
+     */
     private $code;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var int
+     */
     private $priority;
+    /**
+     * @var bool
+     */
     private $status;
 
     private function __construct()
@@ -183,12 +204,14 @@ class rex_clang
     /**
      * Counts the clangs.
      *
+     * @param bool $ignoreOfflines
+     *
      * @return int
      */
-    public static function count()
+    public static function count($ignoreOfflines = false)
     {
         self::checkCache();
-        return count(self::$clangs);
+        return count(self::getAll($ignoreOfflines));
     }
 
     /**
@@ -219,7 +242,7 @@ class rex_clang
             return self::$clangs;
         }
 
-        return array_filter(self::$clangs, function (self $clang) {
+        return array_filter(self::$clangs, static function (self $clang) {
             return $clang->isOnline();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 $src = __DIR__.'/redaxo/src';
+$bootPath = realpath($src.'/core/boot.php');
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('fragments')
@@ -18,11 +19,14 @@ $finder = PhpCsFixer\Finder::create()
         $src.'/addons/project',
         $src.'/addons/structure',
         $src.'/addons/tests',
-        $src.'/addons/textile',
         $src.'/addons/users',
     ])
-    ->filter(function (\SplFileInfo $file) use ($src) {
-        return $src.'/core/boot.php' !== $file->getRealPath();
+    ->append([
+        __FILE__,
+        __DIR__.'/phpstan-bootstrap.php',
+    ])
+    ->filter(static function (\SplFileInfo $file) use ($bootPath) {
+        return $bootPath !== $file->getRealPath();
     })
 ;
 
@@ -32,26 +36,46 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        '@PHP71Migration' => true,
+        '@PHP71Migration:risky' => true,
+        '@PHPUnit60Migration:risky' => true,
+        'array_indentation' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_before_statement' => false,
         'braces' => ['allow_single_line_closure' => false],
+        'comment_to_phpdoc' => true,
         'concat_space' => false,
+        'declare_strict_types' => false,
+        'function_to_constant' => ['functions' => ['get_class', 'get_called_class', 'php_sapi_name', 'phpversion', 'pi']],
         'heredoc_to_nowdoc' => true,
+        'list_syntax' => ['syntax' => 'short'],
+        'logical_operators' => true,
+        'native_constant_invocation' => false,
         'no_blank_lines_after_phpdoc' => false,
+        'no_null_property_initialization' => true,
         'no_php4_constructor' => true,
         'no_superfluous_elseif' => true,
-        'no_unneeded_final_method' => false,
         'no_unreachable_default_argument_value' => true,
         'no_useless_else' => true,
         'no_useless_return' => true,
+        'ordered_imports' => true,
+        'php_unit_internal_class' => true,
+        'php_unit_method_casing' => true,
+        'php_unit_set_up_tear_down_visibility' => true,
+        'php_unit_test_case_static_method_calls' => ['call_type' => 'this'],
         'phpdoc_annotation_without_dot' => false,
         'phpdoc_no_package' => false,
-        'phpdoc_to_comment' => false,
-        'phpdoc_var_without_name' => false,
+        'phpdoc_order' => true,
+        'phpdoc_trim_consecutive_blank_line_separation' => true,
+        'phpdoc_types_order' => false,
+        'phpdoc_var_annotation_correct_order' => true,
         'psr4' => false,
         'semicolon_after_instruction' => false,
         'space_after_semicolon' => true,
-        'yoda_style' => false,
+        'static_lambda' => true,
+        'string_line_ending' => true,
+        'void_return' => false,
+        'yoda_style' => true,
     ])
     ->setFinder($finder)
 ;

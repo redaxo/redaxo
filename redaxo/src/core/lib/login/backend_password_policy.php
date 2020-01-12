@@ -3,7 +3,7 @@
 /**
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 class rex_backend_password_policy extends rex_password_policy
 {

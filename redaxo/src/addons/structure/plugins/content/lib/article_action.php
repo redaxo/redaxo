@@ -5,9 +5,9 @@
  */
 class rex_article_action
 {
-    const PREVIEW = 'preview';
-    const PRESAVE = 'presave';
-    const POSTSAVE = 'postsave';
+    public const PREVIEW = 'preview';
+    public const PRESAVE = 'presave';
+    public const POSTSAVE = 'postsave';
 
     private $moduleId;
     private $event;
@@ -21,9 +21,9 @@ class rex_article_action
     {
         $this->moduleId = $moduleId;
         $this->event = $function;
-        if ($function == 'edit') {
+        if ('edit' == $function) {
             $this->mode = 2;
-        } elseif ($function == 'delete') {
+        } elseif ('delete' == $function) {
             $this->mode = 4;
         } else {
             $this->mode = 1;
@@ -35,7 +35,7 @@ class rex_article_action
             rex_request('clang', 'int'),
             rex_request('ctype', 'int'),
             rex_request('module_id', 'int'),
-            $this->mode == 1 ? 0 : rex_request('slice_id', 'int'),
+            1 == $this->mode ? 0 : rex_request('slice_id', 'int'),
         ];
     }
 
@@ -47,9 +47,10 @@ class rex_article_action
             for ($i = 1; $i <= $max; ++$i) {
                 if (isset($values[$i])) {
                     if (is_array($values[$i])) {
-                        $values[$i] = json_encode($values[$i]);
+                        $this->sql->setArrayValue($key . $i, $values[$i]);
+                    } else {
+                        $this->sql->setValue($key . $i, $values[$i]);
                     }
-                    $this->sql->setValue($key . $i, $values[$i]);
                 } else {
                     $this->sql->setValue($key . $i, null);
                 }

@@ -8,7 +8,9 @@ setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Settings
 
 datetimeformat = %Y-%b-%d %H:%M
+timeformat = %H:%M
 ctrl = Select multiple using <kbd>CTRL</kbd> or <kbd>CMD</kbd> respectively
+translatable = Translatable via <code>translate:i18n_key</code>
 
 # Allgemein
 abort = cancel
@@ -25,9 +27,9 @@ description = Description
 email = E-mail
 function = Function
 no_editing_rights = permission denied
-check_rights_in_directory  =  Please review permissions in directory
+check_rights_in_directory = Please review permissions in directory
 error_undefined = An undefinied error occurred
-csrf_token_invalid = The csrf token is invalid.
+csrf_token_invalid = Please send the form again, redo the action respectively (error: invalid CSRF token).
 
 # redaxo/redaxo/index.php
 system = System
@@ -40,8 +42,8 @@ subnavigation = Sub navigation of {0}
 
 # redaxo/include/classes/class.login.php
 login = Login
-login_name  =  Username
-password  =  Password
+login_name = Username
+password = Password
 new_password = New password
 request_new_password = Request new password
 login_error = Error signing in.
@@ -52,9 +54,15 @@ login_welcome = Please sign in.
 login_logged_out = Signed out.
 stay_logged_in = Stay signed in
 
+login_impersonate = switch user
+login_depersonate = switch back
+
 # redaxo/include/layout_redaxo/top.php
-logged_out  =  Not signed in
-logged_in_as  =  Signed in as
+logged_out = Not signed in
+logged_in_as = Signed in as
+safemode = Safe mode
+safemode_text = In safe mode all AddOns are temporarily deactivated. If a specific AddOn is causing problems it can be deactivated or removed in safe mode.
+safemode_activate = Activate safe mode
 safemode_deactivate = Deactivate safe mode
 
 # redaxo/include/classes/class.form.php
@@ -97,15 +105,19 @@ clang_function = Functions
 version = Version
 host = Host
 database = Database
-syslog = System log
-syslog_delete = Clear system log
-syslog_deleted = System log cleared
-syslog_delete_error = Error while clearing system log
+logfiles = Logfiles
+syslog_redaxo = REDAXO
+syslog_delete = Clear log file
+syslog_deleted = Log file cleared
+syslog_delete_error = Error while clearing log file!
 syslog_timestamp = Time
 syslog_type = Type
 syslog_message = Message
 syslog_file = File
 syslog_line = Row
+syslog_title = logfile "{0}"
+syslog_phperrors = PHP errorlog
+syslog_empty = empty logfile
 server = Website URL
 servername = Website name
 error_email = E-mail address in case of errors
@@ -114,8 +126,23 @@ error_email_invalid = Please enter a valid e-mail address
 server_required = A website URL is required
 server_invalid = The website URL is invalid, please enter a valid URL inluding protocol!
 servername_required = Server name is required
+system_editor = editor integration
+system_editor_note = Connects REDAXO with an editor to open the source code files directly. Requirement: The source code of the REDAXO installation is available locally.
+system_editor_no_editor = disabled
+system_editor_open_file = open "{0}" in editor
+system_edit_config_note = The REDAXO main configuration offers the possibility to change internal system parameters. The file should only be edited by advanced users.
 lang_required = Language is required
 debug_mode = Debug mode
+debug_mode_note = Activating debug mode will provide additional information concerning PHP script errors in the front and backend. Make sure to deactivate in production, as these error messages may contain sensible data.
+debug_mode_on = Enable debug mode
+debug_mode_off = Disable debug mode
+debug_mode_info_on = Debug mode has been activated
+debug_mode_info_off = Debug mode was deactivated
+debug_mode_marker = Debug mode is enabled
+debug_confirm = Debug mode should not be activated in live mode. Still activate debug mode?  
+
+system_report = System report
+system_report_markdown = As markdown
 
 # redaxo\include\pages\medienpool.php\setup.php
 setup = Setup
@@ -149,6 +176,7 @@ setup_307 = PHP version check | Permission check
 setup_308 = PHP version ok
 setup_309 = Directory permissions ok
 setup_310 = Continue with step 4
+setup_311 = The following files/folder are editable by all users on this server ("Others"-Mode-Bit 7). Permissions should be more restrictive:
 setup_312 = Repeat step 3
 setup_399 = 3 / System check
 
@@ -215,14 +243,26 @@ setup_799 = 7 / Hooray
 
 setup_security_msg = The folder redaxo/include is not secure. Please protect this folder and start setup again.
 setup_no_js_security_msg = Please make sure that files in the folder redaxo/include are not directly accessible! Due to security concerns accessing these files should not be possible!
+setup_security_no_https = The setup will continue without SSL encryption. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
+setup_security_warn_mod_security = The Apache module "mod_security" is loaded. This can cause problems if not configured correctly.
+setup_security_deprecated_php = The used PHP Version {0} version will no longer receive updates. You should consider upgrading to a newer version.
 
 sql_database_name_missing = Enter a database name!
 sql_database_already_exists = Database already exists!
+sql_database_min_version = The MySQL version {0} is too old, you need at least version {1}!
 sql_unable_to_connect_database = Unable to establish a connection to the database!
 sql_unable_to_connect_server = Unable to establish a connection to the database server!
 sql_unable_to_create_database = Unable to create the database!
 sql_unable_to_find_database = The specified database could not be found!
 sql_unable_to_open_database = Unable to open the specified database!
+
+setup_security = Security
+
+https_activate_redirect_for = Automatic HTTPS-Redirect
+https_disable = Deactivate
+https_only_frontend = Activate only for frontend
+https_only_backend = Activate only for backend
+https_activate = Activate for frontend and backend
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -239,7 +279,7 @@ package_not_installed = Has not bee installed yet!
 addon_installed = AddOn <b>"{0}"</b> has been installed and activated
 addon_reinstalled = AddOn <b>{0}</b> has been reinstalled!
 addon_activated = AddOn <b>"{0}"</b> has been activated
-addon_deactivated =  AddOn <b>"{0}"</b> has been deactivated
+addon_deactivated = AddOn <b>"{0}"</b> has been deactivated
 addon_uninstalled = AddOn <b>"{0}"</b> has been uninstalled
 addon_deleted = AddOn <b>"{0}"</b> has been deleted
 addon_not_deleted = AddOn <b>{0}</b> could not be deleted!
@@ -251,6 +291,8 @@ package_hhelp = Help
 package_hinstall = Installed
 package_hactive = Activated
 package_hdelete = Delete
+package_hinformation = Informations
+package_hlicense = License
 package_reinstall = reinstall
 package_install = install
 package_notinstalled = not installed
@@ -264,6 +306,7 @@ package_caption = List of available packages
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns may not be deleted!
 addon_dir_not_writable = Write permissions are missing for the AddOn directory!
+addon_cache_not_writable = The AddOn cache directory is not writable!
 package_missing_yml_file = The file package.yml is missing!
 package_invalid_yml_file = The file package.yml is invalid:
 package_missing_id = "package" is not specified in package.yml ("package: {0}")!
@@ -300,7 +343,7 @@ plugin_no_deactivation = PlugIn <b>{0}</b> <b>could not</b> be deactivated due t
 plugin_installed = PlugIn <b>{0}</b> has been installed and activated!
 plugin_reinstalled = PlugIn <b>{0}</b> has been reinstalled!
 plugin_activated = PlugIn <b>{0}</b> has been activated!
-plugin_deactivated =  PlugIn <b>{0}</b> has been deactivated!
+plugin_deactivated = PlugIn <b>{0}</b> has been deactivated!
 plugin_uninstalled = PlugIn <b>{0}</b> has been uninstalled!
 plugin_deleted = PlugIn <b>{0}</b> has been deleted!
 plugin_not_deleted = PlugIn <b>{0}</b> could not be deleted!
@@ -309,6 +352,7 @@ plugin_uninstall_question = Uninstall PlugIn "{0}"?
 plugin_systemplugin = System PlugIn
 plugin_systempackage_delete_not_allowed = System PlugIns may be deleted!
 plugin_dir_not_writable = The PlugIn directory is not writable!
+plugin_cache_not_writable = The PlugIn cache directory is not writable!
 
 # redaxo\include\pages\credits.php
 credits = Credits
@@ -323,6 +367,7 @@ credits_open_help_file = Open help file:
 credits_inventor = Inventor
 credits_developer = Developer
 credits_designer = Designer
+credits_license = Licence
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Edit my user profile
@@ -380,6 +425,7 @@ clang_error_idcanotbedeleted = Language Id (clang) with Id "{0}" does not exist
 
 # footer
 footer_joinforum = Visit the forums
+footer_doku = Read the docs
 footer_datetime = {0}
 footer_scripttime = {0} sec.
 footer_credits = Credits

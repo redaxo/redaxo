@@ -1,0 +1,87 @@
+structure = Struttura
+
+title_structure = Amminstrazione struttura
+root_level = Livello principale
+no_such_category = Categoria inesistente!
+category_updated = Categoria aggiornata.
+category_could_not_be_deleted = Non era possibile di cancellare la categoria!
+category_still_contains_articles = La categoria contiene ancora un articolo.
+category_still_contains_subcategories = La categoria contiene ancora sottocategorie.
+category_status_updated = Lo stato della categoria è stato aggiornato!
+category_added_and_startarticle_created = Categoria aggiunta e articolo di partenza creato!
+article_status_updated = Lo stato del articolo è stato aggiornato.
+article_updated = Articolo aggiornato.
+article_added = Articolo aggiunto.
+header_category = Nome di categoria
+header_priority = Priorità
+header_status = Stato/Funzione
+header_id = Id
+add_category = Aggiungere categoria
+edit_category = Modificare categoria
+save_category = Salvare categoria
+status_online = online
+status_offline = offline
+option_no_template = Nessun template
+template_default_name = NESSUN TEMPLATE
+header_article_name = Nome d'articolo
+header_template = Template
+header_date = Creato il
+change = modificare
+article_add = Aggiungere articolo
+article_edit = Modificare articolo
+article_save = Salvare articolo
+article = Articolo
+start_article = Articolo di partenza
+no_article_available  =  Nessun articolo disponibile
+structure_categories_caption = Elenco di sottocategorie della categoria "{0}"
+structure_articles_caption = Elenco di articoli della categoria "{0}"
+structure_root_level_articles_caption =
+structure_root_level_categories_caption =
+article_deleted = Articolo cancellato!
+article_could_not_be_generated  =  Non era possibile creare l'articolo.
+category_deleted  =  Categoria cancellata!
+category_doesnt_exist  =  Categoria inesistente!
+article_doesnt_exist  =  Articolo inesistente!
+cant_delete_sitestartarticle = L'articolo di partenza del sito non può essere cancellato
+cant_delete_notfoundarticle = L'articolo "Non-trovato" non può essere cancellato
+structure_copy = Copia
+
+all_categories = Tutte le categorie
+categories = Categorie
+
+be_search_article_name = Nome d'articolo
+be_search_article_id = Id d'articolo
+be_search_start = cercare
+be_search_jump_to_category = Saltare alla categoria
+be_search_quick_navi = Navigazione veloce
+be_search_no_results = Nessun articolo corrisponde i criteri di ricerca
+be_search_search = Ricerca
+be_search_result = Risultato di ricerca
+
+perm_options_article2category[] = Convertire articolo in categoria
+perm_options_article2startarticle[] = Convertire articolo in articolo di partenza
+perm_options_copyArticle[] = Copiare articolo
+perm_options_copyContent[] = Copiare contenuti d'articolo
+perm_options_moveArticle[] = Spostare articolo
+perm_options_moveCategory[] = Spostare categoria
+perm_options_publishArticle[] = Pubblicare l'articolo
+perm_options_publishCategory[] = Pubblicare la categoria
+
+system_setting_start_article_id = Articolo di partenza
+system_setting_notfound_article_id = Articolo d'errore
+system_setting_default_template_id = Template standard
+system_setting_start_article_id_invalid = Articolo di partenza invalido
+system_setting_notfound_article_id_invalid = Articolo d'errore invalido
+system_setting_default_template_id_invalid = Template standard invalido
+
+linkmap = Mappa di link
+linkmap_categories = Categorie
+linkmap_articles = Articoli
+linkmap_has_no_template = non ha un template
+
+var_link_open = Scegliere link
+var_link_delete = Cancellare il link selezionato
+var_linklist_move_top = Spostare il link selezionato all'inizio
+var_linklist_move_up = Spostare il link selezionato in alto
+var_linklist_move_down = Spostare il link selezionato in basso
+var_linklist_move_bottom  = Spostare il link selezionato alla fine

@@ -10,7 +10,7 @@ $curPage = rex_be_controller::getCurrentPageObject();
 
 if (rex_request::isPJAXRequest()) {
     // add title to the page, so pjax can update it. see gh#136
-    echo '<title>' . htmlspecialchars(rex_be_controller::getPageTitle()) . '</title>';
+    echo '<title>' . rex_escape(rex_be_controller::getPageTitle()) . '</title>';
 }
 
 if (!$curPage->hasLayout()) {
@@ -40,6 +40,10 @@ if (rex::isSafeMode()) {
 if ($curPage->isPopup()) {
     $body_attr['class'][] = 'rex-is-popup';
 }
+if (rex::getImpersonator()) {
+    $body_attr['class'][] = 'rex-is-impersonated';
+}
+
 // ----- EXTENSION POINT
 $body_attr = rex_extension::registerPoint(new rex_extension_point('PAGE_BODY_ATTR', $body_attr));
 
@@ -65,20 +69,33 @@ if (rex::getUser() && $hasNavigation) {
         unset($item);
     }
 
-    $user_name = rex::getUser()->getValue('name') != '' ? rex::getUser()->getValue('name') : rex::getUser()->getValue('login');
+    $user_name = rex::getUser()->getName() ?: rex::getUser()->getLogin();
+    $impersonator = rex::getImpersonator();
+    if ($impersonator) {
+        $impersonator = $impersonator->getName() ?: $impersonator->getLogin();
+    }
 
     $item = [];
-    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . htmlspecialchars($user_name) . '</a>';
+    $item['title'] = '<span class="text-muted">' . rex_i18n::msg('logged_in_as') . '</span> <a class="rex-username" href="' . rex_url::backendPage('profile') . '" title="' . rex_i18n::msg('profile_title') . '"><i class="rex-icon rex-icon-user"></i> ' . rex_escape($user_name) . '</a>';
+    if ($impersonator) {
+        $item['title'] .= ' (<i class="rex-icon rex-icon-user"></i> '.rex_escape($impersonator).')';
+    }
     $meta_items[] = $item;
     unset($item);
 
     $item = [];
-    $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
-    $item['href'] = rex_csrf_token::factory('backend_logout')->appendToUrl(rex_url::backendController(['rex_logout' => 1]));
     $item['attributes'] = 'class="rex-logout"';
+    if ($impersonator) {
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('login_depersonate');
+        $item['href'] = rex_url::currentBackendPage(['_impersonate' => '_depersonate'] + rex_api_user_impersonate::getUrlParams());
+        $item['attributes'] .= ' data-pjax="false"';
+    } else {
+        $item['title'] = '<i class="rex-icon rex-icon-sign-out"></i> ' . rex_i18n::msg('logout');
+        $item['href'] = rex_url::backendController(['rex_logout' => 1] + rex_csrf_token::factory('backend_logout')->getUrlParams());
+    }
     $meta_items[] = $item;
     unset($item);
-} elseif ($hasNavigation) {
+} elseif ($hasNavigation && !rex::isSetup()) {
     $item = [];
     $item['title'] = rex_i18n::msg('logged_out');
     $meta_items[] = $item;
@@ -124,7 +141,7 @@ if (rex::getUser() && $hasNavigation) {
 }
 
 /* Setup Navigation ***********************************************************/
-if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
+if ('setup' == rex_be_controller::getCurrentPagePart(1)) {
     $step = rex_request('step', 'float');
     $lang = rex_request('lang', 'string', '');
     $navi = [];
@@ -139,16 +156,16 @@ if (rex_be_controller::getCurrentPagePart(1) == 'setup') {
         if ($i < $step) {
             $n['itemAttr']['class'][] = 'bg-success';
             $n['href'] = rex_url::backendPage('setup', ['step' => $i, 'lang' => $lang]);
-            if ($step == 7) {
+            if (7 == $step) {
                 $n['href'] = 'javascript:void(0)';
             }
         }
         $name = '';
-        if (isset($n['href']) && $lang != '') {
+        if (isset($n['href']) && '' != $lang) {
             $name = rex_i18n::msg('setup_' . $i . '99');
-        } elseif ($lang != '') {
+        } elseif ('' != $lang) {
             $name = '<span>' . rex_i18n::msg('setup_' . $i . '99') . '</span>';
-        } elseif ($i == 1) {
+        } elseif (1 == $i) {
             $name = '<span>Step 1 / Language</span>';
         }
 
@@ -191,7 +208,7 @@ if (!rex_request::isPJAXContainer('#rex-js-page-container')) {
     $fragment = new rex_fragment();
     $fragment->setVar('pageTitle', rex_be_controller::getPageTitle());
     $fragment->setVar('cssFiles', rex_view::getCssFiles());
-    $fragment->setVar('jsFiles', rex_view::getJsFiles());
+    $fragment->setVar('jsFiles', rex_view::getJsFilesWithOptions());
     $fragment->setVar('jsProperties', json_encode(rex_view::getJsProperties()), false);
     $fragment->setVar('favicon', rex_view::getFavicon());
     $fragment->setVar('pageHeader', rex_extension::registerPoint(new rex_extension_point('PAGE_HEADER', '')), false);

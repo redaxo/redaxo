@@ -1,0 +1,70 @@
+backup_information = Informazioni
+backup_title = Backup
+backup_file_deleted = File cancellato
+backup_no_import_file_chosen_or_wrong_version = Nessun file per l'import selezionato oppure versione sbagliata
+backup_no_valid_import_file = Questo non è un file valido per l'import
+backup_no_valid_charset = Charset non adatto
+backup_database_imported = Import del database con successo
+backup_entry_count = ({0} elementi)
+backup_file_could_not_be_uploaded = Non è stato possibile caricare il file
+backup_you_have_no_write_permission_in = Non ha i diritti di scrivere questa cartella {0}
+backup_no_import_file_chosen = Nessun file selezionato per l'import
+backup_problem_when_extracting = Ci sono stati errori all'estrazione del file
+backup_create_dirs_manually = Prego creare la seguente cartella manualmente e impostare i diritti di scrittura (tramite ftp)
+backup_file_imported = Import del file con successo
+backup_import = Import
+backup_to_import = import
+backup_export = Export
+backup_to_export = esportare
+backup_download = scaricare
+backup_db_import = Import
+backup_db_export = Export
+backup_filename_updated =
+backup_please_choose_folder = Prego selezionare le cartelle che vuole esportare
+backup_intro_import =
+backup_database = Import del database
+backup_filename = Nome del file
+backup_filename_notice = Variabili: %REX_SERVER, %REX_VERSION e variabile della data a seguente di strftime()
+backup_filesize = Larghezza del file
+backup_delete = cancellare
+backup_files = Import dei file
+backup_intro_export =
+backup_database_export =
+backup_file_export =
+backup_save_on_server = Salvare sul server
+backup_download_as_file = Scaricare come file
+backup_createdate = Creato il
+
+backup_import_file = Import dei file
+backup_delete_file = Cancellare i file
+backup_download_file = Scaricare il file
+backup_check_rights_in_directory = Il backup non è riuscito ad accedere al/alle cartella/e o non è stato scelta una
+backup_file_could_not_be_generated  = Il file non poteva essere creato
+backup_file_generated_in  = Dati salvati
+
+backup_proceed_db_import = Date esistenti (articoli, template, moduli, ...) vengono persi. Continuare?
+backup_proceed_file_import = Dati esistenti verrano cancellati. Continuare?
+
+backup_export_db_caption =
+backup_export_file_caption =
+
+backup_function = Funzione
+
+backup_send_mail = Inviare tramite email
+backup_send_mail_notice = Per questa opzione serve l'addon "phpmailer"
+backup_mailaddress = Indirizzo email
+backup_mail_subject = Nuovo backup del db
+backup_mail_body = Backup del database del sito "{0}" in allegato
+
+perm_general_backup[export] = Export del sito
+
+backup_export_select = Variante del export
+backup_export_select_tables = Scegliere tabella
+backup_export_select_dir = Scegliere cartella
+backup_export_select_location = Scegliere il posto di salvataggio
+backup_export_select_filename = Scegliere il nome del file
+
+backup_file = File
+backup_note = Indicazione
+backup_upload = Upload
+backup_load_from_server = Caricare dal server

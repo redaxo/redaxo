@@ -1,6 +1,11 @@
 <?php
 
-class rex_string_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_string_test extends TestCase
 {
     public function testSize()
     {
@@ -126,8 +131,15 @@ class rex_string_test extends PHPUnit_Framework_TestCase
     public function testBuildAttributes()
     {
         $this->assertEquals(
-            ' id="rex-test" class="a b" alt="" checked',
-            rex_string::buildAttributes(['id' => 'rex-test', 'class' => ['a', 'b'], 'alt' => '', 'checked'])
+            ' id="rex-test" class="a b" alt="" checked data-foo="&lt;foo&gt; &amp; &quot;bar&quot;" href="index.php?foo=1&amp;bar=2"',
+            rex_string::buildAttributes([
+                'id' => 'rex-test',
+                'class' => ['a', 'b'],
+                'alt' => '',
+                'checked',
+                'data-foo' => '<foo> & "bar"',
+                'href' => 'index.php?foo=1&amp;bar=2',
+            ])
         );
     }
 }

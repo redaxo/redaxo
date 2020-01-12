@@ -17,13 +17,10 @@
     }
     .table th.rex-table-id,
     .table td.rex-table-id,
+    .table th.rex-table-number,
+    .table td.rex-table-number,
     .table th.rex-table-priority,
     .table td.rex-table-priority {
-        width: 60px;
-        text-align: center;
-    }
-    .table th.rex-table-number,
-    .table td.rex-table-number {
         width: 100px;
         text-align: center;
     }
@@ -39,7 +36,7 @@
     }
     .table th.rex-table-action:not([colspan]),
     .table td.rex-table-action:not([colspan]) {
-        width: $helper-factor-spacing * 4;
+        width: 1px;
     }
     .table th.rex-table-action > *,
     .table td.rex-table-action > * {
@@ -166,5 +163,12 @@ tr.rex-package-is-plugin > td.rex-table-icon {
 @media (min-width: $screen-md-min) {
     #rex-page-mediapool-media td.rex-table-action:last-child {
         text-align: right;
+    }
+}
+@media (min-width: $screen-lg-min) {
+    .table th.rex-table-action,
+    .table td.rex-table-action {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }

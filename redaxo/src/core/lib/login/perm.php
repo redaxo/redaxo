@@ -5,13 +5,13 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 abstract class rex_perm
 {
-    const GENERAL = 'general';
-    const OPTIONS = 'options';
-    const EXTRAS = 'extras';
+    public const GENERAL = 'general';
+    public const OPTIONS = 'options';
+    public const EXTRAS = 'extras';
 
     /**
      * Array of permissions.
@@ -29,7 +29,7 @@ abstract class rex_perm
      */
     public static function register($perm, $name = null, $group = self::GENERAL)
     {
-        $name = $name ?: (rex_i18n::hasMsg($key = 'perm_' . $group . '_' . $perm) ? rex_i18n::msg($key) : $perm);
+        $name = $name ?: (rex_i18n::hasMsg($key = 'perm_' . $group . '_' . $perm) ? rex_i18n::rawMsg($key) : $perm);
         self::$perms[$group][$perm] = $name;
     }
 
@@ -61,7 +61,7 @@ abstract class rex_perm
     {
         if (isset(self::$perms[$group])) {
             $perms = self::$perms[$group];
-            asort($perms);
+            natcasesort($perms);
             return $perms;
         }
         return [];

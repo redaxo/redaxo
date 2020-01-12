@@ -52,8 +52,6 @@ class rex_type
                     $var = (int) $var;
                     break;
                 case 'double':
-                    $var = (float) $var;
-                    break;
                 case 'float':
                 case 'real':
                     $var = (float) $var;
@@ -77,7 +75,7 @@ class rex_type
 
                 default:
                     // check for array with generic type
-                    if (strpos($vartype, 'array[') === 0) {
+                    if (0 === strpos($vartype, 'array[')) {
                         if (empty($var)) {
                             $var = [];
                         } else {
@@ -117,7 +115,7 @@ class rex_type
                     throw new InvalidArgumentException('Unexpected vartype in cast()!');
                 }
                 $key = $cast[0];
-                $innerVartype = isset($cast[1]) ? $cast[1] : '';
+                $innerVartype = $cast[1] ?? '';
                 if (array_key_exists($key, $var)) {
                     $newVar[$key] = self::cast($var[$key], $innerVartype);
                 } elseif (!isset($cast[2])) {

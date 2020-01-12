@@ -10,60 +10,54 @@
  * @author thomas[dot]blum[at]redaxo[dot]org Thomas Blum
  *
  * @package redaxo5
- *
- * @var rex_plugin $this
  */
 
-$mypage = 'redaxo';
+$plugin = rex_plugin::get('be_style', 'redaxo');
 
 if (rex::isBackend()) {
-    rex_extension::register('BE_STYLE_SCSS_FILES', function (rex_extension_point $ep) use ($mypage) {
+    rex_extension::register('BE_STYLE_SCSS_FILES', static function (rex_extension_point $ep) use ($plugin) {
         $subject = $ep->getSubject();
-        $file = rex_plugin::get('be_style', $mypage)->getPath('scss/default.scss');
+        $file = $plugin->getPath('scss/default.scss');
         array_unshift($subject, $file);
         return $subject;
     }, rex_extension::EARLY);
 
-    if (rex::getUser() && $this->getProperty('compile')) {
+    rex_extension::register('BE_STYLE_SCSS_COMPILE', static function (rex_extension_point $ep) use ($plugin) {
+        $subject = $ep->getSubject();
+        $subject[] = [
+            'root_dir' => $plugin->getPath('scss/'),
+            'scss_files' => $plugin->getPath('scss/master.scss'),
+            'css_file' => $plugin->getPath('assets/css/styles.css'),
+            'copy_dest' => $plugin->getAssetsPath('css/styles.css'),
+        ];
+        return $subject;
+    });
+
+    if (rex::getUser() && $plugin->getProperty('compile')) {
         rex_addon::get('be_style')->setProperty('compile', true);
-
-        rex_extension::register('PACKAGES_INCLUDED', function () {
-            $compiler = new rex_scss_compiler();
-            $compiler->setRootDir($this->getPath('scss/'));
-            $compiler->setScssFile($this->getPath('scss/master.scss'));
-
-            // Compile in backend assets dir
-            $compiler->setCssFile($this->getPath('assets/css/styles.css'));
-
-            $compiler->compile();
-
-            // Compiled file to copy in frontend assets dir
-            rex_file::copy($this->getPath('assets/css/styles.css'), $this->getAssetsPath('css/styles.css'));
-        });
     }
 
-    rex_view::addCssFile($this->getAssetsUrl('css/styles.css'));
-    rex_view::addJsFile($this->getAssetsUrl('javascripts/redaxo.js'));
+    rex_view::addCssFile($plugin->getAssetsUrl('css/styles.css'));
+    rex_view::addJsFile($plugin->getAssetsUrl('javascripts/redaxo.js'), [rex_view::JS_IMMUTABLE => true]);
 
-    rex_extension::register('PAGE_HEADER', function (rex_extension_point $ep) {
+    rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) use ($plugin) {
+        $themeColor = '#4d99d3';
+        $customizer = rex_plugin::get('be_style', 'customizer');
+        if ($customizer->isAvailable()) {
+            $config = $customizer->getConfig();
+            if (!empty($config['labelcolor'])) {
+                $themeColor = $config['labelcolor'];
+            }
+        }
+
         $icons = [];
-        foreach (['57', '60', '72', '76', '114', '120', '144', '152'] as $size) {
-            $size = $size . 'x' . $size;
-            $icons[] = '<link rel="apple-touch-icon-precomposed" sizes="' . $size . '" href="' . $this->getAssetsUrl('images/apple-touch-icon-' . $size . '.png') . '" />';
-        }
-        foreach (['16', '32', '96', '128', '196'] as $size) {
-            $size = $size . 'x' . $size;
-            $icons[] = '<link rel="icon" type="image/png" href="' . $this->getAssetsUrl('images/favicon-' . $size . '.png') . '" sizes="' . $size . '" />';
-        }
-
-        $icons[] = '<meta name="msapplication-TileColor" content="#FFFFFF" />';
-        $icons[] = '<meta name="msapplication-TileImage" content="' . $this->getAssetsUrl('images/mstile-144x144.png') . '" />';
-
-        foreach (['70', '150', '310'] as $size) {
-            $size = $size . 'x' . $size;
-            $icons[] = '<meta name="msapplication-square' . $size . 'logo" content="' . $this->getAssetsUrl('images/mstile-' . $size . '.png') . '" />';
-        }
-        $icons[] = '<meta name="msapplication-wide310x150logo" content="' . $this->getAssetsUrl('images/mstile-310x150.png') . '" />';
+        $icons[] = '<link rel="apple-touch-icon" sizes="180x180" href="' . $plugin->getAssetsUrl('icons/apple-touch-icon.png') . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="32x32" href="' . $plugin->getAssetsUrl('icons/favicon-32x32.png') . '">';
+        $icons[] = '<link rel="icon" type="image/png" sizes="16x16" href="' . $plugin->getAssetsUrl('icons/favicon-16x16.png') . '">';
+        $icons[] = '<link rel="manifest" href="' . $plugin->getAssetsUrl('icons/site.webmanifest') . '">';
+        $icons[] = '<link rel="mask-icon" href="'.$plugin->getAssetsUrl('icons/safari-pinned-tab.svg').'" color="'.$themeColor.'">';
+        $icons[] = '<meta name="msapplication-TileColor" content="#2d89ef">';
+        $icons[] = '<meta name="theme-color" content="'.$themeColor.'">';
 
         $icons = implode("\n    ", $icons);
         $ep->setSubject($icons . $ep->getSubject());

@@ -1,6 +1,11 @@
 <?php
 
-class rex_socket_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_socket_test extends TestCase
 {
     private $proxy;
 
@@ -120,7 +125,7 @@ class rex_socket_test extends PHPUnit_Framework_TestCase
      */
     public function testParseUrlException($url)
     {
-        $this->setExpectedException('rex_socket_exception');
+        $this->expectException(\rex_socket_exception::class);
 
         $method = new ReflectionMethod('rex_socket', 'parseUrl');
         $method->setAccessible(true);

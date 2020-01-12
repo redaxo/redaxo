@@ -5,17 +5,17 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\packages
  */
 abstract class rex_package implements rex_package_interface
 {
-    const FILE_PACKAGE = 'package.yml';
-    const FILE_BOOT = 'boot.php';
-    const FILE_INSTALL = 'install.php';
-    const FILE_INSTALL_SQL = 'install.sql';
-    const FILE_UNINSTALL = 'uninstall.php';
-    const FILE_UNINSTALL_SQL = 'uninstall.sql';
-    const FILE_UPDATE = 'update.php';
+    public const FILE_PACKAGE = 'package.yml';
+    public const FILE_BOOT = 'boot.php';
+    public const FILE_INSTALL = 'install.php';
+    public const FILE_INSTALL_SQL = 'install.sql';
+    public const FILE_UNINSTALL = 'uninstall.php';
+    public const FILE_UNINSTALL_SQL = 'uninstall.sql';
+    public const FILE_UPDATE = 'update.php';
 
     /**
      * Name of the package.
@@ -236,22 +236,21 @@ abstract class rex_package implements rex_package_interface
      */
     public function loadProperties()
     {
-        static $cache = null;
-        if (null === $cache) {
-            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
-        }
-        $id = $this->getPackageId();
         $file = $this->getPath(self::FILE_PACKAGE);
         if (!file_exists($file)) {
             $this->propertiesLoaded = true;
             return;
         }
-        if (
-            isset($cache[$id]) &&
-            (!rex::isBackend() || !rex::getConsole() && (!rex::getUser() || !rex::getUser()->isAdmin()) || $cache[$id]['timestamp'] >= filemtime($file))
-        ) {
-            $properties = $cache[$id]['data'];
-        } else {
+
+        static $cache = null;
+        if (null === $cache) {
+            $cache = rex_file::getCache(rex_path::coreCache('packages.cache'));
+        }
+        $id = $this->getPackageId();
+
+        $isCached = isset($cache[$id]);
+        $isBackendAdmin = rex::isBackend() && rex::getUser() && rex::getUser()->isAdmin();
+        if (!$isCached || (rex::getConsole() || $isBackendAdmin) && $cache[$id]['timestamp'] < filemtime($file)) {
             try {
                 $properties = rex_file::getConfig($file);
 
@@ -261,9 +260,9 @@ abstract class rex_package implements rex_package_interface
                 static $registeredShutdown = false;
                 if (!$registeredShutdown) {
                     $registeredShutdown = true;
-                    register_shutdown_function(function () use (&$cache) {
+                    register_shutdown_function(static function () use (&$cache) {
                         foreach ($cache as $package => $_) {
-                            if (!rex_package::exists($package)) {
+                            if (!self::exists($package)) {
                                 unset($cache[$package]);
                             }
                         }
@@ -277,7 +276,10 @@ abstract class rex_package implements rex_package_interface
 
                 $properties = [];
             }
+        } else {
+            $properties = $cache[$id]['data'];
         }
+
         $this->properties = array_intersect_key($this->properties, ['install' => null, 'status' => null]);
         if ($properties) {
             foreach ($properties as $key => $value) {
@@ -287,12 +289,25 @@ abstract class rex_package implements rex_package_interface
                 if ('supportpage' !== $key) {
                     $value = rex_i18n::translateArray($value, false, [$this, 'i18n']);
                 } elseif (!preg_match('@^https?://@i', $value)) {
-                    $value = 'http://'.$value;
+                    $value = 'https://'.$value;
                 }
                 $this->properties[$key] = $value;
             }
         }
         $this->propertiesLoaded = true;
+    }
+
+    /**
+     *  Clears the cache of the package.
+     *
+     * @throws rex_functional_exception
+     */
+    public function clearCache()
+    {
+        $cache_dir = $this->getCachePath();
+        if (is_dir($cache_dir) && !rex_dir::delete($cache_dir)) {
+            throw new rex_functional_exception($this->i18n('cache_not_writable', $cache_dir));
+        }
     }
 
     public function enlist()

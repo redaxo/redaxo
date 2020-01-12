@@ -1,4 +1,3 @@
-# addon:metaform es_bo
 media = Media
 categories = Categorías
 articles = Artículos
@@ -38,6 +37,8 @@ minfo_field_params_notice_6 = Ejemplo:<br/> <code>category="1" types="gif,jpg" p
 minfo_field_params_notice_7 = Ejemplo:<br/> <code>category="1" types="gif,jpg" preview="1"</code>
 minfo_field_params_notice_8 = Ejemplo:<br/> <code>category="1"</code>
 minfo_field_params_notice_9 = Ejemplo:<br/> <code>category="1"</code>
+minfo_field_params_notice_10 = Por ejemplo<br/><code>start-year="1990" end-year="2030"</code>
+minfo_field_params_notice_11 = Por ejemplo<br/><code>start-year="1990" end-year="2030"</code>
 
 minfo_field_attributes_notice = Ejemplo:<br/> style=color:red multiple=multiple class=my_css_class perm=admin[]
 minfo_field_label_notice = Código ejecutado cuando el valor del campo ha cambiado.<br/> Variables de lectura: <code>string $fieldName, string $fieldValue, rex_sql $field</code>
@@ -60,11 +61,12 @@ minfo_default_fields_create = Crear campos predeterminados
 minfo_default_fields_created = ¡Los campos predeterminados se han creado correctamente!
 
 minfo_edit_metadata = Editar metainfo
+minfo_metadata_saved = Metadatos almacenados.
 
 minfo_media_in_use_art = Artículo (metadatos)
 minfo_media_in_use_cat = Categorías (metadatos)
-minfo_media_in_use_med = Media (metadatos)
-minfo_media_in_use_med = Idiomas (metadatos)
+minfo_media_in_use_med = Medios (metadatos)
+minfo_media_in_use_clang = Idiomas (metadatos)
 
 minfo_callback_lang_indep_field = Campo independiente del lenguaje
 

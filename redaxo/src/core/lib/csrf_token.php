@@ -11,8 +11,11 @@ class rex_csrf_token
 {
     use rex_factory_trait;
 
-    const PARAM = '_csrf_token';
+    public const PARAM = '_csrf_token';
 
+    /**
+     * @var string
+     */
     private $id;
 
     private function __construct($tokenId)
@@ -67,20 +70,13 @@ class rex_csrf_token
     }
 
     /**
-     * @param string $url
-     * @param bool   $escape
+     * Returns an array containing the `_csrf_token` param.
      *
-     * @return string
+     * @return array
      */
-    public function appendToUrl($url, $escape = true)
+    public function getUrlParams()
     {
-        if (false === strpos($url, '?')) {
-            $url .= '?';
-        } else {
-            $url .= $escape ? '&amp;' : '&';
-        }
-
-        return $url.self::PARAM.'='.$this->getValue();
+        return [self::PARAM => $this->getValue()];
     }
 
     /**
@@ -116,7 +112,8 @@ class rex_csrf_token
     {
         rex_login::startSession();
 
-        rex_unset_session(self::getSessionKey());
+        rex_unset_session(self::getBaseSessionKey());
+        rex_unset_session(self::getBaseSessionKey().'_https');
     }
 
     private static function getTokens()
@@ -127,6 +124,15 @@ class rex_csrf_token
     }
 
     private static function getSessionKey()
+    {
+        // use separate tokens for http/https
+        // http://symfony.com/blog/cve-2017-16653-csrf-protection-does-not-use-different-tokens-for-http-and-https
+        $suffix = rex_request::isHttps() ? '_https' : '';
+
+        return self::getBaseSessionKey().$suffix;
+    }
+
+    private static function getBaseSessionKey()
     {
         return 'csrf_tokens_'.rex::getEnvironment();
     }

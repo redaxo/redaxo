@@ -3,7 +3,7 @@ media_manager_overview_title = Media Manager Addon <small>(Version {0})</small>
 
 media_manager_subpage_desc = Erklärung
 media_manager_subpage_config = Konfiguration
-media_manager_subpage_types = Mediatypen bearbeiten
+media_manager_subpage_types = Medientypen bearbeiten
 media_manager_subpage_clear_cache = Cache löschen
 
 media_manager_cache_files_removed = {0} Cache-Dateien gelöscht
@@ -20,9 +20,9 @@ media_manager_png_compression_note = Werte über 6-7 verlangsamen die Bilderzeug
 media_manager_webp_quality = WebP-Qualität
 media_manager_interlace = Interlace/Progressive-Modus
 
-media_manager_id = Id
+media_manager_id = ID
 media_manager_name = Name
-media_manager_edittype = Mediatypen bearbeiten
+media_manager_edittype = Medientypen bearbeiten
 media_manager_settings = Einstellungen
 
 media_manager_yes = Ja
@@ -31,29 +31,31 @@ media_manager_back = Zurück
 
 media_manager_error_name = Bitte geben Sie einen Namen ein.
 media_manager_error_settings = Bitte geben Sie Inhalte bei Einstellungen ein.
+media_manager_error_type_name_not_unique = Ein Medientyp mit diesem Namen existiert bereits!
+media_manager_error_type_name_invalid = Der Name darf nicht die Zeichen "/" und "\" enthalten!
 
-media_manager_type_caption = Liste der angelegten Mediatypen
-media_manager_type_no_types = Keine Mediatypen vorhanden
-media_manager_type_create = Mediatyp erstellen
+media_manager_type_caption = Liste der angelegten Medientypen
+media_manager_type_no_types = Keine Medientypen vorhanden
+media_manager_type_create = Medientyp erstellen
 media_manager_type_edit = editieren
 media_manager_type_copy = duplizieren
 media_manager_type_effekts_edit = Effekte bearbeiten
-media_manager_type_delete = Mediatyp löschen
+media_manager_type_delete = Medientyp löschen
 media_manager_type_name = Name
 media_manager_type_name_copy = Kopie
 media_manager_type_priority = Prio
 media_manager_type_description = Beschreibung
 media_manager_type_functions = Funktionen
 media_manager_type_cache_delete = Cache löschen
-media_manager_type_system = System Mediatyp
+media_manager_type_system = System Medientyp
 media_manager_type_delete = löschen
-media_manager_type_deleted = Mediatyp gelöscht
-media_manager_type_copied = Mediatyp dupliziert
+media_manager_type_deleted = Medientyp gelöscht
+media_manager_type_copied = Medientyp dupliziert
 
-media_manager_effect_list_header = Effekte des Mediatyps {0}
-media_manager_effect_edit_header = Mediatyp <mark>{0}</mark>: Effekt bearbeiten
-media_manager_effect_create_header = Mediatyp <mark>{0}</mark>: Effekt erstellen
-media_manager_effect_caption = Liste der angelegten Effekte des Mediatyps <mark>{0}</mark>
+media_manager_effect_list_header = Effekte des Medientyps {0}
+media_manager_effect_edit_header = Medientyp <mark>{0}</mark>: Effekt bearbeiten
+media_manager_effect_create_header = Medientyp <mark>{0}</mark>: Effekt erstellen
+media_manager_effect_caption = Liste der angelegten Effekte des Medientyps <mark>{0}</mark>
 media_manager_effect_no_effects = Keine Effekte vorhanden
 media_manager_effect_create = Effekt erstellen
 media_manager_effect_edit = Effekt bearbeiten
@@ -111,8 +113,6 @@ media_manager_effect_flip_direction = Richtung
 media_manager_effect_rotate = Bild: Drehen
 media_manager_effect_rotate_degree = Drehen um (Grad)
 
-media_manager_error_type_name_not_unique = Ein Mediatyp mit diesem Namen existiert bereits!
-
 media_manager_effect_mirror = Bild: Wasserspiegelung hinzufügen
 media_manager_effect_mirror_height = Refl. Höhe (50 / 10%)
 media_manager_effect_mirror_background_color = Hintergrundfarbe
@@ -127,14 +127,22 @@ media_manager_effect_folder = Alternativen Ordner default: "media"
 
 media_manager_effect_mediapath = Datei: Pfad anpassen
 media_manager_effect_mediapath_path = Medienordner
+media_manager_effect_mediapath_path_notice = Pfad zur Bildquelle relativ zur REDAXO-Installation anstelle von <code>media</code>, z.B. das Verzeichnis <code>bilder</code>. Führendes / Abschließendes Slash (<code>/</code>) nicht erforderlich.
 
 media_manager_effect_header = Datei: Header anpassen
 media_manager_effect_header_download = Download
 media_manager_effect_header_cache = Cache-Control
+media_manager_effect_header_filename = Quelle für Dateinamen
+media_manager_effect_header_filename_notice = <code>filename</code> ist der normalisierte Dateiname auf dem Server, z.B. <code>mein-download.pdf</code>, <code>originalname</code> ist der Original-Dateiname zum Zeitpunkt des Uploads (mit Leerzeichen,  Groß-/Kleinschreibung, etc.), z.B. <code>Mein Download.pdf</code>
+
+
 
 media_manager_effect_convert2img = Datei: In Bild konvertieren
 media_manager_effect_convert2img_density = Auflösungsdichte
 media_manager_effect_convert2img_convertto = Zielformat
+media_manager_effect_convert2img_density_notice = Auflösungsdichte in ppi (pixel per inch), mit der EPS- oder PDF-Dateien gerastert werden.
+media_manager_effect_convert2img_convertto_notice = Zielformat, in das die Datei konvertiert wird. Es werden folgende Dateiendungen berücksichtigt: <code>.pdf,.ps,.psd,.tif,.tiff,.bmp,.eps,.ico</code>.
+media_manager_effect_convert2img_noimagemagick = Achtung: ImageMagick konnte nicht gefunden werden. Dieser Effekt benötigt ImageMagick als "commandline binary", ausführbar per exec().  
 
 media_manager_effect_image_properties = Bild: Einstellungen (Qualität, Interlace, ...)
 media_manager_effect_image_properties_jpg_quality_notice = [0-100]. Leer lassen für Standardwert.

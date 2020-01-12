@@ -1,6 +1,11 @@
 <?php
 
-class rex_context_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_context_test extends TestCase
 {
     public function testGetUrl()
     {
@@ -23,6 +28,12 @@ class rex_context_test extends PHPUnit_Framework_TestCase
             '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" />',
             $context->getHiddenInputFields(),
             'parameters get properly encoded'
+        );
+
+        $this->assertEquals(
+            '<input type="hidden" name="int" value="25" /><input type="hidden" name="str" value="&lt;a b$c&amp;?&gt;" /><input type="hidden" name="&lt;mystr&gt;" value="abc" />',
+            $context->getHiddenInputFields(['<mystr>' => 'abc']),
+            'names get properly encoded'
         );
 
         $this->assertEquals(

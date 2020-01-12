@@ -22,7 +22,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return null|self
      */
     public static function getCurrent($clang = null)
     {
@@ -44,7 +44,7 @@ class rex_article extends rex_structure_element
      *
      * @param int $clang
      *
-     * @return self
+     * @return self|null
      */
     public static function getSiteStartArticle($clang = null)
     {

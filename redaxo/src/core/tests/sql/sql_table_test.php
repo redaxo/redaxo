@@ -1,9 +1,14 @@
 <?php
 
-class rex_sql_table_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_sql_table_test extends TestCase
 {
-    const TABLE = 'rex_sql_table_test';
-    const TABLE2 = 'rex_sql_table_test2';
+    public const TABLE = 'rex_sql_table_test';
+    public const TABLE2 = 'rex_sql_table_test2';
 
     protected function tearDown()
     {
@@ -183,7 +188,7 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $table
             ->ensureColumn($title, 'id')
             ->ensureColumn(new rex_sql_column('status', 'tinyint(1)'), 'id')
-            ->ensureColumn(new rex_sql_column('created', 'datetime'), 'status')
+            ->ensureColumn(new rex_sql_column('created', 'datetime', false, 'CURRENT_TIMESTAMP'), 'status')
             ->ensureColumn($title, 'status')
             ->alter();
 
@@ -261,20 +266,18 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertSame(['pid'], $table->getPrimaryKey());
     }
 
-    /**
-     * @expectedException \rex_exception
-     */
     public function testRenameColumnNonExisting()
     {
+        $this->expectException(\rex_exception::class);
+
         $table = $this->createTable();
         $table->renameColumn('foo', 'bar');
     }
 
-    /**
-     * @expectedException \rex_exception
-     */
     public function testRenameColumnToAlreadyExisting()
     {
+        $this->expectException(\rex_exception::class);
+
         $table = $this->createTable();
         $table->renameColumn('id', 'title');
     }
@@ -327,22 +330,26 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $table = $this->createTable();
 
         $uuid = new rex_sql_index('i_uuid', ['uuid'], rex_sql_index::UNIQUE);
+        $description = new rex_sql_index('i_description', ['description'], rex_sql_index::FULLTEXT);
         $search = new rex_sql_index('i_search', ['title', 'description'], rex_sql_index::FULLTEXT);
 
         $table
             ->addColumn(new rex_sql_column('uuid', 'varchar(255)'))
             ->addColumn(new rex_sql_column('description', 'text', true))
             ->addIndex($uuid)
+            ->addIndex($description)
             ->addIndex($search)
             ->alter();
 
         $this->assertSame($uuid, $table->getIndex('i_uuid'));
+        $this->assertSame($description, $table->getIndex('i_description'));
         $this->assertSame($search, $table->getIndex('i_search'));
 
         rex_sql_table::clearInstance(self::TABLE);
         $table = rex_sql_table::get(self::TABLE);
 
         $this->assertEquals($uuid, $table->getIndex('i_uuid'));
+        $this->assertEquals($description, $table->getIndex('i_description'));
         $this->assertEquals($search, $table->getIndex('i_search'));
     }
 
@@ -571,5 +578,31 @@ class rex_sql_table_test extends PHPUnit_Framework_TestCase
         $this->assertTrue($table->hasIndex('i_status_timestamp'));
         $this->assertSame(rex_sql_index::UNIQUE, $table->getIndex('i_status_timestamp')->getType());
         $this->assertTrue($table->hasIndex('i_description'));
+    }
+
+    public function testRenameNonExistingTable()
+    {
+        $this->expectException(rex_exception::class);
+        $this->expectExceptionMessage('Table "rex_non_existing" does not exist.');
+
+        rex_sql_table::get('rex_non_existing')
+            ->setName('rex_foo')
+            ->alter();
+    }
+
+    public function testClearInstance()
+    {
+        $table = rex_sql_table::get(self::TABLE);
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table2 = rex_sql_table::get(self::TABLE);
+
+        $this->assertNotSame($table2, $table);
+
+        rex_sql_table::clearInstance([1, self::TABLE]);
+        $table3 = rex_sql_table::get(self::TABLE);
+
+        $this->assertNotSame($table3, $table);
+        $this->assertNotSame($table3, $table2);
     }
 }

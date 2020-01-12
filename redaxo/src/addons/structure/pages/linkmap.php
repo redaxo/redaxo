@@ -29,10 +29,10 @@ $context = new rex_context([
 
 $func_body = '';
 
-if ($opener_input_field != '' && $opener_input_field_name == '') {
+if ('' != $opener_input_field && '' == $opener_input_field_name) {
     $opener_input_field_name = $opener_input_field . '_NAME';
 }
-if (substr($opener_input_field, 0, 13) == 'REX_LINKLIST_') {
+if ('REX_LINKLIST_' == substr($opener_input_field, 0, 13)) {
     $id = (int) substr($opener_input_field, 13, strlen($opener_input_field));
     $func_body .= 'var linklist = "REX_LINKLIST_SELECT_' . $id . '";
                              var linkid = link.replace("redaxo://","");
@@ -76,14 +76,14 @@ if (!rex_request::isXmlHttpRequest()) {
 
 <?php
 
-$isRoot = $category_id === 0;
+$isRoot = 0 === $category_id;
 $category = rex_category::get($category_id);
 
 $navigation = [];
 if ($category) {
     foreach ($category->getParentTree() as $parent) {
         $n = [];
-        $n['title'] = str_replace(' ', '&nbsp;', htmlspecialchars($parent->getName()));
+        $n['title'] = str_replace(' ', '&nbsp;', rex_escape($parent->getName()));
         $n['href'] = $context->getUrl(['category_id' => $parent->getId()]);
         $navigation[] = $n;
     }
@@ -91,7 +91,7 @@ if ($category) {
 
 echo rex_view::title('<i class="rex-icon rex-icon-linkmap"></i> Linkmap');
 
-$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-sitestartarticle"></i> ' . rex_i18n::msg('homepage') . '</a>';
+$title = '<a href="' . $context->getUrl(['category_id' => 0]) . '"><i class="rex-icon rex-icon-structure-root-level"></i> ' . rex_i18n::msg('root_level') . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', $title, false);

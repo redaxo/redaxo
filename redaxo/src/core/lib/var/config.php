@@ -19,7 +19,7 @@ class rex_var_config extends rex_var
     protected function getOutput()
     {
         $key = $this->getParsedArg('key', null, true);
-        if ($key === null) {
+        if (null === $key) {
             return false;
         }
         $namespace = $this->getParsedArg('namespace', "'" . rex::CONFIG_NAMESPACE . "'");

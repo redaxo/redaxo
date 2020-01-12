@@ -2,6 +2,8 @@
 
 // *************************************** SYNC FUNCTIONS
 
+$csrf = rex_csrf_token::factory('mediapool');
+
 // ----- SYNC DB WITH FILES DIR
 if ($PERMALL) {
     // ---- Dateien aus dem Ordner lesen
@@ -36,7 +38,6 @@ if ($PERMALL) {
         $file_filesize = filesize($path);
         if ($db_file['filesize'] != $file_filesize) {
             $file_sql = rex_sql::factory();
-            $file_sql->debugsql = 1;
             $file_sql->setTable(rex::getTable('media'));
             $file_sql->setWhere(['filename' => $db_file['filename']]);
             $file_sql->setValue('filesize', $file_filesize);
@@ -52,38 +53,52 @@ if ($PERMALL) {
     }
 
     $error = [];
+    $success = [];
     if (rex_post('save', 'boolean') && rex_post('sync_files', 'boolean')) {
-        $sync_files = rex_post('sync_files', 'array');
-        $ftitle = rex_post('ftitle', 'string');
+        if (!$csrf->isValid()) {
+            $error[] = rex_i18n::msg('csrf_token_invalid');
+        } else {
+            $sync_files = rex_post('sync_files', 'array');
+            $ftitle = rex_post('ftitle', 'string');
 
-        if ($diff_count > 0) {
-            $success = [];
-            $first = true;
-            foreach ($sync_files as $file) {
-                // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
-                if (!is_int($key = array_search($file, $diff_files))) {
-                    continue;
-                }
+            if ($diff_count > 0) {
+                $success = [];
+                $first = true;
+                foreach ($sync_files as $file) {
+                    // hier mit is_int, wg kompatibilität zu PHP < 4.2.0
+                    if (!is_int($key = array_search($file, $diff_files))) {
+                        continue;
+                    }
 
-                $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
-                if ($syncResult['ok']) {
-                    unset($diff_files[$key]);
-                    if ($first) {
-                        $success[] = rex_i18n::msg('pool_sync_files_synced');
-                        $first = false;
+                    $syncResult = rex_mediapool_syncFile($file, $rex_file_category, $ftitle, '', '');
+                    if ($syncResult['ok']) {
+                        unset($diff_files[$key]);
+                        if ($first) {
+                            $success[] = rex_i18n::msg('pool_sync_files_synced');
+                            $first = false;
+                        }
+                        if ($syncResult['msg']) {
+                            $success[] = $syncResult['msg'];
+                        }
+                    } elseif ($syncResult['msg']) {
+                        $error[] = $syncResult['msg'];
                     }
-                    if ($syncResult['msg']) {
-                        $success[] = $syncResult['msg'];
-                    }
-                } elseif ($syncResult['msg']) {
-                    $error[] = $syncResult['msg'];
                 }
+                // diff count neu berechnen, da (hoffentlich) diff files in die db geladen wurden
+                $diff_count = count($diff_files);
             }
-            // diff count neu berechnen, da (hoffentlich) diff files in die db geladen wurden
-            $diff_count = count($diff_files);
         }
     } elseif (rex_post('save', 'boolean')) {
         $error[] = rex_i18n::msg('pool_file_not_found');
+    }
+
+    if (count($error) > 0) {
+        echo rex_view::error(implode('<br />', $error));
+        $error = [];
+    }
+    if (count($success) > 0) {
+        echo rex_view::info(implode('<br />', $success));
+        $success = [];
     }
 
     $content = '';

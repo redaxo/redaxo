@@ -26,4 +26,9 @@ class rex_api_article_edit extends rex_api_function
         $result = new rex_api_result(true, rex_article_service::editArticle($article_id, $clang, $data));
         return $result;
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

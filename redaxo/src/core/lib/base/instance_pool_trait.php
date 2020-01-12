@@ -10,6 +10,8 @@
 trait rex_instance_pool_trait
 {
     /**
+     * @psalm-var array<array-key, array<array-key, null|static>>
+     *
      * @var static[][]
      */
     private static $instances = [];
@@ -31,7 +33,7 @@ trait rex_instance_pool_trait
     protected static function addInstance($key, self $instance)
     {
         $key = self::getInstancePoolKey($key);
-        $class = get_called_class();
+        $class = static::class;
         self::$instances[$class][$key] = $instance;
     }
 
@@ -45,7 +47,7 @@ trait rex_instance_pool_trait
     protected static function hasInstance($key)
     {
         $key = self::getInstancePoolKey($key);
-        $class = get_called_class();
+        $class = static::class;
         return isset(self::$instances[$class][$key]);
     }
 
@@ -63,7 +65,7 @@ trait rex_instance_pool_trait
     {
         $args = (array) $key;
         $key = self::getInstancePoolKey($args);
-        $class = get_called_class();
+        $class = static::class;
         if (!isset(self::$instances[$class][$key]) && $createCallback) {
             $instance = call_user_func_array($createCallback, $args);
             self::$instances[$class][$key] = $instance instanceof static ? $instance : null;
@@ -82,7 +84,7 @@ trait rex_instance_pool_trait
     public static function clearInstance($key)
     {
         $key = self::getInstancePoolKey($key);
-        $class = get_called_class();
+        $class = static::class;
         unset(self::$instances[$class][$key]);
     }
 
@@ -91,7 +93,7 @@ trait rex_instance_pool_trait
      */
     public static function clearInstancePool()
     {
-        $calledClass = get_called_class();
+        $calledClass = static::class;
         // unset instances of calledClass and of all subclasses of calledClass
         foreach (self::$instances as $class => $_) {
             if ($class === $calledClass || is_subclass_of($class, $calledClass)) {

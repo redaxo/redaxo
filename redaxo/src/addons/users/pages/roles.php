@@ -6,17 +6,22 @@ $id = rex_request('id', 'int');
 $message = '';
 $content = '';
 
-if ($func == 'delete') {
-    $sql = rex_sql::factory();
-    $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
-    $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
+if ('delete' == $func) {
+    if (!rex_csrf_token::factory('user_role_delete')->isValid()) {
+        $message = rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+    } else {
+        $sql = rex_sql::factory();
+        $sql->setQuery('DELETE FROM ' . rex::getTable('user_role') . ' WHERE id = ? LIMIT 1', [$id]);
+        $message = rex_view::info(rex_i18n::msg('user_role_deleted'));
+    }
+
     $func = '';
 }
 
-if ($func == '') {
+if ('' == $func) {
     $title = rex_i18n::msg('user_role_caption');
 
-    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role');
+    $list = rex_list::factory('SELECT id, name FROM ' . rex::getTablePrefix() . 'user_role ORDER BY name', 100);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
@@ -38,7 +43,7 @@ if ($func == '') {
     $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('user_role_delete'));
     $list->setColumnLabel('funcs', rex_i18n::msg('user_functions'));
     $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###']);
+    $list->setColumnParams('funcs', ['func' => 'delete', 'id' => '###id###'] + rex_csrf_token::factory('user_role_delete')->getUrlParams());
     $list->addLinkAttribute('funcs', 'data-confirm', rex_i18n::msg('delete') . ' ?');
 
     $content .= $list->get();
@@ -48,12 +53,12 @@ if ($func == '') {
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 } else {
-    $title = $func == 'edit' ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
+    $title = 'edit' == $func ? rex_i18n::msg('edit_user_role') : rex_i18n::msg('add_user_role');
 
     $form = rex_form::factory(rex::getTablePrefix() . 'user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(rex_url::currentBackendPage());
-    $form->setEditMode($func == 'edit');
+    $form->setEditMode('edit' == $func);
 
     $field = $form->addTextField('name');
     $field->setLabel(rex_i18n::msg('name'));
@@ -67,11 +72,11 @@ if ($func == '') {
     $fieldContainer->setActive($group);
 
     // Check all page permissions and add them to rex_perm if not already registered
-    $registerImplicitePagePermissions = function ($pages) use (&$registerImplicitePagePermissions) {
+    $registerImplicitePagePermissions = static function ($pages) use (&$registerImplicitePagePermissions) {
         foreach ($pages as $page) {
             foreach ($page->getRequiredPermissions() as $perm) {
                 // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && strpos($perm, '/') === false && !rex_perm::has($perm)) {
+                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && false === strpos($perm, '/') && !rex_perm::has($perm)) {
                     rex_perm::register($perm);
                 }
             }
@@ -90,8 +95,8 @@ if ($func == '') {
         $select->addArrayOptions($perms);
     }
 
-    rex_extension::register('REX_FORM_INPUT_CLASS', function (rex_extension_point $ep) {
-        return $ep->getParam('inputType') == 'perm_select' ? 'rex_form_perm_select_element' : null;
+    rex_extension::register('REX_FORM_INPUT_CLASS', static function (rex_extension_point $ep) {
+        return 'perm_select' == $ep->getParam('inputType') ? 'rex_form_perm_select_element' : null;
     });
 
     $fieldIds = [];

@@ -33,8 +33,6 @@ abstract class rex_structure_element
 
     /**
      * Constructor.
-     *
-     * @param array $params
      */
     protected function __construct(array $params)
     {
@@ -68,7 +66,6 @@ abstract class rex_structure_element
 
     /**
      * @param string $value
-     * @param array  $prefixes
      *
      * @return bool
      */
@@ -133,7 +130,7 @@ abstract class rex_structure_element
      * @param int $id    the article id
      * @param int $clang the clang id
      *
-     * @return static A rex_structure_element instance typed to the late-static binding type of the caller
+     * @return static|null A rex_structure_element instance typed to the late-static binding type of the caller
      */
     public static function get($id, $clang = null)
     {
@@ -147,23 +144,30 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = get_called_class();
-        return static::getInstance([$id, $clang], function ($id, $clang) use ($class) {
+        $class = static::class;
+        return static::getInstance([$id, $clang], static function ($id, $clang) use ($class) {
             $article_path = rex_path::addonCache('structure', $id . '.' . $clang . '.article');
+
+            // load metadata from cache
+            $metadata = rex_file::getCache($article_path);
+
             // generate cache if not exists
-            if (!file_exists($article_path)) {
+            if (!$metadata) {
                 rex_article_cache::generateMeta($id, $clang);
-            }
-
-            // article is valid, if cache exists after generation
-            if (file_exists($article_path)) {
-                // load metadata from cache
                 $metadata = rex_file::getCache($article_path);
-                // create object with the loaded metadata
-                return new $class($metadata);
             }
 
-            return null;
+            // if cache does not exist after generation, the article id is invalid
+            if (!$metadata) {
+                return null;
+            }
+
+            // don't allow to retrieve non-categories (startarticle=0) as rex_category
+            if (!$metadata['startarticle'] && (rex_category::class === static::class || is_subclass_of(static::class, rex_category::class))) {
+                return null;
+            }
+
+            return new $class($metadata);
         });
     }
 
@@ -186,24 +190,27 @@ abstract class rex_structure_element
             $clang = rex_clang::getCurrentId();
         }
 
-        $class = get_called_class();
+        $class = static::class;
         return static::getInstanceList(
             // list key
             [$parentId, $listType],
             // callback to get an instance for a given ID, status will be checked if $ignoreOfflines==true
-            function ($id) use ($class, $ignoreOfflines, $clang) {
+            static function ($id) use ($class, $ignoreOfflines, $clang) {
                 if ($instance = $class::get($id, $clang)) {
                     return !$ignoreOfflines || $instance->isOnline() ? $instance : null;
                 }
                 return null;
             },
             // callback to create the list of IDs
-            function ($parentId, $listType) {
+            static function ($parentId, $listType) {
                 $listFile = rex_path::addonCache('structure', $parentId . '.' . $listType);
-                if (!file_exists($listFile)) {
+
+                $list = rex_file::getCache($listFile, null);
+                if (null === $list) {
                     rex_article_cache::generateLists($parentId);
+                    $list = rex_file::getCache($listFile);
                 }
-                return rex_file::getCache($listFile);
+                return $list;
             }
         );
     }
@@ -212,6 +219,8 @@ abstract class rex_structure_element
      * Returns the clang of the category.
      *
      * @return int
+     *
+     * @deprecated since redaxo 5.6, use getClangId() instead
      */
     public function getClang()
     {
@@ -219,9 +228,18 @@ abstract class rex_structure_element
     }
 
     /**
+     * Returns the clang of the category.
+     *
+     * @return int
+     */
+    public function getClangId()
+    {
+        return $this->clang_id;
+    }
+
+    /**
      * Returns a url for linking to this article.
      *
-     * @param array  $params
      * @param string $divider
      *
      * @return string
@@ -343,7 +361,7 @@ abstract class rex_structure_element
      */
     public function isOnline()
     {
-        return $this->status == 1;
+        return 1 == $this->status;
     }
 
     /**
@@ -385,10 +403,10 @@ abstract class rex_structure_element
      */
     public function toLink(array $params = [], array $attributes = [], $sorroundTag = null, array $sorroundAttributes = [])
     {
-        $name = htmlspecialchars($this->getName());
-        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . $name . '">' . $name . '</a>';
+        $name = $this->getName();
+        $link = '<a href="' . $this->getUrl($params) . '"' . $this->_toAttributeString($attributes) . ' title="' . rex_escape($name) . '">' . rex_escape($name) . '</a>';
 
-        if ($sorroundTag !== null && is_string($sorroundTag)) {
+        if (null !== $sorroundTag && is_string($sorroundTag)) {
             $link = '<' . $sorroundTag . $this->_toAttributeString($sorroundAttributes) . '>' . $link . '</' . $sorroundTag . '>';
         }
 
@@ -396,15 +414,13 @@ abstract class rex_structure_element
     }
 
     /**
-     * @param array $attributes
-     *
      * @return string
      */
     protected function _toAttributeString(array $attributes)
     {
         $attr = '';
 
-        if ($attributes !== null && is_array($attributes)) {
+        if (null !== $attributes && is_array($attributes)) {
             foreach ($attributes as $name => $value) {
                 $attr .= ' ' . $name . '="' . $value . '"';
             }
@@ -432,7 +448,7 @@ abstract class rex_structure_element
 
             if (is_array($explode)) {
                 foreach ($explode as $var) {
-                    if ($var != '') {
+                    if ('' != $var) {
                         $return[] = rex_category::get($var, $this->clang_id);
                     }
                 }
@@ -444,8 +460,6 @@ abstract class rex_structure_element
 
     /**
      * Checks if $anObj is in the parent tree of the object.
-     *
-     * @param self $anObj
      *
      * @return bool
      */

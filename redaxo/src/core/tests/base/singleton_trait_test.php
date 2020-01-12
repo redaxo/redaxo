@@ -1,11 +1,16 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 class rex_test_singleton
 {
     use rex_singleton_trait;
 }
 
-class rex_singleton_trait_test extends PHPUnit_Framework_TestCase
+/**
+ * @internal
+ */
+class rex_singleton_trait_test extends TestCase
 {
     public function testGetInstance()
     {
@@ -14,11 +19,10 @@ class rex_singleton_trait_test extends PHPUnit_Framework_TestCase
         $this->assertTrue(rex_test_singleton::getInstance() === rex_test_singleton::getInstance(), 'the very same instance is returned on every invocation');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testClone()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         $clone = clone rex_test_singleton::getInstance();
     }
 }

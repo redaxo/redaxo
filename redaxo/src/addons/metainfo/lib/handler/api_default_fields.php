@@ -49,4 +49,9 @@ class rex_api_metainfo_default_fields_create extends rex_api_function
 
         return new rex_api_result(true, rex_i18n::msg('minfo_default_fields_created'));
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

@@ -7,10 +7,10 @@
  */
 abstract class rex_var
 {
-    const ENV_FRONTEND = 1;
-    const ENV_BACKEND = 2;
-    const ENV_INPUT = 4;
-    const ENV_OUTPUT = 8;
+    public const ENV_FRONTEND = 1;
+    public const ENV_BACKEND = 2;
+    public const ENV_INPUT = 4;
+    public const ENV_OUTPUT = 8;
 
     private static $vars = [];
     private static $env = null;
@@ -35,7 +35,7 @@ abstract class rex_var
     {
         $env = (int) $env;
 
-        if (($env & self::ENV_INPUT) != self::ENV_INPUT) {
+        if (self::ENV_INPUT != ($env & self::ENV_INPUT)) {
             $env = $env | self::ENV_OUTPUT;
         }
 
@@ -65,7 +65,7 @@ abstract class rex_var
                 case T_INLINE_HTML:
                     $format = '<?= %s@@@INLINE_HTML_REPLACEMENT_END@@@';
                     $add = self::replaceVars($add, $format);
-                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', function (array $match) {
+                    $add = preg_replace_callback('/@@@INLINE_HTML_REPLACEMENT_END@@@(\r?\n?)/', static function (array $match) {
                         return $match[1]
                             ? ', "'.addcslashes($match[1], "\r\n").'" ?>'.$match[1]
                             : ' ?>';
@@ -73,15 +73,15 @@ abstract class rex_var
                     break;
 
                 case T_CONSTANT_ENCAPSED_STRING:
-                    $format = $token[1][0] == '"' ? '" . %s . "' : "' . %s . '";
+                    $format = '"' == $token[1][0] ? '" . %s . "' : "' . %s . '";
                     $add = self::replaceVars($add, $format, false, $token[1][0]);
 
                     $start = substr($add, 0, 5);
                     $end = substr($add, -5);
-                    if ($start == '"" . ' || $start == "'' . ") {
+                    if ('"" . ' == $start || "'' . " == $start) {
                         $add = substr($add, 5);
                     }
-                    if ($end == ' . ""' || $end == " . ''") {
+                    if (' . ""' == $end || " . ''" == $end) {
                         $add = substr($add, 0, -5);
                     }
                     break;
@@ -98,7 +98,7 @@ abstract class rex_var
                     break;
 
                 case T_START_HEREDOC:
-                    while (isset($tokens[++$i]) && (is_string($tokens[$i]) || $tokens[$i][0] != T_END_HEREDOC)) {
+                    while (isset($tokens[++$i]) && (is_string($tokens[$i]) || T_END_HEREDOC != $tokens[$i][0])) {
                         $add .= is_string($tokens[$i]) ? $tokens[$i] : $tokens[$i][1];
                     }
                     --$i;
@@ -127,7 +127,7 @@ abstract class rex_var
     {
         if (!isset(self::$vars[$var])) {
             $class = 'rex_var_' . strtolower(substr($var, 4));
-            if (!class_exists($class) || !is_subclass_of($class, __CLASS__)) {
+            if (!class_exists($class) || !is_subclass_of($class, self::class)) {
                 return false;
             }
             self::$vars[$var] = $class;
@@ -157,25 +157,32 @@ abstract class rex_var
         $iterator = new AppendIterator();
         $iterator->append(new ArrayIterator($matches));
         $variables = [];
+        $replacements = [];
+
         foreach ($iterator as $match) {
+            if (isset($replacements[$match[0]])) {
+                continue;
+            }
+
             $var = self::getVar($match[1]);
             $replaced = false;
 
-            if ($var !== false) {
+            if (false !== $var) {
                 $args = str_replace(['\[', '\]'], ['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], $match[2]);
                 if ($stripslashes) {
                     $args = str_replace(['\\' . $stripslashes, '\\' . $stripslashes], $stripslashes, $args);
                 }
                 $var->setArgs($args);
-                if (($output = $var->getGlobalArgsOutput()) !== false) {
+                if (false !== ($output = $var->getGlobalArgsOutput())) {
                     $output .= str_repeat("\n", max(0, substr_count($match[0], "\n") - substr_count($output, "\n") - substr_count($format, "\n")));
                     if ($useVariables) {
                         $replace = '$__rex_var_content_' . ++self::$variableIndex;
-                        $variables[] = $replace . ' = ' . $output;
+                        $variables[] = '/* '. $match[0] .' */ ' . $replace . ' = ' . $output;
                     } else {
-                        $replace = $output;
+                        $replace = '/* '. $match[0] .' */ '. $output;
                     }
-                    $content = str_replace($match[0], sprintf($format, $replace), $content);
+
+                    $replacements[$match[0]] = sprintf($format, $replace);
                     $replaced = true;
                 }
             }
@@ -185,9 +192,14 @@ abstract class rex_var
             }
         }
 
+        if ($replacements) {
+            $content = strtr($content, $replacements);
+        }
+
         if ($useVariables && !empty($variables)) {
             $content = 'rex_var::nothing(' . implode(', ', $variables) . ') . ' . $content;
         }
+
         return $content;
     }
 
@@ -262,7 +274,7 @@ abstract class rex_var
         $begin = '<<<addslashes>>>';
         $end = '<<</addslashes>>>';
         $arg = $begin . self::replaceVars($arg, $end . "' . %s . '" . $begin) . $end;
-        $arg = preg_replace_callback("@$begin(.*)$end@Us", function ($match) {
+        $arg = preg_replace_callback("@$begin(.*)$end@Us", static function ($match) {
             return addcslashes($match[1], "\'");
         }, $arg);
         $arg = str_replace(['@@@OPEN_BRACKET@@@', '@@@CLOSE_BRACKET@@@'], ['[', ']'], $arg);
@@ -330,12 +342,16 @@ abstract class rex_var
      */
     private function getGlobalArgsOutput()
     {
-        if (($content = $this->getOutput()) === false) {
+        if (false === ($content = $this->getOutput())) {
             return false;
         }
 
         if ($this->hasArg('callback')) {
-            $args = ["'subject' => " . $content];
+            $args = [
+                "'var' => 'REX" . strtoupper(substr(static::class, 7)) . "'",
+                "'class' => '" . static::class . "'",
+                "'subject' => " . $content,
+            ];
             foreach ($this->args as $key => $value) {
                 $args[] = "'$key' => " . $this->getParsedArg($key);
             }

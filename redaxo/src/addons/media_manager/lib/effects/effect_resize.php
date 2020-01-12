@@ -20,22 +20,20 @@ class rex_effect_resize extends rex_effect_abstract
 <script type="text/javascript">
 <!--
 
-(function($) {
-    $(function() {
-        var $fx_resize_select_style = $("#media_manager_rex_effect_resize_style_select");
-        var $fx_resize_enlarge = $("#media_manager_rex_effect_resize_allow_enlarge_select").parent().parent();
+$(function() {
+    var $fx_resize_select_style = $("#media-manager-rex-effect-resize-style-select");
+    var $fx_resize_enlarge = $("#media-manager-rex-effect-resize-allow-enlarge-select").parent().parent();
 
-        $fx_resize_select_style.change(function(){
-            if(jQuery(this).val() == "exact")
-            {
-                $fx_resize_enlarge.hide();
-            }else
-            {
-                $fx_resize_enlarge.show();
-            }
-        }).change();
-    });
-})(jQuery);
+    $fx_resize_select_style.change(function(){
+        if(jQuery(this).val() == "exact")
+        {
+            $fx_resize_enlarge.hide();
+        }else
+        {
+            $fx_resize_enlarge.show();
+        }
+    }).change();
+});
 
 //--></script>';
     }
@@ -53,22 +51,22 @@ class rex_effect_resize extends rex_effect_abstract
         }
 
         // relatives resizen
-        if (substr(trim($this->params['width']), -1) === '%') {
+        if ('%' === substr(trim($this->params['width']), -1)) {
             $this->params['width'] = round($w * (rtrim($this->params['width'], '%') / 100));
         }
-        if (substr(trim($this->params['height']), -1) === '%') {
+        if ('%' === substr(trim($this->params['height']), -1)) {
             $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
         }
 
-        if ($this->params['style'] == 'maximum') {
+        if ('maximum' == $this->params['style']) {
             $this->resizeMax($w, $h);
-        } elseif ($this->params['style'] == 'minimum') {
+        } elseif ('minimum' == $this->params['style']) {
             $this->resizeMin($w, $h);
         }
         // warp => nichts tun
 
         // ----- not enlarge image
-        if ($w <= $this->params['width'] && $h <= $this->params['height'] && $this->params['allow_enlarge'] == 'not_enlarge') {
+        if ($w <= $this->params['width'] && $h <= $this->params['height'] && 'not_enlarge' == $this->params['allow_enlarge']) {
             $this->params['width'] = $w;
             $this->params['height'] = $h;
             $this->keepTransparent($gdimage);

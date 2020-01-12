@@ -40,9 +40,9 @@ class rex_validator
      * @param null|string $message Message which is used if this validator type does not match
      * @param mixed       $option  Type specific option
      *
-     * @return $this
-     *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function add($type, $message = null, $option = null)
     {
@@ -65,10 +65,10 @@ class rex_validator
     {
         $this->message = null;
         foreach ($this->types as $type) {
-            list($type, $message, $option) = $type;
+            [$type, $message, $option] = $type;
 
-            if ($value === '') {
-                if (strtolower($type) !== 'notempty') {
+            if ('' === $value) {
+                if ('notempty' !== strtolower($type)) {
                     continue;
                 }
             }
@@ -235,7 +235,6 @@ class rex_validator
      * Checks whether the value is one of the given valid values.
      *
      * @param string $value
-     * @param array  $validValues
      *
      * @return bool
      */
@@ -247,8 +246,7 @@ class rex_validator
     /**
      * Checks the value by using the given callable.
      *
-     * @param string   $value
-     * @param callable $callback
+     * @param string $value
      *
      * @return bool
      */

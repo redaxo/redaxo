@@ -2,3 +2,10 @@ package: project
 version: dev
 author: Project Admin
 supportpage: www.redaxo.org/de/forum/
+
+# Load project addon late to be sure that
+#   - all other addons are booted before
+#   - the fragments from project addon are always "winning" over other fragment dirs
+#
+# Don't use it in public addons, rely on redaxo's default order resolution (by dependencies) instead
+load: late

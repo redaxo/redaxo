@@ -1,7 +1,7 @@
-# addon:import/export es_bo
 backup_information = Información
-backup_title = Apoyo
+backup_title = Backups
 backup_file_deleted = Se ha eliminado el archivo.
+backup_file_error_while_delete = El archivo no pudo ser borrado
 backup_no_import_file_chosen_or_wrong_version = No se ha elegido ningún archivo de importación o la versión es incorrecta
 backup_no_valid_import_file = Archivo de importación no válido
 backup_no_valid_charset = No se ha encontrado un conjunto de caracteres válido
@@ -30,8 +30,8 @@ backup_filesize = Tamaño del archivo
 backup_delete = Borrar
 backup_files = Importar archivos
 backup_intro_export = Para hacer copias de seguridad de todo el sitio web por favor copia de seguridad de la base de datos y archivos.
-backup_database_export = Exportación de base de datos
-backup_file_export = Exportación de archivos
+backup_database_export =
+backup_file_export =
 backup_save_on_server = Guardar en el servidor
 backup_download_as_file = Descargar como archivo
 backup_createdate = Fecha de Creación
@@ -39,7 +39,6 @@ backup_createdate = Fecha de Creación
 backup_import_file = Importar archivo
 backup_delete_file = Borrar archivo
 backup_download_file = Descargar archivo
-
 backup_check_rights_in_directory = La copia de seguridad no pudo leer las carpetas o no se seleccionó ninguna.
 backup_file_could_not_be_generated = No se pudo generar el archivo.
 backup_file_generated_in = El archivo se ha generado en
@@ -47,8 +46,8 @@ backup_file_generated_in = El archivo se ha generado en
 backup_proceed_db_import = Los datos actuales (artículos, plantillas, módulos, ...) se eliminarán. Estás seguro ?
 backup_proceed_file_import = Los archivos actuales serán borrados. Estás seguro ?
 
-backup_export_db_caption = Exportación de bases de datos
-backup_export_file_caption = Exportaciones de archivos
+backup_export_db_caption =
+backup_export_file_caption =
 
 backup_function = Función
 
@@ -57,6 +56,12 @@ backup_send_mail_notice = El addon "phpmailer" es necesario para usar esta opci�
 backup_mailaddress = Dirección de correo electrónico
 backup_mail_subject = Nueva copia de seguridad de base de datos
 backup_mail_body = Encontrar adjunto una copia de seguridad nueva base de datos del sitio web "{0}".
+
+backup_delete_interval = Eliminar copias de seguridad antiguas
+backup_delete_interval_off = Apagado
+backup_delete_interval_weekly = Mantenga una copia de seguridad por semana
+backup_delete_interval_monthly = Mantenga una copia de seguridad por mes
+backup_delete_interval_notice = Solo se eliminarán las copias de seguridad anteriores a un mes y el nombre del archivo debe finalizar con <code>.cronjob.sql</ code>.
 
 perm_general_backup[export] = Sitio web de exportación
 

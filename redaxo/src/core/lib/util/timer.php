@@ -9,11 +9,14 @@
  */
 class rex_timer
 {
-    const SEC = 1;
-    const MILLISEC = 1000;
-    const MICROSEC = 1000000;
+    public const SEC = 1;
+    public const MILLISEC = 1000;
+    public const MICROSEC = 1000000;
+
+    public static $serverTimings = [];
 
     private $start;
+    private $duration;
 
     /**
      * Constructor.
@@ -30,11 +33,55 @@ class rex_timer
     }
 
     /**
+     * Measures the runtime of the given callable.
+     *
+     * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
+     *
+     * @param string $label
+     *
+     * @return mixed result of callable
+     */
+    public static function measure($label, callable $callable)
+    {
+        static $enabled = false;
+
+        // we might get called very early in the process, in which case we can't determine yet whether the user is logged in.
+        // this also means, in debug-mode we get more timings in comparison to admin-only timings.
+        if (!$enabled) {
+            // dont create the user (can cause session locks), to prevent influencing the things we try to measure.
+            $enabled = rex::isDebugMode() || ($user = rex::getUser()) && $user->isAdmin();
+        }
+
+        if (!$enabled) {
+            return $callable();
+        }
+
+        $timer = new self();
+        $result = $callable();
+        $timer->stop();
+
+        $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
+        $duration += $timer->getDelta(self::MILLISEC);
+
+        self::$serverTimings[$label] = $duration;
+
+        return $result;
+    }
+
+    /**
      * Resets the timer.
      */
     public function reset()
     {
         $this->start = microtime(true);
+    }
+
+    /**
+     * Stops the timer.
+     */
+    public function stop()
+    {
+        $this->duration = microtime(true) - $this->start;
     }
 
     /**
@@ -46,7 +93,9 @@ class rex_timer
      */
     public function getDelta($precision = self::MILLISEC)
     {
-        return (microtime(true) - $this->start) * $precision;
+        $duration = null === $this->duration ? microtime(true) - $this->start : $this->duration;
+
+        return $duration * $precision;
     }
 
     /**

@@ -9,7 +9,7 @@ user_added = User added!
 create_user = Add user
 add_user = Add user
 edit_user = Edit user
-user_reset_tries = The login has been blocked due to repeated password mismatch (max.  attempts: {0}). Activate checkbox to unblock.
+user_reset_tries = Reset login tries (current: {0})
 user_login_exists = Login exists!
 user_missing_login = Please enter a username!
 user_missing_password = Please enter a password!
@@ -29,7 +29,7 @@ user_caption = List of users
 user_status = Status
 startpage = Startpage
 
-user_role = Role
+user_role = Role(s)
 user_role_data_updated = Role has been updated!
 user_role_deleted = Role has been deleted!
 user_role_added = Role has been added!

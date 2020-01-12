@@ -1,7 +1,7 @@
 content = Artikel
 
-add_block  =  Tillfoga ett avsnitt
-module_doesnt_exist =  Den här modulen finns inte
+add_block = Tillfoga ett avsnitt
+module_doesnt_exist = Den här modulen finns inte
 update_block = spara och fortsätt
 save_block = spara
 edit_block = Redigera sektionen
@@ -68,6 +68,7 @@ templates = Mallar
 templates_not_found = Inga mallar hittades
 title_templates = Mallar
 cant_delete_template_because_its_in_use = Mallen <b>{0}</b>  kunde inte raderas eftersom den används av artiklar eller är default-mallen.
+cant_delete_template_because_its_default_template = Mallen <b>{0}</b>  kunde inte raderas eftersom den används som default-mallen.
 template_deleted = Mallen raderades
 template_added = Mallen tillfogades
 template_updated = Mallen aktualiserades
@@ -100,6 +101,7 @@ module_deleted = Modulen raderades!
 module_added = Modulen tillfogades
 module_updated = Modulen aktualiserades
 module_caption = Lista över alla sparade moduler
+module_in_use = Används
 articel_updated = Artikeln aktualiserades
 create_module = Skapa ny modul
 input = Inmatning

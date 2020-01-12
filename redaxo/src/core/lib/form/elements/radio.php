@@ -1,13 +1,13 @@
 <?php
 
 /**
- * @package redaxo\core
+ * @package redaxo\core\form
  */
 class rex_form_radio_element extends rex_form_options_element
 {
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
         // Jedes radio bekommt eingenes Label
@@ -28,10 +28,10 @@ class rex_form_radio_element extends rex_form_options_element
 
         $attr = '';
         foreach ($this->getAttributes() as $attributeName => $attributeValue) {
-            if ($attributeName == 'id') {
+            if ('id' == $attributeName) {
                 continue;
             }
-            $attr .= ' ' . htmlspecialchars($attributeName) . '="' . htmlspecialchars($attributeValue) . '"';
+            $attr .= ' ' . rex_escape($attributeName, 'html_attr') . '="' . rex_escape($attributeValue) . '"';
         }
 
         $formElements = [];
@@ -42,8 +42,8 @@ class rex_form_radio_element extends rex_form_options_element
             $opt_attr = $attr . ' id="' . $opt_id . '"';
 
             $n = [];
-            $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . htmlspecialchars($opt_name) . '</label>';
-            $n['field'] = '<input type="radio" value="' . htmlspecialchars($opt_value) . '"' . $opt_attr . $checked . ' />';
+            $n['label'] = '<label class="control-label" for="' . $opt_id . '">' . rex_escape($opt_name) . '</label>';
+            $n['field'] = '<input type="radio" value="' . rex_escape($opt_value) . '"' . $opt_attr . $checked . ' />';
             $formElements[] = $n;
         }
 

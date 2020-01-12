@@ -17,21 +17,23 @@ class rex_sql_debug extends rex_sql
     /**
      * {@inheritdoc}.
      */
-    public function setQuery($qry, array $params = [])
+    public function setQuery($qry, array $params = [], array $options = [])
     {
         try {
-            parent::setQuery($qry, $params);
+            parent::setQuery($qry, $params, $options);
         } catch (rex_exception $e) {
-            $trace = debug_backtrace();
-            for ($i = 0; $trace && $i < count($trace); ++$i) {
-                if (isset($trace[$i]['file']) && strpos($trace[$i]['file'], 'sql.php') === false) {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+            $file = $trace[0]['file'];
+            $line = $trace[0]['line'];
+            for ($i = 1; $i < count($trace); ++$i) {
+                if (isset($trace[$i]['file']) && false === strpos($trace[$i]['file'], 'sql.php')) {
                     $file = $trace[$i]['file'];
                     $line = $trace[$i]['line'];
                     break;
                 }
             }
-            $firephp = FirePHP::getInstance(true);
-            $firephp->error($e->getMessage() . ' in ' . $file . ' on line ' . $line);
+            ChromePhp::error($e->getMessage() . ' in ' . $file . ' on line ' . $line);
             throw $e; // re-throw exception after logging
         }
 
@@ -42,12 +44,12 @@ class rex_sql_debug extends rex_sql
      * {@inheritdoc}.
      */
     // TODO queries using setQuery() are not logged yet!
-    public function execute(array $params = [])
+    public function execute(array $params = [], array $options = [])
     {
         $qry = $this->stmt->queryString;
 
         $timer = new rex_timer();
-        parent::execute($params);
+        parent::execute($params, $options);
 
         $err = $errno = '';
         if ($this->hasError()) {
@@ -71,21 +73,20 @@ class rex_sql_debug extends rex_sql
     {
         if (!empty(self::$queries)) {
             $tbl = [];
-            $tbl[] = ['#', 'rows', 'ms', 'query'];
             $i = 0;
 
             foreach (self::$queries as $qry) {
                 // when a extension takes longer than 5ms, send a warning
                 if (strtr($qry['time'], ',', '.') > 5) {
-                    $tbl[] = [$i, $qry['rows'], '! SLOW: ' . $qry['time'], $qry['query']];
+                    $tbl[] = ['#' => $i, 'rows' => $qry['rows'], 'ms' => '! SLOW: ' . $qry['time'], 'query' => $qry['query']];
                 } else {
-                    $tbl[] = [$i, $qry['rows'], $qry['time'], $qry['query']];
+                    $tbl[] = ['#' => $i, 'rows' => $qry['rows'], 'ms' => $qry['time'], 'query' => $qry['query']];
                 }
                 ++$i;
             }
 
-            $firephp = FirePHP::getInstance(true);
-            $firephp->table(__CLASS__ . ' (' . count(self::$queries) . ' queries, ' . self::$errors . ' errors)', $tbl);
+            ChromePhp::log(self::class . ' (' . count(self::$queries) . ' queries, ' . self::$errors . ' errors)');
+            ChromePhp::table($tbl);
         }
     }
 }

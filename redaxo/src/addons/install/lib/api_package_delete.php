@@ -23,4 +23,9 @@ class rex_api_install_package_delete extends rex_api_function
         rex_install_packages::deleteCache();
         return new rex_api_result(true, rex_i18n::msg('install_info_addon_deleted', $addonkey));
     }
+
+    protected function requiresCsrfProtection()
+    {
+        return true;
+    }
 }

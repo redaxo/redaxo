@@ -1,11 +1,17 @@
 customizer = Customizer
-customizer_features = Funktionen
+customizer_features = CodeMirror
 
 customizer_codemirror = CodeMirror
 customizer_codemirror_check = CodeMirror aktivieren
+customizer_codemirror_selectors = Zusätzliche jQuery-Selektoren für CodeMirror
+customizer_codemirror_selectors_info = Kommaseparierte Liste von jQuery-Selektoren für die der CodeMirror angewendet wird.<br>Default sind <code>textarea.rex-js-code</code> und <code>textarea.codemirror</code>.
 customizer_codemirror_theme = CodeMirror Theme
+customizer_codemirror_langs = Zusätzliche Highlighter
+customizer_codemirror_langs_text = (markdown, textile, gfm, yaml, sql ...)
+customizer_codemirror_tools = Zusätzliche Features
+customizer_codemirror_tools_text = (Code-Folding, Bracket-Matching, Tag-Matching, Close-Brackets, Search)
 
-customizer_codemirror_info = Sobald CodeMirror aktiviert ist, werden diese bei Templates und Modulen automatisch verwendet. Sofern man selbst diese verwenden möchte, bitte folgende Form verwenden:<br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br>Die Parameter <i>codemirror-theme</i> und <i>codemirror-mode</i> sind optional.
+customizer_codemirror_info = Sobald CodeMirror aktiviert ist, wird dieser bei Templates, Modulen, Aktionen und bei Cronjobs automatisch verwendet. Sofern man selbst den CodeMirror verwenden möchte, bitte folgende Form verwenden:<br><br><code><textarea class="codemirror" data-codemirror-theme="themename" data-codemirror-mode="php/htmlmixed"></textarea></code><br><br>Die Parameter <i>data-codemirror-theme</i> und <i>data-codemirror-mode</i> sind optional.
 
 customizer_labeling = Ergänzungen
 customizer_labelcolor = Erkennungsfarbe
@@ -16,7 +22,7 @@ customizer_config_updated = Eingaben wurden gespeichert
 customizer_config_update_failed = Eingaben wurden nicht gespeichert
 
 customizer_update = Einstellungen speichern
-
+customizer_error_unzip = Beim entpacken der Assets aus dem Codemirror-Archiv ist ein Fehler aufgetreten!
 
 customizer_projectname = Projektname
 customizer_textarea = breite Textarea unter Template und Module

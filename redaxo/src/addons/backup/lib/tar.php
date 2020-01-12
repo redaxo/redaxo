@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * REDAXO Tar Klasse.
  *
@@ -15,10 +14,10 @@
  *
  * @internal
  */
-
 class rex_backup_tar extends tar
 {
-    private $message;
+    /** @var string[] */
+    private $messages = [];
 
     // constructor to omit warnings
     public function __construct()
@@ -26,7 +25,13 @@ class rex_backup_tar extends tar
         parent::__construct();
     }
 
-    // Open a TAR file
+    /**
+     * Open a TAR file.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
     public function openTAR($filename)
     {
         // call constructor to omit warnings instead of unset vars..
@@ -51,7 +56,13 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Add a file to the tar archive
+    /**
+     * Add a file to the tar archive.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
     public function addFile($filename)
     {
         // Make sure the file we are adding exists!
@@ -92,7 +103,13 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Add a directory to this tar archive
+    /**
+     * Add a directory to this tar archive.
+     *
+     * @param string $dirname
+     *
+     * @return bool
+     */
     public function addDirectory($dirname)
     {
         if (!file_exists($dirname)) {
@@ -116,8 +133,13 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Read a non gzipped tar file in for processing
-    // PRIVATE ACCESS FUNCTION
+    /**
+     * Read a non gzipped tar file in for processing.
+     *
+     * @param string $filename
+     *
+     * @return bool
+     */
     protected function __readTar($filename = '')
     {
         // Set the filename to load
@@ -148,7 +170,14 @@ class rex_backup_tar extends tar
         return true;
     }
 
-    // Saves tar archive to a different file than the current file
+    /**
+     * Saves tar archive to a different file than the current file.
+     *
+     * @param string $filename
+     * @param bool   $useGzip
+     *
+     * @return bool|string
+     */
     public function toTar($filename, $useGzip)
     {
         // Encode processed files into TAR file format
@@ -177,7 +206,7 @@ class rex_backup_tar extends tar
         }
 
         // STM: hier mit put_file_contents ist viel schneller
-        return rex_file::put($filename, $file) !== false;
+        return false !== rex_file::put($filename, $file);
     }
 
     // Generates a TAR file from the processed data
@@ -278,6 +307,9 @@ class rex_backup_tar extends tar
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function extractTar()
     {
         // kills: Warnung verhindern
@@ -292,19 +324,22 @@ class rex_backup_tar extends tar
                     fwrite($h, $item['file'], $item['size']);
                     fclose($h);
                 } else {
-                    $this->message[] = dirname($item['name']);
+                    $this->messages[] = dirname($item['name']);
                     return false;
                 }
             }
         }
-        if (count($this->message) > 0) {
+        if (count($this->messages) > 0) {
             return false;
         }
         return true;
     }
 
+    /**
+     * @return string[]
+     */
     public function getMessages()
     {
-        return $this->message;
+        return $this->messages;
     }
 }

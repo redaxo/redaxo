@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse zum Erstellen von Navigationen, v0.1.
+ * Klasse zum Erstellen von Navigationen.
  *
  * @package redaxo\structure
  */
@@ -114,7 +114,7 @@ class rex_navigation
         $lis = [];
 
         if ($startPageLabel) {
-            $link = '<a href="'.rex_getUrl(rex_article::getSiteStartArticleId()).'">'.htmlspecialchars($startPageLabel).'</a>';
+            $link = '<a href="'.rex_getUrl(rex_article::getSiteStartArticleId()).'">'.rex_escape($startPageLabel).'</a>';
             $lis[] = $this->getBreadcrumbListItemTag($link, [
                 'class' => 'rex-lvl'.$i,
             ]);
@@ -149,13 +149,13 @@ class rex_navigation
         if ($includeCurrent) {
             if ($art = rex_article::get($this->current_article_id)) {
                 if (!$art->isStartArticle()) {
-                    $lis[] = $this->getBreadcrumbListItemTag(htmlspecialchars($art->getName()), [
+                    $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
                         'class' => 'rex-lvl'.$i,
                     ]);
                 }
             } else {
                 $cat = rex_category::get($this->current_article_id);
-                $lis[] = $this->getBreadcrumbListItemTag(htmlspecialchars($cat->getName()), [
+                $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
                     'class' => 'rex-lvl'.$i,
                 ]);
             }
@@ -204,12 +204,15 @@ class rex_navigation
      *
      * @param callable   $callback z.B. myFunc oder myClass::myMethod
      * @param int|string $depth    "" wenn auf allen Ebenen, wenn definiert, dann wird der Filter nur auf dieser Ebene angewendet
+     *
+     * @return $this
      */
     public function addCallback($callback, $depth = '')
     {
-        if ($callback != '') {
+        if ('' != $callback) {
             $this->callbacks[] = ['callback' => $callback, 'depth' => $depth];
         }
+        return $this;
     }
 
     private function _setActivePath()
@@ -219,7 +222,7 @@ class rex_navigation
             $path = trim($OOArt->getPath(), '|');
 
             $this->path = [];
-            if ($path != '') {
+            if ('' != $path) {
                 $this->path = explode('|', $path);
             }
 
@@ -234,7 +237,7 @@ class rex_navigation
     private function checkFilter(rex_category $category, $depth)
     {
         foreach ($this->filter as $f) {
-            if ($f['depth'] == '' || $f['depth'] == $depth) {
+            if ('' == $f['depth'] || $f['depth'] == $depth) {
                 $mf = $category->getValue($f['metafield']);
                 $va = $f['value'];
                 switch ($f['type']) {
@@ -284,10 +287,10 @@ class rex_navigation
         return true;
     }
 
-    private function checkCallbacks(rex_category $category, $depth, &$li, &$a)
+    private function checkCallbacks(rex_category $category, $depth, &$li, &$a, &$a_content)
     {
         foreach ($this->callbacks as $c) {
-            if ($c['depth'] == '' || $c['depth'] == $depth) {
+            if ('' == $c['depth'] || $c['depth'] == $depth) {
                 $callback = $c['callback'];
                 if (is_string($callback)) {
                     $callback = explode('::', $callback, 2);
@@ -296,14 +299,14 @@ class rex_navigation
                     }
                 }
                 if (is_array($callback) && count($callback) > 1) {
-                    list($class, $method) = $callback;
+                    [$class, $method] = $callback;
                     if (is_object($class)) {
-                        $result = $class->$method($category, $depth, $li, $a);
+                        $result = $class->$method($category, $depth, $li, $a, $a_content);
                     } else {
-                        $result = $class::$method($category, $depth, $li, $a);
+                        $result = $class::$method($category, $depth, $li, $a, $a_content);
                     }
                 } else {
-                    $result = $callback($category, $depth, $li, $a);
+                    $result = $callback($category, $depth, $li, $a, $a_content);
                 }
                 if (!$result) {
                     return false;
@@ -333,7 +336,8 @@ class rex_navigation
             $li['class'] = [];
             $a['class'] = [];
             $a['href'] = [$nav->getUrl()];
-            if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a)) {
+            $a_content = rex_escape($nav->getName());
+            if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a, $a_content)) {
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad
                 if ($nav->getId() == $this->current_category_id) {
@@ -353,6 +357,7 @@ class rex_navigation
                 }
 
                 $link = $this->getLinkTag($nav, $a, $depth);
+
                 ++$depth;
                 if (($this->open ||
                         $nav->getId() == $this->current_category_id ||

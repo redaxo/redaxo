@@ -1,6 +1,6 @@
 <?php
 
-/** @var rex_addon $this */
+$package = rex_addon::get('install');
 
 $addonkey = rex_request('addonkey', 'string');
 $addons = [];
@@ -19,7 +19,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     $file_id = rex_request('file', 'string');
 
     if ($file_id) {
-        $new = $file_id == 'new';
+        $new = 'new' == $file_id;
         $file = $new ? ['version' => '', 'description' => '', 'status' => 1] : $addon['files'][$file_id];
 
         $newVersion = rex_addon::get($addonkey)->getVersion();
@@ -36,14 +36,14 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements = [];
 
         $n = [];
-        $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $this->i18n('version') . '</label>';
-        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . htmlspecialchars($new ? $newVersion : $file['version']) . '</p>
-                           <input type="hidden" name="upload[oldversion]" value="' . htmlspecialchars($file['version']) . '" />';
+        $n['label'] = '<label for="rex-js-install-packages-upload-version">' . $package->i18n('version') . '</label>';
+        $n['field'] = '<p class="form-control-static" id="rex-js-install-packages-upload-version">' . rex_escape($new ? $newVersion : $file['version']) . '</p>
+                           <input type="hidden" name="upload[oldversion]" value="' . rex_escape($file['version']) . '" />';
         $formElements[] = $n;
 
         $n = [];
-        $n['label'] = '<label for="rex-install-packages-upload-description">' . $this->i18n('description') . '</label>';
-        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . htmlspecialchars($file['description']) . '</textarea>';
+        $n['label'] = '<label for="rex-install-packages-upload-description">' . $package->i18n('description') . '</label>';
+        $n['field'] = '<textarea class="form-control" id="rex-install-packages-upload-description" name="upload[description]" rows="15">' . rex_escape($file['description']) . '</textarea>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -54,20 +54,20 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $n = [];
         $n['reverse'] = true;
-        $n['label'] = '<label for="rex-install-packages-upload-status">' . $this->i18n('online') . '</label>';
+        $n['label'] = '<label for="rex-install-packages-upload-status">' . $package->i18n('online') . '</label>';
         $n['field'] = '<input id="rex-install-packages-upload-status" type="checkbox" name="upload[status]" value="1" ' . (!$new && $file['status'] ? 'checked="checked" ' : '') . '/>';
         $formElements[] = $n;
 
         $n = [];
         $n['reverse'] = true;
-        $n['label'] = '<label for="rex-js-install-packages-upload-upload-file">' . $this->i18n('upload_file') . '</label>' . $hiddenField;
+        $n['label'] = '<label for="rex-js-install-packages-upload-upload-file">' . $package->i18n('upload_file') . '</label>' . $hiddenField;
         $n['field'] = '<input id="rex-js-install-packages-upload-upload-file" type="checkbox" name="upload[upload_file]" value="1" ' . ($new ? 'checked="checked" ' : '') . $uploadCheckboxDisabled . '/>';
         $formElements[] = $n;
 
         if (rex_addon::get($addonkey)->isInstalled() && is_dir(rex_url::addonAssets($addonkey))) {
             $n = [];
             $n['reverse'] = true;
-            $n['label'] = '<label for="rex-js-install-packages-upload-replace-assets">' . $this->i18n('replace_assets') . '</label>';
+            $n['label'] = '<label for="rex-js-install-packages-upload-replace-assets">' . $package->i18n('replace_assets') . '</label>';
             $n['field'] = '<input id="rex-js-install-packages-upload-replace-assets" type="checkbox" name="upload[replace_assets]" value="1" ' . ($new ? '' : 'disabled="disabled" ') . '/>';
             $formElements[] = $n;
         }
@@ -75,7 +75,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         if (is_dir(rex_path::addon($addonkey, 'tests'))) {
             $n = [];
             $n['reverse'] = true;
-            $n['label'] = '<label for="rex-js-install-packages-upload-ignore-tests">' . $this->i18n('ignore_tests') . '</label>';
+            $n['label'] = '<label for="rex-js-install-packages-upload-ignore-tests">' . $package->i18n('ignore_tests') . '</label>';
             $n['field'] = '<input id="rex-js-install-packages-upload-ignore-tests" type="checkbox" name="upload[ignore_tests]" value="1" checked="checked"' . ($new ? '' : 'disabled="disabled" ') . '/>';
             $formElements[] = $n;
         }
@@ -93,11 +93,11 @@ if ($addonkey && isset($addons[$addonkey])) {
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="upload[send]" value="' . $this->i18n('send') . '">' . $this->i18n('send') . '</button>';
+        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="upload[send]" value="' . $package->i18n('send') . '">' . $package->i18n('send') . '</button>';
         $formElements[] = $n;
 
         $n = [];
-        $n['field'] = '<button class="btn btn-delete" value="' . $this->i18n('delete') . '" onclick="if(confirm(\'' . $this->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_delete', 'addonkey' => $addonkey, 'file' => $file_id]) . '\';">' . $this->i18n('delete') . '</button>';
+        $n['field'] = '<button class="btn btn-delete" value="' . $package->i18n('delete') . '" onclick="if(confirm(\'' . $package->i18n('delete') . ' ?\')) location.href=\'' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_delete::getUrlParams()) . '\';">' . $package->i18n('delete') . '</button>';
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
@@ -108,13 +108,13 @@ if ($addonkey && isset($addons[$addonkey])) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('class', 'edit', false);
-        $fragment->setVar('title', $addonkey . ' <small>' . $this->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
+        $fragment->setVar('title', $addonkey . ' <small>' . $package->i18n($new ? 'file_add' : 'file_edit') . '</small>', false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('buttons', $buttons, false);
         $content = $fragment->parse('core/page/section.php');
 
         $content = '
-            <form action="' . rex_url::currentBackendPage(['rex-api-call' => 'install_package_upload', 'addonkey' => $addonkey, 'file' => $file_id]) . '" method="post">
+            <form action="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $file_id] + rex_api_install_package_upload::getUrlParams()) . '" method="post">
                 ' . $content . '
             </form>';
         echo $content;
@@ -143,7 +143,7 @@ if ($addonkey && isset($addons[$addonkey])) {
     } else {
         $icon = '';
         if (rex_addon::exists($addonkey)) {
-            $icon = '<a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $this->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
+            $icon = '<a href="' . rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => 'new']) . '" title="' . $package->i18n('file_add') . '"><i class="rex-icon rex-icon-add-package"></i></a>';
         }
 
         $panel = '
@@ -151,26 +151,26 @@ if ($addonkey && isset($addons[$addonkey])) {
         <table class="table">
             <tbody>
             <tr>
-                <th class="rex-table-width-5">' . $this->i18n('name') . '</th>
-                <td data-title="' . $this->i18n('name') . '">' . htmlspecialchars($addon['name']) . '</td>
+                <th class="rex-table-width-5">' . $package->i18n('name') . '</th>
+                <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
             </tr>
             <tr>
-                <th>' . $this->i18n('author') . '</th>
-                <td data-title="' . $this->i18n('author') . '">' . htmlspecialchars($addon['author']) . '</td>
+                <th>' . $package->i18n('author') . '</th>
+                <td data-title="' . $package->i18n('author') . '">' . rex_escape($addon['author']) . '</td>
             </tr>
             <tr>
-                <th>' . $this->i18n('shortdescription') . '</th>
-                <td data-title="' . $this->i18n('shortdescription') . '">' . nl2br(htmlspecialchars($addon['shortdescription'])) . '</td>
+                <th>' . $package->i18n('shortdescription') . '</th>
+                <td data-title="' . $package->i18n('shortdescription') . '">' . nl2br(rex_escape($addon['shortdescription'])) . '</td>
             </tr>
             <tr>
-                <th>' . $this->i18n('description') . '</th>
-                <td data-title="' . $this->i18n('description') . '">' . nl2br(htmlspecialchars($addon['description'])) . '</td>
+                <th>' . $package->i18n('description') . '</th>
+                <td data-title="' . $package->i18n('description') . '">' . nl2br(rex_escape($addon['description'])) . '</td>
             </tr>
             </tbody>
         </table>';
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', $addonkey . ' <small>' . $this->i18n('information') . '</small>', false);
+        $fragment->setVar('title', $addonkey . ' <small>' . $package->i18n('information') . '</small>', false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
 
@@ -181,32 +181,34 @@ if ($addonkey && isset($addons[$addonkey])) {
             <thead>
             <tr>
                 <th class="rex-table-icon">' . $icon . '</th>
-                <th class="rex-table-width-4">' . $this->i18n('version') . '</th>
+                <th class="rex-table-width-4">' . $package->i18n('version') . '</th>
                 <th>REDAXO</th>
-                <th>' . $this->i18n('description') . '</th>
-                <th class="rex-table-action" colspan="2">' . $this->i18n('status') . '</th>
+                <th>' . $package->i18n('description') . '</th>
+                <th class="rex-table-action" colspan="2">' . $package->i18n('status') . '</th>
             </tr>
             </thead>
             <tbody>';
 
+        $markdown = rex_markdown::factory();
+        $fragment = new rex_fragment();
         foreach ($addon['files'] as $fileId => $file) {
             $url = rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId]);
             $status = $file['status'] ? 'online' : 'offline';
             $panel .= '
             <tr>
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td data-title="' . $this->i18n('version') . '">' . htmlspecialchars($file['version']) . '</td>
-                <td data-title="REDAXO">' . htmlspecialchars(implode(', ', $file['redaxo_versions'])) . '</td>
-                <td data-title="' . $this->i18n('description') . '">' . nl2br(htmlspecialchars($file['description'])) . '</td>
-                <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $this->i18n('file_edit') . '</a></td>
-                <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $this->i18n($status) . '</span></td>
+                <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
+                <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
+                <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($file['description']), false)->parse('core/page/readme.php') . '</td>
+                <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-edit"></i> ' . $package->i18n('file_edit') . '</a></td>
+                <td class="rex-table-action"><span class="rex-text-' . $status . '"><i class="rex-icon rex-icon-' . $status . '"></i> ' . $package->i18n($status) . '</span></td>
             </tr>';
         }
 
         $panel .= '</tbody></table>';
 
         $fragment = new rex_fragment();
-        $fragment->setVar('title', $this->i18n('files'), false);
+        $fragment->setVar('title', $package->i18n('files'), false);
         $fragment->setVar('content', $panel, false);
         $content = $fragment->parse('core/page/section.php');
 
@@ -219,10 +221,10 @@ if ($addonkey && isset($addons[$addonkey])) {
         <table class="table table-striped table-hover">
          <thead>
             <tr>
-                <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $this->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
-                <th>' . $this->i18n('key') . '</th>
-                <th>' . $this->i18n('name') . '</th>
-                <th class="rex-table-action" colspan="2">' . $this->i18n('status') . '</th>
+                <th class="rex-table-icon"><a href="' . rex_url::currentBackendPage(['func' => 'reload']) . '" title="' . $package->i18n('reload') . '"><i class="rex-icon rex-icon-refresh"></i></a></th>
+                <th>' . $package->i18n('key') . '</th>
+                <th>' . $package->i18n('name') . '</th>
+                <th class="rex-table-action" colspan="2">' . $package->i18n('status') . '</th>
             </tr>
          </thead>
          <tbody>';
@@ -233,17 +235,17 @@ if ($addonkey && isset($addons[$addonkey])) {
         $panel .= '
             <tr>
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
-                <td data-title="' . $this->i18n('key') . '">' . htmlspecialchars($key) . '</td>
-                <td data-title="' . $this->i18n('name') . '">' . htmlspecialchars($addon['name']) . '</td>
+                <td data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
+                <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
                 <td class="rex-table-action"><a href="' . $url . '"><i class="rex-icon rex-icon-view"></i> ' . rex_i18n::msg('view') . '</a></td>
-                <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $this->i18n($status) . '</span></td>
+                <td class="rex-table-action"><span class="rex-text-' . $status . '">' . $package->i18n($status) . '</span></td>
             </tr>';
     }
 
     $panel .= '</tbody></table>';
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', $this->i18n('my_packages'), false);
+    $fragment->setVar('title', $package->i18n('my_packages'), false);
     $fragment->setVar('content', $panel, false);
     $content = $fragment->parse('core/page/section.php');
 

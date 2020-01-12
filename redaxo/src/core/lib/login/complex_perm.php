@@ -7,11 +7,11 @@
  *
  * @author gharlan
  *
- * @package redaxo\core
+ * @package redaxo\core\login
  */
 abstract class rex_complex_perm
 {
-    const ALL = 'all';
+    public const ALL = 'all';
 
     /**
      * User instance.
@@ -53,7 +53,7 @@ abstract class rex_complex_perm
      */
     public function hasAll()
     {
-        return $this->user->isAdmin() || $this->perms == self::ALL;
+        return $this->user->isAdmin() || self::ALL == $this->perms;
     }
 
     /**
@@ -76,8 +76,8 @@ abstract class rex_complex_perm
      */
     public static function register($key, $class)
     {
-        if (!is_subclass_of($class, __CLASS__)) {
-            throw new InvalidArgumentException(sprintf('$class must be a subclass of %s!', __CLASS__));
+        if (!is_subclass_of($class, self::class)) {
+            throw new InvalidArgumentException(sprintf('Class "%s" must be a subclass of "%s"!', $class, self::class));
         }
         self::$classes[$key] = $class;
     }

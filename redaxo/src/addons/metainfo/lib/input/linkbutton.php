@@ -32,7 +32,7 @@ class rex_input_linkbutton extends rex_input
     {
         $buttonId = $this->buttonId;
         $categoryId = $this->categoryId;
-        $value = htmlspecialchars($this->value);
+        $value = rex_escape($this->value);
         $name = $this->attributes['name'];
 
         $field = rex_var_link::getWidget($buttonId, $name, $value, ['category' => $categoryId]);

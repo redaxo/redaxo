@@ -31,7 +31,7 @@ class rex_article_slice_history
             $sql = rex_sql::factory();
             $sql->setTable(self::getTable());
             foreach ($slice as $k => $v) {
-                if ($k == 'id') {
+                if ('id' == $k) {
                     $sql->setValue('slice_id', $v);
                 } else {
                     $sql->setValue($k, $v);
@@ -59,7 +59,7 @@ class rex_article_slice_history
         $sql = rex_sql::factory();
         $slices = $sql->getArray('select id from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$article_id, $clang_id, $revision, $history_date]);
 
-        if (count($slices) == 0) {
+        if (0 == count($slices)) {
             return false;
         }
 
@@ -102,7 +102,7 @@ class rex_article_slice_history
         $history_table = rex_sql_table::get(self::getTable());
 
         foreach ($slices_table->getColumns() as $column) {
-            if (strtolower($column->getName()) != 'id') {
+            if ('id' != strtolower($column->getName())) {
                 $history_table->ensureColumn($column);
             }
         }

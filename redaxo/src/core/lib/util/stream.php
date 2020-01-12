@@ -62,7 +62,7 @@ class rex_stream
         }
 
         if (!self::$registered) {
-            stream_wrapper_register('rex', __CLASS__);
+            stream_wrapper_register('rex', self::class);
             self::$registered = true;
         }
 
@@ -126,6 +126,14 @@ class rex_stream
             default:
                 return false;
         }
+    }
+
+    /**
+     * @see http://www.php.net/manual/en/streamwrapper.stream-set-option.php
+     */
+    public function stream_set_option()
+    {
+        return false;
     }
 
     /**

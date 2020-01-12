@@ -1,6 +1,11 @@
 <?php
 
-class rex_socket_response_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_socket_response_test extends TestCase
 {
     private function getResponse($content)
     {
@@ -36,7 +41,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
 
         $this->assertSame($statusCode, $response->getStatusCode(), 'getStatusCode()');
         $this->assertSame($statusMessage, $response->getStatusMessage(), 'getStatusMessage()');
-        $this->assertSame($statusCode == 200, $response->isOk(), 'isOk()');
+        $this->assertSame(200 == $statusCode, $response->isOk(), 'isOk()');
 
         $methods = ['isInformational', 'isSuccessful', 'isRedirection', 'isClientError', 'isServerError', 'isInvalid'];
         foreach ($methods as $method) {
@@ -52,7 +57,7 @@ class rex_socket_response_test extends PHPUnit_Framework_TestCase
         $this->assertSame($header, $response->getHeader(), 'getHeader() without params returns full header');
         $this->assertSame('Value1', $response->getHeader('Key1'), 'getHeader($key) returns the value of the key');
         $this->assertSame('Value2', $response->getHeader('Key2', 'default'), 'getHeader($key, $default) returns the value of the key');
-        $this->assertSame(null, $response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
+        $this->assertNull($response->getHeader('Key3'), 'getHeader($key) returns null for non-existing keys');
         $this->assertSame('default', $response->getHeader('Key3', 'default'), 'getHeader($key, $default) returns $default for non-existing keys');
     }
 

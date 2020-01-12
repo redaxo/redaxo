@@ -39,14 +39,14 @@ class OAuth
      *
      * @var AbstractProvider
      */
-    protected $provider = null;
+    protected $provider;
 
     /**
      * The current OAuth access token.
      *
      * @var AccessToken
      */
-    protected $oauthToken = null;
+    protected $oauthToken;
 
     /**
      * The user's email address, usually used as the login ID
@@ -123,7 +123,7 @@ class OAuth
     public function getOauth64()
     {
         // Get a new token if it's not available or has expired
-        if (null === $this->oauthToken or $this->oauthToken->hasExpired()) {
+        if (null === $this->oauthToken || $this->oauthToken->hasExpired()) {
             $this->oauthToken = $this->getToken();
         }
 

@@ -20,6 +20,16 @@ class rex_logger extends AbstractLogger
     private static $file;
 
     /**
+     * Returns the path to the system.log file.
+     *
+     * @return string
+     */
+    public static function getPath()
+    {
+        return rex_path::coreData('system.log');
+    }
+
+    /**
      * Shorthand: Logs the given Exception.
      *
      * @param Throwable|Exception $exception The Exception to log
@@ -37,7 +47,7 @@ class rex_logger extends AbstractLogger
     /**
      * Shorthand: Logs a error message.
      *
-     * @param int    $errno   The error code to log
+     * @param int    $errno   The error code to log, e.g. E_WARNING
      * @param string $errstr  The error message
      * @param string $errfile The file in which the error occured
      * @param int    $errline The line of the file in which the error occured
@@ -68,7 +78,6 @@ class rex_logger extends AbstractLogger
      *
      * @param mixed  $level
      * @param string $message
-     * @param array  $context
      * @param string $file
      * @param int    $line
      *
@@ -97,7 +106,7 @@ class rex_logger extends AbstractLogger
 
         $logData = [$level, $message];
         if ($file && $line) {
-            $logData[] = str_replace(rex_path::base(), '', $file);
+            $logData[] = rex_path::relative($file);
             $logData[] = $line;
         }
         self::$file->add($logData);
@@ -113,8 +122,7 @@ class rex_logger extends AbstractLogger
     {
         // check if already opened
         if (!self::$file) {
-            $file = rex_path::coreCache('system.log');
-            self::$file = new rex_log_file($file, 2000000);
+            self::$file = new rex_log_file(self::getPath(), 2000000);
         }
     }
 

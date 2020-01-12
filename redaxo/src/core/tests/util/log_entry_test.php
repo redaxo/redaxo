@@ -1,6 +1,11 @@
 <?php
 
-class rex_log_entry_test extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @internal
+ */
+class rex_log_entry_test extends TestCase
 {
     public function testConstruct()
     {
@@ -15,11 +20,11 @@ class rex_log_entry_test extends PHPUnit_Framework_TestCase
     public function testCreateFromString()
     {
         $time = time();
-        $entry = rex_log_entry::createFromString(date('Y-m-d H:i:s', $time) . ' | test1 |  |  test2');
+        $entry = rex_log_entry::createFromString(date('Y-m-d H:i:s', $time) . ' | test1 |  |  test2\nt');
 
         $this->assertInstanceOf('rex_log_entry', $entry);
         $this->assertSame($time, $entry->getTimestamp());
-        $this->assertSame(['test1', '', 'test2'], $entry->getData());
+        $this->assertSame(['test1', '', "test2\nt"], $entry->getData());
     }
 
     /**
@@ -43,6 +48,6 @@ class rex_log_entry_test extends PHPUnit_Framework_TestCase
         $time = time();
         $entry = new rex_log_entry($time, ['test1', ' ', " test2\nt "]);
 
-        $this->assertSame(date('Y-m-d H:i:s', $time) . ' | test1 |  | test2t', $entry->__toString());
+        $this->assertSame(date('Y-m-d H:i:s', $time) . ' | test1 |  | test2\nt', $entry->__toString());
     }
 }

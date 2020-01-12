@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+// DEPRECATED!
+// old cronjob-run script, just kept for backwards compatibility reasons.
+// you should invoke the redaxo console with "cronjob:run" directly instead.
 
 if (PHP_SAPI !== 'cli') {
     echo 'error: this script may only be run from CLI';

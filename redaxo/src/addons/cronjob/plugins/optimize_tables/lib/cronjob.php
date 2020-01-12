@@ -12,14 +12,15 @@ class rex_cronjob_optimize_tables extends rex_cronjob
 {
     public function execute()
     {
-        $tables = rex_sql::showTables(1, rex::getTablePrefix());
+        $tables = rex_sql::factory()->getTables(rex::getTablePrefix());
         if (is_array($tables) && !empty($tables)) {
             $sql = rex_sql::factory();
             // $sql->setDebug();
             try {
-                $sql->setQuery('OPTIMIZE TABLE ' . implode(', ', $tables));
+                $sql->setQuery('OPTIMIZE TABLE ' . implode(', ', array_map([$sql, 'escapeIdentifier'], $tables)));
                 return true;
             } catch (rex_sql_exception $e) {
+                $this->setMessage($e->getMessage());
                 return false;
             }
         }

@@ -9,7 +9,7 @@
  * @global boolean $REX['LOAD_PAGE']      [Optional] Wether the front controller should be loaded or not. Default value is false.
  */
 
-define('REX_MIN_PHP_VERSION', '5.5.9');
+define('REX_MIN_PHP_VERSION', '7.1.3');
 
 if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
     throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
@@ -26,8 +26,10 @@ foreach (array('HTDOCS_PATH', 'BACKEND_FOLDER', 'REDAXO') as $key) {
 ob_start();
 ob_implicit_flush(0);
 
-// deactivate session cache limiter
-session_cache_limiter(false);
+if ('cli' !== PHP_SAPI) {
+    // deactivate session cache limiter
+    session_cache_limiter(false);
+}
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
 ini_set('arg_separator.output', '&amp;');
@@ -80,11 +82,13 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.5.0-dev');
+rex::setProperty('version', '5.8.1');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
-if (file_exists($cacheFile) && file_exists($configFile) && filemtime($cacheFile) >= filemtime($configFile)) {
+
+$cacheMtime = @filemtime($cacheFile);
+if ($cacheMtime && $cacheMtime >= @filemtime($configFile)) {
     $config = rex_file::getCache($cacheFile);
 } else {
     $config = array_merge(
@@ -102,10 +106,7 @@ foreach ($config as $key => $value) {
 
 date_default_timezone_set(rex::getProperty('timezone', 'Europe/Berlin'));
 
-if (!rex::isSetup()) {
-    rex_error_handler::register();
-}
-
+rex_error_handler::register();
 rex_var_dumper::register();
 
 // ----------------- REX PERMS
@@ -117,6 +118,17 @@ if (!rex::isSetup()) {
     $clangId = rex_request('clang', 'int', rex_clang::getStartId());
     if (rex::isBackend() || rex_clang::exists($clangId)) {
         rex_clang::setCurrentId($clangId);
+    }
+}
+
+// ----------------- HTTPS REDIRECT
+if ('cli' !== PHP_SAPI && !rex::isSetup()) {
+    if ((true === rex::getProperty('use_https') || rex::getEnvironment() === rex::getProperty('use_https')) && !rex_request::isHttps()) {
+        rex_response::enforceHttps();
+    }
+
+    if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
+        rex_response::setHeader('Strict-Transport-Security', 'max-age='.rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 

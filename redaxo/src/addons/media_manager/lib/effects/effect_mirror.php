@@ -47,7 +47,7 @@ class rex_effect_mirror extends rex_effect_abstract
         $w = $this->media->getWidth();
         $h = $this->media->getHeight();
 
-        if (substr(trim($this->params['height']), -1) === '%') {
+        if ('%' === substr(trim($this->params['height']), -1)) {
             $this->params['height'] = round($h * (rtrim($this->params['height'], '%') / 100));
         } else {
             $this->params['height'] = (int) $this->params['height'];
@@ -71,8 +71,8 @@ class rex_effect_mirror extends rex_effect_abstract
             $this->params['bg_b'] = 255;
         }
 
-        if ($this->params['set_transparent'] != 'colored') {
-            if ($this->media->getFormat() == 'webp') {
+        if ('colored' != $this->params['set_transparent']) {
+            if ('webp' == $this->media->getFormat()) {
                 $this->media->setFormat('webp');
             } else {
                 $this->media->setFormat('png');
@@ -80,7 +80,7 @@ class rex_effect_mirror extends rex_effect_abstract
         }
 
         $trans = false;
-        if ($this->media->getFormat() == 'png' || $this->media->getFormat() == 'webp') {
+        if ('png' == $this->media->getFormat() || 'webp' == $this->media->getFormat()) {
             $trans = true;
         }
 

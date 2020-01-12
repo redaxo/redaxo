@@ -9,10 +9,15 @@
  */
 class rex_extension_point
 {
+    /** @var string */
     private $name;
+    /** @var mixed */
     private $subject;
+    /** @var array */
     private $params = [];
+    /** @var array */
     private $extensionParams = [];
+    /** @var bool */
     private $readonly = false;
 
     /**
@@ -20,7 +25,6 @@ class rex_extension_point
      *
      * @param string $name
      * @param mixed  $subject
-     * @param array  $params
      * @param bool   $readonly
      */
     public function __construct($name, $subject = null, array $params = [], $readonly = false)
@@ -84,8 +88,6 @@ class rex_extension_point
 
     /**
      * Sets the specific params for the next extension.
-     *
-     * @param array $params
      */
     public function setExtensionParams(array $params)
     {

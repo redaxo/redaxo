@@ -8,6 +8,7 @@ class rex_category_select extends rex_select
     private $ignore_offlines;
     private $clang;
     private $check_perms;
+    private $add_homepage;
 
     /**
      * @var int
@@ -44,7 +45,7 @@ class rex_category_select extends rex_select
             $this->addOption('Homepage', 0);
         }
 
-        if ($this->rootId !== null) {
+        if (null !== $this->rootId) {
             if (is_array($this->rootId)) {
                 foreach ($this->rootId as $rootId) {
                     if ($rootCat = rex_category::get($rootId, $this->clang)) {
@@ -83,7 +84,7 @@ class rex_category_select extends rex_select
             $cid = $cat->getId();
             $cname = $cat->getName() . ' [' . $cid . ']';
 
-            if ($group === null) {
+            if (null === $group) {
                 $group = $cat->getParentId();
             }
 
@@ -123,14 +124,14 @@ class rex_category_select extends rex_select
             $name = $option[0];
             $value = $option[1];
             $id = $option[2];
-            if ($id == 0 || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
+            if (0 == $id || !$this->check_perms || ($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
                 $ausgabe .= $this->outOption($name, $value, $level);
             } elseif (($this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($option[2]))) {
                 --$level;
             }
 
             $subgroup = $this->getGroup($id, true);
-            if ($subgroup !== false) {
+            if (false !== $subgroup) {
                 $ausgabe .= $this->outGroup($id, $level + 1);
             }
         }

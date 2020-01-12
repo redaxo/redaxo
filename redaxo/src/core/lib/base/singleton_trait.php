@@ -23,7 +23,7 @@ trait rex_singleton_trait
      */
     public static function getInstance()
     {
-        $class = get_called_class();
+        $class = static::class;
         if (!isset(self::$instances[$class])) {
             self::$instances[$class] = new static();
         }
