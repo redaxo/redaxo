@@ -15,7 +15,7 @@ class rex_api_install_package_add extends rex_api_install_package_download
     protected function getSuccessMessage()
     {
         return rex_i18n::msg('install_info_addon_downloaded', $this->addonkey)
-            . ' <a href="' . rex_url::backendPage('packages') . '">' . rex_i18n::msg('install_to_addon_page') . '</a>';
+            . ' <a href="' . rex_url::backendPage('packages', ['mark' => $this->addonkey]) . '">' . rex_i18n::msg('install_to_addon_page') . '</a>';
     }
 
     protected function getPackages()
