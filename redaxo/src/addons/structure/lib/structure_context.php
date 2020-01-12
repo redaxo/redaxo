@@ -8,7 +8,7 @@ class rex_structure_context
     /**
      * @var array
      */
-    protected $params;
+    private $params;
 
     /**
      * @param array $params
