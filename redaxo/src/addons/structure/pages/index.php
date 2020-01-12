@@ -101,7 +101,7 @@ if (count($structureContext->getMountpoints()) > 0 && 0 == $structureContext->ge
 
 $echo = '';
 // ---------- INLINE THE EDIT/ADD FORM
-if ('add_cat' == $function || 'edit_cat' == $function) {
+if ('add_cat' == $structureContext->getFunction() || 'edit_cat' == $structureContext->getFunction()) {
     $echo .= '
     <form action="' . $structureContext->getContext()->getUrl(['catstart' => $structureContext->getCatStart()]) . '" method="post">
         <fieldset>
@@ -260,7 +260,7 @@ $echo .= '
             </tbody>
         </table>';
 
-if ('add_cat' == $function || 'edit_cat' == $function) {
+if ('add_cat' == $structureContext->getFunction() || 'edit_cat' == $structureContext->getFunction()) {
     $echo .= '
     </fieldset>
 </form>';
@@ -336,7 +336,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 LIMIT ' . $artPager->getCursor() . ',' . $artPager->getRowsPerPage());
 
     // ---------- INLINE THE EDIT/ADD FORM
-    if ('add_art' == $function || 'edit_art' == $function) {
+    if ('add_art' == $structureContext->getFunction() || 'edit_art' == $structureContext->getFunction()) {
         $echo .= '
         <form action="' . $structureContext->getContext()->getUrl(['artstart' => $structureContext->getArtStart()]) . '" method="post">
             <fieldset>';
@@ -360,7 +360,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
                 ';
 
     // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $function) {
+    if ($sql->getRows() > 0 || 'add_art' == $structureContext->getFunction()) {
         $echo .= '<tbody>
                     ';
     }
@@ -492,7 +492,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     }
 
     // tbody nur anzeigen, wenn später auch inhalt drinnen stehen wird
-    if ($sql->getRows() > 0 || 'add_art' == $function) {
+    if ($sql->getRows() > 0 || 'add_art' == $structureContext->getFunction()) {
         $echo .= '
                 </tbody>';
     }
@@ -500,7 +500,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     $echo .= '
             </table>';
 
-    if ('add_art' == $function || 'edit_art' == $function) {
+    if ('add_art' == $structureContext->getFunction() || 'edit_art' == $structureContext->getFunction()) {
         $echo .= '
         </fieldset>
     </form>';
