@@ -409,7 +409,7 @@ class rex_navigation
      */
     protected function getBreadcrumbLinkTag(rex_category $category, array $attributes)
     {
-        $category_name = htmlspecialchars($category->getName());
+        $category_name = rex_escape($category->getName());
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
         }
@@ -448,7 +448,7 @@ class rex_navigation
      */
     protected function getLinkTag(rex_category $category, array $attributes, $depth)
     {
-        $category_name = htmlspecialchars($category->getName());
+        $category_name = rex_escape($category->getName());
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
         }
