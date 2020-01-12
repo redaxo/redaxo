@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Klasse zum Erstellen von Navigationen, v0.1.
+ * Klasse zum Erstellen von Navigationen.
  *
  * @package redaxo\structure
  */
@@ -271,7 +271,7 @@ class rex_navigation
         return true;
     }
 
-    private function checkCallbacks(rex_category $category, $depth, &$li, &$a)
+    private function checkCallbacks(rex_category $category, $depth, &$li, &$a, &$a_content)
     {
         foreach ($this->callbacks as $c) {
             if ('' == $c['depth'] || $c['depth'] == $depth) {
@@ -285,12 +285,12 @@ class rex_navigation
                 if (is_array($callback) && count($callback) > 1) {
                     [$class, $method] = $callback;
                     if (is_object($class)) {
-                        $result = $class->$method($category, $depth, $li, $a);
+                        $result = $class->$method($category, $depth, $li, $a, $a_content);
                     } else {
-                        $result = $class::$method($category, $depth, $li, $a);
+                        $result = $class::$method($category, $depth, $li, $a, $a_content);
                     }
                 } else {
-                    $result = $callback($category, $depth, $li, $a);
+                    $result = $callback($category, $depth, $li, $a, $a_content);
                 }
                 if (!$result) {
                     return false;
@@ -315,7 +315,8 @@ class rex_navigation
             $li['class'] = [];
             $a['class'] = [];
             $a['href'] = [$nav->getUrl()];
-            if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a)) {
+            $a_content = rex_escape($nav->getName());
+            if ($this->checkFilter($nav, $depth) && $this->checkCallbacks($nav, $depth, $li, $a, $a_content)) {
                 $li['class'][] = 'rex-article-' . $nav->getId();
                 // classes abhaengig vom pfad
                 if ($nav->getId() == $this->current_category_id) {
@@ -342,7 +343,7 @@ class rex_navigation
                     $a_attr[] = $attr . '="' . implode(' ', $v) . '"';
                 }
                 $l = '<li ' . implode(' ', $li_attr) . '>';
-                $l .= '<a ' . implode(' ', $a_attr) . '>' . rex_escape($nav->getName()) . '</a>';
+                $l .= '<a ' . implode(' ', $a_attr) . '>' . $a_content . '</a>';
                 ++$depth;
                 if (($this->open ||
                         $nav->getId() == $this->current_category_id ||

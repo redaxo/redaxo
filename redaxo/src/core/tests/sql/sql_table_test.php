@@ -589,4 +589,20 @@ class rex_sql_table_test extends TestCase
             ->setName('rex_foo')
             ->alter();
     }
+
+    public function testClearInstance()
+    {
+        $table = rex_sql_table::get(self::TABLE);
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table2 = rex_sql_table::get(self::TABLE);
+
+        $this->assertNotSame($table2, $table);
+
+        rex_sql_table::clearInstance([1, self::TABLE]);
+        $table3 = rex_sql_table::get(self::TABLE);
+
+        $this->assertNotSame($table3, $table);
+        $this->assertNotSame($table3, $table2);
+    }
 }

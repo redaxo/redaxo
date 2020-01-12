@@ -34,12 +34,7 @@ class Inline
     private static $objectForMap = false;
     private static $constantSupport = false;
 
-    /**
-     * @param int         $flags
-     * @param int|null    $parsedLineNumber
-     * @param string|null $parsedFilename
-     */
-    public static function initialize($flags, $parsedLineNumber = null, $parsedFilename = null)
+    public static function initialize(int $flags, int $parsedLineNumber = null, string $parsedFilename = null)
     {
         self::$exceptionOnInvalidType = (bool) (Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE & $flags);
         self::$objectSupport = (bool) (Yaml::PARSE_OBJECT & $flags);
@@ -94,13 +89,13 @@ class Inline
                     $result = self::parseScalar($value, $flags, null, $i, null === $tag, $references);
             }
 
-            if (null !== $tag && '' !== $tag) {
-                return new TaggedValue($tag, $result);
-            }
-
             // some comments are allowed at the end
             if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
                 throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)), self::$parsedLineNumber + 1, $value, self::$parsedFilename);
+            }
+
+            if (null !== $tag && '' !== $tag) {
+                return new TaggedValue($tag, $result);
             }
 
             return $result;
@@ -129,7 +124,7 @@ class Inline
                     throw new DumpException(sprintf('Unable to dump PHP resources in a YAML file ("%s").', get_resource_type($value)));
                 }
 
-                return 'null';
+                return self::dumpNull($flags);
             case $value instanceof \DateTimeInterface:
                 return $value->format('c');
             case \is_object($value):
@@ -155,11 +150,11 @@ class Inline
                     throw new DumpException('Object support when dumping a YAML file has been disabled.');
                 }
 
-                return 'null';
+                return self::dumpNull($flags);
             case \is_array($value):
                 return self::dumpArray($value, $flags);
             case null === $value:
-                return 'null';
+                return self::dumpNull($flags);
             case true === $value:
                 return 'true';
             case false === $value:
@@ -256,6 +251,15 @@ class Inline
         return sprintf('{ %s }', implode(', ', $output));
     }
 
+    private static function dumpNull(int $flags): string
+    {
+        if (Yaml::DUMP_NULL_AS_TILDE & $flags) {
+            return '~';
+        }
+
+        return 'null';
+    }
+
     /**
      * Parses a YAML scalar.
      *
@@ -270,7 +274,7 @@ class Inline
             $output = self::parseQuotedScalar($scalar, $i);
 
             if (null !== $delimiters) {
-                $tmp = ltrim(substr($scalar, $i), ' ');
+                $tmp = ltrim(substr($scalar, $i), " \n");
                 if ('' === $tmp) {
                     throw new ParseException(sprintf('Unexpected end of line, expected one of "%s".', implode('', $delimiters)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                 }
@@ -415,6 +419,7 @@ class Inline
             switch ($mapping[$i]) {
                 case ' ':
                 case ',':
+                case "\n":
                     ++$i;
                     continue 2;
                 case '}':
@@ -446,7 +451,7 @@ class Inline
                 }
             }
 
-            if (!$isKeyQuoted && (!isset($mapping[$i + 1]) || !\in_array($mapping[$i + 1], [' ', ',', '[', ']', '{', '}'], true))) {
+            if (!$isKeyQuoted && (!isset($mapping[$i + 1]) || !\in_array($mapping[$i + 1], [' ', ',', '[', ']', '{', '}', "\n"], true))) {
                 throw new ParseException('Colons must be followed by a space or an indication character (i.e. " ", ",", "[", "]", "{", "}").', self::$parsedLineNumber + 1, $mapping);
             }
 
@@ -455,7 +460,7 @@ class Inline
             }
 
             while ($i < $len) {
-                if (':' === $mapping[$i] || ' ' === $mapping[$i]) {
+                if (':' === $mapping[$i] || ' ' === $mapping[$i] || "\n" === $mapping[$i]) {
                     ++$i;
 
                     continue;
@@ -504,7 +509,7 @@ class Inline
                         }
                         break;
                     default:
-                        $value = self::parseScalar($mapping, $flags, [',', '}'], $i, null === $tag, $references);
+                        $value = self::parseScalar($mapping, $flags, [',', '}', "\n"], $i, null === $tag, $references);
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
@@ -612,11 +617,11 @@ class Inline
             // Optimize for returning strings.
             // no break
             case '+' === $scalar[0] || '-' === $scalar[0] || '.' === $scalar[0] || is_numeric($scalar[0]):
+                if (Parser::preg_match('{^[+-]?[0-9][0-9_]*$}', $scalar)) {
+                    $scalar = str_replace('_', '', (string) $scalar);
+                }
+
                 switch (true) {
-                    case Parser::preg_match('{^[+-]?[0-9][0-9_]*$}', $scalar):
-                        $scalar = str_replace('_', '', (string) $scalar);
-                        // omitting the break / return as integers are handled in the next case
-                        // no break
                     case ctype_digit($scalar):
                         $raw = $scalar;
                         $cast = (int) $scalar;
@@ -626,7 +631,7 @@ class Inline
                         $raw = $scalar;
                         $cast = (int) $scalar;
 
-                        return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw === (string) $cast) ? $cast : $raw);
+                        return '0' == $scalar[1] ? -octdec(substr($scalar, 1)) : (($raw === (string) $cast) ? $cast : $raw);
                     case is_numeric($scalar):
                     case Parser::preg_match(self::getHexRegex(), $scalar):
                         $scalar = str_replace('_', '', $scalar);

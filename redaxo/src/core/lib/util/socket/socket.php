@@ -314,6 +314,8 @@ class rex_socket
     {
         $host = ($this->ssl ? 'ssl://' : '') . $this->host;
 
+        $errno = 0;
+        $errstr = '';
         $prevError = null;
         set_error_handler(static function ($errno, $errstr) use (&$prevError) {
             if (null === $prevError) {

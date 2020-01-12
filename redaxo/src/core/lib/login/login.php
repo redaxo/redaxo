@@ -5,19 +5,43 @@
  */
 class rex_login
 {
+    /**
+     * @var int
+     */
     protected $DB = 1;
     protected $sessionDuration;
     protected $loginQuery;
     protected $userQuery;
     protected $impersonateQuery;
+    /**
+     * @var string
+     */
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
+    /**
+     * @var bool
+     */
     protected $logout = false;
+    /**
+     * @var string
+     */
     protected $idColumn = 'id';
+    /**
+     * @var string
+     */
     protected $passwordColumn = 'password';
+    /**
+     * @var bool
+     */
     protected $cache = false;
+    /**
+     * @var int
+     */
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
+    /**
+     * @var string
+     */
     protected $message = '';
 
     /** @var rex_sql|rex_user */

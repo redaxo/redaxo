@@ -60,6 +60,8 @@ class rex_template_select extends rex_select
      */
     public function setSelectedFromStartArticle()
     {
+        $selected = null;
+
         // Inherit template_id from start article
         if ($this->categoryId > 0) {
             $sql = rex_sql::factory();

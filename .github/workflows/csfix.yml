@@ -1,43 +1,29 @@
+name: php-cs-fixer
+
 on:
-  issues:
-    types: [labeled]
-name: Codestyle fixing by adding Pull Request label 'fix-cs'
+  pull_request:
+    paths:
+    - '**.php'
+
 jobs:
-  php-cs-fixer-automatic:
-    name: PHP-CS-Fixer fix by Pull Request label
+  php-cs-fixer:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Get pull request branch name
-      id: vars
-      run: |
-        issue_num=$(jq -r .issue.number ${{ github.event_path }})
-        label_found=$(jq -r '.issue.labels[] | select(.name == "fix-cs")' ${{ github.event_path }})
-        head_ref=$(curl -sL \
-          -H "Content-Type: application/json" \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$issue_num" | \
-          jq -r .head.ref)
-        echo ::set-output name=pr_branch::"$head_ref"
-        echo ::set-output name=label_found::"$label_found"
-
-    - uses: actions/checkout@master
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
-
+    - uses: actions/checkout@v1
+    
     - name: Setup PHP
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@v1
       with:
         php-version: 7.1
-    - run: composer global require friendsofphp/php-cs-fixer && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
+    - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
 
-    - name: Update pull request
-      if: steps.vars.outputs.pr_branch != 'null' && steps.vars.outputs.label_found == 0
-      uses: peter-evans/create-pull-request@v1.6.1
+    - name: Commit changed files
+      uses: stefanzweifel/git-auto-commit-action@v2.5.0
+      with:
+        commit_message: Apply php-cs-fixer changes
+        branch: ${{ github.head_ref }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COMMIT_MESSAGE: 'fix code-style'
-        PULL_REQUEST_BRANCH: ${{ steps.vars.outputs.pr_branch }}
-        BRANCH_SUFFIX: none
+        GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
 
      

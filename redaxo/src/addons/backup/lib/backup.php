@@ -338,14 +338,7 @@ class rex_backup
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);
 
         if (null === $tables) {
-            $tables = [];
-            foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
-                if ($table != rex::getTable('user') // User Tabelle nicht exportieren
-                    && substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()
-                ) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
-                    $tables[] = $table;
-                }
-            }
+            $tables = self::getTables();
         }
         foreach ($tables as $table) {
             //---- export metadata
@@ -478,6 +471,17 @@ class rex_backup
             }
         }
         closedir($handle);
+    }
+
+    public static function getTables()
+    {
+        $tables = [];
+        foreach (rex_sql::factory()->getTables(rex::getTablePrefix()) as $table) {
+            if (substr($table, 0, strlen(rex::getTablePrefix() . rex::getTempPrefix())) != rex::getTablePrefix() . rex::getTempPrefix()) { // Tabellen die mit rex_tmp_ beginnne, werden nicht exportiert!
+                $tables[] = $table;
+            }
+        }
+        return $tables;
     }
 
     private static function importScript($filename, $importType, $eventType)

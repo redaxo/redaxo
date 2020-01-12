@@ -128,7 +128,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 
     if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
+        rex_response::setHeader('Strict-Transport-Security', 'max-age='.rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 

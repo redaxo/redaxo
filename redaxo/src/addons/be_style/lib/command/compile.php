@@ -26,5 +26,7 @@ class rex_be_style_command_compile extends rex_console_command
         rex_be_style::compile();
 
         $io->success('Styles successfully compiled');
+
+        return 0;
     }
 }

@@ -9,14 +9,35 @@
  */
 class rex_clang
 {
+    /**
+     * @var bool
+     */
     private static $cacheLoaded = false;
+    /**
+     * @var self[]
+     */
     private static $clangs = [];
+    /**
+     * @var int
+     */
     private static $currentId = 1;
 
     private $id;
+    /**
+     * @var string
+     */
     private $code;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var int
+     */
     private $priority;
+    /**
+     * @var bool
+     */
     private $status;
 
     private function __construct()

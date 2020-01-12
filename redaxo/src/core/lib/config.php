@@ -381,12 +381,16 @@ class rex_config
             $where = [];
             $params = [];
             foreach (self::$deletedData as $namespace => $nsData) {
+                if (0 === count($nsData)) {
+                    continue;
+                }
                 $params = array_merge($params, [$namespace], array_keys($nsData));
                 $where[] = 'namespace = ? AND `key` IN ('.implode(', ', array_fill(0, count($nsData), '?')).')';
             }
-
-            $sql->setWhere(implode("\n    OR ", $where), $params);
-            $sql->delete();
+            if (count($where) > 0) {
+                $sql->setWhere(implode("\n    OR ", $where), $params);
+                $sql->delete();
+            }
         }
 
         // update all changed data

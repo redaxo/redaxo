@@ -264,9 +264,6 @@ https_only_frontend = Activate only for frontend
 https_only_backend = Activate only for backend
 https_activate = Activate for frontend and backend
 
-hsts_activate = Set <b>HTTP Strict Transport Security</b> Entry
-hsts_more_information = More Information at {0}
-
 # redaxo\include\pages\addon.php
 addon = AddOn
 addons = AddOns
