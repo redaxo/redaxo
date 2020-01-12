@@ -319,6 +319,7 @@ class rex_navigation
     /**
      * @param int $category_id
      * @param int $depth
+     *
      * @return string
      */
     protected function _getNavigation($category_id, $depth = 1)
@@ -385,17 +386,19 @@ class rex_navigation
     /**
      * @param array $items
      * @param array $attributes
+     *
      * @return string
      */
     protected function getBreadcrumbListTag(array $items, array $attributes)
     {
-         return '<ul'.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
+        return '<ul'.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
     }
 
     /**
      * @param string $item
-     * @param array $attributes
-     * @param int $depth
+     * @param array  $attributes
+     * @param int    $depth
+     *
      * @return string
      */
     protected function getBreadcrumbListItemTag($item, array $attributes, $depth)
@@ -405,8 +408,9 @@ class rex_navigation
 
     /**
      * @param rex_category $category
-     * @param array $attributes
-     * @param int $depth
+     * @param array        $attributes
+     * @param int          $depth
+     *
      * @return string
      */
     protected function getBreadcrumbLinkTag(rex_category $category, array $attributes, $depth)
@@ -422,7 +426,8 @@ class rex_navigation
     /**
      * @param array $items
      * @param array $attributes
-     * @param int $depth
+     * @param int   $depth
+     *
      * @return string
      */
     protected function getListTag(array $items, array $attributes, $depth)
@@ -431,10 +436,11 @@ class rex_navigation
     }
 
     /**
-     * @param string $item
-     * @param array $attributes
+     * @param string       $item
+     * @param array        $attributes
      * @param rex_category $category
-     * @param int $depth
+     * @param int          $depth
+     *
      * @return string
      */
     protected function getListItemTag($item, array $attributes, rex_category $category, $depth)
@@ -444,8 +450,9 @@ class rex_navigation
 
     /**
      * @param rex_category $category
-     * @param array $attributes
-     * @param int $depth
+     * @param array        $attributes
+     * @param int          $depth
+     *
      * @return string
      */
     protected function getLinkTag(rex_category $category, array $attributes, $depth)
