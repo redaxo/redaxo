@@ -10,9 +10,6 @@ class rex_structure_context
      */
     private $params;
 
-    /**
-     * @param array $params
-     */
     public function __construct(array $params)
     {
         if (!isset($params['category_id']) || !rex_category::get($params['category_id'])) {
@@ -46,97 +43,61 @@ class rex_structure_context
         $this->params = $params;
     }
 
-    /**
-     * @return int
-     */
     public function getCategoryId(): int
     {
         return $this->getValue('category_id', 0);
     }
 
-    /**
-     * @return int
-     */
     public function getArticleId(): int
     {
         return $this->getValue('article_id', 0);
     }
 
-    /**
-     * @return int
-     */
     public function getClangId(): int
     {
         return $this->getValue('clang_id', 0);
     }
 
-    /**
-     * @return int
-     */
     public function getCtypeId(): int
     {
         return $this->getValue('ctype_id', 0);
     }
 
-    /**
-     * @return int
-     */
     public function getArtStart(): int
     {
         return $this->getValue('artstart', 0);
     }
 
-    /**
-     * @return int
-     */
     public function getCatStart(): int
     {
         return $this->getValue('catstart', 0);
     }
 
-    /**
-     * @return int
-     */
     public function getEditId(): int
     {
         return $this->getValue('edit_id', 0);
     }
 
-    /**
-     * @return string
-     */
     public function getFunction(): string
     {
         return $this->getValue('function', '');
     }
 
-    /**
-     * @return array
-     */
     public function getMountpoints(): array
     {
         return rex::getUser()->getComplexPerm('structure')->getMountpoints();
     }
 
-    /**
-     * @return bool
-     */
     public function hasCategoryPermission(): bool
     {
         return rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($this->getCategoryId());
     }
 
-    /**
-     * @return int
-     */
     public function getRowsPerPage(): int
     {
         return $this->getValue('rows_per_page', 30);
     }
 
-    /**
-     * @return rex_context
-     */
     public function getContext(): rex_context
     {
         return new rex_context([
