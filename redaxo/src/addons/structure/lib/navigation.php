@@ -117,7 +117,7 @@ class rex_navigation
             $link = '<a href="'.rex_getUrl(rex_article::getSiteStartArticleId()).'">'.rex_escape($startPageLabel).'</a>';
             $lis[] = $this->getBreadcrumbListItemTag($link, [
                 'class' => 'rex-lvl'.$i,
-            ]);
+            ], $i);
             ++$i;
 
             // StartArticle nicht doppelt anzeigen
@@ -139,10 +139,10 @@ class rex_navigation
             $cat = rex_category::get($pathItem);
             $link = $this->getBreadcrumbLinkTag($cat, [
                 'href' => $cat->getUrl(),
-            ]);
+            ], $i);
             $lis[] = $this->getBreadcrumbListItemTag($link, [
                 'class' => 'rex-lvl'.$i,
-            ]);
+            ], $i);
             ++$i;
         }
 
@@ -151,13 +151,13 @@ class rex_navigation
                 if (!$art->isStartArticle()) {
                     $lis[] = $this->getBreadcrumbListItemTag(rex_escape($art->getName()), [
                         'class' => 'rex-lvl'.$i,
-                    ]);
+                    ], $i);
                 }
             } else {
                 $cat = rex_category::get($this->current_article_id);
                 $lis[] = $this->getBreadcrumbListItemTag(rex_escape($cat->getName()), [
                     'class' => 'rex-lvl'.$i,
-                ]);
+                ], $i);
             }
         }
 
@@ -395,9 +395,10 @@ class rex_navigation
     /**
      * @param string $item
      * @param array $attributes
+     * @param int $depth
      * @return string
      */
-    protected function getBreadcrumbListItemTag($item, array $attributes)
+    protected function getBreadcrumbListItemTag($item, array $attributes, $depth)
     {
         return '<li'.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
     }
@@ -405,9 +406,10 @@ class rex_navigation
     /**
      * @param rex_category $category
      * @param array $attributes
+     * @param int $depth
      * @return string
      */
-    protected function getBreadcrumbLinkTag(rex_category $category, array $attributes)
+    protected function getBreadcrumbLinkTag(rex_category $category, array $attributes, $depth)
     {
         $category_name = rex_escape($category->getName());
         if (!isset($attributes['href'])) {
