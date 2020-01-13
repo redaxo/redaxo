@@ -12,7 +12,7 @@ use Symfony\Component\Console\Question\Question;
  *
  * @internal
  */
-class rex_command_setup_run extends rex_console_command
+class rex_command_setup_run extends rex_console_command implements rex_command_disable_packages
 {
     protected function configure()
     {
