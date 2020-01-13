@@ -95,13 +95,34 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- Step 3 . Perms, Environment
         $io->title('Step 3 of 6 / System check');
 
-        // Embed existing check
-        $command = $this->getApplication()->find('setup:check');
-        $commandArgs = new ArrayInput([]);
-        $checkExitCode = $command->run($commandArgs, $output);
+        /** Cloned from comannd setup:check*/
+        $errors = rex_setup::checkEnvironment();
+        if (0 == count($errors)) {
+            $io->success('PHP version ok');
+        } else {
+            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $io->error("PHP version errors:\n" .implode("\n", $errors));
+            return 1;
+        }
 
-        if (0 !== $checkExitCode) {
-            return $checkExitCode;
+        $res = rex_setup::checkFilesystem();
+        if (count($res) > 0) {
+            $errors = [];
+            foreach ($res as $key => $messages) {
+                if (count($messages) > 0) {
+                    $affectedFiles = [];
+                    foreach ($messages as $message) {
+                        $affectedFiles[] = rex_path::relative($message);
+                    }
+                    $errors[] = rex_i18n::msg($key) . "\n". implode("\n", $affectedFiles);
+                }
+            }
+
+            $errors = array_map([$this, 'decodeMessage'], $errors);
+            $io->error("Directory permissions error:\n" .implode("\n", $errors));
+            return 1;
+        } else {
+            $io->success('Directory permissions ok');
         }
 
         // ---------------------------------- step 4 . Config
