@@ -32,7 +32,9 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['priority', 'int'],
         ['smtp_debug', 'int'],
         ['test_address', 'string'],
-        ['log', 'int', 1],
+        ['log', 'int'],
+        ['log_archive', 'int'],
+
     ]));
 
     if ('' != rex_post('btn_check', 'string')) {
@@ -115,12 +117,24 @@ foreach ([0 => $addon->i18n('disabled'), 1 => $addon->i18n('high'), 3 => $addon-
 
 $sel_log = new rex_select();
 $sel_log->setid('phpmailer-log');
-$sel_log->setName('settings[log]');
+$sel_log->setName('settings[logging]');
 $sel_log->setSize(1);
 $sel_log->setAttribute('class', 'form-control selectpicker');
 $sel_log->setSelected($addon->getConfig('log'));
-$sel_log->addOption($addon->i18n('log_yes'), 1);
 $sel_log->addOption($addon->i18n('log_no'), 0);
+$sel_log->addOption($addon->i18n('log_errors'), 1);
+$sel_log->addOption($addon->i18n('log_all'), 2);
+
+
+$sel_archive = new rex_select();
+$sel_archive->setid('phpmailer-archive');
+$sel_archive->setName('settings[log_archive]');
+$sel_archive->setSize(1);
+$sel_archive->setAttribute('class', 'form-control selectpicker');
+$sel_archive->setSelected($addon->getConfig('log'));
+$sel_archive->addOption($addon->i18n('log_no'), 0);
+$sel_archive->addOption($addon->i18n('log_yes'), 1);
+
 
 $sel_debug = new rex_select();
 $sel_debug->setid('phpmailer-smtp_debug');
@@ -275,8 +289,14 @@ $n['field'] = $sel_priority->get();
 $formElements[] = $n;
 
 $n = [];
-$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('log') . '</label>';
+$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('logging') . '</label>';
 $n['field'] = $sel_log->get();
+$formElements[] = $n;
+
+
+$n = [];
+$n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';
+$n['field'] = $sel_archive->get();
 $n['note'] = rex_i18n::rawMsg('phpmailer_log_info', rex_mailer::logFolder(), '...'.substr(rex_mailer::logFolder(), -30));
 $formElements[] = $n;
 
@@ -354,4 +374,5 @@ echo '
     });
 
 </script>
+
 
