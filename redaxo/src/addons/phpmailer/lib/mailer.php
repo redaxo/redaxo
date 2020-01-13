@@ -45,7 +45,7 @@ class rex_mailer extends PHPMailer
             $this->addBCC($bcc);
         }
 
-        $this->log = $addon->getConfig('log');
+        $this->log = $addon->getConfig('mail_archive');
 
         parent::__construct($exceptions);
     }
@@ -56,11 +56,16 @@ class rex_mailer extends PHPMailer
             if ($this->log) {
                 $this->log();
             }
-            if(!parent::send()){
+            $addon = rex_addon::get('phpmailer');
+            if(!parent::send() && $addon->getConfig('logging') != 0){
             $this->toMailerLog('ERROR');
             return false;
             }
+       
+        if($addon->getConfig('logging') == 2)
+        {
         $this->toMailerLog('OK');
+        }
         return true;
         });
     }
@@ -85,10 +90,10 @@ class rex_mailer extends PHPMailer
      */
     public function setLog($status)
     {
-        $this->log = $status;
+        $this->mail_archive = $status;
     }
 
-    private function log()
+    private function mail_archive()
     {
         $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
         $content .= 'From : '.$this->From.PHP_EOL;
