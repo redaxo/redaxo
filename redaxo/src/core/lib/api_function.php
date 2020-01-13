@@ -195,6 +195,11 @@ abstract class rex_api_function
     public static function hasMessage()
     {
         $apiFunc = self::factory();
+
+        if (!$apiFunc) {
+            return false;
+        }
+
         $result = $apiFunc->getResult();
         return $result && null !== $result->getMessage();
     }
