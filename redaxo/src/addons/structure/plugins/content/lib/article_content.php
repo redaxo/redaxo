@@ -63,14 +63,9 @@ class rex_article_content extends rex_article_content_base
 
     public function hasValue($value)
     {
-        return $this->_hasValue($value);
-    }
-
-    protected function _hasValue($value)
-    {
         // bc
         if ($this->viasql) {
-            return parent::_hasValue($value);
+            return parent::hasValue($value);
         }
 
         $value = $this->correctValue($value);

@@ -214,7 +214,7 @@ class rex_article_content_base
         return false;
     }
 
-    protected function _hasValue($value)
+    private function _hasValue($value)
     {
         return $this->getSqlInstance()->hasValue($this->correctValue($value));
     }
