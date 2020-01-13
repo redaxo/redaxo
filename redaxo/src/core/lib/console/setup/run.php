@@ -12,7 +12,7 @@ use Symfony\Component\Console\Question\Question;
  *
  * @internal
  */
-class rex_command_setup_run extends rex_console_command implements rex_command_disable_packages
+class rex_command_setup_run extends rex_console_command implements rex_command_only_system_packages
 {
     protected function configure()
     {
@@ -153,7 +153,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_d
             do {
                 $config['db'][1]['host'] = $io->ask('MySQL host', $config['db'][1]['host']);
                 $config['db'][1]['login'] = $io->ask('Login', $config['db'][1]['login']);
-                $config['db'][1]['password'] = $io->askHidden('Password', $config['db'][1]['password']);
+                $config['db'][1]['password'] = $io->askHidden('Password');
                 $config['db'][1]['name'] = $io->ask('Database name', $config['db'][1]['name']);
 
                 $redaxo_db_create = $io->confirm('Create database', false);

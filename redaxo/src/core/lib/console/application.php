@@ -58,6 +58,15 @@ class rex_console_application extends Application
             return;
         }
 
+        // Loads only system/setup packages
+        // This is useful for any kind of pre-setup commands
+        if ($command instanceof rex_command_only_system_packages) {
+            foreach (rex_package::getSetupPackages() as $package) {
+                $package->enlist();
+            }
+            return;
+        }
+
         if ('ydeploy:migrate' === $command->getName()) {
             // boot only the ydeploy package, which provides the migrate command
             $command->getPackage()->boot();
