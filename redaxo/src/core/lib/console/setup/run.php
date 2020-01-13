@@ -153,7 +153,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_d
             do {
                 $config['db'][1]['host'] = $io->ask('MySQL host', $config['db'][1]['host']);
                 $config['db'][1]['login'] = $io->ask('Login', $config['db'][1]['login']);
-                $config['db'][1]['password'] = $io->ask('Password', $config['db'][1]['password']);
+                $config['db'][1]['password'] = $io->askHidden('Password', $config['db'][1]['password']);
                 $config['db'][1]['name'] = $io->ask('Database name', $config['db'][1]['name']);
 
                 $redaxo_db_create = $io->confirm('Create database', false);
@@ -266,6 +266,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_d
         $login = null;
         $password = null;
 
+        $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
         if (null === $input->getOption('admin-username') || null === $input->getOption('admin-password')) {
             $user = rex_sql::factory();
             $user
@@ -276,7 +277,6 @@ class rex_command_setup_run extends rex_console_command implements rex_command_d
             if ($user->getRows()) {
                 $skipUserCreation = $io->confirm('Users already exists. Skip user creation?');
             }
-            $passwordPolicy = rex_backend_password_policy::factory(rex::getProperty('password_policy', []));
 
             if (!$skipUserCreation) {
                 $io->section('Create administrator account');
@@ -303,6 +303,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_d
         } else {
             $login = $input->getOption('admin-username');
             $password = $input->getOption('admin-password');
+            if (true !== $msg = $passwordPolicy->check($password)) {
+                $io->error($msg);
+                return 1;
+            }
         }
 
         if ($login && $password) {
