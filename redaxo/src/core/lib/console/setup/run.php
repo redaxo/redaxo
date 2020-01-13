@@ -1,6 +1,5 @@
 <?php
 
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -121,9 +120,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $errors = array_map([$this, 'decodeMessage'], $errors);
             $io->error("Directory permissions error:\n" .implode("\n", $errors));
             return 1;
-        } else {
-            $io->success('Directory permissions ok');
         }
+        $io->success('Directory permissions ok');
 
         // ---------------------------------- step 4 . Config
         $io->title('Step 4 of 6 / Creating config');
