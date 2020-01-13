@@ -61,7 +61,7 @@ phpmailer_logging = E-Mail-Log
 phpmailer_log_errors = Nur Fehler loggen
 phpmailer_log_all = Alle Vorgänge loggen
 phpmailer_archive = E-Mail-Archivierung
-phpmailer_log_archive_info = Archiv-Ordner: <span title="{0}">{1}</span>
+phpmailer_archive_info = Archiv-Ordner: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nein
 phpmailer_log_title = PHPMailer-Log "{0}"
