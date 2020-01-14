@@ -65,7 +65,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $config['lang'] = $io->askQuestion(new ChoiceQuestion('Please select a language', $langs));
         } else {
             $lang = $input->getOption('lang');
-            if (!$lang || in_array($lang, $langs, true)) {
+            if (!$lang || !in_array($lang, $langs, true)) {
                 throw new InvalidArgumentException('Unknown lang "' . $lang . '" specified');
             }
             $config['lang'] = $lang;
