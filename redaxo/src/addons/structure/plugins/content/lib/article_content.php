@@ -49,16 +49,23 @@ class rex_article_content extends rex_article_content_base
         return false;
     }
 
-    protected function _getValue($value)
+    public function getValue($value)
     {
         // bc
         if ($this->viasql) {
-            return parent::_getValue($value);
+            return parent::getValue($value);
         }
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->getValue($value);
+        $art = rex_article::get($this->article_id, $this->clang);
+        foreach (['', 'art_', 'cat_'] as $prefix) {
+            $val = $prefix . $value;
+            if ($art->hasValue($val)) {
+                return $art->getValue($val);
+            }
+        }
+        return '[' . $value . ' not found]';
     }
 
     public function hasValue($value)
