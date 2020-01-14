@@ -58,9 +58,8 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        $art = rex_article::get($this->article_id, $this->clang);
-        if ($art->hasValue($value)) {
-            return $art->getValue($value);
+        if (rex_article::hasValue($value)) {
+            return rex_article::get($this->article_id, $this->clang)->getValue($value);
         }
         return '[' . $value . ' not found]';
     }
@@ -74,7 +73,7 @@ class rex_article_content extends rex_article_content_base
 
         $value = $this->correctValue($value);
 
-        return rex_article::get($this->article_id, $this->clang)->hasValue($value);
+        return rex_article::hasValue($value);
     }
 
     public function getArticle($curctype = -1)
