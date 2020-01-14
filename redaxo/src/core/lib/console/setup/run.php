@@ -231,7 +231,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         if (!$input->getOption('db-setup')) {
-            $createdb = $io->askQuestion(new ChoiceQuestion('Setup database', $createdbOptions));
+            $createdb = $io->askQuestion(new ChoiceQuestion('Setup database', $createdbOptions, 'normal'));
         } else {
             $validOptions = array_keys($createdbOptions);
             $createdb = $input->getOption('db-setup');
