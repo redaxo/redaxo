@@ -59,11 +59,8 @@ class rex_article_content extends rex_article_content_base
         $value = $this->correctValue($value);
 
         $art = rex_article::get($this->article_id, $this->clang);
-        foreach (['', 'art_', 'cat_'] as $prefix) {
-            $val = $prefix . $value;
-            if ($art->hasValue($val)) {
-                return $art->getValue($val);
-            }
+        if ($art->hasValue($value)) {
+            return $art->getValue($value);
         }
         return '[' . $value . ' not found]';
     }
