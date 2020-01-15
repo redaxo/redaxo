@@ -196,7 +196,7 @@ $sql = rex_sql::factory();
 $content = '
     <table class="table">
         <tr>
-            <th class="rex-table-width-3">MySQL</th>
+            <th class="rex-table-width-3">' . rex_i18n::msg('version') . '</th>
             <td>' .  $sql->getDbType().' '.$sql->getDbVersion() . '</td>
         </tr>
         <tr>
