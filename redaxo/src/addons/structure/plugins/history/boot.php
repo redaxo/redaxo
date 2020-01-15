@@ -135,17 +135,25 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $clang_id = rex_request('history_clang_id', 'int');
             $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id);
 
-            $select = '<option value="" selected="selected">' . $plugin->i18n('current_version') . '</option>';
+            $select1 = [];
+            $select1[] = '<option value="0" selected="selected" data-revision="0">' . $plugin->i18n('current_version') . '</option>';
+            if (rex_plugin::get('structure','version')->isAvailable()) {
+                $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
+            }
+
+            $select2 = [];
+            $select2[] = '<option value="" selected="selected">' . $plugin->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
                 $history_info = $version['history_date'];
                 if ('' != $version['history_user']) {
                     $history_info = $version['history_date'] . ' [' . $version['history_user'] . ']';
                 }
-                $select .= '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $history_info . '</option>';
+                $select2[] = '<option value="' . strtotime($version['history_date']) . '" data-history-date="' . $version['history_date'] . '">' . $history_info . '</option>';
             }
-            $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . $select . '</select>';
+
+            $content1select = '<select id="content-history-select-date-1" class="content-history-select" data-iframe="content-history-iframe-1" style="">' . implode('', $select1) . '</select>';
             $content1iframe = '<iframe id="content-history-iframe-1" class="history-iframe"></iframe>';
-            $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . $select . '</select>';
+            $content2select = '<select id="content-history-select-date-2" class="content-history-select" data-iframe="content-history-iframe-2">' . implode('', $select2) . '</select>';
             $content2iframe = '<iframe id="content-history-iframe-2" class="history-iframe"></iframe>';
 
             // fragment holen und ausgeben
