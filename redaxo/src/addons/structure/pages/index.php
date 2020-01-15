@@ -396,7 +396,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
         } else {
             $class = ' rex-icon-article';
         }
-        $data_artid = 'data-art_id="'.$art_id.'"';
+        $data_artid = 'data-art-id="'.$sql->getValue('id').'"';
 
         $class_startarticle = '';
         if (1 == $sql->getValue('startarticle')) {
