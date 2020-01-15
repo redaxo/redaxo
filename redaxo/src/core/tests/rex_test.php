@@ -130,6 +130,7 @@ class rex_rex_test extends TestCase
     {
         // there is no user, when tests are run from CLI
         if (PHP_SAPI === 'cli') {
+            $this->markTestSkipped('there is no user, when tests are run from CLI');
             return;
         }
 
