@@ -388,7 +388,6 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
     // --------------------- ARTIKEL LIST
     for ($i = 0; $i < $sql->getRows(); ++$i) {
-        $art_id = $sql->getValue('id');
         if ($sql->getValue('id') == rex_article::getSiteStartArticleId()) {
             $class = ' rex-icon-sitestartarticle';
         } elseif (1 == $sql->getValue('startarticle')) {
