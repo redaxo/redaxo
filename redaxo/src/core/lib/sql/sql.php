@@ -11,6 +11,9 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
+    public const MYSQL = 'MySQL';
+    public const MARIADB = 'MariaDB';
+
     /**
      * Default SQL datetime format.
      */
@@ -1616,6 +1619,24 @@ class rex_sql implements Iterator
             self::factory($DBID);
         }
         return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+    }
+
+    public function getDbType(): string
+    {
+        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        return false === stripos($version, 'mariadb') ? self::MYSQL : self::MARIADB;
+    }
+
+    public function getDbVersion(): string
+    {
+        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        if (preg_match('/^(\d+\.\d+\.\d+)(?:-(\d+\.\d+\.\d+)-mariadb)?/i', $version, $match)) {
+            return $match[2] ?? $match[1];
+        }
+
+        return $version;
     }
 
     /**
