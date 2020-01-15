@@ -57,7 +57,6 @@ if ('' != $history_date) {
 
     rex_extension::register('ART_SLICES_QUERY', static function (rex_extension_point $ep) {
         $history_date = rex_request('rex_history_date', 'string');
-        $history_revision = rex_request('history_revision', 'int', 0);
         $article = $ep->getParam('article');
 
         if ($article instanceof rex_article_content && $article->getArticleId() == rex_article::getCurrentId()) {
@@ -82,7 +81,7 @@ if ('' != $history_date) {
                 WHERE
                     ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
                     " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
-                    " . rex::getTablePrefix() . "article_slice.revision='" . $history_revision . "'
+                    " . rex::getTablePrefix() . "article_slice.revision=0
                     " . $articleLimit . '
                     ' . $sliceLimit . '
                     ' . $sliceDate . '
@@ -110,7 +109,10 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             $clang_id = $ep->getParam('clang_id');
             $slice_revision = $ep->getParam('slice_revision');
 
-            rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type, $slice_revision);
+            if (0 == $slice_revision) {
+                rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type);
+            }
+
         }
     );
 
@@ -123,21 +125,15 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
         case 'snap':
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
-            $revision = rex_request('history_revision', 'int', 0);
             $history_date = rex_request('history_date', 'string');
-
-            rex_article_slice_history::restoreSnapshot($history_date, $article_id, $clang_id, $revision);
+            rex_article_slice_history::restoreSnapshot($history_date, $article_id, $clang_id);
 
             // no break
         case 'layer':
 
-            // article_id und clang_id und revision noch nötig
-
             $article_id = rex_request('history_article_id', 'int');
             $clang_id = rex_request('history_clang_id', 'int');
-            $revision = rex_request('history_revision', 'int', 0);
-
-            $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id, $revision);
+            $versions = rex_article_slice_history::getSnapshots($article_id, $clang_id);
 
             $select = '<option value="" selected="selected">' . $plugin->i18n('current_version') . '</option>';
             foreach ($versions as $version) {
@@ -166,21 +162,20 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
     rex_extension::register('STRUCTURE_CONTENT_HEADER', static function (rex_extension_point $ep) {
         if ('content/edit' == $ep->getParam('page')) {
-            $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0)], '&');
+            $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), [], '&');
             if ('http' == substr($article_link, 0, 4)) {
                 $user = rex::getUser();
                 $userLogin = $user->getLogin();
                 $historyValidTime = new DateTime();
                 $historyValidTime = $historyValidTime->modify('+10 Minutes')->format('YmdHis'); // 10 minutes valid key
                 $userHistorySession = rex_history_login::createSessionKey($userLogin, $user->getValue('session_id'), $historyValidTime);
-                $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['history_revision' => rex_request('rex_set_version', 'int', 0), 'rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
+                $article_link = rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['rex_history_login' => $userLogin, 'rex_history_session' => $userHistorySession, 'rex_history_validtime' => $historyValidTime], '&');
             }
 
             echo '<script>
                     var history_article_id = ' . rex_article::getCurrentId() . ';
                     var history_clang_id = ' . rex_clang::getCurrentId() . ';
                     var history_ctype_id = ' . rex_request('ctype', 'int', 0) . ';
-                    var history_revision = ' . rex_request('rex_set_version', 'int', 0) . ';
                     var history_article_link = "' . $article_link . '";
                     </script>';
         }
