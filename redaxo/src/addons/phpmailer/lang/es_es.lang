@@ -57,11 +57,27 @@ phpmailer_checkmail_info_subject = Busque E-Mails con el tema: Prueba PHPMailer
 phpmailer_checkmail_greeting = Hola
 phpmailer_checkmail_text = Este es un mail de prueba del sitio web:
 phpmailer_checkmail_domain_note = Esta prueba solo es válida para lo mencionado anteriormente Dominio. Si se puede acceder al sitio web bajo varios dominios, la prueba debe realizarse después de un nuevo inicio de sesión en el dominio deseado.
+phpmailer_logging = Registro de E-Mail
+phpmailer_log_errors = 
+phpmailer_log_all = 
+phpmailer_archive = Archivado de E-Mail
+phpmailer_log_info = Carpeta de registro: <span title="{0}"> {1}</span>
 phpmailer_log_yes = Sí
 phpmailer_log_no = No
+phpmailer_log_title = 
+phpmailer_log_deleted = 
+phpmailer_log_delete_error = 
+phpmailer_delete_log_msg = 
+phpmailer_log_success = 
+phpmailer_log_date = 
+phpmailer_log_from = 
+phpmailer_log_to = 
+phpmailer_log_subject = 
+phpmailer_log_msg = 
 phpmailer_errormail_disabled = deshabilitado
 phpmailer_errormail_15min = 15 Minutos de verificación de intervalo
 phpmailer_errormail_30min = 30 Minutos de verificación de intervalo
 phpmailer_errormail_60min = 60 Minutos de verificación de intervalo
 
 system_setting_errormail = Enviar mensajes de error
+
