@@ -20,8 +20,6 @@
     .table td.rex-table-id,
     .table th.rex-table-number,
     .table td.rex-table-number,
-    .table th.rex-table-date,
-    .table td.rex-table-date,
     .table th.rex-table-priority,
     .table td.rex-table-priority {
         // common number based cells
@@ -31,21 +29,23 @@
         text-align: right;
         font-variant-numeric: tabular-nums;
     }
-    .table th.rex-table-date,
-    .table td.rex-table-date,
-    .table th.rex-table-template,
-    .table td.rex-table-template {
-        min-width: 130px;
-    }
-    .table th.rex-table-priority,
-    .table td.rex-table-priority {
-        min-width: 100px;
-    }
     .table th.rex-table-category,
     .table td.rex-table-category,
     .table th.rex-table-article-name,
     .table td.rex-table-article-name {
         width: 100%; // stretch these main columns
+    }
+    .table th.rex-table-template,
+    .table td.rex-table-template {
+        min-width: 150px;
+    }
+    .table th.rex-table-date,
+    .table td.rex-table-date {
+        min-width: 120px;
+    }
+    .table th.rex-table-priority,
+    .table td.rex-table-priority {
+        min-width: 70px;
     }
     // additional helper class for tabular-nums style
     // can be used in addons or custom tables
