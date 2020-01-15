@@ -387,15 +387,16 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     }
 
     // --------------------- ARTIKEL LIST
-
-    for ($i = 0; $i < $sql->getRows(); ++$i) {
-        if ($sql->getValue('id') == rex_article::getSiteStartArticleId()) {
+  for ($i = 0; $i < $sql->getRows(); ++$i) {
+        $art_id = $sql->getValue('id');
+        if ($art_id == rex_article::getSiteStartArticleId()) {
             $class = ' rex-icon-sitestartarticle';
         } elseif (1 == $sql->getValue('startarticle')) {
             $class = ' rex-icon-startarticle';
         } else {
             $class = ' rex-icon-article';
         }
+        $class = $class.' art-id-'.$art_id;
 
         $class_startarticle = '';
         if (1 == $sql->getValue('startarticle')) {
