@@ -28,6 +28,7 @@
         min-width: 50px;
         text-align: right;
         font-variant-numeric: tabular-nums;
+        white-space: nowrap;
     }
     .table th.rex-table-category,
     .table td.rex-table-category,
@@ -41,11 +42,11 @@
     }
     .table th.rex-table-date,
     .table td.rex-table-date {
-        min-width: 120px;
+        white-space: nowrap;
     }
     .table th.rex-table-priority,
     .table td.rex-table-priority {
-        min-width: 70px;
+        min-width: 80px; // allow for 4 digit input field in edit mode
     }
     // additional helper class for tabular-nums style
     // can be used in addons or custom tables
