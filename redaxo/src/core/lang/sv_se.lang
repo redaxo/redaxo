@@ -3,7 +3,7 @@ htmllang = se
 yes = ja
 no = nej
 general = Allmänt
-dateformat = %d. %b. %Y
+dateformat = %d %b. %Y
 setlocale = se_SE,se_SE@euro,sve_sve,swedish_sweden,sv,se
 phpini_settings = PHP.ini inställningar
 

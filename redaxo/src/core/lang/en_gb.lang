@@ -3,7 +3,7 @@ htmllang = en
 yes = yes
 no = no
 general = General
-dateformat = %Y-%b-%d
+dateformat = %d %b %Y
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Settings
 
@@ -139,7 +139,7 @@ debug_mode_off = Disable debug mode
 debug_mode_info_on = Debug mode has been activated
 debug_mode_info_off = Debug mode was deactivated
 debug_mode_marker = Debug mode is enabled
-debug_confirm = Debug mode should not be activated in live mode. Still activate debug mode?  
+debug_confirm = Debug mode should not be activated in live mode. Still activate debug mode?
 
 system_report = System report
 system_report_markdown = As markdown

@@ -3,7 +3,7 @@ htmllang = nl
 yes = ja
 no = nee
 general = Algemeen
-dateformat = %d/%b/%Y
+dateformat = %d %b. %Y
 setlocale = nl_NL,nl_NL.UTF8,dutch,nld_nld,nld,Nederlands
 phpini_settings = PHP.ini Instellingen
 

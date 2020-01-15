@@ -3,7 +3,7 @@ htmllang = pt
 yes = sim
 no = não
 general = geral
-dateformat = %d/ %b/ %Y
+dateformat = %d/%b/%Y
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Configurações
 
