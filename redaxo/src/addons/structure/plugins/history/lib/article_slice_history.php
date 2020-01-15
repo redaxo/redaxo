@@ -100,6 +100,11 @@ class rex_article_slice_history
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
     }
 
+    public static function clearHistoryByDate(DateTime $deleteDate)
+    {
+        rex_sql::factory()->setQuery('delete from ' . self::getTable() .' where history_date < ?', [$deleteDate->format('Y-m-d H:i:s')]);
+    }
+
     public static function checkTables()
     {
         $slices_table = rex_sql_table::get(rex::getTable('article_slice'));

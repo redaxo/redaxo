@@ -190,3 +190,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     }
     );
 }
+
+if (rex_plugin::get('structure', 'version')->isAvailable() && !rex::isSafeMode()) {
+    rex_cronjob_manager::registerType(rex_cronjob_structure_history::class);
+}
