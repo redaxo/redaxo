@@ -81,8 +81,8 @@ if ('' != $history_date) {
                 WHERE
                     ' . rex::getTablePrefix() . "article_slice.clang_id='" . $article->getClang() . "' AND
                     " . rex::getTablePrefix() . "article.clang_id='" . $article->getClang() . "' AND
-                    " . rex::getTablePrefix() . "article_slice.revision=0
-                    " . $articleLimit . '
+                    " . rex::getTablePrefix() . 'article_slice.revision=0
+                    ' . $articleLimit . '
                     ' . $sliceLimit . '
                     ' . $sliceDate . '
                     ORDER BY ' . rex::getTablePrefix() . 'article_slice.priority';
@@ -112,7 +112,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
             if (0 == $slice_revision) {
                 rex_article_slice_history::makeSnapshot($article_id, $clang_id, $type);
             }
-
         }
     );
 
@@ -137,7 +136,7 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
 
             $select1 = [];
             $select1[] = '<option value="0" selected="selected" data-revision="0">' . $plugin->i18n('current_version') . '</option>';
-            if (rex_plugin::get('structure','version')->isAvailable()) {
+            if (rex_plugin::get('structure', 'version')->isAvailable()) {
                 $select1[] = '<option value="1" data-revision="1">' . rex_i18n::msg('version_workingversion') . '</option>';
             }
 

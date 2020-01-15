@@ -85,8 +85,7 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
             if ($working_version_empty) {
                 $return .= rex_view::error(rex_i18n::msg('version_warning_working_version_to_live'));
             } elseif (rex::getUser()->hasPerm('version[live_version]')) {
-
-                if (rex_plugin::get('structure','history')->isAvailable()) {
+                if (rex_plugin::get('structure', 'history')->isAvailable()) {
                     rex_article_slice_history::makeSnapshot($params['article_id'], $params['clang'], 'work_to_live');
                 }
 
