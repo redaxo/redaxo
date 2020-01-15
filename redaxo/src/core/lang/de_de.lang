@@ -3,12 +3,12 @@ htmllang = de
 yes = ja
 no = nein
 general = Allgemein
-dateformat = %d. %b. %Y
 setlocale = de_DE,de_DE@euro,deu_deu,german_germany,de,ge
 phpini_settings = PHP.ini Einstellungen
 
-datetimeformat = %d. %b. %Y - %H:%Mh
-timeformat = %H:%Mh
+dateformat = %d. %b. %Y
+datetimeformat = %d. %b. %Y, %H:%M
+timeformat = %H:%M
 ctrl = Mehrfachauswahl mit <kbd>STRG</kbd> bzw. <kbd>CMD</kbd>
 translatable = Übersetzbar via <code>translate:i18n_key</code>
 
@@ -139,7 +139,7 @@ debug_mode_off = Debug-Modus deaktivieren
 debug_mode_info_on = Der Debug-Modus wurde aktiviert
 debug_mode_info_off = Der Debug-Modus wurde deaktiviert
 debug_mode_marker = Der Debug-Modus ist aktiv
-debug_confirm = Der Debug-Modus sollte nicht im Live-Betrieb verwendet werden. Dennoch den Debug-Modus aktivieren?  
+debug_confirm = Der Debug-Modus sollte nicht im Live-Betrieb verwendet werden. Dennoch den Debug-Modus aktivieren?
 
 system_report = Systembericht
 system_report_markdown = Als markdown

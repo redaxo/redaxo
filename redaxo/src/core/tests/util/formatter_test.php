@@ -41,13 +41,13 @@ class rex_formatter_test extends TestCase
 
         $format = 'date';
         $this->assertEquals(
-            '2012-May-12',
+            '12 May 2012',
             rex_formatter::strftime($value, $format)
         );
 
         $format = 'datetime';
         $this->assertEquals(
-            '2012-May-12 10:24',
+            '12 May 2012, 10:24',
             rex_formatter::strftime($value, $format)
         );
 

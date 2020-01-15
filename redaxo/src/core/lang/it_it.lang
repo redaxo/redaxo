@@ -3,11 +3,11 @@ htmllang = it
 yes = si
 no = no
 general = generale
-dateformat = %d %b %Y
 setlocale = it_IT,it_IT@euro
 phpini_settings = Impostazioni PHP.ini
 
-datetimeformat = %d-%m-%Y - %H:%M
+dateformat = %d %b %Y
+datetimeformat = %d %b %Y, %H:%M
 timeformat = %H:%M
 ctrl = Per seleziona multipla usare <kbd>STRG</kbd> risp. <kbd>CMD</kbd>
 
