@@ -34,7 +34,6 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['test_address', 'string'],
         ['logging', 'int'],
         ['archive', 'int'],
-
     ]));
 
     if ('' != rex_post('btn_check', 'string')) {
@@ -125,7 +124,6 @@ $sel_log->addOption($addon->i18n('log_no'), 0);
 $sel_log->addOption($addon->i18n('log_errors'), 1);
 $sel_log->addOption($addon->i18n('log_all'), 2);
 
-
 $sel_archive = new rex_select();
 $sel_archive->setid('phpmailer-archive');
 $sel_archive->setName('settings[archive]');
@@ -134,7 +132,6 @@ $sel_archive->setAttribute('class', 'form-control selectpicker');
 $sel_archive->setSelected($addon->getConfig('archive'));
 $sel_archive->addOption($addon->i18n('log_no'), 0);
 $sel_archive->addOption($addon->i18n('log_yes'), 1);
-
 
 $sel_debug = new rex_select();
 $sel_debug->setid('phpmailer-smtp_debug');
@@ -292,7 +289,6 @@ $n = [];
 $n['label'] = '<label for="phpmailer-log">' . $addon->i18n('logging') . '</label>';
 $n['field'] = $sel_log->get();
 $formElements[] = $n;
-
 
 $n = [];
 $n['label'] = '<label for="phpmailer-log">' . $addon->i18n('archive') . '</label>';

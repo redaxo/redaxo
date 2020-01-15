@@ -40,7 +40,7 @@ if (!$addon->hasConfig()) {
 }
 
     if ($addon->hasConfig('log')) {
-        if ($addon->getConfig('log') == true) {
+        if (true == $addon->getConfig('log')) {
             $addon->setConfig('archive', 1);
         }
         $addon->removeConfig('log');

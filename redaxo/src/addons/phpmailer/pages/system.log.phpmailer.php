@@ -1,10 +1,10 @@
 <?php
+
 $func = rex_request('func', 'string');
 $error = '';
 $success = '';
 $addon = rex_addon::get('phpmailer');
 $logFile = rex_mailer::logFile();
-
 
 if ('mailer_delLog' == $func) {
     if (rex_log_file::delete($logFile)) {
@@ -58,7 +58,6 @@ if ($file = new rex_log_file($logFile)) {
 $content .= '
                 </tbody>
             </table>';
-
 
 $formElements = [];
 $n = [];

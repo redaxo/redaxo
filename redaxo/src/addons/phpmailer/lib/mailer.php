@@ -55,20 +55,21 @@ class rex_mailer extends PHPMailer
                 $this->archive();
             }
             $addon = rex_addon::get('phpmailer');
-            if (!parent::send() && $addon->getConfig('logging') != 0) {
+            if (!parent::send() && 0 != $addon->getConfig('logging')) {
                 $this->toMailerLog('ERROR');
                 return false;
             }
-       
-            if ($addon->getConfig('logging') == 2) {
+
+            if (2 == $addon->getConfig('logging')) {
                 $this->toMailerLog('OK');
             }
             return true;
         });
     }
+
     /**
      * @param string $success
-    */
+     */
     public function toMailerLog($succsess)
     {
         $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
@@ -114,10 +115,9 @@ class rex_mailer extends PHPMailer
     {
         return rex_path::addonData('phpmailer', 'mail_log');
     }
-    
+
     public static function logFile()
     {
         return rex_path::addonData('phpmailer', 'mail.log');
     }
 }
-
