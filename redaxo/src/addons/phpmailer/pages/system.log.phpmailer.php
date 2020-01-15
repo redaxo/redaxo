@@ -7,7 +7,6 @@ $logFile = rex_mailer::logFile();
 
 
 if ('mailer_delLog' == $func) {
-    rex_logger::close();
     if (rex_log_file::delete($logFile)) {
         $success = rex_i18n::msg('phpmailer_log_deleted');
     } else {
@@ -42,19 +41,18 @@ $content .= '
 $buttons = '';
 if ($file = new rex_log_file($logFile)) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
-        $data = $entry->getData();   
-         $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
-         $content .= '
+        $data = $entry->getData();
+        $class = 'ERROR' == trim($data[0]) ? 'rex-state-error' : 'rex-mailer-log-ok';
+        $content .= '
                     <tr class="'.$class.'">
                      <td data-title="' . rex_i18n::msg('phpmailer_log_success') . '"><strong>' .rex_escape($data[0]). '</strong></td>
                      <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                       <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
                       <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . str_replace(':pipe:','|',rex_escape($data[3])) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . str_replace(':pipe:', '|', rex_escape($data[3])) . '</td>
                       <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', nl2br($data[4])) . '</td>
                     </tr>';
     }
-
 }
 
 $content .= '
@@ -83,4 +81,3 @@ $content = '
     </form>';
 echo $message;
 echo $content;
-
