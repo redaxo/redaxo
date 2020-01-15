@@ -219,6 +219,7 @@
         initUiElements: function (el) {
             debug.log('init UI elements');
             this.el = $(el);
+            this.selector_current = $('#content-history-select-date-1', this.el);
             this.selector = $('#content-history-select-date-2', this.el);
             this.selectPrev = $('[data-history-layer="prev"]', this.el);
             this.selectNext = $('[data-history-layer="next"]', this.el);
@@ -246,6 +247,9 @@
          * bind event handlers
          */
         bindEventHandlers: function () {
+
+            var that = this;
+
             debug.log('bind event handlers');
             this.selector.on('change', $.proxy(this.onSelect, this));
             this.selectPrev.on('click', $.proxy(this.onSelectPrev, this));
@@ -256,6 +260,11 @@
             if (this.sliderSelect) {
                 this.sliderSelect.on('change', $.proxy(this.onSliderSelect, this));
             }
+            this.selector_current.on('change', function () {
+                var revision = that.selector_current.val();
+                var src = that.link + "?rex_version=" + revision;
+                that.currentFrame.attr("src", src);
+            })
         },
 
         /**
