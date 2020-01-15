@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package redaxo\backup
+ * @package redaxo\structure\history
  */
 class rex_cronjob_structure_history extends rex_cronjob
 {
