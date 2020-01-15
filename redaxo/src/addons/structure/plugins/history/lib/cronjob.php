@@ -41,7 +41,7 @@ class rex_cronjob_structure_history extends rex_cronjob
                 '14 days' => rex_i18n::msg('structure_history_days', 14),
                 '1 month' => rex_i18n::msg('structure_history_months', 1),
                 '6 months' => rex_i18n::msg('structure_history_months', 6),
-                '1 year' => rex_i18n::msg('structure_history_years', 1)
+                '1 year' => rex_i18n::msg('structure_history_years', 1),
             ],
         ];
 
