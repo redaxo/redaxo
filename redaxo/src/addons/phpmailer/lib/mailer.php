@@ -44,29 +44,26 @@ class rex_mailer extends PHPMailer
         if ($bcc = $addon->getConfig('bcc')) {
             $this->addBCC($bcc);
         }
-
-        $this->log = $addon->getConfig('mail_archive');
-
+        $this->archive = $addon->getConfig('archive');
         parent::__construct($exceptions);
     }
 
     public function send()
     {
         return rex_timer::measure(__METHOD__, function () {
-            if ($this->log) {
-                $this->log();
+            if ($this->archive) {
+                $this->archive();
             }
             $addon = rex_addon::get('phpmailer');
-            if(!parent::send() && $addon->getConfig('logging') != 0){
-            $this->toMailerLog('ERROR');
-            return false;
+            if (!parent::send() && $addon->getConfig('logging') != 0) {
+                $this->toMailerLog('ERROR');
+                return false;
             }
        
-        if($addon->getConfig('logging') == 2)
-        {
-        $this->toMailerLog('OK');
-        }
-        return true;
+            if ($addon->getConfig('logging') == 2) {
+                $this->toMailerLog('OK');
+            }
+            return true;
         });
     }
     /**
@@ -79,21 +76,21 @@ class rex_mailer extends PHPMailer
             ($succsess),
             ($this->From.PHP_EOL),
             (implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL),
-            (str_replace('|',':pipe:',$this->Subject.PHP_EOL)),
+            (str_replace('|', ':pipe:', $this->Subject.PHP_EOL)),
             strip_tags($this->ErrorInfo),
         ];
         $log->add($data);
-    }    
+    }
 
     /**
      * @param bool $status
      */
-    public function setLog($status)
+    public function setArchive($status)
     {
-        $this->mail_archive = $status;
+        $this->archive = $status;
     }
 
-    private function mail_archive()
+    private function archive()
     {
         $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
         $content .= 'From : '.$this->From.PHP_EOL;
@@ -105,12 +102,12 @@ class rex_mailer extends PHPMailer
         $dir = self::logFolder().'/'.date('Y').'/'.date('m');
 
         $count = 1;
-        $logFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
-        while (file_exists($logFile)) {
-            $logFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
+        $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'.html';
+        while (file_exists($archiveFile)) {
+            $archiveFile = $dir.'/'.date('Y-m-d_H_i_s').'_'.(++$count).'.html';
         }
 
-        rex_file::put($logFile, $content);
+        rex_file::put($archiveFile, $content);
     }
 
     public static function logFolder()
@@ -118,9 +115,9 @@ class rex_mailer extends PHPMailer
         return rex_path::addonData('phpmailer', 'mail_log');
     }
     
-       public static function logFile()
+    public static function logFile()
     {
         return rex_path::addonData('phpmailer', 'mail.log');
     }
-
 }
+
