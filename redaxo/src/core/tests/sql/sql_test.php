@@ -81,6 +81,77 @@ class rex_sql_test extends TestCase
         $this->assertTrue(true !== rex_sql::checkDbConnection($config['db'][1]['host'], $config['db'][1]['login'], $config['db'][1]['password'], 'fu-database'));
     }
 
+    /**
+     * @dataProvider provideDbType
+     */
+    public function testDbType(string $expected, string $version): void
+    {
+        $sql = $this->getVersionMock($version);
+
+        $this->assertSame($expected, $sql->getDbType());
+    }
+
+    public function provideDbType(): array
+    {
+        return [
+            [rex_sql::MYSQL, '5.7.7'],
+            [rex_sql::MYSQL, '5.6.19-67.0-log'],
+            [rex_sql::MARIADB, '10.2.0-mariadb'],
+            [rex_sql::MARIADB, '5.5.5-10.4.10-MariaDB'],
+            [rex_sql::MARIADB, '5.5.5-10.3.18-MariaDB-log'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideDbVersion
+     */
+    public function testDbVersion(string $expected, string $version): void
+    {
+        $sql = $this->getVersionMock($version);
+
+        $this->assertSame($expected, $sql->getDbVersion());
+    }
+
+    public function provideDbVersion(): array
+    {
+        return [
+            ['5.7.7', '5.7.7'],
+            ['5.6.19', '5.6.19-67.0-log'],
+            ['10.2.0', '10.2.0-mariadb'],
+            ['10.4.10', '5.5.5-10.4.10-MariaDB'],
+            ['10.3.18', '5.5.5-10.3.18-MariaDB-log'],
+            ['unexpected-1.0-foo', 'unexpected-1.0-foo'],
+        ];
+    }
+
+    private function getVersionMock(string $version): rex_sql
+    {
+        return new class($version) extends rex_sql {
+            public function __construct(string $version)
+            {
+                $this->DBID = 999;
+                self::$pdo[$this->DBID] = new class($version) {
+                    private $version;
+
+                    public function __construct(string $version)
+                    {
+                        $this->version = $version;
+                    }
+
+                    public function getAttribute($attribute)
+                    {
+                        return $this->version;
+                    }
+                };
+            }
+
+            public function __destruct()
+            {
+                unset(self::$pdo[$this->DBID]);
+            }
+        };
+    }
+
     public function testSetGetValue()
     {
         $sql = rex_sql::factory();
