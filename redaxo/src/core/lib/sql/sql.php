@@ -1603,14 +1603,11 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Gibt die Serverversion zurueck.
-     *
-     * Die Versionsinformation ist erst bekannt,
-     * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
+     * Returns the full database version string.
      *
      * @param int $DBID
      *
-     * @return mixed
+     * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
     public static function getServerVersion($DBID = 1)
     {
@@ -1621,6 +1618,11 @@ class rex_sql implements Iterator
         return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
     }
 
+    /**
+     * Returns the database type (MySQL or MariaDB).
+     *
+     * @return string `rex_sql::MYSQL` or `rex_sql::MARIADB`
+     */
     public function getDbType(): string
     {
         $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
@@ -1628,6 +1630,11 @@ class rex_sql implements Iterator
         return false === stripos($version, 'mariadb') ? self::MYSQL : self::MARIADB;
     }
 
+    /**
+     * Returns the normalized databae version.
+     *
+     * @return string E.g. "5.7.7" or "10.4.9"
+     */
     public function getDbVersion(): string
     {
         $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
