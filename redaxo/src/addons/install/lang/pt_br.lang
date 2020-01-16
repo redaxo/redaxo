@@ -40,12 +40,12 @@ install_info_core_updated = Core foi atualizado!
 install_warning_core_not_updated = O core não pôde ser atualizado devido às seguintes razões:
 install_warning_core_zip_not_extracted = O arquivo Zip não pôde ser extraído no diretório "src"!
 
-install_info_addon_downloaded = AddOn "{0}" baixado!
-install_warning_addon_not_downloaded = AddOn "{0}"  não pôde ser baixado devido aos seguintes motivos:
-install_info_addon_updated = AddOn "{0}"  foi atualizado!
-install_warning_addon_not_updated = AddOn "{0}" não pôde ser baixado devido às seguintes razões:
-install_info_addon_uploaded = AddOn "{0}" foi atualizado!
-install_info_addon_deleted = Versão AddOn do "{0}" foi atualizada!
+install_info_addon_downloaded = AddOn <b>{0}</b> baixado!
+install_warning_addon_not_downloaded = AddOn <b>{0}</b>  não pôde ser baixado devido aos seguintes motivos:
+install_info_addon_updated = AddOn <b>{0}</b>  foi atualizado!
+install_warning_addon_not_updated = AddOn <b>{0}</b> não pôde ser baixado devido às seguintes razões:
+install_info_addon_uploaded = AddOn <b>{0}</b> foi atualizado!
+install_info_addon_deleted = Versão AddOn do <b>{0}</b> foi atualizada!
 install_warning_addon_zip_not_extracted = O arquivo Zip não pôde ser extraído no diretório AddOn. Você talvez não possua as permissões ou o nome do arquivo Zip não corresponde à chave AddOn.
 
 install_warning_zip_wrong_checksum = A soma de verificação do arquivo zip baixado não corresponde
