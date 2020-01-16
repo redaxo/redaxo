@@ -422,6 +422,12 @@ $createdb = rex_post('createdb', 'int', -1);
 if ($step > 5 && $createdb > -1) {
     $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
+    $utf8mb4 = null;
+    if (!in_array($step, [2, 3])) {
+        $utf8mb4 = rex_setup_importer::supportsUtf8mb4() && rex_post('utf8mb4', 'bool', true);
+        rex_sql_table::setUtf8mb4($utf8mb4);
+    }
+
     if (4 == $createdb) {
         $error = rex_setup_importer::updateFromPrevious();
         if ('' != $error) {
@@ -462,6 +468,10 @@ if ($step > 5 && $createdb > -1) {
     if (0 == count($errors)) {
         rex_clang_service::generateCache();
         rex::setConfig('version', rex::getVersion());
+
+        if (null !== $utf8mb4) {
+            rex::setConfig('utf8mb4', $utf8mb4);
+        }
     } else {
         $step = 5;
     }
@@ -483,7 +493,7 @@ if (5 === $step) {
         $utf8mb4 = rex_post('utf8mb4', 'bool', true);
         $existingUtf8mb4 = $utf8mb4;
         if ($tables_complete) {
-            $existingUtf8mb4 = rex_sql::factory()->getArray('SELECT value FROM '.rex::getTable('config').' WHERE namespace="core" AND `key`="charset"')[0]['charset'] ?? false;
+            $existingUtf8mb4 = rex_sql::factory()->getArray('SELECT value FROM '.rex::getTable('config').' WHERE namespace="core" AND `key`="utf8mb4"')[0]['utf8mb4'] ?? false;
         }
     }
 
