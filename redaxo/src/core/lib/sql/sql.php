@@ -1622,6 +1622,7 @@ class rex_sql implements Iterator
      * Returns the database type (MySQL or MariaDB).
      *
      * @return string `rex_sql::MYSQL` or `rex_sql::MARIADB`
+     * @psalm-return self::MYSQL|self::MARIADB
      */
     public function getDbType(): string
     {
