@@ -45,6 +45,7 @@ if (rex::isSetup()) {
 
     // init db
     $err .= rex_setup::checkDb($config, false);
+    rex_sql_table::setUtf8mb4(rex_setup_importer::supportsUtf8mb4());
     $err .= rex_setup_importer::prepareEmptyDb();
     $err .= rex_setup_importer::verifyDbSchema();
 
