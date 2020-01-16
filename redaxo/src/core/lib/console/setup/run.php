@@ -18,7 +18,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $this
             ->setDescription('Perform redaxo setup')
             ->addOption('--lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
-            ->addOption('--agree-licence', null, InputOption::VALUE_NONE, 'Accept licence terms and conditions')
+            ->addOption('--agree-license', null, InputOption::VALUE_NONE, 'Accept licence terms and conditions')
             ->addOption('--server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
             ->addOption('--servername', null, InputOption::VALUE_REQUIRED, 'Website name')
             ->addOption('--error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
