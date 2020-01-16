@@ -4,7 +4,7 @@ $target = 'rex-js-collapse-' . rand(100, 999) . rand(100, 999);
 
 ?>
 
-<nav class="navbar navbar-<?= (isset($this->inverse) && $this->inverse) ? 'inverse' : 'default'; ?><?= (isset($this->cssClass) && $this->cssClass != '') ? ' ' . $this->cssClass : ''; ?>">
+<nav class="navbar navbar-<?= (isset($this->inverse) && $this->inverse) ? 'inverse' : 'default'; ?><?= (!isset($this->brand) || !$this->brand || $this->brand === '') ? ' rex-navbar-without-brand' : ' rex-navbar-without-brand' ?><?= (isset($this->cssClass) && $this->cssClass != '') ? ' ' . $this->cssClass : ''; ?>">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#<?= $target; ?>">
@@ -15,7 +15,7 @@ $target = 'rex-js-collapse-' . rand(100, 999) . rand(100, 999);
             </button>
             <?php if (isset($this->brand) && $this->brand != ''): ?>
                 <span class="navbar-brand">
-                    <?= $this->brand; ?>
+                    <?= $this->brand; ?>ddd
                 </span>
             <?php endif; ?>
         </div>
