@@ -1631,7 +1631,7 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Returns the normalized databae version.
+     * Returns the normalized database version.
      *
      * @return string E.g. "5.7.7" or "10.4.9"
      */
