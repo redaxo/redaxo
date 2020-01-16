@@ -15,7 +15,7 @@ $target = 'rex-js-collapse-' . rand(100, 999) . rand(100, 999);
             </button>
             <?php if (isset($this->brand) && $this->brand != ''): ?>
                 <span class="navbar-brand">
-                    <?= $this->brand; ?>ddd
+                    <?= $this->brand; ?>
                 </span>
             <?php endif; ?>
         </div>
