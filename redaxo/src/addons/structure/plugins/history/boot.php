@@ -190,4 +190,6 @@ if (rex::isBackend() && rex::getUser() && rex::getUser()->hasPerm('history[artic
     );
 }
 
-rex_cronjob_manager::registerType(rex_cronjob_structure_history::class);
+if (rex_addon::get('cronjob')->isAvailable()) {
+    rex_cronjob_manager::registerType(rex_cronjob_structure_history::class);
+}
