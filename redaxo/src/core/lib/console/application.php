@@ -58,9 +58,9 @@ class rex_console_application extends Application
             return;
         }
 
-        // Loads only system/setup packages
+        // Loads only setup packages
         // This is useful for any kind of pre-setup commands
-        if ($command instanceof rex_command_only_system_packages) {
+        if ($command instanceof rex_command_only_setup_packages) {
             foreach (rex_package::getSetupPackages() as $package) {
                 $package->enlist();
             }

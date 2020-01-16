@@ -11,7 +11,7 @@ use Symfony\Component\Console\Question\Question;
  *
  * @internal
  */
-class rex_command_setup_run extends rex_console_command implements rex_command_only_system_packages
+class rex_command_setup_run extends rex_console_command implements rex_command_only_setup_packages
 {
     protected function configure()
     {
