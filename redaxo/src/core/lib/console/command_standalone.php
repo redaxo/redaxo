@@ -7,6 +7,6 @@
  *
  * @internal Only usable in rex core commands
  */
-interface rex_command_disable_packages
+interface rex_command_standalone
 {
 }
