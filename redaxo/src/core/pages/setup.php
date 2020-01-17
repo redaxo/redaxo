@@ -144,6 +144,10 @@ if (3 === $step) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
+    if ('0' !== ini_get('session.auto_start')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_session_autostart_warning'));
+    }
+
     if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
