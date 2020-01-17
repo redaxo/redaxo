@@ -62,6 +62,12 @@ class rex_user_role implements rex_user_role_interface
                 }
             }
         }
+
+        foreach ($this->complexPermParams as $key => $perms) {
+            if (rex_complex_perm::ALL !== $perms) {
+                $this->complexPermParams[$key] = array_unique($perms);
+            }
+        }
     }
 
     /**
