@@ -1000,6 +1000,8 @@ class rex_sql_table
     }
 
     /**
+     * Method is used in redaxo setup and should not be used anywhere else.
+     *
      * @internal
      */
     public static function setUtf8mb4(bool $utf8mb4): void
