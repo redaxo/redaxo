@@ -424,9 +424,8 @@ class rex_login
             if (!$started) {
                 if ($error = error_get_last()) {
                     throw new rex_exception('Unable to start session: '.$error['message']);
-                } else {
-                    throw new rex_exception('Unable to start session.');
                 }
+                throw new rex_exception('Unable to start session.');
             }
 
             if ($cookieParams['samesite']) {
