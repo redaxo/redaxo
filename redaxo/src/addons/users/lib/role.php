@@ -83,7 +83,7 @@ class rex_user_role implements rex_user_role_interface
 
         if (!isset($this->complexPermParams[$key])) {
             $this->complexPermParams[$key] = [];
-        } elseif (rex_complex_perm::ALL === $this->complexPermParams[$key]) {
+        } elseif (rex_complex_perm::ALL !== $this->complexPermParams[$key]) {
             $this->complexPermParams[$key] = array_unique($this->complexPermParams[$key]);
         }
 
