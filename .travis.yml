@@ -33,7 +33,7 @@ jobs:
                 mariadb: 10.1
         -   <<: *TEST
             php: 7.4
-            dist: xenial
+            dist: trusty
             addons:
                 mariadb: 10.4
         -   &TEST_MYSQL
@@ -53,10 +53,3 @@ jobs:
             php: 7.4
         -   <<: *TEST_MYSQL
             php: nightly
-
-matrix:
-    allow_failures:
-        - php: nightly
-          env:
-              - TYPE=phpunit
-              - DB=mysql
