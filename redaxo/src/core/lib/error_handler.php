@@ -236,7 +236,7 @@ abstract class rex_error_handler
 
         // silenced errors ("@" operator)
         if (0 === error_reporting()) {
-            return;
+            return false;
         }
 
         $debug = rex::getDebugFlags();

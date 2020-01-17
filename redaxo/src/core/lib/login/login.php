@@ -418,14 +418,14 @@ class rex_login
             );
 
             $started = rex_timer::measure(__METHOD__, static function () {
+                error_clear_last();
                 return @session_start();
             });
             if (!$started) {
-                $error = error_get_last();
-                if ($error) {
-                    rex_error_handler::handleError($error['type'], $error['message'], $error['file'], $error['line']);
+                if ($error = error_get_last()) {
+                    throw new rex_exception('Unable to start session: '.$error['message']);
                 } else {
-                    throw new rex_exception('Unable to start session!');
+                    throw new rex_exception('Unable to start session.');
                 }
             }
 
