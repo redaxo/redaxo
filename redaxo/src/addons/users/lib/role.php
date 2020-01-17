@@ -62,12 +62,6 @@ class rex_user_role implements rex_user_role_interface
                 }
             }
         }
-
-        foreach ($this->complexPermParams as $key => $perms) {
-            if (rex_complex_perm::ALL !== $perms) {
-                $this->complexPermParams[$key] = array_unique($perms);
-            }
-        }
     }
 
     /**
@@ -86,9 +80,13 @@ class rex_user_role implements rex_user_role_interface
         if (isset($this->complexPerms[$key])) {
             return $this->complexPerms[$key];
         }
+
         if (!isset($this->complexPermParams[$key])) {
             $this->complexPermParams[$key] = [];
+        } elseif (rex_complex_perm::ALL === $this->complexPermParams[$key]) {
+            $this->complexPermParams[$key] = array_unique($this->complexPermParams[$key]);
         }
+
         $this->complexPerms[$key] = rex_complex_perm::get($user, $key, $this->complexPermParams[$key]);
         return $this->complexPerms[$key];
     }
