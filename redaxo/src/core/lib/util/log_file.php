@@ -221,7 +221,7 @@ class rex_log_entry
     public static function createFromString($string)
     {
         $data = [];
-        foreach (explode(' | ', $string) as $part) {
+        foreach (explode(' |', $string) as $part) {
             $data[] = trim(stripcslashes($part));
         }
 
