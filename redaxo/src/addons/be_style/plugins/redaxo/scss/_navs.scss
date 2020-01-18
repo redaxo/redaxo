@@ -422,3 +422,10 @@
         padding-left: $grid-gutter-width * 6;
     }
 }
+
+.rex-navbar-without-brand {
+    .container-fluid,
+    .navbar-collapse {
+        padding-left: 0;
+    }
+}
