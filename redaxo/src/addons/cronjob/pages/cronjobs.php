@@ -44,7 +44,7 @@ if (in_array($func, ['setstatus', 'delete', 'execute']) && !$csrfToken->isValid(
     $success = $manager->tryExecute($oid);
     $msg = '';
     if ($manager->hasMessage()) {
-        $msg = '<br /><br />' . $addon->i18n('log_message') . ': <br />' . nl2br($manager->getMessage());
+        $msg = '<br /><br />' . $addon->i18n('log_message') . ': <br />' . nl2br(rex_escape($manager->getMessage()));
     }
     if ($success) {
         echo rex_view::success($addon->i18n('execute_success', $name) . $msg);

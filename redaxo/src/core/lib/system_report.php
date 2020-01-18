@@ -39,13 +39,15 @@ class rex_system_report
                 continue;
             }
 
-            $dbCharacterSet = rex_sql::factory($dbId)->getArray(
+            $sql = rex_sql::factory($dbId);
+
+            $dbCharacterSet = $sql->getArray(
                 'SELECT default_character_set_name, default_collation_name FROM information_schema.SCHEMATA WHERE schema_name = ?',
                 [$db['name']]
             )[0];
 
             $data['Database'.(1 === $dbId ? '' : " $dbId")] = [
-                'Version' => rex_sql::getServerVersion(),
+                'Version' => $sql->getDbType().' '.$sql->getDbVersion(),
                 'Character set' => "$dbCharacterSet[default_character_set_name] ($dbCharacterSet[default_collation_name])",
             ];
         }
