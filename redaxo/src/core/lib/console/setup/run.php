@@ -177,6 +177,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
                 $redaxo_db_create = $io->confirm('Create database', false);
 
+                rex::setProperty('db', $config['db']);
                 try {
                     $err = rex_setup::checkDb($config, $redaxo_db_create);
                 } catch (PDOException $e) {
@@ -195,6 +196,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             $redaxo_db_create = true === $input->getOption('db-createdb');
 
+            rex::setProperty('db', $config['db']);
             try {
                 $err = rex_setup::checkDb($config, $redaxo_db_create);
             } catch (PDOException $e) {
