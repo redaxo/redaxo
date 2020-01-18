@@ -100,7 +100,7 @@ class rex_article_slice_history
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
     }
 
-    public static function clearHistoryByDate(DateTime $deleteDate)
+    public static function clearHistoryByDate(DateTimeInterface $deleteDate): void
     {
         rex_sql::factory()->setQuery('delete from ' . self::getTable() .' where history_date < ?', [$deleteDate->format('Y-m-d H:i:s')]);
     }

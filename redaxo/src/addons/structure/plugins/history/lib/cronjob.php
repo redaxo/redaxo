@@ -14,8 +14,7 @@ class rex_cronjob_structure_history extends rex_cronjob
             return false;
         }
 
-        $deleteDate = new DateTime();
-        $deleteDate->modify('- ' . $period);
+        $deleteDate = new DateTimeImmutable('- ' . $period);
 
         rex_article_slice_history::clearHistoryByDate($deleteDate);
         $this->setMessage('Article-History Cleanup done with `' . $period . '` as period');
