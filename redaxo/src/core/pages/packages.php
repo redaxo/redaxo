@@ -99,7 +99,7 @@ if ('' == $subpage) {
     $toolbar = '
         <div class="form-group form-group-xs">
             <div class="input-group input-group-xs" id="rex-js-available-addon-search">
-                <input class="form-control" type="text" autofocus placeholder="' . rex_i18n::msg('package_search') . '" />
+                <input class="form-control" type="text" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : ' autofocus ').'/>
                 <span class="input-group-btn"><button class="btn btn-default">' . rex_i18n::msg('package_clear') . '</button></span>
             </div>
         </div>
