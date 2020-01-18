@@ -134,5 +134,4 @@ jobs:
         git apply .github/workflows/default.config.yml.github-action.diff
     - run: |
         php redaxo/src/addons/tests/bin/setup.php
-        cd redaxo/src/addons/tests/ && composer require --dev mheap/phpunit-github-actions-printer
         php redaxo/src/addons/tests/bin/run_tests.php
