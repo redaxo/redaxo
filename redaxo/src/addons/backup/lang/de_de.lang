@@ -81,5 +81,5 @@ backup_load_from_server = Vom Server laden
 
 backup_warning = Warnung
 backup_upload_disabled = Uploads sind nicht gestattet
-backup_max_uploadsize = Erlaubte Uploadgröße
-backup_max_uploadtime = Uploadzeit
+backup_max_uploadsize = Max. Uploadgröße
+backup_max_uploadtime = Max. Uploadzeit
