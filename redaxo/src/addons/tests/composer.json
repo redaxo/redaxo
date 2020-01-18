@@ -5,5 +5,8 @@
         "platform": {
             "php": "7.1.3"
         }
+    },
+    "require-dev": {
+        "mheap/phpunit-github-actions-printer": "^1.0"
     }
 }

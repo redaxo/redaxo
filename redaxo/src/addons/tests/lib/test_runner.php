@@ -1,5 +1,6 @@
 <?php
 
+use mheap\GithubActionsReporter\Printer;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\TextUI\ResultPrinter;
 use PHPUnit\TextUI\TestRunner;
@@ -30,7 +31,13 @@ class rex_test_runner
 
         $backtrace = debug_backtrace(false);
         array_unshift($backtrace, ['file' => __FILE__, 'line' => __LINE__ + 3]);
-        $runner->setPrinter(new rex_tests_result_printer($backtrace, $colors));
+
+        // use different result printer with github actions checks integration
+        if (getenv('GITHUB_ACTIONS')) {
+            $runner->setPrinter(new Printer(null, false, $colors));
+        } else {
+            $runner->setPrinter(new rex_tests_result_printer($backtrace, $colors));
+        }
 
         $result = $runner->doRun($suite);
 
