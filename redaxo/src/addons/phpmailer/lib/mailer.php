@@ -82,6 +82,7 @@ class rex_mailer extends PHPMailer
 
     /**
      * @param bool $status
+     *
      * @deprecated use `setArchive` instead
      */
     public function setLog($status)
