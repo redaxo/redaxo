@@ -20,11 +20,11 @@ class rex_log_entry_test extends TestCase
     public function testCreateFromString()
     {
         $time = time();
-        $entry = rex_log_entry::createFromString(date('Y-m-d H:i:s', $time) . ' | test1 |  |  test2\nt \| test3');
+        $entry = rex_log_entry::createFromString(date('Y-m-d H:i:s', $time) . ' | test1 |  |  test2\nt \| test3 |');
 
         $this->assertInstanceOf('rex_log_entry', $entry);
         $this->assertSame($time, $entry->getTimestamp());
-        $this->assertSame(['test1', '', "test2\nt | test3"], $entry->getData());
+        $this->assertSame(['test1', '', "test2\nt | test3", ''], $entry->getData());
     }
 
     /**
