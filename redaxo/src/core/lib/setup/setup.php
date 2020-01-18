@@ -133,9 +133,12 @@ class rex_setup
 
         // use given db config instead of saved config
         $orgDbConfig = rex::getProperty('db');
-        rex::setProperty('db', $config['db']);
-        $serverVersion = rex_sql::getServerVersion();
-        rex::setProperty('db', $orgDbConfig);
+        try {
+            rex::setProperty('db', $config['db']);
+            $serverVersion = rex_sql::getServerVersion();
+        } finally {
+            rex::setProperty('db', $orgDbConfig);
+        }
 
         if (1 == rex_string::versionCompare($serverVersion, self::MIN_MYSQL_VERSION, '<')) {
             return rex_i18n::msg('sql_database_min_version', $serverVersion, self::MIN_MYSQL_VERSION);
