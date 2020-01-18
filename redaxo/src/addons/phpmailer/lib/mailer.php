@@ -55,8 +55,11 @@ class rex_mailer extends PHPMailer
                 $this->archive();
             }
             $addon = rex_addon::get('phpmailer');
-            if (!parent::send() && 0 != $addon->getConfig('logging')) {
-                $this->log('ERROR');
+            if (!parent::send()) {
+                if (0 != $addon->getConfig('logging'))
+                {
+                     $this->log('ERROR');
+                }        
                 return false;
             }
 
