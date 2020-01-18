@@ -144,6 +144,10 @@ if (3 === $step) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
+    if ('0' !== ini_get('session.auto_start')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_session_autostart_warning'));
+    }
+
     if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
@@ -331,11 +335,6 @@ if (4 === $step) {
     $formElements = [];
 
     $n = [];
-    $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
-    $formElements[] = $n;
-
-    $n = [];
     $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
     $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" />';
     $formElements[] = $n;
@@ -348,6 +347,11 @@ if (4 === $step) {
     $n = [];
     $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_escape($config['db'][1]['password']) . '" />';
+    $formElements[] = $n;
+
+    $n = [];
+    $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
+    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();

@@ -50,6 +50,40 @@ class rex_structure_perm extends rex_complex_perm
     }
 
     /**
+     * @return rex_category[]
+     */
+    public function getMountpointCategories(): array
+    {
+        if ($this->hasAll()) {
+            return [];
+        }
+
+        $categories = [];
+        $parents = [];
+        foreach ($this->perms as $id) {
+            $category = rex_category::get($id);
+            if (!$category) {
+                continue;
+            }
+
+            $categories[] = $category;
+            $parents[$category->getParentId()] = true;
+        }
+
+        if (count($parents) <= 1) {
+            usort($categories, static function (rex_category $a, rex_category $b) {
+                return $a->getPriority() <=> $b->getPriority();
+            });
+        } else {
+            usort($categories, static function (rex_category $a, rex_category $b) {
+                return strcasecmp($a->getName(), $b->getName());
+            });
+        }
+
+        return $categories;
+    }
+
+    /**
      * @return array
      */
     public static function getFieldParams()
