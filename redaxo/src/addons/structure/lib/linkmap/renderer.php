@@ -11,15 +11,9 @@ abstract class rex_linkmap_tree_renderer
     {
         $category = rex_category::get($category_id);
 
-        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
+        $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpointCategories();
         if (count($mountpoints) > 0) {
-            $roots = [];
-            foreach ($mountpoints as $mp) {
-                $cat = rex_category::get($mp);
-                if ($cat) {
-                    $roots[] = $cat;
-                }
-            }
+            $roots = $mountpoints;
             if (!$category && 1 === count($roots)) {
                 $category = $roots[0];
             }
