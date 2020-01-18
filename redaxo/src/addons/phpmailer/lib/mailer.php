@@ -12,7 +12,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class rex_mailer extends PHPMailer
 {
-    private $log;
+    private $archive;
 
     public function __construct($exceptions = false)
     {
@@ -56,42 +56,45 @@ class rex_mailer extends PHPMailer
             }
             $addon = rex_addon::get('phpmailer');
             if (!parent::send() && 0 != $addon->getConfig('logging')) {
-                $this->toMailerLog('ERROR');
+                $this->log('ERROR');
                 return false;
             }
 
             if (2 == $addon->getConfig('logging')) {
-                $this->toMailerLog('OK');
+                $this->log('OK');
             }
             return true;
         });
     }
 
-    /**
-     * @param string $success
-     */
-    public function toMailerLog($succsess)
+    private function log(string $success): void
     {
         $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
         $data = [
-            ($succsess),
-            ($this->From.PHP_EOL),
-            (implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL),
-            (str_replace('|', ':pipe:', $this->Subject.PHP_EOL)),
-            strip_tags($this->ErrorInfo),
+            $success,
+            $this->From.PHP_EOL,
+            implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL,
+            str_replace('|', ':pipe:', $this->Subject.PHP_EOL),
+            trim(str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', strip_tags($this->ErrorInfo))),
         ];
         $log->add($data);
     }
 
     /**
      * @param bool $status
+     * @deprecated use `setArchive` instead
      */
-    public function setArchive($status)
+    public function setLog($status)
+    {
+        $this->setArchive($status);
+    }
+
+    public function setArchive(bool $status)
     {
         $this->archive = $status;
     }
 
-    private function archive()
+    private function archive(): void
     {
         $content = '<!-- '.PHP_EOL.date('d.m.Y H:i:s').PHP_EOL;
         $content .= 'From : '.$this->From.PHP_EOL;
@@ -116,7 +119,7 @@ class rex_mailer extends PHPMailer
         return rex_path::addonData('phpmailer', 'mail_log');
     }
 
-    public static function logFile()
+    public static function logFile(): string
     {
         return rex_path::addonData('phpmailer', 'mail.log');
     }
