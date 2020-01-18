@@ -41,7 +41,7 @@ if ($file = new rex_log_file($logFile)) {
                         <td class="rex-table-icon">' . $icon . '</td>
                         <td data-title="' . rex_i18n::msg('cronjob_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                         <td data-title="' . rex_i18n::msg('cronjob_name') . '">' . rex_escape($data[2]) . '</td>
-                        <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . nl2br($data[3]) . '</td>
+                        <td data-title="' . rex_i18n::msg('cronjob_log_message') . '">' . nl2br(rex_escape($data[3])) . '</td>
                     </tr>';
     }
 
