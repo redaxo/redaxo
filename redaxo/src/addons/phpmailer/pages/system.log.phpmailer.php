@@ -49,7 +49,7 @@ if ($file = new rex_log_file($logFile)) {
                      <td data-title="' . rex_i18n::msg('phpmailer_log_date') . '">' . $entry->getTimestamp('%d.%m.%Y %H:%M:%S') . '</td>
                       <td data-title="' . rex_i18n::msg('phpmailer_log_from') . '">' . rex_escape($data[1]) . '</td>
                       <td data-title="' . rex_i18n::msg('phpmailer_log_to') . '">' . rex_escape($data[2]) . '</td>
-                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . str_replace(':pipe:', '|', rex_escape($data[3])) . '</td>
+                      <td data-title="' . rex_i18n::msg('phpmailer_log_subject') . '">' . rex_escape($data[3]) . '</td>
                       <td data-title="' . rex_i18n::msg('phpmailer_log_msg') . '">' . nl2br(rex_escape($data[4])) . '</td>
                     </tr>';
     }

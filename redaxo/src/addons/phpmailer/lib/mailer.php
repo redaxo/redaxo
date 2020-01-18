@@ -72,9 +72,9 @@ class rex_mailer extends PHPMailer
         $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
         $data = [
             $success,
-            $this->From.PHP_EOL,
-            implode(', ', array_column($this->getToAddresses(), 0)).PHP_EOL,
-            str_replace('|', ':pipe:', $this->Subject.PHP_EOL),
+            $this->From,
+            implode(', ', array_column($this->getToAddresses(), 0)),
+            $this->Subject,
             trim(str_replace('https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting', '', strip_tags($this->ErrorInfo))),
         ];
         $log->add($data);
