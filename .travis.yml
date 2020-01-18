@@ -22,7 +22,7 @@ jobs:
     include:
         -   &TEST
             install:
-                - mysql -e 'create database redaxo;'
+                - mysql -e 'create database redaxo5;'
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1

@@ -11,6 +11,6 @@ index 559738c6b..3919e6fb1 100644
          login: root
 -        password: ''
 +        password: root
-         name: redaxo
+         name: redaxo5
          persistent: false
      2:
