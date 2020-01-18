@@ -118,7 +118,6 @@ $uploadinfo = ' <hr>
                             <dt>' . rex_i18n::msg('backup_max_uploadtime') . ':</dt><dd>' . rex_ini_get('max_input_time') . 's</dd>
                         </dl>';
 
-
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'info');
 $fragment->setVar('title', rex_i18n::msg('backup_note'), false);
