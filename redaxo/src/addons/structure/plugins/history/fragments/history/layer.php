@@ -10,8 +10,9 @@
             <div class="history-layer-panel-2">
                 <div class="row">
                     <div class="col-lg-6 text-center hidden-xs hidden-sm hidden-md">
-                        <p class="form-control-static"><strong><?= rex_i18n::msg("structure_history_current_version"); ?></strong></p>
-                        <div class="hidden rex-select-style"><?= $this->getVar('content1select'); ?></div>
+                        <div class="btn-group history-select-group">
+                            <div class="rex-select-style"><?= $this->getVar('content1select'); ?></div>
+                        </div>
                     </div>
                     <div class="col-lg-6 text-center">
                         <div class="btn-group history-select-group">
