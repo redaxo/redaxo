@@ -246,6 +246,7 @@ setup_no_js_security_msg = Please make sure that files in the folder redaxo/incl
 setup_security_no_https = The setup will continue without SSL encryption. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
 setup_security_warn_mod_security = The Apache module "mod_security" is loaded. This can cause problems if not configured correctly.
 setup_security_deprecated_php = The used PHP Version {0} version will no longer receive updates. You should consider upgrading to a newer version.
+setup_session_autostart_warning = The php settings "session.auto_start" is activated. It is recommended to disable this for avoiding problems.
 
 sql_database_name_missing = Enter a database name!
 sql_database_already_exists = Database already exists!
