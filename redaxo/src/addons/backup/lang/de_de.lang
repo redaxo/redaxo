@@ -74,6 +74,11 @@ backup_export_select_dir = Ordner auswählen
 backup_export_select_location = Speicherort wählen
 backup_export_select_filename = Dateiname wählen
 
+backup_file = Datei
+backup_note = Hinweis
+backup_upload = Upload
+backup_load_from_server = Vom Server laden
+
 backup_warning = Warnung
 backup_upload_disabled = Uploads sind nicht gestattet
 backup_max_uploadsize = Max. Uploadgröße
