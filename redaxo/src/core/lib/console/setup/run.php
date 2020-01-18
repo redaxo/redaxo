@@ -18,7 +18,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $this
             ->setDescription('Perform redaxo setup')
             ->addOption('--lang', null, InputOption::VALUE_REQUIRED, 'System language e.g. "de_de" or "en_gb"')
-            ->addOption('--agree-license', null, InputOption::VALUE_NONE, 'Accept licence terms and conditions')
+            ->addOption('--agree-license', null, InputOption::VALUE_NONE, 'Accept license terms and conditions')
             ->addOption('--server', null, InputOption::VALUE_REQUIRED, 'Website URL e.g. "https://example.org/"')
             ->addOption('--servername', null, InputOption::VALUE_REQUIRED, 'Website name')
             ->addOption('--error-email', null, InputOption::VALUE_REQUIRED, 'Error mail address e.g. "info@example.org"')
@@ -73,22 +73,22 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         // ---------------------------------- Step 2 . license
-        $io->title('Step 2 of 6 / Licence');
+        $io->title('Step 2 of 6 / License');
 
-        if (false === $input->getOption('agree-licence')) {
+        if (false === $input->getOption('agree-license')) {
             $license_file = rex_path::base('LICENSE.md');
             $license = rex_file::get($license_file);
             $io->writeln($license);
-            if (!$io->confirm('Accept licence terms and conditions?')) {
-                $io->error('You need to accept licence terms and conditions');
+            if (!$io->confirm('Accept license terms and conditions?')) {
+                $io->error('You need to accept license terms and conditions');
                 return 1;
             }
         } else {
-            if (null === $input->getOption('agree-licence')) {
-                $io->error('You need to accept licence terms and conditions');
+            if (null === $input->getOption('agree-license')) {
+                $io->error('You need to accept license terms and conditions');
                 return 1;
             }
-            $io->success('You accepted licence terms and conditions');
+            $io->success('You accepted license terms and conditions');
         }
 
         // ---------------------------------- Step 3 . Perms, Environment
