@@ -1647,6 +1647,11 @@ class rex_sql implements Iterator
         return $version;
     }
 
+    public function getDbTypeAndVersion(): string
+    {
+        return $this->getDbType().' '.$this->getDbVersion();
+    }
+
     /**
      * Creates a rex_sql instance.
      *

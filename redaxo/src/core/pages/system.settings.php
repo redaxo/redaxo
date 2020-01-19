@@ -191,13 +191,11 @@ $fragment->setVar('title', rex_i18n::msg('version'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 
-$sql = rex_sql::factory();
-
 $content = '
     <table class="table">
         <tr>
             <th class="rex-table-width-3">' . rex_i18n::msg('version') . '</th>
-            <td>' .  $sql->getDbType().' '.$sql->getDbVersion() . '</td>
+            <td>' .  rex_sql::factory()->getDbTypeAndVersion() . '</td>
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>

@@ -39,9 +39,7 @@ class rex_system_report
                 continue;
             }
 
-            $sql = rex_sql::factory($dbId);
-
-            $dbData = ['Version' => $sql->getDbType().' '.$sql->getDbVersion()];
+            $dbData = ['Version' => rex_sql::factory($dbId)->getDbTypeAndVersion()];
 
             if (1 === $dbId) {
                 $dbData['Character set'] = rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8';

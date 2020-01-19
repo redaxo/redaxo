@@ -642,11 +642,9 @@ if (5 === $step) {
 
     $formElements = [];
 
-    $sql = rex_sql::factory();
-
     $n = [];
     $n['label'] = '<label>'.rex_i18n::msg('version').'</label>';
-    $n['field'] = '<p class="form-control-static">'.$sql->getDbType().' '.$sql->getDbVersion().'</p>';
+    $n['field'] = '<p class="form-control-static">'.rex_sql::factory()->getDbTypeAndVersion().'</p>';
     $formElements[] = $n;
 
     $n = [];
