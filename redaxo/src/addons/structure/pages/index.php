@@ -281,12 +281,14 @@ $echo = '';
 
 // --------------------- READ TEMPLATES
 
-$template_select = new rex_template_select($category_id, $clang);
+$template_select = null;
+if ($addon->getPlugin('content')->isAvailable()) {
+    $template_select = new rex_template_select($category_id, $clang);
+}
 
 if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCategoryId() && !rex::getUser()->getComplexPerm('structure')->hasMountpoints())) {
-    $withTemplates = $addon->getPlugin('content')->isAvailable();
     $tmpl_head = '';
-    if ($withTemplates) {
+    if ($template_select) {
         $template_select->setName('template_id');
         $template_select->setSize(1);
         $template_select->setStyle('class="form-control selectpicker"');
@@ -368,7 +370,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' == $structureContext->getFunction() && $structureContext->hasCategoryPermission()) {
         $tmpl_td = '';
-        if ($withTemplates) {
+        if ($template_select) {
             $template_select->setSelectedFromStartArticle();
 
             $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
@@ -406,7 +408,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
 
         if ('edit_art' == $structureContext->getFunction() && $sql->getValue('id') == $structureContext->getArticleId() && $structureContext->hasCategoryPermission()) {
             $tmpl_td = '';
-            if ($withTemplates) {
+            if ($template_select) {
                 $template_select->setSelected($sql->getValue('template_id'));
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $template_select->get() . '</td>';
             }
@@ -446,7 +448,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $editModeUrl = $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getValue('id'), 'mode' => 'edit']);
 
             $tmpl_td = '';
-            if ($withTemplates) {
+            if ($template_select) {
                 $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
@@ -470,7 +472,7 @@ if ($structureContext->getCategoryId() > 0 || (0 == $structureContext->getCatego
             $art_status_icon = $artStatusTypes[$sql->getValue('status')][2];
 
             $tmpl_td = '';
-            if ($withTemplates) {
+            if ($template_select) {
                 $tmpl = isset($TEMPLATE_NAME[$sql->getValue('template_id')]) ? $TEMPLATE_NAME[$sql->getValue('template_id')] : '';
                 $tmpl_td = '<td class="rex-table-template" data-title="' . rex_i18n::msg('header_template') . '">' . $tmpl . '</td>';
             }
