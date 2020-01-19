@@ -15,7 +15,7 @@ class rex_timer_test extends TestCase
         };
 
         $result = rex_timer::measure('test', $callable);
-        $this->assertArrayHasKey("test", rex_timer::$serverTimings);
+        $this->assertArrayHasKey('test', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test'];
 
         $this->assertSame('result1', $result);
@@ -35,7 +35,7 @@ class rex_timer_test extends TestCase
         } catch (Throwable $exception) {
         }
 
-        $this->assertArrayHasKey("test", rex_timer::$serverTimings);
+        $this->assertArrayHasKey('test', rex_timer::$serverTimings);
         $timing = rex_timer::$serverTimings['test'];
 
         $this->assertInstanceOf(RuntimeException::class, $exception);
