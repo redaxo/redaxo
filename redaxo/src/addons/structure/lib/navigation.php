@@ -46,11 +46,15 @@ class rex_navigation
     private $current_article_id = -1; // Aktueller Artikel
     private $current_category_id = -1; // Aktuelle Katgorie
 
+    private static $factoryCall = false;
+
     public function __construct()
     {
-        if (self::class === static::class) {
+        if (!self::$factoryCall && self::class === static::class) {
             throw new rex_exception(sprintf('Base class %s must be instantiated via %1$s::factory().', self::class));
         }
+
+        self::$factoryCall = false;
     }
 
     /**
@@ -59,6 +63,7 @@ class rex_navigation
     public static function factory()
     {
         $class = self::getFactoryClass();
+        self::$factoryCall = true;
         return new $class();
     }
 
