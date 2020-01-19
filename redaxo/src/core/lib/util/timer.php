@@ -13,14 +13,16 @@ class rex_timer
     public const MILLISEC = 1000;
     public const MICROSEC = 1000000;
 
+    /**
+     * @var array
+     * @psalm-var array<string, float>
+     */
     public static $serverTimings = [];
 
     private $start;
     private $duration;
 
     /**
-     * Constructor.
-     *
      * @param float $start Start time
      */
     public function __construct($start = null)
