@@ -13,7 +13,7 @@ class rex_timer
     public const MILLISEC = 1000;
     public const MICROSEC = 1000000;
 
-    /*
+    /**
      * @var array
      * @psalm-var array<string, float>
      */
