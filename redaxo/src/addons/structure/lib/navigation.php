@@ -384,36 +384,19 @@ class rex_navigation
     }
 
     /**
-     * @param array $items
-     * @param array $attributes
-     *
-     * @return string
+     * @param string[] $items
      */
-    protected function getBreadcrumbListTag(array $items, array $attributes)
+    protected function getBreadcrumbListTag(array $items, array $attributes): string
     {
         return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
     }
 
-    /**
-     * @param string $item
-     * @param array  $attributes
-     * @param int    $depth
-     *
-     * @return string
-     */
-    protected function getBreadcrumbListItemTag($item, array $attributes, $depth)
+    protected function getBreadcrumbListItemTag(string $item, array $attributes, int $depth): string
     {
         return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
 
-    /**
-     * @param rex_category $category
-     * @param array        $attributes
-     * @param int          $depth
-     *
-     * @return string
-     */
-    protected function getBreadcrumbLinkTag(rex_category $category, string $content, array $attributes, $depth)
+    protected function getBreadcrumbLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
     {
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
@@ -423,38 +406,19 @@ class rex_navigation
     }
 
     /**
-     * @param array $items
-     * @param array $attributes
-     * @param int   $depth
-     *
-     * @return string
+     * @param string[] $items
      */
-    protected function getListTag(array $items, array $attributes, $depth)
+    protected function getListTag(array $items, array $attributes, int $depth): string
     {
         return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
     }
 
-    /**
-     * @param rex_category $category
-     * @param string       $item
-     * @param array        $attributes
-     * @param int          $depth
-     *
-     * @return string
-     */
-    protected function getListItemTag(rex_category $category, $item, array $attributes, $depth)
+    protected function getListItemTag(rex_category $category, string $item, array $attributes, int $depth): string
     {
         return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
 
-    /**
-     * @param rex_category $category
-     * @param array        $attributes
-     * @param int          $depth
-     *
-     * @return string
-     */
-    protected function getLinkTag(rex_category $category, string $content, array $attributes, $depth)
+    protected function getLinkTag(rex_category $category, string $content, array $attributes, int $depth): string
     {
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
