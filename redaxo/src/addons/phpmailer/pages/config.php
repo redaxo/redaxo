@@ -33,7 +33,7 @@ if ('' != rex_post('btn_save', 'string') || '' != rex_post('btn_check', 'string'
         ['smtp_debug', 'int'],
         ['test_address', 'string'],
         ['logging', 'int'],
-        ['archive', 'int'],
+        ['archive', 'boolean'],
     ]));
 
     if ('' != rex_post('btn_check', 'string')) {
@@ -129,7 +129,7 @@ $sel_archive->setid('phpmailer-archive');
 $sel_archive->setName('settings[archive]');
 $sel_archive->setSize(1);
 $sel_archive->setAttribute('class', 'form-control selectpicker');
-$sel_archive->setSelected($addon->getConfig('archive'));
+$sel_archive->setSelected((int) $addon->getConfig('archive'));
 $sel_archive->addOption($addon->i18n('log_no'), 0);
 $sel_archive->addOption($addon->i18n('log_yes'), 1);
 
@@ -352,7 +352,7 @@ echo '
             $('#smtpsettings').slideUp();
         }
     });
-    
+
         $('#security_mode').change(function(){
         if ($(this).val() == '0') {
             $('#securetype').slideDown();

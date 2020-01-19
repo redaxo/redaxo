@@ -29,22 +29,22 @@ if (!$addon->hasConfig()) {
     $addon->setConfig('password', '');
     $addon->setConfig('smtp_debug', '0');
     $addon->setConfig('logging', 0);
-    $addon->setConfig('archive', 0);
+    $addon->setConfig('archive', false);
 } else {
     if (!$addon->hasConfig('logging')) {
-        $addon->setConfig('logging', 0);
+        $addon->setConfig('logging', false);
     }
     if (!$addon->hasConfig('archive')) {
-        $addon->setConfig('archive', 0);
+        $addon->setConfig('archive', false);
     }
 }
 
-    if ($addon->hasConfig('log')) {
-        if (true == $addon->getConfig('log')) {
-            $addon->setConfig('archive', 1);
-        }
-        $addon->removeConfig('log');
+if ($addon->hasConfig('log')) {
+    if ($addon->getConfig('log')) {
+        $addon->setConfig('archive', true);
     }
+    $addon->removeConfig('log');
+}
 
 $oldBackUpFolder = rex_path::addonData('phpmailer', 'mail_backup');
 $logFolder = rex_path::addonData('phpmailer', 'mail_log');
