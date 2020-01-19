@@ -12,6 +12,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class rex_mailer extends PHPMailer
 {
+    public const LOG_ERRORS = 1;
+    public const LOG_ALL = 2;
+
     private $archive;
 
     public function __construct($exceptions = false)
@@ -59,11 +62,11 @@ class rex_mailer extends PHPMailer
                 if ($addon->getConfig('logging'))
                 {
                      $this->log('ERROR');
-                }        
+                }
                 return false;
             }
 
-            if (2 == $addon->getConfig('logging')) {
+            if (self::LOG_ALL == $addon->getConfig('logging')) {
                 $this->log('OK');
             }
             return true;

@@ -121,8 +121,8 @@ $sel_log->setSize(1);
 $sel_log->setAttribute('class', 'form-control selectpicker');
 $sel_log->setSelected($addon->getConfig('logging'));
 $sel_log->addOption($addon->i18n('log_no'), 0);
-$sel_log->addOption($addon->i18n('log_errors'), 1);
-$sel_log->addOption($addon->i18n('log_all'), 2);
+$sel_log->addOption($addon->i18n('log_errors'), rex_mailer::LOG_ERRORS);
+$sel_log->addOption($addon->i18n('log_all'), rex_mailer::LOG_ALL);
 
 $sel_archive = new rex_select();
 $sel_archive->setid('phpmailer-archive');
