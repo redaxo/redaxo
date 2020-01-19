@@ -57,15 +57,17 @@ class rex_timer
         }
 
         $timer = new self();
-        $result = $callable();
-        $timer->stop();
 
-        $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
-        $duration += $timer->getDelta(self::MILLISEC);
+        try {
+            return $callable();
+        } finally {
+            $timer->stop();
 
-        self::$serverTimings[$label] = $duration;
+            $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
+            $duration += $timer->getDelta(self::MILLISEC);
 
-        return $result;
+            self::$serverTimings[$label] = $duration;
+        }
     }
 
     /**
