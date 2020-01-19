@@ -34,7 +34,6 @@ class rex_test_runner
 
         // use different result printer with github actions checks integration
         if (getenv('GITHUB_ACTIONS')) {
-            echo "Running in Github Actions\n";
             $runner->setPrinter(new Printer(null, false, $colors));
         } else {
             $runner->setPrinter(new rex_tests_result_printer($backtrace, $colors));
