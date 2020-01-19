@@ -2,15 +2,21 @@
 
 version: 1
 update_configs:
-    - package_manager: "submodules"
-      directory: "/"
-      update_schedule: "daily"
     - package_manager: "php:composer"
       directory: "/redaxo/src/addons/phpmailer"
       update_schedule: "live"
+      allowed_updates:
+        - match:
+            update_type: "security"
     - package_manager: "php:composer"
       directory: "/redaxo/src/addons/tests"
       update_schedule: "live"
+      allowed_updates:
+        - match:
+            update_type: "security"
     - package_manager: "php:composer"
       directory: "/redaxo/src/core"
       update_schedule: "live"
+      allowed_updates:
+        - match:
+            update_type: "security"
