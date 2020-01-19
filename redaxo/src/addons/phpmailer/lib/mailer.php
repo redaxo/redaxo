@@ -15,6 +15,7 @@ class rex_mailer extends PHPMailer
     public const LOG_ERRORS = 1;
     public const LOG_ALL = 2;
 
+    /** @var bool */
     private $archive;
 
     public function __construct($exceptions = false)
@@ -95,6 +96,11 @@ class rex_mailer extends PHPMailer
         $this->setArchive($status);
     }
 
+    /**
+     * Enable/disable the mail archive.
+     *
+     * It overwrites the global `archive` configuration for the current mailer object.
+     */
     public function setArchive(bool $status)
     {
         $this->archive = $status;
@@ -120,11 +126,17 @@ class rex_mailer extends PHPMailer
         rex_file::put($archiveFile, $content);
     }
 
+    /**
+     * Path to mail archive folder.
+     */
     public static function logFolder()
     {
         return rex_path::addonData('phpmailer', 'mail_log');
     }
 
+    /**
+     * Path to log file.
+     */
     public static function logFile(): string
     {
         return rex_path::addonData('phpmailer', 'mail.log');
