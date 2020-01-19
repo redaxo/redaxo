@@ -419,7 +419,7 @@ class rex_login
 
             rex_timer::measure(__METHOD__, static function () {
                 error_clear_last();
-                
+
                 if (!@session_start()) {
                     if ($error = error_get_last()) {
                         throw new rex_exception('Unable to start session: '.$error['message']);
