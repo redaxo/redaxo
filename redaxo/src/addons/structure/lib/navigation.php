@@ -357,7 +357,7 @@ class rex_navigation
                     $li['class'][] = $this->classes[($depth - 1)];
                 }
 
-                $link = $this->getLinkTag($nav, $a, $depth);
+                $link = $this->getLinkTag($nav, $a_content, $a, $depth);
 
                 ++$depth;
                 if (($this->open ||
@@ -455,13 +455,12 @@ class rex_navigation
      *
      * @return string
      */
-    protected function getLinkTag(rex_category $category, array $attributes, $depth)
+    protected function getLinkTag(rex_category $category, string $content, array $attributes, $depth)
     {
-        $category_name = rex_escape($category->getName());
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a'.rex_string::buildAttributes($attributes).'>'.$category_name.'</a>';
+        return '<a'.rex_string::buildAttributes($attributes).'>'.$content.'</a>';
     }
 }
