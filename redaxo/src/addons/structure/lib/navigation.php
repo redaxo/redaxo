@@ -365,7 +365,7 @@ class rex_navigation
                         in_array($nav->getId(), $this->path))
                     && ($this->depth >= $depth || $this->depth < 0)
                 ) {
-                    $link .= PHP_EOL.$this->_getNavigation($nav->getId(), $depth);
+                    $link .= "\n".$this->_getNavigation($nav->getId(), $depth);
                 }
                 --$depth;
                 $lis[] = $this->getListItemTag($link, $li, $nav, $depth);
@@ -391,7 +391,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListTag(array $items, array $attributes)
     {
-        return '<ul'.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
+        return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
     }
 
     /**
@@ -403,7 +403,7 @@ class rex_navigation
      */
     protected function getBreadcrumbListItemTag($item, array $attributes, $depth)
     {
-        return '<li'.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
+        return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
 
     /**
@@ -432,7 +432,7 @@ class rex_navigation
      */
     protected function getListTag(array $items, array $attributes, $depth)
     {
-        return '<ul'.rex_string::buildAttributes($attributes).'>'.PHP_EOL.implode('', $items).'</ul>'.PHP_EOL;
+        return '<ul'.rex_string::buildAttributes($attributes).">\n".implode('', $items)."</ul>\n";
     }
 
     /**
@@ -445,7 +445,7 @@ class rex_navigation
      */
     protected function getListItemTag($item, array $attributes, rex_category $category, $depth)
     {
-        return '<li'.rex_string::buildAttributes($attributes).'>'.$item.'</li>'.PHP_EOL;
+        return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
 
     /**
