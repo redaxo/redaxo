@@ -417,16 +417,16 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            $started = rex_timer::measure(__METHOD__, static function () {
+            rex_timer::measure(__METHOD__, static function () {
                 error_clear_last();
-                return @session_start();
-            });
-            if (!$started) {
-                if ($error = error_get_last()) {
-                    throw new rex_exception('Unable to start session: '.$error['message']);
+                
+                if (!@session_start()) {
+                    if ($error = error_get_last()) {
+                        throw new rex_exception('Unable to start session: '.$error['message']);
+                    }
+                    throw new rex_exception('Unable to start session.');
                 }
-                throw new rex_exception('Unable to start session.');
-            }
+            });
 
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);
