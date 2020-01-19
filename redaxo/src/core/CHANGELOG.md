@@ -21,6 +21,7 @@ Version 5.9.0 – XX.XX.2020
     - Bei `ensureGlobalColumns()` kann über den ersten Parameter die Position der Spalten festgelegt werden (@tbaddade)
 * `rex_sql_schema_dumper`: Bei entsprechener Spalten-Kombi wird Shortcut `ensureGlobalColumns` genutzt (@gharlan)
 * Fragment `core/page/section`: Attribute können übergeben werden (@tbaddade)
+* Code-Stabilität durch statische Code-Analyse verbessert (@staabm)
 
 ### Bugfixes
 
@@ -54,7 +55,7 @@ Version 5.8.0 – 20.08.2019
 * Update der externen Bibliotheken (u.a. Symfony components 4.3)
 * Wenn Debug-Mode aktiv, wird das Frontend vor Crawlern versteckt (noindex) (@staabm)
 * Vor Aktivierung des Debug-Modes kommt eine Bestätigungsbox (@skerbis)
-* Session-Cookie: 
+* Session-Cookie:
     - `samesite` default auf `lax` statt `strict`, um unerwartete Backend-Logouts zu vermeiden (@staabm)
     - `samesite` kann neu auch auf `none` gesetzt werden (@staabm)
 * `rex_form`: Statt der Konstante `REX_FORM_ERROR_VIOLATE_UNIQUE_KEY` (deprecated) ist nun `rex_form::ERROR_VIOLATE_UNIQUE_KEY` zu verwenden (@staabm)
@@ -104,7 +105,7 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
     - Whoops: Button "Copy as markdown" um Exception, Stacktrace und Systembericht zusammen als Markdown zu erhalten für Issues etc. (@gharlan)
     - Schönere Fehlerseite im Frontend und Backend (wenn nicht als Admin eingeloggt) (@elricco, @staabm, @tbaddade)
     - Die neuen Fehlerseiten können via Fragment angepasst werden (@tbaddade, @staabm)
-* Editor-Integration: 
+* Editor-Integration:
     - Unter System kann ein Editor ausgewählt werden; Quellcode-Dateien werden dann (z.B. in Whoops) so verlinkt, dass man sie direkt in dem Editor öffnen kann (@staabm, @gharlan)
     - Mit der `rex_editor`-Klasse können an weiteren Stellen Editor-URLs erzeugt werden (@staabm)
     - Über den EP `EDITOR_URL` können die URLs manipuliert werden (@gharlan)
@@ -118,7 +119,7 @@ Ab REDAXO 5.8.x wird PHP 7.1 oder neuer vorrausgesetzt.
 * `rex_i18n`: Neue Methode `msgInLocale` zum Übersetzen in andere Sprachen ohne die Default-Sprache zu ändern (@staabm)
 * `rex_path`: Neue Methode `relative()` um aus einem absoluten Pfad einen relativ zum Projekt-Root zu bekommen (@gharlan)
 * `rex_file`: Schreibvorgänge sind nun atomar (@staabm)
-* `rex_sql`: 
+* `rex_sql`:
     - `addGlobal[Create/Update]Fields`: Umgebung (frontend/console) als Defaultwert für Benutzer (@staabm)
     - Debug-Ausgabe erweitert um aufgelöstes SQL-Statement inkl. Parametern (@aeberhard)
 * `rex_clang`: Methode `count` hat optionalen Parameter `$ignoreOffline` (@tbaddade)
@@ -251,7 +252,7 @@ Version 5.6.0 – 05.06.2018
 * Admins können in die anderen Benutzer wechseln, ohne deren Passwort zu kennen (@gharlan)
 * Im Debug-Mode kann Whoops optional auch für Warnings/Notices aktiviert werden (@gharlan)
 * Safe-Mode kann aus System-Page heraus gestartet werden (@alexplusde, @tbaddade)
-* Setup: 
+* Setup:
     - Webserver-Adresse wird automatisch eingetragen (@alexplusde, @tbaddade)
     - bootstrap-select wird verwendet (@skerbis)
 * Packages-Page: Lizenz in Kurzform wird gelistet mit Link zu kompletter Lizenz (@staabm, @tbaddade, @gharlan)
@@ -271,7 +272,7 @@ Version 5.6.0 – 05.06.2018
 * `rex_form`:
     - Neue abstrakte Basisklasse `rex_form_base` für alternative Speichermethoden, neue Klasse `rex_config_form` für Speicherung in `rex_config` (@gharlan)
     - Führende/nachfolgende Leerzeichen werden nach dem Senden entfernt (@staabm)
-* `rex_sql`: 
+* `rex_sql`:
     - Für die Connection wird utf8mb4 genutzt (@gharlan)
     - Neue Methoden für die Nutzung von Transactions (@staabm)
     - Neue Methode `insertOrUpdate` für `INSERT .. ON DUPLICATE KEY UPDATE`-Queries (@gharlan)
@@ -339,14 +340,14 @@ Version 5.5.0 – 21.12.2017
 * bootstrap-select wird an mehr Stellen verwendet (statt normale Selects) (@skerbis)
 * `rex_response`: Neue Methode `preload()` zum Setzen von preload-Headern (@bloep)
 * `rex_request`: Neue Methode `isHttps()` (@staabm)
-* `rex_socket`: 
+* `rex_socket`:
     - Neue Methode `followRedirects()` (@gharlan)
     - Warnung wenn Non-SSL-Verbindung aufgebaut wird (@staabm)
 * `rex_fragment`: Method-Chaining ist möglich (@DanielWeitenauer)
 
 ### Bugfixing
 
-* Setup: 
+* Setup:
     - Escaping fehlte an einigen Stellen (@staabm)
     - Teilweise kam es zu Fehlern während der Reinstallation der Addons (@gharlan)
 * Profil: Beim EP `PROFILE_UPDATED` wurde die User-ID nicht korrekt übergeben (@gharlan)
@@ -363,7 +364,7 @@ Version 5.4.0 – 04.10.2017
 * Updates: symfony/yaml (3.3.9), symfony/var-dumper (3.3.9), filp/whoops (2.1.10), erusev/parsedown (1.6.3)
 * Neue Funktion `rex_escape`, diese kann und sollte statt `htmlspecialchars` für Ausgaben verwendet werden (@gharlan)
 * Integration von symfony/console für die einfache Bereitstellung von Consolen-Kommandos in Addons (@gharlan)
-* `rex_sql_table`: 
+* `rex_sql_table`:
     - Tabellen können auch neu erstellt, umbenannt und gelöscht werden (@gharlan)
     - Spaltennamen und Spaltenreihenfolge kann geändert werden (@gharlan)
     - Indexes und Fremdschlüssel können verwaltet werden (@gharlan)
@@ -389,7 +390,7 @@ Version 5.4.0 – 04.10.2017
 * Setup:
     - Nach Auswahl "Datenbank existiert bereits" und "Update aus vorheriger Version" waren anschließend fälschlich wieder nur die Standardaddons aktiviert (@gharlan)
     - Beim Import eines vorhandenen Backups wurden nicht die Addons aus dem Backup aktiviert (@gharlan)
-* Sprachdateien: 
+* Sprachdateien:
     - Wenn ein Wert leer war, wurde die komplette folgende Zeile als Wert genommen (@gharlan)
     - Wenn ein Wert "=" enthielt, kam teilweise was falsches raus (@tyrant88)
     - Sprachkey für Schwedisch korrigiert (se_sv -> sv_se) (@gharlan)
@@ -426,7 +427,7 @@ Version 5.3.0 – 14.02.2017
 * Paginierung: Anzahl der ausgegeben Seiten wird beschränkt
 * Beim Löschen von Packages wird deren Data-Ordner nicht mehr gelöscht
 * Bei mehr als 3 Sprachen wird die Sprachauswahl als Dropdown angezeigt
-* rex_sql: 
+* rex_sql:
     - Bei Abfragen kann PDO::MYSQL_ATTR_USE_BUFFERED_QUERY deaktiviert werden
     - Neue Methode getMysqlErrnp() um MySQL-spezifischen Error-Code abzufragen
     - Bei Exceptions werden die PDO-Originalexception mit übergeben
@@ -441,13 +442,13 @@ Version 5.3.0 – 14.02.2017
     - Reine SQL-Exporte (ohne Dateiarchiv) konnten nicht zum Import ausgewählt werden
     - tokenizer-Extension wurde nicht überprüft
 * Autoloader: Klassen konnten teilweise nicht gefunden werden, wenn sie sehr lange Strings enthielten
-* rex_sql: 
+* rex_sql:
     - Tabellen-/Feldnamen werden korrekt escaped
     - getErrno und getError lieferten teilweise nicht das richtige Ergebnis
     - Debug-Infos wurden im Fehlerfall nicht ausgegeben
 * rex_form: Errorcode-spezifische Fehlermeldungen wurden nicht getriggert
 * rex_list: Bei der Query durften keine Leerzeichen vor dem Begin stehen (" SELECT ...")
-* package.yml: 
+* package.yml:
     - `null`-Werte führten zu Fehler
     - Bessere Fehlermeldung, wenn `requires` kein Array ist
 * Beim Aktivieren von Packages wurden nur deren Konflikte geprüft, aber nicht ob andere Packages Konflikte zu diesem notiert haben
