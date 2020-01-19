@@ -35,8 +35,8 @@ class rex_timer_test extends TestCase
         } catch (Throwable $exception) {
         }
 
-        $this->assertArrayHasKey('test', rex_timer::$serverTimings);
-        $timing = rex_timer::$serverTimings['test'];
+        $this->assertArrayHasKey('test2', rex_timer::$serverTimings);
+        $timing = rex_timer::$serverTimings['test2'];
 
         $this->assertInstanceOf(RuntimeException::class, $exception);
         $this->assertIsFloat($timing);
