@@ -9,7 +9,7 @@ class rex_timer_test extends TestCase
 {
     public function testMeasure(): void
     {
-        $callable = function () {
+        $callable = static function () {
             static $i = 1;
             return 'result'.($i++);
         };
@@ -28,7 +28,7 @@ class rex_timer_test extends TestCase
 
         $exception = null;
         try {
-            rex_timer::measure('test2', function () {
+            rex_timer::measure('test2', static function () {
                 throw new RuntimeException();
             });
         } catch (Throwable $exception) {
