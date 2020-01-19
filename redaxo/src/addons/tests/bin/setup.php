@@ -44,7 +44,9 @@ if (rex::isSetup()) {
     );
 
     // init db
+    $utf8mb4 = rex_setup_importer::supportsUtf8mb4();
     $err .= rex_setup::checkDb($config, false);
+    rex_sql_table::setUtf8mb4($utf8mb4);
     $err .= rex_setup_importer::prepareEmptyDb();
     $err .= rex_setup_importer::verifyDbSchema();
 
@@ -52,6 +54,8 @@ if (rex::isSetup()) {
         echo $err;
         exit(10);
     }
+
+    rex::setConfig('utf8mb4', $utf8mb4);
 
     // install tests addon
     $manager = rex_addon_manager::factory(rex_addon::get('tests'));
