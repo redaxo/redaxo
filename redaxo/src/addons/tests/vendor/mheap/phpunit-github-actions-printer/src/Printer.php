@@ -52,7 +52,7 @@ class Printer extends ResultPrinter
 
         $message = explode(PHP_EOL, $e->getMessage())[0];
 
-        $this->write("::{$this->getCurrentType()} file={$this->relativePath($path)},line={$line}::{$message}\n");
+        $this->write("::{$this->getCurrentType()} file={$this->relativePath($path)},line={$line}::{$message} ");
     }
 
     protected function getCurrentType() {
