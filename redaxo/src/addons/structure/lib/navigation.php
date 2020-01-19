@@ -137,7 +137,7 @@ class rex_navigation
             }
 
             $cat = rex_category::get($pathItem);
-            $link = $this->getBreadcrumbLinkTag($cat, [
+            $link = $this->getBreadcrumbLinkTag($cat, rex_escape($cat->getName()), [
                 'href' => $cat->getUrl(),
             ], $i);
             $lis[] = $this->getBreadcrumbListItemTag($link, [
@@ -368,7 +368,7 @@ class rex_navigation
                     $link .= "\n".$this->_getNavigation($nav->getId(), $depth);
                 }
                 --$depth;
-                $lis[] = $this->getListItemTag($link, $li, $nav, $depth);
+                $lis[] = $this->getListItemTag($nav, $link, $li, $depth);
             }
         }
         if (count($lis) > 0) {
@@ -413,14 +413,13 @@ class rex_navigation
      *
      * @return string
      */
-    protected function getBreadcrumbLinkTag(rex_category $category, array $attributes, $depth)
+    protected function getBreadcrumbLinkTag(rex_category $category, string $content, array $attributes, $depth)
     {
-        $category_name = rex_escape($category->getName());
         if (!isset($attributes['href'])) {
             $attributes['href'] = $category->getUrl();
         }
 
-        return '<a'.rex_string::buildAttributes($attributes).'>'.$category_name.'</a>';
+        return '<a'.rex_string::buildAttributes($attributes).'>'.$content.'</a>';
     }
 
     /**
@@ -436,14 +435,14 @@ class rex_navigation
     }
 
     /**
+     * @param rex_category $category
      * @param string       $item
      * @param array        $attributes
-     * @param rex_category $category
      * @param int          $depth
      *
      * @return string
      */
-    protected function getListItemTag($item, array $attributes, rex_category $category, $depth)
+    protected function getListItemTag(rex_category $category, $item, array $attributes, $depth)
     {
         return '<li'.rex_string::buildAttributes($attributes).'>'.$item."</li>\n";
     }
