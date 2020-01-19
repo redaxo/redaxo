@@ -32,7 +32,7 @@ if (!$addon->hasConfig()) {
     $addon->setConfig('archive', false);
 } else {
     if (!$addon->hasConfig('logging')) {
-        $addon->setConfig('logging', false);
+        $addon->setConfig('logging', 0);
     }
     if (!$addon->hasConfig('archive')) {
         $addon->setConfig('archive', false);
