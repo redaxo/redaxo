@@ -11,6 +11,7 @@ class rex_timer_test extends TestCase
     {
         $callable = static function () {
             static $i = 1;
+            usleep(1);
             return 'result'.($i++);
         };
 
