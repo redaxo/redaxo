@@ -129,7 +129,7 @@ class rex_metainfo_table_expander extends rex_form
             }
         }
 
-        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix) {
+        if (rex_metainfo_article_handler::PREFIX === $this->metaPrefix && class_exists(rex_template_select::class)) {
             $field = $this->addRestrictionsField('templates');
             $field->setLabel(rex_i18n::msg('minfo_field_label_templates'));
             $field->setAllCheckboxLabel(rex_i18n::msg('minfo_field_label_all_templates'));
