@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Neue Klasse `rex_template_select` für die Template-Auswahl (@DanielWeitenauer)
+* Module-Auswahl über separates Fragment `module_select.php` für einfachere Anpassung (@tbaddade)
+* Neue Methode `rex_slice_service::addSlice` (@omphteliba)
+* In der Struktur wird nicht mehr die Kategorie-Zeile ".." für die Oberkategorie ausgegeben (@schuer)
+
+
 Version 2.8.1 – 01.11.2019
 --------------------------
 

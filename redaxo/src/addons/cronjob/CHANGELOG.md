@@ -1,6 +1,20 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+
+### Bugfixes
+
+* Plugin `optimize_tables`:
+    - Tabellennamen wurden nicht escaped (@alexplusde)
+    - Fehlermeldungen wurden nicht ins Log geschrieben (@alexplusde)
+
+
 Version 2.5.0 – 20.08.2019
 --------------------------
 

@@ -1,6 +1,33 @@
 Changelog
 =========
 
+Version 5.9.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Update der externen Bibliotheken
+* Setup:
+    - Sprachen sind nun alphabetisch sortiert (@tbaddade)
+    - HTTPS-Option kann nur noch bei Aufruf über HTTPS gesetzt werden (@bloep)
+    - HSTS kann nicht mehr über das Setup (nur direkt über config.yml) gesetzt werden (@bloep)
+    - Beim DB-Host kann der Port mit angegeben werden ("localhost:3306") (@staabm, @gharlan)
+    - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
+* In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
+* AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
+* Whoops: REDAXO-Logo ist mit Startseite verlinkt (@gharlan)
+* `rex_sql_table`:
+    - DB-ID kann übergeben werden, somit auch nutzbar für die weiteren DBs (@thorol, @gharlan)
+    - Bei `ensureGlobalColumns()` kann über den ersten Parameter die Position der Spalten festgelegt werden (@tbaddade)
+* `rex_sql_schema_dumper`: Bei entsprechener Spalten-Kombi wird Shortcut `ensureGlobalColumns` genutzt (@gharlan)
+* Fragment `core/page/section`: Attribute können übergeben werden (@tbaddade)
+
+### Bugfixes
+
+* Identität wechseln: Beim Zurückwechseln kommt es nicht mehr zu einem Fehler, wenn schon in einem anderen Tab zurückgewechselt wurde (@tbaddade)
+* `rex_socket`: Es kam teilweise zur Warnung "Undefined variable: errno" (@staabm)
+
+
 Version 5.8.1 – 01.11.2019
 --------------------------
 

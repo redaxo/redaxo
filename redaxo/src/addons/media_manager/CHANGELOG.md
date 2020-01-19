@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.8.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Umbenennung "Mediatyp" in "Medientyp" (@alexplusde)
+
+
 Version 2.7.0 – 20.08.2019
 --------------------------
 

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.7.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Hinweis in Readme, dass über SMTP keine leeren Bodys möglich sind (@skerbis)
+
+
 Version 2.6.0 – 20.08.2019
 --------------------------
 
