@@ -9,7 +9,7 @@ Version 5.9.0 – XX.XX.2020
 * Update der externen Bibliotheken
 * Setup:
     - Sprachen sind nun alphabetisch sortiert (@tbaddade)
-    - HTTPS-Option kann nur noch bei Aufruf über HTTPS gesetzt werden (@bloep)
+    - HTTPS-Option kann nur noch bei Aufruf über HTTPS gesetzt werden, damit man sich nicht selbst aus dem Backend ausschließen kann (@bloep)
     - HSTS kann nicht mehr über das Setup (nur direkt über config.yml) gesetzt werden (@bloep)
     - Beim DB-Host kann der Port mit angegeben werden ("localhost:3306") (@staabm, @gharlan)
     - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
