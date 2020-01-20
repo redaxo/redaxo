@@ -108,9 +108,9 @@ class rex_backup
             $charset = $matches[1];
             $conts = trim(str_replace('## charset ' . $charset, '', $conts));
 
-            $rexCharset = 'utf-8';
-            if ($rexCharset != $charset) {
-                $return['message'] = rex_i18n::msg('backup_no_valid_charset') . '. ' . $rexCharset . ' != ' . $charset;
+            if ('utf8mb4' === $charset && !rex::getConfig('utf8mb4') && !rex_setup_importer::supportsUtf8mb4()) {
+                $sql = rex_sql::factory();
+                $return['message'] = rex_i18n::msg('backup_utf8mb4_not_supported', $sql->getDbType().' '.$sql->getDbVersion());
                 return $return;
             }
         }
@@ -332,7 +332,7 @@ class rex_backup
         // Versionsstempel hinzufügen
         fwrite($fp, '## Redaxo Database Dump Version ' . rex::getVersion('%s') . $nl);
         fwrite($fp, '## Prefix ' . rex::getTablePrefix() . $nl);
-        fwrite($fp, '## charset utf-8' . $nl . $nl);
+        fwrite($fp, '## charset '.(rex::getConfig('utf8mb4') ? 'utf8mb4' : 'utf8') . $nl . $nl);
         //  fwrite($fp, '/*!40110 START TRANSACTION; */'.$nl);
 
         fwrite($fp, 'SET FOREIGN_KEY_CHECKS = 0;' . $nl . $nl);

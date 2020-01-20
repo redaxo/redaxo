@@ -75,3 +75,8 @@ backup_file = File
 backup_note = Notice
 backup_upload = Upload
 backup_load_from_server = Download from server
+
+backup_warning = Warning
+backup_upload_disabled = Uploads are not permitted
+backup_max_uploadsize = Max. upload size
+backup_max_uploadtime = Max. upload time

@@ -4,7 +4,7 @@ backup_file_deleted = Datei wurde gelöscht
 backup_file_error_while_delete = Datei konnte nicht gelöscht werden
 backup_no_import_file_chosen_or_wrong_version = Keine Importdatei ausgewählt oder Version falsch
 backup_no_valid_import_file = Das ist keine korrekte Importdatei
-backup_no_valid_charset = Kein passender Zeichensatz.
+backup_utf8mb4_not_supported = Das Backup nutzt als Charset <code>utf8mb4</code>, das wird von der Datenbank (<b>{0}</b>) nicht unterstützt (mindestens MySQL 5.7.7 oder MariaDB 10.2 erforderlich).
 backup_database_imported = Datenbank erfolgreich importiert
 backup_entry_count = ({0} Eintraege)
 backup_file_could_not_be_uploaded = Datei konnte nicht hochgeladen werden.
@@ -78,3 +78,8 @@ backup_file = Datei
 backup_note = Hinweis
 backup_upload = Upload
 backup_load_from_server = Vom Server laden
+
+backup_warning = Warnung
+backup_upload_disabled = Uploads sind nicht gestattet
+backup_max_uploadsize = Max. Uploadgröße
+backup_max_uploadtime = Max. Uploadzeit

@@ -103,6 +103,8 @@ clang_select = Sprache wählen
 clang_caption = Liste der verfügbaren Sprachen
 clang_function = Funktionen
 version = Version
+mode = Modus
+charset = Zeichensatz
 host = Host
 database = Datenbank
 logfiles = Logdateien
@@ -216,6 +218,10 @@ setup_512 = Schritt 5 erneut durchführen
 setup_513 = System AddOn(s) konnte nicht installiert werden
 setup_514 = Aktualisierung der Datenbank
 setup_514_note = Update von vorheriger Version
+setup_charset_utf8mb4 = utf8mb4 [empfohlen]
+setup_charset_utf8mb4_note = Erfordert mindestens MySQL 5.7.7 oder MariaDB 10.2. Vollständiger Unicode-Support, einschließlich Emojis und weiterer Sonderzeichen.
+setup_charset_utf8 = utf8 [deprecated]
+setup_charset_utf8_note = Nicht-Standardkonformer UTF8-Modus. Wird in späteren Versionen von REDAXO nicht mehr unterstützt.
 setup_599 = 5 / Datenbank
 
 setup_600 = Setup: Schritt 6 von 7 / Administrator
@@ -246,6 +252,7 @@ setup_no_js_security_msg = Prüfen Sie, ob Dateien aus dem Ordner redaxo/cache, 
 setup_security_no_https = Das Setup wird ohne HTTPS/Verschlüsselung durchgeführt. Es wird empfohlen jegliche Frontend und Backend aufrufe nur mittels HTTPS durchzuführen, um die Privatsphäre und den Datenschutz zu gewährleisten.
 setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
 setup_security_deprecated_php = Die verwendete PHP Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
+setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktiveren, um Probleme zu vermeiden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_already_exists = Datenbank existiert schon.
