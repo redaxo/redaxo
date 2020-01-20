@@ -95,6 +95,11 @@ pool_upload = Dateiupload
 
 all_mediafolder = Alle Medienordner
 mediafolder = Medienordner
+mediafolder_read = Medienordner [lesen]
+all_mediafolder_read = Alle Medienordner [lesen]
+
+be_search_mpool_media = Mediumname
+be_search_mpool_search = Suche
 
 var_media_open = Medium auswählen
 var_media_new = Neues Medium hinzufügen

@@ -95,8 +95,8 @@ class rex_media
         return static::getInstanceList('root_media', 'static::get', static function () {
             $list_path = rex_path::addonCache('mediapool', '0.mlist');
 
-            $list = rex_file::getCache($list_path, null);
-            if (null === $list) {
+            $list = rex_file::getCache($list_path);
+            if (!$list) {
                 rex_media_cache::generateList(0);
                 $list = rex_file::getCache($list_path);
             }
@@ -235,6 +235,8 @@ class rex_media
     }
 
     /**
+     * @param array $params
+     *
      * @return string
      */
     public function toImage(array $params = [])
@@ -325,17 +327,17 @@ class rex_media
 
     public function hasValue($value)
     {
-        return isset($this->$value) || isset($this->{'med_' . $value});
+        return isset($this->$value);
     }
 
     public function getValue($value)
     {
         // damit alte rex_article felder wie copyright, description
         // noch funktionieren
-        if (isset($this->$value)) {
+        if ($this->hasValue($value)) {
             return $this->$value;
         }
-        if (isset($this->{'med_' . $value})) {
+        if ($this->hasValue('med_' . $value)) {
             return $this->getValue('med_' . $value);
         }
     }

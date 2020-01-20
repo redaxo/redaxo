@@ -95,6 +95,11 @@ pool_upload = Fileupload
 
 all_mediafolder = All media categories
 mediafolder = Media categories
+mediafolder_read = All media categories [read]
+all_mediafolder_read = Media categories [read]
+
+be_search_mpool_media = Media name
+be_search_mpool_search = Search
 
 var_media_open = Choose media
 var_media_new = Add media

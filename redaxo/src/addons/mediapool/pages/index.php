@@ -58,6 +58,24 @@ if ('' != $file_name) {
 
 if (-1 == $rex_file_category) {
     $rex_file_category = rex_session('media[rex_file_category]', 'int');
+
+    // check permission not given get first there the user have
+    if ($rex_file_category >= 0 && !rex::getUser()->getComplexPerm('media')->hasAll()) {
+        if (!rex::getUser()->getComplexPerm('media')->hasCategoryPerm($rex_file_category)
+            && !rex::getUser()->getComplexPerm('media_read')->hasCategoryPerm($rex_file_category)
+        ) {
+            $rex_file_category = 0;
+            $firstId = rex::getUser()->getComplexPerm('media')->getFirstId();
+            $firstReadId = rex::getUser()->getComplexPerm('media_read')->getFirstId();
+
+            if ($firstId > $firstReadId) {
+                $firstId = $firstReadId;
+            }
+            if (!is_null($firstId)) {
+                $rex_file_category = $firstId;
+            }
+        }
+    }
 }
 
 $gc = rex_sql::factory();
