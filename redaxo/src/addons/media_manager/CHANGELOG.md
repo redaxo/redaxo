@@ -6,6 +6,7 @@ Version 2.8.0 – XX.XX.2020
 
 ### Neu
 
+* Statt des Error-Bildes wird nun der 404-Statuscode gesendet (@gharlan)
 * Umbenennung "Mediatyp" in "Medientyp" (@alexplusde)
 
 

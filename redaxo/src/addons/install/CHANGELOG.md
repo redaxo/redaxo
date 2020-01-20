@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Nach Hochladen einer Addon-Version landet man in den Addon-Details, statt in der Übersicht (@gharlan)
+
+
 Version 2.5.0 – 12.03.2019
 --------------------------
 

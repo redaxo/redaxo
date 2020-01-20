@@ -11,6 +11,10 @@ Version 2.9.0 – XX.XX.2020
 * Neue Methode `rex_slice_service::addSlice` (@omphteliba)
 * In der Struktur wird nicht mehr die Kategorie-Zeile ".." für die Oberkategorie ausgegeben (@schuer)
 
+### Bugfixes
+
+* `rex_category`: Wenn bei `getChildren`/`getArticles` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
+
 
 Version 2.8.1 – 01.11.2019
 --------------------------
@@ -159,7 +163,7 @@ Version 2.3.0 – 14.02.2017
 
 * Wenn Frontend mit nicht vorhandener ID als clang-Parameter aufgerufen wurde, kam es zu einem harten Fehler, statt Umleitung auf NotFound-Artikel
 * Kategorie/Artikel verschieben: Breadcrumb wurde nicht aktualisiert
-* Inhalte kopieren: 
+* Inhalte kopieren:
     - Wenn im Zielartikel bereits Slices vorhanden waren, wurden die neuen nicht korrekt ans Ende gesetzt
     - Wenn Ursprung keine Slices enthielt, kam es zu einer falschen Fehlermeldung
 * Bei Reload nach Block-Übernehmen blieb der Block nicht offen

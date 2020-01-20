@@ -8,6 +8,10 @@ Version 2.7.0 – XX.XX.2020
 
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
 
+### Bugfixes
+
+* `rex_media_category`: Wenn bei `getChildren`/`getMedia` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
+
 
 Version 2.6.1 – 01.11.2019
 --------------------------
@@ -127,7 +131,7 @@ Version 2.3.1 – 04.10.2017
 
 ### Bugfixes
 
-* Benutzer mit eingeschränkten MP-Kategorie-Rechten 
+* Benutzer mit eingeschränkten MP-Kategorie-Rechten
     - konnte nicht die Multi-Aktionen (schieben, löschen) ausführen (@gharlan)
     - konnten in "Keine Kategorie" hochladen (@gharlan)
 * In der Doctypes-Property fehlte "jpeg" (@IngoWinter)

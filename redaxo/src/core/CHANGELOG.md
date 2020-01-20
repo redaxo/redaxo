@@ -15,18 +15,24 @@ Version 5.9.0 – XX.XX.2020
     - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
 * In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
 * AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
+* Markdown-Pages (Readme): Die Sprungnavi ist nun rechts angeordnet (@schuer)
 * Whoops: REDAXO-Logo ist mit Startseite verlinkt (@gharlan)
+* REX_VARs: Callbacks bekommen den Variablennamen und die zugehörige Klasse als Parameter `var` und `class` übergeben (@gharlan)
 * `rex_sql_table`:
     - DB-ID kann übergeben werden, somit auch nutzbar für die weiteren DBs (@thorol, @gharlan)
     - Bei `ensureGlobalColumns()` kann über den ersten Parameter die Position der Spalten festgelegt werden (@tbaddade)
 * `rex_sql_schema_dumper`: Bei entsprechener Spalten-Kombi wird Shortcut `ensureGlobalColumns` genutzt (@gharlan)
 * Fragment `core/page/section`: Attribute können übergeben werden (@tbaddade)
+* ETag-Header wird in Safari nicht mehr deaktiviert, da der Safari-Bug nicht mehr zu bestehen scheint (@gharlan)
+* Der htaccess-Check-Cookie heißt nun `rex_htaccess_check` statt `htaccess_check` (@alexplusde)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm)
 
 ### Bugfixes
 
 * Identität wechseln: Beim Zurückwechseln kommt es nicht mehr zu einem Fehler, wenn schon in einem anderen Tab zurückgewechselt wurde (@tbaddade)
+* `rex_list` warf mit PHP 7.4 Notices "Trying to access array offset on value of type null" (@gharlan)
 * `rex_socket`: Es kam teilweise zur Warnung "Undefined variable: errno" (@staabm)
+* Command `user:create` warf einen Fehler (@bloep)
 
 
 Version 5.8.1 – 01.11.2019
