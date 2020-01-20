@@ -1,6 +1,6 @@
 <?php
 /**
- * @package redaxo\structure
+ * @package redaxo\structure\content
  */
 class rex_template_select extends rex_select
 {
