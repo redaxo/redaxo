@@ -3,10 +3,13 @@
     border-bottom: 7px solid transparent;
 }
 
-.rex-is-logged-in .rex-page-container {
-    padding-top: 75px;
-}
+@media (min-width: 992px) {
 
-.rex-is-popup.rex-is-logged-in .rex-page-container {
-    padding-top: 55px;
+    .rex-is-logged-in .rex-page-container {
+        padding-top: 75px;
+    }
+
+    .rex-is-popup.rex-is-logged-in .rex-page-container {
+        padding-top: 55px;
+    }
 }
