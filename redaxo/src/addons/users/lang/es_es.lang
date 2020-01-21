@@ -1,5 +1,4 @@
 user_management = Gestión de usuarios
-perm_general_users[] = Usuario
 roles = Roles
 user = Usuarios
 users = Usuario

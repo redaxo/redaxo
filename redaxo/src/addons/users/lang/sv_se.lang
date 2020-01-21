@@ -1,5 +1,4 @@
 user_management = Användare
-perm_general_users[] = Användare
 roles = Roller
 user = Användare
 users = Användare
