@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 2.9.0 – 22.01.2020
+Version 2.9.0 – XX.XX.2020
 --------------------------
 
 * Customizer-Layout korrigiert (@schuer)
