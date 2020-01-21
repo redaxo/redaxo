@@ -260,7 +260,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         if ('update' == $createdb) {
             $useUtf8mb4 = $this->getDbCharset();
-            $config['utf8mb4'] = $useUtf8mb4 === 'utf8mb4';
+            $config['utf8mb4'] = 'utf8mb4' === $useUtf8mb4;
             rex_sql_table::setUtf8mb4($config['utf8mb4']);
             $error = rex_setup_importer::updateFromPrevious();
             $io->success('Database successfully updated');
@@ -276,13 +276,13 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
             $useUtf8mb4 = $this->getDbCharset();
-            $config['utf8mb4'] = $useUtf8mb4 === 'utf8mb4';
+            $config['utf8mb4'] = 'utf8mb4' === $useUtf8mb4;
             rex_sql_table::setUtf8mb4($config['utf8mb4']);
             $error = rex_setup_importer::overrideExisting();
             $io->success('Database successfully overwritten');
         } elseif ('normal' == $createdb) {
             $useUtf8mb4 = $this->getDbCharset();
-            $config['utf8mb4'] = $useUtf8mb4 === 'utf8mb4';
+            $config['utf8mb4'] = 'utf8mb4' === $useUtf8mb4;
             rex_sql_table::setUtf8mb4($config['utf8mb4']);
             $error = rex_setup_importer::prepareEmptyDb();
             $io->success('Database successfully created');
@@ -399,7 +399,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             if (!in_array($charset, ['utf8', 'utf8mb8'])) {
                 throw new InvalidArgumentException('unknown database charset "'.$charset.'" specified');
             }
-            if ($charset === 'utf8mb4' && !rex_setup_importer::supportsUtf8mb4()) {
+            if ('utf8mb4' === $charset && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
                 throw new InvalidArgumentException('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
             }
@@ -417,8 +417,8 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         return $this->io->choice('Choose database charset', [
-           'utf8mb4' => '[recommended] Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
-           'utf8' => '[deprecated] non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
+            'utf8mb4' => '[recommended] Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
+            'utf8' => '[deprecated] non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
         ]);
     }
 }
