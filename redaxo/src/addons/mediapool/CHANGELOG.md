@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 2.6.1 – 01.11.2019
+--------------------------
+
+### Security
+
+* XSS Sicherheitslücken behoben (Michel Pass und Mathias Niedung von Althammer & Kill, @gharlan)
+
+
 Version 2.6.0 – 20.08.2019
 --------------------------
 

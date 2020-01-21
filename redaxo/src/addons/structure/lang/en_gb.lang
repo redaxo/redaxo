@@ -50,15 +50,6 @@ structure_copy = Copy
 all_categories = All categories
 categories = Categories
 
-be_search_article_name = Article name
-be_search_article_id = Article ID
-be_search_start = search
-be_search_jump_to_category = Go to category
-be_search_quick_navi = Quick navigation
-be_search_no_results = No article is matching your search criteria
-be_search_search = Search
-be_search_result = Search result
-
 perm_options_article2category[] = Convert article into category
 perm_options_article2startarticle[] = Convert article into start article
 perm_options_copyArticle[] = Copy article

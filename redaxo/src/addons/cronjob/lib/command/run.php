@@ -87,8 +87,12 @@ class rex_command_cronjob_run extends rex_console_command
 
         if ($success) {
             $io->success(sprintf('Cronjob "%s" executed successfully%s.', $name, $msg));
-        } else {
-            $io->error(sprintf('Cronjob "%s" failed%s.', $name, $msg));
+
+            return 0;
         }
+
+        $io->error(sprintf('Cronjob "%s" failed%s.', $name, $msg));
+
+        return 1;
     }
 }

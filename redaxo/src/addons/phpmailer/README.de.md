@@ -162,6 +162,8 @@ PHPMailer prüft ob der angegebene Server TLS unterstützt und baut eine verschl
 
 - Große E-Mail-Verteiler sollten möglichst in kleiner Zahl und als BCC verschickt werden.
 
+> Bei Verwendung von SMTP ist das Versenden von E-Mails mit leerem Body nicht gestattet. 
+
 ### Verwendung bei selbstsignierten Zertifikaten
 
 Per Default wird der Peer verifiziert. Dies kann ggf. zu Problemen führen. Die nachfolgenden Einstellungen helfen, dieses Problem zu umgehen.

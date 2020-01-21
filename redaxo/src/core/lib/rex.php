@@ -359,32 +359,48 @@ class rex
     /**
      * Returns the current git version hash for the given path.
      *
-     * @param string $path A local filesystem path
+     * @param string      $path A local filesystem path
+     * @param null|string $repo If given, the version hash is returned only if the remote repository matches the
+     *                          given github repo (e.g. `redaxo/redaxo`)
      *
      * @return false|string
      */
-    public static function getVersionHash($path)
+    public static function getVersionHash($path, ?string $repo = null)
     {
         static $gitHash = [];
 
-        if (!isset($gitHash[$path])) {
-            $gitHash[$path] = false; // exec only once
-            $output = [];
-            $exitCode = -1;
+        if (isset($gitHash[$path])) {
+            return $gitHash[$path];
+        }
 
-            if (0 == strcasecmp(substr(PHP_OS, 0, 3), 'WIN')) {
-                $command = 'where git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            } else {
-                $command = 'which git 2>&1 1>/dev/null && cd '. escapeshellarg($path) .' && git show --oneline -s';
-            }
+        $gitHash[$path] = false; // exec only once
+        $output = [];
+        $exitCode = -1;
 
-            @exec($command, $output, $exitCode);
-            if (0 === $exitCode) {
-                $output = implode('', $output);
-                if (preg_match('{^[0-9a-f]+}', $output, $matches)) {
-                    $gitHash[$path] = $matches[0];
-                }
-            }
+        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
+            $command = 'where git';
+        } else {
+            $command = 'which git';
+        }
+
+        $git = @exec($command, $output, $exitCode);
+
+        if (0 !== $exitCode) {
+            return false;
+        }
+
+        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' ls-remote --get-url';
+        $remote = @exec($command, $output, $exitCode);
+
+        if (0 !== $exitCode || !preg_match('{github.com[:/]'.preg_quote($repo).'\.git$}i', $remote)) {
+            return false;
+        }
+
+        $command = 'cd '. escapeshellarg($path).' && '.escapeshellarg($git).' log -1 --pretty=format:%h';
+        $version = @exec($command, $output, $exitCode);
+
+        if (0 === $exitCode) {
+            $gitHash[$path] = $version;
         }
 
         return $gitHash[$path];

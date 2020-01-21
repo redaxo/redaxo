@@ -10,7 +10,9 @@
 
 class rex_cronjob_manager_sql
 {
+    /** @var rex_sql */
     private $sql;
+    /** @var rex_cronjob_manager */
     private $manager;
 
     private function __construct(rex_cronjob_manager $manager = null)
@@ -178,9 +180,9 @@ class rex_cronjob_manager_sql
         }
 
         rex_extension::register('RESPONSE_SHUTDOWN', function () use (&$jobs) {
-            $job[0]['started'] = true;
+            $jobs[0]['started'] = true;
             $this->tryExecuteJob($jobs[0], true, true);
-            $job[0]['finished'] = true;
+            $jobs[0]['finished'] = true;
         });
     }
 

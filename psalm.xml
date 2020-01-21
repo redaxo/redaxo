@@ -38,9 +38,13 @@ autoloader="phpstan-bootstrap.php"
     <stubs>
         <file name="redaxo/src/core/.phpstorm.meta.php" />
     </stubs>
+    <plugins>
+        <plugin filename="psalm-utils.php" />
+    </plugins>
     <issueHandlers>
         <InvalidScope>
             <errorLevel type="suppress">
+                <file name="redaxo/src/addons/structure/plugins/content/fragments/module_select.php"/>
                 <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_action.php"/>
                 <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_ep.php"/>
                 <file name="redaxo/src/addons/structure/plugins/content/fragments/slice_menu_move.php"/>
@@ -63,7 +67,6 @@ autoloader="phpstan-bootstrap.php"
         <MissingReturnType errorLevel="info" />
         <MissingPropertyType errorLevel="info" />
         <InvalidDocblock errorLevel="info" />
-        <MisplacedRequiredParam errorLevel="info" />
         <PropertyNotSetInConstructor errorLevel="info" />
         <MissingConstructor errorLevel="info" />
         <MissingClosureParamType errorLevel="info" />
@@ -92,9 +95,6 @@ autoloader="phpstan-bootstrap.php"
         <PossiblyInvalidIterator errorLevel="info" />
         <PossiblyInvalidMethodCall errorLevel="info" />
         <PossiblyInvalidOperand errorLevel="info" />
-        <PossiblyInvalidPropertyAssignment errorLevel="info" />
-        <PossiblyInvalidPropertyAssignmentValue errorLevel="info" />
-        <PossiblyInvalidPropertyFetch errorLevel="info" />
         <PossiblyNullArgument errorLevel="info" />
         <PossiblyNullArrayAccess errorLevel="info" />
         <PossiblyNullArrayAssignment errorLevel="info" />
@@ -107,7 +107,6 @@ autoloader="phpstan-bootstrap.php"
         <PossiblyNullPropertyFetch errorLevel="info" />
         <PossiblyNullReference errorLevel="info" />
         <PossiblyUndefinedGlobalVariable errorLevel="info" />
-        <PossiblyUndefinedVariable errorLevel="info" />
         <PossiblyUndefinedArrayOffset errorLevel="info" />
         <PossiblyUndefinedMethod errorLevel="info" />
 <!-- level 5 issues - should be avoided at mosts costs... -->

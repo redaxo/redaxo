@@ -235,7 +235,6 @@ class rex_validator
      * Checks whether the value is one of the given valid values.
      *
      * @param string $value
-     * @param array  $validValues
      *
      * @return bool
      */
@@ -247,8 +246,7 @@ class rex_validator
     /**
      * Checks the value by using the given callable.
      *
-     * @param string   $value
-     * @param callable $callback
+     * @param string $value
      *
      * @return bool
      */

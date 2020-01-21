@@ -7,10 +7,24 @@
  */
 class rex_install_packages
 {
+    /**
+     * @var array
+     */
     private static $updatePackages;
+    /**
+     * @var array
+     */
     private static $addPackages;
+    /**
+     * @var array
+     */
     private static $myPackages;
 
+    /**
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getUpdatePackages()
     {
         if (is_array(self::$updatePackages)) {
@@ -46,6 +60,13 @@ class rex_install_packages
         }
     }
 
+    /**
+     * Returns _all_ packages available on redaxo.org, including those already installed etc.
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getAddPackages()
     {
         if (is_array(self::$addPackages)) {
@@ -61,6 +82,13 @@ class rex_install_packages
         self::$myPackages = null;
     }
 
+    /**
+     * Returns all packages owned by the current user.
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     public static function getMyPackages()
     {
         if (is_array(self::$myPackages)) {
@@ -76,16 +104,31 @@ class rex_install_packages
         return self::$myPackages;
     }
 
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
     public static function getPath($path = '')
     {
         return 'packages/' . $path;
     }
 
+    /**
+     * @param string $path
+     *
+     * @throws rex_functional_exception
+     *
+     * @return array
+     */
     private static function getPackages($path = '')
     {
         return rex_install_webservice::getJson(self::getPath($path));
     }
 
+    /**
+     * Deletes all locally cached packages.
+     */
     public static function deleteCache()
     {
         self::$updatePackages = null;

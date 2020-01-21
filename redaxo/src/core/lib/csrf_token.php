@@ -13,6 +13,9 @@ class rex_csrf_token
 
     public const PARAM = '_csrf_token';
 
+    /**
+     * @var string
+     */
     private $id;
 
     private function __construct($tokenId)

@@ -147,17 +147,11 @@ abstract class rex_api_function
         if (null != $apiFunc) {
             if (true !== $apiFunc->published) {
                 if (true !== rex::isBackend()) {
-                    throw new rex_http_exception(
-                        new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'),
-                        rex_response::HTTP_FORBIDDEN
-                    );
+                    throw new rex_http_exception(new rex_api_exception('the api function ' . get_class($apiFunc) . ' is not published, therefore can only be called from the backend!'), rex_response::HTTP_FORBIDDEN);
                 }
 
                 if (!rex::getUser()) {
-                    throw new rex_http_exception(
-                        new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'),
-                        rex_response::HTTP_UNAUTHORIZED
-                    );
+                    throw new rex_http_exception(new rex_api_exception('missing backend session to call api function ' . get_class($apiFunc) . '!'), rex_response::HTTP_UNAUTHORIZED);
                 }
             }
 
@@ -201,6 +195,11 @@ abstract class rex_api_function
     public static function hasMessage()
     {
         $apiFunc = self::factory();
+
+        if (!$apiFunc) {
+            return false;
+        }
+
         $result = $apiFunc->getResult();
         return $result && null !== $result->getMessage();
     }
