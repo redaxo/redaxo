@@ -83,7 +83,6 @@
         this.articleId = history_article_id;
         this.clangId = history_clang_id;
         this.ctypeId = history_ctype_id;
-        this.revision = history_revision;
         this.link = history_article_link;
 
         // set up environment ojects
@@ -96,7 +95,7 @@
 
         // init layer content
         var that = this;
-        $.when(this.load(this.articleId, this.clangId, this.revision)).then(function (data) {
+        $.when(this.load(this.articleId, this.clangId)).then(function (data) {
 
             // do init stuff
             that.injectToPage(el, data);
@@ -144,11 +143,10 @@
          *
          * @param articleId
          * @param clangId
-         * @param revision
          * @returns {*}
          */
-        load: function (articleId, clangId, revision) {
-            var url = 'index.php?rex_history_function=layer&history_article_id=' + articleId + '&history_clang_id=' + clangId + '&history_revision=' + revision;
+        load: function (articleId, clangId) {
+            var url = 'index.php?rex_history_function=layer&history_article_id=' + articleId + '&history_clang_id=' + clangId;
             debug.info('load: ' + url);
             return $.ajax({
                 url: url,
@@ -221,6 +219,7 @@
         initUiElements: function (el) {
             debug.log('init UI elements');
             this.el = $(el);
+            this.selector_current = $('#content-history-select-date-1', this.el);
             this.selector = $('#content-history-select-date-2', this.el);
             this.selectPrev = $('[data-history-layer="prev"]', this.el);
             this.selectNext = $('[data-history-layer="next"]', this.el);
@@ -248,6 +247,9 @@
          * bind event handlers
          */
         bindEventHandlers: function () {
+
+            var that = this;
+
             debug.log('bind event handlers');
             this.selector.on('change', $.proxy(this.onSelect, this));
             this.selectPrev.on('click', $.proxy(this.onSelectPrev, this));
@@ -258,6 +260,11 @@
             if (this.sliderSelect) {
                 this.sliderSelect.on('change', $.proxy(this.onSliderSelect, this));
             }
+            this.selector_current.on('change', function () {
+                var revision = that.selector_current.val();
+                var src = that.link + "?rex_version=" + revision;
+                that.currentFrame.attr("src", src);
+            })
         },
 
         /**
@@ -303,7 +310,7 @@
                 that.remove();
 
                 // reload redaxo page
-                var url = 'index.php?page=content/edit&article_id=' + that.articleId + '&clang_id=' + that.clangId + '&ctype=' + that.ctypeId + '&rex_set_version=' + that.revision;
+                var url = 'index.php?page=content/edit&article_id=' + that.articleId + '&clang_id=' + that.clangId + '&ctype=' + that.ctypeId;
                 $.pjax({url: url, container: '#rex-js-page-main-content', fragment: '#rex-js-page-main-content'})
             }));
         },
@@ -391,7 +398,10 @@
          */
         setFrameContent: function (el, index) {
             var historyDate = (typeof index === 'number') ? this.dates.get(index).historyDate : false;
-            var src = historyDate ? this.link + "&rex_history_date=" + historyDate : this.link;
+            var src = this.link;
+            if (historyDate) {
+                src = (src.includes("?")) ? this.link + "&rex_history_date=" + historyDate : this.link + "?rex_history_date=" + historyDate;
+            }
             el.attr("src", src);
             debug.log('update frame content: ' + src);
         },
@@ -430,7 +440,7 @@
          * @returns {*}
          */
         snapVersion: function (date) {
-            var url = 'index.php?rex_history_function=snap&history_article_id=' + this.articleId + '&history_clang_id=' + this.clangId + '&history_revision=' + this.revision + '&history_date=' + date;
+            var url = 'index.php?rex_history_function=snap&history_article_id=' + this.articleId + '&history_clang_id=' + this.clangId + '&history_date=' + date;
             debug.info('snap version: ' + url);
             return $.ajax({
                 url: url,

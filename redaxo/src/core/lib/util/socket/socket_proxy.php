@@ -9,8 +9,17 @@
  */
 class rex_socket_proxy extends rex_socket
 {
+    /**
+     * @var string
+     */
     protected $destinationHost;
+    /**
+     * @var int
+     */
     protected $destinationPort;
+    /**
+     * @var bool
+     */
     protected $destinationSsl;
 
     /**

@@ -186,13 +186,15 @@ abstract class rex_error_handler
             $saveModeLink = '<a class="rex-safemode" href="' . rex_url::backendPage('packages', ['safemode' => 1]) . '">activate safe mode</a>';
         }
 
+        $url = rex::isFrontend() ? rex_url::frontendController() : rex_url::backendController();
+
         $errPage = str_replace(
             [
                 '</head>',
                 '</body>',
             ], [
                 $styles . '</head>',
-                '<div class="rex-whoops-header"><div class="rex-logo">' . $logo . '</div>' . $saveModeLink . '</div></body>',
+                '<div class="rex-whoops-header"><a href="' . $url . '" class="rex-logo">' . $logo . '</a>' . $saveModeLink . '</div></body>',
             ],
             $errPage
         );
@@ -234,7 +236,7 @@ abstract class rex_error_handler
 
         // silenced errors ("@" operator)
         if (0 === error_reporting()) {
-            return;
+            return false;
         }
 
         $debug = rex::getDebugFlags();

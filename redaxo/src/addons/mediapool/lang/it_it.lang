@@ -96,9 +96,6 @@ pool_upload = Caricamento file
 all_mediafolder = Tutte le categorie di media
 mediafolder = Categorie di media
 
-be_search_mpool_media = Nome media
-be_search_mpool_search = Cerca
-
 var_media_open = Seleziona media
 var_media_new = Aggiungi nuovo media
 var_media_remove = Elimina media selezionato

@@ -56,6 +56,8 @@ expectedArguments(\rex_response::sendResource(), 4, 'inline', 'attachment');
 expectedArguments(\rex_socket::factory(), 1, 80, 443);
 expectedArguments(\rex_socket_proxy::setDestination(), 1, 80, 443);
 
+expectedReturnValues(\rex_sql::getDbType(), \rex_sql::MYSQL, \rex_sql::MARIADB);
+
 registerArgumentsSet('column_type', 'int(10) unsigned', 'int(11)', 'tinyint(1)', 'date', 'datetime', 'time', 'varchar(255)', 'varchar(191)', 'text', 'longtext');
 expectedArguments(\rex_sql_column::__construct(), 1, argumentsSet('column_type'));
 expectedArguments(\rex_sql_column::setType(), 0, argumentsSet('column_extra'));

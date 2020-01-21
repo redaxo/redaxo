@@ -12,8 +12,6 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
     /**
      * Extension to check whether the given media is still in use.
      *
-     * @param rex_extension_point $ep
-     *
      * @throws rex_exception
      *
      * @return string
@@ -63,57 +61,51 @@ class rex_metainfo_media_handler extends rex_metainfo_handler
         $articles = '';
         $categories = '';
         if (!empty($where['articles'])) {
-            $sql->setQuery('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
-            if ($sql->getRows() > 0) {
-                foreach ($sql->getArray() as $art_arr) {
-                    $aid = $art_arr['id'];
-                    $clang = $art_arr['clang_id'];
-                    $parent_id = $art_arr['parent_id'];
-                    if ($art_arr['startarticle']) {
-                        $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parent_id, 'clang' => $clang]) . '\')">' . $art_arr['catname'] . '</a></li>';
-                    } else {
-                        $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . $art_arr['name'] . '</a></li>';
-                    }
+            $items = $sql->getArray('SELECT id, clang_id, parent_id, name, catname, startarticle FROM ' . rex::getTablePrefix() . 'article WHERE ' . implode(' OR ', $where['articles']));
+            foreach ($items as $art_arr) {
+                $aid = $art_arr['id'];
+                $clang = $art_arr['clang_id'];
+                $parent_id = $art_arr['parent_id'];
+                if ($art_arr['startarticle']) {
+                    $categories .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('structure', ['edit_id' => $aid, 'function' => 'edit_cat', 'category_id' => $parent_id, 'clang' => $clang]) . '\')">' . $art_arr['catname'] . '</a></li>';
+                } else {
+                    $articles .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('content', ['article_id' => $aid, 'mode' => 'meta', 'clang' => $clang]) . '\')">' . $art_arr['name'] . '</a></li>';
                 }
-                if ('' != $articles) {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
-                }
-                if ('' != $categories) {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
-                }
+            }
+            if ('' != $articles) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_art') . '<br /><ul>' . $articles . '</ul>';
+            }
+            if ('' != $categories) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_cat') . '<br /><ul>' . $categories . '</ul>';
             }
         }
 
         $media = '';
         if (!empty($where['media'])) {
-            $sql->setQuery('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
-            if ($sql->getRows() > 0) {
-                foreach ($sql->getArray() as $med_arr) {
-                    $id = $med_arr['id'];
-                    $filename = $med_arr['filename'];
-                    $cat_id = $med_arr['category_id'];
-                    $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $cat_id]) . '">' . $filename . '</a></li>';
-                }
-                if ('' != $media) {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
-                }
+            $items = $sql->getArray('SELECT id, filename, category_id FROM ' . rex::getTablePrefix() . 'media WHERE ' . implode(' OR ', $where['media']));
+            foreach ($items as $med_arr) {
+                $id = $med_arr['id'];
+                $filename = $med_arr['filename'];
+                $cat_id = $med_arr['category_id'];
+                $media .= '<li><a href="' . rex_url::backendPage('mediapool/detail', ['file_id' => $id, 'rex_file_category' => $cat_id]) . '">' . $filename . '</a></li>';
+            }
+            if ('' != $media) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_med') . '<br /><ul>' . $media . '</ul>';
             }
         }
 
         $clangs = '';
         if (!empty($where['clangs'])) {
-            $sql->setQuery('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
-            if ($sql->getRows() > 0) {
-                foreach ($sql->getArray() as $clang_arr) {
-                    if (rex::getUser() && rex::getUser()->isAdmin()) {
-                        $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clang_arr['id'], 'func' => 'editclang']) . '\')">' . $clang_arr['name'] . '</a></li>';
-                    } else {
-                        $clangs .= '<li>' . $clang_arr['name'] . '</li>';
-                    }
+            $items = $sql->getArray('SELECT id, name FROM ' . rex::getTablePrefix() . 'clang WHERE ' . implode(' OR ', $where['clangs']));
+            foreach ($items as $clang_arr) {
+                if (rex::getUser() && rex::getUser()->isAdmin()) {
+                    $clangs .= '<li><a href="javascript:openPage(\'' . rex_url::backendPage('system/lang', ['clang_id' => $clang_arr['id'], 'func' => 'editclang']) . '\')">' . $clang_arr['name'] . '</a></li>';
+                } else {
+                    $clangs .= '<li>' . $clang_arr['name'] . '</li>';
                 }
-                if ('' != $clangs) {
-                    $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
-                }
+            }
+            if ('' != $clangs) {
+                $warning[] = rex_i18n::msg('minfo_media_in_use_clang') . '<br /><ul>' . $clangs . '</ul>';
             }
         }
 

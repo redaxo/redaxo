@@ -724,17 +724,12 @@ abstract class rex_metainfo_handler
      * Retrieves the activeItem from the current context.
      * Afterwards the actual metaForm extension will be rendered.
      *
-     * @param rex_extension_point $ep
-     *
      * @return string
      */
     abstract public function extendForm(rex_extension_point $ep);
 
     /**
      * Retrieves the POST values from the metaform, fill it into a rex_sql object and save it to a database table.
-     *
-     * @param array   $params
-     * @param rex_sql $sqlFields
      */
     abstract protected function handleSave(array $params, rex_sql $sqlFields);
 }

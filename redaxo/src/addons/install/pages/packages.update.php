@@ -35,7 +35,7 @@ if ($core && !empty($coreVersions)) {
     $fragment = new rex_fragment();
     foreach ($coreVersions as $id => $version) {
         $panel .= '
-                <tr>
+                <tr data-pjax-scroll-to="0">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-package"></i></td>
                     <td data-title="' . $package->i18n('version') . '">' . rex_escape($version['version']) . '</td>
                     <td data-title="' . $package->i18n('description') . '">' . $fragment->setVar('content', $markdown->parse($version['description']), false)->parse('core/page/readme.php') . '</td>

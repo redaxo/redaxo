@@ -49,15 +49,6 @@ structure_copy = Copiar
 all_categories = Todas as categorias
 categories = Categorias
 
-be_search_article_name = Nome do produto
-be_search_article_id = Id do produto
-be_search_start = Buscar
-be_search_jump_to_category = Ir para categoria
-be_search_quick_navi = Navegação rápida
-be_search_no_results = Nenhum produto corresponde a seus critérios de busca
-be_search_search = Busca
-be_search_result = Resultado da busca
-
 perm_options_article2category[] = Transformar produto em categoria
 perm_options_article2startarticle[] = Transformar produto em produto inicial
 perm_options_copyArticle[] = Copiar produto

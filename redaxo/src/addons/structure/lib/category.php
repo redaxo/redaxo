@@ -79,8 +79,6 @@ class rex_category extends rex_structure_element
      * Returns TRUE if this category is the direct
      * parent of the other category.
      *
-     * @param self $otherCat
-     *
      * @return bool
      */
     public function isParent(self $otherCat)

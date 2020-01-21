@@ -20,55 +20,9 @@ before_install:
 
 jobs:
     include:
-        -   php: 7.1
-            env: TYPE=linting
-            services:
-                - mysql
-            install:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-            script:
-                - composer require --dev friendsofredaxo/linter
-                - vendor/bin/rexlint
-
-                - php redaxo/bin/console be_style:compile
-                - git diff HEAD --exit-code # check if compiling the scss lead to uncommitted changes
-        -   php: 7.3
-            env: TYPE=phpstan
-            services:
-                - mysql
-            script:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-                - php redaxo/bin/console package:install phpmailer
-                - php redaxo/bin/console package:install cronjob
-                - php redaxo/bin/console package:install cronjob/article_status
-                - php redaxo/bin/console package:install cronjob/optimize_tables
-                - php redaxo/bin/console package:install debug
-                - php redaxo/bin/console package:install structure/history
-                - php redaxo/bin/console package:install structure/version
-                - composer require --dev phpstan/phpstan-shim
-                - vendor/bin/phpstan analyse
-        -   php: 7.3
-            env: TYPE=psalm
-            services:
-                - mysql
-            script:
-                - mysql -e 'create database redaxo_5_0;'
-                - php redaxo/src/addons/tests/bin/setup.php
-                - php redaxo/bin/console package:install phpmailer
-                - php redaxo/bin/console package:install cronjob
-                - php redaxo/bin/console package:install cronjob/article_status
-                - php redaxo/bin/console package:install cronjob/optimize_tables
-                - php redaxo/bin/console package:install debug
-                - php redaxo/bin/console package:install structure/history
-                - php redaxo/bin/console package:install structure/version
-                - composer require --dev vimeo/psalm:^3.4.12
-                - vendor/bin/psalm --show-info=false
-
         -   &TEST
             install:
-                - mysql -e 'create database redaxo_5_0;'
+                - mysql -e 'create database redaxo5;'
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1
@@ -79,8 +33,9 @@ jobs:
                 mariadb: 10.1
         -   <<: *TEST
             php: 7.3
+            dist: trusty
             addons:
-                mariadb: 10.2
+                mariadb: 10.4
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
@@ -95,5 +50,6 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.3
         -   <<: *TEST_MYSQL
-            php: 7.4snapshot
-            dist: xenial
+            php: 7.4
+        -   <<: *TEST_MYSQL
+            php: nightly

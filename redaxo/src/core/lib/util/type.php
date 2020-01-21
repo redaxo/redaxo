@@ -52,8 +52,6 @@ class rex_type
                     $var = (int) $var;
                     break;
                 case 'double':
-                    $var = (float) $var;
-                    break;
                 case 'float':
                 case 'real':
                     $var = (float) $var;

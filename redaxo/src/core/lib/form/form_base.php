@@ -30,7 +30,7 @@ abstract class rex_form_base
     protected $message;
 
     /** @var array */
-    protected $errorMessages;
+    protected $errorMessages = [];
 
     /** @var string */
     protected $warning;
@@ -86,8 +86,7 @@ abstract class rex_form_base
     /**
      * Gibt eine Formular-Url zurück.
      *
-     * @param array $params
-     * @param bool  $escape
+     * @param bool $escape
      *
      * @return string
      */
@@ -120,7 +119,6 @@ abstract class rex_form_base
      * @param string $tag
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      * @param bool   $addElement
      *
      * @return rex_form_element
@@ -144,7 +142,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_container_element
      */
@@ -165,7 +162,6 @@ abstract class rex_form_base
      * @param string $type
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      * @param bool   $addElement
      *
      * @return rex_form_element
@@ -182,7 +178,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -201,7 +196,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -221,7 +215,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -244,7 +237,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -260,7 +252,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_checkbox_element
      */
@@ -277,7 +268,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_radio_element
      */
@@ -293,7 +283,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -321,7 +310,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_select_element
      */
@@ -341,7 +329,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -363,7 +350,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -385,7 +371,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -407,7 +392,6 @@ abstract class rex_form_base
      *
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @throws rex_exception
      *
@@ -501,8 +485,6 @@ abstract class rex_form_base
     /**
      * Allgemeine Bootleneck-Methode um Elemente in das Formular einzufuegen.
      *
-     * @param rex_form_element $element
-     *
      * @return rex_form_element
      */
     protected function addElement(rex_form_element $element)
@@ -517,7 +499,6 @@ abstract class rex_form_base
      * @param string $inputType
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -539,7 +520,6 @@ abstract class rex_form_base
      * @param string $tag
      * @param string $name
      * @param mixed  $value
-     * @param array  $attributes
      *
      * @return rex_form_element
      */
@@ -765,8 +745,6 @@ abstract class rex_form_base
     // --------- Form Methods
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
      */
     protected function isHeaderElement(rex_form_element $element)
@@ -775,8 +753,6 @@ abstract class rex_form_base
     }
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
      */
     protected function isFooterElement(rex_form_element $element)
@@ -785,8 +761,6 @@ abstract class rex_form_base
     }
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
      */
     protected function isControlElement(rex_form_element $element)
@@ -795,8 +769,6 @@ abstract class rex_form_base
     }
 
     /**
-     * @param rex_form_element $element
-     *
      * @return bool
      */
     protected function isRawElement(rex_form_element $element)

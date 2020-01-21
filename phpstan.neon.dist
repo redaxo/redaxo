@@ -10,6 +10,7 @@ parameters:
         - redaxo/src/addons/mediapool/tests/
         - redaxo/src/addons/phpmailer/vendor/
         - redaxo/src/addons/structure/tests/
+        - redaxo/src/addons/structure/plugins/content/tests/
         - redaxo/src/addons/tests/vendor/
         - redaxo/src/core/vendor/
         - redaxo/src/core/tests/
@@ -31,5 +32,8 @@ parameters:
         -
             message: '#Call to an undefined method object::subfragment\(\)\.#'
             path: '*/fragments/*'
+        -
+            message: '#Cannot unset offset mixed on array.#'
+            path: '*/core/lib/packages/manager.php'
         - '#Undefined variable: \$this#'
-        - '#Constructor of class rex_form_.*_element has an unused parameter \$tag\.#'        
+        - '#Unsafe usage of new static\(\)\.#'

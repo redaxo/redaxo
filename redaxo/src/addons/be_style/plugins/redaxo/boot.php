@@ -42,9 +42,9 @@ if (rex::isBackend()) {
 
     rex_extension::register('PAGE_HEADER', static function (rex_extension_point $ep) use ($plugin) {
         $themeColor = '#4d99d3';
-        $plugin = rex_plugin::get('be_style', 'customizer');
-        if ($plugin->isAvailable()) {
-            $config = $plugin->getConfig();
+        $customizer = rex_plugin::get('be_style', 'customizer');
+        if ($customizer->isAvailable()) {
+            $config = $customizer->getConfig();
             if (!empty($config['labelcolor'])) {
                 $themeColor = $config['labelcolor'];
             }

@@ -25,6 +25,7 @@ class rex_managed_media_test extends TestCase
 
         $this->assertSame($path, $media->getMediaPath());
         $this->assertSame($filename, $media->getMediaFilename());
-        $this->assertSame(rex_path::addon('media_manager', 'media/warning.jpg'), $media->getSourcePath());
+        $this->assertSame($path, $media->getSourcePath());
+        $this->assertFalse($media->exists());
     }
 }

@@ -13,14 +13,16 @@ class rex_timer
     public const MILLISEC = 1000;
     public const MICROSEC = 1000000;
 
+    /**
+     * @var array
+     * @psalm-var array<string, float>
+     */
     public static $serverTimings = [];
 
     private $start;
     private $duration;
 
     /**
-     * Constructor.
-     *
      * @param float $start Start time
      */
     public function __construct($start = null)
@@ -37,8 +39,7 @@ class rex_timer
      *
      * On sufficient user permissions - or in debug mode - this timings will be sent over the wire to the browser via server timing api http headers.
      *
-     * @param string   $label
-     * @param callable $callable
+     * @param string $label
      *
      * @return mixed result of callable
      */
@@ -58,15 +59,17 @@ class rex_timer
         }
 
         $timer = new self();
-        $result = $callable();
-        $timer->stop();
 
-        $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
-        $duration += $timer->getDelta(self::MILLISEC);
+        try {
+            return $callable();
+        } finally {
+            $timer->stop();
 
-        self::$serverTimings[$label] = $duration;
+            $duration = isset(self::$serverTimings[$label]) ? self::$serverTimings[$label] : 0;
+            $duration += $timer->getDelta(self::MILLISEC);
 
-        return $result;
+            self::$serverTimings[$label] = $duration;
+        }
     }
 
     /**

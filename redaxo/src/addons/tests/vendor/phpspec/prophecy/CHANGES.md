@@ -1,3 +1,23 @@
+1.10.1 / 2019/12/22
+===================
+
+* [fixed] identical callables no longer match as arguments (@ciaranmcnulty)
+
+1.10.0 / 2019/12/17
+===================
+
+* [added] shouldHaveBeenCalled evaluation happens later so un-stubbed calls don't throw (@elvetemedve)
+* [added] methods can now be doubled case-insensitively to match PHP semantics (@michalbundyra)
+* [fixed] reduced memory usage by optimising CachedDoubler (@DonCallisto)
+* [fixed] removed fatal error nesting level when comparing large objects (@scroach) 
+
+1.9.0 / 2019/10/03
+==================
+
+* [added] Add willYield feature to Method Prophecy(@tkotosz)
+* [fixed] Allow `MethodProphecy::willThrow()` to accept Throwable as string (@timoschinkel )
+* [fixed] Allow new version of phpdocumentor/reflection-docblock (@ricpelo)
+
 1.8.1 / 2019/06/13
 ==================
 

@@ -78,7 +78,6 @@ class rex_logger extends AbstractLogger
      *
      * @param mixed  $level
      * @param string $message
-     * @param array  $context
      * @param string $file
      * @param int    $line
      *

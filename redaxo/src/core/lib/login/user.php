@@ -17,6 +17,11 @@ class rex_user
     protected $sql;
 
     /**
+     * @var null|bool
+     */
+    private $admin;
+
+    /**
      * User role instance.
      *
      * @var rex_user_role_interface
@@ -32,8 +37,6 @@ class rex_user
 
     /**
      * Constructor.
-     *
-     * @param rex_sql $sql
      */
     public function __construct(rex_sql $sql)
     {
@@ -99,7 +102,11 @@ class rex_user
      */
     public function isAdmin()
     {
-        return (bool) $this->sql->getValue('admin');
+        if (null === $this->admin) {
+            $this->admin = (bool) $this->sql->getValue('admin');
+        }
+
+        return $this->admin;
     }
 
     /**

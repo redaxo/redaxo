@@ -3,11 +3,11 @@ htmllang = es
 yes = si
 no = no
 general = general
-dateformat = %d-%b-%Y
 setlocale = es_ES,es_BO,latin_america,ES,Español,castellano
 phpini_settings = Ajustes PHP.ini
 
-datetimeformat = %d-%b-%Y %H:%M
+dateformat = %d %b. %Y
+datetimeformat = %d %b. %Y, %H:%M
 timeformat = %H:%M
 ctrl = Selección múltiple mediante CTRL
 translatable = Traducible a través de <code>translate:i18n_key</code>
@@ -262,9 +262,6 @@ https_disable = Desactivar
 https_only_frontend = Activar solo para frontend
 https_only_backend = Activar solo para backend
 https_activate = Activar para frontend y backend
-
-hsts_activate = Establezca <b>Seguridad de transporte HTTP estricta </​​b>
-hsts_more_information = Más información en {0}
 
 # redaxo\include\pages\addon.php
 addon = AddOn

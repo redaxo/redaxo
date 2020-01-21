@@ -2,6 +2,16 @@
 
 All notable changes in `sebastianbergmann/environment` are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [4.2.3] - 2019-11-20
+
+### Changed
+
+* Implemented [#50](https://github.com/sebastianbergmann/environment/pull/50): Windows improvements to console capabilities
+
+### Fixed
+
+* Fixed [#49](https://github.com/sebastianbergmann/environment/issues/49): Detection how OpCache handles docblocks does not work correctly when PHPDBG is used
+
 ## [4.2.2] - 2019-05-05
 
 ### Fixed
@@ -93,6 +103,7 @@ All notable changes in `sebastianbergmann/environment` are documented in this fi
 
 * This component is no longer supported on PHP 5.6
 
+[4.2.3]: https://github.com/sebastianbergmann/phpunit/compare/4.2.2...4.2.3
 [4.2.2]: https://github.com/sebastianbergmann/phpunit/compare/4.2.1...4.2.2
 [4.2.1]: https://github.com/sebastianbergmann/phpunit/compare/4.2.0...4.2.1
 [4.2.0]: https://github.com/sebastianbergmann/phpunit/compare/4.1.0...4.2.0

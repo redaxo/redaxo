@@ -130,7 +130,7 @@ $dbconfig = rex::getProperty('db');
 
 $rexVersion = rex::getVersion();
 if (false !== strpos($rexVersion, '-dev')) {
-    $hash = rex::getVersionHash(rex_path::base());
+    $hash = rex::getVersionHash(rex_path::base(), 'redaxo/redaxo');
     if ($hash) {
         $rexVersion .= '#'. $hash;
     }
@@ -145,7 +145,7 @@ if (!rex::isDebugMode()) {
 }
 
 $content = '
-    <h3>' . rex_i18n::msg('delete_cache') . '</h3>    
+    <h3>' . rex_i18n::msg('delete_cache') . '</h3>
     <p>' . rex_i18n::msg('delete_cache_description') . '</p>
     <p><a class="btn btn-delete" href="' . rex_url::currentBackendPage(['func' => 'generate'] + $csrfToken->getUrlParams()) . '">' . rex_i18n::msg('delete_cache') . '</a></p>
 
@@ -191,11 +191,13 @@ $fragment->setVar('title', rex_i18n::msg('version'));
 $fragment->setVar('content', $content, false);
 $sideContent[] = $fragment->parse('core/page/section.php');
 
+$sql = rex_sql::factory();
+
 $content = '
     <table class="table">
         <tr>
-            <th class="rex-table-width-3">MySQL</th>
-            <td>' .  rex_sql::getServerVersion() . '</td>                            
+            <th class="rex-table-width-3">' . rex_i18n::msg('version') . '</th>
+            <td>' .  $sql->getDbType().' '.$sql->getDbVersion() . '</td>
         </tr>
         <tr>
             <th>' . rex_i18n::msg('name') . '</th>

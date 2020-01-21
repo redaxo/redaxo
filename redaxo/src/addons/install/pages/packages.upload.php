@@ -195,7 +195,7 @@ if ($addonkey && isset($addons[$addonkey])) {
             $url = rex_url::currentBackendPage(['addonkey' => $addonkey, 'file' => $fileId]);
             $status = $file['status'] ? 'online' : 'offline';
             $panel .= '
-            <tr>
+            <tr data-pjax-scroll-to="0">
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('version') . '">' . rex_escape($file['version']) . '</td>
                 <td data-title="REDAXO">' . rex_escape(implode(', ', $file['redaxo_versions'])) . '</td>
@@ -233,7 +233,7 @@ if ($addonkey && isset($addons[$addonkey])) {
         $url = rex_url::currentBackendPage(['addonkey' => $key]);
         $status = $addon['status'] ? 'online' : 'offline';
         $panel .= '
-            <tr>
+            <tr data-pjax-scroll-to="0">
                 <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                 <td data-title="' . $package->i18n('key') . '">' . rex_escape($key) . '</td>
                 <td data-title="' . $package->i18n('name') . '">' . rex_escape($addon['name']) . '</td>
