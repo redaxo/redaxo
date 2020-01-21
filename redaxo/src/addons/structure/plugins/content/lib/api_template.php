@@ -13,17 +13,6 @@ class rex_template
     public function __construct($template_id)
     {
         $this->id = (int) $template_id;
-        if (0 === $this->id && !empty($template_id)) {
-            $sql = rex_sql::factory()
-                ->setQuery(
-                    'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
-                    ['key' => $template_id]
-                );
-
-            if (1 == $sql->getRows()) {
-                $this->id = $sql->getValue('id');
-            }
-        }
     }
 
     public static function getDefaultId()

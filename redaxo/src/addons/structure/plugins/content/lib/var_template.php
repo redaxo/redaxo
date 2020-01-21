@@ -10,15 +10,23 @@ class rex_var_template extends rex_var
     protected function getOutput()
     {
         $template_id = $this->getParsedArg('id', 0, true);
+        $template_key = $this->getArg('key', null, true);
+
+        if (0 === $template_id && $template_key) {
+            $sql = rex_sql::factory()
+                ->setDebug()
+                ->setQuery(
+                    'SELECT `id` FROM '.rex::getTable('template').' WHERE `key` = :key',
+                    ['key' => $template_key]
+                );
+
+            if (1 == $sql->getRows()) {
+                $template_id = $sql->getValue('id');
+            }
+        }
 
         if ($template_id > 0) {
             return self::class . '::getTemplateOutput(require ' . self::class . '::getTemplateStream(' . $template_id . ', $this))';
-        }
-
-        $template_key = $this->getParsedArg('key', null, true);
-
-        if ('' !== $template_key) {
-            return self::class . '::getTemplateOutput(require ' . self::class . '::getTemplateStream(' . $template_key . ', $this))';
         }
 
         return false;
