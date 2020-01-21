@@ -144,6 +144,25 @@ Liefert zusätzlich untergeordnete Informationen, sehr ausführlich. Nicht zum D
 
 Meist benötigt man keinen Level über **Server-und Client-Protokoll**, es sei denn, es liegen Schwierigkeiten bei der Verbindung vor. Die Ausgabe wird meist nur umfangreicher und schwieriger zu lesen sein.
 
+## E-Mail-Log und E-Mail-Archivierung 
+
+Das Addon stellt ein E-Mail-Log sowie eine E-Mail-Archivierung bereit. 
+
+### E-Mail-Log
+
+Das E-Mail-Log findet man unter `System` > `Logdateien` > `PHPMailer`. Das Logging kann in den Einstellungen des PHPMailer-Addons in 3 Stufen eingestellt werden. 
+
+- Nein: Es wird kein Log erstellt
+- Nur Fehler Loggen: Es werden nur Fehler geloggt 
+- Alle Vorgänge loggen: Alle Sendungen werden geloggt 
+
+Das Log liefert Informationen zu Zeit, Absender, Empfänger, Betreff und Meldung. Es kann über den Button `Logdatei löschen` geleert werden. 
+
+Das Log wird in der Datei `/redaxo/data/addons/phpmailer/mail.log` gespeichert. 
+
+### E-Mail-Archivierung 
+
+Bei eingeschalteter E-Mail-Archivierung werden alle E-Mails im Ordner `/redaxo/data/addons/phpmailer/mail_log` chronologisch nach Jahr und Monat in Unterordnern archiviert. Anhänge werden nicht gespeichert. 
 
 
 ## Tipps

@@ -143,6 +143,21 @@ as Connection protocol, plus even lower-level information, very verbose, don't u
 
 Most of the time you don't need a level over **server and client protocol**, unless there are difficulties with the connection. The output will usually be more extensive and harder to read.
 
+### Email log
+
+The Email log can be found under 'System' > 'Log files' > 'PHPMailer'. The logging can be set in the settings of the PHPMailer addon at 3 levels. 
+
+- No: No log will be created.
+- Log only errors: Only errors will be logged. 
+- Log all transactions: All transmissions are logged 
+
+The log provides information about date/time, sender, recipient, subject and message. It can be ecleared via 'Clear log file'. 
+
+The log is stored under `/redaxo/data/addons/phpmailer/mail.log`. 
+
+### Email archiving 
+
+If Email archiving is switched on, all emails in the folder '/redaxo/data/addons/phpmailer/mail_log' are archived chronologically by year and month in subfolders. Attachments are not saved. 
 
 
 ## Tips
