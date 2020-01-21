@@ -13,6 +13,15 @@ use Symfony\Component\Console\Question\Question;
  */
 class rex_command_setup_run extends rex_console_command implements rex_command_only_setup_packages
 {
+    /** @var \Symfony\Component\Console\Style\SymfonyStyle */
+    private $io;
+
+    /** @var InputInterface */
+    private $input;
+
+    /** @var OutputInterface */
+    private $output;
+
     protected function configure()
     {
         $this
@@ -29,6 +38,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             ->addOption('--db-name', null, InputOption::VALUE_REQUIRED, 'Database name e.g. "redaxo"')
             ->addOption('--db-createdb', null, InputOption::VALUE_NONE, 'Creates the database')
             ->addOption('--db-setup', null, InputOption::VALUE_REQUIRED, 'Database setup mode e.g. "normal", "override" or "import"')
+            ->addOption('--db-charset', null, InputOption::VALUE_REQUIRED, 'Database charset "utf8" or "utf8mb4"')
             ->addOption('--db-import', null, InputOption::VALUE_REQUIRED, 'Database import filename if "import" is used as --db-setup')
             ->addOption('--admin-username', null, InputOption::VALUE_REQUIRED, 'Creates a redaxo admin user with the given username')
             ->addOption('--admin-password', null, InputOption::VALUE_REQUIRED, 'Sets the password for the admin user account')
@@ -38,6 +48,10 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = $this->getStyle($input, $output);
+
+        $this->io = $io;
+        $this->input = $input;
+        $this->output = $output;
 
         $configFile = rex_path::coreData('config.yml');
         $config = array_merge(
@@ -245,6 +259,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
         if ('update' == $createdb) {
+            $useUtf8mb4 = $this->getDbCharset();
+            $config['utf8mb4'] = $useUtf8mb4 === 'utf8mb4';
+            rex_sql_table::setUtf8mb4($config['utf8mb4']);
             $error = rex_setup_importer::updateFromPrevious();
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
@@ -258,9 +275,15 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $error = rex_setup_importer::databaseAlreadyExists();
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
+            $useUtf8mb4 = $this->getDbCharset();
+            $config['utf8mb4'] = $useUtf8mb4 === 'utf8mb4';
+            rex_sql_table::setUtf8mb4($config['utf8mb4']);
             $error = rex_setup_importer::overrideExisting();
             $io->success('Database successfully overwritten');
         } elseif ('normal' == $createdb) {
+            $useUtf8mb4 = $this->getDbCharset();
+            $config['utf8mb4'] = $useUtf8mb4 === 'utf8mb4';
+            rex_sql_table::setUtf8mb4($config['utf8mb4']);
             $error = rex_setup_importer::prepareEmptyDb();
             $io->success('Database successfully created');
         } else {
@@ -365,5 +388,37 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $io->success('Congratulations! REDAXO has successfully been installed.');
         return 0;
+    }
+
+    /**
+     * @return bool|string false|utf8|utf8mb4
+     */
+    private function getDbCharset()
+    {
+        if ($charset = $this->input->getOption('db-charset')) {
+            if (!in_array($charset, ['utf8', 'utf8mb8'])) {
+                throw new InvalidArgumentException('unknown database charset "'.$charset.'" specified');
+            }
+            if ($charset === 'utf8mb4' && !rex_setup_importer::supportsUtf8mb4()) {
+                $sql = rex_sql::factory();
+                throw new InvalidArgumentException('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
+            }
+            return $charset;
+        }
+
+        if (!rex_setup_importer::supportsUtf8mb4()) {
+            $sql = rex_sql::factory();
+            $this->io->writeln('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
+            $this->io->writeln('utf8 is deprecated and will removed in future versions of REDAXO.');
+            if ($this->io->confirm('Continue with charset utf8 ?', false)) {
+                return 'utf8';
+            }
+            return false;
+        }
+
+        $this->io->choice('Choose database charset', [
+           'utf8mb4' => '[recommended] Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
+           'utf8' => '[deprecated] non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
+        ]);
     }
 }
