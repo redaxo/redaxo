@@ -102,94 +102,108 @@ if ('add' == $function || 'edit' == $function) {
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
         $ctypes = rex_post('ctype', 'array');
-        $num_ctypes = count($ctypes);
-        if ('' == $ctypes[$num_ctypes]) {
-            unset($ctypes[$num_ctypes]);
-            if (isset($ctypes[$num_ctypes - 1]) && '' == $ctypes[$num_ctypes - 1]) {
-                unset($ctypes[$num_ctypes - 1]);
+
+        $templateKeySql = rex_sql::factory();
+        $templateKeyCheck = $templateKeySql->setQuery('SELECT 1 FROM '.rex::getTable('template').' WHERE '.$templateKeySql->escapeIdentifier('key').' = :templateKey', ['templateKey' => $templatekey]);
+        if ($templateKeyCheck->getRows() >= 1) {
+            $error = rex_i18n::msg('template_key_exists');
+            $save = 'nein';
+        }
+
+        if ('ja' == $save) {
+            $num_ctypes = count($ctypes);
+            if ('' == $ctypes[$num_ctypes]) {
+                unset($ctypes[$num_ctypes]);
+                if (isset($ctypes[$num_ctypes - 1]) && '' == $ctypes[$num_ctypes - 1]) {
+                    unset($ctypes[$num_ctypes - 1]);
+                }
             }
-        }
 
-        $categories = rex_post('categories', 'array');
-        // leerer eintrag = 0
-        if (0 == count($categories) || !isset($categories['all']) || 1 != $categories['all']) {
-            $categories['all'] = 0;
-        }
-
-        $modules = rex_post('modules', 'array');
-        // leerer eintrag = 0
-        if (0 == count($modules)) {
-            $modules[1]['all'] = 0;
-        }
-
-        foreach ($modules as $k => $module) {
-            if (!isset($module['all']) || 1 != $module['all']) {
-                $modules[$k]['all'] = 0;
+            $categories = rex_post('categories', 'array');
+            // leerer eintrag = 0
+            if (0 == count($categories) || !isset($categories['all']) || 1 != $categories['all']) {
+                $categories['all'] = 0;
             }
-        }
 
-        $TPL = rex_sql::factory();
-        $TPL->setTable(rex::getTablePrefix() . 'template');
-        $TPL->setValue('key', $templatekey);
-        $TPL->setValue('name', $templatename);
-        $TPL->setValue('active', $active);
-        $TPL->setValue('content', $template);
-        $TPL->addGlobalCreateFields();
+            $modules = rex_post('modules', 'array');
+            // leerer eintrag = 0
+            if (0 == count($modules)) {
+                $modules[1]['all'] = 0;
+            }
 
-        $attributes['ctype'] = $ctypes;
-        $attributes['modules'] = $modules;
-        $attributes['categories'] = $categories;
-        $TPL->setArrayValue('attributes', $attributes);
+            foreach ($modules as $k => $module) {
+                if (!isset($module['all']) || 1 != $module['all']) {
+                    $modules[$k]['all'] = 0;
+                }
+            }
 
-        if ('add' == $function) {
+            if ('' === trim($templatekey)) {
+                $templatekey = null;
+            }
+
+            $TPL = rex_sql::factory();
+            $TPL->setTable(rex::getTablePrefix() . 'template');
+            $TPL->setValue('key', $templatekey);
+            $TPL->setValue('name', $templatename);
+            $TPL->setValue('active', $active);
+            $TPL->setValue('content', $template);
             $TPL->addGlobalCreateFields();
 
-            try {
-                $TPL->insert();
-                $template_id = $TPL->getLastId();
-                $success = rex_i18n::msg('template_added');
-                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
-                    'id' => $template_id,
-                    'key' => $templatekey,
-                    'name' => $templatename,
-                    'content' => $template,
-                    'active' => $active,
-                    'ctype' => $ctypes,
-                    'modules' => $modules,
-                    'categories' => $categories,
-                ]));
-            } catch (rex_sql_exception $e) {
-                $error = $e->getMessage();
+            $attributes['ctype'] = $ctypes;
+            $attributes['modules'] = $modules;
+            $attributes['categories'] = $categories;
+            $TPL->setArrayValue('attributes', $attributes);
+
+            if ('add' == $function) {
+                $TPL->addGlobalCreateFields();
+
+                try {
+                    $TPL->insert();
+                    $template_id = $TPL->getLastId();
+                    $success = rex_i18n::msg('template_added');
+                    $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_ADDED', $success, [
+                        'id' => $template_id,
+                        'key' => $templatekey,
+                        'name' => $templatename,
+                        'content' => $template,
+                        'active' => $active,
+                        'ctype' => $ctypes,
+                        'modules' => $modules,
+                        'categories' => $categories,
+                    ]));
+                } catch (rex_sql_exception $e) {
+                    $error = $e->getMessage();
+                }
+            } else {
+                $TPL->setWhere(['id' => $template_id]);
+                $TPL->addGlobalUpdateFields();
+
+                try {
+                    $TPL->update();
+                    $success = rex_i18n::msg('template_updated');
+                    $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
+                        'id' => $template_id,
+                        'key' => $templatekey,
+                        'name' => $templatename,
+                        'content' => $template,
+                        'active' => $active,
+                        'ctype' => $ctypes,
+                        'modules' => $modules,
+                        'categories' => $categories,
+                    ]));
+                } catch (rex_sql_exception $e) {
+                    $error = $e->getMessage();
+                }
             }
-        } else {
-            $TPL->setWhere(['id' => $template_id]);
-            $TPL->addGlobalUpdateFields();
 
-            try {
-                $TPL->update();
-                $success = rex_i18n::msg('template_updated');
-                $success = rex_extension::registerPoint(new rex_extension_point('TEMPLATE_UPDATED', $success, [
-                    'id' => $template_id,
-                    'key' => $templatekey,
-                    'name' => $templatename,
-                    'content' => $template,
-                    'active' => $active,
-                    'ctype' => $ctypes,
-                    'modules' => $modules,
-                    'categories' => $categories,
-                ]));
-            } catch (rex_sql_exception $e) {
-                $error = $e->getMessage();
+            rex_dir::delete(rex_path::addonCache('templates'), false);
+
+            if ('' != $goon) {
+                $function = 'edit';
+                $save = 'nein';
+            } else {
+                $function = '';
             }
-        }
-
-        rex_dir::delete(rex_path::addonCache('templates'), false);
-
-        if ('' != $goon) {
-            $function = 'edit';
-            $save = 'nein';
-        } else {
-            $function = '';
         }
     }
 
@@ -358,6 +372,7 @@ if ('add' == $function || 'edit' == $function) {
         $n = [];
         $n['label'] = '<label for="rex-id-templatekey">' . rex_i18n::msg('template_key') . '</label>';
         $n['field'] = '<input class="form-control" id="rex-id-templatekey" type="text" name="templatekey" value="' . rex_escape($templatekey) . '" />';
+        $n['note'] = rex_i18n::msg('template_key_notice');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
