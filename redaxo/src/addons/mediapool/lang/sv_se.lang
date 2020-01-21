@@ -96,9 +96,6 @@ pool_upload = Filupload
 all_mediafolder = Alla filmappar
 mediafolder = Filmapp
 
-be_search_mpool_media = Filnamn
-be_search_mpool_search = Sök
-
 var_media_open = Välj fil
 var_media_new = Tillfoga ny fil
 var_media_remove = Radera vald fil

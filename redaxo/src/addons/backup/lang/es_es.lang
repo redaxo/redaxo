@@ -30,8 +30,8 @@ backup_filesize = Tamaño del archivo
 backup_delete = Borrar
 backup_files = Importar archivos
 backup_intro_export = Para hacer copias de seguridad de todo el sitio web por favor copia de seguridad de la base de datos y archivos.
-backup_database_export = Exportación de base de datos
-backup_file_export = Exportación de archivos
+backup_database_export =
+backup_file_export =
 backup_save_on_server = Guardar en el servidor
 backup_download_as_file = Descargar como archivo
 backup_createdate = Fecha de Creación
@@ -46,8 +46,8 @@ backup_file_generated_in = El archivo se ha generado en
 backup_proceed_db_import = Los datos actuales (artículos, plantillas, módulos, ...) se eliminarán. Estás seguro ?
 backup_proceed_file_import = Los archivos actuales serán borrados. Estás seguro ?
 
-backup_export_db_caption = Exportación de bases de datos
-backup_export_file_caption = Exportaciones de archivos
+backup_export_db_caption =
+backup_export_file_caption =
 
 backup_function = Función
 

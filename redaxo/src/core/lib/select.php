@@ -5,11 +5,17 @@
  */
 class rex_select
 {
+    /** @var array */
     private $attributes = [];
+    /** @var int */
     private $currentOptgroup = 0;
+    /** @var array */
     private $optgroups = [];
+    /** @var array */
     private $options = [];
+    /** @var array */
     private $option_selected;
+    /** @var int */
     private $optCount = 0;
 
     public function __construct()

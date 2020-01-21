@@ -96,8 +96,17 @@ if ('license' == $subpage) {
 if ('' == $subpage) {
     rex_package_manager::synchronizeWithFileSystem();
 
+    $toolbar = '
+        <div class="form-group form-group-xs">
+            <div class="input-group input-group-xs" id="rex-js-available-addon-search">
+                <input class="form-control" type="text" placeholder="' . rex_i18n::msg('package_search') . '" '.(rex_request('function') ? '' : 'autofocus ').'/>
+                <span class="input-group-btn"><button class="btn btn-default">' . rex_i18n::msg('package_clear') . '</button></span>
+            </div>
+        </div>
+    ';
+
     $content .= '
-            <table class="table table-hover">
+            <table class="table table-hover" id="rex-js-table-available-packages-addons">
             <thead>
                 <tr>
                     <th class="rex-table-icon">&nbsp;</th>
@@ -167,6 +176,8 @@ if ('' == $subpage) {
                         </td>
                     </tr>';
             $class = ' mark';
+        } elseif ($package->getPackageId() == rex_get('mark', 'string')) {
+            $class = ' mark';
         }
 
         $version = ('' != trim($package->getVersion())) ? ' <span class="rex-' . $type . '-version">' . trim($package->getVersion()) . '</span>' : '';
@@ -213,8 +224,36 @@ if ('' == $subpage) {
     $content .= '</tbody>
             </table>';
 
+    $content .= '
+        <script type="text/javascript">
+        <!--
+        jQuery(function($) {
+            var table = $("#rex-js-table-available-packages-addons");
+            var tablebody = table.find("tbody");
+
+            $("#rex-js-available-addon-search .form-control").keyup(function () {
+                table.find("tr").show();
+                var search = $(this).val().toLowerCase();
+                if (search) {
+                    table.find("tbody tr").each(function () {
+                        var tr = $(this);
+                        if (tr.text().toLowerCase().indexOf(search) < 0) {
+							tr.hide();
+                        }
+                    });
+                }
+            });
+            $("#rex-js-available-addon-search .btn").click(function () {
+                $("#rex-js-available-addon-search .form-control").val("").trigger("keyup");
+            });
+        });
+        //-->
+        </script>
+    ';
+
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('package_caption'), false);
+    $fragment->setVar('options', $toolbar, false);
     $fragment->setVar('content', $content, false);
     echo $fragment->parse('core/page/section.php');
 }

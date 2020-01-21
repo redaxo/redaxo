@@ -72,15 +72,19 @@ class rex_setup_importer
         // ----- volle Datenbank, alte DB löschen / drop
         $err_msg = '';
 
-        $import_sql = rex_path::core('install.sql');
-
         $db = rex_sql::factory();
         foreach (self::getRequiredTables() as $table) {
             $db->setQuery('DROP TABLE IF EXISTS `' . $table . '`');
         }
 
         if ('' == $err_msg) {
-            $err_msg .= self::import($import_sql);
+            try {
+                include rex_path::core('install.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
         }
 
         if ('' == $err_msg) {
@@ -94,10 +98,15 @@ class rex_setup_importer
     {
         // ----- leere Datenbank neu einrichten
         $err_msg = '';
-        $import_sql = rex_path::core('install.sql');
 
         if ('' == $err_msg) {
-            $err_msg .= self::import($import_sql);
+            try {
+                include rex_path::core('install.php');
+            } catch (rex_functional_exception $e) {
+                $err_msg .= $e->getMessage();
+            } catch (rex_sql_exception $e) {
+                $err_msg .= 'SQL error: ' . $e->getMessage();
+            }
         }
 
         $err_msg .= self::installAddons();
@@ -116,6 +125,18 @@ class rex_setup_importer
             $err_msg .= rex_i18n::msg('setup_502', $missingTable) . '<br />';
         }
         return $err_msg;
+    }
+
+    public static function supportsUtf8mb4(): bool
+    {
+        static $utf8mb4MinVersions = [
+            rex_sql::MYSQL => '5.7.7',
+            rex_sql::MARIADB => '10.2.0',
+        ];
+
+        $sql = rex_sql::factory();
+
+        return version_compare($sql->getDbVersion(), $utf8mb4MinVersions[$sql->getDbType()], '>=');
     }
 
     private static function getRequiredTables()

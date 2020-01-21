@@ -5,19 +5,43 @@
  */
 class rex_login
 {
+    /**
+     * @var int
+     */
     protected $DB = 1;
     protected $sessionDuration;
     protected $loginQuery;
     protected $userQuery;
     protected $impersonateQuery;
+    /**
+     * @var string
+     */
     protected $systemId = 'default';
     protected $userLogin;
     protected $userPassword;
+    /**
+     * @var bool
+     */
     protected $logout = false;
+    /**
+     * @var string
+     */
     protected $idColumn = 'id';
+    /**
+     * @var string
+     */
     protected $passwordColumn = 'password';
+    /**
+     * @var bool
+     */
     protected $cache = false;
+    /**
+     * @var int
+     */
     protected $loginStatus = 0; // 0 = noch checken, 1 = ok, -1 = not ok
+    /**
+     * @var string
+     */
     protected $message = '';
 
     /** @var rex_sql|rex_user */
@@ -287,7 +311,7 @@ class rex_login
     public function depersonate()
     {
         if (!$this->impersonator) {
-            throw new RuntimeException('There is no current impersonator.');
+            return;
         }
 
         $this->user = $this->impersonator;
@@ -393,17 +417,16 @@ class rex_login
                 $cookieParams['httponly']
             );
 
-            $started = rex_timer::measure(__METHOD__, static function () {
-                return @session_start();
-            });
-            if (!$started) {
-                $error = error_get_last();
-                if ($error) {
-                    rex_error_handler::handleError($error['type'], $error['message'], $error['file'], $error['line']);
-                } else {
-                    throw new rex_exception('Unable to start session!');
+            rex_timer::measure(__METHOD__, static function () {
+                error_clear_last();
+
+                if (!@session_start()) {
+                    if ($error = error_get_last()) {
+                        throw new rex_exception('Unable to start session: '.$error['message']);
+                    }
+                    throw new rex_exception('Unable to start session.');
                 }
-            }
+            });
 
             if ($cookieParams['samesite']) {
                 self::rewriteSessionCookie($cookieParams['samesite']);

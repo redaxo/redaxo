@@ -1,6 +1,20 @@
 CHANGELOG
 =========
 
+4.4.0
+-----
+
+ * deprecated finding hidden commands using an abbreviation, use the full name instead
+ * added `Question::setTrimmable` default to true to allow the answer to be trimmed
+ * added method `minSecondsBetweenRedraws()` and `maxSecondsBetweenRedraws()` on `ProgressBar`
+ * `Application` implements `ResetInterface`
+ * marked all dispatched event classes as `@final`
+ * added support for displaying table horizontally
+ * deprecated returning `null` from `Command::execute()`, return `0` instead
+ * Deprecated the `Application::renderException()` and `Application::doRenderException()` methods,
+   use `renderThrowable()` and `doRenderThrowable()` instead.
+ * added support for the `NO_COLOR` env var (https://no-color.org/)
+
 4.3.0
 -----
 
@@ -32,7 +46,7 @@ CHANGELOG
 
  * `OutputFormatter` throws an exception when unknown options are used
  * removed `QuestionHelper::setInputStream()/getInputStream()`
- * removed `Application::getTerminalWidth()/getTerminalHeight()` and 
+ * removed `Application::getTerminalWidth()/getTerminalHeight()` and
   `Application::setTerminalDimensions()/getTerminalDimensions()`
 * removed `ConsoleExceptionEvent`
 * removed `ConsoleEvents::EXCEPTION`
@@ -58,7 +72,7 @@ CHANGELOG
   with value optional explicitly passed empty
 * added console.error event to catch exceptions thrown by other listeners
 * deprecated console.exception event in favor of console.error
-* added ability to handle `CommandNotFoundException` through the 
+* added ability to handle `CommandNotFoundException` through the
  `console.error` event
 * deprecated default validation in `SymfonyQuestionHelper::ask`
 
@@ -74,7 +88,7 @@ CHANGELOG
 -----
 
  * added truncate method to FormatterHelper
- * added setColumnWidth(s) method to Table 
+ * added setColumnWidth(s) method to Table
 
 2.8.3
 -----

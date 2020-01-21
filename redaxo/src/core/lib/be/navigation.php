@@ -23,9 +23,6 @@ class rex_be_navigation
         return new $class();
     }
 
-    /**
-     * @param rex_be_page $page
-     */
     public function addPage(rex_be_page $page)
     {
         $blockName = 'default';

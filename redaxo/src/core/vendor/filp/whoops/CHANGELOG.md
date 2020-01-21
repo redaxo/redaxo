@@ -1,3 +1,23 @@
+# 2.7.1
+
+* Fix a PHP warning in some cases with anonymous classes.
+
+# 2.7.0
+
+* removeFirstHandler and removeLastHandler.
+
+# 2.6.0
+
+* Fix 2.4.0 pushHandler changing the order of handlers.
+
+# 2.5.1
+
+* Fix error messaging in a rare case.
+
+# 2.5.0
+
+* Automatically configure xdebug if available.
+
 # 2.4.1
 
 * Try harder to close all output buffers

@@ -2,7 +2,7 @@
 
 ## Funktionen:
 
-Das AddOn erlaubt das Anpassen von Grafiken und Handling von Dateien anhand von Mediatypen. Die Mediatypen werden in der Verwaltung des AddOns erstellt und konfiguriert. Jeder Mediatyp kann beliebig viele Effekte enthalten, die auf das aktuelle Medium angewendet werden. Zum Einbinden eines Mediums muss dazu der Mediatyp in der URL notiert werden.
+Das AddOn erlaubt das Anpassen von Grafiken und Handling von Dateien anhand von Medientypen. Die Medientypen werden in der Verwaltung des AddOns erstellt und konfiguriert. Jeder Medientyp kann beliebig viele Effekte enthalten, die auf das aktuelle Medium angewendet werden. Zum Einbinden eines Mediums muss dazu der Medientyp in der URL notiert werden.
 
 
 ## Erzeugung der URL:

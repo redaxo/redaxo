@@ -36,14 +36,7 @@ class rex_console_application extends Application
                 $severity = E_ERROR;
             }
 
-            throw new ErrorException(
-                $message,
-                $e->getCode(),
-                $severity,
-                $e->getFile(),
-                $e->getLine(),
-                $e->getPrevious()
-            );
+            throw new ErrorException($message, $e->getCode(), $severity, $e->getFile(), $e->getLine(), $e->getPrevious());
         }
     }
 
@@ -58,13 +51,23 @@ class rex_console_application extends Application
 
     private function loadPackages(rex_console_command $command)
     {
+        // Some packages requires a working db connection in their boot.php
+        // in this case if no connection is available, no commands can be used
+        // but this command should be always usable
+        if ('db:set-connection' === $command->getName()) {
+            return;
+        }
+
         if ('ydeploy:migrate' === $command->getName()) {
+            // boot only the ydeploy package, which provides the migrate command
             $command->getPackage()->boot();
 
             return;
         }
 
         if (!rex::isSetup()) {
+            // boot all known packages in the defined order
+            // which reflects dependencies before consumers
             foreach (rex::getConfig('package-order') as $packageId) {
                 rex_package::get($packageId)->boot();
             }

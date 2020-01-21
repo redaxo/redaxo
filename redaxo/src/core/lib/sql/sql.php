@@ -11,6 +11,9 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
+    public const MYSQL = 'MySQL';
+    public const MARIADB = 'MariaDB';
+
     /**
      * Default SQL datetime format.
      */
@@ -106,7 +109,17 @@ class rex_sql implements Iterator
             throw new InvalidArgumentException('Database name can not be empty.');
         }
 
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $database;
+        $port = null;
+        if (false !== strpos($host, ':')) {
+            [$host, $port] = explode(':', $host, 2);
+        }
+
+        $dsn = 'mysql:host=' . $host;
+        if ($port) {
+            $dsn .= ';port='. $port;
+        }
+        $dsn .= ';dbname=' . $database;
+
         $options = [
             PDO::ATTR_PERSISTENT => (bool) $persistent,
             PDO::ATTR_FETCH_TABLE_NAMES => true,
@@ -560,8 +573,7 @@ class rex_sql implements Iterator
      * Concats the given array to a sql condition using bound parameters.
      * AND/OR opartors are alternated depending on $level.
      *
-     * @param array $arrFields
-     * @param int   $level
+     * @param int $level
      *
      * @return string
      */
@@ -903,11 +915,6 @@ class rex_sql implements Iterator
             $this->values
         );
 
-        // provide debug infos, if insert is considered successfull, but no rows were inserted.
-        // this happens when you violate against a NOTNULL constraint
-        if (0 == $this->getRows()) {
-            throw new rex_sql_exception('Error while inserting into table "' . $tableName . '" with values ' . print_r($values, true) . '! Check your null/not-null constraints!', null, $this);
-        }
         return $this;
     }
 
@@ -1127,6 +1134,7 @@ class rex_sql implements Iterator
      */
     protected function printError($qry, $params)
     {
+        $errors = [];
         $errors['query'] = $qry;
         if (!empty($params)) {
             $errors['params'] = $params;
@@ -1349,8 +1357,6 @@ class rex_sql implements Iterator
      *
      * In case the callable throws, the transaction will automatically rolled back.
      * In case no error happens, the transaction will be committed after the callable was called.
-     *
-     * @param callable $callable
      *
      * @throws Throwable
      *
@@ -1597,14 +1603,11 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Gibt die Serverversion zurueck.
-     *
-     * Die Versionsinformation ist erst bekannt,
-     * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
+     * Returns the full database version string.
      *
      * @param int $DBID
      *
-     * @return mixed
+     * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
     public static function getServerVersion($DBID = 1)
     {
@@ -1613,6 +1616,35 @@ class rex_sql implements Iterator
             self::factory($DBID);
         }
         return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+    }
+
+    /**
+     * Returns the database type (MySQL or MariaDB).
+     *
+     * @return string `rex_sql::MYSQL` or `rex_sql::MARIADB`
+     * @psalm-return self::MYSQL|self::MARIADB
+     */
+    public function getDbType(): string
+    {
+        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        return false === stripos($version, 'mariadb') ? self::MYSQL : self::MARIADB;
+    }
+
+    /**
+     * Returns the normalized database version.
+     *
+     * @return string E.g. "5.7.7" or "10.4.9"
+     */
+    public function getDbVersion(): string
+    {
+        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        if (preg_match('/^(\d+\.\d+\.\d+)(?:-(\d+\.\d+\.\d+)-mariadb)?/i', $version, $match)) {
+            return $match[2] ?? $match[1];
+        }
+
+        return $version;
     }
 
     /**

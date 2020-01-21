@@ -28,7 +28,7 @@ ob_implicit_flush(0);
 
 if ('cli' !== PHP_SAPI) {
     // deactivate session cache limiter
-    session_cache_limiter(false);
+    @session_cache_limiter(false);
 }
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated
@@ -82,7 +82,7 @@ require_once rex_path::core('functions/function_rex_globals.php');
 require_once rex_path::core('functions/function_rex_other.php');
 
 // ----------------- VERSION
-rex::setProperty('version', '5.8.0');
+rex::setProperty('version', '5.8.1');
 
 $cacheFile = rex_path::coreCache('config.yml.cache');
 $configFile = rex_path::coreData('config.yml');
@@ -128,7 +128,7 @@ if ('cli' !== PHP_SAPI && !rex::isSetup()) {
     }
 
     if (true === rex::getProperty('use_hsts') && rex_request::isHttps()) {
-        rex_response::setHeader('Strict-Transport-Security', 'max-age=31536000');
+        rex_response::setHeader('Strict-Transport-Security', 'max-age='.rex::getProperty('hsts_max_age', 31536000)); // default 1 year
     }
 }
 

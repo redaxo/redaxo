@@ -18,9 +18,21 @@ find redaxo/src/core/vendor -name ".gitattributes" -type f -delete
 find redaxo/src/core/vendor -name ".gitignore" -type f -delete
 find redaxo/src/core/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/core/vendor -name "phpcs.xml" -type f -delete
+find redaxo/src/core/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/core/vendor -name "phpunit.xml.dist" -type f -delete
+find redaxo/src/core/vendor -name "psalm.xml" -type f -delete
 
 composer dumpautoload --no-dev -d redaxo/src/core/
+
+printf "\nUpdate redaxo/src/addons/be_style/vendor\n"
+composer update --no-dev -d redaxo/src/addons/be_style/
+
+rm -f redaxo/src/addons/be_style/vendor/autoload.php
+rm -rf redaxo/src/addons/be_style/vendor/composer/
+rm -rf redaxo/src/addons/be_style/vendor/bin/
+rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/bin/
+rm -rf redaxo/src/addons/be_style/vendor/scssphp/scssphp/example/
+rm -r redaxo/src/addons/be_style/vendor/scssphp/scssphp/scss.inc.php
 
 printf "\nUpdate redaxo/src/addons/phpmailer/vendor\n"
 composer update --no-dev -d redaxo/src/addons/phpmailer/
@@ -58,16 +70,20 @@ find redaxo/src/addons/tests/vendor -name ".scrutinizer.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name ".travis.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "appveyor.yml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "build.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "easy-coding-standard.neon" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phive.xml" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpbench.json" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpcs.xml.dist" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phpmd.xml.dist" -type f -delete
+find redaxo/src/addons/tests/vendor -name "phpstan.neon" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpstan.neon.dist" -type f -delete
 find redaxo/src/addons/tests/vendor -name "phpunit.xml" -type f -delete
+find redaxo/src/addons/tests/vendor -name "psalm.xml" -type f -delete
 
 printf "\nUpdate redaxo/src/core/assets/jquery.min.js\n"
-curl -# https://cdn.jsdelivr.net/jquery/2/jquery.js > redaxo/src/core/assets/jquery.js
-curl -# https://cdn.jsdelivr.net/jquery/2/jquery.min.js > redaxo/src/core/assets/jquery.min.js
-curl -# https://cdn.jsdelivr.net/jquery/2/jquery.min.map > redaxo/src/core/assets/jquery.min.map
+curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.js > redaxo/src/core/assets/jquery.js 
+curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.js > redaxo/src/core/assets/jquery.min.js 
+curl -# https://cdn.jsdelivr.net/gh/jquery/jquery@3/dist/jquery.min.map > redaxo/src/core/assets/jquery.min.map
 
 # Currently we are using last 1.x version of pjax, so we do not want to update to 2.x
 #printf "\nUpdate redaxo/src/core/assets/jquery-pjax.min.js\n"

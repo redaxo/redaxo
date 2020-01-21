@@ -5,18 +5,27 @@
  */
 class rex_form_prio_element extends rex_form_select_element
 {
+    /** @var string */
     private $labelField;
+    /** @var callable */
     private $labelCallback;
+    /** @var string */
     private $whereCondition;
+    /** @var string */
     private $primaryKey;
+    /** @var string */
     private $firstOptionMsg;
+    /** @var string */
     private $optionMsg;
+    /** @var rex_form */
+    protected $table;
 
     // 1. Parameter nicht genutzt, muss aber hier stehen,
     // wg einheitlicher Konstrukturparameter
-    public function __construct($tag = '', rex_form_base $table = null, array $attributes = [])
+    public function __construct($tag = '', rex_form $table = null, array $attributes = [])
     {
         parent::__construct('', $table, $attributes);
+        $this->table = $table;
 
         $this->labelField = '';
         $this->whereCondition = '';
@@ -26,6 +35,7 @@ class rex_form_prio_element extends rex_form_select_element
         $this->select->setSize(1);
 
         rex_extension::register('REX_FORM_SAVED', [$this, 'organizePriorities']);
+        rex_extension::register('REX_FORM_DELETED', [$this, 'organizePriorities']);
     }
 
     /**
