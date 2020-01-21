@@ -416,7 +416,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             return false;
         }
 
-        $this->io->choice('Choose database charset', [
+        return $this->io->choice('Choose database charset', [
            'utf8mb4' => '[recommended] Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
            'utf8' => '[deprecated] non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
         ]);
