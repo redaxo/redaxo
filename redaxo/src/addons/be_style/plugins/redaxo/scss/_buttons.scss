@@ -83,11 +83,6 @@
     @include button-variant(#fff, $color-d, $color-d);
 }
 
-@media (min-width: $screen-md-min) {
-    .rex-table-action .btn-save {
-        float: right;
-    }
-}
 .btn-debug-mode,
 .btn-safemode-activate {
     $normal: (color: darken(#a86500, 20%), background: #f90, border: darken(#f90, 3%));
