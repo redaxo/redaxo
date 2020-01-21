@@ -546,7 +546,7 @@ if ($OUT) {
         $message .= rex_view::error($error);
     }
 
-    $list = rex_list::factory('SELECT id, name, active, `key` FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
+    $list = rex_list::factory('SELECT id, `key`, name, active FROM ' . rex::getTablePrefix() . 'template ORDER BY name', 100);
     $list->addParam('start', rex_request('start', 'int'));
     $list->addTableAttribute('class', 'table-striped table-hover');
 
@@ -559,7 +559,6 @@ if ($OUT) {
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
 
     $list->setColumnLabel('key', rex_i18n::msg('header_template_key'));
-    $list->setColumnParams('key', ['function' => 'edit', 'template_id' => '###id###']);
 
     $list->setColumnLabel('name', rex_i18n::msg('header_template_description'));
     $list->setColumnParams('name', ['function' => 'edit', 'template_id' => '###id###']);
