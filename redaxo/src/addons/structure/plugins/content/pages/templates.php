@@ -83,7 +83,7 @@ if ('delete' == $function) {
         $function = '';
     }
 } else {
-    $templatekey = '';
+    $templatekey = null;
     $templatename = '';
     $template = '';
     $active = '';
@@ -98,9 +98,10 @@ if ('add' == $function || 'edit' == $function) {
         $save = 'nein';
     }
 
-    $templatekey = rex_post('templatekey', 'string');
+    $templatekey = trim(rex_post('templatekey', 'string'));
+    $templatekey = '' === $templatekey ? null : $templatekey;
 
-    if ('ja' == $save) {
+    if ('ja' == $save && null !== $templatekey) {
         $templateKeySql = rex_sql::factory();
         $templateKeySql->setTable(rex::getTable('template'));
         if ('edit' == $function) {
@@ -146,10 +147,6 @@ if ('add' == $function || 'edit' == $function) {
             if (!isset($module['all']) || 1 != $module['all']) {
                 $modules[$k]['all'] = 0;
             }
-        }
-
-        if ('' === trim($templatekey)) {
-            $templatekey = null;
         }
 
         $TPL = rex_sql::factory();
