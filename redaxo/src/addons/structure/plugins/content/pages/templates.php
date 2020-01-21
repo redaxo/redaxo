@@ -104,7 +104,13 @@ if ('add' == $function || 'edit' == $function) {
         $ctypes = rex_post('ctype', 'array');
 
         $templateKeySql = rex_sql::factory();
-        $templateKeyCheck = $templateKeySql->setQuery('SELECT 1 FROM '.rex::getTable('template').' WHERE '.$templateKeySql->escapeIdentifier('key').' = :templateKey', ['templateKey' => $templatekey]);
+        $templateKeySql->setTable(rex::getTable('template'));
+        $templateKeySql->setWhere($templateKeySql->escapeIdentifier('key').' = :templateKey', ['templateKey' => $templatekey]);
+        if ('edit' == $function) {
+            $templateKeySql->setWhere($templateKeySql->escapeIdentifier('key').' = :templateKey AND id != :templateId', ['templateKey' => $templatekey, 'templateId' => $template_id]);
+        }
+        $templateKeyCheck = $templateKeySql->select('id');
+
         if ($templateKeyCheck->getRows() >= 1) {
             $error = rex_i18n::msg('template_key_exists');
             $save = 'nein';
