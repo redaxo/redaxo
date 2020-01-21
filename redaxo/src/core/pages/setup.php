@@ -191,10 +191,10 @@ if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
     $config['lang'] = $lang;
     $config['error_email'] = rex_post('error_email', 'string');
     $config['timezone'] = rex_post('timezone', 'string');
-    $config['db'][1]['host'] = rex_post('mysql_host', 'string');
-    $config['db'][1]['login'] = rex_post('redaxo_db_user_login', 'string');
+    $config['db'][1]['host'] = trim(rex_post('mysql_host', 'string'));
+    $config['db'][1]['login'] = trim(rex_post('redaxo_db_user_login', 'string'));
     $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
-    $config['db'][1]['name'] = rex_post('dbname', 'string');
+    $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
     $config['use_https'] = rex_post('use_https', 'string');
 
     if ('true' === $config['use_https']) {
