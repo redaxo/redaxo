@@ -1,6 +1,18 @@
 Changelog
 =========
 
+Version 2.9.0 – 22.01.2020
+--------------------------
+
+* Customizer-Layout korrigiert (@schuer)
+* Update CodeMirror (5.51) mit neuen Optionen (@aeberhard)
+    - addon autorefresh.js hinzugefügt wg. hidden Textarea bei cronjobs
+    - CSS Standardhöhe CodeMirror von 330px auf 490px angepasst, border hinzugefügt
+    - neue Option AutoResize, codemirror-autoresize.css hinzugefügt
+    - ESC-Taste für fullscreen (mac), Hinweis auf Fullscreen-Modus bei den Optionen
+    - comdemirror.css -> codemirror.min.css
+    - comdemirror-compressed.js -> codemirror.min.js
+
 Version 2.8.1 – 01.11.2019
 --------------------------
 
