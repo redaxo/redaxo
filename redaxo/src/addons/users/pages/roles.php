@@ -91,6 +91,7 @@ if ('' == $func) {
         $select = $field->getSelect();
         $select->setMultiple(true);
         $perms = rex_perm::getAll($permgroup);
+        asort($perms);
         $select->setSize(min(20, max(3, count($perms))));
         $select->addArrayOptions($perms);
     }
