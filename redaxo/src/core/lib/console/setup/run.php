@@ -252,6 +252,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         // ---------------------------------- step 5 . create db / demo
         $io->title('Step 5 of 6 / Database');
 
+        $sql = rex_sql::factory();
+        $io->block('Database version: '.$sql->getDbType(). ' '.$sql->getDbVersion());
+
         // Search for exports
         $backups = [];
         foreach (rex_backup::getBackupFiles('') as $file) {
