@@ -67,7 +67,8 @@ jobs:
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
                 composer require --dev vimeo/psalm:^3.8.1
-                vendor/bin/psalm --show-info=false --shepherd --threads=2
+                composer require staabm/annotate-pull-request-from-checkstyle:dev-master
+                vendor/bin/psalm --show-info=false --shepherd --output-format=checkstyle | vendor/bin/cs2pr
 
   phpstan-analysis:
       name: phpstan static code analysis
