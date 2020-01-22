@@ -70,7 +70,8 @@
         width: 1px;
     }
     .table th.rex-table-action > *,
-    .table td.rex-table-action > * {
+    .table td.rex-table-action > *,
+    #rex-page-structure .rex-table-action {
         white-space: nowrap;
     }
 }
