@@ -61,7 +61,7 @@ class rex_console_application extends Application
         // Loads only setup packages
         // This is useful for any kind of pre-setup commands
         // there a packages which are needed during the setup e.g. backup
-        if ($command instanceof rex_command_only_setup_packages) {
+        if (rex::isSetup() && $command instanceof rex_command_only_setup_packages) {
             foreach (rex_package::getSetupPackages() as $package) {
                 $package->enlist();
             }
