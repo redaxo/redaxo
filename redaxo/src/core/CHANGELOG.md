@@ -7,18 +7,23 @@ Version 5.9.0 – XX.XX.2020
 ### Neu
 
 * Update der externen Bibliotheken (u.a. jQuery v3 und pjax v2) (@skerbis, @schuer, @gharlan)
+* utf8mb4-Unterstützung (vollständiger Unicode-Zeichensatz inkl. Emojis): Kann über das Setup aktiviert werden (@gharlan)
 * Setup:
     - Sprachen sind nun alphabetisch sortiert (@tbaddade)
+    - Warnung wenn "session.auto_start" aktiviert ist (@bloep)
+    - Warnung vorbereitet für End-Of-Live von PHP 7.x ab Ende November 2022 (@staabm)
     - HTTPS-Option kann nur noch bei Aufruf über HTTPS gesetzt werden, damit man sich nicht selbst aus dem Backend ausschließen kann (@bloep)
     - HSTS kann nicht mehr über das Setup (nur direkt über config.yml) gesetzt werden (@bloep)
     - Beim DB-Host kann der Port mit angegeben werden ("localhost:3306") (@staabm, @gharlan)
+    - DB-Name kommt erst nach Host/Benutzer/Passwort (@gharlan)
+    - Default-DB-Name nun "redaxo5" statt "redaxo_5_0" (@gharlan)
     - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
-    - Warnung vorbereitet für End-Of-Live von PHP 7.x ab Ende November 2022 (@staabm)
 * In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
 * AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
 * Markdown-Pages (Readme): Die Sprungnavi ist nun rechts angeordnet (@schuer)
 * Whoops: REDAXO-Logo ist mit Startseite verlinkt (@gharlan)
 * REX_VARs: Callbacks bekommen den Variablennamen und die zugehörige Klasse als Parameter `var` und `class` übergeben (@gharlan)
+* `rex_sql`: Über `getDbType()` kann der Type (MySQL oder MariaDB) abgefragt werden, über `getDbVersion()` die normalisierte Version (@gharlan)
 * `rex_sql_table`:
     - DB-ID kann übergeben werden, somit auch nutzbar für die weiteren DBs (@thorol, @gharlan)
     - Bei `ensureGlobalColumns()` kann über den ersten Parameter die Position der Spalten festgelegt werden (@tbaddade)
@@ -38,10 +43,12 @@ Version 5.9.0 – XX.XX.2020
 * `rex_socket`: Es kam teilweise zur Warnung "Undefined variable: errno" (@staabm)
 * `rex_config`: Wenn während eines Requests `removeNamespace()` und danach `set()` für den selben Namespace aufgerufen wurde, kam es zu einem Fehler (@bloep)
 * `rex_api_function`: Statische Methode `hasMessage` warf einen Fehler, wenn keine Api-Func aufgerufen wurde (@gharlan)
+* `rex_log_file`: Pipe-Zeichen "|" konnte nicht in der Log-Message verwendet werden (@gharlan)
 * Console-Commands:
     - `user:create` warf einen Fehler (@bloep)
     - `db:set-connection` konnte nur verwendet werden, wenn schon eine gültige DB-Verbindung hinterlegt war (@bloep)
     - `db:set-connection` hat fälschlich für nicht gesetzte Optionen deren Wert mit `null` gesetzt (@bloep)
+* Bei Session-Start-Fehlern wurde der spezifische Grund unterschlagen (@gharlan)
 * Datumsformat sprachspezifisch vereinheitlicht/korrigiert (@gharlan)
 
 

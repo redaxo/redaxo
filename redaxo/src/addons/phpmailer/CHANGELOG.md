@@ -6,6 +6,8 @@ Version 2.7.0 – XX.XX.2020
 
 ### Neu
 
+* Vorhandene Log-Funktion (Ablegen der ganzen Mails) umbenannt in Archivierung (@skerbis)
+* Neue Log-Funktion mit Zeit, Absender, Empfänger, Betreff und Meldung in Logdatei; optional für alle Mails, oder nur bei Fehlern, oder ganz deaktiviert (@skerbis)
 * Hinweis in Readme, dass über SMTP keine leeren Bodys möglich sind (@skerbis)
 
 

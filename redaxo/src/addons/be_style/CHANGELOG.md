@@ -4,6 +4,7 @@ Changelog
 Version 2.9.0 – XX.XX.2020
 --------------------------
 
+* Tabellenlayout optimiert (@schuer)
 * Submodule entfernt (@schuer)
 
 

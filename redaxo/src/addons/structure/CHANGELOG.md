@@ -8,16 +8,20 @@ Version 2.9.0 – XX.XX.2020
 
 * `rex_navigation`:
     - Die Callbacks erhalten als weiteren Referenzparameter den Linktext und können ihn darüber ändern (@alexplusde)
+    - Markup kann über Klassenerweiterung und Überschreiben der neu dafür vorgesehenen Methoden angepasst werden (@DanielWeitenauer, @gharlan)
 * Neue Klasse `rex_template_select` für die Template-Auswahl (@DanielWeitenauer)
 * Neue Methode `rex_slice_service::addSlice` (@omphteliba)
 * In der Struktur wird nicht mehr die Kategorie-Zeile ".." für die Oberkategorie ausgegeben (@schuer)
 * Die Artikel-Tabellenzeilen haben ein neues Attribut `data-article-id="X"` für Artikelspezifische Anpassungen (@skerbis)
 * Module-Auswahl über separates Fragment `module_select.php` für einfachere Anpassung (@tbaddade)
 * Code besser strukturiert mittels neuer Klasse `rex_structure_context` (@DanielWeitenauer)
+* Zusammenspiel der Plugins history und version optimiert (@dergel)
+* Plugin history: Cronjob-Typ für das Löschen alter History-Datensätze (@dergel)
 * Plugin version: Toolbar besser platziert nur über dem Bereich, auf den sie sich bezieht (@gharlan)
 
 ### Bugfixes
 
+* Mountpoints wurden in Linkmap und `rex_category_select` unsortiert ausgegeben (@gharlan)
 * `rex_category`: Wenn bei `getChildren`/`getArticles` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
 * `rex_article_content`: Bei `hasValue` konnte im Gegensatz zu `getValue` nicht der `art_`-Präfix für die Metainfos weggelassen werden (@bloep)
 * Beim Ändern von Kategorien/Artikeln wurde das Änderungsdatum immer in allen Sprachen neu gesetzt (@gharlan)

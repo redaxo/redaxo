@@ -10,6 +10,7 @@ Version 2.6.0 – XX.XX.2020
 
 ### Bugfixes
 
+* Die Log-Message wurde nicht escaped ausgegeben (@gharlan)
 * Plugin `optimize_tables`:
     - Tabellennamen wurden nicht escaped (@alexplusde)
     - Fehlermeldungen wurden nicht ins Log geschrieben (@alexplusde)
@@ -93,7 +94,7 @@ Version 2.1.0 – 30.09.2016
 
 ### Neu
 
-* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über 
+* Neue Cronjob-Umgebung "Skript", insbesondere um die Redaxo-Cronjobs über
   einen echten Cronjob laufen zu lassen
 * Flexiblere Intervallauswahl
 
