@@ -1,23 +1,23 @@
 REDAXO-AddOn: project
 =====================
 
-Das project-AddOn dient als Basis für eigene projektspezifische Erweiterungen. Es ist ein zu Beginn leeres AddOn, das mit PHP-Klassen, Stylesheets, JavaScript, Medien und sonstigen Daten ausgestattet werden kann, die im Projekt benötigt werden. REDAXO lädt das AddOn wie alle anderen auch und integriert es in seine Prozesse. Es unterscheidet sich von anderen AddOns jedoch dadurch, dass seine Dateien bei einem System-Update niemals überschrieben oder gelöscht werden.
+The project addOn is used as a basis for custom project specific extensions. It is an initially empty addOn, which can be equipped with PHP classes, stylesheets, JavaScript, media and other data required in your project. REDAXO loads the addOn like all others and integrates it into its processes. However, it is different from other addOns in that its files are never overwritten or deleted during a system update.
 
 Installation
 ------------
 
-Das AddOn wird mit dem REDAXO-Core mitgeliefert und muss lediglich über die AddOn-Verwaltung installiert werden.
+The addOn is delivered with the REDAXO core and has to be installed via the addOn administration only.
 
-Verzeichnisse
+Folders
 -------------
 
-Bei der Installation wird lediglich das Verzeichnis `lib/` angelegt. Alle darin abgelegten PHP-Klassen stehen dank Autoloader systemweit zur Verfügung und müssen nicht zusätzlich included werden.
+During the installation only the directory `lib/` is created. All PHP classes stored in this directory are available system-wide thanks to the autoloader and do not need to be included additionally.
 
-**Beispiel**
+**Example**
 
-Im Verzeichnis `lib` legt man die Datei `my_helpers.php` an.
+In the folder `lib` create the file `my_helpers.php`.
 
-Der Code der Datei kann folgendermaßen aussehen:
+The code of the file may look like this:
 
 ```php
 class my_helpers {
@@ -27,30 +27,30 @@ class my_helpers {
 }
 ```
 
-Nun kann man in jedem Modul, in dem man http(s)-Links in einem neuen Browserfenster öffnen lassen will, die Links ersetzen lassen:
+Now you can replace the links in every module where you want http(s) links to open in a new browser window:
 
 ```php
 echo my_helpers::links_to_blank($text);
 ```
 
-Weitere Verzeichnisse (`pages/`, `fragments/`, usw.) können direkt im project-AddOn angelegt werden. In der Dokumentation finden sich die entsprechenden Hinweise: https://redaxo.org/doku/master/addon-struktur
+Additional folders (like `pages/`, `fragments/`, etc.) can be created directly within the project addOn. In the documentation you will find the corresponding notes: https://redaxo.org/doku/master/addon-struktur (German)
 
-Dateien
+Files
 -------
 
 ### boot.php
 
-Die Datei `boot.php` wird bei der Initialisierung von REDAXO ausgeführt, also noch vor der Ausführung von Templates und Modulen.
+The file 'boot.php' is executed during the initialization of REDAXO, i means before the execution of templates and modules.
 
-So kann hier ein zusätzlicher Pfad für yform-Templates angegeben werden:
+So an additional path for yform templates can be specified here:
 
 ```php
 rex_yform::addTemplatePath($this->getPath('yform-templates'));
 ```
 
-Nun werden Templates für die Ausgabe der yform Felder auch im Pfad `src/addons/project/yform-templates/[theme-name]` gesucht, wobei [theme-name] durch den Name des Themes (Standard ist bootstrap) ersetzt werden muss.
+Now templates for the output of the yform fields are also searched in the path `src/addons/project/yform-templates/[theme-name]`, where [theme-name] must be replaced by the name of the theme (default is bootstrap).
 
-Mit diesem Code
+With this code
 
 ```php
 if (rex::isBackend()) {
@@ -58,9 +58,9 @@ if (rex::isBackend()) {
 }
 ```
 
-wird im Backend von REDAXO die Datei `/assets/addons/project/scripts/be_scripts.js` geladen.
+the file `/assets/addons/project/scripts/be_scripts.js` is loaded in the backend of REDAXO.
 
-Auch der Einsatz von Extension-Points ist in der boot.php sinnvoll:
+The use of extension points in the boot.php is also useful:
 
 ```php
 if (!rex::isBackend()) {

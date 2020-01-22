@@ -29,7 +29,12 @@ abstract class rex_perm
      */
     public static function register($perm, $name = null, $group = self::GENERAL)
     {
-        $name = $name ?: (rex_i18n::hasMsg($key = 'perm_' . $group . '_' . $perm) ? rex_i18n::rawMsg($key) : $perm);
+        if ($name) {
+            $name = $perm.' :: '.$name;
+        } else {
+            $name = (rex_i18n::hasMsg($key = 'perm_'.$group.'_'.$perm) ? $perm.' :: '.rex_i18n::rawMsg($key) : $perm);
+        }
+
         self::$perms[$group][$perm] = $name;
     }
 
