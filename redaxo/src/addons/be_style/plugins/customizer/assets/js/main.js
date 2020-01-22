@@ -82,6 +82,7 @@ Customizer.init = function (container) {
             cm_editor[cm] = CodeMirror.fromTextArea(document.getElementById(id), {
                 mode: mode,
                 theme: theme,
+                autoRefresh: true,
                 lineNumbers: true,
                 lineWrapping: true,
                 styleActiveLine: true,
@@ -102,7 +103,7 @@ Customizer.init = function (container) {
                         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
                     },
                     "Esc": function (cm) {
-                        if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                        cm.setOption("fullScreen", !cm.getOption("fullScreen"));
                     },
                     "Tab": function (cm) {
                         if (cm.doc.somethingSelected()) {

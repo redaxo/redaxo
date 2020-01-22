@@ -5,8 +5,6 @@ customizer_codemirror = CodeMirror
 customizer_codemirror_check = Attivare CodeMirror
 customizer_codemirror_theme = Thema del CodeMirror
 
-customizer_codemirror_info = Quando è attivo CodeMirror vengono usati questi template e moduli automaticamente. Se vuoi usarle, prego usare il form seguente: <br><br><code><textarea class="codemirror" codemirror-theme="themename" und codemirror-mode="php/htmlmixed"></textarea></code><br><br>I parametri <i>codemirror-theme</i> e <i>codemirror-mode</i> sono opzionali.
-
 customizer_labeling = Supplemento
 customizer_labelcolor = Colore di riconoscimento (p.e. #43a047)
 customizer_labelcolor_error = Codice color non valido (p.e. #43a o #43a047)
