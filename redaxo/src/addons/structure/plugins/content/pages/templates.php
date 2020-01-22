@@ -98,7 +98,6 @@ if ('add' == $function || 'edit' == $function) {
         $save = 'nein';
     }
 
-
     if ('ja' == $save) {
         $active = rex_post('active', 'int');
         $templatename = rex_post('templatename', 'string');
