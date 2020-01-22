@@ -1,7 +1,7 @@
 REDAXO-AddOn: project
 =====================
 
-The project-AddOn is used as a basis for own project specific extensions. It is an initially empty AddOn, which can be equipped with PHP classes, stylesheets, JavaScript, media and other data needed in your project. REDAXO loads the AddOn like all others and integrates it into its processes. It is different from other AddOns in that its files are never overwritten or deleted during a system update.
+The project addOn is used as a basis for custom project specific extensions. It is an initially empty addOn, which can be equipped with PHP classes, stylesheets, JavaScript, media and other data required in your project. REDAXO loads the addOn like all others and integrates it into its processes. However, it is different from other addOns in that its files are never overwritten or deleted during a system update.
 
 Installation
 ------------
