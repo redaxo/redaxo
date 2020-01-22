@@ -1,0 +1,73 @@
+REDAXO-AddOn: project
+=====================
+
+The project-AddOn is used as a basis for own project specific extensions. It is an initially empty AddOn, which can be equipped with PHP classes, stylesheets, JavaScript, media and other data needed in your project. REDAXO loads the AddOn like all others and integrates it into its processes. It is different from other AddOns in that its files are never overwritten or deleted during a system update.
+
+Installation
+------------
+
+The AddOn is delivered with the REDAXO-Core and has to be installed via the AddOn administration only.
+
+Folders
+-------------
+
+During the installation only the directory `lib/` is created. All PHP classes stored in this directory are available system-wide thanks to the autoloader and do not need to be included additionally.
+
+**Example**
+
+In the folder `lib` create the file `my_helpers.php`.
+
+The code of the file may look like this:
+
+```php
+class my_helpers {
+  public static function links_to_blank ($text) {
+    return str_replace('<a href="http','<a target="_blank" href="http',$text);
+  }
+}
+```
+
+Now you can replace the links in every module where you want http(s) links to open in a new browser window:
+
+```php
+echo my_helpers::links_to_blank($text);
+```
+
+Further folders (`pages/`, `fragments/`, etc.) can be created directly in the project-AddOn. In the documentation you will find the corresponding notes: https://redaxo.org/doku/master/addon-struktur (German)
+Files
+-------
+
+### boot.php
+
+The file 'boot.php' is executed during the initialization of REDAXO, i means before the execution of templates and modules.
+
+So an additional path for yform templates can be specified here:
+
+```php
+rex_yform::addTemplatePath($this->getPath('yform-templates'));
+```
+
+Now templates for the output of the yform fields are also searched in the path `src/addons/project/yform-templates/[theme-name]`, where [theme-name] must be replaced by the name of the theme (default is bootstrap).
+
+With this code
+
+```php
+if (rex::isBackend()) {
+    rex_view::addJsFile($this->getAssetsUrl('scripts/be_scripts.js'));    
+}
+```
+
+the file `/assets/addons/project/scripts/be_scripts.js` is loaded in the backend of REDAXO.
+
+The use of extension points in the boot.php is also useful:
+
+```php
+if (!rex::isBackend()) {
+    // eine Session im Frontend wird gestartet
+    rex_login::startSession();    
+    rex_extension::register('PACKAGES_INCLUDED', function() {
+        // der Code hier wird erst ausgeführt, wenn alle AddOns geladen sind
+        // ....
+    });
+}
+```
