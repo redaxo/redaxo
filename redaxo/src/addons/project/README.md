@@ -6,7 +6,7 @@ The project addOn is used as a basis for custom project specific extensions. It 
 Installation
 ------------
 
-The AddOn is delivered with the REDAXO-Core and has to be installed via the AddOn administration only.
+The addOn is delivered with the REDAXO core and has to be installed via the addOn administration only.
 
 Folders
 -------------
