@@ -98,29 +98,15 @@ if ('add' == $function || 'edit' == $function) {
         $save = 'nein';
     }
 
-    $templatekey = trim(rex_post('templatekey', 'string'));
-    $templatekey = '' === $templatekey ? null : $templatekey;
-
-    if ('ja' == $save && null !== $templatekey) {
-        $templateKeySql = rex_sql::factory();
-        $templateKeySql->setTable(rex::getTable('template'));
-        if ('edit' == $function) {
-            $templateKeySql->setWhere('`key` = :templateKey AND id != :templateId', ['templateKey' => $templatekey, 'templateId' => $template_id]);
-        } else {
-            $templateKeySql->setWhere('`key` = :templateKey', ['templateKey' => $templatekey]);
-        }
-        $templateKeyCheck = $templateKeySql->select('id');
-
-        if ($templateKeyCheck->getRows() >= 1) {
-            $error = rex_i18n::msg('template_key_exists');
-            $save = 'nein';
-        }
-    }
 
     if ('ja' == $save) {
         $active = rex_post('active', 'int');
         $templatename = rex_post('templatename', 'string');
         $template = rex_post('content', 'string');
+
+        $templatekey = trim(rex_post('templatekey', 'string'));
+        $templatekey = '' === $templatekey ? null : $templatekey;
+
         $ctypes = rex_post('ctype', 'array');
 
         $num_ctypes = count($ctypes);
@@ -149,6 +135,28 @@ if ('add' == $function || 'edit' == $function) {
             }
         }
 
+        $attributes['ctype'] = $ctypes;
+        $attributes['modules'] = $modules;
+        $attributes['categories'] = $categories;
+
+        if (null !== $templatekey) {
+            $templateKeySql = rex_sql::factory();
+            $templateKeySql->setTable(rex::getTable('template'));
+            if ('edit' == $function) {
+                $templateKeySql->setWhere('`key` = :templateKey AND id != :templateId', ['templateKey' => $templatekey, 'templateId' => $template_id]);
+            } else {
+                $templateKeySql->setWhere('`key` = :templateKey', ['templateKey' => $templatekey]);
+            }
+            $templateKeySql->select('id');
+
+            if ($templateKeySql->getRows() >= 1) {
+                $error = rex_i18n::msg('template_key_exists');
+                $save = 'nein';
+            }
+        }
+    }
+
+    if ('ja' == $save) {
         $TPL = rex_sql::factory();
         $TPL->setTable(rex::getTablePrefix() . 'template');
         $TPL->setValue('key', $templatekey);
@@ -157,9 +165,6 @@ if ('add' == $function || 'edit' == $function) {
         $TPL->setValue('content', $template);
         $TPL->addGlobalCreateFields();
 
-        $attributes['ctype'] = $ctypes;
-        $attributes['modules'] = $modules;
-        $attributes['categories'] = $categories;
         $TPL->setArrayValue('attributes', $attributes);
 
         if ('add' == $function) {
