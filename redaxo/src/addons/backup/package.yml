@@ -20,4 +20,4 @@ page:
 requires:
     php:
         extensions: [ctype]
-    redaxo: ^5.6.2
+    redaxo: ^5.9.0-beta1
