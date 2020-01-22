@@ -11,8 +11,6 @@ customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
 customizer_codemirror_tools = Ytterligare funktioner
 customizer_codemirror_tools_text = (Code-Folding, Bracket-Matching, Tag-Matching, Close-Brackets)
 
-customizer_codemirror_info = När CodeMirror är aktiverat används det automatiskt när du redigerar mallar eller moduler. För att använda CodeMirror manuellt för anpassade textarea-fält, använd följande syntax: <br> <br> <code> <textarea class = "codemirror" codemirror-theme = "themename" och codemirror-mode = "php / htmlmixed"> </ Textarea> </ code> <br> <br> Parametrarna <i> codemirror-tema </ i> och <i> codemirror-läge </ i> är frivilliga.
-
 customizer_labeling = Tillägg
 customizer_labelcolor = Detekteringsfärg (t.ex. #43a047)
 customizer_labelcolor_notice = Giltig CSS-färgspecifikation (som t.ex. <code> # 03f0ab </ code>, <code> rgba (255, 100, 0, 0,5) </ code> etc.)
