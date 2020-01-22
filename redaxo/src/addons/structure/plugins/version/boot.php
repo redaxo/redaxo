@@ -92,10 +92,8 @@ rex_extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (rex_
                 rex_article_revision::copyContent($params['article_id'], $params['clang'], rex_article_revision::WORK, rex_article_revision::LIVE);
                 $return .= rex_view::success(rex_i18n::msg('version_info_working_version_to_live'));
 
-                $return = rex_extension::registerPoint(new rex_extension_point('ART_WORK_TO_LIVE', $return, [
-                    'article_id' => $params['article_id'],
-                    'clang' => $params['clang'],
-                ]));
+                $article = rex_article::get($params['article_id'], $params['clang']);
+                $return = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'work_to_live', $return));
             }
         break;
         case 'copy_live_to_work':
