@@ -10,6 +10,7 @@ Version 2.7.0 – XX.XX.2020
 
 ### Bugfixes
 
+* `rex_media`: Bei `hasValue` konnte im Gegensatz zu `getValue` nicht der `med_`-Präfix für die Metainfos weggelassen werden (@bloep)
 * `rex_media_category`: Wenn bei `getChildren`/`getMedia` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
 
 

@@ -6,6 +6,7 @@ Version 2.6.0 – XX.XX.2020
 
 ### Neu
 
+* Artikel-Metainfos können auf Templates beschränkt werden (@felixheidecke)
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
 
 ### Bugfixes

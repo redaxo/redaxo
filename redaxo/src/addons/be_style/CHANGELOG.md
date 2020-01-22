@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2020
+--------------------------
+
+* Submodule entfernt (@schuer)
+
+
 Version 2.8.1 – 01.11.2019
 --------------------------
 
@@ -35,7 +41,7 @@ Version 2.7.0 – 12.03.2019
     - Ergänzt um Suche (@aeberhard)
     - Vereinfachte Einbindung systemweit (@aeberhard)
     - CodeMirror wird nur geladen wenn er auch benötigt wird (@aeberhard, @staabm)
-* Customizer: 
+* Customizer:
     - Bessere Default-Erkennungsfarbe (@skerbis)
     - Bessere Darstellung des Links zur Website im Header (@schuer)
 

@@ -6,13 +6,14 @@ Version 5.9.0 – XX.XX.2020
 
 ### Neu
 
-* Update der externen Bibliotheken
+* Update der externen Bibliotheken (u.a. jQuery v3 und pjax v2) (@skerbis, @schuer, @gharlan)
 * Setup:
     - Sprachen sind nun alphabetisch sortiert (@tbaddade)
     - HTTPS-Option kann nur noch bei Aufruf über HTTPS gesetzt werden, damit man sich nicht selbst aus dem Backend ausschließen kann (@bloep)
     - HSTS kann nicht mehr über das Setup (nur direkt über config.yml) gesetzt werden (@bloep)
     - Beim DB-Host kann der Port mit angegeben werden ("localhost:3306") (@staabm, @gharlan)
     - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
+    - Warnung vorbereitet für End-Of-Live von PHP 7.x ab Ende November 2022 (@staabm)
 * In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
 * AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
 * Markdown-Pages (Readme): Die Sprungnavi ist nun rechts angeordnet (@schuer)
@@ -23,6 +24,9 @@ Version 5.9.0 – XX.XX.2020
     - Bei `ensureGlobalColumns()` kann über den ersten Parameter die Position der Spalten festgelegt werden (@tbaddade)
 * `rex_sql_schema_dumper`: Bei entsprechener Spalten-Kombi wird Shortcut `ensureGlobalColumns` genutzt (@gharlan)
 * Fragment `core/page/section`: Attribute können übergeben werden (@tbaddade)
+* Console-Commands:
+    - Neuer Command `config:set` um Werte in der `config.yml` zu setzen (@bloep)
+    - `db:set-connection` prüft nun, ob die neue Verbindung valide ist (kann per `--force` deaktiviert werden) (@bloep)
 * ETag-Header wird in Safari nicht mehr deaktiviert, da der Safari-Bug nicht mehr zu bestehen scheint (@gharlan)
 * Der htaccess-Check-Cookie heißt nun `rex_htaccess_check` statt `htaccess_check` (@alexplusde)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm)
@@ -32,7 +36,13 @@ Version 5.9.0 – XX.XX.2020
 * Identität wechseln: Beim Zurückwechseln kommt es nicht mehr zu einem Fehler, wenn schon in einem anderen Tab zurückgewechselt wurde (@tbaddade)
 * `rex_list` warf mit PHP 7.4 Notices "Trying to access array offset on value of type null" (@gharlan)
 * `rex_socket`: Es kam teilweise zur Warnung "Undefined variable: errno" (@staabm)
-* Command `user:create` warf einen Fehler (@bloep)
+* `rex_config`: Wenn während eines Requests `removeNamespace()` und danach `set()` für den selben Namespace aufgerufen wurde, kam es zu einem Fehler (@bloep)
+* `rex_api_function`: Statische Methode `hasMessage` warf einen Fehler, wenn keine Api-Func aufgerufen wurde (@gharlan)
+* Console-Commands:
+    - `user:create` warf einen Fehler (@bloep)
+    - `db:set-connection` konnte nur verwendet werden, wenn schon eine gültige DB-Verbindung hinterlegt war (@bloep)
+    - `db:set-connection` hat fälschlich für nicht gesetzte Optionen deren Wert mit `null` gesetzt (@bloep)
+* Datumsformat sprachspezifisch vereinheitlicht/korrigiert (@gharlan)
 
 
 Version 5.8.1 – 01.11.2019

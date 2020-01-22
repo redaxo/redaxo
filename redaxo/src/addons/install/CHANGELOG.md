@@ -6,7 +6,13 @@ Version 2.6.0 – XX.XX.2020
 
 ### Neu
 
+* Update-Fehlermeldungen durch neue Formatierung/Formulierung besser verständlich gemacht (@gharlan)
+* Nach Herunterladen eines Addons und Klick auf "Zur Addonverwaltung" ist das Addon dort markiert (@gharlan)
 * Nach Hochladen einer Addon-Version landet man in den Addon-Details, statt in der Übersicht (@gharlan)
+
+### Bugfixes
+
+* Beim Öffnen der Details eines Addons wird korrekt nach oben gesprungen (@gharlan)
 
 
 Version 2.5.0 – 12.03.2019
