@@ -107,7 +107,7 @@ abstract class rex_package_manager
             if (null === $this->package->getVersion()) {
                 throw new rex_functional_exception($this->i18n('missing_version'));
             }
-            
+
             if ($this->package instanceof rex_plugin_interface && !$this->package->getAddon()->isAvailable()) {
                 throw new rex_functional_exception($this->i18n('requirement_error_addon', $this->package->getAddon()->getName()));
             }
