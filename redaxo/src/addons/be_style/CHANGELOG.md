@@ -4,8 +4,9 @@ Changelog
 Version 2.9.0 – XX.XX.2020
 --------------------------
 
+* Der Ajax-Loader-Layer erscheint erst mit Verzögerung um Flackern bei sehr schnellen Seitenladungen zu vermeiden (@gharlan)
 * Tabellenlayout optimiert (@schuer)
-* Submodule entfernt (@schuer)
+* Submodule entfernt (@schuer, gharlan)
 * Customizer-Layout korrigiert (@schuer)
 * Update CodeMirror (5.51) mit neuen Optionen (@aeberhard)
     - addon autorefresh.js hinzugefügt wg. hidden Textarea bei cronjobs

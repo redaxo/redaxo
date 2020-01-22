@@ -8,7 +8,12 @@ Version 2.5.0 – XX.XX.2020
 
 * Default-Dateiname: Datum vor REDAXO-Version für bessere Sortierung (@bloep)
 * Cronjob: Tabellen können ausgeschlossen werden, User-Tabelle default nun mit im Backup (@alexplusde)
+* Upload-Limits werden angezeigt (@skerbis)
 * Wording optimiert (@marcohanke)
+
+### Bugfixes
+
+* Beim Datei-Import kam es mit PHP 7.4 zu Notices (@gharlan)
 
 
 Version 2.4.0 – 20.08.2019

@@ -6,11 +6,13 @@ Version 2.9.0 – XX.XX.2020
 
 ### Neu
 
+* Neue Rechte `addCategory[]`, `editCategory[]`, `deleteCategory[]`, `addArticle[]`, `editArticle[]`, `deleteArticle[]` (@gharlan)
+* Templates können eindeutige Keys vergeben werden und dann darüber (statt über die ID) eingebunden werden (`REX_TEMPLATE[key=my_key]`) (@tbaddade)
 * `rex_navigation`:
     - Die Callbacks erhalten als weiteren Referenzparameter den Linktext und können ihn darüber ändern (@alexplusde)
     - Markup kann über Klassenerweiterung und Überschreiben der neu dafür vorgesehenen Methoden angepasst werden (@DanielWeitenauer, @gharlan)
 * Neue Klasse `rex_template_select` für die Template-Auswahl (@DanielWeitenauer)
-* Neue Methode `rex_slice_service::addSlice` (@omphteliba)
+* Neue Methode `rex_content_service::addSlice` (@omphteliba, @gharlan)
 * In der Struktur wird nicht mehr die Kategorie-Zeile ".." für die Oberkategorie ausgegeben (@schuer)
 * Die Artikel-Tabellenzeilen haben ein neues Attribut `data-article-id="X"` für Artikelspezifische Anpassungen (@skerbis)
 * Module-Auswahl über separates Fragment `module_select.php` für einfachere Anpassung (@tbaddade)

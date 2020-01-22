@@ -17,6 +17,7 @@ Version 5.9.0 – XX.XX.2020
     - Beim DB-Host kann der Port mit angegeben werden ("localhost:3306") (@staabm, @gharlan)
     - DB-Name kommt erst nach Host/Benutzer/Passwort (@gharlan)
     - Default-DB-Name nun "redaxo5" statt "redaxo_5_0" (@gharlan)
+    - DB-Host/Benutzer/Name werden getrimmt (@aeberhard)
     - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
 * In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
 * AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
@@ -32,6 +33,7 @@ Version 5.9.0 – XX.XX.2020
 * Console-Commands:
     - Neuer Command `config:set` um Werte in der `config.yml` zu setzen (@bloep)
     - `db:set-connection` prüft nun, ob die neue Verbindung valide ist (kann per `--force` deaktiviert werden) (@bloep)
+* Englische Übersetzung der Readme des project-Addons (@skerbis)
 * ETag-Header wird in Safari nicht mehr deaktiviert, da der Safari-Bug nicht mehr zu bestehen scheint (@gharlan)
 * Der htaccess-Check-Cookie heißt nun `rex_htaccess_check` statt `htaccess_check` (@alexplusde)
 * Code-Stabilität durch statische Code-Analyse verbessert (@staabm)

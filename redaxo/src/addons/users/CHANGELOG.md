@@ -6,6 +6,9 @@ Version 2.6.0 – XX.XX.2020
 
 ### Neu
 
+* Perm-Selects in Rollenverwaltung:
+    - Perms mit vorangestellten Perm-Key (`perm[]`) und alphabetisch sortiert (@tbaddade)
+    - Bei Bedarf bis zu 20 Zeilen lang statt 10 (@gharlan)
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
 
 ### Bugfixes
