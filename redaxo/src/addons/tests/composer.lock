@@ -365,24 +365,24 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.10.1",
+            "version": "v1.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc"
+                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
+                "reference": "b4400efc9d206e83138e2bb97ed7f5b14b831cd9",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
-                "sebastian/comparator": "^1.2.3|^2.0|^3.0",
-                "sebastian/recursion-context": "^1.0|^2.0|^3.0"
+                "sebastian/comparator": "^1.2.3|^2.0|^3.0|^4.0",
+                "sebastian/recursion-context": "^1.0|^2.0|^3.0|^4.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^2.5 || ^3.2",
@@ -424,7 +424,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2019-12-22T21:05:45+00:00"
+            "time": "2020-01-20T15:57:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1478,16 +1478,16 @@
     "packages-dev": [
         {
             "name": "mheap/phpunit-github-actions-printer",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mheap/phpunit-github-actions-printer.git",
-                "reference": "562faa8ca190918730ac03d0366cdd824508aeb5"
+                "reference": "eae94025ab8ff11bf0880bd4df92f99272a57b2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mheap/phpunit-github-actions-printer/zipball/562faa8ca190918730ac03d0366cdd824508aeb5",
-                "reference": "562faa8ca190918730ac03d0366cdd824508aeb5",
+                "url": "https://api.github.com/repos/mheap/phpunit-github-actions-printer/zipball/eae94025ab8ff11bf0880bd4df92f99272a57b2c",
+                "reference": "eae94025ab8ff11bf0880bd4df92f99272a57b2c",
                 "shasum": ""
             },
             "require-dev": {
@@ -1510,7 +1510,7 @@
                 }
             ],
             "description": "PHPUnit Printer for adding test failures as annotations on GitHub Actions",
-            "time": "2020-01-18T15:36:26+00:00"
+            "time": "2020-01-19T22:38:34+00:00"
         }
     ],
     "aliases": [],
