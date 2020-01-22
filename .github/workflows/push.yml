@@ -99,7 +99,7 @@ jobs:
                 php redaxo/bin/console package:install structure/version
                 composer require --dev phpstan/phpstan:^0.12
                 composer require staabm/annotate-pull-request-from-checkstyle:dev-master
-                vendor/bin/phpstan analyse --error-format=checkstyle > vendor/bin/cs2pr.php
+                vendor/bin/phpstan analyse --no-progress --error-format=checkstyle > vendor/bin/cs2pr.php
 
   php-cs-fixer:
       name: check php-cs-fixer codestyles
