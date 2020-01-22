@@ -11,8 +11,6 @@ customizer_codemirror_langs_text = (markdown, textile, gfm, yaml)
 customizer_codemirror_tools = Características adicionales
 customizer_codemirror_tools_text = (Código plegable, Correspondencia de soportes, Coincidencia de etiquetas, Corchetes)
 
-customizer_codemirror_info = Cuando se activa automáticamente CodeMirror que se utilizará durante la edición de plantillas o módulos. Para utilizar CodeMirror manualmente para los campos de área de texto personalizado, utilice la siguiente sintaxis: <br> <code> <textarea class="codemirror" codemirror-theme="themename" y codemirror-mode="php/htmlmixed"></textarea></code> <br> Los parámetros <i>codemirror-theme</i> y <i>codemirror-mode</ i> son opcionales.
-
 customizer_labeling = suplementos
 customizer_labelcolor = Color (#43a047)
 customizer_labelcolor_notice = Cualquier expresión de color CSS válida (<code> # 03f0ab </ code>, <code> rgba (255, 100, 0, 0.5) </ code> etc.)

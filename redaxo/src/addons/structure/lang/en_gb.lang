@@ -50,6 +50,12 @@ structure_copy = Copy
 all_categories = All categories
 categories = Categories
 
+perm_options_addArticle[] = Add article
+perm_options_addCategory[] = Add category
+perm_options_editArticle[] = Edit article
+perm_options_editCategory[] = Edit category
+perm_options_deleteArticle[] = Delete article
+perm_options_deleteCategory[] = Delete category
 perm_options_article2category[] = Convert article into category
 perm_options_article2startarticle[] = Convert article into start article
 perm_options_copyArticle[] = Copy article
