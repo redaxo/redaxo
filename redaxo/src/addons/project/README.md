@@ -34,6 +34,7 @@ echo my_helpers::links_to_blank($text);
 ```
 
 Further folders (`pages/`, `fragments/`, etc.) can be created directly in the project-AddOn. In the documentation you will find the corresponding notes: https://redaxo.org/doku/master/addon-struktur (German)
+
 Files
 -------
 
