@@ -15,6 +15,7 @@ class rex_extension_point_art_content_updated extends rex_extension_point
 
     public function __construct(rex_article $article, string $action, $subject = null, array $params = [], $readonly = false)
     {
+        // for BC 'simple' attach params
         $params['article_id'] = $article->getId();
         $params['clang'] = $article->getClangId();
 
