@@ -67,7 +67,8 @@ jobs:
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
                 composer require --dev vimeo/psalm:^3.8.1
-                vendor/bin/psalm --show-info=false --shepherd --threads=2
+                composer require staabm/annotate-pull-request-from-checkstyle:dev-master
+                vendor/bin/psalm --show-info=false --shepherd --output-format=checkstyle | vendor/bin/cs2pr
 
   phpstan-analysis:
       name: phpstan static code analysis
@@ -98,7 +99,8 @@ jobs:
                 php redaxo/bin/console package:install structure/history
                 php redaxo/bin/console package:install structure/version
                 composer require --dev phpstan/phpstan:^0.12
-                vendor/bin/phpstan analyse --no-progress
+                composer require staabm/annotate-pull-request-from-checkstyle:dev-master
+                vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | vendor/bin/cs2pr
 
   php-cs-fixer:
       name: check php-cs-fixer codestyles

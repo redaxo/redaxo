@@ -50,6 +50,12 @@ structure_copy = Kopia
 all_categories = Alla kategorier
 categories = Kategorier
 
+perm_options_addArticle[] = Skapa artikel
+perm_options_addCategory[] = Skapa kategori
+perm_options_editArticle[] = Redigera artikel
+perm_options_editCategory[] = Redigera kategori
+perm_options_deleteArticle[] = Radera artikel
+perm_options_deleteCategory[] = Radera kategori
 perm_options_article2category[] = Omvandla artikel till en kategori
 perm_options_article2startarticle[] = Omvandla artikel till en startartikel
 perm_options_copyArticle[] = Kopiera artikeln
