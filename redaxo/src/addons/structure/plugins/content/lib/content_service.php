@@ -55,6 +55,8 @@ class rex_content_service
 
         $message = rex_i18n::msg('slice_added');
 
+        $article = rex_article::get($articleId, $clangId);
+
         // ----- EXTENSION POINT
         $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, [
             'article_id' => $articleId,
@@ -63,11 +65,13 @@ class rex_content_service
             'slice_id' => $sliceId,
             'page' => rex_be_controller::getCurrentPage(),
             'ctype' => $ctypeId,
-            'category_id' => rex_article::get($articleId, $clangId)->getCategoryId(),
+            'category_id' => $article->getCategoryId(),
             'module_id' => $moduleId,
             'article_revision' => 0,
             'slice_revision' => $data['revision'],
         ]));
+
+        $message = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
 
         return $message;
     }
@@ -143,6 +147,10 @@ class rex_content_service
                 }
 
                 rex_article_cache::deleteContent($article_id, $clang);
+
+                $info = rex_i18n::msg('slice_moved');
+                $article = rex_article::get($article_id, $clang);
+                $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
             } else {
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
@@ -150,7 +158,7 @@ class rex_content_service
             throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
         }
 
-        return rex_i18n::msg('slice_moved');
+        return $info;
     }
 
     /**
@@ -279,6 +287,9 @@ class rex_content_service
         }
 
         rex_article_cache::deleteContent($to_id, $to_clang);
+
+        $article = rex_article::get($to_id, $to_clang);
+        rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'content_copied'));
 
         return true;
     }
