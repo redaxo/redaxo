@@ -48,7 +48,7 @@ class rex_backend_login_test extends TestCase
     {
         $login = new rex_backend_login();
         $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin());
+        $this->assertTrue($login->checkLogin());
     }
 
     public function testFailedLogin()
@@ -69,7 +69,7 @@ class rex_backend_login_test extends TestCase
         $this->assertFalse($login->checkLogin());
 
         $login->setLogin($this->login, $this->password, false);
-        $this->assertFalse($login->checkLogin());
+        $this->assertTrue($login->checkLogin());
     }
 
     /**
