@@ -3,8 +3,8 @@
 $src = __DIR__.'/redaxo/src';
 $bootPath = realpath($src.'/core/boot.php');
 
-$finder = PhpCsFixer\Finder::create(  )
-    ->exclude(  'fragments')
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('fragments')
     ->in(
     [
         $src.'/core',
