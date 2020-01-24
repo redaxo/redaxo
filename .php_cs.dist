@@ -5,8 +5,7 @@ $bootPath = realpath($src.'/core/boot.php');
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('fragments')
-    ->in(
-    [
+    ->in([
         $src.'/core',
         $src.'/addons/backup',
         $src.'/addons/be_style',
