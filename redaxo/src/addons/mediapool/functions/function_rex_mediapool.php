@@ -155,7 +155,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $RETURN['filename'] = $NFILENAME;
     $RETURN['old_filename'] = $FILENAME;
 
-    if (isset($size)) {
+    if (isset($size) && $size) {
         $RETURN['width'] = $size[0];
         $RETURN['height'] = $size[1];
     }
