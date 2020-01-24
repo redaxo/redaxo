@@ -131,7 +131,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@verbose
       with:
-        php-version: 7.4
+        php-version: 7.3
         extensions: intl
         coverage: none # disable xdebug, pcov
 
