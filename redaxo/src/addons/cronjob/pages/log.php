@@ -11,6 +11,7 @@
 $func = rex_request('func', 'string');
 $error = '';
 $success = '';
+$message = '';
 $addon = rex_addon::get('cronjob');
 $logFile = $addon->getDataPath('cronjob.log');
 
