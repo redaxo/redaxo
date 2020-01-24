@@ -73,7 +73,7 @@ if ($file = new rex_log_file($logFile)) {
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '">' . rex_i18n::msg('cronjob_delete_log') . '</button>';
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '">' . rex_i18n::msg('cronjob_log_delete') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
