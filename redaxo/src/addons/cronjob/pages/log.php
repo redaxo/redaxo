@@ -8,7 +8,19 @@
  * @package redaxo5
  */
 
+$func = rex_request('func', 'string');
+$error = '';
+$success = '';
 $addon = rex_addon::get('cronjob');
+$logFile = $addon->getDataPath('cronjob.log');
+
+if ('mailer_delLog' == $func) {
+    if (rex_log_file::delete($logFile)) {
+        $success = rex_i18n::msg('cronjob_log_deleted');
+    } else {
+        $error = rex_i18n::msg('cronjob_log_delete_error');
+    }
+}
 
 $content = '';
 
@@ -59,6 +71,15 @@ if ($file = new rex_log_file($logFile)) {
     }
 }
 
+$formElements = [];
+$n = [];
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '">' . rex_i18n::msg('cronjob_delete_log') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
+
 $content .= '
                 </tbody>
             </table>';
@@ -68,4 +89,11 @@ $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
+$content = '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        <input type="hidden" name="func" value="mailer_delLog" />
+        ' . $content . '
+    </form>';
+
+echo $message;
 echo $content;
