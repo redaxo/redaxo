@@ -136,7 +136,7 @@ jobs:
         coverage: none # disable xdebug, pcov
 
     - name: Setup Problem Matchers for PHPUnit
-        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
     - run: |
         mysql -uroot -h127.0.0.1 -proot -e 'create database redaxo5;'
