@@ -14,14 +14,16 @@ $success = '';
 $addon = rex_addon::get('cronjob');
 $logFile = $addon->getDataPath('cronjob.log');
 
-if ('mailer_delLog' == $func) {
+if ('cronjob_delLog' == $func) {
     if (rex_log_file::delete($logFile)) {
-        $success = rex_i18n::msg('cronjob_log_deleted');
+        $success = rex_i18n::msg('syslog_deleted');
     } else {
-        $error = rex_i18n::msg('cronjob_log_delete_error');
+        $error = rex_i18n::msg('syslog_delete_error');
     }
 }
-
+if ('' != $success) {
+    $message .= rex_view::success($success);
+}
 $content = '';
 
 $content .= '
@@ -73,7 +75,7 @@ if ($file = new rex_log_file($logFile)) {
 
 $formElements = [];
 $n = [];
-$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '">' . rex_i18n::msg('cronjob_log_delete') . '</button>';
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
 $formElements[] = $n;
 
 $fragment = new rex_fragment();
@@ -91,7 +93,7 @@ $content = $fragment->parse('core/page/section.php');
 
 $content = '
     <form action="' . rex_url::currentBackendPage() . '" method="post">
-        <input type="hidden" name="func" value="mailer_delLog" />
+        <input type="hidden" name="func" value="cronjob_delLog" />
         ' . $content . '
     </form>';
 
