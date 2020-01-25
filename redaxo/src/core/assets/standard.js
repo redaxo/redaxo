@@ -468,7 +468,7 @@ jQuery(function($){
 
 // save & restore sidebar panel toggle status via localstorage
 jQuery(function($){
-    var $sidebar = $('#rex-js-main-sidebar'),
+    var $sidebar = $('#rex-page-content-edit #rex-js-main-sidebar'),
         sidebar_status,
         $sections;
     function store_sidebar_status () {
