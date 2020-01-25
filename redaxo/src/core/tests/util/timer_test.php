@@ -8,19 +8,19 @@ use PHPUnit\Framework\TestCase;
 class rex_timer_test extends TestCase
 {
     private $orgDebug;
-    
+
     protected function setUp()
     {
         // rex_timer internals depend on debug mode..
         $this->orgDebug = rex::getProperty('debug');
         rex::setProperty('debug', true);
     }
-    
+
     protected function tearDown()
     {
         rex::setProperty('debug', $this->orgDebug);
     }
-    
+
     public function testMeasure(): void
     {
         $callable = static function () {
