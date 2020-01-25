@@ -8,8 +8,26 @@
  * @package redaxo5
  */
 
+$func = rex_request('func', 'string');
+$error = '';
+$success = '';
+$message = '';
 $addon = rex_addon::get('cronjob');
+$logFile = $addon->getDataPath('cronjob.log');
 
+if ('cronjob_delLog' == $func) {
+    if (rex_log_file::delete($logFile)) {
+        $success = rex_i18n::msg('syslog_deleted');
+    } else {
+        $error = rex_i18n::msg('syslog_delete_error');
+    }
+}
+if ('' != $success) {
+    $message .= rex_view::success($success);
+}
+if ('' != $error) {
+    $message .= rex_view::error($error);
+}
 $content = '';
 
 $content .= '
@@ -59,6 +77,15 @@ if ($file = new rex_log_file($logFile)) {
     }
 }
 
+$formElements = [];
+$n = [];
+$n['field'] = '<button class="btn btn-delete" type="submit" name="del_btn" data-confirm="' . rex_i18n::msg('cronjob_delete_log_msg') . '?">' . rex_i18n::msg('syslog_delete') . '</button>';
+$formElements[] = $n;
+
+$fragment = new rex_fragment();
+$fragment->setVar('elements', $formElements, false);
+$buttons = $fragment->parse('core/form/submit.php');
+
 $content .= '
                 </tbody>
             </table>';
@@ -68,4 +95,11 @@ $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
 
+$content = '
+    <form action="' . rex_url::currentBackendPage() . '" method="post">
+        <input type="hidden" name="func" value="cronjob_delLog" />
+        ' . $content . '
+    </form>';
+
+echo $message;
 echo $content;
