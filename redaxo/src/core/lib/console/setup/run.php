@@ -85,7 +85,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'Language "%s" selected.',
             static function ($value) use ($langs) {
                 if (!$value || !array_key_exists($value, $langs)) {
-                    throw new InvalidArgumentException('Unknown lang "' . $value . '" specified');
+                    throw new InvalidArgumentException('Unknown language "' . $value . '" specified');
                 }
                 return $value;
             }
