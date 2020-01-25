@@ -450,7 +450,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         if (!$this->input->isInteractive()) {
-            throw new InvalidArgumentException('Required option "db-charset" is missing');
+            $charset = rex_setup_importer::supportsUtf8mb4() ? 'utf8mb4' : 'utf8';
+            $this->io->success('Using database charset "'.$charset.'"');
+            return $charset;
         }
 
         if (!rex_setup_importer::supportsUtf8mb4()) {
@@ -498,6 +500,12 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         if (!$this->input->isInteractive()) {
+            if (null !== $default) {
+                if ($successMessage) {
+                    $this->io->success(sprintf($successMessage, $default));
+                }
+                return $default;
+            }
             throw new InvalidArgumentException(sprintf('Required option "--%s" is missing', $option));
         }
 
