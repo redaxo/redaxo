@@ -282,7 +282,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         $createdb = $this->getOptionOrAsk(
-            new ChoiceQuestion('Choose database setup', $createdbOptions, 'normal'),
+            new ChoiceQuestion('Choose database setup', $createdbOptions, ' normal '),
             'db-setup',
             null,
             null,
@@ -297,9 +297,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         if ('update' == $createdb) {
             $useUtf8mb4 = 'utf8mb4' === $this->getDbCharset();
-            rex::setConfig('utf8mb4', $useUtf8mb4);
             rex_sql_table::setUtf8mb4($useUtf8mb4);
             $error = rex_setup_importer::updateFromPrevious();
+            rex::setConfig('utf8mb4', $useUtf8mb4);
             $io->success('Database successfully updated');
         } elseif ('import' == $createdb) {
             $import_name = $input->getOption('db-import') ?? $io->askQuestion(new ChoiceQuestion('Please choose a database export', $backups));
@@ -313,15 +313,15 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $io->success('Skipping database setup');
         } elseif ('override' == $createdb) {
             $useUtf8mb4 = 'utf8mb4' === $this->getDbCharset();
-            rex::setConfig('utf8mb4', $useUtf8mb4);
             rex_sql_table::setUtf8mb4($useUtf8mb4);
             $error = rex_setup_importer::overrideExisting();
+            rex::setConfig('utf8mb4', $useUtf8mb4);
             $io->success('Database successfully overwritten');
         } elseif ('normal' == $createdb) {
             $useUtf8mb4 = 'utf8mb4' === $this->getDbCharset();
-            rex::setConfig('utf8mb4', $useUtf8mb4);
             rex_sql_table::setUtf8mb4($useUtf8mb4);
             $error = rex_setup_importer::prepareEmptyDb();
+            rex::setConfig('utf8mb4', $useUtf8mb4);
             $io->success('Database successfully created');
         } else {
             $error = 'An undefinied error occurred';
@@ -465,9 +465,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         }
 
         $charset = $this->io->askQuestion(new ChoiceQuestion('Choose database charset', [
-            'utf8mb4' => '(recommended, default) Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
+            'utf8mb4' => '(recommended) Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
             'utf8' => '(deprecated) non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
-        ], 'utf8mb4'));
+        ], ' utf8mb4 '));
         $this->io->success('Using database charset "'.$charset.'"');
         return $charset;
     }
