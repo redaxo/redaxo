@@ -25,6 +25,9 @@ if ('cronjob_delLog' == $func) {
 if ('' != $success) {
     $message .= rex_view::success($success);
 }
+if ('' != $error) {
+    $message .= rex_view::error($error);
+}
 $content = '';
 
 $content .= '
