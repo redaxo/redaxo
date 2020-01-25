@@ -455,7 +455,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         if (!rex_setup_importer::supportsUtf8mb4()) {
             $sql = rex_sql::factory();
-            $this->io->writeln('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
+            $this->io->writeln('The utf8mb4 charset in REDAXO requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
             $this->io->writeln('utf8 is deprecated and will removed in future versions of REDAXO.');
             if ($this->io->confirm('Continue with charset utf8 ?', false)) {
                 $this->io->success('Using database charset "utf8"');
