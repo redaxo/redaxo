@@ -12,8 +12,7 @@ $func = rex_request('func', 'string');
 $error = '';
 $success = '';
 $message = '';
-$addon = rex_addon::get('cronjob');
-$logFile = $addon->getDataPath('cronjob.log');
+$logFile = rex_path::log('cronjob.log');
 
 if ('cronjob_delLog' == $func) {
     if (rex_log_file::delete($logFile)) {
@@ -43,7 +42,6 @@ $content .= '
                 <tbody>';
 
 $buttons = '';
-$logFile = $addon->getDataPath('cronjob.log');
 if ($file = new rex_log_file($logFile)) {
     foreach (new LimitIterator($file, 0, 30) as $entry) {
         /** @var rex_log_entry $entry */

@@ -209,6 +209,14 @@ class rex_path
 
     /**
      * Returns the path to the cache folder.
+     */
+    public static function log(string $file = ''): string
+    {
+        return self::$pathprovider->log($file);
+    }
+
+    /**
+     * Returns the path to the cache folder.
      *
      * @param string $file File
      *

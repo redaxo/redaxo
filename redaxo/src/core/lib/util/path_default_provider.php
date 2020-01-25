@@ -234,6 +234,14 @@ class rex_path_default_provider
     }
 
     /**
+     * Returns the path to the log folder.
+     */
+    public function log(string $file): string
+    {
+        return $this->data('log/'.$file);
+    }
+
+    /**
      * Returns the path to the cache folder.
      *
      * @param string $file File
