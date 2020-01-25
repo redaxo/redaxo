@@ -214,7 +214,7 @@ class rex_path
     {
         // BC
         if (!method_exists(self::$pathprovider, 'log')) {
-             return self::data('log/'.$file);
+            return self::data('log/'.$file);
         }
 
         return self::$pathprovider->log($file);
