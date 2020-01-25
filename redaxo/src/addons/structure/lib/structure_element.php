@@ -452,7 +452,9 @@ abstract class rex_structure_element
                 foreach ($explode as $var) {
                     if ('' != $var) {
                         $cat = rex_category::get($var, $this->clang_id);
-                        if (!$cat) throw new rex_exception("should never happen");
+                        if (!$cat) {
+                            throw new rex_exception('should never happen');
+                        }
                         $return[] = $cat;
                     }
                 }
