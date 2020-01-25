@@ -129,14 +129,14 @@ EOT
             ['REX_TEST_VAR[content="" prefix=ab suffix=ef]', ''],
             ['REX_TEST_VAR[content=cd prefix=ab suffix=ef instead=gh ifempty=ij]', 'abghef'],
             ['REX_TEST_VAR[content="" prefix=ab suffix=ef instead=gh ifempty=ij]', 'abijef'],
-            ['REX_TEST_VAR[content=ab callback="rex_var_test::varCallback" suffix=cd]', 'subject:ab content:ab suffix:cd'],
-            ['REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::varCallback" suffix=cd]', 'subject:ab content:ab suffix:cd'],
+            ['REX_TEST_VAR[content=ab callback="rex_var_test::varCallback" suffix=cd]', 'var:REX_TEST_VAR class:rex_var_test_var subject:ab content:ab suffix:cd'],
+            ['REX_TEST_VAR[content="REX_TEST_VAR[ab]" callback="rex_var_test::varCallback" suffix=cd]', 'var:REX_TEST_VAR class:rex_var_test_var subject:ab content:ab suffix:cd'],
         ];
     }
 
     public static function varCallback($params)
     {
-        return sprintf('subject:%s content:%s suffix:%s', $params['subject'], $params['content'], $params['suffix']);
+        return sprintf('var:%s class:%s subject:%s content:%s suffix:%s', $params['var'], $params['class'], $params['subject'], $params['content'], $params['suffix']);
     }
 
     /**

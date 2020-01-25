@@ -138,7 +138,7 @@ if ($addonkey && isset($addons[$addonkey]) && !rex_addon::exists($addonkey)) {
         } else {
             $url = rex_url::currentBackendPage(['addonkey' => $key]);
             $content .= '
-                <tr>
+                <tr data-pjax-scroll-to="0">
                     <td class="rex-table-icon"><a href="' . $url . '"><i class="rex-icon rex-icon-package"></i></a></td>
                     <td data-title="' . $package->i18n('key') . '"><a href="' . $url . '">' . rex_escape($key) . '</a></td>
                     <td data-title="' . $package->i18n('name') . '"><b>' . rex_escape($addon['name']) . '</b><br /><span class="text-muted">' . $addon['author'] . '</span></td>

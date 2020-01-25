@@ -1,0 +1,15 @@
+.rex-is-logged-in .rex-nav-top {
+    /* add border while color comes in via JS */
+    border-bottom: 7px solid transparent;
+}
+
+@media (min-width: 992px) {
+
+    .rex-is-logged-in .rex-page-container {
+        padding-top: 75px;
+    }
+
+    .rex-is-popup.rex-is-logged-in .rex-page-container {
+        padding-top: 55px;
+    }
+}

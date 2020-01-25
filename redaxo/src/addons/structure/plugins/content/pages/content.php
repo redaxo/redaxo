@@ -225,6 +225,7 @@ if (1 == $article->getRows()) {
                                     // ----- EXTENSION POINT
                                     $info = rex_extension::registerPoint(new rex_extension_point('SLICE_UPDATED', $info, $epParams));
                                     /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_UPDATED', $info, $epParams));
+                                    $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_updated', $info));
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -267,6 +268,7 @@ if (1 == $article->getRows()) {
                                     // ----- EXTENSION POINT
                                     $info = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $info, $epParams));
                                     /* deprecated */ $info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_ADDED', $info, $epParams));
+                                    $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_added', $info));
                                 } catch (rex_sql_exception $e) {
                                     $warning = $action_message . $e->getMessage();
                                 }
@@ -292,6 +294,7 @@ if (1 == $article->getRows()) {
                                 // ----- EXTENSION POINT
                                 $global_info = rex_extension::registerPoint(new rex_extension_point('SLICE_DELETED', $global_info, $epParams));
                                 /* deprecated */ $global_info = rex_extension::registerPoint(new rex_extension_point('STRUCTURE_CONTENT_SLICE_DELETED', $global_info, $epParams));
+                                $global_info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($OOArt, 'slice_deleted', $global_info));
                             } else {
                                 $global_warning = rex_i18n::msg('block_not_deleted');
                             }

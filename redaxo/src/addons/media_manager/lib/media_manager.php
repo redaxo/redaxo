@@ -11,6 +11,7 @@ class rex_media_manager
     private $type;
     private $use_cache;
     private $cache;
+    private $notFound = false;
 
     private static $effects = [];
 
@@ -50,7 +51,7 @@ class rex_media_manager
             foreach ($cache['headers'] as $key => $value) {
                 $media->setHeader($key, $value);
             }
-        } elseif ($manager->use_cache) {
+        } elseif ($manager->use_cache && !$manager->notFound) {
             $media->save($manager->getCacheFilename(), $manager->getHeaderCacheFilename());
         }
 
@@ -77,6 +78,8 @@ class rex_media_manager
 
             if (0 == count($set)) {
                 $this->use_cache = false;
+                $this->notFound = !$this->media->exists();
+
                 return $this->media;
             }
 
@@ -87,8 +90,17 @@ class rex_media_manager
                 $effect = new $effect_class();
                 $effect->setMedia($this->media);
                 $effect->setParams($effect_params['params']);
-                $effect->execute();
+
+                try {
+                    $effect->execute();
+                } catch (rex_media_manager_not_found_exception $exception) {
+                    $this->notFound = true;
+
+                    return;
+                }
             }
+
+            $this->notFound = !$this->media->exists();
         }
     }
 
@@ -104,9 +116,10 @@ class rex_media_manager
         $sql->setQuery($qry, [$type]);
 
         $effects = [];
+        /** @var rex_sql $row */
         foreach ($sql as $row) {
             $effname = $row->getValue('effect');
-            $params = json_decode($row->getValue('parameters'), true);
+            $params = $row->getArrayValue('parameters');
             $effparams = [];
 
             // extract parameter out of array
@@ -236,10 +249,13 @@ class rex_media_manager
     {
         rex_extension::registerPoint(new rex_extension_point('MEDIA_MANAGER_BEFORE_SEND', $this, []));
 
-        $headerCacheFilename = $this->getHeaderCacheFilename();
-        $CacheFilename = $this->getCacheFilename();
-
         rex_response::cleanOutputBuffers();
+
+        if ($this->notFound) {
+            header('HTTP/1.1 ' . rex_response::HTTP_NOT_FOUND);
+
+            exit;
+        }
 
         // check for a cache-buster. this needs to be done, before the session gets closed/aborted.
         // the header is sent directly, to make sure it gets not cached with the other media related headers.
@@ -253,11 +269,10 @@ class rex_media_manager
         }
 
         // prevent session locking trough other addons
-        if (function_exists('session_abort')) {
-            session_abort();
-        } else {
-            session_write_close();
-        }
+        session_abort();
+
+        $headerCacheFilename = $this->getHeaderCacheFilename();
+        $CacheFilename = $this->getCacheFilename();
 
         if ($this->use_cache && $this->isCached()) {
             $header = $this->getHeaderCache()['headers'];

@@ -17,6 +17,7 @@ class rex_console_command_loader implements CommandLoaderInterface
         $commands = [
             'cache:clear' => rex_command_cache_clear::class,
             'config:get' => rex_command_config_get::class,
+            'config:set' => rex_command_config_set::class,
             'db:connection-options' => rex_command_db_connection_options::class,
             'db:set-connection' => rex_command_db_set_connection::class,
             'setup:check' => rex_command_setup_check::class,

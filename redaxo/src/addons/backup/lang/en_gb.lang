@@ -4,7 +4,7 @@ backup_file_deleted = File has been deleted
 backup_file_error_while_delete = File could not be deleted
 backup_no_import_file_chosen_or_wrong_version = No import file chosen or wrong version
 backup_no_valid_import_file = Not a valid import file
-backup_no_valid_charset = No matching charset found
+backup_utf8mb4_not_supported = This backup uses the <code>utf8mb4</code> charset, which is not supported by your database (<b>{0}</b>) (minimum requirements MySQL 5.7.7 or MariaDB 10.2)
 backup_database_imported = Database imported
 backup_entry_count = ({0} entries)
 backup_file_could_not_be_uploaded = File could not be uploaded.
@@ -30,8 +30,8 @@ backup_filesize = File size
 backup_delete = Delete
 backup_files = File import
 backup_intro_export = Here you can backup the database and files of your current REDAXO installation. To create a full backup of everything you need to export <b>both the database AND files</b> separately. If you are planning to reimport this backup, it's useful to save the backed up files directly on the server so they can easily be imported later.
-backup_database_export = Database export
-backup_file_export = File export
+backup_database_export = Create database backup
+backup_file_export = Create file backup
 backup_save_on_server = Save on server
 backup_download_as_file = Download as file
 backup_createdate = Create date
@@ -40,14 +40,14 @@ backup_import_file = Import file
 backup_delete_file = Delete file
 backup_download_file = Download file
 backup_check_rights_in_directory = Backup was unable to read the folder/s or none were selected.
-backup_file_could_not_be_generated  = File could not be created.
-backup_file_generated_in  = File has been saved in
+backup_file_could_not_be_generated = File could not be created.
+backup_file_generated_in = File has been saved in
 
 backup_proceed_db_import = Existing data (articles, templates, modules,...) will be deleted. Would you like to proceed?
 backup_proceed_file_import = Current files will be deleted. Would you like to proceed?
 
-backup_export_db_caption = Database exports
-backup_export_file_caption = File exports
+backup_export_db_caption = Restore database backup
+backup_export_file_caption = Restore file backup
 
 backup_function = Function
 
@@ -63,6 +63,9 @@ backup_delete_interval_weekly = Keep one backup per week
 backup_delete_interval_monthly = Keep one backup per month
 backup_delete_interval_notice = Only backups older than one month will be deleted, and file name must end with <code>.cronjob.sql</code>.
 
+backup_blacklist_tables = Exclude from backup
+backup_blacklist_tables_notice = The selected tables will not be backed up. Tables with a prefix of <code>rex_tmp_*</code> will be excluded automatically.
+
 perm_general_backup[export] = Webseite exportieren
 
 backup_export_select = Type of export
@@ -75,3 +78,8 @@ backup_file = File
 backup_note = Notice
 backup_upload = Upload
 backup_load_from_server = Download from server
+
+backup_warning = Warning
+backup_upload_disabled = Uploads are not permitted
+backup_max_uploadsize = Max. upload size
+backup_max_uploadtime = Max. upload time

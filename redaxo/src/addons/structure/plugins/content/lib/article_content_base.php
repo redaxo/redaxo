@@ -196,7 +196,7 @@ class rex_article_content_base
         // gleicher BC code nochmals in rex_structure_element::getValue
         foreach (['', 'art_', 'cat_'] as $prefix) {
             $val = $prefix . $value;
-            if ($this->hasValue($val)) {
+            if ($this->_hasValue($val)) {
                 return $this->_getValue($val);
             }
         }
@@ -204,6 +204,17 @@ class rex_article_content_base
     }
 
     public function hasValue($value)
+    {
+        foreach (['', 'art_', 'cat_'] as $prefix) {
+            $val = $prefix . $value;
+            if ($this->_hasValue($val)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function _hasValue($value)
     {
         return $this->getSqlInstance()->hasValue($this->correctValue($value));
     }
