@@ -71,6 +71,8 @@ class rex_rex_test extends TestCase
 
     public function testDebugFlags()
     {
+        $orgDebug = rex::getProperty('debug');
+        try {
         $debug = [
             'enabled' => false,
             'throw_always_exception' => false,
@@ -109,6 +111,9 @@ class rex_rex_test extends TestCase
             'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
         ]);
         $this->assertSame($debug, rex::getDebugFlags());
+        } finally {
+            rex::setProperty('debug', $orgDebug);
+        }
     }
 
     public function testGetTablePrefix()
