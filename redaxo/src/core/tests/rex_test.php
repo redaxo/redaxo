@@ -146,15 +146,15 @@ class rex_rex_test extends TestCase
     public function testGetServer()
     {
         $origServer = rex::getProperty('server');
-        
-        try {
 
-        rex::setProperty('server', 'http://www.redaxo.org');
-        $this->assertEquals('http://www.redaxo.org/', rex::getServer());
-        $this->assertEquals('https://www.redaxo.org/', rex::getServer('https'));
-        $this->assertEquals('www.redaxo.org/', rex::getServer(''));
+        try {
+            rex::setProperty('server', 'http://www.redaxo.org');
+            $this->assertEquals('http://www.redaxo.org/', rex::getServer());
+            $this->assertEquals('https://www.redaxo.org/', rex::getServer('https'));
+            $this->assertEquals('www.redaxo.org/', rex::getServer(''));
         } finally {
-        rex::setProperty('server', $origServer);}
+            rex::setProperty('server', $origServer);
+        }
     }
 
     public function testGetVersion()
