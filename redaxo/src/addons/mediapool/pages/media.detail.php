@@ -4,6 +4,12 @@
  * @package redaxo5
  */
 
+if (!isset($success)) {
+    $success = '';
+}
+if (!isset($error)) {
+    $error = '';
+}
 if (!isset($file_id)) {
     $file_id = 0;
 }
