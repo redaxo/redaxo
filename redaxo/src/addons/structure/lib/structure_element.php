@@ -433,7 +433,7 @@ abstract class rex_structure_element
      * Get an array of all parentCategories.
      * Returns an array of rex_structure_element objects.
      *
-     * @return (null|rex_category)[]
+     * @return rex_category[]
      *
      * @psalm-return list<null|rex_category>
      */

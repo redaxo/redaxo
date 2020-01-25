@@ -324,7 +324,7 @@ function rex_mediapool_syncFile($physical_filename, $category_id, $title, $files
 /**
  * @param string $filename
  *
- * @return (bool|string)[]
+ * @return bool[]|string[]
  *
  * @psalm-return array{ok: bool, msg: string}
  */

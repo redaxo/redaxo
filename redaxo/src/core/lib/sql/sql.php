@@ -157,7 +157,7 @@ class rex_sql implements Iterator
      *
      * @param string $qry Abfrage
      *
-     * @return bool
+     * @return false|string
      */
     protected static function stripQueryDBID(&$qry)
     {
