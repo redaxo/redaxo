@@ -443,7 +443,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             }
             if ('utf8mb4' === $charset && !rex_setup_importer::supportsUtf8mb4()) {
                 $sql = rex_sql::factory();
-                throw new InvalidArgumentException('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
+                throw new InvalidArgumentException('The utf8mb4 charset in REDAXO requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
             }
             $this->io->success('Using database charset "'.$charset.'"');
             return $charset;
