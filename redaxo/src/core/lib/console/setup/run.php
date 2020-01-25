@@ -178,14 +178,14 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 'MySQL Host',
                 'db-host',
                 $config['db'][1]['host'],
-                null,
+                'Using MySQL Host "%s"',
                 $requiredValue
             );
             $dbLogin = $this->getOptionOrAsk(
                 'Login',
                 'db-login',
                 $config['db'][1]['login'],
-                null,
+                'Using database login "%s"',
                 $requiredValue
             );
 
@@ -196,7 +196,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $q,
                 'db-password',
                 '',
-                null,
+                'Using database password *secret*',
                 null
             );
 
@@ -204,7 +204,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 'Database name',
                 'db-name',
                 $config['db'][1]['name'],
-                null,
+                'Using database name "%s"',
                 $requiredValue
             );
 
@@ -223,6 +223,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             if (is_string($dbCreate)) {
                 $dbCreate = 'yes' === $dbCreate || 'true' === $dbCreate;
+                $io->success('Database will '.(!$dbCreate ? 'not ' : '').'be created');
             }
 
             $config['db'][1]['host'] = $dbHost;
@@ -269,27 +270,30 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
         $createdbOptions = [
             'normal' => 'Setup database',
             'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!',
+            'existing' => 'Database already exists (Continue without database import)',
             'update' => 'Update database (Update from previous version)',
+            'import' => 'Import existing database export'
         ];
-        if ($tables_complete) {
-            $createdbOptions['existing'] = 'Database already exists (Continue without database import)';
+        if (!$tables_complete) {
+            unset($createdbOptions['existing']);
         }
-        if (count($backups) > 0) {
-            $createdbOptions['import'] = 'Import existing database export';
+        if (count($backups) === 0) {
+            unset($createdbOptions['import']);
         }
 
         $createdb = $this->getOptionOrAsk(
-            new ChoiceQuestion('Setup database', $createdbOptions, 'normal'),
+            new ChoiceQuestion('Choose database setup', $createdbOptions, 'normal'),
             'db-setup',
             null,
-            'db-setup "%s" choosed',
-            static function ($value) use ($createdbOptions) {
+            null,
+            static function ($value) use ($io, $createdbOptions) {
                 if (!array_key_exists($value, $createdbOptions)) {
                     throw new InvalidArgumentException('Unknown db-setup value "'.$value.'".');
                 }
                 return $value;
             }
         );
+        $io->success('Using "'.$createdb.'" database setup');
 
         if ('update' == $createdb) {
             $useUtf8mb4 = 'utf8mb4' === $this->getDbCharset();
@@ -364,6 +368,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 null,
                 'Settings admin username "%s"',
                 static function ($login) {
+                    if (empty($login)) {
+                        throw new InvalidArgumentException('Provide a username.');
+                    }
                     $user = rex_sql::factory();
                     $user
                         ->setTable(rex::getTable('user'))
@@ -409,7 +416,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
             $io->success(sprintf('User "%s" successfully created.', $login));
         } else {
-            $io->success('No additionally admin user created');
+            $io->success('No additional admin user created');
         }
 
         // ---------------------------------- last step. save config
@@ -438,6 +445,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
                 $sql = rex_sql::factory();
                 throw new InvalidArgumentException('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
             }
+            $this->io->success('Using database charset "'.$charset.'"');
             return $charset;
         }
 
@@ -450,15 +458,18 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             $this->io->writeln('Your database doesn\'t support utf8mb4. It requires at least MySQL 5.7.7 or MariaDB 10.2. You are using '.$sql->getDbType(). ' '.$sql->getDbVersion());
             $this->io->writeln('utf8 is deprecated and will removed in future versions of REDAXO.');
             if ($this->io->confirm('Continue with charset utf8 ?', false)) {
+                $this->io->success('Using database charset "utf8"');
                 return 'utf8';
             }
             throw new Exception('You need to use utf8 or upgrade your database to newer version');
         }
 
-        return $this->io->choice('Choose database charset', [
-            'utf8mb4' => '[recommended] Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
-            'utf8' => '[deprecated] non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
-        ]);
+        $charset = $this->io->askQuestion(new ChoiceQuestion('Choose database charset', [
+            'utf8mb4' => '(recommended, default) Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete unicode support including emojis and more special characters',
+            'utf8' => '(deprecated) non-standard utf8 mode. Won\'t be support in future versions of REDAXO',
+        ], 'utf8mb4'));
+        $this->io->success('Using database charset "'.$charset.'"');
+        return $charset;
     }
 
     /**
@@ -480,7 +491,9 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             if (is_callable($validator) && !$validator($optionValue)) {
                 return $default;
             }
-            $this->io->success(sprintf($successMessage ?? 'Using "%s"', $optionValue));
+            if ($successMessage) {
+                $this->io->success(sprintf($successMessage, $optionValue));
+            }
             return $optionValue;
         }
 
