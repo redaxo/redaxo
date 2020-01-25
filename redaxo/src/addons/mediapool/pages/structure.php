@@ -1,8 +1,8 @@
 <?php
 
-/**
- * @package redaxo5
- */
+ /**
+  * @package redaxo5
+  */
 
 // defaults for globals passed in from index.php
  if (!isset($success)) {
