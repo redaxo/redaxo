@@ -212,6 +212,11 @@ class rex_path
      */
     public static function log(string $file = ''): string
     {
+        // BC
+        if (!method_exists(self::$pathprovider, 'log')) {
+             return self::data('log/'.$file);
+        }
+
         return self::$pathprovider->log($file);
     }
 
