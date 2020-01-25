@@ -4,6 +4,14 @@
  * @package redaxo5
  */
 
+// defaults for globals passed in from index.php
+ if (!isset($success)) {
+     $success = '';
+ }
+ if (!isset($error)) {
+     $error = '';
+ }
+
 // *************************************** SUBPAGE: KATEGORIEN
 
 $media_method = rex_request('media_method', 'string');
