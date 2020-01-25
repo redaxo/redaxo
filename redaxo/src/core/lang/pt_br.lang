@@ -251,6 +251,7 @@ package_hhelp = Ajuda
 package_hinstall = Instalado
 package_hactive = Ativado
 package_hdelete = Deletar
+package_hinformation =
 package_reinstall = Reinstalar
 package_install = Instalar
 package_notinstalled = Não instalado
@@ -314,15 +315,17 @@ plugin_dir_not_writable = O diretório do PlugIn não é passível de gravaçõe
 credits = Créditos
 credits_name = Nome
 credits_help = Ajuda
+credits_information =
 credits_version = Versão
 credits_author = Autor
-credits_supportpage = Ajuda
+credits_supportpage =
 credits_addon_inactive = AddOn inativo
 credits_caption = Lista de packages usados
 credits_open_help_file = Abrir arquivo de ajuda:
 credits_inventor = Inventor
 credits_developer = Programador
 credits_designer = Designer
+credits_license =
 
 # redaxo\include\pages\profile.php
 profile_myprofile = Editar meu perfil de usuário

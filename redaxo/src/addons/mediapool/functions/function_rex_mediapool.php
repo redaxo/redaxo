@@ -86,7 +86,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
 
     $FILENAME = $FILE['name'];
     $FILESIZE = $FILE['size'];
-    $FILETYPE = $FILE['type'];
+    $FILETYPE = mime_content_type($FILE['tmp_name']);
     $NFILENAME = rex_mediapool_filename($FILENAME, $doSubindexing);
     $message = [];
 
@@ -155,7 +155,7 @@ function rex_mediapool_saveMedia($FILE, $rex_file_category, $FILEINFOS, $userlog
     $RETURN['filename'] = $NFILENAME;
     $RETURN['old_filename'] = $FILENAME;
 
-    if (isset($size)) {
+    if (isset($size) && $size) {
         $RETURN['width'] = $size[0];
         $RETURN['height'] = $size[1];
     }
@@ -193,7 +193,7 @@ function rex_mediapool_updateMedia($FILE, &$FILEINFOS, $userlogin = null)
     $updated = false;
     if ('' != $FILE['name'] && 'none' != $FILE['name']) {
         $ffilename = $FILE['tmp_name'];
-        $ffiletype = $FILE['type'];
+        $ffiletype = mime_content_type($FILE['tmp_name']);
         $ffilesize = $FILE['size'];
 
         $extensionNew = mb_strtolower(pathinfo($FILE['name'], PATHINFO_EXTENSION));
