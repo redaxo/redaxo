@@ -17,7 +17,7 @@ if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', ''))
     header('Content-type: text/css');
 
     $filenames = [];
-    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror.css');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.css');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/theme/'.$config['codemirror_theme'].'.css');
     if ('' != rex_request('themes', 'string', '')) {
@@ -34,6 +34,9 @@ if (rex::isBackend() && 'css' == rex_request('codemirror_output', 'string', ''))
         $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/search/matchesonscrollbar.css');
     }
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror-additional.css');
+    if (isset($config['codemirror-autoresize']) && $config['codemirror-autoresize']) {
+        $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror-autoresize.css');
+    }
 
     $content = '';
     foreach ($filenames as $filename) {
@@ -54,7 +57,8 @@ if (rex::isBackend() && 'javascript' == rex_request('codemirror_output', 'string
     header('Content-Type: application/javascript');
 
     $filenames = [];
-    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror-compressed.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js');
+    $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/autorefresh.js');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/display/fullscreen.js');
     $filenames[] = $plugin->getAssetsUrl('vendor/codemirror/addon/selection/active-line.js');
 
@@ -121,9 +125,12 @@ if (rex::isBackend() && rex::getUser()) {
             $selectors = $selectors . ', ' . $config['codemirror-selectors'];
         }
         rex_view::setJsProperty('customizer_codemirror_selectors', $selectors);
+        if (isset($config['codemirror-autoresize'])) {
+            rex_view::setJsProperty('customizer_codemirror_autoresize', $config['codemirror-autoresize']);
+        }
 
-        $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror-compressed.js'));
-        $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.css'));
+        $mtimejs = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.js'));
+        $mtimecss = filemtime($plugin->getAssetsUrl('vendor/codemirror/codemirror.min.css'));
         if (isset($_SESSION['codemirror_reload'])) {
             $mtimejs = $mtimejs . $_SESSION['codemirror_reload'];
             $mtimecss = $mtimecss . $_SESSION['codemirror_reload'];
@@ -138,6 +145,7 @@ if (rex::isBackend() && rex::getUser()) {
 
     if ('' != $config['labelcolor']) {
         rex_view::setJsProperty('customizer_labelcolor', $config['labelcolor']);
+        rex_view::addCssFile($plugin->getAssetsUrl('css/styles-labelcolor.css'));
     }
     if ($config['showlink']) {
         rex_view::setJsProperty(

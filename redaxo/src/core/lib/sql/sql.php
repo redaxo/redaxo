@@ -11,6 +11,9 @@ class rex_sql implements Iterator
 {
     use rex_factory_trait;
 
+    public const MYSQL = 'MySQL';
+    public const MARIADB = 'MariaDB';
+
     /**
      * Default SQL datetime format.
      */
@@ -1600,14 +1603,11 @@ class rex_sql implements Iterator
     }
 
     /**
-     * Gibt die Serverversion zurueck.
-     *
-     * Die Versionsinformation ist erst bekannt,
-     * nachdem der rex_sql Konstruktor einmalig erfolgreich durchlaufen wurde.
+     * Returns the full database version string.
      *
      * @param int $DBID
      *
-     * @return mixed
+     * @return string E.g. "5.7.7" or "5.5.5-10.4.9-MariaDB"
      */
     public static function getServerVersion($DBID = 1)
     {
@@ -1616,6 +1616,35 @@ class rex_sql implements Iterator
             self::factory($DBID);
         }
         return self::$pdo[$DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+    }
+
+    /**
+     * Returns the database type (MySQL or MariaDB).
+     *
+     * @return string `rex_sql::MYSQL` or `rex_sql::MARIADB`
+     * @psalm-return self::MYSQL|self::MARIADB
+     */
+    public function getDbType(): string
+    {
+        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        return false === stripos($version, 'mariadb') ? self::MYSQL : self::MARIADB;
+    }
+
+    /**
+     * Returns the normalized database version.
+     *
+     * @return string E.g. "5.7.7" or "10.4.9"
+     */
+    public function getDbVersion(): string
+    {
+        $version = self::$pdo[$this->DBID]->getAttribute(PDO::ATTR_SERVER_VERSION);
+
+        if (preg_match('/^(\d+\.\d+\.\d+)(?:-(\d+\.\d+\.\d+)-mariadb)?/i', $version, $match)) {
+            return $match[2] ?? $match[1];
+        }
+
+        return $version;
     }
 
     /**

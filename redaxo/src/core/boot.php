@@ -28,7 +28,7 @@ ob_implicit_flush(0);
 
 if ('cli' !== PHP_SAPI) {
     // deactivate session cache limiter
-    session_cache_limiter(false);
+    @session_cache_limiter(false);
 }
 
 // set arg_separator to get valid html output if session.use_trans_sid is activated

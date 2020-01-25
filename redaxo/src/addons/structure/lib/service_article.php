@@ -177,16 +177,21 @@ class rex_article_service
             $message = rex_i18n::msg('article_updated');
 
             // ----- PRIOR
-            rex_sql::factory()
-                ->setTable(rex::getTable('article'))
-                ->setWhere('id = :id AND clang_id != :clang', ['id' => $article_id, 'clang' => $clang])
-                ->setValue('priority', $data['priority'])
-                ->addGlobalUpdateFields(self::getUser())
-                ->update();
+            $oldPrio = $thisArt->getValue('priority');
 
-            foreach (rex_clang::getAllIds() as $clangId) {
-                self::newArtPrio($data['category_id'], $clangId, $data['priority'], $thisArt->getValue('priority'));
+            if ($oldPrio != $data['priority']) {
+                rex_sql::factory()
+                    ->setTable(rex::getTable('article'))
+                    ->setWhere('id = :id AND clang_id != :clang', ['id' => $article_id, 'clang' => $clang])
+                    ->setValue('priority', $data['priority'])
+                    ->addGlobalUpdateFields(self::getUser())
+                    ->update();
+
+                foreach (rex_clang::getAllIds() as $clangId) {
+                    self::newArtPrio($data['category_id'], $clangId, $data['priority'], $oldPrio);
+                }
             }
+
             rex_article_cache::delete($article_id);
 
             // ----- EXTENSION POINT

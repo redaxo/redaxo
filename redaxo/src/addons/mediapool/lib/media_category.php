@@ -98,8 +98,8 @@ class rex_media_category
         return self::getInstanceList([$parentId, 'children'], 'self::get', static function ($parentId) {
             $catlist_path = rex_path::addonCache('mediapool', $parentId . '.mclist');
 
-            $list = rex_file::getCache($catlist_path);
-            if (!$list) {
+            $list = rex_file::getCache($catlist_path, null);
+            if (null === $list) {
                 rex_media_cache::generateCategoryList($parentId);
                 $list = rex_file::getCache($catlist_path);
             }
@@ -257,8 +257,8 @@ class rex_media_category
         return self::getInstanceList([$this->getId(), 'media'], 'rex_media::get', static function ($id) {
             $list_path = rex_path::addonCache('mediapool', $id . '.mlist');
 
-            $list = rex_file::getCache($list_path);
-            if (!$list) {
+            $list = rex_file::getCache($list_path, null);
+            if (null === $list) {
                 rex_media_cache::generateList($id);
                 $list = rex_file::getCache($list_path);
             }

@@ -57,13 +57,27 @@ phpmailer_checkmail_info_subject = Kolla dina e-postmeddelanden med ämnet: PHPM
 phpmailer_checkmail_greeting = Hej,
 phpmailer_checkmail_text = Detta är ett test-e-postmeddelande på webbplatsen:
 phpmailer_checkmail_domain_note = Detta test gäller endast ovanstående Domain. Om webbplatsen är tillgänglig under flera domäner, ska testet utföras efter en ny inloggning under önskad domän.
-phpmailer_log = E-Mail Log
-phpmailer_log_info = Log-mappen: <span title="{0}">{1}</span>
+phpmailer_logging = E-Mail-Log
+phpmailer_log_errors = Logga bara fel
+phpmailer_log_all = Logga alla händelser
+phpmailer_archive = E-post arkivering
+phpmailer_archive_info = Arkiv-mappen: <span title="{0}">{1}</span>
 phpmailer_log_yes = Ja
 phpmailer_log_no = Nej
+phpmailer_log_title = PHPMailer-log "{0}"
+phpmailer_log_deleted = PHPMailer-log raderades
+phpmailer_log_delete_error = PHPMailer-log kunde inte raderas
+phpmailer_delete_log_msg = Radera PHPMailer-log?
+phpmailer_log_success = Status
+phpmailer_log_date = Datum
+phpmailer_log_from = Från
+phpmailer_log_to = Till
+phpmailer_log_subject = Angående
+phpmailer_log_msg = Meddelande
 phpmailer_errormail_disabled = deaktiverad
 phpmailer_errormail_15min = 15 minuters check-interval
 phpmailer_errormail_30min = 30 minuters check-interval
 phpmailer_errormail_60min = 60 minuters check-interval
 
 system_setting_errormail = Skicka felmeddelanden
+

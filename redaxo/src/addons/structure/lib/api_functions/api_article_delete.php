@@ -8,6 +8,10 @@ class rex_api_article_delete extends rex_api_function
 {
     public function execute()
     {
+        if (!rex::getUser()->hasPerm('deleteArticle[]')) {
+            throw new rex_api_exception('User has no permission to delete articles!');
+        }
+
         $category_id = rex_request('category_id', 'int');
         $article_id = rex_request('article_id', 'int');
 
