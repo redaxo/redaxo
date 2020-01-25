@@ -73,44 +73,44 @@ class rex_rex_test extends TestCase
     {
         $orgDebug = rex::getProperty('debug');
         try {
-        $debug = [
-            'enabled' => false,
-            'throw_always_exception' => false,
-        ];
-        rex::setProperty('debug', $debug);
+            $debug = [
+                'enabled' => false,
+                'throw_always_exception' => false,
+            ];
+            rex::setProperty('debug', $debug);
 
-        $this->assertFalse(rex::isDebugMode());
-        $this->assertSame($debug, rex::getDebugFlags());
+            $this->assertFalse(rex::isDebugMode());
+            $this->assertSame($debug, rex::getDebugFlags());
 
-        rex::setProperty('debug', true);
+            rex::setProperty('debug', true);
 
-        $this->assertTrue(rex::isDebugMode());
-        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            $this->assertTrue(rex::isDebugMode());
+            $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
 
-        rex::setProperty('debug', ['enabled' => false]);
+            rex::setProperty('debug', ['enabled' => false]);
 
-        $this->assertFalse(rex::isDebugMode());
-        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            $this->assertFalse(rex::isDebugMode());
+            $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
 
-        $debug = [
-            'enabled' => true,
-            'throw_always_exception' => true,
-        ];
-        rex::setProperty('debug', $debug);
-        $this->assertSame($debug, rex::getDebugFlags());
+            $debug = [
+                'enabled' => true,
+                'throw_always_exception' => true,
+            ];
+            rex::setProperty('debug', $debug);
+            $this->assertSame($debug, rex::getDebugFlags());
 
-        $debug = [
-            'enabled' => true,
-            'throw_always_exception' => E_WARNING | E_NOTICE,
-        ];
-        rex::setProperty('debug', $debug);
-        $this->assertSame($debug, rex::getDebugFlags());
+            $debug = [
+                'enabled' => true,
+                'throw_always_exception' => E_WARNING | E_NOTICE,
+            ];
+            rex::setProperty('debug', $debug);
+            $this->assertSame($debug, rex::getDebugFlags());
 
-        rex::setProperty('debug', [
-            'enabled' => true,
-            'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
-        ]);
-        $this->assertSame($debug, rex::getDebugFlags());
+            rex::setProperty('debug', [
+                'enabled' => true,
+                'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
+            ]);
+            $this->assertSame($debug, rex::getDebugFlags());
         } finally {
             rex::setProperty('debug', $orgDebug);
         }
