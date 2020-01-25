@@ -38,7 +38,7 @@ class rex_structure_context
                     break;
                 }
             }
-        } else {
+        } elseif (!$params['clang_id']) {
             $params['clang_id'] = rex_clang::getStartId();
         }
 
