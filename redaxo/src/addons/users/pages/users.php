@@ -273,6 +273,7 @@ $SHOW = true;
 if ('' != $FUNC_ADD || $user_id > 0) {
     $SHOW = false;
 
+    $statuschecked = '';
     if ('' != $FUNC_ADD) {
         $statuschecked = 'checked="checked"';
     }
