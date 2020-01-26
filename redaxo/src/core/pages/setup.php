@@ -542,7 +542,7 @@ if (5 === $step) {
 
     if (is_dir($export_dir)) {
         $export_sqls = [];
-        
+
         if ($handle = opendir($export_dir)) {
             $export_archives = [];
 
