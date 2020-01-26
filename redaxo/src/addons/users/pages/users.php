@@ -13,8 +13,8 @@ $warnings = [];
 
 $user = null;
 
+$sql = rex_sql::factory();
 if (0 != $user_id) {
-    $sql = rex_sql::factory();
     $sql->setQuery('SELECT * FROM ' . rex::getTablePrefix() . 'user WHERE id = ' . $user_id . ' LIMIT 2');
     if (1 != $sql->getRows()) {
         $user_id = 0;
