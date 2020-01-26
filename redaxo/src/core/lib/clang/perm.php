@@ -24,7 +24,6 @@ class rex_clang_perm extends rex_complex_perm
     /**
      * @return array
      *
-     * @psalm-return array<array-key, int|mixed>
      */
     public function getClangs()
     {
