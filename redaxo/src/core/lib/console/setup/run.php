@@ -286,7 +286,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
             'db-setup',
             null,
             null,
-            static function ($value) use ($io, $createdbOptions) {
+            static function ($value) use ($createdbOptions) {
                 if (!array_key_exists($value, $createdbOptions)) {
                     throw new InvalidArgumentException('Unknown db-setup value "'.$value.'".');
                 }
