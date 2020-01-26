@@ -24,7 +24,7 @@ class rex_command_list extends ListCommand
 
             $io->text('<info>These commands are available during the setup. After setup completed more commands will be available.</info>');
         }
-        
+
         return $exitCode;
     }
 }
