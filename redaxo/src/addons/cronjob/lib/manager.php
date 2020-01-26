@@ -111,7 +111,7 @@ class rex_cronjob_manager
                 $name = '[no name]';
             }
         }
-        $log = new rex_log_file(rex_path::addonData('cronjob', 'cronjob.log'), 2000000);
+        $log = new rex_log_file(rex_path::log('cronjob.log'), 2000000);
         $data = [
             ($success ? 'SUCCESS' : 'ERROR'),
             ($this->id ?: '--'),
