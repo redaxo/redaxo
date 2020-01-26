@@ -290,7 +290,7 @@ class rex_cronjob_manager_sql
     }
 
     /**
-     * @return false|int|null
+     * @return int|null
      */
     public static function calculateNextTime(array $interval)
     {

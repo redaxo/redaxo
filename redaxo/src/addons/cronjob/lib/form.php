@@ -32,7 +32,7 @@ class rex_cronjob_form extends rex_form
     }
 
     /**
-     * @return rex_form_element
+     * @return rex_cronjob_form_interval_element
      */
     public function addIntervalField($name, $value = null, $attributes = [])
     {
