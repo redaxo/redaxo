@@ -23,6 +23,8 @@ if (rex::isBackend()) {
     }
 
     if ('content' == rex_be_controller::getCurrentPagePart(1)) {
+        rex_view::addJsFile(rex_url::pluginAssets('structure', 'content', 'content.js'), [rex_view::JS_IMMUTABLE => true]);
+
         rex_extension::register('STRUCTURE_CONTENT_SIDEBAR', static function (rex_extension_point $ep) {
             $params = $ep->getParams();
             $subject = $ep->getSubject();
