@@ -81,8 +81,6 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getPath($file = '')
     {
@@ -91,8 +89,6 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getAssetsPath($file = '')
     {
@@ -101,8 +97,6 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getAssetsUrl($file = '')
     {
@@ -111,8 +105,6 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getDataPath($file = '')
     {
@@ -121,8 +113,6 @@ class rex_addon extends rex_package implements rex_addon_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return string
      */
     public function getCachePath($file = '')
     {
