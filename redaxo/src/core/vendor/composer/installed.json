@@ -451,12 +451,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Roave/SecurityAdvisories.git",
-            "reference": "67ac6ea8f4a078c3c9b7aec5d7ae70f098c37389"
+            "reference": "5e2ebc8340c8b7dcdc3f938dcbb9e2b99b72fd8e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/67ac6ea8f4a078c3c9b7aec5d7ae70f098c37389",
-            "reference": "67ac6ea8f4a078c3c9b7aec5d7ae70f098c37389",
+            "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5e2ebc8340c8b7dcdc3f938dcbb9e2b99b72fd8e",
+            "reference": "5e2ebc8340c8b7dcdc3f938dcbb9e2b99b72fd8e",
             "shasum": ""
         },
         "conflict": {
@@ -569,7 +569,7 @@
             "spoonity/tcpdf": "<6.2.22",
             "squizlabs/php_codesniffer": ">=1,<2.8.1|>=3,<3.0.1",
             "stormpath/sdk": ">=0,<9.9.99",
-            "studio-42/elfinder": "<2.1.48",
+            "studio-42/elfinder": "<2.1.49",
             "swiftmailer/swiftmailer": ">=4,<5.4.5",
             "sylius/admin-bundle": ">=1,<1.0.17|>=1.1,<1.1.9|>=1.2,<1.2.2",
             "sylius/grid": ">=1,<1.1.19|>=1.2,<1.2.18|>=1.3,<1.3.13|>=1.4,<1.4.5|>=1.5,<1.5.1",
@@ -650,7 +650,7 @@
             "zfcampus/zf-apigility-doctrine": ">=1,<1.0.3",
             "zfr/zfr-oauth2-server-module": "<0.1.2"
         },
-        "time": "2020-01-06T19:16:46+00:00",
+        "time": "2020-01-20T14:23:18+00:00",
         "type": "metapackage",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -667,17 +667,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.4.2",
-        "version_normalized": "4.4.2.0",
+        "version": "v4.4.3",
+        "version_normalized": "4.4.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "82437719dab1e6bdd28726af14cb345c2ec816d0"
+            "reference": "e9ee09d087e2c88eaf6e5fc0f5c574f64d100e4f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/82437719dab1e6bdd28726af14cb345c2ec816d0",
-            "reference": "82437719dab1e6bdd28726af14cb345c2ec816d0",
+            "url": "https://api.github.com/repos/symfony/console/zipball/e9ee09d087e2c88eaf6e5fc0f5c574f64d100e4f",
+            "reference": "e9ee09d087e2c88eaf6e5fc0f5c574f64d100e4f",
             "shasum": ""
         },
         "require": {
@@ -710,7 +710,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2019-12-17T10:32:23+00:00",
+        "time": "2020-01-10T21:54:01+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1043,17 +1043,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.4.2",
-        "version_normalized": "4.4.2.0",
+        "version": "v4.4.3",
+        "version_normalized": "4.4.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "be330f919bdb395d1e0c3f2bfb8948512d6bdd99"
+            "reference": "7cfa470bc3b1887a7b2a47c0a702a84ad614fa92"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/be330f919bdb395d1e0c3f2bfb8948512d6bdd99",
-            "reference": "be330f919bdb395d1e0c3f2bfb8948512d6bdd99",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/7cfa470bc3b1887a7b2a47c0a702a84ad614fa92",
+            "reference": "7cfa470bc3b1887a7b2a47c0a702a84ad614fa92",
             "shasum": ""
         },
         "require": {
@@ -1076,7 +1076,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2019-12-18T13:41:29+00:00",
+        "time": "2020-01-04T13:00:46+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -1121,17 +1121,17 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.4.2",
-        "version_normalized": "4.4.2.0",
+        "version": "v4.4.3",
+        "version_normalized": "4.4.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "a08832b974dd5fafe3085a66d41fe4c84bb2628c"
+            "reference": "cd014e425b3668220adb865f53bff64b3ad21767"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/a08832b974dd5fafe3085a66d41fe4c84bb2628c",
-            "reference": "a08832b974dd5fafe3085a66d41fe4c84bb2628c",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/cd014e425b3668220adb865f53bff64b3ad21767",
+            "reference": "cd014e425b3668220adb865f53bff64b3ad21767",
             "shasum": ""
         },
         "require": {
@@ -1147,7 +1147,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2019-12-10T10:33:21+00:00",
+        "time": "2020-01-21T11:12:16+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
