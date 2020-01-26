@@ -157,7 +157,7 @@ class rex_setup_importer
     /**
      * @return string[]
      *
-     * @psalm-return array{0: string, 1: string, 2: string}
+     * @psalm-return list<string>
      */
     private static function getRequiredTables()
     {
