@@ -54,7 +54,22 @@ class rex_console_application extends Application
         // Some packages requires a working db connection in their boot.php
         // in this case if no connection is available, no commands can be used
         // but this command should be always usable
-        if ('db:set-connection' === $command->getName()) {
+        if ($command instanceof rex_command_standalone) {
+            return;
+        }
+
+        // Loads only setup packages
+        // This is useful for any kind of pre-setup commands
+        // there a packages which are needed during the setup e.g. backup
+        if ($command instanceof rex_command_only_setup_packages) {
+            if (rex::isSetup()) {
+                foreach (rex_package::getSetupPackages() as $package) {
+                    $package->enlist();
+                }
+            }
+            foreach (rex_package::getSetupPackages() as $package) {
+                $package->boot();
+            }
             return;
         }
 
