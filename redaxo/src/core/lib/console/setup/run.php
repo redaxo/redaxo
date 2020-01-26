@@ -490,7 +490,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
     {
         $optionValue = $this->input->getOption($option);
         if (!$this->forceAsking && null !== $optionValue) {
-            if (is_callable($validator) && !$validator($optionValue)) {
+            if ($validator && !$validator($optionValue)) {
                 return $default;
             }
             if ($successMessage) {
