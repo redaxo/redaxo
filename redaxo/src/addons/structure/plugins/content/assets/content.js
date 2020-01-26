@@ -8,10 +8,10 @@ jQuery(function($){
         $sections.each(function (k, v) {
             sidebar_status.push($(v).find('div.collapse').hasClass('in').toString());
         });
-        localStorage.setItem('sidebar_status', JSON.stringify(sidebar_status));
+        localStorage.setItem('structure_content_sidebar_status', JSON.stringify(sidebar_status));
     }
     if ($sidebar.length) {
-        sidebar_status = localStorage.getItem('sidebar_status');
+        sidebar_status = localStorage.getItem('structure_content_sidebar_status');
         $sections = $sidebar.children('section');
         if (!sidebar_status) {
             store_sidebar_status();
