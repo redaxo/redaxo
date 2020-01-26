@@ -66,8 +66,6 @@ class rex_user_role implements rex_user_role_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return bool
      */
     public function hasPerm($perm)
     {
