@@ -546,7 +546,7 @@ class PrettyPageHandler extends Handler
 
     /**
      * @param  string $title
-     *
+     * @return void
      */
     public function setPageTitle($title)
     {
@@ -568,7 +568,7 @@ class PrettyPageHandler extends Handler
      * @throws InvalidArgumentException If $path is not a valid directory
      *
      * @param  string $path
-     *
+     * @return void
      */
     public function addResourcePath($path)
     {
@@ -585,7 +585,7 @@ class PrettyPageHandler extends Handler
      * Adds a custom css file to be loaded.
      *
      * @param  string $name
-     *
+     * @return void
      */
     public function addCustomCss($name)
     {
@@ -655,7 +655,7 @@ class PrettyPageHandler extends Handler
      * @deprecated
      *
      * @param  string $resourcesPath
-     *
+     * @return void
      */
     public function setResourcesPath($resourcesPath)
     {
