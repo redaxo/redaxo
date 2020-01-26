@@ -77,8 +77,6 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return false
      */
     public function setConfig($key, $value = null)
     {
@@ -95,8 +93,6 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return false
      */
     public function hasConfig($key = null)
     {
@@ -105,8 +101,6 @@ abstract class rex_null_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return false
      */
     public function removeConfig($key)
     {
