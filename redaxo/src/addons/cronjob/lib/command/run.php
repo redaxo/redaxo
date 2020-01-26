@@ -32,9 +32,7 @@ class rex_command_cronjob_run extends rex_console_command
         $job = $input->getOption('job');
 
         if (false !== $job) {
-            $this->executeSingleJob($io, $job);
-
-            return;
+            return $this->executeSingleJob($io, $job);
         }
 
         $nexttime = rex_package::get('cronjob')->getConfig('nexttime', 0);
