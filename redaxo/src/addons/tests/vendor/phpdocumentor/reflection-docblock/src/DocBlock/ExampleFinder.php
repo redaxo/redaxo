@@ -49,7 +49,7 @@ class ExampleFinder
      *
      * @param string $directory
      *
-     *
+     * @return void
      */
     public function setSourceDirectory($directory = '')
     {
