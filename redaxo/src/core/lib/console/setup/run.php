@@ -484,7 +484,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
      * @param string|null     $successMessage success message for using the option value
      * @param callable|null   $validator      validator callback for option value and ask()
      *
-     * @return bool|mixed|string|string[]|null
+     * @return mixed
      */
     private function getOptionOrAsk($question, string $option, string $default = null, string $successMessage = null, callable $validator = null)
     {
