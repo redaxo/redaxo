@@ -544,7 +544,6 @@ if (5 === $step) {
         $export_sqls = [];
 
         if ($handle = opendir($export_dir)) {
-
             while (false !== ($file = readdir($handle))) {
                 if ('.' == $file || '..' == $file) {
                     continue;
