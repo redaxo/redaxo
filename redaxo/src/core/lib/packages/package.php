@@ -96,8 +96,6 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return bool
      */
     public function setConfig($key, $value = null)
     {
@@ -114,8 +112,6 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return bool
      */
     public function hasConfig($key = null)
     {
@@ -124,8 +120,6 @@ abstract class rex_package implements rex_package_interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return bool
      */
     public function removeConfig($key)
     {
@@ -304,7 +298,7 @@ abstract class rex_package implements rex_package_interface
     }
 
     /**
-     * Clears the cache of the package.
+     *  Clears the cache of the package.
      *
      * @throws rex_functional_exception
      */
