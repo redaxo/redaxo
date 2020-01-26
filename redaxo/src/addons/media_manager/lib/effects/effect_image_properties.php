@@ -65,7 +65,7 @@ class rex_effect_image_properties extends rex_effect_abstract
 <script type="text/javascript">
     $(function() {
         var $field = $("#media-manager-rex-effect-image-properties-interlace-select");
-
+        
         $field.on("changed.bs.select", function (event, clickedIndex, newValue, oldValue) {
             var off = "- off -";
             if (0 == clickedIndex && newValue) {
