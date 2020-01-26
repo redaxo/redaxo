@@ -19,7 +19,6 @@ class rex_system_report
 
     /**
      * @return array
-     *
      */
     public function get()
     {

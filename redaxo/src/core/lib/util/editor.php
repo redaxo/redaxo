@@ -76,7 +76,6 @@ class rex_editor
 
     /**
      * @return string[]
-     *
      */
     public function getSupportedEditors()
     {

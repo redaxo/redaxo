@@ -23,7 +23,6 @@ class rex_clang_perm extends rex_complex_perm
 
     /**
      * @return array
-     *
      */
     public function getClangs()
     {
