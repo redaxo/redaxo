@@ -15,7 +15,7 @@ class rex_command_list extends ListCommand
 {
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::execute($input, $output);
+        $exitCode = parent::execute($input, $output);
 
         if (rex::isSetup()) {
             $io = new SymfonyStyle($input, $output);
@@ -24,5 +24,7 @@ class rex_command_list extends ListCommand
 
             $io->text('<info>These commands are available during the setup. After setup completed more commands will be available.</info>');
         }
+        
+        return $exitCode;
     }
 }
