@@ -19,6 +19,12 @@ $error = '';
 $content = '';
 $message = '';
 
+$templatekey = null;
+$templatename = '';
+$template = '';
+$active = '';
+$attributes = [];
+
 $csrfToken = rex_csrf_token::factory('structure_content_template');
 
 if ('delete' == $function) {
@@ -83,12 +89,7 @@ if ('delete' == $function) {
         $function = '';
     }
 } else {
-    $templatekey = null;
-    $templatename = '';
-    $template = '';
-    $active = '';
     $template_id = '';
-    $attributes = [];
     $legend = rex_i18n::msg('create_template');
 }
 

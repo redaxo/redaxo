@@ -4,6 +4,20 @@
  * @package redaxo5
  */
 
+// defaults for globals passed in from index.php
+if (!isset($success)) {
+    $success = '';
+}
+if (!isset($error)) {
+    $error = '';
+}
+if (!isset($opener_link)) {
+    $opener_link = '';
+}
+if (!isset($file_id)) {
+    $file_id = 0;
+}
+
 if (rex_post('btn_delete', 'string')) {
     if (!$csrf->isValid()) {
         $error = rex_i18n::msg('csrf_token_invalid');
