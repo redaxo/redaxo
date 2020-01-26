@@ -1,5 +1,9 @@
 <?php
 
+if (!isset($rex_file_category)) {
+    $rex_file_category = 0;
+}
+
 // *************************************** Subpage: ADD FILE
 
 $media_method = rex_request('media_method', 'string');
