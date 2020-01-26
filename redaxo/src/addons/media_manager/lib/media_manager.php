@@ -105,7 +105,7 @@ class rex_media_manager
     }
 
     /**
-     * @return (array|mixed)[][]
+     * @return array
      *
      * @psalm-return list<array{effect: mixed, params: array<string, mixed>}>
      */
