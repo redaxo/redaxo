@@ -22,7 +22,7 @@ class rex_clang_perm extends rex_complex_perm
     }
 
     /**
-     * @return (int|mixed)[]
+     * @return array
      *
      * @psalm-return array<array-key, int|mixed>
      */
