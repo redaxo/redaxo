@@ -128,7 +128,7 @@ class rex_form_container_element extends rex_form_element
     }
 
     /**
-     * @return false|string
+     * @return string
      */
     public function getSaveValue()
     {
