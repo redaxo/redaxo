@@ -75,7 +75,7 @@ class rex_mailer extends PHPMailer
 
     private function log(string $success): void
     {
-        $log = new rex_log_file(rex_path::addonData('phpmailer', 'mail.log'), 2000000);
+        $log = new rex_log_file(self::logFile(), 2000000);
         $data = [
             $success,
             $this->From,
@@ -139,6 +139,6 @@ class rex_mailer extends PHPMailer
      */
     public static function logFile(): string
     {
-        return rex_path::addonData('phpmailer', 'mail.log');
+        return rex_path::log('mail.log');
     }
 }
