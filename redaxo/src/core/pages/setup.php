@@ -541,9 +541,10 @@ if (5 === $step) {
     $exports_found = false;
 
     if (is_dir($export_dir)) {
+        $export_sqls = [];
+        
         if ($handle = opendir($export_dir)) {
             $export_archives = [];
-            $export_sqls = [];
 
             while (false !== ($file = readdir($handle))) {
                 if ('.' == $file || '..' == $file) {
