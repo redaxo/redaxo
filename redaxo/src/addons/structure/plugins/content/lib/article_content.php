@@ -18,7 +18,6 @@ class rex_article_content extends rex_article_content_base
     }
 
     // bc
-
     public function getContentAsQuery($viasql = true)
     {
         if (true !== $viasql) {
