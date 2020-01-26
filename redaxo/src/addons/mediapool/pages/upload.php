@@ -52,9 +52,9 @@ if ('add_file' == $media_method) {
                         }
 
                         echo "<script language=javascript>\n";
-                        
+
                         if (isset($js)) {
-                        echo $js;
+                            echo $js;
                         }
                         // echo "\nself.close();\n";
                         echo '</script>';
