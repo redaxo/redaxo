@@ -19,11 +19,11 @@ $error = '';
 $content = '';
 $message = '';
 
-   $templatekey = null;
-    $templatename = '';
-    $template = '';
-    $active = '';
-    $attributes = [];
+$templatekey = null;
+$templatename = '';
+$template = '';
+$active = '';
+$attributes = [];
 
 $csrfToken = rex_csrf_token::factory('structure_content_template');
 
