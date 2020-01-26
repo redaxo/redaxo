@@ -269,7 +269,7 @@ class rex_command_setup_run extends rex_console_command implements rex_command_o
 
         $createdbOptions = [
             'normal' => 'Setup database',
-            'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!',
+            'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!)',
             'existing' => 'Database already exists (Continue without database import)',
             'update' => 'Update database (Update from previous version)',
             'import' => 'Import existing database export',
