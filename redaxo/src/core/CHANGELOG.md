@@ -8,6 +8,7 @@ Version 5.9.0 – XX.XX.2020
 
 * Update der externen Bibliotheken (u.a. jQuery v3 und pjax v2) (@skerbis, @schuer, @gharlan)
 * utf8mb4-Unterstützung (vollständiger Unicode-Zeichensatz inkl. Emojis): Kann über das Setup aktiviert werden (@gharlan)
+* Neuer zentraler Ordner für Logdateien: `redaxo/data/log` (`rex_path::log()`) (@gharlan)
 * Setup:
     - Sprachen sind nun alphabetisch sortiert (@tbaddade)
     - Warnung wenn "session.auto_start" aktiviert ist (@bloep)
@@ -22,6 +23,7 @@ Version 5.9.0 – XX.XX.2020
 * In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
 * AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
 * Markdown-Pages (Readme): Die Sprungnavi ist nun rechts angeordnet (@schuer)
+* Layout der Credits-Page optimiert und an Addonverwaltung angeglichen (@schuer)
 * Whoops: REDAXO-Logo ist mit Startseite verlinkt (@gharlan)
 * REX_VARs: Callbacks bekommen den Variablennamen und die zugehörige Klasse als Parameter `var` und `class` übergeben (@gharlan)
 * `rex_sql`: Über `getDbType()` kann der Type (MySQL oder MariaDB) abgefragt werden, über `getDbVersion()` die normalisierte Version (@gharlan)
@@ -33,6 +35,7 @@ Version 5.9.0 – XX.XX.2020
 * Console-Commands:
     - Neuer Command `config:set` um Werte in der `config.yml` zu setzen (@bloep)
     - `db:set-connection` prüft nun, ob die neue Verbindung valide ist (kann per `--force` deaktiviert werden) (@bloep)
+* Aktualisierung Backend-Übersetzungdateien: Schwedisch (@interweave-media), Spanisch (@nandes2062), Englisch (@ynamite)
 * Englische Übersetzung der Readme des project-Addons (@skerbis)
 * ETag-Header wird in Safari nicht mehr deaktiviert, da der Safari-Bug nicht mehr zu bestehen scheint (@gharlan)
 * Der htaccess-Check-Cookie heißt nun `rex_htaccess_check` statt `htaccess_check` (@alexplusde)
@@ -40,7 +43,6 @@ Version 5.9.0 – XX.XX.2020
 
 ### Bugfixes
 
-* Identität wechseln: Beim Zurückwechseln kommt es nicht mehr zu einem Fehler, wenn schon in einem anderen Tab zurückgewechselt wurde (@tbaddade)
 * `rex_list` warf mit PHP 7.4 Notices "Trying to access array offset on value of type null" (@gharlan)
 * `rex_socket`: Es kam teilweise zur Warnung "Undefined variable: errno" (@staabm)
 * `rex_config`: Wenn während eines Requests `removeNamespace()` und danach `set()` für den selben Namespace aufgerufen wurde, kam es zu einem Fehler (@bloep)
@@ -50,6 +52,9 @@ Version 5.9.0 – XX.XX.2020
     - `user:create` warf einen Fehler (@bloep)
     - `db:set-connection` konnte nur verwendet werden, wenn schon eine gültige DB-Verbindung hinterlegt war (@bloep)
     - `db:set-connection` hat fälschlich für nicht gesetzte Optionen deren Wert mit `null` gesetzt (@bloep)
+    - `package:install`: Installation von Plugins von nicht aktivierten Addons wurde nicht unterbunden (@bloep)
+* Identität wechseln: Beim Zurückwechseln kommt es nicht mehr zu einem Fehler, wenn schon in einem anderen Tab zurückgewechselt wurde (@tbaddade)
+* Addonverwaltung: Beim Öffnen der Hilfe/Lizenz eines Addons wird korrekt nach oben gesprungen (@gharlan)
 * Bei Session-Start-Fehlern wurde der spezifische Grund unterschlagen (@gharlan)
 * Datumsformat sprachspezifisch vereinheitlicht/korrigiert (@gharlan)
 

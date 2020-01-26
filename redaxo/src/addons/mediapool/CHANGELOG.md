@@ -7,11 +7,13 @@ Version 2.7.0 – XX.XX.2020
 ### Neu
 
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+* Beim Upload wird nicht mehr der gesendete Mimetype, sondern der durch `mime_content_type()` bestimmte Typ genommen (@bloep)
 
 ### Bugfixes
 
 * `rex_media`: Bei `hasValue` konnte im Gegensatz zu `getValue` nicht der `med_`-Präfix für die Metainfos weggelassen werden (@bloep)
 * `rex_media_category`: Wenn bei `getChildren`/`getMedia` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
+* Beim Upload kam es in PHP 7.4 teils zu Notices (@gharlan)
 
 
 Version 2.6.1 – 01.11.2019

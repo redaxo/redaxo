@@ -13,6 +13,7 @@ Version 2.9.0 – XX.XX.2020
     - Markup kann über Klassenerweiterung und Überschreiben der neu dafür vorgesehenen Methoden angepasst werden (@DanielWeitenauer, @gharlan)
 * Neue Klasse `rex_template_select` für die Template-Auswahl (@DanielWeitenauer)
 * Neue Methode `rex_content_service::addSlice` (@omphteliba, @gharlan)
+* Neuer EP `ART_CONTENT_UPDATED` bei jeglichen Content-Änderungen (@gharlan)
 * In der Struktur wird nicht mehr die Kategorie-Zeile ".." für die Oberkategorie ausgegeben (@schuer)
 * Die Artikel-Tabellenzeilen haben ein neues Attribut `data-article-id="X"` für Artikelspezifische Anpassungen (@skerbis)
 * Module-Auswahl über separates Fragment `module_select.php` für einfachere Anpassung (@tbaddade)

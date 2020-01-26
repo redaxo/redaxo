@@ -7,6 +7,7 @@ Version 2.6.0 – XX.XX.2020
 ### Neu
 
 * Bei (Re)Installation/Update wird `rex_sql_table` verwendet (@tbaddade)
+* Button zum Löschen des Logs (@skerbis)
 
 ### Bugfixes
 

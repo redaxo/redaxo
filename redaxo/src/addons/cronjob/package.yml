@@ -18,7 +18,7 @@ pages:
         perm: admin[]
 
 requires:
-    redaxo: ^5.7
+    redaxo: ^5.9.0-beta1
 
 console_commands:
     cronjob:run: rex_command_cronjob_run
