@@ -8,8 +8,9 @@ Version 5.9.0 – XX.XX.2020
 
 * Update der externen Bibliotheken (u.a. jQuery v3 und pjax v2) (@skerbis, @schuer, @gharlan)
 * utf8mb4-Unterstützung (vollständiger Unicode-Zeichensatz inkl. Emojis): Kann über das Setup aktiviert werden (@gharlan)
-* Neuer zentraler Ordner für Logdateien: `redaxo/data/log` (`rex_path::log()`) (@gharlan)
+* Neuer zentraler Ordner für Logdateien: `redaxo/data/log` (`rex_path::log()`; Pfad kann über Pathprovider geändert werden) (@gharlan)
 * Setup:
+    - Kann über den neuen Command `setup:run` auch in der Console durchgeführt werden (@bloep)
     - Sprachen sind nun alphabetisch sortiert (@tbaddade)
     - Warnung wenn "session.auto_start" aktiviert ist (@bloep)
     - Warnung vorbereitet für End-Of-Live von PHP 7.x ab Ende November 2022 (@staabm)

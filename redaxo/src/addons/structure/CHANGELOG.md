@@ -8,6 +8,7 @@ Version 2.9.0 – XX.XX.2020
 
 * Neue Rechte `addCategory[]`, `editCategory[]`, `deleteCategory[]`, `addArticle[]`, `editArticle[]`, `deleteArticle[]` (@gharlan)
 * Templates können eindeutige Keys vergeben werden und dann darüber (statt über die ID) eingebunden werden (`REX_TEMPLATE[key=my_key]`) (@tbaddade)
+* Toggle-Status der Panels in der Sidebar (Metainfos etc.) wird per Localstorage gespeichert (@IngoWinter)
 * `rex_navigation`:
     - Die Callbacks erhalten als weiteren Referenzparameter den Linktext und können ihn darüber ändern (@alexplusde)
     - Markup kann über Klassenerweiterung und Überschreiben der neu dafür vorgesehenen Methoden angepasst werden (@DanielWeitenauer, @gharlan)
