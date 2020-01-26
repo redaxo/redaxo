@@ -220,7 +220,7 @@ class rex_managed_media
     }
 
     /**
-     * @return false|string
+     * @return string
      */
     protected function getImageSource()
     {
