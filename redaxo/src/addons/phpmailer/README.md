@@ -153,7 +153,7 @@ The Email log can be found under 'System' > 'Log files' > 'PHPMailer'. The loggi
 
 The log provides information about date/time, sender, recipient, subject and message. It can be ecleared via 'Clear log file'. 
 
-The log is stored under `/redaxo/data/addons/phpmailer/mail.log`. 
+The log is stored under `/redaxo/data/log/mail.log`.
 
 ### Email archiving 
 
