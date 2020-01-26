@@ -1,5 +1,8 @@
 <?php
 
+$info = '';
+$warning = '';
+
 $apiFunc = rex_api_function::factory();
 if ($apiFunc && $result = $apiFunc->getResult()) {
     if ($result->isSuccessfull()) {
