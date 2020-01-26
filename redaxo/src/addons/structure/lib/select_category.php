@@ -88,7 +88,7 @@ class rex_category_select extends rex_select
             }
 
             $this->addOption($cname, $cid, $cid, $group);
-            $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
+            $childs = $cat->getChildren($this->ignore_offlines);
             if (is_array($childs)) {
                 foreach ($childs as $child) {
                     $this->addCatOption($child);
