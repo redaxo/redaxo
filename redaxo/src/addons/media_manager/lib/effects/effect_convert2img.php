@@ -36,9 +36,6 @@ class rex_effect_convert2img extends rex_effect_abstract
     private static $convert_tos = ['jpg', 'png'];
     private static $convert_to_default = 'jpg';
 
-    /**
-     * @return false|null
-     */
     public function execute()
     {
         if (!isset(self::$convert_to[$this->params['convert_to']])) {
@@ -80,7 +77,7 @@ class rex_effect_convert2img extends rex_effect_abstract
         exec($cmd, $out, $ret);
 
         if (0 != $ret) {
-            return false;
+            throw new rex_exception(error_get_last());
         }
 
         $this->media->setSourcePath($to_path);
