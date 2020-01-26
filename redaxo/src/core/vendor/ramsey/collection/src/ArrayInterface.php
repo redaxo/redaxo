@@ -23,7 +23,7 @@ interface ArrayInterface extends \IteratorAggregate, \ArrayAccess, \Serializable
     /**
      * Remove all the elements from this array object
      *
-     *
+     * @return void
      */
     public function clear();
 
