@@ -474,7 +474,7 @@ class rex_backup
     }
 
     /**
-     * @return array
+     * @return string[]
      *
      * @psalm-return list<string>
      */
