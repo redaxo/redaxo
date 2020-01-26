@@ -97,7 +97,7 @@ class PlainTextHandler extends Handler
      * Set var dumper callback function.
      *
      * @param  callable $dumper
-     *
+     * @return void
      */
     public function setDumper(callable $dumper)
     {
@@ -256,7 +256,7 @@ class PlainTextHandler extends Handler
      * Dump variable.
      *
      * @param mixed $var
-     *
+     * @return void
      */
     protected function dump($var)
     {
