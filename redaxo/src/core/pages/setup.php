@@ -544,7 +544,6 @@ if (5 === $step) {
         $export_sqls = [];
 
         if ($handle = opendir($export_dir)) {
-            $export_archives = [];
 
             while (false !== ($file = readdir($handle))) {
                 if ('.' == $file || '..' == $file) {
@@ -552,15 +551,9 @@ if (5 === $step) {
                 }
 
                 $isSql = ('.sql' == substr($file, strlen($file) - 4));
-                $isArchive = ('.tar.gz' == substr($file, strlen($file) - 7));
-
                 if ($isSql) {
                     // cut .sql
                     $export_sqls[] = substr($file, 0, -4);
-                    $exports_found = true;
-                } elseif ($isArchive) {
-                    // cut .tar.gz
-                    $export_archives[] = substr($file, 0, -7);
                     $exports_found = true;
                 }
             }
