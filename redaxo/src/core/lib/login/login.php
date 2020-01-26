@@ -463,7 +463,7 @@ class rex_login
      *
      * see https://wiki.php.net/rfc/same-site-cookie
      *
-     * @param "Strict"|"Lax" $sameSite
+     * @param string $sameSite
      */
     private static function rewriteSessionCookie($sameSite)
     {
