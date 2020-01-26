@@ -890,10 +890,10 @@ class rex_list implements rex_url_provider_interface
     /**
      * Formatiert einen übergebenen String anhand der rexFormatter Klasse.
      *
-     * @param string $value  Zu formatierender String
-     * @param array  $format mit den Formatierungsinformationen
-     * @param bool   $escape Flag, Ob escapen von $value erlaubt ist
-     * @param string $field
+     * @param string     $value  Zu formatierender String
+     * @param null|array $format mit den Formatierungsinformationen
+     * @param bool       $escape Flag, Ob escapen von $value erlaubt ist
+     * @param string     $field
      *
      * @return string
      */
@@ -910,11 +910,7 @@ class rex_list implements rex_url_provider_interface
         }
 
         // Nur escapen, wenn formatter aufgerufen wird, der kein html zurückgeben können soll
-        if ($escape &&
-            !$this->isCustomFormat($format) &&
-            'email' != $format[0] &&
-            'url' != $format[0]
-        ) {
+        if ($escape && (!isset($format[0]) || !in_array($format[0], ['custom', 'email', 'url'], true))) {
             $value = rex_escape($value);
         }
 

@@ -26,7 +26,7 @@ class rex_logger extends AbstractLogger
      */
     public static function getPath()
     {
-        return rex_path::coreData('system.log');
+        return rex_path::log('system.log');
     }
 
     /**

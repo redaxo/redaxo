@@ -237,9 +237,9 @@ class rex_api_install_core_update extends rex_api_function
         foreach (rex_package::getAvailablePackages() as $package) {
             $manager = rex_package_manager::factory($package);
             if (!$manager->checkRequirements()) {
-                $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+                $messages[] = $this->messageFromPackage($package, $manager);
             } elseif (!$manager->checkConflicts()) {
-                $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+                $messages[] = $this->messageFromPackage($package, $manager);
             }
         }
 
@@ -256,7 +256,12 @@ class rex_api_install_core_update extends rex_api_function
         }
 
         if (!empty($messages)) {
-            throw new rex_functional_exception(implode('<br />', $messages));
+            throw new rex_functional_exception('<ul><li>'.implode('</li><li>', $messages).'</li></ul>');
         }
+    }
+
+    private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
+    {
+        return rex_i18n::msg('install_warning_message_from_'.$package->getType(), $package->getPackageId()).' '.$manager->getMessage();
     }
 }

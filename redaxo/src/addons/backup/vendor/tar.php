@@ -128,19 +128,19 @@ class tar {
       $file_mode    = substr($this->tar_file,$main_offset + 100,8);
 
       // Parse the file user ID
-      $file_uid   = octdec(substr($this->tar_file,$main_offset + 108,8));
+      $file_uid   = octdec(rtrim(substr($this->tar_file,$main_offset + 108,8), "\x00"));
 
       // Parse the file group ID
-      $file_gid   = octdec(substr($this->tar_file,$main_offset + 116,8));
+      $file_gid   = octdec(rtrim(substr($this->tar_file,$main_offset + 116,8), "\x00"));
 
       // Parse the file size
-      $file_size    = octdec(substr($this->tar_file,$main_offset + 124,12));
+      $file_size    = octdec(rtrim(substr($this->tar_file,$main_offset + 124,12), "\x00"));
 
       // Parse the file update time - unix timestamp format
-      $file_time    = octdec(substr($this->tar_file,$main_offset + 136,12));
+      $file_time    = octdec(rtrim(substr($this->tar_file,$main_offset + 136,12), "\x00"));
 
       // Parse Checksum
-      $file_chksum    = octdec(substr($this->tar_file,$main_offset + 148,6));
+      $file_chksum    = octdec(rtrim(substr($this->tar_file,$main_offset + 148,6), "\x00"));
 
       // Parse user name
       $file_uname   = $this->__parseNullPaddedString(substr($this->tar_file,$main_offset + 265,32));

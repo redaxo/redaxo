@@ -3,11 +3,11 @@ htmllang = en
 yes = yes
 no = no
 general = General
-dateformat = %Y-%b-%d
 setlocale = en_GB,en_UK,en_US,en_EN,en_AU,en_CA,American,ENG,English
 phpini_settings = PHP.ini Settings
 
-datetimeformat = %Y-%b-%d %H:%M
+dateformat = %d %b %Y
+datetimeformat = %d %b %Y, %H:%M
 timeformat = %H:%M
 ctrl = Select multiple using <kbd>CTRL</kbd> or <kbd>CMD</kbd> respectively
 translatable = Translatable via <code>translate:i18n_key</code>
@@ -103,6 +103,8 @@ clang_select = Choose language
 clang_caption = List of available languages
 clang_function = Functions
 version = Version
+mode = Mode
+charset = Character set
 host = Host
 database = Database
 logfiles = Logfiles
@@ -139,7 +141,7 @@ debug_mode_off = Disable debug mode
 debug_mode_info_on = Debug mode has been activated
 debug_mode_info_off = Debug mode was deactivated
 debug_mode_marker = Debug mode is enabled
-debug_confirm = Debug mode should not be activated in live mode. Still activate debug mode?  
+debug_confirm = Debug mode should not be activated in live mode. Still activate debug mode?
 
 system_report = System report
 system_report_markdown = As markdown
@@ -216,6 +218,10 @@ setup_512 = Repeat step 5
 setup_513 = System AddOn(s) could not be installed
 setup_514 = Update database
 setup_514_note = Update from previous version
+setup_charset_utf8mb4 = utf8mb4 [recommended]
+setup_charset_utf8mb4_note = Requires at least MySQL 5.7.7 or MariaDB 10.2. Complete Unicode support, including Emojis and other special characters.
+setup_charset_utf8 = utf8 [deprecated]
+setup_charset_utf8_note = Nonstandard UTF8 mode. Support will be phased out in later REDAXO versions.
 setup_599 = 5 / Database
 
 setup_600 = Setup: step 6 of 7 / Administrator
@@ -246,6 +252,7 @@ setup_no_js_security_msg = Please make sure that files in the folder redaxo/incl
 setup_security_no_https = The setup will continue without SSL encryption. It is recommended to use SSL encryption for each call to the front- and backend in order to ensure privacy and data protection.
 setup_security_warn_mod_security = The Apache module "mod_security" is loaded. This can cause problems if not configured correctly.
 setup_security_deprecated_php = The used PHP Version {0} version will no longer receive updates. You should consider upgrading to a newer version.
+setup_session_autostart_warning = The php settings "session.auto_start" is activated. It is recommended to disable this for avoiding problems.
 
 sql_database_name_missing = Enter a database name!
 sql_database_already_exists = Database already exists!
@@ -258,11 +265,14 @@ sql_unable_to_open_database = Unable to open the specified database!
 
 setup_security = Security
 
+https_only_over_https = This option is only available over HTTPS
 https_activate_redirect_for = Automatic HTTPS-Redirect
 https_disable = Deactivate
 https_only_frontend = Activate only for frontend
 https_only_backend = Activate only for backend
 https_activate = Activate for frontend and backend
+
+hsts_more_information = It is recommended to activate HSTS in your domain/s hosting settings, but can also be activated in REDAXOs config.yml at a later stage. More information is available in the REDAXO documentation
 
 # redaxo\include\pages\addon.php
 addon = AddOn
@@ -303,6 +313,8 @@ package_activate = activate
 package_yes = yes
 package_no = no
 package_caption = List of available packages
+package_search = Search...
+package_clear = Reset input
 addon_systemaddon = System AddOn
 addon_systempackage_delete_not_allowed = System AddOns may not be deleted!
 addon_dir_not_writable = Write permissions are missing for the AddOn directory!
@@ -358,9 +370,10 @@ plugin_cache_not_writable = The PlugIn cache directory is not writable!
 credits = Credits
 credits_name = Name
 credits_help = Help
+credits_information = Informations
 credits_version = Version
 credits_author = Author
-credits_supportpage = Help
+credits_supportpage = Support
 credits_addon_inactive = AddOn inactive
 credits_caption = List of used packages
 credits_open_help_file = Open help file:

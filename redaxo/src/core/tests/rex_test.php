@@ -9,7 +9,7 @@ class rex_rex_test extends TestCase
 {
     public function testRexConfig()
     {
-        $key = 'aTestKey';
+        $key = 'aTestKey:'. __METHOD__;
         // initial test on empty config
         $this->assertFalse(rex::hasConfig($key), 'the key does not exists at first');
         $this->assertNull(rex::getConfig($key), 'getting non existing key returns null');
@@ -34,7 +34,7 @@ class rex_rex_test extends TestCase
 
     public function testRexProperty()
     {
-        $key = 'aTestKey';
+        $key = 'aTestKey:'. __METHOD__;
         // initial test on empty config
         $this->assertFalse(rex::hasProperty($key), 'the key does not exists at first');
         $this->assertNull(rex::getProperty($key), 'getting non existing key returns null');
@@ -71,44 +71,49 @@ class rex_rex_test extends TestCase
 
     public function testDebugFlags()
     {
-        $debug = [
-            'enabled' => false,
-            'throw_always_exception' => false,
-        ];
-        rex::setProperty('debug', $debug);
+        $orgDebug = rex::getProperty('debug');
+        try {
+            $debug = [
+                'enabled' => false,
+                'throw_always_exception' => false,
+            ];
+            rex::setProperty('debug', $debug);
 
-        $this->assertFalse(rex::isDebugMode());
-        $this->assertSame($debug, rex::getDebugFlags());
+            $this->assertFalse(rex::isDebugMode());
+            $this->assertSame($debug, rex::getDebugFlags());
 
-        rex::setProperty('debug', true);
+            rex::setProperty('debug', true);
 
-        $this->assertTrue(rex::isDebugMode());
-        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            $this->assertTrue(rex::isDebugMode());
+            $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
 
-        rex::setProperty('debug', ['enabled' => false]);
+            rex::setProperty('debug', ['enabled' => false]);
 
-        $this->assertFalse(rex::isDebugMode());
-        $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
+            $this->assertFalse(rex::isDebugMode());
+            $this->assertArraySubset(['throw_always_exception' => false], rex::getDebugFlags());
 
-        $debug = [
-            'enabled' => true,
-            'throw_always_exception' => true,
-        ];
-        rex::setProperty('debug', $debug);
-        $this->assertSame($debug, rex::getDebugFlags());
+            $debug = [
+                'enabled' => true,
+                'throw_always_exception' => true,
+            ];
+            rex::setProperty('debug', $debug);
+            $this->assertSame($debug, rex::getDebugFlags());
 
-        $debug = [
-            'enabled' => true,
-            'throw_always_exception' => E_WARNING | E_NOTICE,
-        ];
-        rex::setProperty('debug', $debug);
-        $this->assertSame($debug, rex::getDebugFlags());
+            $debug = [
+                'enabled' => true,
+                'throw_always_exception' => E_WARNING | E_NOTICE,
+            ];
+            rex::setProperty('debug', $debug);
+            $this->assertSame($debug, rex::getDebugFlags());
 
-        rex::setProperty('debug', [
-            'enabled' => true,
-            'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
-        ]);
-        $this->assertSame($debug, rex::getDebugFlags());
+            rex::setProperty('debug', [
+                'enabled' => true,
+                'throw_always_exception' => ['E_WARNING', 'E_NOTICE'],
+            ]);
+            $this->assertSame($debug, rex::getDebugFlags());
+        } finally {
+            rex::setProperty('debug', $orgDebug);
+        }
     }
 
     public function testGetTablePrefix()
@@ -130,6 +135,7 @@ class rex_rex_test extends TestCase
     {
         // there is no user, when tests are run from CLI
         if (PHP_SAPI === 'cli') {
+            $this->markTestSkipped('there is no user, when tests are run from CLI');
             return;
         }
 
@@ -141,12 +147,14 @@ class rex_rex_test extends TestCase
     {
         $origServer = rex::getProperty('server');
 
-        rex::setProperty('server', 'http://www.redaxo.org');
-        $this->assertEquals('http://www.redaxo.org/', rex::getServer());
-        $this->assertEquals('https://www.redaxo.org/', rex::getServer('https'));
-        $this->assertEquals('www.redaxo.org/', rex::getServer(''));
-
-        rex::setProperty('server', $origServer);
+        try {
+            rex::setProperty('server', 'http://www.redaxo.org');
+            $this->assertEquals('http://www.redaxo.org/', rex::getServer());
+            $this->assertEquals('https://www.redaxo.org/', rex::getServer('https'));
+            $this->assertEquals('www.redaxo.org/', rex::getServer(''));
+        } finally {
+            rex::setProperty('server', $origServer);
+        }
     }
 
     public function testGetVersion()

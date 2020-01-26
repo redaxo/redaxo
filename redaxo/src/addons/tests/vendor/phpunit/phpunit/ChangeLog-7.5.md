@@ -1,6 +1,32 @@
 # Changes in PHPUnit 7.5
 
-All notable changes of the PHPUnit 7.5 release series are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
+All notable changes of the PHPUnit 7.5 release series are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
+
+## [7.5.20] - 2020-01-08
+
+### Removed
+
+* `eval-stdin.php` has been removed, it was not used anymore since PHPUnit 7.2.7
+
+## [7.5.19] - 2020-01-06
+
+### Changed
+
+* `eval-stdin.php` can now only be executed with `cli` and `phpdbg`
+
+## [7.5.18] - 2019-12-06
+
+### Fixed
+
+* Fixed [#3967](https://github.com/sebastianbergmann/phpunit/issues/3967): Cannot double interface that extends interface that extends `\Throwable`
+* Fixed [#3968](https://github.com/sebastianbergmann/phpunit/pull/3968): Test class run in a separate PHP process are passing when `exit` called inside
+
+## [7.5.17] - 2019-10-28
+
+### Fixed
+
+* Fixed [#3727](https://github.com/sebastianbergmann/phpunit/issues/3727): Problem hidden by PHPUnit's error handler
+* Fixed [#3863](https://github.com/sebastianbergmann/phpunit/pull/3863): `\Countable` needs to be checked before `\EmptyIterator`
 
 ## [7.5.16] - 2019-09-14
 
@@ -145,6 +171,10 @@ All notable changes of the PHPUnit 7.5 release series are documented in this fil
 * Fixed [#3429](https://github.com/sebastianbergmann/phpunit/pull/3429): Inefficient loop in `getHookMethods()`
 * Fixed [#3437](https://github.com/sebastianbergmann/phpunit/pull/3437): JUnit logger skips PHPT tests
 
+[7.5.20]: https://github.com/sebastianbergmann/phpunit/compare/7.5.19...7.5.20
+[7.5.19]: https://github.com/sebastianbergmann/phpunit/compare/7.5.18...7.5.19
+[7.5.18]: https://github.com/sebastianbergmann/phpunit/compare/7.5.17...7.5.18
+[7.5.17]: https://github.com/sebastianbergmann/phpunit/compare/7.5.16...7.5.17
 [7.5.16]: https://github.com/sebastianbergmann/phpunit/compare/7.5.15...7.5.16
 [7.5.15]: https://github.com/sebastianbergmann/phpunit/compare/7.5.14...7.5.15
 [7.5.14]: https://github.com/sebastianbergmann/phpunit/compare/7.5.13...7.5.14

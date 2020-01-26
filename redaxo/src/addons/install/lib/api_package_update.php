@@ -190,10 +190,10 @@ class rex_api_install_package_update extends rex_api_install_package_download
             foreach ($availablePlugins as $plugin) {
                 $manager = rex_plugin_manager::factory($plugin);
                 if (!$manager->checkRequirements()) {
-                    $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
+                    $messages[] = $this->messageFromPackage($plugin, $manager);
                 }
                 if (!$manager->checkConflicts()) {
-                    $messages[] = $plugin->getPackageId() . ': ' . $manager->getMessage();
+                    $messages[] = $this->messageFromPackage($plugin, $manager);
                 }
             }
             foreach (rex_package::getAvailablePackages() as $package) {
@@ -202,11 +202,11 @@ class rex_api_install_package_update extends rex_api_install_package_download
                 }
                 $manager = rex_package_manager::factory($package);
                 if (!$manager->checkPackageRequirement($this->addon->getPackageId())) {
-                    $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+                    $messages[] = $this->messageFromPackage($package, $manager);
                 } else {
                     foreach ($versions as $reqPlugin) {
                         if (!$manager->checkPackageRequirement($reqPlugin->getPackageId())) {
-                            $messages[] = $package->getPackageId() . ': ' . $manager->getMessage();
+                            $messages[] = $this->messageFromPackage($package, $manager);
                         }
                     }
                 }
@@ -224,7 +224,12 @@ class rex_api_install_package_update extends rex_api_install_package_download
             $package->setProperty('conflicts', $conflicts[$package]);
         }
 
-        return empty($messages) ? true : implode('<br />', $messages);
+        return empty($messages) ? true : '<ul><li>'.implode('</li><li>', $messages).'</li></ul>';
+    }
+
+    private function messageFromPackage(rex_package $package, rex_package_manager $manager): string
+    {
+        return rex_i18n::msg('install_warning_message_from_'.$package->getType(), $package->getPackageId()).' '.$manager->getMessage();
     }
 
     public function __destruct()

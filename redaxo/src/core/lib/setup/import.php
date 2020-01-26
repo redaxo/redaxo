@@ -142,6 +142,18 @@ class rex_setup_importer
         return $err_msg;
     }
 
+    public static function supportsUtf8mb4(): bool
+    {
+        static $utf8mb4MinVersions = [
+            rex_sql::MYSQL => '5.7.7',
+            rex_sql::MARIADB => '10.2.0',
+        ];
+
+        $sql = rex_sql::factory();
+
+        return version_compare($sql->getDbVersion(), $utf8mb4MinVersions[$sql->getDbType()], '>=');
+    }
+
     /**
      * @return string[]
      *

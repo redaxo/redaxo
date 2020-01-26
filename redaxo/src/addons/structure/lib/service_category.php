@@ -214,15 +214,17 @@ class rex_category_service
                     $data['catpriority'] = 1;
                 }
 
-                rex_sql::factory()
-                    ->setTable(rex::getTable('article'))
-                    ->setWhere('id = :id AND clang_id != :clang', ['id' => $category_id, 'clang' => $clang])
-                    ->setValue('catpriority', $data['catpriority'])
-                    ->addGlobalUpdateFields($user)
-                    ->update();
+                if ($old_prio != $data['catpriority']) {
+                    rex_sql::factory()
+                        ->setTable(rex::getTable('article'))
+                        ->setWhere('id = :id AND clang_id != :clang', ['id' => $category_id, 'clang' => $clang])
+                        ->setValue('catpriority', $data['catpriority'])
+                        ->addGlobalUpdateFields($user)
+                        ->update();
 
-                foreach (rex_clang::getAllIds() as $clangId) {
-                    self::newCatPrio($parent_id, $clangId, $data['catpriority'], $old_prio);
+                    foreach (rex_clang::getAllIds() as $clangId) {
+                        self::newCatPrio($parent_id, $clangId, $data['catpriority'], $old_prio);
+                    }
                 }
             }
 

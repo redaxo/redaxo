@@ -115,12 +115,12 @@ if (3 === $step) {
 
     jQuery(function($){
         var urls = [
-            "' . rex_url::backend('bin/console') . '", 
-            "' . rex_url::backend('data/.redaxo') . '", 
-            "' . rex_url::backend('src/core/boot.php') . '", 
+            "' . rex_url::backend('bin/console') . '",
+            "' . rex_url::backend('data/.redaxo') . '",
+            "' . rex_url::backend('src/core/boot.php') . '",
             "' . rex_url::backend('cache/.redaxo') . '"
         ];
-        
+
         $.each(urls, function (i, url) {
             $.ajax({
                 url: url,
@@ -144,11 +144,17 @@ if (3 === $step) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_warn_mod_security'));
     }
 
+    if ('0' !== ini_get('session.auto_start')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_session_autostart_warning'));
+    }
+
     if (1 == version_compare(PHP_VERSION, '7.2', '<') && time() > strtotime('1 Dec 2019')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     } elseif (1 == version_compare(PHP_VERSION, '7.3', '<') && time() > strtotime('30 Nov 2020')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     } elseif (1 == version_compare(PHP_VERSION, '7.4', '<') && time() > strtotime('6 Dec 2021')) {
+        $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
+    } elseif (1 == version_compare(PHP_VERSION, '8.0', '<') && time() > strtotime('28 Nov 2022')) {
         $security .= rex_view::warning(rex_i18n::msg('setup_security_deprecated_php', PHP_VERSION));
     }
 
@@ -185,10 +191,10 @@ if ($step > 4 && '-1' != rex_post('serveraddress', 'string', '-1')) {
     $config['lang'] = $lang;
     $config['error_email'] = rex_post('error_email', 'string');
     $config['timezone'] = rex_post('timezone', 'string');
-    $config['db'][1]['host'] = rex_post('mysql_host', 'string');
-    $config['db'][1]['login'] = rex_post('redaxo_db_user_login', 'string');
+    $config['db'][1]['host'] = trim(rex_post('mysql_host', 'string'));
+    $config['db'][1]['login'] = trim(rex_post('redaxo_db_user_login', 'string'));
     $config['db'][1]['password'] = rex_post('redaxo_db_user_pass', 'string');
-    $config['db'][1]['name'] = rex_post('dbname', 'string');
+    $config['db'][1]['name'] = trim(rex_post('dbname', 'string'));
     $config['use_https'] = rex_post('use_https', 'string');
 
     if ('true' === $config['use_https']) {
@@ -329,11 +335,6 @@ if (4 === $step) {
     $formElements = [];
 
     $n = [];
-    $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
-    $formElements[] = $n;
-
-    $n = [];
     $n['label'] = '<label for=rex-form-mysql-host">MySQL Host</label>';
     $n['field'] = '<input class="form-control" type="text" id="rex-form-mysql-host" name="mysql_host" value="' . rex_escape($config['db'][1]['host']) . '" />';
     $formElements[] = $n;
@@ -346,6 +347,11 @@ if (4 === $step) {
     $n = [];
     $n['label'] = '<label for="rex-form-db-user-pass">' . rex_i18n::msg('setup_409') . '</label>';
     $n['field'] = '<input class="form-control" type="password" id="rex-form-db-user-pass" name="redaxo_db_user_pass" value="' . rex_escape($config['db'][1]['password']) . '" />';
+    $formElements[] = $n;
+
+    $n = [];
+    $n['label'] = '<label for="rex-form-dbname">' . rex_i18n::msg('setup_408') . '</label>';
+    $n['field'] = '<input class="form-control" type="text" value="' . rex_escape($config['db'][1]['name']) . '" id="rex-form-dbname" name="dbname" />';
     $formElements[] = $n;
 
     $fragment = new rex_fragment();
@@ -420,6 +426,12 @@ $createdb = rex_post('createdb', 'int', -1);
 if ($step > 5 && $createdb > -1) {
     $tables_complete = ('' == rex_setup_importer::verifyDbSchema()) ? true : false;
 
+    $utf8mb4 = null;
+    if (!in_array($step, [2, 3])) {
+        $utf8mb4 = rex_setup_importer::supportsUtf8mb4() && rex_post('utf8mb4', 'bool', true);
+        rex_sql_table::setUtf8mb4($utf8mb4);
+    }
+
     if (4 == $createdb) {
         $error = rex_setup_importer::updateFromPrevious();
         if ('' != $error) {
@@ -460,6 +472,10 @@ if ($step > 5 && $createdb > -1) {
     if (0 == count($errors)) {
         rex_clang_service::generateCache();
         rex::setConfig('version', rex::getVersion());
+
+        if (null !== $utf8mb4) {
+            rex::setConfig('utf8mb4', $utf8mb4);
+        }
     } else {
         $step = 5;
     }
@@ -474,10 +490,22 @@ if (5 === $step) {
 
     $createdb = rex_post('createdb', 'int', '');
 
+    $supportsUtf8mb4 = rex_setup_importer::supportsUtf8mb4();
+    $existingUtf8mb4 = false;
+    $utf8mb4 = false;
+    if ($supportsUtf8mb4) {
+        $utf8mb4 = rex_post('utf8mb4', 'bool', true);
+        $existingUtf8mb4 = $utf8mb4;
+        if ($tables_complete) {
+            $data = rex_sql::factory()->getArray('SELECT value FROM '.rex::getTable('config').' WHERE namespace="core" AND `key`="utf8mb4"');
+            $existingUtf8mb4 = isset($data[0]['value']) ? json_decode($data[0]['value']) : false;
+        }
+    }
+
     $headline = rex_view::title(rex_i18n::msg('setup_500'));
 
     $content = '
-            <fieldset>
+            <fieldset class="rex-js-setup-step-5">
                 <input type="hidden" name="page" value="setup" />
                 <input type="hidden" name="step" value="6" />
                 <input type="hidden" name="lang" value="' . rex_escape($lang) . '" />
@@ -513,25 +541,18 @@ if (5 === $step) {
     $exports_found = false;
 
     if (is_dir($export_dir)) {
-        if ($handle = opendir($export_dir)) {
-            $export_archives = [];
-            $export_sqls = [];
+        $export_sqls = [];
 
+        if ($handle = opendir($export_dir)) {
             while (false !== ($file = readdir($handle))) {
                 if ('.' == $file || '..' == $file) {
                     continue;
                 }
 
                 $isSql = ('.sql' == substr($file, strlen($file) - 4));
-                $isArchive = ('.tar.gz' == substr($file, strlen($file) - 7));
-
                 if ($isSql) {
                     // cut .sql
                     $export_sqls[] = substr($file, 0, -4);
-                    $exports_found = true;
-                } elseif ($isArchive) {
-                    // cut .tar.gz
-                    $export_archives[] = substr($file, 0, -7);
                     $exports_found = true;
                 }
             }
@@ -572,7 +593,7 @@ if (5 === $step) {
 
     $fragment = new rex_fragment();
     $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/radio.php');
+    $mode = $fragment->parse('core/form/radio.php');
 
     if ($exports_found) {
         $formElements = [];
@@ -583,7 +604,7 @@ if (5 === $step) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/radio.php');
+        $mode .= $fragment->parse('core/form/radio.php');
 
         $formElements = [];
         $n = [];
@@ -592,8 +613,49 @@ if (5 === $step) {
 
         $fragment = new rex_fragment();
         $fragment->setVar('elements', $formElements, false);
-        $content .= $fragment->parse('core/form/form.php');
+        $mode .= $fragment->parse('core/form/form.php');
     }
+
+    $formElements = [];
+
+    $n = [];
+    $n['label'] = '<label for="rex-form-utf8mb4">'.rex_i18n::msg('setup_charset_utf8mb4').'</label>';
+    $n['field'] = '<input type="radio" id="rex-form-utf8mb4" name="utf8mb4" value="1"'.($utf8mb4 ? ' checked' : '').($supportsUtf8mb4 ? '' : ' disabled').' />';
+    $n['note'] = rex_i18n::msg('setup_charset_utf8mb4_note');
+    $formElements[] = $n;
+
+    $n = [];
+    $n['label'] = '<label for="rex-form-utf8">'.rex_i18n::msg('setup_charset_utf8').'</label>';
+    $n['field'] = '<input type="radio" id="rex-form-utf8" name="utf8mb4" value="0"'.($utf8mb4 ? '' : ' checked').' />';
+    $n['note'] = rex_i18n::msg('setup_charset_utf8_note');
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $charset = $fragment->parse('core/form/radio.php');
+
+    $formElements = [];
+
+    $sql = rex_sql::factory();
+
+    $n = [];
+    $n['label'] = '<label>'.rex_i18n::msg('version').'</label>';
+    $n['field'] = '<p class="form-control-static">'.$sql->getDbType().' '.$sql->getDbVersion().'</p>';
+    $formElements[] = $n;
+
+    $n = [];
+    $n['label'] = '<label>'.rex_i18n::msg('mode').'</label>';
+    $n['field'] = $mode;
+    $formElements[] = $n;
+
+    $n = [];
+    $n['label'] = '<label>'.rex_i18n::msg('charset').'</label>';
+    $n['field'] = $charset;
+    $formElements[] = $n;
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('elements', $formElements, false);
+    $content .= $fragment->parse('core/form/form.php');
 
     $content .= '</fieldset>';
 
@@ -613,10 +675,35 @@ if (5 === $step) {
             <script type="text/javascript">
                  <!--
                 jQuery(function($) {
-                    $(".rex-js-import-name").on("click","",function(){
-                        $(".rex-js-setup-step-5 [name=createdb]").prop("checked", false);
-                        $(".rex-js-createdb-3").prop("checked", true);
+                    var $container = $(".rex-js-setup-step-5");
+
+                    // when opening backup dropdown -> mark corresponding radio button as checked
+                    $container.find(".rex-js-import-name").click(function () {
+                        $container.find("[name=createdb][value=3]").prop("checked", true);
                     });
+
+                    if (!$container.find("[name=utf8mb4][value=1]").prop("disabled")) {
+                        // when changing mode -> reset disabled state
+                        $container.find("[name=createdb]").click(function () {
+                            $container.find("[name=utf8mb4]").prop("disabled", false);
+                        });
+
+                        // when selecting "existing db" -> select current charset and disable radios
+                        $container.find("[name=createdb][value=2]").click(function () {
+                            $container.find("[name=utf8mb4][value='.((int) $existingUtf8mb4).']").prop("checked", true);
+                            $container.find("[name=utf8mb4]").prop("disabled", true);
+                        });
+
+                        // when selecting "update db" -> select utf8mb4 charset
+                        $container.find("[name=createdb][value=4]").click(function () {
+                            $container.find("[name=utf8mb4][value=1]").prop("checked", true);
+                        });
+
+                        // when selecting "import backup" -> disable radios
+                        $container.find("[name=createdb][value=3]").click(function () {
+                            $container.find("[name=utf8mb4]").prop("disabled", true);
+                        });
+                    }
                 });
                  //-->
             </script>';

@@ -57,23 +57,12 @@ Bist du noch nicht drauf? [So kannst du deinen Eintrag hinzufügen](https://gith
 
 &nbsp;
 
-
-## Informationen zur Entwicklung
-
-Falls du bei der Entwicklung von REDAXO helfen möchtest, ist dies der Weg, um das System lokal auf deinem Computer einzurichten:
-
-	$ git clone https://github.com/redaxo/redaxo.git
-	$ cd redaxo
-	$ git submodule init
-	$ git submodule update
-
-__Beachte:__ Wenn du den GitHub-Code als ZIP-Datei runterlädst, fehlen die Submodule, so dass das System nicht laufen wird. Lade besser das [aktuelle Release](https://github.com/redaxo/redaxo/releases) runter!
-
-Falls du Hilfe benötigst, schaue am besten im [Slack-Chat](https://www.redaxo.org/slack/) vorbei!
-
-&nbsp;
-
-
 ## Lizenz
 
 REDAXO wurde von [Yakamara](http://www.yakamara.de) (Frankfurt am Main 🇩🇪) entwickelt, ist Open-Source seit 2004 und wird unter der [MIT-Lizenz](LICENSE.md) veröffentlicht.
+
+&nbsp;
+
+<p align="center">
+    <img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshepherd.dev%2Fgithub%2Fredaxo%2Fredaxo%2Fcoverage" alt="Psalm coverage">
+</p>

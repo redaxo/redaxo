@@ -65,10 +65,9 @@ class rex_category_select extends rex_select
                     }
                 }
             } elseif (rex::getUser()->getComplexPerm('structure')->hasMountpoints()) {
-                $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpoints();
-                foreach ($mountpoints as $id) {
-                    $cat = rex_category::get($id, $this->clang);
-                    if ($cat && !rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getParentId())) {
+                $mountpoints = rex::getUser()->getComplexPerm('structure')->getMountpointCategories();
+                foreach ($mountpoints as $cat) {
+                    if (!$this->ignore_offlines || $cat->isOnline()) {
                         $this->addCatOption($cat, 0);
                     }
                 }

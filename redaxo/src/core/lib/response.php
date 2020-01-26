@@ -285,13 +285,7 @@ class rex_response
 
         $environment = rex::isBackend() ? 'backend' : 'frontend';
 
-        if (
-            self::HTTP_OK == self::$httpStatus &&
-            // Safari incorrectly caches 304s as empty pages, so don't serve it 304s
-            // http://tech.vg.no/2013/10/02/ios7-bug-shows-white-page-when-getting-304-not-modified-from-server/
-            // https://bugs.webkit.org/show_bug.cgi?id=32829
-            (!empty($_SERVER['HTTP_USER_AGENT']) && (false === strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') || false !== strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')))
-        ) {
+        if (self::HTTP_OK == self::$httpStatus) {
             // ----- Last-Modified
             if (!self::$sentLastModified
                 && (true === rex::getProperty('use_last_modified') || rex::getProperty('use_last_modified') === $environment)

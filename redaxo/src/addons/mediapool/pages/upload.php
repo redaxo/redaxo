@@ -1,5 +1,9 @@
 <?php
 
+if (!isset($rex_file_category)) {
+    $rex_file_category = 0;
+}
+
 // *************************************** Subpage: ADD FILE
 
 $media_method = rex_request('media_method', 'string');
@@ -48,7 +52,10 @@ if ('add_file' == $media_method) {
                         }
 
                         echo "<script language=javascript>\n";
-                        echo $js;
+
+                        if (isset($js)) {
+                            echo $js;
+                        }
                         // echo "\nself.close();\n";
                         echo '</script>';
                         exit;

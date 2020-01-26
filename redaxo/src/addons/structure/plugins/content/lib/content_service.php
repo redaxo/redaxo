@@ -6,6 +6,77 @@
 class rex_content_service
 {
     /**
+     * @throws rex_api_exception
+     */
+    public static function addSlice(int $articleId, int $clangId, int $ctypeId, int $moduleId, array $data = []): string
+    {
+        $data['revision'] = $data['revision'] ?? 0;
+
+        $where = 'article_id=' . $articleId . ' AND clang_id=' . $clangId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . (int) $data['revision'];
+
+        if (!isset($data['priority'])) {
+            $prevSlice = rex_sql::factory();
+            $prevSlice->setQuery('SELECT IFNULL(MAX(priority),0)+1 as priority FROM ' . rex::getTable('article_slice') . ' WHERE '.$where);
+
+            $data['priority'] = $prevSlice->getValue('priority');
+        } elseif ($data['priority'] <= 0) {
+            $data['priority'] = 1;
+        }
+
+        $sql = rex_sql::factory();
+        $sql->setTable(rex::getTable('article_slice'));
+        $sql->setValue('article_id', $articleId);
+        $sql->setValue('clang_id', $clangId);
+        $sql->setValue('ctype_id', $ctypeId);
+        $sql->setValue('module_id', $moduleId);
+
+        foreach ($data as $key => $value) {
+            $sql->setValue($key, $value);
+        }
+
+        $sql->addGlobalCreateFields();
+        $sql->addGlobalUpdateFields();
+
+        try {
+            $sql->insert();
+            $sliceId = $sql->getLastId();
+
+            rex_sql_util::organizePriorities(
+                rex::getTable('article_slice'),
+                'priority',
+                $where,
+                'priority, updatedate DESC'
+            );
+        } catch (rex_sql_exception $e) {
+            throw new rex_api_exception($e);
+        }
+
+        rex_article_cache::delete($articleId, $clangId);
+
+        $message = rex_i18n::msg('slice_added');
+
+        $article = rex_article::get($articleId, $clangId);
+
+        // ----- EXTENSION POINT
+        $message = rex_extension::registerPoint(new rex_extension_point('SLICE_ADDED', $message, [
+            'article_id' => $articleId,
+            'clang' => $clangId,
+            'function' => '',
+            'slice_id' => $sliceId,
+            'page' => rex_be_controller::getCurrentPage(),
+            'ctype' => $ctypeId,
+            'category_id' => $article->getCategoryId(),
+            'module_id' => $moduleId,
+            'article_revision' => 0,
+            'slice_revision' => $data['revision'],
+        ]));
+
+        $message = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_added', $message));
+
+        return $message;
+    }
+
+    /**
      * Verschiebt einen Slice.
      *
      * @param int    $slice_id  Id des Slices
@@ -76,6 +147,10 @@ class rex_content_service
                 }
 
                 rex_article_cache::deleteContent($article_id, $clang);
+
+                $info = rex_i18n::msg('slice_moved');
+                $article = rex_article::get($article_id, $clang);
+                $info = rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'slice_moved', $info));
             } else {
                 throw new rex_exception('rex_moveSlice: Unsupported direction "' . $direction . '"!');
             }
@@ -83,7 +158,7 @@ class rex_content_service
             throw new rex_api_exception(rex_i18n::msg('slice_moved_error'));
         }
 
-        return rex_i18n::msg('slice_moved');
+        return $info;
     }
 
     /**
@@ -212,6 +287,9 @@ class rex_content_service
         }
 
         rex_article_cache::deleteContent($to_id, $to_clang);
+
+        $article = rex_article::get($to_id, $to_clang);
+        rex_extension::registerPoint(new rex_extension_point_art_content_updated($article, 'content_copied'));
 
         return true;
     }

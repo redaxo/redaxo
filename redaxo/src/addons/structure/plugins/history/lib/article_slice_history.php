@@ -15,7 +15,11 @@ class rex_article_slice_history
         return rex::getTablePrefix() . 'article_slice_history';
     }
 
-    public static function makeSnapshot($article_id, $clang_id, $history_type, $revision = 0)
+    /*
+     * Only Snapshots from LiveVersion.
+     */
+
+    public static function makeSnapshot($article_id, $clang_id, $history_type)
     {
         self::checkTables();
 
@@ -24,7 +28,7 @@ class rex_article_slice_history
             [
                 $article_id,
                 $clang_id,
-                $revision,
+                0,
             ]
         );
 
@@ -50,37 +54,37 @@ class rex_article_slice_history
     /**
      * @return array
      */
-    public static function getSnapshots($article_id, $clang_id, $revision = 0)
+    public static function getSnapshots($article_id, $clang_id)
     {
         return rex_sql::factory()->getArray(
         'select distinct history_date, history_type, history_user from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? order by history_date desc',
-        [$article_id, $clang_id, $revision]
+        [$article_id, $clang_id, 0]
         );
     }
 
     /**
      * @return bool
      */
-    public static function restoreSnapshot($history_date, $article_id, $clang_id, $revision = 0)
+    public static function restoreSnapshot($history_date, $article_id, $clang_id)
     {
         self::checkTables();
 
         $sql = rex_sql::factory();
-        $slices = $sql->getArray('select id from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$article_id, $clang_id, $revision, $history_date]);
+        $slices = $sql->getArray('select id from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$article_id, $clang_id, 0, $history_date]);
 
         if (0 == count($slices)) {
             return false;
         }
 
-        self::makeSnapshot($article_id, $clang_id, 'version set ' . $history_date, $revision);
+        self::makeSnapshot($article_id, $clang_id, 'version set ' . $history_date);
 
         $article_slices_table = rex_sql_table::get(rex::getTable('article_slice'));
 
         $sql = rex_sql::factory();
-        $sql->setQuery('delete from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?', [$article_id, $clang_id, $revision]);
+        $sql->setQuery('delete from ' . rex::getTable('article_slice') . ' where article_id=? and clang_id=? and revision=?', [$article_id, $clang_id, 0]);
 
         $slices = rex_sql::factory();
-        $slices = $slices->getArray('select * from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$article_id, $clang_id, $revision, $history_date]);
+        $slices = $slices->getArray('select * from ' . self::getTable() . ' where article_id=? and clang_id=? and revision=? and history_date=?', [$article_id, $clang_id, 0, $history_date]);
 
         foreach ($slices as $slice) {
             $sql = rex_sql::factory();
@@ -103,6 +107,11 @@ class rex_article_slice_history
     public static function clearAllHistory()
     {
         rex_sql::factory()->setQuery('delete from ' . self::getTable());
+    }
+
+    public static function clearHistoryByDate(DateTimeInterface $deleteDate): void
+    {
+        rex_sql::factory()->setQuery('delete from ' . self::getTable() .' where history_date < ?', [$deleteDate->format('Y-m-d H:i:s')]);
     }
 
     public static function checkTables()

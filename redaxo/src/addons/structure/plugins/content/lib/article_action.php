@@ -47,9 +47,10 @@ class rex_article_action
             for ($i = 1; $i <= $max; ++$i) {
                 if (isset($values[$i])) {
                     if (is_array($values[$i])) {
-                        $values[$i] = json_encode($values[$i]);
+                        $this->sql->setArrayValue($key . $i, $values[$i]);
+                    } else {
+                        $this->sql->setValue($key . $i, $values[$i]);
                     }
-                    $this->sql->setValue($key . $i, $values[$i]);
                 } else {
                     $this->sql->setValue($key . $i, null);
                 }

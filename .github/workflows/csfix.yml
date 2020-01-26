@@ -11,11 +11,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
     
     - name: Setup PHP
-      uses: shivammathur/setup-php@1.6.2
+      uses: shivammathur/setup-php@v1
       with:
         php-version: 7.1
     - run: composer global require friendsofphp/php-cs-fixer:2.14.* && ~/.composer/vendor/bin/php-cs-fixer fix --diff # global to not modify project-local files
@@ -26,6 +24,6 @@ jobs:
         commit_message: Apply php-cs-fixer changes
         branch: ${{ github.head_ref }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.STAABM_TOKEN }}
 
      

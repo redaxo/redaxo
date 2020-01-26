@@ -27,6 +27,13 @@ if (rex_string::versionCompare(rex::getVersion(), '5.7.0-beta3', '<')) {
     $_SESSION[rex::getProperty('instname').'_backend']['backend_login'] = $_SESSION[rex::getProperty('instname')]['backend_login'];
 }
 
+if (rex_string::versionCompare(rex::getVersion(), '5.9.0-beta1', '<')) {
+    // do not use `rex_path::log()` because it does not exist while updating from rex < 5.9
+    rex_dir::create(rex_path::data('log'));
+    @rename(rex_path::coreData('system.log'), rex_path::data('log/system.log'));
+    @rename(rex_path::coreData('system.log.2'), rex_path::data('log/system.log.2'));
+}
+
 $path = rex_path::coreData('config.yml');
 rex_file::putConfig($path, array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),

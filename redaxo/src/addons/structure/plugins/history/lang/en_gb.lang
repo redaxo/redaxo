@@ -14,3 +14,9 @@ structure_history_button_delete_history = Delete all snapshots from History
 structure_history_deleted = All snapshots have been deleted.
 structure_history_savedby = Saved by
 structure_history_close = Close
+
+structure_history_cleanup = Article-History Cleanup
+structure_history_cleanup_after = Delete Historie if older than
+structure_history_days = {0} days
+structure_history_months = {0} months
+structure_history_years = {0} years

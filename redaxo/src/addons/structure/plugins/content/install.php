@@ -78,6 +78,7 @@ rex_sql_table::get(rex::getTable('article_slice'))
 
 rex_sql_table::get(rex::getTable('template'))
     ->ensureColumn(new rex_sql_column('id', 'int(10) unsigned', false, null, 'AUTO_INCREMENT'))
+    ->ensureColumn(new rex_sql_column('key', 'varchar(191)', true))
     ->ensureColumn(new rex_sql_column('name', 'varchar(255)', true))
     ->ensureColumn(new rex_sql_column('content', 'mediumtext', true))
     ->ensureColumn(new rex_sql_column('active', 'tinyint(1)', true))
@@ -85,6 +86,7 @@ rex_sql_table::get(rex::getTable('template'))
     ->ensureColumn(new rex_sql_column('attributes', 'text', true))
     ->ensureColumn(new rex_sql_column('revision', 'int(11)'))
     ->setPrimaryKey('id')
+    ->ensureIndex(new rex_sql_index('key', ['key'], rex_sql_index::UNIQUE))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('action'))
