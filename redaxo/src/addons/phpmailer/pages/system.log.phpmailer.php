@@ -8,9 +8,9 @@ $logFile = rex_mailer::logFile();
 
 if ('mailer_delLog' == $func) {
     if (rex_log_file::delete($logFile)) {
-        $success = rex_i18n::msg('phpmailer_log_deleted');
+        $success = rex_i18n::msg('syslog_deleted');
     } else {
-        $error = rex_i18n::msg('phpmailer_log_delete_error');
+        $error = rex_i18n::msg('syslog_delete_error');
     }
 }
 $message = '';
