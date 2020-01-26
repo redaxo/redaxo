@@ -41,7 +41,7 @@ class HhvmExceptionPatch implements ClassPatchInterface
      *
      * @param ClassNode $node
      *
-     *
+     * @return void
      */
     public function apply(ClassNode $node)
     {
