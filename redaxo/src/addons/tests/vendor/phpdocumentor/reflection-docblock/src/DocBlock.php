@@ -210,7 +210,7 @@ final class DocBlock
      *
      * @param Tag $tag The tag to remove.
      *
-     *
+     * @return void
      */
     public function removeTag(Tag $tagToRemove)
     {
@@ -227,7 +227,7 @@ final class DocBlock
      *
      * @param Tag $tag The tag to add.
      *
-     *
+     * @return void
      */
     private function addTag(Tag $tag)
     {
