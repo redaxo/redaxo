@@ -30,6 +30,10 @@ parameters:
             message: '#Variable \$this might not be defined\.#'
             path: '*/fragments/*'
         -
+            # because of ugly control logic we need to ignore those warnings for now ($save=ja/nein)
+            message: '#Variable \$[a-z+] might not be defined\.#'
+            path: '*/content/pages/templates.php'
+        -
             message: '#Access to an undefined property object.+#'
             path: '*/fragments/*'
         -
