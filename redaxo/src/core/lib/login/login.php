@@ -386,7 +386,6 @@ class rex_login
     /*
      * refresh session on permission elevation for security reasons
      */
-
     protected static function regenerateSessionId()
     {
         if ('' != session_id()) {
