@@ -1,5 +1,5 @@
 package: backup
-version: '2.4.0'
+version: '2.5.0-beta1'
 author: 'Jan Kristinus, Markus Staab'
 supportpage: www.redaxo.org/de/forum/
 
@@ -20,4 +20,4 @@ page:
 requires:
     php:
         extensions: [ctype]
-    redaxo: ^5.6.2
+    redaxo: ^5.9.0-beta1
