@@ -20,7 +20,6 @@ class rex_system_report
     /**
      * @return array
      *
-     * @psalm-return array<string, array{Version?: mixed, OPcache?: bool, Xdebug?: bool, Character set?: string, OS?: string, SAPI?: string, Webserver?: string, Browser?: mixed, Protocol?: mixed, HTTPS?: mixed}>
      */
     public function get()
     {
