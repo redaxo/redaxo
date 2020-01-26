@@ -214,7 +214,6 @@ class rex_managed_media
         $this->saveFiles($src, $sourceCacheFilename, $headerCacheFilename);
     }
 
-
     public function exists(): bool
     {
         return $this->asImage || file_exists($this->sourcePath);
