@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Verwaltung der Content Sprachen.
- *
  * @package redaxo5
  */
 
@@ -24,6 +22,15 @@ if ('delLog' == $func) {
         $error = rex_i18n::msg('syslog_delete_error');
     }
 }
+if ('download' == $func) {
+    if (file_exists($logFile)) {
+        $contentType = 'application/octet-stream';
+        $contentDisposition = 'attachment';
+        rex_response::sendFile($logFile, $contentType, $contentDisposition);
+        exit;
+    }
+}
+
 $message = '';
 $content = '';
 
@@ -49,7 +56,7 @@ $content .= '
                 <tbody>';
 
 $file = new rex_log_file($logFile);
-foreach (new LimitIterator($file, 0, 30) as $entry) {
+foreach (new LimitIterator($file, 0, 100) as $entry) {
     /** @var rex_log_entry $entry */
     $data = $entry->getData();
 
@@ -85,9 +92,10 @@ if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
+$logFileLink = '<a href="' . rex_url::currentBackendPage(array('func' => 'download')) . '">' . $logFile . '</a>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);
+$fragment->setVar('title', rex_i18n::rawmsg('syslog_title', $logFileLink), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
