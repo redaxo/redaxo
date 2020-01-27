@@ -92,7 +92,7 @@ if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
-$logFileLink = '<a href="' . rex_url::currentBackendPage(array('func' => 'download')) . '">' . $logFile . '</a>';
+$logFileLink = '<a href="' . rex_url::currentBackendPage(['func' => 'download']) . '">' . $logFile . '</a>';
 
 $fragment = new rex_fragment();
 $fragment->setVar('title', rex_i18n::rawmsg('syslog_title', $logFileLink), false);
