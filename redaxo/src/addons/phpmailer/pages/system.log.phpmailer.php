@@ -3,7 +3,6 @@
 $func = rex_request('func', 'string');
 $error = '';
 $success = '';
-$addon = rex_addon::get('phpmailer');
 $logFile = rex_mailer::logFile();
 
 if ('mailer_delLog' == $func) {
