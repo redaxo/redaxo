@@ -26,6 +26,7 @@ jobs:
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1
+            dist: xenial
             env:
                 - TYPE=phpunit
                 - DB=mariadb
