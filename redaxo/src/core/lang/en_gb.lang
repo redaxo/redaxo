@@ -120,6 +120,7 @@ syslog_line = Row
 syslog_title = logfile "{0}"
 syslog_phperrors = PHP errorlog
 syslog_empty = empty logfile
+syslog_download = Download "{0}"
 server = Website URL
 servername = Website name
 error_email = E-mail address in case of errors
