@@ -243,6 +243,9 @@ class rex_setup_importer
         rex_package_manager::synchronizeWithFileSystem();
 
         foreach (rex::getConfig('package-order') as $packageId) {
+            rex_package::get($packageId)->enlist();
+        }
+        foreach (rex::getConfig('package-order') as $packageId) {
             $package = rex_package::get($packageId);
             $manager = rex_package_manager::factory($package);
 
