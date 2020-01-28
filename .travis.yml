@@ -26,6 +26,7 @@ jobs:
                 - php redaxo/src/addons/tests/bin/setup.php
             script: php redaxo/src/addons/tests/bin/run_tests.php
             php: 7.1
+            dist: trusty
             env:
                 - TYPE=phpunit
                 - DB=mariadb
@@ -33,12 +34,12 @@ jobs:
                 mariadb: 10.1
         -   <<: *TEST
             php: 7.3
-            dist: trusty
             addons:
                 mariadb: 10.4
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
+            dist: bionic
             env:
                 - TYPE=phpunit
                 - DB=mysql
