@@ -22,13 +22,9 @@ if ('delLog' == $func) {
         $error = rex_i18n::msg('syslog_delete_error');
     }
 }
-if ('download' == $func) {
-    if (file_exists($logFile)) {
-        $contentType = 'application/octet-stream';
-        $contentDisposition = 'attachment';
-        rex_response::sendFile($logFile, $contentType, $contentDisposition);
-        exit;
-    }
+if ('download' == $func && file_exists($logFile)) {
+    rex_response::sendFile($logFile, 'application/octet-stream', 'attachment');
+    exit;
 }
 
 $message = '';
@@ -89,13 +85,19 @@ if ($url = rex_editor::factory()->getUrl($logFile, 0)) {
     $formElements[] = $n;
 }
 
+if (file_exists($logFile)) {
+    $url = rex_url::currentBackendPage(['func' => 'download']);
+    $n = [];
+    $n['field'] = '<a class="btn btn-save" href="'. $url .'">' . rex_i18n::msg('syslog_download', basename($logFile)) . '</a>';
+    $formElements[] = $n;
+}
+
 $fragment = new rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $buttons = $fragment->parse('core/form/submit.php');
-$logFileLink = '<a href="' . rex_url::currentBackendPage(['func' => 'download']) . '">' . $logFile . '</a>';
 
 $fragment = new rex_fragment();
-$fragment->setVar('title', rex_i18n::rawmsg('syslog_title', $logFileLink), false);
+$fragment->setVar('title', rex_i18n::msg('syslog_title', $logFile), false);
 $fragment->setVar('content', $content, false);
 $fragment->setVar('buttons', $buttons, false);
 $content = $fragment->parse('core/page/section.php');
