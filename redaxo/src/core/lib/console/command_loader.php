@@ -21,6 +21,7 @@ class rex_console_command_loader implements CommandLoaderInterface
             'db:connection-options' => rex_command_db_connection_options::class,
             'db:set-connection' => rex_command_db_set_connection::class,
             'setup:check' => rex_command_setup_check::class,
+            'setup:run' => rex_command_setup_run::class,
             'user:create' => rex_command_user_create::class,
         ];
 
