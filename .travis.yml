@@ -33,13 +33,13 @@ jobs:
             addons:
                 mariadb: 10.1
         -   <<: *TEST
-            php: 7.4
-            dist: trusty
+            php: 7.3
             addons:
                 mariadb: 10.4
         -   &TEST_MYSQL
             <<: *TEST
             php: 7.1
+            dist: bionic
             env:
                 - TYPE=phpunit
                 - DB=mysql
