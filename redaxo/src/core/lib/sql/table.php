@@ -45,7 +45,7 @@ class rex_sql_table
     /** @var string[] */
     private $primaryKey = [];
 
-    /** @var bool */
+    /** @var string[] */
     private $primaryKeyExisting = [];
 
     /** @var rex_sql_index[] */
