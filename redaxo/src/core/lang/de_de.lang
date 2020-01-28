@@ -120,6 +120,7 @@ syslog_line = Zeile
 syslog_title = Logdatei "{0}"
 syslog_phperrors = PHP Errorlog
 syslog_empty = Leere Logdatei
+syslog_download = "{0}" herunterladen
 server = URL der Website
 servername = Name der Website
 error_email = E-Mail-Adresse bei Fehlern
