@@ -23,6 +23,7 @@ backup_db_export = Export
 backup_filename_updated = Ihr Dateiname wurde angepasst, da er unkorrekte Zeichen enthielt. Sofern dieser stimmig ist bitte nochmal auf Export klicken
 backup_please_choose_folder = Bitte wählen Sie die Verzeichnisse aus die exportiert werden sollen!
 backup_intro_import = Bitte bedenken Sie das beim Importieren einer Datenbank <b>die alte Datenbank gelöscht</b> wird. Bitte speichern/exportieren Sie diese vorher wenn Sie sich unsicher sind.
+backup_version_warning = Backups von älteren REDAXO-Versionen oder AddOns sind nicht immer vollständig kompatibel und können nach dem Import zu Problemen führen.
 backup_database = Datenbank-Import
 backup_filename = Dateiname
 backup_filename_notice = Variablen: <code>%REX_SERVER</code>, <code>%REX_VERSION</code> und Datumsvariablen wie bei strftime(); Dateiendung: <code>.cronjob.sql</code> (wird automatisch ergänzt)

@@ -152,6 +152,13 @@ class rex_sql_test extends TestCase
         };
     }
 
+    public function testEscapeLikeWildcards(): void
+    {
+        $sql = rex_sql::factory();
+
+        $this->assertSame('\\%foo\\_bar', $sql->escapeLikeWildcards('%foo_bar'));
+    }
+
     public function testSetGetValue()
     {
         $sql = rex_sql::factory();
