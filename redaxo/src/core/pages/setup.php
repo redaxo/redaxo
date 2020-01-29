@@ -609,6 +609,7 @@ if (5 === $step) {
         $formElements = [];
         $n = [];
         $n['field'] = $sel_export->get();
+        $n['note'] = rex_i18n::msg('backup_version_warning');
         $formElements[] = $n;
 
         $fragment = new rex_fragment();
