@@ -34,8 +34,21 @@ class rex_sql implements Iterator
     protected $tablenames; // Tabelle im ResultSet
     protected $lastRow; // Wert der zuletzt gefetchten zeile
     protected $table; // Tabelle setzen
-    protected $wherevar; // WHERE Bediengung
-    protected $whereParams; // WHERE parameter array
+
+    /**
+     * Where condition as string or as nested array (see `setWhere` for examples).
+     *
+     * @var null|string|array
+     */
+    protected $wherevar;
+
+    /**
+     * Params for where condition.
+     *
+     * @var null|array
+     */
+    protected $whereParams;
+
     protected $rows; // anzahl der treffer
     protected $counter; // pointer
     protected $query; // Die Abfrage
@@ -550,8 +563,8 @@ class rex_sql implements Iterator
     public function setWhere($where, $whereParams = null)
     {
         if (is_array($where)) {
-            $this->wherevar = 'WHERE ' . $this->buildWhereArg($where);
-            $this->whereParams = $where;
+            $this->wherevar = $where;
+            $this->whereParams = [];
         } elseif (is_string($where) && is_array($whereParams)) {
             $this->wherevar = 'WHERE ' . $where;
             $this->whereParams = $whereParams;
@@ -570,6 +583,28 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Returns the tuple of `where` string and `where` params.
+     *
+     * @return array
+     * @psalm-return array{0: string, 1: array}
+     */
+    private function buildWhere(): array
+    {
+        if (!$this->wherevar) {
+            return ['', []];
+        }
+
+        if (is_string($this->wherevar)) {
+            return [$this->wherevar, $this->whereParams];
+        }
+
+        $whereParams = [];
+        $where = $this->buildWhereArg($this->wherevar, $whereParams);
+
+        return ['WHERE '.$where, $whereParams];
+    }
+
+    /**
      * Concats the given array to a sql condition using bound parameters.
      * AND/OR opartors are alternated depending on $level.
      *
@@ -577,7 +612,7 @@ class rex_sql implements Iterator
      *
      * @return string
      */
-    private function buildWhereArg(array $arrFields, $level = 0)
+    private function buildWhereArg(array $arrFields, array &$whereParams, $level = 0)
     {
         if (1 == $level % 2) {
             $op = ' OR ';
@@ -588,9 +623,15 @@ class rex_sql implements Iterator
         $qry = '';
         foreach ($arrFields as $fld_name => $value) {
             if (is_array($value)) {
-                $arg = '(' . $this->buildWhereArg($value, $level + 1) . ')';
+                $arg = '(' . $this->buildWhereArg($value, $whereParams, $level + 1) . ')';
             } else {
-                $arg = $this->escapeIdentifier($fld_name) . ' = :' . $fld_name;
+                $paramName = $fld_name;
+                for ($i = 1; array_key_exists($paramName, $whereParams) || array_key_exists($paramName, $this->values); ++$i) {
+                    $paramName = $fld_name.'_'.$i;
+                }
+
+                $arg = $this->escapeIdentifier($fld_name) . ' = :' . $paramName;
+                $whereParams[$paramName] = $value;
             }
 
             if ('' != $qry) {
@@ -813,9 +854,11 @@ class rex_sql implements Iterator
      */
     public function getWhere()
     {
+        [$where] = $this->buildWhere();
+
         // we have an custom where criteria, so we don't need to build one automatically
-        if ('' != $this->wherevar) {
-            return $this->wherevar;
+        if ('' != $where) {
+            return $where;
         }
 
         return '';
@@ -833,9 +876,11 @@ class rex_sql implements Iterator
      */
     public function select($fields = '*')
     {
+        [$where, $whereParams] = $this->buildWhere();
+
         $this->setQuery(
-            'SELECT ' . $fields . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $this->getWhere(),
-            $this->whereParams
+            'SELECT ' . $fields . ' FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
+            $whereParams
         );
         return $this;
     }
@@ -850,9 +895,11 @@ class rex_sql implements Iterator
      */
     public function update()
     {
+        [$where, $whereParams] = $this->buildWhere();
+
         $this->setQuery(
-            'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
-            array_merge($this->values, $this->whereParams)
+            'UPDATE ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
+            array_merge($this->values, $whereParams)
         );
         return $this;
     }
@@ -932,9 +979,11 @@ class rex_sql implements Iterator
             return $this->setMultiRecordQuery('REPLACE');
         }
 
+        [$where, $whereParams] = $this->buildWhere();
+
         $this->setQuery(
-            'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $this->getWhere(),
-            array_merge($this->values, $this->whereParams)
+            'REPLACE INTO ' . $this->escapeIdentifier($this->table) . ' SET ' . $this->buildPreparedValues() . ' ' . $where,
+            array_merge($this->values, $whereParams)
         );
         return $this;
     }
@@ -949,9 +998,11 @@ class rex_sql implements Iterator
      */
     public function delete()
     {
+        [$where, $whereParams] = $this->buildWhere();
+
         $this->setQuery(
-            'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $this->getWhere(),
-            $this->whereParams
+            'DELETE FROM ' . $this->escapeIdentifier($this->table) . ' ' . $where,
+            $whereParams
         );
         return $this;
     }
@@ -1258,6 +1309,14 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
+     */
+    public function escapeLikeWildcards(string $value): string
+    {
+        return str_replace(['_', '%'], ['\_', '\%'], $value);
+    }
+
+    /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
@@ -1535,10 +1594,8 @@ class rex_sql implements Iterator
         $where = $where ? [$where] : [];
 
         if (null != $tablePrefix) {
-            // replace LIKE wildcards
-            $tablePrefix = str_replace(['_', '%'], ['\_', '\%'], $tablePrefix);
             $column = $this->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$this->DBID]['name']);
-            $where[] = $column.' LIKE "' . $tablePrefix . '%"';
+            $where[] = $column.' LIKE "' . $this->escapeLikeWildcards($tablePrefix) . '%"';
         }
 
         if ($where) {

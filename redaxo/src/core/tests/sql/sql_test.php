@@ -152,6 +152,13 @@ class rex_sql_test extends TestCase
         };
     }
 
+    public function testEscapeLikeWildcards(): void
+    {
+        $sql = rex_sql::factory();
+
+        $this->assertSame('\\%foo\\_bar', $sql->escapeLikeWildcards('%foo_bar'));
+    }
+
     public function testSetGetValue()
     {
         $sql = rex_sql::factory();
@@ -399,9 +406,14 @@ class rex_sql_test extends TestCase
         $sql->setTable(self::TABLE);
         $sql->setValue('col_str', 'def');
         $sql->setWhere(['col_int' => 5]);
+        $sql->setValue('col_int', 6);
 
         $sql->update();
         $this->assertEquals(1, $sql->getRows());
+
+        $sql->setQuery('SELECT * FROM '.self::TABLE);
+        $this->assertSame('def', $sql->getValue('col_str'));
+        $this->assertSame('6', $sql->getValue('col_int'));
     }
 
     public function testUpdateRowByNamedWhere()
