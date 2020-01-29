@@ -8,6 +8,7 @@ Version 2.5.0 – XX.XX.2020
 
 * Default-Dateiname: Datum vor REDAXO-Version für bessere Sortierung (@bloep)
 * Cronjob: Tabellen können ausgeschlossen werden, User-Tabelle default nun mit im Backup (@alexplusde)
+* Es wird davor gewarnt, dass Import von Backups älterer REDAXO- und Addon-Versionen zu Problemen führen können (@gharlan)
 * Upload-Limits werden angezeigt (@skerbis)
 * Wording optimiert (@marcohanke)
 
