@@ -242,6 +242,10 @@ class rex_setup_importer
         rex_addon::initialize();
         rex_package_manager::synchronizeWithFileSystem();
 
+        // enlist activated packages to ensure that all their classess are known in autoloader and can be referenced in other package's install.php
+        foreach (rex::getConfig('package-order') as $packageId) {
+            rex_package::get($packageId)->enlist();
+        }
         foreach (rex::getConfig('package-order') as $packageId) {
             $package = rex_package::get($packageId);
             $manager = rex_package_manager::factory($package);
