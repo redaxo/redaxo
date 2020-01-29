@@ -1258,6 +1258,14 @@ class rex_sql implements Iterator
     }
 
     /**
+     * Escapes the `LIKE` wildcard chars "%" and "_" in given value.
+     */
+    public function escapeLikeWildcards(string $value): string
+    {
+        return str_replace(['_', '%'], ['\_', '\%'], $value);
+    }
+
+    /**
      * @param string $user the name of the user who created the dataset. Defaults to the current user
      *
      * @return $this the current rex_sql object
@@ -1535,10 +1543,8 @@ class rex_sql implements Iterator
         $where = $where ? [$where] : [];
 
         if (null != $tablePrefix) {
-            // replace LIKE wildcards
-            $tablePrefix = str_replace(['_', '%'], ['\_', '\%'], $tablePrefix);
             $column = $this->escapeIdentifier('Tables_in_'.rex::getProperty('db')[$this->DBID]['name']);
-            $where[] = $column.' LIKE "' . $tablePrefix . '%"';
+            $where[] = $column.' LIKE "' . $this->escapeLikeWildcards($tablePrefix) . '%"';
         }
 
         if ($where) {
