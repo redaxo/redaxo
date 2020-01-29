@@ -23,11 +23,16 @@ Version 5.9.0 – XX.XX.2020
     - Es wird `rex_sql_table` verwendet für bessere Teilkorrekturen der DB (@tbaddade)
 * In der config.yml kann über `editor_basepath` der Basispfad für die Editor-URLs geändert werden (nützlich für Docker) (@bloep)
 * AddOn-Verwaltung: Suchfeld für AddOns (@danspringer)
+* Systemlog:
+    - 100 statt 30 Zeilen (@aeberhard)
+    - Button zum Download der Datei (@aeberhard)
 * Markdown-Pages (Readme): Die Sprungnavi ist nun rechts angeordnet (@schuer)
 * Layout der Credits-Page optimiert und an Addonverwaltung angeglichen (@schuer)
 * Whoops: REDAXO-Logo ist mit Startseite verlinkt (@gharlan)
 * REX_VARs: Callbacks bekommen den Variablennamen und die zugehörige Klasse als Parameter `var` und `class` übergeben (@gharlan)
-* `rex_sql`: Über `getDbType()` kann der Type (MySQL oder MariaDB) abgefragt werden, über `getDbVersion()` die normalisierte Version (@gharlan)
+* `rex_sql`:
+    - Über `getDbType()` kann der Type (MySQL oder MariaDB) abgefragt werden, über `getDbVersion()` die normalisierte Version (@gharlan)
+    - Mit `escapeLikeWildcards()` können "%" und "_" escaped werden für `LIKE`-Ausdrücke (@gharlan)
 * `rex_sql_table`:
     - DB-ID kann übergeben werden, somit auch nutzbar für die weiteren DBs (@thorol, @gharlan)
     - Bei `ensureGlobalColumns()` kann über den ersten Parameter die Position der Spalten festgelegt werden (@tbaddade)
@@ -44,6 +49,8 @@ Version 5.9.0 – XX.XX.2020
 
 ### Bugfixes
 
+* `rex_sql`: Bei `->setWhere(['name' => 'a'])->setValue('name', 'b')` wurde fälschlich der Wert aus WHERE auch für SET verwendet (@gharlan)
+* `rex_sql_table`: Beim Setzen von Primary Keys für Tabellen, die bisher keinen hatten, kam es zu einem Fehler (@gharlan)
 * `rex_list` warf mit PHP 7.4 Notices "Trying to access array offset on value of type null" (@gharlan)
 * `rex_socket`: Es kam teilweise zur Warnung "Undefined variable: errno" (@staabm)
 * `rex_config`: Wenn während eines Requests `removeNamespace()` und danach `set()` für den selben Namespace aufgerufen wurde, kam es zu einem Fehler (@bloep)
@@ -54,6 +61,7 @@ Version 5.9.0 – XX.XX.2020
     - `db:set-connection` konnte nur verwendet werden, wenn schon eine gültige DB-Verbindung hinterlegt war (@bloep)
     - `db:set-connection` hat fälschlich für nicht gesetzte Optionen deren Wert mit `null` gesetzt (@bloep)
     - `package:install`: Installation von Plugins von nicht aktivierten Addons wurde nicht unterbunden (@bloep)
+* Im Setup bei "Aktualisierung der Datenbank" waren nicht alle Klassen dem Autoloader bekannt während der Re-Installation der Addons (@gharlan)
 * Identität wechseln: Beim Zurückwechseln kommt es nicht mehr zu einem Fehler, wenn schon in einem anderen Tab zurückgewechselt wurde (@tbaddade)
 * Addonverwaltung: Beim Öffnen der Hilfe/Lizenz eines Addons wird korrekt nach oben gesprungen (@gharlan)
 * Bei Session-Start-Fehlern wurde der spezifische Grund unterschlagen (@gharlan)
