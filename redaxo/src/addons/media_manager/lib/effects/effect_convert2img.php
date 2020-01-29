@@ -72,9 +72,19 @@ class rex_effect_convert2img extends rex_effect_abstract
 
         $to_path = rex_path::addonCache('media_manager', 'media_manager__convert2img_' . md5($this->media->getMediaPath()) . '_' . $filename_wo_ext . $convert_to['ext']);
 
-        $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]" -colorspace RGB "' . $to_path . '"';
+		if ($convert_path == 'imagick') {
+			//use PHP-imagick
+			$imagick = new Imagick();
+				$imagick->readImage($from_path."[0]");
+				$imagick->setResolution($density, $density);
+				$imagick->setImageColorspace(imagick::COLORSPACE_RGB);
+			$ret = ($imagick->writeImage($to_path)) ? 0 : 1;
+		} else {
+			//use exec-convert
+	        $cmd = $convert_path . ' -density '.$density.' "' . $from_path . '[0]" -colorspace RGB "' . $to_path . '"';
 
-        exec($cmd, $out, $ret);
+    	    exec($cmd, $out, $ret);
+		}
 
         if (0 != $ret) {
             return false;
@@ -136,6 +146,9 @@ class rex_effect_convert2img extends rex_effect_abstract
                 $path = $out[0];
             }
         }
+		if (extension_loaded('imagick')) {
+			$path = 'imagick';
+		}        
         return $path;
     }
 }
