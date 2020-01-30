@@ -53,6 +53,7 @@ jobs:
         -   <<: *TEST_MYSQL
             php: 7.4
         -   <<: *TEST_MYSQL
+            dist: xenial
             php: 7.4
             before_install:
               - phpenv config-rm xdebug.ini || echo "xdebug not available"
