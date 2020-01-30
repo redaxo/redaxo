@@ -323,6 +323,15 @@ class rex_sql_table_test extends TestCase
         $table = rex_sql_table::get(self::TABLE);
 
         $this->assertNull($table->getPrimaryKey());
+
+        $table
+            ->setPrimaryKey('id')
+            ->alter();
+
+        rex_sql_table::clearInstance(self::TABLE);
+        $table = rex_sql_table::get(self::TABLE);
+
+        $this->assertSame(['id'], $table->getPrimaryKey());
     }
 
     public function testAddIndex()

@@ -6,7 +6,8 @@ Version 2.9.0 – XX.XX.2020
 
 * Der Ajax-Loader-Layer erscheint erst mit Verzögerung um Flackern bei sehr schnellen Seitenladungen zu vermeiden (@gharlan)
 * Tabellenlayout optimiert (@schuer)
-* Submodule entfernt (@schuer, gharlan)
+* Submodule entfernt (@schuer, @gharlan)
+* In Markdown-Ausgaben hatten Listen ab zweiter Ebene keine Listenpunkte (@gharlan)
 * Customizer-Layout korrigiert (@schuer)
 * Update CodeMirror (5.51) mit neuen Optionen (@aeberhard)
     - addon autorefresh.js hinzugefügt wg. hidden Textarea bei cronjobs
@@ -15,6 +16,7 @@ Version 2.9.0 – XX.XX.2020
     - ESC-Taste für fullscreen (mac), Hinweis auf Fullscreen-Modus bei den Optionen
     - comdemirror.css -> codemirror.min.css
     - comdemirror-compressed.js -> codemirror.min.js
+* Beim Update wurden die CodeMirror-Assets nicht aktualisiert (@gharlan)
 
 
 Version 2.8.1 – 01.11.2019
