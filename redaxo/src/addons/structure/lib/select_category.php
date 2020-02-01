@@ -78,7 +78,7 @@ class rex_category_select extends rex_select
     protected function addCatOption(rex_category $cat, $group = null)
     {
         if (!$this->check_perms ||
-                $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId(), false)
+                $this->check_perms && rex::getUser()->getComplexPerm('structure')->hasCategoryPerm($cat->getId())
         ) {
             $cid = $cat->getId();
             $cname = $cat->getName() . ' [' . $cid . ']';
@@ -88,7 +88,7 @@ class rex_category_select extends rex_select
             }
 
             $this->addOption($cname, $cid, $cid, $group);
-            $childs = $cat->getChildren($this->ignore_offlines, $this->clang);
+            $childs = $cat->getChildren($this->ignore_offlines);
             if (is_array($childs)) {
                 foreach ($childs as $child) {
                     $this->addCatOption($child);

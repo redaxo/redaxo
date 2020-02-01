@@ -1,6 +1,36 @@
 Changelog
 =========
 
+Version 2.9.0 – XX.XX.2020
+--------------------------
+
+### Neu
+
+* Neue Rechte `addCategory[]`, `editCategory[]`, `deleteCategory[]`, `addArticle[]`, `editArticle[]`, `deleteArticle[]` (@gharlan)
+* Templates können eindeutige Keys vergeben werden und dann darüber (statt über die ID) eingebunden werden (`REX_TEMPLATE[key=my_key]`) (@tbaddade)
+* Toggle-Status der Panels in der Sidebar (Metainfos etc.) wird per Localstorage gespeichert (@IngoWinter)
+* `rex_navigation`:
+    - Die Callbacks erhalten als weiteren Referenzparameter den Linktext und können ihn darüber ändern (@alexplusde)
+    - Markup kann über Klassenerweiterung und Überschreiben der neu dafür vorgesehenen Methoden angepasst werden (@DanielWeitenauer, @gharlan)
+* Neue Klasse `rex_template_select` für die Template-Auswahl (@DanielWeitenauer)
+* Neue Methode `rex_content_service::addSlice` (@omphteliba, @gharlan)
+* Neuer EP `ART_CONTENT_UPDATED` bei jeglichen Content-Änderungen (@gharlan)
+* In der Struktur wird nicht mehr die Kategorie-Zeile ".." für die Oberkategorie ausgegeben (@schuer)
+* Die Artikel-Tabellenzeilen haben ein neues Attribut `data-article-id="X"` für Artikelspezifische Anpassungen (@skerbis)
+* Module-Auswahl über separates Fragment `module_select.php` für einfachere Anpassung (@tbaddade)
+* Code besser strukturiert mittels neuer Klasse `rex_structure_context` (@DanielWeitenauer)
+* Zusammenspiel der Plugins history und version optimiert (@dergel)
+* Plugin history: Cronjob-Typ für das Löschen alter History-Datensätze (@dergel)
+* Plugin version: Toolbar besser platziert nur über dem Bereich, auf den sie sich bezieht (@gharlan)
+
+### Bugfixes
+
+* Mountpoints wurden in Linkmap und `rex_category_select` unsortiert ausgegeben (@gharlan)
+* `rex_category`: Wenn bei `getChildren`/`getArticles` ein leere Liste herauskam, wurde unnötig der Cache erneuert (@gharlan)
+* `rex_article_content`: Bei `hasValue` konnte im Gegensatz zu `getValue` nicht der `art_`-Präfix für die Metainfos weggelassen werden (@bloep)
+* Beim Ändern von Kategorien/Artikeln wurde das Änderungsdatum immer in allen Sprachen neu gesetzt (@gharlan)
+
+
 Version 2.8.1 – 01.11.2019
 --------------------------
 
@@ -148,7 +178,7 @@ Version 2.3.0 – 14.02.2017
 
 * Wenn Frontend mit nicht vorhandener ID als clang-Parameter aufgerufen wurde, kam es zu einem harten Fehler, statt Umleitung auf NotFound-Artikel
 * Kategorie/Artikel verschieben: Breadcrumb wurde nicht aktualisiert
-* Inhalte kopieren: 
+* Inhalte kopieren:
     - Wenn im Zielartikel bereits Slices vorhanden waren, wurden die neuen nicht korrekt ans Ende gesetzt
     - Wenn Ursprung keine Slices enthielt, kam es zu einer falschen Fehlermeldung
 * Bei Reload nach Block-Übernehmen blieb der Block nicht offen

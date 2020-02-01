@@ -45,8 +45,8 @@ class rex_sql_table
     /** @var string[] */
     private $primaryKey = [];
 
-    /** @var bool */
-    private $primaryKeyModified = false;
+    /** @var string[] */
+    private $primaryKeyExisting = [];
 
     /** @var rex_sql_index[] */
     private $indexes = [];
@@ -99,6 +99,8 @@ class rex_sql_table
                 $this->primaryKey[] = $column['name'];
             }
         }
+
+        $this->primaryKeyExisting = $this->primaryKey;
 
         $indexParts = $this->sql->getArray('SHOW INDEXES FROM '.$this->sql->escapeIdentifier($name));
         $indexes = [];
@@ -335,7 +337,6 @@ class rex_sql_table
 
         if (false !== $key = array_search($oldName, $this->primaryKey)) {
             $this->primaryKey[$key] = $newName;
-            $this->primaryKeyModified = true;
         }
 
         return $this;
@@ -380,8 +381,7 @@ class rex_sql_table
             return $this;
         }
 
-        $this->primaryKey = (array) $columns;
-        $this->primaryKeyModified = true;
+        $this->primaryKey = $columns;
 
         return $this;
     }
@@ -667,7 +667,7 @@ class rex_sql_table
         $this->columnsExisting = [];
         $this->implicitOrder = [];
         $this->positions = [];
-        $this->primaryKeyModified = !empty($this->primaryKey);
+        $this->primaryKeyExisting = [];
     }
 
     /**
@@ -733,7 +733,7 @@ class rex_sql_table
             $parts[] = 'RENAME '.$this->sql->escapeIdentifier($this->name);
         }
 
-        if ($this->primaryKeyModified) {
+        if ($this->primaryKeyExisting && $this->primaryKeyExisting !== $this->primaryKey) {
             $parts[] = 'DROP PRIMARY KEY';
         }
 
@@ -806,7 +806,7 @@ class rex_sql_table
             $parts[] = 'DROP '.$this->sql->escapeIdentifier($oldName);
         }
 
-        if ($this->primaryKeyModified && $this->primaryKey) {
+        if ($this->primaryKey && $this->primaryKey !== $this->primaryKeyExisting) {
             $parts[] = 'ADD PRIMARY KEY '.$this->getKeyColumnsDefintion($this->primaryKey);
         }
 
@@ -990,7 +990,7 @@ class rex_sql_table
         $this->implicitOrder = [];
         $this->positions = [];
 
-        $this->primaryKeyModified = false;
+        $this->primaryKeyExisting = $this->primaryKey;
 
         $indexes = $this->indexes;
         $this->indexes = [];

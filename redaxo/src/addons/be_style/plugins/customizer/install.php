@@ -17,17 +17,22 @@ if (!$plugin->hasConfig()) {
 $message = '';
 $zipArchive = new ZipArchive();
 
+// use path relative to __DIR__ to get correct path in update temp dir
+$path = __DIR__.'/assets/vendor/codemirror.zip';
+
 try {
-    if (true === $zipArchive->open($plugin->getPath('assets/vendor/codemirror.zip')) &&
-        true === $zipArchive->extractTo($plugin->getAssetsUrl('vendor/'))) {
+    if (true === $zipArchive->open($path) &&
+        true === $zipArchive->extractTo($plugin->getAssetsUrl('vendor/'))
+    ) {
         $zipArchive->close();
     } else {
-        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $plugin->getPath('assets/vendor/codemirror.zip');
+        $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
     }
 } catch (Exception $e) {
-    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $plugin->getPath('assets/vendor/codemirror.zip');
+    $message = rex_i18n::msg('customizer_error_unzip') . '<br>' . $path;
     $message .= '<br>' . $e->getMessage();
 }
+
  if ('' != $message) {
-     $plugin->setProperty('installmsg', $message);
+     throw new rex_functional_exception($message);
  }

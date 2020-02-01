@@ -227,8 +227,8 @@ class rex_login
                 // message schreiben und falls falsch auf error verweisen
 
                 $ok = true;
-
-                if (($this->getSessionVar('STAMP') + $this->sessionDuration) < time()) {
+                $sessionStartStamp = (int) $this->getSessionVar('STAMP');
+                if (($sessionStartStamp + $this->sessionDuration) < time()) {
                     $ok = false;
                     $this->message = rex_i18n::msg('login_session_expired');
 
@@ -465,7 +465,7 @@ class rex_login
      *
      * see https://wiki.php.net/rfc/same-site-cookie
      *
-     * @param "Strict"|"Lax" $sameSite
+     * @param string $sameSite
      */
     private static function rewriteSessionCookie($sameSite)
     {

@@ -39,3 +39,5 @@ rex_file::putConfig($path, array_merge(
     rex_file::getConfig(__DIR__.'/default.config.yml'),
     rex_file::getConfig($path)
 ));
+
+require __DIR__.'/install.php';

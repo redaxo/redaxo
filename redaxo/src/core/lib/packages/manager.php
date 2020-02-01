@@ -3,6 +3,8 @@
 /**
  * Manager class for packages.
  *
+ * @template T as rex_package
+ *
  * @package redaxo\core\packages
  */
 abstract class rex_package_manager
@@ -11,6 +13,7 @@ abstract class rex_package_manager
 
     /**
      * @var rex_package
+     * @psalm-var T
      */
     protected $package;
 
@@ -30,8 +33,6 @@ abstract class rex_package_manager
     private $i18nPrefix;
 
     /**
-     * Constructor.
-     *
      * @param rex_package $package    Package
      * @param string      $i18nPrefix Prefix for i18n
      */
@@ -733,7 +734,7 @@ abstract class rex_package_manager
             if (isset($match['wildcard']) && $match['wildcard']) {
                 $constraints[] = ['>=', $match['version']];
                 $pos = strrpos($match['version'], '.') + 1;
-                $sub = substr($match['version'], $pos);
+                $sub = (int) substr($match['version'], $pos);
                 $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
@@ -745,7 +746,7 @@ abstract class rex_package_manager
                     $sub = substr($match['version'], 0, $pos);
                     if (false !== ($pos = strrpos($sub, '.'))) {
                         $main = substr($sub, 0, $pos + 1);
-                        $sub = substr($sub, $pos + 1);
+                        $sub = (int) substr($sub, $pos + 1);
                     }
                     // add "-foo" to get a version lower than a "-dev" version
                     $constraints[] = ['<', $main . ($sub + 1) . '-foo'];

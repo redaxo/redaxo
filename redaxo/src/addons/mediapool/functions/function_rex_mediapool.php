@@ -349,7 +349,7 @@ function rex_mediapool_deleteMedia($filename)
 }
 
 /**
- * @param $filename
+ * @param string $filename
  *
  * @return bool|string
  */
