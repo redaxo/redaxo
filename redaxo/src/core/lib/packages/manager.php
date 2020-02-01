@@ -12,7 +12,8 @@ abstract class rex_package_manager
     use rex_factory_trait;
 
     /**
-     * @var T
+     * @var rex_package
+     * @psalm-var T
      */
     protected $package;
 
