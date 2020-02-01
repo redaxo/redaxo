@@ -142,7 +142,8 @@ class rex_sql_table
         foreach ($foreignKeys as $fkName => $parts) {
             $columns = [];
             foreach ($parts as $part) {
-                $columns[$part['column_name']] = $part['referenced_column_name'];
+                // since mysql8  upper-case keys are returned
+                $columns[$part['column_name']] = $part['referenced_column_name'] ?? $part['REFERENCED_COLUMN_NAME'];
             }
 
             $fk = $parts[0];
