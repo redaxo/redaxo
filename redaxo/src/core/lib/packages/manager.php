@@ -733,7 +733,7 @@ abstract class rex_package_manager
             if (isset($match['wildcard']) && $match['wildcard']) {
                 $constraints[] = ['>=', $match['version']];
                 $pos = strrpos($match['version'], '.') + 1;
-                $sub = substr($match['version'], $pos);
+                $sub = (int) substr($match['version'], $pos);
                 $constraints[] = ['<', substr_replace($match['version'], $sub + 1, $pos)];
             } elseif (in_array($match['op'], ['~', '^'])) {
                 $constraints[] = ['>=', $match['version'] . ($match['prerelease'] ?? '')];
