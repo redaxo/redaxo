@@ -3,6 +3,8 @@
 /**
  * Manager class for packages.
  *
+ * @template T as rex_package
+ *
  * @package redaxo\core\packages
  */
 abstract class rex_package_manager
@@ -10,7 +12,7 @@ abstract class rex_package_manager
     use rex_factory_trait;
 
     /**
-     * @var rex_package
+     * @var T $package
      */
     protected $package;
 
@@ -30,8 +32,6 @@ abstract class rex_package_manager
     private $i18nPrefix;
 
     /**
-     * Constructor.
-     *
      * @param rex_package $package    Package
      * @param string      $i18nPrefix Prefix for i18n
      */
