@@ -116,7 +116,7 @@ class rex_effect_convert2img extends rex_effect_abstract
     public function getParams()
     {
         $im_notfound = '';
-        if ('' == self::getConvertPath()) {
+        if (!class_exists(Imagick::class) && '' == self::getConvertPath()) {
             $im_notfound = '<strong>'.rex_i18n::msg('media_manager_effect_convert2img_noimagemagick').'</strong>';
         }
         return [
