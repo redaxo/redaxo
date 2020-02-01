@@ -184,8 +184,8 @@ interface rex_package_interface
     /**
      * Adds the package prefix to the given key and returns the translation for it.
      *
-     * @param string     $key          Key
-     * @param string     ...$replacements A arbritary number of strings used for interpolating within the resolved messag
+     * @param string $key             Key
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved messag
      *
      * @return string Translation for the key
      */
