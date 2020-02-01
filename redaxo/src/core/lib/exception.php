@@ -94,7 +94,10 @@ class rex_yaml_parse_exception extends rex_exception
  *
  * @package redaxo\core
  */
-class rex_should_never_happen_exception extends  rex_exception
+class rex_should_never_happen_exception extends rex_exception
 {
-
+    public function __construct()
+    {
+        parent::__construct('This should never happen');
+    }
 }
