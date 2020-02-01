@@ -110,7 +110,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      */
-    public static function msg($key)
+    public static function msg($key, ...$replacements)
     {
         return self::getMsg($key, true, func_get_args());
     }
@@ -123,7 +123,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      */
-    public static function rawMsg($key)
+    public static function rawMsg($key, ...$replacements)
     {
         return self::getMsg($key, false, func_get_args());
     }
@@ -137,7 +137,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      */
-    public static function msgInLocale($key, $locale)
+    public static function msgInLocale($key, $locale, ...$replacements)
     {
         $args = func_get_args();
         $args[1] = $key;
@@ -155,7 +155,7 @@ class rex_i18n
      *
      * @return string Translation for the key
      */
-    public static function rawMsgInLocale($key, $locale)
+    public static function rawMsgInLocale($key, $locale, ...$replacements)
     {
         $args = func_get_args();
         $args[1] = $key;
