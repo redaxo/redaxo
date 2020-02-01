@@ -90,11 +90,10 @@ class rex_yaml_parse_exception extends rex_exception
 }
 
 /**
- * Exception to signal code-path which should never be reached, useful for static analysis
+ * Exception to signal code-path which should never be reached, useful for static analysis.
  *
  * @package redaxo\core
  */
-class rex_should_never_happen_exception extends  rex_exception
+class rex_should_never_happen_exception extends rex_exception
 {
-
 }
