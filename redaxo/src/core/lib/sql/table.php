@@ -135,8 +135,8 @@ class rex_sql_table
             WHERE c.constraint_schema = DATABASE() AND c.table_name = ?', [$name]);
         $foreignKeys = [];
         foreach ($foreignKeyParts as $part) {
-            var_dump($part);
-            $foreignKeys[$part['constraint_name']][] = $part;
+            // since mysql8  upper-case keys are returned
+            $foreignKeys[$part['constraint_name'] ?? $part['CONSTRAINT_NAME']][] = $part;
         }
 
         foreach ($foreignKeys as $fkName => $parts) {
