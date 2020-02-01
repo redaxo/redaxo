@@ -66,6 +66,7 @@ class rex_sql_table_test extends TestCase
         $this->assertSame(['id'], $table->getPrimaryKey());
 
         $id = $table->getColumn('id');
+        var_dump($id);
 
         $this->assertSame('id', $id->getName());
         $this->assertSame('int(11)', $id->getType());
