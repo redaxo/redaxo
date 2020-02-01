@@ -44,12 +44,6 @@ class rex_scss_compiler
         $this->formatter = $value;
     }
 
-    /**
-     * @param string $scss_folder      source folder where you have your .scss files
-     * @param string $scss_global_file
-     * @param string $format_style     CSS output format
-     * @param bool   $strip_comments
-     */
     public function compile()
     {
         // go on even if user "stops" the script by closing the browser, closing the terminal etc.

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @package redaxo\core\packages
+ * @extends rex_package_manager<rex_addon>
  *
- * @psalm-property rex_addon $package
+ * @package redaxo\core\packages
  */
 class rex_addon_manager extends rex_package_manager
 {

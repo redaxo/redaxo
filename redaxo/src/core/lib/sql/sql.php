@@ -1681,6 +1681,7 @@ class rex_sql implements Iterator
      *
      * @return string `rex_sql::MYSQL` or `rex_sql::MARIADB`
      * @psalm-return self::MYSQL|self::MARIADB
+     * @phpstan-return string
      */
     public function getDbType(): string
     {

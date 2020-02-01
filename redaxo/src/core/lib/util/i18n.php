@@ -105,12 +105,12 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key.
      *
-     * @param string     $key          A Language-Key
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string $key             A Language-Key
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function msg($key)
+    public static function msg($key, ...$replacements)
     {
         return self::getMsg($key, true, func_get_args());
     }
@@ -118,12 +118,12 @@ class rex_i18n
     /**
      * Returns the translation for the given key.
      *
-     * @param string     $key          A Language-Key
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string $key             A Language-Key
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function rawMsg($key)
+    public static function rawMsg($key, ...$replacements)
     {
         return self::getMsg($key, false, func_get_args());
     }
@@ -131,13 +131,13 @@ class rex_i18n
     /**
      * Returns the translation htmlspecialchared for the given key and locale.
      *
-     * @param string     $key          A Language-Key
-     * @param string     $locale       A Locale
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string $key             A Language-Key
+     * @param string $locale          A Locale
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function msgInLocale($key, $locale)
+    public static function msgInLocale($key, $locale, ...$replacements)
     {
         $args = func_get_args();
         $args[1] = $key;
@@ -149,13 +149,13 @@ class rex_i18n
     /**
      * Returns the translation for the given key and locale.
      *
-     * @param string     $key          A Language-Key
-     * @param string     $locale       A Locale
-     * @param string,... $replacements A arbritary number of strings used for interpolating within the resolved message
+     * @param string $key             A Language-Key
+     * @param string $locale          A Locale
+     * @param string ...$replacements A arbritary number of strings used for interpolating within the resolved message
      *
      * @return string Translation for the key
      */
-    public static function rawMsgInLocale($key, $locale)
+    public static function rawMsgInLocale($key, $locale, ...$replacements)
     {
         $args = func_get_args();
         $args[1] = $key;

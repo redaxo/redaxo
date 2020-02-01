@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @extends rex_package_manager<rex_plugin>
+ *
  * @package redaxo\core\packages
  */
 class rex_plugin_manager extends rex_package_manager
