@@ -61,6 +61,23 @@ class rex_effect_convert2img extends rex_effect_abstract
             return;
         }
 
+        if (class_exists(Imagick::class)) {
+            $imagick = new Imagick();
+            $imagick->readImage($from_path.'[0]');
+            $imagick->setResolution($density, $density);
+            $imagick->setImageColorspace(Imagick::COLORSPACE_RGB);
+            $imagick->setImageFormat($convert_to['ext']);
+
+            $gd = imagecreatefromstring($imagick->getImageBlob());
+
+            $this->media->setImage($gd);
+            $this->media->setFormat($convert_to['ext']);
+            $this->media->setHeader('Content-Type', $convert_to['content-type']);
+            $this->media->refreshImageDimensions();
+
+            return;
+        }
+
         $convert_path = self::getConvertPath();
 
         if ('' == $convert_path) {
